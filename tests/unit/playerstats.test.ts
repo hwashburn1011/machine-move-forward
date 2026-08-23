@@ -94,3 +94,65 @@ describe('PlayerStats', () => {
     expect(stats.stamina).toBe(stats.maxStamina);
   });
 });
+
+describe('respawn grace', () => {
+  it('absorbs damage while it lasts', () => {
+    const { stats } = make();
+    stats.grantGrace(2);
+    stats.damage(50, 'scavenger');
+    expect(stats.health).toBe(stats.maxHealth);
+  });
+
+  it('emits nothing while absorbing', () => {
+    const { bus, stats } = make();
+    const fn = vi.fn();
+    bus.on('player:damaged', fn);
+    stats.grantGrace(2);
+    stats.damage(50, 'scavenger');
+    expect(fn).not.toHaveBeenCalled();
+  });
+
+  it('expires once its time is ticked away', () => {
+    const { stats } = make();
+    stats.grantGrace(2);
+    stats.tick(1.0);
+    stats.damage(10, 'scavenger');
+    expect(stats.health).toBe(stats.maxHealth);
+
+    stats.tick(1.1);
+    stats.damage(10, 'scavenger');
+    expect(stats.health).toBe(90);
+  });
+
+  it('never goes negative however long it is ticked', () => {
+    const { stats } = make();
+    stats.grantGrace(1);
+    stats.tick(60);
+    expect(stats.graceRemaining).toBe(0);
+  });
+
+  it('does not disturb god mode', () => {
+    // Two separate mechanisms: grace expiring must not switch off invulnerable.
+    const { stats } = make();
+    stats.invulnerable = true;
+    stats.grantGrace(1);
+    stats.tick(5);
+    stats.damage(50, 'scavenger');
+    expect(stats.health).toBe(stats.maxHealth);
+    expect(stats.invulnerable).toBe(true);
+  });
+
+  it('is cleared by reset, so a fresh life does not inherit it', () => {
+    const { stats } = make();
+    stats.grantGrace(5);
+    stats.reset();
+    expect(stats.graceRemaining).toBe(0);
+  });
+
+  it('takes the longer of two overlapping grants', () => {
+    const { stats } = make();
+    stats.grantGrace(5);
+    stats.grantGrace(1);
+    expect(stats.graceRemaining).toBe(5);
+  });
+});

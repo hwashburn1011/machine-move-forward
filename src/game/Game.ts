@@ -300,8 +300,11 @@ export class Game implements LoopCallbacks {
       // Build mode suppresses weapon fire entirely: LMB places, and firing
       // while placing would be both surprising and expensive. An open panel
       // suppresses both — its clicks belong to the panel.
-      if (this.panelsOpen) this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
-      else if (this.buildMode) this.updateBuildMode();
+      // A dead player keeps reload timers running but reaches no trigger, the
+      // same way an open panel does.
+      if (this.panelsOpen || this.state.playerDead) {
+        this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
+      } else if (this.buildMode) this.updateBuildMode();
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
 
       this.enemies.fixedUpdate(dt, this.player.worldPosition, this.player.stats);

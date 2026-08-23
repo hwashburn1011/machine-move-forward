@@ -92,3 +92,15 @@ export const AUTOSTEP_HEIGHT = 0.45;
 
 /** Falling below this Y means the player left the machine. */
 export const RESPAWN_Y_THRESHOLD = -20;
+
+/** Seconds face-down before a killed player is put back on the deck. */
+export const RESPAWN_DELAY_S = 3;
+
+/**
+ * Seconds of protection after respawning.
+ *
+ * Respawn puts the player at mid-deck, which is exactly where pursuing
+ * scavengers converge. Without this, "respawn intact" is a death loop rather
+ * than a second chance.
+ */
+export const RESPAWN_GRACE_S = 2;

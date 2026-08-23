@@ -12,6 +12,7 @@ export class PlayerStats {
   private hp = 100;
   private sp = 100;
   private deathAnnounced = false;
+  private grace = 0;
 
   constructor(private readonly bus: EventBus) {}
 
@@ -30,8 +31,30 @@ export class PlayerStats {
   /** God mode, for the debug actions. */
   invulnerable = false;
 
+  /** Seconds of respawn protection left. */
+  get graceRemaining(): number {
+    return this.grace;
+  }
+
+  /**
+   * Protect a freshly respawned player.
+   *
+   * Kept separate from `invulnerable` on purpose: that flag is god mode, and
+   * a grace period expiring must never switch it off. Takes the longer of two
+   * overlapping grants rather than the latest, so a short one cannot cut a
+   * long one short.
+   */
+  grantGrace(seconds: number): void {
+    this.grace = Math.max(this.grace, Math.max(0, seconds));
+  }
+
+  /** Advance the grace clock. Called from the player's fixed step. */
+  tick(dt: number): void {
+    if (this.grace > 0) this.grace = Math.max(0, this.grace - dt);
+  }
+
   damage(amount: number, source: string, position: Vec3Like = { x: 0, y: 0, z: 0 }): void {
-    if (this.invulnerable || !this.alive) return;
+    if (this.invulnerable || this.grace > 0 || !this.alive) return;
 
     this.hp = Math.max(0, this.hp - Math.max(0, amount));
     this.bus.emit('player:damaged', { amount, remaining: this.hp, source });
@@ -74,5 +97,6 @@ export class PlayerStats {
     this.hp = this.maxHealth;
     this.sp = this.maxStamina;
     this.deathAnnounced = false;
+    this.grace = 0;
   }
 }

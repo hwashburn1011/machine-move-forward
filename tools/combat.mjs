@@ -265,6 +265,101 @@ check(
   `${(await stats()).enemies} aboard`,
 );
 
+// --- Death and respawn -----------------------------------------------------
+// Death used to be a costume: `damage` refuses to hurt the dead, so a killed
+// player became an invulnerable 0-HP ghost who could still walk and shoot,
+// forever. These checks exist so that cannot come back.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.enemySpawnsEnabled = false;
+  g.state.godMode = false;
+  g.player.stats.invulnerable = false;
+  g.player.stats.reset();
+  g.player.teleport({ x: 0, y: 3.6, z: 2 });
+});
+await sim(0.5);
+
+const beforeDeath = await page.evaluate(() => ({
+  pos: { ...globalThis.__game.player.worldPosition },
+  // The firing checks above have already spent the magazine, so compare
+  // against what is actually in it rather than a full one.
+  mag: globalThis.__game.game.combat.current.ammoInMag,
+}));
+await page.evaluate(() => globalThis.__game.game.player.stats.damage(500, 'harness'));
+await sim(0.4);
+check(
+  'lethal damage kills the player',
+  (await page.evaluate(() => globalThis.__game.game.player.stats.alive)) === false,
+);
+
+// Hold a movement key and the trigger: a corpse must do neither.
+await page.keyboard.down('w');
+await page.mouse.down();
+await sim(1.0);
+await page.mouse.up();
+await page.keyboard.up('w');
+const whileDead = await page.evaluate(() => {
+  const g = globalThis.__game;
+  return {
+    pos: { ...g.player.worldPosition },
+    mag: g.game.combat.current.ammoInMag,
+    alive: g.game.player.stats.alive,
+  };
+});
+const walked = Math.hypot(
+  whileDead.pos.x - beforeDeath.pos.x,
+  whileDead.pos.z - beforeDeath.pos.z,
+);
+check('a dead player cannot walk', walked < 0.5, `moved ${walked.toFixed(2)}m`);
+check(
+  'a dead player cannot fire',
+  whileDead.mag === beforeDeath.mag,
+  `${beforeDeath.mag} -> ${whileDead.mag} in the magazine`,
+);
+check('the player is still dead a second in', whileDead.alive === false);
+
+// Past the 3s delay.
+await sim(3.0);
+const afterRespawn = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  return {
+    alive: g.player.stats.alive,
+    hp: g.player.stats.health,
+    grace: g.player.stats.graceRemaining,
+    dead: g.state.playerDead,
+  };
+});
+check('the player respawns', afterRespawn.alive === true, `hp ${afterRespawn.hp}`);
+check('respawn restores full health', afterRespawn.hp === 100, `${afterRespawn.hp}`);
+check('the death flag clears', afterRespawn.dead === false);
+check(
+  'respawn grants protection',
+  afterRespawn.grace > 0,
+  `${afterRespawn.grace.toFixed(2)}s left`,
+);
+
+// The grace has to actually absorb a hit, or it is decoration.
+const graceHeld = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.player.stats.damage(40, 'harness');
+  return g.player.stats.health;
+});
+check('the protection absorbs a hit', graceHeld === 100, `hp ${graceHeld}`);
+
+// And it has to expire, or respawn is permanent god mode.
+await sim(2.5);
+const graceGone = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.player.stats.damage(40, 'harness');
+  return { hp: g.player.stats.health, grace: g.player.stats.graceRemaining };
+});
+check(
+  'the protection expires',
+  graceGone.hp === 60 && graceGone.grace === 0,
+  `hp ${graceGone.hp}, grace ${graceGone.grace}`,
+);
+
 if (outShot) {
   await page.setViewportSize({ width: 1280, height: 720 });
   await sim(0.5);

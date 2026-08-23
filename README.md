@@ -167,7 +167,7 @@ browser harnesses in `tools/` that drive the real game:
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 9 movement/physics checks
-node tools/combat.mjs                               # 17 combat and spawner checks
+node tools/combat.mjs                               # 28 combat, spawner, and death checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```

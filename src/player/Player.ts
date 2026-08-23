@@ -11,6 +11,8 @@ import {
   PLAYER_JUMP_HEIGHT,
   PLAYER_SPRINT_SPEED,
   PLAYER_WALK_SPEED,
+  RESPAWN_DELAY_S,
+  RESPAWN_GRACE_S,
   RESPAWN_Y_THRESHOLD,
 } from '@/game/constants';
 import { PlayerStats } from './PlayerStats';
@@ -81,6 +83,18 @@ export class Player {
   }
 
   fixedUpdate(dt: number, input: InputManager, cameraYaw: number): void {
+    this.stats.tick(dt);
+
+    // --- Death ------------------------------------------------------------
+    // Lie where you fell, then get put back on the deck. Returning early is
+    // what makes death a state rather than a costume: without it a corpse
+    // walks and shoots, because `damage` already refuses to hurt the dead.
+    if (!this.stats.alive) {
+      this.deathTimer += dt;
+      if (this.deathTimer >= RESPAWN_DELAY_S) this.respawn();
+      return;
+    }
+
     // --- Horizontal intent, in the camera's yaw frame ----------------------
     let ix = 0;
     let iz = 0;
@@ -167,6 +181,9 @@ export class Player {
     this.object3D.rotation.y = current + delta * 0.25;
   }
 
+  /** Seconds since the player was killed. Only meaningful while dead. */
+  private deathTimer = 0;
+
   respawn(): void {
     this.position.copy(this.spawn);
     this.previousPosition.copy(this.spawn);
@@ -176,6 +193,8 @@ export class Player {
       true,
     );
     this.stats.reset();
+    this.stats.grantGrace(RESPAWN_GRACE_S);
+    this.deathTimer = 0;
     this.bus.emit('player:respawned', {
       position: { x: this.spawn.x, y: this.spawn.y, z: this.spawn.z },
     });
