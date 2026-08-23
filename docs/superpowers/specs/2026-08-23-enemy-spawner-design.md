@@ -83,6 +83,28 @@ rewritten.
 The machine deck is 10 m × 16 m (`MACHINE_TILES_X` 5 and `MACHINE_TILES_Z` 8 at
 `GRID_TILE` 2), centred on the origin, with its surface at `DECK_HEIGHT` 2.4.
 
+**The deck is not a clear rectangle, and this is load-bearing.** The prow block
+stands on its front strip (a fixed collider spanning x ∈ [-4.5, 4.5],
+y ∈ [2.49, 3.59], z ∈ [-8.2, -6.6]) and the engine block on its rear
+(z ∈ [4.7, 7.3]). An inset-only perimeter ring runs straight through both.
+
+This was originally written as if the deck were bare, and the first
+implementation inherited the mistake: every arrival chosen while the player
+stood in the rear half landed inside the prow. Enemies are kinematic bodies, so
+one starting inside a fixed collider never depenetrates — it holds a cap slot
+permanently and player hitscan stops on the prow before reaching it. Four of
+those and spawning stops for the rest of the run.
+
+A larger uniform inset cannot fix it: the prow needs ≥1.5 m of front clearance,
+but applying that to the rear edge pushes arrivals into the engine instead. The
+clearance is genuinely asymmetric.
+
+`perimeterSpawnPoint` therefore takes an optional keep-out predicate, and
+`Game` supplies one built from `Machine.equipmentCells` — the already-derived
+list of level-0 grid cells occupied by machine geometry taller than autostep.
+Candidates in a blocked cell are rejected and the furthest survivor wins; if
+every candidate is rejected, the caller falls back to `Machine.deckSpawn`.
+
 `perimeterSpawnPoint` builds **8 candidate points, one per octant** of the
 perimeter, jitters each one within its own octant using the seeded RNG, and
 returns whichever ends up furthest from the player.
