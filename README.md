@@ -109,9 +109,19 @@ Three known gaps in what is built:
 
 ## Constraints
 
-**No asset files.** No models, textures, audio, or fonts. Every visual is
-generated in code at build or boot time. This is a deliberate project
-constraint, not a temporary state — see
+**Procedural by default, assets where they earn their place.** Every visual is
+generated in code at build or boot time, and still is — the machine, all nine
+build pieces, enemies, dunes, sky and every fallback texture are pure code.
+
+A small set of CC0 PBR textures now sits on top of that for the machine's
+surfaces. They are strictly an enhancement: `?notex=1` boots the original
+all-procedural path, the loader never rejects, and every browser harness runs
+textureless so the suites stay deterministic. Provenance, licences, and the
+rule for what may be added live in `ASSETS.md`.
+
+The machine and build pieces stay procedural on purpose — they are bespoke,
+grid-aligned, and their colliders derive from the same geometry. The original
+zero-asset rationale is in
 `docs/superpowers/specs/2026-08-22-foundation-graphics-core-design.md`.
 
 ## Architecture

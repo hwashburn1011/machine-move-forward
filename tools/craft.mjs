@@ -23,7 +23,7 @@ page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 
 // Arrivals are tested in tools/combat.mjs and nowhere else: everywhere else
 // they would wander into a check that was written on a quiet deck.
-await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1', { waitUntil: 'load' });
+await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1&notex=1', { waitUntil: 'load' });
 
 const stats = () => page.evaluate(() => globalThis.__game.debugStats());
 

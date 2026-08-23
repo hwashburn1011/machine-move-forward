@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { PALETTE } from './Palette';
 import { TextureFactory } from './TextureFactory';
 import { applyHeightFog } from './Fog';
+import type { TextureSet, TextureSets } from './TextureLoader';
 
 /**
  * Shared material library.
@@ -26,6 +27,15 @@ export class Materials {
   readonly emissiveWarn: THREE.MeshStandardMaterial;
 
   private readonly disposables: (THREE.Material | THREE.Texture)[] = [];
+
+  /**
+   * How many times a loaded texture tiles per metre.
+   *
+   * The extruded geometry generates UVs in world units, so this is a real
+   * scale rather than a fudge: 0.5 puts one texture tile across two metres,
+   * matching the build grid.
+   */
+  private static readonly TEXTURE_REPEAT = 0.5;
 
   constructor() {
     // Near-white detail maps. Hue comes from each material's `color`; baking it
@@ -195,6 +205,45 @@ export class Materials {
       [this.emissiveWarn, 'emissive-warn'],
     ];
     for (const [m, tag] of tagged) applyHeightFog(m, `mmf-${tag}`);
+  }
+
+  /**
+   * Swap in loaded PBR textures over the procedural maps.
+   *
+   * Applied after construction rather than passed in, so the procedural path
+   * stays the one and only way a material is built. Slots without a loaded
+   * set are left exactly as they were — a partial load degrades one surface,
+   * never the whole machine.
+   */
+  applyTextureSets(sets: TextureSets): void {
+    this.bind(this.hull, sets.hull);
+    this.bind(this.rustedSteel, sets['rusted-steel']);
+    this.bind(this.deckPlate, sets['deck-plate']);
+  }
+
+  private bind(material: THREE.MeshStandardMaterial, set: TextureSet | undefined): void {
+    if (!set) return;
+
+    for (const texture of [set.map, set.normalMap, set.armMap]) {
+      texture.repeat.setScalar(Materials.TEXTURE_REPEAT);
+      this.disposables.push(texture);
+    }
+
+    material.map = set.map;
+    material.normalMap = set.normalMap;
+    // One packed image drives all three: red is occlusion, green roughness,
+    // blue metalness. Three samples the channel it needs from each binding.
+    material.aoMap = set.armMap;
+    material.roughnessMap = set.armMap;
+    material.metalnessMap = set.armMap;
+
+    // The photo albedo already carries its own hue, and the scalar factors
+    // multiply their maps — tinting or damping here would double-apply what
+    // the texture already says.
+    material.color.setHex(0xffffff);
+    material.roughness = 1;
+    material.metalness = 1;
+    material.needsUpdate = true;
   }
 
   get all(): THREE.Material[] {

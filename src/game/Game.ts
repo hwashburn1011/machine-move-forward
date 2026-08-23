@@ -14,6 +14,7 @@ import { EventBus } from '@/core/events/EventBus';
 import { DebugOverlay } from '@/core/debug/DebugOverlay';
 import { Sky } from '@/art/Sky';
 import { Materials } from '@/art/Materials';
+import { loadTextureSets } from '@/art/TextureLoader';
 import { updateFogColor } from '@/art/Fog';
 import { WorldManager } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
@@ -55,6 +56,13 @@ export interface GameOptions {
   seed?: string;
   qualityTier?: QualityTier;
   bypassPointerLock?: boolean;
+  /**
+   * Load PBR textures over the procedural materials. Default true.
+   *
+   * The browser harnesses turn this off: they boot with nothing to fetch, so
+   * they stay deterministic and fast.
+   */
+  textures?: boolean;
   /** Free-fly camera for screenshots, disables the player rig. */
   freeCamera?: THREE.Vector3 | null;
   freeCameraTarget?: THREE.Vector3 | null;
@@ -133,7 +141,15 @@ export class Game implements LoopCallbacks {
   /** Rapier's wasm must be resolved before any physics object exists. */
   static async create(options: GameOptions): Promise<Game> {
     await initRapier();
-    return new Game(options);
+    const game = new Game(options);
+
+    // After construction: the procedural materials are already complete and
+    // usable, and this only swaps their surfaces. A failed fetch costs a
+    // nicer-looking hull, never a boot.
+    if (options.textures !== false) {
+      game.materials.applyTextureSets(await loadTextureSets());
+    }
+    return game;
   }
 
   private constructor(private readonly options: GameOptions) {
