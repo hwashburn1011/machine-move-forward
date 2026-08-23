@@ -26,7 +26,7 @@ export class Sky {
   private lastBakeTime = -Infinity;
   private bakeCount = 0;
 
-  constructor(private readonly renderer: THREE.WebGLRenderer) {
+  constructor(renderer: THREE.WebGLRenderer) {
     this.material = new THREE.ShaderMaterial({
       vertexShader: SKY_VERTEX,
       fragmentShader: SKY_FRAGMENT,
