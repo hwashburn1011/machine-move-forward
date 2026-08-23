@@ -263,7 +263,7 @@ git commit -m "refactor: make build costs itemised against the inventory"
   - `BuildSystem.stationsNear(pos, reach): { instanceId: string; piece: PieceId; position: THREE.Vector3 }[]`
   - `BuildSystem.crateContainer(instanceId): Container | undefined`
 
-Costs: crate `{ scrap: 15, components: 2 }`, workbench `{ scrap: 30, components: 4 }`, refinery `{ scrap: 45, components: 8 }`. Weights 140/220/380 kg. All `anchor: 'cell'`, `boundsRoom: false`, and they require a floor in their own cell — the same rule roofs already use.
+Costs: crate `{ scrap: 15, components: 2 }`, workbench `{ scrap: 30, components: 4 }`, refinery `{ scrap: 80 }` (amended during execution — see below; it was `{ scrap: 45, components: 8 }`, which no fresh save could ever afford). Weights 140/220/380 kg. All `anchor: 'cell'`, `boundsRoom: false`, and they require a floor in their own cell — the same rule roofs already use.
 
 - [x] **Step 1: Add the definitions and the floor-required validation branch**
 
@@ -440,9 +440,11 @@ before anything reads them.
 
 `tools/craft.mjs`, waiting on **simulated** time as the other harnesses do,
 asserting:
-- Starting inventory holds scrap
-- Building a workbench costs scrap and components
+- Starting inventory holds scrap, and no components
+- The refinery is buildable from scrap alone
 - The refinery converts scrap to components
+- A workbench is refused until four components have been refined, then costs
+  scrap and components
 - Crafting rifle ammo raises the weapon reserve
 - Crafting is refused when inputs are short, and consumes nothing
 - The extended magazine raises the effective magazine size by 50%
@@ -502,3 +504,45 @@ everywhere after Task 3.
 **Known risk.** Task 3 changes a signature used by existing passing tests, so
 that task is where the previous milestone's suite is most likely to break. Its
 step 4 runs the whole suite for exactly that reason.
+
+---
+
+## Amendments During Execution
+
+Five places where the shipped code departs from the plan above. Recorded here
+rather than silently absorbed, so the plan stays readable as what actually
+happened.
+
+**The refinery is priced in scrap alone.** Planned at 45 scrap and 8
+components, but the refinery is the only source of components — the recipe for
+the machine that makes them required them, so no fresh save could build one.
+Now `{ scrap: 80 }`: the original 45 plus the 8 components at their own
+refining cost, rounded. The progression this creates is the intended one and is
+better than the plan's: scrap buys the refinery, the refinery makes components,
+components buy the workbench. `STARTING_INVENTORY` is scrap alone. Spec section
+5.1 carries the same note.
+
+**The refinery's pipes are boxes, not cylinders.** The geometry inherited from
+the partial branch used `CylinderGeometry`, which threw on the very first
+placement: `bevelledBox` is extruded and therefore non-indexed, and
+`mergeGeometries` refuses to mix indexed and non-indexed inputs. That code had
+never been run. Boxes also match Task 4's own instruction that stations be
+built "all from `bevelledBox`".
+
+**Crafted ammo is routed by the game, not by the crafting system.** Task 5 step
+3 asked for ammo to be deposited as an item AND added to the weapon reserve,
+which would count the same 30 rounds twice. `CraftingSystem` stays pure and
+deposits into the inventory; `Game` subscribes to `craft:completed` and moves
+ammo outputs into the correct weapon's reserve. The HUD still rises on the
+click that spent the materials, with nothing duplicated.
+
+**The build harness's scrap grants shrank.** `tools/build.mjs` granted 3000 and
+5000 scrap against the old integer counter. Twenty slots at 100 scrap is a hard
+ceiling of 2000, so those grants silently lost a third of themselves. Both are
+1200 now, which is far more than the structures they pay for.
+
+**Station geometry gained material groups**, which the plan did not call for
+but its own art brief did — the crate's accent stripe and the refinery's
+emissive indicator need a second material, and a piece is one mesh. Each
+station's parts are merged per material and then merged again with groups, so
+`pieceMaterial` can return an array.
