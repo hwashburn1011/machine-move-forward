@@ -1,12 +1,13 @@
 import * as THREE from 'three';
 import { Renderer } from '@/core/renderer/Renderer';
 import { detectQualityTier, getQualitySettings } from '@/core/renderer/QualitySettings';
-
 import { Sky } from '@/art/Sky';
 import { Materials } from '@/art/Materials';
 import { updateFogColor } from '@/art/Fog';
-import { TerrainChunk } from '@/world/TerrainChunk';
-import { CHUNK_SIZE_Z } from '@/game/constants';
+import { WorldManager } from '@/world/WorldManager';
+import { EventBus } from '@/core/events/EventBus';
+import { GameLoop } from '@/game/GameLoop';
+import { BASE_MACHINE_SPEED } from '@/game/constants';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 if (!canvas) throw new Error('missing #game canvas');
@@ -16,6 +17,7 @@ const quality = getQualitySettings(detectQualityTier(probe));
 probe.dispose();
 
 const renderer = new Renderer(canvas, quality);
+const bus = new EventBus();
 
 const sky = new Sky(renderer.three);
 renderer.scene.add(sky.mesh);
@@ -25,65 +27,44 @@ renderer.sun.color.copy(sky.sampleSunColor());
 updateFogColor(sky.sampleHorizonColor());
 
 const materials = new Materials();
+const world = new WorldManager(renderer.scene, quality, bus, materials, 'mmf-dev-seed');
+world.setSunDirection(sky.direction);
 
-// --- Temporary lighting/material check scene, replaced by the machine -------
-// Several adjacent dune chunks, so chunk seams are visible if any exist.
-const terrainGeo = TerrainChunk.createGeometry(quality);
-const chunks: TerrainChunk[] = [];
-for (let i = -2; i <= 6; i++) {
-  const chunk = new TerrainChunk(quality, terrainGeo);
-  chunk.setZ(-i * CHUNK_SIZE_Z);
-  chunk.setSunDirection(sky.direction);
-  renderer.scene.add(chunk.mesh);
-  chunks.push(chunk);
-}
+let recycles = 0;
+bus.on('world:chunk-recycled', () => recycles++);
 
-const showcase: [string, THREE.Material][] = [
-  ['hull', materials.hull],
-  ['deckPlate', materials.deckPlate],
-  ['rustedSteel', materials.rustedSteel],
-  ['bareSteel', materials.bareSteel],
-  ['hazard', materials.hazard],
-];
-showcase.forEach(([, mat], i) => {
-  const box = new THREE.Mesh(new THREE.BoxGeometry(2.4, 2.4, 2.4), mat);
-  box.position.set((i - 2) * 3.2, 1.2, 0);
-  box.castShadow = true;
-  box.receiveShadow = true;
-  renderer.scene.add(box);
-});
+// Placeholder for the machine, so there is something at the origin to judge
+// the scroll against. Replaced by the real machine in the next task.
+const placeholder = new THREE.Mesh(new THREE.BoxGeometry(10, 2.4, 16), materials.hull);
+placeholder.position.set(0, 1.2, 0);
+placeholder.castShadow = true;
+placeholder.receiveShadow = true;
+renderer.scene.add(placeholder);
 
-// Distance markers, to judge whether fog reads correctly with range.
-for (let i = 1; i <= 12; i++) {
-  const pillar = new THREE.Mesh(new THREE.BoxGeometry(1.6, 7, 1.6), materials.hullDark);
-  pillar.position.set(-14 + (i % 3) * 13, 3.5, -i * 22);
-  pillar.castShadow = true;
-  renderer.scene.add(pillar);
-}
-
-const camMode = new URLSearchParams(location.search).get('cam');
-if (camMode === 'sky') {
-  renderer.camera.position.set(0, 2, 0);
-  renderer.camera.lookAt(0, 40, -18);
-} else {
-  renderer.camera.position.set(6, 8.5, 16);
-  renderer.camera.lookAt(0, 2.0, -40);
-}
+renderer.camera.position.set(9, 7.5, 19);
+renderer.camera.lookAt(0, 2, -30);
 
 document.querySelector('#boot')?.remove();
 
 const clock = new THREE.Clock();
 
-renderer.three.setAnimationLoop(() => {
-  const elapsed = clock.getElapsedTime();
-  for (const c of chunks) c.update(elapsed);
-  if (sky.update(performance.now())) {
-    renderer.setEnvironment(sky.environment);
-    renderer.sun.color.copy(sky.sampleSunColor());
-    updateFogColor(sky.sampleHorizonColor());
-  }
-  renderer.three.render(renderer.scene, renderer.camera);
+const loop = new GameLoop({
+  fixedUpdate: (dt) => {
+    world.fixedUpdate(dt, BASE_MACHINE_SPEED);
+  },
+  render: () => {
+    const elapsed = clock.getElapsedTime();
+    world.update(elapsed);
+    if (sky.update(performance.now())) {
+      renderer.setEnvironment(sky.environment);
+      renderer.sun.color.copy(sky.sampleSunColor());
+      updateFogColor(sky.sampleHorizonColor());
+      world.setSunDirection(sky.direction);
+    }
+    renderer.three.render(renderer.scene, renderer.camera);
+  },
 });
+loop.start();
 
 // Debug handle for the screenshot harness and e2e tests.
 (globalThis as unknown as { __game: unknown }).__game = {
@@ -92,5 +73,9 @@ renderer.three.setAnimationLoop(() => {
     calls: renderer.three.info.render.calls,
     tris: renderer.three.info.render.triangles,
     skyBakes: sky.bakes,
+    distance: Math.round(world.distanceTraveled),
+    recycles,
+    chunks: world.activeChunkCount,
   }),
+  world,
 };

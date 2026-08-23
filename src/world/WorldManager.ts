@@ -1,0 +1,120 @@
+import * as THREE from 'three';
+import { CHUNKS_AHEAD, CHUNKS_BEHIND, CHUNK_SIZE_Z } from '@/game/constants';
+import type { QualitySettings } from '@/core/renderer/QualitySettings';
+import type { EventBus } from '@/core/events/EventBus';
+import type { Materials } from '@/art/Materials';
+import { ChunkManager } from './ChunkManager';
+import { TerrainChunk } from './TerrainChunk';
+import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSpawner';
+
+/**
+ * Owns the scrolling world (handoff section 6).
+ *
+ * The machine stays at the origin; this moves everything else. Distance
+ * travelled is tracked as a plain accumulating number and is the only thing
+ * that needs saving — the world regenerates from it deterministically.
+ */
+export class WorldManager {
+  private readonly chunkManager: ChunkManager;
+  private readonly terrain: TerrainChunk[] = [];
+  private readonly props: PropSpawner[] = [];
+  private readonly geometry: THREE.BufferGeometry;
+  private readonly propGeometries: PropGeometries;
+
+  private distance = 0;
+
+  constructor(
+    private readonly scene: THREE.Scene,
+    quality: QualitySettings,
+    private readonly bus: EventBus,
+    materials: Materials,
+    private readonly worldSeed: string,
+  ) {
+    this.chunkManager = new ChunkManager(CHUNKS_AHEAD, CHUNKS_BEHIND, CHUNK_SIZE_Z);
+    this.geometry = TerrainChunk.createGeometry(quality);
+    this.propGeometries = createPropGeometries();
+
+    for (const slot of this.chunkManager.slots) {
+      const chunk = new TerrainChunk(quality, this.geometry);
+      const prop = new PropSpawner(quality, this.propGeometries, materials);
+
+      chunk.setZ(slot.z);
+      prop.setZ(slot.z);
+      prop.populate(this.worldSeed, slot.chunkIndex, slot.z);
+
+      scene.add(chunk.mesh);
+      scene.add(prop.group);
+      this.terrain.push(chunk);
+      this.props.push(prop);
+    }
+  }
+
+  get distanceTraveled(): number {
+    return this.distance;
+  }
+
+  get activeChunkCount(): number {
+    return this.terrain.length;
+  }
+
+  /** Advance the world past the machine at `speed` metres per second. */
+  fixedUpdate(dt: number, speed: number): void {
+    this.distance += speed * dt;
+    this.applyDistance();
+  }
+
+  /** Jump to an exact distance — used by save/load. */
+  reset(distance: number): void {
+    this.distance = distance;
+    this.chunkManager.reset(distance);
+    for (const slot of this.chunkManager.slots) {
+      this.placeSlot(slot.slotId, slot.chunkIndex, slot.z);
+    }
+  }
+
+  private applyDistance(): void {
+    const recycled = this.chunkManager.advance(this.distance);
+
+    // Every slot needs its Z applied each step; only recycled ones need their
+    // contents regenerated.
+    for (const slot of this.chunkManager.slots) {
+      this.terrain[slot.slotId]?.setZ(slot.z);
+      this.props[slot.slotId]?.setZ(slot.z);
+    }
+
+    for (const slot of recycled) {
+      this.props[slot.slotId]?.populate(this.worldSeed, slot.chunkIndex, slot.z);
+      this.bus.emit('world:chunk-recycled', { chunkIndex: slot.chunkIndex });
+    }
+  }
+
+  private placeSlot(slotId: number, chunkIndex: number, z: number): void {
+    this.terrain[slotId]?.setZ(z);
+    this.props[slotId]?.setZ(z);
+    this.props[slotId]?.populate(this.worldSeed, chunkIndex, z);
+  }
+
+  /** Per-frame visual update — shader time, not simulation. */
+  update(elapsed: number): void {
+    for (const chunk of this.terrain) chunk.update(elapsed);
+  }
+
+  setSunDirection(dir: THREE.Vector3): void {
+    for (const chunk of this.terrain) chunk.setSunDirection(dir);
+  }
+
+  dispose(): void {
+    for (const chunk of this.terrain) {
+      this.scene.remove(chunk.mesh);
+      chunk.dispose();
+    }
+    for (const prop of this.props) {
+      this.scene.remove(prop.group);
+      prop.dispose();
+    }
+    this.geometry.dispose();
+    this.propGeometries.dispose();
+    this.terrain.length = 0;
+    this.props.length = 0;
+  }
+}

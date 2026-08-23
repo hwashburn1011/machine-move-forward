@@ -31,6 +31,14 @@ page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 
 await page.goto(`http://localhost:5173/${params}`, { waitUntil: 'load' });
 await page.waitForTimeout(waitMs);
+
+// Optional: jump the world forward before shooting, to exercise recycling.
+const jump = Number(process.env.SHOOT_JUMP ?? 0);
+if (jump > 0) {
+  await page.evaluate((d) => globalThis.__game?.world?.reset(d), jump);
+  await page.waitForTimeout(600);
+}
+
 await page.screenshot({ path: out });
 
 // Report whether the frame actually has content, not just that it rendered.

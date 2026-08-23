@@ -65,13 +65,28 @@ float t_ridged(vec2 p, int octaves) {
 uniform float uDuneScale;
 uniform float uDuneHeight;
 uniform float uRidgeHeight;
+uniform float uCorridorInner;
+uniform float uCorridorOuter;
 
-/** World-space dune height. One function, used for both displacement and normals. */
+/**
+ * World-space dune height. One function, used for displacement, for normals,
+ * and (mirrored) on the CPU for prop placement.
+ *
+ * The corridor term flattens the sand along the machine's track. The machine
+ * is pinned to the origin at a fixed deck height and terrain carries no
+ * collider, so without this, dunes would simply grow up through the deck. It
+ * also reads correctly: a crawler this size ploughs its own path.
+ */
 float duneHeight(vec2 worldXZ) {
   vec2 p = worldXZ / uDuneScale;
   float broad = t_fbm(p, 4) * uDuneHeight;
   float ridge = (t_ridged(p * 2.1 + 31.7, 3) - 0.5) * uRidgeHeight;
-  return broad + ridge;
+  float h = broad + ridge;
+
+  float corridor = smoothstep(uCorridorInner, uCorridorOuter, abs(worldXZ.x));
+  // Flatten hard in the track, and sink it slightly so berms build at the edges.
+  h = mix(h * 0.08 - 0.55, h, corridor);
+  return h;
 }
 `;
 

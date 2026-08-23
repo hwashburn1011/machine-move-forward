@@ -9,6 +9,7 @@ import {
   TERRAIN_VERTEX_PARS,
 } from '@/art/shaders/terrainShader';
 import { CHUNK_SIZE_X, CHUNK_SIZE_Z } from '@/game/constants';
+import { DUNE_PARAMS } from './DuneField';
 import type { QualitySettings } from '@/core/renderer/QualitySettings';
 
 /**
@@ -27,9 +28,13 @@ export class TerrainChunk {
     this.uniforms = {
       uChunkOffset: { value: 0 },
       uTime: { value: 0 },
-      uDuneScale: { value: 62 },
-      uDuneHeight: { value: 5.2 },
-      uRidgeHeight: { value: 2.6 },
+      // Shared with the CPU height function in DuneField, so props sit on the
+      // same surface the GPU draws.
+      uDuneScale: { value: DUNE_PARAMS.scale },
+      uDuneHeight: { value: DUNE_PARAMS.height },
+      uRidgeHeight: { value: DUNE_PARAMS.ridgeHeight },
+      uCorridorInner: { value: DUNE_PARAMS.corridorInner },
+      uCorridorOuter: { value: DUNE_PARAMS.corridorOuter },
       uRippleStrength: { value: 0.42 },
       uSandLit: { value: PALETTE.sandLit.clone() },
       uSandShadow: { value: PALETTE.sandShadow.clone() },
