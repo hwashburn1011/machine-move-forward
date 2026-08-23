@@ -174,6 +174,21 @@ check(
   `${(await stats()).enemies} aboard`,
 );
 
+// The sixth threshold's arrival was refused, not lost: the spawner held the
+// threshold rather than advancing it, so it owes that arrival. Free exactly
+// one slot (not all four) and confirm the count climbs back to 4 on simulated
+// time alone -- no further travel() -- proving the held arrival was retried
+// the moment room opened, rather than discarded when the cap first bit.
+await page.evaluate(() => {
+  globalThis.__game.enemies.active[0]?.despawn();
+});
+await sim(0.5);
+check(
+  'a refused arrival is delivered as soon as a slot frees, without travelling further',
+  (await stats()).enemies === 4,
+  `${(await stats()).enemies} aboard`,
+);
+
 await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();

@@ -172,9 +172,14 @@ node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```
 
-Every harness except `combat.mjs` boots with `?nospawn=1`. They all travel far
-enough to attract arrivals, and a scavenger wandering into a wall-containment
-or save-reload check is a failure that only reproduces sometimes.
+`drive.mjs`, `build.mjs`, and `craft.mjs` all boot with `?nospawn=1`, since
+they travel far enough to attract arrivals and a scavenger wandering into a
+wall-containment or save-reload check is a failure that only reproduces
+sometimes. `combat.mjs` boots quiet the same way, then arms the spawner
+deliberately partway through, once its own checks need arrivals. `shoot.mjs`
+and `hero.mjs` take their query string from the caller rather than booting
+with one by default, and typically run with a free camera, which suppresses
+spawning on its own regardless of `nospawn`.
 
 These wait on **simulated** time, not wall time. Under a software renderer the
 loop's step clamp deliberately lets simulated time lag wall time, and
