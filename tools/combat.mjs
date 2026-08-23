@@ -131,6 +131,62 @@ const hpPlayerAfter = (await stats()).hp;
 check('an adjacent enemy damages the player', hpPlayerAfter < hpPlayerBefore,
   `hp ${hpPlayerBefore} -> ${hpPlayerAfter}`);
 
+// --- Distance-driven arrivals ---------------------------------------------
+// This harness boots with ?nospawn=1 so every check above ran on a quiet deck.
+// Arm the spawner here, aligned to the distance already covered, and make the
+// player invulnerable: four scavengers on a 16m deck would otherwise kill them
+// mid-section and suppress the very spawns being measured.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.state.godMode = true;
+  g.player.stats.invulnerable = true;
+  g.enemySpawnsEnabled = true;
+  g.spawner.resync(g.world.distanceTraveled);
+});
+await sim(0.5);
+check('the deck starts clear', (await stats()).enemies === 0, `${(await stats()).enemies} aboard`);
+
+/** Jump the world forward, the way distance actually accrues, only faster. */
+const travel = (metres) =>
+  page.evaluate(
+    (m) => globalThis.__game.world.reset(globalThis.__game.world.distanceTraveled + m),
+    metres,
+  );
+
+await travel(260);
+await sim(0.5);
+check(
+  'travelling far enough spawns a scavenger',
+  (await stats()).enemies === 1,
+  `${(await stats()).enemies} aboard`,
+);
+
+// Cross five more thresholds. The cap should stop the last two.
+for (let i = 0; i < 5; i++) {
+  await travel(260);
+  await sim(0.5);
+}
+check(
+  'no more than four are aboard at once',
+  (await stats()).enemies === 4,
+  `${(await stats()).enemies} aboard`,
+);
+
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.spawner.resync(g.world.distanceTraveled);
+});
+await sim(0.5);
+await travel(500);
+await sim(0.5);
+check(
+  'a 500m skip produces one arrival, not two',
+  (await stats()).enemies === 1,
+  `${(await stats()).enemies} aboard`,
+);
+
 if (outShot) {
   await page.setViewportSize({ width: 1280, height: 720 });
   await sim(0.5);

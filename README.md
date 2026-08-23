@@ -74,7 +74,8 @@ fixed free camera for screenshots.
 - A 10×16m crawler built from code with deck, treads, prow, and equipment
 - Third-person controller on Rapier's kinematic character controller
 - Rifle and shotgun with hitscan, spread, recoil, reload, and damage falloff
-- One hostile with a navigate/attack/pursue AI
+- One hostile with a navigate/attack/pursue AI, boarding the deck every 250m of
+  travel and capped at four at once
 - HUD, debug overlay, versioned IndexedDB save/load
 - Grid build system: floors, walls, doorways, railings, roofs, stairs, storage
   crates, workbenches, and refineries on a 2m grid across a 9×12 envelope and 3
@@ -148,7 +149,7 @@ src/
 ## Testing
 
 ```bash
-npm test             # 310 unit tests (deterministic logic)
+npm test             # 324 unit tests (deterministic logic)
 npm run test:e2e     # 11 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit
@@ -166,10 +167,14 @@ browser harnesses in `tools/` that drive the real game:
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 9 movement/physics checks
-node tools/combat.mjs                               # 12 combat checks
+node tools/combat.mjs                               # 16 combat and spawner checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```
+
+Every harness except `combat.mjs` boots with `?nospawn=1`. They all travel far
+enough to attract arrivals, and a scavenger wandering into a wall-containment
+or save-reload check is a failure that only reproduces sometimes.
 
 These wait on **simulated** time, not wall time. Under a software renderer the
 loop's step clamp deliberately lets simulated time lag wall time, and
