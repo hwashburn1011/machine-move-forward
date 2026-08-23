@@ -381,6 +381,9 @@ export class Game implements LoopCallbacks {
       spread: this.combat.currentSpread(this.playerCamera.isAiming),
       moving: this.player.speed > 0.1,
       pointerLocked: this.input.pointerLocked,
+      playerX: this.player.worldPosition.x,
+      playerZ: this.player.worldPosition.z,
+      cameraYaw: this.playerCamera.yawAngle,
     });
 
     this.inventoryUI.update({

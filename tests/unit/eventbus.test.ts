@@ -6,8 +6,8 @@ describe('EventBus', () => {
     const bus = new EventBus();
     const fn = vi.fn();
     bus.on('player:damaged', fn);
-    bus.emit('player:damaged', { amount: 10, remaining: 90, source: 'enemy' });
-    expect(fn).toHaveBeenCalledWith({ amount: 10, remaining: 90, source: 'enemy' });
+    bus.emit('player:damaged', { amount: 10, remaining: 90, source: 'enemy', from: { x: 0, y: 0, z: 0 } });
+    expect(fn).toHaveBeenCalledWith({ amount: 10, remaining: 90, source: 'enemy', from: { x: 0, y: 0, z: 0 } });
   });
 
   it('delivers to every subscriber in registration order', () => {

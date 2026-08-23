@@ -32,7 +32,24 @@ describe('PlayerStats', () => {
     const fn = vi.fn();
     bus.on('player:damaged', fn);
     stats.damage(25, 'skiff');
-    expect(fn).toHaveBeenCalledWith({ amount: 25, remaining: 75, source: 'skiff' });
+    expect(fn).toHaveBeenCalledWith({
+      amount: 25,
+      remaining: 75,
+      source: 'skiff',
+      from: { x: 0, y: 0, z: 0 },
+    });
+  });
+
+  it('reports where the damage came from, so the HUD can point at it', () => {
+    // Without this the player is told that they are hurt and nothing about
+    // which way to turn -- and scavengers attack from behind.
+    const { bus, stats } = make();
+    const fn = vi.fn();
+    bus.on('player:damaged', fn);
+    stats.damage(9, 'Wasteland Scavenger', { x: 2, y: 3.4, z: -5 });
+    expect(fn).toHaveBeenCalledWith(
+      expect.objectContaining({ from: { x: 2, y: 3.4, z: -5 } }),
+    );
   });
 
   it('emits player:died exactly once even under repeated damage', () => {

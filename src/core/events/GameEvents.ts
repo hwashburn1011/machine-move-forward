@@ -14,7 +14,13 @@ export interface Vec3Like {
  * building, boarding, loot, and threat-director events.
  */
 export type GameEvents = {
-  'player:damaged': { amount: number; remaining: number; source: string };
+  /** `from` is the attacker's position, for the directional indicator. */
+  'player:damaged': {
+    amount: number;
+    remaining: number;
+    source: string;
+    from: Vec3Like;
+  };
   'player:died': { position: Vec3Like };
   'player:respawned': { position: Vec3Like };
 

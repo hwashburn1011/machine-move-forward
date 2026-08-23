@@ -57,7 +57,12 @@ export class PlayerStats {
     if (this.invulnerable || this.grace > 0 || !this.alive) return;
 
     this.hp = Math.max(0, this.hp - Math.max(0, amount));
-    this.bus.emit('player:damaged', { amount, remaining: this.hp, source });
+    this.bus.emit('player:damaged', {
+      amount,
+      remaining: this.hp,
+      source,
+      from: position,
+    });
 
     // Guarded: repeated damage at zero must not re-announce death.
     if (this.hp === 0 && !this.deathAnnounced) {

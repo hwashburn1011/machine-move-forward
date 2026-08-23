@@ -541,3 +541,75 @@
   background: transparent;
   cursor: default;
 }
+
+/* --- Damage --------------------------------------------------------------
+ * Being hit used to produce nothing at all: the health number went down and
+ * that was the whole of it, which reads as the game misbehaving rather than
+ * as something attacking you. Two parts, because they answer different
+ * questions — the vignette says "you are being hurt", the arc says "from
+ * there".
+ */
+#hud-damage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  /* No transition in: a hit has to register on the frame it lands, not 90ms
+   * later. The fade back out is computed per frame in HUD.update instead. */
+  /* Red pulled in from every edge. Strong enough to catch the eye at the
+   * periphery, weak enough in the middle to keep the fight readable. */
+  box-shadow: inset 0 0 150px 4px rgba(198, 58, 46, 0.85);
+}
+
+#hud-damage.is-active {
+  opacity: 1;
+}
+
+/* The arc sits above centre and is rotated about the middle of the screen, so
+ * 0deg is dead ahead and 180deg is directly behind — which is where the
+ * scavengers actually come from. */
+#hud-damage-arc {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 560px;
+  height: 560px;
+  margin: -280px 0 0 -280px;
+  transform-origin: 50% 50%;
+}
+
+#hud-damage-arc::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 440px;
+  height: 200px;
+  margin-left: -220px;
+  /* Centred in its own box, so it fades on every side. Anchored at the box
+   * edge the bright half was simply cut off, which read as a red rectangle
+   * pasted over the scene rather than as a glow coming from that direction. */
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(255, 152, 130, 0.9) 0%,
+    rgba(228, 76, 60, 0.5) 34%,
+    rgba(214, 72, 59, 0) 66%
+  );
+}
+
+/* The number and the bar kick too, so the vignette and the vitals panel read
+ * as one event rather than two unrelated flickers. */
+#hud-health.is-hurt {
+  animation: hud-hurt 320ms ease-out;
+}
+
+@keyframes hud-hurt {
+  0% {
+    transform: scale(1.09);
+    box-shadow: 0 0 0 2px rgba(214, 72, 59, 0.95);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(214, 72, 59, 0);
+  }
+}

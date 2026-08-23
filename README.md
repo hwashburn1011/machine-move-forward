@@ -159,7 +159,7 @@ src/
 ## Testing
 
 ```bash
-npm test             # 378 unit tests (deterministic logic)
+npm test             # 386 unit tests (deterministic logic)
 npm run test:e2e     # 11 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit

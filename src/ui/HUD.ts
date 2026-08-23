@@ -1,4 +1,5 @@
 import type { EventBus } from '@/core/events/EventBus';
+import { damageBearing } from './DamageDirection';
 import './hud.css';
 
 export interface HUDState {
@@ -13,6 +14,10 @@ export interface HUDState {
   spread: number;
   moving: boolean;
   pointerLocked: boolean;
+  /** Where the player is and which way they face, for the damage arc. */
+  playerX: number;
+  playerZ: number;
+  cameraYaw: number;
 }
 
 /**
@@ -22,6 +27,9 @@ export interface HUDState {
  * Every write is guarded by a cached previous value — writing unchanged text
  * to the DOM every frame is a real, measurable layout cost for no benefit.
  */
+/** Seconds a damage indicator stays up after a hit. */
+const HURT_SECONDS = 1.1;
+
 export class HUD {
   private readonly el: Record<string, HTMLElement> = {};
   private readonly disposers: (() => void)[] = [];
@@ -30,6 +38,10 @@ export class HUD {
   private reloadEndsAt = 0;
   private reloadDuration = 0;
   private hitFlashUntil = 0;
+  /** Where the last hit came from, and how long the arc stays up. */
+  private hurtFrom: { x: number; z: number } | null = null;
+  private hurtUntil = 0;
+  private hurtWeight = 0;
 
   constructor(root: HTMLElement, bus: EventBus) {
     root.innerHTML = `
@@ -52,6 +64,7 @@ export class HUD {
         <div id="hud-reload"><div id="hud-reload-fill"></div></div>
       </div>
 
+      <div id="hud-damage"><div id="hud-damage-arc"></div></div>
       <div id="hud-crosshair"><i></i><i></i><i></i><i></i></div>
       <div id="hud-prompt"></div>
       <div id="hud-warning"></div>
@@ -69,6 +82,8 @@ export class HUD {
       'hud-weapon-name',
       'hud-reload',
       'hud-reload-fill',
+      'hud-damage',
+      'hud-damage-arc',
       'hud-crosshair',
       'hud-prompt',
       'hud-warning',
@@ -91,6 +106,26 @@ export class HUD {
       bus.on('combat:hit', (e) => {
         // Only flash for hits on something that can be hurt.
         if (e.targetId) this.hitFlashUntil = performance.now() / 1000 + 0.12;
+      }),
+      bus.on('player:damaged', (e) => {
+        // Being hit produced no feedback at all before this: the only tell was
+        // a number in the corner quietly going down, which reads as the game
+        // malfunctioning rather than as something attacking you.
+        this.hurtFrom = { x: e.from.x, z: e.from.z };
+        this.hurtUntil = performance.now() / 1000 + HURT_SECONDS;
+        // A scratch and a serious hit should not look the same.
+        this.hurtWeight = Math.min(0.85, Math.max(0.5, e.amount / 25));
+        // Restart the panel kick even on back-to-back hits.
+        const panel = this.el['hud-health'];
+        if (panel) {
+          panel.classList.remove('is-hurt');
+          void panel.offsetWidth;
+          panel.classList.add('is-hurt');
+        }
+      }),
+      bus.on('player:respawned', () => {
+        this.hurtFrom = null;
+        this.hurtUntil = 0;
       }),
       bus.on('player:died', () => this.setWarning('Critical failure')),
       bus.on('player:respawned', () => this.setWarning(null)),
@@ -120,6 +155,33 @@ export class HUD {
     const pct = Math.max(0, Math.min(1, state.health / state.maxHealth));
     this.style('hpfill', this.el['hud-health-fill'], 'width', `${(pct * 100).toFixed(1)}%`);
     this.el['hud-health']?.classList.toggle('is-critical', pct <= 0.3);
+
+    // --- Damage ------------------------------------------------------------
+    const hurt = this.el['hud-damage'];
+    if (hurt) {
+      const left = this.hurtUntil - now;
+      const showing = left > 0 && this.hurtFrom !== null;
+      hurt.classList.toggle('is-active', showing);
+      if (showing && this.hurtFrom) {
+        // Recomputed every frame rather than frozen at the moment of impact,
+        // so turning to look sweeps the arc round to meet the attacker.
+        const bearing = damageBearing(
+          this.hurtFrom.x,
+          this.hurtFrom.z,
+          state.playerX,
+          state.playerZ,
+          state.cameraYaw,
+        );
+        const fade = Math.min(1, left / HURT_SECONDS);
+        this.style(
+          'hurtrot',
+          this.el['hud-damage-arc'],
+          'transform',
+          `rotate(${((bearing * 180) / Math.PI).toFixed(1)}deg)`,
+        );
+        this.style('hurtop', hurt, 'opacity', (fade * this.hurtWeight).toFixed(3));
+      }
+    }
 
     // --- Weapon ------------------------------------------------------------
     this.write('mag', this.el['hud-ammo'], String(state.ammoInMag), true);
