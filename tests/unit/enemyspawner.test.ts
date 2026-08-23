@@ -168,3 +168,46 @@ describe('the keep-out predicate', () => {
     expect(sawNonNull).toBe(total);
   });
 });
+
+describe('the keep-out sweep', () => {
+  // One free corner, roughly 2% of the perimeter. Eight jittered octants
+  // usually all miss it — which before the sweep meant giving up and dumping
+  // the arrival in the middle of the deck, next to the player.
+  const freeCorner = (p: Vec3Like) => p.z > 7.3 && p.x > 3.5;
+  const allButCorner = (p: Vec3Like) => !freeCorner(p);
+
+  it('finds the free stretch when every octant candidate is blocked', () => {
+    for (let seed = 0; seed < 24; seed++) {
+      const p = perimeterSpawnPoint(BOUNDS, ORIGIN, new Rng(seed), allButCorner);
+      expect(p).not.toBeNull();
+      expect(allButCorner(p as Vec3Like)).toBe(false);
+    }
+  });
+
+  it('never returns a blocked point', () => {
+    // The real shape of the problem: the whole front edge is prow.
+    const frontEdgeBlocked = (p: Vec3Like) => p.z < -7;
+    for (let seed = 0; seed < 24; seed++) {
+      const p = perimeterSpawnPoint(BOUNDS, ORIGIN, new Rng(seed), frontEdgeBlocked);
+      expect(p).not.toBeNull();
+      expect(frontEdgeBlocked(p as Vec3Like)).toBe(false);
+    }
+  });
+
+  it('gives up only when the whole ring is blocked', () => {
+    expect(perimeterSpawnPoint(BOUNDS, ORIGIN, new Rng(1), () => true)).toBeNull();
+  });
+
+  it('consumes the same RNG draws whether or not candidates are blocked', () => {
+    // A fallback that consumed extra draws would shift every later placement.
+    const a = new Rng(7);
+    perimeterSpawnPoint(BOUNDS, ORIGIN, a, allButCorner);
+    const afterBlocked = a.next();
+
+    const b = new Rng(7);
+    perimeterSpawnPoint(BOUNDS, ORIGIN, b);
+    const afterClear = b.next();
+
+    expect(afterBlocked).toBe(afterClear);
+  });
+});

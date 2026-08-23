@@ -33,6 +33,14 @@ export const SPAWN_EDGE_INSET = 0.6;
 /** Candidate points considered per spawn, one per octant of the perimeter. */
 const OCTANTS = 8;
 
+/**
+ * Ring positions walked when every octant candidate is blocked.
+ *
+ * Deliberately RNG-free: this pass must not consume draws, or a spawn that
+ * took the fallback would shift the jitter of every placement after it.
+ */
+const SWEEP_STEPS = 64;
+
 export class EnemySpawner {
   private readonly rng: Rng;
   private threshold: number;
@@ -117,11 +125,40 @@ export function perimeterSpawnPoint(
   rng: Rng,
   isBlocked?: (p: Vec3Like) => boolean,
 ): Vec3Like | null {
+  // All eight draws happen whether or not a candidate survives, so blocking
+  // never changes how much of the RNG sequence a call consumes.
+  const jittered: Vec3Like[] = [];
+  for (let i = 0; i < OCTANTS; i++) {
+    jittered.push(pointOnPerimeter(bounds, (i + rng.next()) / OCTANTS));
+  }
+
+  const best = furthestUnblocked(jittered, playerPos, isBlocked);
+  if (best) return best;
+
+  // Every octant landed on machine equipment. The whole front edge of the ring
+  // sits in the prow's cells, so eight samples miss the surviving side and
+  // rear stretches often enough to matter — measured at 4.4% of arrivals, and
+  // 15% at some player positions. Sweep the ring finely rather than giving up:
+  // the caller's only remaining option is the middle of the deck, which is
+  // exactly where the player usually is.
+  const sweep: Vec3Like[] = [];
+  for (let i = 0; i < SWEEP_STEPS; i++) {
+    sweep.push(pointOnPerimeter(bounds, i / SWEEP_STEPS));
+  }
+
+  return furthestUnblocked(sweep, playerPos, isBlocked);
+}
+
+/** The candidate furthest from the player that the predicate allows. */
+function furthestUnblocked(
+  candidates: readonly Vec3Like[],
+  playerPos: Vec3Like,
+  isBlocked?: (p: Vec3Like) => boolean,
+): Vec3Like | null {
   let best: Vec3Like | null = null;
   let bestDistance = -1;
 
-  for (let i = 0; i < OCTANTS; i++) {
-    const point = pointOnPerimeter(bounds, (i + rng.next()) / OCTANTS);
+  for (const point of candidates) {
     if (isBlocked?.(point)) continue;
     const d = Math.hypot(point.x - playerPos.x, point.z - playerPos.z);
     if (d > bestDistance) {
