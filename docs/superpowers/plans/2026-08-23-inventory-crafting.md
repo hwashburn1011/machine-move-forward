@@ -95,7 +95,7 @@ Exact item values from spec section 3. Glyphs are single characters: scrap `▪`
 components `⬡`, fuel `◆`, rifle ammo `▮`, shotgun ammo `▰`, repair kit `✚`,
 extended magazine `⌸`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/unit/container.test.ts` covering:
 
@@ -116,23 +116,23 @@ extended magazine `⌸`.
 - `serialise`/`restore` round-trips exactly, and `restore` replaces rather than merges
 - `serialise` returns a copy: mutating it does not affect the container
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 Run: `npx vitest run tests/unit/container.test.ts`
 Expected: FAIL — cannot resolve `@/items/Container`.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `add` runs two passes: fill partial stacks of the same item first, then claim
 empty slots. Doing it in one pass is the classic way to end up with three
 half-full stacks of the same thing.
 
-- [ ] **Step 4: Run to verify it passes**
+- [x] **Step 4: Run to verify it passes**
 
 Run: `npx vitest run tests/unit/container.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/data/items.ts src/items/Container.ts tests/unit/container.test.ts
@@ -159,7 +159,7 @@ git commit -m "feat: add item definitions and slotted container"
 `describe` renders a cost as `"8 scrap"` or `"30 scrap, 4 components"` for the
 build HUD, which previously showed a bare number.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/unit/resourceaccess.test.ts` covering: counts inventory alone; counts
 inventory plus a crate at 2m; ignores a crate at 20m; `canAfford` handles
@@ -174,17 +174,17 @@ The all-or-nothing case is the important one: a partial spend that takes the
 scrap, finds no components, and leaves the piece unplaced is strictly worse
 than a refusal.
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 Run: `npx vitest run tests/unit/resourceaccess.test.ts`
 Expected: FAIL — module not found.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `consume` checks affordability across all items first, then performs the
 removals. Crates are sorted by distance so the nearest is drained first.
 
-- [ ] **Step 4: Run to verify it passes and delete the old counter**
+- [x] **Step 4: Run to verify it passes and delete the old counter**
 
 Run: `npx vitest run tests/unit/resourceaccess.test.ts`
 Expected: PASS.
@@ -192,7 +192,7 @@ Expected: PASS.
 Remove `src/progression/Resources.ts` and its test. The `src/progression/`
 directory stays — later milestones put the tech tree there.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -215,19 +215,19 @@ Passing a predicate rather than a number keeps `BuildValidation` pure and
 ignorant of where materials live, which is what lets crates count toward
 building without the validator knowing crates exist.
 
-- [ ] **Step 1: Update the validation tests**
+- [x] **Step 1: Update the validation tests**
 
 Replace the `RICH = 9999` scrap number with `() => true` and add a
 `() => false` case asserting `cannot-afford`. Keep the ordering test: a
 placement that is both unaffordable and out of bounds must still report
 `out-of-bounds`.
 
-- [ ] **Step 2: Change the cost type and update all six existing pieces**
+- [x] **Step 2: Change the cost type and update all six existing pieces**
 
 floor `{ scrap: 8 }`, wall `{ scrap: 12 }`, doorway `{ scrap: 20 }`,
 railing `{ scrap: 5 }`, roof `{ scrap: 10 }`, stairs `{ scrap: 18 }`.
 
-- [ ] **Step 3: Update BuildSystem to spend and refund itemised costs**
+- [x] **Step 3: Update BuildSystem to spend and refund itemised costs**
 
 `place` calls `resources.consume(def.cost)`. `removeOne` refunds
 `Math.floor(count * 0.6)` per item through `resources.deposit`, and returns the
@@ -235,12 +235,12 @@ total units refunded. Overflow that does not fit is dropped rather than
 blocking the demolition — a player who cannot carry the refund should still be
 able to tear the wall down.
 
-- [ ] **Step 4: Verify**
+- [x] **Step 4: Verify**
 
 Run: `npx vitest run` — all existing tests pass.
 Run: `npm run build` — clean.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -265,12 +265,12 @@ git commit -m "refactor: make build costs itemised against the inventory"
 
 Costs: crate `{ scrap: 15, components: 2 }`, workbench `{ scrap: 30, components: 4 }`, refinery `{ scrap: 45, components: 8 }`. Weights 140/220/380 kg. All `anchor: 'cell'`, `boundsRoom: false`, and they require a floor in their own cell — the same rule roofs already use.
 
-- [ ] **Step 1: Add the definitions and the floor-required validation branch**
+- [x] **Step 1: Add the definitions and the floor-required validation branch**
 
 Stations validate exactly like a roof except they occupy the cell rather than
 the roof layer: in-envelope, cell free, not blocked, floor present beneath.
 
-- [ ] **Step 2: Build the geometry**
+- [x] **Step 2: Build the geometry**
 
 All from `bevelledBox`, matching the machine's manufactured look:
 
@@ -281,7 +281,7 @@ All from `bevelledBox`, matching the machine's manufactured look:
 Each gets one collider sized to its footprint. Add a `stationMetal` material
 with cache tag `mmf-station-metal`.
 
-- [ ] **Step 3: Give crates a Container**
+- [x] **Step 3: Give crates a Container**
 
 `BuildSystem` keeps `Map<instanceId, Container>` for crate instances, created
 on place and destroyed on demolish. **Demolishing a crate deposits its contents
@@ -292,14 +292,14 @@ milestone.
 `serialise` writes `state.slots` for crates; `restore` rebuilds the container
 from it.
 
-- [ ] **Step 4: Visual verification**
+- [x] **Step 4: Visual verification**
 
 Place one of each and screenshot.
 
 Run: `node tools/shoot.mjs <out>.png 6000 "?nolock=1&cam=far"`
 Expected: three distinguishable stations that read as equipment, not as more floor.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -326,7 +326,7 @@ git commit -m "feat: add storage crate, workbench, and refinery build pieces"
 
 Recipes exactly as spec section 9.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 `tests/unit/crafting.test.ts` covering: `canCraft` true with exact inputs and
 false one short; `craft` consumes exactly the inputs and deposits the output;
@@ -343,12 +343,12 @@ is refused; `magazineBonus` survives serialise/restore.
 
 And the repair kit: heals 40, refused at full health, refused when dead.
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 Run: `npx vitest run tests/unit/crafting.test.ts`
 Expected: FAIL — module not found.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `craft` order matters: check affordability, check the output fits, then
 consume, then deposit. Consuming before confirming the output fits is how
@@ -359,12 +359,12 @@ moves them into the weapon's reserve when the player uses them. Keep it simple:
 crafting ammo puts it straight into the weapon reserve AND records it, so the
 HUD reserve rises immediately — which is what makes the craft feel real.
 
-- [ ] **Step 4: Run to verify it passes**
+- [x] **Step 4: Run to verify it passes**
 
 Run: `npx vitest run tests/unit/crafting.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -385,12 +385,12 @@ git commit -m "feat: add crafting recipes, weapon mod, and repair kit"
   - `class InteractionSystem { update(playerPos, candidates): Interactable | null; get current(): Interactable | null }`
   - `class InventoryUI { setMode(mode: 'closed' | 'inventory' | 'transfer' | 'crafting', context?): void; get isOpen(): boolean; update(state): void }`
 
-- [ ] **Step 1: Implement the interaction system**
+- [x] **Step 1: Implement the interaction system**
 
 Nearest candidate within 3m, ties broken by id so the prompt does not flicker
 between two equidistant crates.
 
-- [ ] **Step 2: Implement the panels**
+- [x] **Step 2: Implement the panels**
 
 One class, three modes. Slot grid renders glyph, name, and count. Transfer mode
 shows two grids; click moves a whole stack, shift-click moves one. Crafting
@@ -400,21 +400,21 @@ when inputs are short.
 **Pointer lock releases on open and re-acquires on close.** Without it the
 panels cannot be clicked at all.
 
-- [ ] **Step 3: Wire into Game**
+- [x] **Step 3: Wire into Game**
 
 `Tab` toggles inventory. `E` opens the current interactable — crate to transfer
 mode, workbench or refinery to crafting mode. `Escape` and the same key close.
 While a panel is open, suppress firing, building, and weapon switching, but let
 the simulation keep running.
 
-- [ ] **Step 4: Verification**
+- [x] **Step 4: Verification**
 
 Run: `npm run dev`
 Expected: walking near a built crate shows `[E] Open Storage Crate`; `E` opens
 a two-pane transfer view with a visible cursor; clicking moves stacks; closing
 restores pointer lock and mouse look.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -429,14 +429,14 @@ git commit -m "feat: add interaction prompts and inventory, transfer, and crafti
 - Create: `tools/craft.mjs`
 - Modify: `src/game/Game.ts`, `src/save/SaveSchema.ts`, `tests/e2e/smoke.spec.ts`, `README.md`
 
-- [ ] **Step 1: Wire persistence**
+- [x] **Step 1: Wire persistence**
 
 `buildSave` writes `player.inventory` from the container and each weapon's
 `magazineBonus`. `loadFrom` restores the inventory, then structures (crate
 state rides along), then the mod. Order matters: crate containers must exist
 before anything reads them.
 
-- [ ] **Step 2: Write the harness**
+- [x] **Step 2: Write the harness**
 
 `tools/craft.mjs`, waiting on **simulated** time as the other harnesses do,
 asserting:
@@ -453,11 +453,11 @@ asserting:
 - Demolishing a full crate returns its contents rather than destroying them
 - Save, reload: inventory, crate contents, and the mod all survive
 
-- [ ] **Step 3: Extend the e2e suite**
+- [x] **Step 3: Extend the e2e suite**
 
 One case: craft ammo, save, reload, assert the reserve survived.
 
-- [ ] **Step 4: Full verification**
+- [x] **Step 4: Full verification**
 
 ```bash
 npm run lint && npm run build && npm test && npm run test:e2e
@@ -466,12 +466,12 @@ node tools/drive.mjs && node tools/combat.mjs && node tools/build.mjs && node to
 
 `drive` must stay 9/9, `combat` 12/12, `build` 21/21.
 
-- [ ] **Step 5: Manual acceptance against spec section 12**
+- [x] **Step 5: Manual acceptance against spec section 12**
 
 Walk all ten success criteria and confirm each, with a screenshot of the
 crafting panel.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
