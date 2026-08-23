@@ -41,7 +41,7 @@ test.describe('Machine Move Forward', () => {
       if (m.type() === 'error') errors.push(m.text());
     });
     page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
-    await page.goto('/?nolock=1&quality=low&seed=e2e-seed');
+    await page.goto('/?nolock=1&quality=low&seed=e2e-seed&nospawn=1');
     await sim(page, 1.2);
   });
 

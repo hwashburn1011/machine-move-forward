@@ -33,6 +33,7 @@ const game = await Game.create({
   seed: params.get('seed') ?? 'mmf-dev-seed',
   qualityTier,
   bypassPointerLock: params.get('nolock') === '1',
+  enemySpawns: params.get('nospawn') !== '1',
   freeCamera: preset?.[0] ?? null,
   freeCameraTarget: preset?.[1] ?? null,
 });
@@ -70,6 +71,7 @@ game.start();
   input: game.input,
   combat: game.combat,
   enemies: game.enemies,
+  spawner: game.spawner,
   machine: game.machine,
   physics: game.physics,
   playerCamera: game.playerCamera,

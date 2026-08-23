@@ -21,6 +21,7 @@ import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { EnemyManager } from '@/enemies/EnemyManager';
+import { EnemySpawner, type Bounds } from '@/enemies/EnemySpawner';
 import { SandFX } from '@/fx/SandFX';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
@@ -56,6 +57,8 @@ export interface GameOptions {
   /** Free-fly camera for screenshots, disables the player rig. */
   freeCamera?: THREE.Vector3 | null;
   freeCameraTarget?: THREE.Vector3 | null;
+  /** Distance-driven arrivals. Off for harnesses that must travel undisturbed. */
+  enemySpawns?: boolean;
 }
 
 /**
@@ -82,6 +85,9 @@ export class Game implements LoopCallbacks {
   readonly playerCamera: PlayerCamera;
   readonly combat: PlayerCombat;
   readonly enemies: EnemyManager;
+  readonly spawner: EnemySpawner;
+  /** Mutable so a harness can arm it for the one section that tests it. */
+  enemySpawnsEnabled: boolean;
   readonly sandFX: SandFX;
   readonly impactFX: ImpactFX;
   readonly hud: HUD;
@@ -165,6 +171,8 @@ export class Game implements LoopCallbacks {
     this.combat = new PlayerCombat(this.bus, this.physics);
     this.combat.setShooterCollider(this.player.collider);
     this.enemies = new EnemyManager(this.renderer.scene, this.physics, this.bus, this.materials);
+    this.spawner = new EnemySpawner(seed);
+    this.enemySpawnsEnabled = options.enemySpawns ?? true;
 
     this.sandFX = new SandFX(this.renderer.scene, this.quality);
     this.impactFX = new ImpactFX(this.renderer.scene, this.bus, this.quality);
@@ -291,6 +299,8 @@ export class Game implements LoopCallbacks {
 
     this.machine.fixedUpdate(dt);
     this.world.fixedUpdate(dt, this.machine.speed);
+    // After the world moves, so the distance the spawner reads is this tick's.
+    if (!this.freeCamera) this.updateSpawns();
 
     // Last: resolve everything the kinematic bodies above just requested.
     this.physics.step();
@@ -352,6 +362,34 @@ export class Game implements LoopCallbacks {
     this.tickFpsMeter(now);
     this.updateDebugOverlay(now);
     this.input.endFrame();
+  }
+
+  /**
+   * Distance-driven arrivals.
+   *
+   * Deliberately NOT suppressed while a panel is open: Milestone 4 decided the
+   * simulation keeps running behind panels, and making the crafting screen a
+   * safe room by accident would contradict that quietly.
+   */
+  private updateSpawns(): void {
+    if (!this.enemySpawnsEnabled) return;
+    if (this.state.playerDead) return;
+
+    const request = this.spawner.update(
+      this.world.distanceTraveled,
+      this.enemies.activeCount,
+    );
+    if (!request) return;
+
+    const bounds: Bounds = {
+      halfWidth: this.machine.deckBounds.max.x,
+      halfLength: this.machine.deckBounds.max.z,
+      // A metre above the deck plane, so they settle onto it rather than
+      // through it — the same trick `deckSpawn` uses for the player.
+      deckY: this.machine.deckBounds.min.y + 1.0,
+    };
+    const at = this.spawner.placementFor(bounds, this.player.worldPosition);
+    this.enemies.spawn(request.defId, new THREE.Vector3(at.x, at.y, at.z));
   }
 
   // -------------------------------------------------------------------------
@@ -735,6 +773,8 @@ export class Game implements LoopCallbacks {
     // Distance drives everything about the world, so restoring it regenerates
     // the identical chunks — nothing about the world itself is stored.
     this.world.reset(save.distanceTraveled);
+    // Derived from distance, so a load re-derives it rather than restoring it.
+    this.spawner.resync(save.distanceTraveled);
 
     // Inventory before structures: rebuilding a crate creates an empty
     // container that the piece's own state then fills, and restoring the
