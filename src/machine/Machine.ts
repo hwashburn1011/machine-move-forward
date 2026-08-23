@@ -41,9 +41,12 @@ export class Machine {
     this.movement.totalWeight = 12000;
   }
 
-  /** A safe spawn/respawn point on the deck. */
+  /**
+   * Spawn point on the open mid-deck. Kept clear of the equipment blocks:
+   * spawning against one pins the third-person camera hard against it.
+   */
   get deckSpawn(): THREE.Vector3 {
-    return new THREE.Vector3(0, DECK_HEIGHT + 1.2, 3.5);
+    return new THREE.Vector3(0, DECK_HEIGHT + 1.2, -1.0);
   }
 
   get speed(): number {

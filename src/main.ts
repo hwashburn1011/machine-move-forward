@@ -9,6 +9,9 @@ import { EventBus } from '@/core/events/EventBus';
 import { GameLoop } from '@/game/GameLoop';
 import { Machine } from '@/machine/Machine';
 import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
+import { InputManager } from '@/core/input/InputManager';
+import { Player } from '@/player/Player';
+import { PlayerCamera } from '@/player/PlayerCamera';
 
 await initRapier();
 
@@ -16,7 +19,12 @@ const canvas = document.querySelector<HTMLCanvasElement>('#game');
 if (!canvas) throw new Error('missing #game canvas');
 
 const probe = new THREE.WebGLRenderer({ canvas: document.createElement('canvas') });
-const quality = getQualitySettings(detectQualityTier(probe));
+const forcedTier = new URLSearchParams(location.search).get('quality');
+const quality = getQualitySettings(
+  forcedTier === 'low' || forcedTier === 'medium' || forcedTier === 'high' || forcedTier === 'ultra'
+    ? forcedTier
+    : detectQualityTier(probe),
+);
 probe.dispose();
 
 const renderer = new Renderer(canvas, quality);
@@ -39,7 +47,17 @@ bus.on('world:chunk-recycled', () => recycles++);
 const physics = new PhysicsWorld();
 const machine = new Machine(renderer.scene, physics, materials);
 
-const camMode = new URLSearchParams(location.search).get('cam');
+const params = new URLSearchParams(location.search);
+const input = new InputManager(canvas, {
+  bypassPointerLock: params.get('nolock') === '1',
+});
+const player = new Player(renderer.scene, physics, bus, materials, machine.deckSpawn);
+const playerCamera = new PlayerCamera(window.innerWidth / window.innerHeight);
+
+renderer.extraCameras.push(playerCamera.camera);
+
+const camMode = params.get('cam');
+const freeCam = camMode !== null;
 if (camMode === 'front') {
   renderer.camera.position.set(11, 6.5, -19);
   renderer.camera.lookAt(0, 3, 0);
@@ -58,14 +76,29 @@ document.querySelector('#boot')?.remove();
 
 const clock = new THREE.Clock();
 
+// Rolling FPS, so the harness can tell a real bug from a slow headless GPU.
+const fpsMeter = { value: 0, frames: 0, last: performance.now() };
+
+// Simulated seconds elapsed. Test harnesses must wait on this rather than
+// wall time: under a slow renderer the fixed-step clamp deliberately lets
+// simulated time fall behind, and wall-clock assertions then measure the GPU
+// rather than the game.
+let simTime = 0;
+
 const loop = new GameLoop({
   fixedUpdate: (dt) => {
+    simTime += dt;
     machine.fixedUpdate(dt);
+    if (!freeCam) {
+      player.fixedUpdate(dt, input, playerCamera.yawAngle);
+      playerCamera.fixedUpdate(dt, input, player.worldPosition, physics, player.collider);
+    }
     world.fixedUpdate(dt, machine.speed);
     physics.step();
   },
-  render: () => {
+  render: (alpha) => {
     const elapsed = clock.getElapsedTime();
+    player.update(alpha);
     world.update(elapsed);
     if (sky.update(performance.now())) {
       renderer.setEnvironment(sky.environment);
@@ -73,7 +106,15 @@ const loop = new GameLoop({
       updateFogColor(sky.sampleHorizonColor());
       world.setSunDirection(sky.direction);
     }
-    renderer.three.render(renderer.scene, renderer.camera);
+    renderer.three.render(renderer.scene, freeCam ? renderer.camera : playerCamera.camera);
+    fpsMeter.frames++;
+    const nowMs = performance.now();
+    if (nowMs - fpsMeter.last >= 500) {
+      fpsMeter.value = Math.round((fpsMeter.frames * 1000) / (nowMs - fpsMeter.last));
+      fpsMeter.frames = 0;
+      fpsMeter.last = nowMs;
+    }
+    input.endFrame();
   },
 });
 loop.start();
@@ -90,6 +131,13 @@ loop.start();
     chunks: world.activeChunkCount,
     speed: Number(machine.speed.toFixed(2)),
     bodies: physics.bodyCount,
+    playerY: Number(player.worldPosition.y.toFixed(3)),
+    grounded: player.isGrounded,
+    vy: Number(player.debug.vy.toFixed(2)),
+    fps: fpsMeter.value,
+    simTime: Number(simTime.toFixed(3)),
   }),
   world,
+  player,
+  input,
 };

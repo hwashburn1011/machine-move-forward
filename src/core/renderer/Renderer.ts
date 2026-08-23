@@ -113,10 +113,17 @@ export class Renderer {
     }
   }
 
+  /** Extra cameras (the player rig) that must track viewport resizes. */
+  readonly extraCameras: THREE.PerspectiveCamera[] = [];
+
   readonly resize = (): void => {
     const w = window.innerWidth;
     const h = window.innerHeight;
     this.camera.aspect = w / h;
+    for (const cam of this.extraCameras) {
+      cam.aspect = w / h;
+      cam.updateProjectionMatrix();
+    }
     this.camera.updateProjectionMatrix();
     this.three.setPixelRatio(Math.min(window.devicePixelRatio, this.quality.maxPixelRatio));
     this.three.setSize(w, h);
