@@ -14,6 +14,8 @@ import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { EnemyManager } from '@/enemies/EnemyManager';
+import { SandFX } from '@/fx/SandFX';
+import { ImpactFX } from '@/fx/ImpactFX';
 
 await initRapier();
 
@@ -60,6 +62,9 @@ const combat = new PlayerCombat(bus, physics);
 combat.setShooterCollider(player.collider);
 const enemies = new EnemyManager(renderer.scene, physics, bus, materials);
 
+const sandFX = new SandFX(renderer.scene, quality);
+const impactFX = new ImpactFX(renderer.scene, bus, quality);
+
 renderer.extraCameras.push(playerCamera.camera);
 
 const camMode = params.get('cam');
@@ -105,9 +110,14 @@ const loop = new GameLoop({
     physics.step();
   },
   render: (alpha) => {
-    const elapsed = clock.getElapsedTime();
+    const elapsed = clock.elapsedTime;
     player.update(alpha);
     enemies.update(alpha);
+
+    const frameDt = Math.min(clock.getDelta(), 0.1);
+    const activeCam = freeCam ? renderer.camera : playerCamera.camera;
+    sandFX.update(frameDt, machine.speed, activeCam.position);
+    impactFX.update(frameDt, activeCam.position);
     world.update(elapsed);
     if (sky.update(performance.now())) {
       renderer.setEnvironment(sky.environment);
@@ -115,7 +125,7 @@ const loop = new GameLoop({
       updateFogColor(sky.sampleHorizonColor());
       world.setSunDirection(sky.direction);
     }
-    renderer.three.render(renderer.scene, freeCam ? renderer.camera : playerCamera.camera);
+    renderer.three.render(renderer.scene, activeCam);
     fpsMeter.frames++;
     const nowMs = performance.now();
     if (nowMs - fpsMeter.last >= 500) {
@@ -149,6 +159,7 @@ loop.start();
     ammo: `${combat.current.ammoInMag}/${combat.current.reserveAmmo}`,
     weapon: combat.current.def.id,
     enemies: enemies.activeCount,
+    particles: sandFX.liveCount + impactFX.liveCount,
   }),
   world,
   player,
