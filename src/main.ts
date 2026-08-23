@@ -12,6 +12,8 @@ import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import { InputManager } from '@/core/input/InputManager';
 import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
+import { PlayerCombat } from '@/player/PlayerCombat';
+import { EnemyManager } from '@/enemies/EnemyManager';
 
 await initRapier();
 
@@ -54,6 +56,10 @@ const input = new InputManager(canvas, {
 const player = new Player(renderer.scene, physics, bus, materials, machine.deckSpawn);
 const playerCamera = new PlayerCamera(window.innerWidth / window.innerHeight);
 
+const combat = new PlayerCombat(bus, physics);
+combat.setShooterCollider(player.collider);
+const enemies = new EnemyManager(renderer.scene, physics, bus, materials);
+
 renderer.extraCameras.push(playerCamera.camera);
 
 const camMode = params.get('cam');
@@ -92,6 +98,8 @@ const loop = new GameLoop({
     if (!freeCam) {
       player.fixedUpdate(dt, input, playerCamera.yawAngle);
       playerCamera.fixedUpdate(dt, input, player.worldPosition, physics, player.collider);
+      combat.fixedUpdate(dt, input, playerCamera);
+      enemies.fixedUpdate(dt, player.worldPosition, player.stats);
     }
     world.fixedUpdate(dt, machine.speed);
     physics.step();
@@ -99,6 +107,7 @@ const loop = new GameLoop({
   render: (alpha) => {
     const elapsed = clock.getElapsedTime();
     player.update(alpha);
+    enemies.update(alpha);
     world.update(elapsed);
     if (sky.update(performance.now())) {
       renderer.setEnvironment(sky.environment);
@@ -136,8 +145,18 @@ loop.start();
     vy: Number(player.debug.vy.toFixed(2)),
     fps: fpsMeter.value,
     simTime: Number(simTime.toFixed(3)),
+    hp: player.stats.health,
+    ammo: `${combat.current.ammoInMag}/${combat.current.reserveAmmo}`,
+    weapon: combat.current.def.id,
+    enemies: enemies.activeCount,
   }),
   world,
   player,
   input,
+  combat,
+  enemies,
+  machine,
+  physics,
+  playerCamera,
+  bus,
 };
