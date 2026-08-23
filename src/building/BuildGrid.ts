@@ -189,6 +189,11 @@ export class BuildGrid<T = string> {
    * both edge cases.
    */
   private readonly roofs = new Map<string, T>();
+  /**
+   * Stations stand ON a floor, so like roofs they cannot share the cell map
+   * with the floor they sit on.
+   */
+  private readonly stations = new Map<string, T>();
   private readonly blocked = new Set<string>();
 
   getCell(c: Cell): T | undefined {
@@ -246,6 +251,29 @@ export class BuildGrid<T = string> {
     }));
   }
 
+  getStation(c: Cell): T | undefined {
+    return this.stations.get(cellKey(c));
+  }
+
+  setStation(c: Cell, value: T): void {
+    this.stations.set(cellKey(c), value);
+  }
+
+  clearStation(c: Cell): void {
+    this.stations.delete(cellKey(c));
+  }
+
+  hasStation(c: Cell): boolean {
+    return this.stations.has(cellKey(c));
+  }
+
+  stationEntries(): CellEntry<T>[] {
+    return [...this.stations.entries()].map(([key, value]) => ({
+      cell: parseCellKey(key),
+      value,
+    }));
+  }
+
   /** Mark a cell permanently unbuildable — the starting equipment sits there. */
   blockCell(c: Cell): void {
     this.blocked.add(cellKey(c));
@@ -281,6 +309,10 @@ export class BuildGrid<T = string> {
     return this.roofs.size;
   }
 
+  get stationCount(): number {
+    return this.stations.size;
+  }
+
   /**
    * Drop all player-placed occupancy. Blocked cells survive: they describe the
    * machine, not the player's build, and a rebuild must not forget them.
@@ -289,5 +321,6 @@ export class BuildGrid<T = string> {
     this.cells.clear();
     this.edges.clear();
     this.roofs.clear();
+    this.stations.clear();
   }
 }

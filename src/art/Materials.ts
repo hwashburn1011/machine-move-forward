@@ -17,6 +17,7 @@ export class Materials {
   readonly rustedSteel: THREE.MeshStandardMaterial;
   readonly deckPlate: THREE.MeshStandardMaterial;
   readonly buildPlate: THREE.MeshStandardMaterial;
+  readonly stationMetal: THREE.MeshStandardMaterial;
   readonly bareSteel: THREE.MeshStandardMaterial;
   readonly accent: THREE.MeshStandardMaterial;
   readonly hazard: THREE.MeshStandardMaterial;
@@ -91,6 +92,17 @@ export class Materials {
         normalScale: new THREE.Vector2(0.5, 0.5),
         roughness: 0.74,
         metalness: 0.3,
+      }),
+    );
+
+    this.stationMetal = this.register(
+      new THREE.MeshStandardMaterial({
+        color: PALETTE.accentTeal,
+        map: paintTex,
+        normalMap: paintNormal,
+        normalScale: new THREE.Vector2(0.4, 0.4),
+        roughness: 0.55,
+        metalness: 0.45,
       }),
     );
 
@@ -174,6 +186,7 @@ export class Materials {
       [this.rustedSteel, 'rusted-steel'],
       [this.deckPlate, 'deck-plate'],
       [this.buildPlate, 'build-plate'],
+      [this.stationMetal, 'station-metal'],
       [this.bareSteel, 'bare-steel'],
       [this.accent, 'accent'],
       [this.hazard, 'hazard'],
@@ -191,6 +204,7 @@ export class Materials {
       this.rustedSteel,
       this.deckPlate,
       this.buildPlate,
+      this.stationMetal,
       this.bareSteel,
       this.accent,
       this.hazard,

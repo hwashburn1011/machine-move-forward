@@ -139,7 +139,55 @@ function stairsGeometry(): THREE.BufferGeometry {
   return merge(parts);
 }
 
+/** A ribbed cargo box with a lid seam and one accent stripe. */
+function crateGeometry(): THREE.BufferGeometry {
+  const w = 1.4;
+  const h = 1.1;
+  const parts: THREE.BufferGeometry[] = [
+    at(bevelledBox(w, h, w, 0.06), 0, h / 2, 0),
+    // Lid seam.
+    at(bevelledBox(w * 1.02, 0.07, w * 1.02, 0.02), 0, h - 0.12, 0),
+  ];
+  // Corner ribs, so it reads as a made object rather than a cube.
+  for (const sx of [-1, 1]) {
+    for (const sz of [-1, 1]) {
+      parts.push(at(bevelledBox(0.1, h, 0.1, 0.02), sx * w * 0.46, h / 2, sz * w * 0.46));
+    }
+  }
+  return merge(parts);
+}
+
+/** Waist-high bench with a tool rack panel behind it. */
+function workbenchGeometry(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [
+    at(bevelledBox(1.8, 0.14, 0.9, 0.04), 0, 0.95, 0),
+    at(bevelledBox(1.7, 0.6, 0.12, 0.03), 0, 1.45, -0.4),
+  ];
+  for (const sx of [-1, 1]) {
+    for (const sz of [-1, 1]) {
+      parts.push(at(bevelledBox(0.12, 0.9, 0.12, 0.02), sx * 0.78, 0.45, sz * 0.36));
+    }
+  }
+  return merge(parts);
+}
+
+/** Tall tank with pipes — reads as machinery rather than furniture. */
+function refineryGeometry(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [
+    at(bevelledBox(1.3, 1.9, 1.3, 0.08), 0, 0.95, 0),
+    at(bevelledBox(1.5, 0.18, 1.5, 0.04), 0, 0.12, 0),
+  ];
+  for (const dx of [-0.4, 0.4]) {
+    const pipe = new THREE.CylinderGeometry(0.11, 0.11, 1.0, 10);
+    parts.push(at(pipe, dx, 2.35, 0.2));
+  }
+  return merge(parts);
+}
+
 const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
+  crate: crateGeometry,
+  workbench: workbenchGeometry,
+  refinery: refineryGeometry,
   floor: floorGeometry,
   wall: wallGeometry,
   doorway: doorwayGeometry,
@@ -167,6 +215,12 @@ export function disposeGeometryCache(): void {
 
 export function pieceMaterial(piece: PieceId, materials: Materials): THREE.Material {
   switch (piece) {
+    case 'crate':
+      return materials.rustedSteel;
+    case 'workbench':
+      return materials.stationMetal;
+    case 'refinery':
+      return materials.stationMetal;
     case 'floor':
       return materials.buildPlate;
     case 'roof':
@@ -190,6 +244,18 @@ export function pieceMaterial(piece: PieceId, materials: Materials): THREE.Mater
  */
 export function pieceColliders(piece: PieceId): ColliderSpec[] {
   switch (piece) {
+    case 'crate':
+      return [
+        { half: new THREE.Vector3(0.7, 0.55, 0.7), offset: new THREE.Vector3(0, 0.55, 0) },
+      ];
+    case 'workbench':
+      return [
+        { half: new THREE.Vector3(0.9, 0.51, 0.45), offset: new THREE.Vector3(0, 0.51, 0) },
+      ];
+    case 'refinery':
+      return [
+        { half: new THREE.Vector3(0.75, 0.95, 0.75), offset: new THREE.Vector3(0, 0.95, 0) },
+      ];
     case 'floor':
       return [{ half: new THREE.Vector3(T / 2, 0.08, T / 2), offset: new THREE.Vector3(0, 0.08, 0) }];
 

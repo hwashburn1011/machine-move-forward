@@ -1,4 +1,5 @@
-import { BUILD_PIECES, type PieceId } from '@/data/build-pieces';
+import { BUILD_PIECES, isStation, type PieceId } from '@/data/build-pieces';
+import type { ItemCost } from '@/data/items';
 import {
   BuildGrid,
   canonicalEdge,
@@ -94,10 +95,17 @@ function hasFloor(grid: BuildGrid<PieceId>, cell: Cell): boolean {
   return grid.getCell(cell) === 'floor';
 }
 
+/**
+ * A predicate rather than a number, so this stays pure and ignorant of where
+ * materials live. That is what lets storage crates count toward a build
+ * without the validator knowing crates exist.
+ */
+export type CanAfford = (cost: ItemCost) => boolean;
+
 export function validatePlacement(
   grid: BuildGrid<PieceId>,
   placement: Placement,
-  scrap: number,
+  canAfford: CanAfford,
 ): Validation {
   const def = BUILD_PIECES[placement.piece];
 
@@ -109,10 +117,12 @@ export function validatePlacement(
       ? validateEdgePiece(grid, placement)
       : def.anchor === 'double-cell'
         ? validateStairs(grid, placement)
-        : validateCellPiece(grid, placement);
+        : isStation(placement.piece)
+          ? validateStation(grid, placement)
+          : validateCellPiece(grid, placement);
 
   if (!structural.ok) return structural;
-  if (scrap < def.cost) return fail('cannot-afford');
+  if (!canAfford(def.cost)) return fail('cannot-afford');
   return OK;
 }
 
@@ -128,7 +138,20 @@ function validateCellPiece(grid: BuildGrid<PieceId>, p: Placement): Validation {
 
   if (grid.hasCell(cell)) return fail('occupied');
 
-  // Floor.
+  return validateFloorSupport(grid, cell);
+}
+
+/** Stations stand ON a floor, in their own layer, so both can coexist. */
+function validateStation(grid: BuildGrid<PieceId>, p: Placement): Validation {
+  const { cell } = p;
+  if (!inEnvelope(cell)) return fail('out-of-bounds');
+  if (grid.isBlocked(cell)) return fail('blocked');
+  if (grid.hasStation(cell)) return fail('occupied');
+  return hasFloor(grid, cell) ? OK : fail('needs-floor');
+}
+
+function validateFloorSupport(grid: BuildGrid<PieceId>, cell: Cell): Validation {
+
   if (cell.y === 0) return OK; // the chassis carries it
 
   // Above level 0, a floor needs something holding it up: a wall on the level

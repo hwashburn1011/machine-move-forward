@@ -33,7 +33,8 @@ export type GameEvents = {
   'build:placed': { instanceId: string; definitionId: string; scrapSpent: number };
   'build:removed': { instanceId: string; definitionId: string; scrapRefunded: number };
   'build:rooms-changed': { roomCount: number; enclosedCount: number };
-  'resources:changed': { scrap: number };
+  'inventory:changed': { scrap: number };
+  'craft:completed': { recipeId: string };
 
   'game:save-written': { slot: string };
   'game:save-loaded': { slot: string };
