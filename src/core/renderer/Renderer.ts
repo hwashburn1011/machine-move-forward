@@ -36,6 +36,11 @@ export class Renderer {
     this.three.shadowMap.enabled = quality.shadowsEnabled;
     this.three.shadowMap.type = THREE.PCFSoftShadowMap;
 
+    // Manual reset: renderer.info clears on every render() call, and the post
+    // chain renders several times per frame, so the automatic counters would
+    // only ever report the final pass.
+    this.three.info.autoReset = false;
+
     this.scene = new THREE.Scene();
     this.scene.environmentIntensity = 1.3;
 
@@ -128,6 +133,11 @@ export class Renderer {
     this.three.setPixelRatio(Math.min(window.devicePixelRatio, this.quality.maxPixelRatio));
     this.three.setSize(w, h);
   };
+
+  /** Call once at the top of each frame, before any rendering. */
+  beginFrame(): void {
+    this.three.info.reset();
+  }
 
   dispose(): void {
     window.removeEventListener('resize', this.resize);

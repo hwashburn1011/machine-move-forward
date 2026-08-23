@@ -1,0 +1,257 @@
+/*
+ * HUD styling.
+ *
+ * Plain DOM over the canvas — no framework touches the simulation loop.
+ * System font stack only: the project ships no font files.
+ */
+
+#hud {
+  --amber: #d8a05a;
+  --amber-dim: #9a8569;
+  --text: #e8d5b8;
+  --danger: #d6483b;
+  --panel: rgba(14, 11, 8, 0.62);
+  --edge: rgba(216, 160, 90, 0.26);
+
+  font-family: ui-monospace, 'Cascadia Mono', 'SF Mono', Menlo, Consolas, monospace;
+  color: var(--text);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hud-panel {
+  position: absolute;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  padding: 10px 13px;
+  backdrop-filter: blur(3px);
+}
+
+.hud-label {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  margin-bottom: 3px;
+}
+
+/* Tabular figures: without these, changing numbers shift the layout. */
+.hud-value {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* --- Health, bottom left --------------------------------------------- */
+#hud-health {
+  left: 26px;
+  bottom: 26px;
+  min-width: 168px;
+}
+
+#hud-health-value {
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+}
+
+#hud-health-bar {
+  margin-top: 7px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+#hud-health-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--amber);
+  transition: width 140ms linear;
+}
+
+#hud-health.is-critical #hud-health-value {
+  color: var(--danger);
+}
+
+#hud-health.is-critical #hud-health-fill {
+  background: var(--danger);
+}
+
+/* --- Weapon and ammo, bottom right ------------------------------------ */
+#hud-weapon {
+  right: 26px;
+  bottom: 26px;
+  min-width: 186px;
+  text-align: right;
+}
+
+#hud-ammo {
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+#hud-ammo-reserve {
+  font-size: 15px;
+  color: var(--amber-dim);
+}
+
+#hud-weapon-name {
+  margin-top: 4px;
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  color: var(--amber);
+}
+
+#hud-reload {
+  margin-top: 6px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  display: none;
+}
+
+#hud-reload.is-active {
+  display: block;
+}
+
+#hud-reload-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--amber);
+}
+
+/* --- Machine status, top left ----------------------------------------- */
+#hud-machine {
+  left: 26px;
+  top: 26px;
+  min-width: 172px;
+}
+
+.hud-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.hud-row span:first-child {
+  color: var(--amber-dim);
+}
+
+/* --- Crosshair --------------------------------------------------------- */
+#hud-crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  transform: translate(-50%, -50%);
+}
+
+#hud-crosshair i {
+  position: absolute;
+  background: rgba(255, 244, 226, 0.9);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.85);
+  transition:
+    top 60ms linear,
+    bottom 60ms linear,
+    left 60ms linear,
+    right 60ms linear;
+}
+
+#hud-crosshair i:nth-child(1),
+#hud-crosshair i:nth-child(2) {
+  left: 50%;
+  width: 2px;
+  height: 7px;
+  margin-left: -1px;
+}
+
+#hud-crosshair i:nth-child(1) {
+  top: 0;
+}
+#hud-crosshair i:nth-child(2) {
+  bottom: 0;
+}
+
+#hud-crosshair i:nth-child(3),
+#hud-crosshair i:nth-child(4) {
+  top: 50%;
+  height: 2px;
+  width: 7px;
+  margin-top: -1px;
+}
+
+#hud-crosshair i:nth-child(3) {
+  left: 0;
+}
+#hud-crosshair i:nth-child(4) {
+  right: 0;
+}
+
+#hud-crosshair.is-hit i {
+  background: var(--danger);
+}
+
+/* --- Prompts and warnings ---------------------------------------------- */
+#hud-prompt {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  display: none;
+}
+
+#hud-warning {
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--danger);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+  display: none;
+}
+
+#hud-warning.is-active {
+  display: block;
+  animation: hud-pulse 900ms ease-in-out infinite;
+}
+
+@keyframes hud-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* --- Pointer-lock hint -------------------------------------------------- */
+#hud-lock {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 14px 22px;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+#hud-lock.is-hidden {
+  display: none;
+}
