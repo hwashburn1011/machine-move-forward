@@ -77,9 +77,17 @@ export class EnemySpawner {
   /**
    * `perimeterSpawnPoint` fed from this spawner's own RNG, so one seed drives
    * both timing and placement.
+   *
+   * `isBlocked` is an optional keep-out predicate (e.g. the machine's own
+   * equipment footprint) — see `perimeterSpawnPoint` below. Null when every
+   * candidate was rejected.
    */
-  placementFor(bounds: Bounds, playerPos: Vec3Like): Vec3Like {
-    return perimeterSpawnPoint(bounds, playerPos, this.rng);
+  placementFor(
+    bounds: Bounds,
+    playerPos: Vec3Like,
+    isBlocked?: (p: Vec3Like) => boolean,
+  ): Vec3Like | null {
+    return perimeterSpawnPoint(bounds, playerPos, this.rng, isBlocked);
   }
 
   /** The first interval boundary strictly ahead of `distance`. */
@@ -96,17 +104,25 @@ export class EnemySpawner {
  * jitter stops arrivals landing on the same eight marks forever. Taking the
  * furthest candidate costs nothing and removes the case where a scavenger
  * materialises inside the player's face.
+ *
+ * `isBlocked` is an optional keep-out predicate: a candidate it rejects is
+ * skipped entirely, even if it would otherwise be the furthest from the
+ * player. This is how a caller keeps arrivals out of machine geometry (the
+ * prow, the engine block) without this function knowing anything about that
+ * geometry — it stays pure. Returns null if every candidate was rejected.
  */
 export function perimeterSpawnPoint(
   bounds: Bounds,
   playerPos: Vec3Like,
   rng: Rng,
-): Vec3Like {
-  let best: Vec3Like = pointOnPerimeter(bounds, 0);
+  isBlocked?: (p: Vec3Like) => boolean,
+): Vec3Like | null {
+  let best: Vec3Like | null = null;
   let bestDistance = -1;
 
   for (let i = 0; i < OCTANTS; i++) {
     const point = pointOnPerimeter(bounds, (i + rng.next()) / OCTANTS);
+    if (isBlocked?.(point)) continue;
     const d = Math.hypot(point.x - playerPos.x, point.z - playerPos.z);
     if (d > bestDistance) {
       bestDistance = d;

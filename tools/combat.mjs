@@ -144,18 +144,59 @@ await page.evaluate(() => {
   g.player.stats.invulnerable = true;
   g.enemySpawnsEnabled = true;
   g.spawner.resync(g.world.distanceTraveled);
+  // Capture the exact position each arrival spawns at, straight off the bus.
+  // `enemies.active[0].worldPosition` after a sim() wait is not safe for this:
+  // the enemy AI starts steering it toward the player on the very next fixed
+  // tick, and a scavenger walks at 3.1 m/s -- easily enough to walk most of
+  // the way out of the (1.6m-deep) prow box within a single 0.5s sim() wait,
+  // which would make a placement check read the post-escape position instead
+  // of where it actually materialised.
+  globalThis.__game.__spawnLog = [];
+  g.bus.on('enemy:spawned', (e) => globalThis.__game.__spawnLog.push(e.position));
 });
 await sim(0.5);
 check('the deck starts clear', (await stats()).enemies === 0, `${(await stats()).enemies} aboard`);
 
-/** Jump the world forward, the way distance actually accrues, only faster. */
-const travel = (metres) =>
-  page.evaluate(
-    (m) => globalThis.__game.world.reset(globalThis.__game.world.distanceTraveled + m),
-    metres,
-  );
+/**
+ * Jump just past the next threshold, so exactly one boundary is crossed.
+ *
+ * A flat `travel(260)` anchors to the current distance, but the real margin before
+ * the next `sim()` wait is the distance to the *next* threshold, which is
+ * only guaranteed to be in (0, 250]. That can be a metre -- easily eaten by
+ * the ~3.75m a 0.5s sim() wait adds on its own at the machine's cruise speed
+ * -- which crosses a second boundary and fails an exact-count check about
+ * 1.5% of the time. Anchoring to `nextSpawnAt` instead leaves a ~240m margin
+ * regardless of how much of the current interval had already been walked.
+ */
+const travelPastNextThreshold = () =>
+  page.evaluate(() => {
+    const g = globalThis.__game;
+    g.world.reset(g.game.spawner.nextSpawnAt + 10);
+  });
 
-await travel(260);
+// The real prow collider (src/machine/MachineGeometry.ts `prowBlock`,
+// confirmed against source): half-extents (4.5, 0.55, 0.8) centred at
+// (0, DECK_HEIGHT + 0.64, prowZ + 0.6) = (0, 3.04, -7.4). That gives:
+//   x in [-4.5, 4.5], y in [2.49, 3.59], z in [-8.2, -6.6]
+const PROW = { xMin: -4.5, xMax: 4.5, yMin: 2.49, yMax: 3.59, zMin: -8.2, zMax: -6.6 };
+const insideProw = (p) =>
+  p.x >= PROW.xMin && p.x <= PROW.xMax &&
+  p.y >= PROW.yMin && p.y <= PROW.yMax &&
+  p.z >= PROW.zMin && p.z <= PROW.zMax;
+
+// Stand the player in the rear half of the deck (z > 0) before the next
+// arrival: `perimeterSpawnPoint` picks whichever candidate is furthest from
+// the player, so a rear player makes the front edge -- which sits entirely
+// inside the prow collider -- the winning candidate every time this bug is
+// present. (0, currentY, 3) is clear of the engine/generator/fuel-tank/
+// workbench footprints, so the teleport itself cannot land the player inside
+// machine geometry.
+await page.evaluate(() => {
+  const g = globalThis.__game;
+  g.player.teleport({ x: 0, y: g.player.worldPosition.y, z: 3 });
+});
+
+await travelPastNextThreshold();
 await sim(0.5);
 check(
   'travelling far enough spawns a scavenger',
@@ -163,9 +204,25 @@ check(
   `${(await stats()).enemies} aboard`,
 );
 
+// Every check above (and every check anywhere else in this file) reads only
+// `stats().enemies` -- a count -- so a placement bug is invisible by
+// construction. Read the arrival's actual spawn position instead, off the
+// `enemy:spawned` bus payload captured above (confirmed against
+// `Enemy.spawn`, which sets position and *then* emits the event, and against
+// `Enemy.worldPosition`, the live accessor the payload's numbers come from).
+const arrival = await page.evaluate(() => globalThis.__game.__spawnLog[0] ?? null);
+const onDeck = arrival !== null && Math.abs(arrival.x) <= 5.01 && Math.abs(arrival.z) <= 8.01;
+check(
+  'the arrival lands on the deck, not inside the prow',
+  arrival !== null && onDeck && !insideProw(arrival),
+  arrival
+    ? `spawned at (${arrival.x.toFixed(2)}, ${arrival.y.toFixed(2)}, ${arrival.z.toFixed(2)})`
+    : 'no arrival found',
+);
+
 // Cross five more thresholds. The cap should stop the last two.
 for (let i = 0; i < 5; i++) {
-  await travel(260);
+  await travelPastNextThreshold();
   await sim(0.5);
 }
 check(
@@ -195,7 +252,12 @@ await page.evaluate(() => {
   g.spawner.resync(g.world.distanceTraveled);
 });
 await sim(0.5);
-await travel(500);
+// Seeded from nextSpawnAt rather than the current distance, for the same
+// margin reason as travelPastNextThreshold above.
+await page.evaluate(() => {
+  const g = globalThis.__game;
+  g.world.reset(g.game.spawner.nextSpawnAt + 500);
+});
 await sim(0.5);
 check(
   'a 500m skip produces one arrival, not two',

@@ -39,5 +39,10 @@ export const ENEMIES: Record<string, EnemyDefinition> = {
  */
 export const SPAWN_INTERVAL_M = 250;
 
-/** Scavengers aboard at once. The pool holds 8, so this never starves it. */
+/**
+ * Scavengers counted as "aboard" at once. This is `EnemyManager.activeCount`,
+ * which stays true for a corpse until its ~2.5s death timer expires — a kill
+ * causes a short spawn lull rather than an immediate free slot, and that is
+ * intentional, not a bug. The pool holds 8, so this never starves it.
+ */
 export const MAX_ACTIVE_ENEMIES = 4;

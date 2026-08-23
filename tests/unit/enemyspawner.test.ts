@@ -5,6 +5,7 @@ import {
   perimeterSpawnPoint,
   SPAWN_EDGE_INSET,
   type Bounds,
+  type Vec3Like,
 } from '@/enemies/EnemySpawner';
 
 const INTERVAL = 250;
@@ -84,7 +85,9 @@ describe('resync', () => {
 describe('spawn points', () => {
   it('sits on the deck perimeter, inset from the lip', () => {
     for (let i = 0; i < 32; i++) {
-      const p = perimeterSpawnPoint(BOUNDS, ORIGIN, new Rng(i));
+      // No keep-out predicate supplied: nothing is blocked, so this must
+      // still return a point (never null).
+      const p = perimeterSpawnPoint(BOUNDS, ORIGIN, new Rng(i))!;
       const onX = Math.abs(Math.abs(p.x) - (BOUNDS.halfWidth - SPAWN_EDGE_INSET)) < 1e-9;
       const onZ = Math.abs(Math.abs(p.z) - (BOUNDS.halfLength - SPAWN_EDGE_INSET)) < 1e-9;
       // Every point is on one of the four inset edges, and none is off the deck.
@@ -95,13 +98,13 @@ describe('spawn points', () => {
   });
 
   it('spawns at the given deck height', () => {
-    expect(perimeterSpawnPoint(BOUNDS, ORIGIN, new Rng(7)).y).toBe(BOUNDS.deckY);
+    expect(perimeterSpawnPoint(BOUNDS, ORIGIN, new Rng(7))!.y).toBe(BOUNDS.deckY);
   });
 
   it('biases away from the player', () => {
     for (let i = 0; i < 16; i++) {
       // Player pinned at the -Z end: arrivals belong at the far end.
-      const p = perimeterSpawnPoint(BOUNDS, { x: 0, y: 0, z: -BOUNDS.halfLength }, new Rng(i));
+      const p = perimeterSpawnPoint(BOUNDS, { x: 0, y: 0, z: -BOUNDS.halfLength }, new Rng(i))!;
       expect(p.z).toBeGreaterThan(0);
     }
   });
@@ -116,5 +119,52 @@ describe('spawn points', () => {
     const a = new EnemySpawner('same', INTERVAL, CAP).placementFor(BOUNDS, ORIGIN);
     const b = new EnemySpawner('same', INTERVAL, CAP).placementFor(BOUNDS, ORIGIN);
     expect(a).toEqual(b);
+  });
+});
+
+describe('the keep-out predicate', () => {
+  // The real prow collider (src/machine/MachineGeometry.ts `prowBlock`,
+  // confirmed against source): half-extents (4.5, 0.55, 0.8) centred at
+  // (0, 3.04, -7.4) with DECK_HEIGHT 2.4. That gives:
+  //   x in [-4.5, 4.5], y in [2.49, 3.59], z in [-8.2, -6.6]
+  // The whole front edge of BOUNDS's inset perimeter ring (z = -7.4) sits
+  // inside this box on all three axes — this is finding 1 of the review.
+  const PROW = { xMin: -4.5, xMax: 4.5, yMin: 2.49, yMax: 3.59, zMin: -8.2, zMax: -6.6 };
+  const insideProw = (p: Vec3Like): boolean =>
+    p.x >= PROW.xMin && p.x <= PROW.xMax &&
+    p.y >= PROW.yMin && p.y <= PROW.yMax &&
+    p.z >= PROW.zMin && p.z <= PROW.zMax;
+
+  it('never places an arrival inside the prow, for any player position on the whole deck', () => {
+    // Sweep the whole deck, including z > 0 (the rear half) — no existing
+    // placement test before this one exercises that half, which is exactly
+    // why the prow bug survived: `perimeterSpawnPoint` picks the candidate
+    // furthest from the player, so a player anywhere in the rear half makes
+    // the (blocked) front edge the winning candidate every time.
+    let sawNonNull = 0;
+    let total = 0;
+
+    for (let pz = -BOUNDS.halfLength; pz <= BOUNDS.halfLength; pz += 1) {
+      for (let px = -BOUNDS.halfWidth; px <= BOUNDS.halfWidth; px += 1) {
+        for (let seed = 0; seed < 6; seed++) {
+          total++;
+          const p = perimeterSpawnPoint(
+            BOUNDS,
+            { x: px, y: 0, z: pz },
+            new Rng(seed),
+            insideProw,
+          );
+          if (p === null) continue;
+          sawNonNull++;
+          expect(insideProw(p)).toBe(false);
+        }
+      }
+    }
+
+    // The predicate must actually be exercised, not just accepted and
+    // ignored — if every candidate came back blocked (or the predicate was
+    // silently never consulted), this sweep would prove nothing.
+    expect(sawNonNull).toBeGreaterThan(0);
+    expect(sawNonNull).toBe(total);
   });
 });

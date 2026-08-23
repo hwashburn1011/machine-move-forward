@@ -21,7 +21,7 @@ import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { EnemyManager } from '@/enemies/EnemyManager';
-import { EnemySpawner, type Bounds } from '@/enemies/EnemySpawner';
+import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner';
 import { SandFX } from '@/fx/SandFX';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
@@ -43,6 +43,7 @@ import { BuildPreview } from '@/building/BuildPreview';
 import { BuildUI } from '@/ui/BuildUI';
 import { BUILD_PIECES, BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
 import { countEnclosed } from '@/building/RoomDetector';
+import { cellKey, worldToCell } from '@/building/BuildGrid';
 import { GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
@@ -88,6 +89,14 @@ export class Game implements LoopCallbacks {
   readonly spawner: EnemySpawner;
   /** Mutable so a harness can arm it for the one section that tests it. */
   enemySpawnsEnabled: boolean;
+  /**
+   * Level-0 grid keys `machine.equipmentCells` occupies, precomputed once —
+   * equipment never moves after construction, so re-deriving this per spawn
+   * would be pure waste. Arrivals must never land in one of these cells (the
+   * prow, the engine block): a kinematic enemy spawned inside a fixed
+   * collider gets no depenetration and embeds permanently.
+   */
+  private readonly blockedSpawnCellKeys: Set<string>;
   readonly sandFX: SandFX;
   readonly impactFX: ImpactFX;
   readonly hud: HUD;
@@ -173,6 +182,7 @@ export class Game implements LoopCallbacks {
     this.enemies = new EnemyManager(this.renderer.scene, this.physics, this.bus, this.materials);
     this.spawner = new EnemySpawner(seed);
     this.enemySpawnsEnabled = options.enemySpawns ?? true;
+    this.blockedSpawnCellKeys = new Set(this.machine.equipmentCells.map(cellKey));
 
     this.sandFX = new SandFX(this.renderer.scene, this.quality);
     this.impactFX = new ImpactFX(this.renderer.scene, this.bus, this.quality);
@@ -388,9 +398,28 @@ export class Game implements LoopCallbacks {
       // through it — the same trick `deckSpawn` uses for the player.
       deckY: this.machine.deckBounds.min.y + 1.0,
     };
-    const at = this.spawner.placementFor(bounds, this.player.worldPosition);
-    this.enemies.spawn(request.defId, new THREE.Vector3(at.x, at.y, at.z));
+    // The perimeter ring can dip into the prow or the engine block depending
+    // on which edge wins (see blockedSpawnCellKeys above), so every candidate
+    // is checked against the machine's own equipment footprint. If every
+    // candidate that call produced is blocked, the open mid-deck spot is a
+    // far better fallback than losing the arrival outright — the threshold
+    // has already advanced by this point regardless.
+    const at =
+      this.spawner.placementFor(bounds, this.player.worldPosition, this.isSpawnBlocked) ??
+      this.machine.deckSpawn;
+
+    const enemy = this.enemies.spawn(request.defId, new THREE.Vector3(at.x, at.y, at.z));
+    if (!enemy && import.meta.env.DEV) {
+      // Should be unreachable: the cap check above already confirmed room in
+      // the pool. If this ever fires, the arrival this tick's threshold
+      // advance implicitly promised is gone rather than merely delayed.
+      console.warn('updateSpawns: EnemyManager.spawn returned null despite the cap check passing.');
+    }
   }
+
+  /** Keep-out predicate for `EnemySpawner.placementFor` — see `blockedSpawnCellKeys`. */
+  private readonly isSpawnBlocked = (p: Vec3Like): boolean =>
+    this.blockedSpawnCellKeys.has(cellKey(worldToCell(p.x, p.z, 0)));
 
   // -------------------------------------------------------------------------
   // Interaction and panels
