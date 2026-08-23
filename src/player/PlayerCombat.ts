@@ -3,9 +3,10 @@ import type { EventBus } from '@/core/events/EventBus';
 import type { InputManager } from '@/core/input/InputManager';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { PlayerCamera } from './PlayerCamera';
-import { Weapon } from '@/combat/Weapon';
+import { Weapon, type WeaponSave } from '@/combat/Weapon';
 import { computeDamage } from '@/combat/DamageSystem';
 import { DEFAULT_WEAPON_ORDER, WEAPONS } from '@/data/weapons';
+import { AMMO_FOR_WEAPON, type ItemId } from '@/data/items';
 import { Rng } from '@/core/math/Random';
 import type RAPIER from '@dimforge/rapier3d-compat';
 
@@ -80,6 +81,42 @@ export class PlayerCombat {
 
   giveAmmo(amount: number): void {
     this.current.addReserve(amount);
+  }
+
+  /** Every weapon the player owns, for saving and for the mod lookup. */
+  get all(): Weapon[] {
+    return [...this.weapons.values()];
+  }
+
+  weapon(id: string): Weapon | undefined {
+    return this.weapons.get(id);
+  }
+
+  /**
+   * Route crafted rounds to the gun that fires them, rather than to whatever
+   * happens to be equipped — crafting shotgun shells while holding the rifle
+   * should still fill the shotgun.
+   */
+  addAmmoFor(itemId: ItemId, count: number): boolean {
+    const weaponId = Object.keys(AMMO_FOR_WEAPON).find((id) => AMMO_FOR_WEAPON[id] === itemId);
+    const weapon = weaponId ? this.weapons.get(weaponId) : undefined;
+    if (!weapon || count <= 0) return false;
+    weapon.addReserve(count);
+    return true;
+  }
+
+  /** Fit a mod to the equipped weapon. False if it does not apply or is already fitted. */
+  applyMod(itemId: ItemId): boolean {
+    if (itemId !== 'extended-mag') return false;
+    return this.current.applyMagazineMod();
+  }
+
+  serialise(): WeaponSave[] {
+    return this.all.map((weapon) => weapon.serialise());
+  }
+
+  restore(saves: WeaponSave[]): void {
+    for (const save of saves) this.weapons.get(save.id)?.restore(save);
   }
 
   fixedUpdate(dt: number, input: InputManager, camera: PlayerCamera): void {

@@ -1,6 +1,9 @@
 import type { EventBus } from '@/core/events/EventBus';
 import type { Vec3Like } from '@/core/events/GameEvents';
 
+/** Health restored by one repair kit. */
+export const REPAIR_KIT_HEAL = 40;
+
 /** Player health and stamina. Emits rather than being polled for changes. */
 export class PlayerStats {
   readonly maxHealth = 100;
@@ -43,6 +46,20 @@ export class PlayerStats {
   heal(amount: number): void {
     if (!this.alive) return;
     this.hp = Math.min(this.maxHealth, this.hp + Math.max(0, amount));
+  }
+
+  /**
+   * Spend a repair kit. Returns false if it would have been wasted, so the
+   * caller knows not to consume the item.
+   *
+   * Refused at full health on purpose: a misclick that burns a kit for nothing
+   * is worse than a click that does nothing.
+   */
+  useRepairKit(): boolean {
+    if (!this.alive) return false;
+    if (this.hp >= this.maxHealth) return false;
+    this.heal(REPAIR_KIT_HEAL);
+    return true;
   }
 
   drainStamina(amount: number): void {
