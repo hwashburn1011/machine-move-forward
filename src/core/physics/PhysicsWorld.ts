@@ -1,6 +1,6 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
-import { FIXED_DT, GRAVITY } from '@/game/constants';
+import { AUTOSTEP_HEIGHT, FIXED_DT, GRAVITY } from '@/game/constants';
 
 let rapierReady = false;
 
@@ -94,6 +94,29 @@ export class PhysicsWorld {
   }
 
   /**
+   * A static box at an arbitrary orientation. Needed for the stair ramp, which
+   * is the only build collider that is not axis-aligned.
+   */
+  addFixedBoxRotated(
+    halfExtents: THREE.Vector3,
+    position: THREE.Vector3,
+    rotation: THREE.Quaternion,
+    userData?: unknown,
+  ): RAPIER.Collider {
+    const body = this.world.createRigidBody(
+      RAPIER.RigidBodyDesc.fixed()
+        .setTranslation(position.x, position.y, position.z)
+        .setRotation({ x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w }),
+    );
+    const collider = this.world.createCollider(
+      RAPIER.ColliderDesc.cuboid(halfExtents.x, halfExtents.y, halfExtents.z),
+      body,
+    );
+    if (userData !== undefined) this.userData.set(collider.handle, userData);
+    return collider;
+  }
+
+  /**
    * A kinematic capsule with a character controller, used by both the player
    * and enemies so they behave identically against machine geometry.
    */
@@ -116,7 +139,7 @@ export class PhysicsWorld {
     controller.setUp({ x: 0, y: 1, z: 0 });
     // Deck plates, stair treads, and equipment lips are all short steps; without
     // autostep the player catches on every one of them.
-    controller.enableAutostep(0.45, 0.2, true);
+    controller.enableAutostep(AUTOSTEP_HEIGHT, 0.2, true);
     controller.enableSnapToGround(0.4);
     controller.setMaxSlopeClimbAngle((50 * Math.PI) / 180);
     controller.setMinSlopeSlideAngle((40 * Math.PI) / 180);

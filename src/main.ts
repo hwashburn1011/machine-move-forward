@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Game } from '@/game/Game';
 import type { QualityTier } from '@/core/renderer/QualitySettings';
+import { canonicalEdge } from '@/building/BuildGrid';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 const hudRoot = document.querySelector<HTMLElement>('#hud');
@@ -75,6 +76,9 @@ game.start();
   bus: game.bus,
   post: game.post,
   hud: game.hud,
+  build: game.build,
+  resources: game.resources,
+  canonicalEdge,
   debugStats: () => {
     const info = game.renderer.three.info;
     return {
@@ -94,6 +98,10 @@ game.start();
       weapon: game.combat.current.def.id,
       enemies: game.enemies.activeCount,
       particles: game.sandFX.liveCount + game.impactFX.liveCount,
+      scrap: game.resources.scrap,
+      pieces: game.build.pieceCount,
+      rooms: game.build.rooms.rooms.length,
+      buildMode: game.buildMode,
     };
   },
 };

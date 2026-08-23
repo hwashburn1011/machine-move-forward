@@ -25,6 +25,13 @@ import { SandFX } from '@/fx/SandFX';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
 import { SaveManager } from '@/save/SaveManager';
+import { Resources } from '@/progression/Resources';
+import { BuildSystem } from '@/building/BuildSystem';
+import { BuildPreview } from '@/building/BuildPreview';
+import { BuildUI } from '@/ui/BuildUI';
+import { BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
+import { countEnclosed } from '@/building/RoomDetector';
+import { GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
@@ -70,6 +77,17 @@ export class Game implements LoopCallbacks {
   readonly post: PostProcessing;
   readonly debug: DebugOverlay;
   readonly saves = new SaveManager();
+  readonly resources: Resources;
+  readonly build: BuildSystem;
+  readonly buildPreview: BuildPreview;
+  readonly buildUI: BuildUI;
+
+  buildMode = false;
+  selectedPiece: PieceId = 'floor';
+  buildRotation = 0;
+  private buildLevel = 0;
+  /** True once the wheel has been used, so the level stops auto-following. */
+  private buildLevelPinned = false;
 
   private readonly loop: GameLoop;
   private readonly clock = new THREE.Clock();
@@ -148,7 +166,19 @@ export class Game implements LoopCallbacks {
       this.quality,
     );
 
+    this.resources = new Resources(this.bus);
+    this.build = new BuildSystem(
+      this.renderer.scene,
+      this.physics,
+      this.bus,
+      this.materials,
+      this.machine,
+      this.resources,
+    );
+    this.buildPreview = new BuildPreview(this.renderer.scene);
+
     this.hud = new HUD(options.hudRoot, this.bus);
+    this.buildUI = new BuildUI(options.hudRoot);
     this.debug = new DebugOverlay(options.hudRoot);
 
     this.bus.on('player:died', () => {
@@ -187,6 +217,8 @@ export class Game implements LoopCallbacks {
     if (this.state.paused) return;
     this.state.simTime += dt;
 
+    if (this.input.consumePressed('build')) this.toggleBuildMode();
+
     if (!this.freeCamera) {
       this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
       this.playerCamera.fixedUpdate(
@@ -196,7 +228,11 @@ export class Game implements LoopCallbacks {
         this.physics,
         this.player.collider,
       );
-      this.combat.fixedUpdate(dt, this.input, this.playerCamera);
+      // Build mode suppresses weapon fire entirely: LMB places, and firing
+      // while placing would be both surprising and expensive.
+      if (this.buildMode) this.updateBuildMode();
+      else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
+
       this.enemies.fixedUpdate(dt, this.player.worldPosition, this.player.stats);
     }
 
@@ -238,12 +274,80 @@ export class Game implements LoopCallbacks {
       pointerLocked: this.input.pointerLocked,
     });
 
+    if (this.buildMode) {
+      this.buildUI.update({
+        piece: this.selectedPiece,
+        level: this.buildLevel,
+        rotation: this.buildRotation,
+        scrap: this.resources.scrap,
+        validation: this.buildPreview.validation,
+        roomCount: this.build.rooms.rooms.length,
+        enclosedCount: countEnclosed(this.build.rooms),
+      });
+    }
+
     this.post.setCamera(camera);
     this.post.render(frameDt, this.renderer.scene, camera);
 
     this.tickFpsMeter(now);
     this.updateDebugOverlay(now);
     this.input.endFrame();
+  }
+
+  // -------------------------------------------------------------------------
+  // Build mode
+  // -------------------------------------------------------------------------
+
+  toggleBuildMode(): void {
+    this.buildMode = !this.buildMode;
+    this.buildPreview.setVisible(this.buildMode);
+    this.buildUI.setVisible(this.buildMode);
+    if (!this.buildMode) this.buildLevelPinned = false;
+  }
+
+  get currentBuildLevel(): number {
+    return this.buildLevel;
+  }
+
+  private updateBuildMode(): void {
+    // Follow the player between storeys unless the wheel has overridden it,
+    // so changing level is an override rather than a chore.
+    if (!this.buildLevelPinned) {
+      const standingOn = Math.round(
+        (this.player.worldPosition.y - DECK_HEIGHT - 1) / LEVEL_HEIGHT,
+      );
+      this.buildLevel = Math.max(0, Math.min(GRID_LEVELS - 1, standingOn));
+    }
+
+    const wheel = this.input.wheelDelta;
+    if (wheel !== 0) {
+      this.buildLevelPinned = true;
+      const step = wheel > 0 ? -1 : 1;
+      this.buildLevel = Math.max(0, Math.min(GRID_LEVELS - 1, this.buildLevel + step));
+    }
+
+    BUILD_PIECE_ORDER.forEach((id, i) => {
+      if (this.input.consumePressed(`slot${i + 1}` as 'slot1')) this.selectedPiece = id;
+    });
+
+    if (this.input.consumePressed('rotate-left')) this.buildRotation = (this.buildRotation + 3) % 4;
+    if (this.input.consumePressed('rotate-right')) this.buildRotation = (this.buildRotation + 1) % 4;
+
+    this.buildPreview.update(
+      this.activeCamera,
+      this.physics,
+      this.build,
+      this.buildLevel,
+      this.selectedPiece,
+      this.buildRotation,
+      this.player.collider,
+    );
+
+    const placement = this.buildPreview.placement;
+    if (!placement) return;
+
+    if (this.input.consumePressed('fire')) this.build.place(placement);
+    if (this.input.consumePressed('demolish')) this.build.demolishAt(placement);
   }
 
   private applySky(): void {
@@ -305,6 +409,7 @@ export class Game implements LoopCallbacks {
         break;
       case 'ammo':
         this.combat.giveAmmo(120);
+        this.resources.grant(250);
         break;
       case 'god':
         this.state.godMode = !this.state.godMode;
@@ -396,7 +501,7 @@ export class Game implements LoopCallbacks {
         },
       },
       machine: {
-        structures: [],
+        structures: this.build.serialise(),
         devices: [],
         fuel: 100,
         coreHealth: 100,
@@ -422,6 +527,9 @@ export class Game implements LoopCallbacks {
     // Distance drives everything about the world, so restoring it regenerates
     // the identical chunks — nothing about the world itself is stored.
     this.world.reset(save.distanceTraveled);
+    // Structures first: rooms and machine weight must be correct before the
+    // rest of the load reads them.
+    this.build.restore(save.machine.structures ?? []);
 
     this.player.teleport(
       new THREE.Vector3(save.player.position.x, save.player.position.y, save.player.position.z),
@@ -451,6 +559,9 @@ export class Game implements LoopCallbacks {
     this.loop.stop();
     this.input.dispose();
     this.hud.dispose();
+    this.buildUI.dispose();
+    this.buildPreview.dispose();
+    this.build.clear();
     this.post.dispose();
     this.enemies.despawnAll();
     this.world.dispose();

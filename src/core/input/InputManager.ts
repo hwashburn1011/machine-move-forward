@@ -8,16 +8,20 @@ export type InputAction =
   | 'crouch'
   | 'fire'
   | 'aim'
+  | 'demolish'
   | 'reload'
   | 'interact'
   | 'contextual'
   | 'inventory'
   | 'build'
+  | 'rotate-left'
+  | 'rotate-right'
   | 'slot1'
   | 'slot2'
   | 'slot3'
   | 'slot4'
-  | 'slot5';
+  | 'slot5'
+  | 'slot6';
 
 /** Control map from handoff section 8. */
 const KEY_MAP: Record<string, InputAction> = {
@@ -35,11 +39,24 @@ const KEY_MAP: Record<string, InputAction> = {
   KeyF: 'contextual',
   Tab: 'inventory',
   KeyB: 'build',
+  KeyQ: 'rotate-left',
   Digit1: 'slot1',
   Digit2: 'slot2',
   Digit3: 'slot3',
   Digit4: 'slot4',
   Digit5: 'slot5',
+  Digit6: 'slot6',
+};
+
+/**
+ * Keys that mean one thing in normal play and another in build mode.
+ *
+ * Both actions are raised and the consumer picks by mode. Rebinding the map at
+ * runtime instead would leave a stale held action if the mode flips while the
+ * key is down.
+ */
+const SECONDARY_KEY_MAP: Record<string, InputAction> = {
+  KeyE: 'rotate-right',
 };
 
 /**
@@ -123,14 +140,21 @@ export class InputManager {
     // Tab would move focus out of the canvas and Space would scroll.
     if (e.code === 'Tab' || e.code === 'Space') e.preventDefault();
     const action = KEY_MAP[e.code];
-    if (!action) return;
-    if (!e.repeat) this.pressed.add(action);
-    this.held.add(action);
+    const secondary = SECONDARY_KEY_MAP[e.code];
+    if (!action && !secondary) return;
+
+    for (const a of [action, secondary]) {
+      if (!a) continue;
+      if (!e.repeat) this.pressed.add(a);
+      this.held.add(a);
+    }
   };
 
   private readonly onKeyUp = (e: KeyboardEvent): void => {
     const action = KEY_MAP[e.code];
+    const secondary = SECONDARY_KEY_MAP[e.code];
     if (action) this.held.delete(action);
+    if (secondary) this.held.delete(secondary);
   };
 
   private readonly onMouseDown = (e: MouseEvent): void => {
@@ -139,12 +163,22 @@ export class InputManager {
       this.held.add('fire');
       this.pressed.add('fire');
     }
-    if (e.button === 2) this.held.add('aim');
+    if (e.button === 2) {
+      // RMB means aim in combat and demolish in build mode. Both actions are
+      // raised and the consumer picks by mode; rebinding at runtime instead
+      // would leave a stuck 'aim' if the mode flips mid-press.
+      this.held.add('aim');
+      this.held.add('demolish');
+      this.pressed.add('demolish');
+    }
   };
 
   private readonly onMouseUp = (e: MouseEvent): void => {
     if (e.button === 0) this.held.delete('fire');
-    if (e.button === 2) this.held.delete('aim');
+    if (e.button === 2) {
+      this.held.delete('aim');
+      this.held.delete('demolish');
+    }
   };
 
   private readonly onMouseMove = (e: MouseEvent): void => {

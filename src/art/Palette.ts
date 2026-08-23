@@ -48,6 +48,8 @@ export const PALETTE = Object.freeze({
   steel: c(0x9ba0a3),
   /** Deck plating, walked on and worn. */
   deckPlate: c(0x9a9488),
+  /** Player-built plating — lighter, so additions read as newer than the hull. */
+  buildPlate: c(0xb6b1a2),
 
   // --- Accents --------------------------------------------------------------
   /** Focal point colour. Used sparingly — hazard stripes, warning lights. */

@@ -255,3 +255,79 @@
 #hud-lock.is-hidden {
   display: none;
 }
+
+/* --- Build mode panel --------------------------------------------------- */
+#build-panel {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  padding: 10px 12px;
+  text-align: center;
+  min-width: 520px;
+}
+
+.build-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.build-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  min-width: 74px;
+}
+
+.build-slot.is-selected {
+  border-color: var(--amber);
+  background: rgba(216, 160, 90, 0.14);
+}
+
+.build-slot.is-poor {
+  opacity: 0.4;
+}
+
+.build-slot-key {
+  font-size: 9px;
+  color: var(--amber-dim);
+  letter-spacing: 0.12em;
+}
+
+.build-slot-name {
+  font-size: 11px;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.build-slot-cost {
+  font-size: 10px;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.build-status {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--amber-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+#build-reason {
+  margin-top: 5px;
+  min-height: 14px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--danger);
+}

@@ -3,9 +3,9 @@
 A PvE survival shooter-looter set on a continuously moving land machine crossing
 a hostile desert. Inspired by *Raft* and *SAND*.
 
-This repository currently contains **Milestones 0–2** of the design handoff: the
-technical foundation, the art direction, and a playable third-person shooter
-core.
+This repository currently contains **Milestones 0–3** of the design handoff: the
+technical foundation, the art direction, a playable third-person shooter core,
+and the grid build system.
 
 ## Running it
 
@@ -27,6 +27,20 @@ Click the canvas to take control (pointer lock).
 | RMB | Aim (narrows FOV and spread) |
 | `R` | Reload |
 | `1` / `2` | Rifle / shotgun |
+| `B` | Toggle build mode |
+
+### Build mode
+
+| Key | Action |
+| --- | --- |
+| `1`–`6` | Floor / wall / doorway / railing / roof / stairs |
+| Mouse wheel | Change target level (follows you between storeys by default) |
+| `Q` / `E` | Rotate |
+| LMB | Place |
+| RMB | Demolish (refunds 60%) |
+
+Pieces cost scrap. You start with 400 and `F5` grants more. Everything you
+build adds weight, which measurably slows the machine.
 
 ### Debug keys
 
@@ -59,12 +73,26 @@ fixed free camera for screenshots.
 - Rifle and shotgun with hitscan, spread, recoil, reload, and damage falloff
 - One hostile with a navigate/attack/pursue AI
 - HUD, debug overlay, versioned IndexedDB save/load
+- Grid build system: floors, walls, doorways, railings, roofs, and stairs on a
+  2m grid across a 9×12 envelope and 3 levels, with placement validation,
+  cascade demolition, scrap costs, and weight
+- Flood-fill room detection: enclosed vs exposed, interior volume, and doorway
+  connectivity between rooms
 
 ## Not built yet
 
-Build mode, rooms, inventory, crafting, resource collection, enemy vehicles,
-boarding, turrets, localized machine damage, repair, the threat director, loot,
-navigation unlocks, and audio. These are Milestones 3–12 in the handoff.
+Inventory, storage, crafting, resource collection, enemy vehicles, boarding,
+turrets, localized machine damage, repair, the threat director, loot,
+navigation unlocks, and audio. These are Milestones 4–12 in the handoff.
+
+Two known gaps in what is built:
+
+- **Enemies do not path around player-built walls.** They steer directly at the
+  player and will push against structures. The handoff defers navmesh work to
+  the boarding milestone; the room connectivity graph built here is what that
+  will path over.
+- **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
+  and there is no interior lighting yet. Lamps arrive with the power system.
 
 ## Constraints
 
@@ -87,6 +115,7 @@ communicate through a typed event bus. All stats live in `src/data/`.
 ```
 src/
   art/        Palette, sky, fog, procedural textures, materials, shaders
+  building/   Grid, validation, rooms, geometry, build system, preview
   combat/     Weapons, damage
   core/       Renderer, physics, input, events, math, debug
   data/       Weapon and enemy definitions (data only)
@@ -95,6 +124,7 @@ src/
   game/       Game orchestrator, fixed-timestep loop, constants
   machine/    Machine geometry, colliders, speed model
   player/     Player, controller, camera, combat
+  progression/Scrap resources
   save/       Versioned IndexedDB saves and migrations
   ui/         DOM HUD
   world/      Chunk recycling, terrain, props, seeding
@@ -103,15 +133,16 @@ src/
 ## Testing
 
 ```bash
-npm test             # 161 unit tests (deterministic logic)
-npm run test:e2e     # 9 Playwright smoke tests
+npm test             # 254 unit tests (deterministic logic)
+npm run test:e2e     # 10 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit
 ```
 
 Deterministic logic is unit-tested: seeded RNG and noise, the event bus, the
 fixed-timestep accumulator, chunk recycling and save-restore equivalence,
-damage falloff, weapon state, enemy AI transitions, and save migrations.
+damage falloff, weapon state, enemy AI transitions, save migrations, grid edge
+canonicalisation, every build placement rule, and room flood fill.
 
 Rendering and feel cannot be meaningfully unit-tested, so there are three
 browser harnesses in `tools/` that drive the real game:
@@ -120,6 +151,7 @@ browser harnesses in `tools/` that drive the real game:
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 9 movement/physics checks
 node tools/combat.mjs                               # 12 combat checks
+node tools/build.mjs                                # 21 build system checks
 ```
 
 These wait on **simulated** time, not wall time. Under a software renderer the

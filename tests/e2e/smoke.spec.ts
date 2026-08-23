@@ -147,6 +147,47 @@ test.describe('Machine Move Forward', () => {
     expect(errors).toEqual([]);
   });
 
+  test('a built structure survives save and reload', async ({ page }) => {
+    const built = await page.evaluate(() => {
+      const g = globalThis as never as {
+        __game: {
+          game: { build: { place(p: unknown): unknown; pieceCount: number } };
+          canonicalEdge(cell: unknown, side: string): unknown;
+        };
+      };
+      const B = g.__game.game.build;
+      for (let x = -4; x <= -3; x++) {
+        for (let z = -6; z <= -5; z++) B.place({ piece: 'floor', cell: { x, y: 0, z }, rotation: 0 });
+      }
+      B.place({
+        piece: 'wall',
+        cell: { x: -4, y: 0, z: -6 },
+        edge: g.__game.canonicalEdge({ x: -4, y: 0, z: -6 }, 'north'),
+        rotation: 0,
+      });
+      return B.pieceCount;
+    });
+    expect(built).toBeGreaterThan(0);
+
+    await page.evaluate(
+      () =>
+        (globalThis as never as { __game: { game: { saveTo(s: string): Promise<void> } } }).__game.game.saveTo('e2e-build'),
+    );
+    await page.evaluate(
+      () => (globalThis as never as { __game: { game: { build: { clear(): void } } } }).__game.game.build.clear(),
+    );
+    await page.evaluate(
+      () =>
+        (globalThis as never as { __game: { game: { loadFrom(s: string): Promise<boolean> } } }).__game.game.loadFrom('e2e-build'),
+    );
+
+    const restored = await page.evaluate(
+      () => (globalThis as never as { __game: { game: { build: { pieceCount: number } } } }).__game.game.build.pieceCount,
+    );
+    expect(restored).toBe(built);
+    expect(errors).toEqual([]);
+  });
+
   test('the world survives a long jump forward', async ({ page }) => {
     await page.evaluate(
       () => (globalThis as never as { __game: { world: { reset(d: number): void } } }).__game.world.reset(50_000),

@@ -16,6 +16,7 @@ export class Materials {
   readonly hullDark: THREE.MeshStandardMaterial;
   readonly rustedSteel: THREE.MeshStandardMaterial;
   readonly deckPlate: THREE.MeshStandardMaterial;
+  readonly buildPlate: THREE.MeshStandardMaterial;
   readonly bareSteel: THREE.MeshStandardMaterial;
   readonly accent: THREE.MeshStandardMaterial;
   readonly hazard: THREE.MeshStandardMaterial;
@@ -77,6 +78,19 @@ export class Materials {
         normalScale: new THREE.Vector2(0.55, 0.55),
         roughness: 0.78,
         metalness: 0.35,
+      }),
+    );
+
+    // Lighter than the machine's own deck, so player additions are visually
+    // distinguishable from the original hull at a glance.
+    this.buildPlate = this.register(
+      new THREE.MeshStandardMaterial({
+        color: PALETTE.buildPlate,
+        map: deckTex,
+        normalMap: deckNormal,
+        normalScale: new THREE.Vector2(0.5, 0.5),
+        roughness: 0.74,
+        metalness: 0.3,
       }),
     );
 
@@ -159,6 +173,7 @@ export class Materials {
       [this.hullDark, 'hull-dark'],
       [this.rustedSteel, 'rusted-steel'],
       [this.deckPlate, 'deck-plate'],
+      [this.buildPlate, 'build-plate'],
       [this.bareSteel, 'bare-steel'],
       [this.accent, 'accent'],
       [this.hazard, 'hazard'],
@@ -175,6 +190,7 @@ export class Materials {
       this.hullDark,
       this.rustedSteel,
       this.deckPlate,
+      this.buildPlate,
       this.bareSteel,
       this.accent,
       this.hazard,

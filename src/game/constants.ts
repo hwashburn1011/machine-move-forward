@@ -83,5 +83,12 @@ export const PLAYER_CAPSULE_RADIUS = 0.34;
 export const PLAYER_CAPSULE_HALF_HEIGHT = 0.62;
 export const PLAYER_EYE_HEIGHT = 1.62;
 
+/**
+ * Maximum step the character controller climbs automatically. Anything shorter
+ * than this is a curb rather than an obstacle, which is also how the build
+ * grid decides whether machine geometry blocks a cell.
+ */
+export const AUTOSTEP_HEIGHT = 0.45;
+
 /** Falling below this Y means the player left the machine. */
 export const RESPAWN_Y_THRESHOLD = -20;

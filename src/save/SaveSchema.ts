@@ -1,3 +1,5 @@
+import type { BuildPieceInstance } from '@/building/BuildSystem';
+
 /**
  * Versioned save schema (handoff section 38).
  *
@@ -6,6 +8,11 @@
  * shape after the first save format ships is what makes save systems painful.
  */
 export const CURRENT_SAVE_VERSION = 1;
+
+/**
+ * No migration was needed to add built structures: `machine.structures` was
+ * reserved as an array in v1 precisely so this milestone would not need one.
+ */
 
 export interface Vec3 {
   x: number;
@@ -31,8 +38,8 @@ export interface SaveGameV1 {
   };
 
   machine: {
-    /** Empty until the building milestone. */
-    structures: unknown[];
+    structures: BuildPieceInstance[];
+    /** Empty until the machine-device milestone. */
     devices: unknown[];
     fuel: number;
     coreHealth: number;

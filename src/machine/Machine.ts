@@ -3,7 +3,53 @@ import type { Materials } from '@/art/Materials';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import { DECK_HEIGHT, GRID_TILE, MACHINE_TILES_X, MACHINE_TILES_Z } from '@/game/constants';
 import { buildMachine } from './MachineGeometry';
+import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
+import type { Cell } from '@/building/BuildGrid';
 import { MachineMovement } from './MachineMovement';
+
+/**
+ * Project the machine's own colliders onto level-0 grid cells.
+ *
+ * Derived rather than hardcoded: a hardcoded list would silently rot the
+ * moment the machine layout changes, and the failure mode is subtle — the
+ * player could build inside the engine.
+ */
+function projectEquipmentCells(
+  colliders: { half: THREE.Vector3; center: THREE.Vector3 }[],
+): Cell[] {
+  const seen = new Set<string>();
+  const cells: Cell[] = [];
+
+  for (const c of colliders) {
+    // The deck slab itself spans everything and must not block the whole grid;
+    // only obstacles standing ON the deck count.
+    const isDeckSlab = c.half.y < 0.2 && c.half.x > 4;
+    if (isDeckSlab) continue;
+    // Only count things the player cannot simply step onto. The tread housings
+    // stand about 0.31m proud of the deck, which is under the character
+    // controller's 0.45m autostep — a curb, not an obstruction. Blocking those
+    // would cost two full columns of buildable deck down each side of the
+    // machine for something the player walks straight over.
+    if (c.center.y + c.half.y <= DECK_HEIGHT + AUTOSTEP_HEIGHT) continue;
+
+    const minX = Math.round((c.center.x - c.half.x) / GRID_TILE);
+    const maxX = Math.round((c.center.x + c.half.x) / GRID_TILE);
+    const minZ = Math.round((c.center.z - c.half.z) / GRID_TILE);
+    const maxZ = Math.round((c.center.z + c.half.z) / GRID_TILE);
+
+    for (let x = minX; x <= maxX; x++) {
+      for (let z = minZ; z <= maxZ; z++) {
+        if (x < GRID_MIN_X || x > GRID_MAX_X || z < GRID_MIN_Z || z > GRID_MAX_Z) continue;
+        const key = `${x},${z}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        cells.push({ x, y: 0, z });
+      }
+    }
+  }
+
+  return cells;
+}
 
 /**
  * The player's machine.
@@ -17,6 +63,8 @@ export class Machine {
   readonly group: THREE.Group;
   readonly movement = new MachineMovement();
   readonly deckBounds: THREE.Box3;
+  /** Level-0 cells the starting equipment sits in. Unbuildable. */
+  readonly equipmentCells: Cell[];
 
   constructor(scene: THREE.Scene, physics: PhysicsWorld, materials: Materials) {
     const build = buildMachine(materials);
@@ -36,6 +84,8 @@ export class Machine {
       new THREE.Vector3(-halfW, DECK_HEIGHT, -halfL),
       new THREE.Vector3(halfW, DECK_HEIGHT, halfL),
     );
+
+    this.equipmentCells = projectEquipmentCells(build.colliders);
 
     // Rough starting mass: structure plus the section 49 loadout.
     this.movement.totalWeight = 12000;
