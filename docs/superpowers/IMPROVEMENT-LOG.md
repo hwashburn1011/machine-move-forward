@@ -6,6 +6,54 @@ should pick up.
 
 ---
 
+## 002 — Boarding awareness: the deck tells you something is on it
+
+**Why.** The player reported an empty deck while a scavenger was aboard, twice.
+Arrivals land once every 250m (~33s of travel), at the deck edge, deliberately
+placed *as far from the player as the deck allows* — which puts them astern,
+screened by cargo, on a deck the player is facing away from. Nothing announced
+one, and nothing showed how many were aboard, so the first news of an arrival
+was being hit by it.
+
+**What changed.**
+
+- New pure module `src/ui/DeckBearing.ts` — `deckBearingName()` names a spot in
+  ship words: the bow, the stern, the port rail, the starboard quarter,
+  amidships. Machine-relative rather than player-relative on purpose: "aft"
+  stays true while the player spins on the spot looking for what is hitting
+  them, where "behind you" stops being true the moment they turn. Thresholds
+  are a fraction of the deck's half-extent, not metres, so they still hold when
+  the player builds the deck longer.
+- HUD raises a boarding banner on `enemy:spawned` — "SCAVENGER BOARDING THE
+  PORT QUARTER" — for four seconds.
+- The machine panel gained a permanent **Aboard** count, red whenever it is
+  above zero. This is the part that directly answers "no enemies": the number
+  is on screen the whole time, whether or not the player saw the banner.
+
+**Measured.**
+
+- 7 new unit tests on `deckBearingName`. 393 unit tests green.
+- Screenshotted and inspected: banner reads correctly for a spawn at
+  (-4.4, 6.9) — "the port quarter" — and the panel shows `Aboard 1` in red.
+- 9/40/21/29 harness checks, 11 e2e, lint and build clean.
+
+**One correction.** My first test asserted that z=-7 on a 40m deck is
+"amidships"; it is 35% of the way up, just past the 34% threshold, so the code
+was right and the test was wrong. Fixed the test, not the code.
+
+**Next.**
+
+- **Enemy threat read** is now the biggest gap. The RobotExpressive placeholder
+  reads as friendly scenery — I twice misidentified machine geometry as a
+  scavenger while reading screenshots this session, which is itself the
+  evidence. Wants: a flinch or flash when shot, threat colouring or emissive,
+  and a health bar so shooting one feels like it is working.
+- **No audio anywhere in the project.** Still the largest missing feedback
+  channel; check whether that is deliberate scope before adding it.
+- **Graphics.** Not started. Flat washed-out lighting, weak shadow contrast.
+
+---
+
 ## 001 — Damage feedback: you can now tell you are being attacked
 
 **Why.** The player reported "vitals seem to randomly go down" twice, across two

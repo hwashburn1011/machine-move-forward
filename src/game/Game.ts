@@ -384,6 +384,9 @@ export class Game implements LoopCallbacks {
       playerX: this.player.worldPosition.x,
       playerZ: this.player.worldPosition.z,
       cameraYaw: this.playerCamera.yawAngle,
+      enemiesAboard: this.enemies.activeCount,
+      deckHalfWidth: this.machine.deckBounds.max.x,
+      deckHalfLength: this.machine.deckBounds.max.z,
     });
 
     this.inventoryUI.update({

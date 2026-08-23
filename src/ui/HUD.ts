@@ -1,5 +1,6 @@
 import type { EventBus } from '@/core/events/EventBus';
 import { damageBearing } from './DamageDirection';
+import { deckBearingName } from './DeckBearing';
 import './hud.css';
 
 export interface HUDState {
@@ -18,6 +19,11 @@ export interface HUDState {
   playerX: number;
   playerZ: number;
   cameraYaw: number;
+  /** How many scavengers are aboard right now. */
+  enemiesAboard: number;
+  /** Deck half-extents, so a boarding alert can name where. */
+  deckHalfWidth: number;
+  deckHalfLength: number;
 }
 
 /**
@@ -29,6 +35,9 @@ export interface HUDState {
  */
 /** Seconds a damage indicator stays up after a hit. */
 const HURT_SECONDS = 1.1;
+
+/** Seconds a boarding alert stays up. */
+const BOARDING_SECONDS = 4;
 
 export class HUD {
   private readonly el: Record<string, HTMLElement> = {};
@@ -42,6 +51,11 @@ export class HUD {
   private hurtFrom: { x: number; z: number } | null = null;
   private hurtUntil = 0;
   private hurtWeight = 0;
+  /** Boarding alert text, and when it stops being shown. */
+  private boardingText = '';
+  private boardingUntil = 0;
+  /** Last deck size seen, so a spawn handler can name a position. */
+  private deckHalf = { w: 5, l: 8 };
 
   constructor(root: HTMLElement, bus: EventBus) {
     root.innerHTML = `
@@ -49,6 +63,7 @@ export class HUD {
         <div class="hud-label">Machine</div>
         <div class="hud-row"><span>Speed</span><span class="hud-value" id="hud-speed">0.0 m/s</span></div>
         <div class="hud-row"><span>Distance</span><span class="hud-value" id="hud-distance">0 m</span></div>
+        <div class="hud-row"><span>Aboard</span><span class="hud-value" id="hud-threats">0</span></div>
       </div>
 
       <div id="hud-health" class="hud-panel">
@@ -64,6 +79,7 @@ export class HUD {
         <div id="hud-reload"><div id="hud-reload-fill"></div></div>
       </div>
 
+      <div id="hud-boarding"></div>
       <div id="hud-damage"><div id="hud-damage-arc"></div></div>
       <div id="hud-crosshair"><i></i><i></i><i></i><i></i></div>
       <div id="hud-prompt"></div>
@@ -74,6 +90,8 @@ export class HUD {
     for (const id of [
       'hud-speed',
       'hud-distance',
+      'hud-threats',
+      'hud-boarding',
       'hud-health',
       'hud-health-value',
       'hud-health-fill',
@@ -106,6 +124,20 @@ export class HUD {
       bus.on('combat:hit', (e) => {
         // Only flash for hits on something that can be hurt.
         if (e.targetId) this.hitFlashUntil = performance.now() / 1000 + 0.12;
+      }),
+      bus.on('enemy:spawned', (e) => {
+        // One scavenger arrives every 250m, at the deck edge, deliberately
+        // placed as far from the player as the deck allows -- which puts it
+        // behind them, screened by cargo, on a deck they are usually facing
+        // away from. Nothing announced it, so the first news of an arrival was
+        // being hit by it.
+        this.boardingText = `Scavenger boarding ${deckBearingName(
+          e.position.x,
+          e.position.z,
+          this.deckHalf.w,
+          this.deckHalf.l,
+        )}`;
+        this.boardingUntil = performance.now() / 1000 + BOARDING_SECONDS;
       }),
       bus.on('player:damaged', (e) => {
         // Being hit produced no feedback at all before this: the only tell was
@@ -155,6 +187,18 @@ export class HUD {
     const pct = Math.max(0, Math.min(1, state.health / state.maxHealth));
     this.style('hpfill', this.el['hud-health-fill'], 'width', `${(pct * 100).toFixed(1)}%`);
     this.el['hud-health']?.classList.toggle('is-critical', pct <= 0.3);
+
+    // --- Threats -----------------------------------------------------------
+    this.deckHalf = { w: state.deckHalfWidth, l: state.deckHalfLength };
+    this.write('threats', this.el['hud-threats'], String(state.enemiesAboard));
+    this.el['hud-threats']?.classList.toggle('is-hot', state.enemiesAboard > 0);
+
+    const boarding = this.el['hud-boarding'];
+    if (boarding) {
+      const showing = this.boardingUntil - now > 0;
+      boarding.classList.toggle('is-active', showing);
+      if (showing) this.write('boarding', boarding, this.boardingText);
+    }
 
     // --- Damage ------------------------------------------------------------
     const hurt = this.el['hud-damage'];
