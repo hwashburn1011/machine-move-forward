@@ -1,10 +1,12 @@
 import * as THREE from 'three';
 import { Renderer } from '@/core/renderer/Renderer';
 import { detectQualityTier, getQualitySettings } from '@/core/renderer/QualitySettings';
-import { PALETTE } from '@/art/Palette';
+
 import { Sky } from '@/art/Sky';
 import { Materials } from '@/art/Materials';
-import { applyHeightFog, updateFogColor } from '@/art/Fog';
+import { updateFogColor } from '@/art/Fog';
+import { TerrainChunk } from '@/world/TerrainChunk';
+import { CHUNK_SIZE_Z } from '@/game/constants';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 if (!canvas) throw new Error('missing #game canvas');
@@ -25,12 +27,16 @@ updateFogColor(sky.sampleHorizonColor());
 const materials = new Materials();
 
 // --- Temporary lighting/material check scene, replaced by the machine -------
-const groundMat = new THREE.MeshStandardMaterial({ color: PALETTE.sandLit, roughness: 0.95 });
-applyHeightFog(groundMat);
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), groundMat);
-ground.rotation.x = -Math.PI / 2;
-ground.receiveShadow = true;
-renderer.scene.add(ground);
+// Several adjacent dune chunks, so chunk seams are visible if any exist.
+const terrainGeo = TerrainChunk.createGeometry(quality);
+const chunks: TerrainChunk[] = [];
+for (let i = -2; i <= 6; i++) {
+  const chunk = new TerrainChunk(quality, terrainGeo);
+  chunk.setZ(-i * CHUNK_SIZE_Z);
+  chunk.setSunDirection(sky.direction);
+  renderer.scene.add(chunk.mesh);
+  chunks.push(chunk);
+}
 
 const showcase: [string, THREE.Material][] = [
   ['hull', materials.hull],
@@ -60,13 +66,17 @@ if (camMode === 'sky') {
   renderer.camera.position.set(0, 2, 0);
   renderer.camera.lookAt(0, 40, -18);
 } else {
-  renderer.camera.position.set(6, 4.2, 12);
-  renderer.camera.lookAt(0, 1.4, -14);
+  renderer.camera.position.set(6, 8.5, 16);
+  renderer.camera.lookAt(0, 2.0, -40);
 }
 
 document.querySelector('#boot')?.remove();
 
+const clock = new THREE.Clock();
+
 renderer.three.setAnimationLoop(() => {
+  const elapsed = clock.getElapsedTime();
+  for (const c of chunks) c.update(elapsed);
   if (sky.update(performance.now())) {
     renderer.setEnvironment(sky.environment);
     renderer.sun.color.copy(sky.sampleSunColor());
