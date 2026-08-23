@@ -1,7 +1,13 @@
 import * as THREE from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { Materials } from '@/art/Materials';
-import { DECK_HEIGHT, GRID_TILE, MACHINE_TILES_X, MACHINE_TILES_Z } from '@/game/constants';
+import {
+  DECK_HEIGHT,
+  DECK_PLATE_HALF,
+  GRID_TILE,
+  MACHINE_TILES_X,
+  MACHINE_TILES_Z,
+} from '@/game/constants';
 
 /**
  * The machine, built entirely in code.
@@ -116,7 +122,7 @@ export function buildMachine(materials: Materials): MachineBuild {
   const deck = add(mergeParts(deckPlates), materials.deckPlate);
   deck.name = 'deck';
   // One collider for the whole deck — 40 plate colliders would buy nothing.
-  collide(DECK_W / 2, 0.09, DECK_L / 2, 0, DECK_HEIGHT, 0);
+  collide(DECK_W / 2, DECK_PLATE_HALF, DECK_L / 2, 0, DECK_HEIGHT, 0);
 
   // --- Chassis ------------------------------------------------------------
   const chassisParts: Part[] = [

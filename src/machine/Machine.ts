@@ -1,7 +1,13 @@
 import * as THREE from 'three';
 import type { Materials } from '@/art/Materials';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
-import { DECK_HEIGHT, GRID_TILE, MACHINE_TILES_X, MACHINE_TILES_Z } from '@/game/constants';
+import {
+  CHARACTER_DROP_Y,
+  DECK_HEIGHT,
+  GRID_TILE,
+  MACHINE_TILES_X,
+  MACHINE_TILES_Z,
+} from '@/game/constants';
 import { buildMachine } from './MachineGeometry';
 import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
 import type { Cell } from '@/building/BuildGrid';
@@ -96,7 +102,7 @@ export class Machine {
    * spawning against one pins the third-person camera hard against it.
    */
   get deckSpawn(): THREE.Vector3 {
-    return new THREE.Vector3(0, DECK_HEIGHT + 1.2, -1.0);
+    return new THREE.Vector3(0, CHARACTER_DROP_Y, -1.0);
   }
 
   get speed(): number {

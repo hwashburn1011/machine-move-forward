@@ -365,6 +365,108 @@ check(
   `hp ${graceGone.hp}, grace ${graceGone.grace}`,
 );
 
+const DECK_STANDING_Y = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  // Deck surface plus the enemy capsule's half-height and radius.
+  return g.machine.deckBounds.min.y + 0.09 + 0.6 + 0.36;
+});
+
+// --- Arrivals actually cross the deck --------------------------------------
+// The check this file was missing. Everything above spawns enemies by hand at
+// hand-picked positions, so nothing exercised the height the *spawner* drops
+// them from -- and a scavenger dropped with its feet inside the deck plate is
+// one the character controller refuses to move at all. It stands on its
+// arrival mark for the rest of the run, close enough to punch anyone who
+// wanders past and far enough back to never be seen.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.player.stats.invulnerable = true;
+  g.player.teleport({ x: 0, y: 3.6, z: -1 });
+  // Arm the spawner for this section rather than inheriting whatever the
+  // sections above left set: the death checks between them respawn the player,
+  // and updateSpawns refuses to run while the player is down.
+  g.enemySpawnsEnabled = true;
+  g.spawner.resync(g.world.distanceTraveled);
+  globalThis.__game.__arrivalMarks = {};
+  g.bus.on('enemy:spawned', (ev) => {
+    globalThis.__game.__arrivalMarks[ev.enemyId] = {
+      x: ev.position.x,
+      y: ev.position.y,
+      z: ev.position.z,
+    };
+  });
+});
+// Drive the real arrival path rather than spawning by hand.
+for (let i = 0; i < 3; i++) {
+  await page.evaluate(() => {
+    const g = globalThis.__game;
+    g.world.reset(g.game.spawner.nextSpawnAt + 10);
+  });
+  await sim(0.6);
+}
+const arrivals = await page.evaluate(() => globalThis.__game.enemies.active.length);
+check('distance drives arrivals onto the deck', arrivals > 0, `${arrivals} aboard`);
+
+// Measured from where each scavenger actually materialised, taken off the bus
+// rather than sampled afterwards: by the time a check can look, an arrival has
+// already been walking for a tick or two.
+await sim(6);
+const settled = await page.evaluate(() => {
+  const marks = globalThis.__game.__arrivalMarks;
+  return globalThis.__game.enemies.active
+    .filter((e) => marks[e.id])
+    .map((e) => ({
+      moved: Math.hypot(
+        e.worldPosition.x - marks[e.id].x,
+        e.worldPosition.z - marks[e.id].z,
+      ),
+      restY: e.worldPosition.y,
+    }));
+});
+
+// The invariant, checked at the drop rather than through the physics that
+// follow from it. Whether a sunk capsule freezes outright or merely grinds
+// depends on where the perimeter ring happened to put it, so asserting on the
+// resulting movement is a test that passes by luck; the height it was dropped
+// from is exact every time.
+const drops = await page.evaluate(() => {
+  const marks = globalThis.__game.__arrivalMarks;
+  const feetAt = 0.6 + 0.36; // enemy capsule half-height + radius
+  return Object.values(marks).map((m) => +(m.y - feetAt).toFixed(3));
+});
+const deckTop = await page.evaluate(() => globalThis.__game.game.machine.deckBounds.min.y + 0.09);
+check(
+  'arrivals are dropped with their feet above the deck, not inside it',
+  drops.length > 0 && drops.every((feet) => feet > deckTop),
+  `feet start at ${drops.join(', ')} vs deck top ${deckTop.toFixed(2)}`,
+);
+
+// The regression this guards: an arrival that never leaves the mark it landed
+// on. Every scavenger used to do this, for the whole run -- close enough to hit
+// anyone who wandered aft, and behind the player, so never seen. Crossing the
+// rest of a deck cluttered with the engine, generator and cargo is a separate
+// and much harder problem; the steering is openly local avoidance rather than
+// pathfinding, and one picking its way around the generator can still lose
+// several seconds to it.
+const walking = settled.filter((w) => w.moved > 1).length;
+check(
+  'every arrival walks off the mark it landed on',
+  walking === settled.length && settled.length > 0,
+  `${walking}/${settled.length} moved >1m (${settled.map((w) => w.moved.toFixed(1)).join(', ')})`,
+);
+
+// The cause, measured directly. A capsule dropped with its feet inside the deck
+// plate never reaches standing height, and Rapier's character controller then
+// refuses to move it at all: grounded, no lateral collision, zero movement,
+// forever. Arrivals used to land at 3.40 and stay there.
+const sunk = settled.filter((w) => w.restY < DECK_STANDING_Y - 0.01);
+check(
+  'arrivals settle on top of the deck, not inside it',
+  sunk.length === 0,
+  `resting Y ${settled.map((w) => w.restY.toFixed(3)).join(', ')}`,
+);
+
 // --- The enemy visual ------------------------------------------------------
 // This harness boots with nomodel=1, so this is the procedural fallback and it
 // must stay a complete enemy, not a degraded one. The suite has always run this

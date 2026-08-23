@@ -46,7 +46,7 @@ import { BuildUI } from '@/ui/BuildUI';
 import { BUILD_PIECES, BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
 import { countEnclosed } from '@/building/RoomDetector';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
-import { GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
+import { CHARACTER_DROP_Y, GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
@@ -430,9 +430,12 @@ export class Game implements LoopCallbacks {
     const bounds: Bounds = {
       halfWidth: this.machine.deckBounds.max.x,
       halfLength: this.machine.deckBounds.max.z,
-      // A metre above the deck plane, so they settle onto it rather than
-      // through it — the same trick `deckSpawn` uses for the player.
-      deckY: this.machine.deckBounds.min.y + 1.0,
+      // Literally the same height `deckSpawn` drops the player from. It used
+      // to be `deckBounds.min.y + 1.0`, which reads like the same trick and is
+      // half a deck plate lower — low enough to land the capsule inside the
+      // plate collider, which the character controller answers by never moving
+      // it again.
+      deckY: CHARACTER_DROP_Y,
     };
     // The perimeter ring can dip into the prow or the engine block depending
     // on which edge wins (see blockedSpawnCellKeys above), so every candidate

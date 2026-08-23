@@ -32,8 +32,20 @@ export const GRID_TILE = 2;
 export const MACHINE_TILES_X = 5;
 export const MACHINE_TILES_Z = 8;
 
-/** Deck surface height above world origin, in metres. */
+/**
+ * Deck plate centre height above world origin, in metres.
+ *
+ * The centre, not the surface: the plate has thickness, and what a character
+ * stands on is `DECK_SURFACE_Y`. Placing anything by this value alone puts it
+ * half a plate too low.
+ */
 export const DECK_HEIGHT = 2.4;
+
+/** Half the deck plate's thickness. The collider is built to match. */
+export const DECK_PLATE_HALF = 0.09;
+
+/** The deck surface a character actually stands on. */
+export const DECK_SURFACE_Y = DECK_HEIGHT + DECK_PLATE_HALF;
 
 /** Base machine speed in m/s before weight and engine modifiers. */
 export const BASE_MACHINE_SPEED = 7.5;
@@ -81,6 +93,27 @@ export const PLAYER_CROUCH_SPEED = 2.2;
 export const PLAYER_JUMP_HEIGHT = 1.1;
 export const PLAYER_CAPSULE_RADIUS = 0.34;
 export const PLAYER_CAPSULE_HALF_HEIGHT = 0.62;
+
+/** Clearance between a dropped capsule's feet and the deck it lands on. */
+const DROP_CLEARANCE = 0.15;
+
+/**
+ * Y to place a character capsule's centre when dropping it onto the deck.
+ *
+ * Feet must start above `DECK_SURFACE_Y`, not merely above `DECK_HEIGHT`. A
+ * capsule that starts inside the plate collider is one Rapier's character
+ * controller refuses to move: it reports grounded, reports no lateral
+ * collision, and returns zero movement forever. Enemies dropped half a plate
+ * too low arrived on the deck and stood on their spawn marks for the rest of
+ * the run — close enough to hit anyone who wandered past, and never seen.
+ *
+ * Both capsules are the same height today; the max keeps this honest if one
+ * of them changes.
+ */
+export const CHARACTER_DROP_Y =
+  DECK_SURFACE_Y +
+  Math.max(PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS, 0.6 + 0.36) +
+  DROP_CLEARANCE;
 export const PLAYER_EYE_HEIGHT = 1.62;
 
 /**
