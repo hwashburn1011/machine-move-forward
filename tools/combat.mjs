@@ -583,6 +583,43 @@ check(
   `bystander ${flash.before[1].toFixed(2)} -> ${flash.after[1].toFixed(2)}`,
 );
 
+// --- Health bar ------------------------------------------------------------
+// The bar is drawn with depth testing off so cargo cannot hide a scavenger
+// from the player -- the reported problem was an empty-looking deck with one
+// aboard. That makes it the one piece of enemy state visible from anywhere, so
+// it has to actually track the health it claims to.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.player.stats.invulnerable = true;
+  g.enemies.spawn('scavenger', { x: 0, y: 3.6, z: 3 });
+});
+await sim(0.3);
+const bar = await page.evaluate(() => {
+  const e = globalThis.__game.enemies.active[0];
+  const width = () => e.visual.barFill.scale.x;
+  const full = width();
+  e.takeDamage(Math.round(e.def.maxHealth / 2));
+  const half = width();
+  return { full, half, ratio: half / full, visible: e.visual.bar.visible };
+});
+check(
+  'the health bar empties as a scavenger is worn down',
+  Math.abs(bar.ratio - 0.5) < 0.02,
+  `${bar.full.toFixed(2)} -> ${bar.half.toFixed(2)} (${(bar.ratio * 100).toFixed(0)}%)`,
+);
+
+const corpseBar = await page.evaluate(() => {
+  const e = globalThis.__game.enemies.active[0];
+  e.takeDamage(9999);
+  return { visible: e.visual.bar.visible, state: e.aiState };
+});
+check(
+  'a corpse stops advertising a health bar',
+  corpseBar.visible === false,
+  `${corpseBar.state}, bar visible ${corpseBar.visible}`,
+);
+
 // --- Animated model, when one is present -----------------------------------
 // Needs public/models/scavenger.glb, which is not committed. The checks below
 // SKIP loudly rather than fail when it is absent: a silently-skipped check

@@ -6,6 +6,73 @@ should pick up.
 
 ---
 
+## 004 — A health bar over every scavenger
+
+**Why.** Iteration 003 made a scavenger react when shot, which says "you hit
+it" but nothing about "and it is nearly dead". More importantly the player's
+original complaint was not being able to find them at all, on a deck cluttered
+with an engine, a generator, cargo and a bulwark that hide a 1.9m figure
+completely.
+
+**What changed.**
+
+- New pure module `src/enemies/HealthBar.ts` — `healthFraction()` (clamped,
+  NaN-proof) and `healthBarColour()`. The colour runs red → orange → yellow
+  rather than the usual green → red: a scavenger is a threat at every point on
+  that scale, and green would read as something the player is meant to leave
+  alone. The change is there to say "nearly done", not "safe".
+- `EnemyVisual` draws a two-sprite bar above the capsule. Sprites so it faces
+  the camera without this class knowing where the camera is, and **depth
+  testing off** so cargo cannot hide a scavenger. Seeing one through a crate is
+  a smaller problem than the one being fixed.
+- The bar is added to `object3D` *after* the body, and after `adoptMaterials`.
+  Both matter — see below.
+
+**Measured.**
+
+- 8 new unit tests. 408 unit tests green.
+- Two new harness checks: the fill tracks health (0.86 → 0.43 at half health,
+  50%), and a corpse's bar disappears.
+- Placement measured in screen pixels rather than judged by eye: at 6.66m the
+  bar sits 26px above the head, centred on the enemy within 1px, 91px wide
+  against a ~148px body.
+- 9/44/21/29 harness checks, 11 e2e, lint and build clean.
+
+**Two bugs the harness caught, both mine.** Adding the bar in the constructor
+made it `children[0]`, and the existing foot-height check indexes that to find
+the body — it started reporting feet at 4.683 instead of 2.443. And the bar was
+hidden in `setState('dead')`, which runs on the next fixed tick, so a corpse
+advertised a health bar for a frame. Fixed by adding the bar last and hiding it
+from `setHealth` at zero, which `takeDamage` already drives. Worth noting that
+neither was visible in a screenshot; both were caught by assertions.
+
+**A correction to log 003.** I blamed the free camera being "overwritten by the
+render loop" for bad screenshot framing. That was wrong: `PlayerCamera` builds
+its own camera and never touches `renderer.camera`. What actually happened is
+that the enemy walks at 3.1 m/s and left the frame between the camera being
+placed and the capture landing. The fix is to frame off a fixed point, or let
+the enemy reach attack range first, where it stops moving.
+
+**Also worth remembering.** I twice judged this feature "obviously wrong" from a
+screenshot — the bars looked enormous and detached — and both times the numbers
+said otherwise. The first was a 2.7m camera making a 0.86m bar fill the frame;
+the second was three enemies converging behind a bulwark that hid their bodies
+while the bars drew through it, exactly as designed. Project the thing to screen
+coordinates before believing your eyes.
+
+**Next.**
+
+- **Threat colouring at rest.** The model still reads as friendly when nobody
+  is shooting it. This is the last piece of the threat-read work.
+- **Whether always-on bars are too much.** Four bars visible through the hull at
+  all times may read as cheap. Worth revisiting once threat colouring lands —
+  the two solve overlapping problems.
+- **No audio anywhere in the project.** Still the largest missing feedback
+  channel; check whether that is deliberate scope before adding it.
+- **Graphics.** Not started.
+
+---
+
 ## 003 — Scavengers react to being shot
 
 **Why.** Shooting one produced nothing visible until it died. A thing that does

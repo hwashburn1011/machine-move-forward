@@ -153,6 +153,7 @@ export class Enemy {
     // pose, and `setState` ignores repeat calls for a state it thinks it is
     // already in.
     this.visual.reset();
+    this.visual.setHealth(this.health, this.def.maxHealth);
 
     this.object3D.visible = true;
     this.active = true;
@@ -167,6 +168,7 @@ export class Enemy {
     // that does not react is indistinguishable from deck furniture, which is
     // exactly what the player took it for.
     this.visual.flash();
+    this.visual.setHealth(this.health, this.def.maxHealth);
     this.bus.emit('enemy:damaged', {
       enemyId: this.id,
       amount,

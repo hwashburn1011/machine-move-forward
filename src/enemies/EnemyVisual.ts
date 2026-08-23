@@ -5,6 +5,12 @@ import type { LoadedModel } from '@/art/ModelLoader';
 import type { EnemyAIState } from './EnemyAI';
 import { CAPSULE_FOOT_OFFSET, buildEnemyMesh } from './EnemyMesh';
 import { FLASH_SECONDS, flashIntensity } from './HitFlash';
+import {
+  BAR_HEIGHT,
+  BAR_WIDTH,
+  healthBarColour,
+  healthFraction,
+} from './HealthBar';
 
 /**
  * How an enemy looks.
@@ -98,6 +104,9 @@ const FLASH_INTENSITY = 4.5;
  */
 const FLASH_ALBEDO = 0.75;
 
+/** Height above the capsule's centre the health bar floats at. */
+const BAR_Y = CAPSULE_FOOT_OFFSET + 0.32;
+
 /**
  * How one enemy looks: a box, or an animated character.
  *
@@ -136,8 +145,14 @@ export class EnemyVisual {
   }[] = [];
   private flashElapsed = FLASH_SECONDS;
   private appliedFlash = 0;
+  /** Floating health bar: a backing plate and the fill that sits on it. */
+  private readonly bar = new THREE.Group();
+  private readonly barFill: THREE.Sprite;
+  private appliedFraction = -1;
 
   constructor(model: LoadedModel | null, materials: Materials) {
+    this.barFill = EnemyVisual.buildBar(this.bar);
+
     if (!model) {
       // The fallback, and the path every harness runs on.
       const mesh = buildEnemyMesh(materials);
@@ -145,6 +160,10 @@ export class EnemyVisual {
       this.object3D.add(mesh);
       this.fallback = mesh;
       this.adoptMaterials();
+      // Added last, so children[0] is always the body. adoptMaterials must
+      // also run before it, or it would clone the bar's sprite materials and
+      // the flash would drag the bar's colour around with it.
+      this.object3D.add(this.bar);
       return;
     }
 
@@ -169,12 +188,66 @@ export class EnemyVisual {
     this.object3D.add(scene);
 
     this.adoptMaterials();
+    this.object3D.add(this.bar);
 
     this.mixer = new THREE.AnimationMixer(scene);
     for (const clip of model.clips) {
       this.clipNames.push(clip.name);
       this.actions.set(clip.name, this.mixer.clipAction(clip));
     }
+  }
+
+  /**
+   * Build the floating bar.
+   *
+   * Sprites rather than a mesh so it faces the camera without this class
+   * having to know where the camera is, and drawn with depth testing off so
+   * cargo cannot hide a scavenger from the player. Seeing one through a crate
+   * is a smaller problem than the one being solved: the player reported an
+   * empty deck while one was aboard.
+   */
+  private static buildBar(group: THREE.Group): THREE.Sprite {
+    const plate = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        color: 0x14100c,
+        depthTest: false,
+        depthWrite: false,
+        transparent: true,
+        opacity: 0.72,
+      }),
+    );
+    plate.scale.set(BAR_WIDTH + 0.07, BAR_HEIGHT + 0.05, 1);
+    plate.renderOrder = 900;
+
+    const fill = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        color: healthBarColour(1),
+        depthTest: false,
+        depthWrite: false,
+        transparent: true,
+      }),
+    );
+    // Anchored at its left edge, so shrinking it empties the bar from the
+    // right rather than from both ends at once.
+    fill.center.set(0, 0.5);
+    fill.position.x = -BAR_WIDTH / 2;
+    fill.scale.set(BAR_WIDTH, BAR_HEIGHT, 1);
+    fill.renderOrder = 901;
+
+    group.add(plate, fill);
+    group.position.y = BAR_Y;
+    return fill;
+  }
+
+  /** Set how full the bar is. Repeat calls at the same value are free. */
+  setHealth(current: number, max: number): void {
+    const f = healthFraction(current, max);
+    if (f === this.appliedFraction) return;
+    this.appliedFraction = f;
+
+    this.barFill.scale.x = BAR_WIDTH * f;
+    this.bar.visible = f > 0;
+    (this.barFill.material as THREE.SpriteMaterial).color.setHex(healthBarColour(f));
   }
 
   /** True when this enemy is drawn as a model rather than the fallback box. */
@@ -247,6 +320,8 @@ export class EnemyVisual {
     if (state === this.currentState) return;
     this.currentState = state;
     this.deadFor = 0;
+    // A corpse is not a threat and does not need a bar hanging over it.
+    this.bar.visible = state !== 'dead';
 
     // The box has no clips; `update` topples it instead.
     if (!this.mixer) return;
@@ -283,6 +358,8 @@ export class EnemyVisual {
     this.deadFor = 0;
     this.flashElapsed = FLASH_SECONDS;
     this.applyFlash(0);
+    this.bar.visible = true;
+    this.appliedFraction = -1;
     this.mixer?.stopAllAction();
     if (this.fallback) this.fallback.rotation.z = 0;
   }
@@ -315,6 +392,10 @@ export class EnemyVisual {
 
   dispose(): void {
     this.reset();
+    for (const sprite of this.bar.children) {
+      (sprite as THREE.Sprite).material.dispose();
+    }
+    this.bar.clear();
     for (const rec of this.flashMaterials) rec.mat.dispose();
     this.flashMaterials.length = 0;
     this.mixer?.stopAllAction();
