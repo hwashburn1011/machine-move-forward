@@ -30,6 +30,11 @@ export type GameEvents = {
 
   'world:chunk-recycled': { chunkIndex: number };
 
+  'build:placed': { instanceId: string; definitionId: string; scrapSpent: number };
+  'build:removed': { instanceId: string; definitionId: string; scrapRefunded: number };
+  'build:rooms-changed': { roomCount: number; enclosedCount: number };
+  'resources:changed': { scrap: number };
+
   'game:save-written': { slot: string };
   'game:save-loaded': { slot: string };
 };

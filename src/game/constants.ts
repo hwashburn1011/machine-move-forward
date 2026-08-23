@@ -42,6 +42,24 @@ export const BASE_MACHINE_SPEED = 7.5;
 export const REFERENCE_WEIGHT = 12000;
 
 // ---------------------------------------------------------------------------
+// Build grid
+// ---------------------------------------------------------------------------
+
+/**
+ * Buildable envelope, in grid cells. Wider and deeper than the starting deck
+ * so the player can extend outward, which is what makes multi-room structures
+ * achievable at all — the bare deck is mostly occupied by equipment.
+ */
+export const GRID_MIN_X = -4;
+export const GRID_MAX_X = 4;
+export const GRID_MIN_Z = -6;
+export const GRID_MAX_Z = 5;
+export const GRID_LEVELS = 3;
+
+/** Vertical spacing between build levels, in metres. */
+export const LEVEL_HEIGHT = 3;
+
+// ---------------------------------------------------------------------------
 // World streaming
 // ---------------------------------------------------------------------------
 
