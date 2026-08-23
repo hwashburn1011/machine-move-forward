@@ -17,8 +17,9 @@ page.on('console', (m) => {
 });
 page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 
-// Arrivals are tested in tools/combat.mjs and nowhere else: everywhere else
-// they would wander into a check that was written on a quiet deck.
+// Boots quiet so every check below runs on a clear deck. The arrivals section
+// at the bottom of this file arms the spawner deliberately — this is the one
+// harness that tests it.
 await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1', { waitUntil: 'load' });
 
 const stats = () => page.evaluate(() => globalThis.__game.debugStats());
