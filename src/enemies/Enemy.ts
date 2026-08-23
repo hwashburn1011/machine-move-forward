@@ -5,12 +5,26 @@ import type { Materials } from '@/art/Materials';
 import type { EnemyDefinition } from '@/data/enemies';
 import type { Damageable } from '@/player/PlayerCombat';
 import type { PlayerStats } from '@/player/PlayerStats';
-import { GRAVITY } from '@/game/constants';
+import { AUTOSTEP_HEIGHT, GRAVITY } from '@/game/constants';
 import { stepEnemyAI, type EnemyAIState } from './EnemyAI';
+import { FAN_OFFSETS, PROBE_RANGE, steerAround, type FanProbe } from './EnemySteering';
 import { bevelledBox } from '@/machine/MachineGeometry';
 
 const CAPSULE_RADIUS = 0.36;
 const CAPSULE_HALF_HEIGHT = 0.6;
+
+/**
+ * Height, relative to the capsule's centre, that the probes are cast from.
+ *
+ * Just above what the character controller can step over. Cast at chest height
+ * instead and the rays sail clean over every low lip and cargo base on the
+ * deck, reporting a clear path into something the body cannot actually climb —
+ * which is what the enemy then walks into and sticks on. Cast at the feet and
+ * every ray hits the deck plate underfoot. This is the one band that answers
+ * the question being asked: can I walk this way?
+ */
+const PROBE_HEIGHT =
+  -(CAPSULE_HALF_HEIGHT + CAPSULE_RADIUS) + AUTOSTEP_HEIGHT + 0.05;
 
 /**
  * A hostile scavenger.
@@ -27,6 +41,10 @@ export class Enemy {
   private readonly previousPosition = new THREE.Vector3();
   private readonly renderPosition = new THREE.Vector3();
   private readonly toPlayer = new THREE.Vector3();
+  private readonly probeOrigin = new THREE.Vector3();
+  private readonly probeDir = new THREE.Vector3();
+  /** The detour chosen last tick, so a route around an obstacle is kept. */
+  private lastTurn = 0;
 
   private state: EnemyAIState = 'idle';
   private health: number;
@@ -150,16 +168,24 @@ export class Enemy {
       });
     }
 
-    // Steer straight at the player. No navmesh: on a flat deck with one
-    // hostile, direct steering plus capsule collision is the right amount of
-    // machinery (handoff section 32).
+    // Head for the player, feeling around whatever is in the way. Straight
+    // steering alone was enough when the only hostiles were debug-spawned in
+    // front of you; now they board at the deck edge and have to cross a deck
+    // cluttered with the engine, generator, fuel tank and cargo, and roughly
+    // half of them used to wedge and never arrive.
     let vx = 0;
     let vz = 0;
     if (this.state === 'navigate' || this.state === 'pursue') {
       const flat = Math.hypot(this.toPlayer.x, this.toPlayer.z);
       if (flat > 1e-4) {
-        vx = (this.toPlayer.x / flat) * this.def.moveSpeed;
-        vz = (this.toPlayer.z / flat) * this.def.moveSpeed;
+        const dirX = this.toPlayer.x / flat;
+        const dirZ = this.toPlayer.z / flat;
+        const heading = steerAround(dirX, dirZ, this.probe(dirX, dirZ), {
+          previousTurn: this.lastTurn,
+        });
+        this.lastTurn = heading.turn;
+        vx = heading.x * this.def.moveSpeed;
+        vz = heading.z * this.def.moveSpeed;
         this.facing = Math.atan2(vx, vz);
       }
     }
@@ -189,6 +215,33 @@ export class Enemy {
 
     // Fell off the machine — no point simulating it any further.
     if (this.position.y < -25) this.despawn();
+  }
+
+  /**
+   * Cast the fan around a heading.
+   *
+   * The enemy's own collider is excluded, or every probe would report a hit at
+   * zero distance and it would spin on the spot. Other enemies are NOT
+   * excluded: flowing around each other is the behaviour we want.
+   */
+  private probe(dirX: number, dirZ: number): FanProbe[] {
+    const handle = this.handle;
+    if (!handle) return [];
+
+    this.probeOrigin.set(this.position.x, this.position.y + PROBE_HEIGHT, this.position.z);
+
+    return FAN_OFFSETS.map((angle) => {
+      const sin = Math.sin(angle);
+      const cos = Math.cos(angle);
+      this.probeDir.set(dirX * cos - dirZ * sin, 0, dirX * sin + dirZ * cos);
+      const hit = this.physics.raycast(
+        this.probeOrigin,
+        this.probeDir,
+        PROBE_RANGE,
+        handle.collider,
+      );
+      return { angle, distance: hit ? hit.distance : null };
+    });
   }
 
   update(alpha: number): void {
