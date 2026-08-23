@@ -167,7 +167,7 @@ browser harnesses in `tools/` that drive the real game:
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 9 movement/physics checks
-node tools/combat.mjs                               # 16 combat and spawner checks
+node tools/combat.mjs                               # 17 combat and spawner checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```
@@ -178,8 +178,9 @@ wall-containment or save-reload check is a failure that only reproduces
 sometimes. `combat.mjs` boots quiet the same way, then arms the spawner
 deliberately partway through, once its own checks need arrivals. `shoot.mjs`
 and `hero.mjs` take their query string from the caller rather than booting
-with one by default, and typically run with a free camera, which suppresses
-spawning on its own regardless of `nospawn`.
+with one by default, so pass `nospawn=1` yourself for a long wait — or a
+`cam=` preset, which puts the game in free camera and suppresses spawning on
+its own.
 
 These wait on **simulated** time, not wall time. Under a software renderer the
 loop's step clamp deliberately lets simulated time lag wall time, and
