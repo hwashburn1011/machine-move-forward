@@ -364,11 +364,115 @@ check(
   `hp ${graceGone.hp}, grace ${graceGone.grace}`,
 );
 
-if (outShot) {
-  await page.setViewportSize({ width: 1280, height: 720 });
-  await sim(0.5);
-  await page.screenshot({ path: outShot });
+// --- The enemy visual ------------------------------------------------------
+// This harness boots with nomodel=1, so this is the procedural fallback and it
+// must stay a complete enemy, not a degraded one. The suite has always run this
+// path; nothing until now asserted it deliberately.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.player.stats.invulnerable = true;
+  g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 2 });
+});
+await sim(0.5);
+const fallbackVisual = await page.evaluate(() => {
+  const e = globalThis.__game.enemies.active[0];
+  let meshes = 0;
+  e.object3D.traverse((o) => {
+    if (o.isMesh || o.isSkinnedMesh) meshes++;
+  });
+  return {
+    meshes,
+    visible: e.object3D.visible,
+    // The drawn body must stand on the deck rather than float above it or sink
+    // into it. The offset that does that moved out of Enemy and into
+    // EnemyVisual, and the two disagreeing is invisible to every other check.
+    footY: e.object3D.position.y + e.object3D.children[0].position.y,
+    centreY: e.worldPosition.y,
+  };
+});
+check(
+  'an enemy renders without a model file',
+  fallbackVisual.meshes > 0 && fallbackVisual.visible,
+  `${fallbackVisual.meshes} mesh(es)`,
+);
+check(
+  'the drawn enemy stands at the base of its collider',
+  Math.abs(fallbackVisual.centreY - fallbackVisual.footY - 0.96) < 1e-3,
+  `feet ${fallbackVisual.footY.toFixed(3)}, centre ${fallbackVisual.centreY.toFixed(3)}`,
+);
+
+// --- Animated model, when one is present -----------------------------------
+// Needs public/models/scavenger.glb, which is not committed. The checks below
+// SKIP loudly rather than fail when it is absent: a silently-skipped check
+// reads as a passing one, which is how a broken model pipeline ships green.
+const modelPage = await browser.newPage({ viewport: { width: 640, height: 360 } });
+await modelPage.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1', {
+  waitUntil: 'load',
+});
+await modelPage.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
+
+const hasModel = await modelPage.evaluate(() => globalThis.__game.enemies.hasModel === true);
+
+if (!hasModel) {
+  console.log('SKIP  animated model checks -- public/models/scavenger.glb not present');
+} else {
+  // Two enemies, deliberately driven into different AI states: one on top of
+  // the player and attacking, one across the deck and idle.
+  await modelPage.evaluate(() => {
+    const g = globalThis.__game.game;
+    g.player.stats.invulnerable = true;
+    g.enemies.despawnAll();
+    g.player.teleport({ x: 0, y: 3.6, z: 2 });
+    g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 3.5 });
+    g.enemies.spawn('scavenger', { x: -4, y: 3.4, z: -7 });
+  });
+
+  // Let them settle into their states and let the mixers run.
+  await modelPage.waitForTimeout(4000);
+
+  const result = await modelPage.evaluate(() => {
+    const [a, b] = globalThis.__game.enemies.active;
+    const bonesOf = (e) => {
+      const out = [];
+      e.object3D.traverse((o) => {
+        if (o.isBone) out.push(o.position.y + o.rotation.x);
+      });
+      return out;
+    };
+    const skinned = (e) => {
+      let n = 0;
+      e.object3D.traverse((o) => {
+        if (o.isSkinnedMesh) n++;
+      });
+      return n;
+    };
+    const pa = bonesOf(a);
+    const pb = bonesOf(b);
+    const differing = pa.filter((v, i) => Math.abs(v - (pb[i] ?? 0)) > 1e-4).length;
+    return { states: [a.aiState, b.aiState], skinnedA: skinned(a), differing, bones: pa.length };
+  });
+
+  check('an enemy renders as a skinned mesh', result.skinnedA > 0, `${result.skinnedA}`);
+  // The one check that catches Object3D.clone standing in for
+  // SkeletonUtils.clone: a shared skeleton makes every pooled enemy hold a
+  // single pose. No unit test can reach it.
+  check(
+    'two enemies in different states hold different poses',
+    result.differing > 0,
+    `states ${result.states.join('/')}, ${result.differing} of ${result.bones} bones differ`,
+  );
 }
+
+if (outShot) {
+  // Prefer the page that actually has the model on it: a screenshot of the
+  // fallback is not what the flag was asked for.
+  const shotPage = hasModel ? modelPage : page;
+  await shotPage.setViewportSize({ width: 1280, height: 720 });
+  await shotPage.waitForTimeout(1500);
+  await shotPage.screenshot({ path: outShot });
+}
+await modelPage.close();
 await browser.close();
 
 const failed = results.filter((r) => !r.ok);

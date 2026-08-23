@@ -309,7 +309,7 @@ git commit -m "feat: add model loading, clip resolution, and capsule fitting"
   - `GameOptions.models?: boolean` — defaults true
   - `EnemyManager` constructor gains a trailing `model: LoadedModel | null` parameter
 
-- [ ] **Step 1: Implement the visual class**
+- [x] **Step 1: Implement the visual class**
 
 Append to `src/enemies/EnemyVisual.ts`:
 
@@ -417,7 +417,7 @@ export class EnemyVisual {
 > re-export the constants from `Enemy.ts` if anything else imports them. Leaving
 > them in `Enemy.ts` creates a circular import with `EnemyVisual`.
 
-- [ ] **Step 2: Delegate from Enemy**
+- [x] **Step 2: Delegate from Enemy**
 
 In `src/enemies/Enemy.ts`:
 
@@ -427,7 +427,7 @@ In `src/enemies/Enemy.ts`:
 - In `update(alpha)`, **delete** the `rotation.z` death topple — the death clip replaces it — and **delete** the `object3D.position.y -= CAPSULE_HALF_HEIGHT + CAPSULE_RADIUS` line, which now lives inside `EnemyVisual`. Keep the position lerp and the `rotation.y = facing`.
 - `Enemy` needs no mixer tick of its own; `EnemyManager.update` drives it.
 
-- [ ] **Step 3: Pass the model through the manager**
+- [x] **Step 3: Pass the model through the manager**
 
 In `src/enemies/EnemyManager.ts`:
 
@@ -443,7 +443,7 @@ In `src/enemies/EnemyManager.ts`:
 
 `Enemy.update(alpha, dt)` forwards `dt` to `this.visual.update(dt)`.
 
-- [ ] **Step 4: Wire Game**
+- [x] **Step 4: Wire Game**
 
 In `src/game/Game.ts`:
 
@@ -475,7 +475,7 @@ visual:
 - In `Game.render`, pass the frame delta: `this.enemies.update(alpha, frameDt);`
 - In `src/main.ts`, add `models: params.get('nomodel') !== '1',` beside the `textures` option.
 
-- [ ] **Step 5: Verify the fallback path is untouched**
+- [x] **Step 5: Verify the fallback path is untouched**
 
 Run: `npx tsc --noEmit && npm run lint && npm test`
 Expected: clean, 364 unit tests.
@@ -490,7 +490,7 @@ path**, so if any of them moved, the box visual regressed.
 Run: `npm run test:e2e`
 Expected: 11 passed.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
@@ -504,7 +504,7 @@ git commit -m "feat: drive enemy animation from AI state, box as fallback"
 **Files:**
 - Modify: `tools/combat.mjs`, `ASSETS.md`, `README.md`
 
-- [ ] **Step 1: Add the fallback check**
+- [x] **Step 1: Add the fallback check**
 
 The suite already runs modelless, but nothing asserts it *deliberately*. Append
 to the death section of `tools/combat.mjs`:
@@ -533,7 +533,7 @@ check(
 );
 ```
 
-- [ ] **Step 2: Add the shared-skeleton check**
+- [x] **Step 2: Add the shared-skeleton check**
 
 **This is the check that matters.** It is the only thing that catches the
 `Object3D.clone` bug, and no unit test can reach it. It requires the model, so
@@ -605,7 +605,7 @@ for the skip condition.
 **The skip is deliberate, and it must print.** A silently-skipped check reads
 as a passing one, which is how a broken model pipeline ships green.
 
-- [ ] **Step 3: Screenshot**
+- [ ] **Step 3: Screenshot** — BLOCKED: needs `public/models/scavenger.glb`
 
 With the model in place:
 
@@ -616,7 +616,7 @@ node tools/combat.mjs enemy-model.png
 Confirm the scavenger faces the player, stands on the deck rather than in it,
 and is roughly player height. Delete the PNG afterwards; it is not committed.
 
-- [ ] **Step 4: Update the docs**
+- [x] **Step 4: Update the docs**
 
 In `ASSETS.md`, add a **Models** section above the policy, recording the pack
 actually used, its licence, its URL, and the path. Follow the table style of
@@ -625,7 +625,7 @@ the Textures section.
 In `README.md`, update the combat harness line to the count `node tools/combat.mjs`
 actually reports, and the `npm test` line to what `npm test` reports.
 
-- [ ] **Step 5: Full verification**
+- [x] **Step 5: Full verification**
 
 ```bash
 npm run lint && npm run build && npm test && npm run test:e2e
@@ -635,14 +635,14 @@ node tools/drive.mjs && node tools/combat.mjs && node tools/build.mjs && node to
 Expected: `drive` 9/9, `build` 21/21, `craft` 29/29, combat at its new count,
 11 e2e, lint and build clean.
 
-- [ ] **Step 6: Walk the success criteria**
+- [x] **Step 6: Walk the success criteria** — 6 and 7 confirmed; 1-5 need the model
 
 Against spec section 11, confirm each of the seven. Criterion 6 — everything
 degrades to the box with no model present — is checked by temporarily renaming
 `public/models/scavenger.glb`, running `node tools/combat.mjs`, confirming the
 model checks SKIP and everything else passes, then renaming it back.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A
