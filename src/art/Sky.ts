@@ -21,7 +21,11 @@ export class Sky {
   private readonly bakeScene: THREE.Scene;
   private envRT: THREE.WebGLRenderTarget | null = null;
 
-  private readonly sunDirection = new THREE.Vector3(0.40, 0.62, -0.68).normalize();
+  // Default sun sits behind-right of the default camera and well off to the
+  // side. Behind lights the machine's visible faces; off to the side keeps
+  // shadows in frame, which is what actually describes form. Straight behind
+  // hides every shadow and the scene goes flat.
+  private readonly sunDirection = new THREE.Vector3(0.78, 0.50, 0.37).normalize();
   private lastBakedDirection = new THREE.Vector3(0, -1, 0);
   private lastBakeTime = -Infinity;
   private bakeCount = 0;

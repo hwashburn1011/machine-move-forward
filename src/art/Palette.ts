@@ -41,13 +41,13 @@ export const PALETTE = Object.freeze({
 
   // --- Machine --------------------------------------------------------------
   /** Main hull paint — desaturated industrial green-grey. */
-  hullPaint: c(0x6b7159),
+  hullPaint: c(0x8f9478),
   /** Shadowed structural members and chassis. */
-  hullDark: c(0x3a3d33),
-  rust: c(0x8c4a25),
+  hullDark: c(0x565a4b),
+  rust: c(0xa85c2e),
   steel: c(0x9ba0a3),
   /** Deck plating, walked on and worn. */
-  deckPlate: c(0x7a7468),
+  deckPlate: c(0x9a9488),
 
   // --- Accents --------------------------------------------------------------
   /** Focal point colour. Used sparingly — hazard stripes, warning lights. */
