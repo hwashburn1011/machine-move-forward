@@ -77,7 +77,7 @@ it never throws.
   - `interface CapsuleFit { scale: number; yOffset: number }`
   - `function fitToCapsule(modelHeight: number, modelMinY: number, capsuleHeight: number): CapsuleFit`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `tests/unit/enemyvisual.test.ts`:
 
@@ -168,12 +168,12 @@ describe('fitting a model to the capsule', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify it fails**
+- [x] **Step 2: Run to verify it fails**
 
 Run: `npx vitest run tests/unit/enemyvisual.test.ts`
 Expected: FAIL — cannot resolve `@/enemies/EnemyVisual`.
 
-- [ ] **Step 3: Implement the loader**
+- [x] **Step 3: Implement the loader**
 
 Create `src/art/ModelLoader.ts`:
 
@@ -210,7 +210,7 @@ export async function loadModel(url: string): Promise<LoadedModel | null> {
 }
 ```
 
-- [ ] **Step 4: Implement the pure parts of the visual**
+- [x] **Step 4: Implement the pure parts of the visual**
 
 Create `src/enemies/EnemyVisual.ts` with the two pure functions first. The
 class comes in Task 2 — this step is only what the tests reach.
@@ -278,17 +278,17 @@ export function fitToCapsule(
 }
 ```
 
-- [ ] **Step 5: Run to verify it passes**
+- [x] **Step 5: Run to verify it passes**
 
 Run: `npx vitest run tests/unit/enemyvisual.test.ts`
 Expected: PASS, 13 tests.
 
-- [ ] **Step 6: Verify nothing else moved**
+- [x] **Step 6: Verify nothing else moved**
 
 Run: `npx tsc --noEmit && npm run lint && npm test`
 Expected: clean, 364 unit tests.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/art/ModelLoader.ts src/enemies/EnemyVisual.ts tests/unit/enemyvisual.test.ts
