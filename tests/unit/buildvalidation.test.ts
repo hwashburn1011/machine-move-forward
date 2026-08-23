@@ -274,6 +274,53 @@ describe('stairs', () => {
   });
 });
 
+describe('stations', () => {
+  const STATIONS: PieceId[] = ['crate', 'workbench', 'refinery'];
+
+  it('needs a floor in its own cell', () => {
+    for (const piece of STATIONS) {
+      const g = grid();
+      expect(validatePlacement(g, place(piece, c(0, 0, 0)), RICH).reason).toBe('needs-floor');
+    }
+  });
+
+  it('stands on a floor rather than replacing it', () => {
+    for (const piece of STATIONS) {
+      const g = grid();
+      g.setCell(c(0, 0, 0), 'floor');
+      expect(validatePlacement(g, place(piece, c(0, 0, 0)), RICH).ok).toBe(true);
+      // The floor is still there afterwards: stations live in their own layer.
+      expect(g.getCell(c(0, 0, 0))).toBe('floor');
+    }
+  });
+
+  it('rejects a second station in the same cell', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setStation(c(0, 0, 0), 'crate');
+    expect(validatePlacement(g, place('workbench', c(0, 0, 0)), RICH).reason).toBe('occupied');
+  });
+
+  it('coexists with a roof over the same cell', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setRoof(c(0, 0, 0), 'roof');
+    expect(validatePlacement(g, place('crate', c(0, 0, 0)), RICH).ok).toBe(true);
+  });
+
+  it('rejects a blocked equipment cell even with a floor', () => {
+    const g = grid();
+    g.setCell(c(1, 0, 1), 'floor');
+    g.blockCell(c(1, 0, 1));
+    expect(validatePlacement(g, place('refinery', c(1, 0, 1)), RICH).reason).toBe('blocked');
+  });
+
+  it('rejects a station outside the envelope', () => {
+    const g = grid();
+    expect(validatePlacement(g, place('crate', c(99, 0, 0)), RICH).reason).toBe('out-of-bounds');
+  });
+});
+
 describe('purity', () => {
   it('never mutates the grid', () => {
     const g = grid();

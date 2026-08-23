@@ -37,6 +37,21 @@ function merge(parts: THREE.BufferGeometry[]): THREE.BufferGeometry {
   return merged;
 }
 
+/**
+ * Merge one geometry per material, then merge those WITH groups.
+ *
+ * Two passes rather than one: `mergeGeometries(parts, true)` emits a group per
+ * input part, so a one-pass merge of nine boxes would need nine materials.
+ * Collapsing each material's parts first gives exactly one group per material.
+ */
+function grouped(groups: THREE.BufferGeometry[][]): THREE.BufferGeometry {
+  const perMaterial = groups.map((parts) => merge(parts));
+  const out = BufferGeometryUtils.mergeGeometries(perMaterial, true);
+  for (const g of perMaterial) g.dispose();
+  if (!out) throw new Error('BuildPieceGeometry: grouped merge failed');
+  return out;
+}
+
 function at(geo: THREE.BufferGeometry, x: number, y: number, z: number): THREE.BufferGeometry {
   geo.translate(x, y, z);
   return geo;
@@ -143,18 +158,22 @@ function stairsGeometry(): THREE.BufferGeometry {
 function crateGeometry(): THREE.BufferGeometry {
   const w = 1.4;
   const h = 1.1;
-  const parts: THREE.BufferGeometry[] = [
-    at(bevelledBox(w, h, w, 0.06), 0, h / 2, 0),
-    // Lid seam.
-    at(bevelledBox(w * 1.02, 0.07, w * 1.02, 0.02), 0, h - 0.12, 0),
-  ];
+
+  const body: THREE.BufferGeometry[] = [at(bevelledBox(w, h, w, 0.06), 0, h / 2, 0)];
   // Corner ribs, so it reads as a made object rather than a cube.
   for (const sx of [-1, 1]) {
     for (const sz of [-1, 1]) {
-      parts.push(at(bevelledBox(0.1, h, 0.1, 0.02), sx * w * 0.46, h / 2, sz * w * 0.46));
+      body.push(at(bevelledBox(0.1, h, 0.1, 0.02), sx * w * 0.46, h / 2, sz * w * 0.46));
     }
   }
-  return merge(parts);
+
+  // Proud of the body by a couple of centimetres so the trim never z-fights.
+  const trim: THREE.BufferGeometry[] = [
+    at(bevelledBox(w * 1.02, 0.07, w * 1.02, 0.02), 0, h - 0.12, 0),
+    at(bevelledBox(w * 1.03, 0.13, w * 1.03, 0.02), 0, h * 0.42, 0),
+  ];
+
+  return grouped([body, trim]);
 }
 
 /** Waist-high bench with a tool rack panel behind it. */
@@ -171,17 +190,25 @@ function workbenchGeometry(): THREE.BufferGeometry {
   return merge(parts);
 }
 
-/** Tall tank with pipes — reads as machinery rather than furniture. */
+/** Tall tank with pipes and a lit indicator — machinery, not furniture. */
 function refineryGeometry(): THREE.BufferGeometry {
-  const parts: THREE.BufferGeometry[] = [
+  const shell: THREE.BufferGeometry[] = [
     at(bevelledBox(1.3, 1.9, 1.3, 0.08), 0, 0.95, 0),
     at(bevelledBox(1.5, 0.18, 1.5, 0.04), 0, 0.12, 0),
   ];
+  // Boxed rather than cylindrical: bevelledBox is extruded and so non-indexed,
+  // and mergeGeometries refuses to mix indexed and non-indexed inputs.
   for (const dx of [-0.4, 0.4]) {
-    const pipe = new THREE.CylinderGeometry(0.11, 0.11, 1.0, 10);
-    parts.push(at(pipe, dx, 2.35, 0.2));
+    shell.push(at(bevelledBox(0.22, 1.0, 0.22, 0.05), dx, 2.35, 0.2));
   }
-  return merge(parts);
+
+  // The one lit element on the deck at night, and the cue that tells a crate
+  // and a refinery apart at a glance.
+  const indicator: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.34, 0.14, 0.06, 0.02), 0, 1.58, 0.67),
+  ];
+
+  return grouped([shell, indicator]);
 }
 
 const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
@@ -213,14 +240,21 @@ export function disposeGeometryCache(): void {
   cache.clear();
 }
 
-export function pieceMaterial(piece: PieceId, materials: Materials): THREE.Material {
+/**
+ * Material for a piece. Stations return an array: their geometry carries one
+ * group per material, so the trim and the indicator can differ from the shell.
+ */
+export function pieceMaterial(
+  piece: PieceId,
+  materials: Materials,
+): THREE.Material | THREE.Material[] {
   switch (piece) {
     case 'crate':
-      return materials.rustedSteel;
+      return [materials.rustedSteel, materials.accent];
     case 'workbench':
       return materials.stationMetal;
     case 'refinery':
-      return materials.stationMetal;
+      return [materials.stationMetal, materials.emissiveWarn];
     case 'floor':
       return materials.buildPlate;
     case 'roof':
