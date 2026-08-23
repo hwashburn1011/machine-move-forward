@@ -29,12 +29,13 @@ await page.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 
 const stats = () => page.evaluate(() => globalThis.__game.debugStats());
 
 /** Wait on simulated, not wall, time — the headless renderer is very slow. */
-async function sim(seconds) {
-  const start = (await stats()).simTime;
+async function sim(seconds, pg = page) {
+  const clock = () => pg.evaluate(() => globalThis.__game.debugStats().simTime);
+  const start = await clock();
   const deadline = Date.now() + 90000;
   for (;;) {
     await page.waitForTimeout(120);
-    if ((await stats()).simTime - start >= seconds) return;
+    if ((await clock()) - start >= seconds) return;
     if (Date.now() > deadline) throw new Error('sim() timed out');
   }
 }
@@ -462,16 +463,107 @@ if (!hasModel) {
     result.differing > 0,
     `states ${result.states.join('/')}, ${result.differing} of ${result.bones} bones differ`,
   );
+
+  // Criterion 4: the death clip plays out and then holds. Left looping, the
+  // corpse springs back upright partway through its 2.5s despawn timer. The
+  // clip is 0.958s, so 1.4s is past its end and 2.1s is still inside the
+  // timer.
+  const deathPose = await modelPage.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    const sum = () => {
+      let t = 0;
+      e.object3D.traverse((o) => {
+        if (o.isBone) t += o.rotation.x + o.rotation.z;
+      });
+      return t;
+    };
+    globalThis.__poseBefore = sum();
+    e.takeDamage(9999);
+    return globalThis.__poseBefore;
+  });
+  await sim(1.4, modelPage);
+  const settled = await modelPage.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    let t = 0;
+    e.object3D.traverse((o) => {
+      if (o.isBone) t += o.rotation.x + o.rotation.z;
+    });
+    return t;
+  });
+  await sim(0.7, modelPage);
+  const held = await modelPage.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    if (!e) return null;
+    let t = 0;
+    e.object3D.traverse((o) => {
+      if (o.isBone) t += o.rotation.x + o.rotation.z;
+    });
+    return t;
+  });
+  check(
+    'a killed enemy plays its death clip',
+    Math.abs(settled - deathPose) > 1,
+    `pose moved ${Math.abs(settled - deathPose).toFixed(2)}`,
+  );
+  check(
+    'the corpse holds its final pose instead of looping',
+    held !== null && Math.abs(held - settled) < 1e-3,
+    held === null ? 'despawned early' : `drift ${Math.abs(held - settled).toExponential(1)}`,
+  );
 }
 
 if (outShot) {
-  // Prefer the page that actually has the model on it: a screenshot of the
-  // fallback is not what the flag was asked for.
-  const shotPage = hasModel ? modelPage : page;
-  await shotPage.setViewportSize({ width: 1280, height: 720 });
-  await shotPage.waitForTimeout(1500);
-  await shotPage.screenshot({ path: outShot });
+  if (!hasModel) {
+    // Nothing to show that the other harnesses do not already show.
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await sim(0.5);
+    await page.screenshot({ path: outShot });
+  } else {
+    // A first-person shot is the wrong tool here: the camera starts inside the
+    // deck clutter as often as not, and framing a character from its own
+    // eyeline shows very little of it. The free camera is set once at
+    // construction and never touched again by the render step, so it can be
+    // parked deliberately.
+    const shot = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+    await shot.goto('http://localhost:5173/?nolock=1&quality=high&nospawn=1&cam=side', {
+      waitUntil: 'load',
+    });
+    await shot.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
+
+    await shot.evaluate(() => {
+      const g = globalThis.__game.game;
+      g.player.stats.invulnerable = true;
+      g.enemies.despawnAll();
+      g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 2 });
+    });
+    await shot.waitForTimeout(2500);
+
+    // Stand the player inside attack range. An attacking scavenger holds its
+    // ground, so the frame does not drift between parking the camera and
+    // taking the picture -- and a swing reads better than a walk cycle caught
+    // at an arbitrary phase.
+    await shot.evaluate(() => {
+      const g = globalThis.__game.game;
+      const e = globalThis.__game.enemies.active[0];
+      const p = e.worldPosition;
+      g.player.teleport({ x: p.x + 1.4, y: p.y, z: p.z });
+    });
+    await shot.waitForTimeout(2500);
+
+    await shot.evaluate(() => {
+      const g = globalThis.__game.game;
+      const p = globalThis.__game.enemies.active[0].worldPosition;
+      // Three-quarter view from just above the deck, close enough that the
+      // capsule fit is judgeable: feet on the plate, head at player height.
+      g.freeCamera.position.set(p.x + 2.2, p.y + 0.55, p.z + 2.6);
+      g.freeCamera.lookAt(p.x, p.y - 0.25, p.z);
+    });
+    await shot.waitForTimeout(500);
+    await shot.screenshot({ path: outShot });
+    await shot.close();
+  }
 }
+
 await modelPage.close();
 await browser.close();
 

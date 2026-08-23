@@ -47,6 +47,33 @@ describe('clip resolution', () => {
   });
 });
 
+describe('the clip names the committed model actually ships', () => {
+  // Read off public/models/scavenger.glb — RobotExpressive, by Quaternius.
+  // Pinned here because the mapping is what makes that file usable at all, and
+  // a swap to a pack that names things differently should fail in node rather
+  // than as a scavenger standing still while it sprints at you.
+  const SHIPPED = [
+    'Dance', 'Death', 'Idle', 'Jump', 'No', 'Punch', 'Running',
+    'Sitting', 'Standing', 'ThumbsUp', 'Walking', 'WalkJump', 'Wave', 'Yes',
+  ];
+
+  it('covers every AI state', () => {
+    expect(resolveClip(SHIPPED, 'idle')).toBe('Idle');
+    expect(resolveClip(SHIPPED, 'navigate')).toBe('Walking');
+    expect(resolveClip(SHIPPED, 'pursue')).toBe('Running');
+    // No clip is named "attack"; "punch" is the second preference and why it
+    // is in the chain at all.
+    expect(resolveClip(SHIPPED, 'attack')).toBe('Punch');
+    expect(resolveClip(SHIPPED, 'dead')).toBe('Death');
+  });
+
+  it('prefers Walking over WalkJump', () => {
+    // Both contain "walk". Order decides, and a scavenger that jump-walks
+    // across the deck is not what navigate means.
+    expect(resolveClip(SHIPPED, 'navigate')).not.toBe('WalkJump');
+  });
+});
+
 describe('fitting a model to the capsule', () => {
   const CAPSULE_HEIGHT = 1.92;
 

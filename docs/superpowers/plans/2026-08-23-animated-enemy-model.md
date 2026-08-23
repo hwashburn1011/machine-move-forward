@@ -25,7 +25,12 @@
 
 ## Prerequisite: the model file
 
-**Not automatable — see spec section 3.** Before Task 2, a human places a CC0
+**RESOLVED.** `public/models/scavenger.glb` is RobotExpressive by Tomás Laulhé
+(Quaternius), CC0 1.0, taken from the three.js repository — the one CC0 rigged
+character reachable without a browser. Provenance is in `ASSETS.md`. It is a
+placeholder and looks like one; swapping it is a file copy.
+
+Originally: **not automatable — see spec section 3.** A human places a CC0
 rigged character at `public/models/scavenger.glb`. Candidates and requirements
 are in the spec.
 
@@ -605,7 +610,7 @@ for the skip condition.
 **The skip is deliberate, and it must print.** A silently-skipped check reads
 as a passing one, which is how a broken model pipeline ships green.
 
-- [ ] **Step 3: Screenshot** — BLOCKED: needs `public/models/scavenger.glb`
+- [x] **Step 3: Screenshot**
 
 With the model in place:
 
@@ -635,7 +640,7 @@ node tools/drive.mjs && node tools/combat.mjs && node tools/build.mjs && node to
 Expected: `drive` 9/9, `build` 21/21, `craft` 29/29, combat at its new count,
 11 e2e, lint and build clean.
 
-- [x] **Step 6: Walk the success criteria** — 6 and 7 confirmed; 1-5 need the model
+- [x] **Step 6: Walk the success criteria** — all seven confirmed
 
 Against spec section 11, confirm each of the seven. Criterion 6 — everything
 degrades to the box with no model present — is checked by temporarily renaming

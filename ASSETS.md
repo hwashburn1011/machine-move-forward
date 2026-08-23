@@ -31,39 +31,42 @@ Each set is three 1K JPEGs, about 1.3 MB per material:
 
 ## Models
 
-**Nothing is committed here yet.** The code path is in place and the slot is
-empty; enemies currently draw as the procedural box everywhere, which is the
-fallback working rather than a bug.
-
 | Path | Pack | Licence | Applied to |
 | --- | --- | --- | --- |
-| `public/models/scavenger.glb` | _not yet chosen_ | must be CC0, or CC-BY recorded here | `EnemyVisual` — the scavenger |
+| `public/models/scavenger.glb` | [RobotExpressive](https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf/RobotExpressive) by [Tomás Laulhé](https://www.patreon.com/quaternius) (Quaternius), converted by [Don McCurdy](https://donmccurdy.com/) | **CC0 1.0** | `EnemyVisual` — the scavenger |
 
-The file arrives by hand. There is no open API for CC0 characters the way Poly
-Haven serves textures: Poly Pizza needs a key, and Quaternius and Kenney publish
-through pack pages whose download links are rendered client-side or handed off
-to itch.io. Candidates, all CC0, are listed in
-`docs/superpowers/specs/2026-08-23-animated-enemy-model-design.md` section 3 —
-Quaternius' Ultimate Modular Men, Animated Men Pack, and Universal Animation
-Library.
+453 KB, glTF 2.0 binary: 14 meshes over 2 skins, 43 joints, 14 clips. Five of
+those clips carry the whole enemy — `Idle`, `Walking`, `Running`, `Punch`,
+`Death` — and `resolveClip` finds them by case-insensitive substring, which is
+why `Punch` satisfies `attack` without the pack being renamed. The mapping is
+pinned in `tests/unit/enemyvisual.test.ts` so a swap to a pack that names things
+differently fails in node rather than as a scavenger standing still while it
+sprints at you.
 
-Requirements on whatever is chosen:
+**It is a placeholder and it looks like one.** This is a friendly cartoon robot,
+not a wasteland scavenger; it is here because it is genuinely CC0, rigged, and
+carries every clip the AI states need. Swapping it is a file copy — see below.
+
+The model is authored in centimetres and imports about 147 units tall.
+`fitToCapsule` scales it to the 1.92 m collider and lifts its feet to the
+collider's base, so nothing about a replacement's units, height, or origin needs
+to match anything.
+
+**Replacing it:** drop a `.glb` at `public/models/scavenger.glb` and it is
+picked up on the next boot, with no code change. What it has to satisfy:
 
 - **`.glb`** — one binary file, mesh plus skeleton plus clips, loaded by Three's
   `GLTFLoader` with no conversion step. A pack shipping only FBX or OBJ needs a
   Blender export first.
-- Clips covering idle, walk, run, attack, and death. Names need not match:
-  `resolveClip` matches on case-insensitive substring and falls back down a
-  chain, so `Armature|CharacterArmature_Walk` resolves and a pack with no run
-  clip walks instead of freezing. A pack with no death or attack clip is the
-  wrong pack.
-- Any height and any origin. `fitToCapsule` scales the model to the 1.92 m
-  collider and lifts its feet to the collider's base, so the drawn character and
-  the solid one cannot drift apart.
+- Clips reachable from the five AI states. Names need not match; a pack with no
+  run clip walks instead of freezing, but one with no death or attack clip is
+  the wrong pack.
+- CC0, or CC-BY with attribution recorded in this table.
 
-Drop the file in and it is picked up on the next boot, with no code change.
-`?nomodel=1` forces the box, and `tools/combat.mjs` prints a visible `SKIP` line
-for its two model checks while the slot is empty.
+Other CC0 candidates, none of which download without a browser — Poly Pizza
+needs an API key, and Quaternius and Kenney publish through pack pages that
+render their links client-side or hand off to itch.io — are listed in
+`docs/superpowers/specs/2026-08-23-animated-enemy-model-design.md` section 3.
 
 ## The policy
 
