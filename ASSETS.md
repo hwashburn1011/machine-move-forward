@@ -18,6 +18,7 @@ re-license them without archaeology.
 | `public/textures/hull/` | [`green_metal_rust`](https://polyhaven.com/a/green_metal_rust) | `Materials.hull` — the machine body |
 | `public/textures/rusted-steel/` | [`rusty_painted_metal`](https://polyhaven.com/a/rusty_painted_metal) | `Materials.rustedSteel` — cargo and crates |
 | `public/textures/deck-plate/` | [`metal_plate`](https://polyhaven.com/a/metal_plate) | `Materials.deckPlate` — the deck surface |
+| `public/textures/build-plate/` | [`metal_plate_02`](https://polyhaven.com/a/metal_plate_02) | `Materials.buildPlate` — player-built floors and stairs |
 
 Each set is three 1K JPEGs, about 1.3 MB per material:
 

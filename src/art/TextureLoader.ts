@@ -15,9 +15,14 @@ import * as THREE from 'three';
  */
 
 /** Material slots that have a texture set on disk. */
-export type TexturedSlot = 'hull' | 'rusted-steel' | 'deck-plate';
+export type TexturedSlot = 'hull' | 'rusted-steel' | 'deck-plate' | 'build-plate';
 
-export const TEXTURED_SLOTS: readonly TexturedSlot[] = ['hull', 'rusted-steel', 'deck-plate'];
+export const TEXTURED_SLOTS: readonly TexturedSlot[] = [
+  'hull',
+  'rusted-steel',
+  'deck-plate',
+  'build-plate',
+];
 
 export interface TextureSet {
   map: THREE.Texture;

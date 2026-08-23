@@ -219,6 +219,9 @@ export class Materials {
     this.bind(this.hull, sets.hull);
     this.bind(this.rustedSteel, sets['rusted-steel']);
     this.bind(this.deckPlate, sets['deck-plate']);
+    // Player-built floors and stairs. Deliberately a different plate from the
+    // machine's own deck: additions should still read as additions.
+    this.bind(this.buildPlate, sets['build-plate']);
   }
 
   private bind(material: THREE.MeshStandardMaterial, set: TextureSet | undefined): void {
