@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
+import type { LoadedModel } from '@/art/ModelLoader';
 import type { PlayerStats } from '@/player/PlayerStats';
 import { ENEMIES } from '@/data/enemies';
 import { Enemy } from './Enemy';
@@ -23,7 +24,27 @@ export class EnemyManager {
     private readonly physics: PhysicsWorld,
     private readonly bus: EventBus,
     private readonly materials: Materials,
+    private model: LoadedModel | null = null,
   ) {}
+
+  /** Whether enemies are drawn as the character model or the fallback box. */
+  get hasModel(): boolean {
+    return this.model !== null;
+  }
+
+  /**
+   * Swap the model every future enemy is built from. Empties the pool.
+   *
+   * The pool is built lazily and kept for the run, so enemies constructed
+   * before the model finished loading would keep their boxes forever and the
+   * model would silently never appear.
+   */
+  setModel(model: LoadedModel | null): void {
+    this.despawnAll();
+    for (const enemy of this.pool) enemy.dispose();
+    this.pool.length = 0;
+    this.model = model;
+  }
 
   get active(): Enemy[] {
     return this.pool.filter((e) => e.isActive);
@@ -49,6 +70,7 @@ export class EnemyManager {
         this.physics,
         this.bus,
         this.materials,
+        this.model,
       );
       this.pool.push(enemy);
     }
@@ -61,8 +83,8 @@ export class EnemyManager {
     for (const e of this.pool) e.fixedUpdate(dt, playerPos, playerStats);
   }
 
-  update(alpha: number): void {
-    for (const e of this.pool) e.update(alpha);
+  update(alpha: number, dt: number): void {
+    for (const e of this.pool) e.update(alpha, dt);
   }
 
   despawnAll(): void {

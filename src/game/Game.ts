@@ -15,6 +15,7 @@ import { DebugOverlay } from '@/core/debug/DebugOverlay';
 import { Sky } from '@/art/Sky';
 import { Materials } from '@/art/Materials';
 import { loadTextureSets } from '@/art/TextureLoader';
+import { loadModel } from '@/art/ModelLoader';
 import { updateFogColor } from '@/art/Fog';
 import { WorldManager } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
@@ -63,6 +64,14 @@ export interface GameOptions {
    * they stay deterministic and fast.
    */
   textures?: boolean;
+  /**
+   * Draw enemies as the rigged character model rather than the box. Default
+   * true.
+   *
+   * The browser harnesses turn this off for the same reason they turn textures
+   * off, and because the fallback is the path that must never rot.
+   */
+  models?: boolean;
   /** Free-fly camera for screenshots, disables the player rig. */
   freeCamera?: THREE.Vector3 | null;
   freeCameraTarget?: THREE.Vector3 | null;
@@ -149,6 +158,14 @@ export class Game implements LoopCallbacks {
     if (options.textures !== false) {
       game.materials.applyTextureSets(await loadTextureSets());
     }
+
+    // Same bargain as the textures: a missing or undecodable model costs a
+    // nicer-looking scavenger, never a boot. `setModel` rather than a
+    // constructor argument because the manager is built in the synchronous
+    // constructor, before this has resolved.
+    const model = options.models === false ? null : await loadModel('models/scavenger.glb');
+    game.enemies.setModel(model);
+
     return game;
   }
 
@@ -344,7 +361,7 @@ export class Game implements LoopCallbacks {
     const now = performance.now();
 
     this.player.update(alpha);
-    this.enemies.update(alpha);
+    this.enemies.update(alpha, frameDt);
 
     const camera = this.activeCamera;
     this.sandFX.update(frameDt, this.machine.speed, camera.position);

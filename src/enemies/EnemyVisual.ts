@@ -1,13 +1,17 @@
+import * as THREE from 'three';
+import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
+import type { Materials } from '@/art/Materials';
+import type { LoadedModel } from '@/art/ModelLoader';
 import type { EnemyAIState } from './EnemyAI';
+import { CAPSULE_FOOT_OFFSET, buildEnemyMesh } from './EnemyMesh';
 
 /**
  * How an enemy looks.
  *
- * Only the pure parts so far: which clip a state should play, and how to sit a
- * model inside the collider. Both are free of Three.js and Rapier so the rules
- * are testable in node, matching `EnemyAI` and `BuildValidation`.
- *
- * The class that consumes them arrives with the model wiring.
+ * The pure parts — which clip a state should play, and how to sit a model
+ * inside the collider — are free of Three.js and Rapier so the rules are
+ * testable in node, matching `EnemyAI` and `BuildValidation`. The class below
+ * is the part that needs a scene graph.
  */
 
 /**
@@ -67,4 +71,150 @@ export function fitToCapsule(
   // poison every transform downstream, so refuse to scale instead.
   const scale = modelHeight > 1e-6 ? capsuleHeight / modelHeight : 1;
   return { scale, yOffset: -modelMinY * scale };
+}
+
+/** Seconds to blend between animation states. */
+const CROSS_FADE = 0.18;
+
+/** Radians per second the fallback box topples at once it is dead. */
+const TOPPLE_RATE = 2.6;
+
+/**
+ * How one enemy looks: a box, or an animated character.
+ *
+ * Split from `Enemy` so that class keeps owning only where the enemy is and
+ * what it is doing. Everything here is presentation and none of it feeds back
+ * into the simulation.
+ *
+ * `object3D` is placed at the capsule's *centre* by `Enemy` every frame, so
+ * the drop to the capsule's base is applied to the child rather than to
+ * `object3D` itself — anything written to `object3D.position` here would be
+ * overwritten on the first render.
+ */
+export class EnemyVisual {
+  readonly object3D = new THREE.Group();
+
+  private readonly mixer: THREE.AnimationMixer | null = null;
+  private readonly actions = new Map<string, THREE.AnimationAction>();
+  private readonly clipNames: string[] = [];
+  /** The box, when there is no model. Toppled by hand in place of a clip. */
+  private readonly fallback: THREE.Group | null = null;
+  private current: THREE.AnimationAction | null = null;
+  private currentState: EnemyAIState | null = null;
+  private deadFor = 0;
+
+  constructor(model: LoadedModel | null, materials: Materials) {
+    if (!model) {
+      // The fallback, and the path every harness runs on.
+      const mesh = buildEnemyMesh(materials);
+      mesh.position.y = -CAPSULE_FOOT_OFFSET;
+      this.object3D.add(mesh);
+      this.fallback = mesh;
+      return;
+    }
+
+    // SkeletonUtils, never Object3D.clone: a plain clone shares the skeleton,
+    // and every pooled enemy then animates as one, holding whichever pose the
+    // last mixer to run produced.
+    const scene = cloneSkinned(model.scene);
+
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const fit = fitToCapsule(size.y, box.min.y, CAPSULE_FOOT_OFFSET * 2);
+
+    scene.scale.setScalar(fit.scale);
+    scene.position.y = fit.yOffset - CAPSULE_FOOT_OFFSET;
+    scene.traverse((o) => {
+      if ((o as THREE.Mesh).isMesh) {
+        o.castShadow = true;
+        o.receiveShadow = true;
+      }
+    });
+    this.object3D.add(scene);
+
+    this.mixer = new THREE.AnimationMixer(scene);
+    for (const clip of model.clips) {
+      this.clipNames.push(clip.name);
+      this.actions.set(clip.name, this.mixer.clipAction(clip));
+    }
+  }
+
+  /** True when this enemy is drawn as a model rather than the fallback box. */
+  get isAnimated(): boolean {
+    return this.mixer !== null;
+  }
+
+  /** Cross-fade to the clip for an AI state. Repeat calls for a state are free. */
+  setState(state: EnemyAIState): void {
+    if (state === this.currentState) return;
+    this.currentState = state;
+    this.deadFor = 0;
+
+    // The box has no clips; `update` topples it instead.
+    if (!this.mixer) return;
+
+    const name = resolveClip(this.clipNames, state);
+    const next = name ? this.actions.get(name) : undefined;
+    if (!next || next === this.current) return;
+
+    // Death holds its final pose. Left looping, the corpse springs back
+    // upright partway through its despawn timer.
+    if (state === 'dead') {
+      next.setLoop(THREE.LoopOnce, 1);
+      next.clampWhenFinished = true;
+    } else {
+      next.setLoop(THREE.LoopRepeat, Infinity);
+      next.clampWhenFinished = false;
+    }
+
+    next.reset().play();
+    if (this.current) this.current.crossFadeTo(next, CROSS_FADE, false);
+    this.current = next;
+  }
+
+  /**
+   * Return to the bind pose and forget which clip was playing.
+   *
+   * Called when a pooled enemy respawns. Without it a scavenger reused after a
+   * death keeps `currentState === 'dead'`, and `setState` — which ignores
+   * repeat calls for a state — never restarts it walking.
+   */
+  reset(): void {
+    this.current = null;
+    this.currentState = null;
+    this.deadFor = 0;
+    this.mixer?.stopAllAction();
+    if (this.fallback) this.fallback.rotation.z = 0;
+  }
+
+  /**
+   * Advance the animation.
+   *
+   * Driven from the render step, where a real frame delta exists. Advancing it
+   * on the fixed step instead makes playback stutter whenever frame rate and
+   * tick rate disagree, which is most of the time.
+   */
+  update(dt: number): void {
+    if (this.mixer) {
+      this.mixer.update(dt);
+      return;
+    }
+
+    // No clips to play, so the box keeps the hand-animated death it has always
+    // had: it topples over rather than standing bolt upright until it vanishes.
+    if (this.fallback && this.currentState === 'dead') {
+      this.deadFor += dt;
+      this.fallback.rotation.z = Math.min(this.deadFor * TOPPLE_RATE, Math.PI / 2);
+    }
+  }
+
+  dispose(): void {
+    this.reset();
+    this.mixer?.stopAllAction();
+    this.actions.clear();
+    this.clipNames.length = 0;
+    this.current = null;
+    this.currentState = null;
+  }
 }

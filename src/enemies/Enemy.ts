@@ -6,12 +6,13 @@ import type { EnemyDefinition } from '@/data/enemies';
 import type { Damageable } from '@/player/PlayerCombat';
 import type { PlayerStats } from '@/player/PlayerStats';
 import { AUTOSTEP_HEIGHT, GRAVITY } from '@/game/constants';
+import type { LoadedModel } from '@/art/ModelLoader';
 import { stepEnemyAI, type EnemyAIState } from './EnemyAI';
 import { FAN_OFFSETS, PROBE_RANGE, steerAround, type FanProbe } from './EnemySteering';
-import { bevelledBox } from '@/machine/MachineGeometry';
+import { CAPSULE_FOOT_OFFSET, CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
+import { EnemyVisual } from './EnemyVisual';
 
-const CAPSULE_RADIUS = 0.36;
-const CAPSULE_HALF_HEIGHT = 0.6;
+export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
 
 /**
  * Height, relative to the capsule's centre, that the probes are cast from.
@@ -23,8 +24,7 @@ const CAPSULE_HALF_HEIGHT = 0.6;
  * every ray hits the deck plate underfoot. This is the one band that answers
  * the question being asked: can I walk this way?
  */
-const PROBE_HEIGHT =
-  -(CAPSULE_HALF_HEIGHT + CAPSULE_RADIUS) + AUTOSTEP_HEIGHT + 0.05;
+const PROBE_HEIGHT = -CAPSULE_FOOT_OFFSET + AUTOSTEP_HEIGHT + 0.05;
 
 /**
  * A hostile scavenger.
@@ -34,7 +34,7 @@ const PROBE_HEIGHT =
  * keep in sync.
  */
 export class Enemy {
-  readonly object3D: THREE.Group;
+  private readonly visual: EnemyVisual;
 
   private handle: CharacterHandle | null = null;
   private readonly position = new THREE.Vector3();
@@ -57,15 +57,21 @@ export class Enemy {
   constructor(
     readonly id: string,
     readonly def: EnemyDefinition,
-    scene: THREE.Scene,
+    private readonly scene: THREE.Scene,
     private readonly physics: PhysicsWorld,
     private readonly bus: EventBus,
     materials: Materials,
+    model: LoadedModel | null = null,
   ) {
     this.health = def.maxHealth;
-    this.object3D = buildEnemyMesh(materials);
+    this.visual = new EnemyVisual(model, materials);
     this.object3D.visible = false;
     scene.add(this.object3D);
+  }
+
+  /** Where this enemy is drawn. Owned by the visual; positioned here. */
+  get object3D(): THREE.Group {
+    return this.visual.object3D;
   }
 
   get isActive(): boolean {
@@ -103,8 +109,12 @@ export class Enemy {
     };
     this.physics.setUserData(this.handle.collider, damageable);
 
+    // A pooled enemy may have died in its last life still holding the death
+    // pose, and `setState` ignores repeat calls for a state it thinks it is
+    // already in.
+    this.visual.reset();
+
     this.object3D.visible = true;
-    this.object3D.rotation.z = 0;
     this.active = true;
     this.bus.emit('enemy:spawned', { enemyId: this.id, position: { ...at } });
   }
@@ -141,6 +151,7 @@ export class Enemy {
     if (!this.active) return;
 
     if (this.state === 'dead') {
+      this.visual.setState('dead');
       this.deathTimer += dt;
       if (this.deathTimer > 2.5) this.despawn();
       return;
@@ -158,6 +169,7 @@ export class Enemy {
       timeSinceLastAttack: this.timeSinceLastAttack,
     });
     this.state = decision.state;
+    this.visual.setState(this.state);
 
     if (decision.shouldAttack) {
       this.timeSinceLastAttack = 0;
@@ -244,19 +256,24 @@ export class Enemy {
     });
   }
 
-  update(alpha: number): void {
+  /**
+   * Place and animate the drawn body.
+   *
+   * `dt` is the frame delta, not the fixed step: animation is presentation, and
+   * advancing the mixer on the fixed step stutters whenever frame rate and tick
+   * rate disagree, which is most of the time.
+   */
+  update(alpha: number, dt: number): void {
     if (!this.active) return;
 
     this.renderPosition.lerpVectors(this.previousPosition, this.position, alpha);
     this.object3D.position.copy(this.renderPosition);
-    this.object3D.position.y -= CAPSULE_HALF_HEIGHT + CAPSULE_RADIUS;
 
-    if (this.state === 'dead') {
-      // Topple over rather than vanishing.
-      this.object3D.rotation.z = Math.min(this.deathTimer * 2.6, Math.PI / 2);
-    } else {
-      this.object3D.rotation.y = this.facing;
-    }
+    // Not while dead: the death clip, or the collapsing box, should not spin to
+    // face a player who walks around the corpse.
+    if (this.state !== 'dead') this.object3D.rotation.y = this.facing;
+
+    this.visual.update(dt);
   }
 
   despawn(): void {
@@ -268,31 +285,12 @@ export class Enemy {
     this.active = false;
     this.object3D.visible = false;
   }
+
+  /** Retire this enemy for good: it leaves the scene and is not reused. */
+  dispose(): void {
+    this.despawn();
+    this.scene.remove(this.object3D);
+    this.visual.dispose();
+  }
 }
 
-/**
- * Deliberately different in proportion from the player — taller, narrower,
- * hunched — so the two are distinguishable at a glance and in silhouette.
- */
-function buildEnemyMesh(materials: Materials): THREE.Group {
-  const g = new THREE.Group();
-  const add = (geo: THREE.BufferGeometry, mat: THREE.Material, y: number, x = 0, z = 0) => {
-    const m = new THREE.Mesh(geo, mat);
-    m.position.set(x, y, z);
-    m.castShadow = true;
-    m.receiveShadow = true;
-    g.add(m);
-  };
-
-  add(bevelledBox(0.44, 0.72, 0.3, 0.05), materials.rustedSteel, 1.16); // torso
-  add(bevelledBox(0.56, 0.16, 0.32, 0.04), materials.hullDark, 1.5); // shoulders
-  add(bevelledBox(0.22, 0.22, 0.24, 0.04), materials.hullDark, 1.66); // head
-  add(bevelledBox(0.14, 0.56, 0.14, 0.03), materials.rustedSteel, 1.1, -0.3);
-  add(bevelledBox(0.14, 0.56, 0.14, 0.03), materials.rustedSteel, 1.1, 0.3);
-  add(bevelledBox(0.17, 0.6, 0.17, 0.03), materials.hullDark, 0.5, -0.12);
-  add(bevelledBox(0.17, 0.6, 0.17, 0.03), materials.hullDark, 0.5, 0.12);
-  // Hostile red eye slit — reads instantly as a threat, even at distance.
-  add(bevelledBox(0.16, 0.05, 0.03, 0.01), materials.emissiveWarn, 1.68, 0, 0.13);
-
-  return g;
-}

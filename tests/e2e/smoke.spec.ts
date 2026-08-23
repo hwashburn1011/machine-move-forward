@@ -25,6 +25,17 @@ interface DebugStats {
 const stats = (page: Page) =>
   page.evaluate(() => (globalThis as never as { __game: { debugStats(): DebugStats } }).__game.debugStats());
 
+/**
+ * Wait for the game to finish booting.
+ *
+ * `load` is not enough: `main.ts` is a module with a top-level await, and the
+ * browser fires `load` without waiting for it to settle. Reading `__game`
+ * straight after `goto` therefore raced Rapier's wasm and won only narrowly —
+ * adding one more await to `Game.create` was enough to lose it.
+ */
+const ready = (page: Page) =>
+  page.waitForFunction(() => '__game' in globalThis, null, { timeout: 60_000 });
+
 async function sim(page: Page, seconds: number) {
   const start = (await stats(page)).simTime;
   await expect
@@ -41,7 +52,8 @@ test.describe('Machine Move Forward', () => {
       if (m.type() === 'error') errors.push(m.text());
     });
     page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
-    await page.goto('/?nolock=1&quality=low&seed=e2e-seed&nospawn=1&notex=1');
+    await page.goto('/?nolock=1&quality=low&seed=e2e-seed&nospawn=1&notex=1&nomodel=1');
+    await ready(page);
     await sim(page, 1.2);
   });
 
