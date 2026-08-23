@@ -92,9 +92,19 @@ const FRAGMENT_MAIN = /* glsl */ `
 /**
  * Give a material height fog. Safe to call on any material built from Three's
  * standard shader chunks; a no-op on raw ShaderMaterials.
+ *
+ * `cacheTag` matters more than it looks. Three's default
+ * `customProgramCacheKey()` returns `onBeforeCompile.toString()`, and every
+ * material wrapped here shares the identical arrow-function source — closures
+ * do not show up in toString(). Two materials whose other parameters also
+ * match therefore collide in the program cache and silently share whichever
+ * program compiled first. Anything that injects its own shader code must pass
+ * a distinct tag, or it will quietly render with someone else's shader.
  */
-export function applyHeightFog(material: THREE.Material): void {
+export function applyHeightFog(material: THREE.Material, cacheTag = 'heightfog'): void {
   const previous = material.onBeforeCompile.bind(material);
+  const previousKey = material.customProgramCacheKey.bind(material);
+  material.customProgramCacheKey = () => `${previousKey()}|${cacheTag}`;
 
   material.onBeforeCompile = (shader, renderer) => {
     previous(shader, renderer);

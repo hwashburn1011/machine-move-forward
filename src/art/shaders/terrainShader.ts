@@ -190,7 +190,10 @@ export const TERRAIN_FRAGMENT_MAIN = /* glsl */ `
   vec3 viewDirW = normalize(cameraPosition - vTerrainWorld);
   vec3 halfW = normalize(viewDirW + uSunDir);
   float alongHalf = abs(dot(normalize(vec3(rippleDir.x, 0.0, rippleDir.y)), halfW));
-  float glint = pow(1.0 - alongHalf, 26.0) * crest * detailFade;
+  // max() guard: alongHalf can tip a hair above 1.0 through float error,
+  // and pow() with a negative base is undefined in GLSL — it returns NaN,
+  // which paints the whole surface white.
+  float glint = pow(max(1.0 - alongHalf, 0.0), 26.0) * crest * detailFade;
   diffuseColor.rgb += uSandCrest * glint * 0.42;
 }
 `;

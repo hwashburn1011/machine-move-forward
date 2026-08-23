@@ -73,7 +73,10 @@ export class TerrainChunk {
         );
     };
 
-    applyHeightFog(material);
+    // Distinct tag: without it this material shares a compiled program with
+    // any other map-less MeshStandardMaterial that also has height fog (the
+    // tread rubber, for one) and loses its dune shader entirely.
+    applyHeightFog(material, 'terrain-dunes');
 
     this.mesh = new THREE.Mesh(sharedGeometry, material);
     this.mesh.receiveShadow = true;

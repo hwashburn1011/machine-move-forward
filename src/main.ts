@@ -7,7 +7,10 @@ import { updateFogColor } from '@/art/Fog';
 import { WorldManager } from '@/world/WorldManager';
 import { EventBus } from '@/core/events/EventBus';
 import { GameLoop } from '@/game/GameLoop';
-import { BASE_MACHINE_SPEED } from '@/game/constants';
+import { Machine } from '@/machine/Machine';
+import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
+
+await initRapier();
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 if (!canvas) throw new Error('missing #game canvas');
@@ -33,16 +36,23 @@ world.setSunDirection(sky.direction);
 let recycles = 0;
 bus.on('world:chunk-recycled', () => recycles++);
 
-// Placeholder for the machine, so there is something at the origin to judge
-// the scroll against. Replaced by the real machine in the next task.
-const placeholder = new THREE.Mesh(new THREE.BoxGeometry(10, 2.4, 16), materials.hull);
-placeholder.position.set(0, 1.2, 0);
-placeholder.castShadow = true;
-placeholder.receiveShadow = true;
-renderer.scene.add(placeholder);
+const physics = new PhysicsWorld();
+const machine = new Machine(renderer.scene, physics, materials);
 
-renderer.camera.position.set(9, 7.5, 19);
-renderer.camera.lookAt(0, 2, -30);
+const camMode = new URLSearchParams(location.search).get('cam');
+if (camMode === 'front') {
+  renderer.camera.position.set(11, 6.5, -19);
+  renderer.camera.lookAt(0, 3, 0);
+} else if (camMode === 'far') {
+  renderer.camera.position.set(9, 7.5, 19);
+  renderer.camera.lookAt(0, 2, -30);
+} else if (camMode === 'deck') {
+  renderer.camera.position.set(2.5, 5.2, 9.5);
+  renderer.camera.lookAt(0, 3.0, -3);
+} else {
+  renderer.camera.position.set(13, 8.5, 17);
+  renderer.camera.lookAt(0, 2.5, -2);
+}
 
 document.querySelector('#boot')?.remove();
 
@@ -50,7 +60,9 @@ const clock = new THREE.Clock();
 
 const loop = new GameLoop({
   fixedUpdate: (dt) => {
-    world.fixedUpdate(dt, BASE_MACHINE_SPEED);
+    machine.fixedUpdate(dt);
+    world.fixedUpdate(dt, machine.speed);
+    physics.step();
   },
   render: () => {
     const elapsed = clock.getElapsedTime();
@@ -76,6 +88,8 @@ loop.start();
     distance: Math.round(world.distanceTraveled),
     recycles,
     chunks: world.activeChunkCount,
+    speed: Number(machine.speed.toFixed(2)),
+    bodies: physics.bodyCount,
   }),
   world,
 };

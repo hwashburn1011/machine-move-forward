@@ -113,7 +113,7 @@ export class Materials {
 
     this.rubber = this.register(
       new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0.055, 0.055, 0.06),
+        color: new THREE.Color(0.035, 0.034, 0.038),
         roughness: 0.95,
         metalness: 0.0,
       }),
@@ -151,7 +151,22 @@ export class Materials {
       deckNormal,
     );
 
-    for (const m of this.all) applyHeightFog(m);
+    // Distinct cache tags. Materials that differ only in colour and roughness
+    // otherwise produce identical program cache keys and share one compiled
+    // program — see the note in applyHeightFog.
+    const tagged: [THREE.Material, string][] = [
+      [this.hull, 'hull'],
+      [this.hullDark, 'hull-dark'],
+      [this.rustedSteel, 'rusted-steel'],
+      [this.deckPlate, 'deck-plate'],
+      [this.bareSteel, 'bare-steel'],
+      [this.accent, 'accent'],
+      [this.hazard, 'hazard'],
+      [this.rubber, 'rubber'],
+      [this.glass, 'glass'],
+      [this.emissiveWarn, 'emissive-warn'],
+    ];
+    for (const [m, tag] of tagged) applyHeightFog(m, `mmf-${tag}`);
   }
 
   get all(): THREE.Material[] {
