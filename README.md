@@ -49,7 +49,7 @@ build adds weight, which measurably slows the machine.
 | `F1` / `F2` | Quicksave / quickload |
 | `F3` | Toggle debug overlay |
 | `F4` | Spawn an enemy ahead |
-| `F5` | Give ammo |
+| `F5` | Give ammo and scrap |
 | `F6` | Toggle god mode |
 | `F7` | Jump 500m forward |
 | `F8` | Cycle quality tier |
@@ -144,7 +144,7 @@ fixed-timestep accumulator, chunk recycling and save-restore equivalence,
 damage falloff, weapon state, enemy AI transitions, save migrations, grid edge
 canonicalisation, every build placement rule, and room flood fill.
 
-Rendering and feel cannot be meaningfully unit-tested, so there are three
+Rendering and feel cannot be meaningfully unit-tested, so there are four
 browser harnesses in `tools/` that drive the real game:
 
 ```bash
@@ -161,5 +161,5 @@ wall-clock assertions would measure the GPU rather than the game.
 ## Documents
 
 - `machine-move-forward-game-handoff.md` — the full game design
-- `docs/superpowers/specs/` — the approved spec for this pass
-- `docs/superpowers/plans/` — the 19-task implementation plan
+- `docs/superpowers/specs/` — the approved spec for each pass
+- `docs/superpowers/plans/` — the task-by-task implementation plans
