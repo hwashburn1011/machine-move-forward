@@ -4,6 +4,7 @@ import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
 import type { EnemyAIState } from './EnemyAI';
 import { CAPSULE_FOOT_OFFSET, buildEnemyMesh } from './EnemyMesh';
+import { FLASH_SECONDS, flashIntensity } from './HitFlash';
 
 /**
  * How an enemy looks.
@@ -79,6 +80,24 @@ const CROSS_FADE = 0.18;
 /** Radians per second the fallback box topples at once it is dead. */
 const TOPPLE_RATE = 2.6;
 
+/** Colour a scavenger is driven towards when shot. */
+const FLASH_COLOUR = new THREE.Color(0xff3020);
+
+/** Emissive intensity added at the peak of a hit flash. */
+const FLASH_INTENSITY = 4.5;
+
+/**
+ * How far the base colour is dragged towards the flash colour at the peak.
+ *
+ * Emissive alone was not enough to read. The deck is lit by a low orange sun
+ * and everything on it is already warm, so a red glow against a red-lit hull
+ * barely registers -- the first version measured correctly, looked like
+ * nothing, and would have shipped as a fix that did not fix anything. Moving
+ * the albedo as well changes the silhouette rather than its shading, which
+ * survives whatever the sun is doing.
+ */
+const FLASH_ALBEDO = 0.75;
+
 /**
  * How one enemy looks: a box, or an animated character.
  *
@@ -102,6 +121,21 @@ export class EnemyVisual {
   private current: THREE.AnimationAction | null = null;
   private currentState: EnemyAIState | null = null;
   private deadFor = 0;
+  /**
+   * This enemy's own materials, with the emissive each started with.
+   *
+   * Cloned per visual because `SkeletonUtils.clone` shares materials between
+   * clones exactly as it would share a skeleton: without this, shooting one
+   * scavenger lights up every scavenger on the deck.
+   */
+  private readonly flashMaterials: {
+    mat: THREE.MeshStandardMaterial;
+    emissive: THREE.Color;
+    intensity: number;
+    colour: THREE.Color;
+  }[] = [];
+  private flashElapsed = FLASH_SECONDS;
+  private appliedFlash = 0;
 
   constructor(model: LoadedModel | null, materials: Materials) {
     if (!model) {
@@ -110,6 +144,7 @@ export class EnemyVisual {
       mesh.position.y = -CAPSULE_FOOT_OFFSET;
       this.object3D.add(mesh);
       this.fallback = mesh;
+      this.adoptMaterials();
       return;
     }
 
@@ -133,6 +168,8 @@ export class EnemyVisual {
     });
     this.object3D.add(scene);
 
+    this.adoptMaterials();
+
     this.mixer = new THREE.AnimationMixer(scene);
     for (const clip of model.clips) {
       this.clipNames.push(clip.name);
@@ -143,6 +180,66 @@ export class EnemyVisual {
   /** True when this enemy is drawn as a model rather than the fallback box. */
   get isAnimated(): boolean {
     return this.mixer !== null;
+  }
+
+  /**
+   * Take ownership of every material under this enemy.
+   *
+   * Shared materials are the norm everywhere else in the project and are the
+   * right default — they are what makes one texture upload serve the whole
+   * deck. They are wrong here for one reason: this class writes to them.
+   */
+  private adoptMaterials(): void {
+    this.object3D.traverse((o) => {
+      const mesh = o as THREE.Mesh;
+      if (!mesh.isMesh || !mesh.material) return;
+      const own = (m: THREE.Material): THREE.Material => {
+        const clone = m.clone();
+        const std = clone as THREE.MeshStandardMaterial;
+        if (std.emissive) {
+          this.flashMaterials.push({
+            mat: std,
+            emissive: std.emissive.clone(),
+            intensity: std.emissiveIntensity,
+            colour: std.color.clone(),
+          });
+        }
+        return clone;
+      };
+      mesh.material = Array.isArray(mesh.material)
+        ? mesh.material.map(own)
+        : own(mesh.material);
+    });
+  }
+
+  /**
+   * Light this enemy up: it has just been shot.
+   *
+   * Applied here rather than left for the next render step, which is where the
+   * decay runs. A frame can be longer than the whole flash -- under a software
+   * renderer it routinely is -- and the first update would then step straight
+   * past the curve and apply nothing at all, so the hit that killed something
+   * showed no reaction whatsoever.
+   */
+  flash(): void {
+    this.flashElapsed = 0;
+    this.applyFlash(1);
+  }
+
+  /**
+   * Drive the emissive towards the flash colour.
+   *
+   * Skipped entirely when nothing has changed, so an untouched scavenger costs
+   * one comparison a frame rather than a write to every material it owns.
+   */
+  private applyFlash(k: number): void {
+    if (k === this.appliedFlash) return;
+    this.appliedFlash = k;
+    for (const rec of this.flashMaterials) {
+      rec.mat.emissive.copy(rec.emissive).lerp(FLASH_COLOUR, k);
+      rec.mat.emissiveIntensity = rec.intensity + k * FLASH_INTENSITY;
+      rec.mat.color.copy(rec.colour).lerp(FLASH_COLOUR, k * FLASH_ALBEDO);
+    }
   }
 
   /** Cross-fade to the clip for an AI state. Repeat calls for a state are free. */
@@ -184,6 +281,8 @@ export class EnemyVisual {
     this.current = null;
     this.currentState = null;
     this.deadFor = 0;
+    this.flashElapsed = FLASH_SECONDS;
+    this.applyFlash(0);
     this.mixer?.stopAllAction();
     if (this.fallback) this.fallback.rotation.z = 0;
   }
@@ -196,6 +295,11 @@ export class EnemyVisual {
    * tick rate disagree, which is most of the time.
    */
   update(dt: number): void {
+    if (this.flashElapsed < FLASH_SECONDS) {
+      this.flashElapsed += dt;
+      this.applyFlash(flashIntensity(this.flashElapsed, FLASH_SECONDS));
+    }
+
     if (this.mixer) {
       this.mixer.update(dt);
       return;
@@ -211,6 +315,8 @@ export class EnemyVisual {
 
   dispose(): void {
     this.reset();
+    for (const rec of this.flashMaterials) rec.mat.dispose();
+    this.flashMaterials.length = 0;
     this.mixer?.stopAllAction();
     this.actions.clear();
     this.clipNames.length = 0;

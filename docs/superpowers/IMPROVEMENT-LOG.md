@@ -6,6 +6,70 @@ should pick up.
 
 ---
 
+## 003 — Scavengers react to being shot
+
+**Why.** Shooting one produced nothing visible until it died. A thing that does
+not react to being shot is indistinguishable from deck furniture, which is
+exactly what the player took one for. It is also the feedback that makes a
+weapon feel like it is connecting.
+
+**What changed.**
+
+- New pure module `src/enemies/HitFlash.ts` — `flashIntensity()`, a curve that
+  holds full brightness for the first 35% before decaying. The hold is not
+  decoration: at 30fps a frame is 33ms against a 160ms flash, and a pure decay
+  can be stepped clean over between two frames so the hit that killed something
+  shows nothing.
+- `EnemyVisual` now **owns its materials**. `SkeletonUtils.clone` shares
+  materials between clones exactly as it shares skeletons — without per-enemy
+  copies, shooting one scavenger lights up every scavenger aboard. Shared
+  materials remain the right default everywhere else in the project; they are
+  wrong here for one reason, which is that this class writes to them.
+- The flash is applied at the moment of the hit, not deferred to the next
+  render where the decay runs. A frame can be longer than the whole flash — on
+  a software renderer it routinely is — and the first update would otherwise
+  step straight past the curve and apply nothing.
+
+**Measured.**
+
+- 7 new unit tests on the curve. 400 unit tests green.
+- Two new harness checks, on the fallback path: a shot scavenger's peak
+  emissive goes 3.50 → 5.90, and a bystander standing next to it stays at
+  exactly 3.50. That second one is the per-enemy-materials check and is the
+  only thing that catches shared materials.
+- Model path measured separately in the browser: all 19 GLB materials move to
+  emissive `#ff3020` at intensity 5.5.
+- 9/42/21/29 harness checks, 11 e2e, lint and build clean.
+
+**One thing that nearly shipped as a non-fix.** The first version drove only
+`emissive`. It measured perfectly and looked like almost nothing: the deck is
+lit by a low orange sun, everything on it is already warm, and a red glow
+against a red-lit hull does not register. Dragging the base colour as well
+changes the silhouette rather than its shading, which survives whatever the sun
+is doing. Worth remembering — measuring a material property is not evidence
+that a player can see it.
+
+**Limits of what was verified.** The screenshots confirm the torso shifts
+olive → red, and the numbers confirm every material moves. I did not manage a
+clean side-by-side of the whole model: the free camera gets overwritten by the
+render loop each frame, so `freeCamera.position.set` from a probe does not
+stick, and headless rAF throttling means a 160ms effect has to be pinned open
+(`visual.flashElapsed = -1000`) to be captured at all. A future iteration
+wanting reliable visual diffs should fix the camera-override problem first.
+
+**Next.**
+
+- **Enemy health bar.** The flash says "you hit it"; nothing yet says "and it
+  is nearly dead". A billboarded bar above a damaged scavenger is the obvious
+  next step for threat read.
+- **Threat colouring at rest.** The model still reads as friendly when it is
+  not being shot.
+- **No audio anywhere in the project.** Still the largest missing feedback
+  channel; check whether that is deliberate scope before adding it.
+- **Graphics.** Not started.
+
+---
+
 ## 002 — Boarding awareness: the deck tells you something is on it
 
 **Why.** The player reported an empty deck while a scavenger was aboard, twice.

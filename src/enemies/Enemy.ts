@@ -163,6 +163,10 @@ export class Enemy {
     if (!this.active || this.state === 'dead') return;
 
     this.health = Math.max(0, this.health - amount);
+    // Shooting one used to produce nothing visible until it died. A scavenger
+    // that does not react is indistinguishable from deck furniture, which is
+    // exactly what the player took it for.
+    this.visual.flash();
     this.bus.emit('enemy:damaged', {
       enemyId: this.id,
       amount,

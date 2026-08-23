@@ -541,6 +541,48 @@ check(
   `feet ${fallbackVisual.footY.toFixed(3)}, centre ${fallbackVisual.centreY.toFixed(3)}`,
 );
 
+// --- Hit reaction ----------------------------------------------------------
+// Shooting a scavenger produced nothing visible until it died, which is a
+// large part of why the player read one as scenery. It now flashes -- and the
+// flash has to be its own, because SkeletonUtils.clone shares materials
+// between clones exactly as it shares skeletons. Without per-enemy copies,
+// hitting one lights up every scavenger aboard.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.player.stats.invulnerable = true;
+  g.enemies.spawn('scavenger', { x: -2, y: 3.6, z: 4 });
+  g.enemies.spawn('scavenger', { x: 2, y: 3.6, z: 4 });
+});
+await sim(0.4);
+const flash = await page.evaluate(() => {
+  const [a, b] = globalThis.__game.enemies.active;
+  const glow = (e) => {
+    let peak = 0;
+    e.object3D.traverse((o) => {
+      const mats = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : [];
+      for (const m of mats) if (m.emissiveIntensity > peak) peak = m.emissiveIntensity;
+    });
+    return peak;
+  };
+  const before = [glow(a), glow(b)];
+  a.takeDamage(5);
+  // Read on the same tick: the flash lights at the moment of the hit, because
+  // a frame can outlast the whole thing and waiting for one is how it ends up
+  // never being seen.
+  return { before, after: [glow(a), glow(b)] };
+});
+check(
+  'a scavenger lights up when it is shot',
+  flash.after[0] > flash.before[0] + 0.5,
+  `glow ${flash.before[0].toFixed(2)} -> ${flash.after[0].toFixed(2)}`,
+);
+check(
+  'only the one that was shot lights up',
+  Math.abs(flash.after[1] - flash.before[1]) < 1e-6,
+  `bystander ${flash.before[1].toFixed(2)} -> ${flash.after[1].toFixed(2)}`,
+);
+
 // --- Animated model, when one is present -----------------------------------
 // Needs public/models/scavenger.glb, which is not committed. The checks below
 // SKIP loudly rather than fail when it is absent: a silently-skipped check

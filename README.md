@@ -159,7 +159,7 @@ src/
 ## Testing
 
 ```bash
-npm test             # 393 unit tests (deterministic logic)
+npm test             # 400 unit tests (deterministic logic)
 npm run test:e2e     # 11 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit
@@ -177,7 +177,7 @@ browser harnesses in `tools/` that drive the real game:
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 9 movement/physics checks
-node tools/combat.mjs [out.png]                     # 40 combat, spawner, arrival, death, and visual checks
+node tools/combat.mjs [out.png]                     # 42 combat, spawner, arrival, death, and visual checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```
