@@ -140,7 +140,10 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     id: 'refinery',
     name: 'Refinery',
     anchor: 'cell',
-    cost: { scrap: 45, components: 8 },
+    // Scrap alone, and deliberately: it is the only source of components, so
+    // pricing it in components would make it unbuildable from a fresh start.
+    // 80 is the old 45 plus the 8 components at their refining cost, rounded.
+    cost: { scrap: 80 },
     weight: 380,
     maxHealth: 160,
     armor: 2,

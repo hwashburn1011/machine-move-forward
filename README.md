@@ -168,7 +168,7 @@ node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console error
 node tools/drive.mjs                                # 9 movement/physics checks
 node tools/combat.mjs                               # 12 combat checks
 node tools/build.mjs                                # 21 build system checks
-node tools/craft.mjs [out.png]                      # 27 inventory/crafting checks
+node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```
 
 These wait on **simulated** time, not wall time. Under a software renderer the

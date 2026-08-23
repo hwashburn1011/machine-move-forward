@@ -110,12 +110,11 @@ export const PLAYER_INVENTORY_SLOTS = 20;
 /**
  * What a new game starts with.
  *
- * The components are not decoration: the refinery is the only source of
- * components and itself costs eight of them, so a purely scrap start could
- * never build the machine that makes them. Twelve covers a refinery and a
- * crate, after which the loop is self-sustaining.
+ * Scrap alone. The refinery is the only source of components and is priced in
+ * scrap for exactly that reason, so the first thing a player builds is the
+ * thing that unlocks everything else.
  */
-export const STARTING_INVENTORY: ItemCost = { scrap: 400, components: 12 };
+export const STARTING_INVENTORY: ItemCost = { scrap: 400 };
 
 /** Compact cost label for the build row: "15▪ 2⬡". */
 export function formatCostGlyphs(cost: ItemCost): string {

@@ -66,35 +66,30 @@ const FLOORS = [
 ];
 
 // --- Starting inventory ---------------------------------------------------
+// The order of everything below is the progression itself: scrap buys the
+// refinery, the refinery makes components, components buy the workbench.
+// Nothing here may be reordered without breaking that chain, which is the
+// point of testing it this way round.
 const startScrap = await count('scrap');
 check('the starting inventory holds scrap', startScrap > 0, `${startScrap} scrap`);
 check(
-  'the starting inventory holds components for the first refinery',
-  (await count('components')) >= 8,
-  `${await count('components')} components`,
+  'the starting inventory holds no components',
+  (await count('components')) === 0,
+  'the refinery is the only source',
 );
 
-// --- Building costs itemised materials ------------------------------------
+// --- The refinery is buildable from scrap alone ---------------------------
 for (const cell of FLOORS) await place('floor', cell);
 
-const beforeBench = {
-  scrap: await count('scrap'),
-  components: await count('components'),
-};
-const benchId = await place('workbench', FLOORS[1]);
-const afterBench = {
-  scrap: await count('scrap'),
-  components: await count('components'),
-};
-check('a workbench can be built', benchId !== null);
-check(
-  'a workbench costs 30 scrap and 4 components',
-  beforeBench.scrap - afterBench.scrap === 30 && beforeBench.components - afterBench.components === 4,
-  `${JSON.stringify(beforeBench)} -> ${JSON.stringify(afterBench)}`,
-);
-
+const beforeRefinery = { scrap: await count('scrap'), components: await count('components') };
 const refineryId = await place('refinery', FLOORS[2]);
+const afterRefinery = { scrap: await count('scrap'), components: await count('components') };
 check('a refinery can be built', refineryId !== null);
+check(
+  'a refinery costs 80 scrap and no components',
+  beforeRefinery.scrap - afterRefinery.scrap === 80 && afterRefinery.components === 0,
+  `${JSON.stringify(beforeRefinery)} -> ${JSON.stringify(afterRefinery)}`,
+);
 
 // Stand at the stations so everything below is within interaction reach.
 await run(() => globalThis.__game.player.teleport({ x: -6, y: 3.4, z: -11 }));
@@ -112,7 +107,32 @@ check(
   `${JSON.stringify(beforeRefine)} -> ${JSON.stringify(afterRefine)}`,
 );
 
+// --- The workbench is paid for out of refined components ------------------
+const shortBench = await place('workbench', FLOORS[1]);
+check(
+  'a workbench is refused on one refined component',
+  shortBench === null,
+  'it wants four',
+);
+
+// Three more, to reach the four the workbench needs.
+for (let i = 0; i < 3; i++) {
+  await run(() => globalThis.__game.game.crafting.craft('refine-components'));
+}
+
+const beforeBench = { scrap: await count('scrap'), components: await count('components') };
+const benchId = await place('workbench', FLOORS[1]);
+const afterBench = { scrap: await count('scrap'), components: await count('components') };
+check('a workbench can be built once components exist', benchId !== null);
+check(
+  'a workbench costs 30 scrap and 4 components',
+  beforeBench.scrap - afterBench.scrap === 30 && beforeBench.components - afterBench.components === 4,
+  `${JSON.stringify(beforeBench)} -> ${JSON.stringify(afterBench)}`,
+);
+
 // --- Crafted ammo reaches the weapon --------------------------------------
+// The workbench just spent every component; rifle rounds want one back.
+await run(() => globalThis.__game.game.crafting.craft('refine-components'));
 const reserveBefore = await run(() => globalThis.__game.game.combat.current.reserveAmmo);
 await run(() => globalThis.__game.game.crafting.craft('craft-rifle-ammo'));
 const reserveAfter = await run(() => globalThis.__game.game.combat.current.reserveAmmo);

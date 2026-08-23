@@ -134,11 +134,19 @@ the materials gone would be worse than a refusal.
 | stairs | scrap 18 |
 | storage crate | scrap 15, components 2 |
 | workbench | scrap 30, components 4 |
-| refinery | scrap 45, components 8 |
+| refinery | scrap 80 |
 
 Demolition refunds 60% of every item in the cost, floored per item, deposited
 through `ResourceAccess`. Anything that does not fit is dropped silently rather
 than blocking the demolition.
+
+**Amended 2026-08-23, during implementation.** The refinery was originally
+priced at 45 scrap and 8 components. It is the only source of components, so
+that made it unbuildable from a fresh start — the recipe for the thing that
+makes components required components. It is now 80 scrap: the original 45 plus
+the 8 components at their own refining cost, rounded. The player's first build
+is therefore the refinery, and the progression reads scrap -> refinery ->
+components -> workbench.
 
 ---
 
