@@ -62,7 +62,7 @@ const roomInfo = () =>
     };
   });
 
-const scrap = () => page.evaluate(() => globalThis.__game.game.resources.scrap);
+const scrap = () => page.evaluate(() => globalThis.__game.game.resources.count('scrap'));
 const pieces = () => page.evaluate(() => globalThis.__game.game.build.pieceCount);
 
 await sim(1.5);
@@ -89,7 +89,7 @@ check('B exits build mode', !(await page.evaluate(() => globalThis.__game.game.b
 // behaviour but leaves a stray floor. Start the real structure from clean.
 await page.evaluate(() => {
   globalThis.__game.game.build.clear();
-  globalThis.__game.game.resources.reset();
+  globalThis.__game.game.resetInventory();
 });
 await sim(0.3);
 
@@ -115,7 +115,9 @@ check('cannot build inside the engine block', !blockedPlace, 'equipment cell rej
 // would otherwise count as a third room.
 await page.evaluate(() => {
   globalThis.__game.game.build.clear();
-  globalThis.__game.game.resources.grant(3000);
+  // Capped by slots now, not by an integer: 20 slots x 100 scrap is the
+  // ceiling, so granting 3000 would silently drop a third of it.
+  globalThis.__game.game.resources.deposit('scrap', 1200);
 });
 await sim(0.3);
 
@@ -181,7 +183,7 @@ check(
 const speedBefore = (await stats()).speed;
 await page.evaluate(() => {
   const g = globalThis.__game.game;
-  g.resources.grant(5000);
+  g.resources.deposit('scrap', 1200);
   for (let x = 1; x <= 4; x++) {
     for (let z = -2; z <= 5; z++) g.build.place({ piece: 'floor', cell: { x, y: 0, z }, rotation: 0 });
   }

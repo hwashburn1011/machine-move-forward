@@ -1,4 +1,5 @@
 import { BUILD_PIECES, BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
+import { formatCostGlyphs, type ItemCost } from '@/data/items';
 import { REASON_TEXT, type Validation } from '@/building/BuildValidation';
 
 export interface BuildUIState {
@@ -6,6 +7,12 @@ export interface BuildUIState {
   level: number;
   rotation: number;
   scrap: number;
+  components: number;
+  /**
+   * A predicate rather than a scrap number: costs are itemised now, and the
+   * panel must not have its own opinion about where materials live.
+   */
+  canAfford: (cost: ItemCost) => boolean;
   validation: Validation;
   roomCount: number;
   enclosedCount: number;
@@ -34,14 +41,14 @@ export class BuildUI {
         <div class="build-slot" data-piece="${id}">
           <span class="build-slot-key">${i + 1}</span>
           <span class="build-slot-name">${def.name}</span>
-          <span class="build-slot-cost">${def.cost}</span>
+          <span class="build-slot-cost">${formatCostGlyphs(def.cost)}</span>
         </div>`;
     }).join('');
 
     this.root.innerHTML = `
       <div class="build-row">${row}</div>
       <div class="build-status">
-        <span id="build-scrap">400 scrap</span>
+        <span id="build-scrap">400 &#9642; &middot; 0 &#11041;</span>
         <span id="build-level">Level 0</span>
         <span id="build-rooms">rooms 0 &middot; enclosed 0</span>
       </div>
@@ -67,12 +74,16 @@ export class BuildUI {
   update(state: BuildUIState): void {
     for (const [id, node] of this.slots) {
       const selected = id === state.piece;
-      const affordable = state.scrap >= BUILD_PIECES[id].cost;
+      const affordable = state.canAfford(BUILD_PIECES[id].cost);
       node.classList.toggle('is-selected', selected);
       node.classList.toggle('is-poor', !affordable);
     }
 
-    this.write('scrap', this.el['build-scrap'], `${state.scrap} scrap`);
+    this.write(
+      'scrap',
+      this.el['build-scrap'],
+      `${state.scrap} ▪ · ${state.components} ⬡`,
+    );
     this.write('level', this.el['build-level'], `Level ${state.level}`);
     this.write(
       'rooms',

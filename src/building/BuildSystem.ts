@@ -4,8 +4,16 @@ import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
 import type { Machine } from '@/machine/Machine';
-import type { Resources } from '@/progression/Resources';
-import { BUILD_PIECES, type PieceId } from '@/data/build-pieces';
+import type { ResourceAccess, CrateRef } from '@/items/ResourceAccess';
+import { Container } from '@/items/Container';
+import {
+  BUILD_PIECES,
+  CRATE_SLOTS,
+  isStation,
+  REFUND_FRACTION,
+  type PieceId,
+} from '@/data/build-pieces';
+import type { ItemCost, ItemId, ItemStack } from '@/data/items';
 import {
   BuildGrid,
   cellCenter,
@@ -34,6 +42,25 @@ export interface BuildPieceInstance {
   edge?: Edge;
   rotation: number;
   health: number;
+  /**
+   * Per-instance payload. Reserved in the foundation pass; a storage crate
+   * uses it to carry its contents through a save.
+   */
+  state?: Record<string, unknown>;
+}
+
+/** What a storage crate writes into `state`. */
+export interface CrateState {
+  slots: (ItemStack | null)[];
+  /** `state` is an open bag, so this shape has to be assignable to it. */
+  [key: string]: unknown;
+}
+
+/** A built station near the player, for the interaction system. */
+export interface StationRef {
+  instanceId: string;
+  piece: PieceId;
+  position: THREE.Vector3;
 }
 
 interface LiveInstance {
@@ -58,6 +85,9 @@ export class BuildSystem {
   private readonly cellOwner = new Map<string, string>();
   private readonly roofOwner = new Map<string, string>();
   private readonly edgeOwner = new Map<string, string>();
+  private readonly stationOwner = new Map<string, string>();
+  /** Contents of every built storage crate, keyed by instance id. */
+  private readonly crateContainers = new Map<string, Container>();
 
   private graph: RoomGraph = { rooms: [], byCell: new Map(), links: [] };
   private nextId = 0;
@@ -69,7 +99,7 @@ export class BuildSystem {
     private readonly bus: EventBus,
     private readonly materials: Materials,
     private readonly machine: Machine,
-    private readonly resources: Resources,
+    private readonly resources: ResourceAccess,
   ) {
     this.group.name = 'built-structures';
     scene.add(this.group);
@@ -96,8 +126,11 @@ export class BuildSystem {
   }
 
   canPlace(placement: Placement): Validation {
-    return validatePlacement(this.grid, placement, this.resources.scrap);
+    return validatePlacement(this.grid, placement, this.affordable);
   }
+
+  /** Bound once, so the validator gets a stable predicate rather than a fresh closure. */
+  private readonly affordable = (cost: ItemCost): boolean => this.resources.canAfford(cost);
 
   /**
    * Place a piece. Returns the instance, or null if placement was refused.
@@ -108,11 +141,11 @@ export class BuildSystem {
     const validation = validatePlacement(
       this.grid,
       placement,
-      free ? Number.POSITIVE_INFINITY : this.resources.scrap,
+      free ? () => true : this.affordable,
     );
     if (!validation.ok) return null;
 
-    if (!free && !this.resources.spend(def.cost)) return null;
+    if (!free && !this.resources.consume(def.cost)) return null;
 
     const data: BuildPieceInstance = {
       instanceId: `bp-${this.nextId++}`,
@@ -124,6 +157,9 @@ export class BuildSystem {
     };
 
     this.occupy(data);
+    if (data.definitionId === 'crate') {
+      this.crateContainers.set(data.instanceId, new Container(CRATE_SLOTS));
+    }
     this.instances.set(data.instanceId, {
       data,
       mesh: this.createMesh(data),
@@ -136,14 +172,14 @@ export class BuildSystem {
     this.bus.emit('build:placed', {
       instanceId: data.instanceId,
       definitionId: data.definitionId,
-      scrapSpent: free ? 0 : def.cost,
+      cost: free ? {} : def.cost,
     });
     this.recomputeRooms();
 
     return data;
   }
 
-  /** Demolish whatever a placement targets. Returns total scrap refunded. */
+  /** Demolish whatever a placement targets. Returns total units refunded. */
   demolishAt(placement: Placement): number {
     const id = this.idAt(placement);
     if (!id) return 0;
@@ -196,6 +232,12 @@ export class BuildSystem {
       if (data.definitionId === 'stairs' && this.grid.getCell(data.cell) !== 'floor') {
         return data.instanceId;
       }
+
+      // A station stands on a floor. Pull the floor and the station goes with
+      // it, rather than being left hovering over open deck.
+      if (isStation(data.definitionId) && this.grid.getCell(data.cell) !== 'floor') {
+        return data.instanceId;
+      }
     }
     return null;
   }
@@ -207,6 +249,10 @@ export class BuildSystem {
 
     const def = BUILD_PIECES[live.data.definitionId];
 
+    // Empty the crate BEFORE it stops being a deposit target, or part of the
+    // contents lands straight back in the crate being destroyed.
+    this.emptyCrate(id);
+
     this.vacate(live.data);
     for (const collider of live.colliders) this.physics.removeCollider(collider);
     this.group.remove(live.mesh);
@@ -215,22 +261,51 @@ export class BuildSystem {
     this.weight -= def.weight;
     this.machine.movement.totalWeight -= def.weight;
 
-    const refunded = this.resources.refund(def.cost);
+    const refunded = this.refund(def.cost);
     this.bus.emit('build:removed', {
       instanceId: id,
       definitionId: live.data.definitionId,
-      scrapRefunded: refunded,
+      refunded,
     });
     return refunded;
+  }
+
+  /**
+   * Pay back 60% of every item in a cost, floored per item.
+   *
+   * Overflow that will not fit anywhere is dropped rather than blocking the
+   * demolition: a player who cannot carry the refund should still be able to
+   * tear the wall down.
+   */
+  private refund(cost: ItemCost): number {
+    let total = 0;
+    for (const [itemId, needed] of Object.entries(cost) as [ItemId, number][]) {
+      const amount = Math.floor(Math.max(0, needed) * REFUND_FRACTION);
+      if (amount <= 0) continue;
+      total += amount - this.resources.deposit(itemId, amount);
+    }
+    return total;
+  }
+
+  /** Hand a demolished crate's contents back. Anything that will not fit is dropped. */
+  private emptyCrate(id: string): void {
+    const container = this.crateContainers.get(id);
+    if (!container) return;
+    // Deregister first, so `deposit` cannot route items back into this crate.
+    this.crateContainers.delete(id);
+    for (const slot of container.slots) {
+      if (slot) this.resources.deposit(slot.itemId, slot.count);
+    }
+    container.clear();
   }
 
   /** Which instance a placement would target for demolition. */
   private idAt(placement: Placement): string | undefined {
     if (placement.edge) return this.edgeOwner.get(edgeKey(placement.edge));
-    // Prefer the roof: it is on top, so it is what the player is looking at.
-    return (
-      this.roofOwner.get(cellKey(placement.cell)) ?? this.cellOwner.get(cellKey(placement.cell))
-    );
+    // Station, then roof, then the cell itself: outermost first, so a floor
+    // cannot be pulled out from under a crate the player meant to remove.
+    const key = cellKey(placement.cell);
+    return this.stationOwner.get(key) ?? this.roofOwner.get(key) ?? this.cellOwner.get(key);
   }
 
   private occupy(data: BuildPieceInstance): void {
@@ -248,6 +323,11 @@ export class BuildSystem {
       const { run } = stairsCells(data.cell, data.rotation);
       this.grid.setCell(run, 'stairs');
       this.cellOwner.set(cellKey(run), data.instanceId);
+      return;
+    }
+    if (isStation(data.definitionId)) {
+      this.grid.setStation(data.cell, data.definitionId);
+      this.stationOwner.set(cellKey(data.cell), data.instanceId);
       return;
     }
     this.grid.setCell(data.cell, data.definitionId);
@@ -271,8 +351,51 @@ export class BuildSystem {
       this.cellOwner.delete(cellKey(run));
       return;
     }
+    if (isStation(data.definitionId)) {
+      this.grid.clearStation(data.cell);
+      this.stationOwner.delete(cellKey(data.cell));
+      return;
+    }
     this.grid.clearCell(data.cell);
     this.cellOwner.delete(cellKey(data.cell));
+  }
+
+  // -------------------------------------------------------------------------
+  // Stations
+  // -------------------------------------------------------------------------
+
+  /** Every built crate, as the aggregate resource view wants them. */
+  crates(): CrateRef[] {
+    const out: CrateRef[] = [];
+    for (const [id, container] of this.crateContainers) {
+      const live = this.instances.get(id);
+      if (!live) continue;
+      out.push({ container, position: live.mesh.position });
+    }
+    return out;
+  }
+
+  crateContainer(instanceId: string): Container | undefined {
+    return this.crateContainers.get(instanceId);
+  }
+
+  /** Built stations within `reach` metres, nearest first. */
+  stationsNear(pos: THREE.Vector3, reach: number): StationRef[] {
+    const found: { ref: StationRef; d: number }[] = [];
+    for (const live of this.instances.values()) {
+      if (!isStation(live.data.definitionId)) continue;
+      const d = live.mesh.position.distanceTo(pos);
+      if (d > reach) continue;
+      found.push({
+        ref: {
+          instanceId: live.data.instanceId,
+          piece: live.data.definitionId,
+          position: live.mesh.position.clone(),
+        },
+        d,
+      });
+    }
+    return found.sort((a, b) => a.d - b.d).map((entry) => entry.ref);
   }
 
   // -------------------------------------------------------------------------
@@ -376,11 +499,18 @@ export class BuildSystem {
   // -------------------------------------------------------------------------
 
   serialise(): BuildPieceInstance[] {
-    return [...this.instances.values()].map((live) => ({
-      ...live.data,
-      cell: { ...live.data.cell },
-      edge: live.data.edge ? { ...live.data.edge } : undefined,
-    }));
+    return [...this.instances.values()].map((live) => {
+      const container = this.crateContainers.get(live.data.instanceId);
+      const state: CrateState | undefined = container
+        ? { slots: container.serialise() }
+        : undefined;
+      return {
+        ...live.data,
+        cell: { ...live.data.cell },
+        edge: live.data.edge ? { ...live.data.edge } : undefined,
+        state,
+      };
+    });
   }
 
   /**
@@ -393,6 +523,7 @@ export class BuildSystem {
   restore(pieces: BuildPieceInstance[]): void {
     this.clear();
 
+    // Floors first: everything else in the list depends on one existing.
     const rank: Record<PieceId, number> = {
       floor: 0,
       stairs: 1,
@@ -400,13 +531,16 @@ export class BuildSystem {
       doorway: 2,
       railing: 2,
       roof: 3,
+      crate: 4,
+      workbench: 4,
+      refinery: 4,
     };
     const ordered = [...pieces].sort(
       (a, b) => a.cell.y - b.cell.y || rank[a.definitionId] - rank[b.definitionId],
     );
 
     for (const piece of ordered) {
-      this.place(
+      const created = this.place(
         {
           piece: piece.definitionId,
           cell: piece.cell,
@@ -415,6 +549,11 @@ export class BuildSystem {
         },
         true,
       );
+      if (!created) continue;
+
+      created.health = piece.health;
+      const slots = (piece.state as CrateState | undefined)?.slots;
+      if (slots) this.crateContainers.get(created.instanceId)?.restore(slots);
     }
   }
 
@@ -429,6 +568,8 @@ export class BuildSystem {
     this.cellOwner.clear();
     this.roofOwner.clear();
     this.edgeOwner.clear();
+    this.stationOwner.clear();
+    this.crateContainers.clear();
     this.grid.clear();
 
     this.machine.movement.totalWeight -= this.weight;

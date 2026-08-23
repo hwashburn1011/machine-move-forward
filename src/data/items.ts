@@ -104,6 +104,27 @@ export const ITEMS: Record<ItemId, ItemDefinition> = {
 
 export const ITEM_IDS = Object.keys(ITEMS) as ItemId[];
 
+/** Slots in the player's own inventory. */
+export const PLAYER_INVENTORY_SLOTS = 20;
+
+/**
+ * What a new game starts with.
+ *
+ * The components are not decoration: the refinery is the only source of
+ * components and itself costs eight of them, so a purely scrap start could
+ * never build the machine that makes them. Twelve covers a refinery and a
+ * crate, after which the loop is self-sustaining.
+ */
+export const STARTING_INVENTORY: ItemCost = { scrap: 400, components: 12 };
+
+/** Compact cost label for the build row: "15▪ 2⬡". */
+export function formatCostGlyphs(cost: ItemCost): string {
+  return (Object.entries(cost) as [ItemId, number][])
+    .filter(([, n]) => n > 0)
+    .map(([id, n]) => `${n}${ITEMS[id].glyph}`)
+    .join(' ');
+}
+
 /** Ammo item for a weapon's ammo type, so crafted rounds reach the right gun. */
 export const AMMO_FOR_WEAPON: Record<string, ItemId> = {
   rifle: 'ammo-rifle',

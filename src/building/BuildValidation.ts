@@ -52,7 +52,7 @@ export const REASON_TEXT: Record<RejectReason, string> = {
   'needs-support': 'Needs a wall below or a floor beside it',
   'needs-floor': 'Needs a floor',
   'needs-clearance': 'Not enough clear space',
-  'cannot-afford': 'Not enough scrap',
+  'cannot-afford': 'Not enough materials',
 };
 
 const OK: Validation = { ok: true };

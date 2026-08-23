@@ -1,3 +1,5 @@
+import type { ItemCost } from '@/data/items';
+
 export interface Vec3Like {
   x: number;
   y: number;
@@ -30,8 +32,8 @@ export type GameEvents = {
 
   'world:chunk-recycled': { chunkIndex: number };
 
-  'build:placed': { instanceId: string; definitionId: string; scrapSpent: number };
-  'build:removed': { instanceId: string; definitionId: string; scrapRefunded: number };
+  'build:placed': { instanceId: string; definitionId: string; cost: ItemCost };
+  'build:removed': { instanceId: string; definitionId: string; refunded: number };
   'build:rooms-changed': { roomCount: number; enclosedCount: number };
   'inventory:changed': { scrap: number };
   'craft:completed': { recipeId: string };

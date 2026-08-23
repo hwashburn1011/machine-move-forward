@@ -1,10 +1,24 @@
 import { describe, it, expect } from 'vitest';
 import { BuildGrid, canonicalEdge, type Cell } from '@/building/BuildGrid';
-import { stairsCells, validatePlacement, type Placement } from '@/building/BuildValidation';
+import {
+  stairsCells,
+  validatePlacement,
+  type CanAfford,
+  type Placement,
+} from '@/building/BuildValidation';
 import type { PieceId } from '@/data/build-pieces';
+import type { ItemCost, ItemId } from '@/data/items';
 
 const c = (x: number, y: number, z: number): Cell => ({ x, y, z });
-const RICH = 9999;
+
+const RICH: CanAfford = () => true;
+const POOR: CanAfford = () => false;
+
+/** A purse holding exactly these items, for the affordability cases. */
+const purse =
+  (have: ItemCost): CanAfford =>
+  (cost) =>
+    (Object.entries(cost) as [ItemId, number][]).every(([id, n]) => (have[id] ?? 0) >= n);
 
 const grid = () => new BuildGrid<PieceId>();
 
@@ -58,21 +72,40 @@ describe('bounds and occupancy', () => {
 });
 
 describe('affordability', () => {
-  it('rejects when scrap is short', () => {
+  it('rejects when the predicate refuses', () => {
     const g = grid();
-    expect(validatePlacement(g, place('floor', c(0, 0, 0)), 7).reason).toBe('cannot-afford');
+    expect(validatePlacement(g, place('floor', c(0, 0, 0)), POOR).reason).toBe('cannot-afford');
+  });
+
+  it('rejects when scrap is one short of the cost', () => {
+    const g = grid();
+    expect(validatePlacement(g, place('floor', c(0, 0, 0)), purse({ scrap: 7 })).reason).toBe(
+      'cannot-afford',
+    );
   });
 
   it('accepts at exactly the cost', () => {
     const g = grid();
-    expect(validatePlacement(g, place('floor', c(0, 0, 0)), 8).ok).toBe(true);
+    expect(validatePlacement(g, place('floor', c(0, 0, 0)), purse({ scrap: 8 })).ok).toBe(true);
+  });
+
+  it('rejects a multi-item cost when only one component is short', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    // Plenty of scrap, no components: the crate must still be refused.
+    expect(
+      validatePlacement(g, place('crate', c(0, 0, 0)), purse({ scrap: 999 })).reason,
+    ).toBe('cannot-afford');
+    expect(
+      validatePlacement(g, place('crate', c(0, 0, 0)), purse({ scrap: 15, components: 2 })).ok,
+    ).toBe(true);
   });
 
   it('reports the structural reason ahead of affordability', () => {
     const g = grid();
     // Broke AND out of bounds: the player should learn the spot is illegal,
     // not that they are poor.
-    expect(validatePlacement(g, place('floor', c(99, 0, 0)), 0).reason).toBe('out-of-bounds');
+    expect(validatePlacement(g, place('floor', c(99, 0, 0)), POOR).reason).toBe('out-of-bounds');
   });
 });
 
@@ -251,7 +284,7 @@ describe('purity', () => {
     validatePlacement(g, place('floor', c(1, 0, 0)), RICH);
     validatePlacement(g, place('floor', c(99, 0, 0)), RICH);
     validatePlacement(g, edgePlace('wall', c(0, 0, 0), 'east'), RICH);
-    validatePlacement(g, place('stairs', c(0, 0, 0), 1), 0);
+    validatePlacement(g, place('stairs', c(0, 0, 0), 1), POOR);
 
     expect(g.cellCount).toBe(cellsBefore);
     expect(g.edgeCount).toBe(edgesBefore);

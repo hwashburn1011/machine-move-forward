@@ -25,7 +25,13 @@ import { SandFX } from '@/fx/SandFX';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
 import { SaveManager } from '@/save/SaveManager';
-import { Resources } from '@/progression/Resources';
+import { Container } from '@/items/Container';
+import { ResourceAccess } from '@/items/ResourceAccess';
+import {
+  PLAYER_INVENTORY_SLOTS,
+  STARTING_INVENTORY,
+  type ItemId,
+} from '@/data/items';
 import { BuildSystem } from '@/building/BuildSystem';
 import { BuildPreview } from '@/building/BuildPreview';
 import { BuildUI } from '@/ui/BuildUI';
@@ -77,7 +83,9 @@ export class Game implements LoopCallbacks {
   readonly post: PostProcessing;
   readonly debug: DebugOverlay;
   readonly saves = new SaveManager();
-  readonly resources: Resources;
+  /** What the player carries. Crates hold their own. */
+  readonly inventory = new Container(PLAYER_INVENTORY_SLOTS);
+  readonly resources: ResourceAccess;
   readonly build: BuildSystem;
   readonly buildPreview: BuildPreview;
   readonly buildUI: BuildUI;
@@ -166,7 +174,17 @@ export class Game implements LoopCallbacks {
       this.quality,
     );
 
-    this.resources = new Resources(this.bus);
+    // The crate lookup is a thunk because the build system does not exist yet
+    // and will itself need `resources` — the cycle is only a problem if either
+    // side reads the other during construction.
+    this.resources = new ResourceAccess(
+      this.inventory,
+      () => this.build.crates(),
+      () => this.player.worldPosition,
+      this.bus,
+    );
+    this.resetInventory();
+
     this.build = new BuildSystem(
       this.renderer.scene,
       this.physics,
@@ -190,6 +208,15 @@ export class Game implements LoopCallbacks {
 
     window.addEventListener('resize', this.onResize);
     this.loop = new GameLoop(this);
+  }
+
+  /** Refill the inventory with a new game's starting materials. */
+  resetInventory(): void {
+    this.inventory.clear();
+    for (const [itemId, count] of Object.entries(STARTING_INVENTORY) as [ItemId, number][]) {
+      this.inventory.add(itemId, count);
+    }
+    this.bus.emit('inventory:changed', { scrap: this.inventory.count('scrap') });
   }
 
   get activeCamera(): THREE.PerspectiveCamera {
@@ -279,7 +306,9 @@ export class Game implements LoopCallbacks {
         piece: this.selectedPiece,
         level: this.buildLevel,
         rotation: this.buildRotation,
-        scrap: this.resources.scrap,
+        scrap: this.resources.count('scrap'),
+        components: this.resources.count('components'),
+        canAfford: this.canAffordCost,
         validation: this.buildPreview.validation,
         roomCount: this.build.rooms.rooms.length,
         enclosedCount: countEnclosed(this.build.rooms),
@@ -409,7 +438,8 @@ export class Game implements LoopCallbacks {
         break;
       case 'ammo':
         this.combat.giveAmmo(120);
-        this.resources.grant(250);
+        this.resources.deposit('scrap', 250);
+        this.resources.deposit('components', 10);
         break;
       case 'god':
         this.state.godMode = !this.state.godMode;
@@ -451,6 +481,10 @@ export class Game implements LoopCallbacks {
     | null = null;
 
   private timeOfDay = 0.5;
+
+  /** Bound once so the build panel is not handed a fresh closure every frame. */
+  private readonly canAffordCost = (cost: Parameters<ResourceAccess['canAfford']>[0]): boolean =>
+    this.resources.canAfford(cost);
 
   /** Called from the keydown listener installed by main. */
   queueDebugAction(action: NonNullable<Game['pendingDebug']>): void {

@@ -98,7 +98,7 @@ game.start();
       weapon: game.combat.current.def.id,
       enemies: game.enemies.activeCount,
       particles: game.sandFX.liveCount + game.impactFX.liveCount,
-      scrap: game.resources.scrap,
+      scrap: game.resources.count('scrap'),
       pieces: game.build.pieceCount,
       rooms: game.build.rooms.rooms.length,
       buildMode: game.buildMode,
