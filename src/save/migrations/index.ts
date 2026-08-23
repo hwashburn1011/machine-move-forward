@@ -50,6 +50,9 @@ export function migrate(raw: unknown): SaveGameV1 {
   };
   save.world ??= { chunkIndex: 0, threatDirector: null };
   save.savedAt ??= 0;
+  // Reserved but unused before the inventory milestone, so it can be missing
+  // rather than merely empty.
+  save.player.inventory ??= [];
 
   return save;
 }

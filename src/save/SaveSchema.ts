@@ -1,4 +1,5 @@
 import type { BuildPieceInstance } from '@/building/BuildSystem';
+import type { ItemStack } from '@/data/items';
 
 /**
  * Versioned save schema (handoff section 38).
@@ -10,8 +11,11 @@ import type { BuildPieceInstance } from '@/building/BuildSystem';
 export const CURRENT_SAVE_VERSION = 1;
 
 /**
- * No migration was needed to add built structures: `machine.structures` was
- * reserved as an array in v1 precisely so this milestone would not need one.
+ * No migration was needed to add built structures, the player's inventory, or
+ * crate contents: `machine.structures`, `player.inventory`, and each piece's
+ * `state` were all reserved in v1 precisely so these milestones would not need
+ * one. `magazineBonus` is optional for the same reason — a save written before
+ * mods existed reads back as an unmodded weapon.
  */
 
 export interface Vec3 {
@@ -29,11 +33,17 @@ export interface SaveGameV1 {
   player: {
     position: Vec3;
     health: number;
-    /** Empty until the inventory milestone. */
-    inventory: unknown[];
+    /** Serialised container slots, one entry per slot, null where empty. */
+    inventory: (ItemStack | null)[];
     equipment: {
       currentWeapon: string;
-      weapons: { id: string; ammoInMag: number; reserveAmmo: number }[];
+      weapons: {
+        id: string;
+        ammoInMag: number;
+        reserveAmmo: number;
+        /** Absent in saves written before weapon mods existed. */
+        magazineBonus?: number;
+      }[];
     };
   };
 

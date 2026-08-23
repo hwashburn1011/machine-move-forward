@@ -3,9 +3,9 @@
 A PvE survival shooter-looter set on a continuously moving land machine crossing
 a hostile desert. Inspired by *Raft* and *SAND*.
 
-This repository currently contains **Milestones 0–3** of the design handoff: the
+This repository currently contains **Milestones 0–4** of the design handoff: the
 technical foundation, the art direction, a playable third-person shooter core,
-and the grid build system.
+the grid build system, and inventory, storage, and crafting.
 
 ## Running it
 
@@ -27,6 +27,9 @@ Click the canvas to take control (pointer lock).
 | RMB | Aim (narrows FOV and spread) |
 | `R` | Reload |
 | `1` / `2` | Rifle / shotgun |
+| `Tab` | Inventory |
+| `E` | Use the station you are standing at |
+| `Esc` | Close a panel |
 | `B` | Toggle build mode |
 
 ### Build mode
@@ -73,19 +76,25 @@ fixed free camera for screenshots.
 - Rifle and shotgun with hitscan, spread, recoil, reload, and damage falloff
 - One hostile with a navigate/attack/pursue AI
 - HUD, debug overlay, versioned IndexedDB save/load
-- Grid build system: floors, walls, doorways, railings, roofs, and stairs on a
-  2m grid across a 9×12 envelope and 3 levels, with placement validation,
-  cascade demolition, scrap costs, and weight
+- Grid build system: floors, walls, doorways, railings, roofs, stairs, storage
+  crates, workbenches, and refineries on a 2m grid across a 9×12 envelope and 3
+  levels, with placement validation, cascade demolition, itemised costs, and
+  weight
 - Flood-fill room detection: enclosed vs exposed, interior volume, and doorway
   connectivity between rooms
+- Slot-based inventory with storage crates, aggregated so building and crafting
+  spend from the bag and from any crate within 6m
+- Instant crafting at the workbench and refinery: ammo that lands in the
+  weapon's reserve, repair kits, and an extended magazine that raises the
+  equipped weapon's magazine by 50%
 
 ## Not built yet
 
-Inventory, storage, crafting, resource collection, enemy vehicles, boarding,
-turrets, localized machine damage, repair, the threat director, loot,
-navigation unlocks, and audio. These are Milestones 4–12 in the handoff.
+Resource collection, enemy vehicles, boarding, turrets, localized machine
+damage, repair, the threat director, loot, navigation unlocks, and audio. These
+are Milestones 5–12 in the handoff.
 
-Two known gaps in what is built:
+Three known gaps in what is built:
 
 - **Enemies do not path around player-built walls.** They steer directly at the
   player and will push against structures. The handoff defers navmesh work to
@@ -93,6 +102,9 @@ Two known gaps in what is built:
   will path over.
 - **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
   and there is no interior lighting yet. Lamps arrive with the power system.
+- **Fuel is storable but inert.** Nothing burns it until the power system.
+  It is carried because the save schema and the handoff both call for it, and
+  giving it a fabricated sink now would be worse than leaving it idle.
 
 ## Constraints
 
@@ -118,23 +130,26 @@ src/
   building/   Grid, validation, rooms, geometry, build system, preview
   combat/     Weapons, damage
   core/       Renderer, physics, input, events, math, debug
-  data/       Weapon and enemy definitions (data only)
+  data/       Weapon, enemy, build piece, item, and recipe definitions (data only)
   enemies/    Enemy entity, AI, pooled manager
   fx/         Particle system, sand, impacts
   game/       Game orchestrator, fixed-timestep loop, constants
+  crafting/   Recipe evaluation and execution
+  interaction/Nearest interactable within reach
+  items/      Slotted container, aggregate resource access
   machine/    Machine geometry, colliders, speed model
   player/     Player, controller, camera, combat
-  progression/Scrap resources
+  progression/(empty until the tech tree)
   save/       Versioned IndexedDB saves and migrations
-  ui/         DOM HUD
+  ui/         DOM HUD and panels
   world/      Chunk recycling, terrain, props, seeding
 ```
 
 ## Testing
 
 ```bash
-npm test             # 254 unit tests (deterministic logic)
-npm run test:e2e     # 10 Playwright smoke tests
+npm test             # 310 unit tests (deterministic logic)
+npm run test:e2e     # 11 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit
 ```
@@ -142,9 +157,10 @@ npm run build        # includes tsc --noEmit
 Deterministic logic is unit-tested: seeded RNG and noise, the event bus, the
 fixed-timestep accumulator, chunk recycling and save-restore equivalence,
 damage falloff, weapon state, enemy AI transitions, save migrations, grid edge
-canonicalisation, every build placement rule, and room flood fill.
+canonicalisation, every build placement rule, room flood fill, container
+stacking and slot exhaustion, aggregate resource access, and recipe execution.
 
-Rendering and feel cannot be meaningfully unit-tested, so there are four
+Rendering and feel cannot be meaningfully unit-tested, so there are five
 browser harnesses in `tools/` that drive the real game:
 
 ```bash
@@ -152,6 +168,7 @@ node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console error
 node tools/drive.mjs                                # 9 movement/physics checks
 node tools/combat.mjs                               # 12 combat checks
 node tools/build.mjs                                # 21 build system checks
+node tools/craft.mjs [out.png]                      # 27 inventory/crafting checks
 ```
 
 These wait on **simulated** time, not wall time. Under a software renderer the

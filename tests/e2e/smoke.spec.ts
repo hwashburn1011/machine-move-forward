@@ -188,6 +188,51 @@ test.describe('Machine Move Forward', () => {
     expect(errors).toEqual([]);
   });
 
+  test('crafted ammo reaches the reserve and survives save and reload', async ({ page }) => {
+    const crafted = await page.evaluate(() => {
+      const g = globalThis as never as {
+        __game: {
+          game: {
+            inventory: { clear(): void; add(id: string, n: number): number };
+            crafting: { craft(id: string): boolean };
+            combat: { current: { reserveAmmo: number } };
+          };
+        };
+      };
+      const game = g.__game.game;
+      game.inventory.clear();
+      game.inventory.add('scrap', 20);
+      game.inventory.add('components', 5);
+
+      const before = game.combat.current.reserveAmmo;
+      const ok = game.crafting.craft('craft-rifle-ammo');
+      return { ok, before, after: game.combat.current.reserveAmmo };
+    });
+
+    expect(crafted.ok).toBe(true);
+    expect(crafted.after).toBe(crafted.before + 30);
+
+    await page.evaluate(
+      () =>
+        (globalThis as never as { __game: { game: { saveTo(s: string): Promise<void> } } }).__game.game.saveTo('e2e-craft'),
+    );
+    // Burn the reserve down, so a reload that did nothing would be visible.
+    await page.evaluate(
+      () =>
+        ((globalThis as never as { __game: { game: { combat: { current: { reserveAmmo: number } } } } }).__game.game
+          .combat.current.reserveAmmo = 0),
+    );
+    const loaded = await page.evaluate(
+      () =>
+        (globalThis as never as { __game: { game: { loadFrom(s: string): Promise<boolean> } } }).__game.game.loadFrom('e2e-craft'),
+    );
+    expect(loaded).toBe(true);
+
+    const restored = (await stats(page)).ammo;
+    expect(Number(restored.split('/')[1])).toBe(crafted.after);
+    expect(errors).toEqual([]);
+  });
+
   test('the world survives a long jump forward', async ({ page }) => {
     await page.evaluate(
       () => (globalThis as never as { __game: { world: { reset(d: number): void } } }).__game.world.reset(50_000),

@@ -700,16 +700,12 @@ export class Game implements LoopCallbacks {
       player: {
         position: { x: p.x, y: p.y, z: p.z },
         health: this.player.stats.health,
-        inventory: [],
+        inventory: this.inventory.serialise(),
         equipment: {
           currentWeapon: this.combat.current.def.id,
-          weapons: [
-            {
-              id: this.combat.current.def.id,
-              ammoInMag: this.combat.current.ammoInMag,
-              reserveAmmo: this.combat.current.reserveAmmo,
-            },
-          ],
+          // Every weapon, not just the equipped one: a mod fitted to the
+          // shotgun must survive a save taken while holding the rifle.
+          weapons: this.combat.serialise(),
         },
       },
       machine: {
@@ -739,9 +735,14 @@ export class Game implements LoopCallbacks {
     // Distance drives everything about the world, so restoring it regenerates
     // the identical chunks — nothing about the world itself is stored.
     this.world.reset(save.distanceTraveled);
-    // Structures first: rooms and machine weight must be correct before the
-    // rest of the load reads them.
+
+    // Inventory before structures: rebuilding a crate creates an empty
+    // container that the piece's own state then fills, and restoring the
+    // player's bag afterwards would be sequencing two writes to the same
+    // aggregate for no reason.
+    this.inventory.restore(save.player.inventory ?? []);
     this.build.restore(save.machine.structures ?? []);
+    this.bus.emit('inventory:changed', { scrap: this.inventory.count('scrap') });
 
     this.player.teleport(
       new THREE.Vector3(save.player.position.x, save.player.position.y, save.player.position.z),
@@ -750,11 +751,18 @@ export class Game implements LoopCallbacks {
     this.enemies.despawnAll();
 
     this.combat.equip(save.player.equipment.currentWeapon);
-    const weaponSave = save.player.equipment.weapons[0];
-    if (weaponSave) {
-      this.combat.current.ammoInMag = weaponSave.ammoInMag;
-      this.combat.current.reserveAmmo = weaponSave.reserveAmmo;
-    }
+    this.combat.restore(
+      save.player.equipment.weapons.map((w) => ({
+        id: w.id,
+        ammoInMag: w.ammoInMag,
+        reserveAmmo: w.reserveAmmo,
+        magazineBonus: w.magazineBonus ?? 0,
+      })),
+    );
+
+    // A panel open over a world that just changed underneath it would be
+    // showing stale containers.
+    this.closePanels();
 
     this.bus.emit('game:save-loaded', { slot });
     return true;
