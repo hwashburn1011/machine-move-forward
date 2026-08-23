@@ -467,6 +467,42 @@ check(
   `resting Y ${settled.map((w) => w.restY.toFixed(3)).join(', ')}`,
 );
 
+// --- Gaps narrower than a scavenger ----------------------------------------
+// The deck's equipment leaves two slots the fan can see straight down and a
+// body cannot fit through: 0.65m between the generator and the engine, 0.70m
+// between the engine and the fuel tank, against a 0.72m capsule. A scavenger
+// that picks one walks into it and stops, held off the deck by the squeeze,
+// with every forward probe still reporting clear.
+for (const [side, x] of [['port', -1.95], ['starboard', 1.95]]) {
+  await page.evaluate(
+    (sx) => {
+      const g = globalThis.__game.game;
+      g.enemies.despawnAll();
+      g.player.stats.invulnerable = true;
+      g.player.teleport({ x: 0, y: 3.6, z: -1 });
+      g.enemies.spawn('scavenger', { x: sx, y: 3.6, z: 5.6 });
+    },
+    x,
+  );
+  await sim(10);
+  const r = await page.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    const pl = globalThis.__game.game.player.worldPosition;
+    return {
+      gap: e.worldPosition.distanceTo(pl),
+      liftedOffDeck: e.worldPosition.y - 3.47,
+    };
+  });
+  // Ten seconds is thirty-one metres of walking on a sixteen-metre deck. Going
+  // the long way round the engine is a couple of metres of detour, so anything
+  // that has not closed to within four metres is stuck in the slot.
+  check(
+    `a scavenger routes around the ${side} equipment gap`,
+    r.gap < 4,
+    `${r.gap.toFixed(1)}m away, ${r.liftedOffDeck > 0.05 ? `wedged ${r.liftedOffDeck.toFixed(2)}m off the deck` : 'on the deck'}`,
+  );
+}
+
 // --- The enemy visual ------------------------------------------------------
 // This harness boots with nomodel=1, so this is the procedural fallback and it
 // must stay a complete enemy, not a degraded one. The suite has always run this

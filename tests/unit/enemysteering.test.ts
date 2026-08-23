@@ -3,6 +3,7 @@ import {
   FAN_OFFSETS,
   PROBE_RANGE,
   steerAround,
+  shoulderOrigins,
   type FanProbe,
 } from '@/enemies/EnemySteering';
 
@@ -132,5 +133,86 @@ describe('degenerate input', () => {
   it('survives an empty fan', () => {
     const out = steerAround(0, 1, []);
     expect(out.z).toBeCloseTo(1, 6);
+  });
+});
+
+describe('probing a direction at body width', () => {
+  it('puts one origin on the centre line and one at each shoulder', () => {
+    const origins = shoulderOrigins(0, 1, 0.38);
+    expect(origins).toHaveLength(3);
+    expect(origins[0]).toEqual({ x: 0, z: 0 });
+  });
+
+  it('offsets the shoulders perpendicular to the heading', () => {
+    // A sign or axis slip here probes ahead and behind instead of side to
+    // side, which looks like a working fan and measures nothing new.
+    const headings: [number, number][] = [
+      [0, 1],
+      [1, 0],
+      [Math.SQRT1_2, Math.SQRT1_2],
+      [-0.6, 0.8],
+    ];
+    for (const [dx, dz] of headings) {
+      for (const o of shoulderOrigins(dx, dz, 0.38).slice(1)) {
+        expect(o.x * dx + o.z * dz).toBeCloseTo(0, 6);
+      }
+    }
+  });
+
+  it('offsets them by exactly the body half-width, one each way', () => {
+const [, left, right] = shoulderOrigins(Math.SQRT1_2, Math.SQRT1_2, 0.38);
+    if (!left || !right) throw new Error('expected three origins');
+    expect(Math.hypot(left.x, left.z)).toBeCloseTo(0.38, 6);
+    expect(Math.hypot(right.x, right.z)).toBeCloseTo(0.38, 6);
+    // Opposite sides, not the same side twice.
+    expect(left.x).toBeCloseTo(-right.x, 6);
+    expect(left.z).toBeCloseTo(-right.z, 6);
+  });
+
+  it('is what makes a gap narrower than the body readable at all', () => {
+    // The deck leaves a 0.65m slot between the generator and the engine. A
+    // centre ray runs straight down it; a shoulder at 0.38 does not.
+const [, left, right] = shoulderOrigins(0, -1, 0.38);
+    if (!left || !right) throw new Error('expected three origins');
+    expect(Math.abs(left.x)).toBeGreaterThan(0.65 / 2);
+    expect(Math.abs(right.x)).toBeGreaterThan(0.65 / 2);
+  });
+});
+
+describe('backing out of a wedge', () => {
+  /** Boxed in: every direction obstructed, the best of them pointing backwards. */
+  const boxedIn = (): FanProbe[] => [
+    { angle: 0, distance: 0.03 },
+    { angle: -0.5, distance: 0.32 },
+    { angle: 0.5, distance: 0.15 },
+    { angle: -1.0, distance: 0.46 },
+    { angle: 1.0, distance: 0.29 },
+    { angle: -1.5, distance: 0.47 },
+    { angle: 1.5, distance: 0.38 },
+    { angle: -2.0, distance: 0.25 },
+    { angle: 2.0, distance: 0.51 },
+  ];
+
+  it('normally prefers a worse-but-forward opening', () => {
+    // The default weighting is what walks it into the pinch in the first
+    // place, and is right everywhere else.
+    expect(steerAround(0.33, -0.94, boxedIn()).turn).toBe(-1);
+  });
+
+  it('takes the most open direction when stuck, whatever it points at', () => {
+    // Alignment is what got it here. Once wedged, the only thing that matters
+    // is which way has room.
+    expect(steerAround(0.33, -0.94, boxedIn(), { stuck: true }).turn).toBe(2);
+  });
+
+  it('still returns a unit heading when stuck', () => {
+    const h = steerAround(0.33, -0.94, boxedIn(), { stuck: true });
+    expect(Math.hypot(h.x, h.z)).toBeCloseTo(1, 6);
+  });
+
+  it('leaves an unobstructed fan alone even when stuck', () => {
+    // Stuck against something the fan cannot see is not a reason to walk off
+    // in an arbitrary direction; with everything equally open, forward wins.
+    expect(steerAround(0, 1, clear(), { stuck: true }).turn).toBe(0);
   });
 });

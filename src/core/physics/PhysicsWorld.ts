@@ -1,6 +1,6 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
-import { AUTOSTEP_HEIGHT, FIXED_DT, GRAVITY } from '@/game/constants';
+import { AUTOSTEP_HEIGHT, FIXED_DT, GRAVITY, CHARACTER_SKIN } from '@/game/constants';
 
 let rapierReady = false;
 
@@ -135,7 +135,7 @@ export class PhysicsWorld {
 
     // Small offset keeps the capsule from resting exactly on surfaces, which
     // makes grounded detection flicker.
-    const controller = this.world.createCharacterController(0.02);
+    const controller = this.world.createCharacterController(CHARACTER_SKIN);
     controller.setUp({ x: 0, y: 1, z: 0 });
     // Deck plates, stair treads, and equipment lips are all short steps; without
     // autostep the player catches on every one of them.

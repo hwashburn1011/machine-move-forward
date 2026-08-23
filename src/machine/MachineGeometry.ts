@@ -202,7 +202,14 @@ export function buildMachine(materials: Materials): MachineBuild {
     pos: [number, number, number];
     mat: THREE.Material;
   }[] = [
-    { name: 'engine', size: [3.2, 1.8, 2.6], pos: [0, DECK_HEIGHT + 0.99, DECK_L / 2 - 2.0], mat: materials.hull },
+    // 2.8 wide, not 3.2. At 3.2 the slots either side of it — to the
+    // generator to port, the fuel tank to starboard — come out 0.65m and
+    // 0.70m, against a scavenger that needs 0.76m to pass. Both read as open
+    // road to anything that looks down them and are dead ends to anything that
+    // walks in, and a wedged scavenger cannot move in any direction at all.
+    // The grid cells this blocks are unchanged either way: they are rounded to
+    // the 2m tile, and 1.4 and 1.6 both round to the same column.
+    { name: 'engine', size: [2.8, 1.8, 2.6], pos: [0, DECK_HEIGHT + 0.99, DECK_L / 2 - 2.0], mat: materials.hull },
     { name: 'generator', size: [1.5, 1.2, 1.5], pos: [-3.0, DECK_HEIGHT + 0.69, DECK_L / 2 - 4.4], mat: materials.rustedSteel },
     { name: 'fuel-tank', size: [1.6, 1.5, 2.4], pos: [3.1, DECK_HEIGHT + 0.84, DECK_L / 2 - 4.6], mat: materials.bareSteel },
     { name: 'workbench', size: [2.6, 1.0, 1.2], pos: [-2.6, DECK_HEIGHT + 0.59, 0.6], mat: materials.hullDark },

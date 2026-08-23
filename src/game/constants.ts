@@ -94,6 +94,15 @@ export const PLAYER_JUMP_HEIGHT = 1.1;
 export const PLAYER_CAPSULE_RADIUS = 0.34;
 export const PLAYER_CAPSULE_HALF_HEIGHT = 0.62;
 
+/**
+ * Gap the character controller keeps between a capsule and everything it
+ * touches, so resting on a surface does not make grounded detection flicker.
+ *
+ * It also widens the body: a capsule needs its radius plus this much clear to
+ * either side to actually fit through a gap.
+ */
+export const CHARACTER_SKIN = 0.02;
+
 /** Clearance between a dropped capsule's feet and the deck it lands on. */
 const DROP_CLEARANCE = 0.15;
 

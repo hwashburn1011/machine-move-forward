@@ -5,10 +5,16 @@ import type { Materials } from '@/art/Materials';
 import type { EnemyDefinition } from '@/data/enemies';
 import type { Damageable } from '@/player/PlayerCombat';
 import type { PlayerStats } from '@/player/PlayerStats';
-import { AUTOSTEP_HEIGHT, GRAVITY } from '@/game/constants';
+import { AUTOSTEP_HEIGHT, CHARACTER_SKIN, GRAVITY } from '@/game/constants';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { stepEnemyAI, type EnemyAIState } from './EnemyAI';
-import { FAN_OFFSETS, PROBE_RANGE, steerAround, type FanProbe } from './EnemySteering';
+import {
+  FAN_OFFSETS,
+  PROBE_RANGE,
+  shoulderOrigins,
+  steerAround,
+  type FanProbe,
+} from './EnemySteering';
 import { CAPSULE_FOOT_OFFSET, CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
 import { EnemyVisual } from './EnemyVisual';
 
@@ -25,6 +31,34 @@ export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
  * the question being asked: can I walk this way?
  */
 const PROBE_HEIGHT = -CAPSULE_FOOT_OFFSET + AUTOSTEP_HEIGHT + 0.05;
+
+/**
+ * Half the width the body actually needs to pass through a gap.
+ *
+ * The radius plus the gap the controller keeps around it. Measured short of
+ * this, the fan cannot tell a usable route from a slot the enemy will wedge in.
+ */
+const BODY_HALF_WIDTH = CAPSULE_RADIUS + CHARACTER_SKIN;
+
+/**
+ * Seconds of asking to move and not moving before an enemy is called wedged.
+ *
+ * Long enough not to trip on the single blocked tick that walking into a wall
+ * and sliding along it produces, short enough that a scavenger does not stand
+ * visibly still first.
+ */
+const WEDGED_AFTER = 0.35;
+
+/**
+ * Seconds spent backing out once wedged.
+ *
+ * It has to outlast the pinch itself, or the enemy reverses a few centimetres,
+ * aims at the player again, and walks straight back into it.
+ */
+const BACKING_OUT_FOR = 0.9;
+
+/** Fraction of the requested movement below which a tick counts as blocked. */
+const BLOCKED_FRACTION = 0.25;
 
 /**
  * A hostile scavenger.
@@ -45,6 +79,10 @@ export class Enemy {
   private readonly probeDir = new THREE.Vector3();
   /** The detour chosen last tick, so a route around an obstacle is kept. */
   private lastTurn = 0;
+  /** Seconds spent asking to move and going nowhere. */
+  private blockedFor = 0;
+  /** Seconds left of backing out of a pinch. */
+  private backingOutFor = 0;
 
   private state: EnemyAIState = 'idle';
   private health: number;
@@ -96,6 +134,8 @@ export class Enemy {
     this.verticalVelocity = 0;
     this.timeSinceLastAttack = 999;
     this.deathTimer = 0;
+    this.blockedFor = 0;
+    this.backingOutFor = 0;
     this.position.copy(at);
     this.previousPosition.copy(at);
 
@@ -194,6 +234,7 @@ export class Enemy {
         const dirZ = this.toPlayer.z / flat;
         const heading = steerAround(dirX, dirZ, this.probe(dirX, dirZ), {
           previousTurn: this.lastTurn,
+          stuck: this.backingOutFor > 0,
         });
         this.lastTurn = heading.turn;
         vx = heading.x * this.def.moveSpeed;
@@ -212,6 +253,25 @@ export class Enemy {
       z: vz * dt,
     });
     const moved = controller.computedMovement();
+
+    // Wedge detection. A scavenger can slide into a gap narrower than itself —
+    // the deck leaves a couple — and the controller then reports grounded, no
+    // lateral collision, and exactly zero movement, forever. Nothing in the
+    // fan can see that, because from inside the pinch every direction is
+    // genuinely obstructed; the only way out is to stop steering at the player
+    // for a moment.
+    const asked = Math.hypot(vx, vz) * dt;
+    const got = Math.hypot(moved.x, moved.z);
+    if (asked > 1e-5 && got < asked * BLOCKED_FRACTION) {
+      this.blockedFor += dt;
+      if (this.blockedFor >= WEDGED_AFTER) {
+        this.backingOutFor = BACKING_OUT_FOR;
+        this.blockedFor = 0;
+      }
+    } else {
+      this.blockedFor = 0;
+    }
+    if (this.backingOutFor > 0) this.backingOutFor = Math.max(0, this.backingOutFor - dt);
 
     this.previousPosition.copy(this.position);
     this.position.set(
@@ -232,6 +292,10 @@ export class Enemy {
   /**
    * Cast the fan around a heading.
    *
+   * Three rays per direction, at the body's own width: the nearest of them is
+   * what that direction is worth, so a slot the capsule cannot fit through
+   * reads as blocked rather than as open road.
+   *
    * The enemy's own collider is excluded, or every probe would report a hit at
    * zero distance and it would spin on the spot. Other enemies are NOT
    * excluded: flowing around each other is the behaviour we want.
@@ -240,19 +304,31 @@ export class Enemy {
     const handle = this.handle;
     if (!handle) return [];
 
-    this.probeOrigin.set(this.position.x, this.position.y + PROBE_HEIGHT, this.position.z);
+    const y = this.position.y + PROBE_HEIGHT;
 
     return FAN_OFFSETS.map((angle) => {
       const sin = Math.sin(angle);
       const cos = Math.cos(angle);
-      this.probeDir.set(dirX * cos - dirZ * sin, 0, dirX * sin + dirZ * cos);
-      const hit = this.physics.raycast(
-        this.probeOrigin,
-        this.probeDir,
-        PROBE_RANGE,
-        handle.collider,
-      );
-      return { angle, distance: hit ? hit.distance : null };
+      const dx = dirX * cos - dirZ * sin;
+      const dz = dirX * sin + dirZ * cos;
+      this.probeDir.set(dx, 0, dz);
+
+      let nearest: number | null = null;
+      for (const offset of shoulderOrigins(dx, dz, BODY_HALF_WIDTH)) {
+        this.probeOrigin.set(
+          this.position.x + offset.x,
+          y,
+          this.position.z + offset.z,
+        );
+        const hit = this.physics.raycast(
+          this.probeOrigin,
+          this.probeDir,
+          PROBE_RANGE,
+          handle.collider,
+        );
+        if (hit && (nearest === null || hit.distance < nearest)) nearest = hit.distance;
+      }
+      return { angle, distance: nearest };
     });
   }
 
