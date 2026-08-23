@@ -28,14 +28,19 @@ import { SaveManager } from '@/save/SaveManager';
 import { Container } from '@/items/Container';
 import { ResourceAccess } from '@/items/ResourceAccess';
 import {
+  ITEMS,
   PLAYER_INVENTORY_SLOTS,
   STARTING_INVENTORY,
   type ItemId,
 } from '@/data/items';
+import { CraftingSystem } from '@/crafting/CraftingSystem';
+import { recipeById, type Recipe, type StationId } from '@/data/recipes';
+import { InteractionSystem, INTERACT_REACH, type Interactable } from '@/interaction/InteractionSystem';
+import { InventoryUI } from '@/ui/InventoryUI';
 import { BuildSystem } from '@/building/BuildSystem';
 import { BuildPreview } from '@/building/BuildPreview';
 import { BuildUI } from '@/ui/BuildUI';
-import { BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
+import { BUILD_PIECES, BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
 import { countEnclosed } from '@/building/RoomDetector';
 import { GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
@@ -89,6 +94,9 @@ export class Game implements LoopCallbacks {
   readonly build: BuildSystem;
   readonly buildPreview: BuildPreview;
   readonly buildUI: BuildUI;
+  readonly crafting: CraftingSystem;
+  readonly interaction = new InteractionSystem(INTERACT_REACH);
+  readonly inventoryUI: InventoryUI;
 
   buildMode = false;
   selectedPiece: PieceId = 'floor';
@@ -194,10 +202,24 @@ export class Game implements LoopCallbacks {
       this.resources,
     );
     this.buildPreview = new BuildPreview(this.renderer.scene);
+    this.crafting = new CraftingSystem(this.resources, this.bus);
 
+    // HUD first: it owns the root's innerHTML, so anything appended before it
+    // would be wiped.
     this.hud = new HUD(options.hudRoot, this.bus);
     this.buildUI = new BuildUI(options.hudRoot);
+    this.inventoryUI = new InventoryUI(options.hudRoot, this.inventory, {
+      moveToCrate: (slot, all) => this.transfer('player', slot, all),
+      moveToPlayer: (slot, all) => this.transfer('crate', slot, all),
+      useSlot: (slot) => this.useSlot(slot),
+      craft: (recipeId) => this.crafting.craft(recipeId),
+      close: () => this.closePanels(),
+    });
     this.debug = new DebugOverlay(options.hudRoot);
+
+    // Crafted rounds go straight to the gun that fires them, so the HUD
+    // reserve rises on the same click that spent the materials.
+    this.bus.on('craft:completed', ({ recipeId }) => this.autoLoadAmmo(recipeId));
 
     this.bus.on('player:died', () => {
       this.state.playerDead = true;
@@ -244,7 +266,9 @@ export class Game implements LoopCallbacks {
     if (this.state.paused) return;
     this.state.simTime += dt;
 
-    if (this.input.consumePressed('build')) this.toggleBuildMode();
+    this.updatePanels();
+    // Build mode and the panels are mutually exclusive: both want LMB.
+    if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
 
     if (!this.freeCamera) {
       this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
@@ -256,8 +280,10 @@ export class Game implements LoopCallbacks {
         this.player.collider,
       );
       // Build mode suppresses weapon fire entirely: LMB places, and firing
-      // while placing would be both surprising and expensive.
-      if (this.buildMode) this.updateBuildMode();
+      // while placing would be both surprising and expensive. An open panel
+      // suppresses both — its clicks belong to the panel.
+      if (this.panelsOpen) this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
+      else if (this.buildMode) this.updateBuildMode();
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
 
       this.enemies.fixedUpdate(dt, this.player.worldPosition, this.player.stats);
@@ -301,6 +327,11 @@ export class Game implements LoopCallbacks {
       pointerLocked: this.input.pointerLocked,
     });
 
+    this.inventoryUI.update({
+      countOf: this.countOf,
+      canCraft: this.canCraft,
+    });
+
     if (this.buildMode) {
       this.buildUI.update({
         piece: this.selectedPiece,
@@ -322,6 +353,153 @@ export class Game implements LoopCallbacks {
     this.updateDebugOverlay(now);
     this.input.endFrame();
   }
+
+  // -------------------------------------------------------------------------
+  // Interaction and panels
+  // -------------------------------------------------------------------------
+
+  get panelsOpen(): boolean {
+    return this.inventoryUI.isOpen;
+  }
+
+  /**
+   * Reload timers still need to advance while a panel is open, but no input
+   * may reach the weapon. Feeding combat a manager whose actions are all cold
+   * is simpler and safer than threading a suppression flag through it.
+   */
+  private readonly idleInput = {
+    isDown: () => false,
+    consumePressed: () => false,
+  } as unknown as InputManager;
+
+  /** Interactables the player is currently near. */
+  private candidates(): Interactable[] {
+    return this.build
+      .stationsNear(this.player.worldPosition, INTERACT_REACH)
+      .map((station) => ({
+        id: station.instanceId,
+        label: BUILD_PIECES[station.piece].name,
+        position: station.position,
+        kind: station.piece as Interactable['kind'],
+      }));
+  }
+
+  private updatePanels(): void {
+    const nearest = this.freeCamera
+      ? null
+      : this.interaction.update(this.player.worldPosition, this.candidates());
+
+    if (this.input.consumePressed('inventory')) {
+      if (this.panelsOpen) this.closePanels();
+      else this.openInventory();
+    }
+
+    if (this.input.consumePressed('cancel') && this.panelsOpen) this.closePanels();
+
+    // E is 'rotate-right' in build mode, so interaction stays out of its way.
+    if (!this.buildMode && this.input.consumePressed('interact')) {
+      if (this.panelsOpen) this.closePanels();
+      else if (nearest) this.openInteractable(nearest);
+    }
+
+    this.hud.setPrompt(
+      !this.panelsOpen && nearest ? `[E] Open ${nearest.label}` : null,
+    );
+  }
+
+  openInventory(): void {
+    this.inventoryUI.setMode('inventory', { title: 'Inventory' });
+    this.releasePointerLock();
+  }
+
+  /** Open whatever the player is standing at. Returns false if nothing is. */
+  openInteractable(target: Interactable | null = this.interaction.current): boolean {
+    if (!target) return false;
+
+    if (target.kind === 'crate') {
+      const crate = this.build.crateContainer(target.id);
+      if (!crate) return false;
+      this.inventoryUI.setMode('transfer', { title: target.label, crate });
+    } else {
+      this.inventoryUI.setMode('crafting', {
+        title: target.label,
+        station: target.kind as StationId,
+      });
+    }
+
+    this.releasePointerLock();
+    return true;
+  }
+
+  closePanels(): void {
+    if (!this.panelsOpen) return;
+    this.inventoryUI.setMode('closed');
+    // Only reclaim the mouse if the player had it to begin with.
+    if (!this.options.bypassPointerLock) this.input.requestPointerLock();
+  }
+
+  /** Without this the panels cannot be clicked at all. */
+  private releasePointerLock(): void {
+    if (this.options.bypassPointerLock) return;
+    if (document.pointerLockElement) document.exitPointerLock();
+  }
+
+  /** Move a stack between the player and the open crate. */
+  private transfer(from: 'player' | 'crate', slotIndex: number, all: boolean): void {
+    const crate = this.inventoryUI.currentCrate;
+    if (!crate) return;
+
+    const source = from === 'player' ? this.inventory : crate;
+    const target = from === 'player' ? crate : this.inventory;
+    source.moveTo(target, slotIndex, all ? undefined : 1);
+    this.bus.emit('inventory:changed', { scrap: this.resources.count('scrap') });
+  }
+
+  /**
+   * Use whatever is in a player inventory slot.
+   *
+   * Each branch consumes only when the use actually succeeded — a repair kit
+   * clicked at full health must still be in the bag afterwards.
+   */
+  useSlot(slotIndex: number): boolean {
+    const slot = this.inventory.slots[slotIndex];
+    if (!slot) return false;
+
+    if (slot.itemId === 'repair-kit') {
+      if (!this.player.stats.useRepairKit()) return false;
+      this.inventory.remove('repair-kit', 1);
+      return true;
+    }
+
+    if (ITEMS[slot.itemId].category === 'mod') {
+      if (!this.combat.applyMod(slot.itemId)) return false;
+      this.inventory.remove(slot.itemId, 1);
+      return true;
+    }
+
+    if (ITEMS[slot.itemId].category === 'ammo') {
+      const count = slot.count;
+      if (!this.combat.addAmmoFor(slot.itemId, count)) return false;
+      this.inventory.remove(slot.itemId, count);
+      return true;
+    }
+
+    return false;
+  }
+
+  /** Crafted rounds are loaded rather than left sitting in a slot. */
+  private autoLoadAmmo(recipeId: string): void {
+    const recipe = recipeById(recipeId);
+    if (!recipe) return;
+
+    const { itemId, count } = recipe.output;
+    if (ITEMS[itemId].category !== 'ammo') return;
+    if (!this.resources.consume({ [itemId]: count })) return;
+    this.combat.addAmmoFor(itemId, count);
+  }
+
+  private readonly countOf = (itemId: ItemId): number => this.resources.count(itemId);
+  private readonly canCraft = (recipe: Recipe): boolean => this.crafting.canCraft(recipe);
 
   // -------------------------------------------------------------------------
   // Build mode
@@ -594,6 +772,7 @@ export class Game implements LoopCallbacks {
     this.input.dispose();
     this.hud.dispose();
     this.buildUI.dispose();
+    this.inventoryUI.dispose();
     this.buildPreview.dispose();
     this.build.clear();
     this.post.dispose();

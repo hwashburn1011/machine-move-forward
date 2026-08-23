@@ -21,7 +21,11 @@ export type InputAction =
   | 'slot3'
   | 'slot4'
   | 'slot5'
-  | 'slot6';
+  | 'slot6'
+  | 'slot7'
+  | 'slot8'
+  | 'slot9'
+  | 'cancel';
 
 /** Control map from handoff section 8. */
 const KEY_MAP: Record<string, InputAction> = {
@@ -46,6 +50,10 @@ const KEY_MAP: Record<string, InputAction> = {
   Digit4: 'slot4',
   Digit5: 'slot5',
   Digit6: 'slot6',
+  Digit7: 'slot7',
+  Digit8: 'slot8',
+  Digit9: 'slot9',
+  Escape: 'cancel',
 };
 
 /**
