@@ -29,6 +29,23 @@ export class PostProcessing {
   private readonly shimmerPass: ShaderPass;
   private readonly gradePass: ShaderPass;
   private readonly outputPass: OutputPass;
+  /**
+   * Scene depth for the shimmer's distance mask, filled by our own prepass.
+   *
+   * Not taken from the composer's buffers, and not for want of trying:
+   * EffectComposer clones the target it is handed and the RenderPass draws
+   * into the clone, so a depth texture attached to the original stays empty.
+   * Attaching the same one to both buffers fills it, but then the shimmer
+   * samples a depth attachment belonging to the framebuffer it is writing
+   * into — a feedback loop, and undefined behaviour.
+   *
+   * A dedicated half-resolution depth-only prepass sidesteps both. It costs a
+   * second geometry pass, but only at the tiers where the shimmer runs at
+   * all, and a soft distance mask does not need full resolution.
+   */
+  private readonly depthTexture: THREE.DepthTexture;
+  private readonly depthTarget: THREE.WebGLRenderTarget;
+  private readonly depthMaterial = new THREE.MeshDepthMaterial();
 
   private time = 0;
   private enabled = true;
@@ -40,6 +57,13 @@ export class PostProcessing {
     quality: QualitySettings,
   ) {
     const size = renderer.three.getSize(new THREE.Vector2());
+
+    const depthWidth = Math.max(1, Math.floor(size.x / 2));
+    const depthHeight = Math.max(1, Math.floor(size.y / 2));
+    this.depthTexture = new THREE.DepthTexture(depthWidth, depthHeight);
+    this.depthTarget = new THREE.WebGLRenderTarget(depthWidth, depthHeight, {
+      depthTexture: this.depthTexture,
+    });
 
     const target = new THREE.WebGLRenderTarget(size.x, size.y, {
       // HalfFloat keeps highlights above 1.0 intact for bloom, and stops the
@@ -62,6 +86,7 @@ export class PostProcessing {
     this.composer.addPass(this.bloomPass);
 
     this.shimmerPass = new ShaderPass(HeatShimmerShader);
+    this.shimmerPass.uniforms.tDepth!.value = this.depthTexture;
     this.shimmerPass.enabled = quality.heatShimmer;
     this.composer.addPass(this.shimmerPass);
 
@@ -117,18 +142,48 @@ export class PostProcessing {
       return;
     }
 
+    // Depth first, into our own target, before the composer touches anything.
+    if (this.shimmerPass.enabled) this.renderDepth(scene, camera);
+
     this.time += dt;
     this.shimmerPass.uniforms.uTime!.value = this.time;
+    // Read from the live camera: the free-fly screenshot camera and the
+    // player's own camera do not have to share a near and far plane, and a
+    // stale pair would put the distance mask in the wrong place entirely.
+    if ((camera as THREE.PerspectiveCamera).isPerspectiveCamera) {
+      const perspective = camera as THREE.PerspectiveCamera;
+      this.shimmerPass.uniforms.uCameraNear!.value = perspective.near;
+      this.shimmerPass.uniforms.uCameraFar!.value = perspective.far;
+    }
     this.gradePass.uniforms.uTime!.value = this.time;
     this.composer.render(dt);
+  }
+
+  /** Depth-only pass at half resolution, feeding the shimmer's distance mask. */
+  private renderDepth(scene: THREE.Scene, camera: THREE.Camera): void {
+    const three = this.renderer.three;
+    const previousOverride = scene.overrideMaterial;
+
+    scene.overrideMaterial = this.depthMaterial;
+    three.setRenderTarget(this.depthTarget);
+    three.clear();
+    three.render(scene, camera);
+
+    scene.overrideMaterial = previousOverride;
+    three.setRenderTarget(null);
   }
 
   resize(width: number, height: number): void {
     this.composer.setSize(width, height);
     this.bloomPass.setSize(width, height);
+    // The depth target tracks the colour buffers, at half their resolution.
+    this.depthTarget.setSize(Math.max(1, Math.floor(width / 2)), Math.max(1, Math.floor(height / 2)));
   }
 
   dispose(): void {
     this.composer.dispose();
+    this.depthTarget.dispose();
+    this.depthTexture.dispose();
+    this.depthMaterial.dispose();
   }
 }

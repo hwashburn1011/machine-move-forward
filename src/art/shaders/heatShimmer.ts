@@ -3,20 +3,34 @@ import * as THREE from 'three';
 /**
  * Heat shimmer.
  *
- * A screen-space UV distortion that ramps in toward the horizon line and
- * leaves the deck alone. Kept very subtle — the effect sells baking heat when
- * you half-notice it and reads as a broken renderer when you do.
+ * A screen-space UV distortion masked by SCENE DEPTH, so it plays over the
+ * distant desert and leaves the machine, the player, and anything built on
+ * the deck perfectly still.
+ *
+ * The mask used to be the pixel's height on screen, on the assumption that
+ * "near the horizon line" meant "far away". In third person it does not: the
+ * deck and everything standing on it sit right across the middle of the
+ * frame, so the machine and its cargo rippled like everything else and the
+ * whole scene read as melting. Screen position cannot tell a dune two hundred
+ * metres out from a crate two metres away — only depth can.
+ *
+ * Kept very subtle either way: the effect sells baking heat when you
+ * half-notice it and reads as a broken renderer when you do.
  */
 export const HeatShimmerShader = {
   name: 'HeatShimmerShader',
 
   uniforms: {
     tDiffuse: { value: null as THREE.Texture | null },
+    tDepth: { value: null as THREE.Texture | null },
     uTime: { value: 0 },
     uStrength: { value: 0.0035 },
-    /** Screen Y (0 bottom, 1 top) where the shimmer is strongest. */
-    uHorizon: { value: 0.52 },
-    uBand: { value: 0.3 },
+    uCameraNear: { value: 0.1 },
+    uCameraFar: { value: 2000 },
+    /** Metres. Nothing closer than this shimmers at all. */
+    uNearFade: { value: 30 },
+    /** Metres. Full strength from here out. */
+    uFarFull: { value: 70 },
   },
 
   vertexShader: /* glsl */ `
@@ -29,11 +43,24 @@ export const HeatShimmerShader = {
 
   fragmentShader: /* glsl */ `
     uniform sampler2D tDiffuse;
+    uniform sampler2D tDepth;
     uniform float uTime;
     uniform float uStrength;
-    uniform float uHorizon;
-    uniform float uBand;
+    uniform float uCameraNear;
+    uniform float uCameraFar;
+    uniform float uNearFade;
+    uniform float uFarFull;
     varying vec2 vUv;
+
+    /** Metres from the camera for a pixel, from the depth buffer. */
+    float sceneDistance(vec2 uv) {
+      float clipZ = texture2D(tDepth, uv).x;
+      // Standard perspective un-projection. Returns a negative view Z, so
+      // negate it for a distance. Untouched sky reads as the far plane.
+      float viewZ = (uCameraNear * uCameraFar) /
+                    ((uCameraFar - uCameraNear) * clipZ - uCameraFar);
+      return -viewZ;
+    }
 
     // Cheap flowing noise. Three sines at incommensurate frequencies read as
     // turbulence for a fraction of the cost of real fbm in a full-screen pass.
@@ -44,11 +71,11 @@ export const HeatShimmerShader = {
     }
 
     void main() {
-      // Concentrate on the horizon band; the deck the player stands on must
-      // stay rock steady or the whole image feels unstable.
-      float d = abs(vUv.y - uHorizon);
-      float mask = 1.0 - smoothstep(0.0, uBand, d);
-      mask *= mask;
+      // Sample the mask at the UNDISTORTED pixel. Sampling it at the offset
+      // position would let a distant pixel drag a nearby one along with it,
+      // smearing the machine's silhouette against the sky — the exact artefact
+      // this mask exists to remove.
+      float mask = smoothstep(uNearFade, uFarFull, sceneDistance(vUv));
 
       float offsetY = wobble(vUv, uTime) * uStrength * mask;
       float offsetX = wobble(vUv.yx * 1.3, uTime * 0.8) * uStrength * 0.4 * mask;
