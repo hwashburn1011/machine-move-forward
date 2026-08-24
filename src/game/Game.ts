@@ -392,7 +392,12 @@ export class Game implements LoopCallbacks {
       } else if (this.buildMode) this.updateBuildMode();
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
 
-      this.enemies.fixedUpdate(dt, this.player.worldPosition, this.player.stats);
+      this.enemies.fixedUpdate(
+        dt,
+        this.player.worldPosition,
+        this.player.stats,
+        this.build.navGraph,
+      );
     }
 
     this.machine.fixedUpdate(dt);

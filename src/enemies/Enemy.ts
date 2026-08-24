@@ -17,6 +17,8 @@ import {
 } from './EnemySteering';
 import { CAPSULE_FOOT_OFFSET, CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
 import { EnemyVisual } from './EnemyVisual';
+import { levelOf, nextWaypointIndex, segmentIsClear, type NavGraph } from './NavGraph';
+import { cellCenter, worldToCell, type Cell } from '@/building/BuildGrid';
 
 export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
 
@@ -31,6 +33,18 @@ export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
  * the question being asked: can I walk this way?
  */
 const PROBE_HEIGHT = -CAPSULE_FOOT_OFFSET + AUTOSTEP_HEIGHT + 0.05;
+
+/**
+ * How far ahead along the route `currentWaypoint` is allowed to reach, past
+ * the immediate cell, looking for a farther waypoint to aim at instead.
+ *
+ * A tile and a half. Short enough that the aim still tracks the route rather
+ * than cutting toward some distant corner; long enough to usually reach past
+ * a single 2m leg to the one after it, which is what breaks a heading that
+ * would otherwise point dead broadside into flush equipment for the whole of
+ * that leg.
+ */
+const WAYPOINT_LOOKAHEAD = 3.2;
 
 /**
  * Half the width the body actually needs to pass through a gap.
@@ -84,6 +98,11 @@ export class Enemy {
   /** Seconds left of backing out of a pinch. */
   private backingOutFor = 0;
 
+  private path: Cell[] = [];
+  private pathIndex = 0;
+  /** The graph `path` was computed against, for the lookahead's wall check. */
+  private nav: NavGraph | null = null;
+
   private state: EnemyAIState = 'idle';
   private health: number;
   private verticalVelocity = 0;
@@ -128,6 +147,30 @@ export class Enemy {
     return this.position;
   }
 
+  /** The grid cell this enemy is standing in. */
+  get gridCell(): Cell {
+    const feetY = this.position.y - CAPSULE_FOOT_OFFSET;
+    return worldToCell(this.position.x, this.position.z, levelOf(feetY));
+  }
+
+  /** Waypoints still ahead of this enemy. Read by the combat harness. */
+  get pathLength(): number {
+    return Math.max(0, this.path.length - this.pathIndex);
+  }
+
+  /**
+   * Replace the route. Called by the manager, never from inside the enemy.
+   *
+   * `nav` is the graph `path` was computed against — kept so the lookahead in
+   * `currentWaypoint` can prove a farther waypoint is reachable in a straight
+   * line before aiming at it, rather than aiming on distance alone.
+   */
+  setPath(path: Cell[], nav: NavGraph): void {
+    this.path = path;
+    this.pathIndex = 0;
+    this.nav = nav;
+  }
+
   spawn(at: THREE.Vector3): void {
     this.health = this.def.maxHealth;
     this.state = 'idle';
@@ -136,6 +179,19 @@ export class Enemy {
     this.deathTimer = 0;
     this.blockedFor = 0;
     this.backingOutFor = 0;
+    // This enemy is a pooled slot, not a fresh object — anything not reset
+    // here is inherited from whatever last occupied it. `path`/`pathIndex`
+    // are the previous occupant's route: left alone, the new spawn would
+    // steer those stale waypoints for up to a full repath rotation. `nav` is
+    // worse left stale than left null — a dangling graph reference still
+    // looks valid to `segmentIsClear`'s lookahead, so it would validate the
+    // old occupant's route against a graph that may no longer describe the
+    // deck, rather than failing loudly. `lastTurn` is a steering bias that
+    // means nothing for a body now standing somewhere else entirely.
+    this.path = [];
+    this.pathIndex = 0;
+    this.nav = null;
+    this.lastTurn = 0;
     this.position.copy(at);
     this.previousPosition.copy(at);
 
@@ -235,10 +291,18 @@ export class Enemy {
     let vx = 0;
     let vz = 0;
     if (this.state === 'navigate' || this.state === 'pursue') {
-      const flat = Math.hypot(this.toPlayer.x, this.toPlayer.z);
+      // Aim at the next waypoint, not at the player. A* decided which way
+      // round the building; the probe fan below still decides how to get down
+      // the next metre and a half without walking into the generator. Those
+      // are different scales of problem and stay separate systems.
+      const target = this.currentWaypoint();
+      const tx = target ? target.x - this.position.x : this.toPlayer.x;
+      const tz = target ? target.z - this.position.z : this.toPlayer.z;
+
+      const flat = Math.hypot(tx, tz);
       if (flat > 1e-4) {
-        const dirX = this.toPlayer.x / flat;
-        const dirZ = this.toPlayer.z / flat;
+        const dirX = tx / flat;
+        const dirZ = tz / flat;
         const heading = steerAround(dirX, dirZ, this.probe(dirX, dirZ), {
           previousTurn: this.lastTurn,
           stuck: this.backingOutFor > 0,
@@ -294,6 +358,67 @@ export class Enemy {
 
     // Fell off the machine — no point simulating it any further.
     if (this.position.y < -25) this.despawn();
+  }
+
+  /**
+   * The waypoint to steer at, advancing past any already reached.
+   *
+   * Null on the last leg, which hands the final approach back to steering
+   * straight at the player — the waypoint is a 2m cell centre and the player
+   * is not standing on it.
+   *
+   * Advancing is delegated to `nextWaypointIndex`, which refuses to consume a
+   * waypoint on a different storey no matter how close it is horizontally —
+   * see its doc comment for why a stairs landing needs that guard.
+   *
+   * Looks past the immediate cell to the farthest upcoming one still inside
+   * WAYPOINT_LOOKAHEAD. A single 2m leg is often close to axis-aligned with
+   * whatever the grid happened to route round, which can aim the body dead
+   * broadside into flush equipment: a heading the fan cannot hold, because
+   * from flush against a flat wall the openness on either side flips every
+   * tick faster than the commitment bonus can settle it, and the enemy
+   * oscillates in place. Reaching one leg further lets the next corner's pull
+   * bend the heading off the wall before the enemy is close enough to wedge
+   * on it — the same route, aimed less myopically.
+   *
+   * Distance alone is not enough to accept a farther candidate: A* is blind
+   * to equipment but not to walls, and a wall it routed around can sit
+   * directly on the straight line between two cells that are themselves both
+   * on the route (an L-shaped detour's two arms can be closer to each other,
+   * as the crow flies, than either is to the corner between them). Each
+   * candidate is only accepted once `segmentIsClear` proves the straight line
+   * to it does not cross anything A* avoided.
+   */
+  private currentWaypoint(): { x: number; z: number } | null {
+    this.pathIndex = nextWaypointIndex(
+      this.path,
+      { x: this.position.x, z: this.position.z },
+      this.gridCell.y,
+      this.pathIndex,
+    );
+    if (this.pathIndex >= this.path.length) return null;
+    // The destination cell is the player's own; steer at the player there.
+    if (this.pathIndex === this.path.length - 1) return null;
+
+    let target = cellCenter(this.path[this.pathIndex] as Cell);
+    if (this.nav) {
+      const nav = this.nav;
+      const anchor = this.gridCell;
+      for (let i = this.pathIndex + 1; i < this.path.length - 1; i++) {
+        const candidateCell = this.path[i] as Cell;
+        const candidate = cellCenter(candidateCell);
+        const dist = Math.hypot(candidate.x - this.position.x, candidate.z - this.position.z);
+        if (dist > WAYPOINT_LOOKAHEAD) break;
+        if (!segmentIsClear(nav, anchor, candidateCell)) break;
+        target = candidate;
+        // Confirmed reachable in a straight line, so everything between the
+        // old pathIndex and here is subsumed — advance past it rather than
+        // leaving the pointer on a waypoint the body will never approach
+        // (it would otherwise only self-heal on the next repath).
+        this.pathIndex = i;
+      }
+    }
+    return { x: target.x, z: target.z };
   }
 
   /**

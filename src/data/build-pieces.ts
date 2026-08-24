@@ -44,6 +44,17 @@ export interface BuildPieceDefinition {
    * a perimeter.
    */
   boundsRoom: boolean;
+  /**
+   * Whether this piece stops an enemy walking across the edge it sits on.
+   *
+   * Deliberately NOT the same field as `boundsRoom`, and they disagree. A
+   * railing is not room-bounding — a railed platform is fenced, not enclosed —
+   * but its collider is a 2m x 1.1m box against a 0.45m autostep, so a body
+   * cannot cross it. This field tracks what `pieceColliders` actually builds;
+   * `boundsRoom` tracks what the room model means. Reusing one for the other
+   * routes enemies into barriers they cannot pass and wedges them there.
+   */
+  blocksNavigation: boolean;
   rotatable: boolean;
 }
 
@@ -57,6 +68,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 120,
     armor: 2,
     boundsRoom: false,
+    blocksNavigation: false,
     rotatable: false,
   },
   wall: {
@@ -68,6 +80,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 150,
     armor: 2,
     boundsRoom: true,
+    blocksNavigation: true,
     rotatable: false,
   },
   doorway: {
@@ -79,6 +92,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 150,
     armor: 2,
     boundsRoom: true,
+    blocksNavigation: false,
     rotatable: false,
   },
   railing: {
@@ -90,6 +104,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 60,
     armor: 0,
     boundsRoom: false,
+    blocksNavigation: true,
     rotatable: false,
   },
   roof: {
@@ -101,6 +116,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 120,
     armor: 2,
     boundsRoom: false,
+    blocksNavigation: false,
     rotatable: false,
   },
   stairs: {
@@ -112,6 +128,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 140,
     armor: 2,
     boundsRoom: false,
+    blocksNavigation: false,
     rotatable: true,
   },
   crate: {
@@ -123,6 +140,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 110,
     armor: 1,
     boundsRoom: false,
+    blocksNavigation: false,
     rotatable: false,
   },
   workbench: {
@@ -134,6 +152,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 130,
     armor: 1,
     boundsRoom: false,
+    blocksNavigation: false,
     rotatable: false,
   },
   refinery: {
@@ -148,6 +167,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     maxHealth: 160,
     armor: 2,
     boundsRoom: false,
+    blocksNavigation: false,
     rotatable: false,
   },
 };
@@ -177,3 +197,14 @@ export const REFUND_FRACTION = 0.6;
 
 /** Slots in a built storage crate. */
 export const CRATE_SLOTS = 12;
+
+/**
+ * Does a piece on an edge stop an enemy crossing it?
+ *
+ * Takes `undefined` so callers can pass `grid.getEdge(...)` straight in — an
+ * empty edge is the common case and should not need a guard at every call
+ * site.
+ */
+export function blocksNavigation(piece: PieceId | undefined): boolean {
+  return piece !== undefined && BUILD_PIECES[piece].blocksNavigation;
+}

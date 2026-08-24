@@ -6,6 +6,9 @@ import type { LoadedModel } from '@/art/ModelLoader';
 import type { PlayerStats } from '@/player/PlayerStats';
 import { ENEMIES } from '@/data/enemies';
 import { Enemy } from './Enemy';
+import { findPath, levelOf, type NavGraph } from './NavGraph';
+import { worldToCell } from '@/building/BuildGrid';
+import { PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
 
 const POOL_SIZE = 8;
 
@@ -18,6 +21,7 @@ const POOL_SIZE = 8;
 export class EnemyManager {
   private readonly pool: Enemy[] = [];
   private nextId = 0;
+  private repathTick = 0;
 
   constructor(
     private readonly scene: THREE.Scene,
@@ -79,8 +83,46 @@ export class EnemyManager {
     return enemy;
   }
 
-  fixedUpdate(dt: number, playerPos: THREE.Vector3, playerStats: PlayerStats): void {
+  fixedUpdate(
+    dt: number,
+    playerPos: THREE.Vector3,
+    playerStats: PlayerStats,
+    nav: NavGraph | null = null,
+  ): void {
+    if (nav) this.repath(nav, playerPos);
     for (const e of this.pool) e.fixedUpdate(dt, playerPos, playerStats);
+  }
+
+  /**
+   * Give each live enemy a fresh route, one enemy per tick in rotation.
+   *
+   * Round-robin rather than a per-enemy timer: at 60Hz with a pool of 8 every
+   * enemy is repathed at least eight times a second, which is far faster than
+   * anything on a deck can invalidate a route, and it makes the cost per tick
+   * exactly one search no matter how many enemies are aboard. A timer would
+   * let four of them expire on the same frame.
+   *
+   * The cursor walks the pool's own stable indices, not the filtered `active`
+   * list — that list is rebuilt every call and its length shifts as enemies
+   * spawn and despawn, so a counter taken modulo its length can transiently
+   * land on a different enemy's slot, repathing the wrong one and skipping
+   * another for a tick. Indexing the pool directly and skipping the inactive
+   * slots keeps each enemy's turn tied to its own fixed index.
+   */
+  private repath(nav: NavGraph, playerPos: THREE.Vector3): void {
+    if (this.pool.length === 0) return;
+
+    for (let i = 0; i < this.pool.length; i++) {
+      this.repathTick = (this.repathTick + 1) % this.pool.length;
+      const enemy = this.pool[this.repathTick] as Enemy;
+      if (!enemy.isActive) continue;
+
+      const playerFeetY = playerPos.y - (PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS);
+      const goal = worldToCell(playerPos.x, playerPos.z, levelOf(playerFeetY));
+
+      enemy.setPath(findPath(nav, enemy.gridCell, goal), nav);
+      return;
+    }
   }
 
   update(alpha: number, dt: number): void {

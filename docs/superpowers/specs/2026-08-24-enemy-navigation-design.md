@@ -82,7 +82,37 @@ A cell is a node when it is **walkable**:
 
 - it holds a `floor` piece, **or** it is a level-0 cell over the machine's own
   deck slab, **and**
-- it is not in the grid's blocked set (machine equipment).
+- ~~it is not in the grid's blocked set (machine equipment).~~
+
+> **Amendment, post-implementation.** This last condition was overruled
+> during execution and the shipped code deliberately does the opposite:
+> navigation **ignores** the grid's blocked set entirely. The reasoning above
+> was wrong, and is left struck through rather than deleted so the record
+> shows what was believed going in.
+>
+> Section 3 already drew the line this section then crossed: equipment
+> avoidance belongs to the steering layer ("how do I not walk into that
+> generator"), not the navigation layer ("which way round the building").
+> Section 4.1 as originally written contradicted section 3 by folding
+> equipment into node selection anyway. Where the two disagree, section 3
+> governs.
+>
+> The blocked set is a build-**placement** rule — it rounds each piece of
+> equipment's collider bounds outward to whole 2m grid cells so nothing gets
+> placed overlapping it. That rounding is far too coarse to describe where a
+> body can actually walk. Measured on the running game with the blocked set
+> consulted for walkability, as originally specified: **14 of 45 deck cells
+> fell into three disconnected islands**, with most of the deck perimeter
+> gone. Arrivals land 0.6m in from the deck lip, which is exactly the
+> perimeter this reduction destroys, so a freshly spawned enemy would
+> typically have no start node, `findPath` would return empty, and
+> pathfinding would have been inert in the real game — while the unit suite,
+> which never builds a grid dense enough to expose the fragmentation, stayed
+> green throughout. See improvement log 006 for the full account.
+>
+> The corrected rule: a cell is walkable if it holds a `floor` piece, or it is
+> a level-0 cell over the bare deck — full stop. Equipment is avoided by
+> `EnemySteering`'s probe fan, which was already doing that job.
 
 The deck footprint is **derived, not hardcoded**. `projectEquipmentCells` in
 `Machine.ts` already projects colliders onto grid cells and deliberately skips
@@ -264,6 +294,33 @@ Every check is verified to go **red before it goes green**. Improvement log 005
 is the standing argument for this: a scavenger rendered at 0.06 m passed every
 check that existed, because nothing asserted the thing that was actually wrong.
 
+> **Amendment, post-implementation.** Writing this harness surfaced a
+> pre-existing bug, not a navigation one: a kinematic capsule — enemy or
+> player, reproduced under held WASD input as well as AI — cannot currently
+> complete a crossing through a doorway opening or up a stairs run; it
+> freezes dead mid-step or mid-climb. `maxSlopeClimbAngle` is ruled out for
+> the stairs symptom (50° against the ramp's 36.87°); the
+> `enableAutostep(..., 0.2, ...)` minimum-step-width parameter is a lead, not
+> a conclusion. See improvement log 006.
+>
+> Because of that bug, "assert it reaches the player" inside a walled room and
+> "assert it reaches level 1" cannot be honestly asserted right now — they
+> would fail against correct navigation code exactly as they fail against
+> broken code, for a reason navigation does not control. Both checks were
+> **dropped from the shipped harness** rather than left permanently red. What
+> the harness demonstrates instead, and does prove:
+>
+> - the scavenger's track passes through the doorway cell before it reaches
+>   the near side of the room — i.e. it took the doorway, not the wall —
+>   watched red before green;
+> - a sealed room (no doorway) keeps the scavenger out and holds it hunting
+>   rather than idle;
+> - the nav graph itself links a stairs run to the landing above it, checked
+>   directly against the graph rather than by observing a climb.
+>
+> Routing is proven. Arrival is not, until the character-controller bug is
+> root-caused.
+
 ---
 
 ## 9. Deliberately Not In Scope
@@ -295,12 +352,46 @@ only once the wedging was measured at half of all scavengers.
 
 ## 11. Success Criteria
 
-1. A scavenger outside a walled room with one doorway reaches the player by
-   going through the doorway, not by pressing into a wall.
+1. ~~A scavenger outside a walled room with one doorway reaches the player by
+   going through the doorway, not by pressing into a wall.~~
+   **Not currently demonstrable** — see the amendment below.
 2. A scavenger cannot enter a room with no doorway, and does not give up — it
    holds against the nearest wall.
-3. A scavenger follows the player up a staircase to level 1 or 2, and cannot
-   reach a level with no staircase.
+3. ~~A scavenger follows the player up a staircase to level 1 or 2, and cannot
+   reach a level with no staircase.~~
+   **Not currently demonstrable** — see the amendment below.
 4. Local avoidance is not regressed: scavengers still cross the bare deck past
    the engine and cargo without wedging.
 5. All existing suites pass unchanged.
+
+> **Amendment, post-implementation.** Criteria 1 and 3 both describe
+> *completing* a crossing — actually standing inside the room, actually
+> standing on level 1 — and neither is demonstrable today, for a reason
+> outside navigation's control: a pre-existing character-controller bug means
+> no kinematic capsule can currently finish crossing a doorway opening or a
+> stairs run (see 8.2's amendment and improvement log 006). Struck through
+> rather than deleted, because they were the intended bar and still are once
+> the controller bug is fixed.
+>
+> What **is** demonstrated in their place, watched red before green in
+> `tools/combat.mjs`: a scavenger outside a walled room with one doorway
+> routes to the doorway side of the wall and its track passes through the
+> doorway cell, rather than pressing into the wall nearest the player. That is
+> criterion 1 minus the last step — it proves A* and the doorway link are
+> correct; it does not prove the enemy ever gets inside. Criterion 2 needed no
+> amendment: holding outside a sealed room is unaffected by the controller
+> bug, since nothing is meant to cross in that case. Criterion 3 has no
+> partial substitute beyond what 4.3's unit coverage already proves (the graph
+> links a stairs run to its landing); reaching the landing itself is the part
+> that is blocked.
+>
+> Criteria 1 and 3 are not blocked equally. Criterion 1 (the doorway) is
+> blocked only by the controller bug — once that is fixed, the doorway
+> crossing should work. Criterion 3 (stairs) is blocked by the controller bug
+> *and* by a second, independent problem: the landing waypoint shares its x
+> and z with the stairs run cell it links from (4.3), so once an enemy holds
+> that waypoint the steering target's XZ is its own XZ and `Enemy.ts`'s
+> movement gate drives it with zero velocity — it parks at the foot of the
+> ramp rather than climbing. Fixing the controller bug alone will not make
+> stairs work; this second blocker needs its own fix (see improvement log
+> 006).
