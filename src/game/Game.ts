@@ -50,6 +50,8 @@ import { CHARACTER_DROP_Y, GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { hashSeed, Rng } from '@/core/math/Random';
 import { rollDrops } from '@/enemies/Loot';
+import { SalvageField } from '@/salvage/SalvageField';
+import { pickReelTarget } from '@/salvage/Reel';
 import { ENEMIES } from '@/data/enemies';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
@@ -147,6 +149,11 @@ export class Game implements LoopCallbacks {
 
   private frameCount = 0;
   private fpsWindowStart = 0;
+  readonly salvage: SalvageField;
+  /** The crate the reel is currently dragging in, if any. */
+  private hookedCrate: string | null = null;
+  private readonly reelLine: THREE.Line;
+  private readonly reelAim = new THREE.Vector3();
   private readonly lootRng: Rng;
   private fps = 0;
   private frameMs = 0;
@@ -225,6 +232,17 @@ export class Game implements LoopCallbacks {
     this.combat.setShooterCollider(this.player.collider);
     this.enemies = new EnemyManager(this.renderer.scene, this.physics, this.bus, this.materials);
     this.spawner = new EnemySpawner(seed);
+    this.salvage = new SalvageField(this.renderer.scene, this.bus, this.materials, seed);
+
+    // The cable. Two points, rewritten each frame while a crate is on the
+    // hook, hidden otherwise.
+    this.reelLine = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
+      new THREE.LineBasicMaterial({ color: 0xffc27a, transparent: true, opacity: 0.9 }),
+    );
+    this.reelLine.frustumCulled = false;
+    this.reelLine.visible = false;
+    this.renderer.scene.add(this.reelLine);
     // Its own stream, so loot rolls cannot shift where arrivals are placed.
     this.lootRng = new Rng(hashSeed(seed, 'loot'));
     this.bus.on('enemy:killed', (e) =>
@@ -378,6 +396,52 @@ export class Game implements LoopCallbacks {
    * loot that slides under the engine block. The event is what the HUD reads,
    * so nothing about the message has to know where items are stored.
    */
+  /**
+   * Throw the hook at whatever the player is looking at.
+   *
+   * Nothing happens if there is no crate in the cone -- deliberately silent
+   * rather than an error, because the reel is on a key the player will press
+   * speculatively while scanning the dunes.
+   */
+  private fireReel(): void {
+    if (this.hookedCrate !== null) return;
+
+    const camera = this.activeCamera;
+    camera.getWorldDirection(this.reelAim);
+    const target = pickReelTarget(this.salvage.targets, camera.position, this.reelAim);
+    if (!target) return;
+
+    if (this.salvage.hook(target.id)) this.hookedCrate = target.id;
+  }
+
+  /** Drag a hooked crate in, and open it when it arrives. */
+  private updateReel(dt: number): void {
+    if (this.hookedCrate === null) {
+      this.reelLine.visible = false;
+      return;
+    }
+
+    const arrived = this.salvage.reelIn(dt, this.player.worldPosition);
+    const crate = this.salvage.positionOf(this.hookedCrate);
+
+    if (arrived.includes(this.hookedCrate) || !crate) {
+      if (crate) this.salvage.open(this.hookedCrate, (id, count) => {
+        this.resources.deposit(id as Parameters<ResourceAccess['deposit']>[0], count);
+      });
+      this.hookedCrate = null;
+      this.reelLine.visible = false;
+      return;
+    }
+
+    const points = this.reelLine.geometry.attributes.position as THREE.BufferAttribute | undefined;
+    if (!points) return;
+    const from = this.player.worldPosition;
+    points.setXYZ(0, from.x, from.y + 0.35, from.z);
+    points.setXYZ(1, crate.x, crate.y, crate.z);
+    points.needsUpdate = true;
+    this.reelLine.visible = true;
+  }
+
   private collectKillReward(defId: string, source: string): void {
     const def = ENEMIES[defId];
     if (!def) return;
@@ -396,6 +460,8 @@ export class Game implements LoopCallbacks {
 
     this.player.update(alpha, frameDt);
     this.enemies.update(alpha, frameDt);
+    this.salvage.update(frameDt, this.world.distanceTraveled, this.machine.speed);
+    this.updateReel(frameDt);
 
     const camera = this.activeCamera;
     this.sandFX.update(frameDt, this.machine.speed, camera.position);
@@ -544,6 +610,8 @@ export class Game implements LoopCallbacks {
     if (this.input.consumePressed('cancel') && this.panelsOpen) this.closePanels();
 
     // E is 'rotate-right' in build mode, so interaction stays out of its way.
+    if (!this.buildMode && this.input.consumePressed('contextual')) this.fireReel();
+
     if (!this.buildMode && this.input.consumePressed('interact')) {
       if (this.panelsOpen) this.closePanels();
       else if (nearest) this.openInteractable(nearest);

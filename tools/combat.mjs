@@ -553,6 +553,50 @@ check(
   loot.announced ? loot.announced.map((i) => `${i.count} ${i.id}`).join(', ') : 'no event',
 );
 
+// --- Salvage crates and the reel -------------------------------------------
+// Crates drift past in the dunes at the machine's own speed. They are the only
+// reason to look anywhere but at the deck, so they have to actually turn up.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.player.stats.invulnerable = true;
+});
+for (let i = 0; i < 3; i++) {
+  await page.evaluate(() => {
+    const g = globalThis.__game;
+    g.world.reset(g.world.distanceTraveled + 200);
+  });
+  await sim(0.6);
+}
+const field = await page.evaluate(() => globalThis.__game.game.salvage.targets.length);
+check('salvage crates appear as the machine travels', field > 0, `${field} aloft`);
+
+const reeled = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const target = g.salvage.targets[0];
+  if (!target) return null;
+  const before = g.resources.count('scrap');
+  g.salvage.hook(target.id);
+  g.hookedCrate = target.id;
+  // Drive the reel to completion rather than waiting on frames.
+  for (let i = 0; i < 400 && g.hookedCrate !== null; i++) g.updateReel(0.05);
+  return {
+    before,
+    after: g.resources.count('scrap'),
+    released: g.hookedCrate === null,
+    stillTargetable: g.salvage.targets.some((t) => t.id === target.id),
+  };
+});
+check(
+  'reeling a crate in pays out',
+  reeled !== null && reeled.after > reeled.before,
+  reeled ? `${reeled.before} -> ${reeled.after}` : 'no crate to hook',
+);
+check(
+  'and the crate is retired rather than reelable twice',
+  reeled !== null && reeled.released && !reeled.stillTargetable,
+  reeled ? `released=${reeled.released}, still listed=${reeled.stillTargetable}` : 'no crate',
+);
+
 // --- The enemy visual ------------------------------------------------------
 // This harness boots with nomodel=1, so this is the procedural fallback and it
 // must stay a complete enemy, not a degraded one. The suite has always run this
