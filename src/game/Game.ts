@@ -25,6 +25,7 @@ import { PlayerCombat } from '@/player/PlayerCombat';
 import { EnemyManager } from '@/enemies/EnemyManager';
 import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner';
 import { SandFX } from '@/fx/SandFX';
+import { TrackMarks } from '@/fx/TrackMarks';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
 import { SaveManager } from '@/save/SaveManager';
@@ -121,6 +122,7 @@ export class Game implements LoopCallbacks {
    */
   private readonly blockedSpawnCellKeys: Set<string>;
   readonly sandFX: SandFX;
+  readonly tracks: TrackMarks;
   readonly impactFX: ImpactFX;
   readonly hud: HUD;
   readonly post: PostProcessing;
@@ -270,6 +272,7 @@ export class Game implements LoopCallbacks {
     this.blockedSpawnCellKeys = new Set(this.machine.equipmentCells.map(cellKey));
 
     this.sandFX = new SandFX(this.renderer.scene, this.quality);
+    this.tracks = new TrackMarks(this.renderer.scene);
     this.impactFX = new ImpactFX(this.renderer.scene, this.bus, this.quality);
 
     if (options.freeCamera) {
@@ -550,6 +553,9 @@ export class Game implements LoopCallbacks {
     // are already interpolated; without this the ground alone snaps to the
     // fixed step and everything standing on it appears to slide.
     this.machine.updateVisuals(frameDt);
+    // Tracks move by exactly the distance the world moved this frame, so they
+    // stay pressed into the sand rather than sliding across it.
+    this.tracks.update(frameDt, this.machine.speed, -this.machine.speed * frameDt);
     this.world.applyRenderOffset(alpha, this.machine.speed);
     this.world.update(this.clock.elapsedTime);
 
