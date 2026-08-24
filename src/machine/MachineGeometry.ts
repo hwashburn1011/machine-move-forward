@@ -258,7 +258,12 @@ export function buildMachine(materials: Materials): MachineBuild {
   const coamY = DECK_HEIGHT + DECK_PLATE_HALF + COAM_H / 2;
   const coamParts: Part[] = [];
   // Starboard side, facing the open deck -- this is the edge people walk past.
-  for (const edgeX of [WELL_MIN_X - COAM_T / 2, WELL_MAX_X + COAM_T / 2]) {
+  // Inset INTO the well rather than sitting on its lip. The well's edges fall
+  // exactly on grid-cell boundaries, and projectEquipmentCells rounds a
+  // collider outward to whole 2m cells -- so a 14cm rail balanced on the
+  // boundary blocked the entire neighbouring deck cell from being built on.
+  const COAM_INSET = 0.2;
+  for (const edgeX of [WELL_MIN_X + COAM_INSET, WELL_MAX_X - COAM_INSET]) {
     coamParts.push({
       geo: bevelledBox(COAM_T, COAM_H, WELL_MAX_Z - WELL_MIN_Z, 0.03),
       pos: [edgeX, coamY, WELL_MID_Z],
@@ -267,12 +272,14 @@ export function buildMachine(materials: Materials): MachineBuild {
   }
   // Fore bulkhead. Aft is left open as the way down; the deck's own port
   // railing already guards the outboard side.
+  // Inset on both axes for the same reason as the side rails: any part of this
+  // that reaches past the well's own grid cell blocks a whole 2m deck cell.
+  const foreW = WELL_MAX_X - WELL_MIN_X - COAM_INSET * 2;
   coamParts.push({
-    geo: bevelledBox(WELL_MAX_X - WELL_MIN_X + COAM_T, COAM_H, COAM_T, 0.03),
-    pos: [WELL_MID_X, coamY, WELL_MIN_Z - COAM_T / 2],
+    geo: bevelledBox(foreW, COAM_H, COAM_T, 0.03),
+    pos: [WELL_MID_X, coamY, WELL_MIN_Z + COAM_INSET],
   });
-  collide((WELL_MAX_X - WELL_MIN_X + COAM_T) / 2, COAM_H / 2, COAM_T / 2,
-    WELL_MID_X, coamY, WELL_MIN_Z - COAM_T / 2);
+  collide(foreW / 2, COAM_H / 2, COAM_T / 2, WELL_MID_X, coamY, WELL_MIN_Z + COAM_INSET);
   add(mergeParts(coamParts), materials.bareSteel).name = 'stairwell-coaming';
 
   // --- Engine room stair --------------------------------------------------
@@ -290,7 +297,9 @@ export function buildMachine(materials: Materials): MachineBuild {
   const stairSlope = Math.atan2(stairRise, stairRun);
   const stairLength = Math.hypot(stairRise, stairRun);
 
-  const stairWidth = WELL_MAX_X - WELL_MIN_X - 0.12;
+  // Narrower than the well by the coaming inset, so the ramp fits between
+  // the rails rather than poking through them.
+  const stairWidth = WELL_MAX_X - WELL_MIN_X - 0.55;
   const stair = bevelledBox(stairWidth, 0.24, stairLength, 0.04);
   stair.rotateX(-stairSlope);
   stair.translate(WELL_MID_X, (STAIR_TOP_Y + STAIR_BOTTOM_Y) / 2, WELL_MID_Z);

@@ -546,6 +546,10 @@ export class Game implements LoopCallbacks {
     const camera = this.activeCamera;
     this.sandFX.update(frameDt, this.machine.speed, camera.position);
     this.impactFX.update(frameDt, camera.position);
+    // Interpolate the world scroll before drawing it. The player and enemies
+    // are already interpolated; without this the ground alone snaps to the
+    // fixed step and everything standing on it appears to slide.
+    this.world.applyRenderOffset(alpha, this.machine.speed);
     this.world.update(this.clock.elapsedTime);
 
     if (this.sky.update(now)) this.applySky();

@@ -174,15 +174,16 @@ export class Machine {
   }
 
   /**
-   * Spawn point on the open deck, forward of the stairwell.
+   * Spawn point on the open mid-deck.
    *
-   * Kept clear of the equipment blocks (spawning against one pins the
-   * third-person camera hard against it) and clear of the engine-room well,
-   * which the old mid-deck point at z=-1 now sits inside -- the player would
-   * have dropped straight down the hole on every new game.
+   * Kept clear of the equipment blocks: spawning against one pins the
+   * third-person camera hard against it. Mid-deck also leaves room to walk
+   * forward before the prow, which the drive harness relies on.
+   *
+   * The engine-room well is off to port, so the centreline is clear of it.
    */
   get deckSpawn(): THREE.Vector3 {
-    return new THREE.Vector3(0, CHARACTER_DROP_Y, -5.0);
+    return new THREE.Vector3(0, CHARACTER_DROP_Y, -1.0);
   }
 
   get speed(): number {

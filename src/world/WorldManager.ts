@@ -1,11 +1,22 @@
 import * as THREE from 'three';
-import { CHUNKS_AHEAD, CHUNKS_BEHIND, CHUNK_SIZE_Z } from '@/game/constants';
+import { CHUNKS_AHEAD, CHUNKS_BEHIND, CHUNK_SIZE_Z, FIXED_DT } from '@/game/constants';
 import type { QualitySettings } from '@/core/renderer/QualitySettings';
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
 import { ChunkManager } from './ChunkManager';
 import { TerrainChunk } from './TerrainChunk';
 import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSpawner';
+
+/**
+ * How far the world has scrolled PAST its last simulated step, for rendering.
+ *
+ * `slot.z` is `chunkIndex * chunkSize - distance`, so the world travels toward
+ * -Z and the sub-step offset is negative. Pure so the arithmetic is testable
+ * without a scene.
+ */
+export function scrollOffset(alpha: number, speed: number): number {
+  return -speed * alpha * FIXED_DT;
+}
 
 /**
  * Owns the scrolling world (handoff section 6).
@@ -92,6 +103,25 @@ export class WorldManager {
     this.terrain[slotId]?.setZ(z);
     this.props[slotId]?.setZ(z);
     this.props[slotId]?.populate(this.worldSeed, chunkIndex, z);
+  }
+
+  /**
+   * Slide the world by the fraction of a step the renderer is ahead of the
+   * simulation.
+   *
+   * Without this the ground moves in 60Hz jumps while the player and enemies
+   * are interpolated smoothly, so on any display not exactly in phase with the
+   * fixed step the world stutters — and worse, entities visibly slide against
+   * the ground, by up to a full step of travel (0.125m at 7.5 m/s). The
+   * simulation is untouched: `distance` and chunk recycling still advance only
+   * on the fixed step, and this is a purely visual offset applied on top.
+   */
+  applyRenderOffset(alpha: number, speed: number): void {
+    const offset = scrollOffset(alpha, speed);
+    for (const slot of this.chunkManager.slots) {
+      this.terrain[slot.slotId]?.setZ(slot.z + offset);
+      this.props[slot.slotId]?.setZ(slot.z + offset);
+    }
   }
 
   /** Per-frame visual update — shader time, not simulation. */
