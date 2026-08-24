@@ -88,6 +88,10 @@ fixed free camera for screenshots.
 - Instant crafting at the workbench and refinery: ammo that lands in the
   weapon's reserve, repair kits, and an extended magazine that raises the
   equipped weapon's magazine by 50%
+- Enemies path over the structure the player builds: A* across the build grid,
+  doorways as the only way through a wall, stairs as the only way between
+  storeys, and a fallback to the nearest reachable cell when you have sealed
+  yourself in
 
 ## Not built yet
 
@@ -97,10 +101,16 @@ are Milestones 5–12 in the handoff.
 
 Three known gaps in what is built:
 
-- **Enemies do not path around player-built walls.** They steer directly at the
-  player and will push against structures. The handoff defers navmesh work to
-  the boarding milestone; the room connectivity graph built here is what that
-  will path over.
+- **A kinematic capsule can stick at certain build-piece seams.** Player and
+  enemy movement alike can freeze dead partway through a doorway opening, or
+  partway up a stairs run onto its landing, and never complete the crossing —
+  reproduced by walking a player through with WASD as well as by a scavenger's
+  AI, so it is a character-controller/collider issue at the seam between two
+  adjacent pieces, not anything specific to enemy steering. Surfaced while
+  writing the navigation harness (Task 7); not yet root-caused, and the two
+  checks that would need it (a scavenger actually arriving inside a walled
+  room, and actually climbing a stairs run) are left out of that harness until
+  it is.
 - **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
   and there is no interior lighting yet. Lamps arrive with the power system.
 - **Fuel is storable but inert.** Nothing burns it until the power system.
@@ -159,7 +169,7 @@ src/
 ## Testing
 
 ```bash
-npm test             # 449 unit tests (deterministic logic)
+npm test             # 490 unit tests (deterministic logic)
 npm run test:e2e     # 11 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit
@@ -177,7 +187,7 @@ browser harnesses in `tools/` that drive the real game:
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 9 movement/physics checks
-node tools/combat.mjs [out.png]                     # 57 combat, spawner, arrival, death, loot, salvage, and visual checks
+node tools/combat.mjs [out.png]                     # 62 combat, spawner, arrival, death, loot, salvage, navigation, and visual checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```

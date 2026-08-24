@@ -955,6 +955,202 @@ if (!hasModel) {
   );
 }
 
+// --- Navigation over player structure ------------------------------------
+//
+// A room walled on three sides with one doorway, built around the player, at
+// grid cell (0,0,-1) -- one of the few cells on this deck with all four
+// neighbours free of the starting equipment (engine, generator, fuel tank,
+// crates, workbench, collector all block cells elsewhere on this grid; see
+// `machine.equipmentCells` on the harness handle). The doorway is on the west
+// edge; the scavenger starts east of the room, so a correct route has to
+// round the wall.
+//
+// KNOWN GAP surfaced while writing this section, not fixed here (see the
+// task report): a kinematic capsule -- player or enemy, doesn't matter --
+// that reaches the seam between two adjacent build-piece colliders (a
+// doorway's jambs, or a stairs ramp meeting its landing) stops dead and never
+// crosses it, even under continuous input. Confirmed directly: walking the
+// PLAYER at this exact doorway with WASD freezes it mid-step at the same
+// world position an enemy freezes at. That is a physics/character-controller
+// issue, not a navigation one -- A* and the steering fan both do their job
+// correctly right up to that seam -- but it means "arrives inside the room"
+// and "climbs the stairs" cannot be asserted honestly right now: they would
+// fail against correct navigation code exactly as they fail against reverted
+// code, for an unrelated reason. The checks below stop at what the seam bug
+// does not confound: did it route to the correct side of the wall, and does
+// the nav graph link the stairs run to its landing.
+
+const place = (piece, cell, side = null, rotation = 0) =>
+  page.evaluate(
+    ({ piece, cell, side, rotation }) => {
+      const g = globalThis.__game;
+      const edge = side ? g.canonicalEdge(cell, side) : undefined;
+      return g.game.build.place({ piece, cell, edge, rotation }) !== null;
+    },
+    { piece, cell, side, rotation },
+  );
+
+// `Player.teleport` takes a THREE.Vector3, but only reads .x/.y/.z through
+// Vector3.copy, so a plain object is fine from the harness — the same trick
+// Game.spawnEnemyAhead already uses for enemy spawns.
+const teleportPlayer = (x, y, z) =>
+  page.evaluate(({ x, y, z }) => globalThis.__game.player.teleport({ x, y, z }), { x, y, z });
+
+/** Where the one live scavenger is, in grid cells, plus its route length. */
+const scavenger = () =>
+  page.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    if (!e) return null;
+    return {
+      cell: e.gridCell,
+      pathLength: e.pathLength,
+      aiState: e.aiState,
+      x: e.worldPosition.x,
+      z: e.worldPosition.z,
+    };
+  });
+
+/**
+ * Spawn a scavenger and cut its attack range to well under a doorstep.
+ *
+ * This test's room is small enough (2m walls, 1.1x the attack range of 2.2m)
+ * that a scavenger going the long way round would otherwise lock into its
+ * `attack` state -- which halts movement -- while still hard against the
+ * WRONG wall, before it ever reaches the doorway side. That is an artifact of
+ * this test's geometry, not of navigation, so it is neutralised here the same
+ * way `player.stats.invulnerable` neutralises damage elsewhere in this file:
+ * `def` is the live, shared `ENEMIES.scavenger` object, so this affects every
+ * scavenger spawned for the rest of this run.
+ */
+const spawnHuntingScavenger = async (x, y, z) => {
+  await page.evaluate(
+    ({ x, y, z }) => {
+      const e = globalThis.__game.enemies.spawn('scavenger', { x, y, z });
+      if (e) e.def.attackRange = 0.6;
+    },
+    { x, y, z },
+  );
+};
+
+// F5's resource grant is inline in Game.handleDebugKeys and not callable, so
+// deposit directly — `resources` is already on the harness handle.
+await page.evaluate(() => {
+  globalThis.__game.game.resources.deposit('scrap', 400);
+  globalThis.__game.game.resources.deposit('components', 20);
+});
+await sim(0.5);
+
+const cell = (x, y, z) => ({ x, y, z });
+const ROOM = cell(0, 0, -1);
+await place('floor', ROOM);
+for (const side of ['north', 'south', 'east']) {
+  await place('wall', ROOM, side);
+}
+await place('doorway', ROOM, 'west');
+await sim(0.5);
+
+const built = await page.evaluate(() => globalThis.__game.game.build.pieceCount);
+check('navigation: test room built', built >= 5, `${built} pieces`);
+
+// Put the player inside the room, and a scavenger on the far side of it. Both
+// spawn well clear of deck-top height (rather than exactly on it) so gravity
+// settles them onto whatever surface is underneath -- the base deck outside,
+// the placed floor plate inside, which sit at slightly different heights.
+await teleportPlayer(0, 3.6, -2);
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await spawnHuntingScavenger(4.6, 3.6, -2);
+await sim(1.0);
+
+// The scavenger starts east of the room. The only way toward the player is
+// the west doorway, so a correct route must cross to negative X -- rounding
+// the wall -- well before it is anywhere near the doorway threshold itself.
+let sawWestOfRoom = false;
+for (let i = 0; i < 40; i++) {
+  await sim(0.4);
+  const s = await scavenger();
+  if (!s) break;
+  if (s.x < -1.0) sawWestOfRoom = true;
+  if (sawWestOfRoom) break;
+}
+check(
+  'navigation: it routes round the wall to the doorway side, not into a wall',
+  sawWestOfRoom,
+  sawWestOfRoom ? 'crossed to the west side' : 'never crossed to the west side',
+);
+
+// --- Sealed ---------------------------------------------------------------
+await place('wall', ROOM, 'west');
+await sim(0.5);
+
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await spawnHuntingScavenger(4.6, 3.6, -2);
+await sim(8.0);
+
+// "Kept out" is judged by grid cell, not distance -- with the attack range
+// cut for this section (see spawnHuntingScavenger), a scavenger pressed
+// against the outside of a wall can end up within a metre of the player in a
+// straight line without ever standing in the room's cell.
+const sealed = await scavenger();
+check(
+  'navigation: a sealed room keeps the scavenger out, and it keeps hunting',
+  sealed !== null &&
+    (sealed.cell.x !== ROOM.x || sealed.cell.z !== ROOM.z) &&
+    sealed.aiState !== 'idle',
+  sealed
+    ? `at cell ${sealed.cell.x},${sealed.cell.z}, state ${sealed.aiState}`
+    : 'despawned',
+);
+
+// --- Vertical -------------------------------------------------------------
+// A staircase from (0,0,-2) running to (0,0,-1) and landing on (0,1,-1).
+// Shifted onto the same equipment-free column as the room above.
+//
+// Order matters. `validateStairs` rejects a landing cell that is already
+// occupied, so the upper floor goes down AFTER the stairs, not before. And an
+// upper floor needs support: a wall on an edge below it, or a floor beside it
+// on the same level. Hence the scaffold at x=1.
+
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await page.evaluate(() => globalThis.__game.game.build.clear());
+await sim(0.5);
+
+await place('floor', cell(0, 0, -2));
+await place('floor', cell(1, 0, -1));
+await place('stairs', cell(0, 0, -2), null, 2); // rotation 2 => run +Z
+await place('wall', cell(1, 0, -1), 'north');   // support for the level-1 floor
+await place('floor', cell(1, 1, -1));           // supported by that wall
+await place('floor', cell(0, 1, -1));           // the landing, beside it
+await sim(0.5);
+
+const stairsBuilt = await page.evaluate(() => {
+  const links = globalThis.__game.game.build.navGraph.links;
+  return (links.get('0,0,-1') ?? []).some((n) => n.y === 1);
+});
+check('navigation: the graph links the stairs run to its landing', stairsBuilt);
+
+// Take the stairs away: with no link to level 1 at all, nothing should ever
+// report itself standing up there. `demolishAt` takes the same Placement
+// shape `place` did — see tools/build.mjs for the pattern.
+await page.evaluate(() =>
+  globalThis.__game.game.build.demolishAt({
+    piece: 'stairs',
+    cell: { x: 0, y: 0, z: -2 },
+    rotation: 2,
+  }),
+);
+await sim(0.5);
+await teleportPlayer(0, 6.5, -1);
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await spawnHuntingScavenger(0, 3.6, -4);
+
+let reachedUpper = false;
+for (let i = 0; i < 20; i++) {
+  await sim(0.5);
+  const s = await scavenger();
+  if (s && s.cell.y >= 1) { reachedUpper = true; break; }
+}
+check('navigation: no stairs means no way up', !reachedUpper);
+
 if (outShot) {
   if (!hasModel) {
     // Nothing to show that the other harnesses do not already show.
