@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { blocksNavigation } from '@/data/build-pieces';
 import { BuildGrid, cellKey, canonicalEdge, type Cell } from '@/building/BuildGrid';
-import { buildNavGraph, deckCells, levelOf } from '@/enemies/NavGraph';
+import { buildNavGraph, deckCells, findPath, levelOf } from '@/enemies/NavGraph';
 import type { PieceId } from '@/data/build-pieces';
 import { DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 
@@ -181,5 +181,96 @@ describe('levelOf', () => {
   it('clamps below the deck and above the top storey', () => {
     expect(levelOf(DECK_HEIGHT - 10)).toBe(0);
     expect(levelOf(DECK_HEIGHT + LEVEL_HEIGHT * 99)).toBe(2);
+  });
+});
+
+describe('findPath', () => {
+  it('walks a straight line across open floor', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 3, 0);
+    const path = findPath(buildNavGraph(g, []), c(0, 0, 0), c(3, 0, 0));
+    expect(path.map(cellKey)).toEqual([
+      cellKey(c(1, 0, 0)),
+      cellKey(c(2, 0, 0)),
+      cellKey(c(3, 0, 0)),
+    ]);
+  });
+
+  it('excludes the start cell from the waypoints', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 1, 0);
+    const path = findPath(buildNavGraph(g, []), c(0, 0, 0), c(1, 0, 0));
+    expect(path.map(cellKey)).not.toContain(cellKey(c(0, 0, 0)));
+  });
+
+  it('goes around a wall rather than through it', () => {
+    // A 3x3 floor with a wall across the middle of the direct route.
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 2, 2);
+    g.setEdge(canonicalEdge(c(0, 0, 1), 'east'), 'wall');
+    const path = findPath(buildNavGraph(g, []), c(0, 0, 1), c(2, 0, 1));
+    expect(path.at(-1)).toEqual(c(2, 0, 1));
+    // It had to leave the middle row to get round.
+    expect(path.some((n) => n.z !== 1)).toBe(true);
+  });
+
+  it('takes the short route once that wall becomes a doorway', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 2, 2);
+    g.setEdge(canonicalEdge(c(0, 0, 1), 'east'), 'doorway');
+    const path = findPath(buildNavGraph(g, []), c(0, 0, 1), c(2, 0, 1));
+    expect(path.map(cellKey)).toEqual([cellKey(c(1, 0, 1)), cellKey(c(2, 0, 1))]);
+  });
+
+  it('funnels through the single doorway of a sealed room', () => {
+    // 3x3 floor. The centre is walled off except for a doorway on its west side.
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 2, 2);
+    for (const side of ['north', 'south', 'east'] as const) {
+      g.setEdge(canonicalEdge(c(1, 0, 1), side), 'wall');
+    }
+    g.setEdge(canonicalEdge(c(1, 0, 1), 'west'), 'doorway');
+    const path = findPath(buildNavGraph(g, []), c(1, 0, 0), c(1, 0, 1));
+    expect(path.at(-1)).toEqual(c(1, 0, 1));
+    expect(path.map(cellKey)).toContain(cellKey(c(0, 0, 1)));
+  });
+
+  it('paths to the nearest reachable cell when the goal is sealed off', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 2, 2);
+    for (const side of ['north', 'south', 'east', 'west'] as const) {
+      g.setEdge(canonicalEdge(c(1, 0, 1), side), 'wall');
+    }
+    const path = findPath(buildNavGraph(g, []), c(0, 0, 0), c(1, 0, 1));
+    expect(path.length).toBeGreaterThan(0);
+    expect(path.at(-1)).not.toEqual(c(1, 0, 1));
+    // It gets as close as it can: orthogonally adjacent to the sealed cell.
+    const end = path.at(-1) as Cell;
+    expect(Math.abs(end.x - 1) + Math.abs(end.z - 1)).toBe(1);
+  });
+
+  it('climbs to an upper storey by the stairs', () => {
+    const g = new BuildGrid<PieceId>();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(0, 0, 1), 'stairs');
+    g.setCell(c(0, 1, 1), 'floor');
+    const path = findPath(buildNavGraph(g, []), c(0, 0, 0), c(0, 1, 1));
+    expect(path.map(cellKey)).toEqual([cellKey(c(0, 0, 1)), cellKey(c(0, 1, 1))]);
+  });
+
+  it('returns nothing when the start is not on the graph at all', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 1, 0);
+    const path = findPath(buildNavGraph(g, []), c(7, 0, 7), c(1, 0, 0));
+    expect(path).toEqual([]);
+  });
+
+  it('is deterministic for the same grid', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, -2, -2, 2, 2);
+    const graph = buildNavGraph(g, []);
+    const a = findPath(graph, c(-2, 0, -2), c(2, 0, 2)).map(cellKey);
+    const b = findPath(graph, c(-2, 0, -2), c(2, 0, 2)).map(cellKey);
+    expect(a).toEqual(b);
   });
 });

@@ -168,3 +168,113 @@ export function buildNavGraph(
 
   return { links };
 }
+
+/**
+ * Extra cost charged for changing storey.
+ *
+ * A stair is cheap to walk but expensive to decide on. Without this an enemy
+ * two cells away will happily go up and over a staircase to reach you, which
+ * looks broken. Charged in the heuristic as well, so it stays admissible.
+ */
+const LEVEL_COST = 3;
+
+function heuristic(a: Cell, b: Cell): number {
+  return (
+    Math.abs(a.x - b.x) + Math.abs(a.z - b.z) + LEVEL_COST * Math.abs(a.y - b.y)
+  );
+}
+
+function reconstruct(
+  cameFrom: Map<string, string>,
+  cells: Map<string, Cell>,
+  startKey: string,
+  endKey: string,
+): Cell[] {
+  const out: Cell[] = [];
+  let key = endKey;
+
+  while (key !== startKey) {
+    out.push(cells.get(key) as Cell);
+    const previous = cameFrom.get(key);
+    if (previous === undefined) break;
+    key = previous;
+  }
+
+  return out.reverse();
+}
+
+/**
+ * A* from one cell to another.
+ *
+ * Returns the waypoints AFTER the start cell, so the caller can steer at
+ * `path[0]` immediately. An empty array means `from` is not on the graph at
+ * all — which is the caller's cue to snap the enemy to a nearby node rather
+ * than to stand still.
+ *
+ * When the goal cannot be reached, this does NOT fail. Everything A* visited
+ * is by definition what the enemy can reach, so it returns the path to
+ * whichever visited cell sits closest to the goal. That is the whole of the
+ * behaviour for a player who has sealed themselves in: enemies walk to the
+ * inside face of the nearest wall and keep hunting, with no siege state
+ * machine anywhere.
+ */
+export function findPath(graph: NavGraph, from: Cell, to: Cell): Cell[] {
+  const startKey = cellKey(from);
+  if (!graph.links.has(startKey)) return [];
+
+  const goalKey = cellKey(to);
+  const cells = new Map<string, Cell>([[startKey, from]]);
+  const gScore = new Map<string, number>([[startKey, 0]]);
+  const cameFrom = new Map<string, string>();
+  const open = new Set<string>([startKey]);
+  const closed: string[] = [];
+
+  while (open.size > 0) {
+    // Lowest f, ties broken on the key so the search order — and therefore the
+    // path — never depends on Set iteration order.
+    let currentKey = '';
+    let bestF = Infinity;
+    for (const key of open) {
+      const f =
+        (gScore.get(key) as number) + heuristic(cells.get(key) as Cell, to);
+      if (f < bestF || (f === bestF && key < currentKey)) {
+        bestF = f;
+        currentKey = key;
+      }
+    }
+
+    if (currentKey === goalKey) {
+      return reconstruct(cameFrom, cells, startKey, goalKey);
+    }
+
+    open.delete(currentKey);
+    closed.push(currentKey);
+
+    const tentative = (gScore.get(currentKey) as number) + 1;
+    for (const next of graph.links.get(currentKey) ?? []) {
+      const nextKey = cellKey(next);
+      const step = next.y === (cells.get(currentKey) as Cell).y ? tentative : tentative + LEVEL_COST;
+      if (step >= (gScore.get(nextKey) ?? Infinity)) continue;
+
+      cells.set(nextKey, next);
+      cameFrom.set(nextKey, currentKey);
+      gScore.set(nextKey, step);
+      open.add(nextKey);
+    }
+  }
+
+  // Unreachable. Head for the closest thing that is reachable.
+  let bestKey = startKey;
+  let bestDistance = heuristic(from, to);
+  for (const key of closed) {
+    const d = heuristic(cells.get(key) as Cell, to);
+    if (d < bestDistance || (d === bestDistance && key < bestKey)) {
+      bestDistance = d;
+      bestKey = key;
+    }
+  }
+
+  return bestKey === startKey
+    ? []
+    : reconstruct(cameFrom, cells, startKey, bestKey);
+}
