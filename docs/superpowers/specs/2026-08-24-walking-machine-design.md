@@ -1,0 +1,297 @@
+# Machine Move Forward — The Machine Walks
+
+**Date:** 2026-08-24
+**Status:** Draft — section 4's decision needs confirming before implementation
+**Source design:** `machine-move-forward-game-handoff.md` sections 6, 14, 41
+**Builds on:** the engine room (WIP), world-scroll interpolation, tread cleats, track marks
+
+---
+
+## 1. Purpose
+
+The machine is a tracked crawler. It should be a walker.
+
+Treads were the right first answer — cheap to model, cheap to animate, and the
+scrolling cleats plus the tracks pressed into the sand now sell forward motion
+honestly. But a walker is a different kind of object. A tracked hull glides;
+a legged one *transfers weight*, and that is a silhouette and a rhythm nothing
+about treads can imitate.
+
+This spec covers making the machine walk: what moves, how it stays collidable
+while moving, where the geometry comes from, and what the existing motion work
+becomes.
+
+**The hull, deck, and engine room do not change.** They are gameplay space —
+a 10×16m deck carrying a 9×12×3 build grid with an engine room beneath. No
+imported model has any of that, and their colliders derive from their own
+geometry, which is a property the build system depends on. What changes is
+what carries them.
+
+---
+
+## 2. Constraints
+
+Inherited and still binding:
+
+- **No asset files** *was* the rule; it is now "procedural by default, assets
+  where they earn their place" (`ASSETS.md`). Section 6 argues the legs earn it.
+- **The machine holds station at the world origin.** It does not translate
+  through world coordinates. A gait's heave and pitch are bounded oscillations
+  about that origin, not travel, and do not threaten the float-precision or
+  shadow-camera reasons the rule exists (handoff section 6).
+- **Definition and runtime instance stay separate types.**
+- **The camera is never displaced.** Confirmed with the player: the machine may
+  move, the view may not. Every cue in this spec is diegetic.
+- **Existing suites must keep passing:** 510 unit, 11 e2e, and the browser
+  harnesses.
+
+New and load-bearing:
+
+- **Colliders must track the body they belong to.** See section 4.
+- **Gait is driven by distance travelled, not wall time**, like every other
+  pacing decision in this project. A machine that walks on a wall clock keeps
+  striding when it is stopped.
+
+---
+
+## 3. What the player should perceive
+
+In rough order of how much each carries the illusion:
+
+1. **Silhouette.** Legs against the horizon, articulated, obviously bearing
+   load. This alone changes what the object *is* before anything moves.
+2. **Weight transfer.** The body rises and falls, and lists slightly toward the
+   loaded side. This is the cue that separates a walker from a hovering hull.
+3. **Foot plant.** A foot that stops dead on contact and stays put while the
+   world moves past it. Sliding feet destroy the effect faster than no
+   animation at all.
+4. **Footfalls in the sand**, replacing the continuous tracks.
+5. **Impact dust** at each plant, replacing the continuous tread plume.
+
+---
+
+## 4. The central problem: a body that moves and still holds people up
+
+This is the whole engineering content of the feature. Everything else is
+modelling and tuning.
+
+The machine's colliders are created once as **fixed** rigid bodies at
+construction (`Machine.ts`, `physics.addFixedBox`). If the body heaves and
+pitches with a gait, the deck the player *sees* separates from the deck the
+player *stands on*. At the deck's extremities a 1.5° pitch is about 20cm of
+error — enough to leave a character visibly floating or sunk.
+
+### 4.1 Decision: kinematic machine colliders, with platform carrying
+
+**Recommended.** Machine colliders become **kinematic position-based** rigid
+bodies. Once per fixed step, a single body transform — heave, pitch, roll — is
+computed from the gait and every machine collider is written to its
+transformed pose. Characters standing on the machine have the platform's
+delta applied to their desired movement before `computeColliderMovement`,
+because Rapier's character controller does not carry a character with a moving
+platform on its own.
+
+Why this one:
+
+- It is the only option where the deck genuinely tilts *in physics*. The player
+  chose "you feel motion because the deck moves"; a deck that is level in
+  physics and tilted only in the render is not that.
+- It generalises. Boarding vehicles that latch onto the hull, turret recoil,
+  and a machine that lists after damage all need exactly this machinery.
+- It is the standard solution to a standard problem, so its failure modes are
+  known rather than novel.
+
+Costs and risks, stated plainly:
+
+- Every machine collider is touched every fixed step (~25 of them). Trivial
+  cost, but it is new per-step work in the hot path.
+- **Platform carrying is the part that will bite.** Getting it wrong produces
+  jitter, sinking, or a player who slides off a level deck. It needs its own
+  tests before any gait is tuned on top of it.
+- The dev guard in `Machine.fixedUpdate` that throws if the group leaves the
+  origin must be relaxed to permit bounded oscillation while still catching
+  actual drift. It should assert a *bound*, not equality with zero.
+
+### 4.2 Rejected alternative: move the world instead
+
+The architecture already holds the machine still and scrolls the world past
+it, so the obvious cheap trick is to extend that: leave the machine rigid and
+apply the gait's heave and tilt to the world instead, inverted. Physics is
+untouched, there is no platform-carrying problem at all, and because the camera
+is rigidly attached to the machine the *rendered* result is very nearly
+identical.
+
+It was rejected because the deck would stay perfectly level in physics. Nobody
+would ever feel a list, a character would never shift on a slope, and a
+future boarding vehicle would have nothing to attach to. It buys most of the
+look for a fraction of the risk while foreclosing the reasons to want it.
+
+**It remains a legitimate fallback.** If platform carrying proves worse than
+this spec expects, moving the world gets perhaps 80% of the visual for perhaps
+20% of the risk, and that trade should be taken deliberately rather than
+discovered.
+
+---
+
+## 5. Gait
+
+A pure module, `src/machine/Gait.ts` — distance in, leg phases and a body
+transform out. No Three.js and no Rapier, so it is exhaustively testable in
+node like `NavGraph`, `EnemyAI`, and `EnemySteering`.
+
+- **Four legs**, in diagonal pairs. Six reads more insect-like and doubles the
+  animation and IK work for a silhouette that is not obviously better at this
+  scale; four is also easier to make read as *heavy*.
+- **Phase is a function of distance travelled**, so the machine strides in
+  proportion to how fast it is actually moving, and stops striding when it
+  stops. One full stride cycle per `STRIDE_LENGTH` metres.
+- **Stance and swing.** A leg in stance holds its foot at a fixed world point
+  while the world scrolls past — the foot moves astern in machine space at
+  exactly the scroll rate. A leg in swing lifts, travels forward, and plants.
+  Duty factor above 0.5 so at least two legs are always down.
+- **Body transform** is derived from the stance legs: heave from their mean
+  extension, roll from the left/right difference, pitch from fore/aft. Bounded
+  hard — heave within ±0.12m, pitch and roll within ±1.5° — because the deck
+  is a shooting platform and a build surface before it is a spectacle.
+
+Tuning knobs live in `src/data/`, not in the module.
+
+---
+
+## 6. Geometry
+
+### 6.1 Hull, deck, engine room — unchanged and procedural
+
+They stay exactly as they are. They carry the build grid, the walkable deck
+surface, and colliders derived from their own geometry.
+
+### 6.2 Legs — imported, CC0
+
+Legs are the one part that is genuinely hard to hand-author convincingly and
+easy to drop in: they are decoration hung off a body whose collisions we
+control, so importing them costs none of the properties the project depends on.
+
+Candidate source, verified CC0 and requiring no attribution:
+
+- **Quaternius mech**, <https://poly.pizza/m/D5wW2jDO42> — Public Domain (CC0),
+  glTF and FBX, ~2k triangles, chunky low-poly, a reasonable match for the
+  existing art direction. Quaternius is a long-standing, reliable CC0 author.
+- Broader index: **awesome-cc0**, <https://github.com/madjin/awesome-cc0>,
+  which also lists Base Mesh (900+ CC0 models as glTF) — worth mining for
+  pistons, greebles and panel detail regardless of where the legs come from.
+- **Meshy**, <https://www.meshy.ai/subcategory/robots-mechs> — CC0 and far
+  larger, but AI-generated, so topology is uneven. Fallback only.
+
+**Before anything is imported, the model must be opened and inspected**, not
+taken from a listing: segment count, whether the limbs are separable, joint
+orientation, scale, and triangle budget against a 10×16m body. A 2k-triangle
+whole mech may be too coarse once its legs alone carry a machine this size.
+
+**If nothing suitable survives inspection**, fall back to procedural legs built
+from the existing `bevelledBox` vocabulary — pistons, sleeved joints, splayed
+feet — which is what the rest of the machine is made of and will at minimum
+match. The player's instruction was "CC0 first if possible, otherwise as
+detailed and granular as possible."
+
+Provenance, licence, and the source URL go in `ASSETS.md` before the file is
+committed, as the existing texture assets already do.
+
+### 6.3 Legs move by IK
+
+Two-bone IK per leg, solved analytically. The gait supplies a foot target in
+machine space; IK produces hip and knee angles. Analytic rather than iterative
+because two bones have a closed-form solution and it is trivially testable.
+
+---
+
+## 7. What existing work becomes
+
+- **`TrackMarks` becomes footfalls.** The pool, the world-locked movement, the
+  dune-height sampling and the taper all transfer unchanged. What changes is
+  the spawn rule: instead of laying a mark every `SPACING` metres per side, a
+  mark is laid *when a foot plants*, at that foot's position. This is a small
+  change to a system already built and measured.
+- **Tread cleats and the tread belts are removed** along with the treads.
+  `TREAD_BELT_LENGTH`, the cleat map, and `Machine.updateVisuals`' scroll go
+  with them. The `treadCleats` texture generator can stay — it costs nothing
+  and may suit a future tracked enemy vehicle.
+- **`SandFX`'s continuous tread plume becomes per-plant impact puffs**, keyed
+  off the same foot-plant event as the footfalls.
+- **World-scroll interpolation stays exactly as it is** and becomes more
+  important, not less: a gait is a periodic motion, and periodic motion against
+  a quantised backdrop beats visibly.
+
+---
+
+## 8. Testing
+
+**Unit, in node — `Gait.ts` and the IK are pure:**
+
+- one full stride per `STRIDE_LENGTH` metres, independent of frame rate
+- phase does not advance when speed is zero
+- at least two feet are in stance at every phase (duty factor holds)
+- a stance foot's machine-space position moves astern at exactly the scroll
+  rate — the treadmill property that stops feet sliding
+- body heave, pitch and roll stay inside their bounds across a full cycle
+- two-bone IK reaches a reachable target, and clamps rather than exploding on
+  an unreachable one
+
+**Platform carrying needs its own tests before any gait sits on top:**
+
+- a character standing on the deck while the body heaves stays at a constant
+  height *relative to the deck*
+- the same while the body pitches, at the deck's extremities where the error is
+  largest
+- a character does not accumulate drift over a long run of oscillation
+
+**Browser, in `tools/`:**
+
+- the player stands on the deck for a full stride cycle without sinking,
+  floating, or being thrown
+- footfalls appear under feet at plant, not on a fixed interval
+- verified red before green, as with the navigation work
+
+---
+
+## 9. Deliberately not in scope
+
+- Steering or turning. The machine still travels in a straight line.
+- Terrain-adaptive footing — feet plant at the sampled dune height, but legs do
+  not reach for uneven ground or step over obstacles.
+- Damage-driven limp, leg destruction, or a machine that lists permanently.
+- Any change to the hull, deck, engine room, build grid, or the navigation graph.
+- Camera motion of any kind.
+
+---
+
+## 10. Risks
+
+**Platform carrying is the one that can sink this.** It is the difference
+between a machine that walks and a machine that shakes its passengers off. It
+must be built and tested on its own, with the body oscillating and no gait or
+legs present, before anything is hung on it. If it cannot be made solid, take
+section 4.2 rather than shipping a deck that jitters.
+
+**The imported legs may not fit the art direction.** A 2k-triangle mech's legs
+scaled up to carry a 10×16m body may read as crude next to the hand-built
+hull. The inspection step in 6.2 exists to catch this before it is load-bearing;
+the procedural fallback exists because it might.
+
+**Gait tuning is taste, and taste needs eyes.** Stride length, duty factor and
+heave amplitude cannot be settled from measurements. Get a walking silhouette
+on screen early and cheaply, and expect to tune it with the player watching
+rather than to specify it correctly in advance.
+
+---
+
+## 11. Success criteria
+
+1. The machine reads as a walker in silhouette, at a glance, before anything
+   moves.
+2. Feet plant and stay planted — no sliding contact at any speed.
+3. The body's rise, fall and list are visibly tied to which legs are loaded.
+4. A player standing on the deck through a full stride neither sinks, floats,
+   nor drifts, and can still shoot accurately.
+5. Footfalls appear in the sand under the feet that made them.
+6. Stopping the machine stops the gait, mid-stride, without snapping.
+7. All existing suites pass unchanged.
