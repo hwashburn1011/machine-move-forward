@@ -174,7 +174,10 @@ export function buildNavGraph(
  *
  * A stair is cheap to walk but expensive to decide on. Without this an enemy
  * two cells away will happily go up and over a staircase to reach you, which
- * looks broken. Charged in the heuristic as well, so it stays admissible.
+ * looks broken. The heuristic also charges LEVEL_COST per level, but only
+ * LEVEL_COST — never more than the true edge cost of a vertical step (which
+ * is 1 for the lateral move plus LEVEL_COST), so the heuristic never
+ * overestimates and A* stays admissible.
  */
 const LEVEL_COST = 3;
 
@@ -207,9 +210,16 @@ function reconstruct(
  * A* from one cell to another.
  *
  * Returns the waypoints AFTER the start cell, so the caller can steer at
- * `path[0]` immediately. An empty array means `from` is not on the graph at
- * all — which is the caller's cue to snap the enemy to a nearby node rather
- * than to stand still.
+ * `path[0]` immediately. An empty array never means "you are lost" — it
+ * means no waypoints are needed, for one of three reasons:
+ *   1. `from` is not a node in the graph at all;
+ *   2. `from` and `to` are the same cell, so there is nowhere to step; or
+ *   3. the goal is unreachable and the closest reachable cell IS the start,
+ *      so the enemy is already standing as close as it can get.
+ * Only case 1 is a genuine "off the graph" problem the caller may want to
+ * handle specially (e.g. snapping the enemy to a nearby node); cases 2 and 3
+ * both mean "stay put" — the caller should not treat every empty array as a
+ * signal to relocate the enemy.
  *
  * When the goal cannot be reached, this does NOT fail. Everything A* visited
  * is by definition what the enemy can reach, so it returns the path to
@@ -253,7 +263,8 @@ export function findPath(graph: NavGraph, from: Cell, to: Cell): Cell[] {
     const tentative = (gScore.get(currentKey) as number) + 1;
     for (const next of graph.links.get(currentKey) ?? []) {
       const nextKey = cellKey(next);
-      const step = next.y === (cells.get(currentKey) as Cell).y ? tentative : tentative + LEVEL_COST;
+      const sameLevel = next.y === (cells.get(currentKey) as Cell).y;
+      const step = sameLevel ? tentative : tentative + LEVEL_COST;
       if (step >= (gScore.get(nextKey) ?? Infinity)) continue;
 
       cells.set(nextKey, next);

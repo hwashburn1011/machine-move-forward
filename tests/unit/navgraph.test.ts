@@ -273,4 +273,81 @@ describe('findPath', () => {
     const b = findPath(graph, c(-2, 0, -2), c(2, 0, 2)).map(cellKey);
     expect(a).toEqual(b);
   });
+
+  it('breaks a genuine tie by picking the lowest cell key, not search order', () => {
+    // A grid with two equal-cost routes from start to goal (12 edges each: a
+    // left-hand loop up and across, and a right-hand jog up and across). Both
+    // are optimal, so which one comes back is decided entirely by the open-set
+    // tie-break. Found by brute-force search over random grids, then trimmed
+    // to the smallest floor plan that still ties — there is no simpler
+    // geometric description of the shape.
+    const g = new BuildGrid<PieceId>();
+    const cells: Array<[number, number]> = [
+      [-1, -3], [-1, 1], [-2, -1], [-2, -2], [-2, -3], [-2, 0], [-2, 1],
+      [0, -1], [0, -3], [0, 0], [0, 1], [1, -1], [1, -2], [1, -3], [1, 1],
+      [2, 1], [2, 2], [2, 3], [3, 3],
+    ];
+    for (const [x, z] of cells) g.setCell(c(x, 0, z), 'floor');
+
+    const path = findPath(buildNavGraph(g, []), c(-1, 0, -3), c(3, 0, 3));
+
+    // With the key tie-break, the search takes the route through x = -2 (the
+    // lexicographically lowest cell key at every tied choice). Without the
+    // tie-break — verified by temporarily deleting the `key < currentKey` arm
+    // — this same grid returns a different, equally-optimal route through
+    // x = 1 instead, which is exactly the non-determinism this test guards.
+    expect(path.map(cellKey)).toEqual([
+      cellKey(c(-2, 0, -3)),
+      cellKey(c(-2, 0, -2)),
+      cellKey(c(-2, 0, -1)),
+      cellKey(c(-2, 0, 0)),
+      cellKey(c(-2, 0, 1)),
+      cellKey(c(-1, 0, 1)),
+      cellKey(c(0, 0, 1)),
+      cellKey(c(1, 0, 1)),
+      cellKey(c(2, 0, 1)),
+      cellKey(c(2, 0, 2)),
+      cellKey(c(2, 0, 3)),
+      cellKey(c(3, 0, 3)),
+    ]);
+  });
+
+  it('prefers a longer flat route over a shorter stairs shortcut once LEVEL_COST outweighs it', () => {
+    // The only level-0 route from start to goal is this 7-edge staple: there
+    // is no direct row between them, only this detour.
+    //
+    //   z=2  (0,0,2)-(1,0,2)-(2,0,2)-(3,0,2)
+    //          |                        |
+    //   z=1  (0,0,1)                 (3,0,1)
+    //          |                        |
+    //   z=0  (0,0,0)=stairs      (3,0,0)=stairs   <- start / goal
+    //
+    // A stairs shortcut also exists: up at the start, three steps across
+    // level 1, down at the goal — only 5 edges, fewer than the flat route's
+    // 7. But each vertical edge costs 1 + LEVEL_COST, so with LEVEL_COST = 3
+    // the shortcut costs 3*1 + 2*4 = 11 against the flat route's 7, and the
+    // flat route should win despite being the longer one by edge count.
+    const g = new BuildGrid<PieceId>();
+    g.setCell(c(0, 0, 0), 'stairs'); // start is also this staircase's run cell
+    g.setCell(c(0, 0, 1), 'floor');
+    g.setCell(c(0, 0, 2), 'floor');
+    g.setCell(c(1, 0, 2), 'floor');
+    g.setCell(c(2, 0, 2), 'floor');
+    g.setCell(c(3, 0, 2), 'floor');
+    g.setCell(c(3, 0, 1), 'floor');
+    g.setCell(c(3, 0, 0), 'stairs'); // goal is also this staircase's run cell
+    g.setCell(c(0, 1, 0), 'floor'); // landing above the start
+    g.setCell(c(1, 1, 0), 'floor');
+    g.setCell(c(2, 1, 0), 'floor');
+    g.setCell(c(3, 1, 0), 'floor'); // landing above the goal
+
+    const path = findPath(buildNavGraph(g, []), c(0, 0, 0), c(3, 0, 0));
+
+    expect(path.at(-1)).toEqual(c(3, 0, 0));
+    // Confirmed by temporarily setting LEVEL_COST = 0: with no level cost the
+    // 5-edge stairs shortcut is cheaper and this assertion fails, because the
+    // path then leaves level 0 instead of staying flat.
+    expect(path.every((cell) => cell.y === 0)).toBe(true);
+    expect(path.length).toBe(7);
+  });
 });
