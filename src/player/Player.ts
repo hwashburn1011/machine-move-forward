@@ -114,6 +114,12 @@ export class Player {
     return { vy: this.verticalVelocity, grounded: this.grounded };
   }
 
+  /**
+   * Platform displacement to fold into the next move. Written by the game each
+   * step from the machine's pose; zero while the machine's body is at rest.
+   */
+  readonly carry = { x: 0, y: 0, z: 0 };
+
   fixedUpdate(dt: number, input: InputManager, cameraYaw: number): void {
     this.stats.tick(dt);
 
@@ -167,11 +173,18 @@ export class Player {
     }
 
     // --- Resolve against the world ----------------------------------------
+    // The deck is a moving platform. Rapier's character controller does NOT
+    // carry a character when the surface under it moves, so the machine's own
+    // displacement this step is folded into the requested movement -- sampled
+    // at the player's own position, because under tilt the deck's edges move
+    // far more than its middle. Without this the player sinks through a rising
+    // deck and hangs above a falling one.
+    const carry = this.carry;
     const { controller, collider, body } = this.handle;
     controller.computeColliderMovement(collider, {
-      x: this.desired.x * dt,
-      y: this.verticalVelocity * dt,
-      z: this.desired.z * dt,
+      x: this.desired.x * dt + carry.x,
+      y: this.verticalVelocity * dt + carry.y,
+      z: this.desired.z * dt + carry.z,
     });
     const moved = controller.computedMovement();
     this.grounded = controller.computedGrounded();

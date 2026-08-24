@@ -13,6 +13,14 @@ import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from 
 import type { Cell } from '@/building/BuildGrid';
 import { deckCells, type FixedLink } from '@/enemies/NavGraph';
 import { MachineMovement } from './MachineMovement';
+import {
+  carryDelta,
+  clampPose,
+  poseEquals,
+  REST_POSE,
+  type BodyPose,
+  type Vec3,
+} from './MachineBody';
 
 /**
  * Project the machine's own colliders onto level-0 grid cells.
@@ -21,6 +29,17 @@ import { MachineMovement } from './MachineMovement';
  * moment the machine layout changes, and the failure mode is subtle — the
  * player could build inside the engine.
  */
+/** Axes the body rotates about. Module-level so no allocation per step. */
+const RIGHT_X = new THREE.Vector3(1, 0, 0);
+const FORWARD_Z = new THREE.Vector3(0, 0, 1);
+
+/**
+ * How far off the origin the machine may sit before it counts as drift rather
+ * than gait. Comfortably above MAX_HEAVE, far below anything that would matter
+ * to float precision or the shadow camera.
+ */
+const MAX_STATION_KEEPING = 0.5;
+
 function projectEquipmentCells(
   colliders: { half: THREE.Vector3; center: THREE.Vector3 }[],
 ): Cell[] {
@@ -86,6 +105,13 @@ export class Machine {
    */
   readonly fixedLinks: FixedLink[];
   private treadScroll = 0;
+  private pose: BodyPose = REST_POSE;
+  private previousPose: BodyPose = REST_POSE;
+  private writtenPose: BodyPose = REST_POSE;
+  private readonly poseOrigin = new THREE.Vector3();
+  private readonly poseQuat = new THREE.Quaternion();
+  private readonly pitchQuat = new THREE.Quaternion();
+  private readonly rollQuat = new THREE.Quaternion();
 
   constructor(
     scene: THREE.Scene,
@@ -99,9 +125,15 @@ export class Machine {
     this.group.position.set(0, 0, 0);
     scene.add(this.group);
 
+    // FIXED bodies, deliberately, for now. The walking-machine spec's section
+    // 4 wants these kinematic so the body can heave and pitch while staying
+    // collidable -- but converting them was measured to break movement
+    // outright: with the player's capsule and the machine both kinematic,
+    // Rapier generates no contacts between them (it disables collision between
+    // two non-dynamic bodies), and the character controller returned zero
+    // movement while still reporting grounded. See the spec's section 10 and
+    // the fallback in 4.2 before trying again.
     for (const c of build.colliders) {
-      // The engine-room stair is the one tilted box; everything else is
-      // axis-aligned and takes the cheaper path.
       if (c.rotX === undefined) {
         physics.addFixedBox(c.half, c.center, 0, { kind: 'machine' });
       } else {
@@ -212,13 +244,72 @@ export class Machine {
     return this.movement.currentSpeed;
   }
 
+  /**
+   * Set the body's pose for this step. Clamped, so a mis-tuned gait cannot
+   * throw anyone off the deck.
+   */
+  setPose(next: BodyPose): void {
+    this.previousPose = this.pose;
+    this.pose = clampPose(next);
+  }
+
+  get currentPose(): BodyPose {
+    return this.pose;
+  }
+
+  /**
+   * How far a point attached to the machine moved this step.
+   *
+   * Anything standing on the deck must be moved by this, because Rapier's
+   * character controller does not carry a body when its platform moves.
+   * Sampled at the character's own position: under tilt the deck's edges move
+   * far more than its middle.
+   */
+  carryFor(point: Vec3): Vec3 {
+    return carryDelta(point, this.previousPose, this.pose);
+  }
+
+  /** True while the body is doing nothing, so callers can skip the work. */
+  get isAtRest(): boolean {
+    return poseEquals(this.pose, this.previousPose) && poseEquals(this.pose, REST_POSE);
+  }
+
+  private applyPose(): void {
+    // Only touch the physics body when the pose actually changed. Rewriting a
+    // kinematic body's target every step -- even to the identical pose -- makes
+    // Rapier treat it as a moving platform, and the character controller then
+    // resolves against that motion and pins anything standing on it. Measured:
+    // the player was grounded and could not walk. While the machine is not
+    // walking, this leaves the body untouched and it behaves exactly as the
+    // fixed bodies it replaced.
+    if (poseEquals(this.pose, this.writtenPose)) return;
+    this.writtenPose = this.pose;
+
+    // Roll about Z, then pitch about X -- the same order MachineBody composes
+    // them, so the colliders and the rendered hull cannot disagree.
+    this.rollQuat.setFromAxisAngle(FORWARD_Z, this.pose.roll);
+    this.pitchQuat.setFromAxisAngle(RIGHT_X, this.pose.pitch);
+    this.poseQuat.copy(this.pitchQuat).multiply(this.rollQuat);
+    this.poseOrigin.set(0, this.pose.heave, 0);
+
+    // Visual only, and inert while the pose stays at rest. The colliders are
+    // fixed bodies and do NOT follow this, so moving the pose today would
+    // separate the deck you see from the deck you stand on. Nothing calls
+    // setPose yet, deliberately.
+    this.group.position.copy(this.poseOrigin);
+    this.group.quaternion.copy(this.poseQuat);
+  }
+
   fixedUpdate(dt: number): void {
     this.movement.fixedUpdate(dt);
+    this.applyPose();
 
-    if (import.meta.env.DEV && this.group.position.lengthSq() !== 0) {
-      // Guarded rather than merely documented: if anything ever moves the
-      // machine, chunk recycling, shadows, and player physics all quietly
-      // degrade instead of failing loudly.
+    // A BOUND, not equality with zero. The machine holds station at the
+    // origin, but a walking body heaves and tilts about it, so the guard has
+    // to permit oscillation while still catching actual drift -- which is the
+    // failure that would quietly degrade chunk recycling, shadows and player
+    // physics (handoff section 6).
+    if (import.meta.env.DEV && this.group.position.lengthSq() > MAX_STATION_KEEPING ** 2) {
       throw new Error(
         'Machine left the origin. The world must scroll instead — see handoff section 6.',
       );

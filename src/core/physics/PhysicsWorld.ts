@@ -69,6 +69,58 @@ export class PhysicsWorld {
   }
 
   /** A static box. Used for the deck, tread housings, prow, and equipment. */
+  /**
+   * A kinematic body to hang the machine's collider shapes off.
+   *
+   * One body with many colliders, not many bodies: posing the machine is then
+   * a single write per step instead of one per shape, and the shapes cannot
+   * drift out of register with each other.
+   */
+  createKinematicBody(): RAPIER.RigidBody {
+    return this.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased());
+  }
+
+  /** Attach a box to a body, positioned in that body's local space. */
+  addBoxTo(
+    body: RAPIER.RigidBody,
+    halfExtents: THREE.Vector3,
+    localPosition: THREE.Vector3,
+    localRotation?: THREE.Quaternion,
+    userData?: unknown,
+  ): RAPIER.Collider {
+    const desc = RAPIER.ColliderDesc.cuboid(
+      halfExtents.x,
+      halfExtents.y,
+      halfExtents.z,
+    ).setTranslation(localPosition.x, localPosition.y, localPosition.z);
+    if (localRotation) {
+      desc.setRotation({
+        x: localRotation.x,
+        y: localRotation.y,
+        z: localRotation.z,
+        w: localRotation.w,
+      });
+    }
+    const collider = this.world.createCollider(desc, body);
+    if (userData !== undefined) this.setUserData(collider, userData);
+    return collider;
+  }
+
+  /** Move a kinematic body. Rapier interpolates to this over the next step. */
+  setKinematicPose(
+    body: RAPIER.RigidBody,
+    position: THREE.Vector3,
+    rotation: THREE.Quaternion,
+  ): void {
+    body.setNextKinematicTranslation({ x: position.x, y: position.y, z: position.z });
+    body.setNextKinematicRotation({
+      x: rotation.x,
+      y: rotation.y,
+      z: rotation.z,
+      w: rotation.w,
+    });
+  }
+
   addFixedBox(
     halfExtents: THREE.Vector3,
     position: THREE.Vector3,

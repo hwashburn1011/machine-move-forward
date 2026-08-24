@@ -395,6 +395,13 @@ export class Game implements LoopCallbacks {
       } else if (this.buildMode) this.updateBuildMode();
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
 
+      // Carry anything standing on the deck by however far the deck moved.
+      // Sampled per body, since under tilt the extremities move most.
+      const carried = this.machine.carryFor(this.player.worldPosition);
+      this.player.carry.x = carried.x;
+      this.player.carry.y = carried.y;
+      this.player.carry.z = carried.z;
+
       this.enemies.fixedUpdate(
         dt,
         this.player.worldPosition,

@@ -1,7 +1,7 @@
 # Machine Move Forward — The Machine Walks
 
 **Date:** 2026-08-24
-**Status:** Draft — section 4's decision needs confirming before implementation
+**Status:** Draft — section 4.1 was ATTEMPTED AND FAILED against Rapier. See 4.3.
 **Source design:** `machine-move-forward-game-handoff.md` sections 6, 14, 41
 **Builds on:** the engine room (WIP), world-scroll interpolation, tread cleats, track marks
 
@@ -111,6 +111,46 @@ Costs and risks, stated plainly:
 - The dev guard in `Machine.fixedUpdate` that throws if the group leaves the
   origin must be relaxed to permit bounded oscillation while still catching
   actual drift. It should assert a *bound*, not equality with zero.
+
+### 4.3 Attempted, and what actually happened
+
+**4.1 was implemented and reverted.** Recording it here so nobody spends the
+same afternoon twice.
+
+The machine's colliders were moved onto a single kinematic body, posed once per
+step. Every unit test passed and the machine looked identical — and the player
+could no longer walk. Measured with the character controller instrumented:
+`computedMovement` returned exactly zero on every step while `computedGrounded`
+stayed true, with ~20 contacts all reporting an upward normal. That is the same
+signature `constants.ts` already documents for a capsule spawned inside the
+deck plate.
+
+The cause is a Rapier rule, not a mistake in the pose maths: **collision is not
+generated between two non-dynamic bodies.** The player's capsule is already
+`kinematicPositionBased`, so the moment the machine stopped being `fixed` the
+pair became kinematic-versus-kinematic and the controller had nothing solid to
+resolve against.
+
+Gating the pose writes so an unchanged pose never touches the body did not help
+— the problem is what the body *is*, not how often it is written.
+
+So 4.1 is not simply "more work than expected"; it needs a different mechanism.
+The options worth investigating next, in the order I would try them:
+
+1. Keep the machine's colliders **fixed**, and move them by rebuilding or
+   re-positioning the fixed bodies directly each step. Fixed bodies can be
+   teleported; whether the character controller tolerates that smoothly is the
+   open question.
+2. Make the machine's body **dynamic but kinematically driven** — a dynamic
+   body with infinite mass, which restores contact generation against the
+   kinematic player.
+3. Take 4.2 and move the world instead.
+
+What survives the revert and is worth keeping: `src/machine/MachineBody.ts`,
+pure and covered by 17 tests, including the property that carry deltas sum to
+zero over a closed gait cycle so nothing ratchets across the deck. Any of the
+three routes above needs exactly that module. `Player.carry` is plumbed and
+inert at rest.
 
 ### 4.2 Rejected alternative: move the world instead
 
@@ -266,7 +306,10 @@ because two bones have a closed-form solution and it is trivially testable.
 
 ## 10. Risks
 
-**Platform carrying is the one that can sink this.** It is the difference
+**Platform carrying is the one that can sink this — and on first attempt it
+did.** See 4.3 for what failed and why.
+
+**Original assessment, left as written:** It is the difference
 between a machine that walks and a machine that shakes its passengers off. It
 must be built and tested on its own, with the body oscillating and no gait or
 legs present, before anything is hung on it. If it cannot be made solid, take
