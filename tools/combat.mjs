@@ -79,8 +79,27 @@ check('cannot fire mid-reload', Number(midReload.ammo.split('/')[0]) === Number(
 await sim(2.2);
 const a2 = await stats();
 check('reload refills the magazine', a2.ammo.startsWith('30/'), a2.ammo);
-check('reload draws from the reserve', Number(a2.ammo.split('/')[1]) === 150 - fired,
-  `reserve ${a2.ammo.split('/')[1]}, expected ${150 - fired}`);
+// Ammunition is unlimited while the shooting is being tuned, so reloading no
+// longer draws the reserve down. The magazine still empties and still has to be
+// reloaded -- what went away is the possibility of running dry mid-fight.
+check('reloading no longer spends the reserve', Number(a2.ammo.split('/')[1]) === 150,
+  `reserve ${a2.ammo.split('/')[1]}, expected 150`);
+
+const dry = await page.evaluate(async () => {
+  const w = globalThis.__game.game.combat.current;
+  w.reserveAmmo = 0;
+  w.ammoInMag = 0;
+  const started = w.startReload(performance.now() / 1000);
+  return { started, infinite: w.infiniteReserve };
+});
+check('a weapon can still reload on an empty reserve', dry.started === true,
+  `infiniteReserve=${dry.infinite}`);
+await page.evaluate(() => {
+  const w = globalThis.__game.game.combat.current;
+  w.reserveAmmo = 150;
+  w.ammoInMag = w.effectiveMagazineSize;
+  w.cancelReload();
+});
 
 // --- Weapon swap ------------------------------------------------------------
 await page.keyboard.press('2');

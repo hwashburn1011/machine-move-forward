@@ -8,6 +8,8 @@ export interface HUDState {
   maxHealth: number;
   ammoInMag: number;
   reserveAmmo: number;
+  /** Reserve is unlimited: show a symbol rather than a number that never moves. */
+  infiniteAmmo: boolean;
   weaponName: string;
   machineSpeed: number;
   distanceTraveled: number;
@@ -229,7 +231,11 @@ export class HUD {
 
     // --- Weapon ------------------------------------------------------------
     this.write('mag', this.el['hud-ammo'], String(state.ammoInMag), true);
-    this.write('reserve', this.el['hud-ammo-reserve'], ` / ${state.reserveAmmo}`);
+    this.write(
+      'reserve',
+      this.el['hud-ammo-reserve'],
+      state.infiniteAmmo ? ' / ∞' : ` / ${state.reserveAmmo}`,
+    );
     this.write('wname', this.el['hud-weapon-name'], state.weaponName);
 
     if (this.reloadEndsAt > 0 && this.reloadDuration > 0) {

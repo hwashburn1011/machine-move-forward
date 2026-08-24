@@ -1,3 +1,4 @@
+import { INFINITE_AMMO } from '@/game/constants';
 import type { WeaponDefinition } from '@/data/weapons';
 
 /**
@@ -34,6 +35,14 @@ export class Weapon {
    * every future one too.
    */
   magazineBonus = 0;
+
+  /**
+   * Reload without drawing on the reserve.
+   *
+   * Per weapon rather than read from the constant at each use, so a test can
+   * exercise the finite path without reaching into module state.
+   */
+  infiniteReserve = INFINITE_AMMO;
 
   private lastFireTime = -Infinity;
   private reloadEndsAt: number | null = null;
@@ -91,7 +100,7 @@ export class Weapon {
   startReload(now: number): boolean {
     if (this.reloading) return false;
     if (this.ammoInMag >= this.effectiveMagazineSize) return false;
-    if (this.reserveAmmo <= 0) return false;
+    if (!this.infiniteReserve && this.reserveAmmo <= 0) return false;
     this.reloadEndsAt = now + this.def.reloadTime;
     return true;
   }
@@ -101,9 +110,9 @@ export class Weapon {
     if (this.reloadEndsAt === null || now < this.reloadEndsAt) return false;
 
     const wanted = this.effectiveMagazineSize - this.ammoInMag;
-    const moved = Math.min(wanted, this.reserveAmmo);
+    const moved = this.infiniteReserve ? wanted : Math.min(wanted, this.reserveAmmo);
     this.ammoInMag += moved;
-    this.reserveAmmo -= moved;
+    if (!this.infiniteReserve) this.reserveAmmo -= moved;
     this.reloadEndsAt = null;
     return true;
   }

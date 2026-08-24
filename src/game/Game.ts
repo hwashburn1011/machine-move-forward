@@ -375,6 +375,7 @@ export class Game implements LoopCallbacks {
       maxHealth: this.player.stats.maxHealth,
       ammoInMag: this.combat.current.ammoInMag,
       reserveAmmo: this.combat.current.reserveAmmo,
+      infiniteAmmo: this.combat.current.infiniteReserve,
       weaponName: this.combat.current.def.name,
       machineSpeed: this.machine.speed,
       distanceTraveled: this.world.distanceTraveled,

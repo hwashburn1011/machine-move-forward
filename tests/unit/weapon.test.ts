@@ -36,7 +36,10 @@ describe('Weapon', () => {
   });
 
   it('reloads only what the magazine is missing', () => {
+    // Finite reserve: the game currently runs with unlimited ammunition, but
+    // the drawing-down path is still here and still has to be right.
     const w = rifle();
+    w.infiniteReserve = false;
     w.tryFire(0);
     w.tryFire(1);
     expect(w.startReload(1)).toBe(true);
@@ -55,6 +58,7 @@ describe('Weapon', () => {
 
   it('never takes more than the reserve holds', () => {
     const w = rifle();
+    w.infiniteReserve = false;
     w.reserveAmmo = 4;
     for (let i = 0; i < 30; i++) w.tryFire(i * w.fireInterval);
     w.startReload(10);
@@ -69,6 +73,7 @@ describe('Weapon', () => {
 
   it('refuses to reload with an empty reserve', () => {
     const w = rifle();
+    w.infiniteReserve = false;
     w.reserveAmmo = 0;
     w.tryFire(0);
     expect(w.startReload(1)).toBe(false);
@@ -117,5 +122,53 @@ describe('Weapon', () => {
     for (const w of [rifle(), shotgun()]) {
       expect(w.def.aimSpread).toBeLessThan(w.def.spread);
     }
+  });
+});
+
+describe('infinite ammo', () => {
+  /**
+   * Switched on for the whole game while the shooting is being tuned. Kept as
+   * a per-weapon flag rather than a hard removal so the finite path stays
+   * exercised by the tests above and can be switched back on.
+   */
+  it('is on by default while the game runs this way', () => {
+    expect(new Weapon(WEAPONS.rifle!).infiniteReserve).toBe(true);
+  });
+
+  it('reloads without consuming the reserve', () => {
+    const w = new Weapon(WEAPONS.rifle!);
+    const before = w.reserveAmmo;
+    w.tryFire(0);
+    w.tryFire(1);
+    w.startReload(2);
+    w.fixedUpdate(2 + w.def.reloadTime);
+    expect(w.ammoInMag).toBe(w.effectiveMagazineSize);
+    expect(w.reserveAmmo).toBe(before);
+  });
+
+  it('reloads even with an empty reserve', () => {
+    // The whole point: running dry must stop being possible.
+    const w = new Weapon(WEAPONS.rifle!);
+    w.reserveAmmo = 0;
+    w.ammoInMag = 0;
+    expect(w.startReload(0)).toBe(true);
+    w.fixedUpdate(w.def.reloadTime);
+    expect(w.ammoInMag).toBe(w.effectiveMagazineSize);
+  });
+
+  it('still empties the magazine, so reloading remains part of the rhythm', () => {
+    // Infinite supply, not infinite magazine. Firing still has a cadence.
+    const w = new Weapon(WEAPONS.rifle!);
+    for (let i = 0; i < w.effectiveMagazineSize; i++) w.tryFire(i * w.fireInterval);
+    expect(w.isEmpty).toBe(true);
+    expect(w.canFire(1000)).toBe(false);
+  });
+
+  it('leaves the finite path intact when switched off', () => {
+    const w = new Weapon(WEAPONS.rifle!);
+    w.infiniteReserve = false;
+    w.reserveAmmo = 0;
+    w.ammoInMag = 0;
+    expect(w.startReload(0)).toBe(false);
   });
 });

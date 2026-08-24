@@ -47,6 +47,16 @@ export const DECK_PLATE_HALF = 0.09;
 /** The deck surface a character actually stands on. */
 export const DECK_SURFACE_Y = DECK_HEIGHT + DECK_PLATE_HALF;
 
+/**
+ * Ammunition is unlimited.
+ *
+ * Deliberately a switch rather than the ammo system being torn out: the
+ * magazine, the reload, the crafting recipe and the save field all still work,
+ * and the finite path is still covered by tests. Reloading stays -- what goes
+ * away is running dry.
+ */
+export const INFINITE_AMMO = true;
+
 /** Base machine speed in m/s before weight and engine modifiers. */
 export const BASE_MACHINE_SPEED = 7.5;
 

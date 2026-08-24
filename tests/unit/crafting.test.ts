@@ -163,6 +163,9 @@ describe('weapon magazine mod', () => {
 
   it('reloads up to the modded size', () => {
     const w = rifle();
+    // Finite reserve, so the draw-down is what is being measured. The game runs
+    // with unlimited ammunition; the mod still has to fill the larger magazine.
+    w.infiniteReserve = false;
     w.applyMagazineMod();
     w.ammoInMag = 0;
     w.reserveAmmo = 100;
