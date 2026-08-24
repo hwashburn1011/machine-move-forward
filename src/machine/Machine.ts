@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type RAPIER from '@dimforge/rapier3d-compat';
 import type { Materials } from '@/art/Materials';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import {
@@ -19,6 +20,7 @@ import {
   poseEquals,
   REST_POSE,
   type BodyPose,
+  transformPoint,
   type Vec3,
 } from './MachineBody';
 
@@ -39,6 +41,9 @@ const FORWARD_Z = new THREE.Vector3(0, 0, 1);
  * to float precision or the shadow camera.
  */
 const MAX_STATION_KEEPING = 0.5;
+
+/** Colliders sit at their body's own origin in this layout. */
+const ZERO = new THREE.Vector3(0, 0, 0);
 
 function projectEquipmentCells(
   colliders: { half: THREE.Vector3; center: THREE.Vector3 }[],
@@ -108,6 +113,11 @@ export class Machine {
   private pose: BodyPose = REST_POSE;
   private previousPose: BodyPose = REST_POSE;
   private writtenPose: BodyPose = REST_POSE;
+  private readonly bodies: RAPIER.RigidBody[] = [];
+  private readonly restPositions: THREE.Vector3[] = [];
+  private readonly restRotations: THREE.Quaternion[] = [];
+  private readonly scratchPos = new THREE.Vector3();
+  private readonly scratchQuat = new THREE.Quaternion();
   private readonly poseOrigin = new THREE.Vector3();
   private readonly poseQuat = new THREE.Quaternion();
   private readonly pitchQuat = new THREE.Quaternion();
@@ -125,25 +135,22 @@ export class Machine {
     this.group.position.set(0, 0, 0);
     scene.add(this.group);
 
-    // FIXED bodies, deliberately, for now. The walking-machine spec's section
-    // 4 wants these kinematic so the body can heave and pitch while staying
-    // collidable -- but converting them was measured to break movement
-    // outright: with the player's capsule and the machine both kinematic,
-    // Rapier generates no contacts between them (it disables collision between
-    // two non-dynamic bodies), and the character controller returned zero
-    // movement while still reporting grounded. See the spec's section 10 and
-    // the fallback in 4.2 before trying again.
+    // EXPERIMENT 2 (spec 4.3): DYNAMIC bodies, locked and gravity-free, so they
+    // behave like fixed ones while still generating contacts against the
+    // kinematic player. Experiment 1 proved the blocker is the body TYPE:
+    // one kinematic body per collider failed exactly as one shared body did.
+    this.bodies = [];
     for (const c of build.colliders) {
-      if (c.rotX === undefined) {
-        physics.addFixedBox(c.half, c.center, 0, { kind: 'machine' });
-      } else {
-        physics.addFixedBoxRotated(
-          c.half,
-          c.center,
-          new THREE.Quaternion().setFromEuler(new THREE.Euler(c.rotX, 0, 0)),
-          { kind: 'machine' },
-        );
-      }
+      const rot =
+        c.rotX === undefined
+          ? undefined
+          : new THREE.Quaternion().setFromEuler(new THREE.Euler(c.rotX, 0, 0));
+      const body = physics.createDrivenBody(c.center, rot);
+      physics.addBoxTo(body, c.half, ZERO, undefined, { kind: 'machine' });
+      this.bodies.push(body);
+      // Rest pose, so the body transform can be applied to it every step.
+      this.restPositions.push(c.center.clone());
+      this.restRotations.push(rot ? rot.clone() : new THREE.Quaternion());
     }
 
     const halfW = (MACHINE_TILES_X * GRID_TILE) / 2;
@@ -292,12 +299,20 @@ export class Machine {
     this.poseQuat.copy(this.pitchQuat).multiply(this.rollQuat);
     this.poseOrigin.set(0, this.pose.heave, 0);
 
-    // Visual only, and inert while the pose stays at rest. The colliders are
-    // fixed bodies and do NOT follow this, so moving the pose today would
-    // separate the deck you see from the deck you stand on. Nothing calls
-    // setPose yet, deliberately.
     this.group.position.copy(this.poseOrigin);
     this.group.quaternion.copy(this.poseQuat);
+
+    // Colliders follow the same transform, so the deck you stand on stays the
+    // deck you see. setTranslation/setRotation teleport a body directly, which
+    // is how a locked dynamic body is driven -- the solver will not move it.
+    for (let i = 0; i < this.bodies.length; i++) {
+      const rest = this.restPositions[i] as THREE.Vector3;
+      const moved = transformPoint(rest, this.pose);
+      this.scratchPos.set(moved.x, moved.y, moved.z);
+      this.scratchQuat.copy(this.poseQuat).multiply(this.restRotations[i] as THREE.Quaternion);
+      (this.bodies[i] as RAPIER.RigidBody).setTranslation(this.scratchPos, true);
+      (this.bodies[i] as RAPIER.RigidBody).setRotation(this.scratchQuat, true);
+    }
   }
 
   fixedUpdate(dt: number): void {

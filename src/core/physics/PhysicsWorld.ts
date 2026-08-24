@@ -76,8 +76,37 @@ export class PhysicsWorld {
    * a single write per step instead of one per shape, and the shapes cannot
    * drift out of register with each other.
    */
-  createKinematicBody(): RAPIER.RigidBody {
-    return this.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased());
+  /**
+   * A body that behaves like a fixed one but is DYNAMIC, so Rapier still
+   * generates contacts against the kinematic player capsule.
+   *
+   * Rapier skips collision between two non-dynamic bodies, which is why a
+   * kinematic machine left the character controller with nothing to resolve
+   * against. Locked translations and rotations plus zero gravity make this
+   * immovable by the solver; it is repositioned explicitly instead.
+   */
+  createDrivenBody(position?: THREE.Vector3, rotation?: THREE.Quaternion): RAPIER.RigidBody {
+    const desc = RAPIER.RigidBodyDesc.dynamic()
+      .lockTranslations()
+      .lockRotations()
+      .setGravityScale(0);
+    if (position) desc.setTranslation(position.x, position.y, position.z);
+    if (rotation) {
+      desc.setRotation({ x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w });
+    }
+    return this.world.createRigidBody(desc);
+  }
+
+  createKinematicBody(
+    position?: THREE.Vector3,
+    rotation?: THREE.Quaternion,
+  ): RAPIER.RigidBody {
+    const desc = RAPIER.RigidBodyDesc.kinematicPositionBased();
+    if (position) desc.setTranslation(position.x, position.y, position.z);
+    if (rotation) {
+      desc.setRotation({ x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w });
+    }
+    return this.world.createRigidBody(desc);
   }
 
   /** Attach a box to a body, positioned in that body's local space. */

@@ -1,7 +1,7 @@
 # Machine Move Forward — The Machine Walks
 
 **Date:** 2026-08-24
-**Status:** Draft — section 4.1 was ATTEMPTED AND FAILED against Rapier. See 4.3.
+**Status:** Draft — 4.1 failed, 4.4 SOLVED IT. Platform carrying works; see 4.4.
 **Source design:** `machine-move-forward-game-handoff.md` sections 6, 14, 41
 **Builds on:** the engine room (WIP), world-scroll interpolation, tread cleats, track marks
 
@@ -151,6 +151,45 @@ pure and covered by 17 tests, including the property that carry deltas sum to
 zero over a closed gait cycle so nothing ratchets across the deck. Any of the
 three routes above needs exactly that module. `Player.carry` is plumbed and
 inert at rest.
+
+### 4.4 Solved: dynamic bodies, locked and driven
+
+Two experiments settled it.
+
+**Experiment 1 — one kinematic body per collider**, mirroring the original
+fixed layout exactly. Failed identically. That discriminates the two things
+4.1 changed at once: the blocker is the **body type**, not collapsing ~25
+bodies into one multi-collider body.
+
+**Experiment 2 — dynamic bodies, `lockTranslations`, `lockRotations`,
+`setGravityScale(0)`.** The player walks: 9/9 on the drive harness. A dynamic
+body still generates contacts against the kinematic player capsule, while the
+locks and zero gravity make it immovable by the solver. It is repositioned
+explicitly with `setTranslation`/`setRotation`, which teleport a body directly
+— the solver will not fight it.
+
+So the machine's colliders are now driven from the body pose every step, and
+the deck you stand on is the deck you see.
+
+**Measured, with the body oscillating and no gait or legs present** — the test
+section 10 insisted on. Player standing near the stern, where tilt moves the
+deck most, ±0.11m heave and ±1.5° of pitch and roll for nine seconds:
+
+- The player's height *relative to the deck* stayed inside a **0.058m band**,
+  and their absolute Y swung 4.55 → 4.67 with the deck. They are carried.
+- **Residual: about 0.31m of X and 0.63m of Z drift** over those nine seconds.
+
+The drift is the one thing still to settle. `carryDelta` provably sums to zero
+over a closed cycle (unit-tested), so the ratchet is in the contact resolution
+rather than the pose maths — the controller resolving a tilted surface
+asymmetrically. Note also that the 0.058m band is an upper bound: the probe
+computed the deck height under the player with a hand-rolled tilt term, so
+some of that spread is the probe's own approximation.
+
+Before gait tuning starts, drift needs either a fix or a decision that it is
+acceptable. A real gait oscillates far more gently than this probe did, and
+some shift underfoot on a tilting deck is *correct* — but it must not
+accumulate in one direction.
 
 ### 4.2 Rejected alternative: move the world instead
 
