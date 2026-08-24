@@ -11,6 +11,7 @@ import {
 import { buildMachine } from './MachineGeometry';
 import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
 import type { Cell } from '@/building/BuildGrid';
+import { deckCells } from '@/enemies/NavGraph';
 import { MachineMovement } from './MachineMovement';
 
 /**
@@ -71,6 +72,8 @@ export class Machine {
   readonly deckBounds: THREE.Box3;
   /** Level-0 cells the starting equipment sits in. Unbuildable. */
   readonly equipmentCells: Cell[];
+  /** Level-0 cells over the bare deck. Walkable, whether or not built on. */
+  readonly deckCells: Cell[];
 
   constructor(scene: THREE.Scene, physics: PhysicsWorld, materials: Materials) {
     const build = buildMachine(materials);
@@ -92,6 +95,15 @@ export class Machine {
     );
 
     this.equipmentCells = projectEquipmentCells(build.colliders);
+
+    // Derived from the deck's own bounds, so it cannot drift out of step with
+    // the machine's actual size the way a hardcoded cell range would.
+    this.deckCells = deckCells({
+      minX: this.deckBounds.min.x,
+      maxX: this.deckBounds.max.x,
+      minZ: this.deckBounds.min.z,
+      maxZ: this.deckBounds.max.z,
+    });
 
     // Rough starting mass: structure plus the section 49 loadout.
     this.movement.totalWeight = 12000;

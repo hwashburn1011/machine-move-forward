@@ -33,6 +33,7 @@ import {
   type Validation,
 } from './BuildValidation';
 import { countEnclosed, detectRooms, type RoomGraph } from './RoomDetector';
+import { buildNavGraph, type NavGraph } from '@/enemies/NavGraph';
 import { buildPieceGeometry, pieceColliders, pieceMaterial } from './BuildPieceGeometry';
 
 export interface BuildPieceInstance {
@@ -90,6 +91,7 @@ export class BuildSystem {
   private readonly crateContainers = new Map<string, Container>();
 
   private graph: RoomGraph = { rooms: [], byCell: new Map(), links: [] };
+  private nav: NavGraph = { links: new Map() };
   private nextId = 0;
   private weight = 0;
 
@@ -110,6 +112,11 @@ export class BuildSystem {
 
   get rooms(): RoomGraph {
     return this.graph;
+  }
+
+  /** The graph enemies path over. Rebuilt with the rooms. */
+  get navGraph(): NavGraph {
+    return this.nav;
   }
 
   get pieceCount(): number {
@@ -488,6 +495,9 @@ export class BuildSystem {
 
   private recomputeRooms(): void {
     this.graph = detectRooms(this.grid);
+    // Rebuilt wholesale rather than patched. The envelope is at most 324
+    // cells, which is nothing next to the room flood fill directly above.
+    this.nav = buildNavGraph(this.grid, this.machine.deckCells);
     this.bus.emit('build:rooms-changed', {
       roomCount: this.graph.rooms.length,
       enclosedCount: countEnclosed(this.graph),

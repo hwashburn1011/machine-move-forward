@@ -62,12 +62,12 @@ describe('buildNavGraph nodes', () => {
     expect(linksOf(graph, c(0, 0, 0))).toEqual([cellKey(c(1, 0, 0))]);
   });
 
-  it('excludes cells blocked by machine equipment', () => {
+  it('ignores the build system\'s blocked set, which is a placement rule not a walkability one', () => {
     const g = new BuildGrid<PieceId>();
     g.blockCell(c(1, 0, 0));
     const graph = buildNavGraph(g, [c(0, 0, 0), c(1, 0, 0)]);
-    expect(graph.links.has(cellKey(c(1, 0, 0)))).toBe(false);
-    expect(linksOf(graph, c(0, 0, 0))).toEqual([]);
+    expect(graph.links.has(cellKey(c(1, 0, 0)))).toBe(true);
+    expect(linksOf(graph, c(0, 0, 0))).toEqual([cellKey(c(1, 0, 0))]);
   });
 
   it('does not make bare deck walkable above level 0', () => {

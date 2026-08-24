@@ -92,7 +92,16 @@ function isWalkable(
   deckKeys: ReadonlySet<string>,
 ): boolean {
   if (!inEnvelope(cell)) return false;
-  if (grid.isBlocked(cell)) return false;
+
+  // Deliberately NOT consulting grid.isBlocked(cell) here. Two separate
+  // layers exist on purpose (design doc section 3): A* answers which way
+  // round the building, while EnemySteering's local avoidance answers don't
+  // walk into the generator. The blocked set is a build-PLACEMENT rule — it
+  // rounds equipment collider bounds outward to whole 2m cells, which is far
+  // too coarse to describe where a body can actually walk — so reusing it
+  // for walkability would carve the deck into disconnected islands and strand
+  // enemies with no start node. Equipment avoidance belongs to steering,
+  // which already handles it.
 
   const piece = grid.getCell(cell);
   // The stairs run cell holds 'stairs' and is the ramp itself — walkable.
