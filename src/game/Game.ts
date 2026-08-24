@@ -170,6 +170,13 @@ export class Game implements LoopCallbacks {
     const model = options.models === false ? null : await loadModel('models/scavenger.glb');
     game.enemies.setModel(model);
 
+    // The player is on screen from behind for the whole game, so this is the
+    // most looked-at model in it. Same bargain as the rest: a missing file
+    // costs a nicer-looking character, never a boot.
+    game.player.setModel(
+      options.models === false ? null : await loadModel('models/player.glb'),
+    );
+
     return game;
   }
 
@@ -387,7 +394,7 @@ export class Game implements LoopCallbacks {
     const frameDt = Math.min(this.clock.getDelta(), 0.1);
     const now = performance.now();
 
-    this.player.update(alpha);
+    this.player.update(alpha, frameDt);
     this.enemies.update(alpha, frameDt);
 
     const camera = this.activeCamera;

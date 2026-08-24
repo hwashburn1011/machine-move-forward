@@ -33,6 +33,7 @@ Each set is three 1K JPEGs, about 1.3 MB per material:
 
 | Path | Pack | Licence | Applied to |
 | --- | --- | --- | --- |
+| `public/models/player.glb` | [Soldier.glb](https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf) ("Vanguard"), via the three.js examples | **Mixamo / Adobe — NOT CC0** | `PlayerVisual` — the player character |
 | `public/models/scavenger.glb` | [RobotExpressive](https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf/RobotExpressive) by [Tomás Laulhé](https://www.patreon.com/quaternius) (Quaternius), converted by [Don McCurdy](https://donmccurdy.com/) | **CC0 1.0** | `EnemyVisual` — the scavenger |
 
 453 KB, glTF 2.0 binary: 14 meshes over 2 skins, 43 joints, 14 clips. Five of
@@ -43,7 +44,17 @@ pinned in `tests/unit/enemyvisual.test.ts` so a swap to a pack that names things
 differently fails in node rather than as a scavenger standing still while it
 sprints at you.
 
-**It is a placeholder and it looks like one.** This is a friendly cartoon robot,
+**The player model is Mixamo's, and that needs a decision.** Adobe grants a
+royalty-free licence to *use* Mixamo characters in a project, including
+commercially. Redistributing the raw `.glb` — which is what committing it to a
+public repository does — is the part their terms do not clearly permit. three.js
+ships this exact file in its own MIT repository, and plenty of projects follow
+suit, but that is common practice rather than a licence. It was taken knowingly,
+on the instruction to use anything free to use, and it is flagged here so the
+decision is visible rather than buried. Swapping it is a file copy: drop any
+rigged `.glb` with idle/walk/run clips at `public/models/player.glb`.
+
+**The scavenger is a placeholder and it looks like one.** This is a friendly cartoon robot,
 not a wasteland scavenger; it is here because it is genuinely CC0, rigged, and
 carries every clip the AI states need. Swapping it is a file copy — see below.
 

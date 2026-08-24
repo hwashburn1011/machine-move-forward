@@ -16,7 +16,8 @@ import {
   RESPAWN_Y_THRESHOLD,
 } from '@/game/constants';
 import { PlayerStats } from './PlayerStats';
-import { bevelledBox } from '@/machine/MachineGeometry';
+import type { LoadedModel } from '@/art/ModelLoader';
+import { PlayerVisual } from './PlayerVisual';
 
 /**
  * The player character.
@@ -26,8 +27,9 @@ import { bevelledBox } from '@/machine/MachineGeometry';
  * identically to enemies against machine geometry.
  */
 export class Player {
-  readonly object3D: THREE.Group;
   readonly stats: PlayerStats;
+
+  private visual: PlayerVisual;
 
   private readonly handle: CharacterHandle;
   private readonly position = new THREE.Vector3();
@@ -39,10 +41,10 @@ export class Player {
   private facing = 0;
 
   constructor(
-    scene: THREE.Scene,
+    private readonly scene: THREE.Scene,
     private readonly physics: PhysicsWorld,
     private readonly bus: EventBus,
-    materials: Materials,
+    private readonly materials: Materials,
     private readonly spawn: THREE.Vector3,
   ) {
     this.stats = new PlayerStats(bus);
@@ -56,8 +58,31 @@ export class Player {
     );
     physics.setUserData(this.handle.collider, { kind: 'player' });
 
-    this.object3D = buildPlayerMesh(materials);
+    this.visual = new PlayerVisual(null, materials);
     scene.add(this.object3D);
+  }
+
+  /** Where the player is drawn. Owned by the visual; positioned here. */
+  get object3D(): THREE.Group {
+    return this.visual.object3D;
+  }
+
+  /**
+   * Swap in the character model once it has loaded.
+   *
+   * Not a constructor argument because `Player` is built inside `Game`'s
+   * synchronous constructor and the model is not there yet.
+   */
+  setModel(model: LoadedModel | null): void {
+    if (!model) return;
+    const old = this.visual;
+    const next = new PlayerVisual(model, this.materials);
+    next.object3D.position.copy(old.object3D.position);
+    next.object3D.rotation.copy(old.object3D.rotation);
+    this.scene.remove(old.object3D);
+    old.dispose();
+    this.visual = next;
+    this.scene.add(next.object3D);
   }
 
   get worldPosition(): THREE.Vector3 {
@@ -168,10 +193,9 @@ export class Player {
    * this the player visibly stutters whenever frame rate and tick rate
    * disagree, which is most of the time.
    */
-  update(alpha: number): void {
+  update(alpha: number, dt = 0): void {
     this.renderPosition.lerpVectors(this.previousPosition, this.position, alpha);
     this.object3D.position.copy(this.renderPosition);
-    this.object3D.position.y -= PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS;
 
     // Turn toward travel direction rather than snapping.
     const current = this.object3D.rotation.y;
@@ -179,6 +203,9 @@ export class Player {
     while (delta > Math.PI) delta -= Math.PI * 2;
     while (delta < -Math.PI) delta += Math.PI * 2;
     this.object3D.rotation.y = current + delta * 0.25;
+
+    this.visual.setMotion(this.speed, this.grounded);
+    this.visual.update(dt);
   }
 
   /** Seconds since the player was killed. Only meaningful while dead. */
@@ -211,34 +238,4 @@ export class Player {
     this.physics.removeCollider(this.handle.collider);
     this.physics.removeBody(this.handle.body);
   }
-}
-
-/**
- * A blocky scavenger figure. Deliberately simple, but with a distinct
- * silhouette — the player sees this from behind for the entire game, so its
- * shape matters more than its detail.
- */
-function buildPlayerMesh(materials: Materials): THREE.Group {
-  const g = new THREE.Group();
-
-  const add = (geo: THREE.BufferGeometry, mat: THREE.Material, y: number, x = 0, z = 0) => {
-    const m = new THREE.Mesh(geo, mat);
-    m.position.set(x, y, z);
-    m.castShadow = true;
-    m.receiveShadow = true;
-    g.add(m);
-    return m;
-  };
-
-  add(bevelledBox(0.52, 0.62, 0.34, 0.06), materials.hull, 1.18); // torso
-  add(bevelledBox(0.62, 0.22, 0.4, 0.05), materials.hullDark, 1.44); // shoulders/pack
-  add(bevelledBox(0.26, 0.26, 0.26, 0.05), materials.deckPlate, 1.68); // head
-  add(bevelledBox(0.18, 0.5, 0.18, 0.04), materials.hullDark, 1.12, -0.34); // arms
-  add(bevelledBox(0.18, 0.5, 0.18, 0.04), materials.hullDark, 1.12, 0.34);
-  add(bevelledBox(0.2, 0.62, 0.2, 0.04), materials.hullDark, 0.56, -0.14); // legs
-  add(bevelledBox(0.2, 0.62, 0.2, 0.04), materials.hullDark, 0.56, 0.14);
-  // A single accent so the player reads instantly against the deck.
-  add(bevelledBox(0.3, 0.1, 0.36, 0.03), materials.accent, 1.35);
-
-  return g;
 }
