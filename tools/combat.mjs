@@ -672,6 +672,36 @@ if (!hasModel) {
   });
 
   check('an enemy renders as a skinned mesh', result.skinnedA > 0, `${result.skinnedA}`);
+  // Size, measured from the vertices that actually get drawn. "Is a skinned
+  // mesh" passed for months while that mesh was five centimetres tall and
+  // invisible on the deck, because the fit was handed a bind-pose bounding box
+  // -- the armature's reach, not the body -- and faithfully scaled the model
+  // down to nothing.
+  const drawnSize = await modelPage.evaluate(() => {
+    const THREE_Box3 = globalThis.__game.game.machine.deckBounds.constructor;
+    const e = globalThis.__game.enemies.active[0];
+    const model = e.object3D.children.find((c) => c.name === 'Root_Scene');
+    if (!model) return null;
+    const box = new THREE_Box3().setFromObject(model, true);
+    return {
+      height: box.max.y - box.min.y,
+      feet: box.min.y,
+      deckTop: globalThis.__game.game.machine.deckBounds.min.y + 0.09,
+    };
+  });
+  check(
+    'a scavenger is drawn at roughly the size of its collider',
+    drawnSize !== null && drawnSize.height > 1.3 && drawnSize.height < 2.4,
+    drawnSize === null ? 'no model node' : `${drawnSize.height.toFixed(2)}m tall`,
+  );
+  check(
+    'and stands on the deck rather than floating or sunk',
+    drawnSize !== null && Math.abs(drawnSize.feet - drawnSize.deckTop) < 0.25,
+    drawnSize === null
+      ? 'no model node'
+      : `feet ${drawnSize.feet.toFixed(2)} vs deck ${drawnSize.deckTop.toFixed(2)}`,
+  );
+
   // The one check that catches Object3D.clone standing in for
   // SkeletonUtils.clone: a shared skeleton makes every pooled enemy hold a
   // single pose. No unit test can reach it.

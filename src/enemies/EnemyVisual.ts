@@ -11,6 +11,7 @@ import {
   healthBarColour,
   healthFraction,
 } from './HealthBar';
+import { hostileTint } from './ThreatLook';
 
 /**
  * How an enemy looks.
@@ -107,6 +108,9 @@ const FLASH_ALBEDO = 0.75;
 /** Height above the capsule's centre the health bar floats at. */
 const BAR_Y = CAPSULE_FOOT_OFFSET + 0.32;
 
+/** Colour of the eye band burning on the front of a scavenger's head. */
+const EYE_COLOUR = 0xff4322;
+
 /**
  * How one enemy looks: a box, or an animated character.
  *
@@ -159,7 +163,10 @@ export class EnemyVisual {
       mesh.position.y = -CAPSULE_FOOT_OFFSET;
       this.object3D.add(mesh);
       this.fallback = mesh;
-      this.adoptMaterials();
+      // The procedural body is already built to look like a threat -- rusted
+      // plate, hunched proportions, a red eye slit. Tinting it would only
+      // undo a palette that was chosen on purpose.
+      this.adoptMaterials(false);
       // Added last, so children[0] is always the body. adoptMaterials must
       // also run before it, or it would clone the bar's sprite materials and
       // the flash would drag the bar's colour around with it.
@@ -172,7 +179,17 @@ export class EnemyVisual {
     // last mixer to run produced.
     const scene = cloneSkinned(model.scene);
 
-    const box = new THREE.Box3().setFromObject(scene);
+    // Precise, and only once the clone's matrices exist. The cheap path
+    // measures each mesh's bind-pose bounding box, which for a skinned mesh is
+    // the armature's whole reach rather than the body: it reported this model
+    // as 147 units tall when its vertices span about 4.3. Everything
+    // downstream was faithful to that lie -- the fit scaled the model by
+    // 0.0129, so every scavenger rendered roughly five centimetres tall and
+    // was in practice invisible. Enemies boarded, crossed the deck and
+    // attacked, and the player saw an empty deck and health draining for no
+    // reason, which is exactly what they reported twice.
+    scene.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(scene, true);
     const size = new THREE.Vector3();
     box.getSize(size);
     const fit = fitToCapsule(size.y, box.min.y, CAPSULE_FOOT_OFFSET * 2);
@@ -187,8 +204,9 @@ export class EnemyVisual {
     });
     this.object3D.add(scene);
 
-    this.adoptMaterials();
+    this.adoptMaterials(true);
     this.object3D.add(this.bar);
+    this.object3D.add(EnemyVisual.buildEye(size, fit.scale));
 
     this.mixer = new THREE.AnimationMixer(scene);
     for (const clip of model.clips) {
@@ -239,6 +257,35 @@ export class EnemyVisual {
     return fill;
   }
 
+  /**
+   * A lit band across the front of the head.
+   *
+   * The one cue the procedural body has and the model does not: something hot
+   * and deliberate looking back at you. A plane rather than a sprite so it is
+   * only visible from the front — eyes that follow you round the back of the
+   * head would read as a bug.
+   *
+   * Placed from the model's own measured bounds rather than a guessed offset,
+   * because a replacement model will not have this one's proportions.
+   */
+  private static buildEye(size: THREE.Vector3, scale: number): THREE.Mesh {
+    const depth = size.z * scale;
+    const eye = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.26, 0.06),
+      new THREE.MeshBasicMaterial({
+        color: EYE_COLOUR,
+        toneMapped: false,
+        transparent: true,
+        opacity: 0.95,
+      }),
+    );
+    // Just below the crown, just proud of the face. The capsule's top is at
+    // +CAPSULE_FOOT_OFFSET by construction, whatever the model's own size.
+    eye.position.set(0, CAPSULE_FOOT_OFFSET - 0.2, depth * 0.5 + 0.01);
+    eye.renderOrder = 5;
+    return eye;
+  }
+
   /** Set how full the bar is. Repeat calls at the same value are free. */
   setHealth(current: number, max: number): void {
     const f = healthFraction(current, max);
@@ -262,13 +309,20 @@ export class EnemyVisual {
    * right default — they are what makes one texture upload serve the whole
    * deck. They are wrong here for one reason: this class writes to them.
    */
-  private adoptMaterials(): void {
+  private adoptMaterials(tint: boolean): void {
     this.object3D.traverse((o) => {
       const mesh = o as THREE.Mesh;
       if (!mesh.isMesh || !mesh.material) return;
       const own = (m: THREE.Material): THREE.Material => {
         const clone = m.clone();
         const std = clone as THREE.MeshStandardMaterial;
+        // Tint the clone, then record that as the baseline. The other way
+        // round and every hit flash would end by restoring the friendly
+        // colours the model shipped with.
+        if (tint && std.color) {
+          const t = hostileTint({ r: std.color.r, g: std.color.g, b: std.color.b });
+          std.color.setRGB(t.r, t.g, t.b);
+        }
         if (std.emissive) {
           this.flashMaterials.push({
             mat: std,

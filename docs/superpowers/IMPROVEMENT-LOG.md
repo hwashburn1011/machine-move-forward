@@ -6,6 +6,62 @@ should pick up.
 
 ---
 
+## 005 — Scavengers were rendering five centimetres tall
+
+**The player was right, and I was wrong.** They reported "no enemies" three
+times. I told them, from their own screenshot, that a scavenger was standing two
+metres in front of them. It was not. That figure is the **player's own body** —
+the camera sits about 3.6m behind the player, and I had been reading the player
+character as an enemy in every screenshot this session, including when I told
+them so.
+
+**The bug.** `EnemyVisual` fitted the model with
+`new THREE.Box3().setFromObject(scene)` on a freshly cloned scene whose world
+matrices had never been updated, using the cheap non-precise path. That path
+measures each mesh's bind-pose bounding box — for a skinned mesh, the
+armature's whole reach rather than the body. It reported the model as ~147
+units tall when its vertices span about 4.3. `fitToCapsule` did exactly what it
+was told and scaled the model by 0.0129, so every scavenger rendered **0.06m
+tall**: present, animated, pathing, attacking, and invisible.
+
+That is the whole of "no enemies" and most of "vitals randomly going down".
+
+**The fix.** `scene.updateMatrixWorld(true)` before measuring, and
+`setFromObject(scene, true)` to walk actual vertices. Scale went 0.0129 → 0.430,
+drawn height 0.06m → 1.91m, feet at 2.45 against a deck top of 2.49.
+
+**How it hid for so long.** Every check that existed was true of a five
+centimetre model: `hasModel` was true, four skinned meshes were present, two
+enemies held different poses, the hit flash set emissive on all 19 materials,
+the death clip clamped. Nothing asserted the model had a *size*. There is now a
+check for drawn height and foot placement, and I verified it goes red — 0.06m —
+when the fix is reverted.
+
+**Also in this commit.** A hostile retint of the placeholder (its dominant
+colour, `#ca9337`, is almost exactly the tone of the dunes) and an emissive eye
+band. Both were written before the scale bug was found, and both were untestable
+by eye until it was fixed.
+
+**Method lessons, bought expensively.**
+
+- Every visual conclusion I drew this session from a screenshot was wrong at
+  least once. The thing that finally worked: hide everything else
+  (`machine.group.visible = false`, `player.object3D.visible = false`), then
+  toggle the subject and diff. Do that *first*, not after an hour.
+- "Measured correctly" and "the player can see it" are different claims. The
+  materials were provably right while the model was invisible.
+
+**Next.**
+
+- Re-judge the retint and the always-on health bars now that the model is
+  actually visible. Both were tuned blind.
+- Consider whether third-person is intended — the player's own body occupies
+  the centre of the screen and I mistook it for an enemy repeatedly.
+- Audio: still nothing in the project.
+- Graphics pass: not started.
+
+---
+
 ## 004 — A health bar over every scavenger
 
 **Why.** Iteration 003 made a scavenger react when shot, which says "you hit
