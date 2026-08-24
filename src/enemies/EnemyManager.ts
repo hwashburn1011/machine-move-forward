@@ -101,18 +101,28 @@ export class EnemyManager {
    * anything on a deck can invalidate a route, and it makes the cost per tick
    * exactly one search no matter how many enemies are aboard. A timer would
    * let four of them expire on the same frame.
+   *
+   * The cursor walks the pool's own stable indices, not the filtered `active`
+   * list — that list is rebuilt every call and its length shifts as enemies
+   * spawn and despawn, so a counter taken modulo its length can transiently
+   * land on a different enemy's slot, repathing the wrong one and skipping
+   * another for a tick. Indexing the pool directly and skipping the inactive
+   * slots keeps each enemy's turn tied to its own fixed index.
    */
   private repath(nav: NavGraph, playerPos: THREE.Vector3): void {
-    const active = this.active;
-    if (active.length === 0) return;
+    if (this.pool.length === 0) return;
 
-    this.repathTick = (this.repathTick + 1) % active.length;
-    const enemy = active[this.repathTick] as Enemy;
+    for (let i = 0; i < this.pool.length; i++) {
+      this.repathTick = (this.repathTick + 1) % this.pool.length;
+      const enemy = this.pool[this.repathTick] as Enemy;
+      if (!enemy.isActive) continue;
 
-    const playerFeetY = playerPos.y - (PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS);
-    const goal = worldToCell(playerPos.x, playerPos.z, levelOf(playerFeetY));
+      const playerFeetY = playerPos.y - (PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS);
+      const goal = worldToCell(playerPos.x, playerPos.z, levelOf(playerFeetY));
 
-    enemy.setPath(findPath(nav, enemy.gridCell, goal));
+      enemy.setPath(findPath(nav, enemy.gridCell, goal), nav);
+      return;
+    }
   }
 
   update(alpha: number, dt: number): void {

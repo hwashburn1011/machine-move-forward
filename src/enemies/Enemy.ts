@@ -17,7 +17,7 @@ import {
 } from './EnemySteering';
 import { CAPSULE_FOOT_OFFSET, CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
 import { EnemyVisual } from './EnemyVisual';
-import { levelOf } from './NavGraph';
+import { levelOf, segmentIsClear, type NavGraph } from './NavGraph';
 import { cellCenter, worldToCell, type Cell } from '@/building/BuildGrid';
 
 export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
@@ -109,6 +109,8 @@ export class Enemy {
 
   private path: Cell[] = [];
   private pathIndex = 0;
+  /** The graph `path` was computed against, for the lookahead's wall check. */
+  private nav: NavGraph | null = null;
 
   private state: EnemyAIState = 'idle';
   private health: number;
@@ -165,10 +167,17 @@ export class Enemy {
     return Math.max(0, this.path.length - this.pathIndex);
   }
 
-  /** Replace the route. Called by the manager, never from inside the enemy. */
-  setPath(path: Cell[]): void {
+  /**
+   * Replace the route. Called by the manager, never from inside the enemy.
+   *
+   * `nav` is the graph `path` was computed against — kept so the lookahead in
+   * `currentWaypoint` can prove a farther waypoint is reachable in a straight
+   * line before aiming at it, rather than aiming on distance alone.
+   */
+  setPath(path: Cell[], nav: NavGraph): void {
     this.path = path;
     this.pathIndex = 0;
+    this.nav = nav;
   }
 
   spawn(at: THREE.Vector3): void {
@@ -363,6 +372,14 @@ export class Enemy {
    * oscillates in place. Reaching one leg further lets the next corner's pull
    * bend the heading off the wall before the enemy is close enough to wedge
    * on it — the same route, aimed less myopically.
+   *
+   * Distance alone is not enough to accept a farther candidate: A* is blind
+   * to equipment but not to walls, and a wall it routed around can sit
+   * directly on the straight line between two cells that are themselves both
+   * on the route (an L-shaped detour's two arms can be closer to each other,
+   * as the crow flies, than either is to the corner between them). Each
+   * candidate is only accepted once `segmentIsClear` proves the straight line
+   * to it does not cross anything A* avoided.
    */
   private currentWaypoint(): { x: number; z: number } | null {
     while (this.pathIndex < this.path.length) {
@@ -378,11 +395,22 @@ export class Enemy {
     if (this.pathIndex === this.path.length - 1) return null;
 
     let target = cellCenter(this.path[this.pathIndex] as Cell);
-    for (let i = this.pathIndex + 1; i < this.path.length - 1; i++) {
-      const candidate = cellCenter(this.path[i] as Cell);
-      const dist = Math.hypot(candidate.x - this.position.x, candidate.z - this.position.z);
-      if (dist > WAYPOINT_LOOKAHEAD) break;
-      target = candidate;
+    if (this.nav) {
+      const nav = this.nav;
+      const anchor = this.gridCell;
+      for (let i = this.pathIndex + 1; i < this.path.length - 1; i++) {
+        const candidateCell = this.path[i] as Cell;
+        const candidate = cellCenter(candidateCell);
+        const dist = Math.hypot(candidate.x - this.position.x, candidate.z - this.position.z);
+        if (dist > WAYPOINT_LOOKAHEAD) break;
+        if (!segmentIsClear(nav, anchor, candidateCell)) break;
+        target = candidate;
+        // Confirmed reachable in a straight line, so everything between the
+        // old pathIndex and here is subsumed — advance past it rather than
+        // leaving the pointer on a waypoint the body will never approach
+        // (it would otherwise only self-heal on the next repath).
+        this.pathIndex = i;
+      }
     }
     return { x: target.x, z: target.z };
   }

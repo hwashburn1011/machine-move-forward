@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { blocksNavigation } from '@/data/build-pieces';
 import { BuildGrid, cellKey, canonicalEdge, type Cell } from '@/building/BuildGrid';
-import { buildNavGraph, deckCells, findPath, levelOf } from '@/enemies/NavGraph';
+import { buildNavGraph, deckCells, findPath, levelOf, segmentIsClear } from '@/enemies/NavGraph';
 import type { PieceId } from '@/data/build-pieces';
 import { DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 
@@ -349,5 +349,77 @@ describe('findPath', () => {
     // path then leaves level 0 instead of staying flat.
     expect(path.every((cell) => cell.y === 0)).toBe(true);
     expect(path.length).toBe(7);
+  });
+});
+
+describe('segmentIsClear', () => {
+  it('a clear straight run returns true', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 3, 0);
+    const graph = buildNavGraph(g, []);
+    expect(segmentIsClear(graph, c(0, 0, 0), c(3, 0, 0))).toBe(true);
+  });
+
+  it('a wall across the segment returns false', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 2, 0);
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'wall');
+    const graph = buildNavGraph(g, []);
+    expect(segmentIsClear(graph, c(0, 0, 0), c(2, 0, 0))).toBe(false);
+  });
+
+  it('a doorway on that same edge returns true', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 2, 0);
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'doorway');
+    const graph = buildNavGraph(g, []);
+    expect(segmentIsClear(graph, c(0, 0, 0), c(2, 0, 0))).toBe(true);
+  });
+
+  it('the exact L-corner A* routed around is not a legal shortcut', () => {
+    // The concrete counter-example from review: (0,0) is walled off from
+    // (1,0) directly east, so A* detours south then east then north —
+    // (0,-1), (1,-1), (1,0). The straight line from (0,0) to (1,0) still
+    // runs directly through the wall the detour exists to avoid, even though
+    // both endpoints are themselves waypoints on the real route.
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, -1, 1, 0);
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'wall');
+    const graph = buildNavGraph(g, []);
+    const path = findPath(graph, c(0, 0, 0), c(1, 0, 0));
+    expect(path.map(cellKey)).toEqual([
+      cellKey(c(0, 0, -1)),
+      cellKey(c(1, 0, -1)),
+      cellKey(c(1, 0, 0)),
+    ]);
+    expect(segmentIsClear(graph, c(0, 0, 0), c(1, 0, 0))).toBe(false);
+  });
+
+  it('a diagonal segment that clips a wall corner returns false', () => {
+    // Four cells meeting at one corner: (0,0), (1,0), (0,1), (1,1). A wall
+    // sits on the edge between (0,0) and (1,0), so the straight diagonal from
+    // (0,0) to (1,1) grazes exactly the lattice point that wall touches. The
+    // other edge at that corner, between (0,0) and (0,1), stays open — a thin
+    // line could report this clear by picking that side arbitrarily.
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 1, 1);
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'wall');
+    const graph = buildNavGraph(g, []);
+    expect(segmentIsClear(graph, c(0, 0, 0), c(1, 0, 1))).toBe(false);
+  });
+
+  it('an open diagonal corner graze returns true', () => {
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 1, 1);
+    const graph = buildNavGraph(g, []);
+    expect(segmentIsClear(graph, c(0, 0, 0), c(1, 0, 1))).toBe(true);
+  });
+
+  it('a segment that changes level is never clear', () => {
+    const g = new BuildGrid<PieceId>();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(0, 1, 0), 'floor');
+    const graph = buildNavGraph(g, []);
+    expect(segmentIsClear(graph, c(0, 0, 0), c(0, 1, 0))).toBe(false);
   });
 });

@@ -298,3 +298,80 @@ export function findPath(graph: NavGraph, from: Cell, to: Cell): Cell[] {
     ? []
     : reconstruct(cameFrom, cells, startKey, bestKey);
 }
+
+/**
+ * Whether a body could walk the straight line between two cells without
+ * crossing anything A* would have routed around.
+ *
+ * Used to let the enemy's steering aim further down a route than the very
+ * next waypoint (design note: a single short leg is often close to
+ * axis-aligned with whatever the grid happened to route round, which can aim
+ * the body broadside at it). That shortcut is only safe if the straight line
+ * to the farther waypoint cannot pass through a wall the route existed to
+ * avoid — so this walks every cell the segment actually touches, a
+ * "supercover" traversal rather than a thin Bresenham line, and requires each
+ * consecutive pair to be linked in the graph.
+ *
+ * Both cells must be on the same level: this is a 2D check across one floor,
+ * and a segment that changes level is conservatively not clear (there is no
+ * straight line between storeys — only the stairs link).
+ *
+ * At an exact corner graze — the line passing precisely through the lattice
+ * point where four cells meet — both orthogonal neighbours that corner
+ * touches are required to be linked. A thin line would pick one side
+ * arbitrarily and could slip through a diagonal gap between two walls that
+ * share that corner; requiring both catches it.
+ */
+export function segmentIsClear(graph: NavGraph, from: Cell, to: Cell): boolean {
+  if (from.y !== to.y) return false;
+
+  const y = from.y;
+  let x = from.x;
+  let z = from.z;
+
+  const dx = to.x - from.x;
+  const dz = to.z - from.z;
+  const absDx = Math.abs(dx);
+  const absDz = Math.abs(dz);
+  const stepX = Math.sign(dx);
+  const stepZ = Math.sign(dz);
+
+  const tDeltaX = absDx === 0 ? Infinity : 1 / absDx;
+  const tDeltaZ = absDz === 0 ? Infinity : 1 / absDz;
+  let tMaxX = absDx === 0 ? Infinity : 0.5 * tDeltaX;
+  let tMaxZ = absDz === 0 ? Infinity : 0.5 * tDeltaZ;
+
+  const EPS = 1e-9;
+
+  const isLinked = (a: Cell, b: Cell): boolean => {
+    const links = graph.links.get(cellKey(a));
+    return links !== undefined && links.some((n) => n.x === b.x && n.y === b.y && n.z === b.z);
+  };
+
+  while (x !== to.x || z !== to.z) {
+    const current: Cell = { x, y, z };
+    const tie = stepX !== 0 && stepZ !== 0 && Math.abs(tMaxX - tMaxZ) < EPS;
+
+    if (tie) {
+      const nx: Cell = { x: x + stepX, y, z };
+      const nz: Cell = { x, y, z: z + stepZ };
+      if (!isLinked(current, nx) || !isLinked(current, nz)) return false;
+      x += stepX;
+      z += stepZ;
+      tMaxX += tDeltaX;
+      tMaxZ += tDeltaZ;
+    } else if (tMaxX < tMaxZ) {
+      const next: Cell = { x: x + stepX, y, z };
+      if (!isLinked(current, next)) return false;
+      x += stepX;
+      tMaxX += tDeltaX;
+    } else {
+      const next: Cell = { x, y, z: z + stepZ };
+      if (!isLinked(current, next)) return false;
+      z += stepZ;
+      tMaxZ += tDeltaZ;
+    }
+  }
+
+  return true;
+}
