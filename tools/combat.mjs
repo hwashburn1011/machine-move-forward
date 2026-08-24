@@ -766,6 +766,8 @@ if (!hasModel) {
   });
 
   check('an enemy renders as a skinned mesh', result.skinnedA > 0, `${result.skinnedA}`);
+
+
   // Size, measured from the vertices that actually get drawn. "Is a skinned
   // mesh" passed for months while that mesh was five centimetres tall and
   // invisible on the deck, because the fit was handed a bind-pose bounding box
@@ -850,6 +852,44 @@ if (!hasModel) {
     'the corpse holds its final pose instead of looping',
     held !== null && Math.abs(held - settled) < 1e-3,
     held === null ? 'despawned early' : `drift ${Math.abs(held - settled).toExponential(1)}`,
+  );
+  // --- Which way the drawn body points -------------------------------------
+  // The project aims things with rotation.y = atan2(x, z), which puts local +Z
+  // along the heading. A model authored to the glTF convention faces -Z, and
+  // dropping one in without the half-turn makes it walk backwards everywhere.
+  // Measured on the body rather than on the group that carries it: the group
+  // points along the heading by construction and proves nothing.
+  await modelPage.evaluate(() => {
+    const g = globalThis.__game.game;
+    g.player.stats.invulnerable = true;
+  });
+  await modelPage.waitForTimeout(400);
+  const walkStart = await modelPage.evaluate(() => {
+    const w = globalThis.__game.game.player.worldPosition;
+    return { x: w.x, z: w.z };
+  });
+  await modelPage.keyboard.down('KeyW');
+  await modelPage.waitForTimeout(1800);
+  const bodyFacing = await modelPage.evaluate((s) => {
+    const pl = globalThis.__game.game.player;
+    const V = pl.worldPosition.constructor;
+    const body = pl.object3D.children[0];
+    const q = body.getWorldQuaternion(new (pl.object3D.quaternion.constructor)());
+    const front = new V(0, 0, 1).applyQuaternion(q).normalize();
+    const moved = new V(pl.worldPosition.x - s.x, 0, pl.worldPosition.z - s.z);
+    const dist = moved.length();
+    return { dist, dot: dist > 0.2 ? front.dot(moved.normalize()) : null, animated: pl.visual.isAnimated };
+  }, walkStart);
+  await modelPage.keyboard.up('KeyW');
+  // This model is authored facing -Z, so its visible front is the negation of
+  // its local +Z. Asserting the magnitude would accept a body walking backwards
+  // just as happily, which is the whole bug.
+  check(
+    'the player model faces the way it is walking',
+    bodyFacing.dot !== null && -bodyFacing.dot > 0.85,
+    bodyFacing.dot === null
+      ? `only moved ${bodyFacing.dist.toFixed(2)}m`
+      : `dot ${bodyFacing.dot.toFixed(2)}, animated=${bodyFacing.animated}`,
   );
 }
 

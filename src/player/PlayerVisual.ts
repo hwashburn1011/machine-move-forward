@@ -60,6 +60,11 @@ export class PlayerVisual {
 
     scene.scale.setScalar(fit.scale);
     scene.position.y = fit.yOffset - FOOT_OFFSET;
+    // The rest of the project points things with rotation.y = atan2(x, z),
+    // which aims local +Z along the heading. This model is authored facing -Z,
+    // the glTF convention, so without half a turn here it walks backwards
+    // everywhere it goes.
+    scene.rotation.y = Math.PI;
     scene.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         o.castShadow = true;

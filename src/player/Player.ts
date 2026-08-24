@@ -38,7 +38,14 @@ export class Player {
   private readonly desired = new THREE.Vector3();
   private verticalVelocity = 0;
   private grounded = false;
-  private facing = 0;
+  /**
+   * Heading, in the same convention as everything else: local +Z along it.
+   *
+   * Starts pointing the way the machine drives rather than at zero. Zero is
+   * astern, which left the character standing on a moving deck facing the
+   * back of it until the first time the player touched a movement key.
+   */
+  private facing = Math.PI;
 
   constructor(
     private readonly scene: THREE.Scene,
