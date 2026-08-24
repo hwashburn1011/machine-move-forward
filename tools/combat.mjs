@@ -1106,8 +1106,51 @@ check(
   sawWestOfRoom ? 'crossed to the west side' : 'never crossed to the west side',
 );
 
+// Arrival, which is the criterion this whole feature exists to satisfy. It was
+// left out when the harness was written because no capsule could fit under a
+// doorway lintel; with that clearance fixed, a scavenger that routes to the
+// doorway now actually comes through it.
+let arrivedInRoom = false;
+for (let i = 0; i < 40; i++) {
+  await sim(0.4);
+  const s = await scavenger();
+  if (!s) break;
+  if (s.cell.x === ROOM.x && s.cell.z === ROOM.z) {
+    arrivedInRoom = true;
+    break;
+  }
+}
+const insideRoom = await scavenger();
+check(
+  'navigation: the scavenger comes through the doorway and reaches the player',
+  arrivedInRoom,
+  insideRoom ? `ended at cell ${insideRoom.cell.x},${insideRoom.cell.z}` : 'despawned',
+);
+
 // --- Sealed ---------------------------------------------------------------
-await place('wall', ROOM, 'west');
+// The doorway has to come out before the wall goes in. An edge that already
+// holds a piece rejects a second one as 'occupied', so the old
+// `place('wall', ROOM, 'west')` silently did nothing and this section ran
+// against a room that still had its doorway. It passed anyway, because a
+// capsule could not fit under the lintel and no scavenger ever got in -- the
+// check was measuring the traversal bug, not the seal. Both are asserted now.
+const doorwayRemoved = await page.evaluate((room) => {
+  const g = globalThis.__game;
+  return (
+    g.game.build.demolishAt({
+      piece: 'doorway',
+      cell: room,
+      edge: g.canonicalEdge(room, 'west'),
+      rotation: 0,
+    }) > 0
+  );
+}, ROOM);
+const wallPlaced = await place('wall', ROOM, 'west');
+check(
+  'navigation: the room actually seals (doorway out, wall in)',
+  doorwayRemoved && wallPlaced,
+  `demolished=${doorwayRemoved} walled=${wallPlaced}`,
+);
 await sim(0.5);
 
 await page.evaluate(() => globalThis.__game.enemies.despawnAll());

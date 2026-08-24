@@ -88,13 +88,12 @@ fixed free camera for screenshots.
 - Instant crafting at the workbench and refinery: ammo that lands in the
   weapon's reserve, repair kits, and an extended magazine that raises the
   equipped weapon's magazine by 50%
-- Enemies plan and travel routes across the build grid the player creates:
-  A* routes around walls, with doorways and stairs as the graph's only
-  connections through a wall or between storeys, and a fallback to the
-  nearest reachable cell when you have sealed yourself in. This is route
-  *planning and travel toward* a doorway or stairs run, proven in the browser
-  harness — not completing a crossing through either, which no enemy (or
-  player) can currently do; see the known gap below.
+- Enemies path over the structure the player builds: A* across the build grid,
+  routing around walls, funnelling through doorways, and falling back to the
+  nearest reachable cell when you have sealed yourself in. A scavenger crossing
+  the deck, rounding a walled room, coming through its doorway and reaching the
+  player inside is proven in the browser harness. Stairs are in the graph but
+  cannot yet be climbed — see the known gap below.
 
 ## Not built yet
 
@@ -104,36 +103,25 @@ are Milestones 5–12 in the handoff.
 
 Three known gaps in what is built:
 
-- **A kinematic capsule can freeze dead crossing certain build-piece
-  geometry.** Two symptoms, reproduced independently with the *player* under
-  held WASD input (not just a scavenger's AI), so this is a
-  character-controller/collider issue, not anything specific to enemy
-  steering:
-  - A doorway opening (1.1m wide, no collider across it, only jambs and a
-    lintel — 0.34m of *combined* clearance around the widest capsule in the
-    game, about 0.17m per side) freezes movement dead mid-step.
-  - A stairs ramp (1.92m wide, no aperture at all) freezes movement dead
-    mid-climb. `maxSlopeClimbAngle` is ruled out as the cause: it is 50°
-    (`PhysicsWorld.ts:144`) against this ramp's 36.87° incline, comfortably
-    climbable.
+- **Stairs cannot be climbed.** Two independent causes, both diagnosed, neither
+  fixed. The doorway half of this gap is now fixed — see below — but stairs
+  need their own pass:
+  - *Geometry.* `transformFor` centres the stairs ramp on the midpoint between
+    the base and run cells, so the ramp's low end sits at the base cell's near
+    edge and climbs 0.75m for every metre travelled. The base cell also carries
+    a floor plate 0.16m proud of the floor plane. Within about 0.2m of entering
+    the cell a character is standing on that plate with the ramp slab cutting
+    through its chest, needing a 0.63m step against a 0.45m `AUTOSTEP_HEIGHT`.
+    Measured: the blocking contact normal is `(0, -0.8, 0.6)` — the ramp's
+    *underside*. The ramp needs somewhere to begin that is not already floored,
+    which is a design decision about how base/run/landing divide up, not a
+    constant to nudge.
+  - *Navigation.* `NavGraph`'s only vertical link puts the landing directly
+    above the run cell, sharing its x and z exactly, so once an enemy holds that
+    waypoint the steering target's XZ *is* its own XZ and `Enemy.ts`'s movement
+    gate drives it at zero velocity. It parks at the foot of the ramp. Fixing
+    the geometry alone will not restore stair-climbing.
 
-  Surfaced while writing the navigation harness (Task 7). Whether these are
-  one root cause or two is not established — treat them as separate symptoms
-  rather than assuming a single fix closes both. One lead, not a conclusion:
-  `PhysicsWorld.addCharacter` configures
-  `controller.enableAutostep(AUTOSTEP_HEIGHT, 0.2, true)`, and that `0.2`
-  minimum-step-width parameter is worth checking against both. The two checks
-  that would need a working crossing (a scavenger actually arriving inside a
-  walled room, and actually climbing a stairs run) are left out of that
-  harness until this is fixed.
-
-  Stairs carry a second, independent blocker in the navigation layer:
-  `NavGraph`'s only vertical link puts the landing directly above the run
-  cell, sharing its x and z exactly, so once an enemy is holding that
-  waypoint the steering target's XZ *is* its own XZ and the movement gate in
-  `Enemy.ts` drives it with zero velocity — it parks at the foot of the ramp
-  rather than climbing. Fixing the character-controller bug above will not by
-  itself restore stair-climbing; this needs its own fix.
 - **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
   and there is no interior lighting yet. Lamps arrive with the power system.
 - **Fuel is storable but inert.** Nothing burns it until the power system.
@@ -192,7 +180,7 @@ src/
 ## Testing
 
 ```bash
-npm test             # 490 unit tests (deterministic logic)
+npm test             # 499 unit tests (deterministic logic)
 npm run test:e2e     # 11 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit
@@ -210,7 +198,7 @@ browser harnesses in `tools/` that drive the real game:
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 9 movement/physics checks
-node tools/combat.mjs [out.png]                     # 62 combat, spawner, arrival, death, loot, salvage, navigation, and visual checks
+node tools/combat.mjs [out.png]                     # 64 combat, spawner, arrival, death, loot, salvage, navigation, and visual checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```

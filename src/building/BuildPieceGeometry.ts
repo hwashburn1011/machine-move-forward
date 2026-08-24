@@ -3,7 +3,17 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
 import { bevelledBox } from '@/machine/MachineGeometry';
 import type { Materials } from '@/art/Materials';
 import type { PieceId } from '@/data/build-pieces';
-import { GRID_TILE, LEVEL_HEIGHT } from '@/game/constants';
+import {
+  CHARACTER_SKIN,
+  GRID_TILE,
+  LEVEL_HEIGHT,
+  PLAYER_CAPSULE_HALF_HEIGHT,
+  PLAYER_CAPSULE_RADIUS,
+} from '@/game/constants';
+import {
+  CAPSULE_HALF_HEIGHT as ENEMY_CAPSULE_HALF_HEIGHT,
+  CAPSULE_RADIUS as ENEMY_CAPSULE_RADIUS,
+} from '@/enemies/EnemyMesh';
 
 /**
  * Code-built geometry for the six build pieces.
@@ -20,7 +30,55 @@ const T = GRID_TILE;
 const WALL_THICKNESS = 0.16;
 const WALL_HEIGHT = LEVEL_HEIGHT - 0.18;
 const DOOR_OPENING_WIDTH = 1.1;
-const DOOR_OPENING_HEIGHT = 2.1;
+
+/**
+ * Half-thickness of a built floor plate, and the height of its walking
+ * surface above the level's floor plane.
+ *
+ * Named because the doorway has to subtract it. Geometry here is authored
+ * around the floor PLANE, but a body stands on the PLATE, which is this much
+ * higher.
+ */
+const FLOOR_PLATE_HALF = 0.08;
+const FLOOR_PLATE_TOP = FLOOR_PLATE_HALF * 2;
+
+/**
+ * The tallest body that has to fit through a doorway, skin included.
+ *
+ * The character controller keeps `CHARACTER_SKIN` of clearance around the
+ * capsule, so the space a body needs is its own height plus that gap at both
+ * ends. Measuring the capsule alone is what made the old opening look
+ * adequate when it was not.
+ */
+const TALLEST_BODY =
+  2 *
+    Math.max(
+      PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS,
+      ENEMY_CAPSULE_HALF_HEIGHT + ENEMY_CAPSULE_RADIUS,
+    ) +
+  2 * CHARACTER_SKIN;
+
+/**
+ * Headroom above the tallest body. Touching is not passing.
+ *
+ * The controller needs room to resolve a contact; a body that clears the
+ * lintel by a millimetre catches on it the instant autostep lifts it onto a
+ * plate, which is exactly the freeze this constant exists to prevent.
+ */
+const DOOR_HEAD_CLEARANCE = 0.15;
+
+/**
+ * Opening height, measured from the floor PLANE so it can be used directly as
+ * a collider offset — but derived from the PLATE, because that is what a body
+ * stands on.
+ *
+ * Previously a flat 2.1, which left 1.94 of real headroom once the plate took
+ * its 0.16. Against a 1.92 capsule plus 0.04 of skin that was a 2mm interference,
+ * and every character — player and enemy alike — jammed under the lintel and
+ * stopped dead. Deriving it means the relationship cannot drift again if the
+ * plate or either capsule changes.
+ */
+const DOOR_OPENING_HEIGHT = FLOOR_PLATE_TOP + TALLEST_BODY + DOOR_HEAD_CLEARANCE;
 
 export interface ColliderSpec {
   half: THREE.Vector3;
@@ -291,7 +349,12 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
         { half: new THREE.Vector3(0.75, 0.95, 0.75), offset: new THREE.Vector3(0, 0.95, 0) },
       ];
     case 'floor':
-      return [{ half: new THREE.Vector3(T / 2, 0.08, T / 2), offset: new THREE.Vector3(0, 0.08, 0) }];
+      return [
+        {
+          half: new THREE.Vector3(T / 2, FLOOR_PLATE_HALF, T / 2),
+          offset: new THREE.Vector3(0, FLOOR_PLATE_HALF, 0),
+        },
+      ];
 
     case 'roof':
       return [
