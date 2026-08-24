@@ -88,10 +88,13 @@ fixed free camera for screenshots.
 - Instant crafting at the workbench and refinery: ammo that lands in the
   weapon's reserve, repair kits, and an extended magazine that raises the
   equipped weapon's magazine by 50%
-- Enemies path over the structure the player builds: A* across the build grid,
-  doorways as the only way through a wall, stairs as the only way between
-  storeys, and a fallback to the nearest reachable cell when you have sealed
-  yourself in
+- Enemies plan and travel routes across the build grid the player creates:
+  A* routes around walls, with doorways and stairs as the graph's only
+  connections through a wall or between storeys, and a fallback to the
+  nearest reachable cell when you have sealed yourself in. This is route
+  *planning and travel toward* a doorway or stairs run, proven in the browser
+  harness — not completing a crossing through either, which no enemy (or
+  player) can currently do; see the known gap below.
 
 ## Not built yet
 
@@ -101,16 +104,28 @@ are Milestones 5–12 in the handoff.
 
 Three known gaps in what is built:
 
-- **A kinematic capsule can stick at certain build-piece seams.** Player and
-  enemy movement alike can freeze dead partway through a doorway opening, or
-  partway up a stairs run onto its landing, and never complete the crossing —
-  reproduced by walking a player through with WASD as well as by a scavenger's
-  AI, so it is a character-controller/collider issue at the seam between two
-  adjacent pieces, not anything specific to enemy steering. Surfaced while
-  writing the navigation harness (Task 7); not yet root-caused, and the two
-  checks that would need it (a scavenger actually arriving inside a walled
-  room, and actually climbing a stairs run) are left out of that harness until
-  it is.
+- **A kinematic capsule can freeze dead crossing certain build-piece
+  geometry.** Two symptoms, reproduced independently with the *player* under
+  held WASD input (not just a scavenger's AI), so this is a
+  character-controller/collider issue, not anything specific to enemy
+  steering:
+  - A doorway opening (1.1m wide, no collider across it, only jambs and a
+    lintel — 0.34m of clearance either side of the widest capsule in the
+    game) freezes movement dead mid-step.
+  - A stairs ramp (1.92m wide, no aperture at all) freezes movement dead
+    mid-climb. `maxSlopeClimbAngle` is ruled out as the cause: it is 50°
+    (`PhysicsWorld.ts:144`) against this ramp's 36.87° incline, comfortably
+    climbable.
+
+  Surfaced while writing the navigation harness (Task 7). Whether these are
+  one root cause or two is not established — treat them as separate symptoms
+  rather than assuming a single fix closes both. One lead, not a conclusion:
+  `PhysicsWorld.addCharacter` configures
+  `controller.enableAutostep(AUTOSTEP_HEIGHT, 0.2, true)`, and that `0.2`
+  minimum-step-width parameter is worth checking against both. The two checks
+  that would need a working crossing (a scavenger actually arriving inside a
+  walled room, and actually climbing a stairs run) are left out of that
+  harness until this is fixed.
 - **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
   and there is no interior lighting yet. Lamps arrive with the power system.
 - **Fuel is storable but inert.** Nothing burns it until the power system.

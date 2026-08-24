@@ -966,19 +966,30 @@ if (!hasModel) {
 // round the wall.
 //
 // KNOWN GAP surfaced while writing this section, not fixed here (see the
-// task report): a kinematic capsule -- player or enemy, doesn't matter --
-// that reaches the seam between two adjacent build-piece colliders (a
-// doorway's jambs, or a stairs ramp meeting its landing) stops dead and never
-// crosses it, even under continuous input. Confirmed directly: walking the
-// PLAYER at this exact doorway with WASD freezes it mid-step at the same
-// world position an enemy freezes at. That is a physics/character-controller
-// issue, not a navigation one -- A* and the steering fan both do their job
-// correctly right up to that seam -- but it means "arrives inside the room"
-// and "climbs the stairs" cannot be asserted honestly right now: they would
-// fail against correct navigation code exactly as they fail against reverted
-// code, for an unrelated reason. The checks below stop at what the seam bug
-// does not confound: did it route to the correct side of the wall, and does
-// the nav graph link the stairs run to its landing.
+// task report): one or more character-controller/collider issues stop a
+// kinematic capsule -- player or enemy, doesn't matter -- from completing a
+// crossing at two different pieces of geometry:
+//   1. A doorway opening (1.1m wide, no collider across it, only jambs and a
+//      lintel -- 0.34m of clearance either side of the widest capsule in the
+//      game) freezes movement dead mid-step.
+//   2. A stairs ramp (1.92m wide, no aperture at all) freezes movement dead
+//      mid-climb. `maxSlopeClimbAngle` is not the cause here: it is 50°
+//      (`PhysicsWorld.ts:144`) against this ramp's 36.87° incline, comfortably
+//      climbable.
+// Both were reproduced with the PLAYER under held WASD input, not just an
+// AI-driven enemy, at two independent geometries -- so this is not a
+// navigation bug, and A* and the steering fan both do their job correctly
+// right up to the freeze. Whether it is one shared root cause or two is not
+// established; treat them as separate symptoms until someone roots one out.
+// A lead, not a conclusion: `PhysicsWorld.addCharacter` configures
+// `controller.enableAutostep(AUTOSTEP_HEIGHT, 0.2, true)` -- the `0.2`
+// minimum-step-width parameter is worth checking against both seams.
+// Either way, it means "arrives inside the room" and "climbs the stairs"
+// cannot be asserted honestly right now: they would fail against correct
+// navigation code exactly as they fail against reverted code, for a reason
+// unrelated to navigation. The checks below stop at what these freezes do
+// not confound: did it route to the correct side of the wall, and does the
+// nav graph link the stairs run to its landing.
 
 const place = (piece, cell, side = null, rotation = 0) =>
   page.evaluate(
@@ -996,14 +1007,13 @@ const place = (piece, cell, side = null, rotation = 0) =>
 const teleportPlayer = (x, y, z) =>
   page.evaluate(({ x, y, z }) => globalThis.__game.player.teleport({ x, y, z }), { x, y, z });
 
-/** Where the one live scavenger is, in grid cells, plus its route length. */
+/** Where the one live scavenger is, in grid cells, plus its AI state. */
 const scavenger = () =>
   page.evaluate(() => {
     const e = globalThis.__game.enemies.active[0];
     if (!e) return null;
     return {
       cell: e.gridCell,
-      pathLength: e.pathLength,
       aiState: e.aiState,
       x: e.worldPosition.x,
       z: e.worldPosition.z,
@@ -1019,16 +1029,34 @@ const scavenger = () =>
  * WRONG wall, before it ever reaches the doorway side. That is an artifact of
  * this test's geometry, not of navigation, so it is neutralised here the same
  * way `player.stats.invulnerable` neutralises damage elsewhere in this file:
- * `def` is the live, shared `ENEMIES.scavenger` object, so this affects every
- * scavenger spawned for the rest of this run.
+ * `def` is the live, shared `ENEMIES.scavenger` object, so mutating it
+ * affects every scavenger for the rest of this process, not just this one --
+ * the original value is captured on first use and restored by
+ * `restoreAttackRange()` once this section is done, so a check appended
+ * after this one does not silently inherit an altered enemy.
  */
+let originalAttackRange;
 const spawnHuntingScavenger = async (x, y, z) => {
-  await page.evaluate(
+  const orig = await page.evaluate(
     ({ x, y, z }) => {
       const e = globalThis.__game.enemies.spawn('scavenger', { x, y, z });
-      if (e) e.def.attackRange = 0.6;
+      if (!e) return null;
+      const orig = e.def.attackRange;
+      e.def.attackRange = 0.6;
+      return orig;
     },
     { x, y, z },
+  );
+  if (originalAttackRange === undefined && orig !== null) originalAttackRange = orig;
+};
+const restoreAttackRange = async () => {
+  if (originalAttackRange === undefined) return;
+  await page.evaluate(
+    (v) => {
+      const e = globalThis.__game.enemies.active[0];
+      if (e) e.def.attackRange = v;
+    },
+    originalAttackRange,
   );
 };
 
@@ -1091,11 +1119,12 @@ await sim(8.0);
 // against the outside of a wall can end up within a metre of the player in a
 // straight line without ever standing in the room's cell.
 const sealed = await scavenger();
+const HUNTING_STATES = ['navigate', 'pursue', 'attack'];
 check(
   'navigation: a sealed room keeps the scavenger out, and it keeps hunting',
   sealed !== null &&
     (sealed.cell.x !== ROOM.x || sealed.cell.z !== ROOM.z) &&
-    sealed.aiState !== 'idle',
+    HUNTING_STATES.includes(sealed.aiState),
   sealed
     ? `at cell ${sealed.cell.x},${sealed.cell.z}, state ${sealed.aiState}`
     : 'despawned',
@@ -1143,13 +1172,22 @@ await teleportPlayer(0, 6.5, -1);
 await page.evaluate(() => globalThis.__game.enemies.despawnAll());
 await spawnHuntingScavenger(0, 3.6, -4);
 
+let sawScavenger = false;
 let reachedUpper = false;
 for (let i = 0; i < 20; i++) {
   await sim(0.5);
   const s = await scavenger();
-  if (s && s.cell.y >= 1) { reachedUpper = true; break; }
+  if (!s) continue;
+  sawScavenger = true;
+  if (s.cell.y >= 1) { reachedUpper = true; break; }
 }
-check('navigation: no stairs means no way up', !reachedUpper);
+check(
+  'navigation: no stairs means no way up',
+  sawScavenger && !reachedUpper,
+  !sawScavenger ? 'scavenger never appeared' : reachedUpper ? 'reached level 1 anyway' : 'stayed at level 0',
+);
+
+await restoreAttackRange();
 
 if (outShot) {
   if (!hasModel) {
