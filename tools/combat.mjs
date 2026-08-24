@@ -575,17 +575,29 @@ const reeled = await page.evaluate(() => {
   const target = g.salvage.targets[0];
   if (!target) return null;
   const before = g.resources.count('scrap');
-  g.salvage.hook(target.id);
-  g.hookedCrate = target.id;
-  // Drive the reel to completion rather than waiting on frames.
-  for (let i = 0; i < 400 && g.hookedCrate !== null; i++) g.updateReel(0.05);
+  // Aim the throw at the crate and fly it, rather than teleporting the crate
+  // into the player's hands: the latch happens during the flight now.
+  g.hookOrigin.set(g.player.worldPosition.x, g.player.worldPosition.y + 0.35, g.player.worldPosition.z);
+  g.hookDir.set(target.x - g.hookOrigin.x, target.y - g.hookOrigin.y, target.z - g.hookOrigin.z).normalize();
+  g.hook = { distance: 0, phase: 'out' };
+  let latched = false;
+  for (let i = 0; i < 600 && g.hook !== null; i++) {
+    g.updateReel(0.02);
+    if (g.hookedCrate !== null) latched = true;
+  }
   return {
     before,
     after: g.resources.count('scrap'),
-    released: g.hookedCrate === null,
+    released: g.hookedCrate === null && g.hook === null,
+    latched,
     stillTargetable: g.salvage.targets.some((t) => t.id === target.id),
   };
 });
+check(
+  'the hook latches a crate during its flight',
+  reeled !== null && reeled.latched === true,
+  reeled ? `latched=${reeled.latched}` : 'no crate to hook',
+);
 check(
   'reeling a crate in pays out',
   reeled !== null && reeled.after > reeled.before,

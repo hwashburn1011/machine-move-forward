@@ -51,7 +51,8 @@ import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { hashSeed, Rng } from '@/core/math/Random';
 import { rollDrops } from '@/enemies/Loot';
 import { SalvageField } from '@/salvage/SalvageField';
-import { pickReelTarget } from '@/salvage/Reel';
+import { pickReelTarget, REEL_RANGE } from '@/salvage/Reel';
+import { stepHook, type HookState } from '@/salvage/Hook';
 import { ENEMIES } from '@/data/enemies';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
@@ -150,9 +151,16 @@ export class Game implements LoopCallbacks {
   private frameCount = 0;
   private fpsWindowStart = 0;
   readonly salvage: SalvageField;
-  /** The crate the reel is currently dragging in, if any. */
+  /** The crate the hook has latched onto, if any. */
   private hookedCrate: string | null = null;
+  /** Flight of the thrown hook. Null between throws. */
+  private hook: HookState | null = null;
+  /** Where the throw started and the direction it was aimed, frozen at launch. */
+  private readonly hookOrigin = new THREE.Vector3();
+  private readonly hookDir = new THREE.Vector3();
+  private readonly hookAt = new THREE.Vector3();
   private readonly reelLine: THREE.Line;
+  private readonly reelHead: THREE.Mesh;
   private readonly reelAim = new THREE.Vector3();
   private readonly lootRng: Rng;
   private fps = 0;
@@ -243,6 +251,14 @@ export class Game implements LoopCallbacks {
     this.reelLine.frustumCulled = false;
     this.reelLine.visible = false;
     this.renderer.scene.add(this.reelLine);
+
+    // The hook itself, so the throw is something you watch rather than infer.
+    this.reelHead = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.22),
+      new THREE.MeshBasicMaterial({ color: 0xffc27a, toneMapped: false }),
+    );
+    this.reelHead.visible = false;
+    this.renderer.scene.add(this.reelHead);
     // Its own stream, so loot rolls cannot shift where arrivals are placed.
     this.lootRng = new Rng(hashSeed(seed, 'loot'));
     this.bus.on('enemy:killed', (e) =>
@@ -404,42 +420,87 @@ export class Game implements LoopCallbacks {
    * speculatively while scanning the dunes.
    */
   private fireReel(): void {
-    if (this.hookedCrate !== null) return;
+    // One throw at a time, but a throw always happens: pressing the key with
+    // nothing in front of you still sends the hook out and brings it back
+    // empty, which is the only way to learn where the thing points.
+    if (this.hook !== null) return;
 
     const camera = this.activeCamera;
     camera.getWorldDirection(this.reelAim);
-    const target = pickReelTarget(this.salvage.targets, camera.position, this.reelAim);
-    if (!target) return;
-
-    if (this.salvage.hook(target.id)) this.hookedCrate = target.id;
+    // Frozen at launch, so the hook flies straight rather than curving to
+    // follow the camera around.
+    this.hookOrigin.copy(this.player.worldPosition);
+    this.hookOrigin.y += 0.35;
+    this.hookDir.copy(this.reelAim).normalize();
+    this.hook = { distance: 0, phase: 'out' };
+    this.hookedCrate = null;
   }
 
-  /** Drag a hooked crate in, and open it when it arrives. */
+  /**
+   * Fly the hook out, latch anything it passes, and drag it home.
+   *
+   * The cable and head are drawn for the whole flight, empty or not. A reel
+   * that only appears on a successful grab teaches nothing about its aim.
+   */
   private updateReel(dt: number): void {
-    if (this.hookedCrate === null) {
+    if (this.hook === null) {
       this.reelLine.visible = false;
+      this.reelHead.visible = false;
       return;
     }
 
-    const arrived = this.salvage.reelIn(dt, this.player.worldPosition);
-    const crate = this.salvage.positionOf(this.hookedCrate);
+    this.hook = stepHook(this.hook, dt, REEL_RANGE);
 
-    if (arrived.includes(this.hookedCrate) || !crate) {
-      if (crate) this.salvage.open(this.hookedCrate, (id, count) => {
-        this.resources.deposit(id as Parameters<ResourceAccess['deposit']>[0], count);
-      });
-      this.hookedCrate = null;
-      this.reelLine.visible = false;
-      return;
+    // Where the head is this frame: along the throw while outbound, and
+    // pulled back to the player on the way home.
+    this.hookAt
+      .copy(this.hookDir)
+      .multiplyScalar(this.hook.distance)
+      .add(this.hookOrigin);
+
+    // Latch on the way out only, so a returning hook does not sweep up
+    // everything between it and the player.
+    if (this.hook.phase === 'out' && this.hookedCrate === null) {
+      const caught = pickReelTarget(this.salvage.targets, this.hookAt, this.hookDir);
+      const nearby = this.salvage.targets.find(
+        (t) => Math.hypot(t.x - this.hookAt.x, t.y - this.hookAt.y, t.z - this.hookAt.z) < 2.4,
+      );
+      const grab = nearby ?? (caught && this.hook.distance >= REEL_RANGE - 0.01 ? caught : null);
+      if (grab && this.salvage.hook(grab.id)) {
+        this.hookedCrate = grab.id;
+        this.hook = { distance: this.hook.distance, phase: 'back' };
+      }
     }
 
-    const points = this.reelLine.geometry.attributes.position as THREE.BufferAttribute | undefined;
-    if (!points) return;
+    // A latched crate rides the hook home.
+    if (this.hookedCrate !== null) {
+      const crate = this.salvage.positionOf(this.hookedCrate);
+      if (crate) crate.copy(this.hookAt);
+      else this.hookedCrate = null;
+    }
+
     const from = this.player.worldPosition;
-    points.setXYZ(0, from.x, from.y + 0.35, from.z);
-    points.setXYZ(1, crate.x, crate.y, crate.z);
-    points.needsUpdate = true;
-    this.reelLine.visible = true;
+    const points = this.reelLine.geometry.attributes.position as THREE.BufferAttribute | undefined;
+    if (points) {
+      points.setXYZ(0, from.x, from.y + 0.35, from.z);
+      points.setXYZ(1, this.hookAt.x, this.hookAt.y, this.hookAt.z);
+      points.needsUpdate = true;
+      this.reelLine.visible = true;
+    }
+    this.reelHead.position.copy(this.hookAt);
+    this.reelHead.visible = true;
+
+    if (this.hook.phase === 'done') {
+      if (this.hookedCrate !== null) {
+        this.salvage.open(this.hookedCrate, (id, count) => {
+          this.resources.deposit(id as Parameters<ResourceAccess['deposit']>[0], count);
+        });
+        this.hookedCrate = null;
+      }
+      this.hook = null;
+      this.reelLine.visible = false;
+      this.reelHead.visible = false;
+    }
   }
 
   private collectKillReward(defId: string, source: string): void {

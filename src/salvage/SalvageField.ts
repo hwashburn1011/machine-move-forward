@@ -24,6 +24,16 @@ const INTERVAL_M = 90;
 /** How far ahead of the machine a crate first appears. */
 const AHEAD = 46;
 
+/**
+ * Fraction of the machine's speed a crate appears to move at.
+ *
+ * Strictly they are static and the machine passes them, which puts them at a
+ * full 7.5 m/s and leaves barely a moment to aim. Treating them as adrift on
+ * the same wind is the cheaper fiction: they stay in reach long enough to be
+ * lined up and hooked, which is the point of having them.
+ */
+const DRIFT = 0.42;
+
 /** Behind this, a crate is out of play and goes back in the pool. */
 const BEHIND = -26;
 
@@ -168,7 +178,7 @@ export class SalvageField {
 
     for (const crate of this.crates) {
       if (!crate.active) continue;
-      if (!crate.hooked) crate.object3D.position.z += machineSpeed * dt;
+      if (!crate.hooked) crate.object3D.position.z += machineSpeed * DRIFT * dt;
 
       // A slow list and bob, so they read as adrift rather than as props
       // glued to the terrain.
