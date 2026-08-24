@@ -497,7 +497,7 @@ export class BuildSystem {
     this.graph = detectRooms(this.grid);
     // Rebuilt wholesale rather than patched. The envelope is at most 324
     // cells, which is nothing next to the room flood fill directly above.
-    this.nav = buildNavGraph(this.grid, this.machine.deckCells);
+    this.nav = buildNavGraph(this.grid, this.machine.deckCells, this.machine.fixedLinks);
     this.bus.emit('build:rooms-changed', {
       roomCount: this.graph.rooms.length,
       enclosedCount: countEnclosed(this.graph),

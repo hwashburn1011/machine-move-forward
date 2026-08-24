@@ -1232,6 +1232,82 @@ check(
 
 await restoreAttackRange();
 
+// --- Engine room ----------------------------------------------------------
+// The machine's own lower deck, hollowed out of the hull. Unlike the build
+// grid's stairs piece, this stair is machine geometry: one smooth ramp under
+// an opening that spans its whole run, so nothing is ever climbing beneath a
+// floored cell.
+
+const navLevels = await page.evaluate(() => {
+  const links = globalThis.__game.game.build.navGraph.links;
+  const keys = [...links.keys()];
+  return {
+    minus1: keys.filter((k) => k.split(',')[1] === '-1').length,
+    stairHead: (links.get('-1,0,2') ?? []).some((c) => c.y === -1),
+  };
+});
+check(
+  'engine room: its floor is in the nav graph, linked to the deck',
+  navLevels.minus1 > 20 && navLevels.stairHead,
+  `${navLevels.minus1} level -1 cells, deck link ${navLevels.stairHead}`,
+);
+
+// The player walks down, then back out. Engine floor stands a body at ~1.56;
+// the deck stands one at ~4.65.
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await teleportPlayer(-2, 4.8, 3.2);
+await sim(0.6);
+await page.evaluate(() => {
+  const cam = globalThis.__game.playerCamera;
+  if (cam && 'yaw' in cam) cam.yaw = 0;
+});
+const playerY = () => page.evaluate(() => +globalThis.__game.player.worldPosition.y.toFixed(2));
+
+await page.keyboard.down('w');
+let lowestY = 99;
+for (let i = 0; i < 16; i++) {
+  await sim(0.35);
+  lowestY = Math.min(lowestY, await playerY());
+  if (lowestY < 2.2) break;
+}
+await page.keyboard.up('w');
+check('engine room: the player can walk down into it', lowestY < 2.2, `lowest y ${lowestY.toFixed(2)}`);
+
+await page.evaluate(() => {
+  const cam = globalThis.__game.playerCamera;
+  if (cam && 'yaw' in cam) cam.yaw = Math.PI;
+});
+await sim(0.3);
+await page.keyboard.down('w');
+let highestY = -99;
+for (let i = 0; i < 22; i++) {
+  await sim(0.35);
+  highestY = Math.max(highestY, await playerY());
+  if (highestY > 4.4) break;
+}
+await page.keyboard.up('w');
+check('engine room: and can climb back out', highestY > 4.4, `highest y ${highestY.toFixed(2)}`);
+
+// And it is not a safe room: a scavenger follows the player down.
+await teleportPlayer(-2, 1.6, -5);
+await sim(0.8);
+await page.evaluate(() => {
+  const g = globalThis.__game;
+  g.enemies.despawnAll();
+  g.enemies.spawn('scavenger', { x: -2, y: 4.8, z: 6 });
+});
+let followed = false;
+for (let i = 0; i < 50; i++) {
+  await sim(0.4);
+  const s = await page.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    return e ? { y: +e.worldPosition.y.toFixed(2), level: e.gridCell.y } : null;
+  });
+  if (!s) break;
+  if (s.level === -1 && s.y < 2.5) { followed = true; break; }
+}
+check('engine room: a scavenger follows the player down into it', followed);
+
 if (outShot) {
   if (!hasModel) {
     // Nothing to show that the other harnesses do not already show.

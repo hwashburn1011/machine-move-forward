@@ -2,6 +2,7 @@ import { blocksNavigation, type PieceId } from '@/data/build-pieces';
 import {
   DECK_HEIGHT,
   GRID_LEVELS,
+  GRID_MIN_LEVEL,
   GRID_MAX_X,
   GRID_MAX_Z,
   GRID_MIN_X,
@@ -76,14 +77,36 @@ export function deckCells(bounds: DeckBoundsXZ): Cell[] {
 }
 
 /**
+ * How far below a level's floor plane a body's feet may sit and still count as
+ * standing ON that level.
+ *
+ * Not a rounding epsilon — a real, physical margin. A resting capsule settles
+ * a few centimetres into the surface it stands on: the deck plate is 0.18
+ * thick, the controller keeps a 0.02 skin, and snap-to-ground pulls the body
+ * down onto contact. Measured, a scavenger stood on the deck with its feet at
+ * 3.54 against a deck plane of 3.6.
+ *
+ * With a floor() and no margin that reads as the storey BELOW — so an enemy
+ * standing on the deck believed it was already in the engine room, decided it
+ * had arrived, and never pathed down. A fifth of a metre is far larger than
+ * any settling and far smaller than the 3m storey it has to stay inside.
+ */
+const FLOOR_TOLERANCE = 0.2;
+
+/**
  * The build level a pair of feet is standing on.
  *
  * Floor, not round: a level's floor plane is its lower bound, so an enemy
  * mid-jump on level 0 must not be reported as being on level 1.
  */
 export function levelOf(feetY: number): number {
-  const raw = Math.floor((feetY - DECK_HEIGHT) / LEVEL_HEIGHT);
-  return Math.max(0, Math.min(GRID_LEVELS - 1, raw));
+  return Math.max(
+    GRID_MIN_LEVEL,
+    Math.min(
+      GRID_LEVELS - 1,
+      Math.floor((feetY - DECK_HEIGHT + FLOOR_TOLERANCE) / LEVEL_HEIGHT),
+    ),
+  );
 }
 
 /** Can a body stand in this cell? */
@@ -108,12 +131,19 @@ function isWalkable(
   // The stairs run cell holds 'stairs' and is the ramp itself — walkable.
   if (piece === 'floor' || piece === 'stairs') return true;
 
-  return cell.y === 0 && deckKeys.has(cellKey(cell));
+  // No `cell.y === 0` guard: cellKey already encodes the level, so a machine
+  // cell is only walkable at the level it was actually provided for. That is
+  // what lets the engine room (level -1) be walkable without a special case.
+  return deckKeys.has(cellKey(cell));
 }
+
+/** A vertical connection the MACHINE's own structure provides, not the player's. */
+export type FixedLink = readonly [Cell, Cell];
 
 export function buildNavGraph(
   grid: BuildGrid<PieceId>,
   deck: readonly Cell[],
+  fixedLinks: readonly FixedLink[] = [],
 ): NavGraph {
   const deckKeys = new Set(deck.map(cellKey));
 
@@ -169,6 +199,18 @@ export function buildNavGraph(
 
     (links.get(key) as Cell[]).push(landing);
     (links.get(landingKey) as Cell[]).push(cell);
+  }
+
+  // Links the machine itself provides -- today, its engine-room stair. These
+  // are not player pieces and cannot be demolished, so they are added
+  // unconditionally, but still only when BOTH ends are walkable, so a
+  // half-built machine cannot produce a dangling edge.
+  for (const [a, b] of fixedLinks) {
+    const ak = cellKey(a);
+    const bk = cellKey(b);
+    if (!walkable.has(ak) || !walkable.has(bk)) continue;
+    (links.get(ak) as Cell[]).push(b);
+    (links.get(bk) as Cell[]).push(a);
   }
 
   // Re-sort the two lists the vertical pass touched, so ordering stays stable.

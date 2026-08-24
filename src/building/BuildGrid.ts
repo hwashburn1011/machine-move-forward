@@ -1,6 +1,7 @@
 import {
   DECK_HEIGHT,
   GRID_LEVELS,
+  GRID_MIN_LEVEL,
   GRID_MAX_X,
   GRID_MAX_Z,
   GRID_MIN_X,
@@ -133,7 +134,7 @@ export function inEnvelope(c: Cell): boolean {
     c.x <= GRID_MAX_X &&
     c.z >= GRID_MIN_Z &&
     c.z <= GRID_MAX_Z &&
-    c.y >= 0 &&
+    c.y >= GRID_MIN_LEVEL &&
     c.y < GRID_LEVELS
   );
 }

@@ -11,7 +11,7 @@ import {
 import { buildMachine } from './MachineGeometry';
 import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
 import type { Cell } from '@/building/BuildGrid';
-import { deckCells } from '@/enemies/NavGraph';
+import { deckCells, type FixedLink } from '@/enemies/NavGraph';
 import { MachineMovement } from './MachineMovement';
 
 /**
@@ -72,8 +72,19 @@ export class Machine {
   readonly deckBounds: THREE.Box3;
   /** Level-0 cells the starting equipment sits in. Unbuildable. */
   readonly equipmentCells: Cell[];
-  /** Level-0 cells over the bare deck. Walkable, whether or not built on. */
+  /**
+   * Cells the MACHINE itself makes walkable, at any level: the bare deck at
+   * level 0 and the engine-room floor at level -1.
+   */
   readonly deckCells: Cell[];
+  /**
+   * Vertical connections the machine's own structure provides.
+   *
+   * Today that is the engine-room stair. Without it the engine room would be
+   * reachable by the player and unreachable by anything hunting them, which is
+   * the safe-room problem the sealed-room design deliberately avoids.
+   */
+  readonly fixedLinks: FixedLink[];
 
   constructor(scene: THREE.Scene, physics: PhysicsWorld, materials: Materials) {
     const build = buildMachine(materials);
@@ -84,7 +95,18 @@ export class Machine {
     scene.add(this.group);
 
     for (const c of build.colliders) {
-      physics.addFixedBox(c.half, c.center, 0, { kind: 'machine' });
+      // The engine-room stair is the one tilted box; everything else is
+      // axis-aligned and takes the cheaper path.
+      if (c.rotX === undefined) {
+        physics.addFixedBox(c.half, c.center, 0, { kind: 'machine' });
+      } else {
+        physics.addFixedBoxRotated(
+          c.half,
+          c.center,
+          new THREE.Quaternion().setFromEuler(new THREE.Euler(c.rotX, 0, 0)),
+          { kind: 'machine' },
+        );
+      }
     }
 
     const halfW = (MACHINE_TILES_X * GRID_TILE) / 2;
@@ -98,23 +120,69 @@ export class Machine {
 
     // Derived from the deck's own bounds, so it cannot drift out of step with
     // the machine's actual size the way a hardcoded cell range would.
+    //
+    // Cells over the stairwell are then removed: there is no deck there any
+    // more. Leaving them in made the graph route enemies straight across an
+    // open hole, and they fell into the engine room on the way to the player.
+    // The deck plates are centred on odd metres and the grid cells on even
+    // ones, so a cell only PARTLY over the well is still a hole to fall
+    // through — hence overlap, not containment, is the test.
+    const wellMinX = -(MACHINE_TILES_X * GRID_TILE) / 2 + GRID_TILE;
+    const wellMaxX = wellMinX + GRID_TILE;
+    const wellMinZ = -2.0;
+    const wellMaxZ = 2.0;
+    const overWell = (c: Cell): boolean => {
+      const cx = c.x * GRID_TILE;
+      const cz = c.z * GRID_TILE;
+      const half = GRID_TILE / 2;
+      return (
+        cx + half > wellMinX &&
+        cx - half < wellMaxX &&
+        cz + half > wellMinZ &&
+        cz - half < wellMaxZ
+      );
+    };
     this.deckCells = deckCells({
       minX: this.deckBounds.min.x,
       maxX: this.deckBounds.max.x,
       minZ: this.deckBounds.min.z,
       maxZ: this.deckBounds.max.z,
-    });
+    }).filter((c) => !overWell(c));
+
+    // The engine room floor, one level down. Its interior is the hull shell
+    // inset by its wall thickness, derived here the same way the deck is.
+    const roomHalfW = (MACHINE_TILES_X * GRID_TILE - 0.6) / 2 - 0.3;
+    const roomHalfL = (MACHINE_TILES_Z * GRID_TILE - 0.4) / 2 - 0.3;
+    for (const c of deckCells({
+      minX: -roomHalfW,
+      maxX: roomHalfW,
+      minZ: -roomHalfL,
+      maxZ: roomHalfL,
+    })) {
+      this.deckCells.push({ x: c.x, y: -1, z: c.z });
+    }
+
+    // The stair's two ends: the first SOLID deck cell aft of the well, and the
+    // engine-room cell at the ramp's foot. Cell (0,0,1) would be the natural
+    // head but it sits partly over the opening and is no longer deck, so the
+    // link starts one cell further aft and steering walks the last metre onto
+    // the ramp.
+    this.fixedLinks = [[{ x: -1, y: 0, z: 2 }, { x: -1, y: -1, z: -1 }]];
 
     // Rough starting mass: structure plus the section 49 loadout.
     this.movement.totalWeight = 12000;
   }
 
   /**
-   * Spawn point on the open mid-deck. Kept clear of the equipment blocks:
-   * spawning against one pins the third-person camera hard against it.
+   * Spawn point on the open deck, forward of the stairwell.
+   *
+   * Kept clear of the equipment blocks (spawning against one pins the
+   * third-person camera hard against it) and clear of the engine-room well,
+   * which the old mid-deck point at z=-1 now sits inside -- the player would
+   * have dropped straight down the hole on every new game.
    */
   get deckSpawn(): THREE.Vector3 {
-    return new THREE.Vector3(0, CHARACTER_DROP_Y, -1.0);
+    return new THREE.Vector3(0, CHARACTER_DROP_Y, -5.0);
   }
 
   get speed(): number {

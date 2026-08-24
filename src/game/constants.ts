@@ -38,8 +38,18 @@ export const MACHINE_TILES_Z = 8;
  * The centre, not the surface: the plate has thickness, and what a character
  * stands on is `DECK_SURFACE_Y`. Placing anything by this value alone puts it
  * half a plate too low.
+ *
+ * Raised from 2.4 to make room for the engine room hollowed out of the hull
+ * beneath. `LEVEL_HEIGHT` below the deck plane lands exactly on the hull's
+ * existing underside at 0.6, so the engine room is a full storey on the same
+ * uniform grid spacing as everything the player builds — no special case, and
+ * `cellCenter` addresses it as level -1 with no extra arithmetic.
+ *
+ * The running gear does NOT move with this. Treads, wheels, cross-members and
+ * the plough are anchored to absolute ground in `MachineGeometry`, because
+ * they sit on the sand rather than hanging off the deck.
  */
-export const DECK_HEIGHT = 2.4;
+export const DECK_HEIGHT = 3.6;
 
 /** Half the deck plate's thickness. The collider is built to match. */
 export const DECK_PLATE_HALF = 0.09;
@@ -77,6 +87,16 @@ export const GRID_MAX_X = 4;
 export const GRID_MIN_Z = -6;
 export const GRID_MAX_Z = 5;
 export const GRID_LEVELS = 3;
+
+/**
+ * Lowest addressable build level.
+ *
+ * -1 is the engine room hollowed out of the hull. It is a real level on the
+ * same uniform spacing as everything above, which is what lets enemies path
+ * down into it — an interior the player could retreat to and never be followed
+ * would be the safe-room problem the sealed-room design deliberately avoids.
+ */
+export const GRID_MIN_LEVEL = -1;
 
 /** Vertical spacing between build levels, in metres. */
 export const LEVEL_HEIGHT = 3;

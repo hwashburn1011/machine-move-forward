@@ -42,7 +42,8 @@ describe('bounds and occupancy', () => {
       c(5, 0, 0),
       c(0, 0, -7),
       c(0, 0, 6),
-      c(0, -1, 0),
+      // -1 is the engine room and is in bounds; -2 is the first level below.
+      c(0, -2, 0),
       c(0, 3, 0),
     ]) {
       expect(validatePlacement(g, place('floor', cell), RICH).reason).toBe('out-of-bounds');

@@ -105,8 +105,13 @@ describe('inEnvelope', () => {
     expect(inEnvelope(c(5, 0, 0))).toBe(false);
     expect(inEnvelope(c(0, 0, -7))).toBe(false);
     expect(inEnvelope(c(0, 0, 6))).toBe(false);
-    expect(inEnvelope(c(0, -1, 0))).toBe(false);
+    // -1 is the engine room, a real level. -2 is the first one below it.
+    expect(inEnvelope(c(0, -2, 0))).toBe(false);
     expect(inEnvelope(c(0, 3, 0))).toBe(false);
+  });
+
+  it('accepts the engine room level', () => {
+    expect(inEnvelope(c(0, -1, 0))).toBe(true);
   });
 
   it('rejects non-integer cells', () => {
