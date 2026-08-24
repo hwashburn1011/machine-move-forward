@@ -162,6 +162,8 @@ export class Game implements LoopCallbacks {
   private readonly reelLine: THREE.Line;
   private readonly reelHead: THREE.Mesh;
   private readonly reelAim = new THREE.Vector3();
+  /** A crate is lined up and a throw would reach it. Read by the HUD. */
+  private reelReady = false;
   private readonly lootRng: Rng;
   private fps = 0;
   private frameMs = 0;
@@ -524,6 +526,18 @@ export class Game implements LoopCallbacks {
     this.salvage.update(frameDt, this.world.distanceTraveled, this.machine.speed);
     this.updateReel(frameDt);
 
+    // Whether a throw would catch something, asked of the same function the
+    // throw itself uses -- a cue derived from different rules to the mechanic
+    // is a cue that lies.
+    if (this.hook !== null) {
+      this.reelReady = false;
+    } else {
+      const camera = this.activeCamera;
+      camera.getWorldDirection(this.reelAim);
+      this.reelReady =
+        pickReelTarget(this.salvage.targets, camera.position, this.reelAim) !== null;
+    }
+
     const camera = this.activeCamera;
     this.sandFX.update(frameDt, this.machine.speed, camera.position);
     this.impactFX.update(frameDt, camera.position);
@@ -537,6 +551,7 @@ export class Game implements LoopCallbacks {
       ammoInMag: this.combat.current.ammoInMag,
       reserveAmmo: this.combat.current.reserveAmmo,
       infiniteAmmo: this.combat.current.infiniteReserve,
+      reelReady: this.reelReady,
       weaponName: this.combat.current.def.name,
       machineSpeed: this.machine.speed,
       distanceTraveled: this.world.distanceTraveled,

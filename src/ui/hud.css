@@ -693,3 +693,13 @@
     transform: translateX(-50%) translateY(0);
   }
 }
+
+/* --- Reel cue ------------------------------------------------------------
+ * A crate is lined up and a throw would reach it. Deliberately quiet: the
+ * crosshair warms from bone to amber and picks up a glow. Enough to catch
+ * while scanning the dunes, not enough to read as a lock-on.
+ */
+#hud-crosshair.can-reel i {
+  background: #ffc27a;
+  box-shadow: 0 0 5px rgba(255, 194, 122, 0.75);
+}

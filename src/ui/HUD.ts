@@ -10,6 +10,8 @@ export interface HUDState {
   reserveAmmo: number;
   /** Reserve is unlimited: show a symbol rather than a number that never moves. */
   infiniteAmmo: boolean;
+  /** A salvage crate is lined up and within the reel's reach. */
+  reelReady: boolean;
   weaponName: string;
   machineSpeed: number;
   distanceTraveled: number;
@@ -272,6 +274,10 @@ export class HUD {
     // --- Machine -----------------------------------------------------------
     this.write('speed', this.el['hud-speed'], `${state.machineSpeed.toFixed(1)} m/s`);
     this.write('dist', this.el['hud-distance'], `${Math.round(state.distanceTraveled)} m`);
+
+    // The reel cue rides the crosshair the player is already looking at,
+    // rather than adding another thing to the edge of the screen.
+    this.el['hud-crosshair']?.classList.toggle('can-reel', state.reelReady);
 
     // --- Crosshair ---------------------------------------------------------
     // Spread is an angle; the crosshair gap should track it, plus a bump while

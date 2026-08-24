@@ -569,10 +569,60 @@ for (let i = 0; i < 3; i++) {
 }
 const field = await page.evaluate(() => globalThis.__game.game.salvage.targets.length);
 check('salvage crates appear as the machine travels', field > 0, `${field} aloft`);
+// Wait for a crate to drift inside the reel's reach. They arrive at 46m and
+// close slowly, so whichever is listed first is often still out of range.
+let reachable = null;
+for (let attempt = 0; attempt < 40 && reachable === null; attempt++) {
+  reachable = await page.evaluate(() => {
+    const g = globalThis.__game.game;
+    const c = g.activeCamera.position;
+    return (
+      g.salvage.targets.find(
+        (t) => Math.hypot(t.x - c.x, t.y - c.y, t.z - c.z) < 28,
+      ) ?? null
+    );
+  });
+  if (reachable === null) await sim(0.5);
+}
+check('a crate drifts within reach of the reel', reachable !== null,
+  reachable ? 'in range' : 'none came within 28m');
+
+// A cue that disagrees with the mechanic is worse than none: it teaches the
+// wrong reach. Both are asked of the same function, so this checks the wiring.
+const aimAtCrate = async (crate) => {
+  await page.evaluate((t) => {
+    const g = globalThis.__game.game;
+    const cam = g.playerCamera;
+    const c = g.activeCamera.position;
+    const dx = t.x - c.x, dy = t.y - c.y, dz = t.z - c.z;
+    // PlayerCamera rebuilds its rotation from yaw/pitch every frame, so
+    // lookAt would be gone by the next one.
+    cam.yaw = Math.atan2(-dx, -dz);
+    cam.pitch = Math.atan2(dy, Math.hypot(dx, dz));
+  }, crate);
+  await sim(0.25);
+  return page.evaluate(() => globalThis.__game.game.reelReady);
+};
+const onTarget = reachable ? await aimAtCrate(reachable) : false;
+check('the reel cue lights when a crate is lined up', onTarget === true, `reelReady=${onTarget}`);
+
+await page.evaluate(() => {
+  const cam = globalThis.__game.game.playerCamera;
+  cam.pitch = 1.2; // straight up, where no crate can be
+});
+await sim(0.25);
+const offTarget = await page.evaluate(() => globalThis.__game.game.reelReady);
+check('and stays dark when nothing is in reach', offTarget === false, `reelReady=${offTarget}`);
+await page.evaluate(() => { globalThis.__game.game.playerCamera.pitch = -0.08; });
+await sim(0.2);
+
 
 const reeled = await page.evaluate(() => {
   const g = globalThis.__game.game;
-  const target = g.salvage.targets[0];
+  const c = g.activeCamera.position;
+  const target =
+    g.salvage.targets.find((t) => Math.hypot(t.x - c.x, t.y - c.y, t.z - c.z) < 30) ??
+    g.salvage.targets[0];
   if (!target) return null;
   const before = g.resources.count('scrap');
   // Aim the throw at the crate and fly it, rather than teleporting the crate
