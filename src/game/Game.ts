@@ -19,6 +19,7 @@ import { loadModel } from '@/art/ModelLoader';
 import { updateFogColor } from '@/art/Fog';
 import { WorldManager } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
+import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerCombat } from '@/player/PlayerCombat';
@@ -338,6 +339,13 @@ export class Game implements LoopCallbacks {
     this.loop = new GameLoop(this);
   }
 
+  /**
+   * Where the machine's body pose comes from each step, or null for a body at
+   * rest. A seam, not a setting: the gait will fill it, and the deck-carry
+   * harness fills it today.
+   */
+  poseSource: ((simTime: number) => BodyPose) | null = null;
+
   /** Refill the inventory with a new game's starting materials. */
   resetInventory(): void {
     this.inventory.clear();
@@ -377,6 +385,27 @@ export class Game implements LoopCallbacks {
     if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
 
     if (!this.freeCamera) {
+      // The body's pose for this step. The gait will own this; until it
+      // exists the deck-carry harness drives it, because the spec is explicit
+      // that platform carrying is measured with the body oscillating and
+      // nothing hung on it (section 10).
+      if (this.poseSource) this.machine.setPose(this.poseSource(this.state.simTime));
+
+      // Carry anything standing on the deck by however far the deck moved,
+      // BEFORE it moves and before the machine writes its colliders to the new
+      // pose. Sampled per body, since under tilt the extremities move most.
+      //
+      // The order is the point. The player is resting on the deck where the
+      // last step left it; carrying it and the deck by the same rigid step
+      // preserves that exactly. Computing the carry after the player has moved
+      // -- which is what this did -- hands it a delta the deck already made,
+      // so every step resolves a contact that should never have existed. The
+      // gait's `setPose` is the line above.
+      const carried = this.machine.carryFor(this.player.worldPosition);
+      this.player.carry.x = carried.x;
+      this.player.carry.y = carried.y;
+      this.player.carry.z = carried.z;
+
       this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
       this.playerCamera.fixedUpdate(
         dt,
@@ -394,13 +423,6 @@ export class Game implements LoopCallbacks {
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
       } else if (this.buildMode) this.updateBuildMode();
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
-
-      // Carry anything standing on the deck by however far the deck moved.
-      // Sampled per body, since under tilt the extremities move most.
-      const carried = this.machine.carryFor(this.player.worldPosition);
-      this.player.carry.x = carried.x;
-      this.player.carry.y = carried.y;
-      this.player.carry.z = carried.z;
 
       this.enemies.fixedUpdate(
         dt,

@@ -83,7 +83,31 @@ export function transformPoint(local: Vec3, pose: BodyPose): Vec3 {
 }
 
 /**
- * How far a point attached to the machine moved between two poses.
+ * Where a world position sits on the machine — `transformPoint` undone.
+ *
+ * A character's position is known in world space, but the machine's motion is
+ * defined on the places it is made of. This turns the one into the other, so
+ * a point can be carried by where it actually stands on the deck rather than
+ * by the numbers its world position happens to share with a machine-local
+ * coordinate. Those numbers agree only while the machine is at rest.
+ */
+export function untransformPoint(world: Vec3, pose: BodyPose): Vec3 {
+  const cp = Math.cos(pose.pitch);
+  const sp = Math.sin(pose.pitch);
+  const cr = Math.cos(pose.roll);
+  const sr = Math.sin(pose.roll);
+
+  // Exactly the inverse of transformPoint, in reverse order: heave, pitch,
+  // then roll.
+  const y0 = world.y - pose.heave;
+  const y1 = y0 * cp + world.z * sp;
+  const z1 = -y0 * sp + world.z * cp;
+
+  return { x: world.x * cr + y1 * sr, y: -world.x * sr + y1 * cr, z: z1 };
+}
+
+/**
+ * How far a WORLD point attached to the machine moves as the pose changes.
  *
  * This is what carries a character standing on the deck. Rapier's character
  * controller does not move a body when the platform beneath it moves, so
@@ -93,11 +117,18 @@ export function transformPoint(local: Vec3, pose: BodyPose): Vec3 {
  * Taken at the character's own position rather than the deck's centre, because
  * under pitch and roll the deck's extremities move far more than its middle:
  * at 8m out, 1.5 degrees is about 21cm.
+ *
+ * The point is found on the machine FIRST, under the pose it was standing in.
+ * Transforming a world position as though it were already machine-local is
+ * right only at rest; a tilted metre later the same three numbers name a
+ * different plank, and the error does not cancel — it is a bias of about 7mm
+ * per pose pair at the deck's edge, which integrates into a ratchet that walks
+ * a standing player off the stern. Measured at ~0.6m per 40 gait cycles before
+ * this was fixed.
  */
-export function carryDelta(point: Vec3, from: BodyPose, to: BodyPose): Vec3 {
-  const a = transformPoint(point, from);
-  const b = transformPoint(point, to);
-  return { x: b.x - a.x, y: b.y - a.y, z: b.z - a.z };
+export function carryDelta(world: Vec3, from: BodyPose, to: BodyPose): Vec3 {
+  const moved = transformPoint(untransformPoint(world, from), to);
+  return { x: moved.x - world.x, y: moved.y - world.y, z: moved.z - world.z };
 }
 
 /** Are two poses close enough that nothing needs rewriting this step? */

@@ -36,6 +36,8 @@ export class Player {
   private readonly previousPosition = new THREE.Vector3();
   private readonly renderPosition = new THREE.Vector3();
   private readonly desired = new THREE.Vector3();
+  /** This step's own movement, kept off the hot path's allocator. */
+  private readonly own = new THREE.Vector3();
   private verticalVelocity = 0;
   private grounded = false;
   /**
@@ -175,35 +177,18 @@ export class Player {
     // --- Resolve against the world ----------------------------------------
     // The deck is a moving platform. Rapier's character controller does NOT
     // carry a character when the surface under it moves, so the machine's own
-    // displacement this step is folded into the requested movement -- sampled
-    // at the player's own position, because under tilt the deck's edges move
-    // far more than its middle. Without this the player sinks through a rising
-    // deck and hangs above a falling one.
-    const carry = this.carry;
-    const { controller, collider, body } = this.handle;
-    controller.computeColliderMovement(collider, {
-      x: this.desired.x * dt + carry.x,
-      y: this.verticalVelocity * dt + carry.y,
-      z: this.desired.z * dt + carry.z,
-    });
-    const moved = controller.computedMovement();
-    this.grounded = controller.computedGrounded();
+    // displacement this step is applied alongside -- sampled at the player's
+    // own position, because under tilt the deck's edges move far more than its
+    // middle. Without this the player sinks through a rising deck and hangs
+    // above a falling one. It is deliberately NOT added into the movement the
+    // controller resolves; see `PhysicsWorld.moveCharacter`.
+    this.own.set(this.desired.x * dt, this.verticalVelocity * dt, this.desired.z * dt);
+    this.previousPosition.copy(this.position);
+    this.grounded = this.physics.moveCharacter(this.handle, this.position, this.own, this.carry);
 
     // Cancel accumulated fall speed on landing, or it makes the next jump feel
     // sticky and can punch the capsule through thin geometry.
     if (this.grounded && this.verticalVelocity < 0) this.verticalVelocity = 0;
-
-    this.previousPosition.copy(this.position);
-    this.position.set(
-      this.position.x + moved.x,
-      this.position.y + moved.y,
-      this.position.z + moved.z,
-    );
-    body.setNextKinematicTranslation({
-      x: this.position.x,
-      y: this.position.y,
-      z: this.position.z,
-    });
 
     if (this.position.y < RESPAWN_Y_THRESHOLD) this.respawn();
   }

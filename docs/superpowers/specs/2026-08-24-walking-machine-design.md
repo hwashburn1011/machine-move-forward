@@ -1,7 +1,9 @@
 # Machine Move Forward — The Machine Walks
 
 **Date:** 2026-08-24
-**Status:** Draft — 4.1 failed, 4.4 SOLVED IT. Platform carrying works; see 4.4.
+**Status:** Section 4 is settled, fixed and measured — platform carrying is done
+and the drift it left open is closed (4.5). Sections 5–7 — gait, legs, IK — are
+not started.
 **Source design:** `machine-move-forward-game-handoff.md` sections 6, 14, 41
 **Builds on:** the engine room (WIP), world-scroll interpolation, tread cleats, track marks
 
@@ -179,17 +181,96 @@ deck most, ±0.11m heave and ±1.5° of pitch and roll for nine seconds:
   and their absolute Y swung 4.55 → 4.67 with the deck. They are carried.
 - **Residual: about 0.31m of X and 0.63m of Z drift** over those nine seconds.
 
-The drift is the one thing still to settle. `carryDelta` provably sums to zero
-over a closed cycle (unit-tested), so the ratchet is in the contact resolution
-rather than the pose maths — the controller resolving a tilted surface
-asymmetrically. Note also that the 0.058m band is an upper bound: the probe
-computed the deck height under the player with a hand-rolled tilt term, so
-some of that spread is the probe's own approximation.
+The drift is the one thing still to settle. Section 4.5 settles it — and the
+guess in this paragraph, that `carryDelta` was sound and the ratchet lived in
+Rapier's contact resolution, was wrong on both counts.
 
-Before gait tuning starts, drift needs either a fix or a decision that it is
-acceptable. A real gait oscillates far more gently than this probe did, and
-some shift underfoot on a tilting deck is *correct* — but it must not
-accumulate in one direction.
+### 4.5 Settled: what the drift actually was
+
+Two defects, independent, both in our own code. Neither was in Rapier.
+
+**One — the carry was taken at the wrong point on the machine.** `carryDelta`
+was handed the player's WORLD position and ran it through `transformPoint`,
+which expects a machine-LOCAL one. Those are the same three numbers only while
+the machine is at rest. A tilted metre later they name a different plank, so
+every step asked how far *that other* point moved, and the answer was wrong by
+a consistent bias rather than a wobble — about 7mm per pose pair at the deck's
+edge. It integrates: **~10mm per gait cycle, 0.62m per 40 cycles** in an
+isolated rig, which is the size of the 0.31m and 0.63m first measured.
+
+The unit test that was supposed to catch this — deltas summing to zero over a
+closed cycle — passed throughout, because it re-asked at a FIXED point. A
+character does not stand still; each step it is somewhere new and the next
+delta is asked for there. The test now follows the point through its own
+deltas, and fails by 10mm per cycle against the old code.
+
+The fix is to find the point on the machine first: undo the pose it was
+standing in, then apply the new one. That is exactly the machine's rigid
+motion of that point, so it is right from any pose rather than only from rest.
+
+**Two — the vertical carry never reached the deck.** It was added to the
+movement vector handed to the character controller, alongside gravity and
+input. But a character standing still is pushed downward at 2 m/s so the
+controller keeps finding the ground (`Player.fixedUpdate`), and that push is
+about six times a step of platform rise. Summed, the rise vanished into it,
+the controller resolved the total as "down", and a rising deck climbed
+straight *through* the player. They tracked a falling deck, because gravity
+does that work unaided, and a rising one not at all.
+
+Measured against the real machine, with the body heaving 0.12m and tilting
+1.5 degrees: the player's height above the deck varied by **0.396m** while
+their world Y swung only 0.084m. They were very nearly nailed in the world
+with the deck breathing around them. This is the same thing the 0.058m band in
+4.4 was reaching for; that probe computed deck height with an approximate tilt
+term and sampled at frame rate rather than every fixed step, and it understated
+what was happening by most of its magnitude.
+
+The fix is to stop handing the two to the controller as one vector.
+`PhysicsWorld.moveCharacter` now resolves the character's OWN movement — input,
+gravity, a jump — against the world, and then applies the platform carry as a
+displacement the solver never sees. That is safe precisely because the machine
+moves rigidly: a point on it cannot be carried into another part of it, and a
+displacement that never passes through the solver cannot be partly absorbed,
+projected along a slope, or ratcheted.
+
+**Three — ordering.** The carry is now computed before the player moves and
+before the colliders are written, so the player and the deck make the same
+rigid step together. Computing it afterwards, as before, handed the player a
+delta the deck had already made, and every step then resolved a contact that
+should never have existed. Worth 50–100x on its own in the rig.
+
+**After, on the real machine** (`tools/deck.mjs`, twelve seconds at the bow,
+full heave and full tilt with pitch and roll a quarter cycle apart so the deck
+corkscrews rather than see-saws):
+
+| | before | after |
+| --- | --- | --- |
+| height above the deck | 0.396m band | **0.0007m band** |
+| world Y swing — is the player carried at all? | 0.084m | **0.403m** |
+| drift across the deck | 0.036m | **0.0001m** |
+
+Verified red before green: the harness fails both carrying checks against the
+old code, and the unit tests fail by exactly the bias described above.
+
+**The residual, and the decision.** One place still moves: a player standing
+almost exactly on the machine's origin, which is what the body turns about.
+There is almost no carry there to hold them in place, and what is left is the
+controller's own resolution against a tilting surface. Measured amidships over
+480 seconds of continuous oscillation it wanders and **comes back** — 0.030m at
+80 cycles, 0.014m at 160, 0.012m at 240 — rather than accumulating. Half a
+metre off the pivot it is 0.0013m over 80 cycles.
+
+That is accepted, not deferred. It is a couple of centimetres of shift
+underfoot on a deck that is actively tilting, which is what a tilting deck
+ought to feel like, and it is bounded rather than directional.
+`deckcarry.test.ts` holds it to that bound, so a future change cannot quietly
+turn it back into a ratchet.
+
+**One condition worth stating:** the carry is applied to the player whenever
+the machine's pose changes, without asking whether they are standing on the
+machine. That is correct today because nothing else in the world is solid —
+the sand has no colliders, and falling off the deck means falling to the
+respawn threshold. The day the ground becomes standable, this needs a gate.
 
 ### 4.2 Rejected alternative: move the world instead
 
@@ -315,20 +396,28 @@ because two bones have a closed-form solution and it is trivially testable.
 - two-bone IK reaches a reachable target, and clamps rather than exploding on
   an unreachable one
 
-**Platform carrying needs its own tests before any gait sits on top:**
+**Platform carrying needs its own tests before any gait sits on top.** Done, in
+`tests/unit/deckcarry.test.ts`: a real character on a real driven body in real
+Rapier, with the pose maths the machine uses and everything else stripped away,
+measured in machine space — the pose undone — because that is what "standing
+still on a moving deck" means.
 
 - a character standing on the deck while the body heaves stays at a constant
   height *relative to the deck*
 - the same while the body pitches, at the deck's extremities where the error is
   largest
-- a character does not accumulate drift over a long run of oscillation
+- a character does not accumulate drift over a long run of oscillation — eight
+  minutes of it, because a ratchet accumulates and a wander does not, and one
+  short measurement cannot tell the two apart
 
 **Browser, in `tools/`:**
 
-- the player stands on the deck for a full stride cycle without sinking,
-  floating, or being thrown
-- footfalls appear under feet at plant, not on a fixed interval
-- verified red before green, as with the navigation work
+- `tools/deck.mjs` — the player stands on the deck through repeated cycles of
+  the body at its bounds without sinking, floating, drifting or being thrown,
+  against the whole machine rather than a plate, and can still walk afterwards.
+  Verified red before green, as with the navigation work.
+- footfalls appear under feet at plant, not on a fixed interval — still to do,
+  with the gait.
 
 ---
 
@@ -346,7 +435,10 @@ because two bones have a closed-form solution and it is trivially testable.
 ## 10. Risks
 
 **Platform carrying is the one that can sink this — and on first attempt it
-did.** See 4.3 for what failed and why.
+did.** See 4.3 for what failed, 4.4 for what worked, and 4.5 for the two
+defects that survived 4.4 and what they measured. It is now done, tested, and
+inert: nothing calls `setPose` in production, so the machine still sits at
+rest, and `Game.poseSource` is the seam the gait will fill.
 
 **Original assessment, left as written:** It is the difference
 between a machine that walks and a machine that shakes its passengers off. It

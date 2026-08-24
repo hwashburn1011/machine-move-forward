@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   carryDelta,
   clampPose,
+  untransformPoint,
   MAX_HEAVE,
   MAX_TILT,
   poseEquals,
@@ -114,40 +115,79 @@ describe('carryDelta', () => {
     expect(Math.abs(edge.y)).toBeGreaterThan(0.15);
   });
 
-  it('reverses exactly when the pose reverses', () => {
+  it('puts a point back exactly where it started when the pose reverses', () => {
+    // Follow the deltas, as a carried character does: out to a pose and back
+    // to rest must land on the same plank, not merely travel the same
+    // distance. The two are only the same thing if the delta is taken at the
+    // point's real place on the machine.
     const a: BodyPose = { heave: 0.02, pitch: 0.01, roll: -0.005 };
-    const forward = carryDelta(DECK_CORNER, REST_POSE, a);
-    const back = carryDelta(DECK_CORNER, a, REST_POSE);
-    expect(back.x).toBeCloseTo(-forward.x, 12);
-    expect(back.y).toBeCloseTo(-forward.y, 12);
-    expect(back.z).toBeCloseTo(-forward.z, 12);
+    const out = carryDelta(DECK_CORNER, REST_POSE, a);
+    const moved = { x: DECK_CORNER.x + out.x, y: DECK_CORNER.y + out.y, z: DECK_CORNER.z + out.z };
+    const back = carryDelta(moved, a, REST_POSE);
+
+    expect(moved.x + back.x).toBeCloseTo(DECK_CORNER.x, 12);
+    expect(moved.y + back.y).toBeCloseTo(DECK_CORNER.y, 12);
+    expect(moved.z + back.z).toBeCloseTo(DECK_CORNER.z, 12);
   });
 
-  it('sums to zero over a closed cycle, so nothing drifts', () => {
-    // A gait is periodic. If carry deltas did not cancel over a cycle, a
-    // character would ratchet across the deck and eventually off it.
+  it('carries a point as the machine would carry it, from any pose', () => {
+    // The delta is asked for at a WORLD position. Reading that position as a
+    // machine-local coordinate is only right while the machine is at rest;
+    // once it is tilted, the same numbers name a different plank, and the
+    // error is a bias that integrates into a ratchet.
+    const from: BodyPose = { heave: 0.07, pitch: MAX_TILT, roll: -MAX_TILT };
+    const to: BodyPose = { heave: -0.03, pitch: -MAX_TILT, roll: MAX_TILT };
+
+    const local = { x: 2, y: 3.69, z: 6 };
+    const world = transformPoint(local, from);
+    const d = carryDelta(world, from, to);
+    const expected = transformPoint(local, to);
+
+    expect(world.x + d.x).toBeCloseTo(expected.x, 12);
+    expect(world.y + d.y).toBeCloseTo(expected.y, 12);
+    expect(world.z + d.z).toBeCloseTo(expected.z, 12);
+  });
+
+  it('returns a carried point to exactly where it started over a closed cycle', () => {
+    // A gait is periodic. The point must FOLLOW its own deltas here, because
+    // that is what a character does: each step it stands somewhere new, and
+    // the next delta is asked for there. A version of this test that re-asks
+    // at a fixed point passes even when the game ratchets the player off the
+    // stern.
     const poses: BodyPose[] = [];
     const steps = 240;
-    for (let i = 0; i < steps; i++) {
+    for (let i = 0; i <= steps; i++) {
       const t = (i / steps) * Math.PI * 2;
       poses.push({
         heave: Math.sin(t) * MAX_HEAVE,
         pitch: Math.sin(t * 2) * MAX_TILT,
-        roll: Math.cos(t) * MAX_TILT,
+        roll: Math.cos(t) * MAX_TILT - MAX_TILT,
       });
     }
 
-    let total = { x: 0, y: 0, z: 0 };
-    for (let i = 0; i < poses.length; i++) {
-      const from = poses[i] as BodyPose;
-      const to = poses[(i + 1) % poses.length] as BodyPose;
-      const d = carryDelta(DECK_CORNER, from, to);
-      total = { x: total.x + d.x, y: total.y + d.y, z: total.z + d.z };
+    let p = { ...DECK_CORNER };
+    for (let i = 0; i < poses.length - 1; i++) {
+      const d = carryDelta(p, poses[i] as BodyPose, poses[i + 1] as BodyPose);
+      p = { x: p.x + d.x, y: p.y + d.y, z: p.z + d.z };
     }
 
-    expect(total.x).toBeCloseTo(0, 9);
-    expect(total.y).toBeCloseTo(0, 9);
-    expect(total.z).toBeCloseTo(0, 9);
+    expect(p.x).toBeCloseTo(DECK_CORNER.x, 9);
+    expect(p.y).toBeCloseTo(DECK_CORNER.y, 9);
+    expect(p.z).toBeCloseTo(DECK_CORNER.z, 9);
+  });
+});
+
+describe('untransformPoint', () => {
+  it('undoes transformPoint, so a world position can be read as a place on the deck', () => {
+    const pose: BodyPose = { heave: 0.11, pitch: MAX_TILT, roll: -MAX_TILT };
+    const back = untransformPoint(transformPoint(DECK_CORNER, pose), pose);
+    expect(back.x).toBeCloseTo(DECK_CORNER.x, 12);
+    expect(back.y).toBeCloseTo(DECK_CORNER.y, 12);
+    expect(back.z).toBeCloseTo(DECK_CORNER.z, 12);
+  });
+
+  it('is the identity at rest', () => {
+    expect(untransformPoint(DECK_CORNER, REST_POSE)).toEqual(DECK_CORNER);
   });
 });
 

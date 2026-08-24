@@ -229,6 +229,54 @@ export class PhysicsWorld {
     return { body, collider, controller };
   }
 
+  /**
+   * Move a character by its own movement, then carry it with its platform.
+   *
+   * `own` is what the character is trying to do — input, gravity, a jump — and
+   * is resolved against the world by the controller, which is what stops it
+   * walking through walls. `carry` is how far the ground under it moved this
+   * step, and is applied AFTERWARDS, untouched.
+   *
+   * The two must not be added together and handed to the controller as one
+   * vector, which is what this used to do. A character standing still is
+   * pushed gently downward every step so the controller keeps finding the
+   * ground (`Player.fixedUpdate`), and that push is an order of magnitude
+   * larger than a step of platform rise. Summed, the rise vanishes into it,
+   * the controller resolves the whole thing as "down", and a deck moving up
+   * climbs straight through the character instead of lifting them. They track
+   * a falling deck, because gravity does that work, and not a rising one:
+   * measured at 0.24m of sink on a deck heaving 0.11m.
+   *
+   * Applying it separately is also what makes carrying exact. The machine
+   * moves rigidly, so a point on it cannot be carried into another part of it,
+   * and a displacement that never passes through the solver cannot be
+   * partially absorbed, projected along a slope, or otherwise ratcheted.
+   *
+   * Returns whether the character is on the ground.
+   */
+  moveCharacter(
+    handle: CharacterHandle,
+    position: THREE.Vector3,
+    own: THREE.Vector3,
+    carry: { x: number; y: number; z: number },
+  ): boolean {
+    handle.controller.computeColliderMovement(handle.collider, {
+      x: own.x,
+      y: own.y,
+      z: own.z,
+    });
+    const moved = handle.controller.computedMovement();
+    const grounded = handle.controller.computedGrounded();
+
+    position.set(
+      position.x + moved.x + carry.x,
+      position.y + moved.y + carry.y,
+      position.z + moved.z + carry.z,
+    );
+    handle.body.setNextKinematicTranslation({ x: position.x, y: position.y, z: position.z });
+    return grounded;
+  }
+
   setUserData(collider: RAPIER.Collider, data: unknown): void {
     this.userData.set(collider.handle, data);
   }
