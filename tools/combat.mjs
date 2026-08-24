@@ -522,6 +522,37 @@ for (const [side, x] of [['port', -1.95], ['starboard', 1.95]]) {
   );
 }
 
+// --- Kills pay -------------------------------------------------------------
+// Straight into the inventory rather than as something to walk over: the deck
+// moves at 7.5 m/s and is cluttered, and loot that has to be chased is loot
+// that slides under the engine block.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.player.stats.invulnerable = true;
+  g.enemies.spawn('scavenger', { x: 0, y: 3.6, z: 3 });
+});
+await sim(0.3);
+const loot = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const before = g.resources.count('scrap');
+  let announced = null;
+  const off = g.bus.on('loot:collected', (e) => { announced = e.items; });
+  globalThis.__game.enemies.active[0].takeDamage(9999);
+  off();
+  return { before, after: g.resources.count('scrap'), announced };
+});
+check(
+  'killing a scavenger pays scrap',
+  loot.after > loot.before,
+  `${loot.before} -> ${loot.after}`,
+);
+check(
+  'and says so, so the player knows it paid',
+  Array.isArray(loot.announced) && loot.announced.length > 0,
+  loot.announced ? loot.announced.map((i) => `${i.count} ${i.id}`).join(', ') : 'no event',
+);
+
 // --- The enemy visual ------------------------------------------------------
 // This harness boots with nomodel=1, so this is the procedural fallback and it
 // must stay a complete enemy, not a degraded one. The suite has always run this

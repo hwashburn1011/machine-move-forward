@@ -658,3 +658,38 @@
     transform: translateX(-50%) translateY(0);
   }
 }
+
+/* --- Loot ---------------------------------------------------------------
+ * Sits under the crosshair, where the player is already looking during a
+ * fight, rather than in a panel at the edge they are not.
+ */
+#hud-pickup {
+  position: absolute;
+  top: 57%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--amber);
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#hud-pickup.is-active {
+  opacity: 1;
+  animation: hud-pickup-in 260ms ease-out;
+}
+
+@keyframes hud-pickup-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}

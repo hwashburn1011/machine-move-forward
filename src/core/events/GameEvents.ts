@@ -34,7 +34,8 @@ export type GameEvents = {
 
   'enemy:spawned': { enemyId: string; position: Vec3Like };
   'enemy:damaged': { enemyId: string; amount: number; remaining: number };
-  'enemy:killed': { enemyId: string; position: Vec3Like };
+  /** `defId` indexes ENEMIES, so a listener can look up what it was worth. */
+  'enemy:killed': { enemyId: string; defId: string; position: Vec3Like };
 
   'world:chunk-recycled': { chunkIndex: number };
 
@@ -42,6 +43,8 @@ export type GameEvents = {
   'build:removed': { instanceId: string; definitionId: string; refunded: number };
   'build:rooms-changed': { roomCount: number; enclosedCount: number };
   'inventory:changed': { scrap: number };
+  /** Loot that has just gone into the player's inventory. */
+  'loot:collected': { items: { id: string; count: number }[]; source: string };
   'craft:completed': { recipeId: string };
 
   'game:save-written': { slot: string };

@@ -41,6 +41,9 @@ const HURT_SECONDS = 1.1;
 /** Seconds a boarding alert stays up. */
 const BOARDING_SECONDS = 4;
 
+/** Seconds a loot line stays up. */
+const PICKUP_SECONDS = 2.6;
+
 export class HUD {
   private readonly el: Record<string, HTMLElement> = {};
   private readonly disposers: (() => void)[] = [];
@@ -56,6 +59,8 @@ export class HUD {
   /** Boarding alert text, and when it stops being shown. */
   private boardingText = '';
   private boardingUntil = 0;
+  private pickupText = '';
+  private pickupUntil = 0;
   /** Last deck size seen, so a spawn handler can name a position. */
   private deckHalf = { w: 5, l: 8 };
 
@@ -82,6 +87,7 @@ export class HUD {
       </div>
 
       <div id="hud-boarding"></div>
+      <div id="hud-pickup"></div>
       <div id="hud-damage"><div id="hud-damage-arc"></div></div>
       <div id="hud-crosshair"><i></i><i></i><i></i><i></i></div>
       <div id="hud-prompt"></div>
@@ -94,6 +100,7 @@ export class HUD {
       'hud-distance',
       'hud-threats',
       'hud-boarding',
+      'hud-pickup',
       'hud-health',
       'hud-health-value',
       'hud-health-fill',
@@ -140,6 +147,12 @@ export class HUD {
           this.deckHalf.l,
         )}`;
         this.boardingUntil = performance.now() / 1000 + BOARDING_SECONDS;
+      }),
+      bus.on('loot:collected', (e) => {
+        // Killing something has to visibly pay. Without this the only sign is
+        // a number in a panel the player is not looking at mid-fight.
+        this.pickupText = e.items.map((i) => `+${i.count} ${i.id}`).join('   ');
+        this.pickupUntil = performance.now() / 1000 + PICKUP_SECONDS;
       }),
       bus.on('player:damaged', (e) => {
         // Being hit produced no feedback at all before this: the only tell was
@@ -200,6 +213,13 @@ export class HUD {
       const showing = this.boardingUntil - now > 0;
       boarding.classList.toggle('is-active', showing);
       if (showing) this.write('boarding', boarding, this.boardingText);
+    }
+
+    const pickup = this.el['hud-pickup'];
+    if (pickup) {
+      const showing = this.pickupUntil - now > 0;
+      pickup.classList.toggle('is-active', showing);
+      if (showing) this.write('pickup', pickup, this.pickupText);
     }
 
     // --- Damage ------------------------------------------------------------

@@ -48,6 +48,9 @@ import { countEnclosed } from '@/building/RoomDetector';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
 import { CHARACTER_DROP_Y, GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
+import { hashSeed, Rng } from '@/core/math/Random';
+import { rollDrops } from '@/enemies/Loot';
+import { ENEMIES } from '@/data/enemies';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
 
@@ -144,6 +147,7 @@ export class Game implements LoopCallbacks {
 
   private frameCount = 0;
   private fpsWindowStart = 0;
+  private readonly lootRng: Rng;
   private fps = 0;
   private frameMs = 0;
 
@@ -214,6 +218,11 @@ export class Game implements LoopCallbacks {
     this.combat.setShooterCollider(this.player.collider);
     this.enemies = new EnemyManager(this.renderer.scene, this.physics, this.bus, this.materials);
     this.spawner = new EnemySpawner(seed);
+    // Its own stream, so loot rolls cannot shift where arrivals are placed.
+    this.lootRng = new Rng(hashSeed(seed, 'loot'));
+    this.bus.on('enemy:killed', (e) =>
+      this.collectKillReward(e.defId, ENEMIES[e.defId]?.name ?? 'Scavenger'),
+    );
     this.enemySpawnsEnabled = options.enemySpawns ?? true;
     this.blockedSpawnCellKeys = new Set(this.machine.equipmentCells.map(cellKey));
 
@@ -352,6 +361,24 @@ export class Game implements LoopCallbacks {
     this.physics.step();
 
     this.handleDebugKeys();
+  }
+
+  /**
+   * Pay the player for a kill.
+   *
+   * Straight into the inventory rather than as something to walk over: the
+   * deck moves at 7.5 m/s and is cluttered, and loot that has to be chased is
+   * loot that slides under the engine block. The event is what the HUD reads,
+   * so nothing about the message has to know where items are stored.
+   */
+  private collectKillReward(defId: string, source: string): void {
+    const def = ENEMIES[defId];
+    if (!def) return;
+    const drops = rollDrops(def.drops, this.lootRng);
+    if (drops.length === 0) return;
+
+    for (const drop of drops) this.resources.deposit(drop.id, drop.count);
+    this.bus.emit('loot:collected', { items: drops, source });
   }
 
   render(alpha: number): void {

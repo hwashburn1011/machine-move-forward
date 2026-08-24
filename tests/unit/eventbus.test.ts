@@ -41,8 +41,8 @@ describe('EventBus', () => {
     const bus = new EventBus();
     const fn = vi.fn();
     bus.once('enemy:killed', fn);
-    bus.emit('enemy:killed', { enemyId: 'e1', position: { x: 0, y: 0, z: 0 } });
-    bus.emit('enemy:killed', { enemyId: 'e2', position: { x: 0, y: 0, z: 0 } });
+    bus.emit('enemy:killed', { enemyId: 'e1', defId: 'scavenger', position: { x: 0, y: 0, z: 0 } });
+    bus.emit('enemy:killed', { enemyId: 'e2', defId: 'scavenger', position: { x: 0, y: 0, z: 0 } });
     expect(fn).toHaveBeenCalledTimes(1);
   });
 

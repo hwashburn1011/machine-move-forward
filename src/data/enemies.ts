@@ -1,3 +1,5 @@
+import type { DropEntry } from '@/enemies/Loot';
+
 /** Enemy definitions (handoff section 32). Data only. */
 export interface EnemyDefinition {
   id: string;
@@ -14,6 +16,8 @@ export interface EnemyDefinition {
   /** Seconds between attacks. */
   attackCooldown: number;
   armor: number;
+  /** What killing one is worth. Rolled once, on death. */
+  drops: readonly DropEntry[];
 }
 
 export const ENEMIES: Record<string, EnemyDefinition> = {
@@ -27,6 +31,12 @@ export const ENEMIES: Record<string, EnemyDefinition> = {
     detectRange: 40,
     attackCooldown: 1.1,
     armor: 2,
+    // Enough that a fight pays for a piece of deck, and components rarely
+    // enough that they still feel worth crossing the deck for.
+    drops: [
+      { id: 'scrap', min: 9, max: 18 },
+      { id: 'components', min: 1, max: 1, chance: 0.3 },
+    ],
   },
 };
 

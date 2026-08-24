@@ -189,6 +189,7 @@ export class Enemy {
     }
     this.bus.emit('enemy:killed', {
       enemyId: this.id,
+      defId: this.def.id,
       position: { x: this.position.x, y: this.position.y, z: this.position.z },
     });
   }
