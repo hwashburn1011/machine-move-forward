@@ -12,6 +12,7 @@ import {
 import {
   BuildGrid,
   canonicalEdge,
+  cellCenter,
   cellKey,
   inEnvelope,
   neighbour,
@@ -387,4 +388,52 @@ export function segmentIsClear(graph: NavGraph, from: Cell, to: Cell): boolean {
   }
 
   return true;
+}
+
+/**
+ * How close counts as having reached a waypoint.
+ *
+ * A little over half a tile. Tighter and an enemy nudged off line by the probe
+ * fan orbits a waypoint it can never quite touch; looser and it cuts corners
+ * through the wall the waypoint existed to route it around.
+ */
+export const WAYPOINT_REACHED = 1.1;
+
+/**
+ * Advance `index` past every waypoint on `path` already reached from
+ * `positionXZ`, without ever consuming one on a different storey or the
+ * last waypoint in the path.
+ *
+ * A waypoint only counts as reached when it is both within `WAYPOINT_REACHED`
+ * horizontally AND on the enemy's current level. The level check exists
+ * because of `buildNavGraph`'s one vertical link: a stairs run cell links to
+ * the landing directly above it — `{x: cell.x, y: cell.y + 1, z: cell.z}` —
+ * which shares the run's x and z exactly. An enemy standing in the run is
+ * therefore already 0m horizontally from the landing waypoint, and a
+ * horizontal-only reached test marks it reached before any height is gained.
+ * The target then skips to the next lateral cell, the enemy steers sideways
+ * at the foot of the stairs, and the next repath reproduces the same route —
+ * a stable loop that never climbs.
+ *
+ * The last waypoint is never consumed: it is the destination cell itself,
+ * and the caller treats standing that close to it as "steer at the goal
+ * directly" rather than as a cell still to walk onto.
+ */
+export function nextWaypointIndex(
+  path: readonly Cell[],
+  positionXZ: { x: number; z: number },
+  currentLevel: number,
+  index: number,
+): number {
+  let i = index;
+  while (i < path.length - 1) {
+    const cell = path[i] as Cell;
+    if (cell.y !== currentLevel) break;
+    const centre = cellCenter(cell);
+    const dx = centre.x - positionXZ.x;
+    const dz = centre.z - positionXZ.z;
+    if (Math.hypot(dx, dz) > WAYPOINT_REACHED) break;
+    i++;
+  }
+  return i;
 }

@@ -970,8 +970,8 @@ if (!hasModel) {
 // kinematic capsule -- player or enemy, doesn't matter -- from completing a
 // crossing at two different pieces of geometry:
 //   1. A doorway opening (1.1m wide, no collider across it, only jambs and a
-//      lintel -- 0.34m of clearance either side of the widest capsule in the
-//      game) freezes movement dead mid-step.
+//      lintel -- 0.34m of combined clearance around the widest capsule in the
+//      game, about 0.17m per side) freezes movement dead mid-step.
 //   2. A stairs ramp (1.92m wide, no aperture at all) freezes movement dead
 //      mid-climb. `maxSlopeClimbAngle` is not the cause here: it is 50°
 //      (`PhysicsWorld.ts:144`) against this ramp's 36.87° incline, comfortably

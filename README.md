@@ -110,8 +110,8 @@ Three known gaps in what is built:
   character-controller/collider issue, not anything specific to enemy
   steering:
   - A doorway opening (1.1m wide, no collider across it, only jambs and a
-    lintel — 0.34m of clearance either side of the widest capsule in the
-    game) freezes movement dead mid-step.
+    lintel — 0.34m of *combined* clearance around the widest capsule in the
+    game, about 0.17m per side) freezes movement dead mid-step.
   - A stairs ramp (1.92m wide, no aperture at all) freezes movement dead
     mid-climb. `maxSlopeClimbAngle` is ruled out as the cause: it is 50°
     (`PhysicsWorld.ts:144`) against this ramp's 36.87° incline, comfortably

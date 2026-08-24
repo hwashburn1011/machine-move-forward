@@ -17,7 +17,7 @@ import {
 } from './EnemySteering';
 import { CAPSULE_FOOT_OFFSET, CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
 import { EnemyVisual } from './EnemyVisual';
-import { levelOf, segmentIsClear, type NavGraph } from './NavGraph';
+import { levelOf, nextWaypointIndex, segmentIsClear, type NavGraph } from './NavGraph';
 import { cellCenter, worldToCell, type Cell } from '@/building/BuildGrid';
 
 export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
@@ -33,15 +33,6 @@ export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
  * the question being asked: can I walk this way?
  */
 const PROBE_HEIGHT = -CAPSULE_FOOT_OFFSET + AUTOSTEP_HEIGHT + 0.05;
-
-/**
- * How close counts as having reached a waypoint.
- *
- * A little over half a tile. Tighter and an enemy nudged off line by the probe
- * fan orbits a waypoint it can never quite touch; looser and it cuts corners
- * through the wall the waypoint existed to route it around.
- */
-const WAYPOINT_REACHED = 1.1;
 
 /**
  * How far ahead along the route `currentWaypoint` is allowed to reach, past
@@ -188,6 +179,19 @@ export class Enemy {
     this.deathTimer = 0;
     this.blockedFor = 0;
     this.backingOutFor = 0;
+    // This enemy is a pooled slot, not a fresh object — anything not reset
+    // here is inherited from whatever last occupied it. `path`/`pathIndex`
+    // are the previous occupant's route: left alone, the new spawn would
+    // steer those stale waypoints for up to a full repath rotation. `nav` is
+    // worse left stale than left null — a dangling graph reference still
+    // looks valid to `segmentIsClear`'s lookahead, so it would validate the
+    // old occupant's route against a graph that may no longer describe the
+    // deck, rather than failing loudly. `lastTurn` is a steering bias that
+    // means nothing for a body now standing somewhere else entirely.
+    this.path = [];
+    this.pathIndex = 0;
+    this.nav = null;
+    this.lastTurn = 0;
     this.position.copy(at);
     this.previousPosition.copy(at);
 
@@ -363,6 +367,10 @@ export class Enemy {
    * straight at the player — the waypoint is a 2m cell centre and the player
    * is not standing on it.
    *
+   * Advancing is delegated to `nextWaypointIndex`, which refuses to consume a
+   * waypoint on a different storey no matter how close it is horizontally —
+   * see its doc comment for why a stairs landing needs that guard.
+   *
    * Looks past the immediate cell to the farthest upcoming one still inside
    * WAYPOINT_LOOKAHEAD. A single 2m leg is often close to axis-aligned with
    * whatever the grid happened to route round, which can aim the body dead
@@ -382,14 +390,12 @@ export class Enemy {
    * to it does not cross anything A* avoided.
    */
   private currentWaypoint(): { x: number; z: number } | null {
-    while (this.pathIndex < this.path.length) {
-      const cell = this.path[this.pathIndex] as Cell;
-      const centre = cellCenter(cell);
-      const dx = centre.x - this.position.x;
-      const dz = centre.z - this.position.z;
-      if (Math.hypot(dx, dz) > WAYPOINT_REACHED) break;
-      this.pathIndex++;
-    }
+    this.pathIndex = nextWaypointIndex(
+      this.path,
+      { x: this.position.x, z: this.position.z },
+      this.gridCell.y,
+      this.pathIndex,
+    );
     if (this.pathIndex >= this.path.length) return null;
     // The destination cell is the player's own; steer at the player there.
     if (this.pathIndex === this.path.length - 1) return null;

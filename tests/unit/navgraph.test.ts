@@ -1,7 +1,15 @@
 import { describe, it, expect } from 'vitest';
 import { blocksNavigation } from '@/data/build-pieces';
 import { BuildGrid, cellKey, canonicalEdge, type Cell } from '@/building/BuildGrid';
-import { buildNavGraph, deckCells, findPath, levelOf, segmentIsClear } from '@/enemies/NavGraph';
+import {
+  buildNavGraph,
+  deckCells,
+  findPath,
+  levelOf,
+  nextWaypointIndex,
+  segmentIsClear,
+  WAYPOINT_REACHED,
+} from '@/enemies/NavGraph';
 import type { PieceId } from '@/data/build-pieces';
 import { DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
 
@@ -442,5 +450,44 @@ describe('segmentIsClear', () => {
     g.setCell(c(0, 1, 0), 'floor');
     const graph = buildNavGraph(g, []);
     expect(segmentIsClear(graph, c(0, 0, 0), c(0, 1, 0))).toBe(false);
+  });
+});
+
+describe('nextWaypointIndex', () => {
+  it('consumes a horizontal waypoint once close enough', () => {
+    // Cell (1,0,0) sits 2m away — comfortably inside WAYPOINT_REACHED once
+    // standing right on top of it.
+    const path = [c(1, 0, 0), c(2, 0, 0), c(3, 0, 0)];
+    const position = { x: 2, z: 0 }; // standing on cell (1,0,0)'s centre
+    expect(nextWaypointIndex(path, position, 0, 0)).toBe(1);
+  });
+
+  it('does not consume a waypoint still farther away than WAYPOINT_REACHED', () => {
+    const path = [c(1, 0, 0), c(2, 0, 0)];
+    const position = { x: 2 + WAYPOINT_REACHED + 0.1, z: 0 };
+    expect(nextWaypointIndex(path, position, 0, 0)).toBe(0);
+  });
+
+  it('does not skip past a waypoint one level up, even at zero horizontal distance', () => {
+    // The stairs case: the landing (path[1]) shares x/z with the run cell
+    // (path[0]) exactly, so once the run cell is consumed an enemy still on
+    // level 0 is already 0m horizontally from the level-1 landing. A
+    // horizontal-only test would consume the landing in the same call and
+    // land on path[2] instead — the bug this guards against.
+    const path = [c(0, 0, 1), c(0, 1, 1), c(1, 1, 1)];
+    const position = { x: 0, z: 2 }; // standing exactly on the run cell's centre
+    expect(nextWaypointIndex(path, position, 0, 0)).toBe(1);
+  });
+
+  it('consumes the landing waypoint once the enemy has actually reached that level', () => {
+    const path = [c(0, 0, 1), c(0, 1, 1), c(1, 1, 1)];
+    const position = { x: 0, z: 2 }; // still standing over the same x/z, now on the landing
+    expect(nextWaypointIndex(path, position, 1, 1)).toBe(2);
+  });
+
+  it('never consumes the last waypoint in the path', () => {
+    const path = [c(1, 0, 0)];
+    const position = { x: 2, z: 0 }; // standing exactly on it
+    expect(nextWaypointIndex(path, position, 0, 0)).toBe(0);
   });
 });
