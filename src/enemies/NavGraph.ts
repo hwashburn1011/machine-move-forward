@@ -141,5 +141,30 @@ export function buildNavGraph(
     links.set(key, out);
   }
 
+  // Stairs are the only vertical link in the graph. There is no jump, no drop,
+  // and no path off an edge — physics still lets a shoved enemy fall, but
+  // nothing will ever plan a route that way.
+  //
+  // `stairsCells` puts the landing directly above the run, so this needs no
+  // rotation. The base is reached from the run by the ordinary lateral link
+  // above, because a base is a floor cell adjacent to the run with no piece on
+  // the edge between them.
+  for (const key of keys) {
+    const cell = walkable.get(key) as Cell;
+    if (grid.getCell(cell) !== 'stairs') continue;
+
+    const landing: Cell = { x: cell.x, y: cell.y + 1, z: cell.z };
+    const landingKey = cellKey(landing);
+    if (!walkable.has(landingKey)) continue;
+
+    (links.get(key) as Cell[]).push(landing);
+    (links.get(landingKey) as Cell[]).push(cell);
+  }
+
+  // Re-sort the two lists the vertical pass touched, so ordering stays stable.
+  for (const list of links.values()) {
+    list.sort((a, b) => cellKey(a).localeCompare(cellKey(b)));
+  }
+
   return { links };
 }

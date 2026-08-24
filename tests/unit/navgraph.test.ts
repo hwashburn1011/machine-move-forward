@@ -122,6 +122,53 @@ describe('buildNavGraph lateral links', () => {
   });
 });
 
+describe('buildNavGraph stairs', () => {
+  /** A staircase from (0,0,0) running to (0,0,1), landing on (0,1,1). */
+  function withStairs(g: BuildGrid<PieceId>): void {
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(0, 0, 1), 'stairs');
+    g.setCell(c(0, 1, 1), 'floor');
+  }
+
+  it('links the run cell to the landing above it', () => {
+    const g = new BuildGrid<PieceId>();
+    withStairs(g);
+    const graph = buildNavGraph(g, []);
+    expect(linksOf(graph, c(0, 0, 1))).toContain(cellKey(c(0, 1, 1)));
+  });
+
+  it('links the landing back down to the run', () => {
+    const g = new BuildGrid<PieceId>();
+    withStairs(g);
+    const graph = buildNavGraph(g, []);
+    expect(linksOf(graph, c(0, 1, 1))).toContain(cellKey(c(0, 0, 1)));
+  });
+
+  it('reaches the run from the base by the ordinary lateral link', () => {
+    const g = new BuildGrid<PieceId>();
+    withStairs(g);
+    const graph = buildNavGraph(g, []);
+    expect(linksOf(graph, c(0, 0, 0))).toContain(cellKey(c(0, 0, 1)));
+  });
+
+  it('leaves an upper floor unreachable with no stairs to it', () => {
+    const g = new BuildGrid<PieceId>();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(0, 1, 0), 'floor');
+    const graph = buildNavGraph(g, []);
+    expect(linksOf(graph, c(0, 0, 0))).toEqual([]);
+    expect(linksOf(graph, c(0, 1, 0))).toEqual([]);
+  });
+
+  it('does not link a run to a landing that was never floored', () => {
+    const g = new BuildGrid<PieceId>();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(0, 0, 1), 'stairs');
+    const graph = buildNavGraph(g, []);
+    expect(linksOf(graph, c(0, 0, 1))).toEqual([cellKey(c(0, 0, 0))]);
+  });
+});
+
 describe('levelOf', () => {
   it('puts feet on the deck at level 0', () => {
     expect(levelOf(DECK_HEIGHT + 0.1)).toBe(0);
