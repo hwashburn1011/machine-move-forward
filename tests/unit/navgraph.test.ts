@@ -408,6 +408,27 @@ describe('segmentIsClear', () => {
     expect(segmentIsClear(graph, c(0, 0, 0), c(1, 0, 1))).toBe(false);
   });
 
+  it('a wall on the far side of a corner graze also returns false', () => {
+    // Four cells meeting at one corner: (0,0), (1,0), (0,1), (1,1). The near
+    // edges out of (0,0) — to (1,0) and to (0,1) — are both open. The two
+    // FAR edges of that same corner are walled instead: between (1,0) and
+    // (1,1), and between (0,1) and (1,1). A guard that only checks the edges
+    // leaving `current` sees both near edges open, calls the tie clear, and
+    // steps straight to (1,1) — never noticing that both routes actually
+    // completing the corner are blocked. The straight line still squeezes
+    // through the same lattice point the near-side test guards, just via the
+    // opposite pair of walls.
+    const g = new BuildGrid<PieceId>();
+    floorRect(g, 0, 0, 1, 1);
+    g.setEdge(canonicalEdge(c(1, 0, 0), 'south'), 'wall'); // (1,0)-(1,1)
+    g.setEdge(canonicalEdge(c(0, 0, 1), 'east'), 'wall'); // (0,1)-(1,1)
+    const graph = buildNavGraph(g, []);
+    expect(linksOf(graph, c(0, 0, 0))).toEqual(
+      [cellKey(c(0, 0, 1)), cellKey(c(1, 0, 0))].sort(),
+    );
+    expect(segmentIsClear(graph, c(0, 0, 0), c(1, 0, 1))).toBe(false);
+  });
+
   it('an open diagonal corner graze returns true', () => {
     const g = new BuildGrid<PieceId>();
     floorRect(g, 0, 0, 1, 1);

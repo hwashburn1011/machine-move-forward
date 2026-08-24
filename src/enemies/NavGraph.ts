@@ -317,10 +317,17 @@ export function findPath(graph: NavGraph, from: Cell, to: Cell): Cell[] {
  * straight line between storeys — only the stairs link).
  *
  * At an exact corner graze — the line passing precisely through the lattice
- * point where four cells meet — both orthogonal neighbours that corner
- * touches are required to be linked. A thin line would pick one side
- * arbitrarily and could slip through a diagonal gap between two walls that
- * share that corner; requiring both catches it.
+ * point where four cells meet — the segment genuinely touches all four
+ * cells, so both complete L-routes around the corner are required to be
+ * passable: current to each orthogonal neighbour AND each of those
+ * neighbours on to the diagonal cell. Checking only the two edges leaving
+ * `current` proves just the near half of the corner; a wall pair on the far
+ * side (e.g. north of one neighbour and east of the other) would still let
+ * the line squeeze through undetected. Requiring the full loop closed on
+ * both sides is the conservative reading — it can only reject a candidate
+ * that a looser check would have let through, never the reverse — and
+ * conservative is correct here: aiming through a wall is the failure this
+ * function exists to prevent.
  */
 export function segmentIsClear(graph: NavGraph, from: Cell, to: Cell): boolean {
   if (from.y !== to.y) return false;
@@ -355,7 +362,13 @@ export function segmentIsClear(graph: NavGraph, from: Cell, to: Cell): boolean {
     if (tie) {
       const nx: Cell = { x: x + stepX, y, z };
       const nz: Cell = { x, y, z: z + stepZ };
-      if (!isLinked(current, nx) || !isLinked(current, nz)) return false;
+      const diag: Cell = { x: x + stepX, y, z: z + stepZ };
+      // Both L-routes around the corner, not just the two edges leaving
+      // `current` — see the doc comment above for why the near half alone
+      // is not enough.
+      const viaX = isLinked(current, nx) && isLinked(nx, diag);
+      const viaZ = isLinked(current, nz) && isLinked(nz, diag);
+      if (!viaX || !viaZ) return false;
       x += stepX;
       z += stepZ;
       tMaxX += tDeltaX;
