@@ -44,17 +44,40 @@ export const STANCE_EXCURSION = STRIDE_LENGTH * DUTY;
 /** Peak height of a foot mid-swing, above the ground it left. */
 export const FOOT_LIFT = 0.5;
 
-/** Upper and lower leg segments, metres. Equal, so the knee folds evenly. */
-export const UPPER_LEG = 1.8;
-export const LOWER_LEG = 1.8;
+/**
+ * How far outboard of its hip a foot is planted.
+ *
+ * The machine stands wider than it is built. Partly because a splayed stance
+ * reads as heavy and stable where a leg dropping straight down reads as a
+ * table leg, and partly for a blunter reason: the hull is a low-slung thing
+ * that was drawn around treads, its underside barely half a metre off the
+ * sand, and a leg hanging vertically under it is a leg nobody can see. Angled
+ * out, the whole length of it is against the sky.
+ */
+export const FOOT_SPLAY = 1.0;
+
+/**
+ * Upper and lower leg segments, metres. Equal, so the knee folds evenly.
+ *
+ * Long enough to reach the sand from a hip mounted at the deck line rather
+ * than halfway down the flank. That mounting is the thing that decides whether
+ * this reads as a walker at all: the hull was drawn around treads and its
+ * underside is barely half a metre off the ground, so a leg pivoting low on it
+ * is a stub with no daylight around it. Pivoting at the deck edge gives three
+ * metres of visible leg beside a three-metre hull, which is the proportion an
+ * animal has.
+ */
+export const UPPER_LEG = 2.1;
+export const LOWER_LEG = 2.1;
 
 /**
  * How far a leg may reach before it counts as overextended.
  *
  * A leg at full stretch has no knee bend left to absorb anything, and IK at
  * the singularity is where two-bone solvers produce their worst pops. At the
- * stride extremes the foot is 1.98m from under the hip and 2.4m below it,
- * which is 3.11m of the 3.6m available — 86%, with the last 14% kept back.
+ * stride extremes the foot is 1.98m fore or aft of the hip, 1.0m outboard of
+ * it and 3.1m below it, which is 3.81m of the 4.2m available — 91%, and the
+ * knee still has 0.87 radians of bend left in it there.
  */
 export const MAX_REACH = (UPPER_LEG + LOWER_LEG) * 0.95;
 
@@ -78,10 +101,10 @@ export interface LegDefinition {
 /**
  * The four legs.
  *
- * Hips at x = +/-5.2, just outside the 10m hull, and at z = +/-4.5, a 9m span
- * under a 16m body — inboard of the ends so the machine does not read as a
- * table. y = 2.4 is high on the flank, in the space the tread housings had, so
- * a 3.6m leg folds rather than dangles.
+ * Hips at x = +/-6.0, clear of the hull's flank rather than buried in it, and
+ * at z = +/-4.5, a 9m span under a 16m body — inboard of the ends so the
+ * machine does not read as a table. y = 3.1 is at the deck line, so the leg
+ * hangs beside the whole height of the hull rather than under its belly.
  *
  * **A lateral-sequence walk, not the diagonal pairs the spec first called
  * for.** Rear-left, front-left, rear-right, front-right, a quarter cycle
@@ -99,10 +122,10 @@ export interface LegDefinition {
  * four numbers and nothing else; the body would simply heave and never list.
  */
 export const LEGS: readonly LegDefinition[] = [
-  { id: 'front-left', hip: { x: -5.2, y: 2.4, z: -4.5 }, phase: 0.25, side: -1, end: -1 },
-  { id: 'front-right', hip: { x: 5.2, y: 2.4, z: -4.5 }, phase: 0.75, side: 1, end: -1 },
-  { id: 'rear-left', hip: { x: -5.2, y: 2.4, z: 4.5 }, phase: 0, side: -1, end: 1 },
-  { id: 'rear-right', hip: { x: 5.2, y: 2.4, z: 4.5 }, phase: 0.5, side: 1, end: 1 },
+  { id: 'front-left', hip: { x: -6.0, y: 3.1, z: -4.5 }, phase: 0.25, side: -1, end: -1 },
+  { id: 'front-right', hip: { x: 6.0, y: 3.1, z: -4.5 }, phase: 0.75, side: 1, end: -1 },
+  { id: 'rear-left', hip: { x: -6.0, y: 3.1, z: 4.5 }, phase: 0, side: -1, end: 1 },
+  { id: 'rear-right', hip: { x: 6.0, y: 3.1, z: 4.5 }, phase: 0.5, side: 1, end: 1 },
 ];
 
 /**

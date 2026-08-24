@@ -65,12 +65,34 @@ const settled = await pos();
 const s0 = await stats();
 check('player settles on the deck', s0.grounded === true, `y=${settled.y} grounded=${s0.grounded}`);
 
+/**
+ * Height above the deck, not height in the world.
+ *
+ * The machine walks now: the deck heaves and tilts under a standing player by
+ * design, so their absolute Y is supposed to move. What must not move is where
+ * they are standing ON the deck, which is their world position with the body's
+ * pose undone.
+ */
+const deckHeight = () =>
+  page.evaluate(() => {
+    const p = globalThis.__game.player.worldPosition;
+    const pose = globalThis.__game.machine.currentPose;
+    const cp = Math.cos(pose.pitch);
+    const sp = Math.sin(pose.pitch);
+    const cr = Math.cos(pose.roll);
+    const sr = Math.sin(pose.roll);
+    const y0 = p.y - pose.heave;
+    const y1 = y0 * cp + p.z * sp;
+    return +(-p.x * sr + y1 * cr).toFixed(4);
+  });
+
+const rested = await deckHeight();
 await sim(0.7);
-const settled2 = await pos();
+const rested2 = await deckHeight();
 check(
   'player does not sink or drift while idle',
-  Math.abs(settled2.y - settled.y) < 0.01,
-  `dy=${(settled2.y - settled.y).toFixed(4)}`,
+  Math.abs(rested2 - rested) < 0.02,
+  `height above the deck ${rested} -> ${rested2}`,
 );
 
 // --- Walk -------------------------------------------------------------------

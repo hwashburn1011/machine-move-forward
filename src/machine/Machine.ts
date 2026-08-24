@@ -9,7 +9,9 @@ import {
   MACHINE_TILES_X,
   MACHINE_TILES_Z,
 } from '@/game/constants';
-import { buildMachine, TREAD_BELT_LENGTH } from './MachineGeometry';
+import { buildMachine } from './MachineGeometry';
+import { MachineLegs } from './MachineLegs';
+import { gaitPose } from './Gait';
 import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
 import type { Cell } from '@/building/BuildGrid';
 import { deckCells, type FixedLink } from '@/enemies/NavGraph';
@@ -109,7 +111,6 @@ export class Machine {
    * the safe-room problem the sealed-room design deliberately avoids.
    */
   readonly fixedLinks: FixedLink[];
-  private treadScroll = 0;
   private pose: BodyPose = REST_POSE;
   private previousPose: BodyPose = REST_POSE;
   private writtenPose: BodyPose = REST_POSE;
@@ -122,11 +123,13 @@ export class Machine {
   private readonly poseQuat = new THREE.Quaternion();
   private readonly pitchQuat = new THREE.Quaternion();
   private readonly rollQuat = new THREE.Quaternion();
+  private readonly legs: MachineLegs;
+  private readonly scratchFoot = new THREE.Vector3();
 
   constructor(
     scene: THREE.Scene,
     physics: PhysicsWorld,
-    private readonly materials: Materials,
+    materials: Materials,
   ) {
     const build = buildMachine(materials);
     this.group = build.group;
@@ -134,6 +137,11 @@ export class Machine {
     // Set once, then never written again.
     this.group.position.set(0, 0, 0);
     scene.add(this.group);
+
+    // Hung off the machine's own group, so the body pose carries the legs with
+    // the hull rather than leaving them behind when it heaves.
+    this.legs = new MachineLegs(materials);
+    this.group.add(this.legs.object3D);
 
     // EXPERIMENT 2 (spec 4.3): DYNAMIC bodies, locked and gravity-free, so they
     // behave like fixed ones while still generating contacts against the
@@ -231,20 +239,30 @@ export class Machine {
   }
 
   /**
-   * Per-frame visual motion. Frame time, not the fixed step: this is what the
-   * eye sees, so it must be as smooth as the display allows.
+   * Walk the legs to a distance travelled, and say which feet planted.
    *
-   * The belts scroll at the machine's real speed, so slowing down is visible
-   * on the machine itself rather than only in the HUD readout. One texture
-   * repeat spans BELT_LENGTH / repeat.x metres, so an offset delta of 1.0 is
-   * exactly one cleat pitch travelled.
+   * Driven from the RENDERED distance, not the simulated one: the world slides
+   * on past its last fixed step every frame, and a foot placed against the
+   * simulation's distance skates against the sand by up to 0.125m at speed —
+   * which is precisely the cue this whole feature exists to sell.
    */
-  updateVisuals(dt: number): void {
-    const cleatPitch = TREAD_BELT_LENGTH / this.materials.treadMap.repeat.x;
-    this.treadScroll = (this.treadScroll + (this.speed * dt) / cleatPitch) % 1;
-    // Negative: the cleats travel astern as the machine drives forward, which
-    // is the direction the ground passes under them.
-    this.materials.treadMap.offset.x = -this.treadScroll;
+  updateVisuals(renderedDistance: number): readonly number[] {
+    return this.legs.setDistance(renderedDistance);
+  }
+
+  /** Where a foot is in the world, for the print it presses into the sand. */
+  footPosition(leg: number): THREE.Vector3 {
+    return this.legs.footPosition(leg, this.scratchFoot);
+  }
+
+  /**
+   * The pose the gait puts the body in at this distance.
+   *
+   * Here rather than in `Game` so that what drives the colliders and what
+   * drives the legs come from one place and cannot disagree.
+   */
+  poseAt(distance: number): BodyPose {
+    return gaitPose(distance);
   }
 
   get speed(): number {

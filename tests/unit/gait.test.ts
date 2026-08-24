@@ -11,6 +11,7 @@ import {
   type LegDefinition,
 } from '@/data/gait';
 import { MAX_HEAVE, MAX_TILT, transformPoint } from '@/machine/MachineBody';
+import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 
 /**
  * The gait: distance in, feet and a body pose out.
@@ -118,17 +119,20 @@ describe('the stride cycle', () => {
 });
 
 describe('a planted foot', () => {
-  it('travels astern at exactly the rate the world scrolls past', () => {
+  it('travels with the sand at exactly the rate the world scrolls past', () => {
     // THE property. The machine holds station and the world moves, so a foot
-    // that is genuinely still on the ground must move astern in machine space
-    // at one metre per metre travelled. Anything else is a foot skating.
+    // that is genuinely still on the ground must move through machine space at
+    // one metre per metre travelled, the way the world is going. Anything else
+    // is a foot skating — and a foot going the wrong way is the machine
+    // moonwalking, which is why this asks the world which way that is rather
+    // than hard-coding a sign.
     const step = 0.001;
     let sampled = 0;
     for (const d of sweep(400)) {
       if (!isPlanted(d, FRONT_LEFT) || !isPlanted(d + step, FRONT_LEFT)) continue;
       const before = footAt(d, FRONT_LEFT);
       const after = footAt(d + step, FRONT_LEFT);
-      expect((after.z - before.z) / step).toBeCloseTo(1, 6);
+      expect((after.z - before.z) / step).toBeCloseTo(WORLD_Z_PER_METRE, 6);
       expect(after.x - before.x).toBeCloseTo(0, 9);
       sampled++;
     }
@@ -157,8 +161,9 @@ describe('a planted foot', () => {
     // them.
     const touchdown = footAt(atCycle(FRONT_LEFT, 0), FRONT_LEFT).z - FRONT_LEFT.hip.z;
     const liftoff = footAt(atCycle(FRONT_LEFT, DUTY) - 1e-9, FRONT_LEFT).z - FRONT_LEFT.hip.z;
-    expect(touchdown).toBeCloseTo(-STANCE_EXCURSION / 2, 9);
-    expect(liftoff).toBeCloseTo(STANCE_EXCURSION / 2, 6);
+    const reach = (WORLD_Z_PER_METRE * STANCE_EXCURSION) / 2;
+    expect(touchdown).toBeCloseTo(-reach, 9);
+    expect(liftoff).toBeCloseTo(reach, 6);
   });
 });
 

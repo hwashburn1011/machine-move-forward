@@ -1,9 +1,11 @@
 # Machine Move Forward — The Machine Walks
 
 **Date:** 2026-08-24
-**Status:** Section 4 is settled, fixed and measured — platform carrying is done
-and the drift it left open is closed (4.5). Sections 5–7 — gait, legs, IK — are
-not started.
+**Status:** The machine walks. Section 4 is settled and measured, section 5's
+gait and section 6.3's IK are built and tested, section 6.2's CC0 inspection
+was carried out and failed — the legs are procedural (6.4). What is left is
+tuning by eye, the dust at each footfall, and one pre-existing inconsistency
+this work uncovered (12).
 **Source design:** `machine-move-forward-game-handoff.md` sections 6, 14, 41
 **Builds on:** the engine room (WIP), world-scroll interpolation, tread cleats, track marks
 
@@ -299,9 +301,20 @@ A pure module, `src/machine/Gait.ts` — distance in, leg phases and a body
 transform out. No Three.js and no Rapier, so it is exhaustively testable in
 node like `NavGraph`, `EnemyAI`, and `EnemySteering`.
 
-- **Four legs**, in diagonal pairs. Six reads more insect-like and doubles the
-  animation and IK work for a silhouette that is not obviously better at this
-  scale; four is also easier to make read as *heavy*.
+- **Four legs**, ~~in diagonal pairs~~ **a quarter cycle apart**. Six reads more
+  insect-like and doubles the animation and IK work for a silhouette that is not
+  obviously better at this scale; four is also easier to make read as *heavy*.
+
+  Diagonal pairs had to go, and it is worth saying why because the reasoning
+  looked sound. Pair the legs diagonally and every side of the machine, and
+  every end of it, holds exactly one leg from each pair at every instant. The
+  port and starboard support sums are then identical **by construction** — in
+  single support and in double support alike — so roll and pitch are not merely
+  small, they are exactly zero for the whole cycle. A trot can heave and it can
+  do nothing else. That is flatly incompatible with section 3's second cue, and
+  section 3 ranks weight transfer above foot plant. Measured, then changed:
+  legs now run at 0, ¼, ½, ¾ of a cycle. Going back is four numbers in
+  `src/data/gait.ts`.
 - **Phase is a function of distance travelled**, so the machine strides in
   proportion to how fast it is actually moving, and stops striding when it
   stops. One full stride cycle per `STRIDE_LENGTH` metres.
@@ -314,6 +327,14 @@ node like `NavGraph`, `EnemyAI`, and `EnemySteering`.
   hard — heave within ±0.12m, pitch and roll within ±1.5° — because the deck
   is a shooting platform and a build surface before it is a spectacle.
 
+  Built, with one addition: the module measures its own signal over a cycle at
+  load and scales it to the amplitudes in `src/data/gait.ts`, so those numbers
+  mean literally "how far the body moves" and the bound is never actually
+  reached. A clamped signal is a square wave, and a square wave is what jitter
+  looks like. The legs imply far more movement than the body makes, which is
+  fine: the feet are planted, the body is where the body is, and the knee takes
+  up the difference.
+
 Tuning knobs live in `src/data/`, not in the module.
 
 ---
@@ -325,36 +346,37 @@ Tuning knobs live in `src/data/`, not in the module.
 They stay exactly as they are. They carry the build grid, the walkable deck
 surface, and colliders derived from their own geometry.
 
-### 6.2 Legs — imported, CC0
+### 6.2 Legs — inspected, and rejected
 
-Legs are the one part that is genuinely hard to hand-author convincingly and
-easy to drop in: they are decoration hung off a body whose collisions we
-control, so importing them costs none of the properties the project depends on.
+The plan was CC0 legs, with the model to be **opened and inspected** before
+anything was committed rather than trusted from a listing: segment count,
+whether the limbs are separable, joint orientation, scale, and triangle budget
+against a 10×16m body.
 
-Candidate source, verified CC0 and requiring no attribution:
+It was, and nothing survived. What the files actually contain:
 
-- **Quaternius mech**, <https://poly.pizza/m/D5wW2jDO42> — Public Domain (CC0),
-  glTF and FBX, ~2k triangles, chunky low-poly, a reasonable match for the
-  existing art direction. Quaternius is a long-standing, reliable CC0 author.
-- Broader index: **awesome-cc0**, <https://github.com/madjin/awesome-cc0>,
-  which also lists Base Mesh (900+ CC0 models as glTF) — worth mining for
-  pistons, greebles and panel detail regardless of where the legs come from.
-- **Meshy**, <https://www.meshy.ai/subcategory/robots-mechs> — CC0 and far
-  larger, but AI-generated, so topology is uneven. Fallback only.
+| candidate | licence | triangles | separable limbs? |
+| --- | --- | --- | --- |
+| Quaternius **Mech** — the candidate this spec named | CC0 | 4,008, whole robot | **No.** One skinned mesh, and a **biped** |
+| Quaternius **Robot Enemy Legs** | CC0 | 4,702 | **No.** Skinned, biped |
+| **MechQuadruped** (3Donimus) | **CC-BY** | 59,644 | **No.** One mesh, 11 materials |
+| **Mech Assault Walker** (Alimayo Arango) | **CC-BY** | 36,906 | **No.** One mesh, named "Cube" |
 
-**Before anything is imported, the model must be opened and inspected**, not
-taken from a listing: segment count, whether the limbs are separable, joint
-orientation, scale, and triangle budget against a 10×16m body. A 2k-triangle
-whole mech may be too coarse once its legs alone carry a machine this size.
+The pattern is consistent and, in hindsight, predictable. The CC0 models are
+small skinned character rigs: their legs are vertex weights on a
+whole-character mesh, not parts that can be taken off one, and a leg is around
+a thousand triangles before being scaled up to carry a machine this size. The
+models that actually look like heavy walkers are ten times the budget, single
+unsplittable meshes — and CC-BY, where this spec required CC0 with no
+attribution.
 
-**If nothing suitable survives inspection**, fall back to procedural legs built
-from the existing `bevelledBox` vocabulary — pistons, sleeved joints, splayed
-feet — which is what the rest of the machine is made of and will at minimum
-match. The player's instruction was "CC0 first if possible, otherwise as
-detailed and granular as possible."
+Section 6.2's own risk paragraph called this: *"A 2k-triangle mech's legs
+scaled up to carry a 10×16m body may read as crude next to the hand-built
+hull."* It is worse than that — they cannot be separated from the mech at all
+without asset surgery.
 
-Provenance, licence, and the source URL go in `ASSETS.md` before the file is
-committed, as the existing texture assets already do.
+Nothing was imported, so `ASSETS.md` gains no entry. The inspection itself is
+the deliverable, and it is recorded here so nobody repeats it.
 
 ### 6.3 Legs move by IK
 
@@ -362,24 +384,66 @@ Two-bone IK per leg, solved analytically. The gait supplies a foot target in
 machine space; IK produces hip and knee angles. Analytic rather than iterative
 because two bones have a closed-form solution and it is trivially testable.
 
+Built, in `src/machine/LegIK.ts`, with three degrees of freedom rather than
+two: a **splay** that rolls the leg's whole working plane out from the hull is
+needed before hip and knee can reach a foot planted off the centreline. Every
+reachability test is a round trip — solve for a target, put the angles back
+through forward kinematics, and the foot has to land on it. An unreachable
+target stretches straight at it rather than returning NaN, because NaN in a
+joint angle propagates into a transform and the mesh vanishes.
+
 ---
+
+### 6.4 Legs — procedural, from the existing vocabulary
+
+The fallback this spec provided, and on the evidence above the better option
+rather than the consolation one. `src/machine/MachineLegs.ts` builds each leg
+from `bevelledBox` like the rest of the machine — hip housing, thigh with a
+piston alongside, knee, shin, splayed foot pad — so it matches the hull it
+hangs off by construction. Around forty triangles a leg.
+
+Two things about the machine forced the proportions, and both are worth
+knowing before anyone retunes them:
+
+- **The hull was drawn around treads.** Its underside is 0.6m off the sand,
+  because the engine room is inside it and the deck is a fixed height. There is
+  no daylight under this machine and there cannot be without moving the deck,
+  which section 1 forbids. So the legs hang OUTBOARD — hips at x = ±6.0, clear
+  of the flank rather than buried in it, with the feet a further metre out
+  again. A splayed stance also reads as heavier than a leg dropping straight
+  down.
+- **The hip pivots at the deck line**, y = 3.1, not halfway down the flank.
+  Pivoting low gives a stub with nothing around it; pivoting at the deck edge
+  gives three metres of visible leg beside a three-metre hull, which is roughly
+  the proportion an animal has.
+
+The tread housings that used to fill that volume are gone, replaced by a
+shallow sponson that closes the hull's side and gives the leg housings
+something to bolt to. Its collider was resized to match what is drawn: the old
+one was the size of the housing, and leaving it would have left an invisible
+wall a metre outboard of anything visible.
 
 ## 7. What existing work becomes
 
-- **`TrackMarks` becomes footfalls.** The pool, the world-locked movement, the
-  dune-height sampling and the taper all transfer unchanged. What changes is
-  the spawn rule: instead of laying a mark every `SPACING` metres per side, a
-  mark is laid *when a foot plants*, at that foot's position. This is a small
-  change to a system already built and measured.
-- **Tread cleats and the tread belts are removed** along with the treads.
-  `TREAD_BELT_LENGTH`, the cleat map, and `Machine.updateVisuals`' scroll go
-  with them. The `treadCleats` texture generator can stay — it costs nothing
-  and may suit a future tracked enemy vehicle.
+- **`TrackMarks` becomes footfalls.** Done, and it was exactly as small as this
+  predicted: the pool, the world-locked movement, the dune-height sampling and
+  the taper all transferred unchanged, and the spawn rule went from "every
+  `SPACING` metres per side" to "when a foot plants, at that foot's position".
+  The caller now says when, because only the gait knows.
+- **Tread cleats and the tread belts are removed** along with the treads. Done:
+  `TREAD_BELT_LENGTH`, the belts, the road wheels and `Machine.updateVisuals`'
+  cleat scroll are gone, and `updateVisuals` now walks the legs instead. The
+  `treadCleats` texture generator stayed — it costs nothing and may suit a
+  future tracked enemy vehicle.
 - **`SandFX`'s continuous tread plume becomes per-plant impact puffs**, keyed
   off the same foot-plant event as the footfalls.
 - **World-scroll interpolation stays exactly as it is** and becomes more
   important, not less: a gait is a periodic motion, and periodic motion against
-  a quantised backdrop beats visibly.
+  a quantised backdrop beats visibly. More than that — the legs are now driven
+  from `renderedDistance`, the distance the world will be DRAWN at, rather than
+  from the simulation's own. Against the simulation's distance every planted
+  foot skates on the sand by up to a full step of travel, 0.125m at speed,
+  which is the one thing the whole feature exists to avoid.
 
 ---
 
@@ -416,8 +480,13 @@ still on a moving deck" means.
   the body at its bounds without sinking, floating, drifting or being thrown,
   against the whole machine rather than a plate, and can still walk afterwards.
   Verified red before green, as with the navigation work.
-- footfalls appear under feet at plant, not on a fixed interval — still to do,
-  with the gait.
+- footfalls appear under feet at plant, not on a fixed interval. Built: the
+  prints are pressed at the foot's own position the moment `Gait` reports a
+  plant. Not yet asserted in a harness — see section 11.
+- `tools/drive.mjs` now measures the player's height ABOVE THE DECK rather than
+  in the world, because on a walking machine those are different numbers and
+  only the first one is supposed to hold still. It reads 4.6696 → 4.6696 across
+  a walk.
 
 ---
 
@@ -460,12 +529,94 @@ rather than to specify it correctly in advance.
 
 ## 11. Success criteria
 
-1. The machine reads as a walker in silhouette, at a glance, before anything
-   moves.
-2. Feet plant and stay planted — no sliding contact at any speed.
-3. The body's rise, fall and list are visibly tied to which legs are loaded.
-4. A player standing on the deck through a full stride neither sinks, floats,
-   nor drifts, and can still shoot accurately.
-5. Footfalls appear in the sand under the feet that made them.
-6. Stopping the machine stops the gait, mid-stride, without snapping.
-7. All existing suites pass unchanged.
+1. ~~The machine reads as a walker in silhouette, at a glance, before anything
+   moves.~~ **Yes** — four legs from the deck line to the sand, outboard of the
+   hull, knees bent and trailing. Whether it reads *well* is taste and wants
+   eyes on it.
+2. ~~Feet plant and stay planted — no sliding contact at any speed.~~ **Yes, by
+   construction and by test.** A planted foot travels through machine space at
+   exactly the world's own scroll rate, asserted against `WORLD_Z_PER_METRE`
+   rather than a hard-coded sign, and driven from the rendered distance so it
+   does not skate between fixed steps either.
+3. ~~The body's rise, fall and list are visibly tied to which legs are
+   loaded.~~ **Yes** — and getting the list at all is what cost the diagonal
+   pairs (section 5).
+4. ~~A player standing on the deck through a full stride neither sinks, floats,
+   nor drifts, and can still shoot accurately.~~ **Measured.** Through a walk,
+   the player's height above the deck reads 4.6696 → 4.6696, and `drive.mjs`
+   passes 9/9 with the gait live.
+5. **Footfalls appear in the sand under the feet that made them** — built, not
+   yet asserted in a harness. The next thing to test.
+6. ~~Stopping the machine stops the gait, mid-stride, without snapping.~~
+   **Yes, for free:** phase is a function of distance, so a stopped machine
+   simply stops.
+7. ~~All existing suites pass unchanged.~~ **Yes** — 579 unit, 11 e2e, and the
+   browser harnesses at parity with the baseline (the six standing failures in
+   `combat.mjs` and `craft.mjs` are pre-existing enemy-navigation and
+   crate-payment ones, confirmed identical on the commit before this work).
+
+Still to do, in the order I would do it:
+
+- **Dust at each footfall.** `SandFX`'s continuous tread plume is still a
+  continuous plume; section 7 wants a puff per plant, off the same event the
+  prints already use.
+- **A harness for the prints**, closing criterion 5 the way `deck.mjs` closed
+  section 4.
+- **Tuning, with the player watching.** Stride length, duty factor, foot lift,
+  splay, and the two body amplitudes are all one file, `src/data/gait.ts`, and
+  the spec was right that none of them can be settled from measurements.
+
+---
+
+## 12. Uncovered by this work: the machine drives stern-first
+
+Not introduced here, and not fixed here, because fixing it is a decision rather
+than a repair.
+
+**The machine's bow points one way and its motion goes the other.** The two
+halves of the codebase disagree, and each half is self-consistent:
+
+*Forward is +Z, say:*
+
+- `ChunkManager`, which places a chunk at `chunkIndex * chunkSize - distance`,
+  so the world slides toward −Z and the machine therefore advances toward +Z;
+- `SalvageField`, which spawns a crate `AHEAD = 46` and retires it at
+  `BEHIND = -26`;
+- `TrackMarks`, whose laying point was commented "the leading end of the
+  tread's contact patch" — at z = +7.
+
+*Forward is −Z, say:*
+
+- `MachineGeometry`, which puts the prow, the plough and the machine's whole
+  face at `-DECK_L / 2`;
+- `DeckBearing`, which names z = −7 "the bow";
+- `Player`, whose starting heading is commented "the way the machine drives"
+  and faces −Z.
+
+So the machine ploughs the sand it has already crossed. With treads this was
+close to invisible: a belt is symmetrical, and its cleats scroll the same way
+whichever end leads. A stride is not symmetrical, and neither is a footprint —
+which is why the walker work is what surfaced it.
+
+**The gait sides with the world**, deliberately: a planted foot is glued to the
+sand by `WORLD_Z_PER_METRE`, exported from `WorldManager` and derived from the
+same arithmetic the terrain uses, so whichever way the world scrolls the feet
+go with it. If the world's direction is ever flipped, the feet flip too and the
+tests that pin them say so. Nothing in `Gait` or `LegIK` hard-codes a forward
+direction.
+
+That leaves the choice, which is the player's rather than mine:
+
+1. **Turn the hull round** — the prow, plough and deck-bearing names move to
+   +Z. Cheap in code, but it moves the machine's face, and the deck bearings
+   are player-facing strings that a boarding alert already uses.
+2. **Turn the world round** — the chunk formula, salvage, and the spawner flip
+   to match the hull. More systems touched, and chunk recycling and the save
+   format both read `distance`.
+3. **Leave it.** It has shipped this way through five milestones and nobody has
+   remarked on it. A desert of dunes is nearly symmetrical, and at 7.5 m/s the
+   only cues are the plume and the trail.
+
+My own preference is (1): the geometry is the least entangled of the three, and
+the hull's face is a modelling decision where the world's direction is load
+bearing for chunk recycling, spawning, and saves.

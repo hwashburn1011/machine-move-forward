@@ -66,10 +66,10 @@ describe('two bones in a plane', () => {
     expect(Number.isFinite(twoBoneFoot(solved, U, L).x)).toBe(true);
   });
 
-  it('bends the knee aft, the way a machine leg reads', () => {
+  it('bends the knee against the direction of travel, the way a machine leg reads', () => {
     // Both mirror solutions put the foot on the target; only one of them looks
-    // like a walker. Aft, so the leg reads as a hind leg rather than a knee
-    // buckling forward under load.
+    // like a walker. Trailing, so the leg reads as a hind leg rather than a
+    // knee buckling forward under load.
     const solved = solveTwoBone(0, -2.4, U, L);
     const knee = {
       x: U * Math.sin(solved.hip),
@@ -93,6 +93,7 @@ describe('a leg on the machine', () => {
       { x: leg.hip.x, y: 0, z: leg.hip.z - 1.9 },
       { x: leg.hip.x, y: 0.5, z: leg.hip.z + 1.9 },
       { x: leg.hip.x - 0.6, y: 0.2, z: leg.hip.z + 0.4 },
+      { x: leg.hip.x + 0.9, y: 0, z: leg.hip.z - 1.2 },
     ]) {
       const solved = solveLeg(leg.hip, target, U, L);
       const { foot } = legJoints(leg.hip, solved, U, L);

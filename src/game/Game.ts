@@ -17,7 +17,7 @@ import { Materials } from '@/art/Materials';
 import { loadTextureSets } from '@/art/TextureLoader';
 import { loadModel } from '@/art/ModelLoader';
 import { updateFogColor } from '@/art/Fog';
-import { WorldManager } from '@/world/WorldManager';
+import { WorldManager, renderedDistance } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
 import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
@@ -385,11 +385,16 @@ export class Game implements LoopCallbacks {
     if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
 
     if (!this.freeCamera) {
-      // The body's pose for this step. The gait will own this; until it
-      // exists the deck-carry harness drives it, because the spec is explicit
-      // that platform carrying is measured with the body oscillating and
-      // nothing hung on it (section 10).
-      if (this.poseSource) this.machine.setPose(this.poseSource(this.state.simTime));
+      // The body's pose for this step, from the gait — how far the machine has
+      // walked, not how long it has been running, so a stopped machine settles
+      // mid-stride instead of marching on the spot. `poseSource` overrides it
+      // for the deck-carry harness, which has to oscillate the body far harder
+      // than any gait would (section 10).
+      this.machine.setPose(
+        this.poseSource
+          ? this.poseSource(this.state.simTime)
+          : this.machine.poseAt(this.world.distanceTraveled),
+      );
 
       // Carry anything standing on the deck by however far the deck moved,
       // BEFORE it moves and before the machine writes its colliders to the new
@@ -581,10 +586,21 @@ export class Game implements LoopCallbacks {
     // Interpolate the world scroll before drawing it. The player and enemies
     // are already interpolated; without this the ground alone snaps to the
     // fixed step and everything standing on it appears to slide.
-    this.machine.updateVisuals(frameDt);
-    // Tracks move by exactly the distance the world moved this frame, so they
+    // The legs walk against the distance the world will be DRAWN at, which is
+    // a fraction of a step ahead of the simulation. Against the simulation's
+    // own distance the feet skate on the sand by up to 0.125m at speed.
+    const walked = renderedDistance(this.world.distanceTraveled, alpha, this.machine.speed);
+    const plants = this.machine.updateVisuals(walked);
+    // Footfalls, and the dust that goes with them, are made where a foot
+    // actually lands at the moment it lands — not laid down by the metre.
+    for (const leg of plants) {
+      const foot = this.machine.footPosition(leg);
+      this.tracks.press(foot);
+      this.sandFX.footfall(foot, this.machine.speed);
+    }
+    // Marks move by exactly the distance the world moved this frame, so they
     // stay pressed into the sand rather than sliding across it.
-    this.tracks.update(frameDt, this.machine.speed, -this.machine.speed * frameDt);
+    this.tracks.update(-this.machine.speed * frameDt);
     this.world.applyRenderOffset(alpha, this.machine.speed);
     this.world.update(this.clock.elapsedTime);
 

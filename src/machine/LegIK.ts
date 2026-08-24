@@ -52,9 +52,10 @@ export interface Point3 {
 /**
  * Angles that put a two-bone leg's foot on a target in its own plane.
  *
- * `x` is forward of the hip, `y` is below it and therefore negative. The knee
- * folds AFT: of the two mirror solutions, only one reads as a walker's hind
- * leg rather than a knee buckling forward under load.
+ * `x` is the way the machine travels, `y` is below the hip and therefore
+ * negative. The knee folds the other way from `x`: of the two mirror solutions
+ * only one reads as a walker's hind leg rather than a knee buckling forward
+ * under load.
  *
  * An unreachable target is answered by pointing straight at it at full stretch
  * rather than by NaN. NaN in a joint angle propagates into a transform and the
@@ -100,8 +101,12 @@ export function twoBoneFoot(
  * from the hull; what is left is a two-bone problem in that plane, with the
  * machine's fore-aft axis as its horizontal.
  *
- * Machine space has +z aft, and the plane's forward axis is the other way
- * about, which is the one sign flip in this file worth pointing at.
+ * The plane's horizontal axis is machine +z, which is the way the machine
+ * travels: the world scrolls toward -z as it covers ground (see
+ * `WORLD_Z_PER_METRE`), so ground it has passed recedes that way. Getting this
+ * backwards does not fail to reach the target — the foot still lands exactly
+ * where it was asked to — it just bends every knee the wrong way, which reads
+ * as a machine walking on its elbows.
  */
 export function solveLeg(hip: Point3, foot: Point3, upper: number, lower: number): LegAngles {
   const dx = foot.x - hip.x;
@@ -114,7 +119,7 @@ export function solveLeg(hip: Point3, foot: Point3, upper: number, lower: number
   const drop = Math.hypot(dx, dy);
   const splay = drop > 1e-12 ? Math.atan2(dx, -dy) : 0;
 
-  return { splay, ...solveTwoBone(-dz, -drop, upper, lower) };
+  return { splay, ...solveTwoBone(dz, -drop, upper, lower) };
 }
 
 /**
@@ -137,7 +142,7 @@ export function legJoints(
     // `drop` is negative below the hip; the splay carries it sideways.
     x: hip.x + -drop * sin,
     y: hip.y + drop * cos,
-    z: hip.z - forward,
+    z: hip.z + forward,
   });
 
   const kneeForward = upper * Math.sin(angles.hip);

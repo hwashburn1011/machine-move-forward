@@ -91,9 +91,6 @@ export interface MachineBuild {
 const DECK_W = MACHINE_TILES_X * GRID_TILE; // 10m
 const DECK_L = MACHINE_TILES_Z * GRID_TILE; // 16m
 
-/** Length of one tread belt. The cleat map is scrolled against this. */
-export const TREAD_BELT_LENGTH = DECK_L - 1.6;
-
 /**
  * Absolute Y of the hull's underside, and of the engine-room floor plane.
  *
@@ -324,32 +321,31 @@ export function buildMachine(materials: Materials): MachineBuild {
   engineLamp.translate(WELL_MID_X, DECK_UNDERSIDE - 0.1, -4.0);
   add(engineLamp, materials.emissiveWarn).name = 'engine-lamp';
 
-  // --- Treads -------------------------------------------------------------
-  // Large and obviously load-bearing. These carry most of the silhouette.
+  // --- Flanks ---------------------------------------------------------------
+  // What is left where the treads were. The tread housings carried most of the
+  // machine's silhouette below the deck and ran the full length of it; a
+  // walker's silhouette is its legs, so this is now a shallow sponson that
+  // closes the hull's side and gives the leg housings something to bolt to.
+  //
+  // It keeps the housings' collider, which is load-bearing in a way that is
+  // easy to miss: it stands about a third of a metre proud of the deck, under
+  // the character controller's autostep, so it is a curb the player walks over
+  // rather than an obstruction — and it is what stops anything walking off the
+  // side of the machine INTO the space the legs swing through.
   for (const side of [-1, 1]) {
-    const x = side * (DECK_W / 2 + 0.75);
-    const housing: Part[] = [
-      { geo: bevelledBox(1.5, DECK_UNDERSIDE - 0.9, DECK_L - 0.8, 0.1), pos: [x, (0.9 + DECK_UNDERSIDE) / 2, 0] },
+    const x = side * (DECK_W / 2 + 0.35);
+    const width = 0.7;
+    const top = DECK_UNDERSIDE;
+    const bottom = 1.4;
+    const sponson: Part[] = [
+      { geo: bevelledBox(width, top - bottom, DECK_L - 2.6, 0.12), pos: [x, (bottom + top) / 2, 0] },
     ];
-    add(mergeParts(housing), materials.hull);
+    add(mergeParts(sponson), materials.hull);
 
-    // Tread belt.
-    const belt: Part[] = [
-      { geo: bevelledBox(1.62, 1.5, TREAD_BELT_LENGTH, 0.12), pos: [x, HULL_BOTTOM + 0.05, 0] },
-    ];
-    add(mergeParts(belt), materials.rubber);
-
-    // Road wheels, poking below the belt line.
-    const wheels: Part[] = [];
-    for (let i = 0; i < 6; i++) {
-      const z = -DECK_L / 2 + 1.6 + i * ((DECK_L - 3.2) / 5);
-      const w = new THREE.CylinderGeometry(0.55, 0.55, 1.35, 14);
-      w.rotateZ(Math.PI / 2);
-      wheels.push({ geo: w, pos: [x, HULL_BOTTOM - 0.55, z] });
-    }
-    add(mergeParts(wheels), materials.bareSteel);
-
-    collide(0.85, DECK_UNDERSIDE / 2, DECK_L / 2, x, DECK_UNDERSIDE / 2, 0);
+    // The collider is the sponson, not a box the size of the tread housing
+    // that used to be here. Leaving it at the old size would put an invisible
+    // wall a metre outboard of anything drawn.
+    collide(width / 2, (top - bottom) / 2, (DECK_L - 2.6) / 2, x, (bottom + top) / 2, 0);
   }
 
   // --- Prow ---------------------------------------------------------------

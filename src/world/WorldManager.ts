@@ -15,7 +15,35 @@ import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSp
  * without a scene.
  */
 export function scrollOffset(alpha: number, speed: number): number {
-  return -speed * alpha * FIXED_DT;
+  return WORLD_Z_PER_METRE * speed * alpha * FIXED_DT;
+}
+
+/**
+ * How far the world moves in Z for every metre the machine travels.
+ *
+ * `ChunkManager` places a chunk at `chunkIndex * chunkSize - distance`, so the
+ * whole world slides toward -Z as the machine covers ground, and anything that
+ * has to stay glued to the sand has to move with it: the footfall prints, and
+ * above all the machine's own planted feet, whose entire job is to not skate.
+ *
+ * Named and exported rather than written as a minus sign in each of them.
+ * A foot that moves the wrong way does not look like a bug in a constant, it
+ * looks like the machine is moonwalking, and it is the sort of thing that gets
+ * "fixed" in one place and left wrong in three others.
+ */
+export const WORLD_Z_PER_METRE = -1;
+
+/**
+ * How far the world has scrolled by the time a frame is DRAWN.
+ *
+ * The simulation advances `distance` once per fixed step; the render slides the
+ * world on past it by `scrollOffset`. Anything that has to stay glued to the
+ * sand — most of all the machine's feet, which are only convincing while they
+ * do not skate — has to be placed against this number rather than against the
+ * simulation's, or it slides by up to a full step of travel, 0.125m at speed.
+ */
+export function renderedDistance(distance: number, alpha: number, speed: number): number {
+  return distance - scrollOffset(alpha, speed);
 }
 
 /**

@@ -16,14 +16,19 @@
  *
  * **The machine holds station and the world scrolls past it** (handoff section
  * 6). So a foot that is genuinely planted is not still — in machine space it
- * travels ASTERN at exactly one metre per metre travelled. That single
- * property is what makes the difference between a walker and a hull sliding
- * along with its legs waving, and it is the first thing the tests check.
+ * travels with the sand, at exactly one metre per metre travelled, in
+ * whichever direction the world is going. That single property is what makes
+ * the difference between a walker and a hull sliding along with its legs
+ * waving, and it is the first thing the tests check. The direction comes from
+ * `WORLD_Z_PER_METRE` rather than from a sign written here, because a foot
+ * that travels the wrong way does not read as a wrong constant, it reads as
+ * the machine moonwalking.
  */
 
 import {
   DUTY,
   FOOT_LIFT,
+  FOOT_SPLAY,
   GROUND_Y,
   HEAVE_AMPLITUDE,
   LEGS,
@@ -32,6 +37,7 @@ import {
   TILT_AMPLITUDE,
   type LegDefinition,
 } from '@/data/gait';
+import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { clampPose, type BodyPose } from './MachineBody';
 
 export interface FootPlacement {
@@ -78,25 +84,30 @@ function ease(t: number): number {
  */
 export function footAt(distance: number, leg: LegDefinition): FootPlacement {
   const u = legCycle(distance, leg);
-  const half = STANCE_EXCURSION / 2;
+  // Half an excursion, signed by the way the world travels. The foot's whole
+  // journey is this swinging from one end of it to the other and back:
+  // `-reach` at touchdown, `+reach` at lift-off, and `-reach` again by the
+  // time it has swung round.
+  const reach = (WORLD_Z_PER_METRE * STANCE_EXCURSION) / 2;
+  const x = leg.hip.x + leg.side * FOOT_SPLAY;
 
   if (u < DUTY) {
     // Planted. The world scrolls past at one metre per metre travelled, so a
-    // foot that is not moving relative to the ground moves astern relative to
-    // the machine at exactly that rate.
+    // foot that is not moving relative to the GROUND moves relative to the
+    // machine at exactly that rate, in the direction the world is going.
     return {
-      x: leg.hip.x,
+      x,
       y: GROUND_Y,
-      z: leg.hip.z - half + (u / DUTY) * STANCE_EXCURSION,
+      z: leg.hip.z + reach * (2 * (u / DUTY) - 1),
     };
   }
 
-  // Swinging: back to the front of the stance, and lifted on the way.
+  // Swinging: back over the same ground, and lifted on the way.
   const v = (u - DUTY) / (1 - DUTY);
   return {
-    x: leg.hip.x,
+    x,
     y: GROUND_Y + FOOT_LIFT * Math.sin(Math.PI * v),
-    z: leg.hip.z + half - ease(v) * STANCE_EXCURSION,
+    z: leg.hip.z + reach * (1 - 2 * ease(v)),
   };
 }
 
