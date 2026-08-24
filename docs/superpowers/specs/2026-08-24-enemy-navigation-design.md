@@ -384,3 +384,14 @@ only once the wedging was measured at half of all scavengers.
 > partial substitute beyond what 4.3's unit coverage already proves (the graph
 > links a stairs run to its landing); reaching the landing itself is the part
 > that is blocked.
+>
+> Criteria 1 and 3 are not blocked equally. Criterion 1 (the doorway) is
+> blocked only by the controller bug — once that is fixed, the doorway
+> crossing should work. Criterion 3 (stairs) is blocked by the controller bug
+> *and* by a second, independent problem: the landing waypoint shares its x
+> and z with the stairs run cell it links from (4.3), so once an enemy holds
+> that waypoint the steering target's XZ is its own XZ and `Enemy.ts`'s
+> movement gate drives it with zero velocity — it parks at the foot of the
+> ramp rather than climbing. Fixing the controller bug alone will not make
+> stairs work; this second blocker needs its own fix (see improvement log
+> 006).

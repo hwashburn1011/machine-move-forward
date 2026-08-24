@@ -97,6 +97,20 @@ system, not the suite's idea of it.
 - **Root-cause the traversal freeze.** `maxSlopeClimbAngle` is already ruled
   out; the autostep min-width parameter is the next thing to check, on both
   the doorway and the stairs symptom, without assuming they share one cause.
+- **Stairs have a second, independent blocker: zero drive at the landing
+  waypoint.** `NavGraph`'s only vertical link puts the landing directly above
+  the run cell, sharing its x and z exactly. `nextWaypointIndex` correctly
+  refuses to consume that waypoint from a different level, so the landing is
+  correctly held as the target — but since its XZ equals the run cell's own
+  XZ, `Enemy.ts`'s `flat > 1e-4` movement gate leaves `vx` and `vz` at zero
+  once the enemy reaches the run cell's centre. It parks motionless at the
+  foot of the ramp; the wedge detector's `asked > 1e-5` test also fails, on
+  the same zero, so there is no back-out either. This is independent of the
+  traversal freeze above — both must be fixed before stairs work, and fixing
+  only the freeze will leave enemies parked with nothing pushing them onto
+  the ramp. Suggested direction, not a decision: while holding a waypoint on
+  a different level, steer at the *next* waypoint's XZ, or at the ramp's
+  uphill vector, rather than at the landing's XZ.
 - **`steerAround` cannot hold a broadside heading against a flat surface.**
   The lookahead avoids handing it that heading rather than curing the
   underlying inability — worth its own pass once it matters for something

@@ -126,6 +126,14 @@ Three known gaps in what is built:
   that would need a working crossing (a scavenger actually arriving inside a
   walled room, and actually climbing a stairs run) are left out of that
   harness until this is fixed.
+
+  Stairs carry a second, independent blocker in the navigation layer:
+  `NavGraph`'s only vertical link puts the landing directly above the run
+  cell, sharing its x and z exactly, so once an enemy is holding that
+  waypoint the steering target's XZ *is* its own XZ and the movement gate in
+  `Enemy.ts` drives it with zero velocity — it parks at the foot of the ramp
+  rather than climbing. Fixing the character-controller bug above will not by
+  itself restore stair-climbing; this needs its own fix.
 - **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
   and there is no interior lighting yet. Lamps arrive with the power system.
 - **Fuel is storable but inert.** Nothing burns it until the power system.
