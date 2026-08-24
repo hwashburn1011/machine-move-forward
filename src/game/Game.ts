@@ -549,6 +549,7 @@ export class Game implements LoopCallbacks {
     // Interpolate the world scroll before drawing it. The player and enemies
     // are already interpolated; without this the ground alone snaps to the
     // fixed step and everything standing on it appears to slide.
+    this.machine.updateVisuals(frameDt);
     this.world.applyRenderOffset(alpha, this.machine.speed);
     this.world.update(this.clock.elapsedTime);
 

@@ -199,6 +199,37 @@ export function generateNormalFromHeight(
   return data;
 }
 
+
+/**
+ * Tread cleats: bands of raised rubber running across the belt.
+ *
+ * Bands rather than noise because the whole point is that they are countable.
+ * A tread that scrolls a mottled texture reads as sliding; one that scrolls
+ * distinct cleats reads as gripping and pulling the machine along, which is
+ * the cue that the machine is under power rather than being carried.
+ */
+export function generateTreadCleats(size: number, seed: number): Uint8Array {
+  const data = new Uint8Array(size * size * 4);
+  const bands = 4;
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const i = (y * size + x) * 4;
+      // Position within one cleat cycle, along the belt's travel direction.
+      const t = ((x / size) * bands) % 1;
+      // A raised plateau with chamfered shoulders, not a square wave: the
+      // shoulders are what catch the light and make the motion readable.
+      const cleat = t < 0.12 ? t / 0.12 : t < 0.5 ? 1 : t < 0.62 ? (0.62 - t) / 0.12 : 0;
+      const grit = tileableFbm(x, y, size, 24, hashSeed('cleat', seed)) * 0.18;
+      const v = 0.055 + cleat * 0.16 + grit;
+      data[i] = Math.min(255, Math.round(v * 255));
+      data[i + 1] = Math.min(255, Math.round(v * 250));
+      data[i + 2] = Math.min(255, Math.round(v * 262));
+      data[i + 3] = 255;
+    }
+  }
+  return data;
+}
+
 // ---------------------------------------------------------------------------
 // DataTexture wrappers
 // ---------------------------------------------------------------------------
@@ -222,6 +253,7 @@ export const TextureFactory = {
     toTexture(generatePaintedMetal(size, seed, base), size, true),
   grime: (size = 256, seed = 1) => toTexture(generateGrime(size, seed), size, true),
   deckPlate: (size = 256, seed = 1) => toTexture(generateDeckPlate(size, seed), size, true),
+  treadCleats: (size = 256, seed = 1) => toTexture(generateTreadCleats(size, seed), size, true),
 
   /** Normal maps are data, not colour — they must stay linear. */
   normalFromHeight: (height: Float32Array, size: number, strength = 2) =>

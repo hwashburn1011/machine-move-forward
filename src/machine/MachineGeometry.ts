@@ -91,6 +91,9 @@ export interface MachineBuild {
 const DECK_W = MACHINE_TILES_X * GRID_TILE; // 10m
 const DECK_L = MACHINE_TILES_Z * GRID_TILE; // 16m
 
+/** Length of one tread belt. The cleat map is scrolled against this. */
+export const TREAD_BELT_LENGTH = DECK_L - 1.6;
+
 /**
  * Absolute Y of the hull's underside, and of the engine-room floor plane.
  *
@@ -332,7 +335,7 @@ export function buildMachine(materials: Materials): MachineBuild {
 
     // Tread belt.
     const belt: Part[] = [
-      { geo: bevelledBox(1.62, 1.5, DECK_L - 1.6, 0.12), pos: [x, HULL_BOTTOM + 0.05, 0] },
+      { geo: bevelledBox(1.62, 1.5, TREAD_BELT_LENGTH, 0.12), pos: [x, HULL_BOTTOM + 0.05, 0] },
     ];
     add(mergeParts(belt), materials.rubber);
 

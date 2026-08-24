@@ -23,6 +23,8 @@ export class Materials {
   readonly accent: THREE.MeshStandardMaterial;
   readonly hazard: THREE.MeshStandardMaterial;
   readonly rubber: THREE.MeshStandardMaterial;
+  /** The tread's cleat map. Scrolled to make the belts turn. */
+  readonly treadMap: THREE.DataTexture;
   readonly glass: THREE.MeshPhysicalMaterial;
   readonly emissiveWarn: THREE.MeshStandardMaterial;
 
@@ -147,9 +149,14 @@ export class Materials {
       }),
     );
 
+    // Cleats, so the treads can be seen to turn. `treadScroll` slides this
+    // map along the belt at the machine's own speed -- see Machine.updateVisuals.
+    this.treadMap = TextureFactory.treadCleats(128, 7);
+    this.treadMap.repeat.set(30, 2);
     this.rubber = this.register(
       new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0.035, 0.034, 0.038),
+        color: new THREE.Color(0.5, 0.5, 0.52),
+        map: this.treadMap,
         roughness: 0.95,
         metalness: 0.0,
       }),

@@ -8,7 +8,7 @@ import {
   MACHINE_TILES_X,
   MACHINE_TILES_Z,
 } from '@/game/constants';
-import { buildMachine } from './MachineGeometry';
+import { buildMachine, TREAD_BELT_LENGTH } from './MachineGeometry';
 import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
 import type { Cell } from '@/building/BuildGrid';
 import { deckCells, type FixedLink } from '@/enemies/NavGraph';
@@ -85,8 +85,13 @@ export class Machine {
    * the safe-room problem the sealed-room design deliberately avoids.
    */
   readonly fixedLinks: FixedLink[];
+  private treadScroll = 0;
 
-  constructor(scene: THREE.Scene, physics: PhysicsWorld, materials: Materials) {
+  constructor(
+    scene: THREE.Scene,
+    physics: PhysicsWorld,
+    private readonly materials: Materials,
+  ) {
     const build = buildMachine(materials);
     this.group = build.group;
 
@@ -184,6 +189,23 @@ export class Machine {
    */
   get deckSpawn(): THREE.Vector3 {
     return new THREE.Vector3(0, CHARACTER_DROP_Y, -1.0);
+  }
+
+  /**
+   * Per-frame visual motion. Frame time, not the fixed step: this is what the
+   * eye sees, so it must be as smooth as the display allows.
+   *
+   * The belts scroll at the machine's real speed, so slowing down is visible
+   * on the machine itself rather than only in the HUD readout. One texture
+   * repeat spans BELT_LENGTH / repeat.x metres, so an offset delta of 1.0 is
+   * exactly one cleat pitch travelled.
+   */
+  updateVisuals(dt: number): void {
+    const cleatPitch = TREAD_BELT_LENGTH / this.materials.treadMap.repeat.x;
+    this.treadScroll = (this.treadScroll + (this.speed * dt) / cleatPitch) % 1;
+    // Negative: the cleats travel astern as the machine drives forward, which
+    // is the direction the ground passes under them.
+    this.materials.treadMap.offset.x = -this.treadScroll;
   }
 
   get speed(): number {
