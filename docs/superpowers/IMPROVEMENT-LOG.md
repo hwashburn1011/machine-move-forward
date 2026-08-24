@@ -6,6 +6,106 @@ should pick up.
 
 ---
 
+## 006 — Walls became something enemies route around, not walk into
+
+**Why.** A wall was decoration. `steerAround` is local avoidance — a probe fan
+that samples nine directions and takes the best-scoring one — not pathfinding,
+and its own header says so. An enemy on the far side of a player-built wall
+had no sampled direction that was both open and pointed at the player, so it
+pressed into the wall forever. Design pillar 3.4, "the player's custom base
+becomes the combat level," was unrealised: the build system worked and meant
+nothing in a fight.
+
+**What changed.** A new pure module, `src/enemies/NavGraph.ts`: nodes come
+from the build grid (a floored cell, or a level-0 cell over the bare deck),
+lateral links are gated on a new `blocksNavigation` piece predicate, and
+stairs are the only vertical link — the cell above a stairs run, both ways.
+`findPath` is A* with a level-change cost, falling back to the nearest
+reachable cell when the goal cannot be reached, so a player who seals
+themselves in gets an enemy that holds at the inside face of the nearest
+wall and keeps hunting, rather than a siege state machine. `steerAround` was
+**re-aimed at the current waypoint, not replaced** — A* answers which way
+round the building, the probe fan still answers how not to walk into the
+generator, and every local-avoidance rule already tuned survives untouched.
+
+**Three things that were nearly wrong, and how they were caught.**
+
+1. **`blocksNavigation` had to be a new predicate, not a reuse of
+   `boundsRoom`.** They disagree on railings: a railing is correctly not
+   room-bounding — a railed platform is fenced, not enclosed — but its
+   collider is a 2m × 1.1m box against a 0.45m autostep, so it is physically
+   impassable. Reusing `boundsRoom` would have called a railing walkable and
+   routed enemies straight into a barrier they cannot cross, wedging them
+   against it — precisely the failure this feature exists to remove. Settled
+   by reading `pieceColliders()` in `BuildPieceGeometry.ts`, not by the design
+   chat's assumption.
+
+2. **The graph originally excluded the build system's blocked set**, on the
+   assumption that "blocked" meant "unwalkable." Measured on the running game,
+   that left **14 of 45 deck cells in three disconnected islands**, with most
+   deck-perimeter cells gone. Since arrivals land 0.6m in from the deck lip,
+   enemies would usually have had no start node, `findPath` would return
+   empty, and **pathfinding would have been inert in the real game while
+   every unit test stayed green** — the unit tests never build a grid dense
+   enough to expose the fragmentation. The fix: navigation deliberately
+   ignores the blocked set, because that set is a build-PLACEMENT rule whose
+   2m rounding of equipment collider bounds is far too coarse to describe
+   where a body can actually walk. Equipment avoidance belongs to the
+   steering layer, which was already handling it.
+
+3. **A waypoint-lookahead**, added so an enemy's heading doesn't stall
+   between two short legs of a route, could aim it straight through a wall at
+   any L-shaped corner — an L-detour's two arms can be closer to each other,
+   as the crow flies, than either is to the corner between them, and the
+   lookahead accepted a farther waypoint on Euclidean distance alone. It was
+   caught in review, not by tests, because `tools/combat.mjs`'s existing
+   checks run on a bare deck and are structurally blind to walls; nothing in
+   the harness could have failed on this. Fixed with `segmentIsClear`, a
+   supercover grid-DDA traversal checked against the graph's own links so the
+   lookahead only extends to a farther waypoint the graph itself proves is
+   reachable in a straight line. Then fixed **again** when review found the
+   first version proved only the near half of a corner graze — it checked the
+   two edges leaving the current cell but not the far side of the same
+   lattice corner, so a wall pair positioned on the far side could still let
+   the line squeeze through undetected. Both complete L-routes around the
+   corner are now required, not just the one nearest the enemy.
+
+**The honest limitation.** A pre-existing character-controller bug means no
+kinematic capsule — enemy or player, reproduced under held WASD input as well
+as AI — can currently complete a crossing through a doorway opening or up a
+stairs run; it freezes dead mid-step or mid-climb. `maxSlopeClimbAngle` is
+ruled out for the stairs case (50° against a 36.87° ramp), and the
+`enableAutostep(..., 0.2, ...)` minimum-step-width parameter is a lead, not a
+conclusion. So routing is proven — a scavenger reaches the correct side of a
+wall, through the doorway cell, watched red before green — but arrival is
+not. Two harness checks that would need a working crossing (a scavenger
+actually standing inside a walled room, and actually reaching level 1 by the
+stairs) were dropped rather than shipped permanently red.
+
+**Method lesson.** The recurring one, and the same one log 005 paid for: a
+check that cannot fail, or a harness that cannot see the thing it guards, is
+not evidence. 005 was a five-centimetre model passing every check that
+existed because nothing asserted size. This iteration has two instances of
+the same shape: a unit suite that stayed green while the real game's
+pathfinding would have been inert (item 2), and a combat harness structurally
+incapable of exercising the exact bug that shipped in review (item 3). The
+fix in both cases was the same kind of fix — measure the real, running
+system, not the suite's idea of it.
+
+**Next.**
+
+- **Root-cause the traversal freeze.** `maxSlopeClimbAngle` is already ruled
+  out; the autostep min-width parameter is the next thing to check, on both
+  the doorway and the stairs symptom, without assuming they share one cause.
+- **`steerAround` cannot hold a broadside heading against a flat surface.**
+  The lookahead avoids handing it that heading rather than curing the
+  underlying inability — worth its own pass once it matters for something
+  other than a corner graze.
+- **Whether enemies bunch at a doorway** (spec section 10) once traversal
+  actually works, and whether the funnel reads as tactical or as a queue.
+
+---
+
 ## 005 — Scavengers were rendering five centimetres tall
 
 **The player was right, and I was wrong.** They reported "no enemies" three
