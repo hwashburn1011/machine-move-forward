@@ -102,12 +102,13 @@ await sim(0.9);
 await page.keyboard.up('w');
 await sim(0.15);
 const after = await pos();
+const afterDeck = await deckHeight();
 const walked = Math.hypot(after.x - before.x, after.z - before.z);
 check('W moves the player', walked > 3.0, `moved ${walked.toFixed(2)}m`);
 check(
   'player stays on the deck while walking',
-  Math.abs(after.y - before.y) < 0.35,
-  `y ${before.y} -> ${after.y}`,
+  Math.abs(afterDeck - rested2) < 0.1,
+  `height above the deck ${rested2} -> ${afterDeck}`,
 );
 
 // --- Strafe -----------------------------------------------------------------
@@ -121,21 +122,30 @@ const strafed = Math.hypot(a2.x - b2.x, a2.z - b2.z);
 check('D strafes the player', strafed > 2.0, `moved ${strafed.toFixed(2)}m`);
 
 // --- Jump -------------------------------------------------------------------
-const groundY = (await pos()).y;
+// Measured above the DECK throughout. The machine walks, so its deck heaves by
+// up to 0.1m either way on its own, and against absolute world height a jump
+// that started on a rising deck and ended on a falling one looks like a
+// failure to land. Which it is not: what "landed" means is back at the height
+// you jumped from RELATIVE TO THE THING YOU JUMPED OFF.
+const beforeJump = await deckHeight();
 await page.keyboard.down('Space');
 await sim(0.08);
 await page.keyboard.up('Space');
 await sim(0.2);
-const apex = await pos();
-check('Space raises the player', apex.y > groundY + 0.3, `y ${groundY} -> ${apex.y}`);
+const apex = await deckHeight();
+check(
+  'Space raises the player',
+  apex > beforeJump + 0.3,
+  `height above the deck ${beforeJump} -> ${apex}`,
+);
 
 await sim(1.2);
-const landed = await pos();
+const landed = await deckHeight();
 const landedStats = await stats();
 check(
   'player lands again',
-  landedStats.grounded === true && Math.abs(landed.y - groundY) < 0.2,
-  `y=${landed.y} grounded=${landedStats.grounded}`,
+  landedStats.grounded === true && Math.abs(landed - beforeJump) < 0.05,
+  `height above the deck ${beforeJump} -> ${landed}, grounded=${landedStats.grounded}`,
 );
 
 // --- Collision --------------------------------------------------------------
