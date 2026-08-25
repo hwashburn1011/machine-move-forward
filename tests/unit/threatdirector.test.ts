@@ -71,6 +71,27 @@ function nextWave(
   return { size: spawns.length, at: started, spawns, end: at + 5 };
 }
 
+/** As `nextWave`, but reporting WHAT arrived rather than only how many. */
+function nextWaveKinds(
+  d: ThreatDirector,
+  from: number,
+  activeCount: () => number,
+  health = HEALTHY,
+): { kinds: string[]; end: number } {
+  let at = from;
+  let inWave = false;
+  const kinds: string[] = [];
+
+  for (let i = 0; i < 4000; i++, at += 5) {
+    const out = d.update(at, activeCount(), health);
+    if (out.entered === 'contact') inWave = true;
+    if (out.spawn) kinds.push(out.spawn.defId);
+    if (inWave && out.entered === 'engagement') break;
+  }
+
+  return { kinds, end: at + 5 };
+}
+
 describe('ThreatDirector', () => {
   it('starts calm and stays quiet for at least the guaranteed stretch', () => {
     const d = new ThreatDirector('seed-a');
@@ -180,6 +201,36 @@ describe('ThreatDirector', () => {
     };
     expect(sixthWave(1)).toBeGreaterThan(1);
     expect(sixthWave(MERCY_HEALTH_FRACTION - 0.1)).toBe(sixthWave(1) - 1);
+  });
+
+  it('holds raiders back until scavengers have been fought', () => {
+    // The first waves teach that backing away and shooting works. The raider
+    // is the answer to that lesson, so it must arrive after it, not with it.
+    const d = new ThreatDirector('seed-raid');
+    const kinds: string[][] = [];
+    let end = 0;
+    for (let i = 0; i < 6; i++) {
+      const wave = nextWaveKinds(d, end, () => 0);
+      end = wave.end;
+      kinds.push(wave.kinds);
+    }
+
+    expect(kinds[0]).toEqual(['scavenger']);
+    expect(kinds[1]?.every((k) => k === 'scavenger')).toBe(true);
+    expect(kinds.slice(2).some((w) => w.includes('raider'))).toBe(true);
+  });
+
+  it('never sends a wave of nothing but raiders', () => {
+    // A pure raider wave is a rush with no shape to it. There is always a
+    // scavenger anchoring one.
+    const d = new ThreatDirector('seed-mix');
+    let end = 0;
+    for (let i = 0; i < 12; i++) {
+      const wave = nextWaveKinds(d, end, () => 0);
+      end = wave.end;
+      if (wave.kinds.length === 0) continue;
+      expect(wave.kinds).toContain('scavenger');
+    }
   });
 
   it('is deterministic for a seed and different between seeds', () => {

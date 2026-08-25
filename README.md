@@ -80,8 +80,11 @@ build adds weight, which measurably slows the machine.
   each carried as a real model in the player's hand — measured, scaled and
   aimed from the model itself, and parented to the hand bone so it moves with
   the animation
-- One hostile with a navigate/attack/pursue AI, arriving in waves the threat
-  director schedules and capped at four aboard at once
+- Two hostiles with a navigate/attack/pursue AI, arriving in waves the threat
+  director schedules and capped at four aboard at once. A scavenger is slower
+  than a walk, so you can back away and shoot it down; a raider is faster than
+  one, so you cannot, and it turns up from the third wave onward to say so.
+  They share a rig until a second model lands and are told apart by colour
 - HUD, debug overlay, versioned IndexedDB save/load
 - Grid build system: floors, walls, doorways, railings, roofs, stairs, storage
   crates, workbenches, and refineries on a 2m grid across a 9×12 envelope and 3

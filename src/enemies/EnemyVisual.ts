@@ -154,7 +154,17 @@ export class EnemyVisual {
   private readonly barFill: THREE.Sprite;
   private appliedFraction = -1;
 
-  constructor(model: LoadedModel | null, materials: Materials) {
+  constructor(
+    model: LoadedModel | null,
+    materials: Materials,
+    /**
+     * Per-definition body colour, multiplied in after the hostile tint.
+     *
+     * White is "leave it alone", which is what the scavenger asks for -- its
+     * palette was already chosen on purpose. See `EnemyDefinition.tint`.
+     */
+    private readonly bodyTint: { r: number; g: number; b: number } = { r: 1, g: 1, b: 1 },
+  ) {
     this.barFill = EnemyVisual.buildBar(this.bar);
 
     if (!model) {
@@ -322,6 +332,16 @@ export class EnemyVisual {
         if (tint && std.color) {
           const t = hostileTint({ r: std.color.r, g: std.color.g, b: std.color.b });
           std.color.setRGB(t.r, t.g, t.b);
+        }
+        // After the hostile tint, never instead of it: the tint is what stops
+        // a model reading as scenery, and a type colour applied first would be
+        // desaturated straight back out again by it.
+        if (std.color) {
+          std.color.setRGB(
+            Math.min(1, std.color.r * this.bodyTint.r),
+            Math.min(1, std.color.g * this.bodyTint.g),
+            Math.min(1, std.color.b * this.bodyTint.b),
+          );
         }
         if (std.emissive) {
           this.flashMaterials.push({

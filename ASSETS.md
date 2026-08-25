@@ -89,6 +89,22 @@ by name-fragment matching for the same reason `resolveClip` matches animations
 that way: the two rigs this project already ships name their hands
 `mixamorig:RightHand` and `Hand.R`.
 
+**A replacement for the scavenger has been found and NOT installed.**
+[KayKit](https://kaylousberg.itch.io/kaykit-adventurers) by Kay Lousberg is the
+right answer: CC0, glTF as well as FBX, low-poly, rigged, and its animation set
+already covers idle, walk, run, melee attack, hit and death — which is exactly
+what `resolveClip` looks for. The Rogue in particular reads as a wasteland
+raider once tinted, and the free tier is 12 MB.
+
+It is not here because itch.io serves it through an interactive
+pay-what-you-want dialog with no direct link, and driving a purchase flow
+unattended is not something this project's tooling should be doing on someone's
+behalf even when the price is zero. **To install it: download the free tier,
+and drop any rigged `.glb` at `public/models/scavenger.glb`.** Nothing in code
+changes — `fitToCapsule` sizes it to the collider and `resolveClip` finds its
+animations by substring, and both are pinned by tests that fail in node if a
+pack names things differently.
+
 **The scavenger is a placeholder and it looks like one.** This is a friendly cartoon robot,
 not a wasteland scavenger; it is here because it is genuinely CC0, rigged, and
 carries every clip the AI states need. Swapping it is a file copy — see below.

@@ -18,6 +18,24 @@ export interface EnemyDefinition {
   armor: number;
   /** What killing one is worth. Rolled once, on death. */
   drops: readonly DropEntry[];
+  /**
+   * Multiplied into every body colour, after the hostile tint.
+   *
+   * The two types share a rig and therefore a silhouette until a second model
+   * lands, so colour is doing the work of telling them apart. That is a real
+   * limitation and it is stated here rather than hidden: `EnemyVisual` takes a
+   * model per definition already, so a distinct body is a file and a URL, not
+   * a code change.
+   */
+  tint: { r: number; g: number; b: number };
+  /**
+   * How the threat director prices one in a wave.
+   *
+   * A raider is not half a scavenger just because it has half the health --
+   * it is faster, and speed is what actually costs the player. Kept as data so
+   * the balance argument happens here rather than inside `composeWave`.
+   */
+  threat: number;
 }
 
 export const ENEMIES: Record<string, EnemyDefinition> = {
@@ -37,6 +55,42 @@ export const ENEMIES: Record<string, EnemyDefinition> = {
       { id: 'scrap', min: 9, max: 18 },
       { id: 'components', min: 1, max: 1, chance: 0.3 },
     ],
+    // Left as it comes out of `hostileTint`: rusted, scorched, unsaturated.
+    tint: { r: 1, g: 1, b: 1 },
+    threat: 2,
+  },
+
+  raider: {
+    id: 'raider',
+    name: 'Dust Raider',
+    /**
+     * The opposite problem to a scavenger, deliberately.
+     *
+     * A scavenger is slow and tough: you can walk backwards from one and shoot
+     * it down, and a player who has learnt that has learnt to solve every
+     * fight the same way. A raider is 60% faster than the player WALKS and
+     * only a shade under a sprint, so backing away does not work -- it closes,
+     * and the answer has to be a wall, a doorway, or hitting it first.
+     *
+     * Half the health and no armour, so that answer is available. It is a
+     * pacing change, not a difficulty one.
+     */
+    maxHealth: 55,
+    moveSpeed: 5.4,
+    damage: 6,
+    attackRange: 2.0,
+    detectRange: 46,
+    attackCooldown: 0.75,
+    armor: 0,
+    // Poorer than a scavenger, and that is the trade: they arrive in numbers.
+    drops: [
+      { id: 'scrap', min: 4, max: 9 },
+      { id: 'components', min: 1, max: 1, chance: 0.15 },
+    ],
+    // Pushed toward dried blood, away from the scavenger's rust, so a mixed
+    // wave is readable at the distance the deck actually is.
+    tint: { r: 1.35, g: 0.72, b: 0.66 },
+    threat: 3,
   },
 };
 

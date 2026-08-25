@@ -64,7 +64,13 @@ export class EnemyManager {
     const def = ENEMIES[defId];
     if (!def) return null;
 
-    let enemy = this.pool.find((e) => !e.isActive);
+    // Same DEFINITION, not merely inactive. The pool has always reused
+    // whichever slot was free, which was correct while there was one enemy
+    // type and silently wrong the moment there were two: a freed scavenger
+    // would have been handed back as a raider, keeping the scavenger's speed,
+    // health, drops and colour, because `def` is fixed at construction and
+    // `spawn` only moves a body.
+    let enemy = this.pool.find((e) => !e.isActive && e.def.id === defId);
     if (!enemy) {
       if (this.pool.length >= POOL_SIZE) return null;
       enemy = new Enemy(

@@ -81,6 +81,15 @@ export const MERCY_HEALTH_FRACTION = 0.35;
 /** Waves survived before the director stops growing them. */
 const RAMP_EVERY = 2;
 
+/**
+ * Waves survived before raiders start appearing.
+ *
+ * Third onwards, which with the pacing above is somewhere past the first
+ * couple of kilometres -- long enough to have fought scavengers, worked out
+ * that walking backwards beats them, and built something worth defending.
+ */
+const RAIDERS_FROM = 2;
+
 /** What a wave is made of. Indexes `ENEMIES`. */
 export interface WaveMember {
   defId: string;
@@ -242,17 +251,27 @@ export class ThreatDirector {
   /**
    * What the next wave is made of.
    *
-   * One body, then two, then three, capped at what the deck holds. Deliberately
-   * arithmetic rather than a threat-point economy: with one enemy type a budget
-   * is a multiplication dressed up as a system, and the moment there is a
-   * second type this is the one function that has to change.
+   * The size is still arithmetic -- one body, then two, then three, capped at
+   * what the deck holds -- and still deliberately not a threat-point economy:
+   * a budget over two types is a multiplication dressed up as a system.
+   *
+   * The COMPOSITION is where the second type earns its place. Raiders are held
+   * back until `RAIDERS_FROM`, so a player meets the slow, tough thing first
+   * and learns that backing away and shooting works. The raider is the answer
+   * to that: 60% faster than a walk, so it closes while you retreat, and the
+   * lesson has to be unlearnt. Introducing both at once would teach neither.
+   *
+   * From then on a wave is mixed rather than swapped -- half raiders, rounded
+   * down, so there is always at least one scavenger anchoring it. A pure
+   * raider wave is a rush with no shape to it.
    */
   private composeWave(healthFraction: number): string[] {
     let size = 1 + Math.floor(this.wavesSurvived / RAMP_EVERY);
     if (healthFraction < MERCY_HEALTH_FRACTION) size -= 1;
     size = Math.max(1, Math.min(size, MAX_ACTIVE_ENEMIES));
 
-    return Array.from({ length: size }, () => 'scavenger');
+    const raiders = this.wavesSurvived >= RAIDERS_FROM ? Math.floor(size / 2) : 0;
+    return Array.from({ length: size }, (_, i) => (i < raiders ? 'raider' : 'scavenger'));
   }
 
   private rollCalm(): number {

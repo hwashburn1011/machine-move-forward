@@ -135,7 +135,7 @@ export class Enemy {
     model: LoadedModel | null = null,
   ) {
     this.health = def.maxHealth;
-    this.visual = new EnemyVisual(model, materials);
+    this.visual = new EnemyVisual(model, materials, def.tint);
     this.object3D.visible = false;
     scene.add(this.object3D);
   }

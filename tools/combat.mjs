@@ -1440,6 +1440,78 @@ for (let i = 0; i < 50; i++) {
 }
 check('engine room: a scavenger follows the player down into it', followed);
 
+// --- Two enemy types -------------------------------------------------------
+// The pool has always handed back whichever slot was free. That was right with
+// one enemy type and silently wrong with two: a freed scavenger returned as a
+// raider would keep the scavenger's speed, health, drops and colour, because
+// `def` is fixed at construction and `spawn` only moves a body. Nothing in a
+// unit test can see it, because it is a property of the POOL rather than of a
+// definition.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.enemySpawnsEnabled = false;
+  g.player.stats.invulnerable = true;
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
+});
+await sim(0.5);
+
+const recycled = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const y = globalThis.__standY.enemy;
+  // Fill with scavengers, kill them all, then ask for raiders. Every slot in
+  // the pool is now a free scavenger, which is exactly the trap.
+  for (let i = 0; i < 3; i++) g.enemies.spawn('scavenger', { x: -3 + i * 3, y, z: 4 });
+  for (const e of globalThis.__game.enemies.active) e.despawn();
+  const raiders = [];
+  for (let i = 0; i < 3; i++) {
+    const e = g.enemies.spawn('raider', { x: -3 + i * 3, y, z: 4 });
+    if (e) raiders.push({ id: e.def.id, speed: e.def.moveSpeed, hp: e.currentHealth });
+  }
+  return raiders;
+});
+check(
+  'a raider spawned into a recycled scavenger slot is still a raider',
+  recycled.length === 3 && recycled.every((r) => r.id === 'raider' && r.hp === 55),
+  recycled.map((r) => `${r.id}@${r.speed}`).join(', ') || 'none spawned',
+);
+
+// And they are visibly different, which with one shared rig is colour's job.
+const colours = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  const y = globalThis.__standY.enemy;
+  const read = (id) => {
+    const e = g.enemies.spawn(id, { x: 0, y, z: 5 });
+    if (!e) return null;
+    let c = null;
+    e.object3D.traverse((o) => {
+      if (c === null && o.isMesh && o.material && o.material.color) {
+        c = { r: o.material.color.r, g: o.material.color.g, b: o.material.color.b };
+      }
+    });
+    e.despawn();
+    return c;
+  };
+  return { scavenger: read('scavenger'), raider: read('raider') };
+});
+const apart =
+  colours.scavenger && colours.raider
+    ? Math.hypot(
+        colours.scavenger.r - colours.raider.r,
+        colours.scavenger.g - colours.raider.g,
+        colours.scavenger.b - colours.raider.b,
+      )
+    : 0;
+check(
+  'the two types are told apart on screen, not just in the data',
+  apart > 0.02,
+  `body colours differ by ${apart.toFixed(3)}`,
+);
+
+await page.evaluate(() => globalThis.__game.game.enemies.despawnAll());
+await sim(0.3);
+
 // --- The weapon in the hand ------------------------------------------------
 // Runs on `modelPage`, because the main page boots `nomodel=1` and a weapon
 // needs a rig with a hand to hang off. The unit tests cover which bone gets
