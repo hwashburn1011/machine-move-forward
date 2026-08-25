@@ -18,8 +18,32 @@ import type { PropModelGeometries } from './PropModels';
  * rewrites instance matrices.
  */
 
-/** Props are kept out of this half-width corridor so none spawn inside the machine. */
-const MACHINE_CLEARANCE_X = 11;
+/**
+ * Props are kept out of this half-width corridor so none spawn inside the
+ * machine.
+ *
+ * The hull is 10m wide and the legs swing out to about 7m, so this is as close
+ * as anything can be scattered without standing in the machine.
+ */
+const MACHINE_CLEARANCE_X = 8;
+
+/**
+ * A band of small scatter kept deliberately close, and why it exists.
+ *
+ * This is the fix for the machine reading as stationary while the world drifts
+ * past. Self-motion is read from OPTIC FLOW — the angular rate at which things
+ * sweep across the eye — and that rate is speed divided by distance. At 7.5
+ * m/s a rock 10m away sweeps past at 43 degrees a second; the same rock at
+ * 130m sweeps at 3. Measured before this existed, the median thing in view was
+ * 127m away and the median flow was 1.74 degrees a second, which is the rate
+ * of a clock's minute hand. Nothing about that reads as travelling.
+ *
+ * The wide scatter is still what fills the horizon. This is a second, denser
+ * population confined to the band where the arithmetic actually pays: close
+ * enough to sweep, far enough not to be inside the machine.
+ */
+const NEAR_BAND_MIN_X = MACHINE_CLEARANCE_X;
+const NEAR_BAND_MAX_X = 26;
 
 export interface PropGeometries {
   rock: THREE.BufferGeometry;
@@ -113,6 +137,8 @@ export class PropSpawner {
   private readonly rocks: THREE.InstancedMesh;
   private readonly slabs: THREE.InstancedMesh;
   private readonly debris: THREE.InstancedMesh;
+  /** Small scatter held close to the machine, for the flow it makes. */
+  private readonly nearField: THREE.InstancedMesh;
   /** Model props, when the packs loaded. Empty is a complete, valid state. */
   private readonly wrecks: { kind: WreckKind; mesh: THREE.InstancedMesh }[] = [];
   private readonly matrix = new THREE.Matrix4();
@@ -137,8 +163,15 @@ export class PropSpawner {
     this.rocks = this.makeInstanced(geometries.rock, materials.rustedSteel, rockCount);
     this.slabs = this.makeInstanced(geometries.slab, materials.hullDark, slabCount);
     this.debris = this.makeInstanced(geometries.debris, materials.bareSteel, debrisCount);
+    // Deliberately generous. These are small, they are cheap, and they are the
+    // only things in the scene close enough to read as speed.
+    this.nearField = this.makeInstanced(
+      geometries.debris,
+      materials.rustedSteel,
+      Math.max(6, Math.round(n * 1.1)),
+    );
 
-    this.group.add(this.rocks, this.slabs, this.debris);
+    this.group.add(this.rocks, this.slabs, this.debris, this.nearField);
 
     if (models) this.attachModels(models);
   }
@@ -187,6 +220,7 @@ export class PropSpawner {
     this.fill(this.rocks, worldSeed, chunkIndex, chunkZ, 'rock', 0.8, 3.4);
     this.fill(this.slabs, worldSeed, chunkIndex, chunkZ, 'slab', 1.2, 3.0);
     this.fill(this.debris, worldSeed, chunkIndex, chunkZ, 'debris', 0.5, 1.4);
+    this.fill(this.nearField, worldSeed, chunkIndex, chunkZ, 'near', 0.35, 1.1, undefined, true);
 
     for (const { kind, mesh } of this.wrecks) {
       const spec = WRECK_KINDS[kind];
@@ -203,6 +237,7 @@ export class PropSpawner {
     minScale: number,
     maxScale: number,
     wreck?: { sink: number; tilt: number },
+    nearBand = false,
   ): void {
     const rng = new Rng(chunkAspectSeed(worldSeed, chunkIndex, aspect));
 
@@ -211,8 +246,13 @@ export class PropSpawner {
       // 360m width — props far out to the sides are never seen, and spending
       // the instance budget there just makes the near field look empty.
       const side = rng.next() < 0.5 ? -1 : 1;
-      const t = rng.next() ** 2.2;
-      const x = side * (MACHINE_CLEARANCE_X + t * (CHUNK_SIZE_X / 2 - MACHINE_CLEARANCE_X));
+      // The near band is spread evenly across a narrow strip; the wide scatter
+      // is biased hard toward the machine because props far out to the sides
+      // are never looked at and spend the instance budget for nothing.
+      const t = nearBand ? rng.next() : rng.next() ** 2.2;
+      const x = nearBand
+        ? side * (NEAR_BAND_MIN_X + t * (NEAR_BAND_MAX_X - NEAR_BAND_MIN_X))
+        : side * (MACHINE_CLEARANCE_X + t * (CHUNK_SIZE_X / 2 - MACHINE_CLEARANCE_X));
       const localZ = rng.range(-CHUNK_SIZE_Z / 2, CHUNK_SIZE_Z / 2);
       const worldZ = chunkZ + localZ;
 
@@ -250,6 +290,7 @@ export class PropSpawner {
     this.rocks.dispose();
     this.slabs.dispose();
     this.debris.dispose();
+    this.nearField.dispose();
     for (const { mesh } of this.wrecks) mesh.dispose();
   }
 }

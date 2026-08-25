@@ -24,6 +24,8 @@ import { ParticleSystem } from './ParticleSystem';
 export class SandFX {
   private readonly drift: ParticleSystem;
   private readonly dust: ParticleSystem;
+  /** Sand skimming the surface, close and fast. See `update`. */
+  private readonly sheet: ParticleSystem;
   private readonly rng = new Rng(0x5a4d);
 
   private readonly pos = new THREE.Vector3();
@@ -34,16 +36,18 @@ export class SandFX {
   private readonly dustColor = PALETTE.sandCrest.clone().lerp(new THREE.Color(1, 1, 1), 0.3);
 
   private driftAccumulator = 0;
+  private sheetAccumulator = 0;
 
   constructor(scene: THREE.Scene, private readonly quality: QualitySettings) {
     // Split the budget: ambient drift is constant, the plume is denser but
     // only matters near the treads.
-    this.drift = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.45));
-    this.dust = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.35));
+    this.drift = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.3));
+    this.dust = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.28));
+    this.sheet = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.32));
   }
 
   get liveCount(): number {
-    return this.drift.liveCount + this.dust.liveCount;
+    return this.drift.liveCount + this.dust.liveCount + this.sheet.liveCount;
   }
 
   /**
@@ -92,13 +96,21 @@ export class SandFX {
     const budgetScale = this.quality.particleBudget / 2000;
 
     // --- Ambient drift, spawned in a volume around the camera ---------------
-    this.driftAccumulator += 26 * speedFactor * budgetScale * dt;
+    // Denser than it was, and spawned AHEAD rather than behind. Grains travel
+    // the way the world does, so a grain born astern spends its whole life
+    // receding and is never seen sweeping past anything. Born ahead, it
+    // crosses the view — which is the only part of its life that says the
+    // machine is moving.
+    this.driftAccumulator += 70 * speedFactor * budgetScale * dt;
     while (this.driftAccumulator >= 1) {
       this.driftAccumulator -= 1;
+      // Biased toward the camera: flow is speed over distance, so a grain at
+      // four metres is worth ten at forty.
+      const lateral = this.rng.next() ** 2 * 22;
       this.pos.set(
-        cameraPos.x + this.rng.range(-22, 22),
+        cameraPos.x + (this.rng.next() < 0.5 ? -lateral : lateral),
         this.rng.range(-1, 9),
-        cameraPos.z + this.rng.range(-26, 12),
+        cameraPos.z + this.rng.range(-8, 34),
       );
       // Apparent wind is the machine's own motion past sand that is standing
       // still, so grains stream the way the world does.
@@ -111,23 +123,78 @@ export class SandFX {
         position: this.pos,
         velocity: this.vel,
         life: this.rng.range(1.4, 3.2),
-        size: this.rng.range(0.02, 0.055),
+        // A touch larger than they were: a grain too small to resolve carries
+        // no motion at all, however many of them there are.
+        size: this.rng.range(0.03, 0.075),
         color: this.driftColor,
         alpha: this.rng.range(0.25, 0.5),
         drag: 0.85,
       });
     }
 
+    // --- Sand skimming the surface ------------------------------------------
+    // The one cue that says the MACHINE is moving rather than the world.
+    //
+    // Self-motion is read from optic flow, and flow is speed over distance: at
+    // 7.5 m/s something 10m away sweeps the eye at 43 degrees a second and the
+    // same thing at 130m sweeps at 3. Measured, the median thing in view was
+    // 127m away and the median flow 1.74 degrees a second — the rate of a
+    // clock's minute hand, which is why the desert read as drifting past a
+    // machine standing still.
+    //
+    // The machine cannot be given a closer horizon; it occupies its own near
+    // field, and the deck a player stands on is by definition stationary. What
+    // it can be given is sand: low, close, fast, and large enough to resolve.
+    // These spawn within a few metres of the camera, hug the surface, and
+    // travel the way the world does, so they streak across the view instead of
+    // hanging in it.
+    this.sheetAccumulator += 120 * speedFactor * budgetScale * dt;
+    while (this.sheetAccumulator >= 1) {
+      this.sheetAccumulator -= 1;
+      // Hard against the camera. Flow is worth more here than anywhere else in
+      // the scene, and these are the only particles that can be put here.
+      const lateral = 2.5 + this.rng.next() ** 1.7 * 15;
+      this.pos.set(
+        cameraPos.x + (this.rng.next() < 0.5 ? -lateral : lateral),
+        this.rng.range(-0.6, 2.2),
+        cameraPos.z + this.rng.range(6, 30),
+      );
+      this.vel.set(
+        this.rng.range(-0.5, 0.5),
+        this.rng.range(-0.1, 0.35),
+        WORLD_Z_PER_METRE * machineSpeed * this.rng.range(0.95, 1.05),
+      );
+      this.sheet.emit({
+        position: this.pos,
+        velocity: this.vel,
+        // Short: just long enough to cross the view once.
+        life: this.rng.range(0.7, 1.5),
+        // Large enough to resolve. A grain too small to see carries no motion
+        // however many of them there are.
+        size: this.rng.range(0.18, 0.55),
+        color: this.dustColor,
+        // Faint. These are a cue, not weather — dense enough to read as motion
+        // at the edge of vision, thin enough not to be a dust storm sitting on
+        // the deck. If the machine still reads as stationary, the spawn rate
+        // above is the number to raise, and this one after it.
+        alpha: this.rng.range(0.07, 0.17),
+        drag: 0.08,
+      });
+    }
+
     this.drift.update(dt);
     this.dust.update(dt);
+    this.sheet.update(dt);
   }
 
   onResize(): void {
+    this.sheet.onResize();
     this.drift.onResize();
     this.dust.onResize();
   }
 
   dispose(): void {
+    this.sheet.dispose();
     this.drift.dispose();
     this.dust.dispose();
   }
