@@ -126,24 +126,25 @@ handoff; 5 (procedural resources, as the salvage field and the reel) and 10
 
 Three known gaps in what is built:
 
-- **Stairs cannot be climbed.** Two independent causes, both diagnosed, neither
-  fixed. The doorway half of this gap is now fixed — see below — but stairs
-  need their own pass:
-  - *Geometry.* `transformFor` centres the stairs ramp on the midpoint between
-    the base and run cells, so the ramp's low end sits at the base cell's near
-    edge and climbs 0.75m for every metre travelled. The base cell also carries
-    a floor plate 0.16m proud of the floor plane. Within about 0.2m of entering
-    the cell a character is standing on that plate with the ramp slab cutting
-    through its chest, needing a 0.63m step against a 0.45m `AUTOSTEP_HEIGHT`.
-    Measured: the blocking contact normal is `(0, -0.8, 0.6)` — the ramp's
-    *underside*. The ramp needs somewhere to begin that is not already floored,
-    which is a design decision about how base/run/landing divide up, not a
-    constant to nudge.
-  - *Navigation.* `NavGraph`'s only vertical link puts the landing directly
-    above the run cell, sharing its x and z exactly, so once an enemy holds that
-    waypoint the steering target's XZ *is* its own XZ and `Enemy.ts`'s movement
-    gate drives it at zero velocity. It parks at the foot of the ramp. Fixing
-    the geometry alone will not restore stair-climbing.
+- **Stairs: both diagnosed causes are fixed; the scripted proof is not.**
+  The flight was built rising toward +Z while `rotationDelta` puts the run and
+  the landing the other way, so every staircase was back to front — walking
+  into the base cell you met the TOP of the flight, and what stopped you was
+  its underside, which is why the recorded contact normal was `(0, -0.8, 0.6)`
+  and why the diagnosis ("a 0.63m step against a 0.45m autostep") was true but
+  unactionable. And the nav graph linked the run cell to the cell directly
+  above it — same x, same z — so an enemy holding that waypoint steered at its
+  own position, found a heading of length zero, and parked at the foot of the
+  ramp. Vertical links now come in through `fixedLinks` only, computed by
+  `BuildSystem`, which is the one place that knows a staircase's rotation.
+
+  Measured against the running game, a player walking at a flight climbs it end
+  to end: 4.67 to 7.43, the full storey. What is NOT yet in the harness is that
+  walk — driving one reliably needs the approach surface, the camera yaw and
+  the entry edge all agreed, and getting it wrong measures the harness rather
+  than the game. `combat.mjs` asserts the property the fix turned on instead: a
+  body dropped over the middle of a flight lands on it, at the height the slope
+  puts it. Back to front, the same drop lands on the deck three metres lower.
 
 - **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
   and there is no interior lighting yet. Lamps arrive with the power system.

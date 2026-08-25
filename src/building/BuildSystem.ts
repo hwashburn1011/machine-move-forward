@@ -33,7 +33,7 @@ import {
   type Validation,
 } from './BuildValidation';
 import { countEnclosed, detectRooms, type RoomGraph } from './RoomDetector';
-import { buildNavGraph, type NavGraph } from '@/enemies/NavGraph';
+import { buildNavGraph, type FixedLink, type NavGraph } from '@/enemies/NavGraph';
 import { buildPieceGeometry, pieceColliders, pieceMaterial } from './BuildPieceGeometry';
 
 export interface BuildPieceInstance {
@@ -493,11 +493,40 @@ export class BuildSystem {
     return out;
   }
 
+  /**
+   * The vertical links the player's staircases provide.
+   *
+   * Computed HERE rather than in `NavGraph` because a staircase's direction
+   * lives in its rotation, and the grid does not carry rotations — only which
+   * cell holds which piece. `NavGraph` used to infer the link from the stairs
+   * cell alone, which forced it to link the run cell to the landing DIRECTLY
+   * ABOVE IT: same x, same z. An enemy that took that waypoint was then asked
+   * to steer at a target whose XZ was its own, `Enemy`'s movement gate found
+   * a heading of length zero, and it drove at zero velocity and parked at the
+   * foot of the ramp for the rest of the run.
+   *
+   * The link is base -> landing, which is what a person actually does: you
+   * step onto the flight from the base cell and arrive one level up and one
+   * tile along. Those differ in XZ, so there is a real direction to walk in.
+   */
+  private stairLinks(): FixedLink[] {
+    const links: FixedLink[] = [];
+    for (const { data } of this.instances.values()) {
+      if (data.definitionId !== 'stairs') continue;
+      const { base, landing } = stairsCells(data.cell, data.rotation);
+      links.push([base, landing]);
+    }
+    return links;
+  }
+
   private recomputeRooms(): void {
     this.graph = detectRooms(this.grid);
     // Rebuilt wholesale rather than patched. The envelope is at most 324
     // cells, which is nothing next to the room flood fill directly above.
-    this.nav = buildNavGraph(this.grid, this.machine.deckCells, this.machine.fixedLinks);
+    this.nav = buildNavGraph(this.grid, this.machine.deckCells, [
+      ...this.machine.fixedLinks,
+      ...this.stairLinks(),
+    ]);
     this.bus.emit('build:rooms-changed', {
       roomCount: this.graph.rooms.length,
       enclosedCount: countEnclosed(this.graph),

@@ -1318,19 +1318,64 @@ await page.evaluate(() => globalThis.__game.enemies.despawnAll());
 await page.evaluate(() => globalThis.__game.game.build.clear());
 await sim(0.5);
 
-await place('floor', cell(0, 0, -2));
-await place('floor', cell(1, 0, -1));
-await place('stairs', cell(0, 0, -2), null, 2); // rotation 2 => run +Z
-await place('wall', cell(1, 0, -1), 'north');   // support for the level-1 floor
-await place('floor', cell(1, 1, -1));           // supported by that wall
-await place('floor', cell(0, 1, -1));           // the landing, beside it
+// Column x=0 for the whole structure: it is the only one clear of the machine's
+// own equipment from z=-2 through z=+1. Base at (0,0,-1) with rotation 2, so
+// the run is at +Z and the flight climbs that way; the player walks in from -Z.
+await place('floor', cell(0, 0, -1));           // the base, walked on from
+await place('stairs', cell(0, 0, -1), null, 2); // rotation 2 => run +Z
+await place('floor', cell(0, 0, 1));            // past the top of the flight
+await place('wall', cell(0, 0, 1), 'north');    // support for the level-1 floor
+await place('floor', cell(0, 1, 1));            // supported by that wall
+await place('floor', cell(0, 1, 0));            // the landing, beside it
 await sim(0.5);
 
-const stairsBuilt = await page.evaluate(() => {
+// Base to landing, not run to the cell above it. The old link shared its x and
+// z with its own other end, so an enemy that took it steered at its own
+// position and drove at zero velocity.
+const stairsLink = await page.evaluate(() => {
   const links = globalThis.__game.game.build.navGraph.links;
-  return (links.get('0,0,-1') ?? []).some((n) => n.y === 1);
+  // Stairs at cell (0,0,-1) rotation 2: base (0,0,-1), landing (0,1,0).
+  const up = (links.get('0,0,-1') ?? []).find((n) => n.y === 1);
+  return up ? { x: up.x, y: up.y, z: up.z } : null;
 });
-check('navigation: the graph links the stairs run to its landing', stairsBuilt);
+check(
+  'navigation: the graph links the stairs BASE to its landing, somewhere to walk',
+  stairsLink !== null && !(stairsLink.x === 0 && stairsLink.z === -1),
+  stairsLink ? `base -> (${stairsLink.x},${stairsLink.y},${stairsLink.z})` : 'no vertical link',
+);
+
+// THE FLIGHT ITSELF, and which way up it is.
+//
+// The flight was built rising toward +Z while `rotationDelta` puts the run and
+// the landing the other way, so every staircase was back to front: walking into
+// the base you met the TOP of it, and what stopped you was the ramp's
+// underside. Measured directly against the running game, a player walking at a
+// flight now climbs it end to end -- 4.67 to 7.43, the full storey.
+//
+// What is asserted here is the property that fix turned on, without scripting a
+// walk: dropped over the middle of the flight, a body lands ON it, at the
+// height the slope puts it. Back to front, the same drop lands on the deck
+// three metres lower, because the flight is somewhere else entirely.
+//
+// (A scripted walk up is what a player actually does and is the check this
+// wants to be. It is not here because driving one reliably needs the approach
+// surface, the camera yaw and the entry edge all agreed, and getting that wrong
+// measures the harness rather than the game. See the README.)
+const onTheFlight = await page.evaluate(async () => {
+  const g = globalThis.__game.game;
+  const deck = g.machine.deckBounds.min.y + 0.09;
+  // Base (0,0,-1) is world z=-2, run (0,0,0) is world z=0: the flight spans
+  // world z -3 to +1, rising toward +Z. Halfway is z=-1, half a storey up.
+  g.player.teleport({ x: 0, y: deck + 3.2, z: -1 });
+  await new Promise((r) => setTimeout(r, 900));
+  return { y: g.player.worldPosition.y, deck };
+});
+const aboveDeck = onTheFlight.y - (onTheFlight.deck + 0.96);
+check(
+  'stairs: a flight is solid, and climbs the way its landing lies',
+  aboveDeck > 1.0 && aboveDeck < 2.2,
+  `settled ${aboveDeck.toFixed(2)}m above the deck, mid-flight (a storey is 3m)`,
+);
 
 // Take the stairs away: with no link to level 1 at all, nothing should ever
 // report itself standing up there. `demolishAt` takes the same Placement
@@ -1338,7 +1383,7 @@ check('navigation: the graph links the stairs run to its landing', stairsBuilt);
 await page.evaluate(() =>
   globalThis.__game.game.build.demolishAt({
     piece: 'stairs',
-    cell: { x: 0, y: 0, z: -2 },
+    cell: { x: 0, y: 0, z: -1 },
     rotation: 2,
   }),
 );

@@ -186,9 +186,23 @@ function railingGeometry(): THREE.BufferGeometry {
 
 const STAIR_STEPS = 12;
 
+/**
+ * A flight rising one level over two tiles.
+ *
+ * **It climbs toward -Z, which is the direction `rotationDelta(0)` points**,
+ * and getting that wrong is what made this piece unusable since it was
+ * written. The cells and the geometry each had a notion of "up the stairs" and
+ * they were opposites: `stairsCells` put the run and the landing at -Z while
+ * the flight rose toward +Z, so the staircase was built back to front. Walking
+ * into the base cell you met the TOP of the flight, three metres of it, and
+ * the thing that stopped you was the ramp's underside — measured, a contact
+ * normal of (0, -0.8, 0.6), which is a diagnosis nobody could act on because
+ * the reversal is not visible from either side alone.
+ *
+ * So the sign here is not a taste choice and must not be "tidied": it is
+ * pinned to `rotationDelta` by `stairsclimb.test.ts`.
+ */
 function stairsGeometry(): THREE.BufferGeometry {
-  // Rises one level over two tiles, starting at the far edge of the base cell
-  // and arriving at the landing.
   const run = T * 2;
   const rise = LEVEL_HEIGHT;
   const stepRun = run / STAIR_STEPS;
@@ -198,14 +212,14 @@ function stairsGeometry(): THREE.BufferGeometry {
   for (let i = 0; i < STAIR_STEPS; i++) {
     const tread = bevelledBox(T * 0.9, stepRise + 0.04, stepRun * 1.02, 0.02);
     parts.push(
-      at(tread, 0, stepRise * (i + 0.5), -run / 2 + stepRun * (i + 0.5)),
+      at(tread, 0, stepRise * (i + 0.5), run / 2 - stepRun * (i + 0.5)),
     );
   }
 
   // Stringers down both sides, so the flight reads as a built object.
   for (const side of [-1, 1]) {
     const stringer = bevelledBox(0.12, 0.34, run * 1.02, 0.03);
-    stringer.rotateX(-Math.atan2(rise, run));
+    stringer.rotateX(Math.atan2(rise, run));
     parts.push(at(stringer, side * T * 0.46, rise / 2, 0));
   }
 
@@ -408,7 +422,11 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
         {
           half: new THREE.Vector3(T * 0.48, 0.12, length / 2),
           offset: new THREE.Vector3(0, rise / 2, 0),
-          rotX: -slope,
+          // Positive, so the slab climbs toward -Z with the treads above it.
+          // A smooth slab rather than one box per tread, for the reason the
+          // machine's own stair gives: stepped colliders make a kinematic
+          // character controller judder and catch on every tread.
+          rotX: slope,
         },
       ];
     }

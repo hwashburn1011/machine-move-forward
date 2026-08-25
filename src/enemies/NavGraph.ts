@@ -181,30 +181,23 @@ export function buildNavGraph(
     links.set(key, out);
   }
 
-  // Stairs are the only vertical link in the graph. There is no jump, no drop,
-  // and no path off an edge — physics still lets a shoved enemy fall, but
-  // nothing will ever plan a route that way.
+  // Vertical links come in through `fixedLinks` and nowhere else.
   //
-  // `stairsCells` puts the landing directly above the run, so this needs no
-  // rotation. The base is reached from the run by the ordinary lateral link
-  // above, because a base is a floor cell adjacent to the run with no piece on
-  // the edge between them.
-  for (const key of keys) {
-    const cell = walkable.get(key) as Cell;
-    if (grid.getCell(cell) !== 'stairs') continue;
-
-    const landing: Cell = { x: cell.x, y: cell.y + 1, z: cell.z };
-    const landingKey = cellKey(landing);
-    if (!walkable.has(landingKey)) continue;
-
-    (links.get(key) as Cell[]).push(landing);
-    (links.get(landingKey) as Cell[]).push(cell);
-  }
-
-  // Links the machine itself provides -- today, its engine-room stair. These
-  // are not player pieces and cannot be demolished, so they are added
-  // unconditionally, but still only when BOTH ends are walkable, so a
-  // half-built machine cannot produce a dangling edge.
+  // There is no jump, no drop, and no path off an edge — physics still lets a
+  // shoved enemy fall, but nothing will ever plan a route that way.
+  //
+  // This used to derive the player's staircases here, from the grid alone, and
+  // it could not: a staircase's direction is in its rotation and the grid
+  // carries only which cell holds which piece. So it linked the stairs cell to
+  // the cell DIRECTLY ABOVE IT, same x and same z, and an enemy holding that
+  // waypoint was asked to steer at its own XZ — zero heading, zero velocity,
+  // parked at the foot of the ramp forever. `BuildSystem.stairLinks` computes
+  // them properly now, from base to landing, and hands them in with the
+  // machine's own.
+  //
+  // Both kinds are added only when BOTH ends are walkable, so neither a
+  // half-built machine nor a staircase with no floor at the top can produce a
+  // dangling edge.
   for (const [a, b] of fixedLinks) {
     const ak = cellKey(a);
     const bk = cellKey(b);

@@ -192,6 +192,12 @@ function validateEdgePiece(grid: BuildGrid<PieceId>, p: Placement): Validation {
  * The base cell keeps its floor — the player walks onto the stairs from it —
  * so the stairs instance is stored in the run cell. Storing it in the base
  * would overwrite the very floor the rule requires.
+ *
+ * A floor plate under the bottom of the flight was suspected of being what
+ * made this piece unclimbable, and it is not: measured against the real game,
+ * a player walks up a flight whose base is floored without noticing the 1cm
+ * between the plate's top and the first tread. What actually broke it was the
+ * flight being built back to front — see `stairsGeometry`.
  */
 function validateStairs(grid: BuildGrid<PieceId>, p: Placement): Validation {
   const { base, run, landing } = stairsCells(p.cell, p.rotation);
