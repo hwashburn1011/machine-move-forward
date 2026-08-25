@@ -367,6 +367,9 @@ export function buildMachine(materials: Materials): MachineBuild {
   plough.rotateX(-0.42);
   plough.translate(0, HULL_BOTTOM - 0.7, prowZ - 1.1);
   add(plough, materials.hull);
+  // The plough is a raked blade; a box around its bulk is enough to stop
+  // anything walking out through the machine's face.
+  collide(DECK_W / 2 + 1.2, 1.05, 0.7, 0, HULL_BOTTOM + 0.35, prowZ - 1.1);
 
   const prowBlock = bevelledBox(DECK_W - 1.0, 1.1, 1.6, 0.1);
   prowBlock.translate(0, DECK_HEIGHT + 0.64, prowZ + 0.6);
@@ -418,11 +421,17 @@ export function buildMachine(materials: Materials): MachineBuild {
     stacks.push({ geo: s, pos: [dx, DECK_HEIGHT + 2.9, DECK_L / 2 - 1.4] });
   }
   add(mergeParts(stacks), materials.rustedSteel);
+  // Solid. These stand 2.2m proud of the deck right where a player walks, and
+  // without this you stand inside one.
+  for (const dx of [-0.9, 0.9]) {
+    collide(0.24, 1.1, 0.24, dx, DECK_HEIGHT + 2.9, DECK_L / 2 - 1.4);
+  }
 
   // Light hardpoint pedestal (handoff section 17 — LIGHT class).
   const hardpoint = new THREE.CylinderGeometry(0.42, 0.55, 0.5, 12);
   hardpoint.translate(2.9, DECK_HEIGHT + 0.34, -4.6);
   add(hardpoint, materials.bareSteel).name = 'hardpoint-light';
+  collide(0.55, 0.25, 0.55, 2.9, DECK_HEIGHT + 0.34, -4.6);
 
   // A single warning lamp, emissive so it survives the bloom threshold.
   const lamp = bevelledBox(0.3, 0.3, 0.3, 0.05);
@@ -448,6 +457,36 @@ export function buildMachine(materials: Materials): MachineBuild {
     pos: [0, railY + 0.42, DECK_L / 2 - 0.12],
   });
   add(mergeParts(rails), materials.bareSteel);
+
+  // Railings are barriers, not decoration. One continuous collider a side
+  // rather than one per post: the posts have gaps you can see through and
+  // should not be able to walk through, which is what a railing IS.
+  //
+  // Topped just under the deck-plus-jump height on purpose. A player who walks
+  // into it is stopped; a player who deliberately jumps can still clear it and
+  // go over the side, which is a thing they do.
+  const RAIL_TOP = 0.95;
+  for (const side of [-1, 1]) {
+    collide(
+      0.06,
+      RAIL_TOP / 2,
+      (DECK_L - 0.4) / 2,
+      // Hard against the deck edge rather than on the rail's own centreline.
+      // Boarding scavengers are put down a little in from the lip and were
+      // being pinched between the rail and their own capsule radius.
+      side * (DECK_W / 2 - 0.05),
+      DECK_HEIGHT + DECK_PLATE_HALF + RAIL_TOP / 2,
+      0,
+    );
+  }
+  collide(
+    (DECK_W - 0.4) / 2,
+    RAIL_TOP / 2,
+    0.06,
+    0,
+    DECK_HEIGHT + DECK_PLATE_HALF + RAIL_TOP / 2,
+    DECK_L / 2 - 0.12,
+  );
 
   return { group, colliders };
 }

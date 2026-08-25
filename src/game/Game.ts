@@ -18,7 +18,7 @@ import { loadTextureSets } from '@/art/TextureLoader';
 import { loadModel } from '@/art/ModelLoader';
 import { loadPropModels } from '@/world/PropModels';
 import { updateFogColor } from '@/art/Fog';
-import { WorldManager, renderedDistance } from '@/world/WorldManager';
+import { WorldManager, renderedDistance, WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
 import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
@@ -49,7 +49,15 @@ import { BuildUI } from '@/ui/BuildUI';
 import { BUILD_PIECES, BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
 import { countEnclosed } from '@/building/RoomDetector';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
-import { CHARACTER_DROP_Y, GRID_LEVELS, DECK_HEIGHT, LEVEL_HEIGHT } from '@/game/constants';
+import {
+  CHARACTER_DROP_Y,
+  DECK_HEIGHT,
+  DESERT_FLOOR_HALF_X,
+  DESERT_FLOOR_HALF_Z,
+  DESERT_FLOOR_Y,
+  GRID_LEVELS,
+  LEVEL_HEIGHT,
+} from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { hashSeed, Rng } from '@/core/math/Random';
 import { rollDrops } from '@/enemies/Loot';
@@ -97,6 +105,16 @@ export interface GameOptions {
  * Physics steps last so it resolves the kinematic translations everything
  * upstream just requested.
  */
+/**
+ * Below this, a character is standing on the desert rather than on the machine.
+ *
+ * The engine-room floor is the lowest deck anyone can stand on, at 0.6, which
+ * puts a standing capsule's centre around 1.56. The desert floor puts it around
+ * 0.61. A metre cleanly separates the two, and being generous in the wrong
+ * direction would sweep a player out of their own engine room.
+ */
+const ON_THE_SAND_Y = 1.0;
+
 export class Game implements LoopCallbacks {
   readonly bus = new EventBus();
   readonly state: GameState;
@@ -240,6 +258,16 @@ export class Game implements LoopCallbacks {
       seed,
     );
     this.world.setSunDirection(this.sky.direction);
+
+    // Something to land on. See `DESERT_FLOOR_Y`: the dunes are drawn on the
+    // GPU and have never been solid, so anyone who left the deck fell through
+    // the world.
+    this.physics.addFixedBox(
+      new THREE.Vector3(DESERT_FLOOR_HALF_X, 1, DESERT_FLOOR_HALF_Z),
+      new THREE.Vector3(0, DESERT_FLOOR_Y - 1, 0),
+      0,
+      { kind: 'desert' },
+    );
 
     this.machine = new Machine(this.renderer.scene, this.physics, this.materials);
     this.player = new Player(
@@ -420,10 +448,21 @@ export class Game implements LoopCallbacks {
       // -- which is what this did -- hands it a delta the deck already made,
       // so every step resolves a contact that should never have existed. The
       // gait's `setPose` is the line above.
-      const carried = this.machine.carryFor(this.player.worldPosition);
-      this.player.carry.x = carried.x;
-      this.player.carry.y = carried.y;
-      this.player.carry.z = carried.z;
+      if (this.player.worldPosition.y < ON_THE_SAND_Y) {
+        // Standing on the desert, not on the machine. The sand is the thing
+        // that is moving, so it carries them astern at the machine's own speed
+        // and the machine drives off and leaves them — which is what walking
+        // off a moving vehicle gets you. Without this they would hover beside
+        // it forever, matching its speed while standing on the ground.
+        this.player.carry.x = 0;
+        this.player.carry.y = 0;
+        this.player.carry.z = WORLD_Z_PER_METRE * this.machine.speed * dt;
+      } else {
+        const carried = this.machine.carryFor(this.player.worldPosition);
+        this.player.carry.x = carried.x;
+        this.player.carry.y = carried.y;
+        this.player.carry.z = carried.z;
+      }
 
       this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
       // The camera follows where the player would be if the body were at rest,

@@ -191,6 +191,28 @@ export const AUTOSTEP_HEIGHT = 0.45;
 /** Falling below this Y means the player left the machine. */
 export const RESPAWN_Y_THRESHOLD = -20;
 
+/**
+ * The desert floor, as something you can stand on.
+ *
+ * The terrain has never had a collider — `TerrainChunk` says so, on the
+ * grounds that nothing in the game can reach the ground. That stopped being
+ * true the moment a player walked off the side: they fell straight through the
+ * sand, past -17, and were respawned by the threshold above, having never
+ * touched anything.
+ *
+ * FLAT, and deliberately so for now. The dune field is displaced on the GPU
+ * and would want a scrolling heightfield to match exactly, but the machine
+ * drives down a corridor the dunes are flattened inside — 92% removed within
+ * 10m of the centreline — so within the band a falling player can actually
+ * reach, the real surface is this to within a few tens of centimetres.
+ * A heightfield is the honest version and is worth doing when anything other
+ * than a player who has just jumped off needs to walk out there.
+ */
+export const DESERT_FLOOR_Y = -0.35;
+/** How far the standable floor reaches, in metres either side of the machine. */
+export const DESERT_FLOOR_HALF_X = 70;
+export const DESERT_FLOOR_HALF_Z = 130;
+
 /** Seconds face-down before a killed player is put back on the deck. */
 export const RESPAWN_DELAY_S = 3;
 

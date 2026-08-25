@@ -4,6 +4,7 @@ import type { Materials } from '@/art/Materials';
 import { hashSeed, Rng } from '@/core/math/Random';
 import { bevelledBox } from '@/machine/MachineGeometry';
 import { rollDrops, type DropEntry } from '@/enemies/Loot';
+import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import type { ReelCandidate } from './Reel';
 
 /**
@@ -178,7 +179,13 @@ export class SalvageField {
 
     for (const crate of this.crates) {
       if (!crate.active) continue;
-      if (!crate.hooked) crate.object3D.position.z += machineSpeed * DRIFT * dt;
+      // Toward -Z, the way the world goes. This was positive, which drifted
+      // every crate AGAINST the desert it is supposedly adrift in: they spawn
+      // ahead at +46 and retire behind at -26, so moving them toward +Z sent
+      // them the wrong way down their own corridor.
+      if (!crate.hooked) {
+        crate.object3D.position.z += WORLD_Z_PER_METRE * machineSpeed * DRIFT * dt;
+      }
 
       // A slow list and bob, so they read as adrift rather than as props
       // glued to the terrain.
@@ -186,7 +193,7 @@ export class SalvageField {
       crate.object3D.rotation.z = Math.sin(crate.bob * 0.7) * 0.06;
       crate.object3D.rotation.y += dt * 0.15;
 
-      if (crate.object3D.position.z > BEHIND * -1) this.retire(crate);
+      if (crate.object3D.position.z * WORLD_Z_PER_METRE > -BEHIND) this.retire(crate);
     }
   }
 
@@ -196,7 +203,12 @@ export class SalvageField {
 
     const side = this.rng.next() < 0.5 ? -1 : 1;
     const lateral = this.rng.range(SIDE_MIN, SIDE_MAX) * side;
-    crate.object3D.position.set(lateral, this.rng.range(1.6, 2.6), -AHEAD);
+    // Spawned where the world comes FROM, so a crate arrives with the desert
+    // rather than swimming up it. The whole field used to run the other way:
+    // crates entered at the bow and left over the stern while every dune,
+    // wreck and footprint travelled the opposite way past them, which read
+    // exactly as the loot floating backwards that it was.
+    crate.object3D.position.set(lateral, this.rng.range(1.6, 2.6), -WORLD_Z_PER_METRE * AHEAD);
     crate.object3D.rotation.set(0, this.rng.range(0, Math.PI * 2), 0);
     crate.object3D.visible = true;
     crate.active = true;

@@ -119,7 +119,9 @@ await page.keyboard.up('d');
 await sim(0.15);
 const a2 = await pos();
 const strafed = Math.hypot(a2.x - b2.x, a2.z - b2.z);
-check('D strafes the player', strafed > 2.0, `moved ${strafed.toFixed(2)}m`);
+// Less far than it used to go: the deck rails are solid now, so a strafe that
+// used to walk out over the edge stops against them, which is their job.
+check('D strafes the player', strafed > 1.5, `moved ${strafed.toFixed(2)}m`);
 
 // --- Jump -------------------------------------------------------------------
 // Measured above the DECK throughout. The machine walks, so its deck heaves by
@@ -160,13 +162,28 @@ const blocked = await pos();
 check('machine structures block the player', blocked.z > -8.6, `z=${blocked.z} (deck ends at -8)`);
 
 // --- Falling off ------------------------------------------------------------
+// The desert is solid now, so this is no longer "fall through the world and be
+// respawned by the threshold". Step off the side and you LAND on the sand, and
+// then the machine drives away and leaves you standing on it.
 await page.evaluate(() => globalThis.__game.player.teleport({ x: 40, y: 6, z: 0 }));
-await sim(2.5);
-const respawned = await pos();
+await sim(2.0);
+const off = await page.evaluate(() => {
+  const g = globalThis.__game;
+  const p = g.player.worldPosition;
+  return { y: +p.y.toFixed(2), z: +p.z.toFixed(1), grounded: g.player.isGrounded, hp: g.player.stats.health };
+});
 check(
-  'falling off the machine respawns the player on deck',
-  Math.abs(respawned.x) < 3 && respawned.y > 0,
-  `x=${respawned.x} y=${respawned.y}`,
+  'stepping off the machine lands on the desert rather than through it',
+  off.grounded === true && off.y > -1 && off.y < 2 && off.hp === 100,
+  `y=${off.y} grounded=${off.grounded} hp=${off.hp}`,
+);
+
+await sim(1.5);
+const swept = await page.evaluate(() => +globalThis.__game.player.worldPosition.z.toFixed(1));
+check(
+  'and the machine drives off and leaves them behind',
+  Math.abs(swept - off.z) > 6,
+  `z ${off.z} -> ${swept}`,
 );
 
 if (outShot) await page.screenshot({ path: outShot });
