@@ -6,6 +6,7 @@ import type { Materials } from '@/art/Materials';
 import { ChunkManager } from './ChunkManager';
 import { TerrainChunk } from './TerrainChunk';
 import type { TextureSet } from '@/art/TextureLoader';
+import type { PropModelGeometries } from './PropModels';
 import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSpawner';
 
 /**
@@ -161,6 +162,20 @@ export class WorldManager {
    */
   applySand(set: TextureSet): void {
     for (const chunk of this.terrain) chunk.applySand(set);
+  }
+
+  /**
+   * Hand the props their wreck models, once the packs have loaded, and
+   * repopulate so this chunk's wrecks appear rather than waiting for it to
+   * recycle sixty-odd metres from now.
+   */
+  applyPropModels(models: PropModelGeometries): void {
+    for (const slot of this.chunkManager.slots) {
+      const prop = this.props[slot.slotId];
+      if (!prop) continue;
+      prop.attachModels(models);
+      prop.populate(this.worldSeed, slot.chunkIndex, slot.z);
+    }
   }
 
   /** Per-frame visual update — shader time, not simulation. */

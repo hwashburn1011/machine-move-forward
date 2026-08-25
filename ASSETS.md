@@ -36,6 +36,23 @@ Each set is three 1K JPEGs, about 1.3 MB per material:
 | --- | --- | --- | --- |
 | `public/models/player.glb` | [Soldier.glb](https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf) ("Vanguard"), via the three.js examples | **Mixamo / Adobe — NOT CC0** | `PlayerVisual` — the player character |
 | `public/models/scavenger.glb` | [RobotExpressive](https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf/RobotExpressive) by [Tomás Laulhé](https://www.patreon.com/quaternius) (Quaternius), converted by [Don McCurdy](https://donmccurdy.com/) | **CC0 1.0** | `EnemyVisual` — the scavenger |
+| `public/models/props/wreck.glb` | [Ship Wreck](https://poly.pizza/m/4qia78IBmZ) by [Kenney](https://kenney.nl/) | **CC0 1.0** | `PropSpawner` — hulls half-buried in the dunes |
+| `public/models/props/containers.glb` | [Shipping Container Structure](https://poly.pizza/m/ebmepOXDRd) by Quaternius | **CC0 1.0** | `PropSpawner` — container stacks |
+| `public/models/props/debris.glb` | [Debris Pile](https://poly.pizza/m/WrIiMMxyEP) by Quaternius | **CC0 1.0** | `PropSpawner` — rubble scatter |
+
+The three prop packs are 456 KB together, one mesh apiece, no textures at all —
+both authors colour by material rather than by map. `PropModels` merges each
+pack's primitives into a single geometry and bakes the material colours into
+vertex colours on the way, so a pack keeps its palette at one draw call and can
+be drawn by an `InstancedMesh`. They are authored in centimetres and scaled up
+by a node, which is baked in at the same time.
+
+**What was inspected and rejected**, so nobody repeats it:
+
+| candidate | licence | why not |
+| --- | --- | --- |
+| [Modular Ruins Pack](https://poly.pizza/m/F2LAK03B0r) (Quaternius) | CC0 | 8 MB and 95 pieces, of which the usable ones are a handful. Gothic arches, stag statues, bookcases and overgrown walls — a medieval monastery kit, not a desert. Worth revisiting for its plain masonry if the scatter ever needs stone. |
+| Skyscraper, Factory, Apartment (Poly by Google) | CC-BY | These are the pieces that would actually read as a swallowed CITY. Ruled out deliberately: CC0 only, so the project carries no attribution obligations. |
 
 453 KB, glTF 2.0 binary: 14 meshes over 2 skins, 43 joints, 14 clips. Five of
 those clips carry the whole enemy — `Idle`, `Walking`, `Running`, `Punch`,

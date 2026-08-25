@@ -16,6 +16,7 @@ import { Sky } from '@/art/Sky';
 import { Materials } from '@/art/Materials';
 import { loadTextureSets } from '@/art/TextureLoader';
 import { loadModel } from '@/art/ModelLoader';
+import { loadPropModels } from '@/world/PropModels';
 import { updateFogColor } from '@/art/Fog';
 import { WorldManager, renderedDistance } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
@@ -191,6 +192,12 @@ export class Game implements LoopCallbacks {
     // nicer-looking scavenger, never a boot. `setModel` rather than a
     // constructor argument because the manager is built in the synchronous
     // constructor, before this has resolved.
+    // The desert's wrecks, on the same bargain: a missing pack costs a wreck
+    // on the horizon, never a boot.
+    if (options.models !== false) {
+      game.world.applyPropModels(await loadPropModels());
+    }
+
     const model = options.models === false ? null : await loadModel('models/scavenger.glb');
     game.enemies.setModel(model);
 
