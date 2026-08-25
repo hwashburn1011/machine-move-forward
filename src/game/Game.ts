@@ -71,6 +71,7 @@ import { WEAPON_MODELS } from '@/data/weapon-models';
 import { SalvageField } from '@/salvage/SalvageField';
 import { pickReelTarget, REEL_RANGE } from '@/salvage/Reel';
 import { stepHook, type HookState } from '@/salvage/Hook';
+import { buildHook, HOOK_SPIN } from '@/salvage/HookModel';
 import { ENEMIES } from '@/data/enemies';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
@@ -204,7 +205,7 @@ export class Game implements LoopCallbacks {
   private readonly hookDir = new THREE.Vector3();
   private readonly hookAt = new THREE.Vector3();
   private readonly reelLine: THREE.Line;
-  private readonly reelHead: THREE.Mesh;
+  private readonly reelHead: THREE.Group;
   private readonly reelAim = new THREE.Vector3();
   /** A crate is lined up and a throw would reach it. Read by the HUD. */
   private reelReady = false;
@@ -332,10 +333,9 @@ export class Game implements LoopCallbacks {
     this.renderer.scene.add(this.reelLine);
 
     // The hook itself, so the throw is something you watch rather than infer.
-    this.reelHead = new THREE.Mesh(
-      new THREE.OctahedronGeometry(0.22),
-      new THREE.MeshBasicMaterial({ color: 0xffc27a, toneMapped: false }),
-    );
+    // It was an octahedron -- a floating orange diamond, which said "something
+    // is happening" and never once said "this is a hook".
+    this.reelHead = buildHook(this.materials.bareSteel);
     this.reelHead.visible = false;
     this.renderer.scene.add(this.reelHead);
     // Its own stream, so loot rolls cannot shift where arrivals are placed.
@@ -655,6 +655,13 @@ export class Game implements LoopCallbacks {
       this.reelLine.visible = true;
     }
     this.reelHead.position.copy(this.hookAt);
+    // Point it the way it is going, and spin it about that axis as it flies.
+    // A hook that holds one attitude the whole way out reads as a prop being
+    // slid along a wire; tumbling is most of what sells the throw. On the way
+    // BACK it is dragging a crate, so it holds still -- a line under tension
+    // does not let its end spin.
+    this.reelHead.lookAt(this.hookAt.x + this.hookDir.x, this.hookAt.y + this.hookDir.y, this.hookAt.z + this.hookDir.z);
+    if (this.hook.phase === 'out') this.reelHead.rotateZ(this.hook.distance * HOOK_SPIN);
     this.reelHead.visible = true;
 
     if (this.hook.phase === 'done') {

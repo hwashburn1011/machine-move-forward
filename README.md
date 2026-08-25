@@ -100,6 +100,8 @@ build adds weight, which measurably slows the machine.
   telegraphed. Waves grow as they are survived, are staggered rather than
   dropped on one frame, and nothing arrives while the last one is still alive.
   Warned on the HUD and in the audio before it lands.
+- A salvage reel with a real grappling hook — shank, three swept flukes with
+  barbs, and an eye for the cable — built in code and tumbling as it flies
 - Synthesised audio: no sample files, every sound built out of oscillators and
   filtered noise at runtime. Weapons, impacts, damage, footfalls under the
   machine's feet, building, looting, crafting, the reel, the director's warning
