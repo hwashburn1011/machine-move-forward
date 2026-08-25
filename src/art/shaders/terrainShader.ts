@@ -133,6 +133,15 @@ uniform vec3  uSandCrest;
 uniform vec3  uSunDir;
 varying vec3 vTerrainWorld;
 varying float vTerrainSlope;
+
+#ifdef TERRAIN_SAND_TEXTURE
+  uniform sampler2D uSandMap;
+  uniform sampler2D uSandNormalMap;
+  uniform sampler2D uSandArmMap;
+  uniform float uSandBlotch;
+  uniform float uSandGrain;
+  uniform float uSandNormalStrength;
+#endif
 `;
 
 /**
@@ -181,6 +190,46 @@ export const TERRAIN_FRAGMENT_MAIN = /* glsl */ `
   sand = mix(sand, uSandDeep, smoothstep(0.55, 1.0, slope));
   // Wind scours crests lighter and more desaturated than the troughs.
   sand = mix(sand, uSandCrest, crest * 0.35);
+
+  // --- Photographed sand --------------------------------------------------
+  // A real scan (Poly Haven's aerial_sand, CC0), sampled in WORLD space at
+  // two scales. Not bound to the material's own map slot: a chunk is 360m by
+  // 64m and its UVs would stretch one tile the length of the world.
+  //
+  // Used as DETAIL rather than as albedo. The scan is pale desert beige and
+  // this desert is deliberately not — multiplying the palette by it directly
+  // would drag every art-directed colour back toward the photograph's grey.
+  // So the far sample supplies large-scale blotching, the near sample supplies
+  // grain as its difference from the far one, and both modulate around 1.0.
+  // The hue stays the palette's; the texture only says where sand is coarser,
+  // finer, scoured or banked.
+#ifdef TERRAIN_SAND_TEXTURE
+  vec2 grainFarUv = vTerrainWorld.xz * 0.013;
+  vec2 grainNearUv = vTerrainWorld.xz * 0.14;
+
+  const vec3 LUMA = vec3(0.299, 0.587, 0.114);
+  float lumFar = dot(texture2D(uSandMap, grainFarUv).rgb, LUMA);
+  float lumNear = dot(texture2D(uSandMap, grainNearUv).rgb, LUMA);
+
+  // Patches of coarser and finer sand, tens of metres across. Not faded with
+  // distance: this is the term that stops a far dune reading as flat colour.
+  sand *= 1.0 + (lumFar - 0.5) * uSandBlotch;
+  // Grain, as the near sample's departure from the far one. Faded with
+  // distance or it aliases into shimmer, exactly like the ripples.
+  sand *= 1.0 + (lumNear - lumFar) * uSandGrain * detailFade;
+
+  // The scan's own normals, layered under the ripples in the same way — the
+  // ripple perturbation above mixes a world-space vector into the normal, and
+  // this follows it rather than inventing a second convention.
+  vec3 grainNormal = texture2D(uSandNormalMap, grainNearUv).xyz * 2.0 - 1.0;
+  normal = normalize(
+    normal + vec3(grainNormal.x, 0.0, grainNormal.y) * uSandNormalStrength * detailFade
+  );
+
+  // Roughness variation, so the glint below is not uniform across a whole
+  // desert. Green channel: the ARM packing puts roughness there.
+  roughnessFactor *= 1.0 + (texture2D(uSandArmMap, grainNearUv).g - 0.5) * 0.3 * detailFade;
+#endif
 
   diffuseColor.rgb *= sand;
 

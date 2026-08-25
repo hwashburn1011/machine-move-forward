@@ -180,7 +180,11 @@ export class Game implements LoopCallbacks {
     // usable, and this only swaps their surfaces. A failed fetch costs a
     // nicer-looking hull, never a boot.
     if (options.textures !== false) {
-      game.materials.applyTextureSets(await loadTextureSets());
+      const sets = await loadTextureSets();
+      game.materials.applyTextureSets(sets);
+      // The dunes are not a material slot — the terrain shader samples the
+      // scan in world space itself — so they are handed it separately.
+      if (sets.sand) game.world.applySand(sets.sand);
     }
 
     // Same bargain as the textures: a missing or undecodable model costs a

@@ -11,6 +11,7 @@ import {
 import { CHUNK_SIZE_X, CHUNK_SIZE_Z } from '@/game/constants';
 import { DUNE_PARAMS } from './DuneField';
 import type { QualitySettings } from '@/core/renderer/QualitySettings';
+import type { TextureSet } from '@/art/TextureLoader';
 
 /**
  * One recycled slab of dune terrain.
@@ -41,6 +42,16 @@ export class TerrainChunk {
       uSandDeep: { value: PALETTE.sandDeep.clone() },
       uSandCrest: { value: PALETTE.sandCrest.clone() },
       uSunDir: { value: new THREE.Vector3(0.78, 0.5, 0.37).normalize() },
+      // Sand scan. Null until the textures land, and the shader does not read
+      // them until the define below says they are there.
+      uSandMap: { value: null },
+      uSandNormalMap: { value: null },
+      uSandArmMap: { value: null },
+      // How much of the scan reaches the surface. Blotching is the big one:
+      // it is what stops a distant dune reading as flat colour.
+      uSandBlotch: { value: 0.34 },
+      uSandGrain: { value: 0.9 },
+      uSandNormalStrength: { value: 0.55 },
     };
 
     const material = new THREE.MeshStandardMaterial({
@@ -94,6 +105,28 @@ export class TerrainChunk {
   setZ(z: number): void {
     this.mesh.position.z = z;
     this.uniforms.uChunkOffset!.value = z;
+  }
+
+  /**
+   * Give the dunes their photographed surface.
+   *
+   * Late rather than in the constructor, because the world is built
+   * synchronously at boot and the textures are fetched. Same bargain as
+   * everywhere else in `ASSETS.md`: until this arrives — or if it never does,
+   * or with `?notex=1` — the dunes are exactly what they always were, which is
+   * a complete procedural surface rather than a placeholder.
+   */
+  applySand(set: TextureSet): void {
+    this.uniforms.uSandMap!.value = set.map;
+    this.uniforms.uSandNormalMap!.value = set.normalMap;
+    this.uniforms.uSandArmMap!.value = set.armMap;
+
+    const material = this.mesh.material as THREE.MeshStandardMaterial;
+    material.defines = { ...material.defines, TERRAIN_SAND_TEXTURE: '' };
+    // A define is a compile-time thing, so this is the recompile. Once per
+    // chunk material at boot, and Three caches by program key, so the nine
+    // chunks share one compile between them.
+    material.needsUpdate = true;
   }
 
   setSunDirection(dir: THREE.Vector3): void {

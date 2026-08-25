@@ -5,6 +5,7 @@ import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
 import { ChunkManager } from './ChunkManager';
 import { TerrainChunk } from './TerrainChunk';
+import type { TextureSet } from '@/art/TextureLoader';
 import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSpawner';
 
 /**
@@ -150,6 +151,16 @@ export class WorldManager {
       this.terrain[slot.slotId]?.setZ(slot.z + offset);
       this.props[slot.slotId]?.setZ(slot.z + offset);
     }
+  }
+
+  /**
+   * Hand the dunes their sand scan, once it has loaded.
+   *
+   * Every chunk, because each owns its own material — they share geometry, not
+   * surface.
+   */
+  applySand(set: TextureSet): void {
+    for (const chunk of this.terrain) chunk.applySand(set);
   }
 
   /** Per-frame visual update — shader time, not simulation. */

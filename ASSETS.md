@@ -19,6 +19,7 @@ re-license them without archaeology.
 | `public/textures/rusted-steel/` | [`rusty_painted_metal`](https://polyhaven.com/a/rusty_painted_metal) | `Materials.rustedSteel` — cargo and crates |
 | `public/textures/deck-plate/` | [`metal_plate`](https://polyhaven.com/a/metal_plate) | `Materials.deckPlate` — the deck surface |
 | `public/textures/build-plate/` | [`metal_plate_02`](https://polyhaven.com/a/metal_plate_02) | `Materials.buildPlate` — player-built floors and stairs |
+| `public/textures/sand/` | [`aerial_sand`](https://polyhaven.com/a/aerial_sand) | The dunes, via the terrain shader — **not** a material slot, see below |
 
 Each set is three 1K JPEGs, about 1.3 MB per material:
 
@@ -103,8 +104,24 @@ writing.
 **Where they are not:** the machine and the nine build pieces stay procedural.
 They are bespoke, aligned to a 2 m grid, and their colliders are derived from
 the same geometry — a mismatch between what is drawn and what is solid is the
-class of bug that put enemies inside the prow. The dunes stay procedural too,
-because they are infinite and scroll.
+class of bug that put enemies inside the prow.
+
+**The dunes were on that list and have come off it.** They said "the dunes stay
+procedural too, because they are infinite and scroll", and the shape still is:
+the height field, the ripples, the slope colour and the glint are all code, and
+scrolling infinite terrain is exactly why. What changed is the SURFACE, on the
+instruction to use real textures where they raise the graphics. An aerial sand
+scan now supplies grain and large-scale blotching that procedural noise was
+never going to fake convincingly.
+
+It is bound differently from every other set here and that is the interesting
+part. A terrain chunk is 360m by 64m, so its own UVs would stretch one 1k tile
+the length of the world; the shader samples the scan in WORLD space instead, at
+two scales, and uses it as a detail term around 1.0 rather than as albedo. The
+scan is pale desert beige and this desert is deliberately not — multiplied in
+directly it would drag every art-directed colour toward the photograph's. So
+the palette keeps the hue and the photograph only says where sand is coarser,
+finer, scoured or banked.
 
 **Licensing rule:** prefer CC0 (no attribution required). CC-BY is acceptable
 but every use must be recorded in this file. Anything more restrictive needs a
