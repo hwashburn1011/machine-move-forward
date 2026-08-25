@@ -78,14 +78,40 @@ export const REFERENCE_WEIGHT = 12000;
 // ---------------------------------------------------------------------------
 
 /**
- * Buildable envelope, in grid cells. Wider and deeper than the starting deck
- * so the player can extend outward, which is what makes multi-room structures
- * achievable at all — the bare deck is mostly occupied by equipment.
+ * Buildable envelope, in grid cells.
+ *
+ * Enormous on purpose: fifty tiles is a hundred metres in every direction from
+ * a machine that is ten metres by sixteen. It was two tiles past the deck
+ * edge, which is enough for a lean-to and not enough for anything a player
+ * would call theirs, and the point of a build system is that the answer to
+ * "can I put one more out there" is yes.
+ *
+ * It costs nothing to leave it this wide. The grid is sparse — four `Map`s
+ * keyed by cell, so an empty cell has no representation at all — and the only
+ * full sweeps of the envelope are `deckCells` and the machine's equipment
+ * projection, both once at construction and both about ten thousand cheap
+ * iterations.
+ *
+ * It is a hard limit rather than no limit because the number wants to be
+ * somewhere, and out past this the world stops cooperating in two ways worth
+ * knowing about:
+ *
+ *   - **Shadows stop at ±22m**, which is the sun's shadow camera (`Renderer`),
+ *     kept tight because the machine never leaves the origin and a tight box
+ *     is what buys sharp shadows everywhere else. Build past that and the
+ *     structure is lit but casts nothing.
+ *   - **The dunes come back at ±30m in X.** The dune field flattens a corridor
+ *     for the machine — level within 10m, blending to full height by 30m
+ *     (`DUNE_PARAMS.corridor*`) — so a deck built far out to the side will have
+ *     sand standing through it.
+ *
+ * Neither is a reason to stop the player; both are reasons to know where the
+ * comfortable envelope ends.
  */
-export const GRID_MIN_X = -4;
-export const GRID_MAX_X = 4;
-export const GRID_MIN_Z = -6;
-export const GRID_MAX_Z = 5;
+export const GRID_MIN_X = -50;
+export const GRID_MAX_X = 50;
+export const GRID_MIN_Z = -50;
+export const GRID_MAX_Z = 50;
 export const GRID_LEVELS = 3;
 
 /**

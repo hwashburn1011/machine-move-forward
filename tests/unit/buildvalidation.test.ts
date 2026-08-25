@@ -1,6 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { BuildGrid, canonicalEdge, type Cell } from '@/building/BuildGrid';
 import {
+  GRID_LEVELS,
+  GRID_MAX_X,
+  GRID_MAX_Z,
+  GRID_MIN_LEVEL,
+  GRID_MIN_X,
+  GRID_MIN_Z,
+} from '@/game/constants';
+import {
   stairsCells,
   validatePlacement,
   type CanAfford,
@@ -38,13 +46,13 @@ describe('bounds and occupancy', () => {
   it('rejects cells outside the envelope in every direction', () => {
     const g = grid();
     for (const cell of [
-      c(-5, 0, 0),
-      c(5, 0, 0),
-      c(0, 0, -7),
-      c(0, 0, 6),
+      c(GRID_MIN_X - 1, 0, 0),
+      c(GRID_MAX_X + 1, 0, 0),
+      c(0, 0, GRID_MIN_Z - 1),
+      c(0, 0, GRID_MAX_Z + 1),
       // -1 is the engine room and is in bounds; -2 is the first level below.
-      c(0, -2, 0),
-      c(0, 3, 0),
+      c(0, GRID_MIN_LEVEL - 1, 0),
+      c(0, GRID_LEVELS, 0),
     ]) {
       expect(validatePlacement(g, place('floor', cell), RICH).reason).toBe('out-of-bounds');
     }
