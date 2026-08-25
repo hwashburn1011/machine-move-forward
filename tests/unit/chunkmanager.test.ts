@@ -119,3 +119,66 @@ describe('ChunkManager', () => {
     expect(maxAt(SIZE * 100)).toBeGreaterThan(maxAt(SIZE * 10));
   });
 });
+
+/**
+ * The same ring, with the world going the other way.
+ *
+ * The machine's bow points -Z and the world used to scroll as though forward
+ * were +Z (walker spec section 12), so the machine ploughed sand it had
+ * already crossed. Turning the world round rather than the hull is what
+ * settled it, and this is the half of that change with any arithmetic in it.
+ *
+ * Every assertion here is its -1 counterpart with the sign of Z flipped, and
+ * that is the point: the two directions must be exact mirrors, or "forward" is
+ * still hiding somewhere in the recycling.
+ */
+describe('ChunkManager, with the world scrolling the other way', () => {
+  const other = () => new ChunkManager(AHEAD, BEHIND, SIZE, 1);
+
+  it('spans from behind the machine to ahead of it, mirrored', () => {
+    const zs = other().slots.map((s) => s.z);
+    expect(Math.max(...zs)).toBeCloseTo(BEHIND * SIZE, 6);
+    expect(Math.min(...zs)).toBeCloseTo(-AHEAD * SIZE, 6);
+  });
+
+  it('moves the world the way it was told to', () => {
+    const m = other();
+    const before = m.slots[0]!.z;
+    m.advance(10);
+    expect(m.slots[0]!.z - before).toBeCloseTo(10, 6);
+  });
+
+  it('recycles on the same schedule', () => {
+    expect(other().advance(SIZE * 0.5)).toEqual([]);
+    expect(other().advance(SIZE * 1.001).length).toBe(1);
+  });
+
+  it('is an exact mirror of the other direction, over a long run', () => {
+    const forward = new ChunkManager(AHEAD, BEHIND, SIZE, -1);
+    const reverse = new ChunkManager(AHEAD, BEHIND, SIZE, 1);
+
+    for (let d = 0; d < 4000; d += 37) {
+      forward.advance(d);
+      reverse.advance(d);
+      const a = forward.slots.map((s) => s.z).sort((x, y) => x - y);
+      const b = reverse
+        .slots.map((s) => -s.z)
+        .sort((x, y) => x - y);
+      expect(b, `at ${d}m`).toEqual(a.map((v) => expect.closeTo(v, 6)));
+    }
+  });
+
+  it('restores a save exactly, the same way', () => {
+    // The property the whole ring rests on: jumping straight to a distance
+    // must land where advancing there frame by frame would have.
+    const walked = new ChunkManager(AHEAD, BEHIND, SIZE, 1);
+    for (let d = 0; d <= 3000; d += 7) walked.advance(d);
+
+    const jumped = new ChunkManager(AHEAD, BEHIND, SIZE, 1);
+    jumped.reset(3000);
+
+    expect(jumped.slots.map((s) => s.chunkIndex)).toEqual(
+      walked.slots.map((s) => s.chunkIndex),
+    );
+  });
+});

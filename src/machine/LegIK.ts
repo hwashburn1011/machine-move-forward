@@ -1,3 +1,4 @@
+import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 /**
  * Two-bone inverse kinematics for the machine's legs.
  *
@@ -95,18 +96,32 @@ export function twoBoneFoot(
 }
 
 /**
+ * Machine-space +Z per unit of "forward".
+ *
+ * `solveTwoBone` folds the knee in one fixed direction — positive, so it
+ * trails behind the direction of travel. Which way that IS in machine space is
+ * not the solver's business and must not be written down twice: the world
+ * scrolls by `WORLD_Z_PER_METRE`, so the machine advances the other way.
+ *
+ * Getting this backwards does not fail to reach the target — the foot still
+ * lands exactly where it was asked to — it bends every knee the wrong way,
+ * which reads as a machine walking on its elbows.
+ */
+const FORWARD_Z = -WORLD_Z_PER_METRE;
+
+/**
  * Angles that reach a foot target given in machine space.
  *
  * The lateral part of the offset is taken up by splaying the leg's plane out
  * from the hull; what is left is a two-bone problem in that plane, with the
  * machine's fore-aft axis as its horizontal.
  *
- * The plane's horizontal axis is machine +z, which is the way the machine
- * travels: the world scrolls toward -z as it covers ground (see
- * `WORLD_Z_PER_METRE`), so ground it has passed recedes that way. Getting this
- * backwards does not fail to reach the target — the foot still lands exactly
- * where it was asked to — it just bends every knee the wrong way, which reads
- * as a machine walking on its elbows.
+ * The solve happens in the TRAVEL frame — horizontal positive forwards — and
+ * the answer is mirrored back into machine space if those differ. Negating
+ * both angles is exactly a mirror in that horizontal: `twoBoneFoot` is a sum
+ * of sines in the angles and a sum of cosines in the drop, so the foot's
+ * height is untouched and its fore-aft offset flips sign. Which means the foot
+ * still lands precisely where the gait asked, and only the knee changes sides.
  */
 export function solveLeg(hip: Point3, foot: Point3, upper: number, lower: number): LegAngles {
   const dx = foot.x - hip.x;
@@ -119,7 +134,13 @@ export function solveLeg(hip: Point3, foot: Point3, upper: number, lower: number
   const drop = Math.hypot(dx, dy);
   const splay = drop > 1e-12 ? Math.atan2(dx, -dy) : 0;
 
-  return { splay, ...solveTwoBone(dz, -drop, upper, lower) };
+  const solved = solveTwoBone(dz * FORWARD_Z, -drop, upper, lower);
+  return {
+    splay,
+    hip: solved.hip * FORWARD_Z,
+    knee: solved.knee * FORWARD_Z,
+    reached: solved.reached,
+  };
 }
 
 /**

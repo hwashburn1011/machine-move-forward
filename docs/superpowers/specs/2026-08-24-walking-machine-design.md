@@ -605,7 +605,43 @@ go with it. If the world's direction is ever flipped, the feet flip too and the
 tests that pin them say so. Nothing in `Gait` or `LegIK` hard-codes a forward
 direction.
 
-That leaves the choice, which is the player's rather than mine:
+**RESOLVED 2026-08-25: the world turned round, not the hull.** Option 2, which
+this section ranked second, and the ranking was correct when it was written and
+wrong by the time it was acted on. What changed is this very feature.
+
+The argument for option 1 was that the hull's face is a modelling decision
+where the world's direction is load-bearing for chunk recycling, spawning and
+saves. But the walker work funnelled every direction-dependent system through
+`WORLD_Z_PER_METRE` precisely so that a foot could not be wrong on its own —
+and once that was done, the count came out the other way. Measured, what still
+wrote a direction down for itself was:
+
+- `ChunkManager`'s `slot.z = chunkIndex * size - distance`, and the slot
+  seeding that assumed a lower index meant further astern;
+- one dune-height lookup in `TrackMarks`, and its retirement threshold, which
+  was a Z rather than a distance;
+- the knee-fold direction in `LegIK`, which had a comment saying it must follow
+  `WORLD_Z_PER_METRE` and then hard-coded the sign anyway.
+
+That is three places, all pure, all now derived. Everything else — the salvage
+field, the blown sand, the footfall prints, the player carried astern on the
+sand, the gait's whole treadmill — flipped for free, which is exactly what the
+constant was named and exported for.
+
+Against that, turning the hull round meant moving the prow, the plough, the
+deck-bearing strings a boarding alert already uses, and the spawn heading. And
+the tempting one-line version of it — rotating the machine's group 180° — is
+not available at all: a planted foot is glued to the sand in MACHINE space, so
+under a rotated group every foot would travel backwards. The walker made option
+1 more expensive and option 2 nearly free, at the same time.
+
+`ChunkManager` now takes the direction as a parameter rather than importing it,
+so it keeps the no-dependency property its header claims and its tests drive
+BOTH directions and assert they are exact mirrors. The machine's face is at -Z
+and it now travels toward -Z. Verified in the running game: the plough leads,
+the stacks trail, and the knees fold astern.
+
+The three options as they stood:
 
 1. **Turn the hull round** — the prow, plough and deck-bearing names move to
    +Z. Cheap in code, but it moves the machine's face, and the deck bearings

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { GameLoop } from '@/game/GameLoop';
-import { scrollOffset } from '@/world/WorldManager';
+import { scrollOffset, WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { BASE_MACHINE_SPEED, FIXED_DT } from '@/game/constants';
 
 /**
@@ -27,9 +27,11 @@ function runFrames(displayHz: number, frames: number, interpolate: boolean) {
       distance += BASE_MACHINE_SPEED * FIXED_DT;
     },
     render: (alpha) => {
-      // slot.z = chunkIndex * size - distance, so the world travels toward -Z.
+      // Which way the world goes is `WORLD_Z_PER_METRE`'s to say, not this
+      // file's -- it used to write the minus sign itself, and then said so in
+      // a comment quoting an arithmetic that has since moved.
       const offset = interpolate ? scrollOffset(alpha, BASE_MACHINE_SPEED) : 0;
-      drawnZ.push(-distance + offset);
+      drawnZ.push(WORLD_Z_PER_METRE * distance + offset);
     },
   });
 
@@ -74,6 +76,11 @@ describe('world scroll smoothness at display rates above the sim rate', () => {
 
   it('still moves strictly forward, never backward', () => {
     const drawn = runFrames(144, 200, true);
-    for (let i = 1; i < drawn.length; i++) expect(drawn[i]!).toBeLessThan(drawn[i - 1]!);
+    // Monotonic THE WAY THE WORLD GOES. A frame that drew the ground back
+    // where it had already been would read as a judder whichever direction
+    // that is, so the assertion is about the sign of the step, not about Z.
+    for (let i = 1; i < drawn.length; i++) {
+      expect((drawn[i]! - drawn[i - 1]!) * WORLD_Z_PER_METRE).toBeGreaterThan(0);
+    }
   });
 });

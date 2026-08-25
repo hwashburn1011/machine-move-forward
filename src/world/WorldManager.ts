@@ -12,9 +12,9 @@ import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSp
 /**
  * How far the world has scrolled PAST its last simulated step, for rendering.
  *
- * `slot.z` is `chunkIndex * chunkSize - distance`, so the world travels toward
- * -Z and the sub-step offset is negative. Pure so the arithmetic is testable
- * without a scene.
+ * Signed by `WORLD_Z_PER_METRE` rather than by a minus written here, so it
+ * cannot disagree with the direction everything else derives from. Pure, so
+ * the arithmetic is testable without a scene.
  */
 export function scrollOffset(alpha: number, speed: number): number {
   return WORLD_Z_PER_METRE * speed * alpha * FIXED_DT;
@@ -23,17 +23,40 @@ export function scrollOffset(alpha: number, speed: number): number {
 /**
  * How far the world moves in Z for every metre the machine travels.
  *
- * `ChunkManager` places a chunk at `chunkIndex * chunkSize - distance`, so the
- * whole world slides toward -Z as the machine covers ground, and anything that
- * has to stay glued to the sand has to move with it: the footfall prints, and
- * above all the machine's own planted feet, whose entire job is to not skate.
+ * The whole world slides this way as the machine covers ground, and anything
+ * that has to stay glued to the sand has to move with it: the footfall prints,
+ * the drifting salvage, the blown sand, and above all the machine's own
+ * planted feet, whose entire job is to not skate.
  *
  * Named and exported rather than written as a minus sign in each of them.
  * A foot that moves the wrong way does not look like a bug in a constant, it
  * looks like the machine is moonwalking, and it is the sort of thing that gets
  * "fixed" in one place and left wrong in three others.
+ *
+ * **+1, and that is the fix for walker spec section 12.** The hull's face has
+ * always been at -Z — the prow, the plough, `DeckBearing`'s "bow", the heading
+ * the player spawns looking down — while the world scrolled as though forward
+ * were +Z. The machine drove stern-first and ploughed sand it had already
+ * crossed. Treads hid it, because a belt is symmetrical and its cleats scroll
+ * the same way whichever end leads; a stride is not symmetrical and neither is
+ * a footprint, which is why the walker work is what surfaced it.
+ *
+ * The spec offered three answers and preferred turning the HULL round, on the
+ * grounds that the world's direction was load-bearing for chunk recycling,
+ * spawning and saves. That was true when it was written and is not true now:
+ * the walker work funnelled every direction-dependent system through this one
+ * constant precisely so a foot could not be wrong on its own. What was left
+ * hard-coding a direction was `ChunkManager`'s arithmetic, which is now a
+ * parameter it takes, and one dune-height lookup in `TrackMarks`. Turning the
+ * hull round would have meant moving the prow, the plough, the deck-bearing
+ * names and the spawn heading, and rotating the machine's group breaks the
+ * gait outright — a planted foot is glued to the sand in MACHINE space, so
+ * under a rotated group every foot travels backwards.
+ *
+ * So the world turned round instead. Two files, both tested in both
+ * directions.
  */
-export const WORLD_Z_PER_METRE = -1;
+export const WORLD_Z_PER_METRE = 1;
 
 /**
  * How far the world has scrolled by the time a frame is DRAWN.
@@ -71,7 +94,12 @@ export class WorldManager {
     materials: Materials,
     private readonly worldSeed: string,
   ) {
-    this.chunkManager = new ChunkManager(CHUNKS_AHEAD, CHUNKS_BEHIND, CHUNK_SIZE_Z);
+    this.chunkManager = new ChunkManager(
+      CHUNKS_AHEAD,
+      CHUNKS_BEHIND,
+      CHUNK_SIZE_Z,
+      WORLD_Z_PER_METRE,
+    );
     this.geometry = TerrainChunk.createGeometry(quality);
     this.propGeometries = createPropGeometries();
 

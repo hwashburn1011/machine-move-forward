@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { Game } from '@/game/Game';
 import type { QualityTier } from '@/core/renderer/QualitySettings';
+import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { canonicalEdge } from '@/building/BuildGrid';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
@@ -94,6 +95,10 @@ window.addEventListener('keydown', () => game.audio.resume(), { once: false });
   build: game.build,
   resources: game.resources,
   canonicalEdge,
+  // Which way the world scrolls. Harnesses that reason about anything glued to
+  // the sand need it, and deriving it by observation instead is how a harness
+  // ends up asserting a direction of its own -- see walker spec section 12.
+  WORLD_Z_PER_METRE,
   debugStats: () => {
     const info = game.renderer.three.info;
     return {

@@ -290,27 +290,35 @@ check(
 // it is metres from retiring, and a print that retires mid-measurement stops
 // moving and reads as slipping. That is how this check first passed while
 // measuring nothing.
+//
+// "Newest" is the LEAST ASTERN, and astern is `WORLD_Z_PER_METRE`'s to say. It
+// was written as "greatest z", which is the same thing only while the world
+// scrolls one particular way -- and picked the oldest print the moment that
+// changed.
 const glue = await page.evaluate(() => {
   const g = globalThis.__game.game;
+  const s = globalThis.__game.WORLD_Z_PER_METRE;
   const live = g.tracks.marks.filter((m) => m.live);
   if (live.length === 0) return null;
-  const mark = live.reduce((a, b) => (b.z > a.z ? b : a));
-  globalThis.__glue = { mark, z0: mark.z, d0: g.world.distanceTraveled };
+  const mark = live.reduce((a, b) => (b.z * s < a.z * s ? b : a));
+  globalThis.__glue = { mark, z0: mark.z, d0: g.world.distanceTraveled, s };
   return true;
 });
 await sim(2);
 const slip = await page.evaluate(() => {
   const g = globalThis.__game.game;
-  const { mark, z0, d0 } = globalThis.__glue;
+  const { mark, z0, d0, s } = globalThis.__glue;
   return {
-    moved: mark.z - z0,
+    // Both in "metres astern", so the comparison below is a single number
+    // whichever way the machine faces.
+    moved: (mark.z - z0) * s,
     walked: g.world.distanceTraveled - d0,
     live: mark.live,
   };
 });
 check(
   'a pressed print stays with the sand it was pressed into',
-  glue !== null && slip.live && slip.walked > 1 && Math.abs(slip.moved + slip.walked) < 0.2,
+  glue !== null && slip.live && slip.walked > 1 && Math.abs(slip.moved - slip.walked) < 0.2,
   glue === null
     ? 'no live prints'
     : `print moved ${slip.moved.toFixed(2)}m astern while the world moved ${slip.walked.toFixed(2)}m, still live=${slip.live}`,

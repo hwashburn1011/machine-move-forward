@@ -37,12 +37,18 @@ import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 const POOL = 128;
 
 /**
- * Behind this the trail has served its purpose and the print is recycled.
+ * Metres ASTERN at which the trail has served its purpose and a print is
+ * recycled.
+ *
+ * A distance, not a Z. It used to be `-50`, which is the same number with the
+ * world's direction baked into its sign — correct only while the world scrolls
+ * toward -Z, and silently never true once it does not: prints would simply
+ * fly off toward +Z and the pool would exhaust itself.
  *
  * If a print were still alive when the cursor came round to it, reuse would
  * teleport it from the back of the trail to the front in one frame.
  */
-const RETIRE_Z = -50;
+const RETIRE_ASTERN = 50;
 
 /** Marks shrink away over this last stretch instead of blinking out. */
 const FADE_OVER = 9;
@@ -137,7 +143,7 @@ export class TrackMarks {
     // very first call against a distance that is not zero. Every print belongs
     // to ground that is now kilometres astern, so retire them rather than
     // scrolling them there one frame at a time.
-    if (Math.abs(travelled) > -RETIRE_Z) {
+    if (Math.abs(travelled) > RETIRE_ASTERN) {
       for (const mark of this.marks) mark.live = false;
       this.writeMatrices();
       return;
@@ -147,7 +153,9 @@ export class TrackMarks {
     for (const mark of this.marks) {
       if (!mark.live) continue;
       mark.z += scrollZ;
-      if (mark.z < RETIRE_Z) mark.live = false;
+      // How far astern it has got, in the world's own direction rather than
+      // in raw Z, so this reads the same whichever way the machine faces.
+      if (mark.z * WORLD_Z_PER_METRE > RETIRE_ASTERN) mark.live = false;
     }
 
     this.writeMatrices();
@@ -178,14 +186,19 @@ export class TrackMarks {
       if (mark.live) {
         this.position.set(
           mark.x,
-          duneHeightAt(mark.x, mark.z + this.distance) + SAND_LIFT,
+          // Render Z back to world Z. A print is drawn where the world has
+          // carried it; the dune under it is a function of where it was
+          // pressed. `- WORLD_Z_PER_METRE * distance` is the inverse of the
+          // scroll above, and derived from the same constant so the two cannot
+          // disagree about which way the world went.
+          duneHeightAt(mark.x, mark.z - WORLD_Z_PER_METRE * this.distance) + SAND_LIFT,
           mark.z,
         );
         this.euler.set(0, mark.yaw, 0);
         this.quat.setFromEuler(this.euler);
         // Taper the oldest marks to nothing. Sand slumps back into a track; a
         // trail that ends in a hard edge reads as a decal, not a depression.
-        const remaining = mark.z - RETIRE_Z;
+        const remaining = RETIRE_ASTERN - mark.z * WORLD_Z_PER_METRE;
         const fade = remaining < FADE_OVER ? Math.max(0, remaining / FADE_OVER) : 1;
         this.scaleVec.set(mark.scale * fade, 1, mark.scale * fade);
         this.matrix.compose(this.position, this.quat, this.scaleVec);

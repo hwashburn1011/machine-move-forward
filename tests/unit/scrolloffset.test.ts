@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { scrollOffset } from '@/world/WorldManager';
+import { scrollOffset, WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { BASE_MACHINE_SPEED, FIXED_DT } from '@/game/constants';
 
 /**
@@ -26,8 +26,12 @@ describe('scrollOffset', () => {
     expect(full).toBeLessThan(0.2);
   });
 
-  it('scrolls toward -Z, matching slot.z = chunkIndex * size - distance', () => {
-    expect(scrollOffset(0.5, BASE_MACHINE_SPEED)).toBeLessThan(0);
+  it('scrolls the way the world goes, whichever way that is', () => {
+    // Not "toward -Z". The sub-step offset and the step it is a fraction of
+    // must agree about direction, and this file pinning a sign of its own was
+    // one more place "forward" was written down -- which is exactly the split
+    // that let the machine drive stern-first for five milestones.
+    expect(scrollOffset(0.5, BASE_MACHINE_SPEED) * WORLD_Z_PER_METRE).toBeGreaterThan(0);
   });
 
   it('is proportional to alpha, so motion is linear within a step', () => {

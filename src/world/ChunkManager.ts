@@ -25,16 +25,63 @@ export class ChunkManager {
   private readonly slotCount: number;
   private distance = 0;
 
+  /**
+   * @param zPerMetre which way the world moves for every metre travelled: -1
+   *   if it slides toward -Z (the machine advancing toward +Z), +1 if it
+   *   slides toward +Z.
+   *
+   * A parameter rather than an import, so this file keeps the property its
+   * header claims -- pure logic, no dependencies, exhaustively testable -- and
+   * so the tests can drive BOTH directions rather than whichever one the
+   * constant happens to hold. `WorldManager` passes `WORLD_Z_PER_METRE`, which
+   * is the single place the answer lives.
+   */
   constructor(
     chunksAhead: number,
     private readonly chunksBehind: number,
     private readonly chunkSizeZ: number,
+    private readonly zPerMetre: -1 | 1 = -1,
   ) {
     this.slotCount = chunksAhead + chunksBehind + 1;
     for (let i = 0; i < this.slotCount; i++) {
-      this._slots.push({ slotId: i, chunkIndex: i - chunksBehind, z: 0 });
+      this._slots.push({ slotId: i, chunkIndex: this.startIndex(i), z: 0 });
     }
     this.reset(0);
+  }
+
+  /**
+   * A slot's render Z. The one expression the direction actually lives in.
+   *
+   * A chunk sits at a fixed world Z of `chunkIndex * chunkSizeZ`. The machine
+   * holds station at the render origin having travelled `distance` along its
+   * heading, and the world is drawn relative to it -- so the chunk is drawn
+   * `zPerMetre * distance` from where it sits.
+   */
+  private zFor(chunkIndex: number): number {
+    return chunkIndex * this.chunkSizeZ + this.zPerMetre * this.distance;
+  }
+
+  /**
+   * How far a slot has gone the way the world is going, in chunk lengths.
+   *
+   * Positive is astern. Multiplying by `zPerMetre` is what makes "behind"
+   * mean the same thing whichever way the machine faces, and it is why the
+   * recycle test below reads the same in both.
+   */
+  private astern(z: number): number {
+    return (z * this.zPerMetre) / this.chunkSizeZ;
+  }
+
+  /**
+   * The chunk a slot starts life representing.
+   *
+   * Slot 0 is the furthest astern, whichever way astern is -- so which INDEX
+   * that corresponds to depends on the direction. This was `slotId -
+   * chunksBehind`, which silently assumed lower index meant further back, and
+   * that assumption is only true when the world scrolls toward -Z.
+   */
+  private startIndex(slotId: number): number {
+    return -this.zPerMetre * (slotId - this.chunksBehind);
   }
 
   get slots(): readonly ChunkSlot[] {
@@ -55,16 +102,18 @@ export class ChunkManager {
 
     // Behind the machine by more than the trailing margin means it can never
     // be seen again, so it is free to jump to the front of the ring.
-    const cutoff = -(this.chunksBehind + 1) * this.chunkSizeZ;
+    const cutoff = this.chunksBehind + 1;
+    // Recycling moves a slot AHEAD, which is the opposite way to the world.
+    const step = -this.zPerMetre * this.slotCount;
 
     for (const slot of this._slots) {
-      slot.z = slot.chunkIndex * this.chunkSizeZ - this.distance;
+      slot.z = this.zFor(slot.chunkIndex);
 
       // A loop, not an if: a single long frame can carry a slot several chunk
       // lengths past the cutoff.
-      while (slot.z < cutoff) {
-        slot.chunkIndex += this.slotCount;
-        slot.z = slot.chunkIndex * this.chunkSizeZ - this.distance;
+      while (this.astern(slot.z) > cutoff) {
+        slot.chunkIndex += step;
+        slot.z = this.zFor(slot.chunkIndex);
         if (!recycled.includes(slot)) recycled.push(slot);
       }
     }
@@ -89,15 +138,22 @@ export class ChunkManager {
     // {-3..5} and {-2..6} are stable), and only the recycle count picks out
     // the one the initial condition actually evolves into. The clamp at zero
     // is what encodes "slots never move backwards".
-    const threshold = distanceTraveled / this.chunkSizeZ - (this.chunksBehind + 1);
+    // The signed index a slot must fall below to be out of play, in the same
+    // "positive is astern" frame `astern` uses -- so this is the recycle test
+    // above, solved for the index instead of iterated toward.
+    const threshold = this.chunksBehind + 1 - distanceTraveled / this.chunkSizeZ;
+    const step = -this.zPerMetre * this.slotCount;
 
     for (const slot of this._slots) {
-      const start = slot.slotId - this.chunksBehind;
+      const start = this.startIndex(slot.slotId);
       // Epsilon guards the case where threshold lands exactly on a boundary
       // and floating point drifts it a hair above.
-      const recycles = Math.max(0, Math.ceil((threshold - start) / this.slotCount - 1e-9));
-      slot.chunkIndex = start + recycles * this.slotCount;
-      slot.z = slot.chunkIndex * this.chunkSizeZ - this.distance;
+      const recycles = Math.max(
+        0,
+        Math.ceil((start * this.zPerMetre - threshold) / this.slotCount - 1e-9),
+      );
+      slot.chunkIndex = start + recycles * step;
+      slot.z = this.zFor(slot.chunkIndex);
     }
   }
 }
