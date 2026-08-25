@@ -137,14 +137,26 @@ export const LEGS: readonly LegDefinition[] = [
  * signal never reaches `MachineBody`'s clamp — a clamped signal is a square
  * wave, and a square wave is what jitter looks like.
  *
- * Deliberately understated against what the legs imply. A leg's own geometry
- * would drop the body the better part of a metre over a stride, and the deck
- * is a shooting platform and a build surface before it is a spectacle; the
- * hard bounds are 0.12m and 1.5 degrees, and these sit just inside them.
+ * Deliberately tiny. Not understated — TINY, a twentieth of what this started
+ * at, and set from the chair rather than from a principle: the legs and the
+ * walking are what read well, and a body riding on them wanted to be almost
+ * perfectly still. 5mm and a sixteenth of a degree is felt rather than seen,
+ * which is the point.
+ *
+ * Worth knowing before turning it back up. The camera no longer inherits any
+ * of this (`Machine.steadyPoint`), so what a bigger number moves is the
+ * machine and the character standing on it, not the view. And the body heaves
+ * FOUR times per stride, once per leg, which is about 4.6Hz at cruise — fast
+ * enough that even a small amplitude reads as a buzz rather than as weight.
+ * If this wants to be bigger, the rate probably wants to be slower first, and
+ * that is a change to how the signal is derived rather than to this number.
+ *
+ * The hard bounds in `MachineBody` are 0.12m and 1.5 degrees. There is a great
+ * deal of room above these, and it was not wanted.
  *
  * Nothing is lost by the legs implying more than the body does. The feet are
  * planted, the body is where the body is, and the knee absorbs the difference,
  * which is what a knee is for.
  */
-export const HEAVE_AMPLITUDE = 0.1;
-export const TILT_AMPLITUDE = 1.3 * (Math.PI / 180);
+export const HEAVE_AMPLITUDE = 0.005;
+export const TILT_AMPLITUDE = 0.065 * (Math.PI / 180);
