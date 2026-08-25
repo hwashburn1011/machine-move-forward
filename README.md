@@ -31,6 +31,7 @@ Click the canvas to take control (pointer lock).
 | `E` | Use the station you are standing at |
 | `Esc` | Close a panel |
 | `B` | Toggle build mode |
+| `M` | Mute |
 
 ### Build mode
 
@@ -62,8 +63,8 @@ build adds weight, which measurably slows the machine.
 ### URL parameters
 
 `?nolock=1` skips pointer lock, `?quality=low|medium|high|ultra` forces a tier,
-`?seed=name` picks a world seed, and `?cam=far|front|side|sky` switches to a
-fixed free camera for screenshots.
+`?seed=name` picks a world seed, `?nosound=1` boots silent, and
+`?cam=far|front|side|sky` switches to a fixed free camera for screenshots.
 
 ## What works
 
@@ -71,11 +72,13 @@ fixed free camera for screenshots.
   machine pinned to the world origin
 - Fully code-generated art: scattering sky, sky-derived IBL, dune shader with
   wind ripples, procedural textures, height fog, post-processing chain
-- A 10×16m crawler built from code with deck, treads, prow, and equipment
+- A 10×16m walker built from code with deck, four articulated legs, prow, and
+  equipment, its body heaving and listing with the gait while the deck it
+  carries stays solid underfoot
 - Third-person controller on Rapier's kinematic character controller
 - Rifle and shotgun with hitscan, spread, recoil, reload, and damage falloff
-- One hostile with a navigate/attack/pursue AI, boarding the deck every 250m of
-  travel and capped at four at once
+- One hostile with a navigate/attack/pursue AI, arriving in waves the threat
+  director schedules and capped at four aboard at once
 - HUD, debug overlay, versioned IndexedDB save/load
 - Grid build system: floors, walls, doorways, railings, roofs, stairs, storage
   crates, workbenches, and refineries on a 2m grid across a 9×12 envelope and 3
@@ -88,6 +91,17 @@ fixed free camera for screenshots.
 - Instant crafting at the workbench and refinery: ammo that lands in the
   weapon's reserve, repair kits, and an extended magazine that raises the
   equipped weapon's magazine by 50%
+- Encounter pacing: a threat director running calm, buildup, contact,
+  engagement and recovery off distance travelled, with the quiet scheduled
+  first — 650m of guaranteed peace between one wave ending and the next being
+  telegraphed. Waves grow as they are survived, are staggered rather than
+  dropped on one frame, and nothing arrives while the last one is still alive.
+  Warned on the HUD and in the audio before it lands.
+- Synthesised audio: no sample files, every sound built out of oscillators and
+  filtered noise at runtime. Weapons, impacts, damage, footfalls under the
+  machine's feet, building, looting, crafting, the reel, the director's warning
+  and all-clear, and a continuous engine drone whose pitch and volume follow the
+  machine's speed. Positional, in the listener's own frame.
 - Enemies path over the structure the player builds: A* across the build grid,
   routing around walls, funnelling through doorways, and falling back to the
   nearest reachable cell when you have sealed yourself in. A scavenger crossing
@@ -97,9 +111,10 @@ fixed free camera for screenshots.
 
 ## Not built yet
 
-Resource collection, enemy vehicles, boarding, turrets, localized machine
-damage, repair, the threat director, loot, navigation unlocks, and audio. These
-are Milestones 5–12 in the handoff.
+Enemy vehicles, boarding, turrets, localized machine damage, repair,
+navigation unlocks, and a second enemy type. These are Milestones 6–12 in the
+handoff; 5 (procedural resources, as the salvage field and the reel) and 10
+(the threat director) are done.
 
 Three known gaps in what is built:
 
@@ -180,7 +195,7 @@ src/
 ## Testing
 
 ```bash
-npm test             # 499 unit tests (deterministic logic)
+npm test             # 621 unit tests (deterministic logic)
 npm run test:e2e     # 11 Playwright smoke tests
 npm run lint
 npm run build        # includes tsc --noEmit
@@ -190,15 +205,18 @@ Deterministic logic is unit-tested: seeded RNG and noise, the event bus, the
 fixed-timestep accumulator, chunk recycling and save-restore equivalence,
 damage falloff, weapon state, enemy AI transitions, save migrations, grid edge
 canonicalisation, every build placement rule, room flood fill, container
-stacking and slot exhaustion, aggregate resource access, and recipe execution.
+stacking and slot exhaustion, aggregate resource access, recipe execution, the
+gait and its IK, deck carrying under a moving body, what the machine's own
+steel takes out of the build grid, every rule the threat director paces
+encounters by, and the arithmetic half of the audio layer.
 
 Rendering and feel cannot be meaningfully unit-tested, so there are five
 browser harnesses in `tools/` that drive the real game:
 
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
-node tools/drive.mjs                                # 9 movement/physics checks
-node tools/combat.mjs [out.png]                     # 64 combat, spawner, arrival, death, loot, salvage, navigation, and visual checks
+node tools/drive.mjs                                # 17 movement, physics, and footfall checks
+node tools/combat.mjs [out.png]                     # 78 combat, pacing, arrival, death, loot, salvage, navigation, audio, and visual checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
 ```

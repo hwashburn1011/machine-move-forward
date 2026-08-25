@@ -7,7 +7,17 @@ import { chromium } from '@playwright/test';
 const outShot = process.argv[2] ?? null;
 
 const browser = await chromium.launch({
-  args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+  // This is the one harness that keeps audio on, so it needs the flag that
+  // lets an AudioContext start without a real user gesture, and the one that
+  // stops a headless box hunting for an output device it does not have. The
+  // graph still runs and still counts; nothing has to come out of a speaker.
+  args: [
+    '--use-gl=angle',
+    '--use-angle=swiftshader',
+    '--enable-unsafe-swiftshader',
+    '--autoplay-policy=no-user-gesture-required',
+    '--mute-audio',
+  ],
 });
 const page = await browser.newPage({ viewport: { width: 640, height: 360 } });
 
@@ -1429,6 +1439,92 @@ for (let i = 0; i < 50; i++) {
   if (s.level === -1 && s.y < 2.5) { followed = true; break; }
 }
 check('engine room: a scavenger follows the player down into it', followed);
+
+// --- Audio -----------------------------------------------------------------
+// The half of the audio layer a unit test cannot reach. `SoundBank` is pure
+// arithmetic and is checked in node; what only a real browser can answer is
+// whether an `AudioContext` was actually obtained and whether a node graph
+// actually gets built when the game says something happened.
+//
+// Counting is the only observation available: nothing in a headless browser
+// can listen. `soundsPlayed` is incremented by `AudioEngine.play` itself, so a
+// count that moves means a real graph was assembled against a real context.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.enemySpawnsEnabled = false;
+  g.player.stats.invulnerable = true;
+  g.player.stats.reset();
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
+  g.audio.resume();
+});
+await sim(0.5);
+
+const audioUp = await page.evaluate(() => globalThis.__game.game.audio.ready);
+check('the game gets an audio context', audioUp === true, `ready=${audioUp}`);
+
+const busSounds = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const before = g.audio.soundsPlayed;
+  g.bus.emit('weapon:fired', { weaponId: 'rifle', ammoRemaining: 12 });
+  g.bus.emit('combat:hit', {
+    position: { x: 2, y: 4, z: 2 },
+    normal: { x: 0, y: 1, z: 0 },
+    targetId: null,
+    onMetal: true,
+  });
+  return g.audio.soundsPlayed - before;
+});
+check('events on the bus make sounds', busSounds === 2, `${busSounds} of 2 played`);
+
+// A sound past the falloff is dropped rather than played at zero gain, which
+// is what stops a deck full of impacts building node graphs nobody can hear.
+const outOfEarshot = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const before = g.audio.soundsPlayed;
+  g.audio.play('hit-metal', 0, 500);
+  return g.audio.soundsPlayed - before;
+});
+check('a sound out of earshot is not played at all', outOfEarshot === 0, `${outOfEarshot} played`);
+
+// The machine's own note. It is the one continuous sound, so it is not a voice
+// and does not touch the counter -- what is checked is that asking for it does
+// not throw and that the context is still alive afterwards.
+const droned = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.audio.updateDrone(7.5, 7.5);
+  g.audio.updateDrone(0, 7.5);
+  return g.audio.ready;
+});
+check('the drone follows the machine without falling over', droned === true, `ready=${droned}`);
+
+const muteTest = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const on = g.audio.toggleMute();
+  const before = g.audio.soundsPlayed;
+  g.bus.emit('weapon:fired', { weaponId: 'rifle', ammoRemaining: 11 });
+  const during = g.audio.soundsPlayed - before;
+  g.audio.toggleMute();
+  const after0 = g.audio.soundsPlayed;
+  g.bus.emit('weapon:fired', { weaponId: 'rifle', ammoRemaining: 10 });
+  return { on, during, back: g.audio.soundsPlayed - after0 };
+});
+check(
+  'mute silences it, and unmute brings it back',
+  muteTest.on === true && muteTest.during === 0 && muteTest.back === 1,
+  `muted=${muteTest.on} playedWhileMuted=${muteTest.during} playedAfter=${muteTest.back}`,
+);
+
+// The machine walks whether or not anyone is shooting, so its footfalls are
+// the one sound that must fire from the render loop rather than off the bus.
+const beforeWalk = await page.evaluate(() => globalThis.__game.game.audio.soundsPlayed);
+await sim(4);
+const afterWalk = await page.evaluate(() => globalThis.__game.game.audio.soundsPlayed);
+check(
+  'the machine is audible walking, with nothing else happening',
+  afterWalk > beforeWalk,
+  `${afterWalk - beforeWalk} sounds over four seconds of walking`,
+);
 
 if (outShot) {
   if (!hasModel) {

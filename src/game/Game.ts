@@ -29,6 +29,8 @@ import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner
 import { ThreatDirector, type ThreatPhase } from '@/enemies/ThreatDirector';
 import { SandFX } from '@/fx/SandFX';
 import { TrackMarks } from '@/fx/TrackMarks';
+import { AudioEngine } from '@/audio/AudioEngine';
+import { connectGameSounds } from '@/audio/GameSounds';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
 import { SaveManager } from '@/save/SaveManager';
@@ -60,6 +62,7 @@ import {
   LOST_IN_THE_DESERT_S,
   LEVEL_HEIGHT,
   ON_THE_SAND_Y,
+  BASE_MACHINE_SPEED,
 } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { hashSeed, Rng } from '@/core/math/Random';
@@ -97,6 +100,13 @@ export interface GameOptions {
   freeCameraTarget?: THREE.Vector3 | null;
   /** Distance-driven arrivals. Off for harnesses that must travel undisturbed. */
   enemySpawns?: boolean;
+  /**
+   * Synthesised audio. Default true.
+   *
+   * The harnesses turn it off: a headless Chromium's audio backend is one more
+   * thing to be slow and flaky about, and nothing they measure can hear.
+   */
+  sound?: boolean;
 }
 
 /**
@@ -150,6 +160,8 @@ export class Game implements LoopCallbacks {
   private readonly blockedSpawnCellKeys: Set<string>;
   readonly sandFX: SandFX;
   readonly tracks: TrackMarks;
+  readonly audio: AudioEngine;
+  private readonly disconnectSounds: () => void;
   readonly impactFX: ImpactFX;
   readonly hud: HUD;
   readonly post: PostProcessing;
@@ -322,6 +334,17 @@ export class Game implements LoopCallbacks {
     this.sandFX = new SandFX(this.renderer.scene, this.quality);
     this.tracks = new TrackMarks(this.renderer.scene);
     this.impactFX = new ImpactFX(this.renderer.scene, this.bus, this.quality);
+
+    // The listener is the PLAYER, always. The camera orbits them; the ears do
+    // not. `yawAngle` rather than the player's own facing, because that is the
+    // direction the screen is pointing and therefore the direction "left" and
+    // "right" mean to the person holding the mouse.
+    this.audio = new AudioEngine({ enabled: options.sound ?? true });
+    this.disconnectSounds = connectGameSounds(this.bus, this.audio, () => ({
+      x: this.player.worldPosition.x,
+      z: this.player.worldPosition.z,
+      yaw: this.playerCamera.yawAngle,
+    }));
 
     if (options.freeCamera) {
       this.freeCamera = this.renderer.camera;
@@ -558,6 +581,7 @@ export class Game implements LoopCallbacks {
     this.hookDir.copy(this.reelAim).normalize();
     this.hook = { distance: 0, phase: 'out' };
     this.hookedCrate = null;
+    this.audio.play('hook-throw');
   }
 
   /**
@@ -593,6 +617,7 @@ export class Game implements LoopCallbacks {
       if (grab && this.salvage.hook(grab.id)) {
         this.hookedCrate = grab.id;
         this.hook = { distance: this.hook.distance, phase: 'back' };
+        this.audio.play('hook-catch');
       }
     }
 
@@ -677,7 +702,13 @@ export class Game implements LoopCallbacks {
       const foot = this.machine.footPosition(leg);
       this.tracks.press(foot);
       this.sandFX.footfall(foot, this.machine.speed);
+      // The sound the whole audio pass exists for. Positional, so a foot
+      // landing to port is heard to port -- the machine is sixteen metres long
+      // and the player is standing on it, which is close enough that four
+      // identical centred thuds would read as a loop rather than as a walk.
+      this.audio.play('footfall', foot.x - this.player.worldPosition.x, foot.z - this.player.worldPosition.z);
     }
+    this.audio.updateDrone(this.machine.speed, BASE_MACHINE_SPEED);
     // Given the same walked distance the legs are driven by, so a print and
     // the foot that made it agree about which piece of ground they are on --
     // and so both agree with the dunes. `TrackMarks` takes its scroll from the
@@ -1093,6 +1124,9 @@ export class Game implements LoopCallbacks {
         this.timeOfDay = (this.timeOfDay + 0.12) % 1;
         this.sky.setTimeOfDay(this.timeOfDay);
         break;
+      case 'mute':
+        this.audio.toggleMute();
+        break;
       case 'save':
         void this.saveTo('quicksave');
         break;
@@ -1111,6 +1145,7 @@ export class Game implements LoopCallbacks {
     | 'quality'
     | 'post'
     | 'time'
+    | 'mute'
     | 'save'
     | 'load'
     | null = null;
@@ -1238,6 +1273,8 @@ export class Game implements LoopCallbacks {
   };
 
   dispose(): void {
+    this.disconnectSounds();
+    this.audio.dispose();
     window.removeEventListener('resize', this.onResize);
     this.loop.stop();
     this.input.dispose();

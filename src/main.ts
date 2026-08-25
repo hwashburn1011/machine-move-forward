@@ -36,6 +36,7 @@ const game = await Game.create({
   textures: params.get('notex') !== '1',
   models: params.get('nomodel') !== '1',
   enemySpawns: params.get('nospawn') !== '1',
+  sound: params.get('nosound') !== '1',
   freeCamera: preset?.[0] ?? null,
   freeCameraTarget: preset?.[1] ?? null,
 });
@@ -53,6 +54,7 @@ const DEBUG_KEYS: Record<string, Parameters<typeof game.queueDebugAction>[0]> = 
   F8: 'quality',
   F9: 'post',
   F10: 'time',
+  KeyM: 'mute',
 };
 
 window.addEventListener('keydown', (e) => {
@@ -64,6 +66,15 @@ window.addEventListener('keydown', (e) => {
 
 document.querySelector('#boot')?.remove();
 game.start();
+
+// Browsers create an AudioContext suspended and refuse to resume it outside a
+// user gesture. The click that takes pointer lock is the gesture every player
+// performs anyway, before there is anything to hear. `?nolock=1` skips that
+// click, so the first keypress serves instead -- otherwise the harnesses and
+// anyone driving the game without pointer lock would have a silent game and no
+// way to tell it from a broken one.
+canvas.addEventListener('mousedown', () => game.audio.resume());
+window.addEventListener('keydown', () => game.audio.resume(), { once: false });
 
 // Handle for the screenshot, movement, combat, and e2e harnesses.
 (globalThis as unknown as { __game: unknown }).__game = {

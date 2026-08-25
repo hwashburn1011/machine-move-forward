@@ -143,3 +143,22 @@ finer, scoured or banked.
 **Licensing rule:** prefer CC0 (no attribution required). CC-BY is acceptable
 but every use must be recorded in this file. Anything more restrictive needs a
 deliberate decision, not a download.
+
+## Audio
+
+**No sample files, by the same rule.** Every sound is synthesised at runtime
+out of oscillators and filtered white noise — `src/audio/SoundBank.ts` holds the
+recipes and is pure data, `src/audio/AudioEngine.ts` is the only thing in the
+project that knows WebAudio exists.
+
+A rifle shot is a filtered noise burst with a fast decay whether it comes out
+of a WAV or out of an oscillator, and the WAV brings a licence, a download, a
+loading state and a decode with it. A sample earns its place here when a
+synthesised version cannot be made to read — not before. When one does, it
+arrives as a new `source` kind in `SoundBank` rather than as a special case
+somewhere else, and it goes in the table above like any other asset.
+
+`?nosound=1` boots silent, and `M` mutes. Every browser harness except
+`combat.mjs` runs silent; `combat.mjs` keeps audio on precisely so that the one
+thing a unit test cannot reach — whether a real `AudioContext` was obtained and
+a real node graph got built — is measured against a real browser.

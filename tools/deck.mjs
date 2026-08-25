@@ -25,7 +25,7 @@ page.on('console', (m) => {
 });
 page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 
-await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1&notex=1&nomodel=1', {
+await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1&notex=1&nomodel=1&nosound=1', {
   waitUntil: 'load',
 });
 await page.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
