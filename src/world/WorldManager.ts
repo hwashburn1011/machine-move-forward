@@ -79,9 +79,9 @@ export class WorldManager {
       const chunk = new TerrainChunk(quality, this.geometry);
       const prop = new PropSpawner(quality, this.propGeometries, materials);
 
-      chunk.setZ(slot.z);
+      chunk.setZ(slot.z, slot.chunkIndex * CHUNK_SIZE_Z);
       prop.setZ(slot.z);
-      prop.populate(this.worldSeed, slot.chunkIndex, slot.z);
+      prop.populate(this.worldSeed, slot.chunkIndex);
 
       scene.add(chunk.mesh);
       scene.add(prop.group);
@@ -119,20 +119,20 @@ export class WorldManager {
     // Every slot needs its Z applied each step; only recycled ones need their
     // contents regenerated.
     for (const slot of this.chunkManager.slots) {
-      this.terrain[slot.slotId]?.setZ(slot.z);
+      this.terrain[slot.slotId]?.setZ(slot.z, slot.chunkIndex * CHUNK_SIZE_Z);
       this.props[slot.slotId]?.setZ(slot.z);
     }
 
     for (const slot of recycled) {
-      this.props[slot.slotId]?.populate(this.worldSeed, slot.chunkIndex, slot.z);
+      this.props[slot.slotId]?.populate(this.worldSeed, slot.chunkIndex);
       this.bus.emit('world:chunk-recycled', { chunkIndex: slot.chunkIndex });
     }
   }
 
   private placeSlot(slotId: number, chunkIndex: number, z: number): void {
-    this.terrain[slotId]?.setZ(z);
+    this.terrain[slotId]?.setZ(z, chunkIndex * CHUNK_SIZE_Z);
     this.props[slotId]?.setZ(z);
-    this.props[slotId]?.populate(this.worldSeed, chunkIndex, z);
+    this.props[slotId]?.populate(this.worldSeed, chunkIndex);
   }
 
   /**
@@ -149,7 +149,11 @@ export class WorldManager {
   applyRenderOffset(alpha: number, speed: number): void {
     const offset = scrollOffset(alpha, speed);
     for (const slot of this.chunkManager.slots) {
-      this.terrain[slot.slotId]?.setZ(slot.z + offset);
+      // Only where it is DRAWN moves by the sub-step offset. The ground it
+      // represents is the same ground it was a moment ago, so its world origin
+      // is untouched — nudging that too would slide the dune field itself and
+      // undo the whole point of keeping the two apart.
+      this.terrain[slot.slotId]?.setZ(slot.z + offset, slot.chunkIndex * CHUNK_SIZE_Z);
       this.props[slot.slotId]?.setZ(slot.z + offset);
     }
   }
@@ -174,7 +178,7 @@ export class WorldManager {
       const prop = this.props[slot.slotId];
       if (!prop) continue;
       prop.attachModels(models);
-      prop.populate(this.worldSeed, slot.chunkIndex, slot.z);
+      prop.populate(this.worldSeed, slot.chunkIndex);
     }
   }
 

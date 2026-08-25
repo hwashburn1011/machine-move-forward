@@ -216,15 +216,22 @@ export class PropSpawner {
    * Repopulate for a new chunk. Called on every recycle, so this must not
    * allocate — hence the reused Matrix4/Quaternion/Vector3 members.
    */
-  populate(worldSeed: string, chunkIndex: number, chunkZ: number): void {
-    this.fill(this.rocks, worldSeed, chunkIndex, chunkZ, 'rock', 0.8, 3.4);
-    this.fill(this.slabs, worldSeed, chunkIndex, chunkZ, 'slab', 1.2, 3.0);
-    this.fill(this.debris, worldSeed, chunkIndex, chunkZ, 'debris', 0.5, 1.4);
-    this.fill(this.nearField, worldSeed, chunkIndex, chunkZ, 'near', 0.35, 1.1, undefined, true);
+  /**
+   * Repopulate for a new chunk. Called on every recycle, so this must not
+   * allocate — hence the reused Matrix4/Quaternion/Vector3 members.
+   *
+   * Takes the chunk's INDEX, not where it is drawn: props are seated on the
+   * dune field, and that field is a function of permanent world position.
+   */
+  populate(worldSeed: string, chunkIndex: number): void {
+    this.fill(this.rocks, worldSeed, chunkIndex, 'rock', 0.8, 3.4);
+    this.fill(this.slabs, worldSeed, chunkIndex, 'slab', 1.2, 3.0);
+    this.fill(this.debris, worldSeed, chunkIndex, 'debris', 0.5, 1.4);
+    this.fill(this.nearField, worldSeed, chunkIndex, 'near', 0.35, 1.1, undefined, true);
 
     for (const { kind, mesh } of this.wrecks) {
       const spec = WRECK_KINDS[kind];
-      this.fill(mesh, worldSeed, chunkIndex, chunkZ, `wreck-${kind}`, spec.minScale, spec.maxScale, spec);
+      this.fill(mesh, worldSeed, chunkIndex, `wreck-${kind}`, spec.minScale, spec.maxScale, spec);
     }
   }
 
@@ -232,7 +239,6 @@ export class PropSpawner {
     mesh: THREE.InstancedMesh,
     worldSeed: string,
     chunkIndex: number,
-    chunkZ: number,
     aspect: string,
     minScale: number,
     maxScale: number,
@@ -254,7 +260,11 @@ export class PropSpawner {
         ? side * (NEAR_BAND_MIN_X + t * (NEAR_BAND_MAX_X - NEAR_BAND_MIN_X))
         : side * (MACHINE_CLEARANCE_X + t * (CHUNK_SIZE_X / 2 - MACHINE_CLEARANCE_X));
       const localZ = rng.range(-CHUNK_SIZE_Z / 2, CHUNK_SIZE_Z / 2);
-      const worldZ = chunkZ + localZ;
+      // The prop's permanent place in the world, not where its chunk happens
+      // to be drawn right now. The dune field is a function of the former, so
+      // sampling the latter would seat every prop against a surface that is no
+      // longer under it by the time it is seen.
+      const worldZ = chunkIndex * CHUNK_SIZE_Z + localZ;
 
       const scale = rng.range(minScale, maxScale);
       // Model props are normalised to stand on y = 0 with a one-metre

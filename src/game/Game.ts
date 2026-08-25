@@ -618,7 +618,9 @@ export class Game implements LoopCallbacks {
     }
     // Marks move by exactly the distance the world moved this frame, so they
     // stay pressed into the sand rather than sliding across it.
-    this.tracks.update(-this.machine.speed * frameDt);
+    // Given the same walked distance the legs use, so a print and the foot
+    // that made it agree about which piece of ground they are on.
+    this.tracks.update(-this.machine.speed * frameDt, walked);
     this.world.applyRenderOffset(alpha, this.machine.speed);
     this.world.update(this.clock.elapsedTime);
 

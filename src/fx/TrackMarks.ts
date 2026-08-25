@@ -67,6 +67,7 @@ export class TrackMarks {
   private readonly scaleVec = new THREE.Vector3();
   private readonly position = new THREE.Vector3();
   private cursor = 0;
+  private distance = 0;
 
   constructor(scene: THREE.Scene) {
     // The size of the foot that made it, near enough. A tread mark was long
@@ -110,10 +111,16 @@ export class TrackMarks {
   }
 
   /**
-   * @param scrollZ how far the world has moved this frame, in metres. Prints
-   *                move by exactly this, which is what glues them to the sand.
+   * @param scrollZ  how far the world has moved this frame, in metres. Prints
+   *                 move by exactly this, which is what glues them to the sand.
+   * @param distance how far the machine has travelled. A print's position is
+   *                 kept in RENDER space, because that is where it has to be
+   *                 drawn, but the dune it sits on is a function of WORLD
+   *                 space — so the two are reconciled here rather than letting
+   *                 a print sample the height of ground it is no longer over.
    */
-  update(scrollZ: number): void {
+  update(scrollZ: number, distance: number): void {
+    this.distance = distance;
     for (const mark of this.marks) {
       if (!mark.live) continue;
       mark.z += scrollZ;
@@ -146,7 +153,11 @@ export class TrackMarks {
     for (let i = 0; i < this.marks.length; i++) {
       const mark = this.marks[i] as Mark;
       if (mark.live) {
-        this.position.set(mark.x, duneHeightAt(mark.x, mark.z) + SAND_LIFT, mark.z);
+        this.position.set(
+          mark.x,
+          duneHeightAt(mark.x, mark.z + this.distance) + SAND_LIFT,
+          mark.z,
+        );
         this.euler.set(0, mark.yaw, 0);
         this.quat.setFromEuler(this.euler);
         // Taper the oldest marks to nothing. Sand slumps back into a track; a

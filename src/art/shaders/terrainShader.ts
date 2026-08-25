@@ -92,7 +92,9 @@ float duneHeight(vec2 worldXZ) {
 
 export const TERRAIN_VERTEX_PARS = /* glsl */ `
 uniform float uChunkOffset;
+uniform float uChunkWorldZ;
 varying vec3 vTerrainWorld;
+varying vec3 vTerrainRender;
 varying float vTerrainSlope;
 `;
 
@@ -102,7 +104,21 @@ varying float vTerrainSlope;
  * the silhouette becomes dunes while the lighting stays a flat plane.
  */
 export const TERRAIN_VERTEX_MAIN = /* glsl */ `
-  vec2 worldXZ = vec2(position.x, position.z + uChunkOffset);
+  // The dune field is a function of where this ground IS IN THE WORLD, not of
+  // where it currently sits on screen.
+  //
+  // This is the difference between a landscape and a painted backdrop, and it
+  // was the latter. uChunkOffset is the chunk's RENDERED z — its world
+  // origin minus the distance travelled — so feeding it to the height function
+  // evaluated every vertex at its own screen position and pinned the entire
+  // dune field to the machine. The mesh slid through a landscape that never
+  // moved. Measured by looking straight down at bare sand and correlating two
+  // frames four metres apart: the ground's best-fit shift was zero rows, its
+  // speed 0.00 m/s, while the machine did 7.46.
+  //
+  // uChunkWorldZ is the chunk's permanent world origin instead, which does
+  // not move, so a dune keeps its shape while the mesh carrying it slides past.
+  vec2 worldXZ = vec2(position.x, position.z + uChunkWorldZ);
   float h = duneHeight(worldXZ);
   transformed.y += h;
 
@@ -120,6 +136,9 @@ export const TERRAIN_VERTEX_MAIN = /* glsl */ `
   #endif
 
   vTerrainWorld = vec3(worldXZ.x, transformed.y, worldXZ.y);
+  // Where it is on screen, which is a different question and the one that
+  // anything measuring against the camera has to ask.
+  vTerrainRender = vec3(position.x, transformed.y, position.z + uChunkOffset);
   vTerrainSlope = 1.0 - duneNormal.y;
 `;
 
@@ -132,6 +151,7 @@ uniform vec3  uSandDeep;
 uniform vec3  uSandCrest;
 uniform vec3  uSunDir;
 varying vec3 vTerrainWorld;
+varying vec3 vTerrainRender;
 varying float vTerrainSlope;
 
 #ifdef TERRAIN_SAND_TEXTURE
@@ -150,7 +170,9 @@ varying float vTerrainSlope;
  */
 export const TERRAIN_FRAGMENT_MAIN = /* glsl */ `
 {
-  float dist = length(vTerrainWorld - cameraPosition);
+  // Against the RENDERED position: the camera is in render space, and a fade
+  // measured in world space would race away as the machine travelled.
+  float dist = length(vTerrainRender - cameraPosition);
 
   // Fade high-frequency detail with distance or it aliases into shimmer.
   float detailFade = 1.0 - smoothstep(40.0, 190.0, dist);
@@ -236,7 +258,7 @@ export const TERRAIN_FRAGMENT_MAIN = /* glsl */ `
   // --- Anisotropic glint --------------------------------------------------
   // Sand sparkles because individual grains catch the sun along the ripple
   // ridges. A plain specular lobe cannot do this; it needs the direction.
-  vec3 viewDirW = normalize(cameraPosition - vTerrainWorld);
+  vec3 viewDirW = normalize(cameraPosition - vTerrainRender);
   vec3 halfW = normalize(viewDirW + uSunDir);
   float alongHalf = abs(dot(normalize(vec3(rippleDir.x, 0.0, rippleDir.y)), halfW));
   // max() guard: alongHalf can tip a hair above 1.0 through float error,

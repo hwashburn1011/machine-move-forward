@@ -28,6 +28,9 @@ export class TerrainChunk {
   constructor(quality: QualitySettings, sharedGeometry: THREE.BufferGeometry) {
     this.uniforms = {
       uChunkOffset: { value: 0 },
+      // The chunk's permanent world origin, as distinct from where it is
+      // currently drawn. The dune field is a function of this one.
+      uChunkWorldZ: { value: 0 },
       uTime: { value: 0 },
       // Shared with the CPU height function in DuneField, so props sit on the
       // same surface the GPU draws.
@@ -99,12 +102,23 @@ export class TerrainChunk {
   }
 
   /**
-   * Move this chunk to a new world Z. The geometry is never rebuilt — only the
-   * offset uniform changes, which is what makes recycling free.
+   * Move this chunk, and tell it which piece of world it is now showing.
+   *
+   * Two numbers, and keeping them apart is the whole point. `renderZ` is where
+   * the slab is drawn and slides toward -Z as the machine travels; `worldZ` is
+   * the permanent origin of the ground it represents and does not move at all.
+   * The dune field is evaluated against the second, so a dune keeps its shape
+   * while the mesh carrying it slides past. Evaluated against the first — which
+   * is what this did — the field is pinned to the machine and the landscape
+   * never moves, however fast the mesh slides through it.
+   *
+   * The geometry is still never rebuilt; only these two uniforms change, which
+   * is what makes recycling free.
    */
-  setZ(z: number): void {
-    this.mesh.position.z = z;
-    this.uniforms.uChunkOffset!.value = z;
+  setZ(renderZ: number, worldZ: number): void {
+    this.mesh.position.z = renderZ;
+    this.uniforms.uChunkOffset!.value = renderZ;
+    this.uniforms.uChunkWorldZ!.value = worldZ;
   }
 
   /**
