@@ -39,6 +39,8 @@ Each set is three 1K JPEGs, about 1.3 MB per material:
 | `public/models/props/wreck.glb` | [Ship Wreck](https://poly.pizza/m/4qia78IBmZ) by [Kenney](https://kenney.nl/) | **CC0 1.0** | `PropSpawner` — hulls half-buried in the dunes |
 | `public/models/props/containers.glb` | [Shipping Container Structure](https://poly.pizza/m/ebmepOXDRd) by Quaternius | **CC0 1.0** | `PropSpawner` — container stacks |
 | `public/models/props/debris.glb` | [Debris Pile](https://poly.pizza/m/WrIiMMxyEP) by Quaternius | **CC0 1.0** | `PropSpawner` — rubble scatter |
+| `public/models/weapons/rifle.glb` | [Assault Rifle](https://poly.pizza/m/K2lXTYFSLC) by Quaternius | **CC0 1.0** | `PlayerVisual` — the Scrapline AR, in the player's right hand |
+| `public/models/weapons/shotgun.glb` | [Shotgun](https://poly.pizza/m/ZmPTnh7njL) by Quaternius | **CC0 1.0** | `PlayerVisual` — the Dust Breaker |
 
 The three prop packs are 456 KB together, one mesh apiece, no textures at all —
 both authors colour by material rather than by map. `PropModels` merges each
@@ -53,6 +55,8 @@ by a node, which is baked in at the same time.
 | --- | --- | --- |
 | [Modular Ruins Pack](https://poly.pizza/m/F2LAK03B0r) (Quaternius) | CC0 | 8 MB and 95 pieces, of which the usable ones are a handful. Gothic arches, stag statues, bookcases and overgrown walls — a medieval monastery kit, not a desert. Worth revisiting for its plain masonry if the scatter ever needs stone. |
 | Skyscraper, Factory, Apartment (Poly by Google) | CC-BY | These are the pieces that would actually read as a swallowed CITY. Ruled out deliberately: CC0 only, so the project carries no attribution obligations. |
+| [Blaster Kit](https://kenney.nl/assets/blaster-kit) (Kenney) | CC0 | Downloaded, unpacked and looked at before being rejected: 18 guns, GLB, 300–900 triangles, real-world scale, textbook pipeline fit. They are Nerf blasters — bright orange, purple and lime plastic — and this game is rust and dust. A model whose palette has to be fought is not cheaper than one that fits. |
+| [Hook and chain](https://poly.pizza/m/dBp9m8k9kTi) (Zacharylll) | CC-BY | The best-shaped grappling hook found anywhere, and unusable for the same reason the Poly by Google city pieces are. Nothing CC0 came close, which is most of why the reel's hook is staying procedural. |
 
 453 KB, glTF 2.0 binary: 14 meshes over 2 skins, 43 joints, 14 clips. Five of
 those clips carry the whole enemy — `Idle`, `Walking`, `Running`, `Punch`,
@@ -71,6 +75,19 @@ suit, but that is common practice rather than a licence. It was taken knowingly,
 on the instruction to use anything free to use, and it is flagged here so the
 decision is visible rather than buried. Swapping it is a file copy: drop any
 rigged `.glb` with idle/walk/run clips at `public/models/player.glb`.
+
+**The weapons carry no textures at all**, like the prop packs: the authors
+colour by material, and the names they use — `Wood`, `Metal`, `DarkMetal`,
+`Black` — are already a worn-firearm palette that needs no help to sit in a
+desert. Between them they are 130 KB and about 2300 triangles.
+
+Neither is a special case in code. `HeldItem` measures whatever model it is
+given, scales it to the real length in `data/weapon-models.ts`, and turns its
+long axis — the barrel — to face the way the character does, so swapping either
+one is a file copy exactly like the characters. The bone they hang off is found
+by name-fragment matching for the same reason `resolveClip` matches animations
+that way: the two rigs this project already ships name their hands
+`mixamorig:RightHand` and `Hand.R`.
 
 **The scavenger is a placeholder and it looks like one.** This is a friendly cartoon robot,
 not a wasteland scavenger; it is here because it is genuinely CC0, rigged, and

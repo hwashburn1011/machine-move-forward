@@ -92,6 +92,30 @@ export class Player {
     old.dispose();
     this.visual = next;
     this.scene.add(next.object3D);
+    // The rig changed under it, so whatever was in the old hand is gone with
+    // the old skeleton. Put it back on the new one.
+    this.visual.setHeldWeapon(this.heldWeaponId, this.heldWeaponModel);
+  }
+
+  /**
+   * What the player is holding, and the model to build it from.
+   *
+   * Kept here rather than in the visual because the visual is replaced when
+   * the character model arrives, and a weapon that vanished on that swap would
+   * be a bug that only reproduces on a slow connection.
+   */
+  private heldWeaponId: string | null = null;
+  private heldWeaponModel: THREE.Object3D | null = null;
+
+  setHeldWeapon(id: string | null, model: THREE.Object3D | null): void {
+    this.heldWeaponId = id;
+    this.heldWeaponModel = model;
+    this.visual.setHeldWeapon(id, model);
+  }
+
+  /** True when the rig has a hand to hang a weapon off. Read by the harness. */
+  get holdsWeapon(): boolean {
+    return this.visual.canHoldWeapon;
   }
 
   get worldPosition(): THREE.Vector3 {

@@ -67,6 +67,7 @@ import {
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { hashSeed, Rng } from '@/core/math/Random';
 import { rollDrops } from '@/enemies/Loot';
+import { WEAPON_MODELS } from '@/data/weapon-models';
 import { SalvageField } from '@/salvage/SalvageField';
 import { pickReelTarget, REEL_RANGE } from '@/salvage/Reel';
 import { stepHook, type HookState } from '@/salvage/Hook';
@@ -161,6 +162,8 @@ export class Game implements LoopCallbacks {
   readonly sandFX: SandFX;
   readonly tracks: TrackMarks;
   readonly audio: AudioEngine;
+  /** Loaded weapon scenes by weapon id. Empty when models are off. */
+  readonly weaponModels = new Map<string, THREE.Object3D>();
   private readonly disconnectSounds: () => void;
   readonly impactFX: ImpactFX;
   readonly hud: HUD;
@@ -244,6 +247,18 @@ export class Game implements LoopCallbacks {
     game.player.setModel(
       options.models === false ? null : await loadModel('models/player.glb'),
     );
+
+    // Weapons last, and in parallel: they are the smallest files and the least
+    // load-bearing thing on screen, so nothing else should wait on them.
+    if (options.models !== false) {
+      const ids = Object.keys(WEAPON_MODELS);
+      const loaded = await Promise.all(ids.map((id) => loadModel(WEAPON_MODELS[id]!.url)));
+      ids.forEach((id, i) => {
+        const m = loaded[i];
+        if (m) game.weaponModels.set(id, m.scene);
+      });
+      game.equipHeldWeapon();
+    }
 
     return game;
   }
@@ -397,6 +412,9 @@ export class Game implements LoopCallbacks {
     // Crafted rounds go straight to the gun that fires them, so the HUD
     // reserve rises on the same click that spent the materials.
     this.bus.on('craft:completed', ({ recipeId }) => this.autoLoadAmmo(recipeId));
+    // Off the event, not polled, so the model in the hand and the name on the
+    // HUD change on the same tick and cannot disagree about what is held.
+    this.bus.on('weapon:equipped', () => this.equipHeldWeapon());
 
     this.bus.on('player:died', () => {
       this.state.playerDead = true;
@@ -835,6 +853,18 @@ export class Game implements LoopCallbacks {
    */
   private readonly carryOnDeck = (p: THREE.Vector3): { x: number; y: number; z: number } =>
     p.y < ON_THE_SAND_Y ? ZERO_CARRY : this.machine.carryFor(p);
+
+  /**
+   * Put the equipped weapon in the player's hand.
+   *
+   * Driven off `weapon:equipped` rather than polled, so the model swaps on the
+   * same event the HUD's weapon name does and the two cannot disagree about
+   * what is being held.
+   */
+  equipHeldWeapon(): void {
+    const id = this.combat.current.def.id;
+    this.player.setHeldWeapon(id, this.weaponModels.get(id) ?? null);
+  }
 
   /** Keep-out predicate for `EnemySpawner.placementFor` — see `blockedSpawnCellKeys`. */
   private readonly isSpawnBlocked = (p: Vec3Like): boolean =>

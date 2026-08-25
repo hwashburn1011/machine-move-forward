@@ -76,7 +76,10 @@ build adds weight, which measurably slows the machine.
   equipment, its body heaving and listing with the gait while the deck it
   carries stays solid underfoot
 - Third-person controller on Rapier's kinematic character controller
-- Rifle and shotgun with hitscan, spread, recoil, reload, and damage falloff
+- Rifle and shotgun with hitscan, spread, recoil, reload, and damage falloff,
+  each carried as a real model in the player's hand — measured, scaled and
+  aimed from the model itself, and parented to the hand bone so it moves with
+  the animation
 - One hostile with a navigate/attack/pursue AI, arriving in waves the threat
   director schedules and capped at four aboard at once
 - HUD, debug overlay, versioned IndexedDB save/load

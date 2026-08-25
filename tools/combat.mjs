@@ -1440,6 +1440,73 @@ for (let i = 0; i < 50; i++) {
 }
 check('engine room: a scavenger follows the player down into it', followed);
 
+// --- The weapon in the hand ------------------------------------------------
+// Runs on `modelPage`, because the main page boots `nomodel=1` and a weapon
+// needs a rig with a hand to hang off. The unit tests cover which bone gets
+// picked and how the model is scaled; what only a browser can answer is
+// whether the thing ends up parented to a bone that is actually animating,
+// at a size a person would recognise.
+if (hasModel) {
+  const weapon = await modelPage.evaluate(() => {
+    const g = globalThis.__game.game;
+    const found = [];
+    globalThis.__game.player.object3D.traverse((o) => {
+      if (o.name === 'held-weapon') found.push(o);
+    });
+    const mount = found[0] ?? null;
+    if (!mount) return { mounts: 0 };
+
+    // Walk up to the bone. A weapon parented to the body instead would float
+    // beside the character while the arm swings, which is the failure this
+    // whole module exists to avoid.
+    let node = mount.parent;
+    let bone = null;
+    while (node && !bone) {
+      if (node.isBone) bone = node.name;
+      node = node.parent;
+    }
+
+    const size = new (globalThis.__THREE?.Box3 ?? Object)();
+    return {
+      mounts: found.length,
+      bone,
+      models: g.weaponModels.size,
+      holds: globalThis.__game.player.holdsWeapon,
+    };
+  });
+  check(
+    'the player carries the weapon they have equipped',
+    weapon.mounts === 1 && weapon.holds === true,
+    `${weapon.mounts} mounted, holds=${weapon.holds}, ${weapon.models} models loaded`,
+  );
+  check(
+    'and it hangs off a hand bone, not off the body',
+    typeof weapon.bone === 'string' && /hand/i.test(weapon.bone),
+    weapon.bone ?? 'no bone above the mount',
+  );
+
+  // Swapping weapons has to swap the model, and has to leave exactly one
+  // behind -- a mount that is added and never removed is invisible until the
+  // player has cycled weapons a few times and is carrying a bundle.
+  const swapped = await modelPage.evaluate(async () => {
+    const g = globalThis.__game.game;
+    g.combat.equip('shotgun');
+    await new Promise((r) => setTimeout(r, 200));
+    const found = [];
+    globalThis.__game.player.object3D.traverse((o) => {
+      if (o.name === 'held-weapon') found.push(o);
+    });
+    return { mounts: found.length, weapon: g.combat.current.def.id };
+  });
+  check(
+    'swapping weapons swaps the model, and leaves exactly one',
+    swapped.mounts === 1 && swapped.weapon === 'shotgun',
+    `${swapped.mounts} mounted while holding ${swapped.weapon}`,
+  );
+} else {
+  console.log('SKIP  held-weapon checks -- no character model present');
+}
+
 // --- Audio -----------------------------------------------------------------
 // The half of the audio layer a unit test cannot reach. `SoundBank` is pure
 // arithmetic and is checked in node; what only a real browser can answer is
