@@ -208,6 +208,120 @@ check(
   `y=${back.y} hp=${back.hp}`,
 );
 
+// --- Footfalls in the sand -------------------------------------------------
+// The last unasserted criterion of the walker spec (section 11.5): prints
+// appear in the sand UNDER THE FEET THAT MADE THEM, at the moment they land,
+// and not on a fixed interval down each flank the way the tread tracks were.
+//
+// Measured at the press itself. Nothing outside the render loop can see a
+// plant -- it is a cycle boundary crossed between two frames -- so `press` is
+// wrapped for the duration of this section and asked, each time it fires,
+// where all four feet are. Note the restore: `Machine.footPosition` hands back
+// a shared scratch vector, and the vector `press` was called with IS that
+// scratch, so reading the other three feet overwrites the caller's argument.
+// The dust burst that follows the press reads it again.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  globalThis.__prints = [];
+  const original = g.tracks.press.bind(g.tracks);
+  g.tracks.press = (at) => {
+    const px = at.x;
+    const py = at.y;
+    const pz = at.z;
+    const feet = [];
+    for (let i = 0; i < 4; i++) {
+      const f = g.machine.footPosition(i);
+      feet.push({ x: f.x, z: f.z });
+    }
+    at.x = px;
+    at.y = py;
+    at.z = pz;
+    globalThis.__prints.push({ x: px, z: pz, feet, distance: g.world.distanceTraveled });
+    original(at);
+  };
+});
+
+const printStart = (await stats()).distance;
+await sim(4);
+const printEnd = (await stats()).distance;
+const prints = await page.evaluate(() => globalThis.__prints);
+
+check('the machine presses footfalls as it walks', prints.length > 0, `${prints.length} prints`);
+
+// Exact, not near: the print is pressed AT a foot's position, so any distance
+// at all between them means it was pressed somewhere else.
+const misplaced = prints.filter(
+  (p) => !p.feet.some((f) => Math.hypot(f.x - p.x, f.z - p.z) < 1e-9),
+);
+check(
+  'every footfall is pressed under one of the four feet',
+  prints.length > 0 && misplaced.length === 0,
+  misplaced.length === 0
+    ? `all ${prints.length} sit on a foot`
+    : `${misplaced.length} of ${prints.length} elsewhere, first at (${misplaced[0].x.toFixed(2)}, ${misplaced[0].z.toFixed(2)})`,
+);
+
+// A tread laid a mark every SPACING metres. A leg plants once per stride, and
+// there are four of them, so the rate is a property of the GAIT -- which is
+// the distinction this whole change was about. STRIDE_LENGTH is 6.6m.
+const walkedFor = printEnd - printStart;
+const expected = (walkedFor / 6.6) * 4;
+check(
+  'footfalls come at the gait rate, not a fixed spacing',
+  walkedFor > 5 && Math.abs(prints.length - expected) <= 4,
+  `${prints.length} prints over ${walkedFor.toFixed(1)}m, expected about ${expected.toFixed(1)}`,
+);
+
+// And each of the four legs is laying its own, rather than one leg laying all
+// of them -- which is what a print that follows the machine instead of the
+// foot would look like.
+const sides = new Set(prints.map((p) => `${p.x > 0 ? 'S' : 'P'}${p.z > 0 ? 'A' : 'F'}`));
+check(
+  'all four feet leave prints, in their own quarters',
+  sides.size === 4,
+  `quarters seen: ${[...sides].sort().join(' ')}`,
+);
+
+// Glued to the sand, not to the machine. A live print moves astern by exactly
+// what the world moves, which is the property that makes a trail read as
+// ground the machine has crossed rather than as a decal dragged along with it.
+//
+// The NEWEST live print, not the first in pool order: the first is the oldest,
+// it is metres from retiring, and a print that retires mid-measurement stops
+// moving and reads as slipping. That is how this check first passed while
+// measuring nothing.
+const glue = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const live = g.tracks.marks.filter((m) => m.live);
+  if (live.length === 0) return null;
+  const mark = live.reduce((a, b) => (b.z > a.z ? b : a));
+  globalThis.__glue = { mark, z0: mark.z, d0: g.world.distanceTraveled };
+  return true;
+});
+await sim(2);
+const slip = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const { mark, z0, d0 } = globalThis.__glue;
+  return {
+    moved: mark.z - z0,
+    walked: g.world.distanceTraveled - d0,
+    live: mark.live,
+  };
+});
+check(
+  'a pressed print stays with the sand it was pressed into',
+  glue !== null && slip.live && slip.walked > 1 && Math.abs(slip.moved + slip.walked) < 0.2,
+  glue === null
+    ? 'no live prints'
+    : `print moved ${slip.moved.toFixed(2)}m astern while the world moved ${slip.walked.toFixed(2)}m, still live=${slip.live}`,
+);
+
+await page.evaluate(() => {
+  globalThis.__game.game.tracks.press = Object.getPrototypeOf(
+    globalThis.__game.game.tracks,
+  ).press;
+});
+
 if (outShot) await page.screenshot({ path: outShot });
 await browser.close();
 

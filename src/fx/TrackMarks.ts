@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { duneHeightAt } from '@/world/DuneField';
 import { PALETTE } from '@/art/Palette';
+import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 
 /**
  * The footfalls the machine presses into the sand behind it.
@@ -111,16 +112,38 @@ export class TrackMarks {
   }
 
   /**
-   * @param scrollZ  how far the world has moved this frame, in metres. Prints
-   *                 move by exactly this, which is what glues them to the sand.
-   * @param distance how far the machine has travelled. A print's position is
-   *                 kept in RENDER space, because that is where it has to be
-   *                 drawn, but the dune it sits on is a function of WORLD
-   *                 space — so the two are reconciled here rather than letting
-   *                 a print sample the height of ground it is no longer over.
+   * @param distance how far the machine has travelled, as the world is being
+   *                 DRAWN at — the same number the legs are driven by.
+   *
+   * The scroll is derived from that rather than passed in, and that is the
+   * whole point. It used to be handed `-speed * frameDt`: wall time, while
+   * every other thing that has to stay glued to the sand — the dunes, the
+   * planted feet — moves on simulated time with the sub-step interpolation
+   * folded in. The two agree only while the frame rate is keeping up. Whenever
+   * it is not, the prints slide across the ground they were pressed into,
+   * which is the one thing a trail must never do. Taking the delta of the same
+   * distance the feet use makes them agree by construction.
+   *
+   * A print's position is kept in RENDER space, because that is where it has
+   * to be drawn, but the dune it sits on is a function of WORLD space — so the
+   * two are reconciled here rather than letting a print sample the height of
+   * ground it is no longer over.
    */
-  update(scrollZ: number, distance: number): void {
+  update(distance: number): void {
+    const travelled = distance - this.distance;
     this.distance = distance;
+
+    // A jump rather than a walk: the debug skip, a save loaded at 10km, or the
+    // very first call against a distance that is not zero. Every print belongs
+    // to ground that is now kilometres astern, so retire them rather than
+    // scrolling them there one frame at a time.
+    if (Math.abs(travelled) > -RETIRE_Z) {
+      for (const mark of this.marks) mark.live = false;
+      this.writeMatrices();
+      return;
+    }
+
+    const scrollZ = WORLD_Z_PER_METRE * travelled;
     for (const mark of this.marks) {
       if (!mark.live) continue;
       mark.z += scrollZ;

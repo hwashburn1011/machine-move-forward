@@ -665,11 +665,11 @@ export class Game implements LoopCallbacks {
       this.tracks.press(foot);
       this.sandFX.footfall(foot, this.machine.speed);
     }
-    // Marks move by exactly the distance the world moved this frame, so they
-    // stay pressed into the sand rather than sliding across it.
-    // Given the same walked distance the legs use, so a print and the foot
-    // that made it agree about which piece of ground they are on.
-    this.tracks.update(-this.machine.speed * frameDt, walked);
+    // Given the same walked distance the legs are driven by, so a print and
+    // the foot that made it agree about which piece of ground they are on --
+    // and so both agree with the dunes. `TrackMarks` takes its scroll from the
+    // delta of this rather than from wall time; see its `update`.
+    this.tracks.update(walked);
     this.world.applyRenderOffset(alpha, this.machine.speed);
     this.world.update(this.clock.elapsedTime);
 
