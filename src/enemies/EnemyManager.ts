@@ -83,14 +83,34 @@ export class EnemyManager {
     return enemy;
   }
 
+  /**
+   * `carryFor` is how far the deck moved under a point this step, from the
+   * machine's own pose. Sampled per enemy rather than once for the deck: under
+   * pitch and roll the extremities move most, and two scavengers ten metres
+   * apart are carried by measurably different amounts. Omit it and enemies
+   * stand on a deck they believe is still — which is what they did.
+   */
   fixedUpdate(
     dt: number,
     playerPos: THREE.Vector3,
     playerStats: PlayerStats,
     nav: NavGraph | null = null,
+    carryFor: ((p: THREE.Vector3) => { x: number; y: number; z: number }) | null = null,
   ): void {
     if (nav) this.repath(nav, playerPos);
-    for (const e of this.pool) e.fixedUpdate(dt, playerPos, playerStats);
+    for (const e of this.pool) {
+      if (carryFor && e.isActive) {
+        const c = carryFor(e.worldPosition);
+        e.carry.x = c.x;
+        e.carry.y = c.y;
+        e.carry.z = c.z;
+      } else {
+        e.carry.x = 0;
+        e.carry.y = 0;
+        e.carry.z = 0;
+      }
+      e.fixedUpdate(dt, playerPos, playerStats);
+    }
   }
 
   /**

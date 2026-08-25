@@ -27,13 +27,6 @@ import {
   type Vec3,
 } from './MachineBody';
 
-/**
- * Project the machine's own colliders onto level-0 grid cells.
- *
- * Derived rather than hardcoded: a hardcoded list would silently rot the
- * moment the machine layout changes, and the failure mode is subtle — the
- * player could build inside the engine.
- */
 /** Axes the body rotates about. Module-level so no allocation per step. */
 const RIGHT_X = new THREE.Vector3(1, 0, 0);
 const FORWARD_Z = new THREE.Vector3(0, 0, 1);
@@ -48,13 +41,27 @@ const MAX_STATION_KEEPING = 0.5;
 /** Colliders sit at their body's own origin in this layout. */
 const ZERO = new THREE.Vector3(0, 0, 0);
 
-function projectEquipmentCells(
-  colliders: { half: THREE.Vector3; center: THREE.Vector3 }[],
+/**
+ * Project the machine's own colliders onto level-0 grid cells.
+ *
+ * Derived rather than hardcoded: a hardcoded list would silently rot the
+ * moment the machine layout changes, and the failure mode is subtle — the
+ * player could build inside the engine.
+ *
+ * Exported for its own test. The rot this guards against turned out to run
+ * both ways: a collider added for a good reason can quietly take deck away.
+ */
+export function projectEquipmentCells(
+  colliders: { half: THREE.Vector3; center: THREE.Vector3; blocksBuild?: boolean }[],
 ): Cell[] {
   const seen = new Set<string>();
   const cells: Cell[] = [];
 
   for (const c of colliders) {
+    // Solid to bodies, invisible here, by the collider's own declaration. The
+    // railings are the case: 12cm of steel lying along a cell boundary, which
+    // containment charges two full columns and a row for. See `MachineBuild`.
+    if (c.blocksBuild === false) continue;
     // The deck slab itself spans everything and must not block the whole grid;
     // only obstacles standing ON the deck count.
     const isDeckSlab = c.half.y < 0.2 && c.half.x > 4;

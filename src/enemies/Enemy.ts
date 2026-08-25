@@ -5,7 +5,7 @@ import type { Materials } from '@/art/Materials';
 import type { EnemyDefinition } from '@/data/enemies';
 import type { Damageable } from '@/player/PlayerCombat';
 import type { PlayerStats } from '@/player/PlayerStats';
-import { AUTOSTEP_HEIGHT, CHARACTER_SKIN, GRAVITY } from '@/game/constants';
+import { AUTOSTEP_HEIGHT, CHARACTER_SKIN, GRAVITY, ON_THE_SAND_Y } from '@/game/constants';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { stepEnemyAI, type EnemyAIState } from './EnemyAI';
 import {
@@ -102,6 +102,20 @@ export class Enemy {
   private pathIndex = 0;
   /** The graph `path` was computed against, for the lookahead's wall check. */
   private nav: NavGraph | null = null;
+
+  /**
+   * How far the deck under this enemy moved this step, from the machine's
+   * pose. Written by the manager before `fixedUpdate`, exactly as the player's
+   * is written by `Game`; zero while the machine's body is at rest.
+   *
+   * Rapier's character controller does not carry a character when the surface
+   * under it moves, and a scavenger is standing on a deck that heaves, pitches
+   * and rolls. Without this the deck rises INTO the capsule, the controller
+   * answers by reporting grounded with zero movement, and the arrival stands
+   * on its landing mark for the rest of the run — which is exactly what
+   * `combat.mjs` measured: 0 of 3 moved a metre in six seconds.
+   */
+  readonly carry = { x: 0, y: 0, z: 0 };
 
   private state: EnemyAIState = 'idle';
   private health: number;
@@ -346,9 +360,9 @@ export class Enemy {
 
     this.previousPosition.copy(this.position);
     this.position.set(
-      this.position.x + moved.x,
-      this.position.y + moved.y,
-      this.position.z + moved.z,
+      this.position.x + moved.x + this.carry.x,
+      this.position.y + moved.y + this.carry.y,
+      this.position.z + moved.z + this.carry.z,
     );
     body.setNextKinematicTranslation({
       x: this.position.x,
@@ -357,7 +371,15 @@ export class Enemy {
     });
 
     // Fell off the machine — no point simulating it any further.
-    if (this.position.y < -25) this.despawn();
+    //
+    // The threshold is the sand, not the void. It used to be -25, on the
+    // assumption that anything leaving the deck kept falling forever; the
+    // desert floor ended that, and a scavenger that walked off the side now
+    // lands, stands there, and is simulated and counted against
+    // MAX_ACTIVE_ENEMIES for the rest of the run while the machine walks away
+    // from it. Same fate as the player's, minus the ceremony: there is no
+    // catching a machine that moves at exactly sprint speed.
+    if (this.position.y < ON_THE_SAND_Y) this.despawn();
   }
 
   /**

@@ -84,8 +84,18 @@ export interface MachineBuild {
    * `rotX` tilts a box about the X axis — the engine-room stair is a single
    * smooth ramp rather than stepped treads, because stepped colliders make a
    * kinematic character controller judder and catch on every tread.
+   *
+   * `blocksBuild` defaults to true: a box standing on the deck takes the build
+   * cells it occupies out of play. A false here means solid to bodies and
+   * invisible to the build grid, which is the right answer for a thin barrier
+   * hugging a cell boundary — see the railings, and `projectEquipmentCells`.
    */
-  colliders: { half: THREE.Vector3; center: THREE.Vector3; rotX?: number }[];
+  colliders: {
+    half: THREE.Vector3;
+    center: THREE.Vector3;
+    rotX?: number;
+    blocksBuild?: boolean;
+  }[];
 }
 
 const DECK_W = MACHINE_TILES_X * GRID_TILE; // 10m
@@ -129,11 +139,13 @@ export function buildMachine(materials: Materials): MachineBuild {
     z: number,
     rotX?: number,
   ) => {
-    colliders.push({
+    const box: MachineBuild['colliders'][number] = {
       half: new THREE.Vector3(hx, hy, hz),
       center: new THREE.Vector3(x, y, z),
       ...(rotX === undefined ? {} : { rotX }),
-    });
+    };
+    colliders.push(box);
+    return box;
   };
 
   // --- Stairwell ----------------------------------------------------------
@@ -465,6 +477,17 @@ export function buildMachine(materials: Materials): MachineBuild {
   // Topped just under the deck-plus-jump height on purpose. A player who walks
   // into it is stopped; a player who deliberately jumps can still clear it and
   // go over the side, which is a thing they do.
+  //
+  // None of them block a build cell, and that is the whole reason
+  // `blocksBuild` exists. A rail is 12cm thick and sits hard against the deck
+  // lip, so it lies across a grid boundary: containment alone put the port and
+  // starboard rails into cells x=±2 AND x=±3, and the rear rail into the whole
+  // aft row. Measured, that is 24 cells -- both outboard columns entirely, so
+  // nothing could be built out over the side at all, plus the six gaps between
+  // the equipment in the outermost deck columns. `Machine.ts` already warns
+  // about this exact cost for the old tread housings, which the autostep rule
+  // spares; a rail is deliberately taller than autostep, so it has to say so
+  // itself.
   const RAIL_TOP = 0.95;
   for (const side of [-1, 1]) {
     collide(
@@ -477,7 +500,7 @@ export function buildMachine(materials: Materials): MachineBuild {
       side * (DECK_W / 2 - 0.05),
       DECK_HEIGHT + DECK_PLATE_HALF + RAIL_TOP / 2,
       0,
-    );
+    ).blocksBuild = false;
   }
   collide(
     (DECK_W - 0.4) / 2,
@@ -486,7 +509,7 @@ export function buildMachine(materials: Materials): MachineBuild {
     0,
     DECK_HEIGHT + DECK_PLATE_HALF + RAIL_TOP / 2,
     DECK_L / 2 - 0.12,
-  );
+  ).blocksBuild = false;
 
   return { group, colliders };
 }

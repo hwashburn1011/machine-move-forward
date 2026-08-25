@@ -192,6 +192,20 @@ export const AUTOSTEP_HEIGHT = 0.45;
 export const RESPAWN_Y_THRESHOLD = -20;
 
 /**
+ * Below this, a character is standing on the desert rather than on the machine.
+ *
+ * The engine-room floor is the lowest deck anyone can stand on, at 0.6, which
+ * puts a standing capsule's centre around 1.56. The desert floor puts it around
+ * 0.61. A metre cleanly separates the two, and being generous in the wrong
+ * direction would sweep a player out of their own engine room.
+ *
+ * Both characters read it, for opposite fates: the player starts dying (see
+ * `LOST_IN_THE_DESERT_S`), and a scavenger is simply gone. It moved here from
+ * `Game` when the second caller appeared.
+ */
+export const ON_THE_SAND_Y = 1.0;
+
+/**
  * The desert floor, as something you can stand on.
  *
  * The terrain has never had a collider — `TerrainChunk` says so, on the

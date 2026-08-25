@@ -58,6 +58,7 @@ import {
   GRID_LEVELS,
   LOST_IN_THE_DESERT_S,
   LEVEL_HEIGHT,
+  ON_THE_SAND_Y,
 } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { hashSeed, Rng } from '@/core/math/Random';
@@ -106,15 +107,8 @@ export interface GameOptions {
  * Physics steps last so it resolves the kinematic translations everything
  * upstream just requested.
  */
-/**
- * Below this, a character is standing on the desert rather than on the machine.
- *
- * The engine-room floor is the lowest deck anyone can stand on, at 0.6, which
- * puts a standing capsule's centre around 1.56. The desert floor puts it around
- * 0.61. A metre cleanly separates the two, and being generous in the wrong
- * direction would sweep a player out of their own engine room.
- */
-const ON_THE_SAND_Y = 1.0;
+/** Returned for anything the deck is not carrying. Never mutated. */
+const ZERO_CARRY = { x: 0, y: 0, z: 0 } as const;
 
 export class Game implements LoopCallbacks {
   readonly bus = new EventBus();
@@ -506,6 +500,7 @@ export class Game implements LoopCallbacks {
         this.player.worldPosition,
         this.player.stats,
         this.build.navGraph,
+        this.carryOnDeck,
       );
     }
 
@@ -773,6 +768,16 @@ export class Game implements LoopCallbacks {
       console.warn('updateSpawns: EnemyManager.spawn returned null despite the cap check passing.');
     }
   }
+
+  /**
+   * How far the deck moved under a point this step. Bound once so the enemy
+   * manager can sample it per body without allocating a closure per tick.
+   *
+   * Anything below the deck is out on the sand, which the machine is walking
+   * away from rather than carrying — see `ON_THE_SAND_Y`.
+   */
+  private readonly carryOnDeck = (p: THREE.Vector3): { x: number; y: number; z: number } =>
+    p.y < ON_THE_SAND_Y ? ZERO_CARRY : this.machine.carryFor(p);
 
   /** Keep-out predicate for `EnemySpawner.placementFor` — see `blockedSpawnCellKeys`. */
   private readonly isSpawnBlocked = (p: Vec3Like): boolean =>

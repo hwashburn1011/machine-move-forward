@@ -28,6 +28,28 @@ await page.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 
 
 const stats = () => page.evaluate(() => globalThis.__game.debugStats());
 
+/**
+ * Where a player's capsule CENTRE goes to stand on the deck.
+ *
+ * `Player.teleport` sets the centre, and this file spent its whole life
+ * passing 3.6 -- the deck PLANE, which puts the feet a metre inside the plate.
+ * A capsule buried like that is one the character controller refuses to move,
+ * and, worse for a navigation harness, one whose feet read as level -1: the
+ * nav graph routed scavengers down the engine-room ramp to reach a player it
+ * believed was in the engine room, and the checks that measured them found
+ * them anywhere but on the deck. Deck surface, plus half-height, plus radius,
+ * plus the same clearance `CHARACTER_DROP_Y` uses.
+ */
+const { player: PLAYER_STAND_Y, enemy: ENEMY_STAND_Y } = await page.evaluate(() => {
+  const deck = globalThis.__game.game.machine.deckBounds.min.y + 0.09;
+  // Half-height plus radius per capsule, plus the same clearance
+  // `CHARACTER_DROP_Y` uses so the body settles onto the surface rather than
+  // starting inside it. Also parked on the page: half the callers below are
+  // browser-side closures, which cannot see a node-side const.
+  globalThis.__standY = { player: deck + 0.62 + 0.34 + 0.15, enemy: deck + 0.6 + 0.36 + 0.15 };
+  return globalThis.__standY;
+});
+
 /** Wait on simulated, not wall, time — the headless renderer is very slow. */
 async function sim(seconds, pg = page) {
   const clock = () => pg.evaluate(() => globalThis.__game.debugStats().simTime);
@@ -300,7 +322,7 @@ await page.evaluate(() => {
   g.state.godMode = false;
   g.player.stats.invulnerable = false;
   g.player.stats.reset();
-  g.player.teleport({ x: 0, y: 3.6, z: 2 });
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
 });
 await sim(0.5);
 
@@ -401,7 +423,7 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.player.teleport({ x: 0, y: 3.6, z: -1 });
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: -1 });
   // Arm the spawner for this section rather than inheriting whatever the
   // sections above left set: the death checks between them respawn the player,
   // and updateSpawns refuses to run while the player is down.
@@ -498,8 +520,8 @@ for (const [side, x] of [['port', -1.95], ['starboard', 1.95]]) {
       const g = globalThis.__game.game;
       g.enemies.despawnAll();
       g.player.stats.invulnerable = true;
-      g.player.teleport({ x: 0, y: 3.6, z: -1 });
-      g.enemies.spawn('scavenger', { x: sx, y: 3.6, z: 5.6 });
+      g.player.teleport({ x: 0, y: globalThis.__standY.player, z: -1 });
+      g.enemies.spawn('scavenger', { x: sx, y: globalThis.__standY.enemy, z: 5.6 });
     },
     x,
   );
@@ -530,7 +552,7 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: 0, y: 3.6, z: 3 });
+  g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 3 });
 });
 await sim(0.3);
 const loot = await page.evaluate(() => {
@@ -667,7 +689,7 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 2 });
+  g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 2 });
 });
 await sim(0.5);
 const fallbackVisual = await page.evaluate(() => {
@@ -683,6 +705,7 @@ const fallbackVisual = await page.evaluate(() => {
     // into it. The offset that does that moved out of Enemy and into
     // EnemyVisual, and the two disagreeing is invisible to every other check.
     footY: e.object3D.position.y + e.object3D.children[0].position.y,
+    drawnCentreY: e.object3D.position.y,
     centreY: e.worldPosition.y,
   };
 });
@@ -691,10 +714,18 @@ check(
   fallbackVisual.meshes > 0 && fallbackVisual.visible,
   `${fallbackVisual.meshes} mesh(es)`,
 );
+// Two relationships, each measured against the right thing. The foot sits a
+// capsule's foot-offset below the DRAWN centre, exactly; and the drawn centre
+// tracks the simulated one to within a step of motion, because the render
+// position is interpolated and the simulated one is not. This check used to
+// hold the drawn foot against the simulated centre to a millimetre, which was
+// only ever satisfiable by an enemy that could not move -- and for a long time
+// that is what it was handed.
 check(
   'the drawn enemy stands at the base of its collider',
-  Math.abs(fallbackVisual.centreY - fallbackVisual.footY - 0.96) < 1e-3,
-  `feet ${fallbackVisual.footY.toFixed(3)}, centre ${fallbackVisual.centreY.toFixed(3)}`,
+  Math.abs(fallbackVisual.drawnCentreY - fallbackVisual.footY - 0.96) < 1e-3 &&
+    Math.abs(fallbackVisual.drawnCentreY - fallbackVisual.centreY) < 0.02,
+  `feet ${fallbackVisual.footY.toFixed(3)}, drawn ${fallbackVisual.drawnCentreY.toFixed(3)}, simulated ${fallbackVisual.centreY.toFixed(3)}`,
 );
 
 // --- Hit reaction ----------------------------------------------------------
@@ -707,8 +738,8 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: -2, y: 3.6, z: 4 });
-  g.enemies.spawn('scavenger', { x: 2, y: 3.6, z: 4 });
+  g.enemies.spawn('scavenger', { x: -2, y: globalThis.__standY.enemy, z: 4 });
+  g.enemies.spawn('scavenger', { x: 2, y: globalThis.__standY.enemy, z: 4 });
 });
 await sim(0.4);
 const flash = await page.evaluate(() => {
@@ -748,7 +779,7 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: 0, y: 3.6, z: 3 });
+  g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 3 });
 });
 await sim(0.3);
 const bar = await page.evaluate(() => {
@@ -786,6 +817,12 @@ await modelPage.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1', {
 });
 await modelPage.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
 
+// Its own page, so its own copy — see the `__standY` note at the top.
+await modelPage.evaluate(() => {
+  const deck = globalThis.__game.game.machine.deckBounds.min.y + 0.09;
+  globalThis.__standY = { player: deck + 0.62 + 0.34 + 0.15, enemy: deck + 0.6 + 0.36 + 0.15 };
+});
+
 const hasModel = await modelPage.evaluate(() => globalThis.__game.enemies.hasModel === true);
 
 if (!hasModel) {
@@ -797,9 +834,9 @@ if (!hasModel) {
     const g = globalThis.__game.game;
     g.player.stats.invulnerable = true;
     g.enemies.despawnAll();
-    g.player.teleport({ x: 0, y: 3.6, z: 2 });
-    g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 3.5 });
-    g.enemies.spawn('scavenger', { x: -4, y: 3.4, z: -7 });
+    g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
+    g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 3.5 });
+    g.enemies.spawn('scavenger', { x: -4, y: globalThis.__standY.enemy, z: -7 });
   });
 
   // Let them settle into their states and let the mixers run.
@@ -1081,12 +1118,15 @@ const built = await page.evaluate(() => globalThis.__game.game.build.pieceCount)
 check('navigation: test room built', built >= 5, `${built} pieces`);
 
 // Put the player inside the room, and a scavenger on the far side of it. Both
-// spawn well clear of deck-top height (rather than exactly on it) so gravity
-// settles them onto whatever surface is underneath -- the base deck outside,
+// spawn a capsule's own height above the deck SURFACE, plus clearance, so
+// gravity settles them onto whatever is underneath -- the base deck outside,
 // the placed floor plate inside, which sit at slightly different heights.
-await teleportPlayer(0, 3.6, -2);
+// These used to pass 3.6, the deck PLANE, which is a metre of plate below a
+// capsule's feet: buried, unmovable, and reading as engine-room level to the
+// nav graph, which is why this section could never route anyone anywhere.
+await teleportPlayer(0, PLAYER_STAND_Y, -2);
 await page.evaluate(() => globalThis.__game.enemies.despawnAll());
-await spawnHuntingScavenger(4.6, 3.6, -2);
+await spawnHuntingScavenger(4.6, ENEMY_STAND_Y, -2);
 await sim(1.0);
 
 // The scavenger starts east of the room. The only way toward the player is
@@ -1154,7 +1194,7 @@ check(
 await sim(0.5);
 
 await page.evaluate(() => globalThis.__game.enemies.despawnAll());
-await spawnHuntingScavenger(4.6, 3.6, -2);
+await spawnHuntingScavenger(4.6, ENEMY_STAND_Y, -2);
 await sim(8.0);
 
 // "Kept out" is judged by grid cell, not distance -- with the attack range
@@ -1213,7 +1253,7 @@ await page.evaluate(() =>
 await sim(0.5);
 await teleportPlayer(0, 6.5, -1);
 await page.evaluate(() => globalThis.__game.enemies.despawnAll());
-await spawnHuntingScavenger(0, 3.6, -4);
+await spawnHuntingScavenger(0, ENEMY_STAND_Y, -4);
 
 let sawScavenger = false;
 let reachedUpper = false;
@@ -1330,7 +1370,7 @@ if (outShot) {
       const g = globalThis.__game.game;
       g.player.stats.invulnerable = true;
       g.enemies.despawnAll();
-      g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 2 });
+      g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 2 });
     });
     await shot.waitForTimeout(2500);
 
