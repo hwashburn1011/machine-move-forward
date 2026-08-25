@@ -56,6 +56,7 @@ import {
   DESERT_FLOOR_HALF_Z,
   DESERT_FLOOR_Y,
   GRID_LEVELS,
+  LOST_IN_THE_DESERT_S,
   LEVEL_HEIGHT,
 } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
@@ -387,6 +388,8 @@ export class Game implements LoopCallbacks {
 
   /** Reused each step; the camera reads it immediately. */
   private readonly cameraAnchor = new THREE.Vector3();
+  /** Seconds the player has spent off the machine, on the sand. */
+  private timeOnTheSand = 0;
 
   /** Refill the inventory with a new game's starting materials. */
   resetInventory(): void {
@@ -449,6 +452,17 @@ export class Game implements LoopCallbacks {
       // so every step resolves a contact that should never have existed. The
       // gait's `setPose` is the line above.
       if (this.player.worldPosition.y < ON_THE_SAND_Y) {
+        // Off the machine and on the sand. It is pulling away at exactly the
+        // speed a person sprints, so this is already over — see
+        // `LOST_IN_THE_DESERT_S`.
+        this.timeOnTheSand += dt;
+        if (this.timeOnTheSand >= LOST_IN_THE_DESERT_S) {
+          this.player.stats.damage(
+            this.player.stats.health,
+            'lost to the desert',
+            this.player.worldPosition,
+          );
+        }
         // Standing on the desert, not on the machine. The sand is the thing
         // that is moving, so it carries them astern at the machine's own speed
         // and the machine drives off and leaves them — which is what walking
@@ -458,6 +472,7 @@ export class Game implements LoopCallbacks {
         this.player.carry.y = 0;
         this.player.carry.z = WORLD_Z_PER_METRE * this.machine.speed * dt;
       } else {
+        this.timeOnTheSand = 0;
         const carried = this.machine.carryFor(this.player.worldPosition);
         this.player.carry.x = carried.x;
         this.player.carry.y = carried.y;

@@ -186,6 +186,28 @@ check(
   `z ${off.z} -> ${swept}`,
 );
 
+// The machine cruises at exactly sprint speed, so there is no catching it.
+// Being left out there resolves rather than stranding the player in an empty
+// desert waiting to slide off the edge of the world.
+await sim(2.5);
+const lost = await page.evaluate(() => ({
+  hp: globalThis.__game.player.stats.health,
+  dead: globalThis.__game.game.state.playerDead,
+}));
+check('the desert claims a player it was left with', lost.hp === 0, `hp=${lost.hp}`);
+
+await sim(4.5);
+const back = await page.evaluate(() => {
+  const g = globalThis.__game;
+  const p = g.player.worldPosition;
+  return { y: +p.y.toFixed(2), hp: g.player.stats.health };
+});
+check(
+  'and puts them back on the deck, whole',
+  back.hp === 100 && back.y > 3,
+  `y=${back.y} hp=${back.hp}`,
+);
+
 if (outShot) await page.screenshot({ path: outShot });
 await browser.close();
 

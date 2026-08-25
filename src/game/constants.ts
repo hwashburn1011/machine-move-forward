@@ -209,6 +209,19 @@ export const RESPAWN_Y_THRESHOLD = -20;
  * than a player who has just jumped off needs to walk out there.
  */
 export const DESERT_FLOOR_Y = -0.35;
+
+/**
+ * How long you last out on the sand once the machine has left you.
+ *
+ * The machine cruises at exactly the speed you sprint, so on foot you can hold
+ * station with it and never close — there is no catching it, and standing in
+ * an empty desert waiting to slide off the edge of the world is not an
+ * outcome. This makes falling off cost something, promptly and legibly.
+ *
+ * Long enough to see what has happened and swear; short enough that it reads
+ * as a consequence rather than a wait.
+ */
+export const LOST_IN_THE_DESERT_S = 4;
 /** How far the standable floor reaches, in metres either side of the machine. */
 export const DESERT_FLOOR_HALF_X = 70;
 export const DESERT_FLOOR_HALF_Z = 130;
