@@ -3,6 +3,7 @@ import { footAt, gaitPose, legCycle, isPlanted } from '@/machine/Gait';
 import {
   DUTY,
   FOOT_LIFT,
+  HEAVE_AMPLITUDE,
   GROUND_Y,
   LEGS,
   MAX_REACH,
@@ -222,10 +223,14 @@ describe('the body pose the legs produce', () => {
     }
   });
 
-  it('actually moves, rather than sitting at rest', () => {
+  it('moves the body by exactly the amplitude it was asked for', () => {
+    // Against HEAVE_AMPLITUDE, not against a number typed here. That value is
+    // tuning — it will be turned up and down by eye — and a test that pins a
+    // magnitude of its own just breaks every time somebody tunes it, which
+    // teaches people to edit the test rather than to read it.
     const heaves = sweep(720).map((d) => gaitPose(d).heave);
     const swing = Math.max(...heaves) - Math.min(...heaves);
-    expect(swing).toBeGreaterThan(0.05);
+    expect(swing).toBeCloseTo(2 * HEAVE_AMPLITUDE, 3);
   });
 
   it('is periodic: one stride later, the same pose', () => {

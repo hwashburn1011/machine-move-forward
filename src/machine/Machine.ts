@@ -23,6 +23,7 @@ import {
   REST_POSE,
   type BodyPose,
   transformPoint,
+  untransformPoint,
   type Vec3,
 } from './MachineBody';
 
@@ -248,6 +249,32 @@ export class Machine {
    */
   updateVisuals(renderedDistance: number): readonly number[] {
     return this.legs.setDistance(renderedDistance);
+  }
+
+  /**
+   * Where a world point would be if the body were standing still.
+   *
+   * The machine's pose, undone. This is what the camera follows instead of the
+   * player themselves, and it is the whole of "the machine may move, the view
+   * may not" (spec section 2).
+   *
+   * The camera is not attached to the machine, so nothing here displaces it
+   * directly — but it follows the player, the player is carried by the deck,
+   * and so every millimetre the deck heaves reaches the view by the back door.
+   * With four legs a quarter cycle apart the body bobs FOUR times per stride,
+   * about 4.6Hz at cruise, and a few millimetres of view bob at 4.6Hz is
+   * genuinely unpleasant to sit behind — measured, and reported as a headache
+   * within a minute of watching it.
+   *
+   * Taking the pose off the anchor separates the two cleanly. The deck still
+   * moves in physics, so it can still be felt where feeling it is the point —
+   * a list underfoot, a shot thrown off, a boarding vehicle latched to a hull
+   * that is genuinely tilting — and the view stays level regardless of how
+   * hard the body is worked.
+   */
+  steadyPoint(world: THREE.Vector3, out: THREE.Vector3): THREE.Vector3 {
+    const steady = untransformPoint(world, this.pose);
+    return out.set(steady.x, steady.y, steady.z);
   }
 
   /** Where a foot is in the world, for the print it presses into the sand. */

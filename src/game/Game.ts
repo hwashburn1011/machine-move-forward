@@ -346,6 +346,9 @@ export class Game implements LoopCallbacks {
    */
   poseSource: ((simTime: number) => BodyPose) | null = null;
 
+  /** Reused each step; the camera reads it immediately. */
+  private readonly cameraAnchor = new THREE.Vector3();
+
   /** Refill the inventory with a new game's starting materials. */
   resetInventory(): void {
     this.inventory.clear();
@@ -412,10 +415,14 @@ export class Game implements LoopCallbacks {
       this.player.carry.z = carried.z;
 
       this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
+      // The camera follows where the player would be if the body were at rest,
+      // not where the deck has just lifted them to. See `Machine.steadyPoint`:
+      // the deck is supposed to move and the view is not, and without this the
+      // gait reaches the camera through the player and buzzes it at 4.6Hz.
       this.playerCamera.fixedUpdate(
         dt,
         this.input,
-        this.player.worldPosition,
+        this.machine.steadyPoint(this.player.worldPosition, this.cameraAnchor),
         this.physics,
         this.player.collider,
       );
