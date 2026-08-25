@@ -1106,7 +1106,20 @@ await page.evaluate(() => {
 await sim(0.5);
 
 const cell = (x, y, z) => ({ x, y, z });
-const ROOM = cell(0, 0, -1);
+/**
+ * Starboard of the centreline, and that is not cosmetic.
+ *
+ * This was cell(0,0,-1), whose west neighbour is (-1,0,-1) -- which lies over
+ * the engine-room stairwell and is therefore not a walkable nav cell at all.
+ * The room's only doorway opened onto a hole, the graph correctly refused to
+ * link through it, and this whole section has been measuring an unreachable
+ * room ever since the engine room was cut into the hull. Moved one cell to
+ * starboard, every side of the room opens onto solid deck and the doorway is
+ * the only way in, which is what these checks were written to prove.
+ */
+const ROOM = cell(1, 0, -1);
+/** World X of the room's west face — `ROOM.x * GRID_TILE - GRID_TILE / 2`. */
+const ROOM_WEST_FACE = 1;
 await place('floor', ROOM);
 for (const side of ['north', 'south', 'east']) {
   await place('wall', ROOM, side);
@@ -1124,26 +1137,34 @@ check('navigation: test room built', built >= 5, `${built} pieces`);
 // These used to pass 3.6, the deck PLANE, which is a metre of plate below a
 // capsule's feet: buried, unmovable, and reading as engine-room level to the
 // nav graph, which is why this section could never route anyone anywhere.
-await teleportPlayer(0, PLAYER_STAND_Y, -2);
+await teleportPlayer(ROOM.x * 2, PLAYER_STAND_Y, -2);
 await page.evaluate(() => globalThis.__game.enemies.despawnAll());
 await spawnHuntingScavenger(4.6, ENEMY_STAND_Y, -2);
 await sim(1.0);
 
 // The scavenger starts east of the room. The only way toward the player is
-// the west doorway, so a correct route must cross to negative X -- rounding
-// the wall -- well before it is anywhere near the doorway threshold itself.
-let sawWestOfRoom = false;
-for (let i = 0; i < 40; i++) {
-  await sim(0.4);
+// the west doorway, so a correct route must get past the room's west face --
+// rounding the wall -- well before it is anywhere near the doorway threshold
+// itself. Past the face is unambiguous on its own: a scavenger that walked
+// into the east wall and stopped sits three metres the other side of it.
+//
+// The minimum is tracked rather than tested sample by sample. It rounds the
+// corner tightly -- measured, it reaches x=0.78 against a face at 1.0 -- and
+// crosses the strip in well under one sampling interval at 3.1 m/s, so a
+// threshold checked only at the instants a sample lands is a check that
+// passes or fails on where the polling happened to fall.
+let minX = Infinity;
+for (let i = 0; i < 60; i++) {
+  await sim(0.2);
   const s = await scavenger();
   if (!s) break;
-  if (s.x < -1.0) sawWestOfRoom = true;
-  if (sawWestOfRoom) break;
+  minX = Math.min(minX, s.x);
+  if (minX < ROOM_WEST_FACE) break;
 }
 check(
   'navigation: it routes round the wall to the doorway side, not into a wall',
-  sawWestOfRoom,
-  sawWestOfRoom ? 'crossed to the west side' : 'never crossed to the west side',
+  minX < ROOM_WEST_FACE,
+  `closest approach to the doorway side: x=${minX.toFixed(2)}, face at ${ROOM_WEST_FACE}`,
 );
 
 // Arrival, which is the criterion this whole feature exists to satisfy. It was
