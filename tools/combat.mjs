@@ -204,21 +204,41 @@ await sim(0.5);
 check('the deck starts clear', (await stats()).enemies === 0, `${(await stats()).enemies} aboard`);
 
 /**
- * Jump just past the next threshold, so exactly one boundary is crossed.
+ * Jump the world just past the director's current phase boundary.
  *
- * A flat `travel(260)` anchors to the current distance, but the real margin before
- * the next `sim()` wait is the distance to the *next* threshold, which is
- * only guaranteed to be in (0, 250]. That can be a metre -- easily eaten by
- * the ~3.75m a 0.5s sim() wait adds on its own at the machine's cruise speed
- * -- which crosses a second boundary and fails an exact-count check about
- * 1.5% of the time. Anchoring to `nextSpawnAt` instead leaves a ~240m margin
- * regardless of how much of the current interval had already been walked.
+ * The pacing used to be a metronome and this used to anchor to
+ * `spawner.nextSpawnAt`. It anchors to the phase boundary for the same reason
+ * it anchored there: the distance remaining in a phase is only guaranteed to
+ * be positive, and a metre of it is easily eaten by the ~3.75m a 0.5s `sim()`
+ * wait adds at cruise, which would cross the NEXT boundary too and fail an
+ * exact-count check now and then. Anchoring to the boundary itself leaves the
+ * whole of the next phase as margin.
+ *
+ * Engagement has no boundary -- it ends when the deck is clear -- so this is a
+ * no-op there, which is exactly right: you cannot travel your way out of a
+ * fight.
  */
-const travelPastNextThreshold = () =>
+const advancePastPhase = () =>
   page.evaluate(() => {
     const g = globalThis.__game;
-    g.world.reset(g.game.spawner.nextSpawnAt + 10);
+    const ends = g.game.director.phaseEnds;
+    if (Number.isFinite(ends)) g.world.reset(ends + 5);
   });
+
+const phase = () => page.evaluate(() => globalThis.__game.game.director.currentPhase);
+
+/** Travel until the next wave is on the deck. Returns how it got there. */
+const travelToNextWave = async () => {
+  const seen = [];
+  for (let i = 0; i < 8; i++) {
+    seen.push(await phase());
+    if ((await stats()).enemies > 0) return seen;
+    await advancePastPhase();
+    await sim(0.5);
+  }
+  seen.push(await phase());
+  return seen;
+};
 
 // The real prow collider (src/machine/MachineGeometry.ts `prowBlock`,
 // confirmed against source): half-extents (4.5, 0.55, 0.8) centred at
@@ -242,12 +262,41 @@ await page.evaluate(() => {
   g.player.teleport({ x: 0, y: g.player.worldPosition.y, z: 3 });
 });
 
-await travelPastNextThreshold();
+// --- Pacing ----------------------------------------------------------------
+// The director replaced a flat 250m metronome. What matters is the SHAPE: a
+// calm you can build in, a warning you can act on, then the wave -- and never
+// the wave without the warning.
+check('a fresh game starts calm', (await phase()) === 'calm', await phase());
+
+// The whole of the calm, and nothing in it. Travelling to the boundary and no
+// further is the check: this is the stretch the handoff's hard rule is about.
+await advancePastPhase();
+await sim(0.5);
+const afterCalm = await phase();
+check(
+  'the calm ends in a warning, not in an ambush',
+  afterCalm === 'buildup' && (await stats()).enemies === 0,
+  `${afterCalm}, ${(await stats()).enemies} aboard`,
+);
+
+// And the warning is announced. The banner is the only telegraph that exists
+// until there is a dust plume and engine noise to do it properly, so if it
+// does not fire the phase may as well not be there.
+const telegraphed = await page.evaluate(
+  () => document.querySelector('#hud-boarding')?.textContent ?? '',
+);
+check(
+  'and the warning reaches the player',
+  telegraphed.length > 0,
+  telegraphed || 'no banner text',
+);
+
+await advancePastPhase();
 await sim(0.5);
 check(
-  'travelling far enough spawns a scavenger',
-  (await stats()).enemies === 1,
-  `${(await stats()).enemies} aboard`,
+  'the wave then lands',
+  (await phase()) !== 'buildup' && (await stats()).enemies >= 1,
+  `${await phase()}, ${(await stats()).enemies} aboard`,
 );
 
 // Every check above (and every check anywhere else in this file) reads only
@@ -266,49 +315,60 @@ check(
     : 'no arrival found',
 );
 
-// Cross five more thresholds. The cap should stop the last two.
-for (let i = 0; i < 5; i++) {
-  await travelPastNextThreshold();
+// A fight does not end because the machine kept driving. Travel a very long
+// way with the wave still alive and confirm nothing else is sent: engagement
+// ends on a clear deck, and the alternative -- reinforcements arriving on a
+// timer while you are still fighting -- is precisely the chaining the handoff
+// forbids.
+const duringFight = (await stats()).enemies;
+for (let i = 0; i < 4; i++) {
+  await page.evaluate(() => {
+    const g = globalThis.__game;
+    g.world.reset(g.world.distanceTraveled + 900);
+  });
   await sim(0.5);
 }
 check(
-  'no more than four are aboard at once',
-  (await stats()).enemies === 4,
-  `${(await stats()).enemies} aboard`,
+  'no reinforcements arrive while the wave is still alive',
+  (await stats()).enemies === duringFight && (await phase()) === 'engagement',
+  `${(await stats()).enemies} aboard (was ${duringFight}), phase ${await phase()}`,
 );
 
-// The sixth threshold's arrival was refused, not lost: the spawner held the
-// threshold rather than advancing it, so it owes that arrival. Free exactly
-// one slot (not all four) and confirm the count climbs back to 4 on simulated
-// time alone -- no further travel() -- proving the held arrival was retried
-// the moment room opened, rather than discarded when the cap first bit.
-await page.evaluate(() => {
-  globalThis.__game.enemies.active[0]?.despawn();
-});
+// Clear the deck: recovery is owed, and it is owed as DISTANCE, so travelling
+// through it is the only way out.
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
 await sim(0.5);
-check(
-  'a refused arrival is delivered as soon as a slot frees, without travelling further',
-  (await stats()).enemies === 4,
-  `${(await stats()).enemies} aboard`,
-);
+check('a cleared deck buys a recovery', (await phase()) === 'recovery', await phase());
 
-await page.evaluate(() => {
-  const g = globalThis.__game.game;
-  g.enemies.despawnAll();
-  g.spawner.resync(g.world.distanceTraveled);
-});
-await sim(0.5);
-// Seeded from nextSpawnAt rather than the current distance, for the same
-// margin reason as travelPastNextThreshold above.
+// A skip does not skip the warning. This is the one property a debug key and a
+// loaded save could each quietly break, and the cost of breaking it is a fight
+// that arrives unannounced.
 await page.evaluate(() => {
   const g = globalThis.__game;
-  g.world.reset(g.game.spawner.nextSpawnAt + 500);
+  g.world.reset(g.world.distanceTraveled + 5000);
 });
 await sim(0.5);
 check(
-  'a 500m skip produces one arrival, not two',
-  (await stats()).enemies === 1,
-  `${(await stats()).enemies} aboard`,
+  'a 5km skip lands in a phase, not in an ambush',
+  (await stats()).enemies === 0 && (await phase()) !== 'contact',
+  `${await phase()}, ${(await stats()).enemies} aboard`,
+);
+
+// Waves grow, and stop growing at what the deck holds. Fought through several
+// cycles, killing everything each time, which is what "survived" means.
+let biggest = 0;
+for (let wave = 0; wave < 7; wave++) {
+  await travelToNextWave();
+  // Let the whole wave finish arriving before counting it.
+  for (let i = 0; i < 6; i++) await sim(0.6);
+  biggest = Math.max(biggest, (await stats()).enemies);
+  await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+  await sim(0.5);
+}
+check(
+  'waves grow as they are survived, and never past what the deck holds',
+  biggest > 1 && biggest <= 4,
+  `largest wave seen: ${biggest}`,
 );
 
 // --- Death and respawn -----------------------------------------------------
@@ -424,11 +484,11 @@ await page.evaluate(() => {
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
   g.player.teleport({ x: 0, y: globalThis.__standY.player, z: -1 });
-  // Arm the spawner for this section rather than inheriting whatever the
+  // Arm the director for this section rather than inheriting whatever the
   // sections above left set: the death checks between them respawn the player,
-  // and updateSpawns refuses to run while the player is down.
+  // and updateSpawns refuses to run while the player is down, which can leave
+  // the director parked mid-phase.
   g.enemySpawnsEnabled = true;
-  g.spawner.resync(g.world.distanceTraveled);
   globalThis.__game.__arrivalMarks = {};
   g.bus.on('enemy:spawned', (ev) => {
     globalThis.__game.__arrivalMarks[ev.enemyId] = {
@@ -438,16 +498,17 @@ await page.evaluate(() => {
     };
   });
 });
-// Drive the real arrival path rather than spawning by hand.
-for (let i = 0; i < 3; i++) {
-  await page.evaluate(() => {
-    const g = globalThis.__game;
-    g.world.reset(g.game.spawner.nextSpawnAt + 10);
-  });
-  await sim(0.6);
-}
+// Drive the real arrival path rather than spawning by hand: through a calm,
+// through a warning, into a wave.
+const route = await travelToNextWave();
+// Give the whole wave time to finish arriving, staggered as it is.
+for (let i = 0; i < 4; i++) await sim(0.6);
 const arrivals = await page.evaluate(() => globalThis.__game.enemies.active.length);
-check('distance drives arrivals onto the deck', arrivals > 0, `${arrivals} aboard`);
+check(
+  'the director puts arrivals onto the deck',
+  arrivals > 0,
+  `${arrivals} aboard via ${route.join(' -> ')}`,
+);
 
 // Measured from where each scavenger actually materialised, taken off the bus
 // rather than sampled afterwards: by the time a check can look, an arrival has

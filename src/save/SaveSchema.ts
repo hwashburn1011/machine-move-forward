@@ -1,3 +1,4 @@
+import type { ThreatDirectorSave } from '@/enemies/ThreatDirector';
 import type { BuildPieceInstance } from '@/building/BuildSystem';
 import type { ItemStack } from '@/data/items';
 
@@ -62,8 +63,14 @@ export interface SaveGameV1 {
 
   world: {
     chunkIndex: number;
-    /** Null until the threat director milestone. */
-    threatDirector: null;
+    /**
+     * Null in saves written before the threat director, and in a fresh game
+     * that has not reached its first phase change. Both mean the same thing to
+     * a loader — start a director from the seed — so this needed no version
+     * bump and no migration: the old shape is still a legal value of the new
+     * type.
+     */
+    threatDirector: ThreatDirectorSave | null;
   };
 }
 

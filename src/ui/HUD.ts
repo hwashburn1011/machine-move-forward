@@ -43,6 +43,33 @@ const HURT_SECONDS = 1.1;
 /** Seconds a boarding alert stays up. */
 const BOARDING_SECONDS = 4;
 
+/**
+ * Seconds a threat-director telegraph stays up.
+ *
+ * Longer than a boarding alert, because it is asking the player to DO
+ * something -- close a doorway, get to a firing position -- rather than
+ * telling them something has already happened. The warning itself runs 140m,
+ * about nineteen seconds; this is the banner, not the phase.
+ */
+const TELEGRAPH_SECONDS = 6;
+
+/**
+ * What each phase says, or null for the ones that say nothing.
+ *
+ * Calm and contact are deliberately silent. Calm has no news in it, and by
+ * contact the scavengers are on the deck announcing themselves -- the boarding
+ * alert already fires per arrival, and a second banner over the top of it
+ * would be noise at exactly the moment the player needs to be looking at the
+ * deck rather than at the HUD.
+ */
+const PHASE_TEXT: Record<string, string | null> = {
+  calm: null,
+  buildup: 'CONTACT — dust on the horizon',
+  contact: null,
+  engagement: null,
+  recovery: 'Clear — the desert is quiet again',
+};
+
 /** Seconds a loot line stays up. */
 const PICKUP_SECONDS = 2.6;
 
@@ -149,6 +176,17 @@ export class HUD {
           this.deckHalf.l,
         )}`;
         this.boardingUntil = performance.now() / 1000 + BOARDING_SECONDS;
+      }),
+      bus.on('threat:phase', (e) => {
+        // The handoff's telegraphing rule (section 29): an encounter should be
+        // visible before it is dangerous. This is the cheapest honest version
+        // of it -- the dust plume and the engine noise it names are art and
+        // audio that do not exist yet, and a line of text now is better than a
+        // fight that arrives unannounced until they do.
+        const text = PHASE_TEXT[e.phase];
+        if (!text) return;
+        this.boardingText = text;
+        this.boardingUntil = performance.now() / 1000 + TELEGRAPH_SECONDS;
       }),
       bus.on('loot:collected', (e) => {
         // Killing something has to visibly pay. Without this the only sign is

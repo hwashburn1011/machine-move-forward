@@ -26,6 +26,7 @@ import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { EnemyManager } from '@/enemies/EnemyManager';
 import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner';
+import { ThreatDirector, type ThreatPhase } from '@/enemies/ThreatDirector';
 import { SandFX } from '@/fx/SandFX';
 import { TrackMarks } from '@/fx/TrackMarks';
 import { ImpactFX } from '@/fx/ImpactFX';
@@ -126,6 +127,17 @@ export class Game implements LoopCallbacks {
   readonly combat: PlayerCombat;
   readonly enemies: EnemyManager;
   readonly spawner: EnemySpawner;
+  /**
+   * When a wave comes and how big it is. `spawner` now only answers WHERE.
+   *
+   * Kept as two objects rather than merged: placement is a geometry problem
+   * that depends on the deck and the player's position, and pacing is a
+   * scheduling problem that depends on neither. They were only ever one thing
+   * because there was nothing to schedule.
+   */
+  readonly director: ThreatDirector;
+  /** The phase last seen, so a change can be announced exactly once. */
+  private threatPhase: ThreatPhase = 'calm';
   /** Mutable so a harness can arm it for the one section that tests it. */
   enemySpawnsEnabled: boolean;
   /**
@@ -279,6 +291,7 @@ export class Game implements LoopCallbacks {
     this.combat.setShooterCollider(this.player.collider);
     this.enemies = new EnemyManager(this.renderer.scene, this.physics, this.bus, this.materials);
     this.spawner = new EnemySpawner(seed);
+    this.director = new ThreatDirector(seed);
     this.salvage = new SalvageField(this.renderer.scene, this.bus, this.materials, seed);
 
     // The cable. Two points, rewritten each frame while a crate is on the
@@ -734,11 +747,24 @@ export class Game implements LoopCallbacks {
     if (!this.enemySpawnsEnabled) return;
     if (this.state.playerDead) return;
 
-    const request = this.spawner.update(
+    const decision = this.director.update(
       this.world.distanceTraveled,
       this.enemies.activeCount,
+      this.player.stats.health / this.player.stats.maxHealth,
     );
-    if (!request) return;
+
+    // Announced once, on the edge, rather than polled: the HUD's alert is a
+    // timed banner and re-triggering it every frame would pin it up forever.
+    if (decision.entered && decision.entered !== this.threatPhase) {
+      this.threatPhase = decision.entered;
+      this.bus.emit('threat:phase', {
+        phase: decision.entered,
+        wavesSurvived: this.director.waves,
+      });
+    }
+
+    if (!decision.spawn) return;
+    const request = decision.spawn;
 
     const bounds: Bounds = {
       halfWidth: this.machine.deckBounds.max.x,
@@ -754,17 +780,17 @@ export class Game implements LoopCallbacks {
     // on which edge wins (see blockedSpawnCellKeys above), so every candidate
     // is checked against the machine's own equipment footprint. If every
     // candidate that call produced is blocked, the open mid-deck spot is a
-    // far better fallback than losing the arrival outright — the threshold
-    // has already advanced by this point regardless.
+    // far better fallback than losing the arrival outright — the director has
+    // already taken this body off the wave by the time we get here.
     const at =
       this.spawner.placementFor(bounds, this.player.worldPosition, this.isSpawnBlocked) ??
       this.machine.deckSpawn;
 
     const enemy = this.enemies.spawn(request.defId, new THREE.Vector3(at.x, at.y, at.z));
     if (!enemy && import.meta.env.DEV) {
-      // Should be unreachable: the cap check above already confirmed room in
-      // the pool. If this ever fires, the arrival this tick's threshold
-      // advance implicitly promised is gone rather than merely delayed.
+      // Should be unreachable: the director's own cap check confirmed room in
+      // the pool before releasing this body. If it ever fires, an arrival the
+      // wave promised is gone rather than merely delayed.
       console.warn('updateSpawns: EnemyManager.spawn returned null despite the cap check passing.');
     }
   }
@@ -1149,7 +1175,7 @@ export class Game implements LoopCallbacks {
       progression: { unlocks: [] },
       world: {
         chunkIndex: Math.floor(this.world.distanceTraveled / 64),
-        threatDirector: null,
+        threatDirector: this.director.toSave(),
       },
     };
   }
@@ -1168,6 +1194,10 @@ export class Game implements LoopCallbacks {
     this.world.reset(save.distanceTraveled);
     // Derived from distance, so a load re-derives it rather than restoring it.
     this.spawner.resync(save.distanceTraveled);
+    // A save written before the director existed restores as a fresh one from
+    // the same seed, which is the same thing a new game gets.
+    if (save.world.threatDirector) this.director.restore(save.world.threatDirector);
+    this.threatPhase = this.director.currentPhase;
 
     // Inventory before structures: rebuilding a crate creates an empty
     // container that the piece's own state then fills, and restoring the

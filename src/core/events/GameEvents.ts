@@ -1,4 +1,5 @@
 import type { ItemCost } from '@/data/items';
+import type { ThreatPhase } from '@/enemies/ThreatDirector';
 
 export interface Vec3Like {
   x: number;
@@ -38,6 +39,13 @@ export type GameEvents = {
   'enemy:killed': { enemyId: string; defId: string; position: Vec3Like };
 
   'world:chunk-recycled': { chunkIndex: number };
+
+  /**
+   * The encounter pacing moved on. Emitted on the edge only — the HUD's alert
+   * is a timed banner, and re-triggering it every frame would pin it up
+   * forever.
+   */
+  'threat:phase': { phase: ThreatPhase; wavesSurvived: number };
 
   'build:placed': { instanceId: string; definitionId: string; cost: ItemCost };
   'build:removed': { instanceId: string; definitionId: string; refunded: number };
