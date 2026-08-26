@@ -1,4 +1,5 @@
 import type { ItemCost } from '@/data/items';
+import type { OpeningPhase } from '@/game/OpeningDirector';
 import type { ThreatPhase } from '@/enemies/ThreatDirector';
 
 export interface Vec3Like {
@@ -54,6 +55,15 @@ export type GameEvents = {
   /** Loot that has just gone into the player's inventory. */
   'loot:collected': { items: { id: string; count: number }[]; source: string };
   'craft:completed': { recipeId: string };
+
+  /**
+   * The opening moved on. Emitted on the edge only, and once at boot so a
+   * listener never has to guess where it started.
+   *
+   * Phase 9 attaches the premise to this reaching `done`; Phase 15 replaces
+   * the placeholder chase behind the same phases.
+   */
+  'opening:phase': { phase: OpeningPhase };
 
   'game:save-written': { slot: string };
   'game:save-loaded': { slot: string };

@@ -3,6 +3,7 @@
  * measured against the real running game.
  */
 import { chromium } from '@playwright/test';
+import { BASE_URL } from './base-url.mjs';
 
 const outShot = process.argv[2] ?? null;
 
@@ -30,7 +31,9 @@ page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 // Boots quiet so every check below runs on a clear deck. The arrivals section
 // at the bottom of this file arms the spawner deliberately — this is the one
 // harness that tests it.
-await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1&notex=1&nomodel=1', { waitUntil: 'load' });
+// `nomenu=1` boots past the title screen and the opening, straight into
+// gameplay — which is the boot every check below was written against.
+await page.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=low&nospawn=1&notex=1&nomodel=1`, { waitUntil: 'load' });
 
 // `load` fires before `main.ts`'s top-level await settles, so the handle the
 // checks below reach for is not there yet.
@@ -883,7 +886,7 @@ check(
 // SKIP loudly rather than fail when it is absent: a silently-skipped check
 // reads as a passing one, which is how a broken model pipeline ships green.
 const modelPage = await browser.newPage({ viewport: { width: 640, height: 360 } });
-await modelPage.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1', {
+await modelPage.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=low&nospawn=1`, {
   waitUntil: 'load',
 });
 await modelPage.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
@@ -1723,7 +1726,7 @@ if (outShot) {
     // construction and never touched again by the render step, so it can be
     // parked deliberately.
     const shot = await browser.newPage({ viewport: { width: 1280, height: 720 } });
-    await shot.goto('http://localhost:5173/?nolock=1&quality=high&nospawn=1&cam=side', {
+    await shot.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=high&nospawn=1&cam=side`, {
       waitUntil: 'load',
     });
     await shot.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });

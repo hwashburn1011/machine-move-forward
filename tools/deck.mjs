@@ -13,6 +13,7 @@
  * that is simply wrong.
  */
 import { chromium } from '@playwright/test';
+import { BASE_URL } from './base-url.mjs';
 
 const browser = await chromium.launch({
   args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
@@ -25,7 +26,9 @@ page.on('console', (m) => {
 });
 page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 
-await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1&notex=1&nomodel=1&nosound=1', {
+// `nomenu=1` boots past the title screen and the opening, straight into
+// gameplay — which is the boot every check below was written against.
+await page.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=low&nospawn=1&notex=1&nomodel=1&nosound=1`, {
   waitUntil: 'load',
 });
 await page.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });

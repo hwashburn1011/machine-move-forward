@@ -53,7 +53,8 @@ export class AudioEngine {
   private droneGainNode: GainNode | null = null;
   private live = 0;
   private muted = false;
-  private readonly volume: number;
+  /** Not readonly: the settings panel moves it. See `setVolume`. */
+  private volume: number;
   private readonly enabled: boolean;
   /** Counted for the browser harness: nothing else can observe a sound. */
   private played = 0;
@@ -106,6 +107,25 @@ export class AudioEngine {
    */
   resume(): void {
     if (this.ctx?.state === 'suspended') void this.ctx.resume();
+  }
+
+  /** Master volume, 0..1. What the settings panel's slider reads. */
+  get masterVolume(): number {
+    return this.volume;
+  }
+
+  /**
+   * Set master volume.
+   *
+   * Ramped rather than assigned, for the same reason `toggleMute` ramps: a
+   * step change on a gain node is an audible click. Mute wins while it is on —
+   * dragging the slider under a muted game must not unmute it.
+   */
+  setVolume(value: number): void {
+    this.volume = Math.max(0, Math.min(1, value));
+    if (this.master && this.ctx && !this.muted) {
+      this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.02);
+    }
   }
 
   toggleMute(): boolean {

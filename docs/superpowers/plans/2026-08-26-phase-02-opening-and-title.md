@@ -264,19 +264,19 @@ it('lands only on the deck, not on the roof it jumped from', () => {
 - Produces: `class TitleScreen { show(mode: 'boot' | 'pause'): void;
   hide(): void; showTitleCard(text: string): void; showSkipHint(): void }`.
 
-- [ ] **Step 1: DOM + CSS** — full-screen overlay in the HUD idiom (same
+- [x] **Step 1: DOM + CSS** — full-screen overlay in the HUD idiom (same
   palette variables as `hud.css`), game name as styled text, menu list
   keyboard- and mouse-navigable. Background is simply the live canvas.
-- [ ] **Step 2: Wire the free camera for the backdrop** — while in `title`
+- [x] **Step 2: Wire the free camera for the backdrop** — while in `title`
   phase, `Game` uses the existing `far` free-camera preset and machine
   throttle 1, HUD hidden, spawns off; leaving `title` restores the player
   rig. This reuses `freeCamera` plumbing already in `Game`/`main.ts`.
-- [ ] **Step 3: Settings panel** — volume (AudioEngine master), quality tier
+- [x] **Step 3: Settings panel** — volume (AudioEngine master), quality tier
   (existing `nextQualityTier` machinery); persisted to `localStorage`,
   applied on boot. Small on purpose; Phase 15 grows it.
-- [ ] **Step 4: Pause menu reuse** — `Esc` in play shows `mode: 'pause'`
+- [x] **Step 4: Pause menu reuse** — `Esc` in play shows `mode: 'pause'`
   (Resume/Settings/Quit-to-title). Pointer lock released and re-taken.
-- [ ] **Step 5: e2e, full suite, commit** —
+- [x] **Step 5: e2e, full suite, commit** —
   `feat: the game has a front door`.
 
 ---

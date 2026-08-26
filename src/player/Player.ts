@@ -256,6 +256,18 @@ export class Player {
     });
   }
 
+  /**
+   * Move the point `respawn` puts them back at.
+   *
+   * The opening needs it: dying during the rooftop chase has to restart the
+   * chase, not drop the player onto a deck they have not reached yet. Copied
+   * into the existing vector rather than replaced, so nothing else holding a
+   * reference to it goes stale.
+   */
+  setSpawn(to: THREE.Vector3): void {
+    this.spawn.copy(to);
+  }
+
   teleport(to: THREE.Vector3): void {
     this.position.copy(to);
     this.previousPosition.copy(to);

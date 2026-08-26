@@ -1,3 +1,4 @@
+import type { OpeningSave } from '@/game/OpeningDirector';
 import type { ThreatDirectorSave } from '@/enemies/ThreatDirector';
 import type { BuildPieceInstance } from '@/building/BuildSystem';
 import type { ItemStack } from '@/data/items';
@@ -59,6 +60,14 @@ export interface SaveGameV1 {
 
   progression: {
     unlocks: string[];
+    /**
+     * Where the opening got to. Absent in saves written before Phase 2, and
+     * a loader reads that as `done` — a game old enough to have a save is a
+     * game that has already been played, and replaying its opening on load
+     * would be the worst possible reading of a missing field. No version bump
+     * and no migration for the same reason `magazineBonus` needed none.
+     */
+    opening?: OpeningSave;
   };
 
   world: {
