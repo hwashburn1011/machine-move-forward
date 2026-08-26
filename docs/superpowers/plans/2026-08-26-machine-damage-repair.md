@@ -1840,7 +1840,7 @@ git commit -m "feat: the HUD stays quiet until something is wrong"
 - Consumes: everything above, through `globalThis.__game`.
 - Produces: nothing.
 
-- [ ] **Step 1: Write the harness**
+- [x] **Step 1: Write the harness**
 
 ```ts
 // tests/e2e/damage.spec.ts
@@ -2024,26 +2024,26 @@ test.describe('machine damage', () => {
 });
 ```
 
-- [ ] **Step 2: Run it**
+- [x] **Step 2: Run it**
 
 Run: `npx playwright test tests/e2e/damage.spec.ts --reporter=line`
 Expected: PASS. The full e2e suite takes about 5 minutes; run it in the background and wait for the result rather than reporting before it lands.
 
-- [ ] **Step 3: Run everything**
+- [x] **Step 3: Run everything**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests && npm run build
 npx playwright test --reporter=line
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add tests/e2e/damage.spec.ts
 git commit -m "test: the machine can be stopped, and started again"
 ```
 
-- [ ] **Step 5: Update the README**
+- [x] **Step 5: Update the README**
 
 The README's "Not built yet" list names localized machine damage and repair, and its known-gaps section will be one shorter. Update both, and add machine damage to "What works". Commit as `docs: the machine can be hurt now`.
 
