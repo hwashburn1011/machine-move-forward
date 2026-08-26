@@ -9,7 +9,9 @@ import type { ResourceAccess, CrateRef } from '@/items/ResourceAccess';
 import { Container } from '@/items/Container';
 import {
   BUILD_PIECES,
+  canHoldFixture,
   CRATE_SLOTS,
+  isFixture,
   isStation,
   REFUND_FRACTION,
   type PieceId,
@@ -58,6 +60,15 @@ export interface CrateState {
   [key: string]: unknown;
 }
 
+/**
+ * How hard a powered lamp head glows.
+ *
+ * The head is the visible source; `LampLights` adds the actual illumination
+ * for the nearest few. Every lit lamp gets this, so a lamp beyond the light
+ * pool still reads as ON from across the deck.
+ */
+export const LAMP_GLOW_INTENSITY = 2.6;
+
 /** A built station near the player, for the interaction system. */
 export interface StationRef {
   instanceId: string;
@@ -87,10 +98,20 @@ export class BuildSystem {
   private readonly cellOwner = new Map<string, string>();
   private readonly roofOwner = new Map<string, string>();
   private readonly edgeOwner = new Map<string, string>();
+  private readonly fixtureOwner = new Map<string, string>();
   private readonly stationOwner = new Map<string, string>();
   private readonly stairsOwner = new Map<string, string>();
   /** Contents of every built storage crate, keyed by instance id. */
   private readonly crateContainers = new Map<string, Container>();
+  /**
+   * Each lamp's own glow material.
+   *
+   * Cloned per instance rather than shared: `Materials.emissiveWarn` is one
+   * object, so dimming a lamp that had shed power would dim every lamp on the
+   * machine. Disposed with the piece — these are the only materials this
+   * system owns.
+   */
+  private readonly lampGlow = new Map<string, THREE.MeshStandardMaterial>();
 
   private graph: RoomGraph = { rooms: [], byCell: new Map(), links: [] };
   private nav: NavGraph = { links: new Map() };
@@ -269,6 +290,15 @@ export class BuildSystem {
         return data.instanceId;
       }
 
+      // A lamp hangs on its wall and falls with it. Checked BEFORE the floor
+      // rule below and instead of it: the wall's own orphan check already
+      // covers the floors, and a lamp asked the floor question would survive
+      // its wall coming down and hang in the doorway that is no longer there.
+      if (isFixture(data.definitionId) && data.edge) {
+        if (!canHoldFixture(this.grid.getEdge(data.edge))) return data.instanceId;
+        continue;
+      }
+
       if (data.edge) {
         const [a, b] = cellsOfEdge(data.edge);
         if (this.grid.getCell(a) !== 'floor' && this.grid.getCell(b) !== 'floor') {
@@ -305,6 +335,7 @@ export class BuildSystem {
     this.vacate(live.data);
     for (const collider of live.colliders) this.physics.removeCollider(collider);
     this.group.remove(live.mesh);
+    this.disposeLampGlow(id);
     this.instances.delete(id);
 
     this.weight -= def.weight;
@@ -336,6 +367,14 @@ export class BuildSystem {
     return total;
   }
 
+  /** The one material this system owns per instance, so it is the one it must free. */
+  private disposeLampGlow(id: string): void {
+    const glow = this.lampGlow.get(id);
+    if (!glow) return;
+    this.lampGlow.delete(id);
+    glow.dispose();
+  }
+
   /** Hand a demolished crate's contents back. Anything that will not fit is dropped. */
   private emptyCrate(id: string): void {
     const container = this.crateContainers.get(id);
@@ -350,7 +389,15 @@ export class BuildSystem {
 
   /** Which instance a placement would target for demolition. */
   private idAt(placement: Placement): string | undefined {
-    if (placement.edge) return this.edgeOwner.get(edgeKey(placement.edge));
+    // Fixture before the edge piece it hangs on, for the same reason a station
+    // comes before its floor: outermost first, so a wall cannot be pulled out
+    // from under the lamp the player meant to take down.
+    if (placement.edge) {
+      return (
+        this.fixtureOwner.get(edgeKey(placement.edge)) ??
+        this.edgeOwner.get(edgeKey(placement.edge))
+      );
+    }
     // Station, then roof, then stairs, then the cell itself: outermost first,
     // so a floor cannot be pulled out from under a crate — or from under the
     // flight of stairs crossing over it — that the player meant to remove.
@@ -365,6 +412,13 @@ export class BuildSystem {
 
   private occupy(data: BuildPieceInstance): void {
     if (data.edge) {
+      // A fixture hangs ON the edge piece, in its own layer, so the wall it is
+      // mounted to survives underneath it.
+      if (isFixture(data.definitionId)) {
+        this.grid.setFixture(data.edge, data.definitionId);
+        this.fixtureOwner.set(edgeKey(data.edge), data.instanceId);
+        return;
+      }
       this.grid.setEdge(data.edge, data.definitionId);
       this.edgeOwner.set(edgeKey(data.edge), data.instanceId);
       return;
@@ -394,6 +448,11 @@ export class BuildSystem {
 
   private vacate(data: BuildPieceInstance): void {
     if (data.edge) {
+      if (isFixture(data.definitionId)) {
+        this.grid.clearFixture(data.edge);
+        this.fixtureOwner.delete(edgeKey(data.edge));
+        return;
+      }
       this.grid.clearEdge(data.edge);
       this.edgeOwner.delete(edgeKey(data.edge));
       return;
@@ -540,7 +599,7 @@ export class BuildSystem {
 
     const mesh = new THREE.Mesh(
       buildPieceGeometry(data.definitionId),
-      pieceMaterial(data.definitionId, this.materials),
+      this.materialFor(data),
     );
     mesh.position.copy(position);
     mesh.rotation.y = rotationY;
@@ -549,6 +608,41 @@ export class BuildSystem {
     mesh.name = data.instanceId;
     this.group.add(mesh);
     return mesh;
+  }
+
+  /**
+   * The material a piece is drawn with — shared, except a lamp's glow.
+   *
+   * Group 1 of the lamp's geometry is its head, and it is the ONE material in
+   * the game that differs per instance: `setLampLit` writes to it, and a
+   * shared material would mean one shed lamp darkened every lamp aboard.
+   */
+  private materialFor(data: BuildPieceInstance): THREE.Material | THREE.Material[] {
+    const material = pieceMaterial(data.definitionId, this.materials);
+    if (data.definitionId !== 'lamp' || !Array.isArray(material)) return material;
+
+    const glow = (material[1] as THREE.MeshStandardMaterial).clone();
+    this.lampGlow.set(data.instanceId, glow);
+    return [material[0] as THREE.Material, glow];
+  }
+
+  /** Every built lamp, for the light pool. */
+  lamps(): { instanceId: string; position: THREE.Vector3 }[] {
+    const out: { instanceId: string; position: THREE.Vector3 }[] = [];
+    for (const live of this.instances.values()) {
+      if (live.data.definitionId !== 'lamp') continue;
+      out.push({ instanceId: live.data.instanceId, position: live.mesh.position });
+    }
+    return out;
+  }
+
+  /** Light or darken one lamp's head. Silently ignores anything that is not one. */
+  setLampLit(instanceId: string, lit: boolean): void {
+    const glow = this.lampGlow.get(instanceId);
+    if (!glow) return;
+    const wanted = lit ? LAMP_GLOW_INTENSITY : 0;
+    if (glow.emissiveIntensity === wanted) return;
+    glow.emissiveIntensity = wanted;
   }
 
   private createColliders(data: BuildPieceInstance): RAPIER.Collider[] {
@@ -675,6 +769,10 @@ export class BuildSystem {
       crate: 4,
       workbench: 4,
       refinery: 4,
+      generator: 4,
+      // Last of all: a lamp needs the wall it hangs on to exist first, and
+      // walls are rank 2.
+      lamp: 5,
     };
     const ordered = [...pieces].sort(
       (a, b) => a.cell.y - b.cell.y || rank[a.definitionId] - rank[b.definitionId],
@@ -704,11 +802,13 @@ export class BuildSystem {
       if (!live) continue;
       for (const collider of live.colliders) this.physics.removeCollider(collider);
       this.group.remove(live.mesh);
+      this.disposeLampGlow(id);
     }
     this.instances.clear();
     this.cellOwner.clear();
     this.roofOwner.clear();
     this.edgeOwner.clear();
+    this.fixtureOwner.clear();
     this.stationOwner.clear();
     this.stairsOwner.clear();
     this.crateContainers.clear();

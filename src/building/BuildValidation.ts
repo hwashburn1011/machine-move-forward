@@ -1,4 +1,10 @@
-import { BUILD_PIECES, isStation, type PieceId } from '@/data/build-pieces';
+import {
+  BUILD_PIECES,
+  canHoldFixture,
+  isFixture,
+  isStation,
+  type PieceId,
+} from '@/data/build-pieces';
 import type { ItemCost } from '@/data/items';
 import {
   BuildGrid,
@@ -25,6 +31,8 @@ export type RejectReason =
   | 'needs-support'
   | 'needs-floor'
   | 'needs-clearance'
+  /** A wall fixture with no wall under it. Distinct from `needs-support`. */
+  | 'needs-wall'
   | 'cannot-afford';
 
 export interface Validation {
@@ -52,6 +60,7 @@ export const REASON_TEXT: Record<RejectReason, string> = {
   'needs-support': 'Needs a wall below or a floor beside it',
   'needs-floor': 'Needs a floor',
   'needs-clearance': 'Not enough clear space',
+  'needs-wall': 'Needs a wall or doorway to hang on',
   'cannot-afford': 'Not enough materials',
 };
 
@@ -114,7 +123,9 @@ export function validatePlacement(
   // afford" for a spot that was never legal in the first place.
   const structural =
     def.anchor === 'edge'
-      ? validateEdgePiece(grid, placement)
+      ? isFixture(placement.piece)
+        ? validateFixture(grid, placement)
+        : validateEdgePiece(grid, placement)
       : def.anchor === 'double-cell'
         ? validateStairs(grid, placement)
         : isStation(placement.piece)
@@ -184,6 +195,30 @@ function validateEdgePiece(grid: BuildGrid<PieceId>, p: Placement): Validation {
   if (grid.hasEdge(edge)) return fail('occupied');
 
   return hasFloor(grid, a) || hasFloor(grid, b) ? OK : fail('needs-floor');
+}
+
+/**
+ * A wall fixture hangs on the edge piece that is already there.
+ *
+ * Deliberately NOT `validateEdgePiece` with an extra clause. That one refuses
+ * an edge that already holds something, which is the exact opposite of what a
+ * lamp needs: it requires the wall to be there and would be occupied by its
+ * own mount. Two rules that disagree about the same word need two functions.
+ *
+ * The floor rule is not repeated here either. A wall already needed a floor on
+ * one side to be built, so anything hanging on a wall inherits that check for
+ * free — and a wall that later loses both its floors takes its lamp down with
+ * it through the demolition cascade.
+ */
+function validateFixture(grid: BuildGrid<PieceId>, p: Placement): Validation {
+  const edge = p.edge;
+  if (!edge) return fail('out-of-bounds');
+
+  const [a, b] = cellsOfEdge(edge);
+  if (!inEnvelope(a) && !inEnvelope(b)) return fail('out-of-bounds');
+  if (grid.hasFixture(edge)) return fail('occupied');
+
+  return canHoldFixture(grid.getEdge(edge)) ? OK : fail('needs-wall');
 }
 
 /**

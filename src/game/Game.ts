@@ -52,7 +52,12 @@ import { InventoryUI } from '@/ui/InventoryUI';
 import { BuildSystem } from '@/building/BuildSystem';
 import { BuildPreview } from '@/building/BuildPreview';
 import { BuildUI } from '@/ui/BuildUI';
-import { BUILD_PIECES, BUILD_PIECE_ORDER, type PieceId } from '@/data/build-pieces';
+import {
+  BUILD_PIECES,
+  BUILD_PIECE_ORDER,
+  STARTING_STRUCTURES,
+  type PieceId,
+} from '@/data/build-pieces';
 import { countEnclosed } from '@/building/RoomDetector';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
 import {
@@ -415,6 +420,7 @@ export class Game implements LoopCallbacks {
       this.resources,
     );
     this.buildPreview = new BuildPreview(this.renderer.scene);
+    this.resetStructures();
     this.crafting = new CraftingSystem(this.resources, this.bus);
 
     // HUD first: it owns the root's innerHTML, so anything appended before it
@@ -459,6 +465,22 @@ export class Game implements LoopCallbacks {
   private readonly cameraAnchor = new THREE.Vector3();
   /** Seconds the player has spent off the machine, on the sand. */
   private timeOnTheSand = 0;
+
+  /**
+   * Build what a new machine is already carrying — the starting generator.
+   *
+   * Placed FREE through the ordinary placement path, which is the same one a
+   * save replays through. There is no special case here and no bespoke
+   * geometry: from the moment it exists it is a build piece like any other,
+   * and the player can demolish it for a refund and live with the dark.
+   *
+   * Loading a save replaces all of this: `build.restore` clears first, and the
+   * save carries whatever generator the player actually has.
+   */
+  resetStructures(): void {
+    this.build.clear();
+    for (const placement of STARTING_STRUCTURES) this.build.place(placement, true);
+  }
 
   /** Refill the inventory with a new game's starting materials. */
   resetInventory(): void {

@@ -209,6 +209,15 @@ export class BuildGrid<T = string> {
    * the hull.
    */
   private readonly stairs = new Map<string, T>();
+  /**
+   * Things mounted ON an edge piece, keyed by that piece's edge.
+   *
+   * The same argument as `stations` over floors, one dimension down. A lamp
+   * hangs on a wall; sharing the edge map would mean placing one silently
+   * OVERWROTE the wall and its owner, so demolishing the lamp afterwards would
+   * delete a wall that is still standing in the scene.
+   */
+  private readonly fixtures = new Map<string, T>();
   private readonly blocked = new Set<string>();
 
   getCell(c: Cell): T | undefined {
@@ -312,6 +321,33 @@ export class BuildGrid<T = string> {
     }));
   }
 
+  getFixture(e: Edge): T | undefined {
+    return this.fixtures.get(edgeKey(e));
+  }
+
+  setFixture(e: Edge, value: T): void {
+    this.fixtures.set(edgeKey(e), value);
+  }
+
+  clearFixture(e: Edge): void {
+    this.fixtures.delete(edgeKey(e));
+  }
+
+  hasFixture(e: Edge): boolean {
+    return this.fixtures.has(edgeKey(e));
+  }
+
+  fixtureEntries(): EdgeEntry<T>[] {
+    return [...this.fixtures.entries()].map(([key, value]) => ({
+      edge: parseEdgeKey(key),
+      value,
+    }));
+  }
+
+  get fixtureCount(): number {
+    return this.fixtures.size;
+  }
+
   /** Mark a cell permanently unbuildable — the starting equipment sits there. */
   blockCell(c: Cell): void {
     this.blocked.add(cellKey(c));
@@ -365,5 +401,6 @@ export class BuildGrid<T = string> {
     this.roofs.clear();
     this.stations.clear();
     this.stairs.clear();
+    this.fixtures.clear();
   }
 }

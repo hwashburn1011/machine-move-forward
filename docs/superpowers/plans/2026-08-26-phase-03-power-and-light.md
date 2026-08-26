@@ -199,20 +199,20 @@ been in the save schema since v1, so `MachinePowerSave` rides on it and no
   `src/building/BuildPieceGeometry.ts`, `src/building/BuildSystem.ts`
 - Test: additions to `tests/unit/buildvalidation.test.ts`
 
-- [ ] **Step 1: Failing validation tests** — lamp is edge-anchored and
+- [x] **Step 1: Failing validation tests** — lamp is edge-anchored and
   requires a wall or doorway on its edge (a lamp needs something to hang
   on); generator is cell-anchored, station-like, needs a floor/deck cell
   like other stations. Costs: generator `{ scrap: 60, components: 6 }`,
   lamp `{ scrap: 6, components: 1 }`; weights 320 / 8.
-- [ ] **Step 2: Implement data + validation + geometry** (procedural
+- [x] **Step 2: Implement data + validation + geometry** (procedural
   geometry first — model dressing arrives behind `loadModel` later, per
   asset policy). Lamp head material emissive when powered, dark when shed —
   driven in Task 4.
-- [ ] **Step 3: Pre-placed starting generator** — new game seeds one
+- [x] **Step 3: Pre-placed starting generator** — new game seeds one
   generator instance near the engine (same code path as loading a save with
   one placed; no special-case geometry). Assert in a unit test that a fresh
   `BuildSystem` start includes it and that its cell collides with nothing.
-- [ ] **Step 4: Green, full suite, commit** —
+- [x] **Step 4: Green, full suite, commit** —
   `feat: a generator to feed and a lamp to hang`.
 
 ---

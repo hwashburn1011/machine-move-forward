@@ -283,10 +283,68 @@ function refineryGeometry(): THREE.BufferGeometry {
   return grouped([shell, indicator]);
 }
 
+/**
+ * A squat engine block with a radiator, an exhaust and a lit status panel.
+ *
+ * Lower and wider than the refinery so the two never read as the same object
+ * across a deck — the refinery is a tall tank, this is a machine you crouch at.
+ */
+function generatorGeometry(): THREE.BufferGeometry {
+  const w = 1.6;
+  const h = 1.15;
+
+  const shell: THREE.BufferGeometry[] = [
+    at(bevelledBox(w, h, w * 0.85, 0.07), 0, h / 2, 0),
+    at(bevelledBox(w * 1.05, 0.16, w * 0.92, 0.04), 0, 0.1, 0),
+    // Radiator fins across the back.
+    ...[-0.3, 0, 0.3].map((offset) =>
+      at(bevelledBox(w * 0.9, 0.5, 0.09, 0.02), 0, h * 0.6, -w * 0.44 + offset * 0.02),
+    ),
+  ];
+  // Exhaust stack, offset so the silhouette is not symmetrical.
+  shell.push(at(bevelledBox(0.2, 0.85, 0.2, 0.04), w * 0.3, h + 0.42, -w * 0.2));
+
+  // The status panel: the cue that tells a generator from a crate at a glance,
+  // and the one the emissive material makes glow while it is running.
+  const panel: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.42, 0.16, 0.06, 0.02), -0.2, h * 0.72, w * 0.44),
+  ];
+
+  return grouped([shell, panel]);
+}
+
+/**
+ * A bracket and a shaded head, authored around the EDGE plane.
+ *
+ * It straddles the wall rather than facing one way, and that is a decision
+ * rather than an omission: an edge carries no facing — `transformFor` gives it
+ * only the axis it lies along — so a one-sided lamp would face a coin-flip
+ * direction and light the sand half the time. Straddling reads as a fitting
+ * that lights the corridor on both sides, which is what a bulkhead lamp does.
+ */
+function lampGeometry(): THREE.BufferGeometry {
+  // High on the wall: below head height it would be in the player's face in a
+  // 2m-wide corridor, and above the lintel it would be inside the roof.
+  const y = WALL_HEIGHT - 0.62;
+
+  const bracket: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.5, 0.1, 0.1, 0.02), 0, y + 0.26, 0),
+    at(bevelledBox(0.12, 0.3, 0.1, 0.02), 0, y + 0.12, 0),
+    // Hood, so the head reads as a fitting rather than a floating brick.
+    at(bevelledBox(0.56, 0.08, 0.34, 0.02), 0, y + 0.02, 0),
+  ];
+
+  const head: THREE.BufferGeometry[] = [at(bevelledBox(0.44, 0.16, 0.26, 0.03), 0, y - 0.08, 0)];
+
+  return grouped([bracket, head]);
+}
+
 const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
   crate: crateGeometry,
   workbench: workbenchGeometry,
   refinery: refineryGeometry,
+  generator: generatorGeometry,
+  lamp: lampGeometry,
   floor: floorGeometry,
   wall: wallGeometry,
   doorway: doorwayGeometry,
@@ -327,6 +385,13 @@ export function pieceMaterial(
       return materials.stationMetal;
     case 'refinery':
       return [materials.stationMetal, materials.emissiveWarn];
+    case 'generator':
+      return [materials.stationMetal, materials.emissiveWarn];
+    // The glow is group 1 by the same convention, and `BuildSystem` CLONES it
+    // per lamp: the shared material is one object, and a lamp that shed power
+    // would otherwise darken every other lamp on the machine with it.
+    case 'lamp':
+      return [materials.bareSteel, materials.emissiveWarn];
     case 'floor':
       return materials.buildPlate;
     case 'roof':
@@ -362,6 +427,18 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
       return [
         { half: new THREE.Vector3(0.75, 0.95, 0.75), offset: new THREE.Vector3(0, 0.95, 0) },
       ];
+
+    case 'generator':
+      return [
+        { half: new THREE.Vector3(0.85, 0.65, 0.72), offset: new THREE.Vector3(0, 0.65, 0) },
+      ];
+
+    // None, deliberately. A lamp is a fitting on a wall that already has a
+    // collider; giving it one of its own would put a shin-catcher in the
+    // doorway it lights, and a body can no more walk into it than into the
+    // wall it hangs on.
+    case 'lamp':
+      return [];
     case 'floor':
       return [
         {
