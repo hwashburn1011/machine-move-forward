@@ -57,7 +57,7 @@
 - Consumes: nothing.
 - Produces: `type DamageableKind = 'enemy' | 'structure' | 'subsystem'`; `interface Damageable { kind: DamageableKind; id: string; armor: number; takeDamage(amount: number): void }`; `function isDamageable(v: unknown): v is Damageable`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```ts
 // tests/unit/damageable.test.ts
@@ -85,12 +85,12 @@ describe('what a shot can hurt', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/damageable.test.ts`
 Expected: FAIL — cannot resolve `@/combat/Damageable`.
 
-- [ ] **Step 3: Write the module**
+- [x] **Step 3: Write the module**
 
 ```ts
 // src/combat/Damageable.ts
@@ -126,7 +126,7 @@ export function isDamageable(v: unknown): v is Damageable {
 }
 ```
 
-- [ ] **Step 4: Point `PlayerCombat` at it**
+- [x] **Step 4: Point `PlayerCombat` at it**
 
 In `src/player/PlayerCombat.ts`, delete the local `Damageable` interface and `isDamageable` function (lines 13–23) and add to the imports:
 
@@ -140,12 +140,12 @@ Then re-export for any existing importer, immediately after the imports:
 export type { Damageable };
 ```
 
-- [ ] **Step 5: Run the suite**
+- [x] **Step 5: Run the suite**
 
 Run: `npx tsc --noEmit && npx vitest run && npx eslint src tests`
 Expected: all green. 670 existing tests still pass — this task changes no behaviour.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/combat/Damageable.ts src/player/PlayerCombat.ts tests/unit/damageable.test.ts

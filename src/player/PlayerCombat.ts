@@ -9,18 +9,10 @@ import { DEFAULT_WEAPON_ORDER, WEAPONS } from '@/data/weapons';
 import { AMMO_FOR_WEAPON, type ItemId } from '@/data/items';
 import { Rng } from '@/core/math/Random';
 import type RAPIER from '@dimforge/rapier3d-compat';
+import { isDamageable, type Damageable } from '@/combat/Damageable';
 
-/** Anything a shot can hurt. Enemies register themselves as collider userData. */
-export interface Damageable {
-  kind: 'enemy';
-  id: string;
-  armor: number;
-  takeDamage(amount: number): void;
-}
-
-function isDamageable(v: unknown): v is Damageable {
-  return typeof v === 'object' && v !== null && (v as Damageable).kind === 'enemy';
-}
+/** Re-exported for the callers that imported it from here before it moved. */
+export type { Damageable };
 
 /**
  * Player firing, aiming, and reloading (handoff section 18).
