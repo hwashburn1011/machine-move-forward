@@ -2,6 +2,7 @@ import type { OpeningSave } from '@/game/OpeningDirector';
 import type { ThreatDirectorSave } from '@/enemies/ThreatDirector';
 import type { BuildPieceInstance } from '@/building/BuildSystem';
 import type { ItemStack } from '@/data/items';
+import type { NeedsSave } from '@/player/Needs';
 
 /**
  * Versioned save schema (handoff section 38).
@@ -37,6 +38,15 @@ export interface SaveGameV1 {
     health: number;
     /** Serialised container slots, one entry per slot, null where empty. */
     inventory: (ItemStack | null)[];
+    /**
+     * Water and food. Absent in every save written before Phase 4, and absent
+     * means FULL — a player who put the game down before the survival layer
+     * existed must not come back to an empty bottle. No version bump and no
+     * migration, for the reason `subsystems` and `opening` give above: the old
+     * shape is still a legal value of the new type and its absence has exactly
+     * one sensible reading.
+     */
+    needs?: NeedsSave;
     equipment: {
       currentWeapon: string;
       weapons: {

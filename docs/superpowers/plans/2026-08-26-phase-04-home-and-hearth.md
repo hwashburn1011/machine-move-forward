@@ -86,9 +86,36 @@ the threat director's `calm` phase and fades on `buildup`.
 1. **Do needs drain while the inventory panel is open?** Recommended: yes
    (sim runs; pausing meters invites menu-camping) — but drains pause in
    the title/pause menu from Phase 2.
+   **Decision: took the default — meters drain behind an open panel, and
+   stop dead behind the title screen, the pause menu and the whole opening.**
 2. **Does the planter need water?** Recommended: no for MVP — one loop
    (water → drink, greens → cook → eat) is enough; watering the planter is
    a natural later hook, noted for Phase 15 tuning.
+   **Decision: took the default — the planter runs unattended and unpowered;
+   only the condenser is gated, and on power rather than on water.**
+
+## Decisions taken during execution
+
+Everything below is a default the plan already recommended or a place where
+the plan was written before Phases 1–3 shipped and reality won.
+
+- **Decision: took the default — decoration is `chair`, `table`, `rug`,
+  `shelf`,** the four Task 4 names; the "crate-of-oddments" floated in the
+  design-decisions prose was dropped to keep the piece table honest.
+- **Decision: took the default — exactly three new items** (`water`,
+  `greens`, `rations`) and one new recipe, as the global constraint requires.
+- **Deviation (plan vs. reality): decor gets its own `BuildGrid` layer**
+  rather than sharing the station layer. The codebase's standing rule is that
+  two pieces which can coexist in one cell need two layers — a rug under a
+  workbench is exactly that case, and sharing would have made placing one
+  silently overwrite the other's owner entry.
+- **Deviation (plan vs. reality): the build HUD groups by category AND
+  pages.** `BUILD_PIECE_ORDER` is eighteen pieces now and `InputManager` only
+  binds `slot1`–`slot9`, so a flat order would have left the last nine pieces
+  unselectable. The number keys address the active category; `G` cycles it.
+- **Decision: needs drain is gated on `opening.phase === 'done'`** as well as
+  on the cinematic camera, so neither the title backdrop nor the rooftop chase
+  moves a meter.
 
 ## Asset Needs
 
@@ -145,19 +172,19 @@ the threat director's `calm` phase and fades on `buildup`.
   get healScale(): number; toSave()/restore(saved | undefined) }`.
   All gates return neutral values (true / 1) while meters are above zero.
 
-- [ ] **Step 1: Failing tests.** Full at construction; drains at
+- [x] **Step 1: Failing tests.** Full at construction; drains at
   `data/needs.ts` rates (empty in ~25 sim minutes — assert against the
   constant, not a magic number); clamps at 0; **never touches health**
   (Needs has no reference to PlayerStats — assert by API absence and by a
   long-run drain test); gates flip only at exactly 0 and restore on
   drink/eat (+60, clamped); absent save ⇒ full meters (old saves).
-- [ ] **Step 2: Red run, implement, green.** Pure, no bus — `Game` emits
+- [x] **Step 2: Red run, implement, green.** Pure, no bus — `Game` emits
   `'needs:changed'` on meter-integer changes for the HUD.
-- [ ] **Step 3: Gate wiring with tests** — `Player.fixedUpdate` sprint
+- [x] **Step 3: Gate wiring with tests** — `Player.fixedUpdate` sprint
   condition gains `&& needs.canSprint`; `PlayerStats.heal` and stamina
   recovery consult scales. Existing tests stay green (full meters are
   neutral).
-- [ ] **Step 4: Full suite, commit** —
+- [x] **Step 4: Full suite, commit** —
   `feat: thirst slows you down, never kills you`.
 
 ---

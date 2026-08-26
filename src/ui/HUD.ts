@@ -37,7 +37,19 @@ export interface HUDState {
   fuel: number;
   /** True while some priority class has been shed. Turns the row hot. */
   powerShed: boolean;
+  /** The survival meters, 0..100. Both full is the quiet, unremarkable case. */
+  hydration: number;
+  nourishment: number;
 }
+
+/**
+ * Meter percentage below which a needs bar starts asking for attention.
+ *
+ * A quarter, and no lower: the effect only lands at zero, so the warning has
+ * to arrive with time left to do something about it. Below this the bar goes
+ * hot; it never flashes red, because nothing here is an emergency.
+ */
+const NEEDS_LOW_FRACTION = 0.25;
 
 /**
  * DOM overlay HUD (handoff section 43).
@@ -117,6 +129,10 @@ export class HUD {
         <div class="hud-label">Vitals</div>
         <div class="hud-value" id="hud-health-value">100</div>
         <div id="hud-health-bar"><div id="hud-health-fill"></div></div>
+        <div class="hud-needs">
+          <div class="hud-need" id="hud-hydration"><span>&#9832;</span><div class="hud-need-bar"><div class="hud-need-fill" id="hud-hydration-fill"></div></div></div>
+          <div class="hud-need" id="hud-nourishment"><span>&#9789;</span><div class="hud-need-bar"><div class="hud-need-fill" id="hud-nourishment-fill"></div></div></div>
+        </div>
       </div>
 
       <div id="hud-weapon" class="hud-panel">
@@ -146,6 +162,10 @@ export class HUD {
       'hud-health',
       'hud-health-value',
       'hud-health-fill',
+      'hud-hydration',
+      'hud-hydration-fill',
+      'hud-nourishment',
+      'hud-nourishment-fill',
       'hud-ammo',
       'hud-ammo-reserve',
       'hud-weapon-name',
@@ -256,6 +276,13 @@ export class HUD {
     this.style('hpfill', this.el['hud-health-fill'], 'width', `${(pct * 100).toFixed(1)}%`);
     this.el['hud-health']?.classList.toggle('is-critical', pct <= 0.3);
 
+    // --- Needs -------------------------------------------------------------
+    // Under the health bar and a third its height, deliberately. These are a
+    // slow background pressure, not a combat readout, and a meter drawn as
+    // loud as health would say the opposite.
+    this.needMeter('hyd', 'hud-hydration', state.hydration);
+    this.needMeter('nou', 'hud-nourishment', state.nourishment);
+
     // --- Threats -----------------------------------------------------------
     this.deckHalf = { w: state.deckHalfWidth, l: state.deckHalfLength };
     this.write('threats', this.el['hud-threats'], String(state.enemiesAboard));
@@ -359,6 +386,13 @@ export class HUD {
     this.el['hud-crosshair']?.classList.toggle('is-hit', now < this.hitFlashUntil);
 
     this.el['hud-lock']?.classList.toggle('is-hidden', state.pointerLocked);
+  }
+
+  /** One survival meter: a width, and hot below a quarter. */
+  private needMeter(key: string, id: string, value: number): void {
+    const fraction = Math.max(0, Math.min(1, value / 100));
+    this.style(key, this.el[`${id}-fill`], 'width', `${(fraction * 100).toFixed(1)}%`);
+    this.el[id]?.classList.toggle('is-low', fraction <= NEEDS_LOW_FRACTION);
   }
 
   /** Write only when the value actually changed. */

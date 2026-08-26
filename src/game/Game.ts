@@ -777,6 +777,7 @@ export class Game implements LoopCallbacks {
     }
 
     this.machine.fixedUpdate(dt);
+    this.tickNeeds(dt);
     this.tickPower(dt);
     this.announceMachineDamage(dt);
     this.world.fixedUpdate(dt, this.machine.speed);
@@ -797,6 +798,38 @@ export class Game implements LoopCallbacks {
 
     this.handleDebugKeys();
   }
+
+  /**
+   * Drain the survival meters, and announce them on whole points.
+   *
+   * NOT while the title screen is up and NOT during the opening. Both are
+   * states the player cannot drink in: the menu runs the machine as a backdrop
+   * with nobody aboard, and the rooftop chase strips the player's weapons, let
+   * alone their supplies. A meter that emptied itself over a title screen left
+   * running would be the first thing a returning player noticed and the last
+   * thing they could explain.
+   *
+   * The pause menu is handled a level up — `fixedUpdate` returns before this
+   * on `state.paused` — which is the same reason it needs no mention here.
+   */
+  private tickNeeds(dt: number): void {
+    if (this.cinematicCamera) return;
+    if (this.opening.phase !== 'done') return;
+
+    const needs = this.player.needs;
+    const before = this.announcedNeeds;
+    needs.fixedUpdate(dt);
+
+    const hydration = Math.ceil(needs.hydration);
+    const nourishment = Math.ceil(needs.nourishment);
+    if (before && before.hydration === hydration && before.nourishment === nourishment) return;
+
+    this.announcedNeeds = { hydration, nourishment };
+    this.bus.emit('needs:changed', { hydration, nourishment });
+  }
+
+  /** The last meter pair put on the bus, so `tickNeeds` can emit edges only. */
+  private announcedNeeds: { hydration: number; nourishment: number } | null = null;
 
   /**
    * Burn the fuel and put the model's edges on the bus.
@@ -1069,6 +1102,8 @@ export class Game implements LoopCallbacks {
       powerCapacity: this.machine.power.capacity,
       fuel: this.machine.power.fuel,
       powerShed: this.powerShed,
+      hydration: this.player.needs.hydration,
+      nourishment: this.player.needs.nourishment,
     });
 
     this.inventoryUI.update({
@@ -1368,6 +1403,8 @@ export class Game implements LoopCallbacks {
     this.resetInventory();
     this.combat.equip('rifle');
     this.player.stats.reset();
+    this.player.needs.reset();
+    this.announcedNeeds = null;
     this.closePanels();
     this.beginOpening('new-game');
   }
@@ -1953,6 +1990,7 @@ export class Game implements LoopCallbacks {
         position: { x: p.x, y: p.y, z: p.z },
         health: this.player.stats.health,
         inventory: this.inventory.serialise(),
+        needs: this.player.needs.toSave(),
         equipment: {
           currentWeapon: this.combat.current.def.id,
           // Every weapon, not just the equipped one: a mod fitted to the
@@ -2023,6 +2061,12 @@ export class Game implements LoopCallbacks {
       new THREE.Vector3(save.player.position.x, save.player.position.y, save.player.position.z),
     );
     this.player.stats.reset();
+    // Absent in every save written before Phase 4, and absent means full — see
+    // `SaveSchema`. The announcement is cleared so the first tick after the
+    // load emits the restored meters rather than comparing them to the old
+    // game's.
+    this.player.needs.restore(save.player.needs);
+    this.announcedNeeds = null;
     this.enemies.despawnAll();
 
     this.combat.equip(save.player.equipment.currentWeapon);

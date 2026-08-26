@@ -4,6 +4,18 @@ import type { Vec3Like } from '@/core/events/GameEvents';
 /** Health restored by one repair kit. */
 export const REPAIR_KIT_HEAL = 40;
 
+/**
+ * The part of `Needs` this file is allowed to see.
+ *
+ * Two scales and nothing else. Structural rather than an import of the class,
+ * so a test can hand in a stub and so the dependency stays one directional
+ * step wide.
+ */
+export interface NeedsGates {
+  staminaRecoveryScale: number;
+  healScale: number;
+}
+
 /** Player health and stamina. Emits rather than being polled for changes. */
 export class PlayerStats {
   readonly maxHealth = 100;
@@ -14,7 +26,20 @@ export class PlayerStats {
   private deathAnnounced = false;
   private grace = 0;
 
-  constructor(private readonly bus: EventBus) {}
+  constructor(
+    private readonly bus: EventBus,
+    /**
+     * The survival meters, if this player has any.
+     *
+     * Injected rather than reached for, in the idiom `CraftingSystem` uses for
+     * the power gate: the default is neutral, so every test written before
+     * needs existed is unaffected and the coupling runs one way only. Note
+     * which way: stats READ needs, and needs cannot see stats at all. That
+     * asymmetry is the roadmap's "never punishing" promise expressed in the
+     * type system rather than in a comment.
+     */
+    private readonly needs?: NeedsGates,
+  ) {}
 
   get health(): number {
     return this.hp;
@@ -71,9 +96,18 @@ export class PlayerStats {
     }
   }
 
+  /**
+   * Mend. Scaled by the nourishment gate, so an empty stomach mends slower.
+   *
+   * Scaled HERE rather than at the one call site, so every heal a later phase
+   * adds inherits the rule instead of having to remember it. The scale is
+   * bounded above zero by `data/needs.ts`: a hungry player heals less, never
+   * nothing.
+   */
   heal(amount: number): void {
     if (!this.alive) return;
-    this.hp = Math.min(this.maxHealth, this.hp + Math.max(0, amount));
+    const scaled = Math.max(0, amount) * (this.needs?.healScale ?? 1);
+    this.hp = Math.min(this.maxHealth, this.hp + scaled);
   }
 
   /**
@@ -94,8 +128,10 @@ export class PlayerStats {
     this.sp = Math.max(0, this.sp - amount);
   }
 
+  /** Passive recovery, scaled by the nourishment gate the same way healing is. */
   recoverStamina(amount: number): void {
-    this.sp = Math.min(this.maxStamina, this.sp + amount);
+    const scaled = Math.max(0, amount) * (this.needs?.staminaRecoveryScale ?? 1);
+    this.sp = Math.min(this.maxStamina, this.sp + scaled);
   }
 
   reset(): void {

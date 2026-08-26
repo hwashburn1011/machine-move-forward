@@ -16,6 +16,7 @@ import {
   RESPAWN_Y_THRESHOLD,
 } from '@/game/constants';
 import { PlayerStats } from './PlayerStats';
+import { Needs } from './Needs';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { PlayerVisual } from './PlayerVisual';
 
@@ -28,6 +29,14 @@ import { PlayerVisual } from './PlayerVisual';
  */
 export class Player {
   readonly stats: PlayerStats;
+  /**
+   * Water and food. Owned here rather than in `Game` because the sprint gate
+   * is read on the hot path and `PlayerStats` is constructed against it.
+   *
+   * Drained by `Game`, not by `fixedUpdate`: the meters must not move behind
+   * the title screen or during the opening, and this method runs in both.
+   */
+  readonly needs = new Needs();
 
   private visual: PlayerVisual;
 
@@ -56,7 +65,7 @@ export class Player {
     private readonly materials: Materials,
     private readonly spawn: THREE.Vector3,
   ) {
-    this.stats = new PlayerStats(bus);
+    this.stats = new PlayerStats(bus, this.needs);
     this.position.copy(spawn);
     this.previousPosition.copy(spawn);
 
@@ -168,7 +177,12 @@ export class Player {
     if (input.isDown('right')) ix += 1;
 
     const crouching = input.isDown('crouch');
-    const sprinting = input.isDown('sprint') && !crouching && iz < 0;
+    // Thirst takes the sprint and nothing else. Walking, crouching, jumping and
+    // shooting are all untouched at zero hydration — the roadmap's promise is
+    // that running dry slows you down, so it takes the fast option away rather
+    // than the ability to move.
+    const sprinting =
+      input.isDown('sprint') && !crouching && iz < 0 && this.needs.canSprint;
     const speed = crouching
       ? PLAYER_CROUCH_SPEED
       : sprinting

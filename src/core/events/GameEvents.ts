@@ -76,6 +76,15 @@ export type GameEvents = {
   'power:shed': { priority: string };
   'power:restored': { priority: string };
 
+  /**
+   * A survival meter moved by a whole point.
+   *
+   * WHOLE POINTS, not every tick: the meters drain by a fifteenth of a point a
+   * second and the HUD writes DOM off this. Emitted on the integer edge for
+   * the same reason `power:changed` is emitted on the capacity edge.
+   */
+  'needs:changed': { hydration: number; nourishment: number };
+
   'inventory:changed': { scrap: number };
   /** Loot that has just gone into the player's inventory. */
   'loot:collected': { items: { id: string; count: number }[]; source: string };

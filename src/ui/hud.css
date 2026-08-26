@@ -78,6 +78,47 @@
   background: var(--danger);
 }
 
+/* --- Survival meters, under the health bar ---------------------------- */
+/* Deliberately quiet: a third the height of the health bar, muted until low.
+   These are a slow pressure the player should be able to ignore for minutes
+   at a time, and a meter drawn as loud as health would say the opposite. */
+.hud-needs {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+.hud-need {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.hud-need-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.hud-need-fill {
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: width 400ms linear;
+}
+
+.hud-need.is-low {
+  color: var(--amber);
+}
+
+.hud-need.is-low .hud-need-fill {
+  background: var(--amber);
+}
+
 /* --- Weapon and ammo, bottom right ------------------------------------ */
 #hud-weapon {
   right: 26px;
