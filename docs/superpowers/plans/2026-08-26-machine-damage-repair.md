@@ -164,7 +164,7 @@ git commit -m "refactor: a bullet can hurt more than an enemy now"
 - Consumes: nothing.
 - Produces: `type SubsystemId`; `interface SubsystemDefinition`; `const SUBSYSTEMS: Record<SubsystemId, SubsystemDefinition>`; `const LEG_SUBSYSTEM: Record<LegId, SubsystemId>`; class `MachineDamage` with `health(id)`, `fraction(id)`, `damage(id, amount): number`, `repair(id, amount)`, `enginePower`, `isStopped`, `lean`, `speedScale`, `damaged()`, `toSave()`, `restore(saved)`.
 
-- [ ] **Step 1: Write the failing data test**
+- [x] **Step 1: Write the failing data test**
 
 ```ts
 // tests/unit/subsystems.test.ts
@@ -212,12 +212,12 @@ describe('machine subsystems', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/subsystems.test.ts`
 Expected: FAIL — cannot resolve `@/data/subsystems`.
 
-- [ ] **Step 3: Write the data module**
+- [x] **Step 3: Write the data module**
 
 ```ts
 // src/data/subsystems.ts
@@ -317,12 +317,12 @@ export const LEG_SUBSYSTEM: Record<LegDefinition['id'], SubsystemId> = {
 };
 ```
 
-- [ ] **Step 4: Run the data test**
+- [x] **Step 4: Run the data test**
 
 Run: `npx vitest run tests/unit/subsystems.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Write the failing state test**
+- [x] **Step 5: Write the failing state test**
 
 ```ts
 // tests/unit/machinedamage.test.ts
@@ -435,12 +435,12 @@ describe('machine condition', () => {
 });
 ```
 
-- [ ] **Step 6: Run it and watch it fail**
+- [x] **Step 6: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/machinedamage.test.ts`
 Expected: FAIL — cannot resolve `@/machine/MachineDamage`.
 
-- [ ] **Step 7: Write the state model**
+- [x] **Step 7: Write the state model**
 
 ```ts
 // src/machine/MachineDamage.ts
@@ -578,12 +578,12 @@ export class MachineDamage {
 }
 ```
 
-- [ ] **Step 8: Run both tests**
+- [x] **Step 8: Run both tests**
 
 Run: `npx vitest run tests/unit/subsystems.test.ts tests/unit/machinedamage.test.ts`
 Expected: PASS.
 
-- [ ] **Step 9: Full suite and commit**
+- [x] **Step 9: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests
