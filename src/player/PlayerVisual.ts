@@ -5,7 +5,13 @@ import type { LoadedModel } from '@/art/ModelLoader';
 import { fitToCapsule } from '@/enemies/EnemyVisual';
 import { PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
 import { buildPlayerMesh } from './PlayerMesh';
-import { findHandBone, fitHeldItem, heldItemRotation } from '@/art/HeldItem';
+import {
+  findHandBone,
+  fitHeldItem,
+  handGripAlign,
+  handGripAxes,
+  weaponAlign,
+} from '@/art/HeldItem';
 import { WEAPON_MODELS } from '@/data/weapon-models';
 import { playerGait, type Gait } from './PlayerGait';
 
@@ -48,16 +54,20 @@ export class PlayerVisual {
    */
   private hand: THREE.Object3D | null = null;
   /**
-   * Rotation that cancels the hand bone's own resting orientation and leaves a
-   * held item facing the way the character does.
+   * Where a weapon sits in this rig's fist, in the hand bone's OWN frame.
    *
-   * Captured in the constructor, which is the ONLY moment the rig is in its
-   * bind pose — the mixer has not run yet. Measured at any later moment it
-   * would instead cancel whatever the idle animation happened to be doing that
-   * frame, and a weapon's resting angle would then depend on when the player
-   * pressed 1 or 2. That is precisely the bug this replaced.
+   * A constant, and deliberately so: a held object does not move relative to
+   * the hand holding it, so nothing here needs re-measuring per frame, per
+   * clip, or per weapon swap. It is read off the finger bones' rest offsets,
+   * which animation never touches — see `handGripAxes`.
+   *
+   * The field this replaces held the inverse of the hand's bind-pose WORLD
+   * rotation, which sounds similar and is not: it made the weapon level with
+   * the body in the bind pose and nowhere else, so a rifle sat correctly in a
+   * T-pose the player never strikes and hung through the thigh in every pose
+   * they do.
    */
-  private readonly handAlign = new THREE.Quaternion();
+  private readonly gripAlign = new THREE.Quaternion();
   /** What is currently in that hand, so swapping weapons can take it out. */
   private held: THREE.Object3D | null = null;
   private heldId: string | null = null;
@@ -111,14 +121,18 @@ export class PlayerVisual {
     const handName = findHandBone(boneNames);
     this.hand = handName ? (bones.get(handName) ?? null) : null;
 
-    // Bind pose, before the mixer below exists. See `handAlign`.
+    // Rest offsets, which are pose-independent — so unlike the world-rotation
+    // measurement this replaced, it does not matter that the mixer has not run.
     if (this.hand) {
-      this.object3D.updateMatrixWorld(true);
-      const boneWorld = new THREE.Quaternion();
-      this.hand.getWorldQuaternion(boneWorld);
-      const bodyWorld = new THREE.Quaternion();
-      this.object3D.getWorldQuaternion(bodyWorld);
-      this.handAlign.copy(boneWorld.invert().multiply(bodyWorld));
+      this.gripAlign.copy(
+        handGripAlign(
+          handGripAxes(
+            this.hand.children
+              .filter((o) => (o as THREE.Bone).isBone)
+              .map((o) => ({ name: o.name, offset: o.position })),
+          ),
+        ),
+      );
     }
 
     this.mixer = new THREE.AnimationMixer(scene);
@@ -180,40 +194,42 @@ export class PlayerVisual {
 
     const item = model.clone(true);
     item.updateMatrixWorld(true);
-    const size = new THREE.Vector3();
-    new THREE.Box3().setFromObject(item, true).getSize(size);
-    const fit = fitHeldItem(size, def.length);
+    const box = new THREE.Box3().setFromObject(item, true);
+    const fit = fitHeldItem({ min: box.min, max: box.max }, def.length);
 
-    // A wrapper, so the measured alignment and the hand-tuned offset stay
-    // separate. Writing both onto one node means that every time the model is
-    // swapped the taste numbers have to be re-derived along with the maths.
+    // Three nested nodes, one job each, because collapsing any two of them
+    // makes the other two impossible to reason about:
+    //
+    //   mount    where the fist is        — rig-derived, never hand-tuned
+    //   aligned  which way the gun lies   — model-derived, never hand-tuned
+    //   item     the author's file        — left exactly as it was measured
+    //
+    // In particular `item` keeps whatever transform it arrived with. Writing
+    // the alignment onto the model's own root, as the previous version did,
+    // silently invalidates the bounding box that alignment was derived from.
     const mount = new THREE.Group();
     mount.name = 'held-weapon';
 
-    // ALIGNMENT, MEASURED RATHER THAN TYPED IN. A hand bone's local axes are
-    // whatever the rigger felt like: the Mixamo player and the Blender-export
-    // scavenger disagree, and a hand-tuned Euler that suits one puts the other
-    // through its own leg -- which is exactly what the first attempt did, and
-    // it looked like a rifle carried muzzle-down through the hip.
-    //
-    // The gun still inherits the hand's MOTION, because it is still parented
-    // to the bone; what it stops inheriting is the bone's arbitrary resting
-    // orientation. See `handAlign` for why that is captured at construction.
-    mount.quaternion.copy(this.handAlign);
+    // The fist, plus the per-weapon roll about the barrel, which is the one
+    // degree of freedom a fist does not pin. See `handGripAlign`.
+    mount.quaternion
+      .copy(this.gripAlign)
+      .multiply(
+        new THREE.Quaternion().setFromEuler(
+          new THREE.Euler(def.rotate.x, def.rotate.y, def.rotate.z),
+        ),
+      );
 
-    // Then the per-weapon tweak, in a frame a person can reason about: after
-    // the alignment above, +Z is the way the character faces and +Y is up.
-    mount.quaternion.multiply(
-      new THREE.Quaternion().setFromEuler(
-        new THREE.Euler(def.rotate.x, def.rotate.y, def.rotate.z),
-      ),
-    );
-
-    item.scale.multiplyScalar(fit.scale);
-    const aim = heldItemRotation(fit.longAxis);
-    item.rotation.set(aim.x, aim.y, aim.z);
-    item.position.set(def.grip.x, def.grip.y, def.grip.z);
-    mount.add(item);
+    const aligned = new THREE.Group();
+    aligned.name = 'held-weapon-aligned';
+    aligned.quaternion.copy(weaponAlign(fit));
+    aligned.scale.setScalar(fit.scale);
+    // Children of `mount` are in the canonical weapon frame, so this offset
+    // reads the way the data file describes it: +Z toward the muzzle, +Y up
+    // through the sights, +X out of the shooter's right.
+    aligned.position.set(def.grip.x, def.grip.y, def.grip.z);
+    aligned.add(item);
+    mount.add(aligned);
 
     item.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {

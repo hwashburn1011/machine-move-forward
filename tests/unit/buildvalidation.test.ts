@@ -255,19 +255,65 @@ describe('stairs', () => {
     expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).reason).toBe('needs-floor');
   });
 
-  it('rejects stairs with the run cell occupied', () => {
+  it('accepts stairs whose run crosses a floor', () => {
+    // The flight is over a metre above this plate by the time it reaches the
+    // run cell. Refusing it meant the only legal run was one hanging over open
+    // sand, which is exactly how the piece was having to be built.
     const g = grid();
     g.setCell(c(0, 0, 0), 'floor');
     g.setCell(c(1, 0, 0), 'floor');
+    expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).ok).toBe(true);
+  });
+
+  it('still refuses a floored landing, which is a lid on the stairwell', () => {
+    // The landing sits directly over the run cell, so its plate spans the
+    // whole footprint the top of the flight climbs through. Allowing this
+    // buys a staircase you cannot climb: a stride and a half up and you meet
+    // the underside of the deck you were climbing to.
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(1, 1, 0), 'floor');
     expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).reason).toBe(
       'needs-clearance',
     );
   });
 
-  it('rejects stairs with the landing cell occupied', () => {
+  it('accepts a fully floored deck with an upper storey left open at the landing', () => {
+    // The realistic case, and the one that had no legal placement anywhere:
+    // floor the whole deck, then go looking for somewhere to put the stairs.
+    // Every candidate run cell is floored. Only the stairwell needs leaving.
+    const g = grid();
+    for (let x = -1; x <= 1; x++) {
+      for (let z = -1; z <= 1; z++) {
+        g.setCell(c(x, 0, z), 'floor');
+        if (!(x === 1 && z === 0)) g.setCell(c(x, 1, z), 'floor');
+      }
+    }
+    expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).ok).toBe(true);
+  });
+
+  it('rejects a second flight climbing through the same run cell', () => {
     const g = grid();
     g.setCell(c(0, 0, 0), 'floor');
-    g.setCell(c(1, 1, 0), 'floor');
+    g.setStairs(c(1, 0, 0), 'stairs');
+    expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).reason).toBe('occupied');
+  });
+
+  it('rejects a flight into a roof, which caps the cell where the top tread arrives', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(1, 0, 0), 'floor');
+    g.setRoof(c(1, 0, 0), 'roof');
+    expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).reason).toBe(
+      'needs-clearance',
+    );
+  });
+
+  it('rejects a flight through a workstation, which is tall enough to meet the treads', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setCell(c(1, 0, 0), 'floor');
+    g.setStation(c(1, 0, 0), 'refinery');
     expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).reason).toBe(
       'needs-clearance',
     );

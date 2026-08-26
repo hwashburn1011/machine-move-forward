@@ -87,6 +87,7 @@ export class BuildSystem {
   private readonly roofOwner = new Map<string, string>();
   private readonly edgeOwner = new Map<string, string>();
   private readonly stationOwner = new Map<string, string>();
+  private readonly stairsOwner = new Map<string, string>();
   /** Contents of every built storage crate, keyed by instance id. */
   private readonly crateContainers = new Map<string, Container>();
 
@@ -309,10 +310,16 @@ export class BuildSystem {
   /** Which instance a placement would target for demolition. */
   private idAt(placement: Placement): string | undefined {
     if (placement.edge) return this.edgeOwner.get(edgeKey(placement.edge));
-    // Station, then roof, then the cell itself: outermost first, so a floor
-    // cannot be pulled out from under a crate the player meant to remove.
+    // Station, then roof, then stairs, then the cell itself: outermost first,
+    // so a floor cannot be pulled out from under a crate — or from under the
+    // flight of stairs crossing over it — that the player meant to remove.
     const key = cellKey(placement.cell);
-    return this.stationOwner.get(key) ?? this.roofOwner.get(key) ?? this.cellOwner.get(key);
+    return (
+      this.stationOwner.get(key) ??
+      this.roofOwner.get(key) ??
+      this.stairsOwner.get(key) ??
+      this.cellOwner.get(key)
+    );
   }
 
   private occupy(data: BuildPieceInstance): void {
@@ -327,9 +334,12 @@ export class BuildSystem {
       return;
     }
     if (data.definitionId === 'stairs') {
+      // The run cell's own layer, not `cells`: the run very often crosses a
+      // floor the player is standing on, and sharing the map would overwrite
+      // it. See `BuildGrid.stairs`.
       const { run } = stairsCells(data.cell, data.rotation);
-      this.grid.setCell(run, 'stairs');
-      this.cellOwner.set(cellKey(run), data.instanceId);
+      this.grid.setStairs(run, 'stairs');
+      this.stairsOwner.set(cellKey(run), data.instanceId);
       return;
     }
     if (isStation(data.definitionId)) {
@@ -354,8 +364,8 @@ export class BuildSystem {
     }
     if (data.definitionId === 'stairs') {
       const { run } = stairsCells(data.cell, data.rotation);
-      this.grid.clearCell(run);
-      this.cellOwner.delete(cellKey(run));
+      this.grid.clearStairs(run);
+      this.stairsOwner.delete(cellKey(run));
       return;
     }
     if (isStation(data.definitionId)) {
@@ -608,6 +618,7 @@ export class BuildSystem {
     this.roofOwner.clear();
     this.edgeOwner.clear();
     this.stationOwner.clear();
+    this.stairsOwner.clear();
     this.crateContainers.clear();
     this.grid.clear();
 

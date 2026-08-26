@@ -195,6 +195,20 @@ export class BuildGrid<T = string> {
    * with the floor they sit on.
    */
   private readonly stations = new Map<string, T>();
+  /**
+   * Stairs get the same treatment, and for a reason that took a while to see.
+   *
+   * A flight is stored against the cell its top half passes over, and that
+   * cell is very often floored — the run crosses the deck the player is
+   * standing on. Sharing the cell map meant placing stairs silently
+   * OVERWROTE that floor's entry and its owner, so demolishing the stairs
+   * afterwards deleted a floor that was still standing there in the scene.
+   * The rule that hid the corruption was the one that made the piece
+   * unusable: the validator refused any run cell that already held anything,
+   * which is why a staircase could only ever be built hanging off the edge of
+   * the hull.
+   */
+  private readonly stairs = new Map<string, T>();
   private readonly blocked = new Set<string>();
 
   getCell(c: Cell): T | undefined {
@@ -275,6 +289,29 @@ export class BuildGrid<T = string> {
     }));
   }
 
+  getStairs(c: Cell): T | undefined {
+    return this.stairs.get(cellKey(c));
+  }
+
+  setStairs(c: Cell, value: T): void {
+    this.stairs.set(cellKey(c), value);
+  }
+
+  clearStairs(c: Cell): void {
+    this.stairs.delete(cellKey(c));
+  }
+
+  hasStairs(c: Cell): boolean {
+    return this.stairs.has(cellKey(c));
+  }
+
+  stairsEntries(): CellEntry<T>[] {
+    return [...this.stairs.entries()].map(([key, value]) => ({
+      cell: parseCellKey(key),
+      value,
+    }));
+  }
+
   /** Mark a cell permanently unbuildable — the starting equipment sits there. */
   blockCell(c: Cell): void {
     this.blocked.add(cellKey(c));
@@ -314,6 +351,10 @@ export class BuildGrid<T = string> {
     return this.stations.size;
   }
 
+  get stairsCount(): number {
+    return this.stairs.size;
+  }
+
   /**
    * Drop all player-placed occupancy. Blocked cells survive: they describe the
    * machine, not the player's build, and a rebuild must not forget them.
@@ -323,5 +364,6 @@ export class BuildGrid<T = string> {
     this.edges.clear();
     this.roofs.clear();
     this.stations.clear();
+    this.stairs.clear();
   }
 }

@@ -141,7 +141,7 @@ describe('buildNavGraph stairs', () => {
    */
   function withStairs(g: BuildGrid<PieceId>): void {
     g.setCell(c(0, 0, 0), 'floor');
-    g.setCell(c(0, 0, 1), 'stairs');
+    g.setStairs(c(0, 0, 1), 'stairs');
     g.setCell(c(0, 1, 1), 'floor');
   }
   const STAIR_LINK: [Cell, Cell][] = [[c(0, 0, 0), c(0, 1, 1)]];
@@ -209,7 +209,7 @@ describe('buildNavGraph stairs', () => {
     // be walkable before a link exists, handed in or not.
     const g = new BuildGrid<PieceId>();
     g.setCell(c(0, 0, 0), 'floor');
-    g.setCell(c(0, 0, 1), 'stairs');
+    g.setStairs(c(0, 0, 1), 'stairs');
     const graph = buildNavGraph(g, [], [[c(0, 0, 0), c(0, 1, 1)]]);
     expect(linksOf(graph, c(0, 0, 0))).toEqual([cellKey(c(0, 0, 1))]);
   });
@@ -299,7 +299,7 @@ describe('findPath', () => {
   it('climbs to an upper storey by the stairs', () => {
     const g = new BuildGrid<PieceId>();
     g.setCell(c(0, 0, 0), 'floor');
-    g.setCell(c(0, 0, 1), 'stairs');
+    g.setStairs(c(0, 0, 1), 'stairs');
     g.setCell(c(0, 1, 1), 'floor');
     // Base to landing, handed in the way `BuildSystem` hands it in.
     const graph = buildNavGraph(g, [], [[c(0, 0, 0), c(0, 1, 1)]]);
@@ -379,14 +379,14 @@ describe('findPath', () => {
     // the shortcut costs 3*1 + 2*4 = 11 against the flat route's 7, and the
     // flat route should win despite being the longer one by edge count.
     const g = new BuildGrid<PieceId>();
-    g.setCell(c(0, 0, 0), 'stairs'); // start is also this staircase's run cell
+    g.setStairs(c(0, 0, 0), 'stairs'); // start is also this staircase's run cell
     g.setCell(c(0, 0, 1), 'floor');
     g.setCell(c(0, 0, 2), 'floor');
     g.setCell(c(1, 0, 2), 'floor');
     g.setCell(c(2, 0, 2), 'floor');
     g.setCell(c(3, 0, 2), 'floor');
     g.setCell(c(3, 0, 1), 'floor');
-    g.setCell(c(3, 0, 0), 'stairs'); // goal is also this staircase's run cell
+    g.setStairs(c(3, 0, 0), 'stairs'); // goal is also this staircase's run cell
     g.setCell(c(0, 1, 0), 'floor'); // landing above the start
     g.setCell(c(1, 1, 0), 'floor');
     g.setCell(c(2, 1, 0), 'floor');

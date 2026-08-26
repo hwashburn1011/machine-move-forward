@@ -17,18 +17,27 @@ export interface WeaponModelDefinition {
   /** How long the weapon should be on screen, in metres, muzzle to butt. */
   length: number;
   /**
-   * Where the grip sits relative to the hand, in metres, after scaling.
+   * Where the model's origin sits relative to the hand, in metres, after
+   * scaling.
    *
-   * In the ALIGNED frame, which is the point of aligning: +Z is the way the
-   * character faces, +Y is up, +X is their right. So the x here pushes the
-   * weapon outboard, off the thigh it would otherwise pass through when the
-   * arm hangs at rest.
+   * In the CANONICAL WEAPON FRAME, which is the point of having one: +Z runs
+   * out of the muzzle, +Y up through the sights, +X out of the weapon's right.
+   * A rod held in a fist has its axis a few centimetres out from the wrist
+   * bone at the centre of the wrist, which is what the x here is: the seat of
+   * the palm, not a fudge to keep the barrel off the thigh.
    *
    * Taste, and it wants a screenshot rather than a derivation — hence living
    * in a data file next to the length rather than inside `PlayerVisual`.
    */
   grip: { x: number; y: number; z: number };
-  /** Extra rotation, radians, applied after the long axis is aimed forward. */
+  /**
+   * Extra rotation in the fist, radians, applied after the weapon is aligned.
+   *
+   * Gripping pins every axis but one: the roll about the barrel, which a
+   * bounding box cannot measure because it cannot tell a magazine from a
+   * carrying handle. That roll is `z`, and it is the only number here anyone
+   * should normally need to touch.
+   */
   rotate: { x: number; y: number; z: number };
 }
 
@@ -39,7 +48,7 @@ export const WEAPON_MODELS: Record<string, WeaponModelDefinition> = {
     // AR; the model is a wood-furniture Kalashnikov, which is what a machine
     // crew scavenging a desert would plausibly still have working.
     length: 0.88,
-    grip: { x: 0.13, y: -0.02, z: 0.06 },
+    grip: { x: -0.05, y: 0, z: 0 },
     rotate: { x: 0, y: 0, z: 0 },
   },
   shotgun: {
@@ -48,7 +57,7 @@ export const WEAPON_MODELS: Record<string, WeaponModelDefinition> = {
     // over the player's shoulder, at the only angle the game ever shows them.
     url: 'models/weapons/shotgun.glb',
     length: 0.95,
-    grip: { x: 0.13, y: -0.02, z: 0.08 },
+    grip: { x: -0.05, y: 0, z: 0 },
     rotate: { x: 0, y: 0, z: 0 },
   },
 };

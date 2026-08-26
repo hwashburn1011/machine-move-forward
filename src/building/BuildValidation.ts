@@ -187,17 +187,31 @@ function validateEdgePiece(grid: BuildGrid<PieceId>, p: Placement): Validation {
 }
 
 /**
- * Stairs span three cells but only OCCUPY one.
+ * Stairs span three cells and occupy the AIRSPACE of two of them.
  *
- * The base cell keeps its floor — the player walks onto the stairs from it —
- * so the stairs instance is stored in the run cell. Storing it in the base
- * would overwrite the very floor the rule requires.
+ * The flight is a ramp, not a tower, and the whole of this rule follows from
+ * where that ramp actually is. Its collider is a 5m slab tilted 37°, running
+ * from the far edge of the base cell at floor height to the far edge of the
+ * RUN cell three metres up. So over the base cell it climbs from the floor to
+ * half a level, and over the run cell it carries on from half a level to a
+ * full one, arriving exactly at the floor plane of the landing above.
  *
- * A floor plate under the bottom of the flight was suspected of being what
- * made this piece unclimbable, and it is not: measured against the real game,
- * a player walks up a flight whose base is floored without noticing the 1cm
- * between the plate's top and the first tread. What actually broke it was the
- * flight being built back to front — see `stairsGeometry`.
+ * **A floor plate in the run cell is not in the way**, and insisting it was is
+ * what made this piece unbuildable in practice. The run had to hang off the
+ * edge of whatever the player had already floored — which is to say every
+ * staircase had to be built sticking out of the hull — and the reason given
+ * was "Not enough clear space" while the space in question was a metre and a
+ * half below the lowest tread. The base cell has always been required to be
+ * floored for exactly the same geometry; the run cell is the same wedge,
+ * further along.
+ *
+ * **A floor plate at the LANDING is a lid on the stairwell.** The landing sits
+ * directly above the run cell, so its plate spans the whole footprint the top
+ * of the flight climbs through, and the headroom between ramp and plate falls
+ * from a metre and a half at the near edge to nothing at the far one. A player
+ * gets a stride and a half up and meets the underside of the deck they were
+ * climbing to. The upper storey has to have a hole in it, and that hole is the
+ * landing — which is why this is the one thing here that must stay refused.
  */
 function validateStairs(grid: BuildGrid<PieceId>, p: Placement): Validation {
   const { base, run, landing } = stairsCells(p.cell, p.rotation);
@@ -205,9 +219,19 @@ function validateStairs(grid: BuildGrid<PieceId>, p: Placement): Validation {
   if (!inEnvelope(base) || !inEnvelope(run) || !inEnvelope(landing)) {
     return fail('out-of-bounds');
   }
-  if (grid.isBlocked(run)) return fail('blocked');
+  if (grid.isBlocked(run) || grid.isBlocked(landing)) return fail('blocked');
   if (!hasFloor(grid, base)) return fail('needs-floor');
-  if (grid.hasCell(run)) return fail('needs-clearance');
+
+  if (grid.hasStairs(run)) return fail('occupied');
+  // A roof caps the run cell within a hand's breadth of where the top tread
+  // arrives, and a workstation is tall enough to meet the lower treads.
+  if (grid.hasRoof(run) || grid.hasStation(run)) return fail('needs-clearance');
+
+  // Anything in the run cell that is not a floor reaches into the flight.
+  const inRun = grid.getCell(run);
+  if (inRun !== undefined && inRun !== 'floor') return fail('needs-clearance');
+
+  // The stairwell opening. See above.
   if (grid.hasCell(landing)) return fail('needs-clearance');
 
   return OK;

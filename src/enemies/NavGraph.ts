@@ -127,9 +127,13 @@ function isWalkable(
   // enemies with no start node. Equipment avoidance belongs to steering,
   // which already handles it.
 
-  const piece = grid.getCell(cell);
-  // The stairs run cell holds 'stairs' and is the ramp itself — walkable.
-  if (piece === 'floor' || piece === 'stairs') return true;
+  // The stairs run cell IS the ramp, so it carries a body whether or not the
+  // player also floored it. Stairs moved out of the cell map and into their
+  // own layer when it turned out they were overwriting the floor underneath;
+  // reading only `getCell` here would have quietly cut every staircase out of
+  // the graph and left the upper storey unreachable to anything hunting.
+  if (grid.hasStairs(cell)) return true;
+  if (grid.getCell(cell) === 'floor') return true;
 
   // No `cell.y === 0` guard: cellKey already encodes the level, so a machine
   // cell is only walkable at the level it was actually provided for. That is
@@ -152,6 +156,7 @@ export function buildNavGraph(
   const candidates = new Map<string, Cell>();
   for (const cell of deck) candidates.set(cellKey(cell), cell);
   for (const entry of grid.cellEntries()) candidates.set(cellKey(entry.cell), entry.cell);
+  for (const entry of grid.stairsEntries()) candidates.set(cellKey(entry.cell), entry.cell);
 
   const walkable = new Map<string, Cell>();
   for (const [key, cell] of candidates) {
