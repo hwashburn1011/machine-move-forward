@@ -319,17 +319,17 @@ it('lands only on the deck, not on the roof it jumped from', () => {
 **Files:**
 - Create: `tools/opening.mjs`
 
-- [ ] **Step 1: Script the happy path** — boot `?opening=1&nolock=1&notex=1&
+- [x] **Step 1: Script the happy path** — boot `?opening=1&nolock=1&notex=1&
   nomodel=1&nosound=1`; assert phase `rooftop`; assert machine speed ≈ 0;
   drive the player along the roof (existing input-injection idiom from
   `drive.mjs`), assert both scavengers pursue (positions converge); jump
   from the ledge; assert phase reaches `landed` then `done`; assert machine
   speed rises toward `BASE_MACHINE_SPEED`; assert weapons granted.
-- [ ] **Step 2: The miss path** — jump short deliberately; assert
+- [x] **Step 2: The miss path** — jump short deliberately; assert
   lost-in-the-desert death fires and respawn lands back on the roof with
   phase still `rooftop`.
-- [ ] **Step 3: The skip path** — hold Esc; assert completion and teleport.
-- [ ] **Step 4: Wire into the README's harness table, full suite, commit** —
+- [x] **Step 3: The skip path** — hold Esc; assert completion and teleport.
+- [x] **Step 4: Wire into the README's harness table, full suite, commit** —
   `feat: the leap is measured, not assumed`.
 
 ---
