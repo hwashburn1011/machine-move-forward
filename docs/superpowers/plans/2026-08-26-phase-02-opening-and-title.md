@@ -114,9 +114,15 @@ plays on New Game only.
 1. **Does the opening end with a title card?** Recommended: yes — the game's
    name fades over the first seconds of the machine walking after landing.
    Cheap (DOM), big mood payoff.
+
+   Decision: took the default — landing emits `show-title-card`, and the name
+   fades over the machine's first two seconds of walking before `done`.
 2. **Is the player armed on the roof?** Recommended: no (run, don't fight);
    weapons granted on landing. If playtests feel bad, granting the rifle
    with no ammo is the fallback.
+
+   Decision: took the default — the roof strips the held weapon and suppresses
+   the trigger; `grant-weapons` on landing puts the loadout back.
 
 ## Asset Needs
 
@@ -170,7 +176,7 @@ plays on New Game only.
   `type OpeningEffect = 'spawn-rooftop' | 'grant-weapons' | 'throttle-up' |
   'show-title-card' | 'teardown-rooftop'`.
 
-- [ ] **Step 1: Write the failing test.** Cases: starts in `title`;
+- [x] **Step 1: Write the failing test.** Cases: starts in `title`;
   `begin('continue')` and `begin('skipped')` jump straight to `done` with no
   effects; `begin('new-game')` enters `rooftop` emitting `spawn-rooftop`;
   landing on the deck (grounded inside `|x|≤5, |z|≤8`, `y` within 1m of
@@ -203,12 +209,12 @@ it('lands only on the deck, not on the roof it jumped from', () => {
 });
 ```
 
-- [ ] **Step 2: Run it, watch it fail** (`npx vitest run
+- [x] **Step 2: Run it, watch it fail** (`npx vitest run
   tests/unit/openingdirector.test.ts` — cannot resolve module).
-- [ ] **Step 3: Implement** — a phase field, a set of already-fired effects,
+- [x] **Step 3: Implement** — a phase field, a set of already-fired effects,
   deck-bounds test in one place with the constants imported, a skip
   accumulator, a title-card timer (`TITLE_CARD_DELAY_S = 2`).
-- [ ] **Step 4: Run to green, full suite, commit** —
+- [x] **Step 4: Run to green, full suite, commit** —
   `feat: the opening knows where it is`.
 
 ---
