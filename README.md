@@ -161,11 +161,27 @@ Three known gaps in what is built:
   body dropped over the middle of a flight lands on it, at the height the slope
   puts it. Back to front, the same drop lands on the deck three metres lower.
 
-- **Enclosed interiors are dark.** Sealing a room genuinely blocks the sun,
-  and there is no interior lighting yet. Lamps arrive with the power system.
-- **Fuel is storable but inert.** Nothing burns it until the power system.
-  It is carried because the save schema and the handoff both call for it, and
-  giving it a fabricated sink now would be worse than leaving it idle.
+- **Light does not respect walls.** The lamp pool is shadowless — eight
+  shadow-casting point lights would be forty-eight render passes — so a lamp
+  close to a wall spills a little through it. Accepted for now; the polish
+  phase owns it.
+
+Both of the gaps that used to be listed here are closed:
+
+- **Enclosed interiors are lit.** Sealing a room still blocks the sun, and now
+  a `lamp` hangs on any wall or doorway to answer it. Every lit lamp glows;
+  the nearest few to the camera — two to eight by quality tier — get real
+  point lights. Measured in a sealed room under the software renderer, mean
+  interior brightness goes 8.2 unlit, 30.5 lit, and back to 8.2 when the
+  generator sheds.
+- **Fuel burns.** A `generator` build piece — one is already placed on a new
+  machine — draws from `machine.fuel` while anything is powered. Devices
+  register with `MachinePower` by priority (`light` < `station` < `defense`),
+  and when capacity falls below draw, whole classes shed lowest-first: a deck
+  going dark reads as a decision where a flickering subset of lamps would read
+  as a fault. A damaged generator makes proportionally less power; a refinery
+  with none shows `NO POWER` and refuses to run. The workbench is never gated,
+  so a dead generator is always recoverable.
 
 ## Constraints
 

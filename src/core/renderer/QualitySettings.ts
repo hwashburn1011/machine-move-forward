@@ -19,6 +19,16 @@ export interface QualitySettings {
   terrainSegments: number;
   /** Props instanced per terrain chunk. */
   propsPerChunk: number;
+  /**
+   * Real point lights available to the lamp pool.
+   *
+   * The pool is fixed at this size and moved between lamps rather than grown
+   * and shrunk: a Three material recompiles its shader when the light count
+   * in the scene changes, so a varying pool would hitch every time the player
+   * walked past a lamp. Every LIT lamp glows regardless; this is only how many
+   * of them cast actual illumination.
+   */
+  lampLights: number;
   maxPixelRatio: number;
 }
 
@@ -35,6 +45,7 @@ const TIERS: Record<QualityTier, QualitySettings> = {
     particleBudget: 200,
     terrainSegments: 48,
     propsPerChunk: 6,
+    lampLights: 2,
     maxPixelRatio: 1,
   },
   medium: {
@@ -49,6 +60,7 @@ const TIERS: Record<QualityTier, QualitySettings> = {
     particleBudget: 800,
     terrainSegments: 96,
     propsPerChunk: 12,
+    lampLights: 4,
     maxPixelRatio: 1.5,
   },
   high: {
@@ -63,6 +75,7 @@ const TIERS: Record<QualityTier, QualitySettings> = {
     particleBudget: 2000,
     terrainSegments: 96,
     propsPerChunk: 20,
+    lampLights: 6,
     maxPixelRatio: 2,
   },
   ultra: {
@@ -77,6 +90,7 @@ const TIERS: Record<QualityTier, QualitySettings> = {
     particleBudget: 4000,
     terrainSegments: 140,
     propsPerChunk: 28,
+    lampLights: 8,
     maxPixelRatio: 2,
   },
 };

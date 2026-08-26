@@ -51,6 +51,7 @@ import { InteractionSystem, INTERACT_REACH, type Interactable } from '@/interact
 import { InventoryUI } from '@/ui/InventoryUI';
 import { BuildSystem } from '@/building/BuildSystem';
 import { BuildPreview } from '@/building/BuildPreview';
+import { LampLights, type LampSample } from '@/building/LampLights';
 import { BuildUI } from '@/ui/BuildUI';
 import {
   BUILD_PIECES,
@@ -202,6 +203,7 @@ export class Game implements LoopCallbacks {
   readonly inventory = new Container(PLAYER_INVENTORY_SLOTS);
   readonly resources: ResourceAccess;
   readonly build: BuildSystem;
+  readonly lampLights: LampLights;
   readonly buildPreview: BuildPreview;
   readonly buildUI: BuildUI;
   readonly crafting: CraftingSystem;
@@ -420,6 +422,7 @@ export class Game implements LoopCallbacks {
       this.machine,
       this.resources,
     );
+    this.lampLights = new LampLights(this.renderer.scene, this.quality.lampLights);
     this.buildPreview = new BuildPreview(this.renderer.scene);
     // Before the starting structures are laid, so the generator they include
     // registers as a producer the moment it is placed.
@@ -706,12 +709,6 @@ export class Game implements LoopCallbacks {
         this.bus.emit('power:restored', { priority: event.priority });
       }
     }
-
-    // Every lamp, not just the lit ones: a lamp that has just shed has to go
-    // dark, and it is no longer in the lit set to be told so.
-    for (const lamp of this.build.lamps()) {
-      this.build.setLampLit(lamp.instanceId, this.machine.power.isPowered(lamp.instanceId));
-    }
   }
 
   /**
@@ -902,6 +899,7 @@ export class Game implements LoopCallbacks {
     const camera = this.activeCamera;
     this.sandFX.update(frameDt, this.machine.speed, camera.position);
     this.impactFX.update(frameDt, camera.position);
+    this.lampLights.update(frameDt, this.lampSamples(), camera.position);
     // Interpolate the world scroll before drawing it. The player and enemies
     // are already interpolated; without this the ground alone snaps to the
     // fixed step and everything standing on it appears to slide.
@@ -986,6 +984,30 @@ export class Game implements LoopCallbacks {
     this.tickFpsMeter(now);
     this.updateDebugOverlay(now);
     this.input.endFrame();
+  }
+
+  /**
+   * Every lamp and whether it has power — and, in the same pass, its glow.
+   *
+   * Both jobs here rather than in the fixed step because both are presentation:
+   * the pool is renderer state and the emissive is a material. Every lamp is
+   * visited, not just the lit ones, because a lamp that has just shed has to
+   * be TOLD to go dark — it is no longer in the lit set to be found.
+   */
+  private lampSamples(): LampSample[] {
+    const out: LampSample[] = [];
+    for (const lamp of this.build.lamps()) {
+      const lit = this.machine.power.isPowered(lamp.instanceId);
+      this.build.setLampLit(lamp.instanceId, lit);
+      out.push({
+        id: lamp.instanceId,
+        x: lamp.position.x,
+        y: lamp.position.y,
+        z: lamp.position.z,
+        lit,
+      });
+    }
+    return out;
   }
 
   /**
@@ -1664,6 +1686,7 @@ export class Game implements LoopCallbacks {
     this.buildUI.dispose();
     this.inventoryUI.dispose();
     this.buildPreview.dispose();
+    this.lampLights.dispose();
     this.build.clear();
     this.post.dispose();
     this.enemies.despawnAll();

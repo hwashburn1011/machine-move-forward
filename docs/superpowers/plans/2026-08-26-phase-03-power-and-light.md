@@ -272,19 +272,46 @@ generators forward as capacity from nowhere.
 - Test: pure assignment logic in `tests/unit/lamplights.test.ts`; visual
   proof via `tools/shoot.mjs` night screenshots.
 
-- [ ] **Step 1: Failing test for the pool assignment** — given lamp
+- [x] **Step 1: Failing test for the pool assignment** — given lamp
   positions, camera position, and quality N: nearest N lit lamps get
   lights; unpowered lamps never; assignment stable under small camera
   movement (hysteresis — no per-frame swapping); pure function of inputs.
-- [ ] **Step 2: Implement pool + emissive toggling** — pool of N
+- [x] **Step 2: Implement pool + emissive toggling** — pool of N
   shadowless `PointLight`s parented once, repositioned on assignment;
   emissive intensity per lamp from `isPowered`.
-- [ ] **Step 3: Prove it in the browser** — `tools/shoot.mjs` at F10 night
+- [x] **Step 3: Prove it in the browser** — `tools/shoot.mjs` at F10 night
   with a sealed room + lamp: screenshot pixel-samples the interior brighter
   lit than unlit; `tools/build.mjs` gains checks: place lamp on wall OK,
   on empty edge refused; shed event darkens.
-- [ ] **Step 4: Green, full suite, commit** —
+- [x] **Step 4: Green, full suite, commit** —
   `feat: sealed rooms are dark no longer`.
+
+**Deviation: the browser proof is `tests/e2e/power.spec.ts`, not
+`tools/shoot.mjs` + `tools/build.mjs`.** Two reasons, and both were reasons to
+change the vehicle rather than the check. (1) The tools hardcode port 5173 and
+another checkout was serving on it; `playwright.config.ts` takes a `PORT`
+override and the spec ran on 5411, so the measurement is provably of THIS
+tree. (2) **There is no night to shoot.** `Sky.setTimeOfDay` documents that the
+sun "stays above the horizon at the extremes -- a full night cycle is
+later-milestone work", so an F10 night screenshot would have measured a lit
+desert. A SEALED ROOM is the actual dark-interiors gap the README names and is
+dark at any hour, so the spec builds one -- floor, four walls, roof -- puts the
+free camera inside it and samples mean pixel brightness. Measured: **8.16
+unlit, 30.50 with the lamp burning, 8.16 again once the tank is dry.** The
+spec also carries the `tools/build.mjs` checks the plan asked for (lamp on a
+wall accepted, lamp on a bare edge refused with `needs-wall`, the wall still
+standing underneath it) plus the refinery gate, the fuel round-trip through
+save/load, and the deposit.
+
+**Deviation:** a `needs-wall` reject reason was added rather than reusing
+`needs-support`. That one reads "Needs a wall below or a floor beside it",
+which is advice a player cannot act on while holding a lamp.
+
+**Deviation:** lamps needed a FIXTURE layer in `BuildGrid`
+(`setFixture`/`getFixture`/...), mirroring the existing station-over-floor
+layer. Sharing the edge map with the wall a lamp hangs on would have
+overwritten that wall and its owner -- the exact corruption the `stairs` layer
+comment records.
 
 ---
 
