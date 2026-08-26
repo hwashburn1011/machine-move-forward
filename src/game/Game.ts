@@ -1245,6 +1245,7 @@ export class Game implements LoopCallbacks {
         fuel: 100,
         coreHealth: 100,
         navigationTier: 0,
+        subsystems: this.machine.damage.toSave(),
       },
       progression: { unlocks: [] },
       world: {
@@ -1279,6 +1280,9 @@ export class Game implements LoopCallbacks {
     // aggregate for no reason.
     this.inventory.restore(save.player.inventory ?? []);
     this.build.restore(save.machine.structures ?? []);
+    // Absent in every save written before machine damage, and absent means
+    // undamaged — which is what `restore` does with it.
+    this.machine.damage.restore(save.machine.subsystems);
     this.bus.emit('inventory:changed', { scrap: this.inventory.count('scrap') });
 
     this.player.teleport(

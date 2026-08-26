@@ -1632,7 +1632,7 @@ git commit -m "feat: the raider is not here for you, it is here for the engine"
 - Consumes: `MachineDamage.toSave()` / `restore()` (Task 2).
 - Produces: `SaveGameV1['machine']['subsystems']?: SubsystemSave[]`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `tests/unit/savemigrations.test.ts`:
 
@@ -1669,12 +1669,12 @@ describe('machine condition in a save', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/savemigrations.test.ts`
 Expected: FAIL — `MachineDamage` import resolves but the schema field does not exist yet, so `tsc` fails on the next step's wiring. If the test alone passes, still complete steps 3–4.
 
-- [ ] **Step 3: Add the optional field**
+- [x] **Step 3: Add the optional field**
 
 In `src/save/SaveSchema.ts`, inside the `machine` block:
 
@@ -1688,11 +1688,11 @@ In `src/save/SaveSchema.ts`, inside the `machine` block:
     subsystems?: { id: string; health: number }[];
 ```
 
-- [ ] **Step 4: Wire it in `Game`**
+- [x] **Step 4: Wire it in `Game`**
 
 Where `Game` builds a save, add `subsystems: this.machine.damage.toSave()` to the `machine` block. Where it loads one, add `this.machine.damage.restore(save.machine.subsystems)`.
 
-- [ ] **Step 5: Full suite and commit**
+- [x] **Step 5: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests

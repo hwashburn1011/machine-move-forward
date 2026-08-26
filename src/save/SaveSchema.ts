@@ -55,6 +55,13 @@ export interface SaveGameV1 {
     fuel: number;
     coreHealth: number;
     navigationTier: number;
+    /**
+     * Absent in saves written before machine damage, and absent means
+     * undamaged. No version bump and no migration for the reason
+     * `threatDirector` gives below: the old shape is still a legal value of
+     * the new type, and there is exactly one sensible reading of its absence.
+     */
+    subsystems?: { id: string; health: number }[];
   };
 
   progression: {
