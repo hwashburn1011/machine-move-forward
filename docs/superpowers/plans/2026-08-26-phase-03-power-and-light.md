@@ -93,8 +93,15 @@ without shadows — accepted MVP artefact, noted for the polish phase.
    stays fuel-free this phase; fuel feeds the generator only. Making travel
    itself consume fuel changes the whole game's economy and belongs with
    navigation (Phase 10) where course changes spend fuel, per the handoff.
+
+   **Decision: took the default — an empty tank kills the lights and the
+   refinery, never the legs; propulsion stays fuel-free until Phase 10.**
 2. **Generator noise?** Recommended: yes, a synthesized under-drone near the
    generator that stops when it sheds — free telegraphing.
+
+   **Decision: took the default — a breaker clunk on every shed and restore,
+   played through the existing `SoundBank`, so a deck going dark is heard as
+   well as seen.**
 
 ## Asset Needs
 
@@ -162,20 +169,26 @@ export class MachinePower {
 }
 ```
 
-- [ ] **Step 1: Failing tests.** Burn only while something is powered; no
+- [x] **Step 1: Failing tests.** Burn only while something is powered; no
   consumers ⇒ no burn. Shedding drops whole priority classes lowest-first
   until draw ≤ capacity; restore is the exact reverse and only on the edge.
   Empty tank ⇒ capacity 0 ⇒ everything sheds; refuel restores. Generator at
   half health (via `setProducerHealth(0.5)`) halves capacity. `isPowered`
   false for unknown ids. Save round-trip. Events are edges, not levels
   (emitted once per change — the HUD/audio depend on that).
-- [ ] **Step 2: Red run.** — cannot resolve modules.
-- [ ] **Step 3: Implement.** `src/data/power.ts`: `PRIORITY_ORDER =
+- [x] **Step 2: Red run.** — cannot resolve modules.
+- [x] **Step 3: Implement.** `src/data/power.ts`: `PRIORITY_ORDER =
   ['light','station','defense']`, `FUEL_BURN_PER_S`, `FUEL_TANK_CAP`,
   `GENERATOR_CAPACITY`, `DRAWS = { lamp: 1, refinery: 10 }` (handoff §13's
   example numbers). `MachinePower` pure, deterministic, no Date.
-- [ ] **Step 4: Green, full suite, commit** —
+- [x] **Step 4: Green, full suite, commit** —
   `feat: fuel burns at last, and the lights know it`.
+
+**Decision: took the default — `fuel` is a getter over a private tank rather
+than the sketch's public field, so nothing can write past `FUEL_TANK_CAP`
+without going through `addFuel`; reads are unchanged.** `machine.fuel` has
+been in the save schema since v1, so `MachinePowerSave` rides on it and no
+`machine.power` block, version bump or migration was needed.
 
 ---
 
@@ -186,20 +199,20 @@ export class MachinePower {
   `src/building/BuildPieceGeometry.ts`, `src/building/BuildSystem.ts`
 - Test: additions to `tests/unit/buildvalidation.test.ts`
 
-- [ ] **Step 1: Failing validation tests** — lamp is edge-anchored and
+- [x] **Step 1: Failing validation tests** — lamp is edge-anchored and
   requires a wall or doorway on its edge (a lamp needs something to hang
   on); generator is cell-anchored, station-like, needs a floor/deck cell
   like other stations. Costs: generator `{ scrap: 60, components: 6 }`,
   lamp `{ scrap: 6, components: 1 }`; weights 320 / 8.
-- [ ] **Step 2: Implement data + validation + geometry** (procedural
+- [x] **Step 2: Implement data + validation + geometry** (procedural
   geometry first — model dressing arrives behind `loadModel` later, per
   asset policy). Lamp head material emissive when powered, dark when shed —
   driven in Task 4.
-- [ ] **Step 3: Pre-placed starting generator** — new game seeds one
+- [x] **Step 3: Pre-placed starting generator** — new game seeds one
   generator instance near the engine (same code path as loading a save with
   one placed; no special-case geometry). Assert in a unit test that a fresh
   `BuildSystem` start includes it and that its cell collides with nothing.
-- [ ] **Step 4: Green, full suite, commit** —
+- [x] **Step 4: Green, full suite, commit** —
   `feat: a generator to feed and a lamp to hang`.
 
 ---
@@ -221,17 +234,32 @@ export class MachinePower {
   shows tank); `CraftingSystem` gains a `stationPowered(station):
   boolean` gate consulted for `refinery` only.
 
-- [ ] **Step 1: Failing tests** — crafting at an unpowered refinery is
+- [x] **Step 1: Failing tests** — crafting at an unpowered refinery is
   refused with reason `'no-power'`; powered works; workbench never gated.
   Save round-trips fuel and shed state.
-- [ ] **Step 2: Wire it** — every placed lamp/refinery registers on
+- [x] **Step 2: Wire it** — every placed lamp/refinery registers on
   `build:placed`, unregisters on `build:removed`/destroyed (Phase 1's
   `build:damaged` cascade already fires removal); generator piece registers
   as producer, its Phase-1 damage health feeding `setProducerHealth`.
   Deposit-at-generator via the existing station interaction path. HUD row:
   `⚡ 12/16  ◆ 41`.
-- [ ] **Step 3: Green, full suite, commit** —
+- [x] **Step 3: Green, full suite, commit** —
   `feat: the refinery goes quiet when the tank runs dry`.
+
+**Deviation:** no `machine.power` save block. `machine.fuel` has been in the
+schema since v1 (written as a flat 100), so the tank rides on it — two homes
+for one number would be a bug waiting to happen. There are no manual shed
+overrides to store: shedding is derived from capacity every tick.
+
+**Deviation:** the `stationPowered` gate is consulted for stations
+`powerRoleOf` registers as CONSUMERS, not for the literal string
+`'refinery'`. Same behaviour today, and Phase 4's condenser needs no change
+at the call site.
+
+**Deviation:** `MachinePower.clearDevices()` was added.
+`BuildSystem.clear()` drops its instances wholesale without emitting
+`build:removed`, so a load would otherwise have carried the previous game's
+generators forward as capacity from nowhere.
 
 ---
 
@@ -244,19 +272,46 @@ export class MachinePower {
 - Test: pure assignment logic in `tests/unit/lamplights.test.ts`; visual
   proof via `tools/shoot.mjs` night screenshots.
 
-- [ ] **Step 1: Failing test for the pool assignment** — given lamp
+- [x] **Step 1: Failing test for the pool assignment** — given lamp
   positions, camera position, and quality N: nearest N lit lamps get
   lights; unpowered lamps never; assignment stable under small camera
   movement (hysteresis — no per-frame swapping); pure function of inputs.
-- [ ] **Step 2: Implement pool + emissive toggling** — pool of N
+- [x] **Step 2: Implement pool + emissive toggling** — pool of N
   shadowless `PointLight`s parented once, repositioned on assignment;
   emissive intensity per lamp from `isPowered`.
-- [ ] **Step 3: Prove it in the browser** — `tools/shoot.mjs` at F10 night
+- [x] **Step 3: Prove it in the browser** — `tools/shoot.mjs` at F10 night
   with a sealed room + lamp: screenshot pixel-samples the interior brighter
   lit than unlit; `tools/build.mjs` gains checks: place lamp on wall OK,
   on empty edge refused; shed event darkens.
-- [ ] **Step 4: Green, full suite, commit** —
+- [x] **Step 4: Green, full suite, commit** —
   `feat: sealed rooms are dark no longer`.
+
+**Deviation: the browser proof is `tests/e2e/power.spec.ts`, not
+`tools/shoot.mjs` + `tools/build.mjs`.** Two reasons, and both were reasons to
+change the vehicle rather than the check. (1) The tools hardcode port 5173 and
+another checkout was serving on it; `playwright.config.ts` takes a `PORT`
+override and the spec ran on 5411, so the measurement is provably of THIS
+tree. (2) **There is no night to shoot.** `Sky.setTimeOfDay` documents that the
+sun "stays above the horizon at the extremes -- a full night cycle is
+later-milestone work", so an F10 night screenshot would have measured a lit
+desert. A SEALED ROOM is the actual dark-interiors gap the README names and is
+dark at any hour, so the spec builds one -- floor, four walls, roof -- puts the
+free camera inside it and samples mean pixel brightness. Measured: **8.16
+unlit, 30.50 with the lamp burning, 8.16 again once the tank is dry.** The
+spec also carries the `tools/build.mjs` checks the plan asked for (lamp on a
+wall accepted, lamp on a bare edge refused with `needs-wall`, the wall still
+standing underneath it) plus the refinery gate, the fuel round-trip through
+save/load, and the deposit.
+
+**Deviation:** a `needs-wall` reject reason was added rather than reusing
+`needs-support`. That one reads "Needs a wall below or a floor beside it",
+which is advice a player cannot act on while holding a lamp.
+
+**Deviation:** lamps needed a FIXTURE layer in `BuildGrid`
+(`setFixture`/`getFixture`/...), mirroring the existing station-over-floor
+layer. Sharing the edge map with the wall a lamp hangs on would have
+overwritten that wall and its owner -- the exact corruption the `stairs` layer
+comment records.
 
 ---
 

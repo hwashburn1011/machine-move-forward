@@ -77,7 +77,9 @@ export type SoundId =
   | 'warning'
   | 'all-clear'
   | 'hook-throw'
-  | 'hook-catch';
+  | 'hook-catch'
+  | 'breaker-open'
+  | 'breaker-close';
 
 const SOUNDS: Record<SoundId, VoiceSpec> = {
   // --- Weapons -------------------------------------------------------------
@@ -203,6 +205,24 @@ const SOUNDS: Record<SoundId, VoiceSpec> = {
     source: { kind: 'noise', filter: 'bandpass', hz: 1100, q: 4 },
     envelope: { peak: 0.3, attack: 0.001, decay: 0.14 },
     layers: [0, -12],
+  },
+
+  // --- Power ---------------------------------------------------------------
+  // A breaker throwing: one heavy contactor clunk, low and short. This is the
+  // whole of the generator's telegraphing, and it is deliberately NOT the
+  // director's warning tone — a shed deck is a consequence of something the
+  // player did or failed to do, not an alarm about something arriving.
+  'breaker-open': {
+    source: { kind: 'noise', filter: 'lowpass', hz: 220, q: 3.4 },
+    envelope: { peak: 0.34, attack: 0.001, decay: 0.2 },
+    layers: [0, -12],
+  },
+  // The same contactor closing: brighter and shorter, so the pair reads as a
+  // switch thrown one way and then the other.
+  'breaker-close': {
+    source: { kind: 'noise', filter: 'bandpass', hz: 700, q: 3 },
+    envelope: { peak: 0.22, attack: 0.001, decay: 0.12 },
+    layers: [0, -7],
   },
 };
 

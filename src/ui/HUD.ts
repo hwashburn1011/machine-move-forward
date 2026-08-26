@@ -31,6 +31,12 @@ export interface HUDState {
   /** One line naming what is hurt. 'Sound' when nothing is. */
   machineCondition: string;
   machineStopped: boolean;
+  /** Power drawn against power generated, and the fuel behind both. */
+  powerDraw: number;
+  powerCapacity: number;
+  fuel: number;
+  /** True while some priority class has been shed. Turns the row hot. */
+  powerShed: boolean;
 }
 
 /**
@@ -104,6 +110,7 @@ export class HUD {
         <div class="hud-row"><span>Distance</span><span class="hud-value" id="hud-distance">0 m</span></div>
         <div class="hud-row"><span>Aboard</span><span class="hud-value" id="hud-threats">0</span></div>
         <div class="hud-row"><span>Condition</span><span class="hud-value" id="hud-condition">Sound</span></div>
+        <div class="hud-row"><span>Power</span><span class="hud-value" id="hud-power">&#9889; 0/0 &nbsp;&#9670; 0</span></div>
       </div>
 
       <div id="hud-health" class="hud-panel">
@@ -133,6 +140,7 @@ export class HUD {
       'hud-distance',
       'hud-threats',
       'hud-condition',
+      'hud-power',
       'hud-boarding',
       'hud-pickup',
       'hud-health',
@@ -258,6 +266,17 @@ export class HUD {
     // restraint the panel is built on. `is-hot` already exists in hud.css.
     this.write('condition', this.el['hud-condition'], state.machineCondition);
     this.el['hud-condition']?.classList.toggle('is-hot', state.machineCondition !== 'Sound');
+
+    // --- Power -------------------------------------------------------------
+    // Drawn over generated, then the tank. Rounded because the tank drains by
+    // hundredths of a unit a second and a HUD that rewrote itself sixty times
+    // a second to show that would be a layout cost and an eyesore both.
+    this.write(
+      'power',
+      this.el['hud-power'],
+      `⚡ ${Math.round(state.powerDraw)}/${Math.round(state.powerCapacity)}  ◆ ${Math.floor(state.fuel)}`,
+    );
+    this.el['hud-power']?.classList.toggle('is-hot', state.powerShed);
 
     const boarding = this.el['hud-boarding'];
     if (boarding) {

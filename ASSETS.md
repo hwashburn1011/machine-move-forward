@@ -192,6 +192,19 @@ drops into later: it is purely visual, gets no collider, is fed through
 `loadModel` (which never rejects), and takes the identical null path under
 `?nomodel=1`.
 
+### Not downloaded: the generator and the lamp
+
+**The generator and the lamp are procedural, and stay that way for now.** Both
+were planned with CC0 model candidates behind them and neither took one. The
+lamp is the reason: it is a bracket, a hood and a glowing head, most of which
+is a 40cm emissive box, and a downloaded mesh would bring a licence, a load
+path and a boot-time failure mode to replace geometry that is fifteen lines of
+`bevelledBox`. The generator followed it for consistency — the deck already
+reads as one fabricator's work, and a photoscanned engine block dropped beside
+the procedural refinery would read as a different game. Both go through
+`buildPieceGeometry` like every other build piece, so a model can be dressed in
+behind `loadModel` later without touching placement, damage or the light pool.
+
 ## Audio
 
 **No sample files, by the same rule.** Every sound is synthesised at runtime

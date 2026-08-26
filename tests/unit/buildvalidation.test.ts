@@ -330,7 +330,7 @@ describe('stairs', () => {
 });
 
 describe('stations', () => {
-  const STATIONS: PieceId[] = ['crate', 'workbench', 'refinery'];
+  const STATIONS: PieceId[] = ['crate', 'workbench', 'refinery', 'generator'];
 
   it('needs a floor in its own cell', () => {
     for (const piece of STATIONS) {
@@ -373,6 +373,75 @@ describe('stations', () => {
   it('rejects a station outside the envelope', () => {
     const g = grid();
     expect(validatePlacement(g, place('crate', c(99, 0, 0)), RICH).reason).toBe('out-of-bounds');
+  });
+});
+
+describe('wall fixtures', () => {
+  it('hangs a lamp on a wall', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'wall');
+    expect(validatePlacement(g, edgePlace('lamp', c(0, 0, 0), 'east'), RICH).ok).toBe(true);
+  });
+
+  it('hangs a lamp on a doorway too', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'north'), 'doorway');
+    expect(validatePlacement(g, edgePlace('lamp', c(0, 0, 0), 'north'), RICH).ok).toBe(true);
+  });
+
+  it('refuses a lamp on an empty edge — it needs something to hang on', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    expect(validatePlacement(g, edgePlace('lamp', c(0, 0, 0), 'east'), RICH).reason).toBe(
+      'needs-wall',
+    );
+  });
+
+  it('refuses a lamp on a railing, which is a handrail and not a wall', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'railing');
+    expect(validatePlacement(g, edgePlace('lamp', c(0, 0, 0), 'east'), RICH).reason).toBe(
+      'needs-wall',
+    );
+  });
+
+  it('does not count as occupying the edge its wall is on', () => {
+    // Fixtures live in their own layer, exactly as stations do over floors.
+    // Sharing the edge map would mean hanging a lamp DELETED the wall.
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'wall');
+    g.setFixture(canonicalEdge(c(0, 0, 0), 'east'), 'lamp');
+    expect(g.getEdge(canonicalEdge(c(0, 0, 0), 'east'))).toBe('wall');
+    expect(g.getFixture(canonicalEdge(c(0, 0, 0), 'east'))).toBe('lamp');
+  });
+
+  it('rejects a second lamp on the same wall', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setEdge(canonicalEdge(c(0, 0, 0), 'east'), 'wall');
+    g.setFixture(canonicalEdge(c(0, 0, 0), 'east'), 'lamp');
+    expect(validatePlacement(g, edgePlace('lamp', c(0, 0, 0), 'east'), RICH).reason).toBe(
+      'occupied',
+    );
+  });
+
+  it('rejects a lamp entirely outside the envelope', () => {
+    const g = grid();
+    expect(validatePlacement(g, edgePlace('lamp', c(99, 0, 99), 'east'), RICH).reason).toBe(
+      'out-of-bounds',
+    );
+  });
+
+  it('reports the structural reason ahead of affordability', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    expect(validatePlacement(g, edgePlace('lamp', c(0, 0, 0), 'east'), POOR).reason).toBe(
+      'needs-wall',
+    );
   });
 });
 

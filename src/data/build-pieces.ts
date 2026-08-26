@@ -15,7 +15,9 @@ export type PieceId =
   | 'stairs'
   | 'crate'
   | 'workbench'
-  | 'refinery';
+  | 'refinery'
+  | 'generator'
+  | 'lamp';
 
 /** How a piece attaches to the grid. */
 export type PieceAnchor =
@@ -170,14 +172,98 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     blocksNavigation: false,
     rotatable: false,
   },
+  generator: {
+    id: 'generator',
+    name: 'Generator',
+    anchor: 'cell',
+    // Components, unlike the refinery: by the time a player is building a
+    // SECOND generator they have the refinery that makes them, and this is the
+    // one machine on the deck that should feel like a real investment.
+    cost: { scrap: 60, components: 6 },
+    weight: 320,
+    maxHealth: 170,
+    armor: 2,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: false,
+  },
+  lamp: {
+    id: 'lamp',
+    name: 'Deck Lamp',
+    anchor: 'edge',
+    cost: { scrap: 6, components: 1 },
+    weight: 8,
+    maxHealth: 40,
+    armor: 0,
+    // Neither, and deliberately: a lamp hangs on a wall that is already both.
+    // Claiming either would make a lit corridor read as two rooms, or wall off
+    // a doorway with the light above it.
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: false,
+  },
 };
 
 /** Pieces that sit on a floor and are interacted with rather than walked on. */
-export const STATION_PIECES: readonly PieceId[] = ['crate', 'workbench', 'refinery'];
+export const STATION_PIECES: readonly PieceId[] = [
+  'crate',
+  'workbench',
+  'refinery',
+  'generator',
+];
 
 export function isStation(piece: PieceId): boolean {
   return STATION_PIECES.includes(piece);
 }
+
+/**
+ * Pieces that hang ON an edge piece rather than filling the edge themselves.
+ *
+ * Their own grid layer, for exactly the reason stations have one over floors:
+ * a lamp sharing the edge map with the wall it is mounted to would OVERWRITE
+ * that wall, and demolishing the lamp afterwards would delete a wall still
+ * standing in the scene.
+ */
+export const FIXTURE_PIECES: readonly PieceId[] = ['lamp'];
+
+export function isFixture(piece: PieceId): boolean {
+  return FIXTURE_PIECES.includes(piece);
+}
+
+/** What a fixture is allowed to hang on. A railing is a handrail, not a wall. */
+export function canHoldFixture(piece: PieceId | undefined): boolean {
+  return piece === 'wall' || piece === 'doorway';
+}
+
+/**
+ * A placement the game makes on the player's behalf.
+ *
+ * Structurally a `Placement`, spelled out here rather than imported so this
+ * file stays data-only and free of a cycle through `BuildValidation`.
+ */
+export interface StartingPiece {
+  piece: PieceId;
+  cell: { x: number; y: number; z: number };
+  rotation: number;
+}
+
+/**
+ * What a new game already has built (handoff section 49).
+ *
+ * The starting generator, on its own deck plate, on the starboard side abeam
+ * of the engine — the one cell aft of the fuel tank that the machine's own
+ * equipment leaves free. It is placed through the ORDINARY placement path, so
+ * it saves, demolishes, refunds, and takes Phase 1 damage exactly like one the
+ * player built. A player who scraps it has lights out until they build another,
+ * which is a legible consequence rather than a bug.
+ *
+ * The plate comes first: a station needs a floor in its own cell, and the bare
+ * hull deck is not one.
+ */
+export const STARTING_STRUCTURES: readonly StartingPiece[] = [
+  { piece: 'floor', cell: { x: 2, y: 0, z: 3 }, rotation: 0 },
+  { piece: 'generator', cell: { x: 2, y: 0, z: 3 }, rotation: 0 },
+];
 
 /** Selection order for the number keys and the build HUD row. */
 export const BUILD_PIECE_ORDER: readonly PieceId[] = [
@@ -190,6 +276,8 @@ export const BUILD_PIECE_ORDER: readonly PieceId[] = [
   'crate',
   'workbench',
   'refinery',
+  'generator',
+  'lamp',
 ];
 
 /** Fraction of the original cost returned when demolishing. */

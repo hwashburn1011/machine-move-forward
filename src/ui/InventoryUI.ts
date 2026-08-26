@@ -17,6 +17,14 @@ export interface InventoryUIState {
   /** Available inputs, counted across the inventory and crates in reach. */
   countOf: (itemId: ItemId) => number;
   canCraft: (recipe: Recipe) => boolean;
+  /**
+   * A banner over the recipe list — 'NO POWER' at a shed refinery.
+   *
+   * Separate from `canCraft` because a greyed-out Craft button with no reason
+   * beside it is how a player concludes the game is broken rather than that
+   * their generator is.
+   */
+  stationNote?: string | null;
 }
 
 export interface InventoryUICallbacks {
@@ -179,7 +187,10 @@ export class InventoryUI {
       })
       .join('');
 
-    return `<div class="inv-recipes">${rows}</div>`;
+    const note = state.stationNote
+      ? `<div class="inv-note">${state.stationNote}</div>`
+      : '';
+    return `${note}<div class="inv-recipes">${rows}</div>`;
   }
 
   /**
@@ -189,7 +200,12 @@ export class InventoryUI {
    * while the panel sits open.
    */
   private signatureFor(state: InventoryUIState): string {
-    const parts: string[] = [this.mode, this.context.station ?? '', this.context.title ?? ''];
+    const parts: string[] = [
+      this.mode,
+      this.context.station ?? '',
+      this.context.title ?? '',
+      state.stationNote ?? '',
+    ];
 
     const slots = (c: Container) =>
       c.slots.map((s) => (s ? `${s.itemId}:${s.count}` : '-')).join(',');

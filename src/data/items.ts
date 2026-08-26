@@ -60,9 +60,8 @@ export const ITEMS: Record<ItemId, ItemDefinition> = {
     category: 'resource',
     stackSize: 50,
     weight: 1.5,
-    // Nothing burns fuel until the power system. Storable, but inert.
     glyph: '◆',
-    description: 'Heavy distillate. The engine will want this eventually.',
+    description: 'Heavy distillate. Feed it to the generator to keep the lights on.',
   },
   'ammo-rifle': {
     id: 'ammo-rifle',
