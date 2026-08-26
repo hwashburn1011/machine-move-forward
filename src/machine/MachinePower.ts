@@ -102,6 +102,21 @@ export class MachinePower {
   }
 
   /**
+   * Forget every device, keeping the fuel.
+   *
+   * For the one path that takes structures away WITHOUT taking them down:
+   * `BuildSystem.clear()` drops its instances wholesale rather than demolishing
+   * them one at a time, so no `build:removed` is emitted and nothing would
+   * otherwise unregister. A load that skipped this would carry the previous
+   * game's generators forward as capacity from nowhere.
+   */
+  clearDevices(): void {
+    this.producers.clear();
+    this.consumers.clear();
+    this.dirty = true;
+  }
+
+  /**
    * Phase 1's hook: a hurt generator makes less power.
    *
    * Silent about unknown ids on purpose. `build:damaged` can arrive for a

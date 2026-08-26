@@ -17,6 +17,7 @@ import type { Cell } from '@/building/BuildGrid';
 import { deckCells, type FixedLink } from '@/enemies/NavGraph';
 import { MachineMovement } from './MachineMovement';
 import { MachineDamage } from './MachineDamage';
+import { MachinePower } from './MachinePower';
 import {
   carryDelta,
   clampPose,
@@ -105,6 +106,14 @@ export class Machine {
   readonly group: THREE.Group;
   readonly movement = new MachineMovement();
   readonly damage = new MachineDamage();
+  /**
+   * Generation, draw and the fuel tank.
+   *
+   * Owned here beside `damage` and for the same reason: both are pure models
+   * of the machine's own condition that half a dozen systems read every frame,
+   * and both are ticked from `Game`'s fixed step.
+   */
+  readonly power = new MachinePower();
   readonly deckBounds: THREE.Box3;
   /** Level-0 cells the starting equipment sits in. Unbuildable. */
   readonly equipmentCells: Cell[];

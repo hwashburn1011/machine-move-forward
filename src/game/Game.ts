@@ -58,6 +58,7 @@ import {
   STARTING_STRUCTURES,
   type PieceId,
 } from '@/data/build-pieces';
+import { FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
 import { countEnclosed } from '@/building/RoomDetector';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
 import {
@@ -420,8 +421,11 @@ export class Game implements LoopCallbacks {
       this.resources,
     );
     this.buildPreview = new BuildPreview(this.renderer.scene);
+    // Before the starting structures are laid, so the generator they include
+    // registers as a producer the moment it is placed.
+    this.wirePower();
     this.resetStructures();
-    this.crafting = new CraftingSystem(this.resources, this.bus);
+    this.crafting = new CraftingSystem(this.resources, this.bus, this.stationPowered);
 
     // HUD first: it owns the root's innerHTML, so anything appended before it
     // would be wiped.
@@ -467,6 +471,64 @@ export class Game implements LoopCallbacks {
   private timeOnTheSand = 0;
 
   /**
+   * Put every powered piece on the grid as it is built, and take it off again.
+   *
+   * Off the build events rather than polled, so a device is live on the tick
+   * it is placed and gone on the tick it comes down — including when it comes
+   * down through Phase 1's damage cascade, which routes through the same
+   * `build:removed` the player's own hammer does. That is the whole reason
+   * these are build pieces and not a separate device registry.
+   */
+  private wirePower(): void {
+    const power = this.machine.power;
+
+    this.bus.on('build:placed', ({ instanceId, definitionId }) => {
+      const role = powerRoleOf(definitionId as PieceId);
+      if (!role) return;
+      if (role.kind === 'producer') power.registerProducer(instanceId, role.capacity);
+      else power.registerConsumer({ id: instanceId, draw: role.draw, priority: role.priority });
+    });
+
+    this.bus.on('build:removed', ({ instanceId }) => {
+      // Both, unconditionally: the piece is already gone, so there is nothing
+      // left to ask what it was, and neither call minds an id it never knew.
+      power.unregisterProducer(instanceId);
+      power.unregisterConsumer(instanceId);
+    });
+
+    // Phase 1's hook. A generator at half health makes half the power, which
+    // browns the machine out gradually rather than at a threshold — the same
+    // continuous reading `MachineDamage` gives the legs and the engine.
+    this.bus.on('build:damaged', ({ instanceId, definitionId, health, maxHealth }) => {
+      if (definitionId !== 'generator') return;
+      power.setProducerHealth(instanceId, maxHealth > 0 ? health / maxHealth : 0);
+    });
+  }
+
+  /**
+   * Whether the station in front of the player has power.
+   *
+   * Bound once so `CraftingSystem` holds a stable predicate. It asks about the
+   * station the OPEN PANEL belongs to: two refineries on one machine are one
+   * consumer each, and `MachinePower` sheds by class, so in practice they
+   * agree — but asking about the one being used is the honest question.
+   */
+  private readonly stationPowered = (station: StationId): boolean => {
+    const open = this.interaction.current;
+    if (open && open.kind === station) return this.machine.power.isPowered(open.id);
+    // No panel open — a harness or a scripted craft. Fall back to whether ANY
+    // station of that class is powered, rather than refusing outright.
+    return this.machine.power.isPowered(this.anyStationOf(station) ?? '');
+  };
+
+  /** The instance id of any built station of a kind, for the power gate's fallback. */
+  private anyStationOf(station: StationId): string | undefined {
+    return this.build
+      .stationsNear(this.player.worldPosition, Number.POSITIVE_INFINITY)
+      .find((ref) => ref.piece === station)?.instanceId;
+  }
+
+  /**
    * Build what a new machine is already carrying — the starting generator.
    *
    * Placed FREE through the ordinary placement path, which is the same one a
@@ -478,6 +540,10 @@ export class Game implements LoopCallbacks {
    * save carries whatever generator the player actually has.
    */
   resetStructures(): void {
+    // `clear` drops its instances wholesale rather than demolishing them, so
+    // no `build:removed` fires and nothing would otherwise unregister.
+    this.machine.power.clearDevices();
+    this.shedClasses.clear();
     this.build.clear();
     for (const placement of STARTING_STRUCTURES) this.build.place(placement, true);
   }
@@ -604,6 +670,7 @@ export class Game implements LoopCallbacks {
     }
 
     this.machine.fixedUpdate(dt);
+    this.tickPower(dt);
     this.announceMachineDamage(dt);
     this.world.fixedUpdate(dt, this.machine.speed);
     // After the world moves, so the distance the spawner reads is this tick's.
@@ -613,6 +680,51 @@ export class Game implements LoopCallbacks {
     this.physics.step();
 
     this.handleDebugKeys();
+  }
+
+  /**
+   * Burn the fuel and put the model's edges on the bus.
+   *
+   * `MachinePower` owns no bus, exactly as `MachineDamage` owns none: it is
+   * pure and returns what changed, and this is the one place that turns those
+   * into events. Also refreshes the lamps, which is the only thing in the
+   * frame that depends on the shed state rather than reading it on demand.
+   */
+  private tickPower(dt: number): void {
+    for (const event of this.machine.power.fixedUpdate(dt)) {
+      if (event.type === 'changed') {
+        this.bus.emit('power:changed', {
+          capacity: event.capacity,
+          draw: event.draw,
+          fuel: event.fuel,
+        });
+      } else if (event.type === 'shed') {
+        this.shedClasses.add(event.priority);
+        this.bus.emit('power:shed', { priority: event.priority });
+      } else {
+        this.shedClasses.delete(event.priority);
+        this.bus.emit('power:restored', { priority: event.priority });
+      }
+    }
+
+    // Every lamp, not just the lit ones: a lamp that has just shed has to go
+    // dark, and it is no longer in the lit set to be told so.
+    for (const lamp of this.build.lamps()) {
+      this.build.setLampLit(lamp.instanceId, this.machine.power.isPowered(lamp.instanceId));
+    }
+  }
+
+  /**
+   * Which priority classes are currently shed.
+   *
+   * Accumulated from the model's edges rather than recomputed, because that is
+   * what the edges are for — and because "is anything shed" is a question the
+   * HUD asks every frame and the model would have to re-derive every time.
+   */
+  private readonly shedClasses = new Set<string>();
+
+  private get powerShed(): boolean {
+    return this.shedClasses.size > 0;
   }
 
   /**
@@ -842,11 +954,16 @@ export class Game implements LoopCallbacks {
       deckHalfLength: this.machine.deckBounds.max.z,
       machineCondition: conditionLabel(this.machine.damage.damaged()),
       machineStopped: this.machine.damage.isStopped,
+      powerDraw: this.machine.power.draw,
+      powerCapacity: this.machine.power.capacity,
+      fuel: this.machine.power.fuel,
+      powerShed: this.powerShed,
     });
 
     this.inventoryUI.update({
       countOf: this.countOf,
       canCraft: this.canCraft,
+      stationNote: this.stationNote(),
     });
 
     if (this.buildMode) {
@@ -1090,8 +1207,21 @@ export class Game implements LoopCallbacks {
     }
 
     this.hud.setPrompt(
-      this.panelsOpen ? null : (repairPrompt ?? (nearest ? `[E] Open ${nearest.label}` : null)),
+      this.panelsOpen ? null : (repairPrompt ?? this.promptFor(nearest)),
     );
+  }
+
+  /** What standing at something says. Null when standing at nothing. */
+  private promptFor(nearest: Interactable | null): string | null {
+    if (!nearest) return null;
+    if (nearest.kind !== 'generator') return `[E] Open ${nearest.label}`;
+
+    const power = this.machine.power;
+    const tank = `${Math.floor(power.fuel)}/${FUEL_TANK_CAP}`;
+    const carried = this.resources.count('fuel');
+    if (carried <= 0) return `${nearest.label} — ◆ ${tank}`;
+    if (power.fuel >= FUEL_TANK_CAP) return `${nearest.label} — tank full ◆ ${tank}`;
+    return `[E] Refuel ${nearest.label} — ◆ ${tank} (carrying ${carried})`;
   }
 
   openInventory(): void {
@@ -1105,6 +1235,11 @@ export class Game implements LoopCallbacks {
     // A repair has no panel. `updateRepair` drives it from the held key.
     if (target.kind === 'repair') return false;
 
+    // The generator has no panel either: E tips the fuel in and you get on
+    // with it. A transfer screen for a tank with one thing in it would be
+    // three clicks where one will do.
+    if (target.kind === 'generator') return this.depositFuel();
+
     if (target.kind === 'crate') {
       const crate = this.build.crateContainer(target.id);
       if (!crate) return false;
@@ -1117,6 +1252,26 @@ export class Game implements LoopCallbacks {
     }
 
     this.releasePointerLock();
+    return true;
+  }
+
+  /**
+   * Tip every fuel unit within reach into the machine's tank.
+   *
+   * Takes only what fits, and consumes only what was taken — a player standing
+   * at a full tank with a bag of fuel must still have that bag afterwards.
+   * Returns false when there was nothing to do, so the caller can leave the
+   * prompt alone rather than reporting a deposit that never happened.
+   */
+  depositFuel(): boolean {
+    const carried = this.resources.count('fuel');
+    if (carried <= 0) return false;
+
+    const accepted = this.machine.power.addFuel(carried);
+    if (accepted <= 0) return false;
+
+    this.resources.consume({ fuel: accepted });
+    this.audio.play('build-place');
     return true;
   }
 
@@ -1189,6 +1344,18 @@ export class Game implements LoopCallbacks {
 
   private readonly countOf = (itemId: ItemId): number => this.resources.count(itemId);
   private readonly canCraft = (recipe: Recipe): boolean => this.crafting.canCraft(recipe);
+
+  /**
+   * The line over the recipe list at an open station.
+   *
+   * Null almost always: this is the panel's exception channel, not a status
+   * bar, and a permanent banner would stop being read within a minute.
+   */
+  private stationNote(): string | null {
+    const open = this.interaction.current;
+    if (!open || open.kind !== 'refinery') return null;
+    return this.machine.power.isPowered(open.id) ? null : 'NO POWER';
+  }
 
   // -------------------------------------------------------------------------
   // Build mode
@@ -1404,7 +1571,11 @@ export class Game implements LoopCallbacks {
       machine: {
         structures: this.build.serialise(),
         devices: [],
-        fuel: 100,
+        // Written for real at last. `machine.fuel` has been in the schema
+        // since v1 and written as a flat 100 ever since, so a save from before
+        // power existed loads as a comfortably full tank — which needs no
+        // migration and no version bump.
+        fuel: this.machine.power.toSave().fuel,
         coreHealth: 100,
         navigationTier: 0,
         subsystems: this.machine.damage.toSave(),
@@ -1441,6 +1612,12 @@ export class Game implements LoopCallbacks {
     // player's bag afterwards would be sequencing two writes to the same
     // aggregate for no reason.
     this.inventory.restore(save.player.inventory ?? []);
+    // The tank BEFORE the structures: rebuilding them re-registers every
+    // producer and consumer, and they should settle against the fuel the save
+    // actually holds rather than briefly against a fresh tank.
+    this.shedClasses.clear();
+    this.machine.power.clearDevices();
+    this.machine.power.restore({ fuel: save.machine.fuel });
     this.build.restore(save.machine.structures ?? []);
     // Absent in every save written before machine damage, and absent means
     // undamaged — which is what `restore` does with it.

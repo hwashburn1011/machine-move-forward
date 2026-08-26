@@ -1,3 +1,5 @@
+import type { PieceId } from './build-pieces';
+
 /**
  * The power economy's numbers (handoff section 13).
  *
@@ -47,3 +49,32 @@ export const DRAWS = {
   lamp: 1,
   refinery: 10,
 } as const;
+
+/**
+ * What a build piece is to the power grid, if anything.
+ *
+ * The single table that turns a `build:placed` event into a registration, so
+ * `Game` holds a switch it cannot get out of step with. A later device — the
+ * Phase 4 condenser, the Phase 5 turrets — adds a line here and needs no
+ * change at the call site at all.
+ *
+ * `null` is the answer for almost everything, and deliberately the default: a
+ * wall that registered as a consumer would draw the machine flat.
+ */
+export type PowerRole =
+  | { kind: 'producer'; capacity: number }
+  | { kind: 'consumer'; draw: number; priority: PowerPriority }
+  | null;
+
+export function powerRoleOf(piece: PieceId): PowerRole {
+  switch (piece) {
+    case 'generator':
+      return { kind: 'producer', capacity: GENERATOR_CAPACITY };
+    case 'lamp':
+      return { kind: 'consumer', draw: DRAWS.lamp, priority: 'light' };
+    case 'refinery':
+      return { kind: 'consumer', draw: DRAWS.refinery, priority: 'station' };
+    default:
+      return null;
+  }
+}

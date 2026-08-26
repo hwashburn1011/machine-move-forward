@@ -65,6 +65,16 @@ export type GameEvents = {
   };
   'build:removed': { instanceId: string; definitionId: string; refunded: number };
   'build:rooms-changed': { roomCount: number; enclosedCount: number };
+  /**
+   * The power picture moved. EDGES ONLY — `MachinePower` returns these when
+   * capacity or draw actually changes, never once a tick. Fuel rides along so
+   * a listener has the whole picture, but fuel alone never triggers one.
+   */
+  'power:changed': { capacity: number; draw: number; fuel: number };
+  /** A whole priority class lost power. The breaker clunk plays off this. */
+  'power:shed': { priority: string };
+  'power:restored': { priority: string };
+
   'inventory:changed': { scrap: number };
   /** Loot that has just gone into the player's inventory. */
   'loot:collected': { items: { id: string; count: number }[]; source: string };

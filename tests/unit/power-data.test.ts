@@ -6,8 +6,10 @@ import {
   GENERATOR_CAPACITY,
   PRIORITY_ORDER,
   STARTING_FUEL,
+  powerRoleOf,
   type PowerPriority,
 } from '@/data/power';
+import { BUILD_PIECES, type PieceId } from '@/data/build-pieces';
 
 /**
  * The numbers the whole power economy is tuned on.
@@ -40,6 +42,33 @@ describe('power data', () => {
   it('starts with fuel in the tank, and room for more', () => {
     expect(STARTING_FUEL).toBeGreaterThan(0);
     expect(STARTING_FUEL).toBeLessThan(FUEL_TANK_CAP);
+  });
+
+  it('makes the generator a producer and the lamp and refinery consumers', () => {
+    expect(powerRoleOf('generator')).toEqual({ kind: 'producer', capacity: GENERATOR_CAPACITY });
+    expect(powerRoleOf('lamp')).toEqual({
+      kind: 'consumer',
+      draw: DRAWS.lamp,
+      priority: 'light',
+    });
+    expect(powerRoleOf('refinery')).toEqual({
+      kind: 'consumer',
+      draw: DRAWS.refinery,
+      priority: 'station',
+    });
+  });
+
+  it('leaves the workbench and every plain piece out of the grid entirely', () => {
+    // A wall that registered as a consumer would draw the machine flat.
+    for (const id of ['floor', 'wall', 'doorway', 'railing', 'roof', 'stairs', 'crate', 'workbench'] as PieceId[]) {
+      expect(powerRoleOf(id), id).toBeNull();
+    }
+  });
+
+  it('has an answer for every piece that exists', () => {
+    for (const id of Object.keys(BUILD_PIECES) as PieceId[]) {
+      expect(() => powerRoleOf(id)).not.toThrow();
+    }
   });
 
   it('burns slowly enough that a full tank is a session, not an errand', () => {

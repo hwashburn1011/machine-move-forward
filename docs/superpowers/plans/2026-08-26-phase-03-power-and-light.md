@@ -234,17 +234,32 @@ been in the save schema since v1, so `MachinePowerSave` rides on it and no
   shows tank); `CraftingSystem` gains a `stationPowered(station):
   boolean` gate consulted for `refinery` only.
 
-- [ ] **Step 1: Failing tests** — crafting at an unpowered refinery is
+- [x] **Step 1: Failing tests** — crafting at an unpowered refinery is
   refused with reason `'no-power'`; powered works; workbench never gated.
   Save round-trips fuel and shed state.
-- [ ] **Step 2: Wire it** — every placed lamp/refinery registers on
+- [x] **Step 2: Wire it** — every placed lamp/refinery registers on
   `build:placed`, unregisters on `build:removed`/destroyed (Phase 1's
   `build:damaged` cascade already fires removal); generator piece registers
   as producer, its Phase-1 damage health feeding `setProducerHealth`.
   Deposit-at-generator via the existing station interaction path. HUD row:
   `⚡ 12/16  ◆ 41`.
-- [ ] **Step 3: Green, full suite, commit** —
+- [x] **Step 3: Green, full suite, commit** —
   `feat: the refinery goes quiet when the tank runs dry`.
+
+**Deviation:** no `machine.power` save block. `machine.fuel` has been in the
+schema since v1 (written as a flat 100), so the tank rides on it — two homes
+for one number would be a bug waiting to happen. There are no manual shed
+overrides to store: shedding is derived from capacity every tick.
+
+**Deviation:** the `stationPowered` gate is consulted for stations
+`powerRoleOf` registers as CONSUMERS, not for the literal string
+`'refinery'`. Same behaviour today, and Phase 4's condenser needs no change
+at the call site.
+
+**Deviation:** `MachinePower.clearDevices()` was added.
+`BuildSystem.clear()` drops its instances wholesale without emitting
+`build:removed`, so a load would otherwise have carried the previous game's
+generators forward as capacity from nowhere.
 
 ---
 

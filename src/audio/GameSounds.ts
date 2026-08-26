@@ -101,6 +101,13 @@ export function connectGameSounds(
     // on what that sound means, and "something is wrong, look up" is the same
     // message. `Game` rate-limits it; this end only plays what it is handed.
     bus.on('machine:damaged', () => audio.play('warning')),
+
+    // --- Power --------------------------------------------------------------
+    // Edges only, which is why `MachinePower` goes to the trouble of returning
+    // them: a level-triggered clunk would fire sixty times a second for as long
+    // as the tank was empty.
+    bus.on('power:shed', () => audio.play('breaker-open')),
+    bus.on('power:restored', () => audio.play('breaker-close')),
   ];
 
   return () => {

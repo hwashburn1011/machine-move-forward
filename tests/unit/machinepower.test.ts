@@ -166,6 +166,19 @@ describe('MachinePower shedding', () => {
     expect(power.isPowered('turret')).toBe(true);
   });
 
+  it('forgets every device on clearDevices, and keeps the fuel', () => {
+    // The path a load takes: `BuildSystem.clear()` drops its instances without
+    // demolishing them, so nothing unregisters and the previous game's
+    // generators would otherwise survive as capacity from nowhere.
+    const power = loaded(20);
+    const fuel = power.fuel;
+    power.clearDevices();
+    expect(power.capacity).toBe(0);
+    expect(power.draw).toBe(0);
+    expect(power.isPowered('turret')).toBe(false);
+    expect(power.fuel).toBe(fuel);
+  });
+
   it('knows nothing about ids it was never given', () => {
     const power = loaded(20);
     expect(power.isPowered('who')).toBe(false);

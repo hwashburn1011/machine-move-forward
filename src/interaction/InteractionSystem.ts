@@ -10,7 +10,7 @@ export interface Interactable {
   id: string;
   label: string;
   position: THREE.Vector3;
-  kind: 'crate' | 'workbench' | 'refinery' | 'repair';
+  kind: 'crate' | 'workbench' | 'refinery' | 'generator' | 'repair';
 }
 
 /** Metres. Shorter than the 6m resource reach: you must stand at the thing. */

@@ -467,6 +467,20 @@
 
 /* --- Crafting list ----------------------------------------------------- */
 
+/* The panel's exception channel: shown only when something is wrong with the
+ * station itself rather than with the player's materials. Loud on purpose --
+ * it is the answer to "why is every Craft button greyed out". */
+.inv-note {
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  border-left: 3px solid var(--danger);
+  background: rgba(214, 72, 59, 0.12);
+  color: var(--danger);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .inv-recipes {
   display: flex;
   flex-direction: column;
@@ -623,6 +637,7 @@
  * mean "something on this machine needs you", and two shades of alarm in one
  * four-row panel would be two things to learn instead of one. */
 #hud-threats.is-hot,
+#hud-power.is-hot,
 #hud-condition.is-hot {
   color: var(--danger);
   text-shadow: 0 0 8px rgba(214, 72, 59, 0.55);
