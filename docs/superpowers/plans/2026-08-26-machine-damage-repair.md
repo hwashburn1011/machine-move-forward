@@ -894,7 +894,7 @@ git commit -m "feat: the wall you built can be taken off you"
 - Consumes: `SUBSYSTEMS` from Task 2.
 - Produces: `const REPAIR_COST_FRACTION = 0.3`; `function structureRepairCost(pieceId: PieceId, missingFraction: number): ItemCost`; `function subsystemRepairCost(id: SubsystemId, missingFraction: number): ItemCost`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```ts
 // tests/unit/repairpricing.test.ts
@@ -962,12 +962,12 @@ describe('what a repair costs', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/repairpricing.test.ts`
 Expected: FAIL — cannot resolve `@/building/RepairPricing`.
 
-- [ ] **Step 3: Write the module**
+- [x] **Step 3: Write the module**
 
 ```ts
 // src/building/RepairPricing.ts
@@ -1010,12 +1010,12 @@ export function subsystemRepairCost(id: SubsystemId, missingFraction: number): I
 }
 ```
 
-- [ ] **Step 4: Run the test**
+- [x] **Step 4: Run the test**
 
 Run: `npx vitest run tests/unit/repairpricing.test.ts`
 Expected: PASS. If the "strictly cheaper" case fails, `REPAIR_COST_FRACTION` is too high — lower it rather than weakening the assertion.
 
-- [ ] **Step 5: Full suite and commit**
+- [x] **Step 5: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests
