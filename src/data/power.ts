@@ -48,6 +48,9 @@ export const GENERATOR_CAPACITY = 16;
 export const DRAWS = {
   lamp: 1,
   refinery: 10,
+  // Below the refinery on purpose. The condenser is meant to run in the
+  // background of a normal deck, so a machine that can refine can also drink.
+  condenser: 4,
 } as const;
 
 /**
@@ -74,6 +77,11 @@ export function powerRoleOf(piece: PieceId): PowerRole {
       return { kind: 'consumer', draw: DRAWS.lamp, priority: 'light' };
     case 'refinery':
       return { kind: 'consumer', draw: DRAWS.refinery, priority: 'station' };
+    // Phase 4's device, and the proof the extension point works: a new
+    // consumer is this line and nothing else. `Game.wirePower` never learned
+    // the condenser exists.
+    case 'condenser':
+      return { kind: 'consumer', draw: DRAWS.condenser, priority: 'station' };
     default:
       return null;
   }

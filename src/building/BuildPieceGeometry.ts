@@ -369,8 +369,67 @@ function stoveGeometry(): THREE.BufferGeometry {
   return grouped([shell, hob]);
 }
 
+/**
+ * A finned tower with a catch tray and a running light.
+ *
+ * Tall and narrow where the stove is low and wide, so the kitchen corner of a
+ * deck reads as three distinct objects rather than three grey boxes: the
+ * refinery is a tank, the stove is a counter, this is a chimney.
+ */
+function condenserGeometry(): THREE.BufferGeometry {
+  const shell: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.9, 1.7, 0.9, 0.07), 0, 1.0, 0),
+    // The tray it drips into, at knee height, proud of the column.
+    at(bevelledBox(1.25, 0.16, 1.25, 0.04), 0, 0.14, 0),
+    at(bevelledBox(1.1, 0.1, 1.1, 0.03), 0, 0.34, 0),
+  ];
+  // Condensing fins up the column. The reason it is not a plain post.
+  for (const y of [0.75, 1.05, 1.35, 1.65]) {
+    shell.push(at(bevelledBox(1.16, 0.07, 1.16, 0.02), 0, y, 0));
+  }
+
+  const indicator: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.2, 0.1, 0.06, 0.02), 0, 1.92, 0.44),
+  ];
+
+  return grouped([shell, indicator]);
+}
+
+/**
+ * A shin-high trough of soil with a rail round it and shoots inside.
+ *
+ * The only build piece that is deliberately SHORT. A player standing among
+ * three of them should be able to see over the whole garden, which is most of
+ * what makes a planted deck read as a place rather than as storage.
+ */
+function planterGeometry(): THREE.BufferGeometry {
+  const w = 1.6;
+  const h = 0.5;
+
+  const box: THREE.BufferGeometry[] = [
+    at(bevelledBox(w, h, w * 0.8, 0.05), 0, h / 2, 0),
+    at(bevelledBox(w * 1.05, 0.09, w * 0.85, 0.03), 0, h, 0),
+  ];
+  for (const sx of [-1, 1]) {
+    box.push(at(bevelledBox(0.1, h * 1.1, 0.1, 0.02), sx * w * 0.47, h * 0.55, w * 0.37));
+  }
+
+  // The crop. Small upright slabs rather than modelled leaves: at this size a
+  // few green rectangles read as planting and anything more reads as clutter.
+  const crop: THREE.BufferGeometry[] = [];
+  for (const dx of [-0.42, 0, 0.42]) {
+    for (const dz of [-0.22, 0.22]) {
+      crop.push(at(bevelledBox(0.16, 0.34, 0.06, 0.02), dx, h + 0.17, dz));
+    }
+  }
+
+  return grouped([box, crop]);
+}
+
 const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
   stove: stoveGeometry,
+  condenser: condenserGeometry,
+  planter: planterGeometry,
   crate: crateGeometry,
   workbench: workbenchGeometry,
   refinery: refineryGeometry,
@@ -420,6 +479,13 @@ export function pieceMaterial(
       return [materials.stationMetal, materials.emissiveWarn];
     case 'stove':
       return [materials.stationMetal, materials.emissiveWarn];
+    case 'condenser':
+      return [materials.stationMetal, materials.emissiveWarn];
+    // Group 1 is the crop, and it is the one place on this machine anything
+    // is alive. `accent` is the warmest thing in the palette; a green would
+    // need a material of its own for six small slabs.
+    case 'planter':
+      return [materials.rustedSteel, materials.accent];
     // The glow is group 1 by the same convention, and `BuildSystem` CLONES it
     // per lamp: the shared material is one object, and a lamp that shed power
     // would otherwise darken every other lamp on the machine with it.
@@ -469,6 +535,18 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
     case 'stove':
       return [
         { half: new THREE.Vector3(0.79, 0.55, 0.62), offset: new THREE.Vector3(0, 0.55, 0) },
+      ];
+
+    case 'condenser':
+      return [
+        { half: new THREE.Vector3(0.63, 0.95, 0.63), offset: new THREE.Vector3(0, 0.95, 0) },
+      ];
+
+    // Shin-high, and the collider says so. A knee-high box the player can see
+    // over but not step through is exactly what a planter is.
+    case 'planter':
+      return [
+        { half: new THREE.Vector3(0.84, 0.3, 0.68), offset: new THREE.Vector3(0, 0.3, 0) },
       ];
 
     // None, deliberately. A lamp is a fitting on a wall that already has a

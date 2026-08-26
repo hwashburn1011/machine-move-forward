@@ -324,6 +324,185 @@ check(
   `${demolished.scrap} scrap, ${demolished.components} components (75 + a 9-scrap refund, 6 + 1)`,
 );
 
+// --- The hearth: grow it, collect it, cook it, eat it ---------------------
+// Phase 4's whole loop, driven end to end through the real game rather than
+// asserted piecemeal in node. The point is the JOINS: a producer that fills,
+// an E press that collects, a recipe that consumes both halves, and a meter
+// that actually moves when the player swallows something.
+// Back to the stations. Everything above has been driving the game for a
+// while and collecting from a producer is a REACH test, so the harness has to
+// be standing where a player would be rather than wherever it drifted to.
+await run(() => globalThis.__game.player.teleport({ x: -6, y: 3.9, z: -11 }));
+await sim(0.6);
+const standingAt = await run(() => ({ ...globalThis.__game.player.worldPosition }));
+
+await run(() => {
+  const g = globalThis.__game.game;
+  g.inventory.clear();
+  g.inventory.add('scrap', 300);
+  g.inventory.add('components', 20);
+  g.build.place({ piece: 'floor', cell: { x: -2, y: 0, z: -5 }, rotation: 0 });
+});
+
+const planterId = await place('planter', { x: -4, y: 0, z: -5 });
+const stoveId = await place('stove', { x: -2, y: 0, z: -5 });
+// Not on FLOORS[0]: the save-and-reload section below builds its crate there,
+// and a station already standing in the cell would refuse it.
+const condenserId = await place('condenser', { x: -3, y: 0, z: -5 });
+check('a planter box can be built', planterId !== null);
+check('a stove can be built', stoveId !== null);
+check('a condenser can be built', condenserId !== null);
+
+const powered = await run(
+  (id) => globalThis.__game.game.machine.power.isPowered(id),
+  condenserId,
+);
+check(
+  'the condenser draws off the starting generator',
+  powered === true,
+  'a line in powerRoleOf and no new call site',
+);
+
+// Warp: the same call the fixed step makes, with a step the size of a
+// crossing. Waiting 400 simulated seconds in a headless browser would test
+// the software renderer rather than the game.
+const grown = await run(
+  ({ planterId, condenserId }) => {
+    const g = globalThis.__game.game;
+    const made = g.build.tickProducers(400, (deviceId) =>
+      g.machine.power.isPowered(deviceId),
+    );
+    const refs = g.build.producersNear(globalThis.__game.player.worldPosition, 3);
+    const find = (id) => refs.find((p) => p.instanceId === id) ?? null;
+    return {
+      total: made.reduce((n, o) => n + o.count, 0),
+      greens: find(planterId)?.stored ?? -1,
+      water: find(condenserId)?.stored ?? -1,
+    };
+  },
+  { planterId, condenserId },
+);
+check(
+  'the planter grows greens while the player is elsewhere',
+  grown.greens > 0,
+  `${grown.greens} stored after 400s, standing at ${JSON.stringify(standingAt)}`,
+);
+check(
+  'the condenser stops at its single output slot rather than banking',
+  grown.water === 1,
+  `${grown.water} stored after 400s of a 90s cycle`,
+);
+
+const collected = await run(
+  ({ planterId, condenserId }) => {
+    const g = globalThis.__game.game;
+    const at = (id, label) =>
+      g.openInteractable({ id, label, kind: 'producer', position: { x: 0, y: 0, z: 0 } });
+    const okGreens = at(planterId, 'Planter Box');
+    const okWater = at(condenserId, 'Water Condenser');
+    return {
+      okGreens,
+      okWater,
+      greens: g.inventory.count('greens'),
+      water: g.inventory.count('water'),
+      // A second press on an emptied box must do nothing at all.
+      again: at(planterId, 'Planter Box'),
+    };
+  },
+  { planterId, condenserId },
+);
+check(
+  'E collects what a producer has made',
+  collected.okGreens === true && collected.okWater === true,
+);
+check(
+  'the collected output reaches the inventory',
+  collected.greens > 0 && collected.water > 0,
+  `${collected.greens} greens, ${collected.water} water`,
+);
+check('an emptied producer gives nothing on a second press', collected.again === false);
+
+const cooked = await run(() => {
+  const g = globalThis.__game.game;
+  const before = {
+    greens: g.inventory.count('greens'),
+    water: g.inventory.count('water'),
+  };
+  const ok = g.crafting.craft('cook-rations');
+  return {
+    ok,
+    before,
+    greens: g.inventory.count('greens'),
+    water: g.inventory.count('water'),
+    rations: g.inventory.count('rations'),
+  };
+});
+check('the stove cooks greens and water into rations', cooked.ok === true);
+check(
+  'cooking spends one of each and yields one meal',
+  cooked.before.greens - cooked.greens === 1 &&
+    cooked.before.water - cooked.water === 1 &&
+    cooked.rations === 1,
+  JSON.stringify(cooked),
+);
+
+const meal = await run(() => {
+  const g = globalThis.__game.game;
+  const needs = g.player.needs;
+  // Ten minutes of thirst and hunger, so there is room for a drink and a meal.
+  needs.fixedUpdate(600);
+  const before = { hyd: needs.hydration, nou: needs.nourishment };
+  const health = g.player.stats.health;
+
+  const slot = (id) => g.inventory.slots.findIndex((s) => s?.itemId === id);
+  g.inventory.add('water', 1);
+  const drank = g.useSlot(slot('water'));
+  const ate = g.useSlot(slot('rations'));
+
+  return {
+    before,
+    drank,
+    ate,
+    hyd: needs.hydration,
+    nou: needs.nourishment,
+    health,
+    healthAfter: g.player.stats.health,
+  };
+});
+check('a drink moves the hydration meter', meal.drank === true && meal.hyd > meal.before.hyd);
+check('a meal moves the nourishment meter', meal.ate === true && meal.nou > meal.before.nou);
+check(
+  'eating and drinking never touch health',
+  meal.healthAfter === meal.health,
+  `${meal.health} -> ${meal.healthAfter}`,
+);
+
+const empty = await run(() => {
+  const g = globalThis.__game.game;
+  const needs = g.player.needs;
+  // An hour with nothing to drink: far past empty, on both meters.
+  needs.fixedUpdate(3600);
+  return {
+    hyd: needs.hydration,
+    nou: needs.nourishment,
+    canSprint: needs.canSprint,
+    health: g.player.stats.health,
+    alive: g.player.stats.alive,
+  };
+});
+check(
+  'running completely dry costs the sprint and nothing else',
+  empty.hyd === 0 && empty.nou === 0 && empty.canSprint === false,
+  JSON.stringify(empty),
+);
+check(
+  'running dry never costs health -- the Act I promise, in the real game',
+  empty.health === 100 && empty.alive === true,
+  `${empty.health} hp, alive ${empty.alive}`,
+);
+
+await run(() => globalThis.__game.game.player.needs.reset());
+
 // --- Save and reload ------------------------------------------------------
 const savedState = await run(() => {
   const g = globalThis.__game.game;

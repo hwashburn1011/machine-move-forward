@@ -60,7 +60,7 @@ import {
   type PieceId,
 } from '@/data/build-pieces';
 import { FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
-import { NEEDS_MAX } from '@/data/needs';
+import { isProducer, producerRoleOf, NEEDS_MAX } from '@/data/needs';
 import { countEnclosed } from '@/building/RoomDetector';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
 import {
@@ -780,6 +780,11 @@ export class Game implements LoopCallbacks {
     this.machine.fixedUpdate(dt);
     this.tickNeeds(dt);
     this.tickPower(dt);
+    // After the power, so a condenser that lost its supply this tick is asked
+    // about the state the tick actually ended in rather than the one it began
+    // with. The same ordering argument `MachinePower.fixedUpdate` makes about
+    // burning fuel before settling.
+    this.tickProducers(dt);
     this.announceMachineDamage(dt);
     this.world.fixedUpdate(dt, this.machine.speed);
     // The building recedes by exactly what the world does, and only once the
@@ -831,6 +836,30 @@ export class Game implements LoopCallbacks {
 
   /** The last meter pair put on the bus, so `tickNeeds` can emit edges only. */
   private announcedNeeds: { hydration: number; nourishment: number } | null = null;
+
+  /**
+   * Run the condensers and the planters, and announce what they finished.
+   *
+   * The power predicate is `MachinePower.isPowered` by instance id, which is
+   * the whole of the condenser's Phase 3 dependency: no new registration path,
+   * no new call site in `wirePower` — `powerRoleOf` already put it on the grid
+   * when the piece was placed.
+   *
+   * Runs on the same gate the needs do. A planter that grew three bunches of
+   * greens behind a title screen would be a gift from nowhere.
+   */
+  private tickProducers(dt: number): void {
+    if (this.cinematicCamera) return;
+    if (this.opening.phase !== 'done') return;
+
+    for (const output of this.build.tickProducers(dt, this.devicePowered)) {
+      this.bus.emit('producer:output', output);
+    }
+  }
+
+  /** Bound once, so `BuildSystem` is handed a stable predicate per tick. */
+  private readonly devicePowered = (instanceId: string): boolean =>
+    this.machine.power.isPowered(instanceId);
 
   /**
    * Burn the fuel and put the model's edges on the bus.
@@ -1531,11 +1560,15 @@ export class Game implements LoopCallbacks {
     const at = this.player.worldPosition;
     this.repairTargets.clear();
 
+    // A condenser and a planter are stations on the grid but not stations at
+    // the prompt: E collects from them rather than opening a recipe list. The
+    // table decides which, so neither this loop nor the opener holds a list of
+    // machine names it could get out of step with.
     const out: Interactable[] = this.build.stationsNear(at, INTERACT_REACH).map((station) => ({
       id: station.instanceId,
       label: BUILD_PIECES[station.piece].name,
       position: station.position,
-      kind: station.piece as Interactable['kind'],
+      kind: (isProducer(station.piece) ? 'producer' : station.piece) as Interactable['kind'],
     }));
 
     // Subsystems are serviced at their access panel, NOT at their hitbox: four
@@ -1644,6 +1677,7 @@ export class Game implements LoopCallbacks {
   /** What standing at something says. Null when standing at nothing. */
   private promptFor(nearest: Interactable | null): string | null {
     if (!nearest) return null;
+    if (nearest.kind === 'producer') return this.producerPrompt(nearest);
     if (nearest.kind !== 'generator') return `[E] Open ${nearest.label}`;
 
     const power = this.machine.power;
@@ -1652,6 +1686,61 @@ export class Game implements LoopCallbacks {
     if (carried <= 0) return `${nearest.label} — ◆ ${tank}`;
     if (power.fuel >= FUEL_TANK_CAP) return `${nearest.label} — tank full ◆ ${tank}`;
     return `[E] Refuel ${nearest.label} — ◆ ${tank} (carrying ${carried})`;
+  }
+
+  /**
+   * What standing at a condenser or a planter says.
+   *
+   * Three states, and the middle one is the interesting one: a device with
+   * nothing ready still tells the player it is working and roughly how far
+   * along it is. Without that, an empty condenser and a broken one look the
+   * same, and the player concludes it is broken.
+   */
+  private producerPrompt(nearest: Interactable): string | null {
+    const ref = this.build
+      .producersNear(this.player.worldPosition, INTERACT_REACH)
+      .find((p) => p.instanceId === nearest.id);
+    if (!ref) return null;
+
+    if (ref.stored > 0) {
+      const item = ITEMS[ref.itemId];
+      return `[E] Collect ${ref.stored} ${item.name} — ${item.glyph}`;
+    }
+
+    const role = producerRoleOf(ref.piece);
+    if (role?.needsPower && !this.machine.power.isPowered(ref.instanceId)) {
+      return `${nearest.label} — NO POWER`;
+    }
+    return `${nearest.label} — working ${Math.floor(ref.fraction * 100)}%`;
+  }
+
+  /**
+   * Take a producer's output. Returns false when there was nothing to take,
+   * so the caller leaves the prompt alone rather than reporting a collection
+   * that never happened.
+   *
+   * Limited by the room the player actually has: a bag with space for one
+   * bunch takes one and leaves the other two growing, which is strictly better
+   * than emptying the box onto the deck.
+   */
+  private claimProducer(instanceId: string): boolean {
+    const ref = this.build
+      .producersNear(this.player.worldPosition, INTERACT_REACH)
+      .find((p) => p.instanceId === instanceId);
+    if (!ref || ref.stored <= 0) return false;
+
+    const room = this.resources.roomFor(ref.itemId);
+    if (room <= 0) return false;
+
+    const taken = this.build.claimProducer(instanceId, room);
+    if (!taken) return false;
+
+    this.resources.deposit(taken.itemId, taken.count);
+    this.bus.emit('loot:collected', {
+      items: [{ id: taken.itemId, count: taken.count }],
+      source: BUILD_PIECES[ref.piece].name,
+    });
+    return true;
   }
 
   openInventory(): void {
@@ -1669,6 +1758,10 @@ export class Game implements LoopCallbacks {
     // with it. A transfer screen for a tank with one thing in it would be
     // three clicks where one will do.
     if (target.kind === 'generator') return this.depositFuel();
+
+    // Nor does a condenser or a planter: E takes what is ready and you get on
+    // with it, for exactly the reason the generator has no panel.
+    if (target.kind === 'producer') return this.claimProducer(target.id);
 
     if (target.kind === 'crate') {
       const crate = this.build.crateContainer(target.id);

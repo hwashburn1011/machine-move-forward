@@ -85,6 +85,16 @@ export type GameEvents = {
    */
   'needs:changed': { hydration: number; nourishment: number };
 
+  /**
+   * A condenser or a planter finished something.
+   *
+   * The unit is IN the device, not in the player's bag — claiming it is a
+   * separate press of E. The event exists so the audio and a later HUD cue can
+   * tell the player there is something to collect without polling every
+   * producer on the deck every frame.
+   */
+  'producer:output': { instanceId: string; itemId: string; count: number };
+
   'inventory:changed': { scrap: number };
   /** Loot that has just gone into the player's inventory. */
   'loot:collected': { items: { id: string; count: number }[]; source: string };

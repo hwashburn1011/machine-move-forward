@@ -18,7 +18,9 @@ export type PieceId =
   | 'refinery'
   | 'generator'
   | 'lamp'
-  | 'stove';
+  | 'stove'
+  | 'condenser'
+  | 'planter';
 
 /** How a piece attaches to the grid. */
 export type PieceAnchor =
@@ -218,6 +220,35 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     blocksNavigation: false,
     rotatable: false,
   },
+  condenser: {
+    id: 'condenser',
+    name: 'Water Condenser',
+    anchor: 'cell',
+    // Components, like the generator: this is the piece that makes the power
+    // system worth having beyond the lamps, and it should feel bought.
+    cost: { scrap: 40, components: 5 },
+    weight: 260,
+    maxHealth: 130,
+    armor: 1,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: false,
+  },
+  planter: {
+    id: 'planter',
+    name: 'Planter Box',
+    anchor: 'cell',
+    // Scrap alone, and cheap. It needs no power and no components: it is the
+    // first thing a player can build toward feeding themselves, and gating it
+    // behind the refinery would put food behind fuel.
+    cost: { scrap: 20 },
+    weight: 150,
+    maxHealth: 90,
+    armor: 0,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: false,
+  },
 };
 
 /** Pieces that sit on a floor and are interacted with rather than walked on. */
@@ -227,6 +258,8 @@ export const STATION_PIECES: readonly PieceId[] = [
   'refinery',
   'generator',
   'stove',
+  'condenser',
+  'planter',
 ];
 
 export function isStation(piece: PieceId): boolean {
@@ -295,6 +328,8 @@ export const BUILD_PIECE_ORDER: readonly PieceId[] = [
   'refinery',
   'generator',
   'stove',
+  'condenser',
+  'planter',
   'lamp',
 ];
 

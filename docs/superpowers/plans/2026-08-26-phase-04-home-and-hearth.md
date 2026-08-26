@@ -223,16 +223,16 @@ the plan was written before Phases 1–3 shipped and reality won.
   claim(): number; toSave()/restore() }`; interactable kind
   `'producer'`; event `'producer:output': { instanceId, itemId }`.
 
-- [ ] **Step 1: Failing tests** — accumulates only while `running`; stops
+- [x] **Step 1: Failing tests** — accumulates only while `running`; stops
   at capacity (no banking beyond it); claim empties; save round-trip
   preserves partial progress; deterministic under fixed dt.
-- [ ] **Step 2: Implement + wire** — condenser runs on
+- [x] **Step 2: Implement + wire** — condenser runs on
   `power.isPowered(id)` (Phase 3), planter always runs; output claimed by
   E into inventory; producer progress rides `BuildPieceInstance.state`.
-- [ ] **Step 3: Harness** — `tools/craft.mjs` gains: build planter, warp
+- [x] **Step 3: Harness** — `tools/craft.mjs` gains: build planter, warp
   sim time, claim greens, cook at stove, eat; hydration/nourishment
   meters move.
-- [ ] **Step 4: Full suite, commit** —
+- [x] **Step 4: Full suite, commit** —
   `feat: the machine makes water while you fight`.
 
 ---

@@ -10,7 +10,17 @@ export interface Interactable {
   id: string;
   label: string;
   position: THREE.Vector3;
-  kind: 'crate' | 'workbench' | 'refinery' | 'generator' | 'stove' | 'repair';
+  kind:
+    | 'crate'
+    | 'workbench'
+    | 'refinery'
+    | 'generator'
+    | 'stove'
+    // Every timed device — the condenser, the planter — under one kind, so
+    // collecting an output is one branch rather than one per machine. What
+    // came out is the build system's business, not this file's.
+    | 'producer'
+    | 'repair';
 }
 
 /** Metres. Shorter than the 6m resource reach: you must stand at the thing. */

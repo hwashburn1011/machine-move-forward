@@ -38,6 +38,8 @@ import {
 import { countEnclosed, detectRooms, type RoomGraph } from './RoomDetector';
 import { buildNavGraph, type FixedLink, type NavGraph } from '@/enemies/NavGraph';
 import { buildPieceGeometry, pieceColliders, pieceMaterial } from './BuildPieceGeometry';
+import { Producer, type ProducerSave } from './Producer';
+import { producerRoleOf } from '@/data/needs';
 
 export interface BuildPieceInstance {
   instanceId: string;
@@ -51,6 +53,25 @@ export interface BuildPieceInstance {
    * uses it to carry its contents through a save.
    */
   state?: Record<string, unknown>;
+}
+
+/** A built producer near the player, for the interaction system. */
+export interface ProducerRef {
+  instanceId: string;
+  piece: PieceId;
+  position: THREE.Vector3;
+  itemId: ItemId;
+  stored: number;
+  capacity: number;
+  /** 0..1 toward the next unit. */
+  fraction: number;
+}
+
+/** One unit that has just finished, for the bus. */
+export interface ProducerOutput {
+  instanceId: string;
+  itemId: ItemId;
+  count: number;
 }
 
 /** What a storage crate writes into `state`. */
@@ -103,6 +124,14 @@ export class BuildSystem {
   private readonly stairsOwner = new Map<string, string>();
   /** Contents of every built storage crate, keyed by instance id. */
   private readonly crateContainers = new Map<string, Container>();
+  /**
+   * One timer per built condenser and planter, keyed by instance id.
+   *
+   * Beside the crate containers rather than inside `BuildPieceInstance`,
+   * for the reason the containers are: the instance is a plain serialisable
+   * record and a live model with methods on it is not.
+   */
+  private readonly producerTimers = new Map<string, Producer>();
   /**
    * Each lamp's own glow material.
    *
@@ -189,6 +218,13 @@ export class BuildSystem {
     this.occupy(data);
     if (data.definitionId === 'crate') {
       this.crateContainers.set(data.instanceId, new Container(CRATE_SLOTS));
+    }
+    const producing = producerRoleOf(data.definitionId);
+    if (producing) {
+      this.producerTimers.set(
+        data.instanceId,
+        new Producer(producing.periodS, producing.capacity),
+      );
     }
     this.instances.set(data.instanceId, {
       data,
@@ -331,6 +367,7 @@ export class BuildSystem {
     // Empty the crate BEFORE it stops being a deposit target, or part of the
     // contents lands straight back in the crate being destroyed.
     this.emptyCrate(id);
+    this.emptyProducer(id);
 
     this.vacate(live.data);
     for (const collider of live.colliders) this.physics.removeCollider(collider);
@@ -385,6 +422,89 @@ export class BuildSystem {
       if (slot) this.resources.deposit(slot.itemId, slot.count);
     }
     container.clear();
+  }
+
+  /** Hand a demolished producer's finished output back, the way a crate is emptied. */
+  private emptyProducer(id: string): void {
+    const timer = this.producerTimers.get(id);
+    if (!timer) return;
+    const live = this.instances.get(id);
+    this.producerTimers.delete(id);
+
+    const role = live ? producerRoleOf(live.data.definitionId) : null;
+    const held = timer.claim();
+    if (role && held > 0) this.resources.deposit(role.itemId, held);
+  }
+
+  // -------------------------------------------------------------------------
+  // Production
+  // -------------------------------------------------------------------------
+
+  /**
+   * Step every built producer. Returns the units finished by THIS step.
+   *
+   * `powered` answers for one instance id — `MachinePower.isPowered` in the
+   * game, `() => true` in a harness. Asked per device rather than per class so
+   * a later phase can gate one condenser and not another without this method
+   * learning anything about power.
+   */
+  tickProducers(dt: number, powered: (instanceId: string) => boolean): ProducerOutput[] {
+    const out: ProducerOutput[] = [];
+    for (const [id, timer] of this.producerTimers) {
+      const live = this.instances.get(id);
+      if (!live) continue;
+      const role = producerRoleOf(live.data.definitionId);
+      if (!role) continue;
+
+      const running = role.needsPower ? powered(id) : true;
+      const made = timer.fixedUpdate(dt, running);
+      if (made > 0) out.push({ instanceId: id, itemId: role.itemId, count: made });
+    }
+    return out;
+  }
+
+  /** Every built producer within `reach` metres, nearest first. */
+  producersNear(pos: THREE.Vector3, reach: number): ProducerRef[] {
+    const found: { ref: ProducerRef; d: number }[] = [];
+    for (const [id, timer] of this.producerTimers) {
+      const live = this.instances.get(id);
+      if (!live) continue;
+      const role = producerRoleOf(live.data.definitionId);
+      if (!role) continue;
+      const d = live.mesh.position.distanceTo(pos);
+      if (d > reach) continue;
+      found.push({
+        ref: {
+          instanceId: id,
+          piece: live.data.definitionId,
+          position: live.mesh.position.clone(),
+          itemId: role.itemId,
+          stored: timer.stored,
+          capacity: role.capacity,
+          fraction: timer.fraction,
+        },
+        d,
+      });
+    }
+    return found.sort((a, b) => a.d - b.d).map((entry) => entry.ref);
+  }
+
+  /**
+   * Take up to `limit` units out of one producer.
+   *
+   * Returns what came out and what it was, so the caller does not need its own
+   * copy of the piece-to-item table. Null when there is nothing to take.
+   */
+  claimProducer(instanceId: string, limit = Number.POSITIVE_INFINITY): ProducerOutput | null {
+    const timer = this.producerTimers.get(instanceId);
+    const live = this.instances.get(instanceId);
+    if (!timer || !live) return null;
+    const role = producerRoleOf(live.data.definitionId);
+    if (!role) return null;
+
+    const count = timer.claim(limit);
+    if (count <= 0) return null;
+    return { instanceId, itemId: role.itemId, count };
   }
 
   /** Which instance a placement would target for demolition. */
@@ -736,9 +856,14 @@ export class BuildSystem {
   serialise(): BuildPieceInstance[] {
     return [...this.instances.values()].map((live) => {
       const container = this.crateContainers.get(live.data.instanceId);
-      const state: CrateState | undefined = container
+      const timer = this.producerTimers.get(live.data.instanceId);
+      // One `state` bag, and at most one of these two ever writes it: a crate
+      // does not produce and a condenser holds no slots.
+      const state: CrateState | ProducerSave | undefined = container
         ? { slots: container.serialise() }
-        : undefined;
+        : timer
+          ? timer.toSave()
+          : undefined;
       return {
         ...live.data,
         cell: { ...live.data.cell },
@@ -771,6 +896,8 @@ export class BuildSystem {
       refinery: 4,
       generator: 4,
       stove: 4,
+      condenser: 4,
+      planter: 4,
       // Last of all: a lamp needs the wall it hangs on to exist first, and
       // walls are rank 2.
       lamp: 5,
@@ -794,6 +921,11 @@ export class BuildSystem {
       created.health = piece.health;
       const slots = (piece.state as CrateState | undefined)?.slots;
       if (slots) this.crateContainers.get(created.instanceId)?.restore(slots);
+      // Absent in every save written before Phase 4, and absent restores as an
+      // empty unstarted device — see `Producer.restore`.
+      this.producerTimers
+        .get(created.instanceId)
+        ?.restore(piece.state as ProducerSave | undefined);
     }
   }
 
@@ -813,6 +945,7 @@ export class BuildSystem {
     this.stationOwner.clear();
     this.stairsOwner.clear();
     this.crateContainers.clear();
+    this.producerTimers.clear();
     this.grid.clear();
 
     this.machine.movement.totalWeight -= this.weight;
