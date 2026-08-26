@@ -197,13 +197,13 @@ the plan was written before Phases 1–3 shipped and reality won.
 - Test: existing data test files gain cases; recipe execution already
   covered by `CraftingSystem` tests — add the stove station case.
 
-- [ ] **Step 1: Failing tests** — three new items exist with sane stack
+- [x] **Step 1: Failing tests** — three new items exist with sane stack
   sizes/weights; `cook-rations` (`{ greens: 1, water: 1 } → rations ×1`) at
   station `'stove'`; stove piece is a station (cost `{ scrap: 25,
   components: 2 }`).
-- [ ] **Step 2: Implement; consume actions in the inventory UI** (same
+- [x] **Step 2: Implement; consume actions in the inventory UI** (same
   path as the repair kit today; refuse-at-full like `useRepairKit`).
-- [ ] **Step 3: Full suite, commit** —
+- [x] **Step 3: Full suite, commit** —
   `feat: something to cook and a stove to cook it on`.
 
 ---

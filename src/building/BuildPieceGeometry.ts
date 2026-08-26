@@ -339,7 +339,38 @@ function lampGeometry(): THREE.BufferGeometry {
   return grouped([bracket, head]);
 }
 
+/**
+ * A squat range with a hob and a flue, and one hot plate that glows.
+ *
+ * Waist-high like the workbench rather than tall like the refinery, because
+ * the two stand next to each other in every kitchen a player will build and
+ * the pair has to read as a counter rather than as two towers.
+ */
+function stoveGeometry(): THREE.BufferGeometry {
+  const w = 1.5;
+  const h = 0.95;
+
+  const shell: THREE.BufferGeometry[] = [
+    at(bevelledBox(w, h, w * 0.8, 0.06), 0, h / 2, 0),
+    at(bevelledBox(w * 1.04, 0.14, w * 0.86, 0.03), 0, h + 0.05, 0),
+    // Flue, up the back corner, so the silhouette is not a plain box.
+    at(bevelledBox(0.17, 0.9, 0.17, 0.03), w * 0.34, h + 0.55, -w * 0.28),
+  ];
+  for (const sx of [-1, 1]) {
+    shell.push(at(bevelledBox(0.1, h * 0.9, 0.1, 0.02), sx * w * 0.44, h * 0.45, w * 0.36));
+  }
+
+  // The hot plate. The one lit element, and the cue that tells a stove from a
+  // workbench across a dark room.
+  const hob: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.42, 0.05, 0.42, 0.02), -0.28, h + 0.14, 0.06),
+  ];
+
+  return grouped([shell, hob]);
+}
+
 const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
+  stove: stoveGeometry,
   crate: crateGeometry,
   workbench: workbenchGeometry,
   refinery: refineryGeometry,
@@ -387,6 +418,8 @@ export function pieceMaterial(
       return [materials.stationMetal, materials.emissiveWarn];
     case 'generator':
       return [materials.stationMetal, materials.emissiveWarn];
+    case 'stove':
+      return [materials.stationMetal, materials.emissiveWarn];
     // The glow is group 1 by the same convention, and `BuildSystem` CLONES it
     // per lamp: the shared material is one object, and a lamp that shed power
     // would otherwise darken every other lamp on the machine with it.
@@ -431,6 +464,11 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
     case 'generator':
       return [
         { half: new THREE.Vector3(0.85, 0.65, 0.72), offset: new THREE.Vector3(0, 0.65, 0) },
+      ];
+
+    case 'stove':
+      return [
+        { half: new THREE.Vector3(0.79, 0.55, 0.62), offset: new THREE.Vector3(0, 0.55, 0) },
       ];
 
     // None, deliberately. A lamp is a fitting on a wall that already has a

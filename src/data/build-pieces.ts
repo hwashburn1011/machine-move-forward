@@ -17,7 +17,8 @@ export type PieceId =
   | 'workbench'
   | 'refinery'
   | 'generator'
-  | 'lamp';
+  | 'lamp'
+  | 'stove';
 
 /** How a piece attaches to the grid. */
 export type PieceAnchor =
@@ -202,6 +203,21 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     blocksNavigation: false,
     rotatable: false,
   },
+  stove: {
+    id: 'stove',
+    name: 'Stove',
+    anchor: 'cell',
+    // The cheapest station on the deck after the crate, and deliberately: it
+    // is the one a player builds because they want a kitchen rather than
+    // because a system demands it.
+    cost: { scrap: 25, components: 2 },
+    weight: 180,
+    maxHealth: 120,
+    armor: 1,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: false,
+  },
 };
 
 /** Pieces that sit on a floor and are interacted with rather than walked on. */
@@ -210,6 +226,7 @@ export const STATION_PIECES: readonly PieceId[] = [
   'workbench',
   'refinery',
   'generator',
+  'stove',
 ];
 
 export function isStation(piece: PieceId): boolean {
@@ -277,6 +294,7 @@ export const BUILD_PIECE_ORDER: readonly PieceId[] = [
   'workbench',
   'refinery',
   'generator',
+  'stove',
   'lamp',
 ];
 

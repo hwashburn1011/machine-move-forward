@@ -132,7 +132,7 @@ export class InventoryUI {
       </div>`;
 
     if (this.mode !== 'transfer' || !this.context.crate) {
-      return `${player}<div class="inv-foot">Click a kit or a mod to use it.</div>`;
+      return `${player}<div class="inv-foot">Click a kit, a drink, a meal or a mod to use it.</div>`;
     }
 
     return `

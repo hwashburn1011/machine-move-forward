@@ -60,6 +60,7 @@ import {
   type PieceId,
 } from '@/data/build-pieces';
 import { FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
+import { NEEDS_MAX } from '@/data/needs';
 import { countEnclosed } from '@/building/RoomDetector';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
 import {
@@ -1741,6 +1742,23 @@ export class Game implements LoopCallbacks {
     if (slot.itemId === 'repair-kit') {
       if (!this.player.stats.useRepairKit()) return false;
       this.inventory.remove('repair-kit', 1);
+      return true;
+    }
+
+    // Water and rations, refused at a full meter for exactly the reason a
+    // repair kit is refused at full health: a misclick that burns a bottle for
+    // nothing is worse than a click that does nothing.
+    if (slot.itemId === 'water' || slot.itemId === 'rations') {
+      const needs = this.player.needs;
+      const before = slot.itemId === 'water' ? needs.hydration : needs.nourishment;
+      if (before >= NEEDS_MAX) return false;
+      if (slot.itemId === 'water') needs.drink();
+      else needs.eat();
+      this.inventory.remove(slot.itemId, 1);
+      this.audio.play('pickup');
+      // Announce immediately: a meter that jumps only on the next integer
+      // edge would leave the HUD a second behind the swallow.
+      this.announcedNeeds = null;
       return true;
     }
 

@@ -770,6 +770,7 @@ export class BuildSystem {
       workbench: 4,
       refinery: 4,
       generator: 4,
+      stove: 4,
       // Last of all: a lamp needs the wall it hangs on to exist first, and
       // walls are rank 2.
       lamp: 5,
