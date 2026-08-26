@@ -7,6 +7,7 @@ const input = (over: Partial<Parameters<typeof stepEnemyAI>[2]> = {}) => ({
   distanceToPlayer: 100,
   health: def.maxHealth,
   timeSinceLastAttack: 999,
+  blockedBy: null,
   ...over,
 });
 
@@ -80,5 +81,72 @@ describe('stepEnemyAI', () => {
     const a = stepEnemyAI('navigate', def, input({ distanceToPlayer: 7 }));
     const b = stepEnemyAI('navigate', def, input({ distanceToPlayer: 7 }));
     expect(a).toEqual(b);
+  });
+});
+
+describe('what an enemy actually swings at', () => {
+  const base = {
+    distanceToPlayer: 1.5,
+    health: 10,
+    timeSinceLastAttack: 99,
+    blockedBy: null as string | null,
+  };
+
+  it('hits the player when nothing is in the way', () => {
+    const d = stepEnemyAI('attack', ENEMIES.scavenger!, base);
+    expect(d.shouldAttack).toBe(true);
+    expect(d.attackTarget).toBe('player');
+  });
+
+  it('does NOT hit the player through a wall — the bug this fixes', () => {
+    // Grid tiles are 2m and the scavenger reaches 2.2m, so an enemy in the
+    // cell next to you is inside attack range with a wall between. Before
+    // this, distance alone decided, and it damaged you through the wall.
+    const d = stepEnemyAI('attack', ENEMIES.scavenger!, { ...base, blockedBy: 'bp-7' });
+    expect(d.attackTarget).not.toBe('player');
+  });
+
+  it('hits the wall instead, so being sealed in is not permanent safety', () => {
+    const d = stepEnemyAI('attack', ENEMIES.scavenger!, { ...base, blockedBy: 'bp-7' });
+    expect(d.shouldAttack).toBe(true);
+    expect(d.attackTarget).toBe('blocker');
+  });
+
+  it('still respects the cooldown when chewing a wall', () => {
+    const d = stepEnemyAI('attack', ENEMIES.scavenger!, {
+      ...base,
+      blockedBy: 'bp-7',
+      timeSinceLastAttack: 0,
+    });
+    expect(d.shouldAttack).toBe(false);
+  });
+
+  it('attacks a blocker even out of reach of the player, which is the sealed-room case', () => {
+    // Sealed in, the player may be well beyond attackRange. The enemy is at
+    // the wall, and the wall is what it can reach.
+    const d = stepEnemyAI('navigate', ENEMIES.scavenger!, {
+      ...base,
+      distanceToPlayer: 6,
+      blockedBy: 'bp-7',
+    });
+    expect(d.attackTarget).toBe('blocker');
+    expect(d.shouldAttack).toBe(true);
+  });
+
+  it('does not wake up for a blocker it has not noticed', () => {
+    const d = stepEnemyAI('idle', ENEMIES.scavenger!, {
+      ...base,
+      distanceToPlayer: ENEMIES.scavenger!.detectRange + 10,
+      blockedBy: 'bp-7',
+    });
+    expect(d.state).toBe('idle');
+    expect(d.shouldAttack).toBe(false);
+  });
+});
+
+describe('what each type is here for', () => {
+  it('sends the scavenger after the player and the raider after the engine', () => {
+    expect(ENEMIES.scavenger!.targetPriority).toBe('player');
+    expect(ENEMIES.raider!.targetPriority).toBe('engine');
   });
 });

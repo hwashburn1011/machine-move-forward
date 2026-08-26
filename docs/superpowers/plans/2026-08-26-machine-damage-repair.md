@@ -1284,7 +1284,7 @@ git commit -m "feat: hold E on the broken thing and pay for it"
 - Consumes: nothing from earlier tasks.
 - Produces: `AIInput` gains `blockedBy: string | null`; `AIDecision` gains `attackTarget: 'player' | 'blocker' | null`; `EnemyDefinition` gains `targetPriority: 'player' | 'engine'`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `tests/unit/enemyai.test.ts`:
 
@@ -1354,12 +1354,12 @@ describe('what each type is here for', () => {
 
 Check the raider's key in `src/data/enemies.ts` before running — if it is not `raider`, use the real key in the test.
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/enemyai.test.ts`
 Expected: FAIL — `blockedBy` is not on `AIInput`, `attackTarget` is not on `AIDecision`.
 
-- [ ] **Step 3: Widen the AI's input and decision**
+- [x] **Step 3: Widen the AI's input and decision**
 
 In `src/enemies/EnemyAI.ts`:
 
@@ -1428,7 +1428,7 @@ export function stepEnemyAI(
 }
 ```
 
-- [ ] **Step 4: Add the target priority to the data**
+- [x] **Step 4: Add the target priority to the data**
 
 In `src/data/enemies.ts`, add to `EnemyDefinition`:
 
@@ -1448,12 +1448,12 @@ In `src/data/enemies.ts`, add to `EnemyDefinition`:
 
 Set `targetPriority: 'player'` on the scavenger and `targetPriority: 'engine'` on the raider.
 
-- [ ] **Step 5: Run the test**
+- [x] **Step 5: Run the test**
 
 Run: `npx vitest run tests/unit/enemyai.test.ts`
 Expected: PASS.
 
-- [ ] **Step 6: Make `Enemy` honour the decision**
+- [x] **Step 6: Make `Enemy` honour the decision**
 
 In `src/enemies/Enemy.ts`, the `stepEnemyAI` call gains the new input and the attack branch splits. The caller needs the grid to answer `blockedBy`, so `Enemy.fixedUpdate` takes a resolver alongside the arguments it already has:
 
@@ -1490,7 +1490,7 @@ Replace the existing attack branch:
 
 `build` is the `BuildSystem`, threaded in the same way `playerStats` already is.
 
-- [ ] **Step 7: Full suite and commit**
+- [x] **Step 7: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests

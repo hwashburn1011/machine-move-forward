@@ -36,6 +36,17 @@ export interface EnemyDefinition {
    * the balance argument happens here rather than inside `composeWave`.
    */
   threat: number;
+  /**
+   * What this type is trying to reach.
+   *
+   * The raider used to be distinguished from the scavenger by speed alone —
+   * the fast one you cannot back away from. Sending it for the engine gives it
+   * a job, makes the player choose under fire between the one hitting them and
+   * the one crossing the deck, and is what makes engine-as-stop ever fire:
+   * with both types walking at the player, nothing damages the engine and the
+   * failure state is dead code.
+   */
+  targetPriority: 'player' | 'engine';
 }
 
 export const ENEMIES: Record<string, EnemyDefinition> = {
@@ -58,6 +69,8 @@ export const ENEMIES: Record<string, EnemyDefinition> = {
     // Left as it comes out of `hostileTint`: rusted, scorched, unsaturated.
     tint: { r: 1, g: 1, b: 1 },
     threat: 2,
+    // An opportunist. It wants what you are carrying.
+    targetPriority: 'player',
   },
 
   raider: {
@@ -91,6 +104,8 @@ export const ENEMIES: Record<string, EnemyDefinition> = {
     // wave is readable at the distance the deck actually is.
     tint: { r: 1.35, g: 0.72, b: 0.66 },
     threat: 3,
+    // It is here to stop the machine, not to rob you.
+    targetPriority: 'engine',
   },
 };
 

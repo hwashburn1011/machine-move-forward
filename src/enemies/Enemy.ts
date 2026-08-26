@@ -3,7 +3,7 @@ import type { PhysicsWorld, CharacterHandle } from '@/core/physics/PhysicsWorld'
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
 import type { EnemyDefinition } from '@/data/enemies';
-import type { Damageable } from '@/player/PlayerCombat';
+import { isDamageable, type Damageable } from '@/combat/Damageable';
 import type { PlayerStats } from '@/player/PlayerStats';
 import { AUTOSTEP_HEIGHT, CHARACTER_SKIN, GRAVITY, ON_THE_SAND_Y } from '@/game/constants';
 import type { LoadedModel } from '@/art/ModelLoader';
@@ -21,6 +21,17 @@ import { levelOf, nextWaypointIndex, segmentIsClear, type NavGraph } from './Nav
 import { cellCenter, worldToCell, type Cell } from '@/building/BuildGrid';
 
 export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
+
+/**
+ * As much of `BuildSystem` as an enemy needs to chew through a wall.
+ *
+ * Narrowed to the one method on purpose: an enemy has no business placing,
+ * demolishing or pricing anything, and a full `BuildSystem` here would make
+ * `Enemy` untestable without Rapier and Three.
+ */
+export interface StructureDamage {
+  damagePiece(instanceId: string, amount: number): number;
+}
 
 /**
  * Height, relative to the capsule's centre, that the probes are cast from.
@@ -91,6 +102,7 @@ export class Enemy {
   private readonly toPlayer = new THREE.Vector3();
   private readonly probeOrigin = new THREE.Vector3();
   private readonly probeDir = new THREE.Vector3();
+  private readonly blockDir = new THREE.Vector3();
   /** The detour chosen last tick, so a route around an obstacle is kept. */
   private lastTurn = 0;
   /** Seconds spent asking to move and going nowhere. */
@@ -264,7 +276,12 @@ export class Enemy {
     });
   }
 
-  fixedUpdate(dt: number, playerPos: THREE.Vector3, playerStats: PlayerStats): void {
+  fixedUpdate(
+    dt: number,
+    playerPos: THREE.Vector3,
+    playerStats: PlayerStats,
+    build: StructureDamage | null = null,
+  ): void {
     if (!this.active) return;
 
     if (this.state === 'dead') {
@@ -280,21 +297,30 @@ export class Enemy {
     this.toPlayer.subVectors(playerPos, this.position);
     const distance = this.toPlayer.length();
 
+    // Computed once and reused below, so the thing that decided the swing is
+    // the same thing the swing lands on.
+    const blockedBy = this.blockerToward(playerPos);
+
     const decision = stepEnemyAI(this.state, this.def, {
       distanceToPlayer: distance,
       health: this.health,
       timeSinceLastAttack: this.timeSinceLastAttack,
+      blockedBy,
     });
     this.state = decision.state;
     this.visual.setState(this.state);
 
     if (decision.shouldAttack) {
       this.timeSinceLastAttack = 0;
-      playerStats.damage(this.def.damage, this.def.name, {
-        x: this.position.x,
-        y: this.position.y,
-        z: this.position.z,
-      });
+      if (decision.attackTarget === 'player') {
+        playerStats.damage(this.def.damage, this.def.name, {
+          x: this.position.x,
+          y: this.position.y,
+          z: this.position.z,
+        });
+      } else if (decision.attackTarget === 'blocker' && blockedBy) {
+        build?.damagePiece(blockedBy, this.def.damage);
+      }
     }
 
     // Head for the player, feeling around whatever is in the way. Straight
@@ -380,6 +406,45 @@ export class Enemy {
     // from it. Same fate as the player's, minus the ceremony: there is no
     // catching a machine that moves at exactly sprint speed.
     if (this.position.y < ON_THE_SAND_Y) this.despawn();
+  }
+
+  /**
+   * The structure standing between this enemy and the player, if any.
+   *
+   * `stepEnemyAI` used to decide attacks on straight-line distance alone. Grid
+   * cells are 2m and a scavenger reaches 2.2m, so an enemy in the cell next to
+   * the player was inside attack range WITH A WALL BETWEEN, and hit them
+   * through it. Walls did not protect anybody.
+   *
+   * Cast from capsule centre to capsule centre rather than derived from the
+   * grid, because the grid knows which cells hold walls but not where a body
+   * standing between two of them actually is — and the enemy already owns a
+   * physics world and casts a fan of rays through it every tick.
+   *
+   * Capped at the enemy's own reach, NOT at the whole distance to the player.
+   * Uncapped, an enemy thirty metres away would stop and chew the first wall
+   * on its sight line, metres before it ever got there. Only what it could
+   * swing at counts as blocking it.
+   *
+   * Machine geometry is deliberately not a blocker: it carries no damage
+   * target, so an enemy behind the generator would be told to attack something
+   * that cannot be hurt and would stand there swinging at it forever.
+   */
+  private blockerToward(playerPos: THREE.Vector3): string | null {
+    const handle = this.handle;
+    if (!handle) return null;
+
+    this.blockDir.subVectors(playerPos, this.position);
+    const gap = this.blockDir.length();
+    if (gap < 1e-4) return null;
+    this.blockDir.divideScalar(gap);
+
+    const reach = Math.min(gap, this.def.attackRange);
+    const hit = this.physics.raycast(this.position, this.blockDir, reach, handle.collider);
+    if (!hit) return null;
+
+    const data = hit.userData;
+    return isDamageable(data) && data.kind === 'structure' ? data.id : null;
   }
 
   /**

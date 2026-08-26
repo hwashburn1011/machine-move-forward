@@ -5,7 +5,7 @@ import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
 import type { PlayerStats } from '@/player/PlayerStats';
 import { ENEMIES } from '@/data/enemies';
-import { Enemy } from './Enemy';
+import { Enemy, type StructureDamage } from './Enemy';
 import { findPath, levelOf, type NavGraph } from './NavGraph';
 import { worldToCell } from '@/building/BuildGrid';
 import { PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
@@ -102,6 +102,8 @@ export class EnemyManager {
     playerStats: PlayerStats,
     nav: NavGraph | null = null,
     carryFor: ((p: THREE.Vector3) => { x: number; y: number; z: number }) | null = null,
+    /** What an enemy chews on when a wall is between it and the player. */
+    build: StructureDamage | null = null,
   ): void {
     if (nav) this.repath(nav, playerPos);
     for (const e of this.pool) {
@@ -115,7 +117,7 @@ export class EnemyManager {
         e.carry.y = 0;
         e.carry.z = 0;
       }
-      e.fixedUpdate(dt, playerPos, playerStats);
+      e.fixedUpdate(dt, playerPos, playerStats, build);
     }
   }
 
