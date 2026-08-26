@@ -1,12 +1,28 @@
 import { describe, expect, it } from 'vitest';
 import {
   isDeckLanding,
+  LANDING_HALF_X,
   OpeningDirector,
   SKIP_HOLD_S,
   TITLE_CARD_DELAY_S,
   type OpeningInput,
 } from '@/game/OpeningDirector';
-import { DECK_SURFACE_Y } from '@/game/constants';
+import {
+  ROOFTOP_ENEMY_SPAWNS,
+  ROOFTOP_GONE_BEHIND_M,
+  ROOFTOP_LEDGE,
+  ROOFTOP_MAX_X,
+  ROOFTOP_MIN_X,
+  ROOFTOP_PLAYER_SPAWN,
+  ROOFTOP_ROOF_Y,
+} from '@/world/RooftopSet';
+import {
+  DECK_SURFACE_Y,
+  GRAVITY,
+  LEVEL_HEIGHT,
+  PLAYER_JUMP_HEIGHT,
+  PLAYER_WALK_SPEED,
+} from '@/game/constants';
 
 const STEP = 1 / 60;
 
@@ -164,5 +180,76 @@ describe('isDeckLanding', () => {
     expect(isDeckLanding({ x: 0, y: DECK_SURFACE_Y, z: 9 })).toBe(false);
     expect(isDeckLanding({ x: 0, y: 6.6, z: 0 })).toBe(false);
     expect(isDeckLanding({ x: 0, y: -0.35, z: 0 })).toBe(false);
+  });
+});
+
+/**
+ * The rooftop's geometry, as arithmetic.
+ *
+ * The set piece itself needs a browser to prove (`tools/opening.mjs`), but
+ * whether the leap it asks for is a leap a player can physically make is a
+ * ballistics problem, and a ballistics problem belongs here where it is
+ * measured every run rather than in a harness someone remembers to look at.
+ */
+describe('the rooftop set', () => {
+  it('stands clear of the deck, a full storey above it', () => {
+    expect(ROOFTOP_MIN_X).toBeGreaterThan(LANDING_HALF_X);
+    expect(ROOFTOP_ROOF_Y - DECK_SURFACE_Y).toBeGreaterThan(LEVEL_HEIGHT * 0.9);
+    // A committed jump with a fall in it, not a hop off a kerb.
+    expect(ROOFTOP_ROOF_Y - DECK_SURFACE_Y).toBeLessThan(LEVEL_HEIGHT * 1.2);
+  });
+
+  it('opens onto the machine across a gap of about two and a half metres', () => {
+    expect(ROOFTOP_LEDGE.x).toBe(ROOFTOP_MIN_X);
+    expect(ROOFTOP_LEDGE.y).toBe(ROOFTOP_ROOF_Y);
+    const gap = ROOFTOP_LEDGE.x - LANDING_HALF_X;
+    expect(gap).toBeGreaterThan(2);
+    expect(gap).toBeLessThan(3);
+  });
+
+  it('is a leap a walking player actually clears', () => {
+    // Straight ballistics, at the walk speed rather than the sprint: if the
+    // slower of the two makes it, the chase never depends on the player
+    // finding the sprint key while being chased.
+    const v0 = Math.sqrt(2 * -GRAVITY * PLAYER_JUMP_HEIGHT);
+    const drop = ROOFTOP_LEDGE.y - DECK_SURFACE_Y;
+    // -drop = v0*t + 0.5*GRAVITY*t^2, solved for the descending root.
+    const a = 0.5 * GRAVITY;
+    const airtime = (-v0 - Math.sqrt(v0 * v0 - 4 * a * drop)) / (2 * a);
+    const reach = PLAYER_WALK_SPEED * airtime;
+
+    const gap = ROOFTOP_LEDGE.x - LANDING_HALF_X;
+    expect(airtime).toBeGreaterThan(0.5);
+    expect(reach).toBeGreaterThan(gap);
+    // And it lands ON the deck rather than sailing clean over the far rail.
+    expect(ROOFTOP_LEDGE.x - reach).toBeGreaterThan(-LANDING_HALF_X);
+  });
+
+  it('starts the player on the roof, well back from the ledge', () => {
+    expect(ROOFTOP_PLAYER_SPAWN.x).toBeGreaterThan(ROOFTOP_MIN_X + 3);
+    expect(ROOFTOP_PLAYER_SPAWN.x).toBeLessThan(ROOFTOP_MAX_X);
+    // Dropped from above the slab, the same way an arrival is dropped onto
+    // the deck: a capsule started inside a collider never moves again.
+    expect(ROOFTOP_PLAYER_SPAWN.y).toBeGreaterThan(ROOFTOP_ROOF_Y + 0.9);
+    expect(isDeckLanding(ROOFTOP_PLAYER_SPAWN)).toBe(false);
+  });
+
+  it('puts the scavengers between the player and the way they came in', () => {
+    expect(ROOFTOP_ENEMY_SPAWNS).toHaveLength(2);
+    for (const at of ROOFTOP_ENEMY_SPAWNS) {
+      // Behind the player, so the only way out is forward, to the ledge.
+      expect(at.x).toBeGreaterThan(ROOFTOP_PLAYER_SPAWN.x);
+      expect(at.x).toBeLessThan(ROOFTOP_MAX_X);
+      expect(at.y).toBe(ROOFTOP_PLAYER_SPAWN.y);
+    }
+    // Spread apart, so they cannot both be dodged with one sidestep.
+    const [a, b] = ROOFTOP_ENEMY_SPAWNS;
+    expect(Math.abs((a?.z ?? 0) - (b?.z ?? 0))).toBeGreaterThan(3);
+  });
+
+  it('gives up on the building only once it is well astern', () => {
+    // Far enough back that it has left the shadow box and the chunk window,
+    // so nothing pops out of shot.
+    expect(ROOFTOP_GONE_BEHIND_M).toBeGreaterThan(60);
   });
 });

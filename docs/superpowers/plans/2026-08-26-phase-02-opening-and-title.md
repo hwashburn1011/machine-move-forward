@@ -235,17 +235,17 @@ it('lands only on the deck, not on the roof it jumped from', () => {
   `readonly gone: boolean`, `dispose()`; exported constants
   `ROOFTOP_ROOF_Y`, `ROOFTOP_LEDGE`, used by tests and `Game`.
 
-- [ ] **Step 1: Build the shell procedurally** — building at `x ≈ +11`,
+- [x] **Step 1: Build the shell procedurally** — building at `x ≈ +11`,
   10×10m footprint, roof slab collider at `ROOFTOP_ROOF_Y = 6.6`, parapet
   walls on three sides (blocking retreat), the ledge corner open toward the
   machine, a blocked stair-stub doorway for flavour. Reuse the machine's
   `bevelledBox` idiom and `Materials.hull`-family surfaces.
-- [ ] **Step 2: Scrolling-away behaviour** — `scroll(deltaZ)` translates
+- [x] **Step 2: Scrolling-away behaviour** — `scroll(deltaZ)` translates
   group and colliders; `gone` once 80m behind; `dispose()` frees both.
   Called by `Game` only after the opening's `teardown-rooftop` effect.
-- [ ] **Step 3: Wire visual dressing behind the model loader** — optional
+- [x] **Step 3: Wire visual dressing behind the model loader** — optional
   CC0 roof clutter via `loadModel`, never blocking, per asset policy.
-- [ ] **Step 4: Full suite, commit** —
+- [x] **Step 4: Full suite, commit** —
   `feat: a rooftop to be chased across`.
 
 ---
