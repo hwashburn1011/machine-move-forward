@@ -274,14 +274,15 @@ the plan was written before Phases 1–3 shipped and reality won.
   pad gating by threat phase); audible half via `tools/combat.mjs`'s
   existing audio checks.
 
-- [ ] **Step 1: Failing tests** — wind/engine gain scale is 0.5 when the
+- [x] **Step 1: Failing tests** — wind/engine gain scale is 0.5 when the
   player's cell is inside an enclosed room (room detector already answers
   this), 1.0 outside; pad plays only in `calm` phase and gates off on
   `'threat:phase'` buildup.
-- [ ] **Step 2: Implement** — duck as a bus-driven gain node; pad as a
+- [x] **Step 2: Implement** — duck as a gain scale on the drone (there is no
+  separate wind bed to duck; the machine's own note is the ambience); pad as a
   slow `SoundBank` recipe (two detuned oscillators + filtered noise swell;
   keep it sparse).
-- [ ] **Step 3: Full suite, commit** —
+- [x] **Step 3: Full suite, commit** —
   `feat: inside sounds like inside`.
 
 ---

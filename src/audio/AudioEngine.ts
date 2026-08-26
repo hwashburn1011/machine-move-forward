@@ -1,7 +1,14 @@
 import {
   allSoundIds,
+  ambienceGain,
   droneGain,
   dronePitch,
+  PAD_ATTACK_S,
+  PAD_DETUNE_CENTS,
+  PAD_FILTER_HZ,
+  PAD_GAIN,
+  PAD_RELEASE_S,
+  PAD_ROOT_HZ,
   semitoneRatio,
   soundSpec,
   spatialise,
@@ -51,6 +58,18 @@ export class AudioEngine {
   private noise: AudioBuffer | null = null;
   private droneOsc: OscillatorNode | null = null;
   private droneGainNode: GainNode | null = null;
+  private padGainNode: GainNode | null = null;
+  private readonly padOscs: OscillatorNode[] = [];
+  /** The gain the pad is currently being ramped toward. See `padAudible`. */
+  private padTarget = 0;
+  /**
+   * The interior duck, 0..1. Read by `updateDrone` every frame.
+   *
+   * A field rather than an argument because the room the player is standing in
+   * is a fact about the world and the machine's speed is a fact about the
+   * machine — two callers would otherwise have to agree about both.
+   */
+  private duck = 1;
   private live = 0;
   private muted = false;
   /** Not readonly: the settings panel moves it. See `setVolume`. */
@@ -182,12 +201,73 @@ export class AudioEngine {
 
     const now = this.ctx.currentTime;
     this.droneOsc.frequency.setTargetAtTime(dronePitch(speed, baseSpeed), now, DRONE_GLIDE);
-    this.droneGainNode.gain.setTargetAtTime(droneGain(speed, baseSpeed), now, DRONE_GLIDE);
+    this.droneGainNode.gain.setTargetAtTime(
+      droneGain(speed, baseSpeed) * this.duck,
+      now,
+      DRONE_GLIDE,
+    );
+  }
+
+  /**
+   * Say whether the player is standing inside an enclosed room.
+   *
+   * Level-triggered and safe to call every frame: the value it sets is read by
+   * `updateDrone`, which ramps rather than assigns, so walking through a
+   * doorway is a fade of a second or so rather than a step. Which is what it
+   * should be — a doorway is a threshold, not a switch.
+   */
+  setInterior(inside: boolean): void {
+    this.duck = ambienceGain(inside);
+  }
+
+  /** What the interior duck currently is. Read by the browser harness. */
+  get interiorDuck(): number {
+    return this.duck;
+  }
+
+  /**
+   * The calm pad, on or off.
+   *
+   * Level-triggered like `updateDrone` and started just as lazily: two
+   * oscillators begun against a suspended context would run silently for as
+   * long as it took the player to click. Fading rather than stopping, because
+   * an oscillator that has been stopped cannot be started again and the pad
+   * comes and goes for the whole of a session.
+   */
+  updatePad(playing: boolean): void {
+    if (!this.ctx || !this.master || this.muted) return;
+    if (this.ctx.state !== 'running') return;
+
+    if (this.padOscs.length === 0) this.startPad();
+    if (!this.padGainNode) return;
+
+    const now = this.ctx.currentTime;
+    this.padTarget = playing ? PAD_GAIN : 0;
+    // `setTargetAtTime` approaches its target exponentially, so the time
+    // constant is roughly a third of the audible fade.
+    this.padGainNode.gain.setTargetAtTime(
+      this.padTarget,
+      now,
+      (playing ? PAD_ATTACK_S : PAD_RELEASE_S) / 3,
+    );
+  }
+
+  /**
+   * Is the pad's graph built and being held audible?
+   *
+   * The TARGET rather than `gain.value`, deliberately. The fade is six seconds
+   * long, so the parameter's current value a millisecond after the ramp starts
+   * is still zero — a harness reading it would conclude the pad never started
+   * when what it had actually measured was the fade working.
+   */
+  get padAudible(): boolean {
+    return this.padGainNode !== null && this.padTarget > 0;
   }
 
   dispose(): void {
     try {
       this.droneOsc?.stop();
+      for (const osc of this.padOscs) osc.stop();
       void this.ctx?.close();
     } catch {
       // Closing a context that is already closed is not worth a crash.
@@ -195,6 +275,8 @@ export class AudioEngine {
     this.ctx = null;
     this.master = null;
     this.droneOsc = null;
+    this.padOscs.length = 0;
+    this.padGainNode = null;
   }
 
   // -------------------------------------------------------------------------
@@ -222,6 +304,39 @@ export class AudioEngine {
 
     this.droneOsc = osc;
     this.droneGainNode = gain;
+  }
+
+  /**
+   * Two detuned saws through a low-pass, held at zero until something wants
+   * them.
+   *
+   * Sawtooth rather than sine for the reason the drone gives — a pure sine
+   * reads as a test tone — but filtered much harder, so what is left is the
+   * beating between the two voices rather than any note in particular.
+   */
+  private startPad(): void {
+    if (!this.ctx || !this.master) return;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = PAD_FILTER_HZ;
+    filter.Q.value = 0.5;
+
+    const gain = this.ctx.createGain();
+    gain.gain.value = 0;
+    filter.connect(gain).connect(this.master);
+
+    for (const cents of [-PAD_DETUNE_CENTS, PAD_DETUNE_CENTS]) {
+      const osc = this.ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.value = PAD_ROOT_HZ;
+      osc.detune.value = cents;
+      osc.connect(filter);
+      osc.start();
+      this.padOscs.push(osc);
+    }
+
+    this.padGainNode = gain;
   }
 
   /** One layer of one sound. */

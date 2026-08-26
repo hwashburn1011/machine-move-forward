@@ -1685,6 +1685,41 @@ const droned = await page.evaluate(() => {
 });
 check('the drone follows the machine without falling over', droned === true, `ready=${droned}`);
 
+// Interior quiet and the calm pad. Both are gain ramps on live nodes, which
+// is exactly the half of the audio layer a unit test cannot reach: the
+// arithmetic is checked in `ambience.test.ts`, and what only a browser can
+// answer is whether the ramps land on a real graph without throwing.
+const ambience = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+
+  g.audio.setInterior(true);
+  const inside = g.audio.interiorDuck;
+  g.audio.setInterior(false);
+  const outside = g.audio.interiorDuck;
+
+  // Loud, then ducked, then loud again -- the walk in and out of a doorway.
+  g.audio.setInterior(true);
+  g.audio.updateDrone(7.5, 7.5);
+  g.audio.setInterior(false);
+  g.audio.updateDrone(7.5, 7.5);
+
+  g.audio.updatePad(true);
+  const started = g.audio.padAudible;
+  g.audio.updatePad(false);
+
+  return { inside, outside, started, ready: g.audio.ready };
+});
+check(
+  'walking indoors ducks the machine, and stepping out restores it',
+  ambience.inside === 0.5 && ambience.outside === 1,
+  `${ambience.outside} outside, ${ambience.inside} inside`,
+);
+check(
+  'the calm pad builds a real node graph and fades without falling over',
+  ambience.started === true && ambience.ready === true,
+  `audible=${ambience.started} ready=${ambience.ready}`,
+);
+
 const muteTest = await page.evaluate(() => {
   const g = globalThis.__game.game;
   const on = g.audio.toggleMute();

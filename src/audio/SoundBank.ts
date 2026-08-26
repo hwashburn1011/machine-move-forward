@@ -19,6 +19,8 @@
  * argue about them, the way `data/gait.ts` is for the walk.
  */
 
+import type { ThreatPhase } from '@/enemies/ThreatDirector';
+
 /** What a voice is built out of. */
 export type Source =
   /** Band-passed white noise. Impacts, footfalls, sand, gunfire. */
@@ -275,6 +277,75 @@ export function droneGain(speed: number, baseSpeed: number): number {
 
 function clamp01(v: number): number {
   return v < 0 ? 0 : v > 1 ? 1 : v;
+}
+
+// ---------------------------------------------------------------------------
+// Interior quiet
+// ---------------------------------------------------------------------------
+
+/**
+ * What the machine's own noise is multiplied by when the player is indoors.
+ *
+ * Ducked, never silenced. The machine is the thing the player is standing on
+ * and it has never once stopped; a room that cut it off entirely would read as
+ * the audio breaking rather than as shelter. Half is enough to be felt walking
+ * through a doorway, which is the whole trick — most of what "home" means on
+ * a moving vehicle is that the inside sounds different from the outside.
+ */
+export const INTERIOR_DUCK = 0.5;
+
+/** The gain scale for wherever the player is standing. */
+export function ambienceGain(inside: boolean): number {
+  return inside ? INTERIOR_DUCK : 1;
+}
+
+// ---------------------------------------------------------------------------
+// The calm pad — the game's first music
+// ---------------------------------------------------------------------------
+
+/**
+ * Two oscillators barely apart, low, under everything.
+ *
+ * Synthesised like everything else here, and for the reason `ASSETS.md` gives:
+ * a sustained pad is two detuned saws through a low-pass whether it comes out
+ * of an OGG or out of an oscillator, and the OGG brings a licence, a download,
+ * a loading state and a decode with it.
+ *
+ * It plays in `calm` and nowhere else. That is the design rather than a
+ * limitation: music that STOPS is a warning the player hears before they see
+ * anything, and it arrives on the same edge the director's telegraph does.
+ */
+export const PAD_ROOT_HZ = 98;
+
+/**
+ * Cents between the two voices.
+ *
+ * Detune is what makes two oscillators one instrument instead of two. Past
+ * about a quarter tone they stop beating against each other and start sounding
+ * like a mistake.
+ */
+export const PAD_DETUNE_CENTS = 11;
+
+/** Low-pass cutoff. The top taken off, so it is a presence rather than a note. */
+export const PAD_FILTER_HZ = 420;
+
+/** Peak gain. Under the engine at full speed, deliberately — see the test. */
+export const PAD_GAIN = 0.05;
+
+/** Seconds to fade in, and out. Long enough that neither is an event. */
+export const PAD_ATTACK_S = 6;
+export const PAD_RELEASE_S = 3;
+
+/**
+ * Should the pad be sounding in this phase?
+ *
+ * Takes the phase rather than reading the director, so the rule is arithmetic
+ * and testable without a game. Every phase but `calm` is answered no,
+ * including `recovery`: the pad returning the instant a fight ends would
+ * undercut the all-clear tone that is trying to say the same thing.
+ */
+export function padPlaying(phase: ThreatPhase): boolean {
+  return phase === 'calm';
 }
 
 /**

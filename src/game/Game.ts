@@ -63,7 +63,8 @@ import {
 } from '@/data/build-pieces';
 import { FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
 import { isProducer, producerRoleOf, NEEDS_MAX } from '@/data/needs';
-import { countEnclosed } from '@/building/RoomDetector';
+import { countEnclosed, insideEnclosed } from '@/building/RoomDetector';
+import { padPlaying } from '@/audio/SoundBank';
 import { cellKey, worldToCell } from '@/building/BuildGrid';
 import {
   CHARACTER_DROP_Y,
@@ -1100,6 +1101,11 @@ export class Game implements LoopCallbacks {
       // identical centred thuds would read as a loop rather than as a walk.
       this.audio.play('footfall', foot.x - this.player.worldPosition.x, foot.z - this.player.worldPosition.z);
     }
+    // Where the player is standing, and what the desert is doing, before the
+    // drone is asked how loud it should be. Both are level-triggered and both
+    // ramp, so a doorway is a threshold rather than a switch.
+    this.audio.setInterior(this.playerIsIndoors);
+    this.audio.updatePad(padPlaying(this.threatPhase));
     this.audio.updateDrone(this.machine.speed, BASE_MACHINE_SPEED);
     // Given the same walked distance the legs are driven by, so a print and
     // the foot that made it agree about which piece of ground they are on --
@@ -1167,6 +1173,26 @@ export class Game implements LoopCallbacks {
     this.tickFpsMeter(now);
     this.updateDebugOverlay(now);
     this.input.endFrame();
+  }
+
+  /**
+   * Is the player standing inside an enclosed room?
+   *
+   * The build level is derived the same way build mode derives it — from the
+   * height above the deck — so a player on the second storey is asked about
+   * the second storey's rooms rather than about the ones underneath them.
+   *
+   * Exposed because the browser harness has no other way to ask: the duck it
+   * measures is a gain ramp, and the thing worth checking is that the game
+   * agrees with the room model about where the player is.
+   */
+  get playerIsIndoors(): boolean {
+    const at = this.player.worldPosition;
+    const level = Math.max(
+      0,
+      Math.min(GRID_LEVELS - 1, Math.round((at.y - DECK_HEIGHT - 1) / LEVEL_HEIGHT)),
+    );
+    return insideEnclosed(this.build.rooms, worldToCell(at.x, at.z, level));
   }
 
   /**
