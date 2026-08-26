@@ -1,23 +1,15 @@
-import * as THREE from 'three';
-import { Game } from '@/game/Game';
+import { CAMERA_PRESETS, Game } from '@/game/Game';
 import type { QualityTier } from '@/core/renderer/QualitySettings';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { canonicalEdge } from '@/building/BuildGrid';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 const hudRoot = document.querySelector<HTMLElement>('#hud');
+const titleRoot = document.querySelector<HTMLElement>('#title');
 if (!canvas) throw new Error('missing #game canvas');
 if (!hudRoot) throw new Error('missing #hud root');
 
 const params = new URLSearchParams(location.search);
-
-/** Free-fly camera presets, used by the screenshot harness. */
-const CAMERA_PRESETS: Record<string, [THREE.Vector3, THREE.Vector3]> = {
-  far: [new THREE.Vector3(9, 7.5, 19), new THREE.Vector3(0, 2, -30)],
-  front: [new THREE.Vector3(11, 6.5, -19), new THREE.Vector3(0, 3, 0)],
-  side: [new THREE.Vector3(22, 6, 2), new THREE.Vector3(0, 2.5, 0)],
-  sky: [new THREE.Vector3(0, 2, 0), new THREE.Vector3(0, 40, -18)],
-};
 
 const camMode = params.get('cam');
 const preset = camMode ? CAMERA_PRESETS[camMode] : undefined;
@@ -31,6 +23,12 @@ const qualityTier = validTiers.includes(tierParam as QualityTier)
 const game = await Game.create({
   canvas,
   hudRoot,
+  titleRoot: titleRoot ?? undefined,
+  // `?nomenu=1` reproduces the pre-Phase-2 boot exactly: no title screen, no
+  // opening, straight into gameplay. Every harness and e2e test boots with it.
+  // `?opening=1` forces the rooftop opening regardless, for `tools/opening.mjs`.
+  menu: params.get('nomenu') !== '1',
+  forceOpening: params.get('opening') === '1',
   seed: params.get('seed') ?? 'mmf-dev-seed',
   qualityTier,
   bypassPointerLock: params.get('nolock') === '1',
@@ -66,6 +64,9 @@ window.addEventListener('keydown', (e) => {
 });
 
 document.querySelector('#boot')?.remove();
+// Decides what this boot sees first — the menu, the opening, or gameplay.
+// Before `start`, so the first frame drawn is already the right one.
+game.boot();
 game.start();
 
 // Browsers create an AudioContext suspended and refuse to resume it outside a
@@ -94,6 +95,8 @@ window.addEventListener('keydown', () => game.audio.resume(), { once: false });
   hud: game.hud,
   build: game.build,
   resources: game.resources,
+  opening: game.opening,
+  titleScreen: game.titleScreen,
   canonicalEdge,
   // Which way the world scrolls. Harnesses that reason about anything glued to
   // the sand need it, and deriving it by observation instead is how a harness
@@ -122,6 +125,8 @@ window.addEventListener('keydown', () => game.audio.resume(), { once: false });
       pieces: game.build.pieceCount,
       rooms: game.build.rooms.rooms.length,
       buildMode: game.buildMode,
+      opening: game.opening.phase,
+      armed: game.playerArmed,
     };
   },
 };

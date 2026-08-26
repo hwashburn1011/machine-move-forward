@@ -52,7 +52,9 @@ test.describe('Machine Move Forward', () => {
       if (m.type() === 'error') errors.push(m.text());
     });
     page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
-    await page.goto('/?nolock=1&quality=low&seed=e2e-seed&nospawn=1&notex=1&nomodel=1');
+    // `nomenu=1` boots past the title screen and the opening, straight into
+    // gameplay — which is the boot every test below was written against.
+    await page.goto('/?nolock=1&nomenu=1&quality=low&seed=e2e-seed&nospawn=1&notex=1&nomodel=1');
     await ready(page);
     await sim(page, 1.2);
   });

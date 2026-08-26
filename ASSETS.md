@@ -177,6 +177,21 @@ finer, scoured or banked.
 but every use must be recorded in this file. Anything more restrictive needs a
 deliberate decision, not a download.
 
+### Not downloaded: rooftop clutter
+
+The opening's ruined building (`src/world/RooftopSet.ts`) was planned with
+optional CC0 roof dressing — an AC unit, an antenna, vents. None was added.
+Sourcing one needs an interactive browse-and-download flow, and the rule above
+is that a licence has to be *verified*, not assumed from a search result.
+
+Nothing is lost by that: the building's shell, parapets and stair stub are
+procedural for the same reason the machine is — the roof is standable and its
+collider derives from the same geometry — and the clutter was only ever
+dressing. `RooftopSet.applyClutter(model)` is the seam a verified CC0 pack
+drops into later: it is purely visual, gets no collider, is fed through
+`loadModel` (which never rejects), and takes the identical null path under
+`?nomodel=1`.
+
 ## Audio
 
 **No sample files, by the same rule.** Every sound is synthesised at runtime

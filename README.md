@@ -14,6 +14,12 @@ npm install
 npm run dev          # http://localhost:5173
 ```
 
+The game opens on a title screen over the machine walking the dunes: **New
+Game**, **Continue** (when there is a save), **Settings**. New Game starts the
+rooftop opening — you are chased across a ruined roof, backed onto a ledge,
+and the jump onto the deck is what starts the machine walking. Hold `Esc` for
+a second to skip it. `Esc` in play opens the same menu with Resume.
+
 Click the canvas to take control (pointer lock).
 
 | Key | Action |
@@ -67,6 +73,11 @@ build adds weight, which measurably slows the machine.
 `?seed=name` picks a world seed, `?nosound=1` boots silent, and
 `?cam=far|front|side|sky` switches to a fixed free camera for screenshots.
 
+`?nomenu=1` boots straight into gameplay — no title screen, no opening —
+which is what every harness and Playwright test uses, and what makes them
+independent of the front door. `?opening=1` forces the rooftop opening
+regardless, for `tools/opening.mjs`.
+
 ## What works
 
 - Endless procedurally generated dune field that recycles chunks around a
@@ -86,6 +97,17 @@ build adds weight, which measurably slows the machine.
   than a walk, so you can back away and shoot it down; a raider is faster than
   one, so you cannot, and it turns up from the third wave onward to say so.
   They share a rig until a second model lands and are told apart by colour
+- A front door: a title screen over the live machine walking the dunes — the
+  simulation runs behind the menu, so the background is the game rather than a
+  render of it — with New Game, Continue, and a small Settings panel. `Esc` in
+  play is the same component with Resume in place of New Game, and the world
+  genuinely stops behind it
+- An opening: chased across a ruined rooftop by two scavengers, backed onto a
+  ledge, and the leap onto the deck is what starts the machine walking. Placeholder
+  for a fuller authored one, and skippable by holding `Esc`. The machine idles
+  at throttle 0 alongside a static building for the length of it, which is how
+  a game whose machine never moves gets a jump ONTO a moving machine without
+  making anything a moving platform
 - HUD, debug overlay, versioned IndexedDB save/load
 - Grid build system: floors, walls, doorways, railings, roofs, stairs, storage
   crates, workbenches, and refineries on a 2m grid across a 9×12 envelope and 3
@@ -219,8 +241,8 @@ src/
 ## Testing
 
 ```bash
-npm test             # 727 unit tests (deterministic logic)
-npm run test:e2e     # 18 Playwright tests (smoke, what-is-seen, machine damage)
+npm test             # 747 unit tests (deterministic logic)
+npm run test:e2e     # 24 Playwright tests (smoke, what-is-seen, machine damage, title)
 npm run lint
 npm run build        # includes tsc --noEmit
 ```
@@ -241,16 +263,32 @@ the condition row's wording.
 a second checkout of this repo has one running, set `PORT` to give this one a
 lane of its own — otherwise the suite silently measures the other checkout.
 
-Rendering and feel cannot be meaningfully unit-tested, so there are five
+Rendering and feel cannot be meaningfully unit-tested, so there are six
 browser harnesses in `tools/` that drive the real game:
 
 ```bash
 node tools/shoot.mjs out.png [waitMs] ["?params"]   # screenshot + console errors
 node tools/drive.mjs                                # 17 movement, physics, and footfall checks
-node tools/combat.mjs [out.png]                     # 78 combat, pacing, arrival, death, loot, salvage, navigation, audio, and visual checks
+node tools/combat.mjs [out.png]                     # 84 combat, pacing, arrival, death, loot, salvage, navigation, audio, and visual checks
 node tools/build.mjs                                # 21 build system checks
 node tools/craft.mjs [out.png]                      # 29 inventory/crafting checks
+node tools/opening.mjs [out.png]                    # 27 checks on the opening: the chase, the leap, the miss, the skip
+node tools/deck.mjs                                 # 7 deck-carry checks under a heaving body
 ```
+
+Every one of them boots with `?nomenu=1` — the game has a front door now, and
+a harness that has to click through it would be measuring the menu. Set
+`MMF_PORT` to point a run at a dev server on another port; `playwright.config.ts`
+reads the same variable, which is what stops two checkouts of this repo from
+silently testing each other.
+
+`opening.mjs` is the exception that boots `?opening=1`, since the opening is
+the thing it measures. Its central claim is the leap: the plan asserts the
+ledge is clearable from a running jump, and this drives a real sprint off a
+real ledge and reads where the player lands. The arithmetic half of the same
+claim — the ballistics of the jump against the width of the gap — is a unit
+test, so a change to `PLAYER_JUMP_HEIGHT` or the building's position fails in
+milliseconds rather than in a browser.
 
 `drive.mjs`, `build.mjs`, and `craft.mjs` all boot with `?nospawn=1`, since
 they travel far enough to attract arrivals and a scavenger wandering into a

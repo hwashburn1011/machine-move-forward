@@ -76,12 +76,54 @@ import { pickReelTarget, REEL_RANGE } from '@/salvage/Reel';
 import { stepHook, type HookState } from '@/salvage/Hook';
 import { buildHook, HOOK_SPIN } from '@/salvage/HookModel';
 import { ENEMIES } from '@/data/enemies';
+import { RooftopSet } from '@/world/RooftopSet';
+import {
+  isDeckLanding,
+  OpeningDirector,
+  type OpeningEffect,
+  type OpeningMode,
+} from '@/game/OpeningDirector';
+import { GAME_TITLE, TitleScreen, type GameSettings } from '@/ui/TitleScreen';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
+
+/**
+ * Free-fly camera presets, shared by the screenshot harness (`?cam=`) and the
+ * title screen's backdrop.
+ *
+ * Here rather than in `main.ts` because the title screen is inside `Game` and
+ * a second copy of `far`'s numbers is exactly how the menu's shot and the
+ * screenshot harness's would quietly drift apart.
+ */
+export const CAMERA_PRESETS: Record<string, [THREE.Vector3, THREE.Vector3]> = {
+  far: [new THREE.Vector3(9, 7.5, 19), new THREE.Vector3(0, 2, -30)],
+  front: [new THREE.Vector3(11, 6.5, -19), new THREE.Vector3(0, 3, 0)],
+  side: [new THREE.Vector3(22, 6, 2), new THREE.Vector3(0, 2.5, 0)],
+  sky: [new THREE.Vector3(0, 2, 0), new THREE.Vector3(0, 40, -18)],
+};
+
+/** Which of them the menu is shot from. */
+const TITLE_PRESET = 'far';
 
 export interface GameOptions {
   canvas: HTMLCanvasElement;
   hudRoot: HTMLElement;
+  /**
+   * Root for the title screen. A SIBLING of `hudRoot`: `HUD` owns its root's
+   * innerHTML and would wipe anything appended to it. Absent in tests and in
+   * any harness that never wants a menu.
+   */
+  titleRoot?: HTMLElement;
+  /**
+   * Show the title screen on boot. Default true.
+   *
+   * `?nomenu=1` turns it off and reproduces the pre-Phase-2 boot exactly —
+   * straight into gameplay, no opening. Every harness and e2e test boots with
+   * it, which is the whole reason the switch exists.
+   */
+  menu?: boolean;
+  /** `?opening=1`: play the rooftop opening regardless of `menu`. */
+  forceOpening?: boolean;
   seed?: string;
   qualityTier?: QualityTier;
   bypassPointerLock?: boolean;
@@ -201,6 +243,27 @@ export class Game implements LoopCallbacks {
   readonly crafting: CraftingSystem;
   readonly interaction = new InteractionSystem(INTERACT_REACH);
   readonly inventoryUI: InventoryUI;
+
+  /**
+   * Where the opening has got to. Exposed on `__game` for the harnesses.
+   *
+   * Phase 9 hangs the premise off its completion and Phase 15 replaces the
+   * placeholder chase behind the same four phases.
+   */
+  readonly opening = new OpeningDirector();
+  /** The menu, or null when the game was booted without one (`?nomenu=1`). */
+  readonly titleScreen: TitleScreen | null = null;
+  /** The opening's building. Null outside the opening. */
+  rooftop: RooftopSet | null = null;
+  /** True once the opening is over and the set is receding with the world. */
+  private rooftopScrolling = false;
+  /**
+   * The player has their weapons. False for the length of the rooftop chase:
+   * the answer up there is run, and a gun in hand says otherwise.
+   */
+  private armed = true;
+  /** The title screen's backdrop camera, or null in play. */
+  private titleCamera: THREE.PerspectiveCamera | null = null;
 
   buildMode = false;
   selectedPiece: PieceId = 'floor';
@@ -430,6 +493,25 @@ export class Game implements LoopCallbacks {
     });
     this.debug = new DebugOverlay(options.hudRoot);
 
+    // The menu. Its callbacks are the ONLY way it reaches the game, so it can
+    // be restyled or replaced without the simulation learning anything.
+    //
+    // Built whenever there is a root for it, `?nomenu=1` included: that
+    // parameter says what this boot STARTS with, not whether `Esc` has a
+    // pause menu behind it. No harness presses `Esc` outside a panel, so
+    // nothing measured today can see the difference.
+    if (options.titleRoot) {
+      this.titleScreen = new TitleScreen(options.titleRoot, {
+        onNewGame: () => this.startNewGame(),
+        onContinue: () => void this.continueGame(),
+        onResume: () => this.resume(),
+        onQuitToTitle: () => this.enterTitle(),
+        onSettings: (s) => this.applySettings(s),
+        hasSave: () => this.hasSave(),
+      });
+      this.applySettings(this.titleScreen.current);
+    }
+
     // Crafted rounds go straight to the gun that fires them, so the HUD
     // reserve rises on the same click that spent the materials.
     this.bus.on('craft:completed', ({ recipeId }) => this.autoLoadAmmo(recipeId));
@@ -470,11 +552,24 @@ export class Game implements LoopCallbacks {
   }
 
   get activeCamera(): THREE.PerspectiveCamera {
-    return this.freeCamera ?? this.playerCamera.camera;
+    return this.cinematicCamera ?? this.playerCamera.camera;
+  }
+
+  /**
+   * A camera that is NOT the player's rig — the screenshot harness's `?cam=`
+   * preset, or the title screen's backdrop.
+   *
+   * One question with one answer, because every "is the player being
+   * simulated" check in `fixedUpdate` has to agree with every other one, and
+   * two of them asking about `freeCamera` alone is how the title screen would
+   * end up running the chase behind its own menu.
+   */
+  private get cinematicCamera(): THREE.PerspectiveCamera | null {
+    return this.titleCamera ?? this.freeCamera;
   }
 
   get isFreeCamera(): boolean {
-    return this.freeCamera !== null;
+    return this.cinematicCamera !== null;
   }
 
   start(): void {
@@ -498,7 +593,7 @@ export class Game implements LoopCallbacks {
     // Build mode and the panels are mutually exclusive: both want LMB.
     if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
 
-    if (!this.freeCamera) {
+    if (!this.cinematicCamera) {
       // The body's pose for this step, from the gait — how far the machine has
       // walked, not how long it has been running, so a stopped machine settles
       // mid-stride instead of marching on the spot. `poseSource` overrides it
@@ -565,27 +660,45 @@ export class Game implements LoopCallbacks {
       // suppresses both — its clicks belong to the panel.
       // A dead player keeps reload timers running but reaches no trigger, the
       // same way an open panel does.
-      if (this.panelsOpen || this.state.playerDead) {
+      // An unarmed player reaches no trigger either, which is what the roof
+      // is: the answer up there is run.
+      if (this.panelsOpen || this.state.playerDead || !this.armed) {
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
       } else if (this.buildMode) this.updateBuildMode();
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
 
+      // No nav graph during the chase. The graph describes the machine's deck
+      // and what the player has built on it; the roof is neither, so A* would
+      // hand every scavenger up there an empty route computed against a deck
+      // ten metres away. Null is the honest input, and the fallback it selects
+      // — steer straight at the player — is exactly the chase this wants.
       this.enemies.fixedUpdate(
         dt,
         this.player.worldPosition,
         this.player.stats,
-        this.build.navGraph,
+        this.opening.phase === 'rooftop' ? null : this.build.navGraph,
         this.carryOnDeck,
         this.build,
         this.machine.damage,
       );
+
+      this.updateOpening(dt);
     }
 
     this.machine.fixedUpdate(dt);
     this.announceMachineDamage(dt);
     this.world.fixedUpdate(dt, this.machine.speed);
+    // The building recedes by exactly what the world does, and only once the
+    // opening has released it — nothing stands on it while it moves.
+    if (this.rooftop && this.rooftopScrolling) {
+      this.rooftop.scroll(this.machine.speed * dt);
+      if (this.rooftop.gone) {
+        this.rooftop.dispose();
+        this.rooftop = null;
+      }
+    }
     // After the world moves, so the distance the spawner reads is this tick's.
-    if (!this.freeCamera) this.updateSpawns();
+    if (!this.cinematicCamera) this.updateSpawns();
 
     // Last: resolve everything the kinematic bodies above just requested.
     this.physics.step();
@@ -908,6 +1021,260 @@ export class Game implements LoopCallbacks {
     }
   }
 
+  // -------------------------------------------------------------------------
+  // The opening (Phase 2)
+  // -------------------------------------------------------------------------
+
+  /**
+   * Decide what this boot sees first.
+   *
+   * Called by `main` after construction rather than from the constructor, so
+   * the caller's URL params are the only thing that decides it and there is
+   * exactly one place to read the answer off.
+   */
+  boot(): void {
+    if (this.options.forceOpening) {
+      this.beginOpening('new-game');
+      return;
+    }
+    if (this.options.menu === false || !this.titleScreen) {
+      // Exactly today's boot: no menu, no opening, straight into gameplay.
+      this.beginOpening('skipped');
+      return;
+    }
+    this.enterTitle();
+  }
+
+  private beginOpening(mode: OpeningMode): void {
+    this.applyOpeningEffects(this.opening.begin(mode));
+    this.bus.emit('opening:phase', { phase: this.opening.phase });
+  }
+
+  /** Feed the director this step and obey whatever it asks for. */
+  private updateOpening(dt: number): void {
+    const before = this.opening.phase;
+    if (before === 'title' || before === 'done') return;
+
+    this.applyOpeningEffects(
+      this.opening.update({
+        playerGrounded: this.player.isGrounded,
+        playerPos: this.player.worldPosition,
+        // A HOLD, and only during the chase. Esc is also 'cancel', so a tap
+        // would skip the opening every time a player shut a panel.
+        skipHeld: before === 'rooftop' && this.input.isDown('cancel'),
+        dt,
+      }),
+    );
+
+    if (this.opening.phase !== before) {
+      this.bus.emit('opening:phase', { phase: this.opening.phase });
+    }
+
+    // The meter is the director's own accumulator, not a second timer that
+    // could disagree with the thing it is drawing.
+    if (this.opening.phase === 'rooftop') {
+      this.titleScreen?.showSkipHint(this.opening.skipProgress);
+    } else {
+      this.titleScreen?.hideSkipHint();
+    }
+  }
+
+  private applyOpeningEffects(effects: readonly OpeningEffect[]): void {
+    for (const effect of effects) {
+      switch (effect) {
+        case 'spawn-rooftop':
+          this.raiseRooftop();
+          break;
+        case 'grant-weapons':
+          this.setArmed(true);
+          break;
+        case 'throttle-up':
+          this.machine.movement.setThrottle(1);
+          break;
+        case 'show-title-card':
+          this.titleScreen?.showTitleCard(GAME_TITLE);
+          break;
+        case 'teardown-rooftop':
+          this.releaseRooftop();
+          break;
+      }
+    }
+  }
+
+  /**
+   * Put up the building, and put the player and their pursuers on it.
+   *
+   * The machine goes to throttle 0 for the duration: it idles alongside, so
+   * the chase happens on solid unmoving ground and nothing has to be a moving
+   * platform. The landing is what starts it walking again.
+   */
+  private raiseRooftop(): void {
+    this.leaveTitle();
+    this.rooftop?.dispose();
+
+    const set = new RooftopSet(this.renderer.scene, this.physics, this.materials);
+    set.build();
+    // `set.applyClutter(model)` is the seam a verified CC0 rooftop pack drops
+    // into — see ASSETS.md. Nothing fetches one today, deliberately: a URL
+    // pointing at a file that is not there costs a 404 in every console for a
+    // decoration, and the roof reads fine without it.
+    this.rooftop = set;
+    this.rooftopScrolling = false;
+
+    this.machine.movement.setThrottle(0);
+    this.setArmed(false);
+
+    this.player.setSpawn(set.playerSpawn);
+    this.player.teleport(set.playerSpawn);
+    this.player.stats.reset();
+
+    // Distance-driven arrivals stay off while the deck is empty: a wave
+    // dropped on an unattended machine would be waiting on it at the landing.
+    this.enemySpawnsEnabled = false;
+    this.enemies.despawnAll();
+    for (const at of set.enemySpawns) this.enemies.spawn('scavenger', at);
+
+    this.setHudVisible(true);
+  }
+
+  /**
+   * Let the building go astern with the world.
+   *
+   * Anyone still standing on it — a skip, mostly — is put on the deck first:
+   * its colliders are about to start moving out from under them.
+   */
+  private releaseRooftop(): void {
+    if (!isDeckLanding(this.player.worldPosition)) {
+      this.player.teleport(this.machine.deckSpawn);
+    }
+    this.player.setSpawn(this.machine.deckSpawn);
+    this.rooftopScrolling = true;
+    this.enemySpawnsEnabled = this.options.enemySpawns ?? true;
+  }
+
+  /** Weapons in hand, and a trigger that reaches them. */
+  private setArmed(armed: boolean): void {
+    this.armed = armed;
+    if (armed) this.equipHeldWeapon();
+    else this.player.setHeldWeapon(null, null);
+  }
+
+  /** Is the player carrying their loadout? Read by the opening harness. */
+  get playerArmed(): boolean {
+    return this.armed;
+  }
+
+  // -------------------------------------------------------------------------
+  // Title screen and pause menu
+  // -------------------------------------------------------------------------
+
+  /**
+   * The menu, over a live machine walking the dunes.
+   *
+   * The simulation keeps running — the machine, the world, the sky — because
+   * the whole idea of the title screen is that its background is the game.
+   * What stops is the player rig, which is what `cinematicCamera` gates.
+   */
+  private enterTitle(): void {
+    const preset = CAMERA_PRESETS[TITLE_PRESET];
+    this.titleCamera = this.renderer.camera;
+    if (preset) {
+      this.titleCamera.position.copy(preset[0]);
+      this.titleCamera.lookAt(preset[1]);
+    }
+    this.state.paused = false;
+    this.machine.movement.setThrottle(1);
+    this.enemies.despawnAll();
+    this.setHudVisible(false);
+    this.releasePointerLock();
+    this.titleScreen?.show('boot');
+  }
+
+  private leaveTitle(): void {
+    this.titleCamera = null;
+    this.state.paused = false;
+    this.setHudVisible(true);
+    this.titleScreen?.hide();
+    if (!this.options.bypassPointerLock) this.input.requestPointerLock();
+  }
+
+  private startNewGame(): void {
+    // Fresh state before the opening, so New Game after a session in progress
+    // does not start the chase over a deck the last run built.
+    this.world.reset(0);
+    this.spawner.resync(0);
+    this.build.clear();
+    this.resetInventory();
+    this.combat.equip('rifle');
+    this.player.stats.reset();
+    this.closePanels();
+    this.beginOpening('new-game');
+  }
+
+  private async continueGame(): Promise<void> {
+    const slot = await this.newestSave();
+    this.leaveTitle();
+    if (slot) await this.loadFrom(slot);
+    // Straight to `done` either way: a player who asked to continue and had
+    // nothing to continue should land in the game, not in the opening.
+    this.beginOpening('continue');
+  }
+
+  private async hasSave(): Promise<boolean> {
+    return (await this.newestSave()) !== null;
+  }
+
+  private async newestSave(): Promise<string | null> {
+    try {
+      const slots = await this.saves.list();
+      if (slots.length === 0) return null;
+      return slots.includes('quicksave') ? 'quicksave' : (slots[0] ?? null);
+    } catch {
+      return null;
+    }
+  }
+
+  /** `Esc` in play. The world genuinely stops behind it. */
+  pause(): void {
+    if (!this.titleScreen || this.titleScreen.isOpen) return;
+    this.state.paused = true;
+    this.releasePointerLock();
+    this.titleScreen.show('pause');
+  }
+
+  resume(): void {
+    if (!this.titleScreen) return;
+    this.state.paused = false;
+    this.titleScreen.hide();
+    if (!this.options.bypassPointerLock) this.input.requestPointerLock();
+  }
+
+  /**
+   * Can `Esc` open the menu right now?
+   *
+   * Not during the chase: up there `Esc` is the skip, and a menu that opened
+   * on the first frame of the hold would eat it.
+   */
+  private get canPause(): boolean {
+    return (
+      this.titleScreen !== null &&
+      !this.titleScreen.isOpen &&
+      this.opening.phase !== 'rooftop' &&
+      !this.cinematicCamera
+    );
+  }
+
+  private setHudVisible(visible: boolean): void {
+    this.options.hudRoot.classList.toggle('is-hidden', !visible);
+  }
+
+  private applySettings(settings: GameSettings): void {
+    this.audio.setVolume(settings.volume);
+    // A `?quality=` in the URL is a deliberate override for a harness or a
+    // screenshot, and must outrank a stored preference.
+    if (settings.quality && !this.options.qualityTier) this.setQuality(settings.quality);
+  }
+
   /**
    * How far the deck moved under a point this step. Bound once so the enemy
    * manager can sample it per body without allocating a closure per tick.
@@ -1043,7 +1410,7 @@ export class Game implements LoopCallbacks {
   }
 
   private updatePanels(dt: number): void {
-    const nearest = this.freeCamera
+    const nearest = this.cinematicCamera
       ? null
       : this.interaction.update(this.player.worldPosition, this.candidates());
 
@@ -1054,7 +1421,10 @@ export class Game implements LoopCallbacks {
       else this.openInventory();
     }
 
-    if (this.input.consumePressed('cancel') && this.panelsOpen) this.closePanels();
+    if (this.input.consumePressed('cancel')) {
+      if (this.panelsOpen) this.closePanels();
+      else if (this.canPause) this.pause();
+    }
 
     // E is 'rotate-right' in build mode, so interaction stays out of its way.
     if (!this.buildMode && this.input.consumePressed('contextual')) this.fireReel();
@@ -1387,7 +1757,10 @@ export class Game implements LoopCallbacks {
         navigationTier: 0,
         subsystems: this.machine.damage.toSave(),
       },
-      progression: { unlocks: [] },
+      // Optional field, so no version bump and no migration: a save written
+      // before the opening existed reads back as `undefined`, and a loader
+      // treats that the same way it treats a finished one — see `loadFrom`.
+      progression: { unlocks: [], opening: this.opening.toSave() },
       world: {
         chunkIndex: Math.floor(this.world.distanceTraveled / 64),
         threatDirector: this.director.toSave(),
@@ -1441,6 +1814,20 @@ export class Game implements LoopCallbacks {
       })),
     );
 
+    // A loaded game is a game that has already been played, so it never gets
+    // the opening — including a save from before the opening existed, whose
+    // missing field restores as `done` for exactly that reason.
+    this.opening.restore(save.progression.opening ?? { phase: 'done' });
+    if (this.rooftop) {
+      this.rooftop.dispose();
+      this.rooftop = null;
+      this.rooftopScrolling = false;
+    }
+    this.player.setSpawn(this.machine.deckSpawn);
+    this.setArmed(true);
+    this.machine.movement.setThrottle(1);
+    this.bus.emit('opening:phase', { phase: this.opening.phase });
+
     // A panel open over a world that just changed underneath it would be
     // showing stale containers.
     this.closePanels();
@@ -1461,6 +1848,9 @@ export class Game implements LoopCallbacks {
     window.removeEventListener('resize', this.onResize);
     this.loop.stop();
     this.input.dispose();
+    this.rooftop?.dispose();
+    this.rooftop = null;
+    this.titleScreen?.dispose();
     this.hud.dispose();
     this.buildUI.dispose();
     this.inventoryUI.dispose();

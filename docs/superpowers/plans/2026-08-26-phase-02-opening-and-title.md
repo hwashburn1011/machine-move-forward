@@ -114,9 +114,15 @@ plays on New Game only.
 1. **Does the opening end with a title card?** Recommended: yes — the game's
    name fades over the first seconds of the machine walking after landing.
    Cheap (DOM), big mood payoff.
+
+   Decision: took the default — landing emits `show-title-card`, and the name
+   fades over the machine's first two seconds of walking before `done`.
 2. **Is the player armed on the roof?** Recommended: no (run, don't fight);
    weapons granted on landing. If playtests feel bad, granting the rifle
    with no ammo is the fallback.
+
+   Decision: took the default — the roof strips the held weapon and suppresses
+   the trigger; `grant-weapons` on landing puts the loadout back.
 
 ## Asset Needs
 
@@ -170,7 +176,7 @@ plays on New Game only.
   `type OpeningEffect = 'spawn-rooftop' | 'grant-weapons' | 'throttle-up' |
   'show-title-card' | 'teardown-rooftop'`.
 
-- [ ] **Step 1: Write the failing test.** Cases: starts in `title`;
+- [x] **Step 1: Write the failing test.** Cases: starts in `title`;
   `begin('continue')` and `begin('skipped')` jump straight to `done` with no
   effects; `begin('new-game')` enters `rooftop` emitting `spawn-rooftop`;
   landing on the deck (grounded inside `|x|≤5, |z|≤8`, `y` within 1m of
@@ -203,12 +209,12 @@ it('lands only on the deck, not on the roof it jumped from', () => {
 });
 ```
 
-- [ ] **Step 2: Run it, watch it fail** (`npx vitest run
+- [x] **Step 2: Run it, watch it fail** (`npx vitest run
   tests/unit/openingdirector.test.ts` — cannot resolve module).
-- [ ] **Step 3: Implement** — a phase field, a set of already-fired effects,
+- [x] **Step 3: Implement** — a phase field, a set of already-fired effects,
   deck-bounds test in one place with the constants imported, a skip
   accumulator, a title-card timer (`TITLE_CARD_DELAY_S = 2`).
-- [ ] **Step 4: Run to green, full suite, commit** —
+- [x] **Step 4: Run to green, full suite, commit** —
   `feat: the opening knows where it is`.
 
 ---
@@ -229,17 +235,17 @@ it('lands only on the deck, not on the roof it jumped from', () => {
   `readonly gone: boolean`, `dispose()`; exported constants
   `ROOFTOP_ROOF_Y`, `ROOFTOP_LEDGE`, used by tests and `Game`.
 
-- [ ] **Step 1: Build the shell procedurally** — building at `x ≈ +11`,
+- [x] **Step 1: Build the shell procedurally** — building at `x ≈ +11`,
   10×10m footprint, roof slab collider at `ROOFTOP_ROOF_Y = 6.6`, parapet
   walls on three sides (blocking retreat), the ledge corner open toward the
   machine, a blocked stair-stub doorway for flavour. Reuse the machine's
   `bevelledBox` idiom and `Materials.hull`-family surfaces.
-- [ ] **Step 2: Scrolling-away behaviour** — `scroll(deltaZ)` translates
+- [x] **Step 2: Scrolling-away behaviour** — `scroll(deltaZ)` translates
   group and colliders; `gone` once 80m behind; `dispose()` frees both.
   Called by `Game` only after the opening's `teardown-rooftop` effect.
-- [ ] **Step 3: Wire visual dressing behind the model loader** — optional
+- [x] **Step 3: Wire visual dressing behind the model loader** — optional
   CC0 roof clutter via `loadModel`, never blocking, per asset policy.
-- [ ] **Step 4: Full suite, commit** —
+- [x] **Step 4: Full suite, commit** —
   `feat: a rooftop to be chased across`.
 
 ---
@@ -258,19 +264,19 @@ it('lands only on the deck, not on the roof it jumped from', () => {
 - Produces: `class TitleScreen { show(mode: 'boot' | 'pause'): void;
   hide(): void; showTitleCard(text: string): void; showSkipHint(): void }`.
 
-- [ ] **Step 1: DOM + CSS** — full-screen overlay in the HUD idiom (same
+- [x] **Step 1: DOM + CSS** — full-screen overlay in the HUD idiom (same
   palette variables as `hud.css`), game name as styled text, menu list
   keyboard- and mouse-navigable. Background is simply the live canvas.
-- [ ] **Step 2: Wire the free camera for the backdrop** — while in `title`
+- [x] **Step 2: Wire the free camera for the backdrop** — while in `title`
   phase, `Game` uses the existing `far` free-camera preset and machine
   throttle 1, HUD hidden, spawns off; leaving `title` restores the player
   rig. This reuses `freeCamera` plumbing already in `Game`/`main.ts`.
-- [ ] **Step 3: Settings panel** — volume (AudioEngine master), quality tier
+- [x] **Step 3: Settings panel** — volume (AudioEngine master), quality tier
   (existing `nextQualityTier` machinery); persisted to `localStorage`,
   applied on boot. Small on purpose; Phase 15 grows it.
-- [ ] **Step 4: Pause menu reuse** — `Esc` in play shows `mode: 'pause'`
+- [x] **Step 4: Pause menu reuse** — `Esc` in play shows `mode: 'pause'`
   (Resume/Settings/Quit-to-title). Pointer lock released and re-taken.
-- [ ] **Step 5: e2e, full suite, commit** —
+- [x] **Step 5: e2e, full suite, commit** —
   `feat: the game has a front door`.
 
 ---
@@ -289,21 +295,21 @@ it('lands only on the deck, not on the roof it jumped from', () => {
   harnesses); `'opening:phase': { phase: OpeningPhase }` bus event;
   `GameOptions.menu?: boolean` and `GameOptions.forceOpening?: boolean`.
 
-- [ ] **Step 1: Params and boot flow** — `nomenu=1` ⇒ `begin('skipped')`
+- [x] **Step 1: Params and boot flow** — `nomenu=1` ⇒ `begin('skipped')`
   exactly reproduces today's boot. Otherwise boot into `title`; New Game ⇒
   `begin('new-game')`; Continue ⇒ load save then `begin('continue')`.
-- [ ] **Step 2: Rooftop phase effects** — on `spawn-rooftop`: build
+- [x] **Step 2: Rooftop phase effects** — on `spawn-rooftop`: build
   `RooftopSet`, teleport player to `playerSpawn`, spawn two scavengers at
   `enemySpawns` via `EnemyManager`, hold `machine.movement.setThrottle(0)`,
   strip weapons. On `throttle-up`: `setThrottle(1)`, grant rifle+shotgun
   (the current default loadout path). On `teardown-rooftop`: begin
   scrolling the set with the world's per-step delta until `gone`.
-- [ ] **Step 3: Respawn-to-roof** — while phase is `rooftop`, death respawns
+- [x] **Step 3: Respawn-to-roof** — while phase is `rooftop`, death respawns
   at `playerSpawn` (restart the chase) rather than mid-deck.
-- [ ] **Step 4: Update every harness and e2e boot URL** with `nomenu=1`
+- [x] **Step 4: Update every harness and e2e boot URL** with `nomenu=1`
   (`tools/drive.mjs`, `build.mjs`, `craft.mjs`, `combat.mjs`, `shoot.mjs`
   callers, `tests/e2e/*`). Run each.
-- [ ] **Step 5: Full suite, commit** —
+- [x] **Step 5: Full suite, commit** —
   `feat: the story starts on a rooftop with nowhere left to run`.
 
 ---
@@ -313,17 +319,17 @@ it('lands only on the deck, not on the roof it jumped from', () => {
 **Files:**
 - Create: `tools/opening.mjs`
 
-- [ ] **Step 1: Script the happy path** — boot `?opening=1&nolock=1&notex=1&
+- [x] **Step 1: Script the happy path** — boot `?opening=1&nolock=1&notex=1&
   nomodel=1&nosound=1`; assert phase `rooftop`; assert machine speed ≈ 0;
   drive the player along the roof (existing input-injection idiom from
   `drive.mjs`), assert both scavengers pursue (positions converge); jump
   from the ledge; assert phase reaches `landed` then `done`; assert machine
   speed rises toward `BASE_MACHINE_SPEED`; assert weapons granted.
-- [ ] **Step 2: The miss path** — jump short deliberately; assert
+- [x] **Step 2: The miss path** — jump short deliberately; assert
   lost-in-the-desert death fires and respawn lands back on the roof with
   phase still `rooftop`.
-- [ ] **Step 3: The skip path** — hold Esc; assert completion and teleport.
-- [ ] **Step 4: Wire into the README's harness table, full suite, commit** —
+- [x] **Step 3: The skip path** — hold Esc; assert completion and teleport.
+- [x] **Step 4: Wire into the README's harness table, full suite, commit** —
   `feat: the leap is measured, not assumed`.
 
 ---

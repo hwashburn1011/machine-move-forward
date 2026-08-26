@@ -50,7 +50,7 @@ test.describe('what the player can see', () => {
   });
 
   test('stairs go where the deck is floored, not off the edge of the hull', async ({ page }) => {
-    await page.goto('/?nolock=1&quality=low&seed=e2e-seed&nospawn=1&notex=1&nomodel=1');
+    await page.goto('/?nolock=1&nomenu=1&quality=low&seed=e2e-seed&nospawn=1&notex=1&nomodel=1');
     await ready(page);
 
     const out = await page.evaluate(() => {
@@ -131,7 +131,7 @@ test.describe('what the player can see', () => {
   test('the weapon stays in the hand, in every pose and on both weapons', async ({ page }) => {
     // Models ON, which the smoke run turns off. The bug was in the rig, and a
     // run without the rig cannot see it.
-    await page.goto('/?nolock=1&quality=low&seed=e2e-seed&nospawn=1&notex=1');
+    await page.goto('/?nolock=1&nomenu=1&quality=low&seed=e2e-seed&nospawn=1&notex=1');
     await ready(page);
     await sim(page, 3);
 

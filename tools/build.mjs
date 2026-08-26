@@ -6,6 +6,7 @@
  * acceptance criterion, measured rather than eyeballed.
  */
 import { chromium } from '@playwright/test';
+import { BASE_URL } from './base-url.mjs';
 
 const outShot = process.argv[2] ?? null;
 
@@ -22,7 +23,9 @@ page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 
 // Arrivals are tested in tools/combat.mjs and nowhere else: everywhere else
 // they would wander into a check that was written on a quiet deck.
-await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1&notex=1&nomodel=1&nosound=1', { waitUntil: 'load' });
+// `nomenu=1` boots past the title screen and the opening, straight into
+// gameplay — which is the boot every check below was written against.
+await page.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=low&nospawn=1&notex=1&nomodel=1&nosound=1`, { waitUntil: 'load' });
 
 // `load` fires before `main.ts`'s top-level await settles, so the handle the
 // checks below reach for is not there yet.

@@ -42,6 +42,12 @@
   <body>
     <canvas id="game"></canvas>
     <div id="hud"></div>
+    <!--
+      A SIBLING of #hud, not a child: `HUD` owns #hud's innerHTML and would
+      wipe anything appended to it. Styled in hud.css alongside the HUD, so
+      the menu and the HUD share one palette.
+    -->
+    <div id="title"></div>
     <div id="boot">Spinning up the machine…</div>
     <script type="module" src="/src/main.ts"></script>
   </body>
