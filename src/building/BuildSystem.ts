@@ -9,8 +9,10 @@ import type { ResourceAccess, CrateRef } from '@/items/ResourceAccess';
 import { Container } from '@/items/Container';
 import {
   BUILD_PIECES,
+  buildsColliders,
   canHoldFixture,
   CRATE_SLOTS,
+  isDecor,
   isFixture,
   isStation,
   REFUND_FRACTION,
@@ -121,6 +123,7 @@ export class BuildSystem {
   private readonly edgeOwner = new Map<string, string>();
   private readonly fixtureOwner = new Map<string, string>();
   private readonly stationOwner = new Map<string, string>();
+  private readonly decorOwner = new Map<string, string>();
   private readonly stairsOwner = new Map<string, string>();
   /** Contents of every built storage crate, keyed by instance id. */
   private readonly crateContainers = new Map<string, Container>();
@@ -349,8 +352,12 @@ export class BuildSystem {
       }
 
       // A station stands on a floor. Pull the floor and the station goes with
-      // it, rather than being left hovering over open deck.
-      if (isStation(data.definitionId) && this.grid.getCell(data.cell) !== 'floor') {
+      // it, rather than being left hovering over open deck. Furniture keeps
+      // exactly the same rule: a chair over open deck is a chair falling.
+      if (
+        (isStation(data.definitionId) || isDecor(data.definitionId)) &&
+        this.grid.getCell(data.cell) !== 'floor'
+      ) {
         return data.instanceId;
       }
     }
@@ -518,11 +525,13 @@ export class BuildSystem {
         this.edgeOwner.get(edgeKey(placement.edge))
       );
     }
-    // Station, then roof, then stairs, then the cell itself: outermost first,
-    // so a floor cannot be pulled out from under a crate — or from under the
-    // flight of stairs crossing over it — that the player meant to remove.
+    // Decor, then station, then roof, then stairs, then the cell itself:
+    // outermost first, so a floor cannot be pulled out from under a crate — or
+    // from under the flight of stairs crossing over it — that the player meant
+    // to remove, and a bench cannot be pulled out from under the chair.
     const key = cellKey(placement.cell);
     return (
+      this.decorOwner.get(key) ??
       this.stationOwner.get(key) ??
       this.roofOwner.get(key) ??
       this.stairsOwner.get(key) ??
@@ -562,6 +571,11 @@ export class BuildSystem {
       this.stationOwner.set(cellKey(data.cell), data.instanceId);
       return;
     }
+    if (isDecor(data.definitionId)) {
+      this.grid.setDecor(data.cell, data.definitionId);
+      this.decorOwner.set(cellKey(data.cell), data.instanceId);
+      return;
+    }
     this.grid.setCell(data.cell, data.definitionId);
     this.cellOwner.set(cellKey(data.cell), data.instanceId);
   }
@@ -591,6 +605,11 @@ export class BuildSystem {
     if (isStation(data.definitionId)) {
       this.grid.clearStation(data.cell);
       this.stationOwner.delete(cellKey(data.cell));
+      return;
+    }
+    if (isDecor(data.definitionId)) {
+      this.grid.clearDecor(data.cell);
+      this.decorOwner.delete(cellKey(data.cell));
       return;
     }
     this.grid.clearCell(data.cell);
@@ -765,7 +784,18 @@ export class BuildSystem {
     glow.emissiveIntensity = wanted;
   }
 
+  /**
+   * Physics shapes for a piece, or none at all for furniture.
+   *
+   * The early return is the whole of the decoration constraint. A decor piece
+   * never reaches the collider builder, never gets a `Damageable` target, and
+   * therefore cannot be shot, walked into, or pathed around — which is what
+   * lets a downloaded furniture model stand in for the procedural box without
+   * the geometry and the collider having to agree about anything.
+   */
   private createColliders(data: BuildPieceInstance): RAPIER.Collider[] {
+    if (!buildsColliders(data.definitionId)) return [];
+
     const { position, rotationY } = BuildSystem.transformFor(
       data.definitionId,
       data.cell,
@@ -898,6 +928,11 @@ export class BuildSystem {
       stove: 4,
       condenser: 4,
       planter: 4,
+      // Furniture needs only its floor, so it goes with the stations.
+      chair: 4,
+      table: 4,
+      rug: 4,
+      shelf: 4,
       // Last of all: a lamp needs the wall it hangs on to exist first, and
       // walls are rank 2.
       lamp: 5,
@@ -943,6 +978,7 @@ export class BuildSystem {
     this.edgeOwner.clear();
     this.fixtureOwner.clear();
     this.stationOwner.clear();
+    this.decorOwner.clear();
     this.stairsOwner.clear();
     this.crateContainers.clear();
     this.producerTimers.clear();

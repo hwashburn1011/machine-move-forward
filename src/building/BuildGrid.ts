@@ -210,6 +210,16 @@ export class BuildGrid<T = string> {
    */
   private readonly stairs = new Map<string, T>();
   /**
+   * Furniture, in its own layer for the same reason stations have one.
+   *
+   * A rug goes under a workbench and a chair goes beside one; both are two
+   * things in one cell. Sharing the station map would mean placing a chair
+   * silently OVERWROTE the bench's entry and its owner, so demolishing the
+   * chair afterwards would delete a bench still standing in the scene — the
+   * exact bug the stairs layer exists to prevent, one storey up.
+   */
+  private readonly decor = new Map<string, T>();
+  /**
    * Things mounted ON an edge piece, keyed by that piece's edge.
    *
    * The same argument as `stations` over floors, one dimension down. A lamp
@@ -321,6 +331,33 @@ export class BuildGrid<T = string> {
     }));
   }
 
+  getDecor(c: Cell): T | undefined {
+    return this.decor.get(cellKey(c));
+  }
+
+  setDecor(c: Cell, value: T): void {
+    this.decor.set(cellKey(c), value);
+  }
+
+  clearDecor(c: Cell): void {
+    this.decor.delete(cellKey(c));
+  }
+
+  hasDecor(c: Cell): boolean {
+    return this.decor.has(cellKey(c));
+  }
+
+  decorEntries(): CellEntry<T>[] {
+    return [...this.decor.entries()].map(([key, value]) => ({
+      cell: parseCellKey(key),
+      value,
+    }));
+  }
+
+  get decorCount(): number {
+    return this.decor.size;
+  }
+
   getFixture(e: Edge): T | undefined {
     return this.fixtures.get(edgeKey(e));
   }
@@ -402,5 +439,6 @@ export class BuildGrid<T = string> {
     this.stations.clear();
     this.stairs.clear();
     this.fixtures.clear();
+    this.decor.clear();
   }
 }

@@ -55,8 +55,10 @@ import { LampLights, type LampSample } from '@/building/LampLights';
 import { BuildUI } from '@/ui/BuildUI';
 import {
   BUILD_PIECES,
-  BUILD_PIECE_ORDER,
+  PIECE_CATEGORIES,
+  piecesInCategory,
   STARTING_STRUCTURES,
+  type PieceCategory,
   type PieceId,
 } from '@/data/build-pieces';
 import { FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
@@ -276,6 +278,8 @@ export class Game implements LoopCallbacks {
 
   buildMode = false;
   selectedPiece: PieceId = 'floor';
+  /** Which group the number keys address. `G` pages it. */
+  buildCategory: PieceCategory = 'structure';
   buildRotation = 0;
   private buildLevel = 0;
   /** True once the wheel has been used, so the level stops auto-following. */
@@ -1145,6 +1149,7 @@ export class Game implements LoopCallbacks {
     if (this.buildMode) {
       this.buildUI.update({
         piece: this.selectedPiece,
+        category: this.buildCategory,
         level: this.buildLevel,
         rotation: this.buildRotation,
         scrap: this.resources.count('scrap'),
@@ -1912,6 +1917,20 @@ export class Game implements LoopCallbacks {
     return this.buildLevel;
   }
 
+  /**
+   * Move to the next group, and take the selection with it.
+   *
+   * The selection moves because leaving it behind is how a player presses `G`,
+   * presses `1`, and gets a deck plate when the panel is showing them chairs.
+   */
+  cycleBuildCategory(): void {
+    const at = PIECE_CATEGORIES.indexOf(this.buildCategory);
+    const next = PIECE_CATEGORIES[(at + 1) % PIECE_CATEGORIES.length] ?? 'structure';
+    this.buildCategory = next;
+    const first = piecesInCategory(next)[0];
+    if (first) this.selectedPiece = first;
+  }
+
   private updateBuildMode(): void {
     // Follow the player between storeys unless the wheel has overridden it,
     // so changing level is an override rather than a chore.
@@ -1929,7 +1948,12 @@ export class Game implements LoopCallbacks {
       this.buildLevel = Math.max(0, Math.min(GRID_LEVELS - 1, this.buildLevel + step));
     }
 
-    BUILD_PIECE_ORDER.forEach((id, i) => {
+    // Page between structure, stations and comforts. The number keys only
+    // reach nine and the table holds eighteen, so a group is what makes the
+    // last of them selectable at all — see `BuildUI`.
+    if (this.input.consumePressed('build-category')) this.cycleBuildCategory();
+
+    piecesInCategory(this.buildCategory).forEach((id, i) => {
       if (this.input.consumePressed(`slot${i + 1}` as 'slot1')) this.selectedPiece = id;
     });
 

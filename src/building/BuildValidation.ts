@@ -1,6 +1,7 @@
 import {
   BUILD_PIECES,
   canHoldFixture,
+  isDecor,
   isFixture,
   isStation,
   type PieceId,
@@ -130,7 +131,9 @@ export function validatePlacement(
         ? validateStairs(grid, placement)
         : isStation(placement.piece)
           ? validateStation(grid, placement)
-          : validateCellPiece(grid, placement);
+          : isDecor(placement.piece)
+            ? validateDecor(grid, placement)
+            : validateCellPiece(grid, placement);
 
   if (!structural.ok) return structural;
   if (!canAfford(def.cost)) return fail('cannot-afford');
@@ -158,6 +161,27 @@ function validateStation(grid: BuildGrid<PieceId>, p: Placement): Validation {
   if (!inEnvelope(cell)) return fail('out-of-bounds');
   if (grid.isBlocked(cell)) return fail('blocked');
   if (grid.hasStation(cell)) return fail('occupied');
+  return hasFloor(grid, cell) ? OK : fail('needs-floor');
+}
+
+/**
+ * Furniture stands on a floor, in its own layer, and asks for nothing else.
+ *
+ * Deliberately NOT `validateStation` with the piece list widened. That one
+ * refuses a cell that already holds a station, and a rug under a workbench is
+ * exactly the placement decoration exists for — the two occupy different
+ * layers and must be allowed to coexist. Two rules that disagree about the
+ * word "occupied" need two functions, the same argument `validateFixture`
+ * makes against `validateEdgePiece`.
+ *
+ * There is no clearance rule here either, and there cannot be one: decor
+ * builds no collider, so nothing it is placed near can be obstructed by it.
+ */
+function validateDecor(grid: BuildGrid<PieceId>, p: Placement): Validation {
+  const { cell } = p;
+  if (!inEnvelope(cell)) return fail('out-of-bounds');
+  if (grid.isBlocked(cell)) return fail('blocked');
+  if (grid.hasDecor(cell)) return fail('occupied');
   return hasFloor(grid, cell) ? OK : fail('needs-floor');
 }
 

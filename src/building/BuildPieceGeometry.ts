@@ -426,10 +426,92 @@ function planterGeometry(): THREE.BufferGeometry {
   return grouped([box, crop]);
 }
 
+// ---------------------------------------------------------------------------
+// Decoration
+// ---------------------------------------------------------------------------
+//
+// The four pieces that get NO COLLIDER, which is what makes them the safe
+// place for a downloaded model. Everything below is a procedural fallback in
+// the sense `ASSETS.md` means it: a crude, honest shape at the right scale,
+// used when no furniture pack is installed and replaced without touching
+// placement, saving, or refunds — see `decorModelUrl`.
+//
+// Authored small on purpose. A 2m cell holding a 2m table reads as a floor
+// tile with a lid; furniture has to leave room to walk round it, and decor is
+// the only thing on this deck that a body walks THROUGH.
+
+/** A seat, a back and four legs, facing -Z like every other rotatable piece. */
+function chairGeometry(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.52, 0.07, 0.5, 0.02), 0, 0.46, 0),
+    at(bevelledBox(0.5, 0.6, 0.06, 0.02), 0, 0.76, -0.22),
+  ];
+  for (const sx of [-1, 1]) {
+    for (const sz of [-1, 1]) {
+      parts.push(at(bevelledBox(0.06, 0.44, 0.06, 0.015), sx * 0.21, 0.22, sz * 0.2));
+    }
+  }
+  return merge(parts);
+}
+
+/** A top and four legs. Low and wide enough to read as a place to eat. */
+function tableGeometry(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [
+    at(bevelledBox(1.2, 0.08, 0.8, 0.025), 0, 0.74, 0),
+    at(bevelledBox(1.05, 0.06, 0.65, 0.02), 0, 0.66, 0),
+  ];
+  for (const sx of [-1, 1]) {
+    for (const sz of [-1, 1]) {
+      parts.push(at(bevelledBox(0.08, 0.7, 0.08, 0.02), sx * 0.5, 0.35, sz * 0.3));
+    }
+  }
+  return merge(parts);
+}
+
+/**
+ * A flat woven mat, a couple of centimetres proud of the plate.
+ *
+ * Proud rather than flush: coplanar with the deck it would z-fight, and a rug
+ * that flickers is worse than no rug. Two centimetres is below the character
+ * controller's step height by an order of magnitude, so nothing can catch on
+ * it even in principle — and it has no collider anyway.
+ */
+function rugGeometry(): THREE.BufferGeometry {
+  const body = at(bevelledBox(1.5, 0.03, 1.05, 0.01), 0, 0.185, 0);
+  const border = at(bevelledBox(1.28, 0.035, 0.84, 0.01), 0, 0.19, 0);
+  return grouped([[body], [border]]);
+}
+
+/** An upright with three boards and a scatter of oddments on them. */
+function shelfGeometry(): THREE.BufferGeometry {
+  const parts: THREE.BufferGeometry[] = [];
+  for (const sx of [-1, 1]) {
+    parts.push(at(bevelledBox(0.07, 1.5, 0.34, 0.02), sx * 0.55, 0.75, 0));
+  }
+  for (const y of [0.42, 0.86, 1.3]) {
+    parts.push(at(bevelledBox(1.16, 0.06, 0.36, 0.015), 0, y, 0));
+  }
+
+  // What is on the shelves. Small boxes, because a shelf with nothing on it
+  // reads as a bookcase in a showroom rather than as somebody's home.
+  const oddments: THREE.BufferGeometry[] = [
+    at(bevelledBox(0.14, 0.22, 0.14, 0.02), -0.35, 0.56, 0),
+    at(bevelledBox(0.11, 0.17, 0.11, 0.02), -0.15, 0.53, 0.04),
+    at(bevelledBox(0.18, 0.15, 0.16, 0.02), 0.32, 0.97, -0.02),
+    at(bevelledBox(0.12, 0.24, 0.12, 0.02), 0.05, 1.45, 0),
+  ];
+
+  return grouped([parts, oddments]);
+}
+
 const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
   stove: stoveGeometry,
   condenser: condenserGeometry,
   planter: planterGeometry,
+  chair: chairGeometry,
+  table: tableGeometry,
+  rug: rugGeometry,
+  shelf: shelfGeometry,
   crate: crateGeometry,
   workbench: workbenchGeometry,
   refinery: refineryGeometry,
@@ -485,6 +567,17 @@ export function pieceMaterial(
     // is alive. `accent` is the warmest thing in the palette; a green would
     // need a material of its own for six small slabs.
     case 'planter':
+      return [materials.rustedSteel, materials.accent];
+
+    // Furniture is warmer than the hull it stands on, deliberately: the whole
+    // job of decoration here is to make an interior read as lived in rather
+    // than as more machine.
+    case 'chair':
+    case 'table':
+      return materials.rustedSteel;
+    case 'rug':
+      return [materials.accent, materials.rustedSteel];
+    case 'shelf':
       return [materials.rustedSteel, materials.accent];
     // The glow is group 1 by the same convention, and `BuildSystem` CLONES it
     // per lamp: the shared material is one object, and a lamp that shed power
@@ -554,6 +647,17 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
     // doorway it lights, and a body can no more walk into it than into the
     // wall it hangs on.
     case 'lamp':
+      return [];
+
+    // None either, and this is the decoration constraint itself rather than a
+    // per-piece judgement: `buildsColliders` says no for the whole category
+    // and `BuildSystem.createColliders` returns before it ever gets here. A
+    // chair you cannot trip over is a chair whose model need not match a
+    // collider, which is what lets a CC0 furniture pack in at all.
+    case 'chair':
+    case 'table':
+    case 'rug':
+    case 'shelf':
       return [];
     case 'floor':
       return [

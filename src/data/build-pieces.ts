@@ -20,7 +20,30 @@ export type PieceId =
   | 'lamp'
   | 'stove'
   | 'condenser'
-  | 'planter';
+  | 'planter'
+  | 'chair'
+  | 'table'
+  | 'rug'
+  | 'shelf';
+
+/**
+ * What kind of thing a piece is, for grouping and for colliders.
+ *
+ * `structure` is the shell you walk on and through; `station` is a machine you
+ * stand at; `decor` is furniture that is looked at and nothing else. Phase 5
+ * adds `defense` to this union for the hardpoints and turrets, and the build
+ * HUD's grouping is already category-driven by then.
+ *
+ * This is not decoration on the data. `decor` is the flag that says a piece
+ * builds NO COLLIDER, which is the whole reason the category exists: the
+ * standing constraint keeps collider-bearing pieces procedural because their
+ * colliders derive from their geometry, and a piece with no collider is exempt
+ * from it.
+ */
+export type PieceCategory = 'structure' | 'station' | 'decor';
+
+/** Every category, in the order the build HUD pages through them. */
+export const PIECE_CATEGORIES: readonly PieceCategory[] = ['structure', 'station', 'decor'];
 
 /** How a piece attaches to the grid. */
 export type PieceAnchor =
@@ -36,6 +59,8 @@ import type { ItemCost } from './items';
 export interface BuildPieceDefinition {
   id: PieceId;
   name: string;
+  /** See `PieceCategory` — grouping in the build HUD, and colliders or not. */
+  category: PieceCategory;
   anchor: PieceAnchor;
   /** Materials to place. Handoff section 10's `cost: ResourceCost[]`. */
   cost: ItemCost;
@@ -67,6 +92,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   floor: {
     id: 'floor',
     name: 'Deck Plate',
+    category: 'structure',
     anchor: 'cell',
     cost: { scrap: 8 },
     weight: 120,
@@ -79,6 +105,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   wall: {
     id: 'wall',
     name: 'Hull Wall',
+    category: 'structure',
     anchor: 'edge',
     cost: { scrap: 12 },
     weight: 90,
@@ -91,6 +118,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   doorway: {
     id: 'doorway',
     name: 'Doorway',
+    category: 'structure',
     anchor: 'edge',
     cost: { scrap: 20 },
     weight: 110,
@@ -103,6 +131,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   railing: {
     id: 'railing',
     name: 'Railing',
+    category: 'structure',
     anchor: 'edge',
     cost: { scrap: 5 },
     weight: 25,
@@ -115,6 +144,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   roof: {
     id: 'roof',
     name: 'Roof Panel',
+    category: 'structure',
     anchor: 'cell',
     cost: { scrap: 10 },
     weight: 80,
@@ -127,6 +157,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   stairs: {
     id: 'stairs',
     name: 'Stairs',
+    category: 'structure',
     anchor: 'double-cell',
     cost: { scrap: 18 },
     weight: 160,
@@ -139,6 +170,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   crate: {
     id: 'crate',
     name: 'Storage Crate',
+    category: 'station',
     anchor: 'cell',
     cost: { scrap: 15, components: 2 },
     weight: 140,
@@ -151,6 +183,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   workbench: {
     id: 'workbench',
     name: 'Workbench',
+    category: 'station',
     anchor: 'cell',
     cost: { scrap: 30, components: 4 },
     weight: 220,
@@ -163,6 +196,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   refinery: {
     id: 'refinery',
     name: 'Refinery',
+    category: 'station',
     anchor: 'cell',
     // Scrap alone, and deliberately: it is the only source of components, so
     // pricing it in components would make it unbuildable from a fresh start.
@@ -178,6 +212,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   generator: {
     id: 'generator',
     name: 'Generator',
+    category: 'station',
     anchor: 'cell',
     // Components, unlike the refinery: by the time a player is building a
     // SECOND generator they have the refinery that makes them, and this is the
@@ -193,6 +228,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   lamp: {
     id: 'lamp',
     name: 'Deck Lamp',
+    category: 'structure',
     anchor: 'edge',
     cost: { scrap: 6, components: 1 },
     weight: 8,
@@ -208,6 +244,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   stove: {
     id: 'stove',
     name: 'Stove',
+    category: 'station',
     anchor: 'cell',
     // The cheapest station on the deck after the crate, and deliberately: it
     // is the one a player builds because they want a kitchen rather than
@@ -223,6 +260,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   condenser: {
     id: 'condenser',
     name: 'Water Condenser',
+    category: 'station',
     anchor: 'cell',
     // Components, like the generator: this is the piece that makes the power
     // system worth having beyond the lamps, and it should feel bought.
@@ -237,6 +275,7 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   planter: {
     id: 'planter',
     name: 'Planter Box',
+    category: 'station',
     anchor: 'cell',
     // Scrap alone, and cheap. It needs no power and no components: it is the
     // first thing a player can build toward feeding themselves, and gating it
@@ -249,21 +288,112 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     blocksNavigation: false,
     rotatable: false,
   },
+
+  // --- Decoration ---------------------------------------------------------
+  // Four pieces that do nothing. No collider, no room boundary, no navigation
+  // block, and a weight the machine cannot feel — so a player can furnish the
+  // whole deck without paying for it in speed. They are rotatable because the
+  // only thing a chair has to get right is which way it faces.
+  chair: {
+    id: 'chair',
+    name: 'Chair',
+    category: 'decor',
+    anchor: 'cell',
+    cost: { scrap: 4 },
+    weight: 9,
+    maxHealth: 30,
+    armor: 0,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: true,
+  },
+  table: {
+    id: 'table',
+    name: 'Table',
+    category: 'decor',
+    anchor: 'cell',
+    cost: { scrap: 6 },
+    weight: 18,
+    maxHealth: 40,
+    armor: 0,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: true,
+  },
+  rug: {
+    id: 'rug',
+    name: 'Woven Rug',
+    category: 'decor',
+    anchor: 'cell',
+    cost: { scrap: 3 },
+    weight: 4,
+    maxHealth: 20,
+    armor: 0,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: true,
+  },
+  shelf: {
+    id: 'shelf',
+    name: 'Shelf',
+    category: 'decor',
+    anchor: 'cell',
+    cost: { scrap: 5 },
+    weight: 14,
+    maxHealth: 35,
+    armor: 0,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: true,
+  },
 };
 
-/** Pieces that sit on a floor and are interacted with rather than walked on. */
-export const STATION_PIECES: readonly PieceId[] = [
-  'crate',
-  'workbench',
-  'refinery',
-  'generator',
-  'stove',
-  'condenser',
-  'planter',
-];
+/** Every piece in one category, in selection order. */
+export function piecesInCategory(category: PieceCategory): PieceId[] {
+  return BUILD_PIECE_ORDER.filter((id) => BUILD_PIECES[id].category === category);
+}
+
+/**
+ * Pieces that sit on a floor and are interacted with rather than walked on.
+ *
+ * Derived from the category rather than listed twice: a station added to the
+ * table and forgotten here would place into the wrong grid layer and be
+ * demolished by whatever else happened to own its cell.
+ */
+export const STATION_PIECES: readonly PieceId[] = (
+  Object.keys(BUILD_PIECES) as PieceId[]
+).filter((id) => BUILD_PIECES[id].category === 'station');
 
 export function isStation(piece: PieceId): boolean {
-  return STATION_PIECES.includes(piece);
+  return BUILD_PIECES[piece].category === 'station';
+}
+
+/**
+ * Pieces that stand on a floor, are looked at, and do nothing else.
+ *
+ * Their own grid layer, for exactly the reason stations have one over floors:
+ * a rug under a workbench is two things in one cell, and sharing a map would
+ * mean placing one silently OVERWROTE the other's owner entry.
+ */
+export const DECOR_PIECES: readonly PieceId[] = (
+  Object.keys(BUILD_PIECES) as PieceId[]
+).filter((id) => BUILD_PIECES[id].category === 'decor');
+
+export function isDecor(piece: PieceId): boolean {
+  return BUILD_PIECES[piece].category === 'decor';
+}
+
+/**
+ * Does this piece get a physics collider at all?
+ *
+ * The one question the decor category exists to answer, and it is asked in
+ * exactly two places: `BuildSystem.createColliders`, which skips the whole
+ * pass, and `pieceColliders`, which returns nothing. A chair the player can
+ * trip over is a chair that has to be modelled to match its collider, and the
+ * point of decoration is that it does not.
+ */
+export function buildsColliders(piece: PieceId): boolean {
+  return BUILD_PIECES[piece].category !== 'decor';
 }
 
 /**
@@ -331,6 +461,10 @@ export const BUILD_PIECE_ORDER: readonly PieceId[] = [
   'condenser',
   'planter',
   'lamp',
+  'chair',
+  'table',
+  'rug',
+  'shelf',
 ];
 
 /** Fraction of the original cost returned when demolishing. */

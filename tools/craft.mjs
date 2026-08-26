@@ -503,6 +503,62 @@ check(
 
 await run(() => globalThis.__game.game.player.needs.reset());
 
+// --- Decoration is visual only -------------------------------------------
+// The claim that makes furniture safe: a decor piece builds NO COLLIDER. A
+// unit test can only check the collider TABLE; this checks the real physics
+// world, which is the thing that would actually put a chair in the player's
+// shins.
+const decor = await run(() => {
+  const g = globalThis.__game.game;
+  g.inventory.add('scrap', 100);
+
+  const bodiesBefore = globalThis.__game.physics.bodyCount;
+  const weightBefore = g.machine.movement.totalWeight;
+  const piecesBefore = g.build.pieceCount;
+
+  // The last two go in cells that ALREADY hold a station: a rug under the
+  // refinery and a table beside the bench are the placements the separate
+  // grid layer exists for.
+  const placed = [
+    g.build.place({ piece: 'chair', cell: { x: -4, y: 0, z: -6 }, rotation: 0 }),
+    g.build.place({ piece: 'shelf', cell: { x: -4, y: 0, z: -5 }, rotation: 1 }),
+    g.build.place({ piece: 'table', cell: { x: -3, y: 0, z: -6 }, rotation: 0 }),
+    g.build.place({ piece: 'rug', cell: { x: -2, y: 0, z: -6 }, rotation: 0 }),
+  ];
+
+  return {
+    placedAll: placed.every((p) => p !== null),
+    bodiesBefore,
+    bodiesAfter: globalThis.__game.physics.bodyCount,
+    weightAdded: g.machine.movement.totalWeight - weightBefore,
+    piecesAdded: g.build.pieceCount - piecesBefore,
+    // And the station underneath is still there and still openable.
+    benchStillThere: g.build
+      .stationsNear(globalThis.__game.player.worldPosition, 99)
+      .some((s) => s.piece === 'workbench'),
+  };
+});
+check(
+  'all four comforts place, two of them over standing stations',
+  decor.placedAll === true && decor.piecesAdded === 4,
+  `${decor.piecesAdded} pieces added`,
+);
+check(
+  'decoration adds not one physics body',
+  decor.bodiesAfter === decor.bodiesBefore,
+  `${decor.bodiesBefore} -> ${decor.bodiesAfter}`,
+);
+check(
+  'a table over the workbench does not delete the workbench',
+  decor.benchStillThere === true,
+  'its own grid layer',
+);
+check(
+  'decoration is too light for the machine to feel',
+  decor.weightAdded > 0 && decor.weightAdded < 50,
+  `${decor.weightAdded} kg for four pieces`,
+);
+
 // --- Save and reload ------------------------------------------------------
 const savedState = await run(() => {
   const g = globalThis.__game.game;

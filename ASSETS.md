@@ -205,6 +205,41 @@ the procedural refinery would read as a different game. Both go through
 `buildPieceGeometry` like every other build piece, so a model can be dressed in
 behind `loadModel` later without touching placement, damage or the light pool.
 
+### Not downloaded: the furniture, the stove, the condenser and the planter
+
+Phase 4 planned the decoration pieces (`chair`, `table`, `rug`, `shelf`) as the
+project's **first model-first build pieces**, and the argument for that still
+holds: decor is the one category that builds **no collider at all**
+(`buildsColliders` returns false for it, and `BuildSystem.createColliders`
+returns before it reaches the collider builder), so the standing constraint —
+collider-bearing pieces stay procedural because their colliders derive from
+their geometry — simply does not apply to them. A chair the player can walk
+through can be any mesh at all.
+
+**No pack was installed anyway, and the reason is the licence rule, not the
+constraint.** The intended candidate was the [Kenney Furniture
+Kit](https://kenney.nl/assets/furniture-kit) — CC0, glTF, low-poly, a textbook
+fit. Its page renders its download links client-side and hands off to a
+form, exactly as the Quaternius and Kenney pack pages already recorded above
+do; there is no direct URL to fetch. The rule at the bottom of this file is
+that a licence has to be *verified* rather than assumed from a search result,
+and driving a download flow unattended is not something this project's tooling
+should do on someone's behalf. Same answer for the three new stations
+(`stove`, `condenser`, `planter`), whose poly.pizza candidates need an API key.
+
+So all seven new pieces are `bevelledBox` geometry like every piece before
+them, authored deliberately small — furniture has to leave room to walk round
+it, and decor is the only thing on this deck a body walks *through*.
+
+**Installing a pack later changes no placement, saving, refund or damage
+code.** Every piece is built by `buildPieceGeometry`, which is the same seam
+the generator and the lamp are noted against below: swap the builder for a
+`loadModel` call with the procedural function as its fallback, and `?nomodel=1`
+takes the identical null path the harnesses already boot on. What a
+replacement has to satisfy is only that it is CC0 (or CC-BY recorded in the
+table above), reads at roughly a metre, and is authored with its base at the
+origin — `at(...)` in `BuildPieceGeometry` is where that convention lives.
+
 ## Audio
 
 **No sample files, by the same rule.** Every sound is synthesised at runtime

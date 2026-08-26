@@ -245,17 +245,22 @@ the plan was written before Phases 1–3 shipped and reality won.
   `src/ui/BuildUI.ts`
 - Test: `tests/unit/buildvalidation.test.ts` additions.
 
-- [ ] **Step 1: Failing tests** — decor pieces (`chair`, `table`, `rug`,
+- [x] **Step 1: Failing tests** — decor pieces (`chair`, `table`, `rug`,
   `shelf`) have `category: 'decor'`, near-zero weight, no room bounding,
   no navigation blocking; placement requires a floor/deck cell; **no
   collider is created** (assert via the physics body count not rising —
   or via the decor path never calling the collider builder).
-- [ ] **Step 2: Implement the no-collider path + build UI grouping**
+- [x] **Step 2: Implement the no-collider path + build UI grouping**
   (structure / stations / decor pages or a second row — smallest change
   that fits the existing `BuildUI`).
-- [ ] **Step 3: Models behind the loader** — Kenney Furniture Kit pieces
+- [x] **Step 3: Models behind the loader** — Kenney Furniture Kit pieces
   via `loadModel` with procedural fallback boxes; record in `ASSETS.md`.
-- [ ] **Step 4: Full suite, commit** —
+  **Deviation: no pack was installed.** Kenney's page renders its download
+  links client-side and has no direct URL, and the asset rule is that a
+  licence must be *verified* rather than assumed — the same call the rooftop
+  clutter and the generator/lamp made. All seven new pieces are procedural,
+  `buildPieceGeometry` is the documented seam, and `ASSETS.md` records it.
+- [x] **Step 4: Full suite, commit** —
   `feat: a chair you cannot trip over`.
 
 ---
