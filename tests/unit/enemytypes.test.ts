@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { ENEMIES, MAX_ACTIVE_ENEMIES } from '@/data/enemies';
 import { PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED } from '@/game/constants';
+import { subsystemTargetFor, hitboxContains } from '@/enemies/EnemyTargeting';
+import { SUBSYSTEMS } from '@/data/subsystems';
 
 /**
  * The enemy roster, as a set of claims about how each one plays.
@@ -71,5 +73,27 @@ describe('the enemy roster', () => {
 
   it('keeps the roster inside what the deck can hold', () => {
     expect(Object.keys(ENEMIES).length).toBeLessThanOrEqual(MAX_ACTIVE_ENEMIES * 2);
+  });
+});
+
+describe('who goes for the engine', () => {
+  it('sends a raider to the engine and a scavenger to nothing', () => {
+    expect(subsystemTargetFor(ENEMIES.raider!)).toBe('engine');
+    expect(subsystemTargetFor(ENEMIES.scavenger!)).toBeNull();
+  });
+
+  it('knows when a body is standing in the engine', () => {
+    const c = SUBSYSTEMS.engine.hitbox.center;
+    expect(hitboxContains('engine', c)).toBe(true);
+    expect(hitboxContains('engine', { x: c.x, y: c.y, z: c.z + 99 })).toBe(false);
+  });
+
+  it("is generous by a body's width, so an enemy beside the engine can reach it", () => {
+    // The hitbox is the engine's own box. An enemy that has walked up to it
+    // stands OUTSIDE that box by definition, so a strict containment test
+    // would mean the engine could never be hit at all.
+    const c = SUBSYSTEMS.engine.hitbox.center;
+    const justOutside = { x: c.x, y: c.y, z: c.z - SUBSYSTEMS.engine.hitbox.half.z - 0.9 };
+    expect(hitboxContains('engine', justOutside)).toBe(true);
   });
 });

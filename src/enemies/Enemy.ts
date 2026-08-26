@@ -19,8 +19,20 @@ import { CAPSULE_FOOT_OFFSET, CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './Enem
 import { EnemyVisual } from './EnemyVisual';
 import { levelOf, nextWaypointIndex, segmentIsClear, type NavGraph } from './NavGraph';
 import { cellCenter, worldToCell, type Cell } from '@/building/BuildGrid';
+import { SUBSYSTEMS, type SubsystemId } from '@/data/subsystems';
+import { hitboxContains, subsystemTargetFor } from './EnemyTargeting';
 
 export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
+
+/**
+ * As much of `MachineDamage` as an enemy needs to break the engine.
+ *
+ * Narrowed for the same reason `StructureDamage` is: an enemy has no business
+ * reading the machine's speed model or repairing anything.
+ */
+export interface SubsystemDamage {
+  damage(id: SubsystemId, amount: number): number;
+}
 
 /**
  * As much of `BuildSystem` as an enemy needs to chew through a wall.
@@ -173,6 +185,32 @@ export class Enemy {
     return this.position;
   }
 
+  /**
+   * The subsystem this enemy is here to break, or null if it wants the player.
+   *
+   * Data, not behaviour: a raider is told apart from a scavenger by what it is
+   * trying to reach, and that lives in `enemies.ts`.
+   */
+  get subsystemGoal(): SubsystemId | null {
+    return subsystemTargetFor(this.def);
+  }
+
+  /**
+   * The cell this enemy routes to. The player's, unless it wants a subsystem.
+   *
+   * The goal is the subsystem's `repairAt`, NOT its hitbox: four of the five
+   * hitboxes are leg hips, which sit outboard of the deck and below its plane,
+   * so nothing that walks can reach one. `repairAt` is the deck cell a body
+   * can actually stand on to service it, which is exactly the cell a body has
+   * to stand on to hit it.
+   */
+  goalCell(playerCell: Cell): Cell {
+    const sub = this.subsystemGoal;
+    if (!sub) return playerCell;
+    const at = SUBSYSTEMS[sub].repairAt;
+    return worldToCell(at.x, at.z, levelOf(at.y));
+  }
+
   /** The grid cell this enemy is standing in. */
   get gridCell(): Cell {
     const feetY = this.position.y - CAPSULE_FOOT_OFFSET;
@@ -281,6 +319,7 @@ export class Enemy {
     playerPos: THREE.Vector3,
     playerStats: PlayerStats,
     build: StructureDamage | null = null,
+    machineDamage: SubsystemDamage | null = null,
   ): void {
     if (!this.active) return;
 
@@ -307,10 +346,29 @@ export class Enemy {
       timeSinceLastAttack: this.timeSinceLastAttack,
       blockedBy,
     });
-    this.state = decision.state;
+    /**
+     * Arriving at the subsystem it came for is its OWN attack trigger.
+     *
+     * `stepEnemyAI` decides swings by the distance to the player, and a raider
+     * that has crossed the deck to the engine is usually nowhere near them —
+     * so left to the decision alone it would stand at the engine and never
+     * touch it, and engine-as-stop would be dead code. Death still wins: a
+     * corpse at the engine is not attacking anything.
+     */
+    const sub = this.subsystemGoal;
+    const atSubsystem = sub !== null && decision.state !== 'dead' && hitboxContains(sub, this.position);
+
+    this.state = atSubsystem ? 'attack' : decision.state;
     this.visual.setState(this.state);
 
-    if (decision.shouldAttack) {
+    if (atSubsystem && sub) {
+      // Its own cooldown, on the same clock, because it is not going through
+      // the decision that would otherwise have applied one.
+      if (this.timeSinceLastAttack >= this.def.attackCooldown) {
+        this.timeSinceLastAttack = 0;
+        machineDamage?.damage(sub, this.def.damage);
+      }
+    } else if (decision.shouldAttack) {
       this.timeSinceLastAttack = 0;
       if (decision.attackTarget === 'player') {
         playerStats.damage(this.def.damage, this.def.name, {
@@ -336,8 +394,14 @@ export class Enemy {
       // the next metre and a half without walking into the generator. Those
       // are different scales of problem and stay separate systems.
       const target = this.currentWaypoint();
-      const tx = target ? target.x - this.position.x : this.toPlayer.x;
-      const tz = target ? target.z - this.position.z : this.toPlayer.z;
+      // On the last leg there is no waypoint and the body steers straight at
+      // what it came for. For a raider that is its subsystem, not the player —
+      // otherwise it would path the whole way to the engine and then peel off
+      // toward the player on the final two metres.
+      const finalX = sub ? SUBSYSTEMS[sub].repairAt.x - this.position.x : this.toPlayer.x;
+      const finalZ = sub ? SUBSYSTEMS[sub].repairAt.z - this.position.z : this.toPlayer.z;
+      const tx = target ? target.x - this.position.x : finalX;
+      const tz = target ? target.z - this.position.z : finalZ;
 
       const flat = Math.hypot(tx, tz);
       if (flat > 1e-4) {

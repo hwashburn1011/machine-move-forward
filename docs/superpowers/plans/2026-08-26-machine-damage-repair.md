@@ -1510,7 +1510,7 @@ git commit -m "fix: they were reaching through the wall you built"
 - Consumes: `targetPriority` (Task 7), `SUBSYSTEMS` and `MachineDamage` (Task 2).
 - Produces: `function subsystemTargetFor(def: EnemyDefinition): SubsystemId | null` exported from `src/enemies/EnemyTargeting.ts`; `function hitboxContains(id: SubsystemId, point: Vec3Like): boolean` from the same file.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `tests/unit/enemytypes.test.ts`:
 
@@ -1541,12 +1541,12 @@ describe('who goes for the engine', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/enemytypes.test.ts`
 Expected: FAIL — cannot resolve `@/enemies/EnemyTargeting`.
 
-- [ ] **Step 3: Write the targeting module**
+- [x] **Step 3: Write the targeting module**
 
 ```ts
 // src/enemies/EnemyTargeting.ts
@@ -1584,12 +1584,12 @@ export function hitboxContains(id: SubsystemId, point: Vec3Like): boolean {
 }
 ```
 
-- [ ] **Step 4: Run the test**
+- [x] **Step 4: Run the test**
 
 Run: `npx vitest run tests/unit/enemytypes.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Steer raiders at the engine and let them hurt it**
+- [x] **Step 5: Steer raiders at the engine and let them hurt it**
 
 In `src/enemies/Enemy.ts`, where the enemy chooses what to walk toward, a raider heads for its subsystem's `repairAt`-adjacent deck position rather than the player. Use the subsystem's hitbox centre projected to deck height so the nav graph can path to it:
 
@@ -1612,7 +1612,7 @@ Feed `goal` to the existing pathing call in place of `playerPos`. Then, in the a
 
 Note: `distanceToPlayer` stays the player's distance, so a raider still defends itself when the player closes on it.
 
-- [ ] **Step 6: Full suite and commit**
+- [x] **Step 6: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests

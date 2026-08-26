@@ -5,7 +5,7 @@ import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
 import type { PlayerStats } from '@/player/PlayerStats';
 import { ENEMIES } from '@/data/enemies';
-import { Enemy, type StructureDamage } from './Enemy';
+import { Enemy, type StructureDamage, type SubsystemDamage } from './Enemy';
 import { findPath, levelOf, type NavGraph } from './NavGraph';
 import { worldToCell } from '@/building/BuildGrid';
 import { PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
@@ -104,6 +104,8 @@ export class EnemyManager {
     carryFor: ((p: THREE.Vector3) => { x: number; y: number; z: number }) | null = null,
     /** What an enemy chews on when a wall is between it and the player. */
     build: StructureDamage | null = null,
+    /** What a raider chews on once it has crossed the deck to the engine. */
+    machineDamage: SubsystemDamage | null = null,
   ): void {
     if (nav) this.repath(nav, playerPos);
     for (const e of this.pool) {
@@ -117,7 +119,7 @@ export class EnemyManager {
         e.carry.y = 0;
         e.carry.z = 0;
       }
-      e.fixedUpdate(dt, playerPos, playerStats, build);
+      e.fixedUpdate(dt, playerPos, playerStats, build, machineDamage);
     }
   }
 
@@ -146,7 +148,10 @@ export class EnemyManager {
       if (!enemy.isActive) continue;
 
       const playerFeetY = playerPos.y - (PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS);
-      const goal = worldToCell(playerPos.x, playerPos.z, levelOf(playerFeetY));
+      const playerCell = worldToCell(playerPos.x, playerPos.z, levelOf(playerFeetY));
+      // The enemy decides where it is going: a raider routes to the engine,
+      // a scavenger to the player. The manager only knows where the player is.
+      const goal = enemy.goalCell(playerCell);
 
       enemy.setPath(findPath(nav, enemy.gridCell, goal), nav);
       return;

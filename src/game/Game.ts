@@ -556,6 +556,7 @@ export class Game implements LoopCallbacks {
         this.build.navGraph,
         this.carryOnDeck,
         this.build,
+        this.machine.damage,
       );
     }
 
