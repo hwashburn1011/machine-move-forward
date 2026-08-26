@@ -16,6 +16,7 @@ import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from 
 import type { Cell } from '@/building/BuildGrid';
 import { deckCells, type FixedLink } from '@/enemies/NavGraph';
 import { MachineMovement } from './MachineMovement';
+import { MachineDamage } from './MachineDamage';
 import {
   carryDelta,
   clampPose,
@@ -103,6 +104,7 @@ export function projectEquipmentCells(
 export class Machine {
   readonly group: THREE.Group;
   readonly movement = new MachineMovement();
+  readonly damage = new MachineDamage();
   readonly deckBounds: THREE.Box3;
   /** Level-0 cells the starting equipment sits in. Unbuildable. */
   readonly equipmentCells: Cell[];
@@ -346,7 +348,12 @@ export class Machine {
 
     // Roll about Z, then pitch about X -- the same order MachineBody composes
     // them, so the colliders and the rendered hull cannot disagree.
-    this.rollQuat.setFromAxisAngle(FORWARD_Z, this.pose.roll);
+    // The gait's own roll still heaves; the list is added on top, so a damaged
+    // machine still walks rather than merely leaning. NOT written into
+    // `this.pose.roll` — the gait owns that field and recomputes it every
+    // frame from the stride, so a value added there is both overwritten and,
+    // until it is, fed back into the next stride.
+    this.rollQuat.setFromAxisAngle(FORWARD_Z, this.pose.roll + this.damage.lean);
     this.pitchQuat.setFromAxisAngle(RIGHT_X, this.pose.pitch);
     this.poseQuat.copy(this.pitchQuat).multiply(this.rollQuat);
     this.poseOrigin.set(0, this.pose.heave, 0);
@@ -368,6 +375,10 @@ export class Machine {
   }
 
   fixedUpdate(dt: number): void {
+    // Pushed in BEFORE the step, so the speed model reads this frame's damage
+    // rather than last frame's.
+    this.movement.enginePower = this.damage.enginePower;
+    this.movement.legScale = this.damage.speedScale;
     this.movement.fixedUpdate(dt);
     this.applyPose();
 

@@ -12,8 +12,17 @@ export class MachineMovement {
   /** Total machine mass in kg, summed from structure and equipment. */
   totalWeight = REFERENCE_WEIGHT;
 
-  /** Engine output. 1.0 is the starting engine. */
+  /** Engine output. 1.0 is the starting engine, 0 is a wrecked one. */
   enginePower = 1;
+
+  /**
+   * Speed retained given the legs' condition. 1.0 is four sound legs.
+   *
+   * Separate from `enginePower` because they fail differently: a dead engine
+   * is a halt the player has to fix, and dead legs are a crawl they can limp
+   * home on. Multiplying one number by another would lose that distinction.
+   */
+  legScale = 1;
 
   private throttle = 1;
   private speed = 0;
@@ -32,7 +41,7 @@ export class MachineMovement {
    */
   get maxSpeed(): number {
     const ratio = Math.max(this.totalWeight, 1) / REFERENCE_WEIGHT;
-    return (BASE_MACHINE_SPEED * this.enginePower) / Math.sqrt(ratio);
+    return (BASE_MACHINE_SPEED * this.enginePower * this.legScale) / Math.sqrt(ratio);
   }
 
   get targetSpeed(): number {

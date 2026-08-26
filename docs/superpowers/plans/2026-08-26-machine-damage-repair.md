@@ -603,7 +603,7 @@ git commit -m "feat: the machine has parts that can be broken"
 - Consumes: `MachineDamage` from Task 2 — `enginePower`, `speedScale`, `isStopped`, `lean`.
 - Produces: `Machine.damage: MachineDamage` (public readonly field, constructed by `Machine`); `MachineMovement.legScale: number` (defaults 1).
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Append to `tests/unit/machinemovement.test.ts`:
 
@@ -661,12 +661,12 @@ describe('a damaged machine', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/machinemovement.test.ts`
 Expected: FAIL — `legScale` does not exist on `MachineMovement`.
 
-- [ ] **Step 3: Add the leg term to `MachineMovement`**
+- [x] **Step 3: Add the leg term to `MachineMovement`**
 
 In `src/machine/MachineMovement.ts`, add the field next to `enginePower`:
 
@@ -693,12 +693,12 @@ and change `maxSpeed`:
   }
 ```
 
-- [ ] **Step 4: Run the test**
+- [x] **Step 4: Run the test**
 
 Run: `npx vitest run tests/unit/machinemovement.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Own the damage state on `Machine` and feed it each tick**
+- [x] **Step 5: Own the damage state on `Machine` and feed it each tick**
 
 In `src/machine/Machine.ts`, add the import and the public field beside `movement`:
 
@@ -719,7 +719,7 @@ In `Machine`'s fixed update — the same method that already calls `this.movemen
     this.movement.fixedUpdate(dt);
 ```
 
-- [ ] **Step 6: Apply the list to the hull**
+- [x] **Step 6: Apply the list to the hull**
 
 `Machine.updateVisuals` builds the hull's attitude at `Machine.ts:349-351`:
 
@@ -743,7 +743,7 @@ Do NOT write the lean into `this.pose.roll` itself — the gait owns that field
 and recomputes it every frame from the stride, so a value added there is both
 overwritten and, until it is, fed back into the next stride.
 
-- [ ] **Step 7: Full suite and commit**
+- [x] **Step 7: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests

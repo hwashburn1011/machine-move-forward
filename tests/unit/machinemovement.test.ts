@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { MachineMovement } from '@/machine/MachineMovement';
 import { BASE_MACHINE_SPEED, FIXED_DT, REFERENCE_WEIGHT } from '@/game/constants';
+import { MachineDamage } from '@/machine/MachineDamage';
+import { SUBSYSTEMS } from '@/data/subsystems';
 
 const step = (m: MachineMovement, seconds: number) => {
   for (let i = 0; i < Math.round(seconds / FIXED_DT); i++) m.fixedUpdate(FIXED_DT);
@@ -82,5 +84,59 @@ describe('MachineMovement', () => {
     step(a, 3.5);
     step(b, 3.5);
     expect(a.currentSpeed).toBe(b.currentSpeed);
+  });
+});
+
+describe('a damaged machine', () => {
+  const applied = (d: MachineDamage) => {
+    const m = new MachineMovement();
+    m.enginePower = d.enginePower;
+    m.legScale = d.speedScale;
+    return m;
+  };
+
+  it('halves its top speed with a half-wrecked engine', () => {
+    const whole = new MachineMovement();
+    const d = new MachineDamage();
+    d.damage('engine', SUBSYSTEMS.engine.maxHealth / 2 + SUBSYSTEMS.engine.armor);
+    expect(applied(d).maxSpeed).toBeCloseTo(whole.maxSpeed * 0.5, 5);
+  });
+
+  it('stops dead at a destroyed engine', () => {
+    const d = new MachineDamage();
+    d.damage('engine', 99999);
+    expect(applied(d).maxSpeed).toBe(0);
+  });
+
+  it('crawls but never halts on wrecked legs', () => {
+    const d = new MachineDamage();
+    for (const id of [
+      'leg-front-left',
+      'leg-front-right',
+      'leg-rear-left',
+      'leg-rear-right',
+    ] as const) {
+      d.damage(id, 99999);
+    }
+    const m = applied(d);
+    expect(m.maxSpeed).toBeGreaterThan(0);
+    expect(m.maxSpeed).toBeLessThan(new MachineMovement().maxSpeed);
+  });
+
+  it('converges on zero rather than snapping there when the engine dies', () => {
+    // A machine that stopped in one frame would throw the player off the deck.
+    const m = new MachineMovement();
+    m.setThrottle(1);
+    for (let i = 0; i < 200; i++) m.fixedUpdate(1 / 60);
+    const rolling = m.currentSpeed;
+    expect(rolling).toBeGreaterThan(0);
+
+    m.enginePower = 0;
+    m.fixedUpdate(1 / 60);
+    expect(m.currentSpeed).toBeLessThan(rolling);
+    expect(m.currentSpeed).toBeGreaterThan(0);
+
+    for (let i = 0; i < 600; i++) m.fixedUpdate(1 / 60);
+    expect(m.currentSpeed).toBeLessThan(0.05);
   });
 });
