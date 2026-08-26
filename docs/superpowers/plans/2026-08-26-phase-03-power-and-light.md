@@ -93,8 +93,15 @@ without shadows — accepted MVP artefact, noted for the polish phase.
    stays fuel-free this phase; fuel feeds the generator only. Making travel
    itself consume fuel changes the whole game's economy and belongs with
    navigation (Phase 10) where course changes spend fuel, per the handoff.
+
+   **Decision: took the default — an empty tank kills the lights and the
+   refinery, never the legs; propulsion stays fuel-free until Phase 10.**
 2. **Generator noise?** Recommended: yes, a synthesized under-drone near the
    generator that stops when it sheds — free telegraphing.
+
+   **Decision: took the default — a breaker clunk on every shed and restore,
+   played through the existing `SoundBank`, so a deck going dark is heard as
+   well as seen.**
 
 ## Asset Needs
 
@@ -162,20 +169,26 @@ export class MachinePower {
 }
 ```
 
-- [ ] **Step 1: Failing tests.** Burn only while something is powered; no
+- [x] **Step 1: Failing tests.** Burn only while something is powered; no
   consumers ⇒ no burn. Shedding drops whole priority classes lowest-first
   until draw ≤ capacity; restore is the exact reverse and only on the edge.
   Empty tank ⇒ capacity 0 ⇒ everything sheds; refuel restores. Generator at
   half health (via `setProducerHealth(0.5)`) halves capacity. `isPowered`
   false for unknown ids. Save round-trip. Events are edges, not levels
   (emitted once per change — the HUD/audio depend on that).
-- [ ] **Step 2: Red run.** — cannot resolve modules.
-- [ ] **Step 3: Implement.** `src/data/power.ts`: `PRIORITY_ORDER =
+- [x] **Step 2: Red run.** — cannot resolve modules.
+- [x] **Step 3: Implement.** `src/data/power.ts`: `PRIORITY_ORDER =
   ['light','station','defense']`, `FUEL_BURN_PER_S`, `FUEL_TANK_CAP`,
   `GENERATOR_CAPACITY`, `DRAWS = { lamp: 1, refinery: 10 }` (handoff §13's
   example numbers). `MachinePower` pure, deterministic, no Date.
-- [ ] **Step 4: Green, full suite, commit** —
+- [x] **Step 4: Green, full suite, commit** —
   `feat: fuel burns at last, and the lights know it`.
+
+**Decision: took the default — `fuel` is a getter over a private tank rather
+than the sketch's public field, so nothing can write past `FUEL_TANK_CAP`
+without going through `addFuel`; reads are unchanged.** `machine.fuel` has
+been in the save schema since v1, so `MachinePowerSave` rides on it and no
+`machine.power` block, version bump or migration was needed.
 
 ---
 
