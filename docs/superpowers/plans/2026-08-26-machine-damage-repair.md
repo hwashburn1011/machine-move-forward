@@ -1036,7 +1036,7 @@ git commit -m "feat: mending is cheaper than knocking down and starting again"
 - Consumes: `structureRepairCost`, `subsystemRepairCost` (Task 5); `MachineDamage` (Task 2).
 - Produces: `const REPAIR_SECONDS = 1.6`; `interface RepairTarget { id: string; kind: 'structure' | 'subsystem'; missingFraction: number }`; class `RepairSystem` with `update(dt, target, holding, purse): RepairTick`.
 
-- [ ] **Step 1: Widen the interactable kind**
+- [x] **Step 1: Widen the interactable kind**
 
 In `src/interaction/InteractionSystem.ts`:
 
@@ -1044,7 +1044,7 @@ In `src/interaction/InteractionSystem.ts`:
   kind: 'crate' | 'workbench' | 'refinery' | 'repair';
 ```
 
-- [ ] **Step 2: Write the failing test**
+- [x] **Step 2: Write the failing test**
 
 ```ts
 // tests/unit/repairsystem.test.ts
@@ -1140,12 +1140,12 @@ describe('holding E to mend something', () => {
 });
 ```
 
-- [ ] **Step 3: Run it and watch it fail**
+- [x] **Step 3: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/repairsystem.test.ts`
 Expected: FAIL — cannot resolve `@/interaction/RepairSystem`.
 
-- [ ] **Step 4: Write the module**
+- [x] **Step 4: Write the module**
 
 ```ts
 // src/interaction/RepairSystem.ts
@@ -1259,12 +1259,12 @@ export class RepairSystem {
 }
 ```
 
-- [ ] **Step 5: Run the test**
+- [x] **Step 5: Run the test**
 
 Run: `npx vitest run tests/unit/repairsystem.test.ts`
 Expected: PASS.
 
-- [ ] **Step 6: Full suite and commit**
+- [x] **Step 6: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests
