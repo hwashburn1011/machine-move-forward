@@ -50,6 +50,18 @@ export class PlayerCamera {
     return this.yaw;
   }
 
+  /**
+   * Point the view somewhere, without a mouse.
+   *
+   * For the browser harnesses. The player moves in the CAMERA's yaw frame, so
+   * a harness that walks someone in a particular direction has to agree with
+   * the camera about which direction that is — and one that nudges the mouse
+   * until it looks about right is measuring its own nudging.
+   */
+  setYaw(radians: number): void {
+    this.yaw = radians;
+  }
+
   get isAiming(): boolean {
     return this.aimed;
   }

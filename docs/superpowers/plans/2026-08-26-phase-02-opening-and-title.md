@@ -295,21 +295,21 @@ it('lands only on the deck, not on the roof it jumped from', () => {
   harnesses); `'opening:phase': { phase: OpeningPhase }` bus event;
   `GameOptions.menu?: boolean` and `GameOptions.forceOpening?: boolean`.
 
-- [ ] **Step 1: Params and boot flow** — `nomenu=1` ⇒ `begin('skipped')`
+- [x] **Step 1: Params and boot flow** — `nomenu=1` ⇒ `begin('skipped')`
   exactly reproduces today's boot. Otherwise boot into `title`; New Game ⇒
   `begin('new-game')`; Continue ⇒ load save then `begin('continue')`.
-- [ ] **Step 2: Rooftop phase effects** — on `spawn-rooftop`: build
+- [x] **Step 2: Rooftop phase effects** — on `spawn-rooftop`: build
   `RooftopSet`, teleport player to `playerSpawn`, spawn two scavengers at
   `enemySpawns` via `EnemyManager`, hold `machine.movement.setThrottle(0)`,
   strip weapons. On `throttle-up`: `setThrottle(1)`, grant rifle+shotgun
   (the current default loadout path). On `teardown-rooftop`: begin
   scrolling the set with the world's per-step delta until `gone`.
-- [ ] **Step 3: Respawn-to-roof** — while phase is `rooftop`, death respawns
+- [x] **Step 3: Respawn-to-roof** — while phase is `rooftop`, death respawns
   at `playerSpawn` (restart the chase) rather than mid-deck.
-- [ ] **Step 4: Update every harness and e2e boot URL** with `nomenu=1`
+- [x] **Step 4: Update every harness and e2e boot URL** with `nomenu=1`
   (`tools/drive.mjs`, `build.mjs`, `craft.mjs`, `combat.mjs`, `shoot.mjs`
   callers, `tests/e2e/*`). Run each.
-- [ ] **Step 5: Full suite, commit** —
+- [x] **Step 5: Full suite, commit** —
   `feat: the story starts on a rooftop with nowhere left to run`.
 
 ---

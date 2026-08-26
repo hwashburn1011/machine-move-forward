@@ -199,6 +199,8 @@ export class RooftopSet {
   private built = false;
   /** How far astern the whole set has been scrolled so far. */
   private scrolled = 0;
+  /** Reused by `scroll`, so a departing building costs no allocation a step. */
+  private readonly scratch = new THREE.Vector3();
 
   constructor(
     private readonly scene: THREE.Scene,
@@ -238,10 +240,16 @@ export class RooftopSet {
       mesh.receiveShadow = true;
       this.group.add(mesh);
 
-      // Kinematic, not fixed: the set has to be translated once the opening is
-      // over, and a fixed body cannot be moved. Nothing is standing on it by
-      // then — `Game` only scrolls it after `teardown-rooftop`.
-      const body = this.physics.createKinematicBody(slab.center);
+      // A DRIVEN body — dynamic, locked, gravity-free — exactly as the machine
+      // uses. Not fixed, because the set has to be translated once the opening
+      // is over and a fixed body cannot move. Not KINEMATIC either, and that
+      // distinction is the whole of `PhysicsWorld.createDrivenBody`'s doc
+      // comment: against a kinematic platform Rapier's character controller
+      // resolves as though the ground were moving and pins whatever stands on
+      // it. Measured here, exactly as it was measured on the machine — two
+      // scavengers spawned on a kinematic roof reported grounded, asked to
+      // walk, and did not move a centimetre for the whole run.
+      const body = this.physics.createDrivenBody(slab.center);
       this.physics.addBoxTo(body, slab.half, new THREE.Vector3(), undefined, {
         kind: 'rooftop',
       });
@@ -289,7 +297,11 @@ export class RooftopSet {
     this.ledge.z += dz;
     for (const body of this.bodies) {
       const t = body.translation();
-      body.setNextKinematicTranslation({ x: t.x, y: t.y, z: t.z + dz });
+      // `setTranslation` teleports, which is how a locked dynamic body is
+      // driven — the solver will not move it. Same call `Machine.applyPose`
+      // makes for the same reason.
+      this.scratch.set(t.x, t.y, t.z + dz);
+      body.setTranslation(this.scratch, true);
     }
   }
 
