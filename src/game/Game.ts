@@ -22,6 +22,7 @@ import { WorldManager, renderedDistance, WORLD_Z_PER_METRE } from '@/world/World
 import { Machine } from '@/machine/Machine';
 import { SUBSYSTEMS, type SubsystemId } from '@/data/subsystems';
 import { conditionLabel } from '@/ui/MachineCondition';
+import { RepairSystem, type RepairTarget } from '@/interaction/RepairSystem';
 import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
@@ -165,6 +166,11 @@ export class Game implements LoopCallbacks {
   private readonly lastSubsystemHealth = new Map<SubsystemId, number>();
   /** Simulated seconds left before another damage cue may play. */
   private damageCueCooldown = 0;
+
+  readonly repair = new RepairSystem();
+  /** This tick's repair targets, by the id their interactable carries. */
+  private readonly repairTargets = new Map<string, RepairTarget>();
+  private readonly repairPoint = new THREE.Vector3();
   /** Mutable so a harness can arm it for the one section that tests it. */
   enemySpawnsEnabled: boolean;
   /**
@@ -488,7 +494,7 @@ export class Game implements LoopCallbacks {
     if (this.state.paused) return;
     this.state.simTime += dt;
 
-    this.updatePanels();
+    this.updatePanels(dt);
     // Build mode and the panels are mutually exclusive: both want LMB.
     if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
 
@@ -946,22 +952,102 @@ export class Game implements LoopCallbacks {
     consumePressed: () => false,
   } as unknown as InputManager;
 
-  /** Interactables the player is currently near. */
+  /**
+   * Interactables the player is currently near.
+   *
+   * Repair targets are gathered alongside the stations rather than in a system
+   * of their own, because a broken thing you walk up to and hold E on is
+   * exactly what `InteractionSystem` already picks between. `repairTargets` is
+   * rebuilt here so the driver below can look one up by the id the nearest
+   * interactable carries.
+   */
   private candidates(): Interactable[] {
-    return this.build
-      .stationsNear(this.player.worldPosition, INTERACT_REACH)
-      .map((station) => ({
-        id: station.instanceId,
-        label: BUILD_PIECES[station.piece].name,
-        position: station.position,
-        kind: station.piece as Interactable['kind'],
-      }));
+    const at = this.player.worldPosition;
+    this.repairTargets.clear();
+
+    const out: Interactable[] = this.build.stationsNear(at, INTERACT_REACH).map((station) => ({
+      id: station.instanceId,
+      label: BUILD_PIECES[station.piece].name,
+      position: station.position,
+      kind: station.piece as Interactable['kind'],
+    }));
+
+    // Subsystems are serviced at their access panel, NOT at their hitbox: four
+    // of the five hips are outboard of the deck and below it, so there is
+    // nowhere to stand at one.
+    for (const id of Object.keys(SUBSYSTEMS) as SubsystemId[]) {
+      const missing = 1 - this.machine.damage.fraction(id);
+      if (missing <= 0) continue;
+      const panel = SUBSYSTEMS[id].repairAt;
+      this.repairPoint.set(panel.x, panel.y, panel.z);
+      if (this.repairPoint.distanceTo(at) > INTERACT_REACH) continue;
+      this.repairTargets.set(id, { id, kind: 'subsystem', missingFraction: missing });
+      out.push({
+        id,
+        label: SUBSYSTEMS[id].name,
+        position: this.repairPoint.clone(),
+        kind: 'repair',
+      });
+    }
+
+    for (const piece of this.build.damagedNear(at, INTERACT_REACH)) {
+      this.repairTargets.set(piece.instanceId, {
+        id: piece.instanceId,
+        kind: 'structure',
+        pieceId: piece.piece,
+        missingFraction: piece.missingFraction,
+      });
+      out.push({
+        id: piece.instanceId,
+        label: BUILD_PIECES[piece.piece].name,
+        position: piece.position,
+        kind: 'repair',
+      });
+    }
+
+    return out;
   }
 
-  private updatePanels(): void {
+  /**
+   * Drive the hold-to-repair, and say what it is doing.
+   *
+   * Returns the prompt line, so the caller's own prompt logic stays one place.
+   * Null when this is not a repair target at all.
+   */
+  private updateRepair(dt: number, nearest: Interactable | null): string | null {
+    const target = nearest?.kind === 'repair' ? (this.repairTargets.get(nearest.id) ?? null) : null;
+    const holding = !this.buildMode && !this.panelsOpen && this.input.isDown('interact');
+    const tick = this.repair.update(dt, target, holding, this.resources);
+
+    if (!target || !nearest) return null;
+
+    if (tick.completed) {
+      if (target.kind === 'subsystem') {
+        this.machine.damage.repair(target.id as SubsystemId, Number.POSITIVE_INFINITY);
+      } else {
+        this.build.repairPiece(target.id, Number.POSITIVE_INFINITY);
+      }
+      this.audio.play('build-place');
+      return `${nearest.label} repaired`;
+    }
+
+    if (tick.blocked === 'cannot-afford') {
+      return `Need ${tick.cost?.scrap ?? 0} scrap to repair ${nearest.label}`;
+    }
+
+    const cost = tick.cost?.scrap ?? 0;
+    const pct = Math.round(this.repair.progress * 100);
+    return this.repair.progress > 0
+      ? `Repairing ${nearest.label}... ${pct}%`
+      : `[Hold E] Repair ${nearest.label} — ${cost} scrap`;
+  }
+
+  private updatePanels(dt: number): void {
     const nearest = this.freeCamera
       ? null
       : this.interaction.update(this.player.worldPosition, this.candidates());
+
+    const repairPrompt = this.updateRepair(dt, nearest);
 
     if (this.input.consumePressed('inventory')) {
       if (this.panelsOpen) this.closePanels();
@@ -975,11 +1061,14 @@ export class Game implements LoopCallbacks {
 
     if (!this.buildMode && this.input.consumePressed('interact')) {
       if (this.panelsOpen) this.closePanels();
-      else if (nearest) this.openInteractable(nearest);
+      // A repair is a HOLD, and `updateRepair` owns it. Opening something on
+      // the press that starts the hold would put a panel over the player's
+      // face for the whole of it.
+      else if (nearest && nearest.kind !== 'repair') this.openInteractable(nearest);
     }
 
     this.hud.setPrompt(
-      !this.panelsOpen && nearest ? `[E] Open ${nearest.label}` : null,
+      this.panelsOpen ? null : (repairPrompt ?? (nearest ? `[E] Open ${nearest.label}` : null)),
     );
   }
 
@@ -991,6 +1080,8 @@ export class Game implements LoopCallbacks {
   /** Open whatever the player is standing at. Returns false if nothing is. */
   openInteractable(target: Interactable | null = this.interaction.current): boolean {
     if (!target) return false;
+    // A repair has no panel. `updateRepair` drives it from the held key.
+    if (target.kind === 'repair') return false;
 
     if (target.kind === 'crate') {
       const crate = this.build.crateContainer(target.id);

@@ -456,6 +456,46 @@ export class BuildSystem {
     return found.sort((a, b) => a.d - b.d).map((entry) => entry.ref);
   }
 
+  /**
+   * Hurt pieces the player is standing close enough to mend, nearest first.
+   *
+   * Separate from `stationsNear` because the two answer different questions —
+   * that one asks which crate or bench is in front of you, this one asks what
+   * is broken — and because a wall is not a station and never will be.
+   */
+  damagedNear(
+    pos: THREE.Vector3,
+    reach: number,
+  ): { instanceId: string; piece: PieceId; position: THREE.Vector3; missingFraction: number }[] {
+    const found: { ref: ReturnType<BuildSystem['damagedNear']>[number]; d: number }[] = [];
+    for (const live of this.instances.values()) {
+      const max = BUILD_PIECES[live.data.definitionId].maxHealth;
+      if (live.data.health >= max) continue;
+      const d = live.mesh.position.distanceTo(pos);
+      if (d > reach) continue;
+      found.push({
+        ref: {
+          instanceId: live.data.instanceId,
+          piece: live.data.definitionId,
+          position: live.mesh.position.clone(),
+          missingFraction: 1 - live.data.health / max,
+        },
+        d,
+      });
+    }
+    return found.sort((a, b) => a.d - b.d).map((entry) => entry.ref);
+  }
+
+  /** Mend a piece. Returns the health actually restored. */
+  repairPiece(instanceId: string, amount: number): number {
+    const live = this.instances.get(instanceId);
+    if (!live) return 0;
+    const max = BUILD_PIECES[live.data.definitionId].maxHealth;
+    const before = live.data.health;
+    live.data.health = Math.min(max, before + Math.max(0, amount));
+    return live.data.health - before;
+  }
+
   // -------------------------------------------------------------------------
   // Rendering and physics
   // -------------------------------------------------------------------------

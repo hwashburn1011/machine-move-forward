@@ -87,6 +87,51 @@ test.describe('machine damage', () => {
     expect(errors).toEqual([]);
   });
 
+  test('the player can walk to the engine and hold E to start it again', async ({ page }) => {
+    // Success criterion 1, driven the way a player drives it: no debug repair
+    // call, no reloaded save. Standing at the panel and holding the key.
+    await page.evaluate(() => {
+      const g = globalThis as never as {
+        __game: {
+          machine: { damage: { damage(id: string, n: number): number } };
+          player: { teleport(v: unknown): void };
+          resources: { deposit(id: string, n: number): void };
+        };
+      };
+      g.__game.machine.damage.damage('engine', 99999);
+      g.__game.resources.deposit('scrap', 500);
+      // The engine's access panel, at DECK_HEIGHT, plus the capsule's rise.
+      g.__game.player.teleport({ x: 0, y: 5.0, z: 4.4 });
+    });
+    await sim(page, 0.5);
+
+    const stopped = await page.evaluate(
+      () =>
+        (globalThis as never as { __game: { machine: { damage: { isStopped: boolean } } } }).__game
+          .machine.damage.isStopped,
+    );
+    expect(stopped).toBe(true);
+
+    // Longer than REPAIR_SECONDS of SIMULATED time, held throughout.
+    await page.keyboard.down('e');
+    await sim(page, 3);
+    await page.keyboard.up('e');
+
+    // Primitives, not the object: `isStopped` is a prototype getter and would
+    // not survive being serialised out of the page.
+    const after = await page.evaluate(() => {
+      const d = (
+        globalThis as never as {
+          __game: { machine: { damage: { isStopped: boolean; fraction(id: string): number } } };
+        }
+      ).__game.machine.damage;
+      return { stopped: d.isStopped, fraction: d.fraction('engine') };
+    });
+    expect(after.stopped).toBe(false);
+    expect(after.fraction).toBeGreaterThan(0);
+    expect(errors).toEqual([]);
+  });
+
   test('a damaged leg slows the machine without stopping it', async ({ page }) => {
     const top = () =>
       page.evaluate(

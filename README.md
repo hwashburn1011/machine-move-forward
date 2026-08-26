@@ -29,6 +29,7 @@ Click the canvas to take control (pointer lock).
 | `1` / `2` | Rifle / shotgun |
 | `Tab` | Inventory |
 | `E` | Use the station you are standing at |
+| Hold `E` | Repair the damaged subsystem or piece you are standing at |
 | `Esc` | Close a panel |
 | `B` | Toggle build mode |
 | `M` | Mute |
@@ -110,6 +111,20 @@ build adds weight, which measurably slows the machine.
   machine's feet, building, looting, crafting, the reel, the director's warning
   and all-clear, and a continuous engine drone whose pitch and volume follow the
   machine's speed. Positional, in the listener's own frame.
+- Localized machine damage and repair: five subsystems — the engine and the
+  four legs — each with their own health, and no global HP bar anywhere. A hurt
+  engine scales the machine's top speed continuously and at zero stops it dead;
+  hurt legs slow it and make the hull list toward the damaged side. Being
+  stopped is a state you play through and repair, never a reloaded save. Every
+  piece the player builds can be shot or chewed down, and falls through the same
+  cascade demolition the hammer uses, with no refund. A wall now genuinely stops
+  a hit — an enemy one 2m cell away used to reach through it — and an enemy that
+  cannot get past one attacks the wall instead, so sealing yourself in is not
+  permanent safety. The raider is told apart from the scavenger by what it does:
+  it crosses the deck for the engine while the scavenger comes for you. Repair
+  is hold-`E` at a deck access panel, priced at 20% of build cost pro rata, held
+  strictly under the 40% that demolishing and rebuilding nets so that mending is
+  always the right move. One HUD row stays quiet until something is wrong.
 - Enemies path over the structure the player builds: A* across the build grid,
   routing around walls, funnelling through doorways, and falling back to the
   nearest reachable cell when you have sealed yourself in. A scavenger crossing
@@ -119,10 +134,10 @@ build adds weight, which measurably slows the machine.
 
 ## Not built yet
 
-Enemy vehicles, boarding, turrets, localized machine damage, repair,
-navigation unlocks, and a second enemy type. These are Milestones 6–12 in the
-handoff; 5 (procedural resources, as the salvage field and the reel) and 10
-(the threat director) are done.
+Enemy vehicles, boarding, turrets, and navigation unlocks. These are
+Milestones 6–12 in the handoff; 5 (procedural resources, as the salvage field
+and the reel), 10 (the threat director) and the damage and repair half of 6 are
+done.
 
 Three known gaps in what is built:
 
@@ -204,8 +219,8 @@ src/
 ## Testing
 
 ```bash
-npm test             # 621 unit tests (deterministic logic)
-npm run test:e2e     # 11 Playwright smoke tests
+npm test             # 727 unit tests (deterministic logic)
+npm run test:e2e     # 18 Playwright tests (smoke, what-is-seen, machine damage)
 npm run lint
 npm run build        # includes tsc --noEmit
 ```
@@ -217,7 +232,14 @@ canonicalisation, every build placement rule, room flood fill, container
 stacking and slot exhaustion, aggregate resource access, recipe execution, the
 gait and its IK, deck carrying under a moving body, what the machine's own
 steel takes out of the build grid, every rule the threat director paces
-encounters by, and the arithmetic half of the audio layer.
+encounters by, the arithmetic half of the audio layer, and every rule of
+machine damage — subsystem health and its effects, what a repair costs against
+what replacing costs, what an enemy swings at when a wall is in the way, and
+the condition row's wording.
+
+`npm run test:e2e` reuses whatever dev server is already answering on 5173. If
+a second checkout of this repo has one running, set `PORT` to give this one a
+lane of its own — otherwise the suite silently measures the other checkout.
 
 Rendering and feel cannot be meaningfully unit-tested, so there are five
 browser harnesses in `tools/` that drive the real game:
