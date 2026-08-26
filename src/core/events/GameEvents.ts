@@ -1,4 +1,5 @@
 import type { ItemCost } from '@/data/items';
+import type { PieceId } from '@/data/build-pieces';
 import type { ThreatPhase } from '@/enemies/ThreatDirector';
 
 export interface Vec3Like {
@@ -48,6 +49,13 @@ export type GameEvents = {
   'threat:phase': { phase: ThreatPhase; wavesSurvived: number };
 
   'build:placed': { instanceId: string; definitionId: string; cost: ItemCost };
+  /** A piece took a hit. `health` is what is left; zero means it came down. */
+  'build:damaged': {
+    instanceId: string;
+    definitionId: PieceId;
+    health: number;
+    maxHealth: number;
+  };
   'build:removed': { instanceId: string; definitionId: string; refunded: number };
   'build:rooms-changed': { roomCount: number; enclosedCount: number };
   'inventory:changed': { scrap: number };

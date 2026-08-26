@@ -4,6 +4,7 @@ import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
 import type { Machine } from '@/machine/Machine';
+import type { Damageable } from '@/combat/Damageable';
 import type { ResourceAccess, CrateRef } from '@/items/ResourceAccess';
 import { Container } from '@/items/Container';
 import {
@@ -195,6 +196,46 @@ export class BuildSystem {
     const refunded = this.removeCascade(id);
     if (refunded > 0) this.recomputeRooms();
     return refunded;
+  }
+
+  /** Current health of one instance, or null if it does not exist. */
+  pieceHealth(instanceId: string): number | null {
+    return this.instances.get(instanceId)?.data.health ?? null;
+  }
+
+  /**
+   * Hurt a piece. Returns the damage that actually landed, after armour.
+   *
+   * At zero the piece goes through the SAME cascade demolition the player's
+   * own hammer uses, so a wall that falls to a raider takes down exactly what
+   * a wall the player pulls down takes with it — the roof above, the floor it
+   * carried. One path to get wrong instead of two.
+   *
+   * No refund. Demolition pays back 60% because it is a considered decision;
+   * losing a wall to a raider is not, and refunding it would make being
+   * attacked free.
+   */
+  damagePiece(instanceId: string, amount: number): number {
+    const live = this.instances.get(instanceId);
+    if (!live) return 0;
+
+    const def = BUILD_PIECES[live.data.definitionId];
+    const dealt = Math.max(0, amount - def.armor);
+    if (dealt === 0) return 0;
+
+    live.data.health = Math.max(0, live.data.health - dealt);
+    this.bus.emit('build:damaged', {
+      instanceId,
+      definitionId: live.data.definitionId,
+      health: live.data.health,
+      maxHealth: def.maxHealth,
+    });
+
+    if (live.data.health <= 0) {
+      this.removeCascade(instanceId);
+      this.recomputeRooms();
+    }
+    return dealt;
   }
 
   /**
@@ -481,6 +522,17 @@ export class BuildSystem {
     const out: RAPIER.Collider[] = [];
     const offset = new THREE.Vector3();
 
+    // Every collider a piece owns carries the same damage target, so a shot or
+    // a swing that lands anywhere on it finds the piece.
+    const target: Damageable = {
+      kind: 'structure',
+      id: data.instanceId,
+      armor: BUILD_PIECES[data.definitionId].armor,
+      takeDamage: (amount: number) => {
+        this.damagePiece(data.instanceId, amount);
+      },
+    };
+
     for (const spec of pieceColliders(data.definitionId)) {
       offset.copy(spec.offset).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationY);
       const center = position.clone().add(offset);
@@ -493,9 +545,9 @@ export class BuildSystem {
               spec.half,
               center,
               new THREE.Quaternion().setFromEuler(new THREE.Euler(spec.rotX, rotationY, 0)),
-              { kind: 'machine' },
+              target,
             )
-          : this.physics.addFixedBox(spec.half, center, rotationY, { kind: 'machine' });
+          : this.physics.addFixedBox(spec.half, center, rotationY, target);
 
       out.push(collider);
     }

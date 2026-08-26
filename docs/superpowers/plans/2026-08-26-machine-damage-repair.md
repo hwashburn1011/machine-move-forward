@@ -763,7 +763,7 @@ git commit -m "feat: a machine with a hurt engine drives like one"
 - Consumes: `Damageable` from Task 1.
 - Produces: `BuildSystem.damagePiece(instanceId: string, amount: number): number` — returns damage dealt after armour, 0 if the id is unknown; `BuildSystem.pieceHealth(instanceId: string): number | null`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```ts
 // tests/unit/structuredamage.test.ts
@@ -795,12 +795,12 @@ describe('what a structure is worth breaking', () => {
 
 Then a second file exercising `BuildSystem` itself is impossible in node — it needs Rapier and Three. Its behaviour is proved in the browser harness in Task 11. What is provable here is the data contract above, and that is what this step asserts.
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/structuredamage.test.ts`
 Expected: PASS immediately — the data already satisfies it. This test is a regression guard on fields a future edit could quietly drop, not a red test. Note that in the commit message.
 
-- [ ] **Step 3: Add damage to `BuildSystem`**
+- [x] **Step 3: Add damage to `BuildSystem`**
 
 In `src/building/BuildSystem.ts`, after `demolishAt`:
 
@@ -846,7 +846,7 @@ In `src/building/BuildSystem.ts`, after `demolishAt`:
   }
 ```
 
-- [ ] **Step 4: Declare the event**
+- [x] **Step 4: Declare the event**
 
 In `src/core/events/GameEvents.ts`, add alongside the existing `build:placed`:
 
@@ -859,7 +859,7 @@ In `src/core/events/GameEvents.ts`, add alongside the existing `build:placed`:
   };
 ```
 
-- [ ] **Step 5: Register each piece as a damage target**
+- [x] **Step 5: Register each piece as a damage target**
 
 In `BuildSystem.createColliders`, attach userData to every collider it makes, so a shot or a swing finds the piece:
 
@@ -874,7 +874,7 @@ In `BuildSystem.createColliders`, attach userData to every collider it makes, so
 
 Add the import: `import type { Damageable } from '@/combat/Damageable';`
 
-- [ ] **Step 6: Full suite and commit**
+- [x] **Step 6: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests
