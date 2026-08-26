@@ -28,6 +28,9 @@ export interface HUDState {
   /** Deck half-extents, so a boarding alert can name where. */
   deckHalfWidth: number;
   deckHalfLength: number;
+  /** One line naming what is hurt. 'Sound' when nothing is. */
+  machineCondition: string;
+  machineStopped: boolean;
 }
 
 /**
@@ -100,6 +103,7 @@ export class HUD {
         <div class="hud-row"><span>Speed</span><span class="hud-value" id="hud-speed">0.0 m/s</span></div>
         <div class="hud-row"><span>Distance</span><span class="hud-value" id="hud-distance">0 m</span></div>
         <div class="hud-row"><span>Aboard</span><span class="hud-value" id="hud-threats">0</span></div>
+        <div class="hud-row"><span>Condition</span><span class="hud-value" id="hud-condition">Sound</span></div>
       </div>
 
       <div id="hud-health" class="hud-panel">
@@ -128,6 +132,7 @@ export class HUD {
       'hud-speed',
       'hud-distance',
       'hud-threats',
+      'hud-condition',
       'hud-boarding',
       'hud-pickup',
       'hud-health',
@@ -247,6 +252,12 @@ export class HUD {
     this.deckHalf = { w: state.deckHalfWidth, l: state.deckHalfLength };
     this.write('threats', this.el['hud-threats'], String(state.enemiesAboard));
     this.el['hud-threats']?.classList.toggle('is-hot', state.enemiesAboard > 0);
+
+    // --- Condition ---------------------------------------------------------
+    // Quiet at full health and hot the moment it is not, which is the whole
+    // restraint the panel is built on. `is-hot` already exists in hud.css.
+    this.write('condition', this.el['hud-condition'], state.machineCondition);
+    this.el['hud-condition']?.classList.toggle('is-hot', state.machineCondition !== 'Sound');
 
     const boarding = this.el['hud-boarding'];
     if (boarding) {

@@ -1712,7 +1712,7 @@ git commit -m "feat: a broken machine is still broken after a reload"
 - Consumes: `MachineDamage.damaged()` (Task 2), `SUBSYSTEMS` (Task 2).
 - Produces: `function conditionLabel(damaged: { id: SubsystemId; fraction: number }[]): string` exported from `src/ui/DeckBearing.ts`'s sibling `src/ui/MachineCondition.ts`.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 ```ts
 // tests/unit/hudcondition.test.ts
@@ -1750,12 +1750,12 @@ describe('the condition row', () => {
 });
 ```
 
-- [ ] **Step 2: Run it and watch it fail**
+- [x] **Step 2: Run it and watch it fail**
 
 Run: `npx vitest run tests/unit/hudcondition.test.ts`
 Expected: FAIL — cannot resolve `@/ui/MachineCondition`.
 
-- [ ] **Step 3: Write the label**
+- [x] **Step 3: Write the label**
 
 ```ts
 // src/ui/MachineCondition.ts
@@ -1787,12 +1787,12 @@ export function conditionLabel(
 }
 ```
 
-- [ ] **Step 4: Run the test**
+- [x] **Step 4: Run the test**
 
 Run: `npx vitest run tests/unit/hudcondition.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Add the row**
+- [x] **Step 5: Add the row**
 
 In `src/ui/HUD.ts`, add to the `hud-machine` panel markup, after the Aboard row:
 
@@ -1817,11 +1817,11 @@ and in the update method, beside the existing `hud-threats` handling:
 
 `is-hot` already exists in `hud.css` and needs no new rule.
 
-- [ ] **Step 6: Cue an engine under attack**
+- [x] **Step 6: Cue an engine under attack**
 
 The engine can be attacked while the player is across the deck, so it needs a sound. In `src/game/Game.ts`, subscribe to the subsystem damage path added in Task 8 and play the director's existing warning cue, rate-limited to once every few seconds so a sustained attack does not machine-gun it. Reuse `GameSounds`' warning rather than adding a third alert channel.
 
-- [ ] **Step 7: Full suite and commit**
+- [x] **Step 7: Full suite and commit**
 
 ```bash
 npx tsc --noEmit && npx vitest run && npx eslint src tests

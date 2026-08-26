@@ -20,6 +20,8 @@ import { loadPropModels } from '@/world/PropModels';
 import { updateFogColor } from '@/art/Fog';
 import { WorldManager, renderedDistance, WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
+import { SUBSYSTEMS, type SubsystemId } from '@/data/subsystems';
+import { conditionLabel } from '@/ui/MachineCondition';
 import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
@@ -123,6 +125,14 @@ export interface GameOptions {
 /** Returned for anything the deck is not carrying. Never mutated. */
 const ZERO_CARRY = { x: 0, y: 0, z: 0 } as const;
 
+/**
+ * Simulated seconds between engine-under-attack cues.
+ *
+ * Comfortably longer than a raider's 0.75s attack cooldown, so a sustained
+ * attack is a repeating alarm rather than a stutter of overlapping tones.
+ */
+const DAMAGE_CUE_SECONDS = 4;
+
 export class Game implements LoopCallbacks {
   readonly bus = new EventBus();
   readonly state: GameState;
@@ -150,6 +160,11 @@ export class Game implements LoopCallbacks {
   readonly director: ThreatDirector;
   /** The phase last seen, so a change can be announced exactly once. */
   private threatPhase: ThreatPhase = 'calm';
+
+  /** Last tick's subsystem health, so a drop can be spotted without an event. */
+  private readonly lastSubsystemHealth = new Map<SubsystemId, number>();
+  /** Simulated seconds left before another damage cue may play. */
+  private damageCueCooldown = 0;
   /** Mutable so a harness can arm it for the one section that tests it. */
   enemySpawnsEnabled: boolean;
   /**
@@ -561,6 +576,7 @@ export class Game implements LoopCallbacks {
     }
 
     this.machine.fixedUpdate(dt);
+    this.announceMachineDamage(dt);
     this.world.fixedUpdate(dt, this.machine.speed);
     // After the world moves, so the distance the spawner reads is this tick's.
     if (!this.freeCamera) this.updateSpawns();
@@ -569,6 +585,37 @@ export class Game implements LoopCallbacks {
     this.physics.step();
 
     this.handleDebugKeys();
+  }
+
+  /**
+   * Say — out loud — that a subsystem is being attacked.
+   *
+   * Polled rather than pushed because `MachineDamage` is deliberately pure and
+   * owns no event bus: it is read every frame by whoever needs it, and this is
+   * one of those readers. A sustained attack lands a hit every attack cooldown,
+   * so the cue is limited to one every few seconds; unlimited, a raider at the
+   * engine would machine-gun the warning tone.
+   *
+   * The cooldown runs on SIMULATED seconds, like every other clock in the sim,
+   * so a save, a reload and a replay all produce the same cues.
+   */
+  private announceMachineDamage(dt: number): void {
+    this.damageCueCooldown = Math.max(0, this.damageCueCooldown - dt);
+
+    for (const id of Object.keys(SUBSYSTEMS) as SubsystemId[]) {
+      const now = this.machine.damage.health(id);
+      const before = this.lastSubsystemHealth.get(id) ?? now;
+      this.lastSubsystemHealth.set(id, now);
+      if (now >= before) continue;
+
+      if (this.damageCueCooldown > 0) continue;
+      this.damageCueCooldown = DAMAGE_CUE_SECONDS;
+      this.bus.emit('machine:damaged', {
+        subsystemId: id,
+        fraction: this.machine.damage.fraction(id),
+        stopped: this.machine.damage.isStopped,
+      });
+    }
   }
 
   /**
@@ -765,6 +812,8 @@ export class Game implements LoopCallbacks {
       enemiesAboard: this.enemies.activeCount,
       deckHalfWidth: this.machine.deckBounds.max.x,
       deckHalfLength: this.machine.deckBounds.max.z,
+      machineCondition: conditionLabel(this.machine.damage.damaged()),
+      machineStopped: this.machine.damage.isStopped,
     });
 
     this.inventoryUI.update({

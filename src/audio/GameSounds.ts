@@ -94,6 +94,13 @@ export function connectGameSounds(
       if (e.phase === 'buildup') audio.play('warning');
       if (e.phase === 'recovery') audio.play('all-clear');
     }),
+
+    // --- The machine itself -------------------------------------------------
+    // Reuses the director's warning rather than inventing a third alert
+    // channel, for the reason the design gives: the player is already trained
+    // on what that sound means, and "something is wrong, look up" is the same
+    // message. `Game` rate-limits it; this end only plays what it is handed.
+    bus.on('machine:damaged', () => audio.play('warning')),
   ];
 
   return () => {

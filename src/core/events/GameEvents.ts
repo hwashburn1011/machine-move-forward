@@ -49,6 +49,13 @@ export type GameEvents = {
   'threat:phase': { phase: ThreatPhase; wavesSurvived: number };
 
   'build:placed': { instanceId: string; definitionId: string; cost: ItemCost };
+  /**
+   * A machine subsystem took a hit, rate-limited to a cue rather than a tick.
+   *
+   * The engine is the one thing that can be attacked while the player is
+   * nowhere near it, so it needs to reach them through their ears.
+   */
+  'machine:damaged': { subsystemId: string; fraction: number; stopped: boolean };
   /** A piece took a hit. `health` is what is left; zero means it came down. */
   'build:damaged': {
     instanceId: string;

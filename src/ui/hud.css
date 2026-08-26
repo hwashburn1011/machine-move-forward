@@ -619,7 +619,11 @@
  * the player, is easy to miss entirely — the player reported an empty deck
  * while one was aboard.
  */
-#hud-threats.is-hot {
+/* Condition rides the same rule rather than getting its own colour: both rows
+ * mean "something on this machine needs you", and two shades of alarm in one
+ * four-row panel would be two things to learn instead of one. */
+#hud-threats.is-hot,
+#hud-condition.is-hot {
   color: var(--danger);
   text-shadow: 0 0 8px rgba(214, 72, 59, 0.55);
 }
