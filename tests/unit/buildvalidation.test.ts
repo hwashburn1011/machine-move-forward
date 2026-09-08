@@ -10,6 +10,7 @@ import {
 } from '@/game/constants';
 import {
   stairsCells,
+  stairsExit,
   validatePlacement,
   type CanAfford,
   type Placement,
@@ -102,9 +103,9 @@ describe('affordability', () => {
     const g = grid();
     g.setCell(c(0, 0, 0), 'floor');
     // Plenty of scrap, no components: the crate must still be refused.
-    expect(
-      validatePlacement(g, place('crate', c(0, 0, 0)), purse({ scrap: 999 })).reason,
-    ).toBe('cannot-afford');
+    expect(validatePlacement(g, place('crate', c(0, 0, 0)), purse({ scrap: 999 })).reason).toBe(
+      'cannot-afford',
+    );
     expect(
       validatePlacement(g, place('crate', c(0, 0, 0)), purse({ scrap: 15, components: 2 })).ok,
     ).toBe(true);
@@ -244,6 +245,13 @@ describe('stairs', () => {
     });
   });
 
+  it('puts the walkable upper exit one cell beyond the clearance landing', () => {
+    expect(stairsExit(c(0, 0, 0), 0)).toEqual(c(0, 1, -2));
+    expect(stairsExit(c(0, 0, 0), 1)).toEqual(c(2, 1, 0));
+    expect(stairsExit(c(0, 0, 0), 2)).toEqual(c(0, 1, 2));
+    expect(stairsExit(c(0, 0, 0), 3)).toEqual(c(-2, 1, 0));
+  });
+
   it('accepts stairs from a floored base with a clear run and landing', () => {
     const g = grid();
     g.setCell(c(0, 0, 0), 'floor');
@@ -263,6 +271,13 @@ describe('stairs', () => {
     g.setCell(c(0, 0, 0), 'floor');
     g.setCell(c(1, 0, 0), 'floor');
     expect(validatePlacement(g, place('stairs', c(0, 0, 0), 1), RICH).ok).toBe(true);
+  });
+
+  it('rejects a floor added later above an existing stair run', () => {
+    const g = grid();
+    g.setCell(c(0, 0, 0), 'floor');
+    g.setStairs(c(1, 0, 0), 'stairs');
+    expect(validatePlacement(g, place('floor', c(1, 1, 0)), RICH).reason).toBe('needs-clearance');
   });
 
   it('still refuses a floored landing, which is a lid on the stairwell', () => {
@@ -323,9 +338,7 @@ describe('stairs', () => {
     const g = grid();
     g.setCell(c(0, 2, 0), 'floor');
     // Landing would be level 3, which does not exist.
-    expect(validatePlacement(g, place('stairs', c(0, 2, 0), 1), RICH).reason).toBe(
-      'out-of-bounds',
-    );
+    expect(validatePlacement(g, place('stairs', c(0, 2, 0), 1), RICH).reason).toBe('out-of-bounds');
   });
 });
 

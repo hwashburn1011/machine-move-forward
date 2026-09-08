@@ -82,8 +82,12 @@ export class WorldManager {
   private readonly chunkManager: ChunkManager;
   private readonly terrain: TerrainChunk[] = [];
   private readonly props: PropSpawner[] = [];
-  private readonly geometry: THREE.BufferGeometry;
+  private geometry: THREE.BufferGeometry;
   private readonly propGeometries: PropGeometries;
+  private quality: QualitySettings;
+  private sand: TextureSet | null = null;
+  private readonly sunDirection = new THREE.Vector3(0.78, 0.5, 0.37).normalize();
+  private renderOffset = 0;
 
   private distance = 0;
 
@@ -94,6 +98,7 @@ export class WorldManager {
     materials: Materials,
     private readonly worldSeed: string,
   ) {
+    this.quality = quality;
     this.chunkManager = new ChunkManager(
       CHUNKS_AHEAD,
       CHUNKS_BEHIND,
@@ -104,7 +109,7 @@ export class WorldManager {
     this.propGeometries = createPropGeometries();
 
     for (const slot of this.chunkManager.slots) {
-      const chunk = new TerrainChunk(quality, this.geometry);
+      const chunk = new TerrainChunk(quality, this.geometry, this.worldSeed);
       const prop = new PropSpawner(quality, this.propGeometries, materials);
 
       chunk.setZ(slot.z, slot.chunkIndex * CHUNK_SIZE_Z);
@@ -135,6 +140,7 @@ export class WorldManager {
   /** Jump to an exact distance — used by save/load. */
   reset(distance: number): void {
     this.distance = distance;
+    this.renderOffset = 0;
     this.chunkManager.reset(distance);
     for (const slot of this.chunkManager.slots) {
       this.placeSlot(slot.slotId, slot.chunkIndex, slot.z);
@@ -142,6 +148,7 @@ export class WorldManager {
   }
 
   private applyDistance(): void {
+    this.renderOffset = 0;
     const recycled = this.chunkManager.advance(this.distance);
 
     // Every slot needs its Z applied each step; only recycled ones need their
@@ -176,6 +183,7 @@ export class WorldManager {
    */
   applyRenderOffset(alpha: number, speed: number): void {
     const offset = scrollOffset(alpha, speed);
+    this.renderOffset = offset;
     for (const slot of this.chunkManager.slots) {
       // Only where it is DRAWN moves by the sub-step offset. The ground it
       // represents is the same ground it was a moment ago, so its world origin
@@ -193,6 +201,7 @@ export class WorldManager {
    * surface.
    */
   applySand(set: TextureSet): void {
+    this.sand = set;
     for (const chunk of this.terrain) chunk.applySand(set);
   }
 
@@ -216,7 +225,45 @@ export class WorldManager {
   }
 
   setSunDirection(dir: THREE.Vector3): void {
+    this.sunDirection.copy(dir).normalize();
     for (const chunk of this.terrain) chunk.setSunDirection(dir);
+  }
+
+  /**
+   * Rebuild quality dependent terrain geometry and prop instance buffers once
+   * at a tier transition. Slot indices, world distance and seeded placement
+   * remain untouched, so terrain collision and recycled scenery stay aligned.
+   */
+  applyQuality(quality: QualitySettings): void {
+    const terrainChanged = quality.terrainSegments !== this.quality.terrainSegments;
+    const propsChanged = quality.propsPerChunk !== this.quality.propsPerChunk;
+    this.quality = quality;
+    if (!terrainChanged && !propsChanged) return;
+
+    if (terrainChanged) {
+      const nextGeometry = TerrainChunk.createGeometry(quality);
+      for (const slot of this.chunkManager.slots) {
+        const old = this.terrain[slot.slotId];
+        if (!old) continue;
+        this.scene.remove(old.mesh);
+        old.dispose();
+        const next = new TerrainChunk(quality, nextGeometry, this.worldSeed);
+        next.setZ(slot.z + this.renderOffset, slot.chunkIndex * CHUNK_SIZE_Z);
+        next.setSunDirection(this.sunDirection);
+        if (this.sand) next.applySand(this.sand);
+        this.scene.add(next.mesh);
+        this.terrain[slot.slotId] = next;
+      }
+      this.geometry.dispose();
+      this.geometry = nextGeometry;
+    }
+
+    if (propsChanged) {
+      for (const slot of this.chunkManager.slots) {
+        this.props[slot.slotId]?.applyQuality(quality, this.worldSeed, slot.chunkIndex);
+        this.props[slot.slotId]?.setZ(slot.z + this.renderOffset);
+      }
+    }
   }
 
   dispose(): void {

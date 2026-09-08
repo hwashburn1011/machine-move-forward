@@ -12,7 +12,9 @@ import * as THREE from 'three';
  * sunlit rather than flat.
  */
 
-const c = (hex: number) => new THREE.Color(hex).convertSRGBToLinear();
+// Color(hex) already converts sRGB into Three's linear working space. Converting
+// again crushes midtones in the steel, sand and sky before lighting even begins.
+const c = (hex: number) => new THREE.Color(hex);
 
 export const PALETTE = Object.freeze({
   // --- Sand -----------------------------------------------------------------

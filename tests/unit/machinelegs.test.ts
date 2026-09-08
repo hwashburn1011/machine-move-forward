@@ -109,6 +109,26 @@ describe('the legs, assembled and driven', () => {
     });
   });
 
+  it('keeps each rendered sole level at its foot target through body tilt', () => {
+    const legs = new MachineLegs(stubMaterials());
+    const body = new THREE.Group();
+    body.position.set(0.4, 0.25, -0.6);
+    body.rotation.set(0.13, 0, -0.09);
+    body.add(legs.object3D);
+
+    for (let i = 0; i < 24; i++) {
+      const distance = (i / 24) * STRIDE_LENGTH;
+      legs.setDistance(distance);
+      body.updateMatrixWorld(true);
+      LEGS.forEach((_leg, index) => {
+        const foot = legs.footObject(index);
+        const bounds = new THREE.Box3().setFromObject(foot);
+        const target = footWorld(legs, index);
+        expect(Math.abs(bounds.min.y - target.y)).toBeLessThan(0.02);
+      });
+    }
+  });
+
   it('moves without jumping, all the way through a stride', () => {
     const legs = new MachineLegs(stubMaterials());
     const step = STRIDE_LENGTH / 2000;
@@ -186,5 +206,92 @@ describe('what the legs are made of', () => {
     const legs = new MachineLegs(stubMaterials());
     const names = legs.object3D.children.map((c) => c.name);
     expect(names).toEqual(LEGS.map((leg: LegDefinition) => `leg-${leg.id}`));
+  });
+
+  it('adopts named authored segment skins without changing the IK pivots', () => {
+    const legs = new MachineLegs(stubMaterials());
+    const source = new THREE.Group();
+    const module = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1, 0.8), stubMaterials().hull);
+    module.name = 'MMF_WalkerLeg_front-left_Thigh';
+    source.add(module);
+
+    legs.applyAuthoredModules(source);
+
+    expect(source.getObjectByName(module.name)).toBeUndefined();
+    const thigh = legs.object3D.getObjectByName('leg-front-left')?.getObjectByName('thigh');
+    expect(thigh?.getObjectByName(`${module.name}-runtime`)).toBeDefined();
+    const fallback = thigh?.children.filter(
+      (child) => (child as THREE.Mesh).userData.machineLegFallbackPart === 'thigh',
+    );
+    expect(fallback?.every((child) => child.visible === false)).toBe(true);
+
+    const before = footWorld(legs, 0);
+    legs.setDistance(STRIDE_LENGTH * 0.37);
+    const after = footWorld(legs, 0);
+    expect(after.distanceTo(before)).toBeGreaterThan(0);
+
+    legs.clearAuthoredModules();
+    expect(thigh?.getObjectByName(`${module.name}-runtime`)).toBeUndefined();
+    expect(fallback?.every((child) => child.visible === true)).toBe(true);
+    module.geometry.dispose();
+  });
+
+  it('puts authored hips on the moving splay while static housings stay fixed', () => {
+    const legs = new MachineLegs(stubMaterials());
+    const source = new THREE.Group();
+    const hip = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.5, 0.8), stubMaterials().hull);
+    hip.name = 'MMF_WalkerLeg_front-left_Hip';
+    const housing = new THREE.Mesh(new THREE.BoxGeometry(1, 0.5, 1), stubMaterials().hull);
+    housing.name = 'MMF_LegHousing_front-left';
+    source.add(hip, housing);
+
+    legs.applyAuthoredModules(source);
+    legs.applyAuthoredHousings(source);
+
+    const leg = legs.object3D.getObjectByName('leg-front-left');
+    const splay = leg?.getObjectByName('splay');
+    const authored = splay?.getObjectByName(`${hip.name}-runtime`);
+    expect(authored).toBeDefined();
+    expect(source.getObjectByName(hip.name)).toBeUndefined();
+    expect(source.getObjectByName(housing.name)).toBe(housing);
+
+    splay?.updateWorldMatrix(true, true);
+    const before = authored?.getWorldQuaternion(new THREE.Quaternion());
+    const housingBefore = housing.getWorldPosition(new THREE.Vector3());
+    if (splay) splay.rotation.z += 0.2;
+    splay?.updateWorldMatrix(true, true);
+    const after = authored?.getWorldQuaternion(new THREE.Quaternion());
+    const housingAfter = housing.getWorldPosition(new THREE.Vector3());
+    expect(Math.abs((after as THREE.Quaternion).dot(before as THREE.Quaternion))).toBeLessThan(0.9999);
+    expect(housingAfter.distanceTo(housingBefore)).toBe(0);
+
+    const fallbackHip = leg?.children.find(
+      (child) => (child as THREE.Mesh).isMesh && (child as THREE.Mesh).userData.machineLegFallbackPart === 'hip',
+    ) as THREE.Mesh | undefined;
+    expect(fallbackHip?.visible).toBe(false);
+    legs.clearAuthoredModules();
+    expect(fallbackHip?.visible).toBe(true);
+    hip.geometry.dispose();
+    housing.geometry.dispose();
+  });
+
+  it('ignores empty authored module and housing groups', () => {
+    const legs = new MachineLegs(stubMaterials());
+    const source = new THREE.Group();
+    const hip = new THREE.Group();
+    hip.name = 'MMF_WalkerLeg_front-left_Hip';
+    const housing = new THREE.Group();
+    housing.name = 'MMF_LegHousing_front-left';
+    source.add(hip, housing);
+
+    legs.applyAuthoredModules(source);
+    legs.applyAuthoredHousings(source);
+
+    const leg = legs.object3D.getObjectByName('leg-front-left');
+    expect(leg?.getObjectByName(`${hip.name}-runtime`)).toBeUndefined();
+    const fallbackHip = leg?.children.find(
+      (child) => (child as THREE.Mesh).isMesh && (child as THREE.Mesh).userData.machineLegFallbackPart === 'hip',
+    ) as THREE.Mesh | undefined;
+    expect(fallbackHip?.visible).toBe(true);
   });
 });

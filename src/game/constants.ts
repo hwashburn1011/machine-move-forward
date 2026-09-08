@@ -188,6 +188,9 @@ export const PLAYER_EYE_HEIGHT = 1.62;
  */
 export const AUTOSTEP_HEIGHT = 0.45;
 
+/** Shared by the character controller and enemy obstacle probes. */
+export const MAX_SLOPE_CLIMB_ANGLE = (50 * Math.PI) / 180;
+
 /** Falling below this Y means the player left the machine. */
 export const RESPAWN_Y_THRESHOLD = -20;
 

@@ -2,6 +2,7 @@ import { CAMERA_PRESETS, Game } from '@/game/Game';
 import type { QualityTier } from '@/core/renderer/QualitySettings';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { canonicalEdge } from '@/building/BuildGrid';
+import '@/art/interface.css';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 const hudRoot = document.querySelector<HTMLElement>('#hud');
@@ -91,6 +92,7 @@ window.addEventListener('keydown', () => game.audio.resume(), { once: false });
   physics: game.physics,
   playerCamera: game.playerCamera,
   bus: game.bus,
+  sessionMetrics: game.sessionMetrics,
   post: game.post,
   hud: game.hud,
   build: game.build,
@@ -108,6 +110,7 @@ window.addEventListener('keydown', () => game.audio.resume(), { once: false });
       calls: info.render.calls,
       tris: info.render.triangles,
       skyBakes: game.sky.bakes,
+      graphics: game.post.diagnostics,
       distance: Math.round(game.world.distanceTraveled),
       chunks: game.world.activeChunkCount,
       speed: Number(game.machine.speed.toFixed(2)),

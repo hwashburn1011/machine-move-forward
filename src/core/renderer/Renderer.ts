@@ -31,7 +31,7 @@ export class Renderer {
     this.three.outputColorSpace = THREE.SRGBColorSpace;
     this.three.toneMapping = THREE.ACESFilmicToneMapping;
     this.three.toneMappingExposure = 1.05;
-    this.three.setPixelRatio(Math.min(window.devicePixelRatio, quality.maxPixelRatio));
+    this.three.setPixelRatio(this.pixelRatioFor(quality));
     this.three.setSize(window.innerWidth, window.innerHeight);
     this.three.shadowMap.enabled = quality.shadowsEnabled;
     this.three.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -42,7 +42,10 @@ export class Renderer {
     this.three.info.autoReset = false;
 
     this.scene = new THREE.Scene();
-    this.scene.environmentIntensity = 1.3;
+    // Keep the IBL present without lifting every shadow side to the same value
+    // as the sun. Form comes from the directional light; the environment is a
+    // cool, broad bounce rather than a second flat key light.
+    this.scene.environmentIntensity = 0.9;
 
     this.camera = new THREE.PerspectiveCamera(
       55,
@@ -57,8 +60,10 @@ export class Renderer {
     // tight fixed box instead of a large volume chasing a moving target. That
     // is what buys crisp contact shadows, and it is a direct dividend of the
     // world-scroll architecture.
-    this.sun = new THREE.DirectionalLight(PALETTE.sunLight, 3.0);
-    this.sun.position.set(28, 34, -18);
+    this.sun = new THREE.DirectionalLight(PALETTE.sunLight, 3.1);
+    // Match Sky's initial direction so construction has no one-frame lighting
+    // discontinuity before Game applies the first environment bake.
+    this.sun.position.set(47, 30, 22);
     this.sun.castShadow = quality.shadowsEnabled;
     this.sun.shadow.camera.left = -22;
     this.sun.shadow.camera.right = 22;
@@ -79,7 +84,7 @@ export class Renderer {
     // roughly 10:1, which drives every shadow side to near-black against lit
     // sand. The handoff asks for Raft-level legibility, so the ratio is
     // compressed to about 3:1 — shadows stay clearly cool and clearly readable.
-    this.hemi = new THREE.HemisphereLight(PALETTE.skyFill, PALETTE.bounceLight, 3.0);
+    this.hemi = new THREE.HemisphereLight(PALETTE.skyFill, PALETTE.bounceLight, 1.65);
     this.scene.add(this.hemi);
 
     window.addEventListener('resize', this.resize);
@@ -108,7 +113,7 @@ export class Renderer {
 
   applyQuality(quality: QualitySettings): void {
     this.quality = quality;
-    this.three.setPixelRatio(Math.min(window.devicePixelRatio, quality.maxPixelRatio));
+    this.three.setPixelRatio(this.pixelRatioFor(quality));
     this.three.shadowMap.enabled = quality.shadowsEnabled;
     this.sun.castShadow = quality.shadowsEnabled;
     this.sun.shadow.mapSize.set(quality.shadowMapSize, quality.shadowMapSize);
@@ -130,9 +135,29 @@ export class Renderer {
       cam.updateProjectionMatrix();
     }
     this.camera.updateProjectionMatrix();
-    this.three.setPixelRatio(Math.min(window.devicePixelRatio, this.quality.maxPixelRatio));
+    this.three.setPixelRatio(this.pixelRatioFor(this.quality));
     this.three.setSize(w, h);
   };
+
+  /** The actual pixel ratio used by the renderer after the tier cap. */
+  get effectivePixelRatio(): number {
+    return this.three.getPixelRatio();
+  }
+
+  /** Physical drawing-buffer dimensions, useful to the debug overlay/review harness. */
+  get drawingBufferSize(): Readonly<{ width: number; height: number }> {
+    const size = this.three.getDrawingBufferSize(new THREE.Vector2());
+    return { width: size.x, height: size.y };
+  }
+
+  /** WebGL's render-target sample ceiling, when exposed by the active context. */
+  get maxRenderTargetSamples(): number {
+    return this.three.capabilities.maxSamples ?? 0;
+  }
+
+  private pixelRatioFor(quality: QualitySettings): number {
+    return Math.min(window.devicePixelRatio || 1, quality.maxPixelRatio);
+  }
 
   /** Call once at the top of each frame, before any rendering. */
   beginFrame(): void {

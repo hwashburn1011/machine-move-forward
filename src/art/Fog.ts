@@ -37,12 +37,12 @@ const fogFalloffUniform = { value: DEFAULT_FOG.heightFalloff };
 const fogBaseUniform = { value: DEFAULT_FOG.baseHeight };
 
 /**
- * Fog is applied after the colour-space conversion in Three's chunk order, so
- * the uniform must hold display-space values, not linear ones. Passing a
- * linear colour here is the reason hand-rolled fog usually comes out too dark.
+ * Fog is applied before Three's tone mapping and colour-space conversion. This keeps the
+ * height blend in scene-linear space for both the HDR composer target and the
+ * direct renderer bypass path.
  */
 export function updateFogColor(linearColor: THREE.Color): void {
-  fogColorUniform.value.copy(linearColor).convertLinearToSRGB();
+  fogColorUniform.value.copy(linearColor);
 }
 
 export function setFogParams(params: Partial<HeightFogParams>): void {
@@ -120,9 +120,10 @@ export function applyHeightFog(material: THREE.Material, cacheTag = 'heightfog')
 
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', `#include <common>\n${FRAGMENT_PARS}`)
-      // Inject after the colour-space conversion so the mix happens in the
-      // same space the fog colour is expressed in.
-      .replace('#include <colorspace_fragment>', `#include <colorspace_fragment>\n${FRAGMENT_MAIN}`);
+      // Blend while the fragment is still scene-linear. The later
+      // tone mapping and colour conversion then apply equally to geometry and
+      // fog, including when the final image goes through OutputPass.
+      .replace('#include <tonemapping_fragment>', `${FRAGMENT_MAIN}\n#include <tonemapping_fragment>`);
   };
 
   // Force a recompile if the material has already been used.

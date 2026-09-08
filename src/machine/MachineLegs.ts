@@ -43,11 +43,30 @@ const FOOT_PAD = { w: 1.2, h: 0.3, d: 2.0 };
 const KNEE_RADIUS = 0.38;
 
 interface LegRig {
+  id: LegDefinition['id'];
   root: THREE.Group;
   splay: THREE.Group;
   thigh: THREE.Group;
   knee: THREE.Group;
   foot: THREE.Group;
+}
+
+type LegPart = 'hip' | 'thigh' | 'knee' | 'shin' | 'foot';
+type AuthoredLegModule = { root: THREE.Object3D; hidden: THREE.Mesh[] };
+
+const AUTHORED_LEG_MODULE =
+  /^MMF_WalkerLeg_(front-left|front-right|rear-left|rear-right)_(Hip|Thigh|Knee|Shin|Foot)$/i;
+const AUTHORED_LEG_HOUSING =
+  /^MMF_LegHousing_(front-left|front-right|rear-left|rear-right)$/i;
+
+function hasRenderableGeometry(root: THREE.Object3D): boolean {
+  let found = false;
+  root.traverse((object) => {
+    if (found || !(object as THREE.Mesh).isMesh) return;
+    const geometry = (object as THREE.Mesh).geometry;
+    found = Boolean(geometry?.getAttribute('position')?.count);
+  });
+  return found;
 }
 
 export class MachineLegs {
@@ -56,6 +75,9 @@ export class MachineLegs {
 
   private readonly rigs: LegRig[] = [];
   private readonly disposables: THREE.BufferGeometry[] = [];
+  private readonly authoredModules = new Map<string, AuthoredLegModule>();
+  private readonly authoredHousingFallbacks = new Map<LegDefinition['id'], THREE.Mesh[]>();
+  private readonly parentWorldRotation = new THREE.Quaternion();
   private distance = 0;
   /** Leg indices that planted on the last update. Reused, never reallocated. */
   private readonly plants: number[] = [];
@@ -91,6 +113,16 @@ export class MachineLegs {
       rig.thigh.rotation.x = -angles.hip;
       rig.knee.rotation.x = -angles.knee;
 
+      // Keep the sole level while preserving the solved foot pivot. The knee
+      // (and the machine body above it) may be pitched and rolled, so a fixed
+      // local Euler angle would only be level in the rest pose. Refresh the
+      // ancestor chain first, then cancel its world rotation on the foot
+      // group. The pivot position is unchanged; authored and procedural foot
+      // skins both inherit the same world-up orientation.
+      rig.knee.updateWorldMatrix(true, false);
+      rig.knee.getWorldQuaternion(this.parentWorldRotation);
+      rig.foot.quaternion.copy(this.parentWorldRotation).invert();
+
       if (planted(this.distance, distance, leg)) this.plants.push(i);
     }
 
@@ -122,7 +154,96 @@ export class MachineLegs {
     return (this.rigs[index] as LegRig).knee;
   }
 
+  /**
+   * Install optional authored segment skins into the existing IK hierarchy.
+   * The GLB modules are visual only: the procedural pivots still solve the
+   * feet, damage ids, and gait. Each module must be named
+   * `MMF_WalkerLeg_<leg-id>_<Hip|Thigh|Knee|Shin|Foot>` and be authored in
+   * that segment's local pivot space.
+   */
+  applyAuthoredModules(source: THREE.Object3D): void {
+    this.clearAuthoredModules();
+
+    const candidates: Array<{ node: THREE.Object3D; id: LegDefinition['id']; part: LegPart }> = [];
+    source.traverse((node) => {
+      const match = AUTHORED_LEG_MODULE.exec(node.name);
+      if (!match) return;
+      if (!hasRenderableGeometry(node)) return;
+      const id = match[1];
+      const part = match[2];
+      if (!id || !part) return;
+      candidates.push({
+        node,
+        id: id as LegDefinition['id'],
+        part: part.toLowerCase() as LegPart,
+      });
+    });
+
+    for (const candidate of candidates) {
+      const rig = this.rigs.find((item) => item.id === candidate.id);
+      if (!rig) continue;
+      const target = this.targetFor(rig, candidate.part);
+      const hidden: THREE.Mesh[] = [];
+      target.traverse((object) => {
+        const mesh = object as THREE.Mesh;
+        if (!mesh.isMesh || mesh.userData.machineLegFallbackPart !== candidate.part) return;
+        mesh.visible = false;
+        hidden.push(mesh);
+      });
+      const authored = candidate.node.clone(true);
+      authored.name = `${candidate.node.name}-runtime`;
+      authored.traverse((object) => {
+        const mesh = object as THREE.Mesh;
+        if (!mesh.isMesh) return;
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        mesh.frustumCulled = true;
+      });
+      target.add(authored);
+      // The source node is rehomed into the live IK rig via the clone above;
+      // removing it from the loaded root prevents a second static leg from
+      // being drawn beside the articulated module.
+      candidate.node.parent?.remove(candidate.node);
+      this.authoredModules.set(`${candidate.id}:${candidate.part}`, { root: authored, hidden });
+    }
+  }
+
+  /** Hide only the procedural hip housings replaced by static v3 body roots. */
+  applyAuthoredHousings(source: THREE.Object3D): void {
+    source.traverse((node) => {
+      const match = AUTHORED_LEG_HOUSING.exec(node.name);
+      if (!match) return;
+      if (!hasRenderableGeometry(node)) return;
+      const id = match[1] as LegDefinition['id'] | undefined;
+      if (!id) return;
+      const rig = this.rigs.find((item) => item.id === id);
+      if (!rig || this.authoredHousingFallbacks.has(id)) return;
+      const hidden: THREE.Mesh[] = [];
+      rig.root.traverse((object) => {
+        const mesh = object as THREE.Mesh;
+        if (!mesh.isMesh || mesh.userData.machineLegFallbackPart !== 'hip') return;
+        mesh.visible = false;
+        hidden.push(mesh);
+      });
+      if (hidden.length) this.authoredHousingFallbacks.set(id, hidden);
+    });
+  }
+
+  /** Restore procedural leg skins before replacing or dropping an authored kit. */
+  clearAuthoredModules(): void {
+    for (const module of this.authoredModules.values()) {
+      module.root.parent?.remove(module.root);
+      for (const mesh of module.hidden) mesh.visible = true;
+    }
+    this.authoredModules.clear();
+    for (const hidden of this.authoredHousingFallbacks.values()) {
+      for (const mesh of hidden) mesh.visible = true;
+    }
+    this.authoredHousingFallbacks.clear();
+  }
+
   dispose(): void {
+    this.clearAuthoredModules();
     for (const geo of this.disposables) geo.dispose();
     this.disposables.length = 0;
   }
@@ -140,15 +261,18 @@ export class MachineLegs {
     root.add(this.mesh(bevelledBox(HIP_HOUSING.w, HIP_HOUSING.h, HIP_HOUSING.d, 0.1), materials.hull));
 
     const splay = new THREE.Group();
+    splay.name = 'splay';
     root.add(splay);
 
     const thigh = new THREE.Group();
+    thigh.name = 'thigh';
     splay.add(thigh);
     // Bones hang along -Y from their joint, so the mesh sits half a bone down.
     const thighMesh = this.mesh(
       bevelledBox(THIGH.w, UPPER_LEG * 0.94, THIGH.d, 0.08),
       materials.hullDark,
     );
+    thighMesh.userData.machineLegFallbackPart = 'thigh';
     thighMesh.position.y = -UPPER_LEG / 2;
     thigh.add(thighMesh);
 
@@ -158,16 +282,19 @@ export class MachineLegs {
       new THREE.CylinderGeometry(0.11, 0.11, UPPER_LEG * 0.8, 8),
       materials.bareSteel,
     );
+    piston.userData.machineLegFallbackPart = 'thigh';
     piston.position.set(0, -UPPER_LEG / 2, THIGH.d / 2 + 0.06);
     thigh.add(piston);
 
     const knee = new THREE.Group();
+    knee.name = 'knee';
     knee.position.y = -UPPER_LEG;
     thigh.add(knee);
     const kneeMesh = this.mesh(
       new THREE.CylinderGeometry(KNEE_RADIUS, KNEE_RADIUS, THIGH.w + 0.16, 12),
       materials.bareSteel,
     );
+    kneeMesh.userData.machineLegFallbackPart = 'knee';
     // The knee pivots about X, so its cylinder lies along X too.
     kneeMesh.rotation.z = Math.PI / 2;
     knee.add(kneeMesh);
@@ -176,22 +303,42 @@ export class MachineLegs {
       bevelledBox(SHIN.w, LOWER_LEG * 0.92, SHIN.d, 0.07),
       materials.hullDark,
     );
+    shinMesh.userData.machineLegFallbackPart = 'shin';
     shinMesh.position.y = -LOWER_LEG / 2;
     knee.add(shinMesh);
 
     const foot = new THREE.Group();
+    foot.name = 'foot';
     foot.position.y = -LOWER_LEG;
     knee.add(foot);
     const pad = this.mesh(
       bevelledBox(FOOT_PAD.w, FOOT_PAD.h, FOOT_PAD.d, 0.06),
       materials.rubber,
     );
-    // The pad's top face is the foot point, so the sole sits on the ground
-    // rather than sinking half a pad into it.
+    pad.userData.machineLegFallbackPart = 'foot';
+    // The pad's bottom face is the foot point, so the sole sits on the ground
+    // while the visible pad remains above the contact target.
     pad.position.y = FOOT_PAD.h / 2;
     foot.add(pad);
 
-    return { root, splay, thigh, knee, foot };
+    root.userData.machineLegFallbackPart = 'hip';
+    root.traverse((object) => {
+      const mesh = object as THREE.Mesh;
+      if (mesh.isMesh && mesh.userData.machineLegFallbackPart === undefined) {
+        mesh.userData.machineLegFallbackPart = 'hip';
+      }
+    });
+    return { id: leg.id, root, splay, thigh, knee, foot };
+  }
+
+  private targetFor(rig: LegRig, part: LegPart): THREE.Object3D {
+    // The authored hip is the moving upper-leg skin. The static mounting
+    // collar is a separate MMF_LegHousing node handled on rig.root.
+    if (part === 'hip') return rig.splay;
+    if (part === 'thigh') return rig.thigh;
+    if (part === 'knee') return rig.knee;
+    if (part === 'shin') return rig.knee;
+    return rig.foot;
   }
 
   private mesh(geo: THREE.BufferGeometry, material: THREE.Material): THREE.Mesh {

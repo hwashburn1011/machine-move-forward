@@ -14,12 +14,24 @@ import { EventBus } from '@/core/events/EventBus';
 import { DebugOverlay } from '@/core/debug/DebugOverlay';
 import { Sky } from '@/art/Sky';
 import { Materials } from '@/art/Materials';
+import {
+  loadDefenseModels,
+  authoredEnemyModel,
+  authoredModel,
+  prepareAuthoredModel,
+} from '@/art/DefenseModels';
+import { loadSalvageModels } from '@/art/SalvageModels';
+import { disposeAutomationModels, loadAutomationModels } from '@/art/AutomationModels';
+import { loadMachineStationVisualModels } from '@/art/MachineDetailModels';
+import { warmAuthoredGraphics } from '@/art/Warmup';
 import { loadTextureSets } from '@/art/TextureLoader';
-import { loadModel } from '@/art/ModelLoader';
+import { disposeLoadedModel, loadModel, type LoadedModel } from '@/art/ModelLoader';
 import { loadPropModels } from '@/world/PropModels';
+import { duneHeightAt } from '@/world/DuneField';
 import { updateFogColor } from '@/art/Fog';
 import { WorldManager, renderedDistance, WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
+import { installNavigationHelm } from '@/machine/MachineGeometry';
 import { SUBSYSTEMS, type SubsystemId } from '@/data/subsystems';
 import { conditionLabel } from '@/ui/MachineCondition';
 import { RepairSystem, type RepairTarget } from '@/interaction/RepairSystem';
@@ -27,6 +39,7 @@ import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerCombat } from '@/player/PlayerCombat';
+import { isDamageable, type Damageable } from '@/combat/Damageable';
 import { EnemyManager } from '@/enemies/EnemyManager';
 import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner';
 import { ThreatDirector, type ThreatPhase } from '@/enemies/ThreatDirector';
@@ -36,18 +49,19 @@ import { AudioEngine } from '@/audio/AudioEngine';
 import { connectGameSounds } from '@/audio/GameSounds';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
+import { DefenseHUD } from '@/ui/DefenseHUD';
 import { SaveManager } from '@/save/SaveManager';
 import { Container } from '@/items/Container';
 import { ResourceAccess } from '@/items/ResourceAccess';
-import {
-  ITEMS,
-  PLAYER_INVENTORY_SLOTS,
-  STARTING_INVENTORY,
-  type ItemId,
-} from '@/data/items';
+import { ITEMS, PLAYER_INVENTORY_SLOTS, STARTING_INVENTORY, type ItemId } from '@/data/items';
+import { STARTING_FUEL } from '@/data/power';
 import { CraftingSystem } from '@/crafting/CraftingSystem';
 import { recipeById, type Recipe, type StationId } from '@/data/recipes';
-import { InteractionSystem, INTERACT_REACH, type Interactable } from '@/interaction/InteractionSystem';
+import {
+  InteractionSystem,
+  INTERACT_REACH,
+  type Interactable,
+} from '@/interaction/InteractionSystem';
 import { InventoryUI } from '@/ui/InventoryUI';
 import { BuildSystem } from '@/building/BuildSystem';
 import { BuildPreview } from '@/building/BuildPreview';
@@ -55,17 +69,21 @@ import { LampLights, type LampSample } from '@/building/LampLights';
 import { BuildUI } from '@/ui/BuildUI';
 import {
   BUILD_PIECES,
+  canBuildPiece,
   PIECE_CATEGORIES,
   piecesInCategory,
   STARTING_STRUCTURES,
   type PieceCategory,
   type PieceId,
 } from '@/data/build-pieces';
-import { FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
+import { FUEL_BURN_PER_S, FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
+import { routeCards } from '@/data/routes';
+import { TURRETS } from '@/data/turrets';
 import { isProducer, producerRoleOf, NEEDS_MAX } from '@/data/needs';
 import { countEnclosed, insideEnclosed } from '@/building/RoomDetector';
+import type { Placement } from '@/building/BuildValidation';
 import { padPlaying } from '@/audio/SoundBank';
-import { cellKey, worldToCell } from '@/building/BuildGrid';
+import { cellKey, parseCellKey, worldToCell } from '@/building/BuildGrid';
 import {
   CHARACTER_DROP_Y,
   DECK_HEIGHT,
@@ -73,6 +91,7 @@ import {
   DESERT_FLOOR_HALF_Z,
   DESERT_FLOOR_Y,
   GRID_LEVELS,
+  GRID_TILE,
   LOST_IN_THE_DESERT_S,
   LEVEL_HEIGHT,
   ON_THE_SAND_Y,
@@ -88,6 +107,17 @@ import { stepHook, type HookState } from '@/salvage/Hook';
 import { buildHook, HOOK_SPIN } from '@/salvage/HookModel';
 import { ENEMIES } from '@/data/enemies';
 import { RooftopSet } from '@/world/RooftopSet';
+import { VehicleManager } from '@/vehicles/VehicleManager';
+import { VehicleScene } from '@/vehicles/VehicleScene';
+import { GunboatScene } from '@/vehicles/GunboatScene';
+import type { VolleyTarget } from '@/vehicles/VolleyPlanner';
+import { VEHICLES, GUNBOAT } from '@/data/vehicles';
+import { DefenseSystem } from '@/defense/DefenseSystem';
+import {
+  AutomaticDefenseSystem,
+  type AutomaticDefenseTarget,
+} from '@/defense/AutomaticDefenseSystem';
+import { AutomaticSalvageCollector } from '@/salvage/AutomaticSalvageCollector';
 import {
   isDeckLanding,
   OpeningDirector,
@@ -97,6 +127,21 @@ import {
 import { GAME_TITLE, TitleScreen, type GameSettings } from '@/ui/TitleScreen';
 import { GameLoop, type LoopCallbacks } from './GameLoop';
 import { createGameState, type GameState } from './GameState';
+import { FirstRunDirector, type FirstRunFact, type FirstRunSnapshot } from './FirstRunDirector';
+import { Progression } from '@/progression/Progression';
+import type { UpgradeBranch, UpgradeId } from '@/data/upgrades';
+import { StoryDirector, type StoryEffect } from '@/story/StoryDirector';
+import { Destination } from '@/story/Destination';
+import {
+  buildRadioModel,
+  applyUpgradeVisuals,
+  applyTurretUpgradeVisual,
+} from '@/art/ExpeditionModels';
+import { RadioUI } from '@/ui/RadioUI';
+import { ResearchUI, type ResearchUIState } from '@/ui/ResearchUI';
+import { ExpeditionUI } from '@/ui/ExpeditionUI';
+import { SessionMetrics } from '@/game/SessionMetrics';
+import { footprintOverlapsExpedition } from '@/game/ExpeditionBuildConflict';
 
 /**
  * Free-fly camera presets, shared by the screenshot harness (`?cam=`) and the
@@ -202,6 +247,13 @@ export class Game implements LoopCallbacks {
   readonly playerCamera: PlayerCamera;
   readonly combat: PlayerCombat;
   readonly enemies: EnemyManager;
+  /** One skiff encounter at a time; visuals are supplied by Astra's seam. */
+  readonly vehicleManager: VehicleManager;
+  readonly vehicleScene: VehicleScene;
+  readonly gunboatScene: GunboatScene;
+  readonly defense: DefenseSystem;
+  readonly automaticDefense: AutomaticDefenseSystem;
+  private readonly collectors = new Map<string, AutomaticSalvageCollector>();
   readonly spawner: EnemySpawner;
   /**
    * When a wave comes and how big it is. `spawner` now only answers WHERE.
@@ -242,6 +294,7 @@ export class Game implements LoopCallbacks {
   private readonly disconnectSounds: () => void;
   readonly impactFX: ImpactFX;
   readonly hud: HUD;
+  readonly defenseHUD: DefenseHUD;
   readonly post: PostProcessing;
   readonly debug: DebugOverlay;
   readonly saves = new SaveManager();
@@ -255,6 +308,9 @@ export class Game implements LoopCallbacks {
   readonly crafting: CraftingSystem;
   readonly interaction = new InteractionSystem(INTERACT_REACH);
   readonly inventoryUI: InventoryUI;
+  readonly radioUI: RadioUI;
+  readonly researchUI: ResearchUI;
+  readonly expeditionUI: ExpeditionUI;
 
   /**
    * Where the opening has got to. Exposed on `__game` for the harnesses.
@@ -263,6 +319,19 @@ export class Game implements LoopCallbacks {
    * placeholder chase behind the same four phases.
    */
   readonly opening = new OpeningDirector();
+  /** Pure, event-backed onboarding for the first playable loop. */
+  readonly firstRun = new FirstRunDirector();
+  readonly progression = new Progression();
+  readonly sessionMetrics = new SessionMetrics();
+  readonly story = new StoryDirector();
+  readonly destination: Destination;
+  private readonly radioModel: THREE.Group;
+  /** Game owns this one walker source until final teardown; the machine only borrows clones. */
+  private machineAuthoredModel: LoadedModel | null = null;
+  private readonly radioPowerConsumerId = 'fixed-radio';
+  private readonly helmPowerConsumerId = 'navigation-helm';
+  private playableStartedAt: number | null = null;
+  private radioPowered = false;
   /** The menu, or null when the game was booted without one (`?nomenu=1`). */
   readonly titleScreen: TitleScreen | null = null;
   /** The opening's building. Null outside the opening. */
@@ -311,10 +380,53 @@ export class Game implements LoopCallbacks {
   private fps = 0;
   private frameMs = 0;
 
+  /** Autosave is coalesced and only written at a safe fixed-step checkpoint. */
+  private autosavePending = false;
+  private autosaveInFlight = false;
+  private nextAutosaveAt = 60;
+  private pendingSaveAndQuit = false;
+  private tutorialReadyAt: number | null = null;
+  /** Turret that armed the guided boarding countdown, even after dismount. */
+  private tutorialTurretId: string | null = null;
+  private tutorialStarted = false;
+  private pendingBoardingOutcome: 'hull' | 'crew' | 'hook' | 'defended' | null = null;
+  private scriptedGunboatPending = false;
+  private gunboatResolutionApplied = false;
+  private routeRefusal: string | null = null;
+  /** Enemy ids landed by the active skiff; ambient enemies are never counted. */
+  private readonly boardingEnemyIds = new Set<string>();
+  private readonly defenseDamageables = new Map<string, Damageable>();
+  private readonly automaticAimEnds = new Map<string, THREE.Vector3>();
+  private readonly turretCameraAt = new THREE.Vector3();
+  private readonly turretCameraDirection = new THREE.Vector3();
+  private readonly turretCameraLookAt = new THREE.Vector3();
+  private defenseImpact: {
+    point: THREE.Vector3;
+    normal: THREE.Vector3;
+    targetId: string | null;
+    onMetal: boolean;
+  } | null = null;
+
   /** Rapier's wasm must be resolved before any physics object exists. */
   static async create(options: GameOptions): Promise<Game> {
     await initRapier();
+    await Promise.all([
+      loadDefenseModels(options.models !== false),
+      loadSalvageModels(options.models !== false),
+      loadAutomationModels(options.models !== false),
+    ]);
     const game = new Game(options);
+    if (options.models !== false) {
+      const kits = await loadMachineStationVisualModels();
+      game.machineAuthoredModel = kits.machine;
+      game.machine.applyAuthoredDetailModel(kits.machine);
+      game.build.applyAuthoredStationKit(kits.stations);
+      const authoredHelm =
+        authoredModel('navigation-helm')?.scene ??
+        kits.machine?.scene.getObjectByName('HelmRoot') ??
+        kits.stations?.scene.getObjectByName('HelmRoot');
+      if (authoredHelm) installNavigationHelm(game.machine.group, authoredHelm.clone(true));
+    }
 
     // After construction: the procedural materials are already complete and
     // usable, and this only swaps their surfaces. A failed fetch costs a
@@ -337,14 +449,25 @@ export class Game implements LoopCallbacks {
       game.world.applyPropModels(await loadPropModels());
     }
 
-    const model = options.models === false ? null : await loadModel('models/scavenger.glb');
+    const model =
+      options.models === false
+        ? null
+        : (authoredEnemyModel('scavenger') ?? (await loadModel('models/scavenger.glb')));
     game.enemies.setModel(model);
+    if (options.models !== false) {
+      game.enemies.setModelFor(
+        'raider',
+        authoredEnemyModel('raider') ?? (await loadModel('models/scavenger.glb')),
+      );
+    }
 
     // The player is on screen from behind for the whole game, so this is the
     // most looked-at model in it. Same bargain as the rest: a missing file
     // costs a nicer-looking character, never a boot.
     game.player.setModel(
-      options.models === false ? null : await loadModel('models/player.glb'),
+      options.models === false
+        ? null
+        : (authoredModel('player') ?? (await loadModel('models/player.glb'))),
     );
 
     // Weapons last, and in parallel: they are the smallest files and the least
@@ -354,11 +477,31 @@ export class Game implements LoopCallbacks {
       const loaded = await Promise.all(ids.map((id) => loadModel(WEAPON_MODELS[id]!.url)));
       ids.forEach((id, i) => {
         const m = loaded[i];
-        if (m) game.weaponModels.set(id, m.scene);
+        if (m) {
+          prepareAuthoredModel(m);
+          game.weaponModels.set(id, m.scene);
+        }
       });
       game.equipHeldWeapon();
     }
 
+    if (options.models !== false) {
+      const encounterAssets = [
+        'manual-turret',
+        'raider-skiff',
+        'raider',
+        'scavenger',
+        'expedition-wreck',
+      ]
+        .map((id) => authoredModel(id)?.scene)
+        .filter((root): root is THREE.Group => root !== undefined);
+      await warmAuthoredGraphics(
+        game.renderer.three,
+        game.renderer.scene,
+        game.playerCamera.camera,
+        encounterAssets,
+      );
+    }
     return game;
   }
 
@@ -403,6 +546,16 @@ export class Game implements LoopCallbacks {
     );
 
     this.machine = new Machine(this.renderer.scene, this.physics, this.materials);
+    this.radioModel = buildRadioModel(this.materials);
+    this.radioModel.position.set(3.9, 3.69, -3.3);
+    this.radioModel.visible = false;
+    this.machine.group.add(this.radioModel);
+    this.destination = new Destination({
+      scene: this.renderer.scene,
+      physics: this.physics,
+      materials: this.materials,
+      arrivalDistance: 0,
+    });
     this.player = new Player(
       this.renderer.scene,
       this.physics,
@@ -415,7 +568,85 @@ export class Game implements LoopCallbacks {
 
     this.combat = new PlayerCombat(this.bus, this.physics);
     this.combat.setShooterCollider(this.player.collider);
+    this.combat.setVisualMuzzle(() => this.player.getMuzzleWorldPosition());
+    this.combat.setHeldRecoil((distance, pitch, yaw) =>
+      this.player.kickHeldWeapon(distance, pitch, yaw),
+    );
     this.enemies = new EnemyManager(this.renderer.scene, this.physics, this.bus, this.materials);
+    this.vehicleScene = new VehicleScene(this.renderer.scene, this.physics, this.materials, {
+      terrainHeightAt: (x, z) =>
+        duneHeightAt(x, z - WORLD_Z_PER_METRE * this.world.distanceTraveled),
+      boardingLanding: (side, crewIndex) => this.boardingLanding(side, crewIndex),
+      spawnBoarder: (position, index) => this.spawnBoarder(index, position),
+      getVolleyTargets: () => this.getVolleyTargets(),
+      getVolleyTargetPosition: (targetId) => this.volleyTargetPosition(targetId),
+      canDamageVolleyTarget: (targetId, origin, target) =>
+        this.canDamageVolleyTarget(targetId, origin, target),
+      damageVolleyTarget: (targetId, amount) => {
+        if (targetId === 'player') {
+          this.player.stats.damage(amount, 'skiff volley', this.vehicleScene.group.position);
+        } else if (targetId === 'engine') {
+          this.machine.damage.damage('engine', amount);
+        } else {
+          this.build.damagePiece(targetId, amount);
+        }
+      },
+      onVolley: (targetId) => {
+        this.bus.emit('vehicle:phase', {
+          id: 'tutorial-skiff',
+          phase: 'firing-pass',
+          side: this.vehicleManager?.snapshot?.side ?? 'port',
+        });
+        void targetId;
+      },
+      onHookAttached: (state) => this.bus.emit('boarding:hook-attached', { side: state.side }),
+      onRetreat: (state) => {
+        const outcome = state.crewHealth.every((health) => health <= 0)
+          ? 'crew'
+          : state.hookHealth <= 0
+            ? 'hook'
+            : 'defended';
+        this.pendingBoardingOutcome ??= outcome;
+      },
+      onDestroyed: () => {
+        this.pendingBoardingOutcome ??= 'hull';
+      },
+      onEnded: () => {
+        if (this.pendingBoardingOutcome) this.finishBoarding(this.pendingBoardingOutcome);
+      },
+    });
+    this.vehicleManager = this.vehicleScene.manager;
+    this.gunboatScene = new GunboatScene(this.renderer.scene, this.physics, this.materials, {
+      terrainHeightAt: (x, z) =>
+        duneHeightAt(x, z - WORLD_Z_PER_METRE * this.world.distanceTraveled),
+      getVolleyTargetPosition: (targetId) =>
+        targetId === 'player'
+          ? this.player.worldPosition.clone().add(new THREE.Vector3(0, 0.3, 0))
+          : this.volleyTargetPosition(targetId),
+      getVolleyTargets: () => this.getVolleyTargets(),
+      canDamageVolleyTarget: (targetId, origin, target) =>
+        this.canDamageVolleyTarget(targetId, origin, target),
+      damageVolleyTarget: (targetId, amount) => {
+        if (targetId === 'player')
+          this.player.stats.damage(amount, 'gunboat volley', this.gunboatScene.group.position);
+        else if (targetId === 'engine') this.machine.damage.damage('engine', amount);
+        else this.build.damagePiece(targetId, amount);
+      },
+      onVolley: (state) => this.bus.emit('gunboat:volley', { serial: state.volleySerial }),
+      onTelegraph: (_state, origin, target) =>
+        this.bus.emit('gunboat:telegraph', {
+          origin: { x: origin.x, y: origin.y, z: origin.z },
+          target: { x: target.x, y: target.y, z: target.z },
+        }),
+      onDestroyed: (state) => {
+        this.bus.emit('gunboat:phase', { phase: state.phase, side: state.side });
+        this.finishGunboat('hull');
+      },
+      onEnded: (state) => {
+        this.bus.emit('gunboat:phase', { phase: state.phase, side: state.side });
+        this.finishGunboat(state.outcome);
+      },
+    });
     this.spawner = new EnemySpawner(seed);
     this.director = new ThreatDirector(seed);
     this.salvage = new SalvageField(this.renderer.scene, this.bus, this.materials, seed);
@@ -491,17 +722,287 @@ export class Game implements LoopCallbacks {
       this.machine,
       this.resources,
     );
+    this.build.setBuildAuthorization((piece) => canBuildPiece(piece, this.progression));
+    this.build.setBuildBlocker((placement) => this.expeditionBuildBlock(placement));
     this.lampLights = new LampLights(this.renderer.scene, this.quality.lampLights);
     this.buildPreview = new BuildPreview(this.renderer.scene);
     // Before the starting structures are laid, so the generator they include
     // registers as a producer the moment it is placed.
     this.wirePower();
     this.resetStructures();
+    this.defense = new DefenseSystem({
+      isPowered: (instanceId) => this.machine.power.isPowered(instanceId),
+      getHealth: (instanceId) =>
+        this.build.serialise().find((p) => p.instanceId === instanceId)?.health ?? 0,
+      getPosition: (instanceId) => {
+        const visual = this.build.turretVisual(instanceId);
+        const at = new THREE.Vector3();
+        if (visual) visual.root.getWorldPosition(at);
+        else {
+          const found = this.build
+            .stationsNear(this.player.worldPosition, Number.POSITIVE_INFINITY)
+            .find((s) => s.instanceId === instanceId);
+          if (found) at.copy(found.position);
+          else at.copy(this.machine.deckSpawn);
+        }
+        return at;
+      },
+      getTargets: () =>
+        this.enemies.active.map((enemy) => ({
+          id: enemy.id,
+          kind: 'infantry' as const,
+          position: {
+            x: enemy.worldPosition.x,
+            y: enemy.worldPosition.y,
+            z: enemy.worldPosition.z,
+          },
+        })),
+      getModifiers: () => {
+        const modifiers = this.progression.upgrades.modifiers();
+        return {
+          damageMultiplier: modifiers.turretDamageMultiplier,
+          fireRateMultiplier: modifiers.turretRateMultiplier,
+          powerDrawBonus: modifiers.turretPowerBonus,
+        };
+      },
+      raycast: (instanceId, yaw, pitch, range) => {
+        const visual = this.build.turretVisual(instanceId);
+        if (!visual) return null;
+        const origin = new THREE.Vector3();
+        const direction = new THREE.Vector3();
+        visual.muzzle.getWorldPosition(origin);
+        // Object3D's forward axis is +Z; authored barrels and ray weapons
+        // point down -Z, so use the negated world direction.
+        visual.muzzle.getWorldDirection(direction).negate();
+        const hit = this.physics.raycast(origin, direction, range);
+        this.defenseImpact = hit
+          ? {
+              point: hit.point.clone(),
+              normal: hit.normal.clone(),
+              targetId: null,
+              onMetal: true,
+            }
+          : null;
+        const damageable = hit && isDamageable(hit.userData) ? hit.userData : null;
+        if (!hit || !damageable) return null;
+        this.defenseImpact = {
+          point: hit.point.clone(),
+          normal: hit.normal.clone(),
+          targetId: damageable.id,
+          onMetal: damageable.kind !== 'enemy',
+        };
+        this.defenseDamageables.set(damageable.id, damageable);
+        void yaw;
+        void pitch;
+        return { targetId: damageable.id, distance: hit.distance };
+      },
+      damageTarget: (targetId, amount) => {
+        const damageable = this.defenseDamageables.get(targetId);
+        if (!damageable) return;
+        // BuildSystem and MachineDamage own their armour arithmetic. Enemy and
+        // vehicle runtimes receive post-armour damage, so subtract exactly once
+        // at this boundary for those target kinds.
+        const targetAmount =
+          damageable.kind === 'structure' || damageable.kind === 'subsystem'
+            ? amount
+            : Math.max(0, amount - damageable.armor);
+        damageable.takeDamage(targetAmount);
+      },
+      onMounted: (instanceId) => {
+        this.setArmed(false);
+        this.bus.emit('turret:entered', { instanceId });
+      },
+      onDismounted: (instanceId) => {
+        this.setArmed(true);
+        this.defenseHUD.update(null);
+        this.bus.emit('turret:exited', { instanceId });
+      },
+      onFired: (instanceId, targetId) => {
+        this.bus.emit('turret:fired', { instanceId, targetId });
+        const impact = this.defenseImpact;
+        this.defenseImpact = null;
+        if (impact) {
+          this.bus.emit('combat:hit', {
+            position: impact.point,
+            normal: impact.normal,
+            targetId: impact.targetId,
+            onMetal: impact.onMetal,
+          });
+        }
+      },
+      onAim: (instanceId, yaw, pitch) => {
+        const visual = this.build.turretVisual(instanceId);
+        if (!visual) return;
+        // The authored barrel points down -Z; Three's positive Y rotation
+        // turns that direction toward -X, hence the sign inversion.
+        visual.yaw.rotation.y = -yaw;
+        visual.pitch.rotation.x = pitch;
+      },
+    });
+    for (const piece of this.build.serialise()) {
+      if (piece.definitionId === 'turret-manual') this.defense.register(piece.instanceId);
+    }
+    this.bus.on('build:placed', ({ instanceId, definitionId }) => {
+      if (definitionId === 'turret-manual') {
+        this.defense.register(instanceId);
+        this.machine.power.unregisterConsumer(instanceId);
+        this.machine.power.registerConsumer({
+          id: instanceId,
+          draw: this.defense.effectivePowerDraw,
+          priority: 'defense',
+        });
+      }
+    });
+    this.bus.on('build:removed', ({ instanceId, definitionId }) => {
+      if (definitionId === 'turret-manual') this.defense.unregister(instanceId);
+    });
+    this.automaticDefense = new AutomaticDefenseSystem({
+      isPowered: (id) => this.machine.power.isPowered(id),
+      getHealth: (id) => this.build.pieceHealth(id) ?? 0,
+      getPosition: (id) => {
+        const visual = this.build.turretVisual(id);
+        const at = new THREE.Vector3();
+        if (visual) visual.pitch.getWorldPosition(at);
+        else {
+          const station = this.build
+            .stationsNear(this.player.worldPosition, Number.POSITIVE_INFINITY)
+            .find((s) => s.instanceId === id);
+          if (station) at.copy(station.position);
+        }
+        return at;
+      },
+      getTargets: () => {
+        const targets: AutomaticDefenseTarget[] = this.enemies.active.map((enemy) => ({
+          id: enemy.id,
+          kind: 'infantry',
+          position: {
+            x: enemy.worldPosition.x,
+            y: enemy.worldPosition.y,
+            z: enemy.worldPosition.z,
+          },
+        }));
+        const gunboat = this.gunboatScene.snapshot;
+        if (gunboat && this.gunboatScene.active) {
+          for (const part of ['hull', 'weapon', 'engine'] as const) {
+            const world = this.gunboatScene.getTargetPosition(part);
+            if (!world) continue;
+            targets.push({
+              id: `gunboat-${part}`,
+              kind: `gunboat-${part}`,
+              position: { x: world.x, y: world.y, z: world.z },
+              vehicleId: 'gunboat',
+            });
+          }
+        }
+        return targets;
+      },
+      hasLineOfSight: (id, targetId) => this.automaticTargetHit(id, targetId),
+      raycast: (id, targetId) => this.automaticTargetHit(id, targetId),
+      damageTarget: (targetId, amount) => {
+        const damageable = this.defenseDamageables.get(targetId);
+        if (damageable) damageable.takeDamage(Math.max(0, amount - damageable.armor));
+        else if (targetId.startsWith('gunboat-')) {
+          const part = targetId.slice(8) as 'hull' | 'weapon' | 'engine';
+          this.gunboatScene.damage(
+            part,
+            Math.max(0, amount - this.gunboatScene.getTargetArmor(part)),
+          );
+        }
+      },
+      onFired: (instanceId, targetId) => {
+        const visual = this.build.turretVisual(instanceId);
+        const origin = visual?.muzzle.getWorldPosition(new THREE.Vector3()) ?? new THREE.Vector3();
+        // The hit may have removed its target. Retain the confirmed endpoint
+        // until the presentation event for this shot has been emitted.
+        const target = this.automaticAimEnds.get(targetId);
+        if (target)
+          this.bus.emit('automatic-turret:fired', {
+            instanceId,
+            targetId,
+            visualOrigin: { x: origin.x, y: origin.y, z: origin.z },
+            aimEnd: { x: target.x, y: target.y, z: target.z },
+          });
+      },
+      onTargetAcquired: (instanceId, targetId) =>
+        this.bus.emit('automatic-turret:target-acquired', { instanceId, targetId }),
+      onAim: (instanceId, yaw, pitch) => {
+        const visual = this.build.turretVisual(instanceId);
+        if (visual) {
+          const parentRotation = new THREE.Euler().setFromQuaternion(
+            visual.yaw.parent!.getWorldQuaternion(new THREE.Quaternion()),
+            'YXZ',
+          );
+          visual.yaw.rotation.y = -yaw - parentRotation.y;
+          visual.pitch.rotation.x = pitch;
+        }
+      },
+    });
+    for (const piece of this.build.serialise())
+      if (piece.definitionId === 'turret-auto') this.automaticDefense.register(piece.instanceId);
+    this.bus.on('build:placed', ({ instanceId, definitionId }) => {
+      if (definitionId === 'turret-auto') this.automaticDefense.register(instanceId);
+    });
+    this.bus.on('build:removed', ({ instanceId, definitionId }) => {
+      if (definitionId === 'turret-auto') this.automaticDefense.unregister(instanceId);
+      if (definitionId === 'collector-auto') {
+        this.collectors.get(instanceId)?.dispose();
+        this.collectors.delete(instanceId);
+      }
+    });
+    const registerCollector = (instanceId: string): void => {
+      const buffer = this.build.collectorContainer(instanceId);
+      if (!buffer) return;
+      const controller = new AutomaticSalvageCollector(
+        instanceId,
+        {
+          getPosition: () => {
+            const visual = this.build.collectorVisual(instanceId);
+            const point = new THREE.Vector3();
+            if (visual) visual.hookExit.getWorldPosition(point);
+            else {
+              const collector = this.build
+                .collectorContainersNear(this.player.worldPosition, Number.POSITIVE_INFINITY)
+                .find((c) => c.instanceId === instanceId);
+              if (collector) point.copy(collector.position);
+            }
+            return point;
+          },
+          getTargets: () =>
+            this.salvage.targets.map((target) => ({
+              id: target.id,
+              position: { x: target.x, y: target.y, z: target.z },
+            })),
+          claim: (id, owner) => this.salvage.claim(id, owner),
+          release: (id, owner) => this.salvage.release(id, owner),
+          isClaimAlive: (id, _owner) => this.salvage.positionOf(id) !== null,
+          pullClaimed: (dt, id, owner, toward) => this.salvage.pullClaimed(dt, id, owner, toward),
+          transferContents: (id, deposit) => this.salvage.transferContents(id, deposit),
+          isPowered: () => this.machine.power.isPowered(instanceId),
+          onState: (state) => {
+            const visual = this.build.collectorVisual(instanceId);
+            if (visual?.bufferLamp instanceof THREE.Mesh) {
+              const material = visual.bufferLamp.material as THREE.MeshStandardMaterial;
+              if (material.emissiveIntensity !== undefined)
+                material.emissiveIntensity =
+                  state === 'unpowered' ? 0 : state === 'latched' ? 2.2 : 1;
+            }
+          },
+        },
+        buffer,
+      );
+      this.collectors.set(instanceId, controller);
+    };
+    for (const piece of this.build.serialise())
+      if (piece.definitionId === 'collector-auto') registerCollector(piece.instanceId);
+    this.bus.on('build:placed', ({ instanceId, definitionId }) => {
+      if (definitionId === 'collector-auto') registerCollector(instanceId);
+    });
     this.crafting = new CraftingSystem(this.resources, this.bus, this.stationPowered);
 
     // HUD first: it owns the root's innerHTML, so anything appended before it
     // would be wiped.
     this.hud = new HUD(options.hudRoot, this.bus);
+    this.defenseHUD = new DefenseHUD(options.hudRoot);
     this.buildUI = new BuildUI(options.hudRoot);
     this.inventoryUI = new InventoryUI(options.hudRoot, this.inventory, {
       moveToCrate: (slot, all) => this.transfer('player', slot, all),
@@ -509,6 +1010,25 @@ export class Game implements LoopCallbacks {
       useSlot: (slot) => this.useSlot(slot),
       craft: (recipeId) => this.crafting.craft(recipeId),
       close: () => this.closePanels(),
+    });
+    this.radioUI = new RadioUI(
+      options.hudRoot,
+      {
+        close: () => this.closePanels(),
+        openResearch: () => this.openResearch(),
+        depart: () => this.requestExpeditionDeparture(),
+      },
+      this.bus,
+    );
+    this.researchUI = new ResearchUI(options.hudRoot, {
+      research: (id) => this.researchUpgrade(id),
+      activate: (id) => this.activateUpgrade(id),
+      deactivate: (branch) => this.deactivateUpgrade(branch),
+      close: () => this.closePanels(),
+    });
+    this.expeditionUI = new ExpeditionUI(options.hudRoot, {
+      close: () => this.closePanels(),
+      selectRoute: (route) => this.selectStoryRoute(route),
     });
     this.debug = new DebugOverlay(options.hudRoot);
 
@@ -525,6 +1045,8 @@ export class Game implements LoopCallbacks {
         onContinue: () => void this.continueGame(),
         onResume: () => this.resume(),
         onQuitToTitle: () => this.enterTitle(),
+        onSave: () => void this.saveFromPause(false),
+        onSaveAndQuit: () => void this.saveFromPause(true),
         onSettings: (s) => this.applySettings(s),
         hasSave: () => this.hasSave(),
       });
@@ -537,6 +1059,95 @@ export class Game implements LoopCallbacks {
     // Off the event, not polled, so the model in the hand and the name on the
     // HUD change on the same tick and cannot disagree about what is held.
     this.bus.on('weapon:equipped', () => this.equipHeldWeapon());
+    this.bus.on('opening:phase', ({ phase }) => {
+      if (phase !== 'done' || this.playableStartedAt !== null) return;
+      this.playableStartedAt = this.state.simTime;
+      this.progression.earlyRadioDrop.arm(this.state.simTime);
+      if (!this.progression.earlyRadioDrop.radioFound)
+        this.salvage.armAfterOpening(this.world.distanceTraveled);
+      this.sessionMetrics.mark('opening.done');
+    });
+    this.bus.on('loot:collected', (e) => {
+      if (e.source.toLowerCase().includes('salvage'))
+        this.sessionMetrics.mark('salvage.opened', { source: e.source });
+    });
+    this.bus.on('radio:found', (e) =>
+      this.sessionMetrics.mark('radio.found', {
+        distance: e.distance,
+        elapsed: e.elapsedSincePlayable,
+      }),
+    );
+    this.bus.on('defense:built', () => this.sessionMetrics.mark('defense.built'));
+    this.bus.on('upgrade:researched', (e) =>
+      this.sessionMetrics.mark(`upgrade.researched:${e.id}`),
+    );
+    this.bus.on('story:docked', () => this.sessionMetrics.mark('story.docked'));
+    this.bus.on('story:unique-collected', () => this.sessionMetrics.mark('story.gyro'));
+    this.bus.on('story:departed', () => this.sessionMetrics.mark('story.departed'));
+
+    // First-run facts are derived from the same events that change the live
+    // world. They are deliberately monotonic, so an action taken before its
+    // objective is displayed still counts.
+    this.bus.on('loot:collected', (e) => {
+      const salvage = e.source.toLowerCase().includes('salvage');
+      if (salvage) {
+        this.observeFirstRun({ type: 'salvage-collected', count: 1, source: e.source });
+        if (this.progression.recordSalvageCollected()) {
+          this.bus.emit('progression:unlocked', { id: 'manual-turret' });
+        }
+      }
+      this.requestAutosave();
+    });
+    this.bus.on('build:placed', (e) => {
+      this.observeFirstRun({ type: 'build-placed', definitionId: e.definitionId });
+      if (e.definitionId === 'turret-manual') {
+        this.bus.emit('defense:built', { defenseId: e.instanceId });
+      }
+      this.requestAutosave();
+    });
+    this.bus.on('craft:completed', ({ recipeId }) => {
+      this.observeFirstRun({ type: 'craft-completed', recipeId });
+      this.observeFirstRun({ type: 'snapshot', snapshot: this.firstRunSnapshot() });
+      this.requestAutosave();
+    });
+    this.bus.on('defense:built', (e) => {
+      this.observeFirstRun({ type: 'defense-built' });
+      this.requestAutosave();
+      void e;
+    });
+    this.bus.on('boarding:survived', () => {
+      this.observeFirstRun({ type: 'boarding-survived' });
+      this.requestAutosave();
+    });
+    this.bus.on('boarding:ended', (e) => {
+      this.observeFirstRun({ type: 'boarding-ended', needsRepair: e.needsRepair ?? false });
+      this.requestAutosave();
+    });
+    this.bus.on('turret:entered', ({ instanceId }) => {
+      this.observeFirstRun({ type: 'defense-crewed' });
+      if (
+        this.firstRun.current === 'survive-boarding' &&
+        !this.tutorialStarted &&
+        !this.vehicleManager.active &&
+        this.tutorialReadyAt === null
+      ) {
+        this.tutorialTurretId = instanceId;
+        this.tutorialReadyAt = this.state.simTime + 15;
+      }
+      this.requestAutosave();
+    });
+    this.bus.on('repair:completed', () => {
+      this.observeFirstRun({ type: 'repair-completed' });
+      this.requestAutosave();
+    });
+    // Infantry recovery does not satisfy the skiff objective. Only the
+    // boarding controller's terminal event can advance that step.
+    this.bus.on('enemy:spawned', () => {
+      // A later boarding system may provide a dedicated survived event. The
+      // threat director's recovery edge remains a valid fallback for today's
+      // enemy manager, so no objective depends on a particular combat actor.
+    });
+    this.refreshFirstRunObjective();
 
     this.bus.on('player:died', () => {
       this.state.playerDead = true;
@@ -619,6 +1230,45 @@ export class Game implements LoopCallbacks {
       .find((ref) => ref.piece === station)?.instanceId;
   }
 
+  /** Build the small snapshot needed when loading or restoring old saves. */
+  private firstRunSnapshot(): FirstRunSnapshot {
+    const pieces = this.build.serialise();
+    return {
+      refineryBuilt: pieces.some((piece) => piece.definitionId === 'refinery'),
+      workbenchBuilt: pieces.some((piece) => piece.definitionId === 'workbench'),
+      defenseBuilt: pieces.filter((piece) => piece.definitionId === 'turret-manual').length,
+      componentsAvailable: this.resources.count('components'),
+    };
+  }
+
+  private observeFirstRun(fact: FirstRunFact): void {
+    const change = this.firstRun.observe(fact);
+    if (!change) return;
+    this.bus.emit('objective:updated', change);
+    this.refreshFirstRunObjective();
+    const instruction = this.firstRun.instruction;
+    this.bus.emit('objective:changed', {
+      view: {
+        title: instruction.title,
+        instruction: instruction.detail,
+        control: instruction.control || undefined,
+        optional: instruction.step === 'complete',
+      },
+    });
+  }
+
+  private refreshFirstRunObjective(): void {
+    this.hud?.setObjective(this.firstRun.instruction);
+  }
+
+  private requestAutosave(): void {
+    if (this.opening.phase !== 'done') return;
+    this.autosavePending = true;
+    // High-value story edges should be attempted at the next safe fixed-step
+    // boundary instead of waiting for the periodic checkpoint.
+    this.nextAutosaveAt = Math.min(this.nextAutosaveAt, this.state.simTime);
+  }
+
   /**
    * Build what a new machine is already carrying — the starting generator.
    *
@@ -685,6 +1335,10 @@ export class Game implements LoopCallbacks {
   fixedUpdate(dt: number): void {
     if (this.state.paused) return;
     this.state.simTime += dt;
+    if (this.state.simTime >= this.nextAutosaveAt) {
+      if (!this.autosavePending) this.bus.emit('game:autosave-pending', {});
+      this.autosavePending = true;
+    }
 
     this.updatePanels(dt);
     // Build mode and the panels are mutually exclusive: both want LMB.
@@ -740,18 +1394,22 @@ export class Game implements LoopCallbacks {
         this.player.carry.z = carried.z;
       }
 
-      this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
+      if (this.defense.mounted)
+        this.player.fixedUpdate(dt, this.idleInput, this.playerCamera.yawAngle);
+      else this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
       // The camera follows where the player would be if the body were at rest,
       // not where the deck has just lifted them to. See `Machine.steadyPoint`:
       // the deck is supposed to move and the view is not, and without this the
       // gait reaches the camera through the player and buzzes it at 4.6Hz.
-      this.playerCamera.fixedUpdate(
-        dt,
-        this.input,
-        this.machine.steadyPoint(this.player.worldPosition, this.cameraAnchor),
-        this.physics,
-        this.player.collider,
-      );
+      if (!this.defense.mounted) {
+        this.playerCamera.fixedUpdate(
+          dt,
+          this.input,
+          this.machine.steadyPoint(this.player.worldPosition, this.cameraAnchor),
+          this.physics,
+          this.player.collider,
+        );
+      }
       // Build mode suppresses weapon fire entirely: LMB places, and firing
       // while placing would be both surprising and expensive. An open panel
       // suppresses both — its clicks belong to the panel.
@@ -759,10 +1417,43 @@ export class Game implements LoopCallbacks {
       // same way an open panel does.
       // An unarmed player reaches no trigger either, which is what the roof
       // is: the answer up there is run.
-      if (this.panelsOpen || this.state.playerDead || !this.armed) {
+      if (this.panelsOpen || this.state.playerDead || !this.armed || this.defense.mounted) {
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
       } else if (this.buildMode) this.updateBuildMode();
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
+
+      if (this.defense.mounted) {
+        const view = this.defense.update(this.state.simTime, {
+          dt,
+          lookX: this.input.lookDelta.x * 0.004,
+          // Mouse down is positive in InputManager; turret pitch uses
+          // positive values for raising the barrel, so invert the screen Y.
+          lookY: -this.input.lookDelta.y * 0.004,
+          fireHeld: this.input.isDown('fire'),
+          powered: this.machine.power.isPowered(this.defense.mounted),
+          occupied: true,
+        });
+        if (view) {
+          this.defenseHUD.update(view);
+          const visual = this.build.turretVisual(view.instanceId);
+          if (visual) {
+            // Mounted fire is aimed from the authored muzzle. Keep the active
+            // view on that same ray so the player can actually see what the
+            // manual gun is targeting instead of retaining the old third-
+            // person player camera pose.
+            visual.muzzle.getWorldPosition(this.turretCameraAt);
+            visual.muzzle.getWorldDirection(this.turretCameraDirection).negate();
+            this.playerCamera.camera.position
+              .copy(this.turretCameraAt)
+              // The barrel's end cap would fill the view from behind it.
+              .addScaledVector(this.turretCameraDirection, 0.12);
+            this.turretCameraLookAt
+              .copy(this.turretCameraAt)
+              .addScaledVector(this.turretCameraDirection, 50);
+            this.playerCamera.camera.lookAt(this.turretCameraLookAt);
+          }
+        }
+      }
 
       // No nav graph during the chase. The graph describes the machine's deck
       // and what the player has built on it; the roof is neither, so A* would
@@ -779,12 +1470,21 @@ export class Game implements LoopCallbacks {
         this.machine.damage,
       );
 
+      if (this.scriptedGunboatPending) this.spawnGunboatEncounter('port');
+      this.updateVehicles(dt);
+
       this.updateOpening(dt);
     }
 
     this.machine.fixedUpdate(dt);
+    this.updateStory();
+    this.destination.fixedUpdate(this.world.distanceTraveled);
     this.tickNeeds(dt);
     this.tickPower(dt);
+    this.automaticAimEnds.clear();
+    this.automaticDefense.update(dt);
+    for (const collector of this.collectors.values()) collector.update(dt);
+    this.refreshResearchPanel();
     // After the power, so a condenser that lost its supply this tick is asked
     // about the state the tick actually ended in rather than the one it began
     // with. The same ordering argument `MachinePower.fixedUpdate` makes about
@@ -804,10 +1504,163 @@ export class Game implements LoopCallbacks {
     // After the world moves, so the distance the spawner reads is this tick's.
     if (!this.cinematicCamera) this.updateSpawns();
 
+    if (!this.cinematicCamera) {
+      this.salvage.update(dt, this.world.distanceTraveled, this.machine.speed);
+      this.updateReel(dt);
+    }
+
     // Last: resolve everything the kinematic bodies above just requested.
     this.physics.step();
 
     this.handleDebugKeys();
+    if (!this.state.paused && this.opening.phase === 'done' && !this.state.playerDead) {
+      this.sessionMetrics.advance(dt, {
+        scrap: this.resources.count('scrap'),
+        components: this.resources.count('components'),
+        fuel: this.machine.power.fuel,
+        powerCapacity: this.machine.power.capacity,
+        powerDraw: this.machine.power.draw,
+        speed: this.machine.speed,
+      });
+    }
+    this.processAutosave();
+  }
+
+  private updateStory(): void {
+    const before = this.story.currentPhase;
+    const effects = this.story.update({
+      distance: this.world.distanceTraveled,
+      radioFound: this.progression.earlyRadioDrop.radioFound,
+      firstRunComplete: this.firstRun.isComplete,
+      stable: this.isStableForStory(),
+      speed: this.machine.speed,
+      playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
+      maxSpeed: this.machine.movement.maxSpeed,
+      encounterActive:
+        this.enemies.activeCount > 0 || this.vehicleManager.active || this.gunboatScene.active,
+    });
+    if (effects.length > 0) this.applyStoryEffects(effects);
+    const after = this.story.currentPhase;
+    if (after !== before) {
+      this.bus.emit('story:phase', { chapterId: this.story.chapter.id, phase: after });
+      if (after === 'route-selection') this.openExpedition();
+    }
+    const view = this.story.snapshot(this.world.distanceTraveled);
+    const gyro = this.machine.group.getObjectByName('GyroInstalled');
+    if (gyro) gyro.visible = view.recoveredUniques.includes('course-gyro');
+    const helmLamp = this.machine.group.getObjectByName('HelmPowerLamp');
+    if (helmLamp) helmLamp.visible = this.machine.power.isPowered(this.helmPowerConsumerId);
+    this.hud.setStoryState({
+      phase: view.phase,
+      objective: view.objective,
+      remainingM: view.remainingM,
+    });
+    this.hud.setRadioState(
+      this.progression.earlyRadioDrop.radioFound,
+      this.progression.earlyRadioDrop.radioFound &&
+        this.machine.power.isPowered(this.radioPowerConsumerId),
+    );
+    if (this.radioUI.isOpen)
+      this.radioUI.setView({
+        strength: view.signalStrength,
+        remainingM: view.remainingM,
+        signalText: view.objective,
+      });
+    if (this.expeditionUI.isOpen) this.expeditionUI.setView(this.expeditionView());
+    // Keep the machine-side gate in lockstep with the destination state. This
+    // runs after story effects and also covers a restored docked state before
+    // the next player movement step.
+    this.machine.setExpeditionGangwayOpen(this.destination.docked);
+  }
+
+  private isStableForStory(): boolean {
+    const clearForApproach =
+      !['signal', 'route-selection'].includes(this.story.currentPhase) ||
+      !this.hasDestinationBuildConflict();
+    if (!clearForApproach && this.story.currentPhase === 'signal') {
+      this.hud?.setWarning(
+        'Clear structures from the wreck approach lane before following the signal',
+      );
+    }
+    return (
+      clearForApproach &&
+      this.enemies.activeCount === 0 &&
+      !this.vehicleManager.active &&
+      !this.gunboatScene.active &&
+      !this.scriptedGunboatPending &&
+      this.pendingBoardingOutcome === null &&
+      !this.state.playerDead &&
+      this.hook === null &&
+      this.opening.phase === 'done'
+    );
+  }
+
+  private expeditionBuildBlock(
+    placement: Placement,
+  ): { ok: false; reason: 'expedition-reserved' } | null {
+    if (!this.destination.active) return null;
+    return footprintOverlapsExpedition(placement)
+      ? { ok: false, reason: 'expedition-reserved' }
+      : null;
+  }
+
+  private hasDestinationBuildConflict(): boolean {
+    return this.build.serialise().some((piece) => footprintOverlapsExpedition(piece));
+  }
+
+  private applyStoryEffects(effects: readonly StoryEffect[]): void {
+    for (const effect of effects) {
+      switch (effect.type) {
+        case 'begin-signal':
+          this.bus.emit('story:signal', {
+            strength: 0.08,
+            remainingM: null,
+            text: 'A recovered signal answers from the route.',
+          });
+          break;
+        case 'begin-approach':
+          this.destination.setActive(false);
+          this.destination.configure(this.story.chapter);
+          this.destination.setActive(true);
+          this.destination.setArrivalDistance(effect.arrivalDistance);
+          this.destination.fixedUpdate(this.world.distanceTraveled);
+          break;
+        case 'scripted-vehicle-due':
+          if (effect.vehicle === 'gunboat') {
+            this.director.queueExternal('gunboat');
+            this.scriptedGunboatPending = true;
+            this.spawnGunboatEncounter('port');
+          }
+          break;
+        case 'request-sanctuary':
+          this.director.setSanctuary(effect.active, this.world.distanceTraveled);
+          break;
+        case 'request-speed-limit':
+          this.machine.movement.setScriptedSpeedLimit(effect.mps);
+          break;
+        case 'hold-destination':
+          this.destination.setArrivalDistance(this.world.distanceTraveled + effect.remainingM);
+          break;
+        case 'deploy-gangway':
+          this.destination.setDocked(true);
+          this.machine.setExpeditionGangwayOpen(true);
+          this.bus.emit('story:docked', { chapterId: this.story.chapter.id });
+          this.requestAutosave();
+          break;
+        case 'retract-gangway':
+          this.destination.setDocked(false);
+          this.machine.setExpeditionGangwayOpen(false);
+          break;
+        case 'chapter-complete':
+          this.destination.setActive(false);
+          this.machine.setExpeditionGangwayOpen(false);
+          this.bus.emit('story:departed', { chapterId: this.story.chapter.id });
+          break;
+        case 'next-signal':
+          this.bus.emit('story:next-signal', { id: 'signal-two' });
+          break;
+      }
+    }
   }
 
   /**
@@ -888,6 +1741,13 @@ export class Game implements LoopCallbacks {
       } else {
         this.shedClasses.delete(event.priority);
         this.bus.emit('power:restored', { priority: event.priority });
+      }
+    }
+    if (this.progression.earlyRadioDrop.radioFound) {
+      const powered = this.machine.power.isPowered(this.radioPowerConsumerId);
+      if (powered !== this.radioPowered) {
+        this.radioPowered = powered;
+        this.bus.emit('radio:power', { powered });
       }
     }
   }
@@ -986,10 +1846,7 @@ export class Game implements LoopCallbacks {
 
     // Where the head is this frame: along the throw while outbound, and
     // pulled back to the player on the way home.
-    this.hookAt
-      .copy(this.hookDir)
-      .multiplyScalar(this.hook.distance)
-      .add(this.hookOrigin);
+    this.hookAt.copy(this.hookDir).multiplyScalar(this.hook.distance).add(this.hookOrigin);
 
     // Latch on the way out only, so a returning hook does not sweep up
     // everything between it and the player.
@@ -1001,6 +1858,7 @@ export class Game implements LoopCallbacks {
       const grab = nearby ?? (caught && this.hook.distance >= REEL_RANGE - 0.01 ? caught : null);
       if (grab && this.salvage.hook(grab.id)) {
         this.hookedCrate = grab.id;
+        this.sessionMetrics.mark('salvage.hooked');
         this.hook = { distance: this.hook.distance, phase: 'back' };
         this.audio.play('hook-catch');
       }
@@ -1027,15 +1885,53 @@ export class Game implements LoopCallbacks {
     // slid along a wire; tumbling is most of what sells the throw. On the way
     // BACK it is dragging a crate, so it holds still -- a line under tension
     // does not let its end spin.
-    this.reelHead.lookAt(this.hookAt.x + this.hookDir.x, this.hookAt.y + this.hookDir.y, this.hookAt.z + this.hookDir.z);
+    this.reelHead.lookAt(
+      this.hookAt.x + this.hookDir.x,
+      this.hookAt.y + this.hookDir.y,
+      this.hookAt.z + this.hookDir.z,
+    );
     if (this.hook.phase === 'out') this.reelHead.rotateZ(this.hook.distance * HOOK_SPIN);
     this.reelHead.visible = true;
 
     if (this.hook.phase === 'done') {
       if (this.hookedCrate !== null) {
-        this.salvage.open(this.hookedCrate, (id, count) => {
-          this.resources.deposit(id as Parameters<ResourceAccess['deposit']>[0], count);
-        });
+        this.salvage.open(
+          this.hookedCrate,
+          (id, count) => {
+            this.resources.deposit(id as Parameters<ResourceAccess['deposit']>[0], count);
+          },
+          () => {
+            if (this.opening.phase !== 'done') return [];
+            const reward = this.progression.earlyRadioDrop.onSalvageChestOpened(
+              this.state.simTime,
+              this.world.distanceTraveled,
+            );
+            if (!reward.granted) return [];
+            this.radioModel.visible = true;
+            this.machine.power.registerConsumer({
+              id: this.radioPowerConsumerId,
+              draw: 1,
+              priority: 'station',
+            });
+            this.bus.emit('radio:found', {
+              source: 'salvage-crate',
+              distance: this.world.distanceTraveled,
+              elapsedSincePlayable:
+                this.playableStartedAt === null
+                  ? this.state.simTime
+                  : Math.max(0, this.state.simTime - this.playableStartedAt),
+            });
+            this.bus.emit('radio:power', {
+              powered: this.machine.power.isPowered(this.radioPowerConsumerId),
+            });
+            this.radioPowered = this.machine.power.isPowered(this.radioPowerConsumerId);
+            this.requestAutosave();
+            return [
+              { id: 'scrap', count: reward.cache.scrap },
+              { id: 'fuel', count: reward.cache.fuel },
+            ];
+          },
+        );
         this.hookedCrate = null;
       }
       this.hook = null;
@@ -1062,9 +1958,6 @@ export class Game implements LoopCallbacks {
 
     this.player.update(alpha, frameDt);
     this.enemies.update(alpha, frameDt);
-    this.salvage.update(frameDt, this.world.distanceTraveled, this.machine.speed);
-    this.updateReel(frameDt);
-
     // Whether a throw would catch something, asked of the same function the
     // throw itself uses -- a cue derived from different rules to the mechanic
     // is a cue that lies.
@@ -1073,8 +1966,9 @@ export class Game implements LoopCallbacks {
     } else {
       const camera = this.activeCamera;
       camera.getWorldDirection(this.reelAim);
-      this.reelReady =
-        pickReelTarget(this.salvage.targets, camera.position, this.reelAim) !== null;
+      this.hookOrigin.copy(this.player.worldPosition);
+      this.hookOrigin.y += 0.35;
+      this.reelReady = pickReelTarget(this.salvage.targets, this.hookOrigin, this.reelAim) !== null;
     }
 
     const camera = this.activeCamera;
@@ -1099,7 +1993,11 @@ export class Game implements LoopCallbacks {
       // landing to port is heard to port -- the machine is sixteen metres long
       // and the player is standing on it, which is close enough that four
       // identical centred thuds would read as a loop rather than as a walk.
-      this.audio.play('footfall', foot.x - this.player.worldPosition.x, foot.z - this.player.worldPosition.z);
+      this.audio.play(
+        'footfall',
+        foot.x - this.player.worldPosition.x,
+        foot.z - this.player.worldPosition.z,
+      );
     }
     // Where the player is standing, and what the desert is doing, before the
     // drone is asked how loud it should be. Both are level-triggered and both
@@ -1150,6 +2048,7 @@ export class Game implements LoopCallbacks {
       countOf: this.countOf,
       canCraft: this.canCraft,
       stationNote: this.stationNote(),
+      infiniteAmmo: this.combat.current.infiniteReserve,
     });
 
     if (this.buildMode) {
@@ -1161,6 +2060,7 @@ export class Game implements LoopCallbacks {
         scrap: this.resources.count('scrap'),
         components: this.resources.count('components'),
         canAfford: this.canAffordCost,
+        canBuild: this.build.canBuildPiece.bind(this.build),
         validation: this.buildPreview.validation,
         roomCount: this.build.rooms.rooms.length,
         enclosedCount: countEnclosed(this.build.rooms),
@@ -1216,6 +2116,12 @@ export class Game implements LoopCallbacks {
         lit,
       });
     }
+    const radioLamp = this.radioModel.getObjectByName('SignalLamp');
+    if (radioLamp) {
+      radioLamp.visible =
+        this.progression.earlyRadioDrop.radioFound &&
+        this.machine.power.isPowered(this.radioPowerConsumerId);
+    }
     return out;
   }
 
@@ -1227,13 +2133,21 @@ export class Game implements LoopCallbacks {
    * safe room by accident would contradict that quietly.
    */
   private updateSpawns(): void {
+    // Ordinary threat pacing waits until the guided boarding loop is done.
+    if (!this.firstRun.isComplete) return;
     if (!this.enemySpawnsEnabled) return;
     if (this.state.playerDead) return;
+    // A destroyed hull can leave shells in flight. Keep scheduling paused
+    // during that tail without reacquiring the encounter just resolved.
+    if (this.gunboatResolutionApplied && this.gunboatScene.active) return;
 
     const decision = this.director.update(
       this.world.distanceTraveled,
       this.enemies.activeCount,
       this.player.stats.health / this.player.stats.maxHealth,
+      this.vehicleManager.active ||
+        this.gunboatScene.active ||
+        this.pendingBoardingOutcome !== null,
     );
 
     // Announced once, on the edge, rather than polled: the HUD's alert is a
@@ -1244,6 +2158,37 @@ export class Game implements LoopCallbacks {
         phase: decision.entered,
         wavesSurvived: this.director.waves,
       });
+    }
+
+    if (
+      decision.vehicle &&
+      !this.vehicleManager.active &&
+      !this.gunboatScene.active &&
+      !this.pendingBoardingOutcome
+    ) {
+      const started =
+        decision.vehicle.type === 'gunboat'
+          ? (() => {
+              const spawned = this.gunboatScene.spawn('port');
+              if (spawned) {
+                this.gunboatResolutionApplied = false;
+                this.scriptedGunboatPending = false;
+              }
+              return spawned;
+            })()
+          : this.enemies.activeCount === 0 && this.vehicleScene.spawn('port');
+      if (started) {
+        this.tutorialStarted = false;
+        if (decision.vehicle.type === 'skiff')
+          this.bus.emit('boarding:started', { encounterId: 'skiff' });
+        else this.bus.emit('gunboat:phase', { phase: 'approach', side: 'port' });
+      } else if (!this.vehicleManager.active && !this.gunboatScene.active) {
+        // ThreatDirector marks the external encounter before handing us the
+        // request. Release that ownership if the scene cannot accept it so a
+        // failed spawn cannot freeze ordinary threat pacing forever.
+        this.director.abortOrphanExternal(this.world.distanceTraveled);
+      }
+      return;
     }
 
     if (!decision.spawn) return;
@@ -1278,6 +2223,351 @@ export class Game implements LoopCallbacks {
     }
   }
 
+  private spawnBoarder(index: number, landing?: THREE.Vector3): void {
+    if (landing) {
+      const enemy = this.enemies.spawn('raider', landing);
+      if (enemy) {
+        this.boardingEnemyIds.add(enemy.id);
+        this.bus.emit('boarding:crossed', { enemyId: enemy.id, crewIndex: index });
+      }
+      return;
+    }
+    const side = this.vehicleManager.snapshot?.side === 'starboard' ? 1 : -1;
+    const z = index === 0 ? -this.machine.deckBounds.max.z + 1 : this.machine.deckBounds.max.z - 1;
+    const enemy = this.enemies.spawn(
+      'raider',
+      new THREE.Vector3(side * Math.max(2, this.machine.deckBounds.max.x - 1), CHARACTER_DROP_Y, z),
+    );
+    if (enemy) {
+      this.boardingEnemyIds.add(enemy.id);
+      this.bus.emit('boarding:crossed', { enemyId: enemy.id, crewIndex: index });
+    }
+  }
+
+  /** Pick a live level-0 nav cell beside the relevant deck edge. */
+  private boardingLanding(side: 'port' | 'starboard', _crewIndex: number): THREE.Vector3 {
+    const sign = side === 'starboard' ? 1 : -1;
+    const grid = this.build.gridView;
+    // NavGraph deliberately keeps the machine's equipment cells walkable for
+    // A* and lets EnemySteering handle the fine-grained collider avoidance.
+    // That is correct for routing, but it is unsafe as a spawn rule: a body
+    // created inside the workbench or a crate has no depenetration path. The
+    // same applies to player stations and stair runs, whose colliders occupy a
+    // cell while their navigation node remains useful to route around.
+    const occupied = new Set([
+      ...this.machine.equipmentCells.map(cellKey),
+      ...grid.stationEntries().map(({ cell }) => cellKey(cell)),
+      ...grid.stairsEntries().map(({ cell }) => cellKey(cell)),
+    ]);
+    const candidates = [...this.build.navGraph.links.entries()]
+      .map(([key, links]) => ({ cell: parseCellKey(key), links }))
+      .filter(
+        ({ cell, links }) => cell.y === 0 && links.length > 0 && !occupied.has(cellKey(cell)),
+      );
+    const wantedX = sign * Math.floor(this.machine.deckBounds.max.x / GRID_TILE);
+    // The hook has one physical endpoint. Both crew cross to that same safe
+    // deck cell; the second raider can then walk off it through ordinary
+    // steering instead of visually landing beside the cable target.
+    const wantedZ = -1;
+    const cell = candidates.sort((a, b) => {
+      const scoreA = Math.abs(a.cell.x - wantedX) * 10 + Math.abs(a.cell.z - wantedZ);
+      const scoreB = Math.abs(b.cell.x - wantedX) * 10 + Math.abs(b.cell.z - wantedZ);
+      return scoreA - scoreB;
+    })[0]?.cell;
+    return new THREE.Vector3(
+      (cell?.x ?? sign * 2) * GRID_TILE,
+      CHARACTER_DROP_Y,
+      (cell?.z ?? wantedZ) * GRID_TILE,
+    );
+  }
+
+  private getVolleyTargets(): readonly VolleyTarget[] {
+    const targets: VolleyTarget[] = [
+      { id: 'player', kind: 'player', exposed: true },
+      { id: 'engine', kind: 'subsystem', exposed: true },
+    ];
+    for (const station of this.build.stationsNear(
+      this.player.worldPosition,
+      Number.POSITIVE_INFINITY,
+    )) {
+      targets.push({
+        id: station.instanceId,
+        kind:
+          station.piece === 'turret-manual' || station.piece === 'turret-auto'
+            ? 'turret'
+            : 'structure',
+        exposed: true,
+      });
+    }
+    return targets;
+  }
+
+  private volleyTargetPosition(targetId: string): THREE.Vector3 | null {
+    if (targetId === 'player') return this.player.worldPosition.clone();
+    if (targetId === 'engine') {
+      return new THREE.Vector3(
+        SUBSYSTEMS.engine.hitbox.center.x,
+        SUBSYSTEMS.engine.hitbox.center.y,
+        SUBSYSTEMS.engine.hitbox.center.z,
+      );
+    }
+    const station = this.build
+      .stationsNear(this.player.worldPosition, Number.POSITIVE_INFINITY)
+      .find((candidate) => candidate.instanceId === targetId);
+    if (station) {
+      // Build colliders for stations are lifted from the floor. Aim at their
+      // collider volume rather than the mesh origin so exposure checks do not
+      // terminate on the deck plate below the target. The upper manual-gun
+      // housing is the exposed part of its one-metre collider; aiming there
+      // also clears the deck lip when the gun is attacked from below.
+      return station.position
+        .clone()
+        .add(new THREE.Vector3(0, station.piece === 'turret-manual' ? 0.85 : 0.5, 0));
+    }
+    const turret = this.build.turretVisual(targetId);
+    if (turret) {
+      const position = new THREE.Vector3();
+      turret.root.getWorldPosition(position);
+      position.y += 0.5;
+      return position;
+    }
+    return null;
+  }
+
+  private canDamageVolleyTarget(
+    targetId: string,
+    origin: THREE.Vector3,
+    target: THREE.Vector3,
+  ): boolean {
+    const delta = target.clone().sub(origin);
+    const distance = delta.length();
+    if (distance <= 0.01) return false;
+    const direction = delta.multiplyScalar(1 / distance);
+    const hit = this.physics.raycast(origin, direction, distance);
+    if (!hit) return false;
+    if (targetId === 'player') return hit.collider.handle === this.player.collider.handle;
+    const damageable = isDamageable(hit.userData) ? hit.userData : null;
+    return damageable?.id === targetId;
+  }
+
+  private automaticTargetHit(instanceId: string, targetId: string): boolean {
+    const visual = this.build.turretVisual(instanceId);
+    if (!visual) return false;
+    const target =
+      this.enemies.active.find((enemy) => enemy.id === targetId)?.worldPosition ??
+      (targetId.startsWith('gunboat-')
+        ? this.gunboatScene.getTargetPosition(targetId.slice(8) as 'hull' | 'weapon' | 'engine')
+        : null);
+    if (!target) return false;
+    const origin = visual.muzzle.getWorldPosition(new THREE.Vector3());
+    const delta = target.clone().sub(origin);
+    const distance = delta.length();
+    if (distance <= 0.01) return false;
+    const hit = this.physics.raycast(origin, delta.multiplyScalar(1 / distance), distance + 0.5);
+    const damageable = hit && isDamageable(hit.userData) ? hit.userData : null;
+    if (!damageable || damageable.id !== targetId) return false;
+    this.defenseDamageables.set(targetId, damageable);
+    this.automaticAimEnds.set(targetId, target.clone());
+    return true;
+  }
+
+  private finishBoarding(outcome: 'hull' | 'crew' | 'hook' | 'defended'): void {
+    const wasTutorial = this.tutorialStarted;
+    const needsRepair = this.machine.damage.damaged().length > 0;
+    const reward = VEHICLES.skiff.defenseReward;
+    this.resources.deposit('scrap', reward.scrap);
+    this.resources.deposit('components', reward.components);
+    this.bus.emit('loot:collected', {
+      items: [
+        { id: 'scrap', count: reward.scrap },
+        { id: 'components', count: reward.components },
+      ],
+      source: 'Dust skiff salvage',
+    });
+    this.bus.emit('boarding:survived', { encounterId: 'tutorial-skiff' });
+    this.bus.emit('boarding:ended', { outcome, tutorial: this.tutorialStarted, needsRepair });
+    if (wasTutorial) {
+      this.tutorialStarted = false;
+      this.tutorialReadyAt = null;
+      this.tutorialTurretId = null;
+    }
+    this.vehicleScene.clear();
+    this.boardingEnemyIds.clear();
+    if (this.director.hasActiveExternalEncounter || wasTutorial) {
+      this.director.finishExternalEncounter(this.world.distanceTraveled);
+      this.threatPhase = 'recovery';
+      this.bus.emit('threat:phase', {
+        phase: 'recovery',
+        wavesSurvived: this.director.waves,
+      });
+    }
+    this.pendingBoardingOutcome = null;
+    this.requestAutosave();
+  }
+
+  private finishGunboat(outcome: 'hull' | 'weapon-and-engine' | 'escaped' | null): void {
+    if (!outcome || this.gunboatResolutionApplied) return;
+    this.gunboatResolutionApplied = true;
+    const reward =
+      outcome === 'hull'
+        ? GUNBOAT.rewards.destroyed
+        : outcome === 'weapon-and-engine'
+          ? GUNBOAT.rewards.disabled
+          : null;
+    if (reward) {
+      this.resources.deposit('scrap', reward.scrap);
+      this.resources.deposit('components', reward.components);
+      this.bus.emit('loot:collected', {
+        items: [
+          { id: 'scrap', count: reward.scrap },
+          { id: 'components', count: reward.components },
+        ],
+        source: 'Raider gunboat salvage',
+      });
+    }
+    this.gunboatScene.clear(true);
+    this.scriptedGunboatPending = false;
+    if (this.story.snapshot(this.world.distanceTraveled).expeditionId === 'relay-foundry')
+      this.applyStoryEffects(this.story.resolveScriptedEncounter());
+    if (this.director.hasActiveExternalEncounter)
+      this.director.finishExternalEncounter(this.world.distanceTraveled);
+    this.threatPhase = 'recovery';
+    this.bus.emit('threat:phase', { phase: 'recovery', wavesSurvived: this.director.waves });
+    this.requestAutosave();
+  }
+
+  /** Integration seam for the scripted direct-route gunboat request. */
+  spawnGunboatEncounter(side: 'port' | 'starboard' = 'port'): boolean {
+    if (
+      this.vehicleManager.active ||
+      this.gunboatScene.active ||
+      this.pendingBoardingOutcome ||
+      this.enemies.activeCount > 0 ||
+      this.director.hasActiveExternalEncounter
+    )
+      return false;
+    if (
+      !this.director.queueExternal('gunboat') ||
+      !this.director.tryBeginExternal(
+        'gunboat',
+        this.world.distanceTraveled,
+        this.enemies.activeCount,
+      )
+    )
+      return false;
+    const spawned = this.gunboatScene.spawn(side);
+    if (spawned) {
+      this.scriptedGunboatPending = false;
+      this.gunboatResolutionApplied = false;
+      this.bus.emit('gunboat:phase', { phase: 'approach', side });
+    } else this.director.abortOrphanExternal(this.world.distanceTraveled);
+    return spawned;
+  }
+
+  private updateVehicles(dt: number): void {
+    if (this.gunboatScene.active) {
+      this.gunboatScene.fixedUpdate(dt);
+      return;
+    }
+    if (this.opening.phase !== 'done') return;
+    if (
+      !this.vehicleManager.active &&
+      !this.pendingBoardingOutcome &&
+      this.enemies.activeCount === 0 &&
+      !this.state.playerDead &&
+      this.tutorialReadyAt !== null &&
+      this.state.simTime >= this.tutorialReadyAt
+    ) {
+      if (this.vehicleScene.spawn(this.tutorialSkiffSide(), true)) {
+        this.tutorialStarted = true;
+        // The guided encounter happens before the director's recurring
+        // schedule, so explicitly hand ownership to it for the same recovery
+        // window used by a later scheduled skiff.
+        this.director.update(
+          this.world.distanceTraveled,
+          this.enemies.activeCount,
+          this.player.stats.health / this.player.stats.maxHealth,
+          true,
+        );
+        this.bus.emit('boarding:started', { encounterId: 'tutorial-skiff' });
+      }
+    }
+    if (!this.vehicleManager.active) {
+      if (this.pendingBoardingOutcome && this.enemies.activeCount === 0) {
+        this.finishBoarding(this.pendingBoardingOutcome);
+      }
+      return;
+    }
+    const activeIds = new Set(this.enemies.active.map((enemy) => enemy.id));
+    for (const id of this.boardingEnemyIds) {
+      if (!activeIds.has(id)) this.boardingEnemyIds.delete(id);
+    }
+    this.vehicleScene.setLandedBoardersAlive(this.boardingEnemyIds.size);
+    // The pure controller owns the 0.75s hook flight; Game only supplies an
+    // explicit cut/attach command, so entering hook-flight never skips it.
+    const phase = this.vehicleManager.snapshot?.phase;
+    const hook = this.vehicleScene.hookWorldPosition;
+    const closeToHook =
+      hook !== null && this.player.worldPosition.distanceTo(hook) <= INTERACT_REACH + 1.5;
+    if (
+      closeToHook &&
+      (phase === 'attached' || phase === 'boarding') &&
+      this.input.isDown('interact')
+    ) {
+      this.vehicleScene.holdCutHook(dt);
+    } else {
+      this.vehicleScene.releaseCutHook();
+    }
+    this.vehicleScene.fixedUpdate(dt, false, false);
+    const after = this.vehicleManager.snapshot;
+    void after;
+  }
+
+  /** Choose the side that is closest to the currently mounted gun's yaw. */
+  private tutorialSkiffSide(): 'port' | 'starboard' {
+    const savedTurrets = this.defense.serialise();
+    const saved =
+      savedTurrets.find((turret) => turret.instanceId === this.tutorialTurretId) ??
+      savedTurrets.find((turret) => turret.instanceId === this.defense.mounted) ??
+      savedTurrets[0];
+    const visual = saved ? this.build.turretVisual(saved.instanceId) : null;
+    if (!saved || !visual?.yaw.parent) return 'port';
+
+    const options: { side: 'port' | 'starboard'; x: number }[] = [
+      { side: 'port', x: -13 },
+      { side: 'starboard', x: 13 },
+    ];
+    const current = saved.yaw;
+    let best = options[0]!;
+    let bestDistance = Number.POSITIVE_INFINITY;
+    let hasValidSide = false;
+    for (const option of options) {
+      const target = new THREE.Vector3(option.x, DECK_HEIGHT + 1, 0);
+      const parentLocal = visual.yaw.parent.worldToLocal(target);
+      const local = parentLocal.sub(visual.yaw.position);
+      const authoredYaw = Math.atan2(-local.x, -local.z);
+      const desired = -authoredYaw;
+      if (
+        desired < TURRETS['manual-turret'].traverse.yawMin ||
+        desired > TURRETS['manual-turret'].traverse.yawMax
+      ) {
+        continue;
+      }
+      const delta = Math.abs(Math.atan2(Math.sin(desired - current), Math.cos(desired - current)));
+      if (delta < bestDistance) {
+        best = option;
+        bestDistance = delta;
+        hasValidSide = true;
+      }
+    }
+    if (hasValidSide) return best.side;
+
+    // Both sides should not be outside the 240° traverse, but keep the
+    // deterministic fallback safe if a future layout moves the gun farther
+    // aft or forward than today's deck.
+    return 'port';
+  }
+
   // -------------------------------------------------------------------------
   // The opening (Phase 2)
   // -------------------------------------------------------------------------
@@ -1305,6 +2595,7 @@ export class Game implements LoopCallbacks {
   private beginOpening(mode: OpeningMode): void {
     this.applyOpeningEffects(this.opening.begin(mode));
     this.bus.emit('opening:phase', { phase: this.opening.phase });
+    this.refreshFirstRunObjective();
   }
 
   /** Feed the director this step and obey whatever it asks for. */
@@ -1458,13 +2749,57 @@ export class Game implements LoopCallbacks {
   private startNewGame(): void {
     // Fresh state before the opening, so New Game after a session in progress
     // does not start the chase over a deck the last run built.
+    this.state.simTime = 0;
+    this.state.paused = false;
+    this.state.playerDead = false;
     this.world.reset(0);
     this.spawner.resync(0);
-    this.build.clear();
+    this.director.reset(0);
+    this.threatPhase = 'calm';
+    this.vehicleScene.clear();
+    this.gunboatScene.clear();
+    this.gunboatResolutionApplied = false;
+    this.boardingEnemyIds.clear();
+    this.pendingBoardingOutcome = null;
+    this.scriptedGunboatPending = false;
+    this.tutorialStarted = false;
+    this.tutorialReadyAt = null;
+    this.tutorialTurretId = null;
+    this.defense.clear();
+    this.automaticDefense.clear();
+    for (const collector of this.collectors.values()) collector.dispose();
+    this.collectors.clear();
     this.resetInventory();
+    this.progression.restore(undefined);
+    this.story.restore(undefined);
+    this.destination.setActive(false);
+    this.destination.configure(this.story.chapter);
+    this.routeRefusal = null;
+    this.destination.syncProgress({ journalsRead: [], uniqueCollected: false });
+    this.resetStructures();
+    this.machine.power.restore({ fuel: STARTING_FUEL });
+    this.machine.damage.restore(undefined);
+    this.machine.movement.setScriptedSpeedLimit(null);
+    this.refreshUpgradeModifiers();
+    this.playableStartedAt = null;
+    this.sessionMetrics.reset();
+    this.radioModel.visible = false;
+    this.destination.setActive(false);
+    this.machine.setExpeditionGangwayOpen(false);
+    this.machine.power.unregisterConsumer(this.radioPowerConsumerId);
+    this.machine.power.unregisterConsumer(this.helmPowerConsumerId);
+    this.radioPowered = false;
+    this.salvage.reset(0);
+    this.hook = null;
+    this.hookedCrate = null;
+    this.reelReady = false;
     this.combat.equip('rifle');
     this.player.stats.reset();
     this.player.needs.reset();
+    this.firstRun.restore(undefined);
+    this.autosavePending = false;
+    this.pendingSaveAndQuit = false;
+    this.nextAutosaveAt = this.state.simTime + 60;
     this.announcedNeeds = null;
     this.closePanels();
     this.beginOpening('new-game');
@@ -1565,7 +2900,12 @@ export class Game implements LoopCallbacks {
   // -------------------------------------------------------------------------
 
   get panelsOpen(): boolean {
-    return this.inventoryUI.isOpen;
+    return (
+      this.inventoryUI.isOpen ||
+      this.radioUI.isOpen ||
+      this.researchUI.isOpen ||
+      this.expeditionUI.isOpen
+    );
   }
 
   /**
@@ -1577,6 +2917,13 @@ export class Game implements LoopCallbacks {
     isDown: () => false,
     consumePressed: () => false,
   } as unknown as InputManager;
+
+  /** World-space radio mount used by interaction and route-driving tools. */
+  get radioWorldPosition(): THREE.Vector3 {
+    const position = new THREE.Vector3();
+    this.radioModel.getWorldPosition(position);
+    return position;
+  }
 
   /**
    * Interactables the player is currently near.
@@ -1599,8 +2946,31 @@ export class Game implements LoopCallbacks {
       id: station.instanceId,
       label: BUILD_PIECES[station.piece].name,
       position: station.position,
-      kind: (isProducer(station.piece) ? 'producer' : station.piece) as Interactable['kind'],
+      kind:
+        station.piece === 'turret-manual'
+          ? 'turret'
+          : station.piece === 'turret-auto'
+            ? 'turret-auto'
+            : station.piece === 'collector-auto'
+              ? 'collector'
+              : ((isProducer(station.piece) ? 'producer' : station.piece) as Interactable['kind']),
     }));
+
+    if (this.progression.earlyRadioDrop.radioFound) {
+      out.push({
+        id: this.radioPowerConsumerId,
+        label: 'Recovered Radio',
+        position: this.radioWorldPosition,
+        kind: 'radio',
+      });
+    }
+    const helm = this.machine.group.getObjectByName('HelmInteract');
+    if (helm) {
+      const position = new THREE.Vector3();
+      helm.getWorldPosition(position);
+      out.push({ id: this.helmPowerConsumerId, label: 'Navigation Helm', position, kind: 'helm' });
+    }
+    if (this.destination.docked) out.push(...this.destination.interactables);
 
     // Subsystems are serviced at their access panel, NOT at their hitbox: four
     // of the five hips are outboard of the deck and below it, so there is
@@ -1657,6 +3027,10 @@ export class Game implements LoopCallbacks {
       } else {
         this.build.repairPiece(target.id, Number.POSITIVE_INFINITY);
       }
+      this.bus.emit('repair:completed', {
+        targetId: target.id,
+        targetKind: target.kind,
+      });
       this.audio.play('build-place');
       return `${nearest.label} repaired`;
     }
@@ -1673,6 +3047,13 @@ export class Game implements LoopCallbacks {
   }
 
   private updatePanels(dt: number): void {
+    if (this.defense.mounted) {
+      if (this.input.consumePressed('interact') || this.input.consumePressed('cancel')) {
+        this.defense.exit();
+      }
+      this.hud.setPrompt('[E] Exit manual deck gun');
+      return;
+    }
     const nearest = this.cinematicCamera
       ? null
       : this.interaction.update(this.player.worldPosition, this.candidates());
@@ -1700,15 +3081,34 @@ export class Game implements LoopCallbacks {
       else if (nearest && nearest.kind !== 'repair') this.openInteractable(nearest);
     }
 
-    this.hud.setPrompt(
-      this.panelsOpen ? null : (repairPrompt ?? this.promptFor(nearest)),
-    );
+    this.hud.setPrompt(this.panelsOpen ? null : (repairPrompt ?? this.promptFor(nearest)));
   }
 
   /** What standing at something says. Null when standing at nothing. */
   private promptFor(nearest: Interactable | null): string | null {
     if (!nearest) return null;
     if (nearest.kind === 'producer') return this.producerPrompt(nearest);
+    if (nearest.kind === 'turret') {
+      return this.machine.power.isPowered(nearest.id)
+        ? '[E] Enter Manual Deck Gun'
+        : 'Manual Deck Gun — NO POWER';
+    }
+    if (nearest.kind === 'turret-auto') {
+      return this.machine.power.isPowered(nearest.id)
+        ? 'Automatic Defense Turret — SCANNING'
+        : 'Automatic Defense Turret — NO POWER';
+    }
+    if (nearest.kind === 'collector') {
+      const controller = this.collectors.get(nearest.id);
+      if (!this.machine.power.isPowered(nearest.id)) return 'Automatic Collector — NO POWER';
+      if (!controller) return 'Automatic Collector — SCANNING';
+      if (controller.state === 'latched' && controller.bufferFull)
+        return 'Automatic Collector — BUFFER FULL';
+      if (controller.state === 'claiming') return 'Automatic Collector — REELING';
+      if (controller.bufferedCount > 0)
+        return `Automatic Collector — READY: ${controller.bufferedCount}`;
+      return 'Automatic Collector — SCANNING';
+    }
     if (nearest.kind !== 'generator') return `[E] Open ${nearest.label}`;
 
     const power = this.machine.power;
@@ -1775,8 +3175,247 @@ export class Game implements LoopCallbacks {
   }
 
   openInventory(): void {
+    this.closeSpecialPanels();
     this.inventoryUI.setMode('inventory', { title: 'Inventory' });
     this.releasePointerLock();
+  }
+
+  private closeSpecialPanels(): void {
+    this.radioUI.close();
+    this.researchUI.close();
+    this.expeditionUI.close();
+  }
+
+  private openRadio(): void {
+    if (!this.progression.earlyRadioDrop.radioFound) return;
+    this.closeSpecialPanels();
+    const snapshot = this.story.snapshot(this.world.distanceTraveled);
+    this.radioUI.open({
+      found: true,
+      powered: this.machine.power.isPowered(this.radioPowerConsumerId),
+      signalText: snapshot.objective,
+      strength: snapshot.signalStrength,
+      remainingM: snapshot.remainingM,
+      nextSignal: this.story.legacyProjection().nextSignal,
+      canDepart:
+        this.story.currentPhase === 'docked' &&
+        this.story.legacyProjection().uniqueCollected &&
+        this.destination.playerOnMachine(this.player.worldPosition),
+    });
+    this.releasePointerLock();
+  }
+
+  private openResearch(): void {
+    this.closeSpecialPanels();
+    this.researchUI.open(this.researchPanelState());
+    this.releasePointerLock();
+  }
+
+  private refreshResearchPanel(): void {
+    if (this.researchUI.isOpen) this.researchUI.setState(this.researchPanelState());
+  }
+
+  private researchPanelState(): ResearchUIState {
+    const upgrades = this.progression.upgrades;
+    const active: Record<string, string> = {};
+    for (const branch of ['propulsion', 'power', 'defense'] as const) {
+      const id = upgrades.active(branch);
+      if (id) active[branch] = id;
+    }
+    return {
+      researched: upgrades.researchedIds,
+      active,
+      radioPowered: this.machine.power.isPowered(this.radioPowerConsumerId),
+      stable: this.isStableForResearch(),
+      resources: (id) => this.resources.count(id as ItemId),
+      canResearch: (id) => upgrades.canResearch(id, this.resources),
+      canActivate: (id) => upgrades.hasResearched(id),
+    };
+  }
+
+  private isStableForResearch(): boolean {
+    return (
+      this.opening.phase === 'done' &&
+      this.enemies.activeCount === 0 &&
+      !this.vehicleManager.active &&
+      !this.gunboatScene.active &&
+      !this.scriptedGunboatPending &&
+      this.pendingBoardingOutcome === null &&
+      !this.state.playerDead &&
+      this.destination.playerOnMachine(this.player.worldPosition) &&
+      ['locked', 'signal', 'route-selection', 'docked', 'complete'].includes(
+        this.story.currentPhase,
+      )
+    );
+  }
+
+  private researchUpgrade(id: UpgradeId): void {
+    if (
+      !this.progression.earlyRadioDrop.radioFound ||
+      !this.machine.power.isPowered(this.radioPowerConsumerId) ||
+      !this.isStableForResearch()
+    )
+      return;
+    const result = this.progression.upgrades.research(id, this.resources);
+    if (!result.ok) return;
+    this.bus.emit('upgrade:researched', { id });
+    this.refreshUpgradeModifiers();
+    this.openResearch();
+    this.requestAutosave();
+  }
+
+  private activateUpgrade(id: UpgradeId): void {
+    if (
+      !this.progression.earlyRadioDrop.radioFound ||
+      !this.machine.power.isPowered(this.radioPowerConsumerId) ||
+      !this.isStableForResearch()
+    )
+      return;
+    const definition = this.progression.upgrades.definition(id);
+    if (!definition || !this.progression.upgrades.activate(id)) return;
+    this.refreshUpgradeModifiers();
+    this.bus.emit('upgrade:active-changed', { branch: definition.branch, id });
+    this.openResearch();
+    this.requestAutosave();
+  }
+
+  private deactivateUpgrade(branch: UpgradeBranch): void {
+    // Uninstall must remain possible when an active power upgrade has shed the
+    // radio itself. Research and installation still require radio power, but
+    // removing hardware is the recovery action that restores capacity.
+    if (!this.progression.earlyRadioDrop.radioFound || !this.isStableForResearch()) return;
+    const result = this.progression.upgrades.setActive(branch, null);
+    if (!result.ok) return;
+    this.refreshUpgradeModifiers();
+    this.bus.emit('upgrade:active-changed', { branch, id: null });
+    this.openResearch();
+    this.requestAutosave();
+  }
+
+  private refreshUpgradeModifiers(): void {
+    const modifiers = this.progression.upgrades.modifiers();
+    this.machine.movement.setModifiers({
+      speedMultiplier: modifiers.speedMultiplier,
+      effectiveWeightMultiplier: modifiers.effectiveWeightMultiplier,
+      accelerationMultiplier: modifiers.accelerationMultiplier,
+    });
+    this.machine.power.setModifiers({
+      fuelBurnMultiplier: modifiers.fuelBurnMultiplier,
+      generationBonus: modifiers.generationBonus,
+    });
+    for (const piece of this.build.serialise()) {
+      if (piece.definitionId !== 'turret-manual') continue;
+      this.machine.power.unregisterConsumer(piece.instanceId);
+      this.machine.power.registerConsumer({
+        id: piece.instanceId,
+        draw: this.defense.effectivePowerDraw,
+        priority: 'defense',
+      });
+    }
+    const active: Partial<Record<'propulsion' | 'power' | 'defense', UpgradeId>> = {};
+    for (const branch of ['propulsion', 'power', 'defense'] as const) {
+      const id = this.progression.upgrades.active(branch);
+      if (id) active[branch] = id;
+    }
+    applyUpgradeVisuals(this.machine.group, active);
+    for (const piece of this.build.serialise()) {
+      if (piece.definitionId !== 'turret-manual') continue;
+      const visual = this.build.turretVisual(piece.instanceId);
+      if (visual) applyTurretUpgradeVisual(visual.root, active.defense ?? null);
+    }
+  }
+
+  private readExpeditionJournal(id: string): void {
+    if (!this.destination.docked) return;
+    const before = this.story.legacyProjection();
+    const alreadyRead = before.journalsRead.includes(id);
+    if (!alreadyRead && !this.story.readJournal(id)) return;
+    const progress = this.story.legacyProjection();
+    this.destination.syncProgress({
+      journalsRead: progress.journalsRead,
+      uniqueIds: this.story.snapshot(this.world.distanceTraveled).recoveredUniques,
+    });
+    if (!alreadyRead) this.bus.emit('story:journal-read', { id });
+    this.expeditionUI.setView(this.expeditionView());
+    this.openExpedition();
+  }
+
+  private expeditionView(): Parameters<ExpeditionUI['setView']>[0] {
+    const snapshot = this.story.snapshot(this.world.distanceTraveled);
+    const save = this.story.legacyProjection();
+    return {
+      phase: snapshot.phase,
+      objective: snapshot.objective,
+      strength: snapshot.signalStrength,
+      remainingM: snapshot.remainingM,
+      expeditionId: snapshot.expeditionId,
+      journalsRead: save.journalsRead,
+      uniqueCollected: save.uniqueCollected,
+      playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
+      journalTexts: Object.fromEntries(
+        this.story
+          .legacyProjection()
+          .journalsRead.map((id) => [
+            id,
+            this.story.chapter.journals.find((journal) => journal.id === id)?.text ?? '',
+          ]),
+      ),
+      routes: snapshot.phase === 'route-selection' ? ['foundry-direct', 'foundry-detour'] : [],
+      routeCards:
+        snapshot.phase === 'route-selection'
+          ? routeCards(
+              this.world.distanceTraveled,
+              (FUEL_BURN_PER_S * this.progression.upgrades.modifiers().fuelBurnMultiplier) /
+                Math.max(0.1, this.machine.movement.maxSpeed),
+              this.machine.movement.maxSpeed,
+            )
+          : [],
+      routeRefusal: this.routeRefusal,
+      recoveredUniques: snapshot.recoveredUniques,
+    };
+  }
+
+  private selectStoryRoute(route: 'foundry-direct' | 'foundry-detour'): void {
+    const result = this.story.selectRoute(route, {
+      poweredHelm: this.machine.power.isPowered(this.helmPowerConsumerId),
+      playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
+      stable: this.isStableForStory(),
+      encounterActive:
+        this.enemies.activeCount > 0 || this.vehicleManager.active || this.gunboatScene.active,
+      currentDistance: this.world.distanceTraveled,
+    });
+    if (!result.ok) {
+      this.routeRefusal =
+        result.reason === 'helm-unpowered'
+          ? 'Power the navigation helm first'
+          : result.reason === 'off-machine'
+            ? 'Return to the helm to choose a route'
+            : result.reason === 'unstable'
+              ? 'Wait until the machine is stable'
+              : 'Route unavailable';
+      this.expeditionUI.setView(this.expeditionView());
+      this.openExpedition();
+      return;
+    }
+    this.routeRefusal = null;
+    this.applyStoryEffects(result.effects);
+    this.closePanels();
+  }
+
+  private openExpedition(): void {
+    this.closeSpecialPanels();
+    this.expeditionUI.open(this.expeditionView());
+    this.releasePointerLock();
+  }
+
+  private requestExpeditionDeparture(): void {
+    const effects = this.story.requestDepart({
+      playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
+    });
+    if (effects.length === 0) return;
+    this.applyStoryEffects(effects);
+    this.closePanels();
+    this.requestAutosave();
   }
 
   /** Open whatever the player is standing at. Returns false if nothing is. */
@@ -1794,6 +3433,39 @@ export class Game implements LoopCallbacks {
     // with it, for exactly the reason the generator has no panel.
     if (target.kind === 'producer') return this.claimProducer(target.id);
 
+    if (target.kind === 'turret') return this.defense.enter(target.id);
+    if (target.kind === 'turret-auto') return false;
+    if (target.kind === 'collector') {
+      const buffer = this.build.collectorContainer(target.id);
+      if (!buffer) return false;
+      this.inventoryUI.setMode('transfer', {
+        title: target.label,
+        buffer,
+        storageLabel: 'Collector Buffer',
+      });
+      this.releasePointerLock();
+      return true;
+    }
+    if (target.kind === 'radio') {
+      this.openRadio();
+      return true;
+    }
+    if (target.kind === 'helm') {
+      this.openExpedition();
+      return true;
+    }
+    if (target.kind === 'journal') {
+      this.readExpeditionJournal(target.id);
+      return true;
+    }
+    if (target.kind === 'unique') {
+      return this.collectStoryUnique(target.id);
+    }
+    if (target.kind === 'departure') {
+      this.requestExpeditionDeparture();
+      return true;
+    }
+
     if (target.kind === 'crate') {
       const crate = this.build.crateContainer(target.id);
       if (!crate) return false;
@@ -1806,6 +3478,40 @@ export class Game implements LoopCallbacks {
     }
 
     this.releasePointerLock();
+    return true;
+  }
+
+  private collectStoryUnique(interactionId: string): boolean {
+    const id = interactionId.includes('salvage-controller')
+      ? 'salvage-controller'
+      : interactionId.includes('tracking-servo')
+        ? 'tracking-servo'
+        : 'course-gyro';
+    if (!this.destination.docked || !this.destination.containsPlayer(this.player.worldPosition))
+      return false;
+    if (!this.story.collectUnique(id)) return false;
+    if (
+      id === 'salvage-controller' &&
+      this.progression.grantBlueprint('automatic-salvage-collector')
+    )
+      this.bus.emit('progression:unlocked', { id: 'automatic-salvage-collector' });
+    if (id === 'tracking-servo' && this.progression.grantBlueprint('automatic-defense-turret'))
+      this.bus.emit('progression:unlocked', { id: 'automatic-defense-turret' });
+    if (id === 'course-gyro' && !this.machine.power.isPowered(this.helmPowerConsumerId)) {
+      this.machine.power.registerConsumer({
+        id: this.helmPowerConsumerId,
+        draw: 1,
+        priority: 'station',
+      });
+    }
+    const view = this.story.snapshot(this.world.distanceTraveled);
+    this.destination.syncProgress({
+      journalsRead: this.story.legacyProjection().journalsRead,
+      uniqueIds: view.recoveredUniques,
+    });
+    if (id === 'course-gyro') this.bus.emit('story:unique-collected', { id });
+    this.expeditionUI.setView(this.expeditionView());
+    this.requestAutosave();
     return true;
   }
 
@@ -1832,6 +3538,9 @@ export class Game implements LoopCallbacks {
   closePanels(): void {
     if (!this.panelsOpen) return;
     this.inventoryUI.setMode('closed');
+    this.radioUI.close();
+    this.researchUI.close();
+    this.expeditionUI.close();
     // Only reclaim the mouse if the player had it to begin with.
     if (!this.options.bypassPointerLock) this.input.requestPointerLock();
   }
@@ -1961,9 +3670,7 @@ export class Game implements LoopCallbacks {
     // Follow the player between storeys unless the wheel has overridden it,
     // so changing level is an override rather than a chore.
     if (!this.buildLevelPinned) {
-      const standingOn = Math.round(
-        (this.player.worldPosition.y - DECK_HEIGHT - 1) / LEVEL_HEIGHT,
-      );
+      const standingOn = Math.round((this.player.worldPosition.y - DECK_HEIGHT - 1) / LEVEL_HEIGHT);
       this.buildLevel = Math.max(0, Math.min(GRID_LEVELS - 1, standingOn));
     }
 
@@ -1984,7 +3691,8 @@ export class Game implements LoopCallbacks {
     });
 
     if (this.input.consumePressed('rotate-left')) this.buildRotation = (this.buildRotation + 3) % 4;
-    if (this.input.consumePressed('rotate-right')) this.buildRotation = (this.buildRotation + 1) % 4;
+    if (this.input.consumePressed('rotate-right'))
+      this.buildRotation = (this.buildRotation + 1) % 4;
 
     this.buildPreview.update(
       this.activeCamera,
@@ -2134,11 +3842,105 @@ export class Game implements LoopCallbacks {
     this.quality = getQualitySettings(tier);
     this.renderer.applyQuality(this.quality);
     this.post.applyQuality(this.quality);
+    this.world.applyQuality(this.quality);
+    this.sandFX.applyQuality(this.quality);
+    this.impactFX.applyQuality(this.quality);
+    this.lampLights.applyQuality(this.quality.lampLights);
   }
 
   // -------------------------------------------------------------------------
   // Save / load
   // -------------------------------------------------------------------------
+
+  /** A save may not erase a live encounter on the next load. */
+  private isSafeToSave(allowPauseMenu = false): boolean {
+    return (
+      this.opening.phase === 'done' &&
+      (!this.titleScreen?.isOpen || (allowPauseMenu && this.state.paused)) &&
+      (!this.state.paused || allowPauseMenu) &&
+      !this.state.playerDead &&
+      this.enemies.activeCount === 0 &&
+      !this.vehicleManager.active &&
+      !this.gunboatScene.active &&
+      !this.scriptedGunboatPending &&
+      this.pendingBoardingOutcome === null &&
+      this.hook === null &&
+      this.hookedCrate === null &&
+      ['locked', 'signal', 'route-selection', 'docked', 'complete'].includes(
+        this.story.currentPhase,
+      ) &&
+      !(
+        this.story.currentPhase === 'docked' &&
+        this.destination.playerOnGangway(this.player.worldPosition)
+      )
+    );
+  }
+
+  private processAutosave(): void {
+    if (this.autosaveInFlight || !this.autosavePending) return;
+    if (this.state.simTime < this.nextAutosaveAt && !this.pendingSaveAndQuit) return;
+    if (!this.isSafeToSave()) return;
+
+    this.autosavePending = false;
+    this.autosaveInFlight = true;
+    const quitting = this.pendingSaveAndQuit;
+    void this.saveTo('quicksave', 'auto')
+      .then((saved) => {
+        if (saved) {
+          this.nextAutosaveAt = this.state.simTime + 60;
+          if (quitting) {
+            this.pendingSaveAndQuit = false;
+            this.enterTitle();
+          }
+        } else {
+          // Storage failures must not turn an expired deadline into a write
+          // attempt every fixed tick. Keep the in-memory game alive and retry
+          // at the next normal checkpoint.
+          this.nextAutosaveAt = this.state.simTime + 60;
+          if (quitting) this.pendingSaveAndQuit = false;
+        }
+      })
+      .finally(() => {
+        this.autosaveInFlight = false;
+      });
+  }
+
+  private async saveFromPause(quit: boolean): Promise<void> {
+    if (!this.titleScreen?.isOpen) return;
+    if (!this.isSafeToSave(true)) {
+      if (quit) {
+        this.pendingSaveAndQuit = true;
+        this.autosavePending = true;
+        const message = this.destination.playerOnGangway(this.player.worldPosition)
+          ? 'Return to the machine deck before saving'
+          : ['approach', 'braking', 'departing'].includes(this.story.currentPhase)
+            ? 'Wait until the machine is safely moored'
+            : 'Finish the attack to save & quit';
+        this.titleScreen.showStatus(message, true);
+        this.hud.setWarning(message);
+        this.resume();
+      } else {
+        this.titleScreen.showStatus(
+          this.destination.playerOnGangway(this.player.worldPosition)
+            ? 'Return to the machine deck before saving'
+            : ['approach', 'braking', 'departing'].includes(this.story.currentPhase)
+              ? 'Wait until the machine is safely moored'
+              : 'Finish the attack before saving',
+          true,
+        );
+      }
+      return;
+    }
+
+    this.titleScreen.showStatus('Saving…');
+    const saved = await this.saveTo('quicksave', 'manual', true);
+    if (!saved) {
+      this.titleScreen.showStatus('Save failed — progress remains in memory', true);
+      return;
+    }
+    this.titleScreen.showStatus(quit ? 'Saved' : 'Saved');
+    if (quit) this.enterTitle();
+  }
 
   buildSave(): SaveGameV1 {
     const p = this.player.worldPosition;
@@ -2174,31 +3976,73 @@ export class Game implements LoopCallbacks {
       // Optional field, so no version bump and no migration: a save written
       // before the opening existed reads back as `undefined`, and a loader
       // treats that the same way it treats a finished one — see `loadFrom`.
-      progression: { unlocks: [], opening: this.opening.toSave() },
+      progression: {
+        ...this.progression.toSave(),
+        radio: this.progression.earlyRadioDrop.toSave(),
+        opening: this.opening.toSave(),
+        firstRun: this.firstRun.toSave(),
+        turrets: this.defense.serialise(),
+        automaticTurrets: this.automaticDefense.toSave(),
+      },
       world: {
         chunkIndex: Math.floor(this.world.distanceTraveled / 64),
         threatDirector: this.director.toSave(),
+        story: this.story.toSave(),
       },
     };
   }
 
-  async saveTo(slot: string): Promise<void> {
-    await this.saves.save(slot, this.buildSave());
-    this.bus.emit('game:save-written', { slot });
+  async saveTo(
+    slot: string,
+    mode: 'manual' | 'auto' = 'manual',
+    allowPauseMenu = false,
+  ): Promise<boolean> {
+    if (!this.isSafeToSave(allowPauseMenu)) return false;
+    try {
+      await this.saves.save(slot, this.buildSave());
+      this.bus.emit('game:save-written', { slot });
+      return true;
+    } catch (error) {
+      const message =
+        mode === 'manual' ? 'Save failed — progress remains in memory' : 'Autosave failed';
+      this.titleScreen?.showStatus(message, true);
+      this.hud.setWarning(message);
+      this.bus.emit('game:save-failed', { message });
+      if (import.meta.env.DEV) console.warn('Save failed', error);
+      return false;
+    }
   }
 
   async loadFrom(slot: string): Promise<boolean> {
     const save = await this.saves.load(slot);
     if (!save) return false;
+    this.sessionMetrics.reset();
 
     // Distance drives everything about the world, so restoring it regenerates
     // the identical chunks — nothing about the world itself is stored.
     this.world.reset(save.distanceTraveled);
+    this.vehicleScene.clear();
+    this.gunboatScene.clear();
+    this.boardingEnemyIds.clear();
+    this.gunboatResolutionApplied = false;
+    this.scriptedGunboatPending = false;
+    this.routeRefusal = null;
+    this.pendingBoardingOutcome = null;
+    this.tutorialStarted = false;
+    this.tutorialReadyAt = null;
+    this.tutorialTurretId = null;
     // Derived from distance, so a load re-derives it rather than restoring it.
     this.spawner.resync(save.distanceTraveled);
     // A save written before the director existed restores as a fresh one from
     // the same seed, which is the same thing a new game gets.
-    if (save.world.threatDirector) this.director.restore(save.world.threatDirector);
+    if (save.world.threatDirector) {
+      this.director.restore(save.world.threatDirector);
+      // External scenes are intentionally never serialized. A restored
+      // director flag therefore represents an orphaned encounter and must
+      // return to a calm floor without awarding salvage or recovery credit.
+      if (this.director.hasActiveExternalEncounter)
+        this.director.abortOrphanExternal(save.distanceTraveled);
+    } else this.director.reset(save.distanceTraveled);
     this.threatPhase = this.director.currentPhase;
 
     // Inventory before structures: rebuilding a crate creates an empty
@@ -2212,7 +4056,114 @@ export class Game implements LoopCallbacks {
     this.shedClasses.clear();
     this.machine.power.clearDevices();
     this.machine.power.restore({ fuel: save.machine.fuel });
+    this.automaticDefense.clear();
+    for (const collector of this.collectors.values()) collector.dispose();
+    this.collectors.clear();
     this.build.restore(save.machine.structures ?? []);
+    this.defense.clear();
+    const savedTurrets = new Map(
+      (save.progression.turrets ?? []).map((turret) => [turret.instanceId, turret]),
+    );
+    for (const piece of this.build.serialise()) {
+      if (piece.definitionId === 'turret-manual')
+        this.defense.register(piece.instanceId, savedTurrets.get(piece.instanceId));
+    }
+    const savedAutomaticTurrets = new Map(
+      (save.progression.automaticTurrets ?? []).map((turret) => [turret.instanceId, turret]),
+    );
+    for (const piece of this.build.serialise()) {
+      if (piece.definitionId === 'turret-auto')
+        this.automaticDefense.register(
+          piece.instanceId,
+          savedAutomaticTurrets.get(piece.instanceId),
+        );
+    }
+    this.progression.restore(save.progression);
+    const savedRadio = save.progression.radio ?? save.progression.radioDrop;
+    this.progression.earlyRadioDrop.restore(savedRadio);
+    this.radioPowered = false;
+    // Saves written before the radio ledger existed become pending once their
+    // completed opening is restored, so the next real chest is eligible.
+    this.radioModel.visible = this.progression.earlyRadioDrop.radioFound;
+    this.machine.power.unregisterConsumer(this.radioPowerConsumerId);
+    if (this.progression.earlyRadioDrop.radioFound) {
+      this.machine.power.registerConsumer({
+        id: this.radioPowerConsumerId,
+        draw: 1,
+        priority: 'station',
+      });
+      this.radioPowered = this.machine.power.isPowered(this.radioPowerConsumerId);
+    }
+    this.story.restore(save.world.story);
+    const recovered = this.story.snapshot(save.distanceTraveled).recoveredUniques;
+    if (recovered.includes('salvage-controller'))
+      this.progression.grantBlueprint('automatic-salvage-collector');
+    if (recovered.includes('tracking-servo'))
+      this.progression.grantBlueprint('automatic-defense-turret');
+    this.machine.power.unregisterConsumer(this.helmPowerConsumerId);
+    if (this.story.snapshot(save.distanceTraveled).recoveredUniques.includes('course-gyro'))
+      this.machine.power.registerConsumer({
+        id: this.helmPowerConsumerId,
+        draw: 1,
+        priority: 'station',
+      });
+    const storyPayload = this.story.toSave();
+    const legacyStory = this.story.legacyProjection();
+    const campaignStory = 'format' in storyPayload ? storyPayload : null;
+    const storyPhase = campaignStory?.active?.phase ?? legacyStory.phase;
+    const storyArrival = campaignStory?.active?.arrivalDistance ?? legacyStory.arrivalDistance;
+    const storyJournals = campaignStory?.active?.journalsRead ?? legacyStory.journalsRead;
+    const storyUniques = this.story.snapshot(save.distanceTraveled).recoveredUniques;
+    // Reset the previous destination before applying the restored target. A
+    // destination that was docked in the old run intentionally ignores target
+    // changes while docked; undocking first keeps loading a new/legacy run
+    // from silently retaining its old wreck position.
+    this.destination.setActive(false);
+    this.destination.configure(this.story.chapter);
+    this.destination.syncProgress({
+      journalsRead: storyJournals,
+      uniqueIds: storyUniques,
+    });
+    this.destination.setArrivalDistance(storyArrival ?? 0);
+    const dockedRestore = storyPhase === 'docked';
+    const destinationActive = ['approach', 'braking', 'docked', 'departing'].includes(storyPhase);
+    this.destination.setActive(destinationActive);
+    this.destination.setDocked(dockedRestore);
+    this.machine.setExpeditionGangwayOpen(dockedRestore);
+    this.destination.fixedUpdate(save.distanceTraveled);
+    this.director.setSanctuary(
+      ['approach', 'braking', 'docked'].includes(storyPhase),
+      save.distanceTraveled,
+    );
+    this.playableStartedAt = this.state.simTime;
+    this.salvage.reset(save.distanceTraveled);
+    this.hook = null;
+    this.hookedCrate = null;
+    this.reelReady = false;
+    if (this.opening.phase === 'done' && !this.progression.earlyRadioDrop.radioFound)
+      this.salvage.armAfterOpening(save.distanceTraveled);
+    this.refreshUpgradeModifiers();
+    this.firstRun.restore(
+      save.progression.firstRun ?? {
+        completed: [
+          'salvage',
+          'build-refinery',
+          'refine-components',
+          'build-workbench',
+          'build-defense',
+          'survive-boarding',
+          'repair',
+        ],
+        counters: {},
+      },
+    );
+    this.observeFirstRun({ type: 'snapshot', snapshot: this.firstRunSnapshot() });
+    if (this.firstRun.current === 'survive-boarding') {
+      this.tutorialTurretId =
+        this.build.serialise().find((piece) => piece.definitionId === 'turret-manual')
+          ?.instanceId ?? null;
+      this.tutorialReadyAt = this.state.simTime + 15;
+    }
     // Absent in every save written before machine damage, and absent means
     // undamaged — which is what `restore` does with it.
     this.machine.damage.restore(save.machine.subsystems);
@@ -2222,6 +4173,16 @@ export class Game implements LoopCallbacks {
       new THREE.Vector3(save.player.position.x, save.player.position.y, save.player.position.z),
     );
     this.player.stats.reset();
+    this.player.stats.restoreHealth(save.player.health);
+    this.player.restoreAfterLoad();
+    this.state.playerDead = false;
+    // Re-evaluate proximity and onboarding facts after the restored capsule is
+    // in its final destination. This also arms an already-crewed turret save.
+    this.observeFirstRun({ type: 'snapshot', snapshot: this.firstRunSnapshot() });
+    if (this.firstRun.current === 'survive-boarding' && this.defense.mounted) {
+      this.tutorialTurretId = this.defense.mounted;
+      this.tutorialReadyAt ??= this.state.simTime + 15;
+    }
     // Absent in every save written before Phase 4, and absent means full — see
     // `SaveSchema`. The announcement is cleared so the first tick after the
     // load emits the restored meters rather than comparing them to the old
@@ -2244,6 +4205,13 @@ export class Game implements LoopCallbacks {
     // the opening — including a save from before the opening existed, whose
     // missing field restores as `done` for exactly that reason.
     this.opening.restore(save.progression.opening ?? { phase: 'done' });
+    if (this.opening.phase === 'done') {
+      this.playableStartedAt = this.state.simTime;
+      this.sessionMetrics.mark('opening.done');
+      if (!savedRadio) this.progression.earlyRadioDrop.arm(this.state.simTime);
+      if (!this.progression.earlyRadioDrop.radioFound)
+        this.salvage.armAfterOpening(save.distanceTraveled);
+    }
     if (this.rooftop) {
       this.rooftop.dispose();
       this.rooftop = null;
@@ -2252,7 +4220,9 @@ export class Game implements LoopCallbacks {
     this.player.setSpawn(this.machine.deckSpawn);
     this.setArmed(true);
     this.machine.movement.setThrottle(1);
+    this.machine.movement.setScriptedSpeedLimit(dockedRestore ? 0 : null);
     this.bus.emit('opening:phase', { phase: this.opening.phase });
+    this.refreshFirstRunObjective();
 
     // A panel open over a world that just changed underneath it would be
     // showing stale containers.
@@ -2278,11 +4248,20 @@ export class Game implements LoopCallbacks {
     this.rooftop = null;
     this.titleScreen?.dispose();
     this.hud.dispose();
+    this.defenseHUD.dispose();
     this.buildUI.dispose();
     this.inventoryUI.dispose();
+    this.radioUI.dispose();
+    this.researchUI.dispose();
+    this.expeditionUI.dispose();
+    this.destination.dispose();
     this.buildPreview.dispose();
     this.lampLights.dispose();
-    this.build.clear();
+    this.machine.dispose();
+    disposeLoadedModel(this.machineAuthoredModel);
+    this.machineAuthoredModel = null;
+    this.build.dispose();
+    disposeAutomationModels();
     this.post.dispose();
     this.enemies.despawnAll();
     this.world.dispose();

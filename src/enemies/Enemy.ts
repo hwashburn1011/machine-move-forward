@@ -5,7 +5,13 @@ import type { Materials } from '@/art/Materials';
 import type { EnemyDefinition } from '@/data/enemies';
 import { isDamageable, type Damageable } from '@/combat/Damageable';
 import type { PlayerStats } from '@/player/PlayerStats';
-import { AUTOSTEP_HEIGHT, CHARACTER_SKIN, GRAVITY, ON_THE_SAND_Y } from '@/game/constants';
+import {
+  AUTOSTEP_HEIGHT,
+  CHARACTER_SKIN,
+  GRAVITY,
+  ON_THE_SAND_Y,
+  MAX_SLOPE_CLIMB_ANGLE,
+} from '@/game/constants';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { stepEnemyAI, type EnemyAIState } from './EnemyAI';
 import {
@@ -56,6 +62,8 @@ export interface StructureDamage {
  * the question being asked: can I walk this way?
  */
 const PROBE_HEIGHT = -CAPSULE_FOOT_OFFSET + AUTOSTEP_HEIGHT + 0.05;
+const WALKABLE_NORMAL_Y = Math.cos(MAX_SLOPE_CLIMB_ANGLE);
+const DOWN = new THREE.Vector3(0, -1, 0);
 
 /**
  * How far ahead along the route `currentWaypoint` is allowed to reach, past
@@ -356,7 +364,8 @@ export class Enemy {
      * corpse at the engine is not attacking anything.
      */
     const sub = this.subsystemGoal;
-    const atSubsystem = sub !== null && decision.state !== 'dead' && hitboxContains(sub, this.position);
+    const atSubsystem =
+      sub !== null && decision.state !== 'dead' && hitboxContains(sub, this.position);
 
     this.state = atSubsystem ? 'attack' : decision.state;
     this.visual.setState(this.state);
@@ -420,7 +429,8 @@ export class Enemy {
 
     const { controller, collider, body } = this.handle;
     const grounded = controller.computedGrounded();
-    this.verticalVelocity = grounded && this.verticalVelocity <= 0 ? -2 : this.verticalVelocity + GRAVITY * dt;
+    this.verticalVelocity =
+      grounded && this.verticalVelocity <= 0 ? -2 : this.verticalVelocity + GRAVITY * dt;
 
     controller.computeColliderMovement(collider, {
       x: vx * dt,
@@ -505,7 +515,8 @@ export class Enemy {
 
     const reach = Math.min(gap, this.def.attackRange);
     const hit = this.physics.raycast(this.position, this.blockDir, reach, handle.collider);
-    if (!hit) return null;
+    // A climbable ramp is a route, not a wall to destroy.
+    if (!hit || hit.normal.y >= WALKABLE_NORMAL_Y) return null;
 
     const data = hit.userData;
     return isDamageable(data) && data.kind === 'structure' ? data.id : null;
@@ -588,28 +599,37 @@ export class Enemy {
     if (!handle) return [];
 
     const y = this.position.y + PROBE_HEIGHT;
+    const ground = this.physics.raycast(
+      this.position,
+      DOWN,
+      CAPSULE_FOOT_OFFSET + CHARACTER_SKIN + 0.25,
+      handle.collider,
+    );
+    const slope = ground && ground.normal.y >= WALKABLE_NORMAL_Y ? ground.normal : null;
 
     return FAN_OFFSETS.map((angle) => {
       const sin = Math.sin(angle);
       const cos = Math.cos(angle);
       const dx = dirX * cos - dirZ * sin;
       const dz = dirX * sin + dirZ * cos;
-      this.probeDir.set(dx, 0, dz);
+      // Follow the ground grade while climbing. Horizontal ankle-height rays
+      // see the upper floor's thin edge as a wall just before reaching it.
+      const dy = slope ? -(slope.x * dx + slope.z * dz) / slope.y : 0;
+      this.probeDir.set(dx, dy, dz).normalize();
 
       let nearest: number | null = null;
       for (const offset of shoulderOrigins(dx, dz, BODY_HALF_WIDTH)) {
-        this.probeOrigin.set(
-          this.position.x + offset.x,
-          y,
-          this.position.z + offset.z,
-        );
+        this.probeOrigin.set(this.position.x + offset.x, y, this.position.z + offset.z);
         const hit = this.physics.raycast(
           this.probeOrigin,
           this.probeDir,
           PROBE_RANGE,
           handle.collider,
         );
-        if (hit && (nearest === null || hit.distance < nearest)) nearest = hit.distance;
+        // Low probes intersect a ramp before the capsule reaches its slope.
+        // Use the controller's slope limit so steering accepts the same ground.
+        if (hit && hit.normal.y < WALKABLE_NORMAL_Y && (nearest === null || hit.distance < nearest))
+          nearest = hit.distance;
       }
       return { angle, distance: nearest };
     });
@@ -652,4 +672,3 @@ export class Enemy {
     this.visual.dispose();
   }
 }
-

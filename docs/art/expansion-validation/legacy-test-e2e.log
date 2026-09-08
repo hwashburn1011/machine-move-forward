@@ -1,0 +1,31 @@
+
+> machine-move-forward@0.1.0 test:e2e
+> playwright test
+
+[WebServer] (node:4480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 38 tests using 1 worker
+
+(node:15104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 10:14:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+  x   1 tests\e2e\damage.spec.ts:41:3 › machine damage › a wrecked engine stops the machine, and repairing it starts it again (1.0m)
+(node:24068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 10:15:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+  x   2 tests\e2e\damage.spec.ts:90:3 › machine damage › the player can walk to the engine and hold E to start it again (40.9s)
+(node:29808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 10:16:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+  ok  3 tests\e2e\damage.spec.ts:135:3 › machine damage › a damaged leg slows the machine without stopping it (24.8s)
+[WebServer] 10:16:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+  x   4 tests\e2e\damage.spec.ts:160:3 › machine damage › a wall takes damage and is destroyed, taking what it carried with it (14.2s)
+(node:24112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 10:16:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+  x   5 tests\e2e\damage.spec.ts:207:3 › machine damage › an enemy on the far side of a wall does not reach the player through it (21.5s)
+(node:4872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 10:17:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[WebServer] 10:17:20 PM [vite] (client) [console.warn] THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.

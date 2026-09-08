@@ -6,6 +6,8 @@ import { bevelledBox } from '@/machine/MachineGeometry';
 import { rollDrops, type DropEntry } from '@/enemies/Loot';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import type { ReelCandidate } from './Reel';
+import type { ItemId, ItemStack } from '@/data/items';
+import { salvageModel } from '@/art/SalvageModels';
 
 /**
  * Salvage crates drifting past in the dunes.
@@ -21,9 +23,10 @@ const POOL = 6;
 
 /** Metres of travel between one crate appearing and the next. */
 const INTERVAL_M = 90;
+const EARLY_INTERVAL_M = 180;
 
 /** How far ahead of the machine a crate first appears. */
-const AHEAD = 46;
+const AHEAD = 42;
 
 /**
  * Fraction of the machine's speed a crate appears to move at.
@@ -46,7 +49,7 @@ const SIDE_MAX = 17;
 const CONTENTS: readonly DropEntry[] = [
   { id: 'scrap', min: 22, max: 46 },
   { id: 'components', min: 1, max: 3, chance: 0.75 },
-  { id: 'fuel', min: 1, max: 2, chance: 0.35 },
+  { id: 'fuel', min: 3, max: 4, chance: 0.75 },
 ];
 
 interface Crate {
@@ -54,15 +57,27 @@ interface Crate {
   readonly object3D: THREE.Group;
   active: boolean;
   /** Set while the reel is dragging it in. */
-  hooked: boolean;
+  claimedBy: SalvageClaimOwner | null;
+  manifest: ItemStack[] | null;
+  opened: boolean;
   bob: number;
+}
+
+export type SalvageClaimOwner = 'manual' | `collector:${string}`;
+export interface SalvageTransferResult {
+  opened: boolean;
+  remaining: readonly ItemStack[];
 }
 
 export class SalvageField {
   private readonly crates: Crate[] = [];
-  private readonly rng: Rng;
+  private readonly seed: number;
+  private rng: Rng;
   private nextAt = INTERVAL_M;
   private nextId = 0;
+  private earlyArmed = false;
+  private earlySpawned = false;
+  private cadenceInterval = INTERVAL_M;
 
   constructor(
     scene: THREE.Scene,
@@ -70,13 +85,16 @@ export class SalvageField {
     materials: Materials,
     seed: string,
   ) {
-    this.rng = new Rng(hashSeed(seed, 'salvage'));
+    this.seed = hashSeed(seed, 'salvage');
+    this.rng = new Rng(this.seed);
     for (let i = 0; i < POOL; i++) {
       const crate = {
         id: `crate-${i}`,
         object3D: buildCrate(materials),
         active: false,
-        hooked: false,
+        claimedBy: null,
+        manifest: null,
+        opened: false,
         bob: 0,
       };
       crate.object3D.visible = false;
@@ -85,10 +103,28 @@ export class SalvageField {
     }
   }
 
+  /**
+   * Drop all runtime crates and restart distance pacing for a fresh session.
+   * The RNG is reseeded so New Game and a load produce the same first target
+   * for a given world seed instead of inheriting the prior run's pool state.
+   */
+  reset(distance = 0): void {
+    for (const crate of this.crates) this.retire(crate);
+    const at = Number.isFinite(distance) ? Math.max(0, distance) : 0;
+    // A continued run keeps the post-opening cadence even if its radio was
+    // already found and therefore does not re-arm the guaranteed early chest.
+    this.nextAt = at + EARLY_INTERVAL_M;
+    this.nextId = 0;
+    this.earlyArmed = false;
+    this.earlySpawned = false;
+    this.cadenceInterval = EARLY_INTERVAL_M;
+    this.rng = new Rng(this.seed);
+  }
+
   /** Crates the reel is allowed to consider, in world space. */
   get targets(): ReelCandidate[] {
     return this.crates
-      .filter((c) => c.active && !c.hooked)
+      .filter((c) => c.active && c.claimedBy === null)
       .map((c) => ({
         id: c.id,
         x: c.object3D.position.x,
@@ -102,12 +138,57 @@ export class SalvageField {
     return crate ? crate.object3D.position : null;
   }
 
+  /**
+   * Arm the first post-opening target. Calling this is idempotent and does not
+   * consume a chest, so an ignored or retired target leaves the story reward
+   * eligible for the next successful chest.
+   */
+  armAfterOpening(distance: number): void {
+    if (this.earlySpawned) return;
+    const at = Number.isFinite(distance) ? Math.max(0, distance) : 0;
+    this.earlyArmed = true;
+    this.nextAt = Math.min(this.nextAt, at);
+  }
+
   /** Mark a crate as being dragged in, so nothing else targets it. */
   hook(id: string): boolean {
-    const crate = this.crates.find((c) => c.id === id && c.active && !c.hooked);
-    if (!crate) return false;
-    crate.hooked = true;
+    return this.claim(id, 'manual');
+  }
+
+  claim(id: string, owner: SalvageClaimOwner): boolean {
+    const crate = this.crates.find((c) => c.id === id && c.active);
+    if (!crate || (crate.claimedBy !== null && crate.claimedBy !== owner)) return false;
+    crate.claimedBy = owner;
     return true;
+  }
+
+  release(id: string, owner: SalvageClaimOwner): boolean {
+    const crate = this.crates.find((c) => c.id === id && c.active && c.claimedBy === owner);
+    if (!crate) return false;
+    crate.claimedBy = null;
+    return true;
+  }
+
+  pullClaimed(
+    dt: number,
+    id: string,
+    owner: SalvageClaimOwner,
+    toward: { x: number; y: number; z: number },
+  ): boolean {
+    const crate = this.crates.find((c) => c.id === id && c.active && c.claimedBy === owner);
+    if (!crate) return false;
+    const p = crate.object3D.position;
+    const dx = toward.x - p.x,
+      dy = toward.y - p.y,
+      dz = toward.z - p.z;
+    const distance = Math.hypot(dx, dy, dz);
+    if (distance < 1.1) return true;
+    const step = Math.min(distance, Math.max(14, distance * 1.9) * Math.max(0, dt));
+    p.x += (dx / distance) * step;
+    p.y += (dy / distance) * step;
+    p.z += (dz / distance) * step;
+    crate.object3D.rotation.x += Math.max(0, dt) * 5;
+    return step >= distance - 1e-6;
   }
 
   /**
@@ -116,17 +197,55 @@ export class SalvageField {
    * Rolled here rather than at spawn so a crate that is never reeled in costs
    * nothing, and the same seed still gives the same run.
    */
-  open(id: string, deposit: (item: string, count: number) => void): boolean {
-    const crate = this.crates.find((c) => c.id === id && c.active);
-    if (!crate) return false;
-
-    const drops = rollDrops(CONTENTS, this.rng);
-    for (const drop of drops) deposit(drop.id, drop.count);
-    if (drops.length > 0) {
-      this.bus.emit('loot:collected', { items: drops, source: 'Salvage crate' });
+  open(
+    id: string,
+    deposit: (item: ItemId, count: number) => number | void,
+    onOpened?: () => readonly { id: string; count: number }[] | void,
+  ): boolean {
+    const result = this.transferContents(id, (item, count) => {
+      const leftover = deposit(item, count);
+      return typeof leftover === 'number' ? leftover : 0;
+    });
+    if (!result.opened) return false;
+    // The callback is invoked only after a real crate was opened. This keeps
+    // deterministic story rewards outside spawn timing and RNG.
+    if (result.remaining.length === 0) {
+      const bonus = onOpened?.() ?? [];
+      for (const item of bonus) deposit(item.id as ItemId, item.count);
+      if (bonus.length > 0)
+        this.bus.emit('loot:collected', { items: [...bonus], source: 'Salvage crate bonus' });
     }
-    this.retire(crate);
-    return true;
+    return result.remaining.length === 0;
+  }
+
+  transferContents(
+    id: string,
+    deposit: (id: ItemId, count: number) => number,
+  ): SalvageTransferResult {
+    const crate = this.crates.find((c) => c.id === id && c.active);
+    if (!crate) return { opened: false, remaining: [] };
+    if (!crate.manifest)
+      crate.manifest = rollDrops(CONTENTS, this.rng).map((d) => ({ itemId: d.id, count: d.count }));
+    crate.opened = true;
+    const accepted: ItemStack[] = [];
+    const remaining: ItemStack[] = [];
+    for (const stack of crate.manifest) {
+      const leftover = Math.max(
+        0,
+        Math.min(stack.count, Math.floor(deposit(stack.itemId, stack.count))),
+      );
+      const got = stack.count - leftover;
+      if (got > 0) accepted.push({ itemId: stack.itemId, count: got });
+      if (leftover > 0) remaining.push({ itemId: stack.itemId, count: leftover });
+    }
+    crate.manifest = remaining;
+    if (accepted.length > 0)
+      this.bus.emit('loot:collected', {
+        items: accepted.map((s) => ({ id: s.itemId, count: s.count })),
+        source: 'Salvage crate',
+      });
+    if (remaining.length === 0) this.retire(crate);
+    return { opened: true, remaining };
   }
 
   /**
@@ -140,7 +259,7 @@ export class SalvageField {
     const arrived: string[] = [];
 
     for (const crate of this.crates) {
-      if (!crate.active || !crate.hooked) continue;
+      if (!crate.active || crate.claimedBy === null) continue;
 
       const p = crate.object3D.position;
       const dx = toward.x - p.x;
@@ -171,19 +290,25 @@ export class SalvageField {
    * Driven by distance rather than time so the field stays consistent whatever
    * the machine's speed is doing.
    */
-  update(dt: number, distance: number, machineSpeed: number): void {
+  update(dt: number, distance: number, machineSpeed: number, enabled = true): void {
+    if (!enabled) return;
     if (distance >= this.nextAt) {
-      this.nextAt = Math.floor(distance / INTERVAL_M) * INTERVAL_M + INTERVAL_M;
+      this.nextAt = distance + (this.earlyArmed ? EARLY_INTERVAL_M : this.cadenceInterval);
       this.spawn();
+      if (this.earlyArmed) {
+        this.earlyArmed = false;
+        this.earlySpawned = true;
+        this.cadenceInterval = EARLY_INTERVAL_M;
+      }
     }
 
     for (const crate of this.crates) {
       if (!crate.active) continue;
       // Toward -Z, the way the world goes. This was positive, which drifted
       // every crate AGAINST the desert it is supposedly adrift in: they spawn
-      // ahead at +46 and retire behind at -26, so moving them toward +Z sent
+      // ahead at +42 and retire behind at -26, so moving them toward +Z sent
       // them the wrong way down their own corridor.
-      if (!crate.hooked) {
+      if (crate.claimedBy === null) {
         crate.object3D.position.z += WORLD_Z_PER_METRE * machineSpeed * DRIFT * dt;
       }
 
@@ -212,14 +337,18 @@ export class SalvageField {
     crate.object3D.rotation.set(0, this.rng.range(0, Math.PI * 2), 0);
     crate.object3D.visible = true;
     crate.active = true;
-    crate.hooked = false;
+    crate.claimedBy = null;
+    crate.manifest = null;
+    crate.opened = false;
     crate.bob = this.rng.range(0, 10);
     this.nextId++;
   }
 
   private retire(crate: Crate): void {
     crate.active = false;
-    crate.hooked = false;
+    crate.claimedBy = null;
+    crate.manifest = null;
+    crate.opened = false;
     crate.object3D.visible = false;
   }
 }
@@ -231,6 +360,8 @@ export class SalvageField {
  * wants a bold silhouette and a hot accent far more than it wants detail.
  */
 function buildCrate(materials: Materials): THREE.Group {
+  const authored = salvageModel('salvage-chest');
+  if (authored) return authored;
   const g = new THREE.Group();
   const add = (geo: THREE.BufferGeometry, mat: THREE.Material, y = 0) => {
     const m = new THREE.Mesh(geo, mat);

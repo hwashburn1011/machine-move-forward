@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-09-07T20:24:36.336Z",
+  "method": "Headless Chromium, default backend selected SwiftShader; 120 rAF intervals after warmup; no combat. Software rAF timing does not represent the RTX3070 or validate the 60 FPS hardware target. Renderer counters aggregate the whole frame: beginFrame resets once and autoReset is false.",
+  "state": {
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)",
+    "viewport": [
+      1920,
+      1080
+    ],
+    "drawingBuffer": [
+      1920,
+      1080
+    ],
+    "pixelRatio": 1,
+    "animationFrameMs": {
+      "median": 2383.2000000000116,
+      "p95": 2533.1999999999825,
+      "samples": 120
+    },
+    "debugStats": {
+      "calls": 538,
+      "tris": 1085056,
+      "skyBakes": 1,
+      "distance": 72,
+      "chunks": 9,
+      "speed": 7.37,
+      "bodies": 37,
+      "playerY": 4.665,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 10.083,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 0,
+      "particles": 349,
+      "scrap": 260,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    },
+    "memory": {
+      "geometries": 103,
+      "textures": 44
+    },
+    "rendererAutoReset": false,
+    "authoredPlayer": true
+  },
+  "errors": []
+}

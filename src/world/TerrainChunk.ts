@@ -10,6 +10,7 @@ import {
 } from '@/art/shaders/terrainShader';
 import { CHUNK_SIZE_X, CHUNK_SIZE_Z } from '@/game/constants';
 import { DUNE_PARAMS } from './DuneField';
+import { hashSeed } from '@/core/math/Random';
 import type { QualitySettings } from '@/core/renderer/QualitySettings';
 import type { TextureSet } from '@/art/TextureLoader';
 
@@ -25,13 +26,23 @@ export class TerrainChunk {
 
   private readonly uniforms: Record<string, THREE.IUniform>;
 
-  constructor(quality: QualitySettings, sharedGeometry: THREE.BufferGeometry) {
+  constructor(
+    quality: QualitySettings,
+    sharedGeometry: THREE.BufferGeometry,
+    worldSeed = 'default-world',
+  ) {
+    const terrainSeed = (hashSeed(worldSeed, 'terrain-macro') % 100000) / 100000;
+    const rippleOrientation = (hashSeed(worldSeed, 'terrain-ripple') % 100000) / 100000;
     this.uniforms = {
       uChunkOffset: { value: 0 },
       // The chunk's permanent world origin, as distinct from where it is
       // currently drawn. The dune field is a function of this one.
       uChunkWorldZ: { value: 0 },
-      uTime: { value: 0 },
+      // Structural sand detail is frozen in world space. Motion belongs to
+      // airborne dust and heat shimmer, never to the ground normal.
+      uTerrainSeed: { value: terrainSeed },
+      uMacroStrength: { value: 0.08 },
+      uRippleOrientation: { value: rippleOrientation * Math.PI * 2 },
       // Shared with the CPU height function in DuneField, so props sit on the
       // same surface the GPU draws.
       uDuneScale: { value: DUNE_PARAMS.scale },
@@ -148,7 +159,9 @@ export class TerrainChunk {
   }
 
   update(elapsed: number): void {
-    this.uniforms.uTime!.value = elapsed;
+    // Kept as a stable world-update seam for WorldManager. Terrain normals and
+    // ripples intentionally do not animate; moving sand is handled by SandFX.
+    void elapsed;
   }
 
   dispose(): void {

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type RAPIER from '@dimforge/rapier3d-compat';
 import type { Materials } from '@/art/Materials';
+import type { LoadedModel } from '@/art/ModelLoader';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import {
   CHARACTER_DROP_Y,
@@ -18,6 +19,8 @@ import { deckCells, type FixedLink } from '@/enemies/NavGraph';
 import { MachineMovement } from './MachineMovement';
 import { MachineDamage } from './MachineDamage';
 import { MachinePower } from './MachinePower';
+import { SUBSYSTEMS } from '@/data/subsystems';
+import type { Damageable } from '@/combat/Damageable';
 import {
   carryDelta,
   clampPose,
@@ -39,6 +42,16 @@ const FORWARD_Z = new THREE.Vector3(0, 0, 1);
  * to float precision or the shadow camera.
  */
 const MAX_STATION_KEEPING = 0.5;
+
+function hasRenderableGeometry(root: THREE.Object3D): boolean {
+  let found = false;
+  root.traverse((object) => {
+    if (found || !(object as THREE.Mesh).isMesh) return;
+    const geometry = (object as THREE.Mesh).geometry;
+    found = Boolean(geometry?.getAttribute('position')?.count);
+  });
+  return found;
+}
 
 /** Colliders sit at their body's own origin in this layout. */
 const ZERO = new THREE.Vector3(0, 0, 0);
@@ -134,6 +147,8 @@ export class Machine {
   private previousPose: BodyPose = REST_POSE;
   private writtenPose: BodyPose = REST_POSE;
   private readonly bodies: RAPIER.RigidBody[] = [];
+  private expeditionGateCollider: RAPIER.Collider | null = null;
+  private expeditionGateOpen = false;
   private readonly restPositions: THREE.Vector3[] = [];
   private readonly restRotations: THREE.Quaternion[] = [];
   private readonly scratchPos = new THREE.Vector3();
@@ -144,6 +159,10 @@ export class Machine {
   private readonly rollQuat = new THREE.Quaternion();
   private readonly legs: MachineLegs;
   private readonly scratchFoot = new THREE.Vector3();
+  private authoredDetailRoot: THREE.Object3D | null = null;
+  private readonly authoredFallbackMeshes: THREE.Mesh[] = [];
+  private readonly proceduralBodyRoots: readonly THREE.Object3D[];
+  private disposed = false;
 
   constructor(
     scene: THREE.Scene,
@@ -152,6 +171,7 @@ export class Machine {
   ) {
     const build = buildMachine(materials);
     this.group = build.group;
+    this.proceduralBodyRoots = [...this.group.children];
 
     // Set once, then never written again.
     this.group.position.set(0, 0, 0);
@@ -173,7 +193,26 @@ export class Machine {
           ? undefined
           : new THREE.Quaternion().setFromEuler(new THREE.Euler(c.rotX, 0, 0));
       const body = physics.createDrivenBody(c.center, rot);
-      physics.addBoxTo(body, c.half, ZERO, undefined, { kind: 'machine' });
+      const engine = SUBSYSTEMS.engine.hitbox;
+      const isEngineCollider =
+        c.center.x === engine.center.x &&
+        c.center.y === engine.center.y &&
+        c.center.z === engine.center.z &&
+        c.half.x === engine.half.x &&
+        c.half.y === engine.half.y &&
+        c.half.z === engine.half.z;
+      const colliderData: Damageable | { kind: 'machine' } = isEngineCollider
+        ? {
+            kind: 'subsystem',
+            id: 'engine',
+            armor: SUBSYSTEMS.engine.armor,
+            takeDamage: (amount: number) => {
+              this.damage.damage('engine', amount);
+            },
+          }
+        : { kind: 'machine' };
+      const collider = physics.addBoxTo(body, c.half, ZERO, undefined, colliderData);
+      if (c.expeditionGate) this.expeditionGateCollider = collider;
       this.bodies.push(body);
       // Rest pose, so the body transform can be applied to it every step.
       this.restPositions.push(c.center.clone());
@@ -245,6 +284,75 @@ export class Machine {
   }
 
   /**
+   * Swap the optional authored machine detail skin into the existing runtime
+   * machine. Gameplay geometry and colliders remain owned by
+   * `MachineGeometry`; only meshes explicitly marked as visual fallbacks are
+   * hidden while a matching authored root is active. The legs, gate, lamps,
+   * and all named interaction objects stay in the original group.
+   */
+  applyAuthoredDetailModel(model: LoadedModel | null): void {
+    this.legs.clearAuthoredModules();
+    for (const mesh of this.authoredFallbackMeshes) mesh.visible = true;
+    this.authoredFallbackMeshes.length = 0;
+    if (this.authoredDetailRoot) {
+      this.group.remove(this.authoredDetailRoot);
+      this.authoredDetailRoot = null;
+    }
+    if (!model) return;
+
+    // Keep the loader-owned source graph reusable. Leg modules are rehomed
+    // under the live IK pivots below, so consuming a clone avoids mutating the
+    // cached model and makes apply(null)/reapply/partial-model fallback safe.
+    const root = model.scene.clone(true);
+    const v3SkinRoots = new Map([
+      ['hull', 'MMF_HullSkin'],
+      ['engine', 'MMF_EngineSkin'],
+      ['prow', 'MMF_ProwSkin'],
+      ['deck', 'MMF_DeckTrim'],
+      ['equipment:generator', 'MMF_Equipment_generator'],
+      ['equipment:fuel-tank', 'MMF_Equipment_fuel-tank'],
+      ['equipment:workbench', 'MMF_Equipment_workbench'],
+      ['equipment:crate-a', 'MMF_Equipment_crate-a'],
+      ['equipment:crate-b', 'MMF_Equipment_crate-b'],
+      ['equipment:collector', 'MMF_Equipment_collector'],
+    ]);
+    const fallbackMeshes: THREE.Mesh[] = [];
+    this.group.traverse((object) => {
+      const mesh = object as THREE.Mesh;
+      if (!mesh.isMesh || mesh.userData.machineDetailFallback !== true) return;
+      const skin = mesh.userData.machineVisualSkin;
+      const replacementRoot = typeof skin === 'string' ? v3SkinRoots.get(skin) : undefined;
+      const authoredReplacement = replacementRoot ? root.getObjectByName(replacementRoot) : null;
+      const replaced = Boolean(authoredReplacement && hasRenderableGeometry(authoredReplacement));
+      if (replaced) fallbackMeshes.push(mesh);
+    });
+    for (const mesh of fallbackMeshes) {
+      mesh.visible = false;
+      this.authoredFallbackMeshes.push(mesh);
+    }
+
+    // A v3 walker may provide segment skins with exact local pivot names. The
+    // leg rig consumes those modules before the remaining body skin is added,
+    // so authored legs inherit the existing IK and never double-draw static
+    // copies from the GLB root.
+    this.legs.applyAuthoredModules(root);
+    // v3 ships static hip housings and named moving modules. Static housings
+    // replace only their procedural hip skins; moving modules are cloned into
+    // the existing IK pivots, which continue to own gait and foot placement.
+    this.legs.applyAuthoredHousings(root);
+    root.name = 'authored-machine-details';
+    root.traverse((object) => {
+      const mesh = object as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.frustumCulled = true;
+    });
+    this.authoredDetailRoot = root;
+    this.group.add(root);
+  }
+
+  /**
    * Spawn point on the open mid-deck.
    *
    * Kept clear of the equipment blocks: spawning against one pins the
@@ -255,6 +363,33 @@ export class Machine {
    */
   get deckSpawn(): THREE.Vector3 {
     return new THREE.Vector3(0, CHARACTER_DROP_Y, -1.0);
+  }
+
+  /** Retract the starboard safety rail only while the dock supports a crossing. */
+  setExpeditionGangwayOpen(open: boolean): void {
+    if (open === this.expeditionGateOpen) return;
+    this.expeditionGateOpen = open;
+    this.expeditionGateCollider?.setEnabled(!open);
+    const gate = this.group.getObjectByName('ExpeditionGate');
+    if (gate) gate.position.y = open ? -1.2 : 0;
+  }
+
+  /** Release procedural geometry while leaving loader-owned GLB resources alive. */
+  dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.applyAuthoredDetailModel(null);
+    this.legs.dispose();
+
+    const geometries = new Set<THREE.BufferGeometry>();
+    for (const root of this.proceduralBodyRoots) {
+      root.traverse((object) => {
+        const mesh = object as THREE.Mesh;
+        if (mesh.isMesh && mesh.geometry) geometries.add(mesh.geometry);
+      });
+    }
+    for (const geometry of geometries) geometry.dispose();
+    this.group.parent?.remove(this.group);
   }
 
   /**

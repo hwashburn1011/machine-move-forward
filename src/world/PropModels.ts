@@ -26,11 +26,39 @@ export interface PropModelGeometries {
   wreck?: THREE.BufferGeometry;
   containers?: THREE.BufferGeometry;
   debris?: THREE.BufferGeometry;
+  /** Optional authored, textured templates for atlas-aware instancing. */
+  templates?: Partial<Record<PropKind, PropTemplate>>;
   dispose(): void;
 }
 
+export type PropKind = 'wreck' | 'containers' | 'debris';
+
+/**
+ * The instancing contract for authored props.
+ *
+ * The old path intentionally returns one geometry and a shared fallback
+ * material. This template keeps UVs, tangents and the authored material
+ * together so a caller with a trim/atlas material can opt into textured
+ * instancing without changing the fallback path.
+ */
+export interface PropTemplate {
+  geometry: THREE.BufferGeometry;
+  material: THREE.MeshStandardMaterial;
+  dispose(): void;
+}
+
+export interface PropTemplateOptions {
+  /** An atlas to bind when the source material has no usable color map. */
+  atlas?: THREE.Texture;
+  /** Optional UV transform in atlas space. */
+  uvTransform?: { offset?: THREE.Vector2Like; repeat?: THREE.Vector2Like };
+}
+
 /** What a merged prop geometry is allowed to carry. */
-const KEPT_ATTRIBUTES = ['position', 'normal', 'color'] as const;
+const REQUIRED_ATTRIBUTES = ['position', 'normal', 'color'] as const;
+
+/** Attribute names that can be transported when every primitive provides one. */
+const OPTIONAL_ATTRIBUTES = ['uv', 'uv1', 'tangent'] as const;
 
 /**
  * Flatten a loaded model into one geometry that an `InstancedMesh` can draw.
@@ -70,6 +98,8 @@ export function mergePropGeometry(source: THREE.Object3D): THREE.BufferGeometry 
       return;
     }
 
+    // Authored normals carry deliberate hard edges and smooth groups. Only
+    // synthesize normals for genuinely un-authored fallback primitives.
     if (!geometry.attributes.normal) geometry.computeVertexNormals();
 
     // Bake the material colour. A mesh split across groups carries one
@@ -115,7 +145,10 @@ export function mergePropGeometry(source: THREE.Object3D): THREE.BufferGeometry 
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     for (const name of Object.keys(geometry.attributes)) {
-      if (!(KEPT_ATTRIBUTES as readonly string[]).includes(name)) {
+      if (
+        !(REQUIRED_ATTRIBUTES as readonly string[]).includes(name) &&
+        !(OPTIONAL_ATTRIBUTES as readonly string[]).includes(name)
+      ) {
         geometry.deleteAttribute(name);
       }
     }
@@ -125,12 +158,76 @@ export function mergePropGeometry(source: THREE.Object3D): THREE.BufferGeometry 
 
   if (parts.length === 0) return null;
 
+  // Merging requires a consistent attribute set. Preserve UVs/tangents when
+  // the complete authored pack has them, while retaining the old robust
+  // fallback for mixed primitive packs that do not.
+  const presentInAll = (name: string): boolean =>
+    parts.every((part) => Boolean(part.getAttribute(name)));
+  for (const name of OPTIONAL_ATTRIBUTES) {
+    if (!presentInAll(name)) {
+      for (const part of parts) part.deleteAttribute(name);
+    }
+  }
+
   const merged =
     parts.length === 1 ? (parts[0] as THREE.BufferGeometry) : BufferGeometryUtils.mergeGeometries(parts);
   if (parts.length > 1) for (const part of parts) part.dispose();
   if (!merged) return null;
 
   return normalisePropGeometry(merged);
+}
+
+/**
+ * Build an atlas-aware template from an authored scene.
+ *
+ * Templates deliberately use one material and one merged geometry because
+ * `InstancedMesh` has one material slot. Multi-material source packs still
+ * retain per-primitive vertex colors; a supplied atlas is used as the map and
+ * the UVs are transported unchanged unless a caller supplies a transform.
+ */
+export function createPropTemplate(
+  source: THREE.Object3D,
+  options: PropTemplateOptions = {},
+): PropTemplate | null {
+  const geometry = mergePropGeometry(source);
+  if (!geometry) return null;
+
+  let sourceMaterial: THREE.MeshStandardMaterial | undefined;
+  source.traverse((object) => {
+    if (sourceMaterial) return;
+    const mesh = object as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const first = (Array.isArray(mesh.material) ? mesh.material[0] : mesh.material) as
+      | THREE.MeshStandardMaterial
+      | undefined;
+    if (first?.isMeshStandardMaterial) sourceMaterial = first;
+  });
+
+  const material = sourceMaterial
+    ? sourceMaterial.clone()
+    : new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.86, metalness: 0.1 });
+  material.vertexColors = true;
+  material.flatShading = false;
+  if (options.atlas) material.map = options.atlas;
+  if (options.uvTransform && geometry.getAttribute('uv')) {
+    const uv = geometry.getAttribute('uv') as THREE.BufferAttribute;
+    const repeat = options.uvTransform.repeat ?? { x: 1, y: 1 };
+    const offset = options.uvTransform.offset ?? { x: 0, y: 0 };
+    for (let i = 0; i < uv.count; i++) {
+      uv.setXY(i, uv.getX(i) * repeat.x + offset.x, uv.getY(i) * repeat.y + offset.y);
+    }
+    uv.needsUpdate = true;
+  }
+  material.needsUpdate = true;
+
+  return {
+    geometry,
+    material,
+    dispose(): void {
+      geometry.dispose();
+      material.dispose();
+    },
+  };
 }
 
 /**
@@ -175,21 +272,42 @@ export async function loadPropModels(): Promise<PropModelGeometries> {
     wanted.map(async (name) => {
       const model = await loadModel(`${BASE}/${name}.glb`);
       if (!model) return null;
-      const geometry = mergePropGeometry(model.scene);
-      return geometry ? ([name, geometry] as const) : null;
+      let hasAuthoredSurface = false;
+      model.scene.traverse((object) => {
+        const mesh = object as THREE.Mesh;
+        if (!mesh.isMesh || !mesh.geometry.getAttribute('uv')) return;
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        if (materials.some((material) => Boolean((material as THREE.MeshStandardMaterial).map))) {
+          hasAuthoredSurface = true;
+        }
+      });
+      const template = hasAuthoredSurface ? createPropTemplate(model.scene) : null;
+      const geometry = template?.geometry ?? mergePropGeometry(model.scene);
+      return geometry ? ([name, geometry, template] as const) : null;
     }),
   );
 
   const out: PropModelGeometries = {
+    templates: {},
     dispose(): void {
       for (const name of wanted) {
-        this[name]?.dispose();
+        const templates = this.templates;
+        const template = templates?.[name];
+        if (template && templates) {
+          template.dispose();
+          templates[name] = undefined;
+        } else {
+          this[name]?.dispose();
+        }
         this[name] = undefined;
       }
+      this.templates = undefined;
     },
   };
   for (const entry of loaded) {
-    if (entry) out[entry[0]] = entry[1];
+    if (!entry) continue;
+    out[entry[0]] = entry[1];
+    if (entry[2]) out.templates![entry[0]] = entry[2];
   }
   return out;
 }

@@ -1,6 +1,7 @@
 import type { EventBus } from '@/core/events/EventBus';
 import { damageBearing } from './DamageDirection';
 import { deckBearingName } from './DeckBearing';
+import type { FirstRunStep } from '@/game/FirstRunDirector';
 import './hud.css';
 
 export interface HUDState {
@@ -40,6 +41,11 @@ export interface HUDState {
   /** The survival meters, 0..100. Both full is the quiet, unremarkable case. */
   hydration: number;
   nourishment: number;
+  /** Optional expedition readout; omitted by legacy callers. */
+  radioFound?: boolean;
+  radioPowered?: boolean;
+  storyPhase?: string;
+  storyRemainingM?: number | null;
 }
 
 /**
@@ -89,6 +95,17 @@ const PHASE_TEXT: Record<string, string | null> = {
   contact: null,
   engagement: null,
   recovery: 'Clear — the desert is quiet again',
+};
+
+/** Story labels shown to players; save/event phases remain stable identifiers. */
+const STORY_PHASE_LABELS: Record<string, string> = {
+  locked: 'Locked',
+  signal: 'Recovered receiver',
+  approach: 'Relay tender',
+  braking: 'Docking',
+  docked: 'The Wake',
+  departing: 'Resuming route',
+  complete: 'Next transmission',
 };
 
 /** Seconds a loot line stays up. */
@@ -147,6 +164,8 @@ export class HUD {
       <div id="hud-damage"><div id="hud-damage-arc"></div></div>
       <div id="hud-crosshair"><i></i><i></i><i></i><i></i></div>
       <div id="hud-prompt"></div>
+      <div id="hud-objective"><span id="hud-objective-title"></span><span id="hud-objective-detail"></span><span id="hud-objective-control"></span></div>
+      <div id="hud-story" aria-live="polite"><span id="hud-story-phase"></span><span id="hud-story-detail"></span></div>
       <div id="hud-warning"></div>
       <div id="hud-lock">Click to take control</div>
     `;
@@ -175,6 +194,13 @@ export class HUD {
       'hud-damage-arc',
       'hud-crosshair',
       'hud-prompt',
+      'hud-objective',
+      'hud-objective-title',
+      'hud-objective-detail',
+      'hud-objective-control',
+      'hud-story',
+      'hud-story-phase',
+      'hud-story-detail',
       'hud-warning',
       'hud-lock',
     ]) {
@@ -194,7 +220,12 @@ export class HUD {
       }),
       bus.on('combat:hit', (e) => {
         // Only flash for hits on something that can be hurt.
-        if (e.targetId) this.hitFlashUntil = performance.now() / 1000 + 0.12;
+        if (e.targetId && e.shotId === undefined)
+          this.hitFlashUntil = performance.now() / 1000 + 0.12;
+      }),
+      bus.on('combat:shot-resolved', (e) => {
+        // Shotguns resolve nine pellets as one trigger pull in the HUD.
+        if (e.pelletsHit > 0) this.hitFlashUntil = performance.now() / 1000 + 0.12;
       }),
       bus.on('enemy:spawned', (e) => {
         // One scavenger arrives every 250m, at the deck edge, deliberately
@@ -219,6 +250,10 @@ export class HUD {
         const text = PHASE_TEXT[e.phase];
         if (!text) return;
         this.boardingText = text;
+        this.boardingUntil = performance.now() / 1000 + TELEGRAPH_SECONDS;
+      }),
+      bus.on('gunboat:telegraph', () => {
+        this.boardingText = 'Gunboat volley incoming';
         this.boardingUntil = performance.now() / 1000 + TELEGRAPH_SECONDS;
       }),
       bus.on('loot:collected', (e) => {
@@ -249,7 +284,37 @@ export class HUD {
       }),
       bus.on('player:died', () => this.setWarning('Critical failure')),
       bus.on('player:respawned', () => this.setWarning(null)),
+      bus.on('objective:updated', (e) => {
+        // The game supplies the text through setObjective so this event stays
+        // a compact state signal for harnesses and future HUD skins.
+        this.el['hud-objective']?.setAttribute('data-step', e.current);
+      }),
+      bus.on('story:phase', (e) => {
+        this.el['hud-story']?.classList.toggle('is-active', e.phase !== 'locked');
+        this.write(
+          'story-phase-event',
+          this.el['hud-story-phase'],
+          STORY_PHASE_LABELS[e.phase] ?? e.phase,
+        );
+      }),
+      bus.on('story:signal', (e) => {
+        const remaining =
+          e.remainingM === null ? '' : ` · ${Math.max(0, Math.round(e.remainingM))} m`;
+        this.write('story-detail-event', this.el['hud-story-detail'], `${e.text}${remaining}`);
+      }),
     );
+  }
+
+  setObjective(objective: {
+    step: FirstRunStep | 'complete';
+    title: string;
+    detail: string;
+    control: string;
+  }): void {
+    this.write('objective-title', this.el['hud-objective-title'], objective.title);
+    this.write('objective-detail', this.el['hud-objective-detail'], objective.detail);
+    this.write('objective-control', this.el['hud-objective-control'], objective.control);
+    this.el['hud-objective']?.classList.toggle('is-complete', objective.step === 'complete');
   }
 
   setPrompt(text: string | null): void {
@@ -264,6 +329,25 @@ export class HUD {
     if (!node) return;
     node.classList.toggle('is-active', text !== null);
     if (text) this.write('warning', node, text);
+  }
+
+  setStoryState(state: { phase: string; objective: string; remainingM?: number | null }): void {
+    this.write(
+      'story-phase',
+      this.el['hud-story-phase'],
+      STORY_PHASE_LABELS[state.phase] ?? state.phase,
+    );
+    const remaining =
+      state.remainingM === null || state.remainingM === undefined
+        ? ''
+        : ` · ${Math.max(0, Math.round(state.remainingM))} m`;
+    this.write('story-detail', this.el['hud-story-detail'], `${state.objective}${remaining}`);
+    this.el['hud-story']?.classList.toggle('is-active', state.phase !== 'locked');
+  }
+
+  setRadioState(found: boolean, powered: boolean): void {
+    const node = this.el['hud-story'];
+    if (node) node.dataset.radio = found ? (powered ? 'powered' : 'unpowered') : 'missing';
   }
 
   update(state: HUDState): void {
@@ -358,17 +442,21 @@ export class HUD {
     if (this.reloadEndsAt > 0 && this.reloadDuration > 0) {
       const remaining = Math.max(0, this.reloadEndsAt - now);
       const progress = 1 - remaining / this.reloadDuration;
-      this.style(
-        'reload',
-        this.el['hud-reload-fill'],
-        'width',
-        `${(progress * 100).toFixed(0)}%`,
-      );
+      this.style('reload', this.el['hud-reload-fill'], 'width', `${(progress * 100).toFixed(0)}%`);
     }
 
     // --- Machine -----------------------------------------------------------
     this.write('speed', this.el['hud-speed'], `${state.machineSpeed.toFixed(1)} m/s`);
     this.write('dist', this.el['hud-distance'], `${Math.round(state.distanceTraveled)} m`);
+    if (state.storyPhase) {
+      this.setStoryState({
+        phase: state.storyPhase,
+        objective: '',
+        remainingM: state.storyRemainingM,
+      });
+    }
+    if (state.radioFound !== undefined)
+      this.setRadioState(state.radioFound, state.radioPowered ?? false);
 
     // The reel cue rides the crosshair the player is already looking at,
     // rather than adding another thing to the edge of the screen.
@@ -396,7 +484,12 @@ export class HUD {
   }
 
   /** Write only when the value actually changed. */
-  private write(key: string, node: HTMLElement | undefined, value: string, firstChildOnly = false): void {
+  private write(
+    key: string,
+    node: HTMLElement | undefined,
+    value: string,
+    firstChildOnly = false,
+  ): void {
     if (!node) return;
     if (this.cache.get(key) === value) return;
     this.cache.set(key, value);

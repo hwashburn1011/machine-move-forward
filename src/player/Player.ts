@@ -69,11 +69,7 @@ export class Player {
     this.position.copy(spawn);
     this.previousPosition.copy(spawn);
 
-    this.handle = physics.addCharacter(
-      PLAYER_CAPSULE_RADIUS,
-      PLAYER_CAPSULE_HALF_HEIGHT,
-      spawn,
-    );
+    this.handle = physics.addCharacter(PLAYER_CAPSULE_RADIUS, PLAYER_CAPSULE_HALF_HEIGHT, spawn);
     physics.setUserData(this.handle.collider, { kind: 'player' });
 
     this.visual = new PlayerVisual(null, materials);
@@ -120,6 +116,14 @@ export class Player {
     this.heldWeaponId = id;
     this.heldWeaponModel = model;
     this.visual.setHeldWeapon(id, model);
+  }
+
+  getMuzzleWorldPosition(out = new THREE.Vector3()): THREE.Vector3 {
+    return this.visual.getMuzzleWorldPosition(out);
+  }
+
+  kickHeldWeapon(distance: number, pitch: number, yaw: number): void {
+    this.visual.kickHeldWeapon(distance, pitch, yaw);
   }
 
   /** True when the rig has a hand to hang a weapon off. Read by the harness. */
@@ -181,8 +185,7 @@ export class Player {
     // shooting are all untouched at zero hydration — the roadmap's promise is
     // that running dry slows you down, so it takes the fast option away rather
     // than the ability to move.
-    const sprinting =
-      input.isDown('sprint') && !crouching && iz < 0 && this.needs.canSprint;
+    const sprinting = input.isDown('sprint') && !crouching && iz < 0 && this.needs.canSprint;
     const speed = crouching
       ? PLAYER_CROUCH_SPEED
       : sprinting
@@ -258,10 +261,7 @@ export class Player {
     this.position.copy(this.spawn);
     this.previousPosition.copy(this.spawn);
     this.verticalVelocity = 0;
-    this.handle.body.setTranslation(
-      { x: this.spawn.x, y: this.spawn.y, z: this.spawn.z },
-      true,
-    );
+    this.handle.body.setTranslation({ x: this.spawn.x, y: this.spawn.y, z: this.spawn.z }, true);
     this.stats.reset();
     this.stats.grantGrace(RESPAWN_GRACE_S);
     this.deathTimer = 0;
@@ -287,6 +287,14 @@ export class Player {
     this.previousPosition.copy(to);
     this.verticalVelocity = 0;
     this.handle.body.setTranslation({ x: to.x, y: to.y, z: to.z }, true);
+    this.deathTimer = 0;
+  }
+
+  /** Clear transient death state when a save restores a live player capsule. */
+  restoreAfterLoad(): void {
+    this.deathTimer = 0;
+    this.verticalVelocity = 0;
+    this.grounded = false;
   }
 
   dispose(): void {

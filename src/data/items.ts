@@ -148,7 +148,7 @@ export const PLAYER_INVENTORY_SLOTS = 20;
  * scrap for exactly that reason, so the first thing a player builds is the
  * thing that unlocks everything else.
  */
-export const STARTING_INVENTORY: ItemCost = { scrap: 400 };
+export const STARTING_INVENTORY: ItemCost = { scrap: 260 };
 
 /** Compact cost label for the build row: "15▪ 2⬡". */
 export function formatCostGlyphs(cost: ItemCost): string {

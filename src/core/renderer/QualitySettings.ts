@@ -70,13 +70,18 @@ const TIERS: Record<QualityTier, QualitySettings> = {
     shadowMapSize: 2048,
     gtao: true,
     bloom: true,
-    heatShimmer: true,
+    // High is the midrange target. GTAO already needs a depth/normal pass;
+    // keep the distortion pass for Ultra where its extra bandwidth is a
+    // deliberate tradeoff.
+    heatShimmer: false,
     grain: true,
     particleBudget: 2000,
     terrainSegments: 96,
     propsPerChunk: 20,
     lampLights: 6,
-    maxPixelRatio: 2,
+    // The primary acceptance target is 1080p at native resolution. A high-DPI
+    // display must not silently turn that into a 4K workload.
+    maxPixelRatio: 1,
   },
   ultra: {
     tier: 'ultra',
@@ -91,7 +96,7 @@ const TIERS: Record<QualityTier, QualitySettings> = {
     terrainSegments: 140,
     propsPerChunk: 28,
     lampLights: 8,
-    maxPixelRatio: 2,
+    maxPixelRatio: 1.5,
   },
 };
 

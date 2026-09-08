@@ -81,9 +81,16 @@ export type SoundId =
   | 'hook-throw'
   | 'hook-catch'
   | 'breaker-open'
-  | 'breaker-close';
+  | 'breaker-close'
+  | 'radio-signal';
 
 const SOUNDS: Record<SoundId, VoiceSpec> = {
+  // A brief receiver lock-on chirp, only at discovery and a new transmission.
+  'radio-signal': {
+    source: { kind: 'tone', wave: 'sine', hz: 720, toHz: 1180 },
+    envelope: { peak: 0.2, attack: 0.015, decay: 0.42 },
+    layers: [0, 7],
+  },
   // --- Weapons -------------------------------------------------------------
   // A crack and a body. The crack is the high-passed transient; the body is
   // the octave-down layer, which is most of what makes it sound like a rifle

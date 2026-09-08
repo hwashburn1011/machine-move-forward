@@ -2,6 +2,7 @@ import {
   BUILD_PIECES,
   PIECE_CATEGORIES,
   piecesInCategory,
+  requiredUnlockOf,
   type PieceCategory,
   type PieceId,
 } from '@/data/build-pieces';
@@ -21,6 +22,7 @@ export interface BuildUIState {
    * panel must not have its own opinion about where materials live.
    */
   canAfford: (cost: ItemCost) => boolean;
+  canBuild?: (piece: PieceId) => boolean;
   validation: Validation;
   roomCount: number;
   enclosedCount: number;
@@ -30,6 +32,7 @@ export interface BuildUIState {
 const CATEGORY_LABEL: Record<PieceCategory, string> = {
   structure: 'Structure',
   station: 'Stations',
+  automation: 'Automation',
   decor: 'Comforts',
 };
 
@@ -112,8 +115,18 @@ export class BuildUI {
     for (const [id, node] of this.slots) {
       const selected = id === state.piece;
       const affordable = state.canAfford(BUILD_PIECES[id].cost);
+      const unlocked = state.canBuild?.(id) ?? true;
       node.classList.toggle('is-selected', selected);
-      node.classList.toggle('is-poor', !affordable);
+      node.classList.toggle('is-poor', !affordable || !unlocked);
+      node.classList.toggle('is-locked', !unlocked);
+      const required = requiredUnlockOf(id);
+      const names: Record<string, string> = {
+        'manual-turret': 'Manual turret blueprint',
+        'automatic-salvage-collector': 'Salvage Controller',
+        'automatic-defense-turret': 'Tracking Servo',
+      };
+      node.title =
+        !unlocked && required ? `Requires ${names[required] ?? required}` : BUILD_PIECES[id].name;
     }
 
     // Only the active group's number keys do anything, so only the active
@@ -122,11 +135,7 @@ export class BuildUI {
       node.classList.toggle('is-active', category === state.category);
     }
 
-    this.write(
-      'scrap',
-      this.el['build-scrap'],
-      `${state.scrap} ▪ · ${state.components} ⬡`,
-    );
+    this.write('scrap', this.el['build-scrap'], `${state.scrap} ▪ · ${state.components} ⬡`);
     this.write('level', this.el['build-level'], `Level ${state.level}`);
     this.write(
       'rooms',
@@ -136,9 +145,7 @@ export class BuildUI {
 
     // Blank while valid, so the reason line is pure signal.
     const reason =
-      state.validation.ok || !state.validation.reason
-        ? ''
-        : REASON_TEXT[state.validation.reason];
+      state.validation.ok || !state.validation.reason ? '' : REASON_TEXT[state.validation.reason];
     this.write('reason', this.el['build-reason'], reason);
   }
 

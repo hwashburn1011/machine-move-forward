@@ -1,0 +1,40 @@
+[
+  {
+    "asset": "manual-turret",
+    "triangles": 2404,
+    "bytes": 167168,
+    "animations": []
+  },
+  {
+    "asset": "raider-skiff",
+    "triangles": 10176,
+    "bytes": 549312,
+    "animations": []
+  },
+  {
+    "asset": "scavenger",
+    "triangles": 3468,
+    "bytes": 447392,
+    "animations": [
+      "Idle",
+      "Walking",
+      "Running",
+      "Climb",
+      "Punch",
+      "Death"
+    ]
+  },
+  {
+    "asset": "raider",
+    "triangles": 3760,
+    "bytes": 479748,
+    "animations": [
+      "Idle",
+      "Walking",
+      "Running",
+      "Climb",
+      "Punch",
+      "Death"
+    ]
+  }
+]

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { bevelledBox } from '@/machine/MachineGeometry';
+import { salvageModel } from '@/art/SalvageModels';
 
 /**
  * The grappling hook on the end of the reel.
@@ -52,6 +53,8 @@ const SHANK_R = 0.028;
  * and one of them eventually will not.
  */
 export function buildHook(material: THREE.Material): THREE.Group {
+  const authored = salvageModel('forged-hook');
+  if (authored) return authored;
   const hook = new THREE.Group();
   hook.name = 'reel-hook';
 

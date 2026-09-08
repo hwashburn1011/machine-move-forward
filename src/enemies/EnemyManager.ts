@@ -20,6 +20,7 @@ const POOL_SIZE = 8;
  */
 export class EnemyManager {
   private readonly pool: Enemy[] = [];
+  private readonly modelByDefinition = new Map<string, LoadedModel | null>();
   private nextId = 0;
   private repathTick = 0;
 
@@ -48,6 +49,14 @@ export class EnemyManager {
     for (const enemy of this.pool) enemy.dispose();
     this.pool.length = 0;
     this.model = model;
+  }
+
+  /** Supply a visual variant for an enemy definition (e.g. authored raiders). */
+  setModelFor(defId: string, model: LoadedModel | null): void {
+    this.modelByDefinition.set(defId, model);
+    this.despawnAll();
+    for (const enemy of this.pool) enemy.dispose();
+    this.pool.length = 0;
   }
 
   get active(): Enemy[] {
@@ -80,7 +89,7 @@ export class EnemyManager {
         this.physics,
         this.bus,
         this.materials,
-        this.model,
+        this.modelByDefinition.get(defId) ?? this.model,
       );
       this.pool.push(enemy);
     }

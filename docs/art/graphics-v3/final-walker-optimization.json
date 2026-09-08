@@ -1,0 +1,198 @@
+{
+  "optimized": [
+    {
+      "asset": "machine-walker",
+      "sourceBytes": 14898348,
+      "optimizedBytes": 3003324,
+      "sourceGeometryBytes": 2852224,
+      "compressedGeometryBytes": 2120778,
+      "meshoptFallbackBufferBytes": 2852224,
+      "sourceTextureBytes": 11961683,
+      "webpTextureBytes": 745152,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "WalkerV3_PaintSage_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_PaintSage_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1125768,
+          "webpBytes": 16264,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_PaintSage_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986083,
+          "webpBytes": 98436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Graphite_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Graphite_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 935981,
+          "webpBytes": 6144,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_Graphite_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986318,
+          "webpBytes": 98382,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_BareSteel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_BareSteel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1228857,
+          "webpBytes": 36272,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_BareSteel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985946,
+          "webpBytes": 98428,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 731887,
+          "webpBytes": 5052,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 976176,
+          "webpBytes": 96828,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "assetRole": "walker-hull-shell",
+        "machineLocalAxes": "+X port-starboard, +Y up, +Z aft; prow -Z",
+        "visualOnly": true,
+        "deckExtentsMetres": "10x16",
+        "deckCenterY": 3.6,
+        "walkSurfaceY": 3.69,
+        "engineRoomFloorY": 0.6,
+        "stairwellOpening": "x[-3,-1], z[-2,2], aft edge open"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v3\\optimized\\machine-walker.glb"
+    }
+  ]
+}

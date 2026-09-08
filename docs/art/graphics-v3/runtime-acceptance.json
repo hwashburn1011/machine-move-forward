@@ -1,0 +1,574 @@
+{
+  "generatedAt": "2026-09-08T00:58:31.926Z",
+  "initial": {
+    "skinnedTriangles": 52156,
+    "kits": true,
+    "stations": [
+      "generator",
+      "refinery",
+      "workbench",
+      "crate",
+      "lamp"
+    ],
+    "stats": {
+      "calls": 642,
+      "tris": 1712281,
+      "skyBakes": 1,
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "distance": 0,
+      "chunks": 9,
+      "speed": 0,
+      "bodies": 37,
+      "playerY": 4.8,
+      "grounded": false,
+      "vy": 0,
+      "simTime": 0,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 0,
+      "particles": 0,
+      "scrap": 260,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    }
+  },
+  "quality": [
+    {
+      "tier": "low",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 0,
+        "gtao": false,
+        "gtaoWidth": 0,
+        "gtaoHeight": 0,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "lamps": 2,
+      "memory": {
+        "geometries": 188,
+        "textures": 210
+      },
+      "distance": 0.30910466962113975
+    },
+    {
+      "tier": "medium",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 2,
+        "gtao": false,
+        "gtaoWidth": 0,
+        "gtaoHeight": 0,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "lamps": 4,
+      "memory": {
+        "geometries": 188,
+        "textures": 212
+      },
+      "distance": 2.9800215835831736
+    },
+    {
+      "tier": "ultra",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": true,
+        "postBypassed": false
+      },
+      "lamps": 8,
+      "memory": {
+        "geometries": 188,
+        "textures": 218
+      },
+      "distance": 5.869497612777149
+    },
+    {
+      "tier": "high",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "lamps": 6,
+      "memory": {
+        "geometries": 188,
+        "textures": 218
+      },
+      "distance": 8.893284077330788
+    },
+    {
+      "tier": "low",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 0,
+        "gtao": false,
+        "gtaoWidth": 0,
+        "gtaoHeight": 0,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "lamps": 2,
+      "memory": {
+        "geometries": 188,
+        "textures": 210
+      },
+      "distance": 11.951029538073126
+    },
+    {
+      "tier": "medium",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 2,
+        "gtao": false,
+        "gtaoWidth": 0,
+        "gtaoHeight": 0,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "lamps": 4,
+      "memory": {
+        "geometries": 188,
+        "textures": 212
+      },
+      "distance": 15.017361177685746
+    },
+    {
+      "tier": "ultra",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": true,
+        "postBypassed": false
+      },
+      "lamps": 8,
+      "memory": {
+        "geometries": 188,
+        "textures": 218
+      },
+      "distance": 18.208619927644435
+    },
+    {
+      "tier": "high",
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "lamps": 6,
+      "memory": {
+        "geometries": 188,
+        "textures": 218
+      },
+      "distance": 21.27768132951587
+    }
+  ],
+  "combat": {
+    "fps": 59.78057131432952,
+    "p95Ms": 16.799999999999272,
+    "p99Ms": 16.80000000000291,
+    "peakEnemies": 8,
+    "peakSubmittedTriangles": 3872031,
+    "stats": {
+      "calls": 1132,
+      "tris": 3433091,
+      "skyBakes": 2,
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "distance": 187,
+      "chunks": 9,
+      "speed": 7.37,
+      "bodies": 45,
+      "playerY": 4.666,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 25.633,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 8,
+      "particles": 272,
+      "scrap": 290,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    }
+  },
+  "checks": [
+    {
+      "name": "new skinned character is live",
+      "ok": true,
+      "detail": 52156
+    },
+    {
+      "name": "machine GLB is attached",
+      "ok": true
+    },
+    {
+      "name": "all five station modules registered",
+      "ok": true,
+      "detail": [
+        "generator",
+        "refinery",
+        "workbench",
+        "crate",
+        "lamp"
+      ]
+    },
+    {
+      "name": "quality toggles real AO and MSAA",
+      "ok": true,
+      "detail": [
+        {
+          "tier": "low",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 0,
+            "gtao": false,
+            "gtaoWidth": 0,
+            "gtaoHeight": 0,
+            "shimmer": false,
+            "postBypassed": false
+          },
+          "lamps": 2,
+          "memory": {
+            "geometries": 188,
+            "textures": 210
+          },
+          "distance": 0.30910466962113975
+        },
+        {
+          "tier": "medium",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 2,
+            "gtao": false,
+            "gtaoWidth": 0,
+            "gtaoHeight": 0,
+            "shimmer": false,
+            "postBypassed": false
+          },
+          "lamps": 4,
+          "memory": {
+            "geometries": 188,
+            "textures": 212
+          },
+          "distance": 2.9800215835831736
+        },
+        {
+          "tier": "ultra",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 4,
+            "gtao": true,
+            "gtaoWidth": 960,
+            "gtaoHeight": 540,
+            "shimmer": true,
+            "postBypassed": false
+          },
+          "lamps": 8,
+          "memory": {
+            "geometries": 188,
+            "textures": 218
+          },
+          "distance": 5.869497612777149
+        },
+        {
+          "tier": "high",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 4,
+            "gtao": true,
+            "gtaoWidth": 960,
+            "gtaoHeight": 540,
+            "shimmer": false,
+            "postBypassed": false
+          },
+          "lamps": 6,
+          "memory": {
+            "geometries": 188,
+            "textures": 218
+          },
+          "distance": 8.893284077330788
+        },
+        {
+          "tier": "low",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 0,
+            "gtao": false,
+            "gtaoWidth": 0,
+            "gtaoHeight": 0,
+            "shimmer": false,
+            "postBypassed": false
+          },
+          "lamps": 2,
+          "memory": {
+            "geometries": 188,
+            "textures": 210
+          },
+          "distance": 11.951029538073126
+        },
+        {
+          "tier": "medium",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 2,
+            "gtao": false,
+            "gtaoWidth": 0,
+            "gtaoHeight": 0,
+            "shimmer": false,
+            "postBypassed": false
+          },
+          "lamps": 4,
+          "memory": {
+            "geometries": 188,
+            "textures": 212
+          },
+          "distance": 15.017361177685746
+        },
+        {
+          "tier": "ultra",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 4,
+            "gtao": true,
+            "gtaoWidth": 960,
+            "gtaoHeight": 540,
+            "shimmer": true,
+            "postBypassed": false
+          },
+          "lamps": 8,
+          "memory": {
+            "geometries": 188,
+            "textures": 218
+          },
+          "distance": 18.208619927644435
+        },
+        {
+          "tier": "high",
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 4,
+            "gtao": true,
+            "gtaoWidth": 960,
+            "gtaoHeight": 540,
+            "shimmer": false,
+            "postBypassed": false
+          },
+          "lamps": 6,
+          "memory": {
+            "geometries": 188,
+            "textures": 218
+          },
+          "distance": 21.27768132951587
+        }
+      ]
+    },
+    {
+      "name": "quality cycling retains world progress",
+      "ok": true
+    },
+    {
+      "name": "quality cycling keeps geometry bounded",
+      "ok": true,
+      "detail": [
+        {
+          "geometries": 188,
+          "textures": 210
+        },
+        {
+          "geometries": 188,
+          "textures": 212
+        },
+        {
+          "geometries": 188,
+          "textures": 218
+        },
+        {
+          "geometries": 188,
+          "textures": 218
+        },
+        {
+          "geometries": 188,
+          "textures": 210
+        },
+        {
+          "geometries": 188,
+          "textures": 212
+        },
+        {
+          "geometries": 188,
+          "textures": 218
+        },
+        {
+          "geometries": 188,
+          "textures": 218
+        }
+      ]
+    },
+    {
+      "name": "staged combat exercised enemies",
+      "ok": true,
+      "detail": {
+        "fps": 59.78057131432952,
+        "p95Ms": 16.799999999999272,
+        "p99Ms": 16.80000000000291,
+        "peakEnemies": 8,
+        "peakSubmittedTriangles": 3872031,
+        "stats": {
+          "calls": 1132,
+          "tris": 3433091,
+          "skyBakes": 2,
+          "graphics": {
+            "logicalWidth": 1920,
+            "logicalHeight": 1080,
+            "pixelRatio": 1,
+            "drawingBufferWidth": 1920,
+            "drawingBufferHeight": 1080,
+            "msaaSamples": 4,
+            "gtao": true,
+            "gtaoWidth": 960,
+            "gtaoHeight": 540,
+            "shimmer": false,
+            "postBypassed": false
+          },
+          "distance": 187,
+          "chunks": 9,
+          "speed": 7.37,
+          "bodies": 45,
+          "playerY": 4.666,
+          "grounded": true,
+          "vy": 0,
+          "simTime": 25.633,
+          "hp": 100,
+          "ammo": "30/150",
+          "weapon": "rifle",
+          "enemies": 8,
+          "particles": 272,
+          "scrap": 290,
+          "pieces": 2,
+          "rooms": 1,
+          "buildMode": false,
+          "opening": "done",
+          "armed": true
+        }
+      }
+    },
+    {
+      "name": "no browser errors",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "method": "Real hardware Chrome 1080p High; explicit staged full eight-enemy pool plus boarding skiff stress, not a naturally played encounter."
+}

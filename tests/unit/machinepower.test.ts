@@ -67,9 +67,41 @@ describe('MachinePower fuel', () => {
   it('starts with the tank the handoff gives a new machine', () => {
     expect(new MachinePower().fuel).toBe(STARTING_FUEL);
   });
+
+  it('applies optional modifiers while preserving the default model', () => {
+    const power = poweredMachine(16);
+    power.setModifiers({ generationBonus: 6, fuelBurnMultiplier: 1.5 });
+    expect(power.capacity).toBe(22);
+    power.registerConsumer({ id: 'lamp', draw: 1, priority: 'light' });
+    const before = power.fuel;
+    run(power, 10);
+    expect(before - power.fuel).toBeCloseTo(10 * FUEL_BURN_PER_S * 1.5, 5);
+  });
+
+  it('clamps modified generation at zero without changing the tank cap', () => {
+    const power = poweredMachine(2);
+    power.setModifiers({ generationBonus: -2 });
+    expect(power.capacity).toBe(0);
+    power.restore({ fuel: FUEL_TANK_CAP * 2 });
+    expect(power.fuel).toBe(FUEL_TANK_CAP);
+    expect(power.addFuel(1)).toBe(0);
+  });
 });
 
 describe('MachinePower capacity', () => {
+  it('does not create standalone capacity without a live generator', () => {
+    const power = new MachinePower();
+    power.setModifiers({ generationBonus: 6 });
+    power.registerConsumer({ id: 'lamp', draw: 1, priority: 'light' });
+    expect(power.capacity).toBe(0);
+    expect(power.isPowered('lamp')).toBe(false);
+
+    power.registerProducer('dead-gen', 16);
+    power.setProducerHealth('dead-gen', 0);
+    expect(power.capacity).toBe(0);
+    expect(power.isPowered('lamp')).toBe(false);
+  });
+
   it('sums its producers', () => {
     const power = new MachinePower();
     power.registerProducer('gen-a', 16);
@@ -140,6 +172,27 @@ describe('MachinePower shedding', () => {
     const everything = loaded(1);
     expect(everything.isPowered('turret')).toBe(false);
     expect(everything.draw).toBe(0);
+  });
+
+  it('recovers a shed radio after removing the capacity reducing governor', () => {
+    const power = poweredMachine(16);
+    power.registerConsumer({ id: 'refinery', draw: 10, priority: 'station' });
+    power.registerConsumer({ id: 'radio', draw: 1, priority: 'station' });
+    power.registerConsumer({ id: 'gun', draw: 4, priority: 'defense' });
+
+    // Economy Governor takes the live generator from 16 to 14. Heavy Breech
+    // raises the gun draw to 4, so the 15 total exceeds capacity and the
+    // station class sheds as a whole, including the radio needed to uninstall.
+    power.setModifiers({ generationBonus: -2 });
+    expect(power.capacity).toBe(14);
+    expect(power.isPowered('radio')).toBe(false);
+
+    // Game's stable uninstall path removes the active module and restores the
+    // unmodified capacity, bringing the radio back without a fuel refill.
+    power.setModifiers({ generationBonus: 0 });
+    expect(power.capacity).toBe(16);
+    expect(power.isPowered('radio')).toBe(true);
+    expect(power.isPowered('refinery')).toBe(true);
   });
 
   it('restores in the exact reverse order as capacity comes back', () => {

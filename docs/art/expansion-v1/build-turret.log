@@ -1,0 +1,27 @@
+C:\Users\hwash\Documents\MachineMoveForward\tools\art\expansion_v1\build_assets.py:30: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat=bpy.data.materials.new('Expansion_StatusLamp');mat.use_nodes=True
+Info: Saved as "automatic-turret.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+21:32:08 | INFO: Starting glTF 2.0 export
+21:32:08 | INFO: Extracting primitive: Cube
+21:32:08 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:32:08 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:32:08 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:32:08 | INFO: Primitives created: 3
+21:32:08 | INFO: Extracting primitive: Cube.012
+21:32:08 | INFO: Primitives created: 1
+21:32:08 | INFO: Extracting primitive: Cylinder.009
+21:32:08 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:32:08 | INFO: Primitives created: 1
+21:32:08 | INFO: Extracting primitive: Cube.006
+21:32:08 | INFO: Primitives created: 3
+21:32:08 | INFO: Extracting primitive: Cube.004
+21:32:08 | INFO: Primitives created: 3
+21:32:08 | INFO: Extracting primitive: Torus
+21:32:08 | INFO: Primitives created: 2
+21:32:08 | INFO: Finished glTF 2.0 export in 0.07280755043029785 s
+
+EXPANSION_ASSET {"asset": "automatic-turret", "triangles": 10512, "meshes": 6, "bounds": {"min": [-0.6700000166893005, 0.0, -0.7070000171661377], "max": [0.6700000166893005, 1.3600000143051147, 0.6700000166893005]}, "markers": {"AutoTurretRoot": [0.0, 0.0, -0.0], "TurretYaw": [0.0, 0.7799999713897705, -0.0], "TurretPitch": [0.0, 1.149999976158142, -0.0], "Muzzle": [0.0, 1.1699999570846558, -0.6700000166893005], "TrackerHead": [0.30000001192092896, 1.25, -0.10000000149011612], "ServoInstalled": [-0.3499999940395355, 1.8199999332427979, 0.11999999731779099], "PowerLamp": [0.0, 0.4399999976158142, 0.3400000035762787]}, "bytes": 12724008}
+Blender 5.1.0 (hash adfe2921d5f3 built 2026-03-17 01:37:32)
+
+Blender quit

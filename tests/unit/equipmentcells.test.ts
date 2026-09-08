@@ -21,7 +21,9 @@ const blocked = new Set(projectEquipmentCells(machine.colliders).map((c) => `${c
 describe('equipment cell projection', () => {
   it('exempts exactly the railings, and they are tall enough to need it', () => {
     const exempt = machine.colliders.filter((c) => c.blocksBuild === false);
-    expect(exempt).toHaveLength(3);
+    // Port/rear rails plus the two fixed starboard spans and retracting gate.
+    expect(exempt).toHaveLength(5);
+    expect(exempt.filter((c) => c.expeditionGate)).toHaveLength(1);
     // If a rail were shorter than autostep the height rule would already have
     // spared it and the exemption would be dead code saying nothing.
     for (const c of exempt) {

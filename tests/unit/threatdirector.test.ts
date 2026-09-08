@@ -6,6 +6,7 @@ import {
   CONTACT_STAGGER_M,
   MERCY_HEALTH_FRACTION,
   RECOVERY_M,
+  SANCTUARY_RELEASE_M,
   ThreatDirector,
   type ThreatPhase,
 } from '@/enemies/ThreatDirector';
@@ -60,6 +61,14 @@ function nextWave(
 
   for (let i = 0; i < 4000; i++, at += 5) {
     const out = d.update(at, activeCount(), health);
+    // The normal pacing loop now includes a single external skiff after two
+    // infantry waves. These infantry-focused helpers finish that owned
+    // encounter so the old composition assertions continue to exercise only
+    // infantry behavior.
+    if (out.vehicle) {
+      d.finishExternalEncounter(at);
+      continue;
+    }
     if (out.entered === 'contact') {
       inWave = true;
       started = at;
@@ -84,6 +93,10 @@ function nextWaveKinds(
 
   for (let i = 0; i < 4000; i++, at += 5) {
     const out = d.update(at, activeCount(), health);
+    if (out.vehicle) {
+      d.finishExternalEncounter(at);
+      continue;
+    }
     if (out.entered === 'contact') inWave = true;
     if (out.spawn) kinds.push(out.spawn.defId);
     if (inWave && out.entered === 'engagement') break;
@@ -234,8 +247,7 @@ describe('ThreatDirector', () => {
   });
 
   it('is deterministic for a seed and different between seeds', () => {
-    const run = (seed: string): number[] =>
-      walk(new ThreatDirector(seed), 0, 6000, () => 0).spawns;
+    const run = (seed: string): number[] => walk(new ThreatDirector(seed), 0, 6000, () => 0).spawns;
 
     expect(run('same')).toEqual(run('same'));
     expect(run('one')).not.toEqual(run('two'));
@@ -278,5 +290,117 @@ describe('ThreatDirector', () => {
     restored.restore(JSON.parse(JSON.stringify(d.toSave())));
     expect(restored.currentPhase).toBe('contact');
     expect(restored.phaseEnds).toBe(Infinity);
+  });
+
+  it('requests one skiff after two survived infantry waves and keeps encounters exclusive', () => {
+    const d = new ThreatDirector('seed-skiff');
+    const first = nextWave(d, 0, () => 0);
+    const second = nextWave(d, first.end, () => 0);
+
+    let at = second.end;
+    let requestAt = -1;
+    let warningAt = -1;
+    for (let i = 0; i < 4000; i++, at += 5) {
+      const decision = d.update(at, 0, HEALTHY);
+      if (decision.entered === 'buildup') warningAt = at;
+      if (decision.vehicle) {
+        requestAt = at;
+        expect(decision.vehicle).toEqual({ type: 'skiff' });
+        expect(decision.spawn).toBeNull();
+        break;
+      }
+    }
+
+    expect(requestAt).toBeGreaterThan(0);
+    expect(requestAt - warningAt).toBeGreaterThanOrEqual(BUILDUP_M);
+    // Once requested, a live external encounter blocks both infantry and a
+    // second vehicle, even when the caller omits the fourth argument.
+    const held = d.update(requestAt + 500, 0, HEALTHY, true);
+    expect(held.vehicle).toBeNull();
+    expect(held.spawn).toBeNull();
+    expect(d.hasActiveExternalEncounter).toBe(true);
+  });
+
+  it('keeps at least 650m quiet after an external encounter, including a long-distance finish', () => {
+    const d = new ThreatDirector('seed-quiet');
+    d.finishExternalEncounter(50_000);
+
+    const duringRecovery = d.update(50_000 + RECOVERY_M - 1, 0, HEALTHY);
+    expect(duringRecovery.spawn).toBeNull();
+    expect(duringRecovery.vehicle).toBeNull();
+    expect(d.currentPhase).toBe('recovery');
+
+    const recoveryEdge = d.update(50_000 + RECOVERY_M, 0, HEALTHY);
+    expect(recoveryEdge.spawn).toBeNull();
+    expect(recoveryEdge.vehicle).toBeNull();
+    expect(recoveryEdge.entered).toBe('calm');
+
+    const beforeNextTelegraph = d.update(50_000 + RECOVERY_M + CALM_MIN - 1, 0, HEALTHY);
+    expect(beforeNextTelegraph.spawn).toBeNull();
+    expect(beforeNextTelegraph.vehicle).toBeNull();
+    expect(beforeNextTelegraph.entered).toBeNull();
+
+    let nextTelegraphAt = 50_000 + RECOVERY_M + CALM_MIN;
+    let nextTelegraph = d.update(nextTelegraphAt, 0, HEALTHY);
+    while (
+      !nextTelegraph.entered &&
+      nextTelegraphAt < 50_000 + RECOVERY_M + CALM_MIN + CALM_SPREAD
+    ) {
+      nextTelegraphAt += 5;
+      nextTelegraph = d.update(nextTelegraphAt, 0, HEALTHY);
+    }
+    expect(nextTelegraph.entered).toBe('buildup');
+    expect(nextTelegraphAt - 50_000).toBeGreaterThanOrEqual(RECOVERY_M + CALM_MIN);
+  });
+
+  it('restores recovery and the recurring skiff cadence through a JSON save', () => {
+    const original = new ThreatDirector('seed-save-skiff');
+    const first = nextWave(original, 0, () => 0);
+    const second = nextWave(original, first.end, () => 0);
+    let at = second.end;
+    let requestAt = -1;
+    for (let i = 0; i < 4000; i++, at += 5) {
+      const out = original.update(at, 0, HEALTHY);
+      if (out.vehicle) {
+        requestAt = at;
+        break;
+      }
+    }
+    expect(requestAt).toBeGreaterThan(0);
+    original.finishExternalEncounter(requestAt + 37);
+
+    const restored = new ThreatDirector('seed-save-skiff');
+    restored.restore(JSON.parse(JSON.stringify(original.toSave())));
+    expect(restored.currentPhase).toBe('recovery');
+    expect(restored.hasActiveExternalEncounter).toBe(false);
+    expect(restored.phaseEnds).toBe(requestAt + 37 + RECOVERY_M);
+
+    const originalFuture = walk(original, requestAt + 37, RECOVERY_M + CALM_MIN + 10, () => 0);
+    const restoredFuture = walk(restored, requestAt + 37, RECOVERY_M + CALM_MIN + 10, () => 0);
+    expect(restoredFuture.phases).toEqual(originalFuture.phases);
+    expect(restoredFuture.spawns).toEqual(originalFuture.spawns);
+  });
+
+  it('suppresses future schedules in a destination sanctuary and releases into 300m calm', () => {
+    const d = new ThreatDirector('seed-sanctuary');
+    d.setSanctuary(true, 500);
+    expect(d.update(50_000, 2, HEALTHY).spawn).toBeNull();
+    expect(d.currentPhase).toBe('calm');
+
+    d.setSanctuary(false, 500);
+    expect(d.update(500 + SANCTUARY_RELEASE_M - 1, 2, HEALTHY).spawn).toBeNull();
+    const released = d.update(500 + SANCTUARY_RELEASE_M, 2, HEALTHY);
+    expect(released.entered).toBe('calm');
+    expect(released.spawn).toBeNull();
+    expect(d.phaseEnds).toBe(500 + SANCTUARY_RELEASE_M + CALM_MIN);
+  });
+
+  it('does not erase active enemies when sanctuary begins', () => {
+    const d = new ThreatDirector('seed-sanctuary-live');
+    d.setSanctuary(true, 0);
+    const saved = d.toSave();
+    expect(saved.sanctuaryActive).toBe(true);
+    expect(d.update(10_000, 3, HEALTHY, true).spawn).toBeNull();
+    expect(d.hasActiveExternalEncounter).toBe(true);
   });
 });

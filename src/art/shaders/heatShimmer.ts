@@ -24,13 +24,13 @@ export const HeatShimmerShader = {
     tDiffuse: { value: null as THREE.Texture | null },
     tDepth: { value: null as THREE.Texture | null },
     uTime: { value: 0 },
-    uStrength: { value: 0.0035 },
+    uStrength: { value: 0.0018 },
     uCameraNear: { value: 0.1 },
     uCameraFar: { value: 2000 },
     /** Metres. Nothing closer than this shimmers at all. */
-    uNearFade: { value: 30 },
+    uNearFade: { value: 40 },
     /** Metres. Full strength from here out. */
-    uFarFull: { value: 70 },
+    uFarFull: { value: 100 },
   },
 
   vertexShader: /* glsl */ `

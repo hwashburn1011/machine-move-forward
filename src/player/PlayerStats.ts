@@ -140,4 +140,11 @@ export class PlayerStats {
     this.deathAnnounced = false;
     this.grace = 0;
   }
+
+  /** Restore persisted health without replaying damage or a respawn edge. */
+  restoreHealth(value: number): void {
+    this.hp = Number.isFinite(value) ? Math.max(0, Math.min(this.maxHealth, value)) : this.maxHealth;
+    this.deathAnnounced = this.hp <= 0;
+    this.grace = 0;
+  }
 }

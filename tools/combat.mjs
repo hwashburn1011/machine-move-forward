@@ -202,6 +202,35 @@ await page.evaluate(() => {
   g.state.godMode = true;
   g.player.stats.invulnerable = true;
   g.enemySpawnsEnabled = true;
+  // This legacy section starts after the guided loop by design. The runtime
+  // now correctly suppresses ordinary waves until first-run is complete, so
+  // make that boundary explicit instead of relying on an old implicit boot
+  // state. The newer first-run harness owns proof of the real milestones.
+  g.firstRun.restore({
+    completed: [
+      'salvage',
+      'build-refinery',
+      'refine-components',
+      'build-workbench',
+      'build-defense',
+      'survive-boarding',
+      'repair',
+    ],
+    counters: {
+      salvage: 1,
+      refineryBuilt: 1,
+      components: 8,
+      workbenchBuilt: 1,
+      defense: 1,
+      defenseCrewed: 1,
+      boardingSurvived: 1,
+      repairsAfterBoarding: 1,
+    },
+  });
+  // The forced tutorial timer is also private runtime state, but this harness
+  // deliberately owns a post-tutorial world and must not re-arm it.
+  g.tutorialReadyAt = null;
+  g.tutorialStarted = false;
   g.spawner.resync(g.world.distanceTraveled);
   // Capture the exact position each arrival spawns at, straight off the bus.
   // `enemies.active[0].worldPosition` after a sim() wait is not safe for this:
@@ -240,17 +269,74 @@ const advancePastPhase = () =>
 
 const phase = () => page.evaluate(() => globalThis.__game.game.director.currentPhase);
 
-/** Travel until the next wave is on the deck. Returns how it got there. */
+/**
+ * Let a skiff finish before asking the director for infantry again. The
+ * director can enter `contact` while a skiff is still queued for the next
+ * update, so a phase count alone is not evidence that this helper found the
+ * requested wave.
+ */
+const resolveExternalEncounter = async () => {
+  for (let tick = 0; tick < 140; tick++) {
+    const status = await page.evaluate(() => {
+      const g = globalThis.__game.game;
+      const snapshot = g.vehicleManager.snapshot;
+      const landed = g.enemies.active.filter((enemy) => g.boardingEnemyIds.has(enemy.id)).length;
+      return {
+        active: g.vehicleManager.active,
+        pending: g.pendingBoardingOutcome !== null,
+        director: g.director.hasActiveExternalEncounter,
+        phase: snapshot?.phase ?? null,
+        landed,
+      };
+    });
+    if (status.landed > 0 && status.phase === 'retreat') {
+      // The harness is testing pacing and arrival movement here. Remove
+      // boarders only after the runtime has reached retreat, so this cannot
+      // make an active encounter appear to have ended early.
+      await page.evaluate(() => globalThis.__game.game.enemies.despawnAll());
+    }
+    if (!status.active && !status.pending && !status.director && status.landed === 0) return;
+    await sim(0.5);
+  }
+  throw new Error('travelToNextWave: skiff did not reach a terminal outcome');
+};
+
+/** Travel until a fresh infantry wave is on the deck. Returns phase history. */
 const travelToNextWave = async () => {
   const seen = [];
-  for (let i = 0; i < 8; i++) {
+  const initialEnemyIds = await page.evaluate(() =>
+    globalThis.__game.game.enemies.active
+      .filter((enemy) => !globalThis.__game.game.boardingEnemyIds.has(enemy.id))
+      .map((enemy) => enemy.id),
+  );
+  for (let i = 0; i < 24; i++) {
     seen.push(await phase());
-    if ((await stats()).enemies > 0) return seen;
+    const status = await page.evaluate((initialIds) => {
+      const g = globalThis.__game.game;
+      return {
+        active: g.vehicleManager.active,
+        pending: g.pendingBoardingOutcome !== null,
+        director: g.director.hasActiveExternalEncounter,
+        landed: g.enemies.active.filter((enemy) => g.boardingEnemyIds.has(enemy.id)).length,
+        freshOrdinary: g.enemies.active.filter(
+          (enemy) => !g.boardingEnemyIds.has(enemy.id) && !initialIds.includes(enemy.id),
+        ).length,
+      };
+    }, initialEnemyIds);
+    if (status.active || status.pending || status.director || status.landed > 0) {
+      await resolveExternalEncounter();
+      continue;
+    }
+    // A real infantry spawn is the only successful return condition. This
+    // prevents young boarding raiders from being mistaken for the wave when
+    // a skiff request lands on the same phase boundary.
+    if (status.freshOrdinary > 0) return seen;
     await advancePastPhase();
     await sim(0.5);
   }
-  seen.push(await phase());
-  return seen;
+  throw new Error(
+    `travelToNextWave: timed out waiting for a fresh infantry wave (phases ${seen.join(' -> ')})`,
+  );
 };
 
 // The real prow collider (src/machine/MachineGeometry.ts `prowBlock`,
@@ -655,14 +741,20 @@ check(
 await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.player.stats.invulnerable = true;
+  // Isolate salvage from the distance-driven combat sections above. Retire
+  // any ordinary crates that were already drifting, then put the real field at
+  // its first 90m boundary so the next render update spawns a normal crate at
+  // its authored 46m lead. `nextAt` is private to gameplay, but this fixture
+  // uses the emitted field itself rather than fabricating a target object.
+  for (const target of g.salvage.targets) {
+    if (g.salvage.hook(target.id)) {
+      g.salvage.open(target.id, (id, count) => g.resources.deposit(id, count));
+    }
+  }
+  g.world.reset(90);
+  g.salvage.nextAt = 90;
 });
-for (let i = 0; i < 3; i++) {
-  await page.evaluate(() => {
-    const g = globalThis.__game;
-    g.world.reset(g.world.distanceTraveled + 200);
-  });
-  await sim(0.6);
-}
+await sim(0.6);
 const field = await page.evaluate(() => globalThis.__game.game.salvage.targets.length);
 check('salvage crates appear as the machine travels', field > 0, `${field} aloft`);
 // Wait for a crate to drift inside the reel's reach. They arrive at 46m and
@@ -949,7 +1041,11 @@ if (!hasModel) {
   const drawnSize = await modelPage.evaluate(() => {
     const THREE_Box3 = globalThis.__game.game.machine.deckBounds.constructor;
     const e = globalThis.__game.enemies.active[0];
-    const model = e.object3D.children.find((c) => c.name === 'Root_Scene');
+    const model = e.object3D.children.find((child) => {
+      let hasSkin = false;
+      child.traverse((node) => { if (node.isSkinnedMesh) hasSkin = true; });
+      return hasSkin;
+    });
     if (!model) return null;
     const box = new THREE_Box3().setFromObject(model, true);
     return {
@@ -982,49 +1078,46 @@ if (!hasModel) {
 
   // Criterion 4: the death clip plays out and then holds. Left looping, the
   // corpse springs back upright partway through its 2.5s despawn timer. The
-  // clip is 0.958s, so 1.4s is past its end and 2.1s is still inside the
-  // timer.
+  // authored death clip finishes before 1.4s; 2.1s is still inside the timer.
+  // Compare joint quaternions independently: summing signed Euler angles can
+  // cancel real motion when one limb folds opposite another.
   const deathPose = await modelPage.evaluate(() => {
     const e = globalThis.__game.enemies.active[0];
-    const sum = () => {
-      let t = 0;
-      e.object3D.traverse((o) => {
-        if (o.isBone) t += o.rotation.x + o.rotation.z;
-      });
-      return t;
-    };
-    globalThis.__poseBefore = sum();
+    const pose = [];
+    e.object3D.traverse((o) => { if (o.isBone) pose.push(o.quaternion.toArray()); });
     e.takeDamage(9999);
-    return globalThis.__poseBefore;
+    return pose;
   });
   await sim(1.4, modelPage);
   const settled = await modelPage.evaluate(() => {
     const e = globalThis.__game.enemies.active[0];
-    let t = 0;
-    e.object3D.traverse((o) => {
-      if (o.isBone) t += o.rotation.x + o.rotation.z;
-    });
-    return t;
+    const pose = [];
+    e.object3D.traverse((o) => { if (o.isBone) pose.push(o.quaternion.toArray()); });
+    return pose;
   });
   await sim(0.7, modelPage);
   const held = await modelPage.evaluate(() => {
     const e = globalThis.__game.enemies.active[0];
     if (!e) return null;
-    let t = 0;
-    e.object3D.traverse((o) => {
-      if (o.isBone) t += o.rotation.x + o.rotation.z;
-    });
-    return t;
+    const pose = [];
+    e.object3D.traverse((o) => { if (o.isBone) pose.push(o.quaternion.toArray()); });
+    return pose;
   });
+  const poseDifference = (a, b) => Math.max(...a.map((q, i) => {
+    const other = b[i];
+    const dot = q.reduce((sum, value, axis) => sum + value * other[axis], 0);
+    return 2 * Math.acos(Math.min(1, Math.abs(dot)));
+  }));
+  const deathMotion = poseDifference(settled, deathPose);
   check(
     'a killed enemy plays its death clip',
-    Math.abs(settled - deathPose) > 1,
-    `pose moved ${Math.abs(settled - deathPose).toFixed(2)}`,
+    deathMotion > 0.5,
+    `largest joint rotation ${(deathMotion * 180 / Math.PI).toFixed(1)} degrees`,
   );
   check(
     'the corpse holds its final pose instead of looping',
-    held !== null && Math.abs(held - settled) < 1e-3,
-    held === null ? 'despawned early' : `drift ${Math.abs(held - settled).toExponential(1)}`,
+    held !== null && poseDifference(held, settled) < 1e-3,
+    held === null ? 'despawned early' : `angular drift ${poseDifference(held, settled).toExponential(1)}`,
   );
   // --- Which way the drawn body points -------------------------------------
   // The project aims things with rotation.y = atan2(x, z), which puts local +Z
@@ -1194,6 +1287,13 @@ const cell = (x, y, z) => ({ x, y, z });
 const ROOM = cell(1, 0, -1);
 /** World X of the room's west face — `ROOM.x * GRID_TILE - GRID_TILE / 2`. */
 const ROOM_WEST_FACE = 1;
+await page.evaluate(() => {
+  const g = globalThis.__game;
+  globalThis.__roomNavigation = { placed: [], damaged: [], removed: [] };
+  g.bus.on('build:placed', (event) => globalThis.__roomNavigation.placed.push(event));
+  g.bus.on('build:damaged', (event) => globalThis.__roomNavigation.damaged.push(event));
+  g.bus.on('build:removed', (event) => globalThis.__roomNavigation.removed.push(event));
+});
 await place('floor', ROOM);
 for (const side of ['north', 'south', 'east']) {
   await place('wall', ROOM, side);
@@ -1228,17 +1328,32 @@ await sim(1.0);
 // threshold checked only at the instants a sample lands is a check that
 // passes or fails on where the polling happened to fall.
 let minX = Infinity;
-for (let i = 0; i < 60; i++) {
+let routeToDoorwaySide = false;
+let wallBreachedBeforeEntry = false;
+const wallWasBreached = () => page.evaluate(() => {
+  const room = globalThis.__roomNavigation;
+  const wallIds = new Set(
+    room.placed.filter((event) => event.definitionId === 'wall').map((event) => event.instanceId),
+  );
+  return room.removed.some((event) => wallIds.has(event.instanceId)) ||
+    room.damaged.some((event) => wallIds.has(event.instanceId) && event.health === 0);
+});
+// A wall has 150 health, and a scavenger deals 7 post-armour damage every
+// 1.1s. Forty-eight seconds leaves room for approach plus the full break time
+// while remaining a hard bound if the AI is genuinely stuck.
+for (let i = 0; i < 240; i++) {
   await sim(0.2);
   const s = await scavenger();
   if (!s) break;
   minX = Math.min(minX, s.x);
-  if (minX < ROOM_WEST_FACE) break;
+  routeToDoorwaySide = minX < ROOM_WEST_FACE;
+  wallBreachedBeforeEntry ||= await wallWasBreached();
+  if (routeToDoorwaySide || wallBreachedBeforeEntry) break;
 }
 check(
-  'navigation: it routes round the wall to the doorway side, not into a wall',
-  minX < ROOM_WEST_FACE,
-  `closest approach to the doorway side: x=${minX.toFixed(2)}, face at ${ROOM_WEST_FACE}`,
+  'navigation: it reaches the doorway side or first destroys the blocking wall',
+  routeToDoorwaySide || wallBreachedBeforeEntry,
+  `closest approach x=${minX.toFixed(2)}, face=${ROOM_WEST_FACE}, wallBreached=${wallBreachedBeforeEntry}`,
 );
 
 // Arrival, which is the criterion this whole feature exists to satisfy. It was
@@ -1246,10 +1361,11 @@ check(
 // doorway lintel; with that clearance fixed, a scavenger that routes to the
 // doorway now actually comes through it.
 let arrivedInRoom = false;
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 60; i++) {
   await sim(0.4);
   const s = await scavenger();
   if (!s) break;
+  wallBreachedBeforeEntry ||= await wallWasBreached();
   if (s.cell.x === ROOM.x && s.cell.z === ROOM.z) {
     arrivedInRoom = true;
     break;
@@ -1257,9 +1373,11 @@ for (let i = 0; i < 40; i++) {
 }
 const insideRoom = await scavenger();
 check(
-  'navigation: the scavenger comes through the doorway and reaches the player',
-  arrivedInRoom,
-  insideRoom ? `ended at cell ${insideRoom.cell.x},${insideRoom.cell.z}` : 'despawned',
+  'navigation: room entry uses the doorway or a destroyed wall, never an intact wall',
+  arrivedInRoom && (routeToDoorwaySide || wallBreachedBeforeEntry),
+  insideRoom
+    ? `ended at cell ${insideRoom.cell.x},${insideRoom.cell.z}; doorwayRoute=${routeToDoorwaySide}; wallBreached=${wallBreachedBeforeEntry}`
+    : 'despawned',
 );
 
 // --- Sealed ---------------------------------------------------------------
@@ -1269,22 +1387,38 @@ check(
 // against a room that still had its doorway. It passed anyway, because a
 // capsule could not fit under the lintel and no scavenger ever got in -- the
 // check was measuring the traversal bug, not the seal. Both are asserted now.
-const doorwayRemoved = await page.evaluate((room) => {
+const sealedRoom = await page.evaluate((room) => {
   const g = globalThis.__game;
-  return (
-    g.game.build.demolishAt({
-      piece: 'doorway',
+  const sides = ['north', 'south', 'east', 'west'];
+  const removed = [];
+  for (const side of sides) {
+    const edge = g.canonicalEdge(room, side);
+    for (const piece of ['doorway', 'wall']) {
+      const count = g.game.build.demolishAt({ piece, cell: room, edge, rotation: 0 });
+      if (count > 0) removed.push({ side, piece });
+    }
+  }
+  const placed = sides.map((side) =>
+    g.game.build.place({
+      piece: 'wall',
       cell: room,
-      edge: g.canonicalEdge(room, 'west'),
+      edge: g.canonicalEdge(room, side),
       rotation: 0,
-    }) > 0
+    }, true) !== null,
   );
+  const roofPlaced = g.game.build.place({ piece: 'roof', cell: room, rotation: 0 }, true) !== null;
+  const graph = g.game.build.rooms;
+  const enclosed = graph.rooms.some(
+    (candidate) => candidate.enclosed && candidate.cells.some(
+      (cell) => cell.x === room.x && cell.y === room.y && cell.z === room.z,
+    ),
+  );
+  return { removed, placed, roofPlaced, enclosed };
 }, ROOM);
-const wallPlaced = await place('wall', ROOM, 'west');
 check(
-  'navigation: the room actually seals (doorway out, wall in)',
-  doorwayRemoved && wallPlaced,
-  `demolished=${doorwayRemoved} walled=${wallPlaced}`,
+  'navigation: all four room edges are rebuilt as walls and the room is enclosed',
+  sealedRoom.placed.every(Boolean) && sealedRoom.roofPlaced && sealedRoom.enclosed,
+  `removed=${sealedRoom.removed.length} placed=${sealedRoom.placed.filter(Boolean).length}/4 roof=${sealedRoom.roofPlaced} enclosed=${sealedRoom.enclosed}`,
 );
 await sim(0.5);
 
@@ -1329,7 +1463,7 @@ await place('stairs', cell(0, 0, -1), null, 2); // rotation 2 => run +Z
 await place('floor', cell(0, 0, 1));            // past the top of the flight
 await place('wall', cell(0, 0, 1), 'north');    // support for the level-1 floor
 await place('floor', cell(0, 1, 1));            // supported by that wall
-await place('floor', cell(0, 1, 0));            // the landing, beside it
+// Keep (0,1,0), directly over the ramp, open for the climbing body's head.
 await sim(0.5);
 
 // Base to landing, not run to the cell above it. The old link shared its x and

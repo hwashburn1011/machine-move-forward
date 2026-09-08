@@ -29,15 +29,6 @@ async function sim(page: Page, seconds: number) {
     .toBeGreaterThanOrEqual(seconds);
 }
 
-/**
- * Three's math classes, served by Vite from the real dependency.
- *
- * The page has no bare `three` specifier to import — the app's own imports are
- * rewritten at build time — so a harness that wants a Vector3 has to ask for
- * the file by path.
- */
-const THREE_URL = '/node_modules/three/build/three.module.js';
-
 test.describe('what the player can see', () => {
   let errors: string[];
 
@@ -135,12 +126,17 @@ test.describe('what the player can see', () => {
     await ready(page);
     await sim(page, 3);
 
-    const measure = (threeUrl: string) =>
-      page.evaluate(async (url) => {
-        const THREE = (await import(/* @vite-ignore */ url)) as typeof import('three');
-        const root = (
-          globalThis as never as { __game: { player: { object3D: import('three').Object3D } } }
-        ).__game.player.object3D;
+    const measure = () =>
+      page.evaluate(() => {
+        const game = (
+          globalThis as never as {
+            __game: {
+              player: { object3D: import('three').Object3D };
+              machine: { deckBounds: import('three').Box3 };
+            };
+          }
+        ).__game;
+        const root = game.player.object3D;
         root.updateMatrixWorld(true);
 
         let mount: import('three').Object3D | null = null;
@@ -149,30 +145,42 @@ test.describe('what the player can see', () => {
         root.traverse((o) => {
           if (o.name === 'held-weapon') mount = o;
           if (!(o as import('three').Bone).isBone) return;
-          const name = o.name.toLowerCase();
-          if (name.endsWith('righthand')) wrist = o;
+          const name = o.name.toLowerCase().replace(/[:_\s.-]/g, '');
+          if (name.endsWith('righthand') || name === 'handr') wrist = o;
           if (name.includes('righthandmiddle1')) knuckle = o;
         });
-        if (!mount || !wrist || !knuckle) return null;
+        const authoredRig = !!root.getObjectByName('MMF_Player');
+        if (!mount || !wrist || (!knuckle && !authoredRig)) return null;
         const m: import('three').Object3D = mount;
         const w: import('three').Object3D = wrist;
-        const k: import('three').Object3D = knuckle;
+        const k = knuckle as import('three').Object3D | null;
 
-        const handPos = w.getWorldPosition(new THREE.Vector3());
-        const muzzle = new THREE.Vector3(0, 0, 1).applyQuaternion(
-          m.getWorldQuaternion(new THREE.Quaternion()),
-        );
-        const finger = k.getWorldPosition(new THREE.Vector3()).sub(handPos).normalize();
+        // Clone live math objects so this also runs against the production
+        // bundle, which does not serve development node_modules URLs.
+        const handPos = w.getWorldPosition(root.position.clone());
+        const muzzle = root.position
+          .clone()
+          .set(0, 0, 1)
+          .applyQuaternion(m.getWorldQuaternion(root.quaternion.clone()));
+        // The original engineer has a rigid glove rather than finger bones.
+        // Its authored hand frame points the fingers down local +Y.
+        const finger = k
+          ? k.getWorldPosition(root.position.clone()).sub(handPos).normalize()
+          : root.position
+              .clone()
+              .set(0, 1, 0)
+              .applyQuaternion(w.getWorldQuaternion(root.quaternion.clone()));
 
-        const box = new THREE.Box3().setFromObject(m, true);
-        const centre = box.getCenter(new THREE.Vector3());
+        const box = game.machine.deckBounds.clone().setFromObject(m, true);
+        const grip = m.getObjectByName('MMF_scrap-rifle') ?? m.getObjectByName('MMF_scrap-shotgun');
+        if (!grip?.userData.gripOrigin) return null;
 
         return {
           alignment: muzzle.dot(finger),
           length: box.min.distanceTo(box.max),
-          reach: centre.distanceTo(handPos),
+          reach: grip.getWorldPosition(root.position.clone()).distanceTo(handPos),
         };
-      }, threeUrl);
+      });
 
     for (const [slot, name] of [
       ['1', 'rifle'],
@@ -188,7 +196,7 @@ test.describe('what the player can see', () => {
       for (const walking of [false, true]) {
         if (walking) await page.keyboard.down('w');
         await sim(page, 1.2);
-        const m = await measure(THREE_URL);
+        const m = await measure();
         if (walking) await page.keyboard.up('w');
 
         expect(m, `${name}: the held weapon and the right hand must both exist`).not.toBeNull();
@@ -205,8 +213,9 @@ test.describe('what the player can see', () => {
         // Scaled to a real weapon rather than to the author's own units.
         expect(length, where).toBeGreaterThan(0.8);
         expect(length, where).toBeLessThan(1.1);
-        // Gripped rather than floating beside the hand.
-        expect(reach, where).toBeLessThan(0.35);
+        // The authored GLBs put their origin at the grip. Measure that point,
+        // not the centre of a barrel extending well beyond the glove.
+        expect(reach, where).toBeLessThan(0.08);
       }
     }
     expect(errors).toEqual([]);

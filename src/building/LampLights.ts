@@ -114,6 +114,29 @@ export class LampLights {
     return this.assigned;
   }
 
+  /** Resize the fixed light pool at a quality transition without leaving ghosts. */
+  applyQuality(maxLights: number): void {
+    const next = Math.max(0, Math.floor(maxLights));
+    while (this.lights.length > next) {
+      const light = this.lights.pop();
+      if (!light) break;
+      light.visible = false;
+      this.group.remove(light);
+      light.dispose();
+    }
+    while (this.lights.length < next) {
+      const light = new THREE.PointLight(LAMP_COLOR, LAMP_INTENSITY, LAMP_RANGE, 2);
+      light.castShadow = false;
+      light.visible = false;
+      this.lights.push(light);
+      this.group.add(light);
+    }
+    if (this.assigned.length > next) this.assigned = this.assigned.slice(0, next);
+    // Force a fresh assignment on the next update. Removed lights are already
+    // hidden, so reducing quality cannot leave an orphaned glow in the scene.
+    this.sinceReassign = LAMP_REASSIGN_S;
+  }
+
   /**
    * Move the pool onto the nearest lit lamps.
    *

@@ -3,6 +3,8 @@ import {
   FUEL_TANK_CAP,
   PRIORITY_ORDER,
   STARTING_FUEL,
+  DEFAULT_POWER_MODIFIERS,
+  type PowerModifiers,
   type PowerPriority,
 } from '@/data/power';
 
@@ -56,6 +58,7 @@ interface Producer {
  */
 export class MachinePower {
   private tank = STARTING_FUEL;
+  private modifiers: PowerModifiers = { ...DEFAULT_POWER_MODIFIERS };
   private readonly producers = new Map<string, Producer>();
   private readonly consumers = new Map<string, PowerConsumer>();
 
@@ -71,12 +74,33 @@ export class MachinePower {
     return this.tank;
   }
 
+  get fuelCapacity(): number {
+    return FUEL_TANK_CAP;
+  }
+
+  get activeModifiers(): PowerModifiers {
+    return { ...this.modifiers };
+  }
+
+  /** Set the active power upgrade without changing the default model. */
+  setModifiers(next?: Partial<PowerModifiers>): void {
+    this.modifiers = {
+      generationBonus: Number.isFinite(next?.generationBonus)
+        ? (next?.generationBonus as number)
+        : 0,
+      fuelBurnMultiplier: Number.isFinite(next?.fuelBurnMultiplier)
+        ? Math.max(0, next?.fuelBurnMultiplier as number)
+        : 1,
+    };
+    this.dirty = true;
+  }
+
   /**
    * Put fuel in. Returns how much was ACCEPTED, so the caller can put the
    * remainder back rather than quietly evaporating a player's salvage.
    */
   addFuel(units: number): number {
-    const accepted = Math.max(0, Math.min(units, FUEL_TANK_CAP - this.tank));
+    const accepted = Math.max(0, Math.min(units, this.fuelCapacity - this.tank));
     if (accepted === 0) return 0;
     this.tank += accepted;
     this.dirty = true;
@@ -142,7 +166,9 @@ export class MachinePower {
     if (this.tank <= 0) return 0;
     let total = 0;
     for (const producer of this.producers.values()) total += producer.capacity * producer.health;
-    return total;
+    // A power upgrade strengthens a live generator; it cannot create supply
+    // after every generator is removed or destroyed.
+    return total > 0 ? Math.max(0, total + this.modifiers.generationBonus) : 0;
   }
 
   /** What the POWERED devices are drawing. Shed devices draw nothing. */
@@ -172,7 +198,10 @@ export class MachinePower {
   fixedUpdate(dt: number): PowerEvent[] {
     this.settle();
     if (this.powered.size > 0 && this.tank > 0) {
-      this.tank = Math.max(0, this.tank - FUEL_BURN_PER_S * Math.max(0, dt));
+      this.tank = Math.max(
+        0,
+        this.tank - FUEL_BURN_PER_S * this.modifiers.fuelBurnMultiplier * Math.max(0, dt),
+      );
       this.dirty = true;
     }
     this.settle();
@@ -189,7 +218,7 @@ export class MachinePower {
    * written as a placeholder ever since, so there is nothing here to migrate.
    */
   restore(saved: MachinePowerSave | undefined): void {
-    this.tank = saved ? Math.max(0, Math.min(FUEL_TANK_CAP, saved.fuel)) : STARTING_FUEL;
+    this.tank = saved ? Math.max(0, Math.min(this.fuelCapacity, saved.fuel)) : STARTING_FUEL;
     this.dirty = true;
     // A load is not an edge the player should hear a breaker for.
     this.announced = null;

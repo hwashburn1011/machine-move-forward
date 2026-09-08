@@ -1,0 +1,35 @@
+PASS  a fresh boot starts on salvage
+PASS  the manual gun starts locked
+PASS  the live salvage crate can be hooked
+PASS  opening the live crate advances salvage
+PASS  salvage grants the manual gun blueprint once
+PASS  real floor placement supports the refinery
+PASS  the refinery placement advances the objective
+PASS  the powered refinery makes eight components in four batches
+PASS  eight crafted components advance the guided objective -- 10 components
+PASS  the workbench is built through normal resource costs
+PASS  the workbench advances the guided objective
+PASS  the unlocked manual gun mounts on a real floor
+PASS  the manual gun opens through the game interaction path
+PASS  the manual gun is crewed through the game interaction seam
+PASS  crewing the gun enters the boarding objective
+PASS  the tutorial has a real fifteen-second simulated ready window -- 15.000333333333332s
+PASS  the acceptance run has a real damaged subsystem to repair
+PASS  the tutorial skiff starts after the ready window
+PASS  the tutorial skiff hull is a live physics Damageable
+PASS  hull defense reaches the tutorial terminal outcome
+PASS  the damaged boarding outcome enters repair
+PASS  the tutorial defense starts the normal recovery window
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.evaluate: Execution context was destroyed, most likely because of a navigation
+    at simTime (C:\Users\hwash\Documents\MachineMoveForward\tools\first-run.mjs:32:28)
+    at sim (C:\Users\hwash\Documents\MachineMoveForward\tools\first-run.mjs:36:17)
+    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/first-run.mjs:292:3 {
+  log: [],
+  name: 'Error'
+}
+
+Node.js v24.14.1

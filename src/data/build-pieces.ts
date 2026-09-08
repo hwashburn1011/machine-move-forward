@@ -21,6 +21,9 @@ export type PieceId =
   | 'stove'
   | 'condenser'
   | 'planter'
+  | 'turret-manual'
+  | 'collector-auto'
+  | 'turret-auto'
   | 'chair'
   | 'table'
   | 'rug'
@@ -40,10 +43,15 @@ export type PieceId =
  * colliders derive from their geometry, and a piece with no collider is exempt
  * from it.
  */
-export type PieceCategory = 'structure' | 'station' | 'decor';
+export type PieceCategory = 'structure' | 'station' | 'automation' | 'decor';
 
 /** Every category, in the order the build HUD pages through them. */
-export const PIECE_CATEGORIES: readonly PieceCategory[] = ['structure', 'station', 'decor'];
+export const PIECE_CATEGORIES: readonly PieceCategory[] = [
+  'structure',
+  'station',
+  'automation',
+  'decor',
+];
 
 /** How a piece attaches to the grid. */
 export type PieceAnchor =
@@ -288,6 +296,45 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     blocksNavigation: false,
     rotatable: false,
   },
+  'turret-manual': {
+    id: 'turret-manual',
+    name: 'Manual Deck Gun',
+    category: 'station',
+    anchor: 'cell',
+    cost: { scrap: 42, components: 4 },
+    weight: 210,
+    maxHealth: 150,
+    armor: 2,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: true,
+  },
+  'collector-auto': {
+    id: 'collector-auto',
+    name: 'Automatic Salvage Collector',
+    category: 'station',
+    anchor: 'cell',
+    cost: { scrap: 55, components: 6 },
+    weight: 280,
+    maxHealth: 130,
+    armor: 1,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: false,
+  },
+  'turret-auto': {
+    id: 'turret-auto',
+    name: 'Automatic Defense Turret',
+    category: 'station',
+    anchor: 'cell',
+    cost: { scrap: 65, components: 8 },
+    weight: 190,
+    maxHealth: 120,
+    armor: 1,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: true,
+  },
 
   // --- Decoration ---------------------------------------------------------
   // Four pieces that do nothing. No collider, no room boundary, no navigation
@@ -350,6 +397,13 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
 
 /** Every piece in one category, in selection order. */
 export function piecesInCategory(category: PieceCategory): PieceId[] {
+  if (category === 'automation')
+    return BUILD_PIECE_ORDER.filter((id) => id === 'collector-auto' || id === 'turret-auto');
+  if (category === 'station')
+    return BUILD_PIECE_ORDER.filter(
+      (id) =>
+        BUILD_PIECES[id].category === category && id !== 'collector-auto' && id !== 'turret-auto',
+    );
   return BUILD_PIECE_ORDER.filter((id) => BUILD_PIECES[id].category === category);
 }
 
@@ -360,9 +414,9 @@ export function piecesInCategory(category: PieceCategory): PieceId[] {
  * table and forgotten here would place into the wrong grid layer and be
  * demolished by whatever else happened to own its cell.
  */
-export const STATION_PIECES: readonly PieceId[] = (
-  Object.keys(BUILD_PIECES) as PieceId[]
-).filter((id) => BUILD_PIECES[id].category === 'station');
+export const STATION_PIECES: readonly PieceId[] = (Object.keys(BUILD_PIECES) as PieceId[]).filter(
+  (id) => BUILD_PIECES[id].category === 'station',
+);
 
 export function isStation(piece: PieceId): boolean {
   return BUILD_PIECES[piece].category === 'station';
@@ -375,9 +429,9 @@ export function isStation(piece: PieceId): boolean {
  * a rug under a workbench is two things in one cell, and sharing a map would
  * mean placing one silently OVERWROTE the other's owner entry.
  */
-export const DECOR_PIECES: readonly PieceId[] = (
-  Object.keys(BUILD_PIECES) as PieceId[]
-).filter((id) => BUILD_PIECES[id].category === 'decor');
+export const DECOR_PIECES: readonly PieceId[] = (Object.keys(BUILD_PIECES) as PieceId[]).filter(
+  (id) => BUILD_PIECES[id].category === 'decor',
+);
 
 export function isDecor(piece: PieceId): boolean {
   return BUILD_PIECES[piece].category === 'decor';
@@ -460,12 +514,28 @@ export const BUILD_PIECE_ORDER: readonly PieceId[] = [
   'stove',
   'condenser',
   'planter',
+  'turret-manual',
+  'collector-auto',
+  'turret-auto',
   'lamp',
   'chair',
   'table',
   'rug',
   'shelf',
 ];
+
+/** Blueprint required before a piece may be placed. */
+export function requiredUnlockOf(piece: PieceId): string | null {
+  if (piece === 'collector-auto') return 'automatic-salvage-collector';
+  if (piece === 'turret-auto') return 'automatic-defense-turret';
+  if (piece === 'turret-manual') return 'manual-turret';
+  return null;
+}
+
+export function canBuildPiece(piece: PieceId, progression: { has(id: string): boolean }): boolean {
+  const required = requiredUnlockOf(piece);
+  return required === null || progression.has(required);
+}
 
 /** Fraction of the original cost returned when demolishing. */
 export const REFUND_FRACTION = 0.6;

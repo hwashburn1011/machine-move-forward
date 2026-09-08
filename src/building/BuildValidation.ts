@@ -34,6 +34,8 @@ export type RejectReason =
   | 'needs-clearance'
   /** A wall fixture with no wall under it. Distinct from `needs-support`. */
   | 'needs-wall'
+  | 'expedition-reserved'
+  | 'locked'
   | 'cannot-afford';
 
 export interface Validation {
@@ -62,6 +64,8 @@ export const REASON_TEXT: Record<RejectReason, string> = {
   'needs-floor': 'Needs a floor',
   'needs-clearance': 'Not enough clear space',
   'needs-wall': 'Needs a wall or doorway to hang on',
+  'expedition-reserved': 'Reserved for the active wreck and gangway',
+  locked: 'Blueprint not unlocked',
   'cannot-afford': 'Not enough materials',
 };
 
@@ -86,7 +90,10 @@ export function rotationDelta(rotation: number): { dx: number; dz: number } {
  * The three cells a staircase involves: the base it starts from, the run it
  * covers horizontally, and the landing it delivers you to one level up.
  */
-export function stairsCells(cell: Cell, rotation: number): {
+export function stairsCells(
+  cell: Cell,
+  rotation: number,
+): {
   base: Cell;
   run: Cell;
   landing: Cell;
@@ -98,6 +105,18 @@ export function stairsCells(cell: Cell, rotation: number): {
     run,
     landing: { x: run.x, y: run.y + 1, z: run.z },
   };
+}
+
+/**
+ * The walkable upper exit is one full cell beyond the run. `stairsCells`
+ * deliberately names the cell above the run `landing` because that is the
+ * stairwell opening which must remain clear; it is not where a body stands
+ * after leaving the flight.
+ */
+export function stairsExit(cell: Cell, rotation: number): Cell {
+  const { run } = stairsCells(cell, rotation);
+  const { dx, dz } = rotationDelta(rotation);
+  return { x: run.x + dx, y: run.y + 1, z: run.z + dz };
 }
 
 /** Does this cell have a floor? */
@@ -145,6 +164,13 @@ function validateCellPiece(grid: BuildGrid<PieceId>, p: Placement): Validation {
   if (!inEnvelope(cell)) return fail('out-of-bounds');
   if (grid.isBlocked(cell)) return fail('blocked');
 
+  // A floor placed after the stairs must not cap the opening above their run.
+  // The stairs layer stores the run at its lower level, so inspect the cell
+  // directly below the proposed floor rather than the floor layer itself.
+  if (p.piece === 'floor' && grid.hasStairs({ x: cell.x, y: cell.y - 1, z: cell.z })) {
+    return fail('needs-clearance');
+  }
+
   if (p.piece === 'roof') {
     if (grid.hasRoof(cell)) return fail('occupied');
     return hasFloor(grid, cell) ? OK : fail('needs-floor');
@@ -186,7 +212,6 @@ function validateDecor(grid: BuildGrid<PieceId>, p: Placement): Validation {
 }
 
 function validateFloorSupport(grid: BuildGrid<PieceId>, cell: Cell): Validation {
-
   if (cell.y === 0) return OK; // the chassis carries it
 
   // Above level 0, a floor needs something holding it up: a wall on the level

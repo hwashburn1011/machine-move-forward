@@ -256,7 +256,43 @@ export class RooftopSet {
       this.bodies.push(body);
     }
 
+    this.buildDressing();
+
     this.scene.add(this.group);
+  }
+
+  /**
+   * A few authored-looking roof details break up the broad procedural shell.
+   * They remain visual only: the collider list above is the trusted opening
+   * contract, so dressing can evolve without changing the jump or chase.
+   */
+  private buildDressing(): void {
+    const vent = bevelledBox(1.1, 0.42, 0.72, 0.08);
+    vent.translate(0, ROOFTOP_ROOF_Y + 0.21, -3.15);
+    const ventMesh = new THREE.Mesh(vent, this.materials.rustedSteel);
+    ventMesh.position.set(13.9, 0, 0);
+    ventMesh.castShadow = false;
+    ventMesh.receiveShadow = true;
+    this.geometries.push(vent);
+    this.group.add(ventMesh);
+
+    const tank = new THREE.CylinderGeometry(0.58, 0.64, 1.15, 12, 2);
+    tank.translate(15.7, ROOFTOP_ROOF_Y + 0.58, 2.8);
+    const tankMesh = new THREE.Mesh(tank, this.materials.hullDark);
+    tankMesh.castShadow = true;
+    tankMesh.receiveShadow = true;
+    this.geometries.push(tank);
+    this.group.add(tankMesh);
+
+    // A short antenna and its foot give the skyline a useful silhouette while
+    // staying clear of the ledge gap and the player spawn.
+    const mast = new THREE.CylinderGeometry(0.045, 0.07, 1.65, 8);
+    mast.translate(12.1, ROOFTOP_ROOF_Y + 0.83, 2.9);
+    const mastMesh = new THREE.Mesh(mast, this.materials.bareSteel);
+    mastMesh.castShadow = false;
+    mastMesh.receiveShadow = false;
+    this.geometries.push(mast);
+    this.group.add(mastMesh);
   }
 
   /**

@@ -85,6 +85,39 @@ describe('MachineMovement', () => {
     step(b, 3.5);
     expect(a.currentSpeed).toBe(b.currentSpeed);
   });
+
+  it('caps scripted speed without overwriting the stored player throttle', () => {
+    const m = new MachineMovement();
+    m.setThrottle(1);
+    m.setScriptedSpeedLimit(1.2);
+    expect(m.targetSpeed).toBeCloseTo(1.2, 6);
+    m.setScriptedSpeedLimit(null);
+    expect(m.targetSpeed).toBeCloseTo(m.maxSpeed, 6);
+  });
+
+  it('applies upgrade movement modifiers to speed, load, and acceleration', () => {
+    const baseline = new MachineMovement();
+    const tuned = new MachineMovement();
+    tuned.setModifiers({ speedMultiplier: 1.2, effectiveWeightMultiplier: 0.7, accelerationMultiplier: 0.5 });
+    expect(tuned.maxSpeed).toBeGreaterThan(baseline.maxSpeed);
+    tuned.fixedUpdate(FIXED_DT);
+    baseline.fixedUpdate(FIXED_DT);
+    expect(tuned.currentSpeed).toBeLessThan(baseline.currentSpeed);
+  });
+
+  it('keeps the torque clutch empty-machine penalty while improving a heavy payload', () => {
+    const emptyBaseline = new MachineMovement();
+    const emptyTorque = new MachineMovement();
+    emptyTorque.setModifiers({ speedMultiplier: 0.97, effectiveWeightMultiplier: 0.65, accelerationMultiplier: 0.7 });
+    expect(emptyTorque.maxSpeed).toBeCloseTo(emptyBaseline.maxSpeed * 0.97, 6);
+
+    const heavyBaseline = new MachineMovement();
+    heavyBaseline.totalWeight = REFERENCE_WEIGHT + 3000;
+    const heavyTorque = new MachineMovement();
+    heavyTorque.totalWeight = REFERENCE_WEIGHT + 3000;
+    heavyTorque.setModifiers({ speedMultiplier: 0.97, effectiveWeightMultiplier: 0.65, accelerationMultiplier: 0.7 });
+    expect(heavyTorque.maxSpeed).toBeGreaterThan(heavyBaseline.maxSpeed);
+  });
 });
 
 describe('a damaged machine', () => {

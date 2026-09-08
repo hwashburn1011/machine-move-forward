@@ -23,8 +23,8 @@ export const RECIPES: readonly Recipe[] = [
     id: 'refine-components',
     name: 'Refine Components',
     station: 'refinery',
-    inputs: { scrap: 4 },
-    output: { itemId: 'components', count: 1 },
+    inputs: { scrap: 8 },
+    output: { itemId: 'components', count: 2 },
   },
   {
     id: 'craft-rifle-ammo',

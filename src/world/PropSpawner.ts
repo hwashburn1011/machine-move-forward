@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { Rng } from '@/core/math/Random';
 import { CHUNK_SIZE_X, CHUNK_SIZE_Z } from '@/game/constants';
 import type { QualitySettings } from '@/core/renderer/QualitySettings';
@@ -49,29 +50,70 @@ export interface PropGeometries {
   rock: THREE.BufferGeometry;
   slab: THREE.BufferGeometry;
   debris: THREE.BufferGeometry;
+  scrap: THREE.BufferGeometry;
+  scrub: THREE.BufferGeometry;
   dispose(): void;
 }
 
 export function createPropGeometries(): PropGeometries {
-  // Irregular low-poly boulder. Detail 0 keeps it chunky, matching the
-  // art direction's preference for strong silhouettes over smooth surfaces.
-  const rock = new THREE.IcosahedronGeometry(1, 0);
-  jitterVertices(rock, 0.28, 991);
+  // An eroded icosphere gives boulders a rounded silhouette while the seeded
+  // radial distortion keeps them from reading as repeated golf balls. Detail
+  // 2 is still inexpensive when instanced and avoids the sharp tetrahedron
+  // profile of the former detail-0 primitive.
+  const rock = new THREE.IcosahedronGeometry(1, 2);
+  erodeBoulder(rock, 991);
 
-  const slab = new THREE.BoxGeometry(1, 0.34, 1.6);
-  jitterVertices(slab, 0.11, 313);
+  const slab = new THREE.BoxGeometry(1, 0.34, 1.6, 2, 1, 2);
+  softenEdges(slab, 313, 0.08);
 
-  const debris = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-  jitterVertices(debris, 0.2, 577);
+  const debris = new THREE.BoxGeometry(0.5, 0.5, 0.5, 1, 1, 1);
+  softenEdges(debris, 577, 0.12);
+
+  // Scrap is a compact, bent-sheet archetype: a folded plate, short pipe and
+  // a brace. Merging them keeps it to one instanced draw while its silhouette
+  // has more construction logic than another cube.
+  const scrapParts = [
+    new THREE.BoxGeometry(0.8, 0.08, 0.45),
+    new THREE.CylinderGeometry(0.08, 0.11, 0.7, 8),
+    new THREE.BoxGeometry(0.12, 0.5, 0.12),
+  ];
+  scrapParts[0]!.rotateZ(-0.18);
+  scrapParts[0]!.translate(0, 0.18, 0);
+  scrapParts[1]!.rotateZ(Math.PI / 2);
+  scrapParts[1]!.translate(0.12, 0.12, 0);
+  scrapParts[2]!.rotateZ(0.3);
+  scrapParts[2]!.translate(-0.28, 0.25, 0.12);
+  const scrap = BufferGeometryUtils.mergeGeometries(scrapParts, false) ?? debris.clone();
+  for (const part of scrapParts) part.dispose();
+  scrap.computeVertexNormals();
+
+  // Three tapered branches crossing at the root make a sparse dry scrub tuft.
+  // It is intentionally a small 3D form rather than a camera-facing card, so
+  // silhouettes hold up in grazing views without a texture dependency.
+  const scrubParts: THREE.BufferGeometry[] = [];
+  for (const [yaw, lean] of [[0, 0.22], [2.1, -0.16], [4.2, 0.12]] as const) {
+    const branch = new THREE.CylinderGeometry(0.018, 0.07, 0.9, 5, 1);
+    branch.rotateZ(lean);
+    branch.rotateY(yaw);
+    branch.translate(0, 0.42, 0);
+    scrubParts.push(branch);
+  }
+  const scrub = BufferGeometryUtils.mergeGeometries(scrubParts, false) ?? debris.clone();
+  for (const part of scrubParts) part.dispose();
+  scrub.computeVertexNormals();
 
   return {
     rock,
     slab,
     debris,
+    scrap,
+    scrub,
     dispose() {
       rock.dispose();
       slab.dispose();
       debris.dispose();
+      scrap.dispose();
+      scrub.dispose();
     },
   };
 }
@@ -92,6 +134,32 @@ function jitterVertices(geo: THREE.BufferGeometry, amount: number, seed: number)
   geo.computeVertexNormals();
 }
 
+function erodeBoulder(geo: THREE.BufferGeometry, seed: number): void {
+  const rng = new Rng(seed);
+  const pos = geo.attributes.position as THREE.BufferAttribute;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const y = pos.getY(i);
+    const z = pos.getZ(i);
+    const length = Math.max(Math.sqrt(x * x + y * y + z * z), 1e-5);
+    const direction = new THREE.Vector3(x / length, y / length, z / length);
+    const broad = 0.86 + rng.range(0, 0.25);
+    const vertical = 0.78 + rng.range(0, 0.24);
+    const lobe = 1 + Math.sin(direction.x * 4.1 + direction.z * 2.7) * 0.06;
+    pos.setXYZ(i, direction.x * broad * lobe, direction.y * vertical, direction.z * broad);
+  }
+  pos.needsUpdate = true;
+  geo.computeVertexNormals();
+  geo.computeBoundingBox();
+  geo.computeBoundingSphere();
+}
+
+function softenEdges(geo: THREE.BufferGeometry, seed: number, amount: number): void {
+  jitterVertices(geo, amount, seed);
+  geo.computeBoundingBox();
+  geo.computeBoundingSphere();
+}
+
 /**
  * The one material every model prop draws with.
  *
@@ -109,7 +177,9 @@ function wreckMaterial(): THREE.MeshStandardMaterial {
     color: new THREE.Color(0.82, 0.6, 0.45),
     roughness: 0.93,
     metalness: 0.06,
-    flatShading: true,
+    // Authored normals and smooth procedural boulders should reach the PBR
+    // shader intact; hard edges belong in the exported normals, not here.
+    flatShading: false,
   });
   return sharedWreckMaterial;
 }
@@ -134,11 +204,13 @@ type WreckKind = keyof typeof WRECK_KINDS;
 export class PropSpawner {
   readonly group = new THREE.Group();
 
-  private readonly rocks: THREE.InstancedMesh;
-  private readonly slabs: THREE.InstancedMesh;
-  private readonly debris: THREE.InstancedMesh;
+  private rocks: THREE.InstancedMesh;
+  private slabs: THREE.InstancedMesh;
+  private debris: THREE.InstancedMesh;
+  private scrap: THREE.InstancedMesh;
+  private scrub: THREE.InstancedMesh;
   /** Small scatter held close to the machine, for the flow it makes. */
-  private readonly nearField: THREE.InstancedMesh;
+  private nearField: THREE.InstancedMesh;
   /** Model props, when the packs loaded. Empty is a complete, valid state. */
   private readonly wrecks: { kind: WreckKind; mesh: THREE.InstancedMesh }[] = [];
   private readonly matrix = new THREE.Matrix4();
@@ -146,7 +218,10 @@ export class PropSpawner {
   private readonly euler = new THREE.Euler();
   private readonly scaleVec = new THREE.Vector3();
   private readonly posVec = new THREE.Vector3();
-  private readonly quality: QualitySettings;
+  private quality: QualitySettings;
+  private readonly geometries: PropGeometries;
+  private readonly materials: Materials;
+  private models: PropModelGeometries | null = null;
 
   constructor(
     quality: QualitySettings,
@@ -155,23 +230,30 @@ export class PropSpawner {
     models?: PropModelGeometries,
   ) {
     this.quality = quality;
+    this.geometries = geometries;
+    this.materials = materials;
     const n = quality.propsPerChunk;
     const rockCount = Math.max(1, Math.round(n * 0.55));
-    const slabCount = Math.max(1, Math.round(n * 0.25));
-    const debrisCount = Math.max(1, Math.round(n * 0.2));
+    const slabCount = Math.max(1, Math.round(n * 0.18));
+    const debrisCount = Math.max(1, Math.round(n * 0.14));
+    const scrapCount = Math.max(1, Math.round(n * 0.08));
+    const scrubCount = Math.max(1, Math.round(n * 0.05));
 
-    this.rocks = this.makeInstanced(geometries.rock, materials.rustedSteel, rockCount);
-    this.slabs = this.makeInstanced(geometries.slab, materials.hullDark, slabCount);
-    this.debris = this.makeInstanced(geometries.debris, materials.bareSteel, debrisCount);
+    this.rocks = this.makeInstanced(geometries.rock, materials.rustedSteel, rockCount, true);
+    this.slabs = this.makeInstanced(geometries.slab, materials.hullDark, slabCount, true);
+    this.debris = this.makeInstanced(geometries.debris, materials.bareSteel, debrisCount, false);
+    this.scrap = this.makeInstanced(geometries.scrap, materials.rustedSteel, scrapCount, false);
+    this.scrub = this.makeInstanced(geometries.scrub, materials.rustedSteel, scrubCount, false);
     // Deliberately generous. These are small, they are cheap, and they are the
     // only things in the scene close enough to read as speed.
     this.nearField = this.makeInstanced(
       geometries.debris,
       materials.rustedSteel,
       Math.max(6, Math.round(n * 1.1)),
+      false,
     );
 
-    this.group.add(this.rocks, this.slabs, this.debris, this.nearField);
+    this.group.add(this.rocks, this.slabs, this.debris, this.scrap, this.scrub, this.nearField);
 
     if (models) this.attachModels(models);
   }
@@ -185,30 +267,82 @@ export class PropSpawner {
    * middle distance cheaply, and these are the few things worth looking at.
    */
   attachModels(models: PropModelGeometries): void {
+    this.models = models;
+    for (const { mesh } of this.wrecks) {
+      this.group.remove(mesh);
+      mesh.dispose();
+    }
+    this.wrecks.length = 0;
     const budget = Math.max(2, Math.round(this.quality.propsPerChunk * 0.45));
 
     for (const kind of Object.keys(WRECK_KINDS) as WreckKind[]) {
-      const geometry = models[kind];
+      const template = models.templates?.[kind];
+      const geometry = template?.geometry ?? models[kind];
       if (!geometry) continue;
       const count = Math.max(1, Math.round(budget * WRECK_KINDS[kind].share));
-      const mesh = this.makeInstanced(geometry, wreckMaterial(), count);
+      const mesh = this.makeInstanced(
+        geometry,
+        template?.material ?? wreckMaterial(),
+        count,
+        kind === 'wreck',
+      );
       this.wrecks.push({ kind, mesh });
       this.group.add(mesh);
     }
+  }
+
+  /**
+   * Rebuild only this chunk's instance buffers after a quality transition.
+   * The seed and chunk index are supplied by WorldManager, so the same slot
+   * gets the same authored scatter at every quality tier.
+   */
+  applyQuality(quality: QualitySettings, worldSeed: string, chunkIndex: number): void {
+    if (quality.propsPerChunk === this.quality.propsPerChunk) return;
+    this.quality = quality;
+
+    for (const mesh of [this.rocks, this.slabs, this.debris, this.scrap, this.scrub, this.nearField]) {
+      this.group.remove(mesh);
+      mesh.dispose();
+    }
+
+    const n = quality.propsPerChunk;
+    const rockCount = Math.max(1, Math.round(n * 0.55));
+    const slabCount = Math.max(1, Math.round(n * 0.18));
+    const debrisCount = Math.max(1, Math.round(n * 0.14));
+    const scrapCount = Math.max(1, Math.round(n * 0.08));
+    const scrubCount = Math.max(1, Math.round(n * 0.05));
+    this.rocks = this.makeInstanced(this.geometries.rock, this.materials.rustedSteel, rockCount, true);
+    this.slabs = this.makeInstanced(this.geometries.slab, this.materials.hullDark, slabCount, true);
+    this.debris = this.makeInstanced(this.geometries.debris, this.materials.bareSteel, debrisCount, false);
+    this.scrap = this.makeInstanced(this.geometries.scrap, this.materials.rustedSteel, scrapCount, false);
+    this.scrub = this.makeInstanced(this.geometries.scrub, this.materials.rustedSteel, scrubCount, false);
+    this.nearField = this.makeInstanced(
+      this.geometries.debris,
+      this.materials.rustedSteel,
+      Math.max(6, Math.round(n * 1.1)),
+      false,
+    );
+    this.group.add(this.rocks, this.slabs, this.debris, this.scrap, this.scrub, this.nearField);
+    if (this.models) this.attachModels(this.models);
+    this.populate(worldSeed, chunkIndex);
   }
 
   private makeInstanced(
     geo: THREE.BufferGeometry,
     mat: THREE.Material,
     count: number,
+    castShadow: boolean,
   ): THREE.InstancedMesh {
+    geo.computeBoundingBox();
+    geo.computeBoundingSphere();
     const mesh = new THREE.InstancedMesh(geo, mat, count);
-    mesh.castShadow = true;
+    // Tiny repeated decor is intentionally receive-only. Large rocks and
+    // wrecks keep the contact shadow that sells their scale without making
+    // every pebble consume a shadow pass.
+    mesh.castShadow = castShadow;
     mesh.receiveShadow = true;
     mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-    // Instances span the whole wide chunk; culling by the mesh's own tiny
-    // bounds would pop them out of view constantly.
-    mesh.frustumCulled = false;
+    mesh.frustumCulled = true;
     return mesh;
   }
 
@@ -227,6 +361,8 @@ export class PropSpawner {
     this.fill(this.rocks, worldSeed, chunkIndex, 'rock', 0.8, 3.4);
     this.fill(this.slabs, worldSeed, chunkIndex, 'slab', 1.2, 3.0);
     this.fill(this.debris, worldSeed, chunkIndex, 'debris', 0.5, 1.4);
+    this.fill(this.scrap, worldSeed, chunkIndex, 'scrap', 0.7, 1.8);
+    this.fill(this.scrub, worldSeed, chunkIndex, 'scrub', 0.55, 1.35);
     this.fill(this.nearField, worldSeed, chunkIndex, 'near', 0.35, 1.1, undefined, true);
 
     for (const { kind, mesh } of this.wrecks) {
@@ -246,20 +382,32 @@ export class PropSpawner {
     nearBand = false,
   ): void {
     const rng = new Rng(chunkAspectSeed(worldSeed, chunkIndex, aspect));
+    const clusterCount = Math.max(2, Math.min(7, Math.ceil(mesh.count / 3)));
+    const clusters: { x: number; z: number; archetype: number }[] = [];
+    for (let c = 0; c < clusterCount; c++) {
+      const side = rng.next() < 0.5 ? -1 : 1;
+      const x = side *
+        (nearBand
+          ? rng.range(NEAR_BAND_MIN_X, NEAR_BAND_MAX_X)
+          : rng.range(MACHINE_CLEARANCE_X + 3, CHUNK_SIZE_X / 2 - 5));
+      const z = rng.range(-CHUNK_SIZE_Z / 2, CHUNK_SIZE_Z / 2);
+      clusters.push({ x, z, archetype: rng.int(0, 2) });
+    }
 
     for (let i = 0; i < mesh.count; i++) {
-      // Bias toward the machine rather than spreading uniformly over the full
-      // 360m width — props far out to the sides are never seen, and spending
-      // the instance budget there just makes the near field look empty.
-      const side = rng.next() < 0.5 ? -1 : 1;
-      // The near band is spread evenly across a narrow strip; the wide scatter
-      // is biased hard toward the machine because props far out to the sides
-      // are never looked at and spend the instance budget for nothing.
-      const t = nearBand ? rng.next() : rng.next() ** 2.2;
-      const x = nearBand
-        ? side * (NEAR_BAND_MIN_X + t * (NEAR_BAND_MAX_X - NEAR_BAND_MIN_X))
-        : side * (MACHINE_CLEARANCE_X + t * (CHUNK_SIZE_X / 2 - MACHINE_CLEARANCE_X));
-      const localZ = rng.range(-CHUNK_SIZE_Z / 2, CHUNK_SIZE_Z / 2);
+      // Pick from a small set of deterministic cluster archetypes rather than
+      // drawing an independent uniform point for every instance. This makes
+      // scrub washes, rock groups and industrial trails read as authored
+      // arrangements while remaining a pure function of seed and chunk.
+      const cluster = clusters[i % clusters.length]!;
+      const archetype = cluster.archetype;
+      const spread = nearBand ? 3.5 : archetype === 0 ? 5.5 : archetype === 1 ? 9 : 3;
+      const angle = rng.range(0, Math.PI * 2);
+      const radius = Math.sqrt(rng.next()) * spread;
+      const side = cluster.x < 0 ? -1 : 1;
+      const rawX = cluster.x + Math.cos(angle) * radius;
+      const x = side * Math.max(MACHINE_CLEARANCE_X + (nearBand ? 0 : 1.5), Math.abs(rawX));
+      const localZ = cluster.z + Math.sin(angle) * radius;
       // The prop's permanent place in the world, not where its chunk happens
       // to be drawn right now. The dune field is a function of the former, so
       // sampling the latter would seat every prop against a surface that is no
@@ -290,6 +438,10 @@ export class PropSpawner {
     }
 
     mesh.instanceMatrix.needsUpdate = true;
+    // Instance transforms change on every recycle. Rebuilding the bounds is
+    // what makes frustum culling safe without carrying a chunk-wide sphere.
+    mesh.computeBoundingBox();
+    mesh.computeBoundingSphere();
   }
 
   setZ(z: number): void {
@@ -300,6 +452,8 @@ export class PropSpawner {
     this.rocks.dispose();
     this.slabs.dispose();
     this.debris.dispose();
+    this.scrap.dispose();
+    this.scrub.dispose();
     this.nearField.dispose();
     for (const { mesh } of this.wrecks) mesh.dispose();
   }

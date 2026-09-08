@@ -38,12 +38,23 @@ export class SandFX {
   private driftAccumulator = 0;
   private sheetAccumulator = 0;
 
-  constructor(scene: THREE.Scene, private readonly quality: QualitySettings) {
+  constructor(scene: THREE.Scene, private quality: QualitySettings) {
     // Split the budget: ambient drift is constant, the plume is denser but
     // only matters near the treads.
-    this.drift = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.3));
-    this.dust = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.28));
-    this.sheet = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.32));
+    // Leave headroom for impact FX and keep the three streams visually
+    // distinct: a thin ambient veil, brief footfall puffs, and a sparse close
+    // sheet that communicates speed without becoming weather.
+    this.drift = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.22));
+    this.dust = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.2), false, 28);
+    this.sheet = new ParticleSystem(scene, Math.round(quality.particleBudget * 0.24), false, 36);
+  }
+
+  /** Apply a new particle budget while retaining the existing dust where it fits. */
+  applyQuality(quality: QualitySettings): void {
+    this.quality = quality;
+    this.drift.resizeCapacity(Math.round(quality.particleBudget * 0.22));
+    this.dust.resizeCapacity(Math.round(quality.particleBudget * 0.2), 28);
+    this.sheet.resizeCapacity(Math.round(quality.particleBudget * 0.24), 36);
   }
 
   get liveCount(): number {
@@ -61,7 +72,8 @@ export class SandFX {
   footfall(at: THREE.Vector3, machineSpeed: number): void {
     const budgetScale = this.quality.particleBudget / 2000;
     const force = Math.min(machineSpeed / 7.5, 1.2);
-    const count = Math.max(3, Math.round(14 * budgetScale * force));
+    if (force < 0.08) return;
+    const count = Math.max(2, Math.round(11 * budgetScale * force));
 
     for (let i = 0; i < count; i++) {
       this.pos.set(
@@ -84,7 +96,7 @@ export class SandFX {
         // cloud, a few opaque ones read as debris.
         size: this.rng.range(0.6, 1.8),
         color: this.dustColor,
-        alpha: this.rng.range(0.07, 0.18),
+        alpha: this.rng.range(0.055, 0.14),
         gravity: -1.4,
         drag: 0.45,
       });
@@ -101,7 +113,7 @@ export class SandFX {
     // receding and is never seen sweeping past anything. Born ahead, it
     // crosses the view — which is the only part of its life that says the
     // machine is moving.
-    this.driftAccumulator += 70 * speedFactor * budgetScale * dt;
+    this.driftAccumulator += 52 * speedFactor * budgetScale * dt;
     while (this.driftAccumulator >= 1) {
       this.driftAccumulator -= 1;
       // Biased toward the camera: flow is speed over distance, so a grain at
@@ -148,7 +160,7 @@ export class SandFX {
     // These spawn within a few metres of the camera, hug the surface, and
     // travel the way the world does, so they streak across the view instead of
     // hanging in it.
-    this.sheetAccumulator += 120 * speedFactor * budgetScale * dt;
+    this.sheetAccumulator += 78 * speedFactor * budgetScale * dt;
     while (this.sheetAccumulator >= 1) {
       this.sheetAccumulator -= 1;
       // Hard against the camera. Flow is worth more here than anywhere else in
@@ -177,7 +189,7 @@ export class SandFX {
         // at the edge of vision, thin enough not to be a dust storm sitting on
         // the deck. If the machine still reads as stationary, the spawn rate
         // above is the number to raise, and this one after it.
-        alpha: this.rng.range(0.07, 0.17),
+        alpha: this.rng.range(0.045, 0.12),
         drag: 0.08,
       });
     }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { assignLamps, LAMP_HYSTERESIS, type LampSample } from '@/building/LampLights';
+import * as THREE from 'three';
+import { assignLamps, LampLights, LAMP_HYSTERESIS, type LampSample } from '@/building/LampLights';
 import { getQualitySettings, QUALITY_TIERS } from '@/core/renderer/QualitySettings';
 
 /**
@@ -106,5 +107,17 @@ describe('the light budget', () => {
 
   it('gives even the lowest tier enough to light a room', () => {
     expect(getQualitySettings('low').lampLights).toBeGreaterThan(0);
+  });
+
+  it('resizes the live pool and hides removed lights immediately', () => {
+    const scene = new THREE.Scene();
+    const pool = new LampLights(scene, 4);
+    pool.applyQuality(2);
+    expect(pool.size).toBe(2);
+    expect(pool.group.children).toHaveLength(2);
+    pool.applyQuality(0);
+    expect(pool.size).toBe(0);
+    expect(pool.group.children).toHaveLength(0);
+    pool.dispose();
   });
 });

@@ -43,19 +43,15 @@ export interface WeaponModelDefinition {
 
 export const WEAPON_MODELS: Record<string, WeaponModelDefinition> = {
   rifle: {
-    url: 'models/weapons/rifle.glb',
-    // An AK-pattern rifle is about 880mm. The definition calls it a Scrapline
-    // AR; the model is a wood-furniture Kalashnikov, which is what a machine
-    // crew scavenging a desert would plausibly still have working.
+    url: 'models/authored/scrap-rifle.glb',
+    // Original compact industrial rifle; its grip is the GLB origin.
     length: 0.88,
     grip: { x: -0.05, y: 0, z: 0 },
     rotate: { x: 0, y: 0, z: 0 },
   },
   shotgun: {
-    // Pump-action, wooden stock. Shorter and fatter than the rifle, which is
-    // the whole point of having two: they have to be told apart at a glance
-    // over the player's shoulder, at the only angle the game ever shows them.
-    url: 'models/weapons/shotgun.glb',
+    // Original wide pump slide and tube magazine distinguish it over the shoulder.
+    url: 'models/authored/scrap-shotgun.glb',
     length: 0.95,
     grip: { x: -0.05, y: 0, z: 0 },
     rotate: { x: 0, y: 0, z: 0 },

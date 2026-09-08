@@ -75,7 +75,11 @@ export class CraftingSystem {
     if (!this.resources.consume(recipe.inputs)) return false;
     this.resources.deposit(recipe.output.itemId, recipe.output.count);
 
-    this.bus.emit('craft:completed', { recipeId: recipe.id });
+    const event: { recipeId: string; outputs: { id: string; count: number }[] } = {
+      recipeId: recipe.id,
+      outputs: [{ id: recipe.output.itemId, count: recipe.output.count }],
+    };
+    this.bus.emit('craft:completed', event);
     return true;
   }
 

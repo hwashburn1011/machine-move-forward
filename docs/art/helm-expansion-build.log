@@ -1,0 +1,19 @@
+Info: Saved as "navigation-helm.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+21:16:51 | INFO: Starting glTF 2.0 export
+21:16:51 | INFO: Extracting primitive: Cylinder.007
+21:16:51 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:16:51 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:16:51 | INFO: Primitives created: 2
+21:16:51 | INFO: Extracting primitive: Cube.027
+21:16:51 | INFO: Primitives created: 1
+21:16:51 | INFO: Extracting primitive: Cube
+21:16:51 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:16:51 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:16:51 | INFO: Primitives created: 4
+21:16:51 | INFO: Finished glTF 2.0 export in 0.07149624824523926 s
+
+EXPANSION_ASSET {"asset": "navigation-helm", "triangles": 7072, "meshes": 3, "bounds": {"min": [-0.5799999833106995, 0.0, -0.36000001430511475], "max": [0.5799999833106995, 1.3474746942520142, 0.3779999911785126]}, "markers": {"HelmRoot": [0.0, 0.0, -0.0], "HelmPowerLamp": [0.3400000035762787, 1.100000023841858, 0.27000001072883606], "GyroInstalled": [0.25, 0.6499999761581421, 0.28999999165534973], "HelmInteract": [0.0, 0.8500000238418579, 0.47999998927116394]}, "bytes": 12657620}
+Blender 5.1.0 (hash adfe2921d5f3 built 2026-03-17 01:37:32)
+
+Blender quit

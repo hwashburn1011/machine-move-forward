@@ -68,6 +68,9 @@ export const BUILDUP_M = 140;
  */
 export const CONTACT_STAGGER_M = 25;
 
+/** Quiet distance after a docked destination releases the machine. */
+export const SANCTUARY_RELEASE_M = 300;
+
 /**
  * Health fraction below which a wave is one body lighter.
  *
@@ -95,11 +98,18 @@ export interface WaveMember {
   defId: string;
 }
 
+/** A request for an encounter owned by another runtime controller. */
+export interface VehicleEncounterRequest {
+  type: 'skiff' | 'gunboat';
+}
+
 export interface ThreatDecision {
   /** A body to put on the deck this tick, or null. */
   spawn: WaveMember | null;
   /** The phase just entered, or null if it did not change. */
   entered: ThreatPhase | null;
+  /** A single external encounter to start this tick, or null. */
+  vehicle: VehicleEncounterRequest | null;
 }
 
 /** Everything needed to put a director back exactly where it was. */
@@ -110,6 +120,17 @@ export interface ThreatDirectorSave {
   pending: string[];
   nextReleaseAt: number;
   draws: number;
+  /** Infantry waves completed since the last skiff. Optional for old saves. */
+  wavesSinceVehicle?: number;
+  /** A skiff has been telegraphed and is due at the end of buildup. */
+  vehicleQueued?: boolean;
+  queuedVehicle?: 'skiff' | 'gunboat' | null;
+  /** True only when a saved game was inside an externally owned encounter. */
+  externalEncounterActive?: boolean;
+  /** Destination sanctuary state; absent in saves written before expeditions. */
+  sanctuaryActive?: boolean;
+  /** Distance at which the post-destination quiet window can end. */
+  sanctuaryReleaseAt?: number;
 }
 
 export class ThreatDirector {
@@ -123,6 +144,15 @@ export class ThreatDirector {
   private wavesSurvived = 0;
   private pending: string[] = [];
   private nextReleaseAt = 0;
+  /** Two infantry waves create room for one recurring skiff encounter. */
+  private wavesSinceVehicle = 0;
+  /** Keeps the skiff's normal warning distance visible before its request. */
+  private queuedVehicle: 'skiff' | 'gunboat' | null = null;
+  /** The runtime controller owns the active encounter, so the director freezes. */
+  private externalEncounterActive = false;
+  /** Destination sanctuary blocks new schedules without touching live enemies. */
+  private sanctuaryActive = false;
+  private sanctuaryReleaseAt = Number.POSITIVE_INFINITY;
   /**
    * Draws taken from `rng` since construction.
    *
@@ -164,6 +194,26 @@ export class ThreatDirector {
     return this.phase === 'engagement' ? Infinity : this.phaseEndsAt;
   }
 
+  /** Whether the vehicle controller currently owns an encounter. */
+  get hasActiveExternalEncounter(): boolean {
+    return this.externalEncounterActive;
+  }
+
+  reset(startDistance = 0): void {
+    this.rng = new Rng(hashSeed(this.seed, 'threat-director'));
+    this.phase = 'calm';
+    this.wavesSurvived = 0;
+    this.pending = [];
+    this.nextReleaseAt = 0;
+    this.wavesSinceVehicle = 0;
+    this.queuedVehicle = null;
+    this.externalEncounterActive = false;
+    this.sanctuaryActive = false;
+    this.sanctuaryReleaseAt = Number.POSITIVE_INFINITY;
+    this.draws = 0;
+    this.phaseEndsAt = startDistance + this.rollCalm();
+  }
+
   /**
    * One decision per call.
    *
@@ -179,9 +229,124 @@ export class ThreatDirector {
    * telegraph, and one who loads a save mid-recovery still gets the recovery.
    * Time the world travelled through is not time the director spends.
    */
-  update(distance: number, activeCount: number, healthFraction: number): ThreatDecision {
+  update(
+    distance: number,
+    activeCount: number,
+    healthFraction: number,
+    externalEncounterActive = false,
+  ): ThreatDecision {
+    // Preserve an externally owned live encounter even while destination
+    // sanctuary suppresses future scheduling.
+    if (externalEncounterActive) this.externalEncounterActive = true;
+    if (this.sanctuaryActive) {
+      if (distance < this.sanctuaryReleaseAt) {
+        return { spawn: null, entered: null, vehicle: null };
+      }
+      this.sanctuaryActive = false;
+      this.sanctuaryReleaseAt = Number.POSITIVE_INFINITY;
+      this.phase = 'calm';
+      this.phaseEndsAt = distance + CALM_MIN;
+      return { spawn: null, entered: 'calm', vehicle: null };
+    }
+
+    // The optional argument lets Game make the exclusivity contract explicit.
+    // The internal flag remains authoritative after a request, which prevents
+    // a caller that has not yet threaded the fourth argument from accidentally
+    // starting infantry on top of a live skiff.
+    if (this.externalEncounterActive) {
+      return { spawn: null, entered: null, vehicle: null };
+    }
+
+    const requestedVehicle = this.queuedVehicle;
     const entered = this.advance(distance, activeCount, healthFraction);
-    return { spawn: this.release(distance, activeCount), entered };
+    // `advance` enters external engagement only after the vehicle's buildup
+    // warning. Turning that edge into a request keeps the decision one-shot.
+    if (entered === 'engagement' && this.externalEncounterActive) {
+      return { spawn: null, entered, vehicle: { type: requestedVehicle ?? 'skiff' } };
+    }
+    return { spawn: this.release(distance, activeCount), entered, vehicle: null };
+  }
+
+  /**
+   * End a tutorial or scheduled external encounter and begin the same hard
+   * recovery window used by an infantry engagement.
+   *
+   * This is intentionally public: the skiff controller owns its own terminal
+   * state and must tell the distance based director when landed boarders and
+   * the vehicle are both gone. Calling it repeatedly is harmless and extends
+   * recovery from the latest observed distance, which is the safest behavior
+   * for a late terminal callback.
+   */
+  finishExternalEncounter(distance: number): void {
+    this.externalEncounterActive = false;
+    this.pending = [];
+    this.nextReleaseAt = 0;
+    this.queuedVehicle = null;
+    this.phase = 'recovery';
+    this.phaseEndsAt = distance + RECOVERY_M;
+  }
+
+  /**
+   * Lock encounter scheduling around a destination. Starting sanctuary leaves
+   * active enemies untouched; the owning enemy manager decides when those
+   * bodies are gone. Releasing starts a fresh recovery window and then a calm
+   * stretch, so a dock cannot be followed immediately by a telegraphed wave.
+   */
+  setSanctuary(active: boolean, distance: number): void {
+    if (active) {
+      this.sanctuaryActive = true;
+      this.sanctuaryReleaseAt = Number.POSITIVE_INFINITY;
+      return;
+    }
+    if (!this.sanctuaryActive) return;
+    this.sanctuaryReleaseAt = distance + SANCTUARY_RELEASE_M;
+    this.phase = 'recovery';
+    this.phaseEndsAt = this.sanctuaryReleaseAt;
+    // A not-yet-released body is a schedule, not a live enemy. Cancel it so
+    // the destination cannot leak a pre-dock contact after its quiet window.
+    this.pending = [];
+    this.nextReleaseAt = 0;
+  }
+
+  /** A scripted request is retained while another encounter owns the deck. */
+  queueExternal(type: 'skiff' | 'gunboat'): boolean {
+    if (this.queuedVehicle === type) return true;
+    if (this.queuedVehicle !== null) return false;
+    this.queuedVehicle = type;
+    return true;
+  }
+
+  /** Claim a queued route encounter without canceling pending infantry. */
+  tryBeginExternal(type: 'skiff' | 'gunboat', distance: number, activeCount: number): boolean {
+    if (
+      this.queuedVehicle !== type ||
+      this.externalEncounterActive ||
+      activeCount > 0 ||
+      this.pending.length > 0 ||
+      this.phase === 'contact' ||
+      this.phase === 'engagement' ||
+      this.sanctuaryActive ||
+      (this.phase === 'recovery' && distance < this.phaseEndsAt)
+    )
+      return false;
+    this.queuedVehicle = null;
+    this.externalEncounterActive = true;
+    this.phase = 'engagement';
+    this.phaseEndsAt = Infinity;
+    this.nextReleaseAt = 0;
+    return true;
+  }
+
+  /** Loading never restores external scenes. Clear orphan ownership without a reward. */
+  abortOrphanExternal(distance: number): boolean {
+    if (!this.externalEncounterActive) return false;
+    this.externalEncounterActive = false;
+    this.queuedVehicle = null;
+    this.pending = [];
+    this.nextReleaseAt = 0;
+    this.phase = 'calm';
+    this.phaseEndsAt = Math.max(0, distance) + CALM_MIN;
+    return true;
   }
 
   /** The phase transition due at this distance, or null. */
@@ -193,12 +358,28 @@ export class ThreatDirector {
     switch (this.phase) {
       case 'calm':
         if (distance < this.phaseEndsAt) return null;
+        if (activeCount === 0 && this.wavesSurvived >= 2 && this.wavesSinceVehicle >= 2) {
+          this.queuedVehicle ??= 'skiff';
+        }
         this.phase = 'buildup';
         this.phaseEndsAt = distance + BUILDUP_M;
         return 'buildup';
 
       case 'buildup': {
         if (distance < this.phaseEndsAt) return null;
+        if (this.queuedVehicle) {
+          if (activeCount > 0) return null;
+          // The request and the ownership flag are committed on the same
+          // update. Future calls are frozen until finishExternalEncounter.
+          this.queuedVehicle = null;
+          this.externalEncounterActive = true;
+          this.phase = 'engagement';
+          this.phaseEndsAt = Infinity;
+          this.pending = [];
+          this.nextReleaseAt = 0;
+          this.wavesSinceVehicle = 0;
+          return 'engagement';
+        }
         this.phase = 'contact';
         this.pending = this.composeWave(healthFraction);
         this.nextReleaseAt = distance;
@@ -220,6 +401,7 @@ export class ThreatDirector {
         // and the player has earned the quiet.
         if (activeCount > 0) return null;
         this.wavesSurvived += 1;
+        this.wavesSinceVehicle += 1;
         this.phase = 'recovery';
         this.phaseEndsAt = distance + RECOVERY_M;
         return 'recovery';
@@ -287,6 +469,11 @@ export class ThreatDirector {
       pending: [...this.pending],
       nextReleaseAt: this.nextReleaseAt,
       draws: this.draws,
+      wavesSinceVehicle: this.wavesSinceVehicle,
+      queuedVehicle: this.queuedVehicle,
+      externalEncounterActive: this.externalEncounterActive,
+      sanctuaryActive: this.sanctuaryActive,
+      sanctuaryReleaseAt: this.sanctuaryReleaseAt,
     };
   }
 
@@ -298,18 +485,40 @@ export class ThreatDirector {
    * trusting the number that was written.
    */
   restore(save: ThreatDirectorSave): void {
-    this.phase = save.phase;
-    this.wavesSurvived = save.wavesSurvived;
-    this.pending = [...save.pending];
-    this.nextReleaseAt = save.nextReleaseAt;
+    const count = (value: unknown, fallback = 0) =>
+      typeof value === 'number' && Number.isFinite(value)
+        ? Math.min(100000, Math.max(0, Math.floor(value)))
+        : fallback;
+    const distance = (value: unknown, fallback = 0) =>
+      typeof value === 'number' && Number.isFinite(value) ? Math.max(0, value) : fallback;
+    this.phase = ['calm', 'buildup', 'contact', 'engagement', 'recovery'].includes(save.phase)
+      ? save.phase
+      : 'calm';
+    this.wavesSurvived = count(save.wavesSurvived);
+    this.pending = Array.isArray(save.pending)
+      ? save.pending
+          .filter((id) => id === 'scavenger' || id === 'raider')
+          .slice(0, MAX_ACTIVE_ENEMIES)
+      : [];
+    this.nextReleaseAt = distance(save.nextReleaseAt);
+    this.wavesSinceVehicle = count(save.wavesSinceVehicle, Math.min(this.wavesSurvived, 2));
+    this.queuedVehicle =
+      save.queuedVehicle === 'gunboat' || save.queuedVehicle === 'skiff'
+        ? save.queuedVehicle
+        : save.vehicleQueued === true
+          ? 'skiff'
+          : null;
+    this.externalEncounterActive = save.externalEncounterActive === true;
+    this.sanctuaryActive = save.sanctuaryActive === true;
+    this.sanctuaryReleaseAt = distance(save.sanctuaryReleaseAt, Number.POSITIVE_INFINITY);
     this.phaseEndsAt =
       this.phase === 'contact' || this.phase === 'engagement'
         ? Infinity
-        : (save.phaseEndsAt ?? 0);
+        : distance(save.phaseEndsAt);
 
     // Replay the sequence rather than storing it. See `draws`.
     this.rng = new Rng(hashSeed(this.seed, 'threat-director'));
-    for (let i = 0; i < save.draws; i++) this.rng.next();
-    this.draws = save.draws;
+    this.draws = count(save.draws);
+    for (let i = 0; i < this.draws; i++) this.rng.next();
   }
 }

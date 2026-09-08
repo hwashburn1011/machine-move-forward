@@ -1,6 +1,12 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
-import { AUTOSTEP_HEIGHT, FIXED_DT, GRAVITY, CHARACTER_SKIN } from '@/game/constants';
+import {
+  AUTOSTEP_HEIGHT,
+  FIXED_DT,
+  GRAVITY,
+  CHARACTER_SKIN,
+  MAX_SLOPE_CLIMB_ANGLE,
+} from '@/game/constants';
 
 let rapierReady = false;
 
@@ -97,10 +103,7 @@ export class PhysicsWorld {
     return this.world.createRigidBody(desc);
   }
 
-  createKinematicBody(
-    position?: THREE.Vector3,
-    rotation?: THREE.Quaternion,
-  ): RAPIER.RigidBody {
+  createKinematicBody(position?: THREE.Vector3, rotation?: THREE.Quaternion): RAPIER.RigidBody {
     const desc = RAPIER.RigidBodyDesc.kinematicPositionBased();
     if (position) desc.setTranslation(position.x, position.y, position.z);
     if (rotation) {
@@ -222,7 +225,7 @@ export class PhysicsWorld {
     // autostep the player catches on every one of them.
     controller.enableAutostep(AUTOSTEP_HEIGHT, 0.2, true);
     controller.enableSnapToGround(0.4);
-    controller.setMaxSlopeClimbAngle((50 * Math.PI) / 180);
+    controller.setMaxSlopeClimbAngle(MAX_SLOPE_CLIMB_ANGLE);
     controller.setMinSlopeSlideAngle((40 * Math.PI) / 180);
     controller.setApplyImpulsesToDynamicBodies(false);
 

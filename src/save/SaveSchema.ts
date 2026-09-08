@@ -1,8 +1,19 @@
 import type { OpeningSave } from '@/game/OpeningDirector';
+import type { FirstRunSave } from '@/game/FirstRunDirector';
 import type { ThreatDirectorSave } from '@/enemies/ThreatDirector';
 import type { BuildPieceInstance } from '@/building/BuildSystem';
 import type { ItemStack } from '@/data/items';
 import type { NeedsSave } from '@/player/Needs';
+import type { TurretRuntimeSave } from '@/defense/DefenseSystem';
+import type { AutomaticDefenseSave } from '@/defense/AutomaticDefenseSystem';
+import type { UpgradeSave } from '@/progression/UpgradeSystem';
+import type { EarlyRadioDropSave } from '@/progression/EarlyRadioDrop';
+import type { StorySave } from '@/story/StoryDirector';
+export type {
+  CampaignSave,
+  ActiveExpeditionSave,
+  LegacyWreckOneStorySave,
+} from '@/story/StoryDirector';
 
 /**
  * Versioned save schema (handoff section 38).
@@ -12,6 +23,9 @@ import type { NeedsSave } from '@/player/Needs';
  * shape after the first save format ships is what makes save systems painful.
  */
 export const CURRENT_SAVE_VERSION = 1;
+
+/** Optional v1 radio ledger. Kept additive so old saves remain valid. */
+export type RadioSave = EarlyRadioDropSave;
 
 /**
  * No migration was needed to add built structures, the player's inventory, or
@@ -77,6 +91,18 @@ export interface SaveGameV1 {
 
   progression: {
     unlocks: string[];
+    /** Partial progress toward the guaranteed first manual-turret unlock. */
+    turretBlueprintProgress?: number;
+    /** Per-gun aim, optional for saves written before manual defenses existed. */
+    turrets?: TurretRuntimeSave[];
+    automaticTurrets?: AutomaticDefenseSave[];
+    /** Optional first-run facts; absent means a fresh director. */
+    firstRun?: FirstRunSave;
+    /** Permanent machine research and the currently installed branch modules. */
+    upgrades?: UpgradeSave;
+    /** Guaranteed salvage reward ledger. `radioDrop` is retained for old builds. */
+    radio?: RadioSave;
+    radioDrop?: RadioSave;
     /**
      * Where the opening got to. Absent in saves written before Phase 2, and
      * a loader reads that as `done` — a game old enough to have a save is a
@@ -97,6 +123,8 @@ export interface SaveGameV1 {
      * type.
      */
     threatDirector: ThreatDirectorSave | null;
+    /** Optional expedition chapter state. */
+    story?: StorySave;
   };
 }
 

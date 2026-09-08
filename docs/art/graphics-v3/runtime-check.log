@@ -1,0 +1,8 @@
+PASS new skinned character is live
+PASS machine GLB is attached
+PASS all five station modules registered
+PASS quality toggles real AO and MSAA
+PASS quality cycling retains world progress
+PASS quality cycling keeps geometry bounded
+PASS staged combat exercised enemies
+PASS no browser errors

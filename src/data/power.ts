@@ -35,6 +35,18 @@ export const FUEL_TANK_CAP = 100;
 /** What a new game starts with in the tank — see the pre-placed generator. */
 export const STARTING_FUEL = 60;
 
+/** Runtime modifiers supplied by the active power upgrade. */
+export interface PowerModifiers {
+  generationBonus: number;
+  /** Multiplier on fuel burned per simulated second. */
+  fuelBurnMultiplier: number;
+}
+
+export const DEFAULT_POWER_MODIFIERS: PowerModifiers = {
+  generationBonus: 0,
+  fuelBurnMultiplier: 1,
+};
+
 /**
  * One generator's output at full health.
  *
@@ -51,6 +63,9 @@ export const DRAWS = {
   // Below the refinery on purpose. The condenser is meant to run in the
   // background of a normal deck, so a machine that can refine can also drink.
   condenser: 4,
+  turret: 3,
+  collector: 4,
+  automaticTurret: 6,
 } as const;
 
 /**
@@ -82,6 +97,12 @@ export function powerRoleOf(piece: PieceId): PowerRole {
     // the condenser exists.
     case 'condenser':
       return { kind: 'consumer', draw: DRAWS.condenser, priority: 'station' };
+    case 'turret-manual':
+      return { kind: 'consumer', draw: DRAWS.turret, priority: 'defense' };
+    case 'collector-auto':
+      return { kind: 'consumer', draw: DRAWS.collector, priority: 'station' };
+    case 'turret-auto':
+      return { kind: 'consumer', draw: DRAWS.automaticTurret, priority: 'defense' };
     default:
       return null;
   }

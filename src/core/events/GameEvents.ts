@@ -2,6 +2,13 @@ import type { ItemCost } from '@/data/items';
 import type { PieceId } from '@/data/build-pieces';
 import type { OpeningPhase } from '@/game/OpeningDirector';
 import type { ThreatPhase } from '@/enemies/ThreatDirector';
+import type { FirstRunStep } from '@/game/FirstRunDirector';
+import type { BoardingPhase } from '@/vehicles/BoardingEncounter';
+import type { UpgradeBranch, UpgradeId } from '@/data/upgrades';
+import type { StoryPhase } from '@/story/StoryDirector';
+
+export type UnlockId = 'manual-turret' | 'automatic-salvage-collector' | 'automatic-defense-turret';
+export type ImpactSurface = 'flesh' | 'metal' | 'sand';
 
 export interface Vec3Like {
   x: number;
@@ -27,13 +34,35 @@ export type GameEvents = {
   'player:died': { position: Vec3Like };
   'player:respawned': { position: Vec3Like };
 
-  'weapon:fired': { weaponId: string; ammoRemaining: number };
+  'weapon:fired': {
+    shotId?: number;
+    weaponId: string;
+    ammoRemaining: number;
+    visualOrigin?: Vec3Like;
+    aimEnd?: Vec3Like;
+  };
   'weapon:dry-fire': { weaponId: string };
   'weapon:reload-started': { weaponId: string; durationMs: number };
   'weapon:reload-finished': { weaponId: string; ammoRemaining: number };
   'weapon:equipped': { weaponId: string };
 
-  'combat:hit': { position: Vec3Like; normal: Vec3Like; targetId: string | null; onMetal: boolean };
+  'combat:hit': {
+    shotId?: number;
+    position: Vec3Like;
+    normal: Vec3Like;
+    targetId: string | null;
+    targetKind?: import('@/combat/Damageable').DamageableKind | null;
+    surface?: ImpactSurface;
+    damage?: number;
+    onMetal: boolean;
+  };
+  'combat:shot-resolved': {
+    shotId: number;
+    weaponId: string;
+    pelletsHit: number;
+    totalDamage: number;
+    targetIds: string[];
+  };
 
   'enemy:spawned': { enemyId: string; position: Vec3Like };
   'enemy:damaged': { enemyId: string; amount: number; remaining: number };
@@ -66,6 +95,47 @@ export type GameEvents = {
   };
   'build:removed': { instanceId: string; definitionId: string; refunded: number };
   'build:rooms-changed': { roomCount: number; enclosedCount: number };
+  /** A player completed a hold-to-repair action at a subsystem or structure. */
+  'repair:completed': { targetId: string; targetKind: 'subsystem' | 'structure' };
+  /** Defense and boarding facts are intentionally small integration seams. */
+  'defense:built': { defenseId: string };
+  'boarding:started': { encounterId?: string; tutorial?: boolean };
+  'boarding:survived': { encounterId?: string; tutorial?: boolean };
+  'progression:unlocked': { id: UnlockId };
+  'objective:changed': {
+    view: {
+      title: string;
+      instruction: string;
+      control?: string;
+      progress?: string;
+      optional: boolean;
+    };
+  };
+  'turret:entered': { instanceId: string };
+  'turret:exited': { instanceId: string };
+  'turret:fired': { instanceId: string; targetId: string | null };
+  'automatic-turret:target-acquired': { instanceId: string; targetId: string };
+  'automatic-turret:fired': {
+    instanceId: string;
+    targetId: string;
+    visualOrigin: Vec3Like;
+    aimEnd: Vec3Like;
+  };
+  'vehicle:phase': { id: string; phase: BoardingPhase; side: 'port' | 'starboard' };
+  'gunboat:phase': {
+    phase: import('@/vehicles/GunboatEncounter').GunboatPhase;
+    side: 'port' | 'starboard';
+  };
+  'gunboat:volley': { serial: number };
+  'gunboat:telegraph': { origin: Vec3Like; target: Vec3Like };
+  'vehicle:damaged': { id: string; part: 'hull' | 'crew' | 'hook'; health: number };
+  'boarding:hook-attached': { side: 'port' | 'starboard' };
+  'boarding:crossed': { enemyId: string; crewIndex?: number };
+  'boarding:ended': {
+    outcome: 'hull' | 'crew' | 'hook' | 'defended';
+    tutorial: boolean;
+    needsRepair?: boolean;
+  };
   /**
    * The power picture moved. EDGES ONLY — `MachinePower` returns these when
    * capacity or draw actually changes, never once a tick. Fuel rides along so
@@ -98,7 +168,27 @@ export type GameEvents = {
   'inventory:changed': { scrap: number };
   /** Loot that has just gone into the player's inventory. */
   'loot:collected': { items: { id: string; count: number }[]; source: string };
-  'craft:completed': { recipeId: string };
+  'craft:completed': {
+    recipeId: string;
+    /** Concrete output units let progression count production rather than clicks. */
+    outputs: { id: string; count: number }[];
+  };
+
+  'radio:found': {
+    source: 'salvage-crate';
+    distance: number;
+    elapsedSincePlayable: number;
+  };
+  'radio:power': { powered: boolean };
+  'upgrade:researched': { id: UpgradeId };
+  'upgrade:active-changed': { branch: UpgradeBranch; id: UpgradeId | null };
+  'story:phase': { chapterId: 'wreck-one' | 'relay-foundry'; phase: StoryPhase };
+  'story:signal': { strength: number; remainingM: number | null; text: string };
+  'story:journal-read': { id: string };
+  'story:unique-collected': { id: 'course-gyro' };
+  'story:docked': { chapterId: 'wreck-one' | 'relay-foundry' };
+  'story:departed': { chapterId: 'wreck-one' | 'relay-foundry' };
+  'story:next-signal': { id: 'signal-two' };
 
   /**
    * The opening moved on. Emitted on the edge only, and once at boot so a
@@ -109,8 +199,17 @@ export type GameEvents = {
    */
   'opening:phase': { phase: OpeningPhase };
 
+  /** The first-run director advanced; active is derived by the HUD. */
+  'objective:updated': {
+    current: FirstRunStep | 'complete';
+    completed: FirstRunStep[];
+    newlyCompleted: FirstRunStep[];
+  };
+
   'game:save-written': { slot: string };
   'game:save-loaded': { slot: string };
+  'game:autosave-pending': Record<string, never>;
+  'game:save-failed': { message: string };
 };
 
 export type GameEventName = keyof GameEvents;

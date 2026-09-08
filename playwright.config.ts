@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+import { browserLaunchOptions } from './tools/browser-options.mjs';
 
 /**
  * Which port the suite talks to.
@@ -21,11 +22,9 @@ export default defineConfig({
   reporter: [['list']],
   use: {
     baseURL: BASE_URL,
-    // SwiftShader: CI machines have no GPU, and a software context still
-    // exercises every code path that matters here.
-    launchOptions: {
-      args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
-    },
+    // SwiftShader remains the default. MMF_HARDWARE=1 opts into installed
+    // Chrome/D3D11 for visual review on a machine with a real GPU.
+    launchOptions: browserLaunchOptions,
   },
   webServer: {
     command: `npm run dev -- --port ${PORT} --strictPort`,

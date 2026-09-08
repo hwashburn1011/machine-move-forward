@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import * as THREE from 'three';
-import { mergePropGeometry, normalisePropGeometry } from '@/world/PropModels';
+import { createPropTemplate, mergePropGeometry, normalisePropGeometry } from '@/world/PropModels';
 
 /**
  * Turning a downloaded pack into something an `InstancedMesh` can draw.
@@ -88,6 +88,43 @@ describe('flattening a prop pack', () => {
     expect(merged).not.toBeNull();
     expect(merged?.getAttribute('uv')).toBeUndefined();
     expect(merged?.getAttribute('position').count).toBe(6);
+  });
+
+  it('preserves authored UVs, tangents, and smooth normals when the pack provides them', () => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(TRI, 3));
+    geometry.setAttribute(
+      'normal',
+      new THREE.Float32BufferAttribute([0, 0.8, 0.6, 0, 0.8, 0.6, 0, 0.8, 0.6], 3),
+    );
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 0, 1], 2));
+    geometry.setAttribute(
+      'tangent',
+      new THREE.Float32BufferAttribute([1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1], 4),
+    );
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: 0xffffff }));
+
+    const merged = mergePropGeometry(mesh);
+    expect(merged?.getAttribute('uv')).toBeTruthy();
+    expect(merged?.getAttribute('tangent')).toBeTruthy();
+    expect(merged?.getAttribute('normal')?.getY(0)).toBeCloseTo(0.8, 6);
+  });
+
+  it('builds a textured template without changing the fallback merge contract', () => {
+    const mesh = coloured(0xffffff, TRI);
+    mesh.geometry.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 1, 0, 0, 1], 2));
+    const atlas = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+    atlas.needsUpdate = true;
+
+    const template = createPropTemplate(mesh, {
+      atlas,
+      uvTransform: { offset: { x: 0.25, y: 0.5 }, repeat: { x: 0.5, y: 0.25 } },
+    });
+    expect(template?.geometry.getAttribute('uv')).toBeTruthy();
+    expect(template?.material.map).toBe(atlas);
+    expect(template?.geometry.getAttribute('uv')?.getX(1)).toBeCloseTo(0.75, 6);
+    template?.dispose();
+    atlas.dispose();
   });
 
   it('returns null for a model with nothing drawable in it', () => {

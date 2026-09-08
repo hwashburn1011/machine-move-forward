@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-09-07T19:46:56.069Z",
+  "purpose": "Staged authored/fallback presentation only; no gameplay completion claim.",
+  "shots": [
+    "docs/art/chapter-review/authored-docked.png",
+    "docs/art/chapter-review/authored-radio.png",
+    "docs/art/chapter-review/fallback-docked.png",
+    "docs/art/chapter-review/fallback-radio.png"
+  ],
+  "errors": []
+}

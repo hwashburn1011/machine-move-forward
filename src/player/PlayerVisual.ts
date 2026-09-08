@@ -13,6 +13,7 @@ import {
   weaponAlign,
 } from '@/art/HeldItem';
 import { WEAPON_MODELS } from '@/data/weapon-models';
+import { WEAPONS } from '@/data/weapons';
 import { playerGait, type Gait } from './PlayerGait';
 
 /**
@@ -71,6 +72,11 @@ export class PlayerVisual {
   /** What is currently in that hand, so swapping weapons can take it out. */
   private held: THREE.Object3D | null = null;
   private heldId: string | null = null;
+  private muzzle: THREE.Object3D | null = null;
+  private recoilNode: THREE.Group | null = null;
+  private recoilRecovery = 18;
+  private readonly recoilOffset = new THREE.Vector3();
+  private readonly recoilRotation = new THREE.Euler();
 
   constructor(model: LoadedModel | null, materials: Materials) {
     if (!model) {
@@ -99,7 +105,7 @@ export class PlayerVisual {
     // which aims local +Z along the heading. This model is authored facing -Z,
     // the glTF convention, so without half a turn here it walks backwards
     // everywhere it goes.
-    scene.rotation.y = Math.PI;
+    scene.rotation.y = scene.getObjectByName('MMF_Player') ? 0 : Math.PI;
     scene.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         o.castShadow = true;
@@ -187,10 +193,15 @@ export class PlayerVisual {
       this.held.removeFromParent();
       this.held = null;
     }
+    this.muzzle = null;
+    this.recoilNode = null;
+    this.recoilOffset.set(0, 0, 0);
+    this.recoilRotation.set(0, 0, 0);
     if (!id || !model || !this.hand) return;
 
     const def = WEAPON_MODELS[id];
     if (!def) return;
+    this.recoilRecovery = WEAPONS[id]?.heldKick?.recovery ?? 18;
 
     const item = model.clone(true);
     item.updateMatrixWorld(true);
@@ -229,7 +240,11 @@ export class PlayerVisual {
     // through the sights, +X out of the shooter's right.
     aligned.position.set(def.grip.x, def.grip.y, def.grip.z);
     aligned.add(item);
-    mount.add(aligned);
+    const recoil = new THREE.Group();
+    recoil.name = 'held-weapon-recoil';
+    recoil.add(aligned);
+    mount.add(recoil);
+    this.recoilNode = recoil;
 
     item.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
@@ -249,11 +264,47 @@ export class PlayerVisual {
 
     this.hand.add(mount);
     this.held = mount;
+    this.muzzle = item.getObjectByName('Muzzle') ?? null;
+    if (!this.muzzle) {
+      // Authored models without a socket still get a finite, stable marker in
+      // the canonical held-item frame. The model's fit axis is already mapped
+      // to +Z by `weaponAlign`, so this is the only safe fallback.
+      const marker = new THREE.Object3D();
+      marker.name = 'MuzzleFallback';
+      marker.position.set(0, 0, def.length * 0.5);
+      aligned.add(marker);
+      this.muzzle = marker;
+    }
+  }
+
+  /** World-space origin for presentation effects; never used for hitscan. */
+  getMuzzleWorldPosition(out = new THREE.Vector3()): THREE.Vector3 {
+    if (this.muzzle) {
+      this.object3D.updateMatrixWorld(true);
+      return this.muzzle.getWorldPosition(out);
+    }
+    return out.copy(this.object3D.getWorldPosition(new THREE.Vector3()));
+  }
+
+  /** Apply bounded visual kick; camera recoil remains the aiming feedback. */
+  kickHeldWeapon(distance: number, pitch: number, yaw: number): void {
+    if (!this.held) return;
+    this.recoilOffset.z = Math.max(-0.08, Math.min(0.08, this.recoilOffset.z - Math.abs(distance)));
+    this.recoilRotation.x = Math.max(-0.25, Math.min(0.25, this.recoilRotation.x + pitch));
+    this.recoilRotation.y = Math.max(-0.25, Math.min(0.25, this.recoilRotation.y + yaw));
   }
 
   /** Advance the animation. Render step: `dt` is a frame delta, not a tick. */
   update(dt: number): void {
     this.mixer?.update(dt);
+    if (!this.recoilNode) return;
+    const recovery = 1 - Math.exp(-Math.max(0, dt) * this.recoilRecovery);
+    this.recoilOffset.multiplyScalar(1 - recovery);
+    this.recoilRotation.x *= 1 - recovery;
+    this.recoilRotation.y *= 1 - recovery;
+    this.recoilNode.position.z = this.recoilOffset.z;
+    this.recoilNode.rotation.x = this.recoilRotation.x;
+    this.recoilNode.rotation.y = this.recoilRotation.y;
   }
 
   dispose(): void {

@@ -1,0 +1,132 @@
+{
+  "unresolved": 0,
+  "reports": [
+    {
+      "asset": "expedition-wreck",
+      "errors": 0,
+      "warnings": 44,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 44
+      }
+    },
+    {
+      "asset": "forged-hook",
+      "errors": 0,
+      "warnings": 2,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 2
+      }
+    },
+    {
+      "asset": "machine-kit",
+      "errors": 0,
+      "warnings": 5,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 5
+      }
+    },
+    {
+      "asset": "manual-turret",
+      "errors": 0,
+      "warnings": 11,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 11,
+        "NODE_EMPTY": 1
+      }
+    },
+    {
+      "asset": "player",
+      "errors": 0,
+      "warnings": 8,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 7,
+        "UNUSED_OBJECT": 1,
+        "NODE_SKINNED_MESH_NON_ROOT": 1
+      }
+    },
+    {
+      "asset": "raider-skiff",
+      "errors": 0,
+      "warnings": 24,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 24
+      }
+    },
+    {
+      "asset": "raider",
+      "errors": 0,
+      "warnings": 8,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 7,
+        "UNUSED_OBJECT": 1,
+        "NODE_SKINNED_MESH_NON_ROOT": 1
+      }
+    },
+    {
+      "asset": "salvage-chest",
+      "errors": 0,
+      "warnings": 3,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 3,
+        "UNUSED_OBJECT": 1
+      }
+    },
+    {
+      "asset": "salvaged-radio",
+      "errors": 0,
+      "warnings": 8,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 8
+      }
+    },
+    {
+      "asset": "scavenger",
+      "errors": 0,
+      "warnings": 6,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 5,
+        "UNUSED_OBJECT": 1,
+        "NODE_SKINNED_MESH_NON_ROOT": 1
+      }
+    },
+    {
+      "asset": "scrap-rifle",
+      "errors": 0,
+      "warnings": 5,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 5,
+        "NODE_EMPTY": 2
+      }
+    },
+    {
+      "asset": "scrap-shotgun",
+      "errors": 0,
+      "warnings": 5,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 5,
+        "NODE_EMPTY": 2
+      }
+    },
+    {
+      "asset": "station-kit",
+      "errors": 0,
+      "warnings": 20,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 20
+      }
+    }
+  ]
+}

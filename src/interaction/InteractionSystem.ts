@@ -16,6 +16,14 @@ export interface Interactable {
     | 'refinery'
     | 'generator'
     | 'stove'
+    | 'turret'
+    | 'turret-auto'
+    | 'collector'
+    | 'radio'
+    | 'helm'
+    | 'journal'
+    | 'unique'
+    | 'departure'
     // Every timed device — the condenser, the planter — under one kind, so
     // collecting an output is one branch rather than one per machine. What
     // came out is the build system's business, not this file's.

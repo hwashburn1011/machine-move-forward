@@ -43,13 +43,13 @@ describe('recipe data', () => {
 describe('canCraft', () => {
   it('is true with exactly the inputs', () => {
     const { inventory, crafting } = make();
-    inventory.add('scrap', 4);
+    inventory.add('scrap', 8);
     expect(crafting.canCraft(recipeById(REFINE)!)).toBe(true);
   });
 
   it('is false one short', () => {
     const { inventory, crafting } = make();
-    inventory.add('scrap', 3);
+    inventory.add('scrap', 7);
     expect(crafting.canCraft(recipeById(REFINE)!)).toBe(false);
   });
 
@@ -66,16 +66,16 @@ describe('craft', () => {
     inventory.add('scrap', 10);
 
     expect(crafting.craft(REFINE)).toBe(true);
-    expect(inventory.count('scrap')).toBe(6);
-    expect(inventory.count('components')).toBe(1);
+    expect(inventory.count('scrap')).toBe(2);
+    expect(inventory.count('components')).toBe(2);
   });
 
   it('consumes nothing when the inputs are short', () => {
     const { inventory, crafting } = make();
-    inventory.add('scrap', 3);
+    inventory.add('scrap', 7);
 
     expect(crafting.craft(REFINE)).toBe(false);
-    expect(inventory.count('scrap')).toBe(3);
+    expect(inventory.count('scrap')).toBe(7);
     expect(inventory.count('components')).toBe(0);
   });
 
@@ -110,10 +110,13 @@ describe('craft', () => {
     const seen = vi.fn();
     bus.on('craft:completed', seen);
 
-    inventory.add('scrap', 4);
+    inventory.add('scrap', 8);
     expect(crafting.craft(REFINE)).toBe(true);
     expect(seen).toHaveBeenCalledTimes(1);
-    expect(seen.mock.calls[0]?.[0]).toEqual({ recipeId: REFINE });
+    expect(seen.mock.calls[0]?.[0]).toEqual({
+      recipeId: REFINE,
+      outputs: [{ id: 'components', count: 2 }],
+    });
 
     // Now broke: the second attempt must be silent.
     expect(crafting.craft(REFINE)).toBe(false);
@@ -153,7 +156,7 @@ describe('the powered refinery', () => {
     inventory.add('scrap', 10);
     expect(crafting.craftBlock(recipeById(REFINE)!)).toBeNull();
     expect(crafting.craft(REFINE)).toBe(true);
-    expect(inventory.count('components')).toBe(1);
+    expect(inventory.count('components')).toBe(2);
   });
 
   it('never gates the workbench, however dark the machine', () => {
@@ -172,7 +175,7 @@ describe('the powered refinery', () => {
       asked.push(station);
       return true;
     });
-    inventory.add('scrap', 4);
+    inventory.add('scrap', 8);
     crafting.craft(REFINE);
     expect(asked).toContain('refinery');
     expect(asked).not.toContain('workbench');

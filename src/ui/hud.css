@@ -250,6 +250,49 @@
   display: none;
 }
 
+#hud-objective {
+  position: absolute;
+  right: 26px;
+  top: 26px;
+  width: min(300px, 30vw);
+  padding: 10px 12px;
+  background: rgba(14, 11, 8, 0.68);
+  border-left: 2px solid var(--amber);
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+#hud-objective-title,
+#hud-objective-detail,
+#hud-objective-control {
+  display: block;
+}
+
+#hud-objective-title {
+  color: var(--amber);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+#hud-objective-detail {
+  margin-top: 5px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+#hud-objective-control {
+  margin-top: 7px;
+  color: var(--amber-dim);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+#hud-objective.is-complete {
+  opacity: 0.72;
+}
+
 #hud-warning {
   position: absolute;
   left: 50%;
@@ -994,6 +1037,24 @@
 #title-settings-back {
   align-self: flex-start;
   padding-left: 0;
+}
+
+#title-status {
+  display: none;
+  margin-top: 18px;
+  padding-left: 14px;
+  color: var(--amber-dim);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#title-status.is-visible {
+  display: block;
+}
+
+#title-status.is-error {
+  color: var(--danger);
 }
 
 /* --- Title card ---------------------------------------------------------

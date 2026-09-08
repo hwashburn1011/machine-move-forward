@@ -62,6 +62,9 @@ export function connectGameSounds(
   const offs = [
     // --- Weapons. Not positional: the player IS the source. ----------------
     bus.on('weapon:fired', (e) => audio.play(e.weaponId === 'shotgun' ? 'shotgun' : 'rifle')),
+    bus.on('turret:fired', () => audio.play('rifle')),
+    bus.on('gunboat:telegraph', () => audio.play('warning')),
+    bus.on('gunboat:volley', () => audio.play('rifle')),
     bus.on('weapon:dry-fire', () => audio.play('dry-fire')),
     bus.on('weapon:reload-started', () => audio.play('reload-start')),
     bus.on('weapon:reload-finished', () => audio.play('reload-done')),
@@ -69,7 +72,13 @@ export function connectGameSounds(
     // The single most useful thing audio does in a shooter: telling the player
     // whether they hit the target or the deck behind it, without looking.
     bus.on('combat:hit', (e) =>
-      at(e.onMetal && !e.targetId ? 'hit-metal' : 'hit-flesh', e.position.x, e.position.z),
+      at(
+        e.surface === 'flesh' || (e.surface === undefined && !e.onMetal)
+          ? 'hit-flesh'
+          : 'hit-metal',
+        e.position.x,
+        e.position.z,
+      ),
     ),
     bus.on('enemy:damaged', () => audio.play('enemy-hurt')),
     bus.on('enemy:killed', (e) => at('enemy-died', e.position.x, e.position.z)),
@@ -85,6 +94,9 @@ export function connectGameSounds(
     bus.on('build:removed', () => audio.play('build-remove')),
     bus.on('loot:collected', () => audio.play('pickup')),
     bus.on('craft:completed', () => audio.play('craft')),
+    bus.on('radio:found', () => audio.play('radio-signal')),
+    bus.on('story:next-signal', () => audio.play('radio-signal')),
+    bus.on('story:unique-collected', () => audio.play('craft')),
 
     // --- The threat director -----------------------------------------------
     // The reason the director's telegraph can work at all. A banner needs a

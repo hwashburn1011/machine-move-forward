@@ -115,6 +115,25 @@ function at(geo: THREE.BufferGeometry, x: number, y: number, z: number): THREE.B
   return geo;
 }
 
+function nonIndexed(geo: THREE.BufferGeometry): THREE.BufferGeometry {
+  const out = geo.index ? geo.toNonIndexed() : geo;
+  if (out !== geo) geo.dispose();
+  return out;
+}
+
+function tubeBetween(points: THREE.Vector3[], radius: number, segments = 12): THREE.BufferGeometry {
+  return nonIndexed(
+    new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points), segments, radius, 8, false),
+  );
+}
+
+function gaugeFace(x: number, y: number, z: number, radius = 0.14): THREE.BufferGeometry {
+  const bezel = new THREE.TorusGeometry(radius, 0.025, 8, 20);
+  bezel.rotateX(Math.PI / 2);
+  bezel.translate(x, y, z);
+  return nonIndexed(bezel);
+}
+
 function floorGeometry(): THREE.BufferGeometry {
   // Slightly under a full tile so neighbouring plates show a seam, which gives
   // the deck a readable physical scale to walk across.
@@ -151,7 +170,7 @@ function doorwayGeometry(): THREE.BufferGeometry {
     parts.push(
       at(
         bevelledBox(jambWidth, WALL_HEIGHT, WALL_THICKNESS, 0.05),
-        side * (DOOR_OPENING_WIDTH + jambWidth) / 2,
+        (side * (DOOR_OPENING_WIDTH + jambWidth)) / 2,
         WALL_HEIGHT / 2,
         0,
       ),
@@ -211,9 +230,7 @@ function stairsGeometry(): THREE.BufferGeometry {
   const parts: THREE.BufferGeometry[] = [];
   for (let i = 0; i < STAIR_STEPS; i++) {
     const tread = bevelledBox(T * 0.9, stepRise + 0.04, stepRun * 1.02, 0.02);
-    parts.push(
-      at(tread, 0, stepRise * (i + 0.5), run / 2 - stepRun * (i + 0.5)),
-    );
+    parts.push(at(tread, 0, stepRise * (i + 0.5), run / 2 - stepRun * (i + 0.5)));
   }
 
   // Stringers down both sides, so the flight reads as a built object.
@@ -243,6 +260,11 @@ function crateGeometry(): THREE.BufferGeometry {
   const trim: THREE.BufferGeometry[] = [
     at(bevelledBox(w * 1.02, 0.07, w * 1.02, 0.02), 0, h - 0.12, 0),
     at(bevelledBox(w * 1.03, 0.13, w * 1.03, 0.02), 0, h * 0.42, 0),
+    // Hinges and a central latch are small, but give the storage piece a
+    // readable opening edge at the camera's normal gameplay distance.
+    at(bevelledBox(0.18, 0.06, 0.08, 0.015), -0.38, h + 0.04, -0.44),
+    at(bevelledBox(0.18, 0.06, 0.08, 0.015), 0.38, h + 0.04, -0.44),
+    at(bevelledBox(0.14, 0.16, 0.08, 0.018), 0, h * 0.58, -0.73),
   ];
 
   return grouped([body, trim]);
@@ -259,6 +281,17 @@ function workbenchGeometry(): THREE.BufferGeometry {
       parts.push(at(bevelledBox(0.12, 0.9, 0.12, 0.02), sx * 0.78, 0.45, sz * 0.36));
     }
   }
+  // Two recessed drawers and a real vise silhouette make this read as a
+  // working station rather than a waist-high crate.
+  for (const x of [-0.48, 0.48]) {
+    parts.push(at(bevelledBox(0.62, 0.24, 0.045, 0.015), x, 0.66, -0.47));
+    parts.push(at(bevelledBox(0.17, 0.035, 0.05, 0.01), x, 0.66, -0.5));
+  }
+  parts.push(at(bevelledBox(0.34, 0.14, 0.25, 0.025), 0.48, 1.08, -0.18));
+  parts.push(at(bevelledBox(0.42, 0.05, 0.3, 0.015), 0.48, 1.18, -0.18));
+  for (const x of [-0.58, -0.38, -0.18]) {
+    parts.push(at(bevelledBox(0.045, 0.16, 0.045, 0.008), x, 1.08, 0.1));
+  }
   return merge(parts);
 }
 
@@ -274,10 +307,28 @@ function refineryGeometry(): THREE.BufferGeometry {
     shell.push(at(bevelledBox(0.22, 1.0, 0.22, 0.05), dx, 2.35, 0.2));
   }
 
+  // Curved vessel bands and a transfer pipe break up the tall silhouette.
+  for (const y of [0.45, 1.1, 1.75]) {
+    shell.push(nonIndexed(new THREE.TorusGeometry(0.67, 0.035, 8, 24)).translate(0, y, 0));
+  }
+  shell.push(
+    tubeBetween(
+      [
+        new THREE.Vector3(0.52, 1.95, 0.35),
+        new THREE.Vector3(0.83, 2.25, 0.28),
+        new THREE.Vector3(0.83, 2.65, 0.15),
+      ],
+      0.055,
+    ),
+  );
+  shell.push(nonIndexed(new THREE.CylinderGeometry(0.2, 0.2, 0.12, 16)).translate(0, 2.95, 0));
+
   // The one lit element on the deck at night, and the cue that tells a crate
   // and a refinery apart at a glance.
   const indicator: THREE.BufferGeometry[] = [
     at(bevelledBox(0.34, 0.14, 0.06, 0.02), 0, 1.58, 0.67),
+    gaugeFace(0.32, 1.38, 0.67, 0.14),
+    at(bevelledBox(0.018, 0.1, 0.012, 0.004), 0.32, 1.38, 0.67),
   ];
 
   return grouped([shell, indicator]);
@@ -297,17 +348,31 @@ function generatorGeometry(): THREE.BufferGeometry {
     at(bevelledBox(w, h, w * 0.85, 0.07), 0, h / 2, 0),
     at(bevelledBox(w * 1.05, 0.16, w * 0.92, 0.04), 0, 0.1, 0),
     // Radiator fins across the back.
-    ...[-0.3, 0, 0.3].map((offset) =>
-      at(bevelledBox(w * 0.9, 0.5, 0.09, 0.02), 0, h * 0.6, -w * 0.44 + offset * 0.02),
+    ...[-0.32, -0.16, 0, 0.16, 0.32].map((offset) =>
+      at(bevelledBox(0.07, 0.54, w * 0.82, 0.018), offset, h * 0.62, -w * 0.44),
     ),
   ];
   // Exhaust stack, offset so the silhouette is not symmetrical.
   shell.push(at(bevelledBox(0.2, 0.85, 0.2, 0.04), w * 0.3, h + 0.42, -w * 0.2));
+  shell.push(
+    tubeBetween(
+      [
+        new THREE.Vector3(-0.5, 0.52, 0.52),
+        new THREE.Vector3(-0.78, 0.72, 0.72),
+        new THREE.Vector3(-0.78, 1.34, 0.72),
+      ],
+      0.045,
+    ),
+  );
+  shell.push(nonIndexed(new THREE.TorusGeometry(0.22, 0.025, 8, 20)).translate(0, 0.1, 0));
 
   // The status panel: the cue that tells a generator from a crate at a glance,
   // and the one the emissive material makes glow while it is running.
   const panel: THREE.BufferGeometry[] = [
     at(bevelledBox(0.42, 0.16, 0.06, 0.02), -0.2, h * 0.72, w * 0.44),
+    gaugeFace(0.22, h * 0.72, w * 0.48, 0.13),
+    at(bevelledBox(0.016, 0.09, 0.012, 0.004), 0.22, h * 0.72, w * 0.48),
+    at(bevelledBox(0.48, 0.035, 0.08, 0.01), 0, h * 0.93, w * 0.45),
   ];
 
   return grouped([shell, panel]);
@@ -335,6 +400,10 @@ function lampGeometry(): THREE.BufferGeometry {
   ];
 
   const head: THREE.BufferGeometry[] = [at(bevelledBox(0.44, 0.16, 0.26, 0.03), 0, y - 0.08, 0)];
+
+  // Rimmed diffuser and a recessed inner glass face. The second material group
+  // remains the existing emissive slot used by pieceMaterial('lamp').
+  head.push(at(bevelledBox(0.3, 0.08, 0.18, 0.025), 0, y - 0.18, 0));
 
   return grouped([bracket, head]);
 }
@@ -388,9 +457,7 @@ function condenserGeometry(): THREE.BufferGeometry {
     shell.push(at(bevelledBox(1.16, 0.07, 1.16, 0.02), 0, y, 0));
   }
 
-  const indicator: THREE.BufferGeometry[] = [
-    at(bevelledBox(0.2, 0.1, 0.06, 0.02), 0, 1.92, 0.44),
-  ];
+  const indicator: THREE.BufferGeometry[] = [at(bevelledBox(0.2, 0.1, 0.06, 0.02), 0, 1.92, 0.44)];
 
   return grouped([shell, indicator]);
 }
@@ -508,6 +575,12 @@ const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
   stove: stoveGeometry,
   condenser: condenserGeometry,
   planter: planterGeometry,
+  // The defence factory replaces this placeholder mesh when available. The
+  // plate keeps saves and headless build validation usable before that asset
+  // is loaded.
+  'turret-manual': floorGeometry,
+  'collector-auto': crateGeometry,
+  'turret-auto': floorGeometry,
   chair: chairGeometry,
   table: tableGeometry,
   rug: rugGeometry,
@@ -563,6 +636,12 @@ export function pieceMaterial(
       return [materials.stationMetal, materials.emissiveWarn];
     case 'condenser':
       return [materials.stationMetal, materials.emissiveWarn];
+    case 'turret-manual':
+      return [materials.stationMetal, materials.emissiveWarn];
+    case 'collector-auto':
+      return [materials.stationMetal, materials.emissiveWarn];
+    case 'turret-auto':
+      return [materials.stationMetal, materials.emissiveWarn];
     // Group 1 is the crop, and it is the one place on this machine anything
     // is alive. `accent` is the warmest thing in the palette; a green would
     // need a material of its own for six small slabs.
@@ -608,39 +687,32 @@ export function pieceMaterial(
 export function pieceColliders(piece: PieceId): ColliderSpec[] {
   switch (piece) {
     case 'crate':
-      return [
-        { half: new THREE.Vector3(0.7, 0.55, 0.7), offset: new THREE.Vector3(0, 0.55, 0) },
-      ];
+      return [{ half: new THREE.Vector3(0.7, 0.55, 0.7), offset: new THREE.Vector3(0, 0.55, 0) }];
     case 'workbench':
-      return [
-        { half: new THREE.Vector3(0.9, 0.51, 0.45), offset: new THREE.Vector3(0, 0.51, 0) },
-      ];
+      return [{ half: new THREE.Vector3(0.9, 0.51, 0.45), offset: new THREE.Vector3(0, 0.51, 0) }];
     case 'refinery':
-      return [
-        { half: new THREE.Vector3(0.75, 0.95, 0.75), offset: new THREE.Vector3(0, 0.95, 0) },
-      ];
+      return [{ half: new THREE.Vector3(0.75, 0.95, 0.75), offset: new THREE.Vector3(0, 0.95, 0) }];
 
     case 'generator':
-      return [
-        { half: new THREE.Vector3(0.85, 0.65, 0.72), offset: new THREE.Vector3(0, 0.65, 0) },
-      ];
+      return [{ half: new THREE.Vector3(0.85, 0.65, 0.72), offset: new THREE.Vector3(0, 0.65, 0) }];
 
     case 'stove':
-      return [
-        { half: new THREE.Vector3(0.79, 0.55, 0.62), offset: new THREE.Vector3(0, 0.55, 0) },
-      ];
+      return [{ half: new THREE.Vector3(0.79, 0.55, 0.62), offset: new THREE.Vector3(0, 0.55, 0) }];
 
     case 'condenser':
-      return [
-        { half: new THREE.Vector3(0.63, 0.95, 0.63), offset: new THREE.Vector3(0, 0.95, 0) },
-      ];
+      return [{ half: new THREE.Vector3(0.63, 0.95, 0.63), offset: new THREE.Vector3(0, 0.95, 0) }];
+
+    case 'turret-manual':
+      return [{ half: new THREE.Vector3(0.82, 0.5, 0.82), offset: new THREE.Vector3(0, 0.5, 0) }];
+    case 'collector-auto':
+      return [{ half: new THREE.Vector3(0.82, 0.55, 0.82), offset: new THREE.Vector3(0, 0.55, 0) }];
+    case 'turret-auto':
+      return [{ half: new THREE.Vector3(0.82, 0.5, 0.82), offset: new THREE.Vector3(0, 0.5, 0) }];
 
     // Shin-high, and the collider says so. A knee-high box the player can see
     // over but not step through is exactly what a planter is.
     case 'planter':
-      return [
-        { half: new THREE.Vector3(0.84, 0.3, 0.68), offset: new THREE.Vector3(0, 0.3, 0) },
-      ];
+      return [{ half: new THREE.Vector3(0.84, 0.3, 0.68), offset: new THREE.Vector3(0, 0.3, 0) }];
 
     // None, deliberately. A lamp is a fitting on a wall that already has a
     // collider; giving it one of its own would put a shin-catcher in the

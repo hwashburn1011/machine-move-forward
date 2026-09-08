@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { Materials } from '@/art/Materials';
+import { createMachineDetailBatches } from '@/art/MachineDetailModels';
 import {
   DECK_HEIGHT,
   DECK_PLATE_HALF,
@@ -8,6 +9,7 @@ import {
   GRID_TILE,
   MACHINE_TILES_X,
   MACHINE_TILES_Z,
+  DECK_SURFACE_Y,
 } from '@/game/constants';
 
 /**
@@ -95,7 +97,52 @@ export interface MachineBuild {
     center: THREE.Vector3;
     rotX?: number;
     blocksBuild?: boolean;
+    /** Retracts only while the expedition gangway is deployed. */
+    expeditionGate?: boolean;
   }[];
+}
+
+/** Replace the fixed helm fallback after authored assets finish loading. */
+export function installNavigationHelm(
+  machineGroup: THREE.Group,
+  authored: THREE.Object3D,
+): boolean {
+  const required = ['HelmRoot', 'GyroInstalled', 'HelmPowerLamp', 'HelmInteract'];
+  if (!required.every((name) => authored.getObjectByName(name))) return false;
+  let meshes = 0;
+  let valid = true;
+  authored.traverse((object) => {
+    if (
+      ![
+        ...object.position.toArray(),
+        ...object.quaternion.toArray(),
+        ...object.scale.toArray(),
+      ].every(Number.isFinite)
+    )
+      valid = false;
+    const mesh = object as THREE.Mesh;
+    if (mesh.isMesh) {
+      const positions = mesh.geometry?.getAttribute('position');
+      if (!positions || positions.count < 3 || !Array.from(positions.array).every(Number.isFinite))
+        valid = false;
+      else meshes++;
+    }
+  });
+  if (!valid || !meshes) return false;
+  const existing = machineGroup.getObjectByName('HelmRoot');
+  if (!existing?.parent) return false;
+  const parent = existing.parent as THREE.Group;
+  const position = existing.position.clone();
+  parent.remove(existing);
+  if (!existing.userData.authored)
+    existing.traverse((object) => {
+      if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).geometry.dispose();
+    });
+  authored.position.copy(position);
+  authored.name = 'HelmRoot';
+  authored.userData.authored = true;
+  parent.add(authored);
+  return true;
 }
 
 const DECK_W = MACHINE_TILES_X * GRID_TILE; // 10m
@@ -127,6 +174,12 @@ export function buildMachine(materials: Materials): MachineBuild {
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     group.add(mesh);
+    return mesh;
+  };
+
+  const markVisualFallback = (mesh: THREE.Mesh, skin?: string) => {
+    mesh.userData.machineDetailFallback = true;
+    if (skin) mesh.userData.machineVisualSkin = skin;
     return mesh;
   };
 
@@ -195,14 +248,38 @@ export function buildMachine(materials: Materials): MachineBuild {
   // single slab would floor over the well and there would be no way down.
   // Full-length slabs outboard and inboard of the well, then the two stubs
   // fore and aft of it.
-  collide((WELL_MIN_X + DECK_W / 2) / 2, DECK_PLATE_HALF, DECK_L / 2,
-    (-DECK_W / 2 + WELL_MIN_X) / 2, DECK_HEIGHT, 0);
-  collide((DECK_W / 2 - WELL_MAX_X) / 2, DECK_PLATE_HALF, DECK_L / 2,
-    (WELL_MAX_X + DECK_W / 2) / 2, DECK_HEIGHT, 0);
-  collide((WELL_MAX_X - WELL_MIN_X) / 2, DECK_PLATE_HALF, (DECK_L / 2 + WELL_MIN_Z) / 2,
-    WELL_MID_X, DECK_HEIGHT, (-DECK_L / 2 + WELL_MIN_Z) / 2);
-  collide((WELL_MAX_X - WELL_MIN_X) / 2, DECK_PLATE_HALF, (DECK_L / 2 - WELL_MAX_Z) / 2,
-    WELL_MID_X, DECK_HEIGHT, (DECK_L / 2 + WELL_MAX_Z) / 2);
+  collide(
+    (WELL_MIN_X + DECK_W / 2) / 2,
+    DECK_PLATE_HALF,
+    DECK_L / 2,
+    (-DECK_W / 2 + WELL_MIN_X) / 2,
+    DECK_HEIGHT,
+    0,
+  );
+  collide(
+    (DECK_W / 2 - WELL_MAX_X) / 2,
+    DECK_PLATE_HALF,
+    DECK_L / 2,
+    (WELL_MAX_X + DECK_W / 2) / 2,
+    DECK_HEIGHT,
+    0,
+  );
+  collide(
+    (WELL_MAX_X - WELL_MIN_X) / 2,
+    DECK_PLATE_HALF,
+    (DECK_L / 2 + WELL_MIN_Z) / 2,
+    WELL_MID_X,
+    DECK_HEIGHT,
+    (-DECK_L / 2 + WELL_MIN_Z) / 2,
+  );
+  collide(
+    (WELL_MAX_X - WELL_MIN_X) / 2,
+    DECK_PLATE_HALF,
+    (DECK_L / 2 - WELL_MAX_Z) / 2,
+    WELL_MID_X,
+    DECK_HEIGHT,
+    (DECK_L / 2 + WELL_MAX_Z) / 2,
+  );
 
   // --- Chassis ------------------------------------------------------------
   // The hull is a SHELL, not a solid block: floor, four walls, and the deck
@@ -249,12 +326,46 @@ export function buildMachine(materials: Materials): MachineBuild {
   collide(ROOM_WALL_T / 2, ROOM_H / 2, ROOM_HALF_L, ROOM_HALF_W - ROOM_WALL_T / 2, ROOM_MID_Y, 0);
   collide(ROOM_HALF_W, ROOM_H / 2, ROOM_WALL_T / 2, 0, ROOM_MID_Y, -ROOM_HALF_L + ROOM_WALL_T / 2);
   collide(ROOM_HALF_W, ROOM_H / 2, ROOM_WALL_T / 2, 0, ROOM_MID_Y, ROOM_HALF_L - ROOM_WALL_T / 2);
-  // Visible cross-members, so the underside reads as structure not a solid lump.
+  add(mergeParts(chassisParts), materials.hullDark).name = 'lower-room-shell';
+
+  // Visible cross-members, so the underside reads as structure rather than a
+  // solid lump. They belong against the ceiling: putting these visual-only
+  // beams at HULL_BOTTOM made a row of low obstacles across the engine-room
+  // floor even though no matching collider existed. Keeping them above the
+  // walkable capsule volume preserves the lower-room silhouette without
+  // inventing collision for decorative framing. The member over the stair
+  // opening is split around the opening as well: the ramp needs headroom, so
+  // visual clearance cannot depend on the player ignoring an uncollidable
+  // beam.
+  const ceilingFrame: Part[] = [];
   for (let i = 0; i < 7; i++) {
     const z = -DECK_L / 2 + 1.2 + i * ((DECK_L - 2.4) / 6);
-    chassisParts.push({ geo: bevelledBox(DECK_W + 0.5, 0.42, 0.34, 0.05), pos: [0, HULL_BOTTOM + 0.05, z] });
+    const beamWidth = DECK_W + 0.5;
+    const beamMinX = -beamWidth / 2;
+    const beamMaxX = beamWidth / 2;
+    const openingMinX = WELL_MIN_X + 0.12;
+    const openingMaxX = WELL_MAX_X - 0.12;
+    const crossesStairwell = z > WELL_MIN_Z - 0.17 && z < WELL_MAX_Z + 0.17;
+    if (!crossesStairwell) {
+      ceilingFrame.push({
+        geo: bevelledBox(beamWidth, 0.42, 0.34, 0.05),
+        pos: [0, DECK_UNDERSIDE - 0.21, z],
+      });
+      continue;
+    }
+    for (const [minX, maxX] of [
+      [beamMinX, openingMinX],
+      [openingMaxX, beamMaxX],
+    ] as const) {
+      ceilingFrame.push({
+        geo: bevelledBox(maxX - minX, 0.42, 0.34, 0.05),
+        pos: [(minX + maxX) / 2, DECK_UNDERSIDE - 0.21, z],
+      });
+    }
   }
-  add(mergeParts(chassisParts), materials.hullDark);
+  const frame = add(mergeParts(ceilingFrame), materials.hullDark);
+  frame.name = 'lower-room-ceiling-frame';
+  frame.userData.machineDetailFallback = true;
 
   // --- Stairwell coaming ---------------------------------------------------
   // A lip around three sides of the opening. Without it the well is an open
@@ -292,7 +403,8 @@ export function buildMachine(materials: Materials): MachineBuild {
     pos: [WELL_MID_X, coamY, WELL_MIN_Z + COAM_INSET],
   });
   collide(foreW / 2, COAM_H / 2, COAM_T / 2, WELL_MID_X, coamY, WELL_MIN_Z + COAM_INSET);
-  add(mergeParts(coamParts), materials.bareSteel).name = 'stairwell-coaming';
+  markVisualFallback(add(mergeParts(coamParts), materials.bareSteel), 'deck').name =
+    'stairwell-coaming';
 
   // --- Engine room stair --------------------------------------------------
   // A single smooth ramp from the deck opening down to the engine room floor.
@@ -350,9 +462,14 @@ export function buildMachine(materials: Materials): MachineBuild {
     const top = DECK_UNDERSIDE;
     const bottom = 1.4;
     const sponson: Part[] = [
-      { geo: bevelledBox(width, top - bottom, DECK_L - 2.6, 0.12), pos: [x, (bottom + top) / 2, 0] },
+      {
+        geo: bevelledBox(width, top - bottom, DECK_L - 2.6, 0.12),
+        pos: [x, (bottom + top) / 2, 0],
+      },
     ];
-    add(mergeParts(sponson), materials.hull);
+    // The authored v3 hull is inset from this collider-owned flank. Keep this
+    // exact envelope visible until a replacement covers the same outline.
+    add(mergeParts(sponson), materials.hull).name = side < 0 ? 'sponson-port' : 'sponson-starboard';
 
     // The collider is the sponson, not a box the size of the tread housing
     // that used to be here. Leaving it at the old size would put an invisible
@@ -378,21 +495,24 @@ export function buildMachine(materials: Materials): MachineBuild {
   });
   plough.rotateX(-0.42);
   plough.translate(0, HULL_BOTTOM - 0.7, prowZ - 1.1);
-  add(plough, materials.hull);
+  markVisualFallback(add(plough, materials.hull), 'prow').name = 'plough-visual';
   // The plough is a raked blade; a box around its bulk is enough to stop
   // anything walking out through the machine's face.
   collide(DECK_W / 2 + 1.2, 1.05, 0.7, 0, HULL_BOTTOM + 0.35, prowZ - 1.1);
 
   const prowBlock = bevelledBox(DECK_W - 1.0, 1.1, 1.6, 0.1);
   prowBlock.translate(0, DECK_HEIGHT + 0.64, prowZ + 0.6);
-  add(prowBlock, materials.hull);
+  // The v3 prow skin now covers this exact broad armor envelope. Keep the
+  // collider below as the gameplay source of truth, but allow the authored
+  // prow to replace this visual shell when its named root is present.
+  markVisualFallback(add(prowBlock, materials.hull), 'prow').name = 'prow-block-visual';
   collide((DECK_W - 1.0) / 2, 0.55, 0.8, 0, DECK_HEIGHT + 0.64, prowZ + 0.6);
 
   // Hazard stripe: the one saturated accent on the whole machine, placed on
   // the prow so the eye lands on the front.
   const stripe = bevelledBox(DECK_W - 1.4, 0.34, 0.12, 0.03);
   stripe.translate(0, DECK_HEIGHT + 0.64, prowZ - 0.22);
-  add(stripe, materials.hazard);
+  add(stripe, materials.hazard).name = 'prow-hazard-stripe';
 
   // --- Equipment (handoff section 49 starting loadout) --------------------
   const equipment: {
@@ -408,20 +528,82 @@ export function buildMachine(materials: Materials): MachineBuild {
     // walks in, and a wedged scavenger cannot move in any direction at all.
     // The grid cells this blocks are unchanged either way: they are rounded to
     // the 2m tile, and 1.4 and 1.6 both round to the same column.
-    { name: 'engine', size: [2.8, 1.8, 2.6], pos: [0, DECK_HEIGHT + 0.99, DECK_L / 2 - 2.0], mat: materials.hull },
-    { name: 'generator', size: [1.5, 1.2, 1.5], pos: [-3.0, DECK_HEIGHT + 0.69, DECK_L / 2 - 4.4], mat: materials.rustedSteel },
-    { name: 'fuel-tank', size: [1.6, 1.5, 2.4], pos: [3.1, DECK_HEIGHT + 0.84, DECK_L / 2 - 4.6], mat: materials.bareSteel },
+    {
+      name: 'engine',
+      size: [2.8, 1.8, 2.6],
+      pos: [0, DECK_HEIGHT + 0.99, DECK_L / 2 - 2.0],
+      mat: materials.hull,
+    },
+    {
+      name: 'generator',
+      size: [1.5, 1.2, 1.5],
+      pos: [-3.0, DECK_HEIGHT + 0.69, DECK_L / 2 - 4.4],
+      mat: materials.rustedSteel,
+    },
+    {
+      name: 'fuel-tank',
+      size: [1.6, 1.5, 2.4],
+      pos: [3.1, DECK_HEIGHT + 0.84, DECK_L / 2 - 4.6],
+      mat: materials.bareSteel,
+    },
     // Turned fore-and-aft and moved outboard to clear the stairwell column.
-    { name: 'workbench', size: [1.2, 1.0, 2.6], pos: [-4.2, DECK_HEIGHT + 0.59, 0.6], mat: materials.hullDark },
-    { name: 'crate-a', size: [1.3, 1.1, 1.3], pos: [3.2, DECK_HEIGHT + 0.64, 1.4], mat: materials.rustedSteel },
-    { name: 'crate-b', size: [1.3, 1.1, 1.3], pos: [3.2, DECK_HEIGHT + 0.64, -0.2], mat: materials.rustedSteel },
-    { name: 'collector', size: [1.2, 1.6, 1.2], pos: [-3.4, DECK_HEIGHT + 0.89, -4.2], mat: materials.hull },
+    {
+      name: 'workbench',
+      size: [1.2, 1.0, 2.6],
+      pos: [-4.2, DECK_HEIGHT + 0.59, 0.6],
+      mat: materials.hullDark,
+    },
+    {
+      name: 'crate-a',
+      size: [1.3, 1.1, 1.3],
+      pos: [3.2, DECK_HEIGHT + 0.64, 1.4],
+      mat: materials.rustedSteel,
+    },
+    {
+      name: 'crate-b',
+      size: [1.3, 1.1, 1.3],
+      pos: [3.2, DECK_HEIGHT + 0.64, -0.2],
+      mat: materials.rustedSteel,
+    },
+    {
+      name: 'collector',
+      size: [1.2, 1.6, 1.2],
+      pos: [-3.4, DECK_HEIGHT + 0.89, -4.2],
+      mat: materials.hull,
+    },
   ];
+
+  // Fixed navigation helm contract. The authored FA01 model replaces this
+  // fallback at the same machine-local anchor; its interaction face points
+  // aft (+Z) into the open deck lane.
+  const helmRoot = new THREE.Group();
+  helmRoot.name = 'HelmRoot';
+  helmRoot.position.set(-1.8, DECK_SURFACE_Y, -5.6);
+  group.add(helmRoot);
+  const helmBody = bevelledBox(1.2, 1.35, 0.75, 0.06);
+  helmBody.translate(0, 0.675, 0);
+  const helmMesh = new THREE.Mesh(helmBody, materials.hull);
+  helmMesh.castShadow = helmMesh.receiveShadow = true;
+  markVisualFallback(helmMesh, 'navigation-helm').name = 'NavigationHelmFallback';
+  helmRoot.add(helmMesh);
+  const gyro = new THREE.Group();
+  gyro.name = 'GyroInstalled';
+  helmRoot.add(gyro);
+  const helmLamp = new THREE.Group();
+  helmLamp.name = 'HelmPowerLamp';
+  helmRoot.add(helmLamp);
+  const interact = new THREE.Group();
+  interact.name = 'HelmInteract';
+  interact.position.set(0, 0.85, 0.48);
+  helmRoot.add(interact);
+  collide(0.6, 0.675, 0.375, -1.8, DECK_SURFACE_Y + 0.675, -5.6);
 
   for (const item of equipment) {
     const geo = bevelledBox(item.size[0], item.size[1], item.size[2], 0.07);
     geo.translate(item.pos[0], item.pos[1], item.pos[2]);
-    add(geo, item.mat).name = item.name;
+    const mesh = add(geo, item.mat);
+    mesh.name = item.name;
+    markVisualFallback(mesh, item.name === 'engine' ? 'engine' : `equipment:${item.name}`);
     collide(item.size[0] / 2, item.size[1] / 2, item.size[2] / 2, ...item.pos);
   }
 
@@ -432,7 +614,8 @@ export function buildMachine(materials: Materials): MachineBuild {
     const s = new THREE.CylinderGeometry(0.19, 0.24, 2.2, 10);
     stacks.push({ geo: s, pos: [dx, DECK_HEIGHT + 2.9, DECK_L / 2 - 1.4] });
   }
-  add(mergeParts(stacks), materials.rustedSteel);
+  markVisualFallback(add(mergeParts(stacks), materials.rustedSteel), 'engine').name =
+    'engine-exhaust-visual';
   // Solid. These stand 2.2m proud of the deck right where a player walks, and
   // without this you stand inside one.
   for (const dx of [-0.9, 0.9]) {
@@ -457,18 +640,46 @@ export function buildMachine(materials: Materials): MachineBuild {
   const railY = DECK_HEIGHT + 0.62;
   for (const side of [-1, 1]) {
     const x = side * (DECK_W / 2 - 0.12);
-    rails.push({ geo: bevelledBox(0.09, 0.09, DECK_L - 0.4, 0.02), pos: [x, railY + 0.42, 0] });
+    if (side === 1) {
+      for (const z of [-4.4, 4.4]) {
+        rails.push({ geo: bevelledBox(0.09, 0.09, 6.8, 0.02), pos: [x, railY + 0.42, z] });
+      }
+    } else {
+      rails.push({ geo: bevelledBox(0.09, 0.09, DECK_L - 0.4, 0.02), pos: [x, railY + 0.42, 0] });
+    }
     for (let i = 0; i < 9; i++) {
       const z = -DECK_L / 2 + 0.6 + i * ((DECK_L - 1.2) / 8);
+      if (side === 1 && Math.abs(z) < 1) continue;
       rails.push({ geo: bevelledBox(0.09, 1.0, 0.09, 0.02), pos: [x, railY - 0.06, z] });
     }
   }
+  // A retracting safety gate gives the deployed gangway a real opening in the
+  // machine's existing rail. The remaining rail stays solid while moored.
+  const gateX = DECK_W / 2 - 0.12;
+  const gate = new THREE.Group();
+  gate.name = 'ExpeditionGate';
+  gate.add(
+    new THREE.Mesh(
+      mergeParts([
+        { geo: bevelledBox(0.09, 0.09, 2, 0.02), pos: [gateX, railY + 0.42, 0] },
+        { geo: bevelledBox(0.09, 1, 0.09, 0.02), pos: [gateX, railY - 0.06, 0] },
+      ]),
+      materials.hazard,
+    ),
+  );
+  gate.traverse((object) => {
+    object.castShadow = object.receiveShadow = true;
+  });
+  group.add(gate);
   // Rear rail.
   rails.push({
     geo: bevelledBox(DECK_W - 0.4, 0.09, 0.09, 0.02),
     pos: [0, railY + 0.42, DECK_L / 2 - 0.12],
   });
-  add(mergeParts(rails), materials.bareSteel);
+  // Only the static rail is replaced. The independent ExpeditionGate keeps
+  // its runtime animation and collider, with the same opening in the trim.
+  markVisualFallback(add(mergeParts(rails), materials.bareSteel), 'deck').name =
+    'static-deck-rails';
 
   // Railings are barriers, not decoration. One continuous collider a side
   // rather than one per post: the posts have gaps you can see through and
@@ -490,6 +701,29 @@ export function buildMachine(materials: Materials): MachineBuild {
   // itself.
   const RAIL_TOP = 0.95;
   for (const side of [-1, 1]) {
+    if (side === 1) {
+      for (const z of [-4.4, 4.4]) {
+        collide(
+          0.06,
+          RAIL_TOP / 2,
+          3.4,
+          DECK_W / 2 - 0.05,
+          DECK_HEIGHT + DECK_PLATE_HALF + RAIL_TOP / 2,
+          z,
+        ).blocksBuild = false;
+      }
+      const gateCollider = collide(
+        0.06,
+        RAIL_TOP / 2,
+        1,
+        DECK_W / 2 - 0.05,
+        DECK_HEIGHT + DECK_PLATE_HALF + RAIL_TOP / 2,
+        0,
+      );
+      gateCollider.blocksBuild = false;
+      gateCollider.expeditionGate = true;
+      continue;
+    }
     collide(
       0.06,
       RAIL_TOP / 2,
@@ -510,6 +744,21 @@ export function buildMachine(materials: Materials): MachineBuild {
     DECK_HEIGHT + DECK_PLATE_HALF + RAIL_TOP / 2,
     DECK_L / 2 - 0.12,
   ).blocksBuild = false;
+
+  // Layered machine details are visual-only and material-batched. The
+  // collider list above remains the source of truth for walkability, build
+  // cells, the gate opening, and the engine-room route.
+  for (const detail of createMachineDetailBatches(materials)) {
+    const mesh = new THREE.Mesh(detail.geometry, detail.material);
+    mesh.name = detail.name;
+    mesh.userData.machineDetailFallback = true;
+    if (detail.name === 'MachineWeldedFrame' || detail.name === 'MachineBearingsAndHatches') {
+      mesh.userData.machineVisualSkin = 'hull';
+    }
+    mesh.castShadow = detail.castShadow;
+    mesh.receiveShadow = true;
+    group.add(mesh);
+  }
 
   return { group, colliders };
 }

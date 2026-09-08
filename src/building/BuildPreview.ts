@@ -33,6 +33,9 @@ export class BuildPreview {
   readonly mesh: THREE.Mesh;
 
   private readonly material: THREE.MeshBasicMaterial;
+  private readonly emptyGeometry = new THREE.BufferGeometry();
+  private readonly ghostMaterials = new Map<THREE.Material, THREE.Color | null>();
+  private authoredRoot: THREE.Object3D | null = null;
   private readonly hitPoint = new THREE.Vector3();
   private current: Placement | null = null;
   private currentValidation: Validation = { ok: false };
@@ -102,12 +105,21 @@ export class BuildPreview {
         : { piece, cell, rotation };
 
     this.currentValidation = system.canPlace(this.current);
-    this.applyGhost(piece, this.current);
+    this.applyGhost(piece, this.current, system);
   }
 
-  private applyGhost(piece: PieceId, placement: Placement): void {
+  private applyGhost(piece: PieceId, placement: Placement, system: BuildSystem): void {
     if (this.currentPiece !== piece) {
-      this.mesh.geometry = buildPieceGeometry(piece);
+      this.clearAuthoredGhost();
+      const authored = system.createPreviewVisual(piece);
+      if (authored) {
+        this.mesh.geometry = this.emptyGeometry;
+        this.authoredRoot = authored;
+        this.prepareAuthoredGhost(authored);
+        this.mesh.add(authored);
+      } else {
+        this.mesh.geometry = buildPieceGeometry(piece);
+      }
       this.currentPiece = piece;
     }
 
@@ -120,9 +132,59 @@ export class BuildPreview {
     this.mesh.position.copy(position);
     this.mesh.rotation.y = rotationY;
     this.material.color.copy(this.currentValidation.ok ? VALID_COLOR : INVALID_COLOR);
+    this.tintAuthoredGhost(this.currentValidation.ok ? VALID_COLOR : INVALID_COLOR);
+  }
+
+  /** Clone materials, never source geometry, so the ghost can be translucent. */
+  private prepareAuthoredGhost(root: THREE.Object3D): void {
+    root.traverse((object) => {
+      const mesh = object as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const source = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const cloned = source.map((material) => {
+        const ghost = material.clone();
+        ghost.transparent = true;
+        ghost.opacity = this.material.opacity;
+        ghost.depthTest = false;
+        ghost.depthWrite = false;
+        const colorMaterial = ghost as THREE.Material & { color?: THREE.Color };
+        this.ghostMaterials.set(
+          ghost,
+          colorMaterial.color?.isColor ? colorMaterial.color.clone() : null,
+        );
+        const emissive = ghost as THREE.MeshStandardMaterial;
+        if (emissive.emissive?.isColor) emissive.emissiveIntensity = 0;
+        return ghost;
+      });
+      mesh.material = Array.isArray(mesh.material) ? cloned : cloned[0]!;
+      mesh.castShadow = false;
+      mesh.receiveShadow = false;
+      mesh.frustumCulled = false;
+      mesh.renderOrder = 1000;
+    });
+  }
+
+  private tintAuthoredGhost(color: THREE.Color): void {
+    for (const [material, base] of this.ghostMaterials) {
+      if (!base) continue;
+      const colorMaterial = material as THREE.Material & { color?: THREE.Color };
+      colorMaterial.color?.copy(base).lerp(color, 0.68);
+    }
+  }
+
+  private clearAuthoredGhost(): void {
+    if (this.authoredRoot) {
+      this.mesh.remove(this.authoredRoot);
+      this.authoredRoot = null;
+    }
+    for (const material of this.ghostMaterials.keys()) material.dispose();
+    this.ghostMaterials.clear();
   }
 
   dispose(): void {
+    this.clearAuthoredGhost();
+    this.mesh.removeFromParent();
+    this.emptyGeometry.dispose();
     this.material.dispose();
   }
 }

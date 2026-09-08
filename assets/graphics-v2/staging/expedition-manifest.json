@@ -1,0 +1,57 @@
+[
+  {
+    "asset": "expedition-wreck",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\expedition-wreck.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\expedition-wreck.blend",
+    "triangles": 93456,
+    "meshes": 12,
+    "bytes": 24596900,
+    "boundsGame": {
+      "min": [
+        -7.0,
+        -2.4242,
+        -9.0744
+      ],
+      "max": [
+        6.02,
+        3.7,
+        9.44
+      ]
+    },
+    "requiredNodes": {
+      "Gangway": true,
+      "CourseGyro": true,
+      "JournalCargo": true,
+      "JournalCrew": true,
+      "JournalRoute": true
+    }
+  },
+  {
+    "asset": "raider-skiff",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\raider-skiff.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\raider-skiff.blend",
+    "triangles": 66392,
+    "meshes": 5,
+    "bytes": 23315600,
+    "boundsGame": {
+      "min": [
+        -1.632,
+        0.0825,
+        -3.08
+      ],
+      "max": [
+        1.632,
+        2.48,
+        2.52
+      ]
+    },
+    "requiredNodes": {
+      "SkiffGunYaw": true,
+      "SkiffGunPitch": true,
+      "SkiffMuzzle": true,
+      "CrewSeatLeft": true,
+      "CrewSeatRight": true,
+      "PilotSeat": true
+    }
+  }
+]

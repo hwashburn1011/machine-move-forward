@@ -1,0 +1,2947 @@
+{
+  "optimized": [
+    {
+      "asset": "expedition-wreck",
+      "sourceBytes": 24596900,
+      "optimizedBytes": 3271000,
+      "sourceGeometryBytes": 2804080,
+      "compressedGeometryBytes": 1870446,
+      "meshoptFallbackBufferBytes": 2804080,
+      "sourceTextureBytes": 21752619,
+      "webpTextureBytes": 1332758,
+      "selectedTextureGpuBytesWithMips": 58720256,
+      "images": [
+        {
+          "image": "ExpWreck_Ochre_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Ochre_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1207696,
+          "webpBytes": 27200,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpWreck_Ochre_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985915,
+          "webpBytes": 98472,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1217605,
+          "webpBytes": 30130,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpWreck_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985907,
+          "webpBytes": 98442,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 922083,
+          "webpBytes": 6596,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpWreck_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986420,
+          "webpBytes": 98568,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Glass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000782,
+          "webpBytes": 71470,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Glass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1251721,
+          "webpBytes": 38186,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpWreck_Glass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 982286,
+          "webpBytes": 97770,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Rust_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Rust_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1085505,
+          "webpBytes": 11912,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpWreck_Rust_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986018,
+          "webpBytes": 98360,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Canvas_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001084,
+          "webpBytes": 71590,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Canvas_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1029195,
+          "webpBytes": 10742,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpWreck_Canvas_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 984813,
+          "webpBytes": 98338,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Hull_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpWreck_Hull_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1134607,
+          "webpBytes": 15764,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpWreck_Hull_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986074,
+          "webpBytes": 98436,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "Gangway",
+        "CourseGyro",
+        "JournalCargo",
+        "JournalCrew",
+        "JournalRoute"
+      ],
+      "extras": {
+        "graphicsVersion": "graphics-v2-industrial",
+        "floorSurfaceY": 0,
+        "walkableBounds": "x:-6..6,z:-9..9",
+        "openingContract": "x=-6 and x=2; z=-1..1; headerY>=2.5",
+        "visualOnlyDecor": true
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\expedition-wreck.glb"
+    },
+    {
+      "asset": "forged-hook",
+      "sourceBytes": 1222188,
+      "optimizedBytes": 358016,
+      "sourceGeometryBytes": 72360,
+      "compressedGeometryBytes": 48935,
+      "meshoptFallbackBufferBytes": 72360,
+      "sourceTextureBytes": 1146710,
+      "webpTextureBytes": 304278,
+      "selectedTextureGpuBytesWithMips": 5592405,
+      "images": [
+        {
+          "image": "metal_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 276251,
+          "webpBytes": 111164,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Salvage_Steel_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 269615,
+          "webpBytes": 4474,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 343124,
+          "webpBytes": 187346,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Salvage_Dark_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 257720,
+          "webpBytes": 1294,
+          "format": "webp",
+          "lossless": false
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\forged-hook.glb"
+    },
+    {
+      "asset": "machine-kit",
+      "sourceBytes": 16076432,
+      "optimizedBytes": 1567972,
+      "sourceGeometryBytes": 948976,
+      "compressedGeometryBytes": 614988,
+      "meshoptFallbackBufferBytes": 948976,
+      "sourceTextureBytes": 15120022,
+      "webpTextureBytes": 941632,
+      "selectedTextureGpuBytesWithMips": 41943040,
+      "images": [
+        {
+          "image": "MachineKit_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 896465,
+          "webpBytes": 6848,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MachineKit_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986366,
+          "webpBytes": 98362,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1127661,
+          "webpBytes": 15542,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MachineKit_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986214,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1165868,
+          "webpBytes": 32722,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MachineKit_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985989,
+          "webpBytes": 98406,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 784222,
+          "webpBytes": 5070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MachineKit_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 976198,
+          "webpBytes": 96828,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Hazard_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MachineKit_Hazard_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1220022,
+          "webpBytes": 30102,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MachineKit_Hazard_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986109,
+          "webpBytes": 98558,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\machine-kit.glb"
+    },
+    {
+      "asset": "manual-turret",
+      "sourceBytes": 15959880,
+      "optimizedBytes": 1475044,
+      "sourceGeometryBytes": 699792,
+      "compressedGeometryBytes": 486541,
+      "meshoptFallbackBufferBytes": 699792,
+      "sourceTextureBytes": 15247239,
+      "webpTextureBytes": 968054,
+      "selectedTextureGpuBytesWithMips": 41943040,
+      "images": [
+        {
+          "image": "Turret_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 928917,
+          "webpBytes": 7326,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Turret_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986224,
+          "webpBytes": 98336,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1220955,
+          "webpBytes": 33696,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Turret_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986085,
+          "webpBytes": 98466,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1127661,
+          "webpBytes": 15542,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Turret_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986214,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 784222,
+          "webpBytes": 5070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Turret_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 960902,
+          "webpBytes": 94598,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Glass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Turret_Glass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1274956,
+          "webpBytes": 57310,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Turret_Glass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986195,
+          "webpBytes": 98516,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "TurretYaw",
+        "TurretPitch",
+        "Muzzle"
+      ],
+      "extras": {
+        "authoredPalette": true
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\manual-turret.glb"
+    },
+    {
+      "asset": "player",
+      "sourceBytes": 15031456,
+      "optimizedBytes": 1765988,
+      "sourceGeometryBytes": 1244472,
+      "compressedGeometryBytes": 535651,
+      "meshoptFallbackBufferBytes": 1244472,
+      "sourceTextureBytes": 13730821,
+      "webpTextureBytes": 1165862,
+      "selectedTextureGpuBytesWithMips": 40544939,
+      "images": [
+        {
+          "image": "cloth_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1733612,
+          "webpBytes": 117824,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_TailoredJacket_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1251879,
+          "webpBytes": 8050,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "cloth_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1150896,
+          "webpBytes": 124860,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Canvas_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1302984,
+          "webpBytes": 96812,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "rubber_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 368492,
+          "webpBytes": 202244,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Rubber_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 240151,
+          "webpBytes": 680,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "rubber_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 309354,
+          "webpBytes": 171466,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Leather_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 337330,
+          "webpBytes": 2142,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1101604,
+          "webpBytes": 91658,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_BareSteel_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1334109,
+          "webpBytes": 21198,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1364747,
+          "webpBytes": 157574,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_DarkCanvas_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 775070,
+          "webpBytes": 5210,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V2_CoatedArmor_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1184149,
+          "webpBytes": 8570,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1276444,
+          "webpBytes": 157574,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "authoredPalette": true,
+        "forwardAxis": "+Z",
+        "authoredPlayer": true,
+        "graphicsVersion": 2
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\player.glb"
+    },
+    {
+      "asset": "raider-skiff",
+      "sourceBytes": 23315600,
+      "optimizedBytes": 2685768,
+      "sourceGeometryBytes": 1947816,
+      "compressedGeometryBytes": 1324441,
+      "meshoptFallbackBufferBytes": 1947816,
+      "sourceTextureBytes": 21342940,
+      "webpTextureBytes": 1320804,
+      "selectedTextureGpuBytesWithMips": 58720256,
+      "images": [
+        {
+          "image": "ExpSkiff_Canvas_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Canvas_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1014821,
+          "webpBytes": 10512,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpSkiff_Canvas_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986335,
+          "webpBytes": 98542,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Hull_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Hull_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1104787,
+          "webpBytes": 12976,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpSkiff_Hull_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986319,
+          "webpBytes": 98476,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Glass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001084,
+          "webpBytes": 71590,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Glass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1188975,
+          "webpBytes": 41760,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpSkiff_Glass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 974589,
+          "webpBytes": 96784,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 813627,
+          "webpBytes": 3986,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpSkiff_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 960836,
+          "webpBytes": 94598,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1226540,
+          "webpBytes": 33662,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpSkiff_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986008,
+          "webpBytes": 98406,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 924618,
+          "webpBytes": 5432,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpSkiff_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986452,
+          "webpBytes": 98384,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Ochre_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000782,
+          "webpBytes": 71470,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpSkiff_Ochre_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1196193,
+          "webpBytes": 25054,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpSkiff_Ochre_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986066,
+          "webpBytes": 98390,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "SkiffGunPitch",
+        "SkiffMuzzle",
+        "PilotSeat",
+        "CrewSeatLeft",
+        "CrewSeatRight"
+      ],
+      "extras": {
+        "graphicsVersion": "graphics-v2-industrial",
+        "boundsContract": "x:-1.55..1.55,z:-2.9..2.7,deckY=1.2",
+        "crewSeats": "(-.59,1.2,.35),(.59,1.2,.35)",
+        "pilotSeat": "(0,1.2,-1.45)"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\raider-skiff.glb"
+    },
+    {
+      "asset": "raider",
+      "sourceBytes": 14933260,
+      "optimizedBytes": 1769212,
+      "sourceGeometryBytes": 1244472,
+      "compressedGeometryBytes": 535353,
+      "meshoptFallbackBufferBytes": 1244472,
+      "sourceTextureBytes": 13609474,
+      "webpTextureBytes": 1146340,
+      "selectedTextureGpuBytesWithMips": 40544939,
+      "images": [
+        {
+          "image": "cloth_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1733612,
+          "webpBytes": 117824,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_TailoredJacket_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1249905,
+          "webpBytes": 29692,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "cloth_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1150896,
+          "webpBytes": 124860,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Canvas_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1183194,
+          "webpBytes": 52288,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1101604,
+          "webpBytes": 91658,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_CoatedArmor_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1184566,
+          "webpBytes": 11930,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1276444,
+          "webpBytes": 157574,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "rubber_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 368492,
+          "webpBytes": 202244,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Rubber_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 240151,
+          "webpBytes": 680,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "rubber_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 309354,
+          "webpBytes": 171466,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Leather_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 337330,
+          "webpBytes": 2142,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V2_BareSteel_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1334109,
+          "webpBytes": 21198,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1364747,
+          "webpBytes": 157574,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_DarkCanvas_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 775070,
+          "webpBytes": 5210,
+          "format": "webp",
+          "lossless": false
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "authoredPalette": true,
+        "graphicsVersion": 2
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\raider.glb"
+    },
+    {
+      "asset": "salvage-chest",
+      "sourceBytes": 1623800,
+      "optimizedBytes": 422116,
+      "sourceGeometryBytes": 166816,
+      "compressedGeometryBytes": 103671,
+      "meshoptFallbackBufferBytes": 166816,
+      "sourceTextureBytes": 1451715,
+      "webpTextureBytes": 310144,
+      "selectedTextureGpuBytesWithMips": 6990507,
+      "images": [
+        {
+          "image": "metal_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 276251,
+          "webpBytes": 111164,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Salvage_Paint_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 305005,
+          "webpBytes": 5866,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 343124,
+          "webpBytes": 187346,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Salvage_Dark_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 257720,
+          "webpBytes": 1294,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Salvage_Steel_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 269615,
+          "webpBytes": 4474,
+          "format": "webp",
+          "lossless": false
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\salvage-chest.glb"
+    },
+    {
+      "asset": "salvaged-radio",
+      "sourceBytes": 18704000,
+      "optimizedBytes": 1422960,
+      "sourceGeometryBytes": 366088,
+      "compressedGeometryBytes": 226238,
+      "meshoptFallbackBufferBytes": 366088,
+      "sourceTextureBytes": 18326783,
+      "webpTextureBytes": 1179762,
+      "selectedTextureGpuBytesWithMips": 50331648,
+      "images": [
+        {
+          "image": "Radio_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 896465,
+          "webpBytes": 6848,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Radio_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986366,
+          "webpBytes": 98362,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1165868,
+          "webpBytes": 32722,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Radio_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985983,
+          "webpBytes": 98406,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1127661,
+          "webpBytes": 15542,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Radio_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986214,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Glass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Glass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1188580,
+          "webpBytes": 42260,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Radio_Glass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 958008,
+          "webpBytes": 94352,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Lamp_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001084,
+          "webpBytes": 71590,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Lamp_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1279024,
+          "webpBytes": 60132,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Radio_Lamp_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986202,
+          "webpBytes": 98456,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Radio_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 784222,
+          "webpBytes": 5070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Radio_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 976198,
+          "webpBytes": 96828,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "SignalLamp"
+      ],
+      "extras": {
+        "authoredPalette": true,
+        "footprint": "1.16x.84m",
+        "overallHeight": 1.88
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\salvaged-radio.glb"
+    },
+    {
+      "asset": "scavenger",
+      "sourceBytes": 12302196,
+      "optimizedBytes": 1555396,
+      "sourceGeometryBytes": 946960,
+      "compressedGeometryBytes": 407239,
+      "meshoptFallbackBufferBytes": 946960,
+      "sourceTextureBytes": 11278937,
+      "webpTextureBytes": 1065720,
+      "selectedTextureGpuBytesWithMips": 29360128,
+      "images": [
+        {
+          "image": "metal_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1101604,
+          "webpBytes": 91658,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_CoatedArmor_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1287128,
+          "webpBytes": 13290,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1276444,
+          "webpBytes": 157574,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "rubber_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 368492,
+          "webpBytes": 202244,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Rubber_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 240151,
+          "webpBytes": 680,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "rubber_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 309354,
+          "webpBytes": 171466,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_BareSteel_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1334109,
+          "webpBytes": 21198,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1364747,
+          "webpBytes": 157574,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_Leather_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 337330,
+          "webpBytes": 2142,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "cloth_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1733612,
+          "webpBytes": 117824,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V2_DarkCanvas_basecolor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 775070,
+          "webpBytes": 5210,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "cloth_orm",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1150896,
+          "webpBytes": 124860,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "authoredPalette": true,
+        "graphicsVersion": 2
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\scavenger.glb"
+    },
+    {
+      "asset": "scrap-rifle",
+      "sourceBytes": 15455508,
+      "optimizedBytes": 1202836,
+      "sourceGeometryBytes": 358064,
+      "compressedGeometryBytes": 241674,
+      "meshoptFallbackBufferBytes": 358064,
+      "sourceTextureBytes": 15089667,
+      "webpTextureBytes": 949504,
+      "selectedTextureGpuBytesWithMips": 41943040,
+      "images": [
+        {
+          "image": "Rifle_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 895182,
+          "webpBytes": 5422,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Rifle_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986224,
+          "webpBytes": 98336,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1091243,
+          "webpBytes": 13208,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Rifle_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986081,
+          "webpBytes": 98436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 784222,
+          "webpBytes": 5070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Rifle_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 960902,
+          "webpBytes": 94598,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1220955,
+          "webpBytes": 33696,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Rifle_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986085,
+          "webpBytes": 98466,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Glass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Rifle_Glass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1191269,
+          "webpBytes": 43582,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Rifle_Glass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 982596,
+          "webpBytes": 97908,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "GripOrigin",
+        "Muzzle"
+      ],
+      "extras": {
+        "authoredPalette": true,
+        "gripOrigin": true,
+        "forwardAxis": "+Z",
+        "weaponLength": 0.88
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\scrap-rifle.glb"
+    },
+    {
+      "asset": "scrap-shotgun",
+      "sourceBytes": 15523608,
+      "optimizedBytes": 1201036,
+      "sourceGeometryBytes": 345176,
+      "compressedGeometryBytes": 233091,
+      "meshoptFallbackBufferBytes": 345176,
+      "sourceTextureBytes": 15170669,
+      "webpTextureBytes": 956308,
+      "selectedTextureGpuBytesWithMips": 41943040,
+      "images": [
+        {
+          "image": "Shot_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 895182,
+          "webpBytes": 5422,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Shot_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986224,
+          "webpBytes": 98336,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1172245,
+          "webpBytes": 20012,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Shot_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986081,
+          "webpBytes": 98436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 784222,
+          "webpBytes": 5070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Shot_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 960902,
+          "webpBytes": 94598,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1220955,
+          "webpBytes": 33696,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Shot_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986085,
+          "webpBytes": 98466,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Glass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Shot_Glass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1191269,
+          "webpBytes": 43582,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Shot_Glass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 982596,
+          "webpBytes": 97908,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "GripOrigin",
+        "Muzzle"
+      ],
+      "extras": {
+        "authoredPalette": true,
+        "gripOrigin": true,
+        "forwardAxis": "+Z",
+        "weaponLength": 0.95
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\scrap-shotgun.glb"
+    },
+    {
+      "asset": "station-kit",
+      "sourceBytes": 22052824,
+      "optimizedBytes": 1686244,
+      "sourceGeometryBytes": 388056,
+      "compressedGeometryBytes": 269640,
+      "meshoptFallbackBufferBytes": 388056,
+      "sourceTextureBytes": 21643752,
+      "webpTextureBytes": 1382470,
+      "selectedTextureGpuBytesWithMips": 58720256,
+      "images": [
+        {
+          "image": "StationKit_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1142027,
+          "webpBytes": 16950,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "StationKit_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986080,
+          "webpBytes": 98436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 911458,
+          "webpBytes": 5580,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "StationKit_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986230,
+          "webpBytes": 98336,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1246393,
+          "webpBytes": 35382,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "StationKit_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986085,
+          "webpBytes": 98466,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Glass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000241,
+          "webpBytes": 71436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Glass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1188580,
+          "webpBytes": 42260,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "StationKit_Glass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 958008,
+          "webpBytes": 94352,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Accent_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000782,
+          "webpBytes": 71470,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Accent_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1220426,
+          "webpBytes": 29992,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "StationKit_Accent_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986045,
+          "webpBytes": 98388,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Lamp_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001084,
+          "webpBytes": 71590,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Lamp_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1279024,
+          "webpBytes": 60132,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "StationKit_Lamp_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986202,
+          "webpBytes": 98456,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "StationKit_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 784222,
+          "webpBytes": 5070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "StationKit_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 976198,
+          "webpBytes": 96828,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\optimized\\station-kit.glb"
+    }
+  ]
+}

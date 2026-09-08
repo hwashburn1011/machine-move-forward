@@ -8,16 +8,24 @@
  * `userData`, so a guard that merely sniffed for `takeDamage` would happily
  * hand a bullet to whatever a later milestone parks there.
  */
-export type DamageableKind = 'enemy' | 'structure' | 'subsystem';
+export type DamageableKind = 'enemy' | 'structure' | 'subsystem' | 'vehicle' | 'hook';
+export type DamageSurface = 'flesh' | 'metal';
 
 export interface Damageable {
   kind: DamageableKind;
   id: string;
   armor: number;
   takeDamage(amount: number): void;
+  /** Optional explicit override for unusual future target types. */
+  surface?: DamageSurface;
 }
 
-const KINDS: readonly string[] = ['enemy', 'structure', 'subsystem'];
+export function surfaceForDamageable(target: Damageable | null): DamageSurface {
+  if (target?.surface) return target.surface;
+  return target?.kind === 'enemy' ? 'flesh' : 'metal';
+}
+
+const KINDS: readonly string[] = ['enemy', 'structure', 'subsystem', 'vehicle', 'hook'];
 
 export function isDamageable(v: unknown): v is Damageable {
   if (typeof v !== 'object' || v === null) return false;

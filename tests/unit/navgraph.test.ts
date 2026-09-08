@@ -38,7 +38,14 @@ function linksOf(graph: { links: Map<string, Cell[]> }, cell: Cell): string[] {
   return (graph.links.get(cellKey(cell)) ?? []).map(cellKey).sort();
 }
 
-function floorRect(g: BuildGrid<PieceId>, x0: number, z0: number, x1: number, z1: number, level = 0): void {
+function floorRect(
+  g: BuildGrid<PieceId>,
+  x0: number,
+  z0: number,
+  x1: number,
+  z1: number,
+  level = 0,
+): void {
   for (let x = x0; x <= x1; x++) {
     for (let z = z0; z <= z1; z++) g.setCell(c(x, level, z), 'floor');
   }
@@ -70,7 +77,7 @@ describe('buildNavGraph nodes', () => {
     expect(linksOf(graph, c(0, 0, 0))).toEqual([cellKey(c(1, 0, 0))]);
   });
 
-  it('ignores the build system\'s blocked set, which is a placement rule not a walkability one', () => {
+  it("ignores the build system's blocked set, which is a placement rule not a walkability one", () => {
     const g = new BuildGrid<PieceId>();
     g.blockCell(c(1, 0, 0));
     const graph = buildNavGraph(g, [c(0, 0, 0), c(1, 0, 0)]);
@@ -132,7 +139,8 @@ describe('buildNavGraph lateral links', () => {
 
 describe('buildNavGraph stairs', () => {
   /**
-   * A staircase from base (0,0,0), running over (0,0,1), landing on (0,1,1).
+   * A staircase from base (0,0,0), running over (0,0,1), opening at (0,1,1),
+   * and exiting onto the upper floor at (0,1,2).
    *
    * The vertical link is passed in rather than derived, because that is now
    * how it works: a staircase's direction is in its ROTATION, and the grid
@@ -142,11 +150,11 @@ describe('buildNavGraph stairs', () => {
   function withStairs(g: BuildGrid<PieceId>): void {
     g.setCell(c(0, 0, 0), 'floor');
     g.setStairs(c(0, 0, 1), 'stairs');
-    g.setCell(c(0, 1, 1), 'floor');
+    g.setCell(c(0, 1, 2), 'floor');
   }
-  const STAIR_LINK: [Cell, Cell][] = [[c(0, 0, 0), c(0, 1, 1)]];
+  const STAIR_LINK: [Cell, Cell][] = [[c(0, 0, 0), c(0, 1, 2)]];
 
-  it('links the BASE to the landing, not the run to the cell above it', () => {
+  it('links the BASE to the upper exit, not the run to the cell above it', () => {
     // The old link shared x and z with its own other end. An enemy holding it
     // was asked to steer at its own position, found a heading of length zero,
     // and parked at the foot of the ramp for the rest of the run. Base to
@@ -154,14 +162,14 @@ describe('buildNavGraph stairs', () => {
     const g = new BuildGrid<PieceId>();
     withStairs(g);
     const graph = buildNavGraph(g, [], STAIR_LINK);
-    expect(linksOf(graph, c(0, 0, 0))).toContain(cellKey(c(0, 1, 1)));
+    expect(linksOf(graph, c(0, 0, 0))).toContain(cellKey(c(0, 1, 2)));
   });
 
   it('links the landing back down to the base', () => {
     const g = new BuildGrid<PieceId>();
     withStairs(g);
     const graph = buildNavGraph(g, [], STAIR_LINK);
-    expect(linksOf(graph, c(0, 1, 1))).toContain(cellKey(c(0, 0, 0)));
+    expect(linksOf(graph, c(0, 1, 2))).toContain(cellKey(c(0, 0, 0)));
   });
 
   it('never links two cells that share their x and z', () => {
@@ -191,8 +199,8 @@ describe('buildNavGraph stairs', () => {
     const g = new BuildGrid<PieceId>();
     withStairs(g);
     const graph = buildNavGraph(g, []);
-    expect(linksOf(graph, c(0, 0, 1))).not.toContain(cellKey(c(0, 1, 1)));
-    expect(linksOf(graph, c(0, 1, 1))).toEqual([]);
+    expect(linksOf(graph, c(0, 0, 1))).not.toContain(cellKey(c(0, 1, 2)));
+    expect(linksOf(graph, c(0, 1, 2))).toEqual([]);
   });
 
   it('leaves an upper floor unreachable with no stairs to it', () => {
@@ -204,13 +212,13 @@ describe('buildNavGraph stairs', () => {
     expect(linksOf(graph, c(0, 1, 0))).toEqual([]);
   });
 
-  it('does not link to a landing that was never floored', () => {
+  it('does not link to an upper exit that was never floored', () => {
     // A dangling edge would route an enemy into thin air. Both ends have to
     // be walkable before a link exists, handed in or not.
     const g = new BuildGrid<PieceId>();
     g.setCell(c(0, 0, 0), 'floor');
     g.setStairs(c(0, 0, 1), 'stairs');
-    const graph = buildNavGraph(g, [], [[c(0, 0, 0), c(0, 1, 1)]]);
+    const graph = buildNavGraph(g, [], [[c(0, 0, 0), c(0, 1, 2)]]);
     expect(linksOf(graph, c(0, 0, 0))).toEqual([cellKey(c(0, 0, 1))]);
   });
 });
@@ -334,9 +342,25 @@ describe('findPath', () => {
     // geometric description of the shape.
     const g = new BuildGrid<PieceId>();
     const cells: Array<[number, number]> = [
-      [-1, -3], [-1, 1], [-2, -1], [-2, -2], [-2, -3], [-2, 0], [-2, 1],
-      [0, -1], [0, -3], [0, 0], [0, 1], [1, -1], [1, -2], [1, -3], [1, 1],
-      [2, 1], [2, 2], [2, 3], [3, 3],
+      [-1, -3],
+      [-1, 1],
+      [-2, -1],
+      [-2, -2],
+      [-2, -3],
+      [-2, 0],
+      [-2, 1],
+      [0, -1],
+      [0, -3],
+      [0, 0],
+      [0, 1],
+      [1, -1],
+      [1, -2],
+      [1, -3],
+      [1, 1],
+      [2, 1],
+      [2, 2],
+      [2, 3],
+      [3, 3],
     ];
     for (const [x, z] of cells) g.setCell(c(x, 0, z), 'floor');
 
@@ -474,9 +498,7 @@ describe('segmentIsClear', () => {
     g.setEdge(canonicalEdge(c(1, 0, 0), 'south'), 'wall'); // (1,0)-(1,1)
     g.setEdge(canonicalEdge(c(0, 0, 1), 'east'), 'wall'); // (0,1)-(1,1)
     const graph = buildNavGraph(g, []);
-    expect(linksOf(graph, c(0, 0, 0))).toEqual(
-      [cellKey(c(0, 0, 1)), cellKey(c(1, 0, 0))].sort(),
-    );
+    expect(linksOf(graph, c(0, 0, 0))).toEqual([cellKey(c(0, 0, 1)), cellKey(c(1, 0, 0))].sort());
     expect(segmentIsClear(graph, c(0, 0, 0), c(1, 0, 1))).toBe(false);
   });
 

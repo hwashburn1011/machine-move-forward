@@ -34,6 +34,8 @@ export interface TitleScreenCallbacks {
   onContinue(): void;
   onResume(): void;
   onQuitToTitle(): void;
+  onSave(): void;
+  onSaveAndQuit(): void;
   onSettings(settings: GameSettings): void;
   /** Whether there is anything to continue. Awaited before the menu is shown. */
   hasSave(): Promise<boolean>;
@@ -132,6 +134,7 @@ export class TitleScreen {
             </label>
             <button type="button" id="title-settings-back" class="title-item">Back</button>
           </form>
+          <div id="title-status" role="status" aria-live="polite"></div>
         </div>
       </div>
     `;
@@ -150,6 +153,7 @@ export class TitleScreen {
       'title-card-text',
       'title-skip',
       'title-skip-fill',
+      'title-status',
     ]) {
       const node = root.querySelector<HTMLElement>(`#${id}`);
       if (node) this.el[id] = node;
@@ -210,6 +214,7 @@ export class TitleScreen {
   show(mode: TitleMode): void {
     this.mode = mode;
     this.open = true;
+    if (mode === 'boot') this.showStatus(null);
     this.root.classList.add('is-open');
     this.el['title-screen']?.classList.add('is-open');
     // Boot leads with the game's name; the pause menu does not, because the
@@ -224,6 +229,16 @@ export class TitleScreen {
       this.hasSaveGame = has;
       if (this.open && !this.inSettings) this.showMenu();
     });
+  }
+
+  /** Status for asynchronous save actions. Kept in the pause plate so a
+   * failure cannot be mistaken for a successful quit. */
+  showStatus(text: string | null, error = false): void {
+    const node = this.el['title-status'];
+    if (!node) return;
+    node.textContent = text ?? '';
+    node.classList.toggle('is-error', error);
+    node.classList.toggle('is-visible', text !== null);
   }
 
   hide(): void {
@@ -302,6 +317,12 @@ export class TitleScreen {
           ]
         : [
             { id: 'resume', label: 'Resume', run: () => this.callbacks.onResume() },
+            { id: 'save', label: 'Save', run: () => this.callbacks.onSave() },
+            {
+              id: 'save-quit',
+              label: 'Save & Quit',
+              run: () => this.callbacks.onSaveAndQuit(),
+            },
             { id: 'settings', label: 'Settings', run: () => this.showSettings() },
             {
               id: 'quit',
