@@ -1,4 +1,11 @@
-import { BUILD_PIECES, isStation, type PieceId } from '@/data/build-pieces';
+import {
+  BUILD_PIECES,
+  canHoldFixture,
+  isDecor,
+  isFixture,
+  isStation,
+  type PieceId,
+} from '@/data/build-pieces';
 import type { ItemCost } from '@/data/items';
 import {
   BuildGrid,
@@ -25,6 +32,10 @@ export type RejectReason =
   | 'needs-support'
   | 'needs-floor'
   | 'needs-clearance'
+  /** A wall fixture with no wall under it. Distinct from `needs-support`. */
+  | 'needs-wall'
+  | 'expedition-reserved'
+  | 'locked'
   | 'cannot-afford';
 
 export interface Validation {
@@ -52,6 +63,9 @@ export const REASON_TEXT: Record<RejectReason, string> = {
   'needs-support': 'Needs a wall below or a floor beside it',
   'needs-floor': 'Needs a floor',
   'needs-clearance': 'Not enough clear space',
+  'needs-wall': 'Needs a wall or doorway to hang on',
+  'expedition-reserved': 'Reserved for the active wreck and gangway',
+  locked: 'Blueprint not unlocked',
   'cannot-afford': 'Not enough materials',
 };
 
@@ -76,7 +90,10 @@ export function rotationDelta(rotation: number): { dx: number; dz: number } {
  * The three cells a staircase involves: the base it starts from, the run it
  * covers horizontally, and the landing it delivers you to one level up.
  */
-export function stairsCells(cell: Cell, rotation: number): {
+export function stairsCells(
+  cell: Cell,
+  rotation: number,
+): {
   base: Cell;
   run: Cell;
   landing: Cell;
@@ -88,6 +105,18 @@ export function stairsCells(cell: Cell, rotation: number): {
     run,
     landing: { x: run.x, y: run.y + 1, z: run.z },
   };
+}
+
+/**
+ * The walkable upper exit is one full cell beyond the run. `stairsCells`
+ * deliberately names the cell above the run `landing` because that is the
+ * stairwell opening which must remain clear; it is not where a body stands
+ * after leaving the flight.
+ */
+export function stairsExit(cell: Cell, rotation: number): Cell {
+  const { run } = stairsCells(cell, rotation);
+  const { dx, dz } = rotationDelta(rotation);
+  return { x: run.x + dx, y: run.y + 1, z: run.z + dz };
 }
 
 /** Does this cell have a floor? */
@@ -114,12 +143,16 @@ export function validatePlacement(
   // afford" for a spot that was never legal in the first place.
   const structural =
     def.anchor === 'edge'
-      ? validateEdgePiece(grid, placement)
+      ? isFixture(placement.piece)
+        ? validateFixture(grid, placement)
+        : validateEdgePiece(grid, placement)
       : def.anchor === 'double-cell'
         ? validateStairs(grid, placement)
         : isStation(placement.piece)
           ? validateStation(grid, placement)
-          : validateCellPiece(grid, placement);
+          : isDecor(placement.piece)
+            ? validateDecor(grid, placement)
+            : validateCellPiece(grid, placement);
 
   if (!structural.ok) return structural;
   if (!canAfford(def.cost)) return fail('cannot-afford');
@@ -130,6 +163,13 @@ function validateCellPiece(grid: BuildGrid<PieceId>, p: Placement): Validation {
   const { cell } = p;
   if (!inEnvelope(cell)) return fail('out-of-bounds');
   if (grid.isBlocked(cell)) return fail('blocked');
+
+  // A floor placed after the stairs must not cap the opening above their run.
+  // The stairs layer stores the run at its lower level, so inspect the cell
+  // directly below the proposed floor rather than the floor layer itself.
+  if (p.piece === 'floor' && grid.hasStairs({ x: cell.x, y: cell.y - 1, z: cell.z })) {
+    return fail('needs-clearance');
+  }
 
   if (p.piece === 'roof') {
     if (grid.hasRoof(cell)) return fail('occupied');
@@ -150,8 +190,28 @@ function validateStation(grid: BuildGrid<PieceId>, p: Placement): Validation {
   return hasFloor(grid, cell) ? OK : fail('needs-floor');
 }
 
-function validateFloorSupport(grid: BuildGrid<PieceId>, cell: Cell): Validation {
+/**
+ * Furniture stands on a floor, in its own layer, and asks for nothing else.
+ *
+ * Deliberately NOT `validateStation` with the piece list widened. That one
+ * refuses a cell that already holds a station, and a rug under a workbench is
+ * exactly the placement decoration exists for — the two occupy different
+ * layers and must be allowed to coexist. Two rules that disagree about the
+ * word "occupied" need two functions, the same argument `validateFixture`
+ * makes against `validateEdgePiece`.
+ *
+ * There is no clearance rule here either, and there cannot be one: decor
+ * builds no collider, so nothing it is placed near can be obstructed by it.
+ */
+function validateDecor(grid: BuildGrid<PieceId>, p: Placement): Validation {
+  const { cell } = p;
+  if (!inEnvelope(cell)) return fail('out-of-bounds');
+  if (grid.isBlocked(cell)) return fail('blocked');
+  if (grid.hasDecor(cell)) return fail('occupied');
+  return hasFloor(grid, cell) ? OK : fail('needs-floor');
+}
 
+function validateFloorSupport(grid: BuildGrid<PieceId>, cell: Cell): Validation {
   if (cell.y === 0) return OK; // the chassis carries it
 
   // Above level 0, a floor needs something holding it up: a wall on the level
@@ -187,11 +247,55 @@ function validateEdgePiece(grid: BuildGrid<PieceId>, p: Placement): Validation {
 }
 
 /**
- * Stairs span three cells but only OCCUPY one.
+ * A wall fixture hangs on the edge piece that is already there.
  *
- * The base cell keeps its floor — the player walks onto the stairs from it —
- * so the stairs instance is stored in the run cell. Storing it in the base
- * would overwrite the very floor the rule requires.
+ * Deliberately NOT `validateEdgePiece` with an extra clause. That one refuses
+ * an edge that already holds something, which is the exact opposite of what a
+ * lamp needs: it requires the wall to be there and would be occupied by its
+ * own mount. Two rules that disagree about the same word need two functions.
+ *
+ * The floor rule is not repeated here either. A wall already needed a floor on
+ * one side to be built, so anything hanging on a wall inherits that check for
+ * free — and a wall that later loses both its floors takes its lamp down with
+ * it through the demolition cascade.
+ */
+function validateFixture(grid: BuildGrid<PieceId>, p: Placement): Validation {
+  const edge = p.edge;
+  if (!edge) return fail('out-of-bounds');
+
+  const [a, b] = cellsOfEdge(edge);
+  if (!inEnvelope(a) && !inEnvelope(b)) return fail('out-of-bounds');
+  if (grid.hasFixture(edge)) return fail('occupied');
+
+  return canHoldFixture(grid.getEdge(edge)) ? OK : fail('needs-wall');
+}
+
+/**
+ * Stairs span three cells and occupy the AIRSPACE of two of them.
+ *
+ * The flight is a ramp, not a tower, and the whole of this rule follows from
+ * where that ramp actually is. Its collider is a 5m slab tilted 37°, running
+ * from the far edge of the base cell at floor height to the far edge of the
+ * RUN cell three metres up. So over the base cell it climbs from the floor to
+ * half a level, and over the run cell it carries on from half a level to a
+ * full one, arriving exactly at the floor plane of the landing above.
+ *
+ * **A floor plate in the run cell is not in the way**, and insisting it was is
+ * what made this piece unbuildable in practice. The run had to hang off the
+ * edge of whatever the player had already floored — which is to say every
+ * staircase had to be built sticking out of the hull — and the reason given
+ * was "Not enough clear space" while the space in question was a metre and a
+ * half below the lowest tread. The base cell has always been required to be
+ * floored for exactly the same geometry; the run cell is the same wedge,
+ * further along.
+ *
+ * **A floor plate at the LANDING is a lid on the stairwell.** The landing sits
+ * directly above the run cell, so its plate spans the whole footprint the top
+ * of the flight climbs through, and the headroom between ramp and plate falls
+ * from a metre and a half at the near edge to nothing at the far one. A player
+ * gets a stride and a half up and meets the underside of the deck they were
+ * climbing to. The upper storey has to have a hole in it, and that hole is the
+ * landing — which is why this is the one thing here that must stay refused.
  */
 function validateStairs(grid: BuildGrid<PieceId>, p: Placement): Validation {
   const { base, run, landing } = stairsCells(p.cell, p.rotation);
@@ -199,9 +303,19 @@ function validateStairs(grid: BuildGrid<PieceId>, p: Placement): Validation {
   if (!inEnvelope(base) || !inEnvelope(run) || !inEnvelope(landing)) {
     return fail('out-of-bounds');
   }
-  if (grid.isBlocked(run)) return fail('blocked');
+  if (grid.isBlocked(run) || grid.isBlocked(landing)) return fail('blocked');
   if (!hasFloor(grid, base)) return fail('needs-floor');
-  if (grid.hasCell(run)) return fail('needs-clearance');
+
+  if (grid.hasStairs(run)) return fail('occupied');
+  // A roof caps the run cell within a hand's breadth of where the top tread
+  // arrives, and a workstation is tall enough to meet the lower treads.
+  if (grid.hasRoof(run) || grid.hasStation(run)) return fail('needs-clearance');
+
+  // Anything in the run cell that is not a floor reaches into the flight.
+  const inRun = grid.getCell(run);
+  if (inRun !== undefined && inRun !== 'floor') return fail('needs-clearance');
+
+  // The stairwell opening. See above.
   if (grid.hasCell(landing)) return fail('needs-clearance');
 
   return OK;

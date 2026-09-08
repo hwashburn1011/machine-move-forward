@@ -1,0 +1,26 @@
+[
+  {
+    "asset": "machine-kit",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\machine-kit.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\machine-kit.blend",
+    "triangles": 29960,
+    "meshes": 1,
+    "roots": [
+      "MMF_MachineDetailKit"
+    ]
+  },
+  {
+    "asset": "station-kit",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\station-kit.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\station-kit.blend",
+    "triangles": 12960,
+    "meshes": 5,
+    "roots": [
+      "MMF_GeneratorDetail",
+      "MMF_RefineryDetail",
+      "MMF_WorkbenchDetail",
+      "MMF_StorageDetail",
+      "MMF_LampDetail"
+    ]
+  }
+]

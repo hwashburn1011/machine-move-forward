@@ -28,39 +28,45 @@ export interface EmitOptions {
 export class ParticleSystem {
   readonly points: THREE.Points;
 
-  private readonly positions: Float32Array;
-  private readonly colors: Float32Array;
-  private readonly sizes: Float32Array;
-  private readonly alphas: Float32Array;
-  private readonly peakAlpha: Float32Array;
+  private positions: Float32Array;
+  private colors: Float32Array;
+  private sizes: Float32Array;
+  private alphas: Float32Array;
+  private peakAlpha: Float32Array;
 
-  private readonly velX: Float32Array;
-  private readonly velY: Float32Array;
-  private readonly velZ: Float32Array;
-  private readonly life: Float32Array;
-  private readonly maxLife: Float32Array;
-  private readonly gravity: Float32Array;
-  private readonly drag: Float32Array;
+  private velX: Float32Array;
+  private velY: Float32Array;
+  private velZ: Float32Array;
+  private life: Float32Array;
+  private maxLife: Float32Array;
+  private gravity: Float32Array;
+  private drag: Float32Array;
+  private capacity: number;
+  private maxEmitsPerStep: number;
 
   private live = 0;
+  private emittedThisStep = 0;
 
   constructor(
     scene: THREE.Scene,
-    private readonly capacity: number,
+    capacity: number,
     additive = false,
+    maxEmitsPerStep = Math.max(12, Math.ceil(capacity * 0.45)),
   ) {
-    this.positions = new Float32Array(capacity * 3);
-    this.colors = new Float32Array(capacity * 3);
-    this.sizes = new Float32Array(capacity);
-    this.alphas = new Float32Array(capacity);
-    this.peakAlpha = new Float32Array(capacity);
-    this.velX = new Float32Array(capacity);
-    this.velY = new Float32Array(capacity);
-    this.velZ = new Float32Array(capacity);
-    this.life = new Float32Array(capacity);
-    this.maxLife = new Float32Array(capacity);
-    this.gravity = new Float32Array(capacity);
-    this.drag = new Float32Array(capacity);
+    this.capacity = Math.max(1, Math.floor(capacity));
+    this.maxEmitsPerStep = Math.max(1, Math.min(this.capacity, maxEmitsPerStep));
+    this.positions = new Float32Array(this.capacity * 3);
+    this.colors = new Float32Array(this.capacity * 3);
+    this.sizes = new Float32Array(this.capacity);
+    this.alphas = new Float32Array(this.capacity);
+    this.peakAlpha = new Float32Array(this.capacity);
+    this.velX = new Float32Array(this.capacity);
+    this.velY = new Float32Array(this.capacity);
+    this.velZ = new Float32Array(this.capacity);
+    this.life = new Float32Array(this.capacity);
+    this.maxLife = new Float32Array(this.capacity);
+    this.gravity = new Float32Array(this.capacity);
+    this.drag = new Float32Array(this.capacity);
 
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.BufferAttribute(this.positions, 3));
@@ -127,10 +133,82 @@ export class ParticleSystem {
     return this.live;
   }
 
+  get maxCount(): number {
+    return this.capacity;
+  }
+
+  /**
+   * Change the GPU pool size at a quality transition without dropping live
+   * particles unless the new budget is smaller than the current live set.
+   * The attributes are replaced in place on the existing Points object, so
+   * scene ownership and shader programs remain stable.
+   */
+  resizeCapacity(nextCapacity: number, maxEmitsPerStep = this.maxEmitsPerStep): void {
+    const next = Math.max(1, Math.floor(nextCapacity));
+    if (next === this.capacity) {
+      this.maxEmitsPerStep = Math.max(1, Math.min(next, Math.floor(maxEmitsPerStep)));
+      return;
+    }
+
+    const oldLive = this.live;
+    const positions = new Float32Array(next * 3);
+    const colors = new Float32Array(next * 3);
+    const sizes = new Float32Array(next);
+    const alphas = new Float32Array(next);
+    const peakAlpha = new Float32Array(next);
+    const velX = new Float32Array(next);
+    const velY = new Float32Array(next);
+    const velZ = new Float32Array(next);
+    const life = new Float32Array(next);
+    const maxLife = new Float32Array(next);
+    const gravity = new Float32Array(next);
+    const drag = new Float32Array(next);
+    const retained = Math.min(oldLive, next);
+    positions.set(this.positions.subarray(0, retained * 3));
+    colors.set(this.colors.subarray(0, retained * 3));
+    sizes.set(this.sizes.subarray(0, retained));
+    alphas.set(this.alphas.subarray(0, retained));
+    peakAlpha.set(this.peakAlpha.subarray(0, retained));
+    velX.set(this.velX.subarray(0, retained));
+    velY.set(this.velY.subarray(0, retained));
+    velZ.set(this.velZ.subarray(0, retained));
+    life.set(this.life.subarray(0, retained));
+    maxLife.set(this.maxLife.subarray(0, retained));
+    gravity.set(this.gravity.subarray(0, retained));
+    drag.set(this.drag.subarray(0, retained));
+
+    this.capacity = next;
+    this.positions = positions;
+    this.colors = colors;
+    this.sizes = sizes;
+    this.alphas = alphas;
+    this.peakAlpha = peakAlpha;
+    this.velX = velX;
+    this.velY = velY;
+    this.velZ = velZ;
+    this.life = life;
+    this.maxLife = maxLife;
+    this.gravity = gravity;
+    this.drag = drag;
+    this.live = retained;
+    this.maxEmitsPerStep = Math.max(1, Math.min(next, Math.floor(maxEmitsPerStep)));
+
+    const geo = this.points.geometry;
+    // Release the previous GPU attributes before installing a different size.
+    // Three will register this geometry again on the next rendered frame.
+    geo.dispose();
+    geo.setAttribute('position', new THREE.BufferAttribute(this.positions, 3));
+    geo.setAttribute('color', new THREE.BufferAttribute(this.colors, 3));
+    geo.setAttribute('aSize', new THREE.BufferAttribute(this.sizes, 1));
+    geo.setAttribute('aAlpha', new THREE.BufferAttribute(this.alphas, 1));
+    geo.setDrawRange(0, retained);
+  }
+
   emit(o: EmitOptions): void {
     // Silently drop rather than growing: a hard cap is what keeps the frame
     // budget predictable when a lot happens at once.
-    if (this.live >= this.capacity) return;
+    if (this.live >= this.capacity || this.emittedThisStep >= this.maxEmitsPerStep) return;
+    this.emittedThisStep++;
 
     const i = this.live++;
     const i3 = i * 3;
@@ -187,6 +265,10 @@ export class ParticleSystem {
     (geo.attributes.color as THREE.BufferAttribute).needsUpdate = true;
     (geo.attributes.aSize as THREE.BufferAttribute).needsUpdate = true;
     (geo.attributes.aAlpha as THREE.BufferAttribute).needsUpdate = true;
+    // Emission limits apply to the interval between updates. Resetting here
+    // keeps burst-heavy combat and footfalls bounded without starving the next
+    // simulation step.
+    this.emittedThisStep = 0;
   }
 
   private copySlot(from: number, to: number): void {
@@ -215,6 +297,7 @@ export class ParticleSystem {
 
   clear(): void {
     this.live = 0;
+    this.emittedThisStep = 0;
     this.points.geometry.setDrawRange(0, 0);
   }
 

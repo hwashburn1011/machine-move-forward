@@ -3,18 +3,18 @@ import { Container } from '@/items/Container';
 import { ResourceAccess } from '@/items/ResourceAccess';
 import { EventBus } from '@/core/events/EventBus';
 import { CraftingSystem } from '@/crafting/CraftingSystem';
-import { RECIPES, recipeById, recipesFor } from '@/data/recipes';
+import { RECIPES, recipeById, recipesFor, type StationId } from '@/data/recipes';
 import { Weapon } from '@/combat/Weapon';
 import { WEAPONS } from '@/data/weapons';
 import { PlayerStats } from '@/player/PlayerStats';
 
 const origin = { x: 0, y: 0, z: 0 };
 
-function make(capacity = 20) {
+function make(capacity = 20, powered: (station: StationId) => boolean = () => true) {
   const bus = new EventBus();
   const inventory = new Container(capacity);
   const access = new ResourceAccess(inventory, () => [], () => origin, bus);
-  return { bus, inventory, crafting: new CraftingSystem(access, bus) };
+  return { bus, inventory, crafting: new CraftingSystem(access, bus, powered) };
 }
 
 const REFINE = 'refine-components';
@@ -43,13 +43,13 @@ describe('recipe data', () => {
 describe('canCraft', () => {
   it('is true with exactly the inputs', () => {
     const { inventory, crafting } = make();
-    inventory.add('scrap', 4);
+    inventory.add('scrap', 8);
     expect(crafting.canCraft(recipeById(REFINE)!)).toBe(true);
   });
 
   it('is false one short', () => {
     const { inventory, crafting } = make();
-    inventory.add('scrap', 3);
+    inventory.add('scrap', 7);
     expect(crafting.canCraft(recipeById(REFINE)!)).toBe(false);
   });
 
@@ -66,16 +66,16 @@ describe('craft', () => {
     inventory.add('scrap', 10);
 
     expect(crafting.craft(REFINE)).toBe(true);
-    expect(inventory.count('scrap')).toBe(6);
-    expect(inventory.count('components')).toBe(1);
+    expect(inventory.count('scrap')).toBe(2);
+    expect(inventory.count('components')).toBe(2);
   });
 
   it('consumes nothing when the inputs are short', () => {
     const { inventory, crafting } = make();
-    inventory.add('scrap', 3);
+    inventory.add('scrap', 7);
 
     expect(crafting.craft(REFINE)).toBe(false);
-    expect(inventory.count('scrap')).toBe(3);
+    expect(inventory.count('scrap')).toBe(7);
     expect(inventory.count('components')).toBe(0);
   });
 
@@ -110,10 +110,13 @@ describe('craft', () => {
     const seen = vi.fn();
     bus.on('craft:completed', seen);
 
-    inventory.add('scrap', 4);
+    inventory.add('scrap', 8);
     expect(crafting.craft(REFINE)).toBe(true);
     expect(seen).toHaveBeenCalledTimes(1);
-    expect(seen.mock.calls[0]?.[0]).toEqual({ recipeId: REFINE });
+    expect(seen.mock.calls[0]?.[0]).toEqual({
+      recipeId: REFINE,
+      outputs: [{ id: 'components', count: 2 }],
+    });
 
     // Now broke: the second attempt must be silent.
     expect(crafting.craft(REFINE)).toBe(false);
@@ -129,6 +132,69 @@ describe('craft', () => {
     expect(inventory.count('extended-mag')).toBe(1);
     expect(inventory.count('scrap')).toBe(0);
     expect(inventory.count('components')).toBe(0);
+  });
+});
+
+describe('the powered refinery', () => {
+  /** Nothing on the machine has power. */
+  const DARK = () => false;
+
+  it('refuses to run with the reason a player can act on', () => {
+    const { inventory, crafting } = make(20, DARK);
+    inventory.add('scrap', 10);
+
+    expect(crafting.craftBlock(recipeById(REFINE)!)).toBe('no-power');
+    expect(crafting.canCraft(recipeById(REFINE)!)).toBe(false);
+    expect(crafting.craft(REFINE)).toBe(false);
+    // And spends nothing doing it.
+    expect(inventory.count('scrap')).toBe(10);
+    expect(inventory.count('components')).toBe(0);
+  });
+
+  it('runs again the moment the power is back', () => {
+    const { inventory, crafting } = make();
+    inventory.add('scrap', 10);
+    expect(crafting.craftBlock(recipeById(REFINE)!)).toBeNull();
+    expect(crafting.craft(REFINE)).toBe(true);
+    expect(inventory.count('components')).toBe(2);
+  });
+
+  it('never gates the workbench, however dark the machine', () => {
+    // The whole point of gating ONE station: basic crafting must survive a
+    // dead generator, or a player with no power has no way back.
+    const { inventory, crafting } = make(20, DARK);
+    inventory.add('scrap', 8);
+    inventory.add('components', 5);
+    expect(crafting.craftBlock(recipeById(EXT_MAG)!)).toBeNull();
+    expect(crafting.craft(EXT_MAG)).toBe(true);
+  });
+
+  it('asks about the recipe station, not about the panel that is open', () => {
+    const asked: StationId[] = [];
+    const { inventory, crafting } = make(20, (station) => {
+      asked.push(station);
+      return true;
+    });
+    inventory.add('scrap', 8);
+    crafting.craft(REFINE);
+    expect(asked).toContain('refinery');
+    expect(asked).not.toContain('workbench');
+  });
+
+  it('reports being broke and having nowhere to put it, distinctly', () => {
+    const broke = make();
+    expect(broke.crafting.craftBlock(recipeById(REFINE)!)).toBe('cannot-afford');
+
+    const full = make(1);
+    full.inventory.add('scrap', 8);
+    expect(full.crafting.craftBlock(recipeById(REFINE)!)).toBe('no-room');
+  });
+
+  it('names no power ahead of being broke', () => {
+    // The player standing at a dark refinery with an empty bag needs to be
+    // told about the power: the scrap is the problem they can already see.
+    const { crafting } = make(20, DARK);
+    expect(crafting.craftBlock(recipeById(REFINE)!)).toBe('no-power');
   });
 });
 

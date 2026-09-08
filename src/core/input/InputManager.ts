@@ -16,6 +16,8 @@ export type InputAction =
   | 'build'
   | 'rotate-left'
   | 'rotate-right'
+  /** Build mode: page between structure, stations and decoration. */
+  | 'build-category'
   | 'slot1'
   | 'slot2'
   | 'slot3'
@@ -44,6 +46,9 @@ const KEY_MAP: Record<string, InputAction> = {
   Tab: 'inventory',
   KeyB: 'build',
   KeyQ: 'rotate-left',
+  // Free, adjacent to the movement hand, and unused in normal play — the
+  // number keys only reach nine pieces and the table now holds eighteen.
+  KeyG: 'build-category',
   Digit1: 'slot1',
   Digit2: 'slot2',
   Digit3: 'slot3',

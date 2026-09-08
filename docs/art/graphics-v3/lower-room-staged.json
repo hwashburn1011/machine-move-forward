@@ -1,0 +1,76 @@
+{
+  "mode": "staged-v3",
+  "results": [
+    {
+      "name": "staged v3 authored roots attach",
+      "ok": true,
+      "detail": "{\"authored\":true,\"skinRoots\":[\"MMF_HullSkin\",\"MMF_EngineSkin\",\"MMF_ProwSkin\",\"MMF_DeckTrim\"],\"articulatedThigh\":true,\"ceilingFrameMinY\":3.0899999141693115,\"maxFootDelta\":2.7755575615628914e-16,\"maxFootLocalBottomError\":0}"
+    },
+    {
+      "name": "lower-room ceiling frame stays above walkable volume",
+      "ok": true,
+      "detail": "minY=3.0899999141693115"
+    },
+    {
+      "name": "rendered feet keep their sole at the foot target through the gait",
+      "ok": true,
+      "detail": "max|localMinY-footAt|=0.000m (world min delta 0.000m)"
+    },
+    {
+      "name": "player can stand at the stair head",
+      "ok": true,
+      "detail": "y=4.56"
+    },
+    {
+      "name": "player walks down into the lower room",
+      "ok": true,
+      "detail": "y=1.57"
+    },
+    {
+      "name": "lower-room camera remains finite and follows the actor",
+      "ok": true,
+      "detail": "camera=(-1.38,2.73,-2.32)"
+    },
+    {
+      "name": "lower-room east wall stops the player",
+      "ok": true,
+      "detail": "x=4.04"
+    },
+    {
+      "name": "lower-room west wall stops the player",
+      "ok": true,
+      "detail": "x=-4.04"
+    },
+    {
+      "name": "lower-room south wall stops the player",
+      "ok": true,
+      "detail": "z=7.14"
+    },
+    {
+      "name": "lower-room north wall stops the player",
+      "ok": true,
+      "detail": "z=-7.14"
+    },
+    {
+      "name": "player walks back up to the deck",
+      "ok": true,
+      "detail": "y=4.07"
+    },
+    {
+      "name": "enemy receives a route toward the lower room",
+      "ok": true,
+      "detail": "{\"y\":-1,\"pathLength\":0,\"x\":-1.890425763788757,\"z\":1.243139435438181}"
+    },
+    {
+      "name": "enemy can enter level -1 through the stair route",
+      "ok": true,
+      "detail": "{\"y\":-1,\"pathLength\":0,\"x\":-1.890425763788757,\"z\":1.243139435438181} wait=1264ms"
+    },
+    {
+      "name": "no browser console errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "errors": []
+}

@@ -1,6 +1,7 @@
 import type { EventBus } from '@/core/events/EventBus';
 import { damageBearing } from './DamageDirection';
 import { deckBearingName } from './DeckBearing';
+import type { FirstRunStep } from '@/game/FirstRunDirector';
 import './hud.css';
 
 export interface HUDState {
@@ -28,7 +29,33 @@ export interface HUDState {
   /** Deck half-extents, so a boarding alert can name where. */
   deckHalfWidth: number;
   deckHalfLength: number;
+  /** One line naming what is hurt. 'Sound' when nothing is. */
+  machineCondition: string;
+  machineStopped: boolean;
+  /** Power drawn against power generated, and the fuel behind both. */
+  powerDraw: number;
+  powerCapacity: number;
+  fuel: number;
+  /** True while some priority class has been shed. Turns the row hot. */
+  powerShed: boolean;
+  /** The survival meters, 0..100. Both full is the quiet, unremarkable case. */
+  hydration: number;
+  nourishment: number;
+  /** Optional expedition readout; omitted by legacy callers. */
+  radioFound?: boolean;
+  radioPowered?: boolean;
+  storyPhase?: string;
+  storyRemainingM?: number | null;
 }
+
+/**
+ * Meter percentage below which a needs bar starts asking for attention.
+ *
+ * A quarter, and no lower: the effect only lands at zero, so the warning has
+ * to arrive with time left to do something about it. Below this the bar goes
+ * hot; it never flashes red, because nothing here is an emergency.
+ */
+const NEEDS_LOW_FRACTION = 0.25;
 
 /**
  * DOM overlay HUD (handoff section 43).
@@ -42,6 +69,44 @@ const HURT_SECONDS = 1.1;
 
 /** Seconds a boarding alert stays up. */
 const BOARDING_SECONDS = 4;
+
+/**
+ * Seconds a threat-director telegraph stays up.
+ *
+ * Longer than a boarding alert, because it is asking the player to DO
+ * something -- close a doorway, get to a firing position -- rather than
+ * telling them something has already happened. The warning itself runs 140m,
+ * about nineteen seconds; this is the banner, not the phase.
+ */
+const TELEGRAPH_SECONDS = 6;
+
+/**
+ * What each phase says, or null for the ones that say nothing.
+ *
+ * Calm and contact are deliberately silent. Calm has no news in it, and by
+ * contact the scavengers are on the deck announcing themselves -- the boarding
+ * alert already fires per arrival, and a second banner over the top of it
+ * would be noise at exactly the moment the player needs to be looking at the
+ * deck rather than at the HUD.
+ */
+const PHASE_TEXT: Record<string, string | null> = {
+  calm: null,
+  buildup: 'CONTACT — dust on the horizon',
+  contact: null,
+  engagement: null,
+  recovery: 'Clear — the desert is quiet again',
+};
+
+/** Story labels shown to players; save/event phases remain stable identifiers. */
+const STORY_PHASE_LABELS: Record<string, string> = {
+  locked: 'Locked',
+  signal: 'Recovered receiver',
+  approach: 'Relay tender',
+  braking: 'Docking',
+  docked: 'The Wake',
+  departing: 'Resuming route',
+  complete: 'Next transmission',
+};
 
 /** Seconds a loot line stays up. */
 const PICKUP_SECONDS = 2.6;
@@ -73,12 +138,18 @@ export class HUD {
         <div class="hud-row"><span>Speed</span><span class="hud-value" id="hud-speed">0.0 m/s</span></div>
         <div class="hud-row"><span>Distance</span><span class="hud-value" id="hud-distance">0 m</span></div>
         <div class="hud-row"><span>Aboard</span><span class="hud-value" id="hud-threats">0</span></div>
+        <div class="hud-row"><span>Condition</span><span class="hud-value" id="hud-condition">Sound</span></div>
+        <div class="hud-row"><span>Power</span><span class="hud-value" id="hud-power">&#9889; 0/0 &nbsp;&#9670; 0</span></div>
       </div>
 
       <div id="hud-health" class="hud-panel">
         <div class="hud-label">Vitals</div>
         <div class="hud-value" id="hud-health-value">100</div>
         <div id="hud-health-bar"><div id="hud-health-fill"></div></div>
+        <div class="hud-needs">
+          <div class="hud-need" id="hud-hydration"><span>&#9832;</span><div class="hud-need-bar"><div class="hud-need-fill" id="hud-hydration-fill"></div></div></div>
+          <div class="hud-need" id="hud-nourishment"><span>&#9789;</span><div class="hud-need-bar"><div class="hud-need-fill" id="hud-nourishment-fill"></div></div></div>
+        </div>
       </div>
 
       <div id="hud-weapon" class="hud-panel">
@@ -93,6 +164,8 @@ export class HUD {
       <div id="hud-damage"><div id="hud-damage-arc"></div></div>
       <div id="hud-crosshair"><i></i><i></i><i></i><i></i></div>
       <div id="hud-prompt"></div>
+      <div id="hud-objective"><span id="hud-objective-title"></span><span id="hud-objective-detail"></span><span id="hud-objective-control"></span></div>
+      <div id="hud-story" aria-live="polite"><span id="hud-story-phase"></span><span id="hud-story-detail"></span></div>
       <div id="hud-warning"></div>
       <div id="hud-lock">Click to take control</div>
     `;
@@ -101,11 +174,17 @@ export class HUD {
       'hud-speed',
       'hud-distance',
       'hud-threats',
+      'hud-condition',
+      'hud-power',
       'hud-boarding',
       'hud-pickup',
       'hud-health',
       'hud-health-value',
       'hud-health-fill',
+      'hud-hydration',
+      'hud-hydration-fill',
+      'hud-nourishment',
+      'hud-nourishment-fill',
       'hud-ammo',
       'hud-ammo-reserve',
       'hud-weapon-name',
@@ -115,6 +194,13 @@ export class HUD {
       'hud-damage-arc',
       'hud-crosshair',
       'hud-prompt',
+      'hud-objective',
+      'hud-objective-title',
+      'hud-objective-detail',
+      'hud-objective-control',
+      'hud-story',
+      'hud-story-phase',
+      'hud-story-detail',
       'hud-warning',
       'hud-lock',
     ]) {
@@ -134,7 +220,12 @@ export class HUD {
       }),
       bus.on('combat:hit', (e) => {
         // Only flash for hits on something that can be hurt.
-        if (e.targetId) this.hitFlashUntil = performance.now() / 1000 + 0.12;
+        if (e.targetId && e.shotId === undefined)
+          this.hitFlashUntil = performance.now() / 1000 + 0.12;
+      }),
+      bus.on('combat:shot-resolved', (e) => {
+        // Shotguns resolve nine pellets as one trigger pull in the HUD.
+        if (e.pelletsHit > 0) this.hitFlashUntil = performance.now() / 1000 + 0.12;
       }),
       bus.on('enemy:spawned', (e) => {
         // One scavenger arrives every 250m, at the deck edge, deliberately
@@ -149,6 +240,21 @@ export class HUD {
           this.deckHalf.l,
         )}`;
         this.boardingUntil = performance.now() / 1000 + BOARDING_SECONDS;
+      }),
+      bus.on('threat:phase', (e) => {
+        // The handoff's telegraphing rule (section 29): an encounter should be
+        // visible before it is dangerous. This is the cheapest honest version
+        // of it -- the dust plume and the engine noise it names are art and
+        // audio that do not exist yet, and a line of text now is better than a
+        // fight that arrives unannounced until they do.
+        const text = PHASE_TEXT[e.phase];
+        if (!text) return;
+        this.boardingText = text;
+        this.boardingUntil = performance.now() / 1000 + TELEGRAPH_SECONDS;
+      }),
+      bus.on('gunboat:telegraph', () => {
+        this.boardingText = 'Gunboat volley incoming';
+        this.boardingUntil = performance.now() / 1000 + TELEGRAPH_SECONDS;
       }),
       bus.on('loot:collected', (e) => {
         // Killing something has to visibly pay. Without this the only sign is
@@ -178,7 +284,37 @@ export class HUD {
       }),
       bus.on('player:died', () => this.setWarning('Critical failure')),
       bus.on('player:respawned', () => this.setWarning(null)),
+      bus.on('objective:updated', (e) => {
+        // The game supplies the text through setObjective so this event stays
+        // a compact state signal for harnesses and future HUD skins.
+        this.el['hud-objective']?.setAttribute('data-step', e.current);
+      }),
+      bus.on('story:phase', (e) => {
+        this.el['hud-story']?.classList.toggle('is-active', e.phase !== 'locked');
+        this.write(
+          'story-phase-event',
+          this.el['hud-story-phase'],
+          STORY_PHASE_LABELS[e.phase] ?? e.phase,
+        );
+      }),
+      bus.on('story:signal', (e) => {
+        const remaining =
+          e.remainingM === null ? '' : ` · ${Math.max(0, Math.round(e.remainingM))} m`;
+        this.write('story-detail-event', this.el['hud-story-detail'], `${e.text}${remaining}`);
+      }),
     );
+  }
+
+  setObjective(objective: {
+    step: FirstRunStep | 'complete';
+    title: string;
+    detail: string;
+    control: string;
+  }): void {
+    this.write('objective-title', this.el['hud-objective-title'], objective.title);
+    this.write('objective-detail', this.el['hud-objective-detail'], objective.detail);
+    this.write('objective-control', this.el['hud-objective-control'], objective.control);
+    this.el['hud-objective']?.classList.toggle('is-complete', objective.step === 'complete');
   }
 
   setPrompt(text: string | null): void {
@@ -195,6 +331,25 @@ export class HUD {
     if (text) this.write('warning', node, text);
   }
 
+  setStoryState(state: { phase: string; objective: string; remainingM?: number | null }): void {
+    this.write(
+      'story-phase',
+      this.el['hud-story-phase'],
+      STORY_PHASE_LABELS[state.phase] ?? state.phase,
+    );
+    const remaining =
+      state.remainingM === null || state.remainingM === undefined
+        ? ''
+        : ` · ${Math.max(0, Math.round(state.remainingM))} m`;
+    this.write('story-detail', this.el['hud-story-detail'], `${state.objective}${remaining}`);
+    this.el['hud-story']?.classList.toggle('is-active', state.phase !== 'locked');
+  }
+
+  setRadioState(found: boolean, powered: boolean): void {
+    const node = this.el['hud-story'];
+    if (node) node.dataset.radio = found ? (powered ? 'powered' : 'unpowered') : 'missing';
+  }
+
   update(state: HUDState): void {
     const now = performance.now() / 1000;
 
@@ -205,10 +360,34 @@ export class HUD {
     this.style('hpfill', this.el['hud-health-fill'], 'width', `${(pct * 100).toFixed(1)}%`);
     this.el['hud-health']?.classList.toggle('is-critical', pct <= 0.3);
 
+    // --- Needs -------------------------------------------------------------
+    // Under the health bar and a third its height, deliberately. These are a
+    // slow background pressure, not a combat readout, and a meter drawn as
+    // loud as health would say the opposite.
+    this.needMeter('hyd', 'hud-hydration', state.hydration);
+    this.needMeter('nou', 'hud-nourishment', state.nourishment);
+
     // --- Threats -----------------------------------------------------------
     this.deckHalf = { w: state.deckHalfWidth, l: state.deckHalfLength };
     this.write('threats', this.el['hud-threats'], String(state.enemiesAboard));
     this.el['hud-threats']?.classList.toggle('is-hot', state.enemiesAboard > 0);
+
+    // --- Condition ---------------------------------------------------------
+    // Quiet at full health and hot the moment it is not, which is the whole
+    // restraint the panel is built on. `is-hot` already exists in hud.css.
+    this.write('condition', this.el['hud-condition'], state.machineCondition);
+    this.el['hud-condition']?.classList.toggle('is-hot', state.machineCondition !== 'Sound');
+
+    // --- Power -------------------------------------------------------------
+    // Drawn over generated, then the tank. Rounded because the tank drains by
+    // hundredths of a unit a second and a HUD that rewrote itself sixty times
+    // a second to show that would be a layout cost and an eyesore both.
+    this.write(
+      'power',
+      this.el['hud-power'],
+      `⚡ ${Math.round(state.powerDraw)}/${Math.round(state.powerCapacity)}  ◆ ${Math.floor(state.fuel)}`,
+    );
+    this.el['hud-power']?.classList.toggle('is-hot', state.powerShed);
 
     const boarding = this.el['hud-boarding'];
     if (boarding) {
@@ -263,17 +442,21 @@ export class HUD {
     if (this.reloadEndsAt > 0 && this.reloadDuration > 0) {
       const remaining = Math.max(0, this.reloadEndsAt - now);
       const progress = 1 - remaining / this.reloadDuration;
-      this.style(
-        'reload',
-        this.el['hud-reload-fill'],
-        'width',
-        `${(progress * 100).toFixed(0)}%`,
-      );
+      this.style('reload', this.el['hud-reload-fill'], 'width', `${(progress * 100).toFixed(0)}%`);
     }
 
     // --- Machine -----------------------------------------------------------
     this.write('speed', this.el['hud-speed'], `${state.machineSpeed.toFixed(1)} m/s`);
     this.write('dist', this.el['hud-distance'], `${Math.round(state.distanceTraveled)} m`);
+    if (state.storyPhase) {
+      this.setStoryState({
+        phase: state.storyPhase,
+        objective: '',
+        remainingM: state.storyRemainingM,
+      });
+    }
+    if (state.radioFound !== undefined)
+      this.setRadioState(state.radioFound, state.radioPowered ?? false);
 
     // The reel cue rides the crosshair the player is already looking at,
     // rather than adding another thing to the edge of the screen.
@@ -293,8 +476,20 @@ export class HUD {
     this.el['hud-lock']?.classList.toggle('is-hidden', state.pointerLocked);
   }
 
+  /** One survival meter: a width, and hot below a quarter. */
+  private needMeter(key: string, id: string, value: number): void {
+    const fraction = Math.max(0, Math.min(1, value / 100));
+    this.style(key, this.el[`${id}-fill`], 'width', `${(fraction * 100).toFixed(1)}%`);
+    this.el[id]?.classList.toggle('is-low', fraction <= NEEDS_LOW_FRACTION);
+  }
+
   /** Write only when the value actually changed. */
-  private write(key: string, node: HTMLElement | undefined, value: string, firstChildOnly = false): void {
+  private write(
+    key: string,
+    node: HTMLElement | undefined,
+    value: string,
+    firstChildOnly = false,
+  ): void {
     if (!node) return;
     if (this.cache.get(key) === value) return;
     this.cache.set(key, value);

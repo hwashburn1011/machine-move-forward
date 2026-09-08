@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { migrate, SaveMigrationError } from '@/save/migrations';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
+import { MachineDamage } from '@/machine/MachineDamage';
 
 const validSave = (): SaveGameV1 => ({
   version: 1,
@@ -88,5 +89,40 @@ describe('migrate', () => {
     const out = migrate(validSave());
     expect(out.distanceTraveled).toBe(1234.5);
     expect(out.seed).toBe('test-seed');
+  });
+});
+
+describe('machine condition in a save', () => {
+  it('needs no migration, because absent is a legal value', () => {
+    // The same argument threatDirector made in this file: the old shape is
+    // still a legal value of the new type, and absent has exactly one
+    // sensible reading — nothing was damaged.
+    expect(CURRENT_SAVE_VERSION).toBe(1);
+  });
+
+  it('reads a pre-damage save as an undamaged machine', () => {
+    const d = new MachineDamage();
+    d.damage('engine', 100);
+    d.restore(undefined);
+    expect(d.fraction('engine')).toBe(1);
+  });
+
+  it("carries every subsystem's health across a round trip", () => {
+    const before = new MachineDamage();
+    before.damage('engine', 90);
+    before.damage('leg-rear-left', 99999);
+
+    const after = new MachineDamage();
+    after.restore(JSON.parse(JSON.stringify(before.toSave())));
+
+    expect(after.health('engine')).toBe(before.health('engine'));
+    expect(after.health('leg-rear-left')).toBe(0);
+    expect(after.isStopped).toBe(false);
+  });
+
+  it('accepts a save that carries the optional field', () => {
+    const save = validSave();
+    save.machine.subsystems = new MachineDamage().toSave();
+    expect(migrate(save).machine.subsystems).toHaveLength(5);
   });
 });

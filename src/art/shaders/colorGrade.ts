@@ -19,12 +19,14 @@ export const ColorGradeShader = {
     uShadowTint: { value: new THREE.Color(0.36, 0.34, 0.52) },
     /** Tint pushed into the highlights. Warm ochre. */
     uHighlightTint: { value: new THREE.Color(1.06, 0.98, 0.86) },
-    uShadowStrength: { value: 0.16 },
-    uHighlightStrength: { value: 0.2 },
-    uSaturation: { value: 1.1 },
-    uContrast: { value: 1.05 },
-    uGrain: { value: 0.028 },
-    uVignette: { value: 0.22 },
+    uShadowStrength: { value: 0.08 },
+    uHighlightStrength: { value: 0.1 },
+    uSaturation: { value: 1.05 },
+    uContrast: { value: 1.03 },
+    // Grain should survive only as a barely perceptible texture on the
+    // midtones; it must not hide authored surface detail or create crawl.
+    uGrain: { value: 0.004 },
+    uVignette: { value: 0.12 },
   },
 
   vertexShader: /* glsl */ `

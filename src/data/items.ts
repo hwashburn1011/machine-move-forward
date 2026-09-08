@@ -12,7 +12,13 @@ export type ItemId =
   | 'ammo-rifle'
   | 'ammo-shotgun'
   | 'repair-kit'
-  | 'extended-mag';
+  | 'extended-mag'
+  // The whole of the survival economy, and deliberately three lines rather
+  // than a food tree: water is drunk or cooked with, greens are cooked, and
+  // rations are the meal. Anything more and the calm loop becomes admin.
+  | 'water'
+  | 'greens'
+  | 'rations';
 
 export type ItemCategory = 'resource' | 'ammo' | 'consumable' | 'mod';
 
@@ -60,9 +66,8 @@ export const ITEMS: Record<ItemId, ItemDefinition> = {
     category: 'resource',
     stackSize: 50,
     weight: 1.5,
-    // Nothing burns fuel until the power system. Storable, but inert.
     glyph: '◆',
-    description: 'Heavy distillate. The engine will want this eventually.',
+    description: 'Heavy distillate. Feed it to the generator to keep the lights on.',
   },
   'ammo-rifle': {
     id: 'ammo-rifle',
@@ -100,6 +105,35 @@ export const ITEMS: Record<ItemId, ItemDefinition> = {
     glyph: '⌸',
     description: 'Raises the fitted weapon magazine by 50%.',
   },
+  water: {
+    id: 'water',
+    name: 'Clean Water',
+    category: 'consumable',
+    stackSize: 20,
+    weight: 1.0,
+    glyph: '☋',
+    description: 'A litre, wrung out of the desert air. Drink it, or cook with it.',
+  },
+  greens: {
+    // A resource rather than a consumable, and that is the loop: greens are
+    // what the stove is for. Eating them raw would make the stove decorative.
+    id: 'greens',
+    name: 'Greens',
+    category: 'resource',
+    stackSize: 30,
+    weight: 0.3,
+    glyph: '❦',
+    description: 'Whatever will grow in a box on a moving deck. Cook it.',
+  },
+  rations: {
+    id: 'rations',
+    name: 'Rations',
+    category: 'consumable',
+    stackSize: 20,
+    weight: 0.6,
+    glyph: '☖',
+    description: 'A hot meal, of sorts. The best thing about a long crossing.',
+  },
 };
 
 export const ITEM_IDS = Object.keys(ITEMS) as ItemId[];
@@ -114,7 +148,7 @@ export const PLAYER_INVENTORY_SLOTS = 20;
  * scrap for exactly that reason, so the first thing a player builds is the
  * thing that unlocks everything else.
  */
-export const STARTING_INVENTORY: ItemCost = { scrap: 400 };
+export const STARTING_INVENTORY: ItemCost = { scrap: 260 };
 
 /** Compact cost label for the build row: "15▪ 2⬡". */
 export function formatCostGlyphs(cost: ItemCost): string {

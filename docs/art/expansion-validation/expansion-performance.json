@@ -1,0 +1,456 @@
+{
+  "generatedAt": "2026-09-08T02:57:22.158Z",
+  "port": 5193,
+  "hardware": {
+    "backend": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+    "viewport": {
+      "width": 1920,
+      "height": 1080,
+      "dpr": 1
+    },
+    "drawingBuffer": {
+      "width": 1920,
+      "height": 1080
+    },
+    "webgl2": true,
+    "context": {
+      "alpha": true,
+      "antialias": false,
+      "depth": true,
+      "desynchronized": false,
+      "failIfMajorPerformanceCaveat": false,
+      "powerPreference": "high-performance",
+      "premultipliedAlpha": true,
+      "preserveDrawingBuffer": false,
+      "stencil": false,
+      "xrCompatible": false
+    },
+    "graphics": {
+      "logicalWidth": 1920,
+      "logicalHeight": 1080,
+      "pixelRatio": 1,
+      "drawingBufferWidth": 1920,
+      "drawingBufferHeight": 1080,
+      "msaaSamples": 4,
+      "gtao": true,
+      "gtaoWidth": 960,
+      "gtaoHeight": 540,
+      "shimmer": false,
+      "postBypassed": false
+    }
+  },
+  "fixture": {
+    "collectorId": "bp-3",
+    "turretId": "bp-5",
+    "collectorCell": {
+      "x": -4,
+      "y": 0,
+      "z": -6
+    },
+    "turretCell": {
+      "x": -3,
+      "y": 0,
+      "z": -6
+    },
+    "floorIds": [
+      "bp-2",
+      "bp-4"
+    ],
+    "authored": {
+      "collector": true,
+      "turret": true,
+      "gunboat": true
+    },
+    "pieces": 6
+  },
+  "authoredModels": {
+    "collector": true,
+    "turret": true,
+    "gunboat": true,
+    "foundry": {
+      "authored": true,
+      "meshes": 11,
+      "triangles": 40524
+    },
+    "helm": {
+      "sourceLoaded": true,
+      "anchors": true,
+      "runtime": {
+        "meshes": 7,
+        "triangles": 7072
+      }
+    }
+  },
+  "baseline": {
+    "label": "travel-baseline",
+    "frames": 1202,
+    "durationMs": 20011.699999999255,
+    "frameMs": {
+      "median": 16.69999999999891,
+      "p95": 16.799999999999272,
+      "p99": 16.80000000000109
+    },
+    "fps": {
+      "mean": 60.064862055699656,
+      "median": 59.880239520962,
+      "p95": 59.523809523812105,
+      "p99": 59.52380952380566
+    },
+    "render": {
+      "calls": {
+        "median": 777,
+        "peak": 796
+      },
+      "triangles": {
+        "median": 1828033,
+        "peak": 1916817
+      }
+    },
+    "debug": {
+      "calls": 771,
+      "tris": 1779867,
+      "skyBakes": 1,
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "distance": 147,
+      "chunks": 9,
+      "speed": 7.37,
+      "bodies": 38,
+      "playerY": 4.664,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 20.183,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 0,
+      "particles": 266,
+      "scrap": 260,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    },
+    "memory": {
+      "geometries": 195,
+      "textures": 242
+    }
+  },
+  "expansion": {
+    "label": "expansion-scene",
+    "frames": 1193,
+    "durationMs": 20002.199999997763,
+    "frameMs": {
+      "median": 16.69999999999709,
+      "p95": 16.799999999999272,
+      "p99": 16.80000000000291
+    },
+    "fps": {
+      "mean": 59.64343922169228,
+      "median": 59.880239520968516,
+      "p95": 59.523809523812105,
+      "p99": 59.523809523799216
+    },
+    "render": {
+      "calls": {
+        "median": 1245,
+        "peak": 1277
+      },
+      "triangles": {
+        "median": 2616467,
+        "peak": 2669123
+      }
+    },
+    "debug": {
+      "calls": 1250,
+      "tris": 2587689,
+      "skyBakes": 1,
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "distance": 293,
+      "chunks": 9,
+      "speed": 7.16,
+      "bodies": 45,
+      "playerY": 4.673,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 40.55,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 0,
+      "particles": 270,
+      "scrap": 260,
+      "pieces": 6,
+      "rooms": 2,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    },
+    "memory": {
+      "geometries": 243,
+      "textures": 278
+    }
+  },
+  "lifecycle": {
+    "cycles": 24,
+    "samples": [
+      {
+        "cycle": 0,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 1,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 2,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 3,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 4,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 5,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 6,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 7,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 8,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 9,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 10,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 11,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 12,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 13,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 14,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 15,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 16,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 17,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 18,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 19,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 20,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 21,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 22,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 23,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      }
+    ],
+    "first": {
+      "cycle": 0,
+      "pieces": 6,
+      "geometries": 243,
+      "textures": 278
+    },
+    "last": {
+      "cycle": 23,
+      "pieces": 6,
+      "geometries": 243,
+      "textures": 278
+    },
+    "plateau": [
+      {
+        "cycle": 12,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 13,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 14,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 15,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 16,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 17,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 18,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 19,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 20,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 21,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 22,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      },
+      {
+        "cycle": 23,
+        "pieces": 6,
+        "geometries": 243,
+        "textures": 278
+      }
+    ]
+  },
+  "errors": [],
+  "method": "1920x1080 High, live Game/BuildSystem fixture, authored gunboat plus one automatic collector and one automatic turret, repeated damage/remove/rebuild cycles; fixture only and not gameplay/reward acceptance."
+}

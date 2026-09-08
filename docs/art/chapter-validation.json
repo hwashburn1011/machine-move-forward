@@ -1,0 +1,422 @@
+{
+  "generatedAt": "2026-09-08T03:03:46.074Z",
+  "baseUrl": "http://localhost:5194",
+  "honestLabels": {
+    "normalOpeningRadio": "normal opening economy plus real hook/reel; no direct grants",
+    "stagedResearchAndChapter": "explicit fixture state for research, chapter routing, and save/reload; not a human thirty-minute session"
+  },
+  "checks": [
+    {
+      "name": "normal boot starts with 260 scrap",
+      "ok": true,
+      "detail": "260",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "opening is playable before the radio test",
+      "ok": true,
+      "detail": "",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "the first eligible chest spawns within 45m",
+      "ok": true,
+      "detail": "{\"x\":-16.49620167259127,\"y\":2.195445475075394,\"z\":-41.97384363514901,\"distance\":44.25937120927759}",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "first chest drifts into real reel range",
+      "ok": true,
+      "detail": "",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "reel cue endpoint follows the live hook",
+      "ok": true,
+      "detail": "{\"active\":true,\"aligned\":true}",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "the radio is found through the real hook/reel path",
+      "ok": true,
+      "detail": "{\"hooked\":1,\"radio\":[{\"source\":\"salvage-crate\",\"distance\":43.842653795444186,\"elapsedSincePlayable\":6.24666666666665}],\"opened\":2}",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "radio reward includes its fixed cache after normal salvage",
+      "ok": true,
+      "detail": "{\"before\":{\"scrap\":260,\"components\":0,\"fuel\":0},\"after\":{\"scrap\":308,\"components\":0,\"fuel\":4}}",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "radio ledger records its first eligible opening once",
+      "ok": true,
+      "detail": "{\"status\":\"found\",\"armedAtSimTime\":null,\"foundAtSimTime\":6.24666666666665,\"foundAtDistance\":43.842653795444186,\"eligibleChestsOpened\":1}",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "radio is found within the first 300 playable seconds",
+      "ok": true,
+      "detail": "6.24666666666665",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "normal flow records radio in bounded session metrics",
+      "ok": true,
+      "detail": "",
+      "flow": "normalOpeningRadio"
+    },
+    {
+      "name": "staged research rejects an unaffordable upgrade",
+      "ok": true,
+      "detail": "{\"poorRejected\":true,\"deadPowerRejected\":true,\"activeBefore\":\"longstride-rams\",\"activeAfter\":\"torque-clutch\",\"defense\":{\"damage\":60,\"draw\":4,\"fireRate\":0.8}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged research rejects a dead powered-radio path",
+      "ok": true,
+      "detail": "{\"poorRejected\":true,\"deadPowerRejected\":true,\"activeBefore\":\"longstride-rams\",\"activeAfter\":\"torque-clutch\",\"defense\":{\"damage\":60,\"draw\":4,\"fireRate\":0.8}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged researched propulsion swaps one active branch slot",
+      "ok": true,
+      "detail": "{\"poorRejected\":true,\"deadPowerRejected\":true,\"activeBefore\":\"longstride-rams\",\"activeAfter\":\"torque-clutch\",\"defense\":{\"damage\":60,\"draw\":4,\"fireRate\":0.8}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged defense activation changes damage, rate, and draw",
+      "ok": true,
+      "detail": "{\"damage\":60,\"draw\":4,\"fireRate\":0.8}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged Governor research uses its ordinary resource cost",
+      "ok": true,
+      "detail": "{\"before\":{\"scrap\":653,\"components\":46,\"capacity\":16,\"radioPowered\":true},\"afterInstall\":{\"researched\":true,\"active\":\"lean-governor\",\"scrap\":613,\"components\":38,\"capacity\":14,\"radioPowered\":false}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged Governor shed leaves the radio unpowered at capacity fourteen",
+      "ok": true,
+      "detail": "{\"before\":{\"scrap\":653,\"components\":46,\"capacity\":16,\"radioPowered\":true},\"afterInstall\":{\"researched\":true,\"active\":\"lean-governor\",\"scrap\":613,\"components\":38,\"capacity\":14,\"radioPowered\":false}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "Research UI enables power uninstall while the shed radio is stable",
+      "ok": true,
+      "detail": "{\"present\":true,\"disabled\":false}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "Research UI uninstall restores the radio without changing the purse",
+      "ok": true,
+      "detail": "{\"active\":null,\"scrap\":613,\"components\":38,\"capacity\":16,\"radioPowered\":true}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged tutorial spawn uses the reduced encounter profile",
+      "ok": true,
+      "detail": "{\"hull\":220,\"hook\":45,\"crew\":2}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged story schedules a wreck only after radio and first-run completion",
+      "ok": true,
+      "detail": "{\"phase\":\"approach\",\"arrival\":766.1802229406507}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "staged approach reaches the safe dock boundary",
+      "ok": true,
+      "detail": "{\"story\":\"docked\",\"speed\":0}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "docking enables the destination and gangway",
+      "ok": true,
+      "detail": "{\"active\":true,\"docked\":true,\"gangway\":true}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "player walks across the gangway into the wreck",
+      "ok": true,
+      "detail": "{\"inside\":true,\"onGangway\":false,\"x\":7.433065165510939,\"z\":-0.03177049708225406}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "proximity E collection recovers the Course Gyro once",
+      "ok": true,
+      "detail": "{\"format\":2,\"completed\":[],\"recoveredUniques\":[\"course-gyro\"],\"active\":{\"expeditionId\":\"wreck-one\",\"routeId\":null,\"phase\":\"docked\",\"arrivalDistance\":766.1802229406507,\"journalsRead\":[],\"scriptedEncounter\":\"not-due\"}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "Course Gyro collection is one-shot",
+      "ok": true,
+      "detail": "false",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "wreck-side save accepts a stable docked capsule",
+      "ok": true,
+      "detail": "{\"health\":93,\"fuel\":37,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}},\"story\":{\"format\":2,\"completed\":[],\"recoveredUniques\":[\"course-gyro\"],\"active\":{\"expeditionId\":\"wreck-one\",\"routeId\":null,\"phase\":\"docked\",\"arrivalDistance\":766.1802229406507,\"journalsRead\":[],\"scriptedEncounter\":\"not-due\"}},\"position\":{\"x\":16.17413682210246,\"y\":4.669161085346037,\"z\":1.6065944124902716}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "wreck-side reload restores health, fuel, upgrades, and gyro",
+      "ok": true,
+      "detail": "{\"loaded\":true,\"inside\":true,\"health\":93,\"fuel\":37,\"gyro\":true,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}},\"position\":{\"x\":16.17413682210246,\"y\":4.669161085346037,\"z\":1.6065944124902716}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "wreck-side reload capsule remains physically supported after one simulated second",
+      "ok": true,
+      "detail": "{\"inside\":true,\"grounded\":true,\"y\":4.668949974090693,\"playerY\":4.669}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "player returns across the gangway to the machine",
+      "ok": true,
+      "detail": "true",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "docked chapter fixture writes a stable partial save",
+      "ok": true,
+      "detail": "{\"health\":86,\"fuel\":37,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}},\"story\":{\"format\":2,\"completed\":[],\"recoveredUniques\":[\"course-gyro\"],\"active\":{\"expeditionId\":\"wreck-one\",\"routeId\":null,\"phase\":\"docked\",\"arrivalDistance\":766.1802229406507,\"journalsRead\":[],\"scriptedEncounter\":\"not-due\"}}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "docked reload restores wreck, health, fuel, upgrades, and gyro",
+      "ok": true,
+      "detail": "{\"wreck\":{\"active\":true,\"docked\":true},\"health\":86,\"fuel\":36.99500000000001,\"gyro\":true,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "real New Game clears the expedition wreck immediately",
+      "ok": true,
+      "detail": "{\"stats\":{\"calls\":173,\"tris\":65910,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":900,\"logicalHeight\":540,\"pixelRatio\":1,\"drawingBufferWidth\":900,\"drawingBufferHeight\":540,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":0,\"chunks\":9,\"speed\":0.71,\"bodies\":42,\"playerY\":4.661,\"grounded\":true,\"vy\":0,\"simTime\":0,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":8,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"rooftop\",\"armed\":true},\"opening\":\"rooftop\",\"story\":\"locked\",\"radio\":{\"status\":\"pending\",\"armedAtSimTime\":null,\"foundAtSimTime\":null,\"foundAtDistance\":null,\"eligibleChestsOpened\":0},\"resources\":{\"scrap\":260,\"components\":0,\"fuel\":0},\"power\":{\"fuel\":60,\"capacity\":16,\"draw\":0},\"sessionMetrics\":{\"playableSeconds\":0,\"milestones\":[],\"samples\":[]}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "real New Game resets the starting generator and progression state",
+      "ok": true,
+      "detail": "{\"generators\":1,\"capacity\":16,\"fuel\":60,\"upgrades\":{},\"radioVisible\":false,\"wreckActive\":false}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "radio departure begins only after returning to the machine",
+      "ok": true,
+      "detail": "",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "radio departure completes after clearing twelve metres",
+      "ok": true,
+      "detail": "{\"phase\":\"complete\",\"nextSignal\":true,\"destinationActive\":false,\"destinationDocked\":false,\"gangway\":false,\"distance\":820.4719507383938,\"arrival\":766.1802229406507}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "legacy radio-missing state remains pending for the next chest",
+      "ok": true,
+      "detail": "{\"status\":\"pending\",\"armedAtSimTime\":null,\"foundAtSimTime\":null,\"foundAtDistance\":null,\"eligibleChestsOpened\":0}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "pause freezes an unhooked salvage crate",
+      "ok": true,
+      "detail": "{\"before\":{\"id\":\"crate-0\",\"x\":-16.49620167259127,\"y\":2.195445475075394,\"z\":-41.94695322047428},\"after\":{\"x\":-16.49620167259127,\"y\":2.195445475075394,\"z\":-41.94695322047428}}",
+      "flow": "stagedResearchAndChapter"
+    }
+  ],
+  "errors": [],
+  "evidence": {
+    "normalOpeningRadio": [
+      {
+        "initial": {
+          "stats": {
+            "calls": 74,
+            "tris": 62926,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 900,
+              "logicalHeight": 540,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 900,
+              "drawingBufferHeight": 540,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 0,
+            "chunks": 9,
+            "speed": 0,
+            "bodies": 38,
+            "playerY": 4.8,
+            "grounded": false,
+            "vy": 0,
+            "simTime": 0,
+            "hp": 100,
+            "ammo": "30/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 0,
+            "scrap": 260,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          },
+          "opening": "done",
+          "story": "locked",
+          "radio": {
+            "status": "pending",
+            "armedAtSimTime": null,
+            "foundAtSimTime": null,
+            "foundAtDistance": null,
+            "eligibleChestsOpened": 0
+          },
+          "resources": {
+            "scrap": 260,
+            "components": 0,
+            "fuel": 0
+          },
+          "power": {
+            "fuel": 60,
+            "capacity": 16,
+            "draw": 0
+          },
+          "sessionMetrics": {
+            "playableSeconds": 0,
+            "milestones": [
+              {
+                "name": "opening.done",
+                "atSeconds": 0
+              }
+            ],
+            "samples": []
+          }
+        },
+        "target": {
+          "x": -16.49620167259127,
+          "y": 2.195445475075394,
+          "z": -41.97384363514901,
+          "distance": 44.25937120927759
+        },
+        "radioRun": {
+          "stats": {
+            "calls": 82,
+            "tris": 62198,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 900,
+              "logicalHeight": 540,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 900,
+              "drawingBufferHeight": 540,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 65,
+            "chunks": 9,
+            "speed": 7.37,
+            "bodies": 38,
+            "playerY": 4.671,
+            "grounded": true,
+            "vy": 0,
+            "simTime": 9.097,
+            "hp": 100,
+            "ammo": "30/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 43,
+            "scrap": 308,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          },
+          "opening": "done",
+          "story": "signal",
+          "radio": {
+            "status": "found",
+            "armedAtSimTime": null,
+            "foundAtSimTime": 6.24666666666665,
+            "foundAtDistance": 43.842653795444186,
+            "eligibleChestsOpened": 1
+          },
+          "resources": {
+            "scrap": 308,
+            "components": 0,
+            "fuel": 4
+          },
+          "power": {
+            "fuel": 59.8290000000004,
+            "capacity": 16,
+            "draw": 1
+          },
+          "sessionMetrics": {
+            "playableSeconds": 9.096666666666707,
+            "milestones": [
+              {
+                "name": "opening.done",
+                "atSeconds": 0
+              },
+              {
+                "name": "salvage.hooked",
+                "atSeconds": 5.563333333333319
+              },
+              {
+                "name": "salvage.opened",
+                "atSeconds": 6.2299999999999836,
+                "detail": {
+                  "source": "Salvage crate"
+                }
+              },
+              {
+                "name": "radio.found",
+                "atSeconds": 6.2299999999999836,
+                "detail": {
+                  "distance": 43.842653795444186,
+                  "elapsed": 6.24666666666665
+                }
+              }
+            ],
+            "samples": [
+              {
+                "scrap": 260,
+                "components": 0,
+                "fuel": 60,
+                "powerCapacity": 16,
+                "powerDraw": 0,
+                "speed": 0.39419946025546926,
+                "atSeconds": 0
+              }
+            ]
+          }
+        },
+        "events": {
+          "hooked": 1,
+          "radio": [
+            {
+              "source": "salvage-crate",
+              "distance": 43.842653795444186,
+              "elapsedSincePlayable": 6.24666666666665
+            }
+          ],
+          "opened": 2
+        }
+      }
+    ],
+    "stagedResearchAndChapter": []
+  }
+}

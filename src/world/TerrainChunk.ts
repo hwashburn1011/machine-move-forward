@@ -10,7 +10,9 @@ import {
 } from '@/art/shaders/terrainShader';
 import { CHUNK_SIZE_X, CHUNK_SIZE_Z } from '@/game/constants';
 import { DUNE_PARAMS } from './DuneField';
+import { hashSeed } from '@/core/math/Random';
 import type { QualitySettings } from '@/core/renderer/QualitySettings';
+import type { TextureSet } from '@/art/TextureLoader';
 
 /**
  * One recycled slab of dune terrain.
@@ -24,10 +26,23 @@ export class TerrainChunk {
 
   private readonly uniforms: Record<string, THREE.IUniform>;
 
-  constructor(quality: QualitySettings, sharedGeometry: THREE.BufferGeometry) {
+  constructor(
+    quality: QualitySettings,
+    sharedGeometry: THREE.BufferGeometry,
+    worldSeed = 'default-world',
+  ) {
+    const terrainSeed = (hashSeed(worldSeed, 'terrain-macro') % 100000) / 100000;
+    const rippleOrientation = (hashSeed(worldSeed, 'terrain-ripple') % 100000) / 100000;
     this.uniforms = {
       uChunkOffset: { value: 0 },
-      uTime: { value: 0 },
+      // The chunk's permanent world origin, as distinct from where it is
+      // currently drawn. The dune field is a function of this one.
+      uChunkWorldZ: { value: 0 },
+      // Structural sand detail is frozen in world space. Motion belongs to
+      // airborne dust and heat shimmer, never to the ground normal.
+      uTerrainSeed: { value: terrainSeed },
+      uMacroStrength: { value: 0.08 },
+      uRippleOrientation: { value: rippleOrientation * Math.PI * 2 },
       // Shared with the CPU height function in DuneField, so props sit on the
       // same surface the GPU draws.
       uDuneScale: { value: DUNE_PARAMS.scale },
@@ -41,6 +56,16 @@ export class TerrainChunk {
       uSandDeep: { value: PALETTE.sandDeep.clone() },
       uSandCrest: { value: PALETTE.sandCrest.clone() },
       uSunDir: { value: new THREE.Vector3(0.78, 0.5, 0.37).normalize() },
+      // Sand scan. Null until the textures land, and the shader does not read
+      // them until the define below says they are there.
+      uSandMap: { value: null },
+      uSandNormalMap: { value: null },
+      uSandArmMap: { value: null },
+      // How much of the scan reaches the surface. Blotching is the big one:
+      // it is what stops a distant dune reading as flat colour.
+      uSandBlotch: { value: 0.34 },
+      uSandGrain: { value: 0.9 },
+      uSandNormalStrength: { value: 0.55 },
     };
 
     const material = new THREE.MeshStandardMaterial({
@@ -88,12 +113,45 @@ export class TerrainChunk {
   }
 
   /**
-   * Move this chunk to a new world Z. The geometry is never rebuilt — only the
-   * offset uniform changes, which is what makes recycling free.
+   * Move this chunk, and tell it which piece of world it is now showing.
+   *
+   * Two numbers, and keeping them apart is the whole point. `renderZ` is where
+   * the slab is drawn and slides toward -Z as the machine travels; `worldZ` is
+   * the permanent origin of the ground it represents and does not move at all.
+   * The dune field is evaluated against the second, so a dune keeps its shape
+   * while the mesh carrying it slides past. Evaluated against the first — which
+   * is what this did — the field is pinned to the machine and the landscape
+   * never moves, however fast the mesh slides through it.
+   *
+   * The geometry is still never rebuilt; only these two uniforms change, which
+   * is what makes recycling free.
    */
-  setZ(z: number): void {
-    this.mesh.position.z = z;
-    this.uniforms.uChunkOffset!.value = z;
+  setZ(renderZ: number, worldZ: number): void {
+    this.mesh.position.z = renderZ;
+    this.uniforms.uChunkOffset!.value = renderZ;
+    this.uniforms.uChunkWorldZ!.value = worldZ;
+  }
+
+  /**
+   * Give the dunes their photographed surface.
+   *
+   * Late rather than in the constructor, because the world is built
+   * synchronously at boot and the textures are fetched. Same bargain as
+   * everywhere else in `ASSETS.md`: until this arrives — or if it never does,
+   * or with `?notex=1` — the dunes are exactly what they always were, which is
+   * a complete procedural surface rather than a placeholder.
+   */
+  applySand(set: TextureSet): void {
+    this.uniforms.uSandMap!.value = set.map;
+    this.uniforms.uSandNormalMap!.value = set.normalMap;
+    this.uniforms.uSandArmMap!.value = set.armMap;
+
+    const material = this.mesh.material as THREE.MeshStandardMaterial;
+    material.defines = { ...material.defines, TERRAIN_SAND_TEXTURE: '' };
+    // A define is a compile-time thing, so this is the recompile. Once per
+    // chunk material at boot, and Three caches by program key, so the nine
+    // chunks share one compile between them.
+    material.needsUpdate = true;
   }
 
   setSunDirection(dir: THREE.Vector3): void {
@@ -101,7 +159,9 @@ export class TerrainChunk {
   }
 
   update(elapsed: number): void {
-    this.uniforms.uTime!.value = elapsed;
+    // Kept as a stable world-update seam for WorldManager. Terrain normals and
+    // ripples intentionally do not animate; moving sand is handled by SandFX.
+    void elapsed;
   }
 
   dispose(): void {

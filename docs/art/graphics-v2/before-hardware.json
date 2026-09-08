@@ -1,0 +1,51 @@
+{
+  "generatedAt": "2026-09-07T20:41:48.095Z",
+  "label": "before",
+  "hardware": {
+    "backend": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+    "dpr": 1,
+    "width": 1920,
+    "height": 1080
+  },
+  "capture": {
+    "frames": 1801,
+    "durationMs": 30001.4,
+    "medianMs": 16.69999999999891,
+    "p95Ms": 16.799999999999272,
+    "p99Ms": 16.80000000000109,
+    "meanFps": 60.03053190851093,
+    "peakCalls": 544,
+    "peakSubmittedTriangles": 1085264,
+    "stats": {
+      "calls": 538,
+      "tris": 1085088,
+      "skyBakes": 1,
+      "distance": 226,
+      "chunks": 9,
+      "speed": 7.37,
+      "bodies": 37,
+      "playerY": 4.673,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 31.033,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 0,
+      "particles": 385,
+      "scrap": 260,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    },
+    "memory": {
+      "geometries": 103,
+      "textures": 44
+    }
+  },
+  "errors": [],
+  "method": "1920x1080 High, hardware Chrome D3D11, ordinary live deck travel, rAF frame timing after warmup; not isolated GPU pass timing or combat qualification."
+}

@@ -2,15 +2,11 @@ import * as THREE from 'three';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
+import { applyHeightFog } from '@/art/Fog';
 import type { EnemyAIState } from './EnemyAI';
 import { CAPSULE_FOOT_OFFSET, buildEnemyMesh } from './EnemyMesh';
 import { FLASH_SECONDS, flashIntensity } from './HitFlash';
-import {
-  BAR_HEIGHT,
-  BAR_WIDTH,
-  healthBarColour,
-  healthFraction,
-} from './HealthBar';
+import { BAR_HEIGHT, BAR_WIDTH, healthBarColour, healthFraction } from './HealthBar';
 import { hostileTint } from './ThreatLook';
 
 /**
@@ -108,6 +104,9 @@ const FLASH_ALBEDO = 0.75;
 /** Height above the capsule's centre the health bar floats at. */
 const BAR_Y = CAPSULE_FOOT_OFFSET + 0.32;
 
+/** Compact screen-space bars stay readable without expanding near the camera. */
+const BAR_SCREEN_SCALE = 0.07;
+
 /** Colour of the eye band burning on the front of a scavenger's head. */
 const EYE_COLOUR = 0xff4322;
 
@@ -154,7 +153,17 @@ export class EnemyVisual {
   private readonly barFill: THREE.Sprite;
   private appliedFraction = -1;
 
-  constructor(model: LoadedModel | null, materials: Materials) {
+  constructor(
+    model: LoadedModel | null,
+    materials: Materials,
+    /**
+     * Per-definition body colour, multiplied in after the hostile tint.
+     *
+     * White is "leave it alone", which is what the scavenger asks for -- its
+     * palette was already chosen on purpose. See `EnemyDefinition.tint`.
+     */
+    private readonly bodyTint: { r: number; g: number; b: number } = { r: 1, g: 1, b: 1 },
+  ) {
     this.barFill = EnemyVisual.buildBar(this.bar);
 
     if (!model) {
@@ -204,9 +213,16 @@ export class EnemyVisual {
     });
     this.object3D.add(scene);
 
-    this.adoptMaterials(true);
+    // Blender-authored enemies already have contrasting armor, cloth and real
+    // visor lenses. The old placeholder tint and floating eye flatten those
+    // materials and put a second eye outside the helmet.
+    let authoredPalette = false;
+    scene.traverse((object) => {
+      if (object.userData.authoredPalette === true) authoredPalette = true;
+    });
+    this.adoptMaterials(!authoredPalette, !authoredPalette);
     this.object3D.add(this.bar);
-    this.object3D.add(EnemyVisual.buildEye(size, fit.scale));
+    if (!authoredPalette) this.object3D.add(EnemyVisual.buildEye(size, fit.scale));
 
     this.mixer = new THREE.AnimationMixer(scene);
     for (const clip of model.clips) {
@@ -232,9 +248,11 @@ export class EnemyVisual {
         depthWrite: false,
         transparent: true,
         opacity: 0.72,
+        sizeAttenuation: false,
+        toneMapped: false,
       }),
     );
-    plate.scale.set(BAR_WIDTH + 0.07, BAR_HEIGHT + 0.05, 1);
+    plate.scale.set((BAR_WIDTH + 0.07) * BAR_SCREEN_SCALE, (BAR_HEIGHT + 0.05) * BAR_SCREEN_SCALE, 1);
     plate.renderOrder = 900;
 
     const fill = new THREE.Sprite(
@@ -243,13 +261,14 @@ export class EnemyVisual {
         depthTest: false,
         depthWrite: false,
         transparent: true,
+        sizeAttenuation: false,
+        toneMapped: false,
       }),
     );
-    // Anchored at its left edge, so shrinking it empties the bar from the
-    // right rather than from both ends at once.
-    fill.center.set(0, 0.5);
-    fill.position.x = -BAR_WIDTH / 2;
-    fill.scale.set(BAR_WIDTH, BAR_HEIGHT, 1);
+    // Both sprites share the same world anchor. The fill's sprite center is
+    // adjusted with health below, keeping its left edge fixed in camera space
+    // even when the enemy turns; a local X offset would rotate with its body.
+    fill.scale.set(BAR_WIDTH * BAR_SCREEN_SCALE, BAR_HEIGHT * BAR_SCREEN_SCALE, 1);
     fill.renderOrder = 901;
 
     group.add(plate, fill);
@@ -292,7 +311,8 @@ export class EnemyVisual {
     if (f === this.appliedFraction) return;
     this.appliedFraction = f;
 
-    this.barFill.scale.x = BAR_WIDTH * f;
+    this.barFill.scale.x = BAR_WIDTH * BAR_SCREEN_SCALE * f;
+    this.barFill.center.x = f > 0 ? 0.5 / f : 0.5;
     this.bar.visible = f > 0;
     (this.barFill.material as THREE.SpriteMaterial).color.setHex(healthBarColour(f));
   }
@@ -309,19 +329,32 @@ export class EnemyVisual {
    * right default — they are what makes one texture upload serve the whole
    * deck. They are wrong here for one reason: this class writes to them.
    */
-  private adoptMaterials(tint: boolean): void {
+  private adoptMaterials(tint: boolean, applyTypeTint = true): void {
     this.object3D.traverse((o) => {
       const mesh = o as THREE.Mesh;
       if (!mesh.isMesh || !mesh.material) return;
       const own = (m: THREE.Material): THREE.Material => {
         const clone = m.clone();
         const std = clone as THREE.MeshStandardMaterial;
+        // Three does not copy onBeforeCompile when cloning a material. Each
+        // enemy needs its own hit-flash material and the same desert haze.
+        if (std.isMeshStandardMaterial) applyHeightFog(std);
         // Tint the clone, then record that as the baseline. The other way
         // round and every hit flash would end by restoring the friendly
         // colours the model shipped with.
         if (tint && std.color) {
           const t = hostileTint({ r: std.color.r, g: std.color.g, b: std.color.b });
           std.color.setRGB(t.r, t.g, t.b);
+        }
+        // After the hostile tint, never instead of it: the tint is what stops
+        // a model reading as scenery, and a type colour applied first would be
+        // desaturated straight back out again by it.
+        if (std.color && applyTypeTint) {
+          std.color.setRGB(
+            Math.min(1, std.color.r * this.bodyTint.r),
+            Math.min(1, std.color.g * this.bodyTint.g),
+            Math.min(1, std.color.b * this.bodyTint.b),
+          );
         }
         if (std.emissive) {
           this.flashMaterials.push({
@@ -333,9 +366,7 @@ export class EnemyVisual {
         }
         return clone;
       };
-      mesh.material = Array.isArray(mesh.material)
-        ? mesh.material.map(own)
-        : own(mesh.material);
+      mesh.material = Array.isArray(mesh.material) ? mesh.material.map(own) : own(mesh.material);
     });
   }
 

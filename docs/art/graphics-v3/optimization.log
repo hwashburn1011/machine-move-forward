@@ -1,0 +1,781 @@
+{
+  "optimized": [
+    {
+      "asset": "machine-walker",
+      "sourceBytes": 14898348,
+      "optimizedBytes": 3003324,
+      "sourceGeometryBytes": 2852224,
+      "compressedGeometryBytes": 2120778,
+      "meshoptFallbackBufferBytes": 2852224,
+      "sourceTextureBytes": 11961683,
+      "webpTextureBytes": 745152,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "WalkerV3_PaintSage_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_PaintSage_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1125768,
+          "webpBytes": 16264,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_PaintSage_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986083,
+          "webpBytes": 98436,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Graphite_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Graphite_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 935981,
+          "webpBytes": 6144,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_Graphite_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986318,
+          "webpBytes": 98382,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_BareSteel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_BareSteel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1228857,
+          "webpBytes": 36272,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_BareSteel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985946,
+          "webpBytes": 98428,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Rubber_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WalkerV3_Rubber_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 731887,
+          "webpBytes": 5052,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WalkerV3_Rubber_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 976176,
+          "webpBytes": 96828,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "assetRole": "walker-hull-shell",
+        "machineLocalAxes": "+X port-starboard, +Y up, +Z aft; prow -Z",
+        "visualOnly": true,
+        "deckExtentsMetres": "10x16",
+        "deckCenterY": 3.6,
+        "walkSurfaceY": 3.69,
+        "engineRoomFloorY": 0.6,
+        "stairwellOpening": "x[-3,-1], z[-2,2], aft edge open"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v3\\optimized\\machine-walker.glb"
+    },
+    {
+      "asset": "player",
+      "sourceBytes": 5341452,
+      "optimizedBytes": 1685692,
+      "sourceGeometryBytes": 2197536,
+      "compressedGeometryBytes": 999291,
+      "meshoptFallbackBufferBytes": 2197536,
+      "sourceTextureBytes": 3085191,
+      "webpTextureBytes": 616838,
+      "selectedTextureGpuBytesWithMips": 18175317,
+      "images": [
+        {
+          "image": "canvas_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 335911,
+          "webpBytes": 149140,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_FieldCanvas_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 225800,
+          "webpBytes": 1176,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "canvas_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 193398,
+          "webpBytes": 84248,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_SandCanvas_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 276531,
+          "webpBytes": 1250,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "leather_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 291400,
+          "webpBytes": 102610,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_RubberSeals_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 196974,
+          "webpBytes": 766,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "leather_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 212678,
+          "webpBytes": 103502,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "metal_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 234189,
+          "webpBytes": 65606,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_MachinedSteel_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 251890,
+          "webpBytes": 1904,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 228726,
+          "webpBytes": 103552,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_WovenWebbing_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 171486,
+          "webpBytes": 1378,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V3_WornLeather_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 252652,
+          "webpBytes": 918,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V3_CoatedSteel_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 213556,
+          "webpBytes": 788,
+          "format": "webp",
+          "lossless": false
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "authoredPalette": true,
+        "forwardAxis": "+Z",
+        "authoredPlayer": true,
+        "graphicsVersion": 3,
+        "construction": "Tailored desert equipment"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v3\\optimized\\player.glb"
+    },
+    {
+      "asset": "raider",
+      "sourceBytes": 5710092,
+      "optimizedBytes": 1784432,
+      "sourceGeometryBytes": 2337012,
+      "compressedGeometryBytes": 1067605,
+      "meshoptFallbackBufferBytes": 2337012,
+      "sourceTextureBytes": 3288027,
+      "webpTextureBytes": 618562,
+      "selectedTextureGpuBytesWithMips": 20971520,
+      "images": [
+        {
+          "image": "canvas_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 335911,
+          "webpBytes": 149140,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_FieldCanvas_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 171485,
+          "webpBytes": 836,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "canvas_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 193398,
+          "webpBytes": 84248,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_SandCanvas_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 212939,
+          "webpBytes": 880,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 234189,
+          "webpBytes": 65606,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_CoatedSteel_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 186916,
+          "webpBytes": 1156,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "leather_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 291400,
+          "webpBytes": 102610,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_RubberSeals_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 196974,
+          "webpBytes": 766,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "leather_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 212678,
+          "webpBytes": 103502,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_MachinedSteel_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 251890,
+          "webpBytes": 1904,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 228726,
+          "webpBytes": 103552,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_WovenWebbing_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 171486,
+          "webpBytes": 1378,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V3_WornLeather_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 252652,
+          "webpBytes": 918,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V3_OchreCoating_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 192730,
+          "webpBytes": 1178,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V3_CastGraphite_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 154653,
+          "webpBytes": 888,
+          "format": "webp",
+          "lossless": false
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "authoredPalette": true,
+        "graphicsVersion": 3,
+        "construction": "Tailored desert equipment"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v3\\optimized\\raider.glb"
+    },
+    {
+      "asset": "scavenger",
+      "sourceBytes": 3243772,
+      "optimizedBytes": 996156,
+      "sourceGeometryBytes": 1136472,
+      "compressedGeometryBytes": 530561,
+      "meshoptFallbackBufferBytes": 1136472,
+      "sourceTextureBytes": 2030694,
+      "webpTextureBytes": 381850,
+      "selectedTextureGpuBytesWithMips": 12582912,
+      "images": [
+        {
+          "image": "metal_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 234189,
+          "webpBytes": 65606,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_CoatedSteel_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 217679,
+          "webpBytes": 1494,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "V3_CastGraphite_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 154653,
+          "webpBytes": 888,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "metal_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 228726,
+          "webpBytes": 103552,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_MachinedSteel_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 251890,
+          "webpBytes": 1904,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "leather_micro_normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 291400,
+          "webpBytes": 102610,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_RubberSeals_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 196974,
+          "webpBytes": 766,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "leather_surface",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 212678,
+          "webpBytes": 103502,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "V3_OchreCoating_Color",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "pngBytes": 242505,
+          "webpBytes": 1528,
+          "format": "webp",
+          "lossless": false
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {
+        "authoredPalette": true,
+        "graphicsVersion": 3,
+        "construction": "Articulated maintenance automaton"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v3\\optimized\\scavenger.glb"
+    }
+  ]
+}

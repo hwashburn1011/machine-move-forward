@@ -8,7 +8,7 @@ import type { ItemCost, ItemId } from './items';
  * does not mean editing every recipe that already exists.
  */
 
-export type StationId = 'workbench' | 'refinery';
+export type StationId = 'workbench' | 'refinery' | 'stove';
 
 export interface Recipe {
   id: string;
@@ -23,8 +23,8 @@ export const RECIPES: readonly Recipe[] = [
     id: 'refine-components',
     name: 'Refine Components',
     station: 'refinery',
-    inputs: { scrap: 4 },
-    output: { itemId: 'components', count: 1 },
+    inputs: { scrap: 8 },
+    output: { itemId: 'components', count: 2 },
   },
   {
     id: 'craft-rifle-ammo',
@@ -46,6 +46,17 @@ export const RECIPES: readonly Recipe[] = [
     station: 'workbench',
     inputs: { scrap: 2, components: 2 },
     output: { itemId: 'repair-kit', count: 1 },
+  },
+  {
+    // The one thing the stove does, and instant like every other recipe here.
+    // A cooking TIMER was considered and rejected: nothing else in this game
+    // makes the player wait at a station, and a stove that did would be the
+    // odd one out for no gain the calm loop can feel.
+    id: 'cook-rations',
+    name: 'Cook Rations',
+    station: 'stove',
+    inputs: { greens: 1, water: 1 },
+    output: { itemId: 'rations', count: 1 },
   },
   {
     id: 'craft-extended-mag',

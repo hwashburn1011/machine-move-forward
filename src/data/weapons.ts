@@ -30,6 +30,8 @@ export interface WeaponDefinition {
   pellets: number;
   ammoType: string;
   startingReserve: number;
+  /** Presentation-only held-model kick; gameplay recoil remains `recoil`. */
+  heldKick?: { distance: number; pitch: number; yaw: number; recovery: number };
 }
 
 export const WEAPONS: Record<string, WeaponDefinition> = {
@@ -49,6 +51,7 @@ export const WEAPONS: Record<string, WeaponDefinition> = {
     pellets: 1,
     ammoType: 'rifle',
     startingReserve: 150,
+    heldKick: { distance: 0.018, pitch: 0.035, yaw: 0.012, recovery: 18 },
   },
   shotgun: {
     id: 'shotgun',
@@ -66,6 +69,7 @@ export const WEAPONS: Record<string, WeaponDefinition> = {
     pellets: 9,
     ammoType: 'shell',
     startingReserve: 48,
+    heldKick: { distance: 0.032, pitch: 0.065, yaw: 0.02, recovery: 15 },
   },
 };
 

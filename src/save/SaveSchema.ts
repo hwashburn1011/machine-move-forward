@@ -1,5 +1,19 @@
+import type { OpeningSave } from '@/game/OpeningDirector';
+import type { FirstRunSave } from '@/game/FirstRunDirector';
+import type { ThreatDirectorSave } from '@/enemies/ThreatDirector';
 import type { BuildPieceInstance } from '@/building/BuildSystem';
 import type { ItemStack } from '@/data/items';
+import type { NeedsSave } from '@/player/Needs';
+import type { TurretRuntimeSave } from '@/defense/DefenseSystem';
+import type { AutomaticDefenseSave } from '@/defense/AutomaticDefenseSystem';
+import type { UpgradeSave } from '@/progression/UpgradeSystem';
+import type { EarlyRadioDropSave } from '@/progression/EarlyRadioDrop';
+import type { StorySave } from '@/story/StoryDirector';
+export type {
+  CampaignSave,
+  ActiveExpeditionSave,
+  LegacyWreckOneStorySave,
+} from '@/story/StoryDirector';
 
 /**
  * Versioned save schema (handoff section 38).
@@ -9,6 +23,9 @@ import type { ItemStack } from '@/data/items';
  * shape after the first save format ships is what makes save systems painful.
  */
 export const CURRENT_SAVE_VERSION = 1;
+
+/** Optional v1 radio ledger. Kept additive so old saves remain valid. */
+export type RadioSave = EarlyRadioDropSave;
 
 /**
  * No migration was needed to add built structures, the player's inventory, or
@@ -35,6 +52,15 @@ export interface SaveGameV1 {
     health: number;
     /** Serialised container slots, one entry per slot, null where empty. */
     inventory: (ItemStack | null)[];
+    /**
+     * Water and food. Absent in every save written before Phase 4, and absent
+     * means FULL — a player who put the game down before the survival layer
+     * existed must not come back to an empty bottle. No version bump and no
+     * migration, for the reason `subsystems` and `opening` give above: the old
+     * shape is still a legal value of the new type and its absence has exactly
+     * one sensible reading.
+     */
+    needs?: NeedsSave;
     equipment: {
       currentWeapon: string;
       weapons: {
@@ -54,16 +80,51 @@ export interface SaveGameV1 {
     fuel: number;
     coreHealth: number;
     navigationTier: number;
+    /**
+     * Absent in saves written before machine damage, and absent means
+     * undamaged. No version bump and no migration for the reason
+     * `threatDirector` gives below: the old shape is still a legal value of
+     * the new type, and there is exactly one sensible reading of its absence.
+     */
+    subsystems?: { id: string; health: number }[];
   };
 
   progression: {
     unlocks: string[];
+    /** Partial progress toward the guaranteed first manual-turret unlock. */
+    turretBlueprintProgress?: number;
+    /** Per-gun aim, optional for saves written before manual defenses existed. */
+    turrets?: TurretRuntimeSave[];
+    automaticTurrets?: AutomaticDefenseSave[];
+    /** Optional first-run facts; absent means a fresh director. */
+    firstRun?: FirstRunSave;
+    /** Permanent machine research and the currently installed branch modules. */
+    upgrades?: UpgradeSave;
+    /** Guaranteed salvage reward ledger. `radioDrop` is retained for old builds. */
+    radio?: RadioSave;
+    radioDrop?: RadioSave;
+    /**
+     * Where the opening got to. Absent in saves written before Phase 2, and
+     * a loader reads that as `done` — a game old enough to have a save is a
+     * game that has already been played, and replaying its opening on load
+     * would be the worst possible reading of a missing field. No version bump
+     * and no migration for the same reason `magazineBonus` needed none.
+     */
+    opening?: OpeningSave;
   };
 
   world: {
     chunkIndex: number;
-    /** Null until the threat director milestone. */
-    threatDirector: null;
+    /**
+     * Null in saves written before the threat director, and in a fresh game
+     * that has not reached its first phase change. Both mean the same thing to
+     * a loader — start a director from the seed — so this needed no version
+     * bump and no migration: the old shape is still a legal value of the new
+     * type.
+     */
+    threatDirector: ThreatDirectorSave | null;
+    /** Optional expedition chapter state. */
+    story?: StorySave;
   };
 }
 

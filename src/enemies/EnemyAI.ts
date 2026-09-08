@@ -13,12 +13,24 @@ export interface AIInput {
   distanceToPlayer: number;
   health: number;
   timeSinceLastAttack: number;
+  /**
+   * The instance id of the structure between this enemy and the player, or
+   * null when the way is clear.
+   *
+   * The caller computes it, because the caller is the one holding the grid.
+   * Its absence was a real bug rather than a missing feature: attacks were
+   * decided on straight-line distance alone, and with 2m cells against a 2.2m
+   * reach, an enemy one cell away damaged the player THROUGH a wall.
+   */
+  blockedBy: string | null;
 }
 
 export interface AIDecision {
   state: EnemyAIState;
   /** True on the tick the enemy should deal damage. */
   shouldAttack: boolean;
+  /** What that damage lands on. Null when not attacking. */
+  attackTarget: 'player' | 'blocker' | null;
 }
 
 /**
@@ -30,21 +42,35 @@ export function stepEnemyAI(
   def: EnemyDefinition,
   input: AIInput,
 ): AIDecision {
-  if (input.health <= 0) return { state: 'dead', shouldAttack: false };
+  const idle = (state: EnemyAIState): AIDecision => ({
+    state,
+    shouldAttack: false,
+    attackTarget: null,
+  });
+
+  if (input.health <= 0) return idle('dead');
   // Death is terminal — nothing brings an enemy back out of it.
-  if (current === 'dead') return { state: 'dead', shouldAttack: false };
+  if (current === 'dead') return idle('dead');
 
-  const { distanceToPlayer: dist } = input;
+  const { distanceToPlayer: dist, blockedBy } = input;
 
-  if (dist > def.detectRange) return { state: 'idle', shouldAttack: false };
+  if (dist > def.detectRange) return idle('idle');
+
+  const ready = input.timeSinceLastAttack >= def.attackCooldown;
+
+  // Blocked beats range. An enemy standing at a wall it cannot get past
+  // attacks the wall, whether or not the player on the other side happens to
+  // be within arm's reach through it — which, at 2m cells, they usually are.
+  if (blockedBy !== null) {
+    return { state: 'attack', shouldAttack: ready, attackTarget: ready ? 'blocker' : null };
+  }
 
   if (dist <= def.attackRange) {
-    const ready = input.timeSinceLastAttack >= def.attackCooldown;
-    return { state: 'attack', shouldAttack: ready };
+    return { state: 'attack', shouldAttack: ready, attackTarget: ready ? 'player' : null };
   }
 
   // Inside detection but outside attack range. Once engaged the enemy pursues;
   // from idle it starts by navigating in.
   const engaged = current === 'attack' || current === 'pursue';
-  return { state: engaged ? 'pursue' : 'navigate', shouldAttack: false };
+  return idle(engaged ? 'pursue' : 'navigate');
 }

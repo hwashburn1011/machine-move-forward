@@ -193,3 +193,21 @@ function buildLinks(
 export function countEnclosed(graph: RoomGraph): number {
   return graph.rooms.filter((r) => r.enclosed).length;
 }
+
+/**
+ * Is this cell inside an ENCLOSED room?
+ *
+ * The question the interior audio duck asks every frame, and it lives here
+ * rather than in the audio because "indoors" is a fact about the room model.
+ * A cell in no room at all answers no, which is the common case — most of the
+ * deck is open — so the lookup is one map hit and a boolean.
+ *
+ * Enclosed, not merely in a room: a railed platform is fenced, not sheltered,
+ * and ducking the engine on one would tell the player they had walked inside
+ * something when they had not.
+ */
+export function insideEnclosed(graph: RoomGraph, cell: Cell): boolean {
+  const id = graph.byCell.get(cellKey(cell));
+  if (id === undefined) return false;
+  return graph.rooms[id]?.enclosed ?? false;
+}

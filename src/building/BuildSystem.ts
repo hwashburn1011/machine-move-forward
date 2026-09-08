@@ -1,19 +1,31 @@
 import * as THREE from 'three';
+import type { LoadedModel } from '@/art/ModelLoader';
 import type RAPIER from '@dimforge/rapier3d-compat';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
+import { buildTurretModel, type TurretVisual } from '@/art/DefenseModels';
+import {
+  buildAutomaticCollectorModel,
+  buildAutomaticTurretModel,
+  type AutomaticCollectorVisual,
+} from '@/art/AutomationModels';
 import type { Machine } from '@/machine/Machine';
+import type { Damageable } from '@/combat/Damageable';
 import type { ResourceAccess, CrateRef } from '@/items/ResourceAccess';
 import { Container } from '@/items/Container';
 import {
   BUILD_PIECES,
+  buildsColliders,
+  canHoldFixture,
   CRATE_SLOTS,
+  isDecor,
+  isFixture,
   isStation,
   REFUND_FRACTION,
   type PieceId,
 } from '@/data/build-pieces';
-import type { ItemCost, ItemId, ItemStack } from '@/data/items';
+import { ITEMS, type ItemCost, type ItemId, type ItemStack } from '@/data/items';
 import {
   BuildGrid,
   cellCenter,
@@ -28,12 +40,16 @@ import {
 } from './BuildGrid';
 import {
   stairsCells,
+  stairsExit,
   validatePlacement,
   type Placement,
   type Validation,
 } from './BuildValidation';
 import { countEnclosed, detectRooms, type RoomGraph } from './RoomDetector';
+import { buildNavGraph, type FixedLink, type NavGraph } from '@/enemies/NavGraph';
 import { buildPieceGeometry, pieceColliders, pieceMaterial } from './BuildPieceGeometry';
+import { Producer, type ProducerSave } from './Producer';
+import { producerRoleOf } from '@/data/needs';
 
 export interface BuildPieceInstance {
   instanceId: string;
@@ -49,12 +65,40 @@ export interface BuildPieceInstance {
   state?: Record<string, unknown>;
 }
 
+/** A built producer near the player, for the interaction system. */
+export interface ProducerRef {
+  instanceId: string;
+  piece: PieceId;
+  position: THREE.Vector3;
+  itemId: ItemId;
+  stored: number;
+  capacity: number;
+  /** 0..1 toward the next unit. */
+  fraction: number;
+}
+
+/** One unit that has just finished, for the bus. */
+export interface ProducerOutput {
+  instanceId: string;
+  itemId: ItemId;
+  count: number;
+}
+
 /** What a storage crate writes into `state`. */
 export interface CrateState {
   slots: (ItemStack | null)[];
   /** `state` is an open bag, so this shape has to be assignable to it. */
   [key: string]: unknown;
 }
+
+/**
+ * How hard a powered lamp head glows.
+ *
+ * The head is the visible source; `LampLights` adds the actual illumination
+ * for the nearest few. Every lit lamp gets this, so a lamp beyond the light
+ * pool still reads as ON from across the deck.
+ */
+export const LAMP_GLOW_INTENSITY = 2.6;
 
 /** A built station near the player, for the interaction system. */
 export interface StationRef {
@@ -68,6 +112,17 @@ interface LiveInstance {
   mesh: THREE.Mesh;
   colliders: RAPIER.Collider[];
 }
+
+const AUTHORED_STATION_IDS = [
+  'generator',
+  'refinery',
+  'workbench',
+  'crate',
+  'lamp',
+  'collector-auto',
+  'turret-auto',
+] as const;
+type AuthoredStationId = (typeof AUTHORED_STATION_IDS)[number];
 
 /**
  * Owns everything the player builds.
@@ -85,13 +140,48 @@ export class BuildSystem {
   private readonly cellOwner = new Map<string, string>();
   private readonly roofOwner = new Map<string, string>();
   private readonly edgeOwner = new Map<string, string>();
+  private readonly fixtureOwner = new Map<string, string>();
   private readonly stationOwner = new Map<string, string>();
+  private readonly decorOwner = new Map<string, string>();
+  private readonly stairsOwner = new Map<string, string>();
   /** Contents of every built storage crate, keyed by instance id. */
   private readonly crateContainers = new Map<string, Container>();
+  /** Six-slot accepted buffer for automatic salvage collectors. */
+  private readonly collectorContainers = new Map<string, Container>();
+  /**
+   * One timer per built condenser and planter, keyed by instance id.
+   *
+   * Beside the crate containers rather than inside `BuildPieceInstance`,
+   * for the reason the containers are: the instance is a plain serialisable
+   * record and a live model with methods on it is not.
+   */
+  private readonly producerTimers = new Map<string, Producer>();
+  /**
+   * Each lamp's own glow material.
+   *
+   * Cloned per instance rather than shared: `Materials.emissiveWarn` is one
+   * object, so dimming a lamp that had shed power would dim every lamp on the
+   * machine. Disposed with the piece — these are the only materials this
+   * system owns.
+   */
+  private readonly lampGlow = new Map<string, THREE.MeshStandardMaterial>();
+  private readonly authoredLampGlow = new Map<string, THREE.MeshStandardMaterial[]>();
+  private readonly authoredStations = new Map<AuthoredStationId, THREE.Object3D>();
+  private readonly authoredPlaceholderGeometry = new THREE.BufferGeometry();
+  private readonly authoredPlaceholderMaterial = new THREE.MeshBasicMaterial({ visible: false });
+  private readonly turretVisuals = new Map<string, TurretVisual>();
+  private readonly collectorVisuals = new Map<string, AutomaticCollectorVisual>();
+  /** Shared source for the build ghost; its geometry is cloned by reference. */
+  private previewTurretTemplate: THREE.Object3D | undefined;
+  /** Temporary links supplied by vehicles, gangways, and other world actors. */
+  private readonly externalLinks = new Map<string, FixedLink>();
 
   private graph: RoomGraph = { rooms: [], byCell: new Map(), links: [] };
+  private nav: NavGraph = { links: new Map() };
   private nextId = 0;
   private weight = 0;
+  private buildAuthorizer: (piece: PieceId) => boolean = () => true;
+  private buildBlocker: (placement: Placement) => Validation | null = () => null;
 
   constructor(
     scene: THREE.Scene,
@@ -108,8 +198,59 @@ export class BuildSystem {
     this.recomputeRooms();
   }
 
+  /**
+   * Install optional authored station modules and refresh any already placed
+   * instances. The station kit is visual only; placement, save, damage,
+   * collider, room, and build-grid code continues to use the runtime piece
+   * definitions below this seam.
+   */
+  applyAuthoredStationKit(model: LoadedModel | null): void {
+    this.authoredStations.clear();
+    if (model) {
+      model.scene.traverse((object) => {
+        const node = object as THREE.Object3D & { userData: { pieceId?: unknown } };
+        const fromMetadata = node.userData.pieceId;
+        const fromName = node.name.replace('MMF_', '').replace('Detail', '').toLowerCase();
+        const piece = AUTHORED_STATION_IDS.find(
+          (id) =>
+            fromMetadata === id || fromName === id || (id === 'crate' && fromName === 'storage'),
+        );
+        if (piece && node.children.length > 0) this.authoredStations.set(piece, node);
+      });
+    }
+
+    // Existing saves and the starting layout may have been placed before the
+    // async GLB finished. Rebuild only their meshes; colliders and records stay
+    // exactly where the simulation put them.
+    for (const live of this.instances.values()) {
+      if (!this.authoredStations.has(live.data.definitionId as AuthoredStationId)) continue;
+      this.group.remove(live.mesh);
+      this.disposeLampGlow(live.data.instanceId);
+      this.disposeAuthoredLampGlow(live.data.instanceId);
+      live.mesh = this.createMesh(live.data);
+    }
+  }
+
   get rooms(): RoomGraph {
     return this.graph;
+  }
+
+  /** The graph enemies path over. Rebuilt with the rooms. */
+  get navGraph(): NavGraph {
+    return this.nav;
+  }
+
+  /** Add a transient connection without pretending it is a built staircase. */
+  addExternalLink(id: string, link: FixedLink): void {
+    this.externalLinks.set(id, link);
+    this.recomputeRooms();
+  }
+
+  /** Remove a transient connection; duplicate cleanup is deliberately harmless. */
+  removeExternalLink(id: string): boolean {
+    const removed = this.externalLinks.delete(id);
+    if (removed) this.recomputeRooms();
+    return removed;
   }
 
   get pieceCount(): number {
@@ -120,13 +261,46 @@ export class BuildSystem {
     return this.weight;
   }
 
+  /** Game supplies progression without coupling this building system to UI. */
+  setBuildAuthorization(authorizer: (piece: PieceId) => boolean): void {
+    this.buildAuthorizer = authorizer;
+  }
+
+  setBuildBlocker(blocker: (placement: Placement) => Validation | null): void {
+    this.buildBlocker = blocker;
+  }
+
+  canBuildPiece(piece: PieceId): boolean {
+    return this.buildAuthorizer(piece);
+  }
+
   /** Read-only view, for the preview's validation. */
   get gridView(): BuildGrid<PieceId> {
     return this.grid;
   }
 
   canPlace(placement: Placement): Validation {
+    if (!this.buildAuthorizer(placement.piece)) return { ok: false, reason: 'locked' };
+    const blocked = this.buildBlocker(placement);
+    if (blocked) return blocked;
     return validatePlacement(this.grid, placement, this.affordable);
+  }
+
+  /**
+   * Return a clone of the visual source used by a placed station or turret.
+   * The caller owns only cloned materials; source geometry remains shared with
+   * the authored kit and the normal build instances. This keeps the preview
+   * visually honest without mutating a live piece or creating a second asset
+   * cache for ghost rendering.
+   */
+  createPreviewVisual(piece: PieceId): THREE.Object3D | null {
+    if (piece === 'turret-manual') {
+      this.previewTurretTemplate ??= buildTurretModel(this.materials).root;
+      return this.previewTurretTemplate.clone(true);
+    }
+
+    const station = this.authoredStations.get(piece as AuthoredStationId);
+    return station?.clone(true) ?? null;
   }
 
   /** Bound once, so the validator gets a stable predicate rather than a fresh closure. */
@@ -136,19 +310,30 @@ export class BuildSystem {
    * Place a piece. Returns the instance, or null if placement was refused.
    * `free` skips cost checking and deduction — used when replaying a save.
    */
-  place(placement: Placement, free = false): BuildPieceInstance | null {
+  place(
+    placement: Placement,
+    free = false,
+    requestedInstanceId?: string,
+  ): BuildPieceInstance | null {
+    if (!free && !this.buildAuthorizer(placement.piece)) return null;
+    if (!free && this.buildBlocker(placement)) return null;
     const def = BUILD_PIECES[placement.piece];
-    const validation = validatePlacement(
-      this.grid,
-      placement,
-      free ? () => true : this.affordable,
-    );
+    const validation = validatePlacement(this.grid, placement, free ? () => true : this.affordable);
     if (!validation.ok) return null;
 
     if (!free && !this.resources.consume(def.cost)) return null;
 
+    const requestedId =
+      requestedInstanceId && /^bp-\d+$/.test(requestedInstanceId) ? requestedInstanceId : null;
+    const instanceId =
+      requestedId && !this.instances.has(requestedId)
+        ? requestedId
+        : this.nextAvailableInstanceId();
+    if (requestedId) {
+      this.nextId = Math.max(this.nextId, Number(requestedId.slice(3)) + 1);
+    }
     const data: BuildPieceInstance = {
-      instanceId: `bp-${this.nextId++}`,
+      instanceId,
       definitionId: placement.piece,
       cell: { ...placement.cell },
       edge: placement.edge ? { ...placement.edge } : undefined,
@@ -159,6 +344,13 @@ export class BuildSystem {
     this.occupy(data);
     if (data.definitionId === 'crate') {
       this.crateContainers.set(data.instanceId, new Container(CRATE_SLOTS));
+    }
+    if (data.definitionId === 'collector-auto') {
+      this.collectorContainers.set(data.instanceId, new Container(6));
+    }
+    const producing = producerRoleOf(data.definitionId);
+    if (producing) {
+      this.producerTimers.set(data.instanceId, new Producer(producing.periodS, producing.capacity));
     }
     this.instances.set(data.instanceId, {
       data,
@@ -187,6 +379,46 @@ export class BuildSystem {
     const refunded = this.removeCascade(id);
     if (refunded > 0) this.recomputeRooms();
     return refunded;
+  }
+
+  /** Current health of one instance, or null if it does not exist. */
+  pieceHealth(instanceId: string): number | null {
+    return this.instances.get(instanceId)?.data.health ?? null;
+  }
+
+  /**
+   * Hurt a piece. Returns the damage that actually landed, after armour.
+   *
+   * At zero the piece goes through the SAME cascade demolition the player's
+   * own hammer uses, so a wall that falls to a raider takes down exactly what
+   * a wall the player pulls down takes with it — the roof above, the floor it
+   * carried. One path to get wrong instead of two.
+   *
+   * No refund. Demolition pays back 60% because it is a considered decision;
+   * losing a wall to a raider is not, and refunding it would make being
+   * attacked free.
+   */
+  damagePiece(instanceId: string, amount: number): number {
+    const live = this.instances.get(instanceId);
+    if (!live) return 0;
+
+    const def = BUILD_PIECES[live.data.definitionId];
+    const dealt = Math.max(0, amount - def.armor);
+    if (dealt === 0) return 0;
+
+    live.data.health = Math.max(0, live.data.health - dealt);
+    this.bus.emit('build:damaged', {
+      instanceId,
+      definitionId: live.data.definitionId,
+      health: live.data.health,
+      maxHealth: def.maxHealth,
+    });
+
+    if (live.data.health <= 0) {
+      this.removeCascade(instanceId);
+      this.recomputeRooms();
+    }
+    return dealt;
   }
 
   /**
@@ -220,6 +452,15 @@ export class BuildSystem {
         return data.instanceId;
       }
 
+      // A lamp hangs on its wall and falls with it. Checked BEFORE the floor
+      // rule below and instead of it: the wall's own orphan check already
+      // covers the floors, and a lamp asked the floor question would survive
+      // its wall coming down and hang in the doorway that is no longer there.
+      if (isFixture(data.definitionId) && data.edge) {
+        if (!canHoldFixture(this.grid.getEdge(data.edge))) return data.instanceId;
+        continue;
+      }
+
       if (data.edge) {
         const [a, b] = cellsOfEdge(data.edge);
         if (this.grid.getCell(a) !== 'floor' && this.grid.getCell(b) !== 'floor') {
@@ -234,8 +475,12 @@ export class BuildSystem {
       }
 
       // A station stands on a floor. Pull the floor and the station goes with
-      // it, rather than being left hovering over open deck.
-      if (isStation(data.definitionId) && this.grid.getCell(data.cell) !== 'floor') {
+      // it, rather than being left hovering over open deck. Furniture keeps
+      // exactly the same rule: a chair over open deck is a chair falling.
+      if (
+        (isStation(data.definitionId) || isDecor(data.definitionId)) &&
+        this.grid.getCell(data.cell) !== 'floor'
+      ) {
         return data.instanceId;
       }
     }
@@ -247,15 +492,27 @@ export class BuildSystem {
     const live = this.instances.get(id);
     if (!live) return -1;
 
+    // A collector is also a six-slot inventory. Refuse its demolition while
+    // any accepted item cannot be returned through the normal resource route;
+    // silently dropping a full buffer is worse than asking the player to empty
+    // it first.
+    if (live.data.definitionId === 'collector-auto' && !this.canEmptyCollector(id)) return -1;
+
     const def = BUILD_PIECES[live.data.definitionId];
 
     // Empty the crate BEFORE it stops being a deposit target, or part of the
     // contents lands straight back in the crate being destroyed.
     this.emptyCrate(id);
+    this.emptyCollector(id);
+    this.emptyProducer(id);
 
     this.vacate(live.data);
     for (const collider of live.colliders) this.physics.removeCollider(collider);
     this.group.remove(live.mesh);
+    this.disposeLampGlow(id);
+    this.disposeAuthoredLampGlow(id);
+    this.disposeTurretVisual(id);
+    this.disposeCollectorVisual(id);
     this.instances.delete(id);
 
     this.weight -= def.weight;
@@ -287,6 +544,99 @@ export class BuildSystem {
     return total;
   }
 
+  collectorContainer(instanceId: string): Container | undefined {
+    return this.collectorContainers.get(instanceId);
+  }
+
+  collectorContainersNear(
+    pos: THREE.Vector3,
+    reach: number,
+  ): { instanceId: string; container: Container; position: THREE.Vector3 }[] {
+    const out: {
+      instanceId: string;
+      container: Container;
+      position: THREE.Vector3;
+      distance: number;
+    }[] = [];
+    for (const [instanceId, container] of this.collectorContainers) {
+      const live = this.instances.get(instanceId);
+      if (!live) continue;
+      const distance = live.mesh.position.distanceTo(pos);
+      if (distance <= reach)
+        out.push({ instanceId, container, position: live.mesh.position.clone(), distance });
+    }
+    return out.sort((a, b) => a.distance - b.distance || a.instanceId.localeCompare(b.instanceId));
+  }
+
+  /** The one material this system owns per instance, so it is the one it must free. */
+  private disposeLampGlow(id: string): void {
+    const glow = this.lampGlow.get(id);
+    if (!glow) return;
+    this.lampGlow.delete(id);
+    glow.dispose();
+  }
+
+  private disposeAuthoredLampGlow(id: string): void {
+    const glows = this.authoredLampGlow.get(id);
+    if (!glows) return;
+    this.authoredLampGlow.delete(id);
+    for (const glow of glows) glow.dispose();
+  }
+
+  private disposeTurretVisual(id: string): void {
+    const visual = this.turretVisuals.get(id);
+    if (!visual) return;
+    this.turretVisuals.delete(id);
+    const geometries = new Set<THREE.BufferGeometry>();
+    const materials = new Set<THREE.Material>();
+    const textures = new Set<THREE.Texture>();
+    visual.root.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      geometries.add(object.geometry);
+      if (!visual.root.userData.authored) return;
+      const slots = Array.isArray(object.material) ? object.material : [object.material];
+      for (const material of slots) {
+        materials.add(material);
+        for (const value of Object.values(material)) {
+          if ((value as { isTexture?: boolean } | null)?.isTexture)
+            textures.add(value as THREE.Texture);
+        }
+      }
+    });
+    for (const geometry of geometries) geometry.dispose();
+    if (visual.root.userData.authored) {
+      for (const material of materials) material.dispose();
+      for (const texture of textures) texture.dispose();
+    }
+  }
+
+  private disposeCollectorVisual(id: string): void {
+    const visual = this.collectorVisuals.get(id);
+    if (!visual) return;
+    this.collectorVisuals.delete(id);
+    const geometries = new Set<THREE.BufferGeometry>();
+    const materials = new Set<THREE.Material>();
+    const textures = new Set<THREE.Texture>();
+    visual.root.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      geometries.add(object.geometry);
+      if (!visual.root.userData.authored) return;
+      const slots = Array.isArray(object.material) ? object.material : [object.material];
+      for (const material of slots) {
+        materials.add(material);
+        for (const value of Object.values(material)) {
+          if ((value as { isTexture?: boolean } | null)?.isTexture)
+            textures.add(value as THREE.Texture);
+        }
+      }
+    });
+    for (const geometry of geometries) geometry.dispose();
+    if (visual.root.userData.authored) {
+      for (const material of materials) material.dispose();
+      for (const texture of textures) texture.dispose();
+    }
+  }
+
   /** Hand a demolished crate's contents back. Anything that will not fit is dropped. */
   private emptyCrate(id: string): void {
     const container = this.crateContainers.get(id);
@@ -299,17 +649,166 @@ export class BuildSystem {
     container.clear();
   }
 
+  private canEmptyCollector(id: string): boolean {
+    const container = this.collectorContainers.get(id);
+    if (!container) return true;
+    return container.slots.every(
+      (slot) => !slot || this.resources.roomFor(slot.itemId) >= slot.count,
+    );
+  }
+
+  private emptyCollector(id: string): void {
+    const container = this.collectorContainers.get(id);
+    if (!container) return;
+    if (!this.canEmptyCollector(id)) return;
+    this.collectorContainers.delete(id);
+    for (const slot of container.slots) if (slot) this.resources.deposit(slot.itemId, slot.count);
+    container.clear();
+  }
+
+  private restoreCollectorSlots(instanceId: string, incoming: unknown): void {
+    const container = this.collectorContainers.get(instanceId);
+    if (!container || !Array.isArray(incoming)) return;
+    const safe: (ItemStack | null)[] = new Array(container.capacity).fill(null);
+    for (let i = 0; i < container.capacity; i++) {
+      const slot = incoming[i];
+      if (!slot || typeof slot !== 'object') continue;
+      const itemId = (slot as { itemId?: unknown }).itemId;
+      const count = (slot as { count?: unknown }).count;
+      if (
+        typeof itemId !== 'string' ||
+        !Object.prototype.hasOwnProperty.call(ITEMS, itemId) ||
+        typeof count !== 'number' ||
+        !Number.isFinite(count) ||
+        !Number.isInteger(count) ||
+        count <= 0
+      )
+        continue;
+      safe[i] = {
+        itemId: itemId as ItemId,
+        count: Math.min(count, ITEMS[itemId as ItemId].stackSize),
+      };
+    }
+    container.restore(safe);
+  }
+
+  /** Hand a demolished producer's finished output back, the way a crate is emptied. */
+  private emptyProducer(id: string): void {
+    const timer = this.producerTimers.get(id);
+    if (!timer) return;
+    const live = this.instances.get(id);
+    this.producerTimers.delete(id);
+
+    const role = live ? producerRoleOf(live.data.definitionId) : null;
+    const held = timer.claim();
+    if (role && held > 0) this.resources.deposit(role.itemId, held);
+  }
+
+  // -------------------------------------------------------------------------
+  // Production
+  // -------------------------------------------------------------------------
+
+  /**
+   * Step every built producer. Returns the units finished by THIS step.
+   *
+   * `powered` answers for one instance id — `MachinePower.isPowered` in the
+   * game, `() => true` in a harness. Asked per device rather than per class so
+   * a later phase can gate one condenser and not another without this method
+   * learning anything about power.
+   */
+  tickProducers(dt: number, powered: (instanceId: string) => boolean): ProducerOutput[] {
+    const out: ProducerOutput[] = [];
+    for (const [id, timer] of this.producerTimers) {
+      const live = this.instances.get(id);
+      if (!live) continue;
+      const role = producerRoleOf(live.data.definitionId);
+      if (!role) continue;
+
+      const running = role.needsPower ? powered(id) : true;
+      const made = timer.fixedUpdate(dt, running);
+      if (made > 0) out.push({ instanceId: id, itemId: role.itemId, count: made });
+    }
+    return out;
+  }
+
+  /** Every built producer within `reach` metres, nearest first. */
+  producersNear(pos: THREE.Vector3, reach: number): ProducerRef[] {
+    const found: { ref: ProducerRef; d: number }[] = [];
+    for (const [id, timer] of this.producerTimers) {
+      const live = this.instances.get(id);
+      if (!live) continue;
+      const role = producerRoleOf(live.data.definitionId);
+      if (!role) continue;
+      const d = live.mesh.position.distanceTo(pos);
+      if (d > reach) continue;
+      found.push({
+        ref: {
+          instanceId: id,
+          piece: live.data.definitionId,
+          position: live.mesh.position.clone(),
+          itemId: role.itemId,
+          stored: timer.stored,
+          capacity: role.capacity,
+          fraction: timer.fraction,
+        },
+        d,
+      });
+    }
+    return found.sort((a, b) => a.d - b.d).map((entry) => entry.ref);
+  }
+
+  /**
+   * Take up to `limit` units out of one producer.
+   *
+   * Returns what came out and what it was, so the caller does not need its own
+   * copy of the piece-to-item table. Null when there is nothing to take.
+   */
+  claimProducer(instanceId: string, limit = Number.POSITIVE_INFINITY): ProducerOutput | null {
+    const timer = this.producerTimers.get(instanceId);
+    const live = this.instances.get(instanceId);
+    if (!timer || !live) return null;
+    const role = producerRoleOf(live.data.definitionId);
+    if (!role) return null;
+
+    const count = timer.claim(limit);
+    if (count <= 0) return null;
+    return { instanceId, itemId: role.itemId, count };
+  }
+
   /** Which instance a placement would target for demolition. */
   private idAt(placement: Placement): string | undefined {
-    if (placement.edge) return this.edgeOwner.get(edgeKey(placement.edge));
-    // Station, then roof, then the cell itself: outermost first, so a floor
-    // cannot be pulled out from under a crate the player meant to remove.
+    // Fixture before the edge piece it hangs on, for the same reason a station
+    // comes before its floor: outermost first, so a wall cannot be pulled out
+    // from under the lamp the player meant to take down.
+    if (placement.edge) {
+      return (
+        this.fixtureOwner.get(edgeKey(placement.edge)) ??
+        this.edgeOwner.get(edgeKey(placement.edge))
+      );
+    }
+    // Decor, then station, then roof, then stairs, then the cell itself:
+    // outermost first, so a floor cannot be pulled out from under a crate — or
+    // from under the flight of stairs crossing over it — that the player meant
+    // to remove, and a bench cannot be pulled out from under the chair.
     const key = cellKey(placement.cell);
-    return this.stationOwner.get(key) ?? this.roofOwner.get(key) ?? this.cellOwner.get(key);
+    return (
+      this.decorOwner.get(key) ??
+      this.stationOwner.get(key) ??
+      this.roofOwner.get(key) ??
+      this.stairsOwner.get(key) ??
+      this.cellOwner.get(key)
+    );
   }
 
   private occupy(data: BuildPieceInstance): void {
     if (data.edge) {
+      // A fixture hangs ON the edge piece, in its own layer, so the wall it is
+      // mounted to survives underneath it.
+      if (isFixture(data.definitionId)) {
+        this.grid.setFixture(data.edge, data.definitionId);
+        this.fixtureOwner.set(edgeKey(data.edge), data.instanceId);
+        return;
+      }
       this.grid.setEdge(data.edge, data.definitionId);
       this.edgeOwner.set(edgeKey(data.edge), data.instanceId);
       return;
@@ -320,14 +819,22 @@ export class BuildSystem {
       return;
     }
     if (data.definitionId === 'stairs') {
+      // The run cell's own layer, not `cells`: the run very often crosses a
+      // floor the player is standing on, and sharing the map would overwrite
+      // it. See `BuildGrid.stairs`.
       const { run } = stairsCells(data.cell, data.rotation);
-      this.grid.setCell(run, 'stairs');
-      this.cellOwner.set(cellKey(run), data.instanceId);
+      this.grid.setStairs(run, 'stairs');
+      this.stairsOwner.set(cellKey(run), data.instanceId);
       return;
     }
     if (isStation(data.definitionId)) {
       this.grid.setStation(data.cell, data.definitionId);
       this.stationOwner.set(cellKey(data.cell), data.instanceId);
+      return;
+    }
+    if (isDecor(data.definitionId)) {
+      this.grid.setDecor(data.cell, data.definitionId);
+      this.decorOwner.set(cellKey(data.cell), data.instanceId);
       return;
     }
     this.grid.setCell(data.cell, data.definitionId);
@@ -336,6 +843,11 @@ export class BuildSystem {
 
   private vacate(data: BuildPieceInstance): void {
     if (data.edge) {
+      if (isFixture(data.definitionId)) {
+        this.grid.clearFixture(data.edge);
+        this.fixtureOwner.delete(edgeKey(data.edge));
+        return;
+      }
       this.grid.clearEdge(data.edge);
       this.edgeOwner.delete(edgeKey(data.edge));
       return;
@@ -347,13 +859,18 @@ export class BuildSystem {
     }
     if (data.definitionId === 'stairs') {
       const { run } = stairsCells(data.cell, data.rotation);
-      this.grid.clearCell(run);
-      this.cellOwner.delete(cellKey(run));
+      this.grid.clearStairs(run);
+      this.stairsOwner.delete(cellKey(run));
       return;
     }
     if (isStation(data.definitionId)) {
       this.grid.clearStation(data.cell);
       this.stationOwner.delete(cellKey(data.cell));
+      return;
+    }
+    if (isDecor(data.definitionId)) {
+      this.grid.clearDecor(data.cell);
+      this.decorOwner.delete(cellKey(data.cell));
       return;
     }
     this.grid.clearCell(data.cell);
@@ -398,6 +915,46 @@ export class BuildSystem {
     return found.sort((a, b) => a.d - b.d).map((entry) => entry.ref);
   }
 
+  /**
+   * Hurt pieces the player is standing close enough to mend, nearest first.
+   *
+   * Separate from `stationsNear` because the two answer different questions —
+   * that one asks which crate or bench is in front of you, this one asks what
+   * is broken — and because a wall is not a station and never will be.
+   */
+  damagedNear(
+    pos: THREE.Vector3,
+    reach: number,
+  ): { instanceId: string; piece: PieceId; position: THREE.Vector3; missingFraction: number }[] {
+    const found: { ref: ReturnType<BuildSystem['damagedNear']>[number]; d: number }[] = [];
+    for (const live of this.instances.values()) {
+      const max = BUILD_PIECES[live.data.definitionId].maxHealth;
+      if (live.data.health >= max) continue;
+      const d = live.mesh.position.distanceTo(pos);
+      if (d > reach) continue;
+      found.push({
+        ref: {
+          instanceId: live.data.instanceId,
+          piece: live.data.definitionId,
+          position: live.mesh.position.clone(),
+          missingFraction: 1 - live.data.health / max,
+        },
+        d,
+      });
+    }
+    return found.sort((a, b) => a.d - b.d).map((entry) => entry.ref);
+  }
+
+  /** Mend a piece. Returns the health actually restored. */
+  repairPiece(instanceId: string, amount: number): number {
+    const live = this.instances.get(instanceId);
+    if (!live) return 0;
+    const max = BUILD_PIECES[live.data.definitionId].maxHealth;
+    const before = live.data.health;
+    live.data.health = Math.min(max, before + Math.max(0, amount));
+    return live.data.health - before;
+  }
+
   // -------------------------------------------------------------------------
   // Rendering and physics
   // -------------------------------------------------------------------------
@@ -424,12 +981,23 @@ export class BuildSystem {
       const b = cellCenter(run);
       return {
         position: new THREE.Vector3((a.x + b.x) / 2, a.y, (a.z + b.z) / 2),
-        rotationY: rotation * (Math.PI / 2),
+        // The authored flight rises toward local -Z.  `stairsCells` defines
+        // rotation 1 as a run toward +X, so the world transform must rotate
+        // local -Z into that run (the positive sign sent it toward -X and
+        // made a player meet the high end of the ramp from the approach).
+        rotationY: -rotation * (Math.PI / 2),
       };
     }
 
     const c = cellCenter(cell);
-    return { position: new THREE.Vector3(c.x, c.y, c.z), rotationY: 0 };
+    return {
+      position: new THREE.Vector3(c.x, c.y, c.z),
+      // Build rotation 1 means +X. The authored turret points down -Z, so
+      // Three's positive Y rotation needs the opposite sign to face that cell
+      // direction; preview, mesh, and colliders all share this transform.
+      rotationY:
+        piece === 'turret-manual' || piece === 'turret-auto' ? -rotation * (Math.PI / 2) : 0,
+    };
   }
 
   private createMesh(data: BuildPieceInstance): THREE.Mesh {
@@ -440,10 +1008,38 @@ export class BuildSystem {
       data.rotation,
     );
 
+    const stationTemplate = this.authoredStations.get(data.definitionId as AuthoredStationId);
+    const authoredStation = stationTemplate?.clone(true) ?? null;
+    const visual =
+      data.definitionId === 'turret-manual'
+        ? buildTurretModel(this.materials)
+        : data.definitionId === 'turret-auto'
+          ? buildAutomaticTurretModel(this.materials)
+          : null;
+    const collectorVisual =
+      data.definitionId === 'collector-auto' ? buildAutomaticCollectorModel(this.materials) : null;
+    // The wrapper retains the build instance's identity and deck transform;
+    // collision still comes from pieceColliders, independent of asset loading.
     const mesh = new THREE.Mesh(
-      buildPieceGeometry(data.definitionId),
-      pieceMaterial(data.definitionId, this.materials),
+      visual || collectorVisual || authoredStation
+        ? this.authoredPlaceholderGeometry
+        : buildPieceGeometry(data.definitionId),
+      visual || collectorVisual || authoredStation
+        ? this.authoredPlaceholderMaterial
+        : this.materialFor(data),
     );
+    if (visual) {
+      mesh.add(visual.root);
+      this.turretVisuals.set(data.instanceId, visual);
+    }
+    if (collectorVisual) {
+      mesh.add(collectorVisual.root);
+      this.collectorVisuals.set(data.instanceId, collectorVisual);
+    }
+    if (authoredStation) {
+      this.prepareAuthoredStation(authoredStation, data);
+      mesh.add(authoredStation);
+    }
     mesh.position.copy(position);
     mesh.rotation.y = rotationY;
     mesh.castShadow = true;
@@ -453,7 +1049,94 @@ export class BuildSystem {
     return mesh;
   }
 
+  /** Named aiming pivots and muzzle, already parented to the carrying deck. */
+  turretVisual(instanceId: string): TurretVisual | null {
+    return this.turretVisuals.get(instanceId) ?? null;
+  }
+
+  collectorVisual(instanceId: string): AutomaticCollectorVisual | null {
+    return this.collectorVisuals.get(instanceId) ?? null;
+  }
+
+  /**
+   * The material a piece is drawn with — shared, except a lamp's glow.
+   *
+   * Group 1 of the lamp's geometry is its head, and it is the ONE material in
+   * the game that differs per instance: `setLampLit` writes to it, and a
+   * shared material would mean one shed lamp darkened every lamp aboard.
+   */
+  private materialFor(data: BuildPieceInstance): THREE.Material | THREE.Material[] {
+    const material = pieceMaterial(data.definitionId, this.materials);
+    if (data.definitionId !== 'lamp' || !Array.isArray(material)) return material;
+
+    const glow = (material[1] as THREE.MeshStandardMaterial).clone();
+    this.lampGlow.set(data.instanceId, glow);
+    return [material[0] as THREE.Material, glow];
+  }
+
+  private prepareAuthoredStation(root: THREE.Object3D, data: BuildPieceInstance): void {
+    const glow: THREE.MeshStandardMaterial[] = [];
+    root.traverse((object) => {
+      const mesh = object as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      mesh.frustumCulled = true;
+      if (data.definitionId !== 'lamp') return;
+
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const cloned = materials.map((material) => {
+        if (!(material as THREE.MeshStandardMaterial).isMeshStandardMaterial) return material;
+        const standard = material as THREE.MeshStandardMaterial;
+        if (standard.emissive.r === 0 && standard.emissive.g === 0 && standard.emissive.b === 0)
+          return material;
+        const copy = standard.clone();
+        // Three's clone does not copy onBeforeCompile callbacks.
+        copy.onBeforeCompile = standard.onBeforeCompile;
+        copy.customProgramCacheKey = standard.customProgramCacheKey;
+        glow.push(copy);
+        return copy;
+      });
+      mesh.material = Array.isArray(mesh.material) ? cloned : cloned[0]!;
+    });
+    if (data.definitionId === 'lamp') this.authoredLampGlow.set(data.instanceId, glow);
+  }
+
+  /** Every built lamp, for the light pool. */
+  lamps(): { instanceId: string; position: THREE.Vector3 }[] {
+    const out: { instanceId: string; position: THREE.Vector3 }[] = [];
+    for (const live of this.instances.values()) {
+      if (live.data.definitionId !== 'lamp') continue;
+      out.push({ instanceId: live.data.instanceId, position: live.mesh.position });
+    }
+    return out;
+  }
+
+  /** Light or darken one lamp's head. Silently ignores anything that is not one. */
+  setLampLit(instanceId: string, lit: boolean): void {
+    const glow = this.lampGlow.get(instanceId);
+    const wanted = lit ? LAMP_GLOW_INTENSITY : 0;
+    if (glow) {
+      if (glow.emissiveIntensity !== wanted) glow.emissiveIntensity = wanted;
+      return;
+    }
+    const authored = this.authoredLampGlow.get(instanceId);
+    if (!authored) return;
+    for (const material of authored) material.emissiveIntensity = wanted;
+  }
+
+  /**
+   * Physics shapes for a piece, or none at all for furniture.
+   *
+   * The early return is the whole of the decoration constraint. A decor piece
+   * never reaches the collider builder, never gets a `Damageable` target, and
+   * therefore cannot be shot, walked into, or pathed around — which is what
+   * lets a downloaded furniture model stand in for the procedural box without
+   * the geometry and the collider having to agree about anything.
+   */
   private createColliders(data: BuildPieceInstance): RAPIER.Collider[] {
+    if (!buildsColliders(data.definitionId)) return [];
+
     const { position, rotationY } = BuildSystem.transformFor(
       data.definitionId,
       data.cell,
@@ -463,6 +1146,17 @@ export class BuildSystem {
 
     const out: RAPIER.Collider[] = [];
     const offset = new THREE.Vector3();
+
+    // Every collider a piece owns carries the same damage target, so a shot or
+    // a swing that lands anywhere on it finds the piece.
+    const target: Damageable = {
+      kind: 'structure',
+      id: data.instanceId,
+      armor: BUILD_PIECES[data.definitionId].armor,
+      takeDamage: (amount: number) => {
+        this.damagePiece(data.instanceId, amount);
+      },
+    };
 
     for (const spec of pieceColliders(data.definitionId)) {
       offset.copy(spec.offset).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationY);
@@ -475,10 +1169,13 @@ export class BuildSystem {
           ? this.physics.addFixedBoxRotated(
               spec.half,
               center,
-              new THREE.Quaternion().setFromEuler(new THREE.Euler(spec.rotX, rotationY, 0)),
-              { kind: 'machine' },
+              // Pitch in the piece's local frame, then turn the whole ramp.
+              // XYZ pitches around world X after yaw, flattening a quarter-
+              // turned flight in its direction of travel.
+              new THREE.Quaternion().setFromEuler(new THREE.Euler(spec.rotX, rotationY, 0, 'YXZ')),
+              target,
             )
-          : this.physics.addFixedBox(spec.half, center, rotationY, { kind: 'machine' });
+          : this.physics.addFixedBox(spec.half, center, rotationY, target);
 
       out.push(collider);
     }
@@ -486,8 +1183,47 @@ export class BuildSystem {
     return out;
   }
 
+  /**
+   * The vertical links the player's staircases provide.
+   *
+   * Computed HERE rather than in `NavGraph` because a staircase's direction
+   * lives in its rotation, and the grid does not carry rotations — only which
+   * cell holds which piece. `NavGraph` used to infer the link from the stairs
+   * cell alone, which forced it to link the run cell to the landing DIRECTLY
+   * ABOVE IT: same x, same z. An enemy that took that waypoint was then asked
+   * to steer at a target whose XZ was its own, `Enemy`'s movement gate found
+   * a heading of length zero, and it drove at zero velocity and parked at the
+   * foot of the ramp for the rest of the run.
+   *
+   * The link is base -> upper exit, which is what a person actually does:
+   * step onto the flight from the base cell and arrive one level up and two
+   * tiles along. The opening above the run is deliberately not a walkable
+   * cell, so it must not be used as the endpoint.
+   */
+  private stairLinks(): FixedLink[] {
+    const links: FixedLink[] = [];
+    for (const { data } of this.instances.values()) {
+      if (data.definitionId !== 'stairs') continue;
+      const { base, run } = stairsCells(data.cell, data.rotation);
+      // `landing` is the clearance opening over the run. The first
+      // walkable upper-storey cell is one tile farther along the flight.
+      const exit = stairsExit(data.cell, data.rotation);
+      links.push([base, exit], [run, exit]);
+      // While climbing, a capsule still maps to the lower run cell. A fresh
+      // path must keep it heading uphill instead of sending it back to base.
+    }
+    return links;
+  }
+
   private recomputeRooms(): void {
     this.graph = detectRooms(this.grid);
+    // Rebuilt wholesale rather than patched. The envelope is at most 324
+    // cells, which is nothing next to the room flood fill directly above.
+    this.nav = buildNavGraph(this.grid, this.machine.deckCells, [
+      ...this.machine.fixedLinks,
+      ...this.stairLinks(),
+      ...this.externalLinks.values(),
+    ]);
     this.bus.emit('build:rooms-changed', {
       roomCount: this.graph.rooms.length,
       enclosedCount: countEnclosed(this.graph),
@@ -501,9 +1237,17 @@ export class BuildSystem {
   serialise(): BuildPieceInstance[] {
     return [...this.instances.values()].map((live) => {
       const container = this.crateContainers.get(live.data.instanceId);
-      const state: CrateState | undefined = container
+      const collector = this.collectorContainers.get(live.data.instanceId);
+      const timer = this.producerTimers.get(live.data.instanceId);
+      // One `state` bag, and at most one of these two ever writes it: a crate
+      // does not produce and a condenser holds no slots.
+      const state: CrateState | ProducerSave | undefined = container
         ? { slots: container.serialise() }
-        : undefined;
+        : collector
+          ? { slots: collector.serialise() }
+          : timer
+            ? timer.toSave()
+            : undefined;
       return {
         ...live.data,
         cell: { ...live.data.cell },
@@ -534,6 +1278,21 @@ export class BuildSystem {
       crate: 4,
       workbench: 4,
       refinery: 4,
+      generator: 4,
+      stove: 4,
+      condenser: 4,
+      planter: 4,
+      'turret-manual': 4,
+      'collector-auto': 4,
+      'turret-auto': 4,
+      // Furniture needs only its floor, so it goes with the stations.
+      chair: 4,
+      table: 4,
+      rug: 4,
+      shelf: 4,
+      // Last of all: a lamp needs the wall it hangs on to exist first, and
+      // walls are rank 2.
+      lamp: 5,
     };
     const ordered = [...pieces].sort(
       (a, b) => a.cell.y - b.cell.y || rank[a.definitionId] - rank[b.definitionId],
@@ -548,13 +1307,23 @@ export class BuildSystem {
           rotation: piece.rotation,
         },
         true,
+        piece.instanceId,
       );
       if (!created) continue;
 
       created.health = piece.health;
       const slots = (piece.state as CrateState | undefined)?.slots;
       if (slots) this.crateContainers.get(created.instanceId)?.restore(slots);
+      if (slots) this.restoreCollectorSlots(created.instanceId, slots);
+      // Absent in every save written before Phase 4, and absent restores as an
+      // empty unstarted device — see `Producer.restore`.
+      this.producerTimers.get(created.instanceId)?.restore(piece.state as ProducerSave | undefined);
     }
+  }
+
+  private nextAvailableInstanceId(): string {
+    while (this.instances.has(`bp-${this.nextId}`)) this.nextId++;
+    return `bp-${this.nextId++}`;
   }
 
   clear(): void {
@@ -563,13 +1332,27 @@ export class BuildSystem {
       if (!live) continue;
       for (const collider of live.colliders) this.physics.removeCollider(collider);
       this.group.remove(live.mesh);
+      this.disposeLampGlow(id);
+      this.disposeAuthoredLampGlow(id);
+      this.disposeTurretVisual(id);
     }
     this.instances.clear();
     this.cellOwner.clear();
     this.roofOwner.clear();
     this.edgeOwner.clear();
+    this.fixtureOwner.clear();
     this.stationOwner.clear();
+    this.decorOwner.clear();
+    this.stairsOwner.clear();
     this.crateContainers.clear();
+    this.collectorContainers.clear();
+    this.producerTimers.clear();
+    this.turretVisuals.clear();
+    this.collectorVisuals.clear();
+    this.authoredLampGlow.clear();
+    // Templates belong to the session, while clear() also serves New Game and
+    // save restore. Retain them so rebuilt stations keep their authored art.
+    this.externalLinks.clear();
     this.grid.clear();
 
     this.machine.movement.totalWeight -= this.weight;
@@ -578,10 +1361,25 @@ export class BuildSystem {
     this.recomputeRooms();
   }
 
+  /** Release session-owned templates and wrappers after removing live pieces. */
+  dispose(): void {
+    this.clear();
+    if (this.previewTurretTemplate && !this.previewTurretTemplate.userData.authored) {
+      const geometries = new Set<THREE.BufferGeometry>();
+      this.previewTurretTemplate.traverse((object) => {
+        if (object instanceof THREE.Mesh) geometries.add(object.geometry);
+      });
+      for (const geometry of geometries) geometry.dispose();
+    }
+    this.previewTurretTemplate = undefined;
+    this.authoredStations.clear();
+    this.authoredPlaceholderGeometry.dispose();
+    this.authoredPlaceholderMaterial.dispose();
+    this.group.removeFromParent();
+  }
+
   /** Cells reachable on foot from a level, for later navmesh work. */
   neighbouringCells(cell: Cell): Cell[] {
-    return SIDES.map((s) => neighbour(cell, s)).filter(
-      (n) => this.grid.getCell(n) === 'floor',
-    );
+    return SIDES.map((s) => neighbour(cell, s)).filter((n) => this.grid.getCell(n) === 'floor');
   }
 }

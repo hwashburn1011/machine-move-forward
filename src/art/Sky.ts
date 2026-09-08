@@ -40,13 +40,13 @@ export class Sky {
       fog: false,
       uniforms: {
         uSunDirection: { value: this.sunDirection.clone() },
-        uTurbidity: { value: 4.2 },
-        uRayleigh: { value: 1.35 },
-        uMieCoefficient: { value: 0.019 },
+        uTurbidity: { value: 3.5 },
+        uRayleigh: { value: 1.05 },
+        uMieCoefficient: { value: 0.014 },
         uMieDirectionalG: { value: 0.76 },
-        uDustAmount: { value: 1.0 },
+        uDustAmount: { value: 0.72 },
         uDustColor: { value: PALETTE.skyDust.clone() },
-        uExposure: { value: 0.16 },
+        uExposure: { value: 0.11 },
         uSunIntensity: { value: 1.0 },
       },
     });
@@ -95,10 +95,15 @@ export class Sky {
    * horizon at the extremes — a full night cycle is later-milestone work.
    */
   setTimeOfDay(t: number): void {
-    const angle = (t - 0.5) * Math.PI * 0.95;
-    const elevation = Math.cos(angle) * 0.86 + 0.06;
-    const horizontal = Math.sin(angle);
-    this.setSunDirection(new THREE.Vector3(horizontal * 0.85, elevation, -0.55).normalize());
+    const angle = (THREE.MathUtils.clamp(t, 0, 1) - 0.5) * Math.PI * 0.95;
+    const elevation = Math.cos(angle) * 0.44 + 0.06;
+    const azimuth = Math.atan2(0.37, 0.78) + angle;
+    const horizontal = Math.hypot(0.78, 0.37);
+    this.setSunDirection(new THREE.Vector3(
+      Math.cos(azimuth) * horizontal,
+      elevation,
+      Math.sin(azimuth) * horizontal,
+    ));
   }
 
   /**

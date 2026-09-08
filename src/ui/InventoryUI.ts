@@ -9,6 +9,9 @@ export interface PanelContext {
   title?: string;
   /** Transfer mode: the other side of the exchange. */
   crate?: Container;
+  /** Automatic collector buffer uses the same transfer rules as a crate. */
+  buffer?: Container;
+  storageLabel?: string;
   /** Crafting mode: whose recipe list to show. */
   station?: StationId;
 }
@@ -17,6 +20,16 @@ export interface InventoryUIState {
   /** Available inputs, counted across the inventory and crates in reach. */
   countOf: (itemId: ItemId) => number;
   canCraft: (recipe: Recipe) => boolean;
+  /**
+   * A banner over the recipe list — 'NO POWER' at a shed refinery.
+   *
+   * Separate from `canCraft` because a greyed-out Craft button with no reason
+   * beside it is how a player concludes the game is broken rather than that
+   * their generator is.
+   */
+  stationNote?: string | null;
+  /** Infinite ammo keeps dead ammo recipes out of the crafting surface. */
+  infiniteAmmo?: boolean;
 }
 
 export interface InventoryUICallbacks {
@@ -84,7 +97,7 @@ export class InventoryUI {
 
   /** The crate on the other side of a transfer, if one is open. */
   get currentCrate(): Container | null {
-    return this.context.crate ?? null;
+    return this.context.crate ?? this.context.buffer ?? null;
   }
 
   setInventory(inventory: Container): void {
@@ -108,8 +121,7 @@ export class InventoryUI {
     if (signature === this.signature) return;
     this.signature = signature;
 
-    this.body.innerHTML =
-      this.mode === 'crafting' ? this.craftingHtml(state) : this.slotsHtml();
+    this.body.innerHTML = this.mode === 'crafting' ? this.craftingHtml(state) : this.slotsHtml();
   }
 
   // -------------------------------------------------------------------------
@@ -123,16 +135,17 @@ export class InventoryUI {
         ${this.gridHtml(this.inventory, 'player')}
       </div>`;
 
-    if (this.mode !== 'transfer' || !this.context.crate) {
-      return `${player}<div class="inv-foot">Click a kit or a mod to use it.</div>`;
+    const storage = this.context.crate ?? this.context.buffer;
+    if (this.mode !== 'transfer' || !storage) {
+      return `${player}<div class="inv-foot">Click a kit, a drink, a meal or a mod to use it.</div>`;
     }
 
     return `
       <div class="inv-panes">
         ${player}
         <div class="inv-side">
-          <div class="inv-side-label">Crate</div>
-          ${this.gridHtml(this.context.crate, 'crate')}
+          <div class="inv-side-label">${this.context.storageLabel ?? (this.context.buffer ? 'Collector Buffer' : 'Crate')}</div>
+          ${this.gridHtml(storage, 'crate')}
         </div>
       </div>
       <div class="inv-foot">Click moves a stack &middot; shift-click moves one.</div>`;
@@ -141,7 +154,8 @@ export class InventoryUI {
   private gridHtml(container: Container, side: 'player' | 'crate'): string {
     const cells = container.slots
       .map((slot, i) => {
-        if (!slot) return `<div class="inv-slot is-empty" data-side="${side}" data-slot="${i}"></div>`;
+        if (!slot)
+          return `<div class="inv-slot is-empty" data-side="${side}" data-slot="${i}"></div>`;
         const def = ITEMS[slot.itemId];
         return `
         <div class="inv-slot" data-side="${side}" data-slot="${i}" title="${def.description}">
@@ -159,6 +173,7 @@ export class InventoryUI {
   private craftingHtml(state: InventoryUIState): string {
     const station = this.context.station ?? 'workbench';
     const rows = recipesFor(station)
+      .filter((recipe) => !(state.infiniteAmmo && ITEMS[recipe.output.itemId].category === 'ammo'))
       .map((recipe) => {
         const can = state.canCraft(recipe);
         const inputs = (Object.entries(recipe.inputs) as [ItemId, number][])
@@ -179,7 +194,8 @@ export class InventoryUI {
       })
       .join('');
 
-    return `<div class="inv-recipes">${rows}</div>`;
+    const note = state.stationNote ? `<div class="inv-note">${state.stationNote}</div>` : '';
+    return `${note}<div class="inv-recipes">${rows}</div>`;
   }
 
   /**
@@ -189,13 +205,20 @@ export class InventoryUI {
    * while the panel sits open.
    */
   private signatureFor(state: InventoryUIState): string {
-    const parts: string[] = [this.mode, this.context.station ?? '', this.context.title ?? ''];
+    const parts: string[] = [
+      this.mode,
+      this.context.station ?? '',
+      this.context.title ?? '',
+      state.stationNote ?? '',
+      state.infiniteAmmo ? 'infinite-ammo' : 'finite-ammo',
+    ];
 
     const slots = (c: Container) =>
       c.slots.map((s) => (s ? `${s.itemId}:${s.count}` : '-')).join(',');
 
     parts.push(slots(this.inventory));
-    if (this.context.crate) parts.push(slots(this.context.crate));
+    const storage = this.context.crate ?? this.context.buffer;
+    if (storage) parts.push(slots(storage));
     if (this.mode === 'crafting') {
       const station = this.context.station ?? 'workbench';
       for (const recipe of recipesFor(station)) {

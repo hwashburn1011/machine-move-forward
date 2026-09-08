@@ -10,7 +10,19 @@ import {
   inEnvelope,
   type Cell,
 } from '@/building/BuildGrid';
-import { DECK_HEIGHT, GRID_TILE, LEVEL_HEIGHT } from '@/game/constants';
+import {
+  DECK_HEIGHT,
+  GRID_LEVELS,
+  GRID_MAX_X,
+  GRID_MAX_Z,
+  GRID_MIN_LEVEL,
+  GRID_MIN_X,
+  GRID_MIN_Z,
+  GRID_TILE,
+  LEVEL_HEIGHT,
+  MACHINE_TILES_X,
+  MACHINE_TILES_Z,
+} from '@/game/constants';
 
 const c = (x: number, y: number, z: number): Cell => ({ x, y, z });
 
@@ -101,12 +113,39 @@ describe('inEnvelope', () => {
   });
 
   it('rejects one step outside in every direction', () => {
-    expect(inEnvelope(c(-5, 0, 0))).toBe(false);
-    expect(inEnvelope(c(5, 0, 0))).toBe(false);
-    expect(inEnvelope(c(0, 0, -7))).toBe(false);
-    expect(inEnvelope(c(0, 0, 6))).toBe(false);
-    expect(inEnvelope(c(0, -1, 0))).toBe(false);
-    expect(inEnvelope(c(0, 3, 0))).toBe(false);
+    // Derived from the envelope, not typed out: how far the player may build
+    // is tuning and has already been widened once, and a test that pins the
+    // old numbers fails on the change it was meant to be indifferent to.
+    expect(inEnvelope(c(GRID_MIN_X - 1, 0, 0))).toBe(false);
+    expect(inEnvelope(c(GRID_MAX_X + 1, 0, 0))).toBe(false);
+    expect(inEnvelope(c(0, 0, GRID_MIN_Z - 1))).toBe(false);
+    expect(inEnvelope(c(0, 0, GRID_MAX_Z + 1))).toBe(false);
+    // -1 is the engine room, a real level. -2 is the first one below it.
+    expect(inEnvelope(c(0, GRID_MIN_LEVEL - 1, 0))).toBe(false);
+    expect(inEnvelope(c(0, GRID_LEVELS, 0))).toBe(false);
+  });
+
+  it('accepts the far corners of the envelope', () => {
+    for (const x of [GRID_MIN_X, GRID_MAX_X]) {
+      for (const z of [GRID_MIN_Z, GRID_MAX_Z]) {
+        expect(inEnvelope(c(x, 0, z))).toBe(true);
+      }
+    }
+  });
+
+  it('leaves room to build well past the deck the machine starts with', () => {
+    // The complaint that widened this: two cells past the deck edge is a
+    // lean-to, not a base. Whatever the numbers become, they should stay far
+    // enough out that the answer to "one more, further out?" is yes for a
+    // long while.
+    const deckHalfTilesX = MACHINE_TILES_X / 2;
+    const deckHalfTilesZ = MACHINE_TILES_Z / 2;
+    expect(GRID_MAX_X - deckHalfTilesX).toBeGreaterThan(20);
+    expect(GRID_MAX_Z - deckHalfTilesZ).toBeGreaterThan(20);
+  });
+
+  it('accepts the engine room level', () => {
+    expect(inEnvelope(c(0, -1, 0))).toBe(true);
   });
 
   it('rejects non-integer cells', () => {

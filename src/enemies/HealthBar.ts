@@ -8,10 +8,10 @@
  * to fix.
  */
 
-/** Metres wide the bar is drawn at full health. */
+/** Design width at full health; EnemyVisual maps it to a compact screen size. */
 export const BAR_WIDTH = 0.86;
 
-/** Metres tall the bar is drawn. */
+/** Design height, in the same units as BAR_WIDTH. */
 export const BAR_HEIGHT = 0.1;
 
 /** Colours the bar steps through as a scavenger is worn down. */

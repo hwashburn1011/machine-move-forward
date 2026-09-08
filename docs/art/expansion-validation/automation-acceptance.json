@@ -1,0 +1,270 @@
+{
+  "generatedAt": "2026-09-08T02:52:32.390Z",
+  "port": 5194,
+  "checks": [
+    {
+      "name": "collector placement is locked before specialist unlock",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ordinary-cost collector and turret placement succeeds on valid deck cells",
+      "ok": true,
+      "detail": "{\"beforeLocked\":true,\"floor\":\"bp-2\",\"turretFloor\":\"bp-3\",\"collector\":\"bp-4\",\"turret\":\"bp-5\",\"scrapBefore\":260,\"componentsBefore\":0,\"scrapAdded\":400,\"componentsAdded\":60,\"scrapAfterBuild\":524,\"componentsAfterBuild\":46,\"powerDraw\":10,\"collectorPowerDraw\":4,\"turretPowerDraw\":6}"
+    },
+    {
+      "name": "automation build costs are paid through shared inventory",
+      "ok": true,
+      "detail": "{\"beforeLocked\":true,\"floor\":\"bp-2\",\"turretFloor\":\"bp-3\",\"collector\":\"bp-4\",\"turret\":\"bp-5\",\"scrapBefore\":260,\"componentsBefore\":0,\"scrapAdded\":400,\"componentsAdded\":60,\"scrapAfterBuild\":524,\"componentsAfterBuild\":46,\"powerDraw\":10,\"collectorPowerDraw\":4,\"turretPowerDraw\":6}"
+    },
+    {
+      "name": "collector and turret power draws are four and six",
+      "ok": true,
+      "detail": "{\"beforeLocked\":true,\"floor\":\"bp-2\",\"turretFloor\":\"bp-3\",\"collector\":\"bp-4\",\"turret\":\"bp-5\",\"scrapBefore\":260,\"componentsBefore\":0,\"scrapAdded\":400,\"componentsAdded\":60,\"scrapAfterBuild\":524,\"componentsAfterBuild\":46,\"powerDraw\":10,\"collectorPowerDraw\":4,\"turretPowerDraw\":6}"
+    },
+    {
+      "name": "collector claims and pulls a live SalvageField crate",
+      "ok": true,
+      "detail": "{\"before\":\"crate-0\",\"collected\":true,\"slots\":[{\"itemId\":\"scrap\",\"count\":45},{\"itemId\":\"components\",\"count\":2},{\"itemId\":\"fuel\",\"count\":4},null,null,null],\"targetStillLive\":false,\"openedPanel\":true,\"panelMode\":\"transfer\",\"panelVisible\":\"block\",\"firstBufferSlot\":true}"
+    },
+    {
+      "name": "collector buffer contains only real manifest items",
+      "ok": true,
+      "detail": "[{\"itemId\":\"scrap\",\"count\":45},{\"itemId\":\"components\",\"count\":2},{\"itemId\":\"fuel\",\"count\":4},null,null,null]"
+    },
+    {
+      "name": "collector buffer opens through the transfer UI",
+      "ok": true,
+      "detail": "{\"before\":\"crate-0\",\"collected\":true,\"slots\":[{\"itemId\":\"scrap\",\"count\":45},{\"itemId\":\"components\",\"count\":2},{\"itemId\":\"fuel\",\"count\":4},null,null,null],\"targetStillLive\":false,\"openedPanel\":true,\"panelMode\":\"transfer\",\"panelVisible\":\"block\",\"firstBufferSlot\":true}"
+    },
+    {
+      "name": "collector transfer UI click moves the selected stack",
+      "ok": true,
+      "detail": "45 -> 0"
+    },
+    {
+      "name": "automatic turret fires on a real infantry enemy through LOS",
+      "ok": true,
+      "detail": "{\"enemyId\":\"enemy-0\",\"origin\":{\"x\":-6,\"y\":3.6,\"z\":6},\"clearCandidate\":null,\"enemyPosition\":{\"x\":-2,\"y\":4.769999957084655,\"z\":9.3299999833107},\"hpBefore\":110,\"hpAfter\":94,\"firedAtEnemy\":true,\"powerBefore\":true,\"noPowerHealth\":94,\"noPowerAfter\":94,\"gunboatSpawned\":true,\"gunboatFired\":true,\"gunboatHullHealth\":420,\"gunboatPart\":\"gunboat-weapon\",\"gunboatHits\":[{\"targetId\":\"gunboat-weapon\",\"health\":104}],\"gunboatPower\":true,\"powerAfterRestore\":{\"fuel\":100,\"capacity\":16,\"draw\":10,\"powered\":true},\"gunboatVisibility\":[{\"id\":\"gunboat-hull\",\"position\":{\"x\":-18,\"y\":0.34076530726630905,\"z\":27.86666666666678},\"visible\":true},{\"id\":\"gunboat-weapon\",\"position\":{\"x\":-18,\"y\":2.040765307266309,\"z\":26.16666666666678},\"visible\":true},{\"id\":\"gunboat-engine\",\"position\":{\"x\":-18,\"y\":1.8407653072663093,\"z\":30.66666666666678},\"visible\":true}],\"fired\":2,\"firedTargets\":[\"enemy-0\",\"gunboat-weapon\"]}"
+    },
+    {
+      "name": "automatic turret stops damaging when power is lost",
+      "ok": true,
+      "detail": "{\"enemyId\":\"enemy-0\",\"origin\":{\"x\":-6,\"y\":3.6,\"z\":6},\"clearCandidate\":null,\"enemyPosition\":{\"x\":-2,\"y\":4.769999957084655,\"z\":9.3299999833107},\"hpBefore\":110,\"hpAfter\":94,\"firedAtEnemy\":true,\"powerBefore\":true,\"noPowerHealth\":94,\"noPowerAfter\":94,\"gunboatSpawned\":true,\"gunboatFired\":true,\"gunboatHullHealth\":420,\"gunboatPart\":\"gunboat-weapon\",\"gunboatHits\":[{\"targetId\":\"gunboat-weapon\",\"health\":104}],\"gunboatPower\":true,\"powerAfterRestore\":{\"fuel\":100,\"capacity\":16,\"draw\":10,\"powered\":true},\"gunboatVisibility\":[{\"id\":\"gunboat-hull\",\"position\":{\"x\":-18,\"y\":0.34076530726630905,\"z\":27.86666666666678},\"visible\":true},{\"id\":\"gunboat-weapon\",\"position\":{\"x\":-18,\"y\":2.040765307266309,\"z\":26.16666666666678},\"visible\":true},{\"id\":\"gunboat-engine\",\"position\":{\"x\":-18,\"y\":1.8407653072663093,\"z\":30.66666666666678},\"visible\":true}],\"fired\":2,\"firedTargets\":[\"enemy-0\",\"gunboat-weapon\"]}"
+    },
+    {
+      "name": "automatic turret acquires and damages a live gunboat subsystem",
+      "ok": true,
+      "detail": "{\"enemyId\":\"enemy-0\",\"origin\":{\"x\":-6,\"y\":3.6,\"z\":6},\"clearCandidate\":null,\"enemyPosition\":{\"x\":-2,\"y\":4.769999957084655,\"z\":9.3299999833107},\"hpBefore\":110,\"hpAfter\":94,\"firedAtEnemy\":true,\"powerBefore\":true,\"noPowerHealth\":94,\"noPowerAfter\":94,\"gunboatSpawned\":true,\"gunboatFired\":true,\"gunboatHullHealth\":420,\"gunboatPart\":\"gunboat-weapon\",\"gunboatHits\":[{\"targetId\":\"gunboat-weapon\",\"health\":104}],\"gunboatPower\":true,\"powerAfterRestore\":{\"fuel\":100,\"capacity\":16,\"draw\":10,\"powered\":true},\"gunboatVisibility\":[{\"id\":\"gunboat-hull\",\"position\":{\"x\":-18,\"y\":0.34076530726630905,\"z\":27.86666666666678},\"visible\":true},{\"id\":\"gunboat-weapon\",\"position\":{\"x\":-18,\"y\":2.040765307266309,\"z\":26.16666666666678},\"visible\":true},{\"id\":\"gunboat-engine\",\"position\":{\"x\":-18,\"y\":1.8407653072663093,\"z\":30.66666666666678},\"visible\":true}],\"fired\":2,\"firedTargets\":[\"enemy-0\",\"gunboat-weapon\"]}"
+    },
+    {
+      "name": "actual save/load retains collector buffer contents",
+      "ok": true,
+      "detail": "{\"written\":true,\"loaded\":true,\"before\":{\"buffer\":[null,{\"itemId\":\"components\",\"count\":2},{\"itemId\":\"fuel\",\"count\":4},null,null,null],\"aims\":[{\"instanceId\":\"bp-5\",\"yaw\":-2.604827217445647,\"pitch\":-0.11494043256032334}],\"built\":[\"bp-0\",\"bp-1\",\"bp-2\",\"bp-3\",\"bp-4\",\"bp-5\"]},\"after\":{\"buffer\":[null,{\"itemId\":\"components\",\"count\":2},{\"itemId\":\"fuel\",\"count\":4},null,null,null],\"aims\":[{\"instanceId\":\"bp-5\",\"yaw\":-2.604827217445647,\"pitch\":-0.11494043256032334}],\"built\":[\"bp-0\",\"bp-2\",\"bp-3\",\"bp-1\",\"bp-4\",\"bp-5\"]}}"
+    },
+    {
+      "name": "actual save/load retains aims only for built automatic turrets",
+      "ok": true,
+      "detail": "{\"written\":true,\"loaded\":true,\"before\":{\"buffer\":[null,{\"itemId\":\"components\",\"count\":2},{\"itemId\":\"fuel\",\"count\":4},null,null,null],\"aims\":[{\"instanceId\":\"bp-5\",\"yaw\":-2.604827217445647,\"pitch\":-0.11494043256032334}],\"built\":[\"bp-0\",\"bp-1\",\"bp-2\",\"bp-3\",\"bp-4\",\"bp-5\"]},\"after\":{\"buffer\":[null,{\"itemId\":\"components\",\"count\":2},{\"itemId\":\"fuel\",\"count\":4},null,null,null],\"aims\":[{\"instanceId\":\"bp-5\",\"yaw\":-2.604827217445647,\"pitch\":-0.11494043256032334}],\"built\":[\"bp-0\",\"bp-2\",\"bp-3\",\"bp-1\",\"bp-4\",\"bp-5\"]}}"
+    }
+  ],
+  "trace": {
+    "setup": [
+      {
+        "beforeLocked": true,
+        "floor": "bp-2",
+        "turretFloor": "bp-3",
+        "collector": "bp-4",
+        "turret": "bp-5",
+        "scrapBefore": 260,
+        "componentsBefore": 0,
+        "scrapAdded": 400,
+        "componentsAdded": 60,
+        "scrapAfterBuild": 524,
+        "componentsAfterBuild": 46,
+        "powerDraw": 10,
+        "collectorPowerDraw": 4,
+        "turretPowerDraw": 6
+      }
+    ],
+    "salvage": [
+      {
+        "spawned": {
+          "id": "crate-0",
+          "x": 15.016173404175788,
+          "y": 1.8865567328408361,
+          "z": -42
+        },
+        "result": {
+          "before": "crate-0",
+          "collected": true,
+          "slots": [
+            {
+              "itemId": "scrap",
+              "count": 45
+            },
+            {
+              "itemId": "components",
+              "count": 2
+            },
+            {
+              "itemId": "fuel",
+              "count": 4
+            },
+            null,
+            null,
+            null
+          ],
+          "targetStillLive": false,
+          "openedPanel": true,
+          "panelMode": "transfer",
+          "panelVisible": "block",
+          "firstBufferSlot": true
+        }
+      }
+    ],
+    "combat": [
+      {
+        "enemyId": "enemy-0",
+        "origin": {
+          "x": -6,
+          "y": 3.6,
+          "z": 6
+        },
+        "clearCandidate": null,
+        "enemyPosition": {
+          "x": -2,
+          "y": 4.769999957084655,
+          "z": 9.3299999833107
+        },
+        "hpBefore": 110,
+        "hpAfter": 94,
+        "firedAtEnemy": true,
+        "powerBefore": true,
+        "noPowerHealth": 94,
+        "noPowerAfter": 94,
+        "gunboatSpawned": true,
+        "gunboatFired": true,
+        "gunboatHullHealth": 420,
+        "gunboatPart": "gunboat-weapon",
+        "gunboatHits": [
+          {
+            "targetId": "gunboat-weapon",
+            "health": 104
+          }
+        ],
+        "gunboatPower": true,
+        "powerAfterRestore": {
+          "fuel": 100,
+          "capacity": 16,
+          "draw": 10,
+          "powered": true
+        },
+        "gunboatVisibility": [
+          {
+            "id": "gunboat-hull",
+            "position": {
+              "x": -18,
+              "y": 0.34076530726630905,
+              "z": 27.86666666666678
+            },
+            "visible": true
+          },
+          {
+            "id": "gunboat-weapon",
+            "position": {
+              "x": -18,
+              "y": 2.040765307266309,
+              "z": 26.16666666666678
+            },
+            "visible": true
+          },
+          {
+            "id": "gunboat-engine",
+            "position": {
+              "x": -18,
+              "y": 1.8407653072663093,
+              "z": 30.66666666666678
+            },
+            "visible": true
+          }
+        ],
+        "fired": 2,
+        "firedTargets": [
+          "enemy-0",
+          "gunboat-weapon"
+        ]
+      }
+    ],
+    "save": [
+      {
+        "written": true,
+        "loaded": true,
+        "before": {
+          "buffer": [
+            null,
+            {
+              "itemId": "components",
+              "count": 2
+            },
+            {
+              "itemId": "fuel",
+              "count": 4
+            },
+            null,
+            null,
+            null
+          ],
+          "aims": [
+            {
+              "instanceId": "bp-5",
+              "yaw": -2.604827217445647,
+              "pitch": -0.11494043256032334
+            }
+          ],
+          "built": [
+            "bp-0",
+            "bp-1",
+            "bp-2",
+            "bp-3",
+            "bp-4",
+            "bp-5"
+          ]
+        },
+        "after": {
+          "buffer": [
+            null,
+            {
+              "itemId": "components",
+              "count": 2
+            },
+            {
+              "itemId": "fuel",
+              "count": 4
+            },
+            null,
+            null,
+            null
+          ],
+          "aims": [
+            {
+              "instanceId": "bp-5",
+              "yaw": -2.604827217445647,
+              "pitch": -0.11494043256032334
+            }
+          ],
+          "built": [
+            "bp-0",
+            "bp-2",
+            "bp-3",
+            "bp-1",
+            "bp-4",
+            "bp-5"
+          ]
+        }
+      }
+    ]
+  },
+  "errors": [],
+  "fixture": "Blueprints/materials are granted only to isolate automation; collected salvage and combat outcomes are live Game results."
+}

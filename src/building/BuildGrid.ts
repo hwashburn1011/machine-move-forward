@@ -1,6 +1,7 @@
 import {
   DECK_HEIGHT,
   GRID_LEVELS,
+  GRID_MIN_LEVEL,
   GRID_MAX_X,
   GRID_MAX_Z,
   GRID_MIN_X,
@@ -133,7 +134,7 @@ export function inEnvelope(c: Cell): boolean {
     c.x <= GRID_MAX_X &&
     c.z >= GRID_MIN_Z &&
     c.z <= GRID_MAX_Z &&
-    c.y >= 0 &&
+    c.y >= GRID_MIN_LEVEL &&
     c.y < GRID_LEVELS
   );
 }
@@ -194,6 +195,39 @@ export class BuildGrid<T = string> {
    * with the floor they sit on.
    */
   private readonly stations = new Map<string, T>();
+  /**
+   * Stairs get the same treatment, and for a reason that took a while to see.
+   *
+   * A flight is stored against the cell its top half passes over, and that
+   * cell is very often floored — the run crosses the deck the player is
+   * standing on. Sharing the cell map meant placing stairs silently
+   * OVERWROTE that floor's entry and its owner, so demolishing the stairs
+   * afterwards deleted a floor that was still standing there in the scene.
+   * The rule that hid the corruption was the one that made the piece
+   * unusable: the validator refused any run cell that already held anything,
+   * which is why a staircase could only ever be built hanging off the edge of
+   * the hull.
+   */
+  private readonly stairs = new Map<string, T>();
+  /**
+   * Furniture, in its own layer for the same reason stations have one.
+   *
+   * A rug goes under a workbench and a chair goes beside one; both are two
+   * things in one cell. Sharing the station map would mean placing a chair
+   * silently OVERWROTE the bench's entry and its owner, so demolishing the
+   * chair afterwards would delete a bench still standing in the scene — the
+   * exact bug the stairs layer exists to prevent, one storey up.
+   */
+  private readonly decor = new Map<string, T>();
+  /**
+   * Things mounted ON an edge piece, keyed by that piece's edge.
+   *
+   * The same argument as `stations` over floors, one dimension down. A lamp
+   * hangs on a wall; sharing the edge map would mean placing one silently
+   * OVERWROTE the wall and its owner, so demolishing the lamp afterwards would
+   * delete a wall that is still standing in the scene.
+   */
+  private readonly fixtures = new Map<string, T>();
   private readonly blocked = new Set<string>();
 
   getCell(c: Cell): T | undefined {
@@ -274,6 +308,83 @@ export class BuildGrid<T = string> {
     }));
   }
 
+  getStairs(c: Cell): T | undefined {
+    return this.stairs.get(cellKey(c));
+  }
+
+  setStairs(c: Cell, value: T): void {
+    this.stairs.set(cellKey(c), value);
+  }
+
+  clearStairs(c: Cell): void {
+    this.stairs.delete(cellKey(c));
+  }
+
+  hasStairs(c: Cell): boolean {
+    return this.stairs.has(cellKey(c));
+  }
+
+  stairsEntries(): CellEntry<T>[] {
+    return [...this.stairs.entries()].map(([key, value]) => ({
+      cell: parseCellKey(key),
+      value,
+    }));
+  }
+
+  getDecor(c: Cell): T | undefined {
+    return this.decor.get(cellKey(c));
+  }
+
+  setDecor(c: Cell, value: T): void {
+    this.decor.set(cellKey(c), value);
+  }
+
+  clearDecor(c: Cell): void {
+    this.decor.delete(cellKey(c));
+  }
+
+  hasDecor(c: Cell): boolean {
+    return this.decor.has(cellKey(c));
+  }
+
+  decorEntries(): CellEntry<T>[] {
+    return [...this.decor.entries()].map(([key, value]) => ({
+      cell: parseCellKey(key),
+      value,
+    }));
+  }
+
+  get decorCount(): number {
+    return this.decor.size;
+  }
+
+  getFixture(e: Edge): T | undefined {
+    return this.fixtures.get(edgeKey(e));
+  }
+
+  setFixture(e: Edge, value: T): void {
+    this.fixtures.set(edgeKey(e), value);
+  }
+
+  clearFixture(e: Edge): void {
+    this.fixtures.delete(edgeKey(e));
+  }
+
+  hasFixture(e: Edge): boolean {
+    return this.fixtures.has(edgeKey(e));
+  }
+
+  fixtureEntries(): EdgeEntry<T>[] {
+    return [...this.fixtures.entries()].map(([key, value]) => ({
+      edge: parseEdgeKey(key),
+      value,
+    }));
+  }
+
+  get fixtureCount(): number {
+    return this.fixtures.size;
+  }
+
   /** Mark a cell permanently unbuildable — the starting equipment sits there. */
   blockCell(c: Cell): void {
     this.blocked.add(cellKey(c));
@@ -313,6 +424,10 @@ export class BuildGrid<T = string> {
     return this.stations.size;
   }
 
+  get stairsCount(): number {
+    return this.stairs.size;
+  }
+
   /**
    * Drop all player-placed occupancy. Blocked cells survive: they describe the
    * machine, not the player's build, and a rebuild must not forget them.
@@ -322,5 +437,8 @@ export class BuildGrid<T = string> {
     this.edges.clear();
     this.roofs.clear();
     this.stations.clear();
+    this.stairs.clear();
+    this.fixtures.clear();
+    this.decor.clear();
   }
 }

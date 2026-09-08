@@ -1,0 +1,47 @@
+{
+  "unresolved": 0,
+  "reports": [
+    {
+      "asset": "machine-walker",
+      "errors": 0,
+      "warnings": 80,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 80
+      }
+    },
+    {
+      "asset": "player",
+      "errors": 0,
+      "warnings": 8,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 7,
+        "UNUSED_OBJECT": 2,
+        "NODE_SKINNED_MESH_NON_ROOT": 1
+      }
+    },
+    {
+      "asset": "raider",
+      "errors": 0,
+      "warnings": 10,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 9,
+        "UNUSED_OBJECT": 2,
+        "NODE_SKINNED_MESH_NON_ROOT": 1
+      }
+    },
+    {
+      "asset": "scavenger",
+      "errors": 0,
+      "warnings": 6,
+      "counts": {
+        "UNSUPPORTED_EXTENSION": 1,
+        "MESH_PRIMITIVE_GENERATED_TANGENT_SPACE": 5,
+        "UNUSED_OBJECT": 1,
+        "NODE_SKINNED_MESH_NON_ROOT": 1
+      }
+    }
+  ]
+}

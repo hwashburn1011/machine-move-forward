@@ -16,6 +16,7 @@ import {
   RESPAWN_Y_THRESHOLD,
 } from '@/game/constants';
 import { PlayerStats } from './PlayerStats';
+import { Needs } from './Needs';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { PlayerVisual } from './PlayerVisual';
 
@@ -28,6 +29,14 @@ import { PlayerVisual } from './PlayerVisual';
  */
 export class Player {
   readonly stats: PlayerStats;
+  /**
+   * Water and food. Owned here rather than in `Game` because the sprint gate
+   * is read on the hot path and `PlayerStats` is constructed against it.
+   *
+   * Drained by `Game`, not by `fixedUpdate`: the meters must not move behind
+   * the title screen or during the opening, and this method runs in both.
+   */
+  readonly needs = new Needs();
 
   private visual: PlayerVisual;
 
@@ -36,6 +45,8 @@ export class Player {
   private readonly previousPosition = new THREE.Vector3();
   private readonly renderPosition = new THREE.Vector3();
   private readonly desired = new THREE.Vector3();
+  /** This step's own movement, kept off the hot path's allocator. */
+  private readonly own = new THREE.Vector3();
   private verticalVelocity = 0;
   private grounded = false;
   /**
@@ -54,15 +65,11 @@ export class Player {
     private readonly materials: Materials,
     private readonly spawn: THREE.Vector3,
   ) {
-    this.stats = new PlayerStats(bus);
+    this.stats = new PlayerStats(bus, this.needs);
     this.position.copy(spawn);
     this.previousPosition.copy(spawn);
 
-    this.handle = physics.addCharacter(
-      PLAYER_CAPSULE_RADIUS,
-      PLAYER_CAPSULE_HALF_HEIGHT,
-      spawn,
-    );
+    this.handle = physics.addCharacter(PLAYER_CAPSULE_RADIUS, PLAYER_CAPSULE_HALF_HEIGHT, spawn);
     physics.setUserData(this.handle.collider, { kind: 'player' });
 
     this.visual = new PlayerVisual(null, materials);
@@ -90,6 +97,38 @@ export class Player {
     old.dispose();
     this.visual = next;
     this.scene.add(next.object3D);
+    // The rig changed under it, so whatever was in the old hand is gone with
+    // the old skeleton. Put it back on the new one.
+    this.visual.setHeldWeapon(this.heldWeaponId, this.heldWeaponModel);
+  }
+
+  /**
+   * What the player is holding, and the model to build it from.
+   *
+   * Kept here rather than in the visual because the visual is replaced when
+   * the character model arrives, and a weapon that vanished on that swap would
+   * be a bug that only reproduces on a slow connection.
+   */
+  private heldWeaponId: string | null = null;
+  private heldWeaponModel: THREE.Object3D | null = null;
+
+  setHeldWeapon(id: string | null, model: THREE.Object3D | null): void {
+    this.heldWeaponId = id;
+    this.heldWeaponModel = model;
+    this.visual.setHeldWeapon(id, model);
+  }
+
+  getMuzzleWorldPosition(out = new THREE.Vector3()): THREE.Vector3 {
+    return this.visual.getMuzzleWorldPosition(out);
+  }
+
+  kickHeldWeapon(distance: number, pitch: number, yaw: number): void {
+    this.visual.kickHeldWeapon(distance, pitch, yaw);
+  }
+
+  /** True when the rig has a hand to hang a weapon off. Read by the harness. */
+  get holdsWeapon(): boolean {
+    return this.visual.canHoldWeapon;
   }
 
   get worldPosition(): THREE.Vector3 {
@@ -114,6 +153,12 @@ export class Player {
     return { vy: this.verticalVelocity, grounded: this.grounded };
   }
 
+  /**
+   * Platform displacement to fold into the next move. Written by the game each
+   * step from the machine's pose; zero while the machine's body is at rest.
+   */
+  readonly carry = { x: 0, y: 0, z: 0 };
+
   fixedUpdate(dt: number, input: InputManager, cameraYaw: number): void {
     this.stats.tick(dt);
 
@@ -136,7 +181,11 @@ export class Player {
     if (input.isDown('right')) ix += 1;
 
     const crouching = input.isDown('crouch');
-    const sprinting = input.isDown('sprint') && !crouching && iz < 0;
+    // Thirst takes the sprint and nothing else. Walking, crouching, jumping and
+    // shooting are all untouched at zero hydration — the roadmap's promise is
+    // that running dry slows you down, so it takes the fast option away rather
+    // than the ability to move.
+    const sprinting = input.isDown('sprint') && !crouching && iz < 0 && this.needs.canSprint;
     const speed = crouching
       ? PLAYER_CROUCH_SPEED
       : sprinting
@@ -155,6 +204,12 @@ export class Player {
       this.desired.set(0, 0, 0);
     }
 
+    // Aiming keeps the body and held weapon facing the camera's shot direction,
+    // including while standing still or strafing across the deck.
+    if (input.isDown('aim') || input.isDown('fire')) {
+      this.facing = Math.atan2(-Math.sin(cameraYaw), -Math.cos(cameraYaw));
+    }
+
     // --- Vertical ----------------------------------------------------------
     if (this.grounded && this.verticalVelocity <= 0) {
       // Rest slightly negative so the controller keeps finding the ground.
@@ -167,30 +222,20 @@ export class Player {
     }
 
     // --- Resolve against the world ----------------------------------------
-    const { controller, collider, body } = this.handle;
-    controller.computeColliderMovement(collider, {
-      x: this.desired.x * dt,
-      y: this.verticalVelocity * dt,
-      z: this.desired.z * dt,
-    });
-    const moved = controller.computedMovement();
-    this.grounded = controller.computedGrounded();
+    // The deck is a moving platform. Rapier's character controller does NOT
+    // carry a character when the surface under it moves, so the machine's own
+    // displacement this step is applied alongside -- sampled at the player's
+    // own position, because under tilt the deck's edges move far more than its
+    // middle. Without this the player sinks through a rising deck and hangs
+    // above a falling one. It is deliberately NOT added into the movement the
+    // controller resolves; see `PhysicsWorld.moveCharacter`.
+    this.own.set(this.desired.x * dt, this.verticalVelocity * dt, this.desired.z * dt);
+    this.previousPosition.copy(this.position);
+    this.grounded = this.physics.moveCharacter(this.handle, this.position, this.own, this.carry);
 
     // Cancel accumulated fall speed on landing, or it makes the next jump feel
     // sticky and can punch the capsule through thin geometry.
     if (this.grounded && this.verticalVelocity < 0) this.verticalVelocity = 0;
-
-    this.previousPosition.copy(this.position);
-    this.position.set(
-      this.position.x + moved.x,
-      this.position.y + moved.y,
-      this.position.z + moved.z,
-    );
-    body.setNextKinematicTranslation({
-      x: this.position.x,
-      y: this.position.y,
-      z: this.position.z,
-    });
 
     if (this.position.y < RESPAWN_Y_THRESHOLD) this.respawn();
   }
@@ -204,7 +249,7 @@ export class Player {
     this.renderPosition.lerpVectors(this.previousPosition, this.position, alpha);
     this.object3D.position.copy(this.renderPosition);
 
-    // Turn toward travel direction rather than snapping.
+    // Turn toward the movement or weapon heading rather than snapping.
     const current = this.object3D.rotation.y;
     let delta = this.facing - current;
     while (delta > Math.PI) delta -= Math.PI * 2;
@@ -222,10 +267,7 @@ export class Player {
     this.position.copy(this.spawn);
     this.previousPosition.copy(this.spawn);
     this.verticalVelocity = 0;
-    this.handle.body.setTranslation(
-      { x: this.spawn.x, y: this.spawn.y, z: this.spawn.z },
-      true,
-    );
+    this.handle.body.setTranslation({ x: this.spawn.x, y: this.spawn.y, z: this.spawn.z }, true);
     this.stats.reset();
     this.stats.grantGrace(RESPAWN_GRACE_S);
     this.deathTimer = 0;
@@ -234,11 +276,31 @@ export class Player {
     });
   }
 
+  /**
+   * Move the point `respawn` puts them back at.
+   *
+   * The opening needs it: dying during the rooftop chase has to restart the
+   * chase, not drop the player onto a deck they have not reached yet. Copied
+   * into the existing vector rather than replaced, so nothing else holding a
+   * reference to it goes stale.
+   */
+  setSpawn(to: THREE.Vector3): void {
+    this.spawn.copy(to);
+  }
+
   teleport(to: THREE.Vector3): void {
     this.position.copy(to);
     this.previousPosition.copy(to);
     this.verticalVelocity = 0;
     this.handle.body.setTranslation({ x: to.x, y: to.y, z: to.z }, true);
+    this.deathTimer = 0;
+  }
+
+  /** Clear transient death state when a save restores a live player capsule. */
+  restoreAfterLoad(): void {
+    this.deathTimer = 0;
+    this.verticalVelocity = 0;
+    this.grounded = false;
   }
 
   dispose(): void {

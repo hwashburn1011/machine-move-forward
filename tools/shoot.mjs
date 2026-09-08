@@ -8,10 +8,14 @@
  * Usage: node tools/shoot.mjs <outfile.png> [waitMs] [hashUrlParams]
  */
 import { chromium } from '@playwright/test';
+import { BASE_URL, withNoMenu } from './base-url.mjs';
 
 const out = process.argv[2] ?? 'shot.png';
 const waitMs = Number(process.argv[3] ?? 3500);
-const params = process.argv[4] ?? '';
+// This harness takes its query string from its caller, and every caller wrote
+// theirs before the title screen existed — a screenshot of the menu is not
+// what any of them asked for.
+const params = withNoMenu(process.argv[4] ?? '');
 
 const browser = await chromium.launch({
   args: [
@@ -29,7 +33,7 @@ page.on('console', (m) => {
 });
 page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 
-await page.goto(`http://localhost:5173/${params}`, { waitUntil: 'load' });
+await page.goto(`${BASE_URL}/${params}`, { waitUntil: 'load' });
 await page.waitForTimeout(waitMs);
 
 // Optional: jump the world forward before shooting, to exercise recycling.

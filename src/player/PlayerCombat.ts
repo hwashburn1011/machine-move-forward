@@ -9,18 +9,10 @@ import { DEFAULT_WEAPON_ORDER, WEAPONS } from '@/data/weapons';
 import { AMMO_FOR_WEAPON, type ItemId } from '@/data/items';
 import { Rng } from '@/core/math/Random';
 import type RAPIER from '@dimforge/rapier3d-compat';
+import { isDamageable, surfaceForDamageable, type Damageable } from '@/combat/Damageable';
 
-/** Anything a shot can hurt. Enemies register themselves as collider userData. */
-export interface Damageable {
-  kind: 'enemy';
-  id: string;
-  armor: number;
-  takeDamage(amount: number): void;
-}
-
-function isDamageable(v: unknown): v is Damageable {
-  return typeof v === 'object' && v !== null && (v as Damageable).kind === 'enemy';
-}
+/** Re-exported for the callers that imported it from here before it moved. */
+export type { Damageable };
 
 /**
  * Player firing, aiming, and reloading (handoff section 18).
@@ -40,6 +32,9 @@ export class PlayerCombat {
   private readonly direction = new THREE.Vector3();
   private readonly right = new THREE.Vector3();
   private readonly up = new THREE.Vector3();
+  private getVisualOrigin: (() => THREE.Vector3) | null = null;
+  private applyHeldKick: ((distance: number, pitch: number, yaw: number) => void) | null = null;
+  private nextShotId = 1;
 
   /**
    * The shooter's own collider. Shots originate at the camera, which sits
@@ -61,6 +56,14 @@ export class PlayerCombat {
 
   setShooterCollider(collider: RAPIER.Collider): void {
     this.ignoreCollider = collider;
+  }
+
+  setVisualMuzzle(getter: (() => THREE.Vector3) | null): void {
+    this.getVisualOrigin = getter;
+  }
+
+  setHeldRecoil(apply: ((distance: number, pitch: number, yaw: number) => void) | null): void {
+    this.applyHeldKick = apply;
   }
 
   get current(): Weapon {
@@ -163,6 +166,7 @@ export class PlayerCombat {
 
   private fireShot(weapon: Weapon, camera: PlayerCamera): void {
     const def = weapon.def;
+    const shotId = this.nextShotId++;
     const spreadDeg = this.currentSpread(camera.isAiming);
     const spreadRad = THREE.MathUtils.degToRad(spreadDeg);
 
@@ -174,6 +178,17 @@ export class PlayerCombat {
     if (this.right.lengthSq() < 1e-6) this.right.set(1, 0, 0);
     this.up.crossVectors(this.right, forward).normalize();
 
+    let pelletsHit = 0;
+    let totalDamage = 0;
+    const targetIds = new Set<string>();
+    const aimEnd = this.origin.clone().addScaledVector(forward, def.range);
+    const centerHit = this.physics.raycast(
+      this.origin,
+      forward,
+      def.range,
+      this.ignoreCollider ?? undefined,
+    );
+    if (centerHit) aimEnd.copy(centerHit.point);
     for (let pellet = 0; pellet < def.pellets; pellet++) {
       // Uniform over the disc, not the radius — sampling the radius linearly
       // clusters pellets in the centre.
@@ -193,23 +208,34 @@ export class PlayerCombat {
         this.ignoreCollider ?? undefined,
       );
       if (!hit) continue;
-
       const target = hit.userData;
       const damageable = isDamageable(target) ? target : null;
-      const damage = computeDamage(
-        def.damage,
-        hit.distance,
-        def.range,
-        def.falloffStart,
-        damageable?.armor ?? 0,
-      );
+      const damage = damageable
+        ? computeDamage(
+            def.damage,
+            hit.distance,
+            def.range,
+            def.falloffStart,
+            damageable?.armor ?? 0,
+          )
+        : 0;
       if (damageable && damage > 0) damageable.takeDamage(damage);
+      if (damageable && damage > 0) {
+        pelletsHit++;
+        totalDamage += damage;
+        targetIds.add(damageable.id);
+      }
+      const surface = damageable ? surfaceForDamageable(damageable) : 'sand';
 
       this.bus.emit('combat:hit', {
+        shotId,
         position: { x: hit.point.x, y: hit.point.y, z: hit.point.z },
         normal: { x: hit.normal.x, y: hit.normal.y, z: hit.normal.z },
         targetId: damageable?.id ?? null,
-        onMetal: !damageable,
+        targetKind: damageable?.kind ?? null,
+        surface,
+        damage,
+        onMetal: surface === 'metal',
       });
     }
 
@@ -218,10 +244,27 @@ export class PlayerCombat {
       THREE.MathUtils.degToRad(def.recoil),
       THREE.MathUtils.degToRad(def.recoil * this.rng.signed(0.35)),
     );
+    const kick = def.heldKick;
+    if (kick) this.applyHeldKick?.(kick.distance, kick.pitch, this.rng.signed(kick.yaw));
 
     this.bus.emit('weapon:fired', {
+      shotId,
       weaponId: def.id,
       ammoRemaining: weapon.ammoInMag,
+      visualOrigin: (() => {
+        const origin = this.getVisualOrigin?.();
+        return origin
+          ? { x: origin.x, y: origin.y, z: origin.z }
+          : { x: this.origin.x, y: this.origin.y, z: this.origin.z };
+      })(),
+      aimEnd: { x: aimEnd.x, y: aimEnd.y, z: aimEnd.z },
+    });
+    this.bus.emit('combat:shot-resolved', {
+      shotId,
+      weaponId: def.id,
+      pelletsHit,
+      totalDamage,
+      targetIds: [...targetIds],
     });
   }
 }

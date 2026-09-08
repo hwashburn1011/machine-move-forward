@@ -3,11 +3,22 @@
  * measured against the real running game.
  */
 import { chromium } from '@playwright/test';
+import { BASE_URL } from './base-url.mjs';
 
 const outShot = process.argv[2] ?? null;
 
 const browser = await chromium.launch({
-  args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+  // This is the one harness that keeps audio on, so it needs the flag that
+  // lets an AudioContext start without a real user gesture, and the one that
+  // stops a headless box hunting for an output device it does not have. The
+  // graph still runs and still counts; nothing has to come out of a speaker.
+  args: [
+    '--use-gl=angle',
+    '--use-angle=swiftshader',
+    '--enable-unsafe-swiftshader',
+    '--autoplay-policy=no-user-gesture-required',
+    '--mute-audio',
+  ],
 });
 const page = await browser.newPage({ viewport: { width: 640, height: 360 } });
 
@@ -20,13 +31,37 @@ page.on('pageerror', (e) => errors.push(`PAGEERROR: ${e.message}`));
 // Boots quiet so every check below runs on a clear deck. The arrivals section
 // at the bottom of this file arms the spawner deliberately — this is the one
 // harness that tests it.
-await page.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1&notex=1&nomodel=1', { waitUntil: 'load' });
+// `nomenu=1` boots past the title screen and the opening, straight into
+// gameplay — which is the boot every check below was written against.
+await page.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=low&nospawn=1&notex=1&nomodel=1`, { waitUntil: 'load' });
 
 // `load` fires before `main.ts`'s top-level await settles, so the handle the
 // checks below reach for is not there yet.
 await page.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
 
 const stats = () => page.evaluate(() => globalThis.__game.debugStats());
+
+/**
+ * Where a player's capsule CENTRE goes to stand on the deck.
+ *
+ * `Player.teleport` sets the centre, and this file spent its whole life
+ * passing 3.6 -- the deck PLANE, which puts the feet a metre inside the plate.
+ * A capsule buried like that is one the character controller refuses to move,
+ * and, worse for a navigation harness, one whose feet read as level -1: the
+ * nav graph routed scavengers down the engine-room ramp to reach a player it
+ * believed was in the engine room, and the checks that measured them found
+ * them anywhere but on the deck. Deck surface, plus half-height, plus radius,
+ * plus the same clearance `CHARACTER_DROP_Y` uses.
+ */
+const { player: PLAYER_STAND_Y, enemy: ENEMY_STAND_Y } = await page.evaluate(() => {
+  const deck = globalThis.__game.game.machine.deckBounds.min.y + 0.09;
+  // Half-height plus radius per capsule, plus the same clearance
+  // `CHARACTER_DROP_Y` uses so the body settles onto the surface rather than
+  // starting inside it. Also parked on the page: half the callers below are
+  // browser-side closures, which cannot see a node-side const.
+  globalThis.__standY = { player: deck + 0.62 + 0.34 + 0.15, enemy: deck + 0.6 + 0.36 + 0.15 };
+  return globalThis.__standY;
+});
 
 /** Wait on simulated, not wall, time — the headless renderer is very slow. */
 async function sim(seconds, pg = page) {
@@ -167,6 +202,35 @@ await page.evaluate(() => {
   g.state.godMode = true;
   g.player.stats.invulnerable = true;
   g.enemySpawnsEnabled = true;
+  // This legacy section starts after the guided loop by design. The runtime
+  // now correctly suppresses ordinary waves until first-run is complete, so
+  // make that boundary explicit instead of relying on an old implicit boot
+  // state. The newer first-run harness owns proof of the real milestones.
+  g.firstRun.restore({
+    completed: [
+      'salvage',
+      'build-refinery',
+      'refine-components',
+      'build-workbench',
+      'build-defense',
+      'survive-boarding',
+      'repair',
+    ],
+    counters: {
+      salvage: 1,
+      refineryBuilt: 1,
+      components: 8,
+      workbenchBuilt: 1,
+      defense: 1,
+      defenseCrewed: 1,
+      boardingSurvived: 1,
+      repairsAfterBoarding: 1,
+    },
+  });
+  // The forced tutorial timer is also private runtime state, but this harness
+  // deliberately owns a post-tutorial world and must not re-arm it.
+  g.tutorialReadyAt = null;
+  g.tutorialStarted = false;
   g.spawner.resync(g.world.distanceTraveled);
   // Capture the exact position each arrival spawns at, straight off the bus.
   // `enemies.active[0].worldPosition` after a sim() wait is not safe for this:
@@ -182,21 +246,98 @@ await sim(0.5);
 check('the deck starts clear', (await stats()).enemies === 0, `${(await stats()).enemies} aboard`);
 
 /**
- * Jump just past the next threshold, so exactly one boundary is crossed.
+ * Jump the world just past the director's current phase boundary.
  *
- * A flat `travel(260)` anchors to the current distance, but the real margin before
- * the next `sim()` wait is the distance to the *next* threshold, which is
- * only guaranteed to be in (0, 250]. That can be a metre -- easily eaten by
- * the ~3.75m a 0.5s sim() wait adds on its own at the machine's cruise speed
- * -- which crosses a second boundary and fails an exact-count check about
- * 1.5% of the time. Anchoring to `nextSpawnAt` instead leaves a ~240m margin
- * regardless of how much of the current interval had already been walked.
+ * The pacing used to be a metronome and this used to anchor to
+ * `spawner.nextSpawnAt`. It anchors to the phase boundary for the same reason
+ * it anchored there: the distance remaining in a phase is only guaranteed to
+ * be positive, and a metre of it is easily eaten by the ~3.75m a 0.5s `sim()`
+ * wait adds at cruise, which would cross the NEXT boundary too and fail an
+ * exact-count check now and then. Anchoring to the boundary itself leaves the
+ * whole of the next phase as margin.
+ *
+ * Engagement has no boundary -- it ends when the deck is clear -- so this is a
+ * no-op there, which is exactly right: you cannot travel your way out of a
+ * fight.
  */
-const travelPastNextThreshold = () =>
+const advancePastPhase = () =>
   page.evaluate(() => {
     const g = globalThis.__game;
-    g.world.reset(g.game.spawner.nextSpawnAt + 10);
+    const ends = g.game.director.phaseEnds;
+    if (Number.isFinite(ends)) g.world.reset(ends + 5);
   });
+
+const phase = () => page.evaluate(() => globalThis.__game.game.director.currentPhase);
+
+/**
+ * Let a skiff finish before asking the director for infantry again. The
+ * director can enter `contact` while a skiff is still queued for the next
+ * update, so a phase count alone is not evidence that this helper found the
+ * requested wave.
+ */
+const resolveExternalEncounter = async () => {
+  for (let tick = 0; tick < 140; tick++) {
+    const status = await page.evaluate(() => {
+      const g = globalThis.__game.game;
+      const snapshot = g.vehicleManager.snapshot;
+      const landed = g.enemies.active.filter((enemy) => g.boardingEnemyIds.has(enemy.id)).length;
+      return {
+        active: g.vehicleManager.active,
+        pending: g.pendingBoardingOutcome !== null,
+        director: g.director.hasActiveExternalEncounter,
+        phase: snapshot?.phase ?? null,
+        landed,
+      };
+    });
+    if (status.landed > 0 && status.phase === 'retreat') {
+      // The harness is testing pacing and arrival movement here. Remove
+      // boarders only after the runtime has reached retreat, so this cannot
+      // make an active encounter appear to have ended early.
+      await page.evaluate(() => globalThis.__game.game.enemies.despawnAll());
+    }
+    if (!status.active && !status.pending && !status.director && status.landed === 0) return;
+    await sim(0.5);
+  }
+  throw new Error('travelToNextWave: skiff did not reach a terminal outcome');
+};
+
+/** Travel until a fresh infantry wave is on the deck. Returns phase history. */
+const travelToNextWave = async () => {
+  const seen = [];
+  const initialEnemyIds = await page.evaluate(() =>
+    globalThis.__game.game.enemies.active
+      .filter((enemy) => !globalThis.__game.game.boardingEnemyIds.has(enemy.id))
+      .map((enemy) => enemy.id),
+  );
+  for (let i = 0; i < 24; i++) {
+    seen.push(await phase());
+    const status = await page.evaluate((initialIds) => {
+      const g = globalThis.__game.game;
+      return {
+        active: g.vehicleManager.active,
+        pending: g.pendingBoardingOutcome !== null,
+        director: g.director.hasActiveExternalEncounter,
+        landed: g.enemies.active.filter((enemy) => g.boardingEnemyIds.has(enemy.id)).length,
+        freshOrdinary: g.enemies.active.filter(
+          (enemy) => !g.boardingEnemyIds.has(enemy.id) && !initialIds.includes(enemy.id),
+        ).length,
+      };
+    }, initialEnemyIds);
+    if (status.active || status.pending || status.director || status.landed > 0) {
+      await resolveExternalEncounter();
+      continue;
+    }
+    // A real infantry spawn is the only successful return condition. This
+    // prevents young boarding raiders from being mistaken for the wave when
+    // a skiff request lands on the same phase boundary.
+    if (status.freshOrdinary > 0) return seen;
+    await advancePastPhase();
+    await sim(0.5);
+  }
+  throw new Error(
+    `travelToNextWave: timed out waiting for a fresh infantry wave (phases ${seen.join(' -> ')})`,
+  );
+};
 
 // The real prow collider (src/machine/MachineGeometry.ts `prowBlock`,
 // confirmed against source): half-extents (4.5, 0.55, 0.8) centred at
@@ -220,12 +361,41 @@ await page.evaluate(() => {
   g.player.teleport({ x: 0, y: g.player.worldPosition.y, z: 3 });
 });
 
-await travelPastNextThreshold();
+// --- Pacing ----------------------------------------------------------------
+// The director replaced a flat 250m metronome. What matters is the SHAPE: a
+// calm you can build in, a warning you can act on, then the wave -- and never
+// the wave without the warning.
+check('a fresh game starts calm', (await phase()) === 'calm', await phase());
+
+// The whole of the calm, and nothing in it. Travelling to the boundary and no
+// further is the check: this is the stretch the handoff's hard rule is about.
+await advancePastPhase();
+await sim(0.5);
+const afterCalm = await phase();
+check(
+  'the calm ends in a warning, not in an ambush',
+  afterCalm === 'buildup' && (await stats()).enemies === 0,
+  `${afterCalm}, ${(await stats()).enemies} aboard`,
+);
+
+// And the warning is announced. The banner is the only telegraph that exists
+// until there is a dust plume and engine noise to do it properly, so if it
+// does not fire the phase may as well not be there.
+const telegraphed = await page.evaluate(
+  () => document.querySelector('#hud-boarding')?.textContent ?? '',
+);
+check(
+  'and the warning reaches the player',
+  telegraphed.length > 0,
+  telegraphed || 'no banner text',
+);
+
+await advancePastPhase();
 await sim(0.5);
 check(
-  'travelling far enough spawns a scavenger',
-  (await stats()).enemies === 1,
-  `${(await stats()).enemies} aboard`,
+  'the wave then lands',
+  (await phase()) !== 'buildup' && (await stats()).enemies >= 1,
+  `${await phase()}, ${(await stats()).enemies} aboard`,
 );
 
 // Every check above (and every check anywhere else in this file) reads only
@@ -244,49 +414,60 @@ check(
     : 'no arrival found',
 );
 
-// Cross five more thresholds. The cap should stop the last two.
-for (let i = 0; i < 5; i++) {
-  await travelPastNextThreshold();
+// A fight does not end because the machine kept driving. Travel a very long
+// way with the wave still alive and confirm nothing else is sent: engagement
+// ends on a clear deck, and the alternative -- reinforcements arriving on a
+// timer while you are still fighting -- is precisely the chaining the handoff
+// forbids.
+const duringFight = (await stats()).enemies;
+for (let i = 0; i < 4; i++) {
+  await page.evaluate(() => {
+    const g = globalThis.__game;
+    g.world.reset(g.world.distanceTraveled + 900);
+  });
   await sim(0.5);
 }
 check(
-  'no more than four are aboard at once',
-  (await stats()).enemies === 4,
-  `${(await stats()).enemies} aboard`,
+  'no reinforcements arrive while the wave is still alive',
+  (await stats()).enemies === duringFight && (await phase()) === 'engagement',
+  `${(await stats()).enemies} aboard (was ${duringFight}), phase ${await phase()}`,
 );
 
-// The sixth threshold's arrival was refused, not lost: the spawner held the
-// threshold rather than advancing it, so it owes that arrival. Free exactly
-// one slot (not all four) and confirm the count climbs back to 4 on simulated
-// time alone -- no further travel() -- proving the held arrival was retried
-// the moment room opened, rather than discarded when the cap first bit.
-await page.evaluate(() => {
-  globalThis.__game.enemies.active[0]?.despawn();
-});
+// Clear the deck: recovery is owed, and it is owed as DISTANCE, so travelling
+// through it is the only way out.
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
 await sim(0.5);
-check(
-  'a refused arrival is delivered as soon as a slot frees, without travelling further',
-  (await stats()).enemies === 4,
-  `${(await stats()).enemies} aboard`,
-);
+check('a cleared deck buys a recovery', (await phase()) === 'recovery', await phase());
 
-await page.evaluate(() => {
-  const g = globalThis.__game.game;
-  g.enemies.despawnAll();
-  g.spawner.resync(g.world.distanceTraveled);
-});
-await sim(0.5);
-// Seeded from nextSpawnAt rather than the current distance, for the same
-// margin reason as travelPastNextThreshold above.
+// A skip does not skip the warning. This is the one property a debug key and a
+// loaded save could each quietly break, and the cost of breaking it is a fight
+// that arrives unannounced.
 await page.evaluate(() => {
   const g = globalThis.__game;
-  g.world.reset(g.game.spawner.nextSpawnAt + 500);
+  g.world.reset(g.world.distanceTraveled + 5000);
 });
 await sim(0.5);
 check(
-  'a 500m skip produces one arrival, not two',
-  (await stats()).enemies === 1,
-  `${(await stats()).enemies} aboard`,
+  'a 5km skip lands in a phase, not in an ambush',
+  (await stats()).enemies === 0 && (await phase()) !== 'contact',
+  `${await phase()}, ${(await stats()).enemies} aboard`,
+);
+
+// Waves grow, and stop growing at what the deck holds. Fought through several
+// cycles, killing everything each time, which is what "survived" means.
+let biggest = 0;
+for (let wave = 0; wave < 7; wave++) {
+  await travelToNextWave();
+  // Let the whole wave finish arriving before counting it.
+  for (let i = 0; i < 6; i++) await sim(0.6);
+  biggest = Math.max(biggest, (await stats()).enemies);
+  await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+  await sim(0.5);
+}
+check(
+  'waves grow as they are survived, and never past what the deck holds',
+  biggest > 1 && biggest <= 4,
+  `largest wave seen: ${biggest}`,
 );
 
 // --- Death and respawn -----------------------------------------------------
@@ -300,7 +481,7 @@ await page.evaluate(() => {
   g.state.godMode = false;
   g.player.stats.invulnerable = false;
   g.player.stats.reset();
-  g.player.teleport({ x: 0, y: 3.6, z: 2 });
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
 });
 await sim(0.5);
 
@@ -401,12 +582,12 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.player.teleport({ x: 0, y: 3.6, z: -1 });
-  // Arm the spawner for this section rather than inheriting whatever the
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: -1 });
+  // Arm the director for this section rather than inheriting whatever the
   // sections above left set: the death checks between them respawn the player,
-  // and updateSpawns refuses to run while the player is down.
+  // and updateSpawns refuses to run while the player is down, which can leave
+  // the director parked mid-phase.
   g.enemySpawnsEnabled = true;
-  g.spawner.resync(g.world.distanceTraveled);
   globalThis.__game.__arrivalMarks = {};
   g.bus.on('enemy:spawned', (ev) => {
     globalThis.__game.__arrivalMarks[ev.enemyId] = {
@@ -416,16 +597,17 @@ await page.evaluate(() => {
     };
   });
 });
-// Drive the real arrival path rather than spawning by hand.
-for (let i = 0; i < 3; i++) {
-  await page.evaluate(() => {
-    const g = globalThis.__game;
-    g.world.reset(g.game.spawner.nextSpawnAt + 10);
-  });
-  await sim(0.6);
-}
+// Drive the real arrival path rather than spawning by hand: through a calm,
+// through a warning, into a wave.
+const route = await travelToNextWave();
+// Give the whole wave time to finish arriving, staggered as it is.
+for (let i = 0; i < 4; i++) await sim(0.6);
 const arrivals = await page.evaluate(() => globalThis.__game.enemies.active.length);
-check('distance drives arrivals onto the deck', arrivals > 0, `${arrivals} aboard`);
+check(
+  'the director puts arrivals onto the deck',
+  arrivals > 0,
+  `${arrivals} aboard via ${route.join(' -> ')}`,
+);
 
 // Measured from where each scavenger actually materialised, taken off the bus
 // rather than sampled afterwards: by the time a check can look, an arrival has
@@ -498,8 +680,8 @@ for (const [side, x] of [['port', -1.95], ['starboard', 1.95]]) {
       const g = globalThis.__game.game;
       g.enemies.despawnAll();
       g.player.stats.invulnerable = true;
-      g.player.teleport({ x: 0, y: 3.6, z: -1 });
-      g.enemies.spawn('scavenger', { x: sx, y: 3.6, z: 5.6 });
+      g.player.teleport({ x: 0, y: globalThis.__standY.player, z: -1 });
+      g.enemies.spawn('scavenger', { x: sx, y: globalThis.__standY.enemy, z: 5.6 });
     },
     x,
   );
@@ -530,7 +712,7 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: 0, y: 3.6, z: 3 });
+  g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 3 });
 });
 await sim(0.3);
 const loot = await page.evaluate(() => {
@@ -559,14 +741,20 @@ check(
 await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.player.stats.invulnerable = true;
+  // Isolate salvage from the distance-driven combat sections above. Retire
+  // any ordinary crates that were already drifting, then put the real field at
+  // its first 90m boundary so the next render update spawns a normal crate at
+  // its authored 46m lead. `nextAt` is private to gameplay, but this fixture
+  // uses the emitted field itself rather than fabricating a target object.
+  for (const target of g.salvage.targets) {
+    if (g.salvage.hook(target.id)) {
+      g.salvage.open(target.id, (id, count) => g.resources.deposit(id, count));
+    }
+  }
+  g.world.reset(90);
+  g.salvage.nextAt = 90;
 });
-for (let i = 0; i < 3; i++) {
-  await page.evaluate(() => {
-    const g = globalThis.__game;
-    g.world.reset(g.world.distanceTraveled + 200);
-  });
-  await sim(0.6);
-}
+await sim(0.6);
 const field = await page.evaluate(() => globalThis.__game.game.salvage.targets.length);
 check('salvage crates appear as the machine travels', field > 0, `${field} aloft`);
 // Wait for a crate to drift inside the reel's reach. They arrive at 46m and
@@ -667,7 +855,7 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 2 });
+  g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 2 });
 });
 await sim(0.5);
 const fallbackVisual = await page.evaluate(() => {
@@ -683,6 +871,7 @@ const fallbackVisual = await page.evaluate(() => {
     // into it. The offset that does that moved out of Enemy and into
     // EnemyVisual, and the two disagreeing is invisible to every other check.
     footY: e.object3D.position.y + e.object3D.children[0].position.y,
+    drawnCentreY: e.object3D.position.y,
     centreY: e.worldPosition.y,
   };
 });
@@ -691,10 +880,18 @@ check(
   fallbackVisual.meshes > 0 && fallbackVisual.visible,
   `${fallbackVisual.meshes} mesh(es)`,
 );
+// Two relationships, each measured against the right thing. The foot sits a
+// capsule's foot-offset below the DRAWN centre, exactly; and the drawn centre
+// tracks the simulated one to within a step of motion, because the render
+// position is interpolated and the simulated one is not. This check used to
+// hold the drawn foot against the simulated centre to a millimetre, which was
+// only ever satisfiable by an enemy that could not move -- and for a long time
+// that is what it was handed.
 check(
   'the drawn enemy stands at the base of its collider',
-  Math.abs(fallbackVisual.centreY - fallbackVisual.footY - 0.96) < 1e-3,
-  `feet ${fallbackVisual.footY.toFixed(3)}, centre ${fallbackVisual.centreY.toFixed(3)}`,
+  Math.abs(fallbackVisual.drawnCentreY - fallbackVisual.footY - 0.96) < 1e-3 &&
+    Math.abs(fallbackVisual.drawnCentreY - fallbackVisual.centreY) < 0.02,
+  `feet ${fallbackVisual.footY.toFixed(3)}, drawn ${fallbackVisual.drawnCentreY.toFixed(3)}, simulated ${fallbackVisual.centreY.toFixed(3)}`,
 );
 
 // --- Hit reaction ----------------------------------------------------------
@@ -707,8 +904,8 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: -2, y: 3.6, z: 4 });
-  g.enemies.spawn('scavenger', { x: 2, y: 3.6, z: 4 });
+  g.enemies.spawn('scavenger', { x: -2, y: globalThis.__standY.enemy, z: 4 });
+  g.enemies.spawn('scavenger', { x: 2, y: globalThis.__standY.enemy, z: 4 });
 });
 await sim(0.4);
 const flash = await page.evaluate(() => {
@@ -748,7 +945,7 @@ await page.evaluate(() => {
   const g = globalThis.__game.game;
   g.enemies.despawnAll();
   g.player.stats.invulnerable = true;
-  g.enemies.spawn('scavenger', { x: 0, y: 3.6, z: 3 });
+  g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 3 });
 });
 await sim(0.3);
 const bar = await page.evaluate(() => {
@@ -781,10 +978,16 @@ check(
 // SKIP loudly rather than fail when it is absent: a silently-skipped check
 // reads as a passing one, which is how a broken model pipeline ships green.
 const modelPage = await browser.newPage({ viewport: { width: 640, height: 360 } });
-await modelPage.goto('http://localhost:5173/?nolock=1&quality=low&nospawn=1', {
+await modelPage.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=low&nospawn=1`, {
   waitUntil: 'load',
 });
 await modelPage.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
+
+// Its own page, so its own copy — see the `__standY` note at the top.
+await modelPage.evaluate(() => {
+  const deck = globalThis.__game.game.machine.deckBounds.min.y + 0.09;
+  globalThis.__standY = { player: deck + 0.62 + 0.34 + 0.15, enemy: deck + 0.6 + 0.36 + 0.15 };
+});
 
 const hasModel = await modelPage.evaluate(() => globalThis.__game.enemies.hasModel === true);
 
@@ -797,9 +1000,9 @@ if (!hasModel) {
     const g = globalThis.__game.game;
     g.player.stats.invulnerable = true;
     g.enemies.despawnAll();
-    g.player.teleport({ x: 0, y: 3.6, z: 2 });
-    g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 3.5 });
-    g.enemies.spawn('scavenger', { x: -4, y: 3.4, z: -7 });
+    g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
+    g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 3.5 });
+    g.enemies.spawn('scavenger', { x: -4, y: globalThis.__standY.enemy, z: -7 });
   });
 
   // Let them settle into their states and let the mixers run.
@@ -838,7 +1041,11 @@ if (!hasModel) {
   const drawnSize = await modelPage.evaluate(() => {
     const THREE_Box3 = globalThis.__game.game.machine.deckBounds.constructor;
     const e = globalThis.__game.enemies.active[0];
-    const model = e.object3D.children.find((c) => c.name === 'Root_Scene');
+    const model = e.object3D.children.find((child) => {
+      let hasSkin = false;
+      child.traverse((node) => { if (node.isSkinnedMesh) hasSkin = true; });
+      return hasSkin;
+    });
     if (!model) return null;
     const box = new THREE_Box3().setFromObject(model, true);
     return {
@@ -871,49 +1078,46 @@ if (!hasModel) {
 
   // Criterion 4: the death clip plays out and then holds. Left looping, the
   // corpse springs back upright partway through its 2.5s despawn timer. The
-  // clip is 0.958s, so 1.4s is past its end and 2.1s is still inside the
-  // timer.
+  // authored death clip finishes before 1.4s; 2.1s is still inside the timer.
+  // Compare joint quaternions independently: summing signed Euler angles can
+  // cancel real motion when one limb folds opposite another.
   const deathPose = await modelPage.evaluate(() => {
     const e = globalThis.__game.enemies.active[0];
-    const sum = () => {
-      let t = 0;
-      e.object3D.traverse((o) => {
-        if (o.isBone) t += o.rotation.x + o.rotation.z;
-      });
-      return t;
-    };
-    globalThis.__poseBefore = sum();
+    const pose = [];
+    e.object3D.traverse((o) => { if (o.isBone) pose.push(o.quaternion.toArray()); });
     e.takeDamage(9999);
-    return globalThis.__poseBefore;
+    return pose;
   });
   await sim(1.4, modelPage);
   const settled = await modelPage.evaluate(() => {
     const e = globalThis.__game.enemies.active[0];
-    let t = 0;
-    e.object3D.traverse((o) => {
-      if (o.isBone) t += o.rotation.x + o.rotation.z;
-    });
-    return t;
+    const pose = [];
+    e.object3D.traverse((o) => { if (o.isBone) pose.push(o.quaternion.toArray()); });
+    return pose;
   });
   await sim(0.7, modelPage);
   const held = await modelPage.evaluate(() => {
     const e = globalThis.__game.enemies.active[0];
     if (!e) return null;
-    let t = 0;
-    e.object3D.traverse((o) => {
-      if (o.isBone) t += o.rotation.x + o.rotation.z;
-    });
-    return t;
+    const pose = [];
+    e.object3D.traverse((o) => { if (o.isBone) pose.push(o.quaternion.toArray()); });
+    return pose;
   });
+  const poseDifference = (a, b) => Math.max(...a.map((q, i) => {
+    const other = b[i];
+    const dot = q.reduce((sum, value, axis) => sum + value * other[axis], 0);
+    return 2 * Math.acos(Math.min(1, Math.abs(dot)));
+  }));
+  const deathMotion = poseDifference(settled, deathPose);
   check(
     'a killed enemy plays its death clip',
-    Math.abs(settled - deathPose) > 1,
-    `pose moved ${Math.abs(settled - deathPose).toFixed(2)}`,
+    deathMotion > 0.5,
+    `largest joint rotation ${(deathMotion * 180 / Math.PI).toFixed(1)} degrees`,
   );
   check(
     'the corpse holds its final pose instead of looping',
-    held !== null && Math.abs(held - settled) < 1e-3,
-    held === null ? 'despawned early' : `drift ${Math.abs(held - settled).toExponential(1)}`,
+    held !== null && poseDifference(held, settled) < 1e-3,
+    held === null ? 'despawned early' : `angular drift ${poseDifference(held, settled).toExponential(1)}`,
   );
   // --- Which way the drawn body points -------------------------------------
   // The project aims things with rotation.y = atan2(x, z), which puts local +Z
@@ -955,6 +1159,729 @@ if (!hasModel) {
   );
 }
 
+// --- Navigation over player structure ------------------------------------
+//
+// A room walled on three sides with one doorway, built around the player, at
+// grid cell (0,0,-1) -- one of the few cells on this deck with all four
+// neighbours free of the starting equipment (engine, generator, fuel tank,
+// crates, workbench, collector all block cells elsewhere on this grid; see
+// `machine.equipmentCells` on the harness handle). The doorway is on the west
+// edge; the scavenger starts east of the room, so a correct route has to
+// round the wall.
+//
+// KNOWN GAP surfaced while writing this section, not fixed here (see the
+// task report): one or more character-controller/collider issues stop a
+// kinematic capsule -- player or enemy, doesn't matter -- from completing a
+// crossing at two different pieces of geometry:
+//   1. A doorway opening (1.1m wide, no collider across it, only jambs and a
+//      lintel -- 0.34m of combined clearance around the widest capsule in the
+//      game, about 0.17m per side) freezes movement dead mid-step.
+//   2. A stairs ramp (1.92m wide, no aperture at all) freezes movement dead
+//      mid-climb. `maxSlopeClimbAngle` is not the cause here: it is 50°
+//      (`PhysicsWorld.ts:144`) against this ramp's 36.87° incline, comfortably
+//      climbable.
+// Both were reproduced with the PLAYER under held WASD input, not just an
+// AI-driven enemy, at two independent geometries -- so this is not a
+// navigation bug, and A* and the steering fan both do their job correctly
+// right up to the freeze. Whether it is one shared root cause or two is not
+// established; treat them as separate symptoms until someone roots one out.
+// A lead, not a conclusion: `PhysicsWorld.addCharacter` configures
+// `controller.enableAutostep(AUTOSTEP_HEIGHT, 0.2, true)` -- the `0.2`
+// minimum-step-width parameter is worth checking against both seams.
+// Either way, it means "arrives inside the room" and "climbs the stairs"
+// cannot be asserted honestly right now: they would fail against correct
+// navigation code exactly as they fail against reverted code, for a reason
+// unrelated to navigation. The checks below stop at what these freezes do
+// not confound: did it route to the correct side of the wall, and does the
+// nav graph link the stairs run to its landing.
+
+const place = (piece, cell, side = null, rotation = 0) =>
+  page.evaluate(
+    ({ piece, cell, side, rotation }) => {
+      const g = globalThis.__game;
+      const edge = side ? g.canonicalEdge(cell, side) : undefined;
+      return g.game.build.place({ piece, cell, edge, rotation }) !== null;
+    },
+    { piece, cell, side, rotation },
+  );
+
+// `Player.teleport` takes a THREE.Vector3, but only reads .x/.y/.z through
+// Vector3.copy, so a plain object is fine from the harness — the same trick
+// Game.spawnEnemyAhead already uses for enemy spawns.
+const teleportPlayer = (x, y, z) =>
+  page.evaluate(({ x, y, z }) => globalThis.__game.player.teleport({ x, y, z }), { x, y, z });
+
+/** Where the one live scavenger is, in grid cells, plus its AI state. */
+const scavenger = () =>
+  page.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    if (!e) return null;
+    return {
+      cell: e.gridCell,
+      aiState: e.aiState,
+      x: e.worldPosition.x,
+      z: e.worldPosition.z,
+    };
+  });
+
+/**
+ * Spawn a scavenger and cut its attack range to well under a doorstep.
+ *
+ * This test's room is small enough (2m walls, 1.1x the attack range of 2.2m)
+ * that a scavenger going the long way round would otherwise lock into its
+ * `attack` state -- which halts movement -- while still hard against the
+ * WRONG wall, before it ever reaches the doorway side. That is an artifact of
+ * this test's geometry, not of navigation, so it is neutralised here the same
+ * way `player.stats.invulnerable` neutralises damage elsewhere in this file:
+ * `def` is the live, shared `ENEMIES.scavenger` object, so mutating it
+ * affects every scavenger for the rest of this process, not just this one --
+ * the original value is captured on first use and restored by
+ * `restoreAttackRange()` once this section is done, so a check appended
+ * after this one does not silently inherit an altered enemy.
+ */
+let originalAttackRange;
+const spawnHuntingScavenger = async (x, y, z) => {
+  const orig = await page.evaluate(
+    ({ x, y, z }) => {
+      const e = globalThis.__game.enemies.spawn('scavenger', { x, y, z });
+      if (!e) return null;
+      const orig = e.def.attackRange;
+      e.def.attackRange = 0.6;
+      return orig;
+    },
+    { x, y, z },
+  );
+  if (originalAttackRange === undefined && orig !== null) originalAttackRange = orig;
+};
+const restoreAttackRange = async () => {
+  if (originalAttackRange === undefined) return;
+  await page.evaluate(
+    (v) => {
+      const e = globalThis.__game.enemies.active[0];
+      if (e) e.def.attackRange = v;
+    },
+    originalAttackRange,
+  );
+};
+
+// F5's resource grant is inline in Game.handleDebugKeys and not callable, so
+// deposit directly — `resources` is already on the harness handle.
+await page.evaluate(() => {
+  globalThis.__game.game.resources.deposit('scrap', 400);
+  globalThis.__game.game.resources.deposit('components', 20);
+});
+await sim(0.5);
+
+const cell = (x, y, z) => ({ x, y, z });
+/**
+ * Starboard of the centreline, and that is not cosmetic.
+ *
+ * This was cell(0,0,-1), whose west neighbour is (-1,0,-1) -- which lies over
+ * the engine-room stairwell and is therefore not a walkable nav cell at all.
+ * The room's only doorway opened onto a hole, the graph correctly refused to
+ * link through it, and this whole section has been measuring an unreachable
+ * room ever since the engine room was cut into the hull. Moved one cell to
+ * starboard, every side of the room opens onto solid deck and the doorway is
+ * the only way in, which is what these checks were written to prove.
+ */
+const ROOM = cell(1, 0, -1);
+/** World X of the room's west face — `ROOM.x * GRID_TILE - GRID_TILE / 2`. */
+const ROOM_WEST_FACE = 1;
+await page.evaluate(() => {
+  const g = globalThis.__game;
+  globalThis.__roomNavigation = { placed: [], damaged: [], removed: [] };
+  g.bus.on('build:placed', (event) => globalThis.__roomNavigation.placed.push(event));
+  g.bus.on('build:damaged', (event) => globalThis.__roomNavigation.damaged.push(event));
+  g.bus.on('build:removed', (event) => globalThis.__roomNavigation.removed.push(event));
+});
+await place('floor', ROOM);
+for (const side of ['north', 'south', 'east']) {
+  await place('wall', ROOM, side);
+}
+await place('doorway', ROOM, 'west');
+await sim(0.5);
+
+const built = await page.evaluate(() => globalThis.__game.game.build.pieceCount);
+check('navigation: test room built', built >= 5, `${built} pieces`);
+
+// Put the player inside the room, and a scavenger on the far side of it. Both
+// spawn a capsule's own height above the deck SURFACE, plus clearance, so
+// gravity settles them onto whatever is underneath -- the base deck outside,
+// the placed floor plate inside, which sit at slightly different heights.
+// These used to pass 3.6, the deck PLANE, which is a metre of plate below a
+// capsule's feet: buried, unmovable, and reading as engine-room level to the
+// nav graph, which is why this section could never route anyone anywhere.
+await teleportPlayer(ROOM.x * 2, PLAYER_STAND_Y, -2);
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await spawnHuntingScavenger(4.6, ENEMY_STAND_Y, -2);
+await sim(1.0);
+
+// The scavenger starts east of the room. The only way toward the player is
+// the west doorway, so a correct route must get past the room's west face --
+// rounding the wall -- well before it is anywhere near the doorway threshold
+// itself. Past the face is unambiguous on its own: a scavenger that walked
+// into the east wall and stopped sits three metres the other side of it.
+//
+// The minimum is tracked rather than tested sample by sample. It rounds the
+// corner tightly -- measured, it reaches x=0.78 against a face at 1.0 -- and
+// crosses the strip in well under one sampling interval at 3.1 m/s, so a
+// threshold checked only at the instants a sample lands is a check that
+// passes or fails on where the polling happened to fall.
+let minX = Infinity;
+let routeToDoorwaySide = false;
+let wallBreachedBeforeEntry = false;
+const wallWasBreached = () => page.evaluate(() => {
+  const room = globalThis.__roomNavigation;
+  const wallIds = new Set(
+    room.placed.filter((event) => event.definitionId === 'wall').map((event) => event.instanceId),
+  );
+  return room.removed.some((event) => wallIds.has(event.instanceId)) ||
+    room.damaged.some((event) => wallIds.has(event.instanceId) && event.health === 0);
+});
+// A wall has 150 health, and a scavenger deals 7 post-armour damage every
+// 1.1s. Forty-eight seconds leaves room for approach plus the full break time
+// while remaining a hard bound if the AI is genuinely stuck.
+for (let i = 0; i < 240; i++) {
+  await sim(0.2);
+  const s = await scavenger();
+  if (!s) break;
+  minX = Math.min(minX, s.x);
+  routeToDoorwaySide = minX < ROOM_WEST_FACE;
+  wallBreachedBeforeEntry ||= await wallWasBreached();
+  if (routeToDoorwaySide || wallBreachedBeforeEntry) break;
+}
+check(
+  'navigation: it reaches the doorway side or first destroys the blocking wall',
+  routeToDoorwaySide || wallBreachedBeforeEntry,
+  `closest approach x=${minX.toFixed(2)}, face=${ROOM_WEST_FACE}, wallBreached=${wallBreachedBeforeEntry}`,
+);
+
+// Arrival, which is the criterion this whole feature exists to satisfy. It was
+// left out when the harness was written because no capsule could fit under a
+// doorway lintel; with that clearance fixed, a scavenger that routes to the
+// doorway now actually comes through it.
+let arrivedInRoom = false;
+for (let i = 0; i < 60; i++) {
+  await sim(0.4);
+  const s = await scavenger();
+  if (!s) break;
+  wallBreachedBeforeEntry ||= await wallWasBreached();
+  if (s.cell.x === ROOM.x && s.cell.z === ROOM.z) {
+    arrivedInRoom = true;
+    break;
+  }
+}
+const insideRoom = await scavenger();
+check(
+  'navigation: room entry uses the doorway or a destroyed wall, never an intact wall',
+  arrivedInRoom && (routeToDoorwaySide || wallBreachedBeforeEntry),
+  insideRoom
+    ? `ended at cell ${insideRoom.cell.x},${insideRoom.cell.z}; doorwayRoute=${routeToDoorwaySide}; wallBreached=${wallBreachedBeforeEntry}`
+    : 'despawned',
+);
+
+// --- Sealed ---------------------------------------------------------------
+// The doorway has to come out before the wall goes in. An edge that already
+// holds a piece rejects a second one as 'occupied', so the old
+// `place('wall', ROOM, 'west')` silently did nothing and this section ran
+// against a room that still had its doorway. It passed anyway, because a
+// capsule could not fit under the lintel and no scavenger ever got in -- the
+// check was measuring the traversal bug, not the seal. Both are asserted now.
+const sealedRoom = await page.evaluate((room) => {
+  const g = globalThis.__game;
+  const sides = ['north', 'south', 'east', 'west'];
+  const removed = [];
+  for (const side of sides) {
+    const edge = g.canonicalEdge(room, side);
+    for (const piece of ['doorway', 'wall']) {
+      const count = g.game.build.demolishAt({ piece, cell: room, edge, rotation: 0 });
+      if (count > 0) removed.push({ side, piece });
+    }
+  }
+  const placed = sides.map((side) =>
+    g.game.build.place({
+      piece: 'wall',
+      cell: room,
+      edge: g.canonicalEdge(room, side),
+      rotation: 0,
+    }, true) !== null,
+  );
+  const roofPlaced = g.game.build.place({ piece: 'roof', cell: room, rotation: 0 }, true) !== null;
+  const graph = g.game.build.rooms;
+  const enclosed = graph.rooms.some(
+    (candidate) => candidate.enclosed && candidate.cells.some(
+      (cell) => cell.x === room.x && cell.y === room.y && cell.z === room.z,
+    ),
+  );
+  return { removed, placed, roofPlaced, enclosed };
+}, ROOM);
+check(
+  'navigation: all four room edges are rebuilt as walls and the room is enclosed',
+  sealedRoom.placed.every(Boolean) && sealedRoom.roofPlaced && sealedRoom.enclosed,
+  `removed=${sealedRoom.removed.length} placed=${sealedRoom.placed.filter(Boolean).length}/4 roof=${sealedRoom.roofPlaced} enclosed=${sealedRoom.enclosed}`,
+);
+await sim(0.5);
+
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await spawnHuntingScavenger(4.6, ENEMY_STAND_Y, -2);
+await sim(8.0);
+
+// "Kept out" is judged by grid cell, not distance -- with the attack range
+// cut for this section (see spawnHuntingScavenger), a scavenger pressed
+// against the outside of a wall can end up within a metre of the player in a
+// straight line without ever standing in the room's cell.
+const sealed = await scavenger();
+const HUNTING_STATES = ['navigate', 'pursue', 'attack'];
+check(
+  'navigation: a sealed room keeps the scavenger out, and it keeps hunting',
+  sealed !== null &&
+    (sealed.cell.x !== ROOM.x || sealed.cell.z !== ROOM.z) &&
+    HUNTING_STATES.includes(sealed.aiState),
+  sealed
+    ? `at cell ${sealed.cell.x},${sealed.cell.z}, state ${sealed.aiState}`
+    : 'despawned',
+);
+
+// --- Vertical -------------------------------------------------------------
+// A staircase from (0,0,-2) running to (0,0,-1) and landing on (0,1,-1).
+// Shifted onto the same equipment-free column as the room above.
+//
+// Order matters. `validateStairs` rejects a landing cell that is already
+// occupied, so the upper floor goes down AFTER the stairs, not before. And an
+// upper floor needs support: a wall on an edge below it, or a floor beside it
+// on the same level. Hence the scaffold at x=1.
+
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await page.evaluate(() => globalThis.__game.game.build.clear());
+await sim(0.5);
+
+// Column x=0 for the whole structure: it is the only one clear of the machine's
+// own equipment from z=-2 through z=+1. Base at (0,0,-1) with rotation 2, so
+// the run is at +Z and the flight climbs that way; the player walks in from -Z.
+await place('floor', cell(0, 0, -1));           // the base, walked on from
+await place('stairs', cell(0, 0, -1), null, 2); // rotation 2 => run +Z
+await place('floor', cell(0, 0, 1));            // past the top of the flight
+await place('wall', cell(0, 0, 1), 'north');    // support for the level-1 floor
+await place('floor', cell(0, 1, 1));            // supported by that wall
+// Keep (0,1,0), directly over the ramp, open for the climbing body's head.
+await sim(0.5);
+
+// Base to landing, not run to the cell above it. The old link shared its x and
+// z with its own other end, so an enemy that took it steered at its own
+// position and drove at zero velocity.
+const stairsLink = await page.evaluate(() => {
+  const links = globalThis.__game.game.build.navGraph.links;
+  // Stairs at cell (0,0,-1) rotation 2: base (0,0,-1), landing (0,1,0).
+  const up = (links.get('0,0,-1') ?? []).find((n) => n.y === 1);
+  return up ? { x: up.x, y: up.y, z: up.z } : null;
+});
+check(
+  'navigation: the graph links the stairs BASE to its landing, somewhere to walk',
+  stairsLink !== null && !(stairsLink.x === 0 && stairsLink.z === -1),
+  stairsLink ? `base -> (${stairsLink.x},${stairsLink.y},${stairsLink.z})` : 'no vertical link',
+);
+
+// THE FLIGHT ITSELF, and which way up it is.
+//
+// The flight was built rising toward +Z while `rotationDelta` puts the run and
+// the landing the other way, so every staircase was back to front: walking into
+// the base you met the TOP of it, and what stopped you was the ramp's
+// underside. Measured directly against the running game, a player walking at a
+// flight now climbs it end to end -- 4.67 to 7.43, the full storey.
+//
+// What is asserted here is the property that fix turned on, without scripting a
+// walk: dropped over the middle of the flight, a body lands ON it, at the
+// height the slope puts it. Back to front, the same drop lands on the deck
+// three metres lower, because the flight is somewhere else entirely.
+//
+// (A scripted walk up is what a player actually does and is the check this
+// wants to be. It is not here because driving one reliably needs the approach
+// surface, the camera yaw and the entry edge all agreed, and getting that wrong
+// measures the harness rather than the game. See the README.)
+const onTheFlight = await page.evaluate(async () => {
+  const g = globalThis.__game.game;
+  const deck = g.machine.deckBounds.min.y + 0.09;
+  // Base (0,0,-1) is world z=-2, run (0,0,0) is world z=0: the flight spans
+  // world z -3 to +1, rising toward +Z. Halfway is z=-1, half a storey up.
+  g.player.teleport({ x: 0, y: deck + 3.2, z: -1 });
+  await new Promise((r) => setTimeout(r, 900));
+  return { y: g.player.worldPosition.y, deck };
+});
+const aboveDeck = onTheFlight.y - (onTheFlight.deck + 0.96);
+check(
+  'stairs: a flight is solid, and climbs the way its landing lies',
+  aboveDeck > 1.0 && aboveDeck < 2.2,
+  `settled ${aboveDeck.toFixed(2)}m above the deck, mid-flight (a storey is 3m)`,
+);
+
+// Take the stairs away: with no link to level 1 at all, nothing should ever
+// report itself standing up there. `demolishAt` takes the same Placement
+// shape `place` did — see tools/build.mjs for the pattern.
+await page.evaluate(() =>
+  globalThis.__game.game.build.demolishAt({
+    piece: 'stairs',
+    cell: { x: 0, y: 0, z: -1 },
+    rotation: 2,
+  }),
+);
+await sim(0.5);
+await teleportPlayer(0, 6.5, -1);
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await spawnHuntingScavenger(0, ENEMY_STAND_Y, -4);
+
+let sawScavenger = false;
+let reachedUpper = false;
+for (let i = 0; i < 20; i++) {
+  await sim(0.5);
+  const s = await scavenger();
+  if (!s) continue;
+  sawScavenger = true;
+  if (s.cell.y >= 1) { reachedUpper = true; break; }
+}
+check(
+  'navigation: no stairs means no way up',
+  sawScavenger && !reachedUpper,
+  !sawScavenger ? 'scavenger never appeared' : reachedUpper ? 'reached level 1 anyway' : 'stayed at level 0',
+);
+
+await restoreAttackRange();
+
+// --- Engine room ----------------------------------------------------------
+// The machine's own lower deck, hollowed out of the hull. Unlike the build
+// grid's stairs piece, this stair is machine geometry: one smooth ramp under
+// an opening that spans its whole run, so nothing is ever climbing beneath a
+// floored cell.
+
+const navLevels = await page.evaluate(() => {
+  const links = globalThis.__game.game.build.navGraph.links;
+  const keys = [...links.keys()];
+  return {
+    minus1: keys.filter((k) => k.split(',')[1] === '-1').length,
+    stairHead: (links.get('-1,0,2') ?? []).some((c) => c.y === -1),
+  };
+});
+check(
+  'engine room: its floor is in the nav graph, linked to the deck',
+  navLevels.minus1 > 20 && navLevels.stairHead,
+  `${navLevels.minus1} level -1 cells, deck link ${navLevels.stairHead}`,
+);
+
+// The player walks down, then back out. Engine floor stands a body at ~1.56;
+// the deck stands one at ~4.65.
+await page.evaluate(() => globalThis.__game.enemies.despawnAll());
+await teleportPlayer(-2, 4.8, 3.2);
+await sim(0.6);
+await page.evaluate(() => {
+  const cam = globalThis.__game.playerCamera;
+  if (cam && 'yaw' in cam) cam.yaw = 0;
+});
+const playerY = () => page.evaluate(() => +globalThis.__game.player.worldPosition.y.toFixed(2));
+
+await page.keyboard.down('w');
+let lowestY = 99;
+for (let i = 0; i < 16; i++) {
+  await sim(0.35);
+  lowestY = Math.min(lowestY, await playerY());
+  if (lowestY < 2.2) break;
+}
+await page.keyboard.up('w');
+check('engine room: the player can walk down into it', lowestY < 2.2, `lowest y ${lowestY.toFixed(2)}`);
+
+await page.evaluate(() => {
+  const cam = globalThis.__game.playerCamera;
+  if (cam && 'yaw' in cam) cam.yaw = Math.PI;
+});
+await sim(0.3);
+await page.keyboard.down('w');
+let highestY = -99;
+for (let i = 0; i < 22; i++) {
+  await sim(0.35);
+  highestY = Math.max(highestY, await playerY());
+  if (highestY > 4.4) break;
+}
+await page.keyboard.up('w');
+check('engine room: and can climb back out', highestY > 4.4, `highest y ${highestY.toFixed(2)}`);
+
+// And it is not a safe room: a scavenger follows the player down.
+await teleportPlayer(-2, 1.6, -5);
+await sim(0.8);
+await page.evaluate(() => {
+  const g = globalThis.__game;
+  g.enemies.despawnAll();
+  g.enemies.spawn('scavenger', { x: -2, y: 4.8, z: 6 });
+});
+let followed = false;
+for (let i = 0; i < 50; i++) {
+  await sim(0.4);
+  const s = await page.evaluate(() => {
+    const e = globalThis.__game.enemies.active[0];
+    return e ? { y: +e.worldPosition.y.toFixed(2), level: e.gridCell.y } : null;
+  });
+  if (!s) break;
+  if (s.level === -1 && s.y < 2.5) { followed = true; break; }
+}
+check('engine room: a scavenger follows the player down into it', followed);
+
+// --- Two enemy types -------------------------------------------------------
+// The pool has always handed back whichever slot was free. That was right with
+// one enemy type and silently wrong with two: a freed scavenger returned as a
+// raider would keep the scavenger's speed, health, drops and colour, because
+// `def` is fixed at construction and `spawn` only moves a body. Nothing in a
+// unit test can see it, because it is a property of the POOL rather than of a
+// definition.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.enemySpawnsEnabled = false;
+  g.player.stats.invulnerable = true;
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
+});
+await sim(0.5);
+
+const recycled = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const y = globalThis.__standY.enemy;
+  // Fill with scavengers, kill them all, then ask for raiders. Every slot in
+  // the pool is now a free scavenger, which is exactly the trap.
+  for (let i = 0; i < 3; i++) g.enemies.spawn('scavenger', { x: -3 + i * 3, y, z: 4 });
+  for (const e of globalThis.__game.enemies.active) e.despawn();
+  const raiders = [];
+  for (let i = 0; i < 3; i++) {
+    const e = g.enemies.spawn('raider', { x: -3 + i * 3, y, z: 4 });
+    if (e) raiders.push({ id: e.def.id, speed: e.def.moveSpeed, hp: e.currentHealth });
+  }
+  return raiders;
+});
+check(
+  'a raider spawned into a recycled scavenger slot is still a raider',
+  recycled.length === 3 && recycled.every((r) => r.id === 'raider' && r.hp === 55),
+  recycled.map((r) => `${r.id}@${r.speed}`).join(', ') || 'none spawned',
+);
+
+// And they are visibly different, which with one shared rig is colour's job.
+const colours = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  const y = globalThis.__standY.enemy;
+  const read = (id) => {
+    const e = g.enemies.spawn(id, { x: 0, y, z: 5 });
+    if (!e) return null;
+    let c = null;
+    e.object3D.traverse((o) => {
+      if (c === null && o.isMesh && o.material && o.material.color) {
+        c = { r: o.material.color.r, g: o.material.color.g, b: o.material.color.b };
+      }
+    });
+    e.despawn();
+    return c;
+  };
+  return { scavenger: read('scavenger'), raider: read('raider') };
+});
+const apart =
+  colours.scavenger && colours.raider
+    ? Math.hypot(
+        colours.scavenger.r - colours.raider.r,
+        colours.scavenger.g - colours.raider.g,
+        colours.scavenger.b - colours.raider.b,
+      )
+    : 0;
+check(
+  'the two types are told apart on screen, not just in the data',
+  apart > 0.02,
+  `body colours differ by ${apart.toFixed(3)}`,
+);
+
+await page.evaluate(() => globalThis.__game.game.enemies.despawnAll());
+await sim(0.3);
+
+// --- The weapon in the hand ------------------------------------------------
+// Runs on `modelPage`, because the main page boots `nomodel=1` and a weapon
+// needs a rig with a hand to hang off. The unit tests cover which bone gets
+// picked and how the model is scaled; what only a browser can answer is
+// whether the thing ends up parented to a bone that is actually animating,
+// at a size a person would recognise.
+if (hasModel) {
+  const weapon = await modelPage.evaluate(() => {
+    const g = globalThis.__game.game;
+    const found = [];
+    globalThis.__game.player.object3D.traverse((o) => {
+      if (o.name === 'held-weapon') found.push(o);
+    });
+    const mount = found[0] ?? null;
+    if (!mount) return { mounts: 0 };
+
+    // Walk up to the bone. A weapon parented to the body instead would float
+    // beside the character while the arm swings, which is the failure this
+    // whole module exists to avoid.
+    let node = mount.parent;
+    let bone = null;
+    while (node && !bone) {
+      if (node.isBone) bone = node.name;
+      node = node.parent;
+    }
+
+    const size = new (globalThis.__THREE?.Box3 ?? Object)();
+    return {
+      mounts: found.length,
+      bone,
+      models: g.weaponModels.size,
+      holds: globalThis.__game.player.holdsWeapon,
+    };
+  });
+  check(
+    'the player carries the weapon they have equipped',
+    weapon.mounts === 1 && weapon.holds === true,
+    `${weapon.mounts} mounted, holds=${weapon.holds}, ${weapon.models} models loaded`,
+  );
+  check(
+    'and it hangs off a hand bone, not off the body',
+    typeof weapon.bone === 'string' && /hand/i.test(weapon.bone),
+    weapon.bone ?? 'no bone above the mount',
+  );
+
+  // Swapping weapons has to swap the model, and has to leave exactly one
+  // behind -- a mount that is added and never removed is invisible until the
+  // player has cycled weapons a few times and is carrying a bundle.
+  const swapped = await modelPage.evaluate(async () => {
+    const g = globalThis.__game.game;
+    g.combat.equip('shotgun');
+    await new Promise((r) => setTimeout(r, 200));
+    const found = [];
+    globalThis.__game.player.object3D.traverse((o) => {
+      if (o.name === 'held-weapon') found.push(o);
+    });
+    return { mounts: found.length, weapon: g.combat.current.def.id };
+  });
+  check(
+    'swapping weapons swaps the model, and leaves exactly one',
+    swapped.mounts === 1 && swapped.weapon === 'shotgun',
+    `${swapped.mounts} mounted while holding ${swapped.weapon}`,
+  );
+} else {
+  console.log('SKIP  held-weapon checks -- no character model present');
+}
+
+// --- Audio -----------------------------------------------------------------
+// The half of the audio layer a unit test cannot reach. `SoundBank` is pure
+// arithmetic and is checked in node; what only a real browser can answer is
+// whether an `AudioContext` was actually obtained and whether a node graph
+// actually gets built when the game says something happened.
+//
+// Counting is the only observation available: nothing in a headless browser
+// can listen. `soundsPlayed` is incremented by `AudioEngine.play` itself, so a
+// count that moves means a real graph was assembled against a real context.
+await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.enemies.despawnAll();
+  g.enemySpawnsEnabled = false;
+  g.player.stats.invulnerable = true;
+  g.player.stats.reset();
+  g.player.teleport({ x: 0, y: globalThis.__standY.player, z: 2 });
+  g.audio.resume();
+});
+await sim(0.5);
+
+const audioUp = await page.evaluate(() => globalThis.__game.game.audio.ready);
+check('the game gets an audio context', audioUp === true, `ready=${audioUp}`);
+
+const busSounds = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const before = g.audio.soundsPlayed;
+  g.bus.emit('weapon:fired', { weaponId: 'rifle', ammoRemaining: 12 });
+  g.bus.emit('combat:hit', {
+    position: { x: 2, y: 4, z: 2 },
+    normal: { x: 0, y: 1, z: 0 },
+    targetId: null,
+    onMetal: true,
+  });
+  return g.audio.soundsPlayed - before;
+});
+check('events on the bus make sounds', busSounds === 2, `${busSounds} of 2 played`);
+
+// A sound past the falloff is dropped rather than played at zero gain, which
+// is what stops a deck full of impacts building node graphs nobody can hear.
+const outOfEarshot = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const before = g.audio.soundsPlayed;
+  g.audio.play('hit-metal', 0, 500);
+  return g.audio.soundsPlayed - before;
+});
+check('a sound out of earshot is not played at all', outOfEarshot === 0, `${outOfEarshot} played`);
+
+// The machine's own note. It is the one continuous sound, so it is not a voice
+// and does not touch the counter -- what is checked is that asking for it does
+// not throw and that the context is still alive afterwards.
+const droned = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  g.audio.updateDrone(7.5, 7.5);
+  g.audio.updateDrone(0, 7.5);
+  return g.audio.ready;
+});
+check('the drone follows the machine without falling over', droned === true, `ready=${droned}`);
+
+// Interior quiet and the calm pad. Both are gain ramps on live nodes, which
+// is exactly the half of the audio layer a unit test cannot reach: the
+// arithmetic is checked in `ambience.test.ts`, and what only a browser can
+// answer is whether the ramps land on a real graph without throwing.
+const ambience = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+
+  g.audio.setInterior(true);
+  const inside = g.audio.interiorDuck;
+  g.audio.setInterior(false);
+  const outside = g.audio.interiorDuck;
+
+  // Loud, then ducked, then loud again -- the walk in and out of a doorway.
+  g.audio.setInterior(true);
+  g.audio.updateDrone(7.5, 7.5);
+  g.audio.setInterior(false);
+  g.audio.updateDrone(7.5, 7.5);
+
+  g.audio.updatePad(true);
+  const started = g.audio.padAudible;
+  g.audio.updatePad(false);
+
+  return { inside, outside, started, ready: g.audio.ready };
+});
+check(
+  'walking indoors ducks the machine, and stepping out restores it',
+  ambience.inside === 0.5 && ambience.outside === 1,
+  `${ambience.outside} outside, ${ambience.inside} inside`,
+);
+check(
+  'the calm pad builds a real node graph and fades without falling over',
+  ambience.started === true && ambience.ready === true,
+  `audible=${ambience.started} ready=${ambience.ready}`,
+);
+
+const muteTest = await page.evaluate(() => {
+  const g = globalThis.__game.game;
+  const on = g.audio.toggleMute();
+  const before = g.audio.soundsPlayed;
+  g.bus.emit('weapon:fired', { weaponId: 'rifle', ammoRemaining: 11 });
+  const during = g.audio.soundsPlayed - before;
+  g.audio.toggleMute();
+  const after0 = g.audio.soundsPlayed;
+  g.bus.emit('weapon:fired', { weaponId: 'rifle', ammoRemaining: 10 });
+  return { on, during, back: g.audio.soundsPlayed - after0 };
+});
+check(
+  'mute silences it, and unmute brings it back',
+  muteTest.on === true && muteTest.during === 0 && muteTest.back === 1,
+  `muted=${muteTest.on} playedWhileMuted=${muteTest.during} playedAfter=${muteTest.back}`,
+);
+
+// The machine walks whether or not anyone is shooting, so its footfalls are
+// the one sound that must fire from the render loop rather than off the bus.
+const beforeWalk = await page.evaluate(() => globalThis.__game.game.audio.soundsPlayed);
+await sim(4);
+const afterWalk = await page.evaluate(() => globalThis.__game.game.audio.soundsPlayed);
+check(
+  'the machine is audible walking, with nothing else happening',
+  afterWalk > beforeWalk,
+  `${afterWalk - beforeWalk} sounds over four seconds of walking`,
+);
+
 if (outShot) {
   if (!hasModel) {
     // Nothing to show that the other harnesses do not already show.
@@ -968,7 +1895,7 @@ if (outShot) {
     // construction and never touched again by the render step, so it can be
     // parked deliberately.
     const shot = await browser.newPage({ viewport: { width: 1280, height: 720 } });
-    await shot.goto('http://localhost:5173/?nolock=1&quality=high&nospawn=1&cam=side', {
+    await shot.goto(`${BASE_URL}/?nolock=1&nomenu=1&quality=high&nospawn=1&cam=side`, {
       waitUntil: 'load',
     });
     await shot.waitForFunction(() => '__game' in globalThis, null, { timeout: 60000 });
@@ -977,7 +1904,7 @@ if (outShot) {
       const g = globalThis.__game.game;
       g.player.stats.invulnerable = true;
       g.enemies.despawnAll();
-      g.enemies.spawn('scavenger', { x: 0, y: 3.4, z: 2 });
+      g.enemies.spawn('scavenger', { x: 0, y: globalThis.__standY.enemy, z: 2 });
     });
     await shot.waitForTimeout(2500);
 

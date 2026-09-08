@@ -1,0 +1,89 @@
+PASS  model-disabled mode keeps authored root absent -- {"authored":false,"skinRoots":[],"articulatedThigh":false,"ceilingFrameMinY":3.0899999141693115,"maxFootDelta":5.960464760645934e-9,"maxFootLocalBottomError":5.960464483090178e-9}
+PASS  lower-room ceiling frame stays above walkable volume -- minY=3.0899999141693115
+PASS  rendered feet keep their sole at the foot target through the gait -- max|localMinY-footAt|=0.000m (world min delta 0.000m)
+PASS  player can stand at the stair head -- y=4.56
+PASS  player walks down into the lower room -- y=1.58
+PASS  lower-room camera remains finite and follows the actor -- camera=(-1.38,2.73,-2.31)
+PASS  lower-room east wall stops the player -- x=4.04
+PASS  lower-room west wall stops the player -- x=-4.04
+PASS  lower-room south wall stops the player -- z=7.14
+PASS  lower-room north wall stops the player -- z=-7.14
+PASS  player walks back up to the deck -- y=4.08
+PASS  enemy receives a route toward the lower room -- {"y":-1,"pathLength":0,"x":-1.8893402242313402,"z":1.2410758122656038}
+PASS  enemy can enter level -1 through the stair route -- {"y":-1,"pathLength":0,"x":-1.8893402242313402,"z":1.2410758122656038} wait=1268ms
+PASS  no browser console errors
+{
+  "results": [
+    {
+      "name": "model-disabled mode keeps authored root absent",
+      "ok": true,
+      "detail": "{\"authored\":false,\"skinRoots\":[],\"articulatedThigh\":false,\"ceilingFrameMinY\":3.0899999141693115,\"maxFootDelta\":5.960464760645934e-9,\"maxFootLocalBottomError\":5.960464483090178e-9}"
+    },
+    {
+      "name": "lower-room ceiling frame stays above walkable volume",
+      "ok": true,
+      "detail": "minY=3.0899999141693115"
+    },
+    {
+      "name": "rendered feet keep their sole at the foot target through the gait",
+      "ok": true,
+      "detail": "max|localMinY-footAt|=0.000m (world min delta 0.000m)"
+    },
+    {
+      "name": "player can stand at the stair head",
+      "ok": true,
+      "detail": "y=4.56"
+    },
+    {
+      "name": "player walks down into the lower room",
+      "ok": true,
+      "detail": "y=1.58"
+    },
+    {
+      "name": "lower-room camera remains finite and follows the actor",
+      "ok": true,
+      "detail": "camera=(-1.38,2.73,-2.31)"
+    },
+    {
+      "name": "lower-room east wall stops the player",
+      "ok": true,
+      "detail": "x=4.04"
+    },
+    {
+      "name": "lower-room west wall stops the player",
+      "ok": true,
+      "detail": "x=-4.04"
+    },
+    {
+      "name": "lower-room south wall stops the player",
+      "ok": true,
+      "detail": "z=7.14"
+    },
+    {
+      "name": "lower-room north wall stops the player",
+      "ok": true,
+      "detail": "z=-7.14"
+    },
+    {
+      "name": "player walks back up to the deck",
+      "ok": true,
+      "detail": "y=4.08"
+    },
+    {
+      "name": "enemy receives a route toward the lower room",
+      "ok": true,
+      "detail": "{\"y\":-1,\"pathLength\":0,\"x\":-1.8893402242313402,\"z\":1.2410758122656038}"
+    },
+    {
+      "name": "enemy can enter level -1 through the stair route",
+      "ok": true,
+      "detail": "{\"y\":-1,\"pathLength\":0,\"x\":-1.8893402242313402,\"z\":1.2410758122656038} wait=1268ms"
+    },
+    {
+      "name": "no browser console errors",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "asset": "salvaged-radio",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\salvaged-radio.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\salvaged-radio.blend",
+    "triangles": 10236,
+    "meshes": 2,
+    "materials": [
+      "Radio_Dark",
+      "Radio_Glass",
+      "Radio_Lamp",
+      "Radio_Paint",
+      "Radio_Rubber",
+      "Radio_Steel"
+    ]
+  },
+  {
+    "asset": "scrap-rifle",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\scrap-rifle.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\scrap-rifle.blend",
+    "triangles": 11032,
+    "meshes": 1,
+    "materials": [
+      "Rifle_Dark",
+      "Rifle_Glass",
+      "Rifle_Paint",
+      "Rifle_Rubber",
+      "Rifle_Steel"
+    ]
+  },
+  {
+    "asset": "scrap-shotgun",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\scrap-shotgun.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\scrap-shotgun.blend",
+    "triangles": 10628,
+    "meshes": 1,
+    "materials": [
+      "Shot_Dark",
+      "Shot_Glass",
+      "Shot_Paint",
+      "Shot_Rubber",
+      "Shot_Steel"
+    ]
+  },
+  {
+    "asset": "manual-turret",
+    "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v2\\staging\\manual-turret.glb",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v2\\manual-turret.blend",
+    "triangles": 23992,
+    "meshes": 3,
+    "materials": [
+      "Turret_Dark",
+      "Turret_Glass",
+      "Turret_Paint",
+      "Turret_Rubber",
+      "Turret_Steel"
+    ]
+  }
+]

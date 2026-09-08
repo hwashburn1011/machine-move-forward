@@ -78,6 +78,47 @@
   background: var(--danger);
 }
 
+/* --- Survival meters, under the health bar ---------------------------- */
+/* Deliberately quiet: a third the height of the health bar, muted until low.
+   These are a slow pressure the player should be able to ignore for minutes
+   at a time, and a meter drawn as loud as health would say the opposite. */
+.hud-needs {
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+}
+
+.hud-need {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.hud-need-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.hud-need-fill {
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: width 400ms linear;
+}
+
+.hud-need.is-low {
+  color: var(--amber);
+}
+
+.hud-need.is-low .hud-need-fill {
+  background: var(--amber);
+}
+
 /* --- Weapon and ammo, bottom right ------------------------------------ */
 #hud-weapon {
   right: 26px;
@@ -209,6 +250,49 @@
   display: none;
 }
 
+#hud-objective {
+  position: absolute;
+  right: 26px;
+  top: 26px;
+  width: min(300px, 30vw);
+  padding: 10px 12px;
+  background: rgba(14, 11, 8, 0.68);
+  border-left: 2px solid var(--amber);
+  pointer-events: none;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+#hud-objective-title,
+#hud-objective-detail,
+#hud-objective-control {
+  display: block;
+}
+
+#hud-objective-title {
+  color: var(--amber);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+#hud-objective-detail {
+  margin-top: 5px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+#hud-objective-control {
+  margin-top: 7px;
+  color: var(--amber-dim);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+#hud-objective.is-complete {
+  opacity: 0.72;
+}
+
 #hud-warning {
   position: absolute;
   left: 50%;
@@ -270,10 +354,39 @@
   min-width: 720px;
 }
 
+/* Three groups, one of which owns the number keys. The inactive ones are
+   dimmed rather than hidden: a player has to be able to see that comforts
+   exist before they think to press G for them. */
+.build-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 0;
+  opacity: 0.34;
+}
+
+.build-group.is-active {
+  opacity: 1;
+}
+
+.build-group-label {
+  width: 74px;
+  text-align: right;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+}
+
+.build-group.is-active .build-group-label {
+  color: var(--amber);
+}
+
 .build-row {
   display: flex;
   gap: 6px;
-  justify-content: center;
+  justify-content: flex-start;
+  flex: 1;
 }
 
 .build-slot {
@@ -467,6 +580,20 @@
 
 /* --- Crafting list ----------------------------------------------------- */
 
+/* The panel's exception channel: shown only when something is wrong with the
+ * station itself rather than with the player's materials. Loud on purpose --
+ * it is the answer to "why is every Craft button greyed out". */
+.inv-note {
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  border-left: 3px solid var(--danger);
+  background: rgba(214, 72, 59, 0.12);
+  color: var(--danger);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .inv-recipes {
   display: flex;
   flex-direction: column;
@@ -619,7 +746,12 @@
  * the player, is easy to miss entirely — the player reported an empty deck
  * while one was aboard.
  */
-#hud-threats.is-hot {
+/* Condition rides the same rule rather than getting its own colour: both rows
+ * mean "something on this machine needs you", and two shades of alarm in one
+ * four-row panel would be two things to learn instead of one. */
+#hud-threats.is-hot,
+#hud-power.is-hot,
+#hud-condition.is-hot {
   color: var(--danger);
   text-shadow: 0 0 8px rgba(214, 72, 59, 0.55);
 }
@@ -702,4 +834,311 @@
 #hud-crosshair.can-reel i {
   background: #ffc27a;
   box-shadow: 0 0 5px rgba(255, 194, 122, 0.75);
+}
+
+/* The whole HUD, out of the way. The title screen and the opening both want
+ * the shot behind them uncluttered, and hiding the root is one class rather
+ * than a visibility flag threaded through every panel. */
+#hud.is-hidden {
+  display: none;
+}
+
+/* =========================================================================
+ * Title screen, pause menu, title card and skip prompt.
+ *
+ * Same file and the same palette as the HUD on purpose: the menu and the HUD
+ * are the same game's typography, and two stylesheets with two copies of
+ * `--amber` is how they stop being. `#title` is a SIBLING of `#hud` rather
+ * than a child, because `HUD` owns `#hud`'s innerHTML and would wipe anything
+ * appended to it.
+ * ====================================================================== */
+
+#title {
+  --amber: #d8a05a;
+  --amber-dim: #9a8569;
+  --text: #e8d5b8;
+  --panel: rgba(14, 11, 8, 0.62);
+  --edge: rgba(216, 160, 90, 0.26);
+
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  /* Transparent to the mouse unless something is actually up, so the canvas
+   * keeps its clicks (pointer lock is one of them) whenever the menu is not. */
+  pointer-events: none;
+  font-family: ui-monospace, 'Cascadia Mono', 'SF Mono', Menlo, Consolas, monospace;
+  color: var(--text);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+#title.is-open {
+  pointer-events: auto;
+}
+
+/* --- The plate ----------------------------------------------------------
+ * A vignette, not a curtain. The whole point of the title screen is the live
+ * machine walking the dunes behind it, so the backdrop darkens the left third
+ * and leaves the horizon alone.
+ */
+#title-screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  background: linear-gradient(
+    100deg,
+    rgba(9, 7, 5, 0.92) 0%,
+    rgba(9, 7, 5, 0.72) 34%,
+    rgba(9, 7, 5, 0.12) 62%,
+    rgba(9, 7, 5, 0) 100%
+  );
+}
+
+#title-screen.is-open {
+  display: flex;
+  animation: title-fade-in 420ms ease-out;
+}
+
+@keyframes title-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#title-plate {
+  margin-left: min(9vw, 130px);
+  max-width: 460px;
+}
+
+#title-name {
+  display: none;
+  margin: 0 0 6px;
+  font-size: clamp(28px, 4.4vw, 52px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.85);
+}
+
+#title-tagline {
+  display: none;
+  margin-bottom: 30px;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+}
+
+/* Boot leads with the game's name. The pause menu does not: the player knows
+ * what they are playing, and the shot behind it is their own deck. */
+#title-plate.is-boot #title-name,
+#title-plate.is-boot #title-tagline {
+  display: block;
+}
+
+/* --- Menu ---------------------------------------------------------------- */
+#title-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+#title-menu.is-hidden {
+  display: none;
+}
+
+.title-item {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-left: 2px solid transparent;
+  padding: 9px 0 9px 14px;
+  font: inherit;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  cursor: pointer;
+  transition:
+    color 120ms linear,
+    border-color 120ms linear,
+    padding-left 120ms ease-out;
+}
+
+.title-item:hover,
+.title-item.is-selected {
+  color: var(--text);
+  border-left-color: var(--amber);
+  padding-left: 20px;
+}
+
+/* --- Settings ------------------------------------------------------------
+ * Two switches, both of which already existed as runtime toggles. Small on
+ * purpose; Phase 15 grows it.
+ */
+#title-settings {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px 20px;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  backdrop-filter: blur(3px);
+}
+
+#title-settings.is-open {
+  display: flex;
+}
+
+.title-setting {
+  display: grid;
+  grid-template-columns: 78px 1fr 48px;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+}
+
+.title-setting output {
+  text-align: right;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+#title-settings input[type='range'] {
+  width: 100%;
+  accent-color: var(--amber);
+}
+
+#title-settings select {
+  appearance: none;
+  grid-column: 2 / span 2;
+  padding: 5px 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--edge);
+  border-radius: 2px;
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+#title-settings-back {
+  align-self: flex-start;
+  padding-left: 0;
+}
+
+#title-status {
+  display: none;
+  margin-top: 18px;
+  padding-left: 14px;
+  color: var(--amber-dim);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#title-status.is-visible {
+  display: block;
+}
+
+#title-status.is-error {
+  color: var(--danger);
+}
+
+/* --- Title card ---------------------------------------------------------
+ * The payoff for the leap: the game's name over the machine's first strides.
+ * Nothing to dismiss, because anything the player has to dismiss right after
+ * a leap of faith lands as an interruption.
+ */
+#title-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 900ms ease-out;
+}
+
+#title-card.is-active {
+  opacity: 1;
+  animation: title-card-in 2600ms ease-out;
+}
+
+#title-card-text {
+  font-size: clamp(24px, 3.6vw, 44px);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-shadow: 0 2px 26px rgba(0, 0, 0, 0.9);
+}
+
+@keyframes title-card-in {
+  0% {
+    opacity: 0;
+    letter-spacing: 0.4em;
+  }
+  30% {
+    opacity: 1;
+    letter-spacing: 0.22em;
+  }
+  100% {
+    opacity: 1;
+    letter-spacing: 0.22em;
+  }
+}
+
+/* --- Skip prompt --------------------------------------------------------
+ * A hold, not a tap: Esc is also 'cancel', and a tap would skip the opening
+ * every time a player closed a panel.
+ */
+#title-skip {
+  position: absolute;
+  right: 26px;
+  bottom: 26px;
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  pointer-events: none;
+}
+
+#title-skip.is-active {
+  display: flex;
+}
+
+#title-skip b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+#title-skip-bar {
+  width: 128px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+#title-skip-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--amber);
 }

@@ -1,0 +1,13 @@
+
+> machine-move-forward@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 C:/Users/hwash/Documents/MachineMoveForward
+
+
+ Test Files  87 passed (87)
+      Tests  994 passed (994)
+   Start at  20:45:36
+   Duration  4.59s (transform 5.84s, setup 0ms, import 14.20s, tests 14.51s, environment 20ms)
+

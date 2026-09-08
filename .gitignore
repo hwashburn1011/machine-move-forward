@@ -5,3 +5,9 @@ test-results
 playwright-report
 *.local
 .DS_Store
+.superpowers
+__pycache__/
+*.blend1
+# Reproducible trailer capture/edit intermediates; published media lives in docs/media.
+/assets/trailer/
+/automation-run.log

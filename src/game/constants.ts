@@ -38,8 +38,18 @@ export const MACHINE_TILES_Z = 8;
  * The centre, not the surface: the plate has thickness, and what a character
  * stands on is `DECK_SURFACE_Y`. Placing anything by this value alone puts it
  * half a plate too low.
+ *
+ * Raised from 2.4 to make room for the engine room hollowed out of the hull
+ * beneath. `LEVEL_HEIGHT` below the deck plane lands exactly on the hull's
+ * existing underside at 0.6, so the engine room is a full storey on the same
+ * uniform grid spacing as everything the player builds — no special case, and
+ * `cellCenter` addresses it as level -1 with no extra arithmetic.
+ *
+ * The running gear does NOT move with this. Treads, wheels, cross-members and
+ * the plough are anchored to absolute ground in `MachineGeometry`, because
+ * they sit on the sand rather than hanging off the deck.
  */
-export const DECK_HEIGHT = 2.4;
+export const DECK_HEIGHT = 3.6;
 
 /** Half the deck plate's thickness. The collider is built to match. */
 export const DECK_PLATE_HALF = 0.09;
@@ -68,15 +78,51 @@ export const REFERENCE_WEIGHT = 12000;
 // ---------------------------------------------------------------------------
 
 /**
- * Buildable envelope, in grid cells. Wider and deeper than the starting deck
- * so the player can extend outward, which is what makes multi-room structures
- * achievable at all — the bare deck is mostly occupied by equipment.
+ * Buildable envelope, in grid cells.
+ *
+ * Enormous on purpose: fifty tiles is a hundred metres in every direction from
+ * a machine that is ten metres by sixteen. It was two tiles past the deck
+ * edge, which is enough for a lean-to and not enough for anything a player
+ * would call theirs, and the point of a build system is that the answer to
+ * "can I put one more out there" is yes.
+ *
+ * It costs nothing to leave it this wide. The grid is sparse — four `Map`s
+ * keyed by cell, so an empty cell has no representation at all — and the only
+ * full sweeps of the envelope are `deckCells` and the machine's equipment
+ * projection, both once at construction and both about ten thousand cheap
+ * iterations.
+ *
+ * It is a hard limit rather than no limit because the number wants to be
+ * somewhere, and out past this the world stops cooperating in two ways worth
+ * knowing about:
+ *
+ *   - **Shadows stop at ±22m**, which is the sun's shadow camera (`Renderer`),
+ *     kept tight because the machine never leaves the origin and a tight box
+ *     is what buys sharp shadows everywhere else. Build past that and the
+ *     structure is lit but casts nothing.
+ *   - **The dunes come back at ±30m in X.** The dune field flattens a corridor
+ *     for the machine — level within 10m, blending to full height by 30m
+ *     (`DUNE_PARAMS.corridor*`) — so a deck built far out to the side will have
+ *     sand standing through it.
+ *
+ * Neither is a reason to stop the player; both are reasons to know where the
+ * comfortable envelope ends.
  */
-export const GRID_MIN_X = -4;
-export const GRID_MAX_X = 4;
-export const GRID_MIN_Z = -6;
-export const GRID_MAX_Z = 5;
+export const GRID_MIN_X = -50;
+export const GRID_MAX_X = 50;
+export const GRID_MIN_Z = -50;
+export const GRID_MAX_Z = 50;
 export const GRID_LEVELS = 3;
+
+/**
+ * Lowest addressable build level.
+ *
+ * -1 is the engine room hollowed out of the hull. It is a real level on the
+ * same uniform spacing as everything above, which is what lets enemies path
+ * down into it — an interior the player could retreat to and never be followed
+ * would be the safe-room problem the sealed-room design deliberately avoids.
+ */
+export const GRID_MIN_LEVEL = -1;
 
 /** Vertical spacing between build levels, in metres. */
 export const LEVEL_HEIGHT = 3;
@@ -142,8 +188,60 @@ export const PLAYER_EYE_HEIGHT = 1.62;
  */
 export const AUTOSTEP_HEIGHT = 0.45;
 
+/** Shared by the character controller and enemy obstacle probes. */
+export const MAX_SLOPE_CLIMB_ANGLE = (50 * Math.PI) / 180;
+
 /** Falling below this Y means the player left the machine. */
 export const RESPAWN_Y_THRESHOLD = -20;
+
+/**
+ * Below this, a character is standing on the desert rather than on the machine.
+ *
+ * The engine-room floor is the lowest deck anyone can stand on, at 0.6, which
+ * puts a standing capsule's centre around 1.56. The desert floor puts it around
+ * 0.61. A metre cleanly separates the two, and being generous in the wrong
+ * direction would sweep a player out of their own engine room.
+ *
+ * Both characters read it, for opposite fates: the player starts dying (see
+ * `LOST_IN_THE_DESERT_S`), and a scavenger is simply gone. It moved here from
+ * `Game` when the second caller appeared.
+ */
+export const ON_THE_SAND_Y = 1.0;
+
+/**
+ * The desert floor, as something you can stand on.
+ *
+ * The terrain has never had a collider — `TerrainChunk` says so, on the
+ * grounds that nothing in the game can reach the ground. That stopped being
+ * true the moment a player walked off the side: they fell straight through the
+ * sand, past -17, and were respawned by the threshold above, having never
+ * touched anything.
+ *
+ * FLAT, and deliberately so for now. The dune field is displaced on the GPU
+ * and would want a scrolling heightfield to match exactly, but the machine
+ * drives down a corridor the dunes are flattened inside — 92% removed within
+ * 10m of the centreline — so within the band a falling player can actually
+ * reach, the real surface is this to within a few tens of centimetres.
+ * A heightfield is the honest version and is worth doing when anything other
+ * than a player who has just jumped off needs to walk out there.
+ */
+export const DESERT_FLOOR_Y = -0.35;
+
+/**
+ * How long you last out on the sand once the machine has left you.
+ *
+ * The machine cruises at exactly the speed you sprint, so on foot you can hold
+ * station with it and never close — there is no catching it, and standing in
+ * an empty desert waiting to slide off the edge of the world is not an
+ * outcome. This makes falling off cost something, promptly and legibly.
+ *
+ * Long enough to see what has happened and swear; short enough that it reads
+ * as a consequence rather than a wait.
+ */
+export const LOST_IN_THE_DESERT_S = 4;
+/** How far the standable floor reaches, in metres either side of the machine. */
+export const DESERT_FLOOR_HALF_X = 70;
+export const DESERT_FLOOR_HALF_Z = 130;
 
 /** Seconds face-down before a killed player is put back on the deck. */
 export const RESPAWN_DELAY_S = 3;

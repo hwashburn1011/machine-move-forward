@@ -103,6 +103,32 @@ describe('PlayerStats', () => {
     expect(fn).toHaveBeenCalledTimes(2);
   });
 
+  it('restores saved health without replaying damage or death', () => {
+    const { bus, stats } = make();
+    const damaged = vi.fn();
+    const died = vi.fn();
+    bus.on('player:damaged', damaged);
+    bus.on('player:died', died);
+
+    stats.damage(70, 'enemy');
+    damaged.mockClear();
+    stats.restoreHealth(42);
+
+    expect(stats.health).toBe(42);
+    expect(stats.alive).toBe(true);
+    expect(damaged).not.toHaveBeenCalled();
+    expect(died).not.toHaveBeenCalled();
+  });
+
+  it('clamps invalid saved health to a live bounded value', () => {
+    const { stats } = make();
+    stats.restoreHealth(999);
+    expect(stats.health).toBe(stats.maxHealth);
+    stats.restoreHealth(-5);
+    expect(stats.health).toBe(0);
+    expect(stats.alive).toBe(false);
+  });
+
   it('clamps stamina to 0..max', () => {
     const { stats } = make();
     stats.drainStamina(500);

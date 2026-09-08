@@ -1,0 +1,934 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-08T01:41:19.830Z",
+  "encoder": "meshoptimizer 1.1.1",
+  "texturePolicy": "optimized GLBs require EXT_texture_webp and select baseColor/emissive WebP q92 at 1K or normal/ORM lossless WebP at 512; original 1K PNG masters remain in staging; WebP does not reduce GPU residency",
+  "geometryPolicy": "EXT_meshopt parents use a placeholder fallback buffer sized for decoded accessors; compressed payloads remain in GLB BIN",
+  "assets": [
+    {
+      "asset": "automatic-collector",
+      "sourceBytes": 13022268,
+      "optimizedBytes": 1240972,
+      "sourceGeometryBytes": 600688,
+      "compressedGeometryBytes": 435027,
+      "meshoptFallbackBufferBytes": 600688,
+      "sourceTextureBytes": 12408410,
+      "webpTextureBytes": 785290,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "Expansion_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 920919,
+          "webpBytes": 7248,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986282,
+          "webpBytes": 98360,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1146378,
+          "webpBytes": 17070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986234,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1164237,
+          "webpBytes": 43688,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985906,
+          "webpBytes": 98442,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1227288,
+          "webpBytes": 34156,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Ochre_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986499,
+          "webpBytes": 98568,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\expansion-v1\\optimized\\automatic-collector.glb"
+    },
+    {
+      "asset": "automatic-turret",
+      "sourceBytes": 12730664,
+      "optimizedBytes": 1047388,
+      "sourceGeometryBytes": 307552,
+      "compressedGeometryBytes": 238728,
+      "meshoptFallbackBufferBytes": 307552,
+      "sourceTextureBytes": 12408410,
+      "webpTextureBytes": 785290,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "Expansion_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 920919,
+          "webpBytes": 7248,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986282,
+          "webpBytes": 98360,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1164237,
+          "webpBytes": 43688,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985906,
+          "webpBytes": 98442,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1146378,
+          "webpBytes": 17070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986234,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1227288,
+          "webpBytes": 34156,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Ochre_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986499,
+          "webpBytes": 98568,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\expansion-v1\\optimized\\automatic-turret.glb"
+    },
+    {
+      "asset": "navigation-helm",
+      "sourceBytes": 12656388,
+      "optimizedBytes": 975248,
+      "sourceGeometryBytes": 238464,
+      "compressedGeometryBytes": 175459,
+      "meshoptFallbackBufferBytes": 238464,
+      "sourceTextureBytes": 12408410,
+      "webpTextureBytes": 785290,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "Expansion_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1164237,
+          "webpBytes": 43688,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985906,
+          "webpBytes": 98442,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1227288,
+          "webpBytes": 34156,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Ochre_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986499,
+          "webpBytes": 98568,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 920919,
+          "webpBytes": 7248,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986282,
+          "webpBytes": 98360,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1146378,
+          "webpBytes": 17070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986234,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\expansion-v1\\optimized\\navigation-helm.glb"
+    },
+    {
+      "asset": "raider-gunboat",
+      "sourceBytes": 13662680,
+      "optimizedBytes": 1698212,
+      "sourceGeometryBytes": 1262552,
+      "compressedGeometryBytes": 892150,
+      "meshoptFallbackBufferBytes": 1262552,
+      "sourceTextureBytes": 12384794,
+      "webpTextureBytes": 781988,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "ExpansionRaid_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpansionRaid_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 920919,
+          "webpBytes": 7248,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpansionRaid_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986282,
+          "webpBytes": 98360,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpansionRaid_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpansionRaid_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1122762,
+          "webpBytes": 13768,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpansionRaid_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986234,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpansionRaid_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpansionRaid_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1164237,
+          "webpBytes": 43688,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpansionRaid_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985906,
+          "webpBytes": 98442,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpansionRaid_Ochre_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "ExpansionRaid_Ochre_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1227288,
+          "webpBytes": 34156,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "ExpansionRaid_Ochre_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986499,
+          "webpBytes": 98568,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\expansion-v1\\optimized\\raider-gunboat.glb"
+    },
+    {
+      "asset": "relay-foundry",
+      "sourceBytes": 13692972,
+      "optimizedBytes": 1704328,
+      "sourceGeometryBytes": 1272136,
+      "compressedGeometryBytes": 899093,
+      "meshoptFallbackBufferBytes": 1272136,
+      "sourceTextureBytes": 12408410,
+      "webpTextureBytes": 785290,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "Expansion_Dark_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001109,
+          "webpBytes": 71302,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Dark_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 920919,
+          "webpBytes": 7248,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Dark_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986282,
+          "webpBytes": 98360,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001676,
+          "webpBytes": 71312,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Paint_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1146378,
+          "webpBytes": 17070,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Paint_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986234,
+          "webpBytes": 98412,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1000843,
+          "webpBytes": 75330,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1164237,
+          "webpBytes": 43688,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 985906,
+          "webpBytes": 98442,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1001039,
+          "webpBytes": 71402,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Expansion_Ochre_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1227288,
+          "webpBytes": 34156,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Expansion_Ochre_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 986499,
+          "webpBytes": 98568,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\expansion-v1\\optimized\\relay-foundry.glb"
+    }
+  ]
+}

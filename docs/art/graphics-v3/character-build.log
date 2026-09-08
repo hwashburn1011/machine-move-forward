@@ -1,0 +1,35 @@
+00:00.391  blend            | Read blend: "C:\Users\hwash\Documents\MachineMoveForward\assets\blender\player.blend"
+C:\Users\hwash\Documents\MachineMoveForward\tools\art\graphics_v3\characters.py:59: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new(name); m.use_nodes=True
+Info: Saved as "player.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+20:07:49 | INFO: Starting glTF 2.0 export
+20:07:49 | INFO: Extracting primitive: Fitted field jacket
+20:07:49 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:07:49 | INFO: Primitives created: 9
+20:07:49 | INFO: Finished glTF 2.0 export in 0.44972729682922363 s
+00:46.484  blend            | Read blend: "C:\Users\hwash\Documents\MachineMoveForward\assets\blender\raider.blend"
+
+V3_CHARACTER {"asset": "player", "triangles": 52156, "bytes": 5341452, "materials": 9}
+Info: Saved as "raider.blend"
+20:08:41 | INFO: Starting glTF 2.0 export
+20:08:41 | INFO: Extracting primitive: Fitted field jacket
+20:08:41 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:08:41 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:08:41 | INFO: Primitives created: 11
+20:08:42 | INFO: Finished glTF 2.0 export in 0.5092639923095703 s
+01:38.859  blend            | Read blend: "C:\Users\hwash\Documents\MachineMoveForward\assets\blender\scavenger.blend"
+
+V3_CHARACTER {"asset": "raider", "triangles": 55332, "bytes": 5710092, "materials": 11}
+Info: Saved as "scavenger.blend"
+20:08:53 | INFO: Starting glTF 2.0 export
+20:08:53 | INFO: Extracting primitive: Cast thorax
+20:08:53 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:08:53 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:08:53 | INFO: Primitives created: 6
+20:08:53 | INFO: Finished glTF 2.0 export in 0.3955698013305664 s
+
+V3_CHARACTER {"asset": "scavenger", "triangles": 24512, "bytes": 3243772, "materials": 6}
+Blender 5.1.0 (hash adfe2921d5f3 built 2026-03-17 01:37:32)
+
+Blender quit

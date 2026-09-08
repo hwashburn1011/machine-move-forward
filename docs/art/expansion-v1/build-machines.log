@@ -1,0 +1,65 @@
+Info: Saved as "raider-gunboat.blend"
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+21:33:32 | INFO: Starting glTF 2.0 export
+21:33:32 | INFO: Extracting primitive: Cube.034
+21:33:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:32 | INFO: Primitives created: 1
+21:33:32 | INFO: Extracting primitive: Cube.030
+21:33:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:32 | INFO: Primitives created: 3
+21:33:32 | INFO: Extracting primitive: Cylinder.006
+21:33:32 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:32 | INFO: Primitives created: 3
+21:33:32 | INFO: Extracting primitive: Compound tapered hull
+21:33:32 | INFO: Primitives created: 4
+21:33:32 | INFO: Extracting primitive: Cube.031
+21:33:32 | INFO: Primitives created: 1
+21:33:32 | INFO: Finished glTF 2.0 export in 0.1029362678527832 s
+C:\Users\hwash\Documents\MachineMoveForward\tools\art\expansion_v1\build_assets.py:30: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat=bpy.data.materials.new('Expansion_StatusLamp');mat.use_nodes=True
+
+EXPANSION_ASSET {"asset": "raider-gunboat", "triangles": 30048, "meshes": 5, "bounds": {"min": [-1.6822330951690674, 0.2802206873893738, -4.5], "max": [1.6822330951690674, 3.862499952316284, 4.5]}, "markers": {"GunboatRoot": [0.0, 0.0, -0.0], "GunboatGunYaw": [0.0, 3.200000047683716, -1.7000000476837158], "GunboatGunPitch": [0.0, 3.6000001430511475, -1.7000000476837158], "GunboatMuzzle": [0.0, 3.6000001430511475, -3.5], "WeaponDamageAnchor": [0.0, 3.4000000953674316, -1.7000000476837158], "WeaponDisabled": [0.0, 3.4000000953674316, -1.7000000476837158], "EngineDamageAnchor": [0.0, 3.200000047683716, 2.799999952316284], "EngineExhaust": [0.0, 3.180000066757202, 3.799999952316284], "EngineDisabled": [0.0, 3.200000047683716, 2.799999952316284]}, "bytes": 13452496}
+Info: Saved as "automatic-collector.blend"
+21:33:39 | INFO: Starting glTF 2.0 export
+21:33:39 | INFO: Extracting primitive: Cube.009
+21:33:39 | INFO: Primitives created: 1
+21:33:39 | INFO: Extracting primitive: Cube
+21:33:39 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:39 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:39 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:39 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:39 | INFO: Primitives created: 4
+21:33:39 | INFO: Extracting primitive: Cube.004
+21:33:39 | INFO: Primitives created: 2
+21:33:39 | INFO: Extracting primitive: Cylinder.002
+21:33:39 | INFO: Primitives created: 3
+21:33:39 | INFO: Extracting primitive: Cylinder.006
+21:33:39 | INFO: Primitives created: 1
+21:33:39 | INFO: Finished glTF 2.0 export in 0.0798335075378418 s
+
+EXPANSION_ASSET {"asset": "automatic-collector", "triangles": 18872, "meshes": 5, "bounds": {"min": [-0.8109999895095825, 0.0, -0.7799999713897705], "max": [0.8109999895095825, 1.3459783792495728, 0.7799999713897705]}, "markers": {"CollectorRoot": [0.0, 0.0, -0.0], "DrumPivot": [0.0, 0.75, -0.0], "GuidePivot": [0.0, 1.0499999523162842, -0.44999998807907104], "ControllerInstalled": [0.4699999988079071, 0.38999998569488525, 0.46000000834465027], "BufferLamp": [0.0, 0.7200000286102295, 0.7200000286102295], "HookExit": [0.0, 1.0299999713897705, -0.7699999809265137], "CollectorInteract": [0.0, 0.699999988079071, 0.8600000143051147]}, "bytes": 13021604}
+Info: Saved as "automatic-turret.blend"
+21:33:42 | INFO: Starting glTF 2.0 export
+21:33:42 | INFO: Extracting primitive: Cube
+21:33:42 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:42 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:42 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:42 | INFO: Primitives created: 3
+21:33:42 | INFO: Extracting primitive: Cube.012
+21:33:42 | INFO: Primitives created: 1
+21:33:42 | INFO: Extracting primitive: Cylinder.009
+21:33:42 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+21:33:42 | INFO: Primitives created: 1
+21:33:42 | INFO: Extracting primitive: Cube.006
+21:33:42 | INFO: Primitives created: 3
+21:33:42 | INFO: Extracting primitive: Cube.004
+21:33:42 | INFO: Primitives created: 3
+21:33:42 | INFO: Extracting primitive: Torus
+21:33:42 | INFO: Primitives created: 2
+21:33:42 | INFO: Finished glTF 2.0 export in 0.0685880184173584 s
+
+EXPANSION_ASSET {"asset": "automatic-turret", "triangles": 10512, "meshes": 6, "bounds": {"min": [-0.6700000166893005, 0.0, -0.7070000171661377], "max": [0.6700000166893005, 1.3600000143051147, 0.6700000166893005]}, "markers": {"AutoTurretRoot": [0.0, 0.0, -0.0], "TurretYaw": [0.0, 0.7799999713897705, -0.0], "TurretPitch": [0.0, 1.149999976158142, -0.0], "Muzzle": [0.0, 1.1699999570846558, -0.6700000166893005], "TrackerHead": [0.30000001192092896, 1.25, -0.10000000149011612], "ServoInstalled": [-0.3499999940395355, 1.0399999618530273, 0.11999999731779099], "PowerLamp": [0.0, 0.4399999976158142, 0.3400000035762787]}, "bytes": 12721460}
+Blender 5.1.0 (hash adfe2921d5f3 built 2026-03-17 01:37:32)
+
+Blender quit

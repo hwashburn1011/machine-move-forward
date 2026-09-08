@@ -1,0 +1,132 @@
+{
+  "generatedAt": "2026-09-07T20:17:47.921Z",
+  "purpose": "Read-only audit before the planned graphics pass",
+  "assets": [
+    {
+      "name": "player",
+      "bytes": 458456,
+      "triangles": 3760,
+      "primitives": 7,
+      "materials": 7,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 7,
+      "bones": 16,
+      "animations": [
+        "Idle",
+        "Running",
+        "Walking"
+      ]
+    },
+    {
+      "name": "scavenger",
+      "bytes": 448300,
+      "triangles": 3468,
+      "primitives": 6,
+      "materials": 6,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 6,
+      "bones": 16,
+      "animations": [
+        "Climb",
+        "Death",
+        "Idle",
+        "Punch",
+        "Running",
+        "Walking"
+      ]
+    },
+    {
+      "name": "raider",
+      "bytes": 480656,
+      "triangles": 3760,
+      "primitives": 7,
+      "materials": 7,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 7,
+      "bones": 16,
+      "animations": [
+        "Climb",
+        "Death",
+        "Idle",
+        "Punch",
+        "Running",
+        "Walking"
+      ]
+    },
+    {
+      "name": "manual-turret",
+      "bytes": 167168,
+      "triangles": 2404,
+      "primitives": 12,
+      "materials": 6,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 12,
+      "bones": 0,
+      "animations": []
+    },
+    {
+      "name": "raider-skiff",
+      "bytes": 549312,
+      "triangles": 10176,
+      "primitives": 12,
+      "materials": 8,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 4,
+      "bones": 0,
+      "animations": []
+    },
+    {
+      "name": "salvaged-radio",
+      "bytes": 171184,
+      "triangles": 2808,
+      "primitives": 8,
+      "materials": 8,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 8,
+      "bones": 0,
+      "animations": []
+    },
+    {
+      "name": "expedition-wreck",
+      "bytes": 642636,
+      "triangles": 10476,
+      "primitives": 20,
+      "materials": 8,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 20,
+      "bones": 0,
+      "animations": []
+    },
+    {
+      "name": "scrap-rifle",
+      "bytes": 89792,
+      "triangles": 1244,
+      "primitives": 6,
+      "materials": 6,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 6,
+      "bones": 0,
+      "animations": []
+    },
+    {
+      "name": "scrap-shotgun",
+      "bytes": 116620,
+      "triangles": 1620,
+      "primitives": 6,
+      "materials": 6,
+      "images": 0,
+      "normalMappedMaterials": 0,
+      "uvPrimitives": 6,
+      "bones": 0,
+      "animations": []
+    }
+  ]
+}

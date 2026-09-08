@@ -1,0 +1,261 @@
+{
+  "asset": "machine-walker",
+  "glb": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\graphics-v3\\staging\\machine-walker.glb",
+  "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\blender\\graphics-v3\\machine-walker.blend",
+  "triangles": 98708,
+  "meshes": 34,
+  "lowerRoomVisualIntrusions": [],
+  "authoredModuleBoundsY": {
+    "MMF_WalkerLeg_front-left_Foot": [
+      0.0,
+      0.3
+    ],
+    "MMF_WalkerLeg_front-left_Hip": [
+      -0.69,
+      0.5
+    ],
+    "MMF_WalkerLeg_front-left_Knee": [
+      -0.39,
+      0.39
+    ],
+    "MMF_WalkerLeg_front-left_Shin": [
+      -1.99,
+      -0.05
+    ],
+    "MMF_WalkerLeg_front-left_Thigh": [
+      -2.05,
+      -0.03
+    ],
+    "MMF_WalkerLeg_front-right_Foot": [
+      0.0,
+      0.3
+    ],
+    "MMF_WalkerLeg_front-right_Hip": [
+      -0.69,
+      0.5
+    ],
+    "MMF_WalkerLeg_front-right_Knee": [
+      -0.39,
+      0.39
+    ],
+    "MMF_WalkerLeg_front-right_Shin": [
+      -1.99,
+      -0.05
+    ],
+    "MMF_WalkerLeg_front-right_Thigh": [
+      -2.05,
+      -0.03
+    ],
+    "MMF_WalkerLeg_rear-left_Foot": [
+      0.0,
+      0.3
+    ],
+    "MMF_WalkerLeg_rear-left_Hip": [
+      -0.69,
+      0.5
+    ],
+    "MMF_WalkerLeg_rear-left_Knee": [
+      -0.39,
+      0.39
+    ],
+    "MMF_WalkerLeg_rear-left_Shin": [
+      -1.99,
+      -0.05
+    ],
+    "MMF_WalkerLeg_rear-left_Thigh": [
+      -2.05,
+      -0.03
+    ],
+    "MMF_WalkerLeg_rear-right_Foot": [
+      0.0,
+      0.3
+    ],
+    "MMF_WalkerLeg_rear-right_Hip": [
+      -0.69,
+      0.5
+    ],
+    "MMF_WalkerLeg_rear-right_Knee": [
+      -0.39,
+      0.39
+    ],
+    "MMF_WalkerLeg_rear-right_Shin": [
+      -1.99,
+      -0.05
+    ],
+    "MMF_WalkerLeg_rear-right_Thigh": [
+      -2.05,
+      -0.03
+    ]
+  },
+  "equipmentBounds": {
+    "generator": {
+      "min": [
+        -3.69,
+        3.75,
+        2.89
+      ],
+      "max": [
+        -2.31,
+        4.875,
+        4.29
+      ]
+    },
+    "fuel-tank": {
+      "min": [
+        2.425,
+        3.82,
+        2.2475
+      ],
+      "max": [
+        3.775,
+        5.06,
+        4.525
+      ]
+    },
+    "workbench": {
+      "min": [
+        -4.805,
+        3.72,
+        -0.65
+      ],
+      "max": [
+        -3.62,
+        4.69,
+        1.85
+      ]
+    },
+    "crate-a": {
+      "min": [
+        2.59,
+        3.73,
+        0.745
+      ],
+      "max": [
+        3.81,
+        4.75,
+        2.01
+      ]
+    },
+    "crate-b": {
+      "min": [
+        2.59,
+        3.73,
+        -0.855
+      ],
+      "max": [
+        3.81,
+        4.75,
+        0.41
+      ]
+    },
+    "collector": {
+      "min": [
+        -3.985,
+        3.7,
+        -4.795
+      ],
+      "max": [
+        -2.85,
+        5.24,
+        -3.645
+      ]
+    }
+  },
+  "equipmentOverflow": {},
+  "roots": [
+    "MMF_HullSkin",
+    "MMF_EngineSkin",
+    "MMF_ProwSkin",
+    "MMF_DeckTrim",
+    "MMF_Equipment_generator",
+    "MMF_Equipment_fuel-tank",
+    "MMF_Equipment_workbench",
+    "MMF_Equipment_crate-a",
+    "MMF_Equipment_crate-b",
+    "MMF_Equipment_collector",
+    "MMF_LegHousing_front-left",
+    "MMF_WalkerLeg_front-left_Hip",
+    "MMF_WalkerLeg_front-left_Thigh",
+    "MMF_WalkerLeg_front-left_Knee",
+    "MMF_WalkerLeg_front-left_Shin",
+    "MMF_WalkerLeg_front-left_Foot",
+    "MMF_LegHousing_front-right",
+    "MMF_WalkerLeg_front-right_Hip",
+    "MMF_WalkerLeg_front-right_Thigh",
+    "MMF_WalkerLeg_front-right_Knee",
+    "MMF_WalkerLeg_front-right_Shin",
+    "MMF_WalkerLeg_front-right_Foot",
+    "MMF_LegHousing_rear-left",
+    "MMF_WalkerLeg_rear-left_Hip",
+    "MMF_WalkerLeg_rear-left_Thigh",
+    "MMF_WalkerLeg_rear-left_Knee",
+    "MMF_WalkerLeg_rear-left_Shin",
+    "MMF_WalkerLeg_rear-left_Foot",
+    "MMF_LegHousing_rear-right",
+    "MMF_WalkerLeg_rear-right_Hip",
+    "MMF_WalkerLeg_rear-right_Thigh",
+    "MMF_WalkerLeg_rear-right_Knee",
+    "MMF_WalkerLeg_rear-right_Shin",
+    "MMF_WalkerLeg_rear-right_Foot"
+  ],
+  "boundsGameMetres": {
+    "min": [
+      -6.79,
+      -2.05,
+      -10.989
+    ],
+    "max": [
+      6.79,
+      6.7,
+      7.925
+    ]
+  },
+  "contract": {
+    "deck": [
+      10.0,
+      16.0,
+      3.6
+    ],
+    "walkSurfaceY": 3.69,
+    "engineRoomFloorY": 0.6,
+    "stairwell": {
+      "x": [
+        -3.0,
+        -1.0
+      ],
+      "z": [
+        -2.0,
+        2.0
+      ],
+      "aftEdgeOpen": true
+    },
+    "legHips": {
+      "front-left": [
+        -6.0,
+        3.1,
+        -4.5
+      ],
+      "front-right": [
+        6.0,
+        3.1,
+        -4.5
+      ],
+      "rear-left": [
+        -6.0,
+        3.1,
+        4.5
+      ],
+      "rear-right": [
+        6.0,
+        3.1,
+        4.5
+      ]
+    },
+    "runtimeOwned": [
+      "colliders",
+      "deckCells",
+      "MachineLegs IK",
+      "plough collider"
+    ]
+  }
+}

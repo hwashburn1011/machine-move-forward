@@ -1,0 +1,35 @@
+PASS  a fresh boot starts on salvage
+PASS  the manual gun starts locked
+PASS  the live salvage crate can be hooked
+PASS  opening the live crate advances salvage
+PASS  salvage grants the manual gun blueprint once
+PASS  real floor placement supports the refinery
+PASS  the refinery placement advances the objective
+PASS  the powered refinery makes eight components in four batches
+PASS  eight crafted components advance the guided objective -- 10 components
+PASS  the workbench is built through normal resource costs
+PASS  the workbench advances the guided objective
+PASS  the unlocked manual gun mounts on a real floor
+PASS  the manual gun opens through the game interaction path
+PASS  the manual gun is crewed through the game interaction seam
+PASS  crewing the gun enters the boarding objective
+PASS  the tutorial has a real fifteen-second simulated ready window -- 14.999666666666666s
+PASS  the acceptance run has a real damaged subsystem to repair
+PASS  the tutorial skiff starts after the ready window
+PASS  the tutorial skiff hull is a live physics Damageable
+PASS  hull defense reaches the tutorial terminal outcome
+PASS  the damaged boarding outcome enters repair
+PASS  the tutorial defense starts the normal recovery window
+PASS  holding E at the real engine panel repairs the machine
+PASS  the guided first run completes under 900 simulated seconds -- 19.233s
+PASS  calm Save & Quit returns to the title after a successful write
+PASS  Continue restores the completed objective and blueprint
+PASS  Continue restores turret orientation and fuel -- {"before":{"orientation":{"yaw":0.4,"pitch":0.12},"fuel":37,"complete":true},"after":{"complete":true,"blueprint":true,"orientation":{"yaw":0.4,"pitch":0.12},"fuel":36.993000000000016,"tutorialActive":false}}
+PASS  Continue does not repeat the tutorial skiff
+PASS  a live enemy can be started for queued Save & Quit
+PASS  combat Save & Quit queues and resumes with visible feedback
+PASS  the queued save is released by an actual enemy kill
+PASS  queued Save & Quit reaches title after the enemy is cleared
+PASS  storage failure stays open and paused with feedback
+
+33/33 first-run checks passed

@@ -15,13 +15,17 @@ import * as THREE from 'three';
  */
 
 /** Material slots that have a texture set on disk. */
-export type TexturedSlot = 'hull' | 'rusted-steel' | 'deck-plate' | 'build-plate';
+export type TexturedSlot = 'hull' | 'rusted-steel' | 'deck-plate' | 'build-plate' | 'sand';
 
 export const TEXTURED_SLOTS: readonly TexturedSlot[] = [
   'hull',
   'rusted-steel',
   'deck-plate',
   'build-plate',
+  // The dunes. Sampled in world space by the terrain shader rather than bound
+  // to a material slot, because a terrain chunk is 360m by 64m and its own UVs
+  // would stretch a 1k tile into stripes.
+  'sand',
 ];
 
 export interface TextureSet {

@@ -1,6 +1,12 @@
 import RAPIER from '@dimforge/rapier3d-compat';
 import * as THREE from 'three';
-import { AUTOSTEP_HEIGHT, FIXED_DT, GRAVITY, CHARACTER_SKIN } from '@/game/constants';
+import {
+  AUTOSTEP_HEIGHT,
+  FIXED_DT,
+  GRAVITY,
+  CHARACTER_SKIN,
+  MAX_SLOPE_CLIMB_ANGLE,
+} from '@/game/constants';
 
 let rapierReady = false;
 
@@ -69,6 +75,84 @@ export class PhysicsWorld {
   }
 
   /** A static box. Used for the deck, tread housings, prow, and equipment. */
+  /**
+   * A kinematic body to hang the machine's collider shapes off.
+   *
+   * One body with many colliders, not many bodies: posing the machine is then
+   * a single write per step instead of one per shape, and the shapes cannot
+   * drift out of register with each other.
+   */
+  /**
+   * A body that behaves like a fixed one but is DYNAMIC, so Rapier still
+   * generates contacts against the kinematic player capsule.
+   *
+   * Rapier skips collision between two non-dynamic bodies, which is why a
+   * kinematic machine left the character controller with nothing to resolve
+   * against. Locked translations and rotations plus zero gravity make this
+   * immovable by the solver; it is repositioned explicitly instead.
+   */
+  createDrivenBody(position?: THREE.Vector3, rotation?: THREE.Quaternion): RAPIER.RigidBody {
+    const desc = RAPIER.RigidBodyDesc.dynamic()
+      .lockTranslations()
+      .lockRotations()
+      .setGravityScale(0);
+    if (position) desc.setTranslation(position.x, position.y, position.z);
+    if (rotation) {
+      desc.setRotation({ x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w });
+    }
+    return this.world.createRigidBody(desc);
+  }
+
+  createKinematicBody(position?: THREE.Vector3, rotation?: THREE.Quaternion): RAPIER.RigidBody {
+    const desc = RAPIER.RigidBodyDesc.kinematicPositionBased();
+    if (position) desc.setTranslation(position.x, position.y, position.z);
+    if (rotation) {
+      desc.setRotation({ x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w });
+    }
+    return this.world.createRigidBody(desc);
+  }
+
+  /** Attach a box to a body, positioned in that body's local space. */
+  addBoxTo(
+    body: RAPIER.RigidBody,
+    halfExtents: THREE.Vector3,
+    localPosition: THREE.Vector3,
+    localRotation?: THREE.Quaternion,
+    userData?: unknown,
+  ): RAPIER.Collider {
+    const desc = RAPIER.ColliderDesc.cuboid(
+      halfExtents.x,
+      halfExtents.y,
+      halfExtents.z,
+    ).setTranslation(localPosition.x, localPosition.y, localPosition.z);
+    if (localRotation) {
+      desc.setRotation({
+        x: localRotation.x,
+        y: localRotation.y,
+        z: localRotation.z,
+        w: localRotation.w,
+      });
+    }
+    const collider = this.world.createCollider(desc, body);
+    if (userData !== undefined) this.setUserData(collider, userData);
+    return collider;
+  }
+
+  /** Move a kinematic body. Rapier interpolates to this over the next step. */
+  setKinematicPose(
+    body: RAPIER.RigidBody,
+    position: THREE.Vector3,
+    rotation: THREE.Quaternion,
+  ): void {
+    body.setNextKinematicTranslation({ x: position.x, y: position.y, z: position.z });
+    body.setNextKinematicRotation({
+      x: rotation.x,
+      y: rotation.y,
+      z: rotation.z,
+      w: rotation.w,
+    });
+  }
+
   addFixedBox(
     halfExtents: THREE.Vector3,
     position: THREE.Vector3,
@@ -141,11 +225,59 @@ export class PhysicsWorld {
     // autostep the player catches on every one of them.
     controller.enableAutostep(AUTOSTEP_HEIGHT, 0.2, true);
     controller.enableSnapToGround(0.4);
-    controller.setMaxSlopeClimbAngle((50 * Math.PI) / 180);
+    controller.setMaxSlopeClimbAngle(MAX_SLOPE_CLIMB_ANGLE);
     controller.setMinSlopeSlideAngle((40 * Math.PI) / 180);
     controller.setApplyImpulsesToDynamicBodies(false);
 
     return { body, collider, controller };
+  }
+
+  /**
+   * Move a character by its own movement, then carry it with its platform.
+   *
+   * `own` is what the character is trying to do — input, gravity, a jump — and
+   * is resolved against the world by the controller, which is what stops it
+   * walking through walls. `carry` is how far the ground under it moved this
+   * step, and is applied AFTERWARDS, untouched.
+   *
+   * The two must not be added together and handed to the controller as one
+   * vector, which is what this used to do. A character standing still is
+   * pushed gently downward every step so the controller keeps finding the
+   * ground (`Player.fixedUpdate`), and that push is an order of magnitude
+   * larger than a step of platform rise. Summed, the rise vanishes into it,
+   * the controller resolves the whole thing as "down", and a deck moving up
+   * climbs straight through the character instead of lifting them. They track
+   * a falling deck, because gravity does that work, and not a rising one:
+   * measured at 0.24m of sink on a deck heaving 0.11m.
+   *
+   * Applying it separately is also what makes carrying exact. The machine
+   * moves rigidly, so a point on it cannot be carried into another part of it,
+   * and a displacement that never passes through the solver cannot be
+   * partially absorbed, projected along a slope, or otherwise ratcheted.
+   *
+   * Returns whether the character is on the ground.
+   */
+  moveCharacter(
+    handle: CharacterHandle,
+    position: THREE.Vector3,
+    own: THREE.Vector3,
+    carry: { x: number; y: number; z: number },
+  ): boolean {
+    handle.controller.computeColliderMovement(handle.collider, {
+      x: own.x,
+      y: own.y,
+      z: own.z,
+    });
+    const moved = handle.controller.computedMovement();
+    const grounded = handle.controller.computedGrounded();
+
+    position.set(
+      position.x + moved.x + carry.x,
+      position.y + moved.y + carry.y,
+      position.z + moved.z + carry.z,
+    );
+    handle.body.setNextKinematicTranslation({ x: position.x, y: position.y, z: position.z });
+    return grounded;
   }
 
   setUserData(collider: RAPIER.Collider, data: unknown): void {
