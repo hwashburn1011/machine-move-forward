@@ -2,30 +2,49 @@
 > machine-move-forward@0.1.0 test:e2e
 > playwright test
 
-[WebServer] (node:4480) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
 
 Running 38 tests using 1 worker
 
-(node:15104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:27440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-[WebServer] 10:14:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
-  x   1 tests\e2e\damage.spec.ts:41:3 › machine damage › a wrecked engine stops the machine, and repairing it starts it again (1.0m)
-(node:24068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[WebServer] 10:15:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
-  x   2 tests\e2e\damage.spec.ts:90:3 › machine damage › the player can walk to the engine and hold E to start it again (40.9s)
-(node:29808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[WebServer] 10:16:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
-  ok  3 tests\e2e\damage.spec.ts:135:3 › machine damage › a damaged leg slows the machine without stopping it (24.8s)
-[WebServer] 10:16:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
-  x   4 tests\e2e\damage.spec.ts:160:3 › machine damage › a wall takes damage and is destroyed, taking what it carried with it (14.2s)
-(node:24112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[WebServer] 10:16:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
-  x   5 tests\e2e\damage.spec.ts:207:3 › machine damage › an enemy on the far side of a wall does not reach the player through it (21.5s)
-(node:4872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[WebServer] 10:17:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
-[WebServer] 10:17:20 PM [vite] (client) [console.warn] THREE.WebGLRenderer: KHR_parallel_shader_compile extension not supported.
+  ok  1 tests\e2e\damage.spec.ts:41:3 › machine damage › a wrecked engine stops the machine, and repairing it starts it again (14.4s)
+  ok  2 tests\e2e\damage.spec.ts:90:3 › machine damage › the player can walk to the engine and hold E to start it again (6.6s)
+  ok  3 tests\e2e\damage.spec.ts:135:3 › machine damage › a damaged leg slows the machine without stopping it (4.0s)
+  ok  4 tests\e2e\damage.spec.ts:160:3 › machine damage › a wall takes damage and is destroyed, taking what it carried with it (2.9s)
+  ok  5 tests\e2e\damage.spec.ts:207:3 › machine damage › an enemy on the far side of a wall does not reach the player through it (2.9s)
+  ok  6 tests\e2e\playable-loop.spec.ts:30:3 › playable loop › salvage unlocks the manual gun and gates direct placement before it (4.4s)
+  ok  7 tests\e2e\playable-loop.spec.ts:61:3 › playable loop › a crewed deck gun can ray-hit the spawned skiff hull from its authored muzzle (5.4s)
+  ok  8 tests\e2e\playable-loop.spec.ts:160:3 › playable loop › power loss suppresses manual fire and combat saves refuse an active enemy (3.3s)
+  ok  9 tests\e2e\playable-loop.spec.ts:199:3 › playable loop › a close wall blocks a player volley by collider identity (5.4s)
+  ok 10 tests\e2e\playable-loop.spec.ts:263:3 › playable loop › a scheduled volley damages an exposed turret while the player is covered (6.2s)
+  ok 11 tests\e2e\playable-loop.spec.ts:307:3 › playable loop › tutorial side follows four gun rotations after dismount (3.3s)
+  ok 12 tests\e2e\playable-loop.spec.ts:340:3 › playable loop › autosave waits for a clear deck and backs off after storage failure (3.4s)
+  ok 13 tests\e2e\playable-loop.spec.ts:395:3 › playable loop › calm save succeeds and storage failure stays in memory with visible feedback (3.4s)
+  ok 14 tests\e2e\power.spec.ts:149:3 › power and light › a new machine starts with a generator making power from its own tank (2.9s)
+  ok 15 tests\e2e\power.spec.ts:158:3 › power and light › the refinery refuses to run without power and runs the moment it has it (4.8s)
+  ok 16 tests\e2e\power.spec.ts:209:3 › power and light › a lamp hangs on a wall and is refused on bare air (2.9s)
+brightness: unlit=60.83 lit=88.84 dark=60.83
+  ok 17 tests\e2e\power.spec.ts:224:3 › power and light › a sealed room is dark no longer, and dark again when the power sheds (10.7s)
+  ok 18 tests\e2e\power.spec.ts:296:3 › power and light › the tank survives a save and a reload (4.2s)
+  ok 19 tests\e2e\power.spec.ts:318:3 › power and light › feeding the generator moves fuel from the bag into the tank (2.9s)
+  ok 20 tests\e2e\seen.spec.ts:43:3 › what the player can see › stairs go where the deck is floored, not off the edge of the hull (1.3s)
+  ok 21 tests\e2e\seen.spec.ts:122:3 › what the player can see › the weapon stays in the hand, in every pose and on both weapons (11.7s)
+  ok 22 tests\e2e\smoke.spec.ts:62:3 › Machine Move Forward › boots without console errors and renders a real frame (2.9s)
+  ok 23 tests\e2e\smoke.spec.ts:76:3 › Machine Move Forward › the screenshot is not a uniform colour (3.1s)
+  ok 24 tests\e2e\smoke.spec.ts:83:3 › Machine Move Forward › the machine travels forward on its own (4.9s)
+  ok 25 tests\e2e\smoke.spec.ts:90:3 › Machine Move Forward › the player stands on the deck and can walk (3.8s)
+  ok 26 tests\e2e\smoke.spec.ts:109:3 › Machine Move Forward › firing consumes ammo (3.7s)
+  ok 27 tests\e2e\smoke.spec.ts:121:3 › Machine Move Forward › the HUD reports live values (2.9s)
+  ok 28 tests\e2e\smoke.spec.ts:128:3 › Machine Move Forward › the debug overlay toggles (3.4s)
+  ok 29 tests\e2e\smoke.spec.ts:136:3 › Machine Move Forward › save and reload restores distance and ammo (6.9s)
+  ok 30 tests\e2e\smoke.spec.ts:164:3 › Machine Move Forward › a built structure survives save and reload (2.9s)
+  ok 31 tests\e2e\smoke.spec.ts:205:3 › Machine Move Forward › crafted ammo reaches the reserve and survives save and reload (2.9s)
+  ok 32 tests\e2e\smoke.spec.ts:250:3 › Machine Move Forward › the world survives a long jump forward (4.0s)
+  ok 33 tests\e2e\title.spec.ts:47:3 › the title screen › nomenu=1 boots straight into gameplay, exactly as before (2.9s)
+  ok 34 tests\e2e\title.spec.ts:64:3 › the title screen › the menu comes up over a live machine, with the HUD out of the way (4.3s)
+  ok 35 tests\e2e\title.spec.ts:87:3 › the title screen › Continue is hidden when there is nothing to continue (2.7s)
+  ok 36 tests\e2e\title.spec.ts:99:3 › the title screen › New Game drops the player onto the rooftop, beside a stopped machine (3.5s)
+  ok 37 tests\e2e\title.spec.ts:123:3 › the title screen › Settings opens, moves the volume, and remembers it across a reload (4.9s)
+  ok 38 tests\e2e\title.spec.ts:143:3 › the title screen › Esc in play pauses, and the world genuinely stops behind the menu (4.7s)
+
+  38 passed (2.9m)

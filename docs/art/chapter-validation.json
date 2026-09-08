@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T02:19:31.102Z",
+  "generatedAt": "2026-09-08T03:03:46.074Z",
   "baseUrl": "http://localhost:5194",
   "honestLabels": {
     "normalOpeningRadio": "normal opening economy plus real hook/reel; no direct grants",
@@ -21,7 +21,7 @@
     {
       "name": "the first eligible chest spawns within 45m",
       "ok": true,
-      "detail": "{\"x\":-16.49620167259127,\"y\":2.195445475075394,\"z\":-41.961446408035144,\"distance\":44.24580302256052}",
+      "detail": "{\"x\":-16.49620167259127,\"y\":2.195445475075394,\"z\":-41.97384363514901,\"distance\":44.25937120927759}",
       "flow": "normalOpeningRadio"
     },
     {
@@ -39,7 +39,7 @@
     {
       "name": "the radio is found through the real hook/reel path",
       "ok": true,
-      "detail": "{\"hooked\":1,\"radio\":[{\"source\":\"salvage-crate\",\"distance\":44.33373174832492,\"elapsedSincePlayable\":6.313333333333317}],\"opened\":2}",
+      "detail": "{\"hooked\":1,\"radio\":[{\"source\":\"salvage-crate\",\"distance\":43.842653795444186,\"elapsedSincePlayable\":6.24666666666665}],\"opened\":2}",
       "flow": "normalOpeningRadio"
     },
     {
@@ -51,13 +51,13 @@
     {
       "name": "radio ledger records its first eligible opening once",
       "ok": true,
-      "detail": "{\"status\":\"found\",\"armedAtSimTime\":null,\"foundAtSimTime\":6.313333333333317,\"foundAtDistance\":44.33373174832492,\"eligibleChestsOpened\":1}",
+      "detail": "{\"status\":\"found\",\"armedAtSimTime\":null,\"foundAtSimTime\":6.24666666666665,\"foundAtDistance\":43.842653795444186,\"eligibleChestsOpened\":1}",
       "flow": "normalOpeningRadio"
     },
     {
       "name": "radio is found within the first 300 playable seconds",
       "ok": true,
-      "detail": "6.313333333333317",
+      "detail": "6.24666666666665",
       "flow": "normalOpeningRadio"
     },
     {
@@ -122,33 +122,121 @@
     },
     {
       "name": "staged story schedules a wreck only after radio and first-run completion",
-      "ok": false,
-      "detail": "{\"phase\":\"approach\"}",
+      "ok": true,
+      "detail": "{\"phase\":\"approach\",\"arrival\":766.1802229406507}",
       "flow": "stagedResearchAndChapter"
     },
     {
       "name": "staged approach reaches the safe dock boundary",
-      "ok": false,
-      "detail": "{\"story\":\"approach\",\"speed\":0}",
+      "ok": true,
+      "detail": "{\"story\":\"docked\",\"speed\":0}",
       "flow": "stagedResearchAndChapter"
     },
     {
       "name": "docking enables the destination and gangway",
-      "ok": false,
-      "detail": "{\"active\":true,\"docked\":false,\"gangway\":false}",
+      "ok": true,
+      "detail": "{\"active\":true,\"docked\":true,\"gangway\":true}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "player walks across the gangway into the wreck",
+      "ok": true,
+      "detail": "{\"inside\":true,\"onGangway\":false,\"x\":7.433065165510939,\"z\":-0.03177049708225406}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "proximity E collection recovers the Course Gyro once",
+      "ok": true,
+      "detail": "{\"format\":2,\"completed\":[],\"recoveredUniques\":[\"course-gyro\"],\"active\":{\"expeditionId\":\"wreck-one\",\"routeId\":null,\"phase\":\"docked\",\"arrivalDistance\":766.1802229406507,\"journalsRead\":[],\"scriptedEncounter\":\"not-due\"}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "Course Gyro collection is one-shot",
+      "ok": true,
+      "detail": "false",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "wreck-side save accepts a stable docked capsule",
+      "ok": true,
+      "detail": "{\"health\":93,\"fuel\":37,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}},\"story\":{\"format\":2,\"completed\":[],\"recoveredUniques\":[\"course-gyro\"],\"active\":{\"expeditionId\":\"wreck-one\",\"routeId\":null,\"phase\":\"docked\",\"arrivalDistance\":766.1802229406507,\"journalsRead\":[],\"scriptedEncounter\":\"not-due\"}},\"position\":{\"x\":16.17413682210246,\"y\":4.669161085346037,\"z\":1.6065944124902716}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "wreck-side reload restores health, fuel, upgrades, and gyro",
+      "ok": true,
+      "detail": "{\"loaded\":true,\"inside\":true,\"health\":93,\"fuel\":37,\"gyro\":true,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}},\"position\":{\"x\":16.17413682210246,\"y\":4.669161085346037,\"z\":1.6065944124902716}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "wreck-side reload capsule remains physically supported after one simulated second",
+      "ok": true,
+      "detail": "{\"inside\":true,\"grounded\":true,\"y\":4.668949974090693,\"playerY\":4.669}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "player returns across the gangway to the machine",
+      "ok": true,
+      "detail": "true",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "docked chapter fixture writes a stable partial save",
+      "ok": true,
+      "detail": "{\"health\":86,\"fuel\":37,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}},\"story\":{\"format\":2,\"completed\":[],\"recoveredUniques\":[\"course-gyro\"],\"active\":{\"expeditionId\":\"wreck-one\",\"routeId\":null,\"phase\":\"docked\",\"arrivalDistance\":766.1802229406507,\"journalsRead\":[],\"scriptedEncounter\":\"not-due\"}}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "docked reload restores wreck, health, fuel, upgrades, and gyro",
+      "ok": true,
+      "detail": "{\"wreck\":{\"active\":true,\"docked\":true},\"health\":86,\"fuel\":36.99500000000001,\"gyro\":true,\"upgrades\":{\"researched\":[\"longstride-rams\",\"torque-clutch\",\"lean-governor\",\"heavy-breech\"],\"active\":{\"propulsion\":\"torque-clutch\",\"defense\":\"heavy-breech\"}}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "real New Game clears the expedition wreck immediately",
+      "ok": true,
+      "detail": "{\"stats\":{\"calls\":173,\"tris\":65910,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":900,\"logicalHeight\":540,\"pixelRatio\":1,\"drawingBufferWidth\":900,\"drawingBufferHeight\":540,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":0,\"chunks\":9,\"speed\":0.71,\"bodies\":42,\"playerY\":4.661,\"grounded\":true,\"vy\":0,\"simTime\":0,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":8,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"rooftop\",\"armed\":true},\"opening\":\"rooftop\",\"story\":\"locked\",\"radio\":{\"status\":\"pending\",\"armedAtSimTime\":null,\"foundAtSimTime\":null,\"foundAtDistance\":null,\"eligibleChestsOpened\":0},\"resources\":{\"scrap\":260,\"components\":0,\"fuel\":0},\"power\":{\"fuel\":60,\"capacity\":16,\"draw\":0},\"sessionMetrics\":{\"playableSeconds\":0,\"milestones\":[],\"samples\":[]}}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "real New Game resets the starting generator and progression state",
+      "ok": true,
+      "detail": "{\"generators\":1,\"capacity\":16,\"fuel\":60,\"upgrades\":{},\"radioVisible\":false,\"wreckActive\":false}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "radio departure begins only after returning to the machine",
+      "ok": true,
+      "detail": "",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "radio departure completes after clearing twelve metres",
+      "ok": true,
+      "detail": "{\"phase\":\"complete\",\"nextSignal\":true,\"destinationActive\":false,\"destinationDocked\":false,\"gangway\":false,\"distance\":820.4719507383938,\"arrival\":766.1802229406507}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "legacy radio-missing state remains pending for the next chest",
+      "ok": true,
+      "detail": "{\"status\":\"pending\",\"armedAtSimTime\":null,\"foundAtSimTime\":null,\"foundAtDistance\":null,\"eligibleChestsOpened\":0}",
+      "flow": "stagedResearchAndChapter"
+    },
+    {
+      "name": "pause freezes an unhooked salvage crate",
+      "ok": true,
+      "detail": "{\"before\":{\"id\":\"crate-0\",\"x\":-16.49620167259127,\"y\":2.195445475075394,\"z\":-41.94695322047428},\"after\":{\"x\":-16.49620167259127,\"y\":2.195445475075394,\"z\":-41.94695322047428}}",
       "flow": "stagedResearchAndChapter"
     }
   ],
-  "errors": [
-    "HARNESS: Error: walk waypoint stalled at (5.8, 0); remaining 1.27m from (4.53, -0.00), grounded=true\n    at walkToward (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/chapter-flow.mjs:133:13)\n    at async walkRoute (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/chapter-flow.mjs:148:5)\n    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/chapter-flow.mjs:453:3"
-  ],
+  "errors": [],
   "evidence": {
     "normalOpeningRadio": [
       {
         "initial": {
           "stats": {
-            "calls": 88,
-            "tris": 63486,
+            "calls": 74,
+            "tris": 62926,
             "skyBakes": 1,
             "graphics": {
               "logicalWidth": 900,
@@ -165,12 +253,12 @@
             },
             "distance": 0,
             "chunks": 9,
-            "speed": 1.77,
+            "speed": 0,
             "bodies": 38,
-            "playerY": 4.704,
-            "grounded": true,
+            "playerY": 4.8,
+            "grounded": false,
             "vy": 0,
-            "simTime": 0.083,
+            "simTime": 0,
             "hp": 100,
             "ammo": "30/150",
             "weapon": "rifle",
@@ -203,31 +291,21 @@
             "draw": 0
           },
           "sessionMetrics": {
-            "playableSeconds": 0.08333333333333333,
+            "playableSeconds": 0,
             "milestones": [
               {
                 "name": "opening.done",
                 "atSeconds": 0
               }
             ],
-            "samples": [
-              {
-                "scrap": 260,
-                "components": 0,
-                "fuel": 60,
-                "powerCapacity": 16,
-                "powerDraw": 0,
-                "speed": 0.39419946025546926,
-                "atSeconds": 0
-              }
-            ]
+            "samples": []
           }
         },
         "target": {
           "x": -16.49620167259127,
           "y": 2.195445475075394,
-          "z": -41.961446408035144,
-          "distance": 44.24580302256052
+          "z": -41.97384363514901,
+          "distance": 44.25937120927759
         },
         "radioRun": {
           "stats": {
@@ -251,15 +329,15 @@
             "chunks": 9,
             "speed": 7.37,
             "bodies": 38,
-            "playerY": 4.665,
+            "playerY": 4.671,
             "grounded": true,
             "vy": 0,
-            "simTime": 9.163,
+            "simTime": 9.097,
             "hp": 100,
             "ammo": "30/150",
             "weapon": "rifle",
             "enemies": 0,
-            "particles": 48,
+            "particles": 43,
             "scrap": 308,
             "pieces": 2,
             "rooms": 1,
@@ -272,8 +350,8 @@
           "radio": {
             "status": "found",
             "armedAtSimTime": null,
-            "foundAtSimTime": 6.313333333333317,
-            "foundAtDistance": 44.33373174832492,
+            "foundAtSimTime": 6.24666666666665,
+            "foundAtDistance": 43.842653795444186,
             "eligibleChestsOpened": 1
           },
           "resources": {
@@ -287,7 +365,7 @@
             "draw": 1
           },
           "sessionMetrics": {
-            "playableSeconds": 9.163333333333377,
+            "playableSeconds": 9.096666666666707,
             "milestones": [
               {
                 "name": "opening.done",
@@ -295,21 +373,21 @@
               },
               {
                 "name": "salvage.hooked",
-                "atSeconds": 5.629999999999986
+                "atSeconds": 5.563333333333319
               },
               {
                 "name": "salvage.opened",
-                "atSeconds": 6.29666666666665,
+                "atSeconds": 6.2299999999999836,
                 "detail": {
                   "source": "Salvage crate"
                 }
               },
               {
                 "name": "radio.found",
-                "atSeconds": 6.29666666666665,
+                "atSeconds": 6.2299999999999836,
                 "detail": {
-                  "distance": 44.33373174832492,
-                  "elapsed": 6.313333333333317
+                  "distance": 43.842653795444186,
+                  "elapsed": 6.24666666666665
                 }
               }
             ],
@@ -331,8 +409,8 @@
           "radio": [
             {
               "source": "salvage-crate",
-              "distance": 44.33373174832492,
-              "elapsedSincePlayable": 6.313333333333317
+              "distance": 43.842653795444186,
+              "elapsedSincePlayable": 6.24666666666665
             }
           ],
           "opened": 2

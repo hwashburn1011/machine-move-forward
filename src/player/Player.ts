@@ -204,6 +204,12 @@ export class Player {
       this.desired.set(0, 0, 0);
     }
 
+    // Aiming keeps the body and held weapon facing the camera's shot direction,
+    // including while standing still or strafing across the deck.
+    if (input.isDown('aim') || input.isDown('fire')) {
+      this.facing = Math.atan2(-Math.sin(cameraYaw), -Math.cos(cameraYaw));
+    }
+
     // --- Vertical ----------------------------------------------------------
     if (this.grounded && this.verticalVelocity <= 0) {
       // Rest slightly negative so the controller keeps finding the ground.
@@ -243,7 +249,7 @@ export class Player {
     this.renderPosition.lerpVectors(this.previousPosition, this.position, alpha);
     this.object3D.position.copy(this.renderPosition);
 
-    // Turn toward travel direction rather than snapping.
+    // Turn toward the movement or weapon heading rather than snapping.
     const current = this.object3D.rotation.y;
     let delta = this.facing - current;
     while (delta > Math.PI) delta -= Math.PI * 2;

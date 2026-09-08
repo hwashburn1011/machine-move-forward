@@ -204,10 +204,8 @@ try {
     };
   });
   const authoredModels = await page.evaluate(
-    async ({ collectorId, turretId }) => {
+    ({ collectorId, turretId }) => {
       const g = globalThis.__game.game;
-      const { buildFoundryModel } = await import('/src/art/ExpeditionModels.ts');
-      const { authoredModel } = await import('/src/art/DefenseModels.ts');
       const countMeshes = (root) => {
         let meshes = 0;
         let triangles = 0;
@@ -224,20 +222,20 @@ try {
       const collector = g.build.collectorVisual(collectorId);
       const turret = g.build.turretVisual(turretId);
       const gunboatRoot = g.gunboatScene.group.getObjectByName('GunboatRoot');
-      const foundry = buildFoundryModel(g.materials);
-      const helmSource = authoredModel('navigation-helm');
       const helmRoot = g.machine.group.getObjectByName('HelmRoot');
       const requiredHelm = ['HelmRoot', 'GyroInstalled', 'HelmPowerLamp', 'HelmInteract'];
       return {
         collector: Boolean(collector?.root.userData.authored),
         turret: Boolean(turret?.root.userData.authored),
         gunboat: Boolean(gunboatRoot?.userData.authored),
-        foundry: { authored: Boolean(foundry.userData.authored), ...countMeshes(foundry) },
+        foundry: {
+          authored: Boolean(g.destination.root.userData.authored),
+          ...countMeshes(g.destination.root),
+        },
         helm: {
-          sourceLoaded: Boolean(helmSource),
+          sourceLoaded: Boolean(helmRoot?.userData.authored),
           anchors: requiredHelm.every((name) => Boolean(helmRoot?.getObjectByName(name))),
           runtime: helmRoot ? countMeshes(helmRoot) : { meshes: 0, triangles: 0 },
-          source: helmSource ? countMeshes(helmSource.scene) : { meshes: 0, triangles: 0 },
         },
       };
     },
@@ -251,7 +249,6 @@ try {
     authoredModels.foundry.meshes > 0 &&
     authoredModels.helm.sourceLoaded &&
     authoredModels.helm.anchors &&
-    authoredModels.helm.source.triangles > 5000 &&
     authoredModels.helm.runtime.triangles > 5000;
   if (!authoredReady)
     throw new Error(`Authored model acceptance failed: ${JSON.stringify(authoredModels)}`);

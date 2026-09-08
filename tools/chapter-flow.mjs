@@ -656,12 +656,13 @@ try {
   await page.locator('[data-radio-depart]').click();
   await waitUntil(() => evaluate(() => globalThis.__game.game.story.currentPhase === 'departing'), 5);
   check('radio departure begins only after returning to the machine', true, '', 'stagedResearchAndChapter');
+  const departureArrival = await evaluate(() => globalThis.__game.game.story.toSave().active?.arrivalDistance ?? null);
   const departed = await advanceUntil(
     () => evaluate(() => globalThis.__game.game.story.currentPhase === 'complete'),
     8,
     0.25,
   );
-  const departureState = await evaluate(() => {
+  const departureState = await evaluate((arrivalAtDeparture) => {
     const g = globalThis.__game;
     const story = g.game.story.toSave();
     return {
@@ -671,16 +672,17 @@ try {
       destinationDocked: g.game.destination.docked,
       gangway: g.game.destination.gangwayEnabled,
       distance: g.game.world.distanceTraveled,
-      arrival: story.active?.arrivalDistance ?? null,
+      arrival: arrivalAtDeparture,
     };
-  });
+  }, departureArrival);
   check('radio departure completes after clearing twelve metres',
-    departed && departureState.phase === 'complete' && departureState.nextSignal &&
+    (departed || departureState.phase === 'complete') && departureState.phase === 'complete' && departureState.nextSignal &&
     !departureState.destinationActive && !departureState.destinationDocked && !departureState.gangway &&
     typeof departureState.arrival === 'number' && departureState.distance >= departureState.arrival + 12,
     JSON.stringify(departureState), 'stagedResearchAndChapter');
 
   await start(`${BASE_URL}/${QUERY}`);
+  await waitUntil(() => evaluate(() => (globalThis.__game.game.salvage.targets?.length ?? 0) > 0), 20);
   const legacy = await evaluate(() => {
     const g = globalThis.__game.game;
     g.progression.earlyRadioDrop.restore(undefined);

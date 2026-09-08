@@ -13,6 +13,11 @@ The soundtrack is original synthesized audio made with NumPy. There are no
 third-party music samples or stock video clips. Blender artwork provenance is
 recorded in [ASSETS.md](../../ASSETS.md).
 
+Final export: 40 seconds, 1280×720 at 30 FPS, H.264 video and 48 kHz AAC audio,
+8.18 MiB. Playback, seeking, title layout and sampled frames were checked in
+Chrome. Audio peaks at −3.3 dBFS. The combat scene was recaptured after fixing
+the stationary character's aiming direction.
+
 ## Reproduce on Windows
 
 Requirements: the project's Node dependencies, Chrome, Python with NumPy,

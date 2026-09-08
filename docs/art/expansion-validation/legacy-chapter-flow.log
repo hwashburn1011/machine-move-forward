@@ -1,12 +1,12 @@
 PASS  normal boot starts with 260 scrap -- 260
 PASS  opening is playable before the radio test
-PASS  the first eligible chest spawns within 45m -- {"x":-16.49620167259127,"y":2.195445475075394,"z":-41.961446408035144,"distance":44.24580302256052}
+PASS  the first eligible chest spawns within 45m -- {"x":-16.49620167259127,"y":2.195445475075394,"z":-41.97384363514901,"distance":44.25937120927759}
 PASS  first chest drifts into real reel range
 PASS  reel cue endpoint follows the live hook -- {"active":true,"aligned":true}
-PASS  the radio is found through the real hook/reel path -- {"hooked":1,"radio":[{"source":"salvage-crate","distance":44.33373174832492,"elapsedSincePlayable":6.313333333333317}],"opened":2}
+PASS  the radio is found through the real hook/reel path -- {"hooked":1,"radio":[{"source":"salvage-crate","distance":43.842653795444186,"elapsedSincePlayable":6.24666666666665}],"opened":2}
 PASS  radio reward includes its fixed cache after normal salvage -- {"before":{"scrap":260,"components":0,"fuel":0},"after":{"scrap":308,"components":0,"fuel":4}}
-PASS  radio ledger records its first eligible opening once -- {"status":"found","armedAtSimTime":null,"foundAtSimTime":6.313333333333317,"foundAtDistance":44.33373174832492,"eligibleChestsOpened":1}
-PASS  radio is found within the first 300 playable seconds -- 6.313333333333317
+PASS  radio ledger records its first eligible opening once -- {"status":"found","armedAtSimTime":null,"foundAtSimTime":6.24666666666665,"foundAtDistance":43.842653795444186,"eligibleChestsOpened":1}
+PASS  radio is found within the first 300 playable seconds -- 6.24666666666665
 PASS  normal flow records radio in bounded session metrics
 PASS  staged research rejects an unaffordable upgrade -- {"poorRejected":true,"deadPowerRejected":true,"activeBefore":"longstride-rams","activeAfter":"torque-clutch","defense":{"damage":60,"draw":4,"fireRate":0.8}}
 PASS  staged research rejects a dead powered-radio path -- {"poorRejected":true,"deadPowerRejected":true,"activeBefore":"longstride-rams","activeAfter":"torque-clutch","defense":{"damage":60,"draw":4,"fireRate":0.8}}
@@ -17,14 +17,23 @@ PASS  staged Governor shed leaves the radio unpowered at capacity fourteen -- {"
 PASS  Research UI enables power uninstall while the shed radio is stable -- {"present":true,"disabled":false}
 PASS  Research UI uninstall restores the radio without changing the purse -- {"active":null,"scrap":613,"components":38,"capacity":16,"radioPowered":true}
 PASS  staged tutorial spawn uses the reduced encounter profile -- {"hull":220,"hook":45,"crew":2}
-FAIL  staged story schedules a wreck only after radio and first-run completion -- {"phase":"approach"}
-FAIL  staged approach reaches the safe dock boundary -- {"story":"approach","speed":0}
-FAIL  docking enables the destination and gangway -- {"active":true,"docked":false,"gangway":false}
+PASS  staged story schedules a wreck only after radio and first-run completion -- {"phase":"approach","arrival":766.1802229406507}
+PASS  staged approach reaches the safe dock boundary -- {"story":"docked","speed":0}
+PASS  docking enables the destination and gangway -- {"active":true,"docked":true,"gangway":true}
+PASS  player walks across the gangway into the wreck -- {"inside":true,"onGangway":false,"x":7.433065165510939,"z":-0.03177049708225406}
+PASS  proximity E collection recovers the Course Gyro once -- {"format":2,"completed":[],"recoveredUniques":["course-gyro"],"active":{"expeditionId":"wreck-one","routeId":null,"phase":"docked","arrivalDistance":766.1802229406507,"journalsRead":[],"scriptedEncounter":"not-due"}}
+PASS  Course Gyro collection is one-shot -- false
+PASS  wreck-side save accepts a stable docked capsule -- {"health":93,"fuel":37,"upgrades":{"researched":["longstride-rams","torque-clutch","lean-governor","heavy-breech"],"active":{"propulsion":"torque-clutch","defense":"heavy-breech"}},"story":{"format":2,"completed":[],"recoveredUniques":["course-gyro"],"active":{"expeditionId":"wreck-one","routeId":null,"phase":"docked","arrivalDistance":766.1802229406507,"journalsRead":[],"scriptedEncounter":"not-due"}},"position":{"x":16.17413682210246,"y":4.669161085346037,"z":1.6065944124902716}}
+PASS  wreck-side reload restores health, fuel, upgrades, and gyro -- {"loaded":true,"inside":true,"health":93,"fuel":37,"gyro":true,"upgrades":{"researched":["longstride-rams","torque-clutch","lean-governor","heavy-breech"],"active":{"propulsion":"torque-clutch","defense":"heavy-breech"}},"position":{"x":16.17413682210246,"y":4.669161085346037,"z":1.6065944124902716}}
+PASS  wreck-side reload capsule remains physically supported after one simulated second -- {"inside":true,"grounded":true,"y":4.668949974090693,"playerY":4.669}
+PASS  player returns across the gangway to the machine -- true
+PASS  docked chapter fixture writes a stable partial save -- {"health":86,"fuel":37,"upgrades":{"researched":["longstride-rams","torque-clutch","lean-governor","heavy-breech"],"active":{"propulsion":"torque-clutch","defense":"heavy-breech"}},"story":{"format":2,"completed":[],"recoveredUniques":["course-gyro"],"active":{"expeditionId":"wreck-one","routeId":null,"phase":"docked","arrivalDistance":766.1802229406507,"journalsRead":[],"scriptedEncounter":"not-due"}}}
+PASS  docked reload restores wreck, health, fuel, upgrades, and gyro -- {"wreck":{"active":true,"docked":true},"health":86,"fuel":36.99500000000001,"gyro":true,"upgrades":{"researched":["longstride-rams","torque-clutch","lean-governor","heavy-breech"],"active":{"propulsion":"torque-clutch","defense":"heavy-breech"}}}
+PASS  real New Game clears the expedition wreck immediately -- {"stats":{"calls":173,"tris":65910,"skyBakes":1,"graphics":{"logicalWidth":900,"logicalHeight":540,"pixelRatio":1,"drawingBufferWidth":900,"drawingBufferHeight":540,"msaaSamples":0,"gtao":false,"gtaoWidth":0,"gtaoHeight":0,"shimmer":false,"postBypassed":false},"distance":0,"chunks":9,"speed":0.71,"bodies":42,"playerY":4.661,"grounded":true,"vy":0,"simTime":0,"hp":100,"ammo":"30/150","weapon":"rifle","enemies":0,"particles":8,"scrap":260,"pieces":2,"rooms":1,"buildMode":false,"opening":"rooftop","armed":true},"opening":"rooftop","story":"locked","radio":{"status":"pending","armedAtSimTime":null,"foundAtSimTime":null,"foundAtDistance":null,"eligibleChestsOpened":0},"resources":{"scrap":260,"components":0,"fuel":0},"power":{"fuel":60,"capacity":16,"draw":0},"sessionMetrics":{"playableSeconds":0,"milestones":[],"samples":[]}}
+PASS  real New Game resets the starting generator and progression state -- {"generators":1,"capacity":16,"fuel":60,"upgrades":{},"radioVisible":false,"wreckActive":false}
+PASS  radio departure begins only after returning to the machine
+PASS  radio departure completes after clearing twelve metres -- {"phase":"complete","nextSignal":true,"destinationActive":false,"destinationDocked":false,"gangway":false,"distance":820.4719507383938,"arrival":766.1802229406507}
+PASS  legacy radio-missing state remains pending for the next chest -- {"status":"pending","armedAtSimTime":null,"foundAtSimTime":null,"foundAtDistance":null,"eligibleChestsOpened":0}
+PASS  pause freezes an unhooked salvage crate -- {"before":{"id":"crate-0","x":-16.49620167259127,"y":2.195445475075394,"z":-41.94695322047428},"after":{"x":-16.49620167259127,"y":2.195445475075394,"z":-41.94695322047428}}
 
-19/22 chapter checks passed
-
-1 console error(s):
- - HARNESS: Error: walk waypoint stalled at (5.8, 0); remaining 1.27m from (4.53, -0.00), grounded=true
-    at walkToward (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/chapter-flow.mjs:133:13)
-    at async walkRoute (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/chapter-flow.mjs:148:5)
-    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/chapter-flow.mjs:453:3
+37/37 chapter checks passed

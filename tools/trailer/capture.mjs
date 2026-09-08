@@ -141,7 +141,9 @@ try {
       g.salvage.armAfterOpening(g.world.distanceTraveled);
       g.gunboatScene.spawn('port');
       g.player.teleport(g.player.worldPosition.clone().set(-2.9,4.8,-3));
-      g.playerCamera.setYaw(-Math.PI/2);g.playerCamera.pitch=-.08;
+      g.freeCamera=g.renderer.camera;
+      g.freeCamera.position.set(-11,8,7);
+      g.freeCamera.lookAt(-5,4,-1);
     });
     await delay(page,6000);
   });

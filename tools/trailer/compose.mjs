@@ -43,13 +43,16 @@ for (let i=0;i<scenes.length;i++) {
 const endTitle=resolve(work,'end-title.txt');
 const endSub=resolve(work,'end-subtitle.txt');
 const endFooter=resolve(work,'end-footer.txt');
-writeFileSync(endTitle,'MACHINE\nMOVE FORWARD');
+writeFileSync(endTitle,'MACHINE');
+const endTitleSecond=resolve(work,'end-title-second.txt');
+writeFileSync(endTitleSecond,'MOVE FORWARD');
 writeFileSync(endSub,'PLAY THE PROTOTYPE');
 writeFileSync(endFooter,'IN DEVELOPMENT  /  CAPTURED IN GAME');
 const end=resolve(work,'edit-end.mp4');
 run('ffmpeg',['-y','-f','lavfi','-i','color=c=0x0c141a:s=1280x720:r=30:d=4','-vf',[
   'drawbox=x=528:y=178:w=224:h=3:color=0xd5a355:t=fill',
-  `drawtext=fontfile='${font}':textfile='${escaped(endTitle)}':fontsize=72:line_spacing=2:fontcolor=0xf3efe4:x=(w-tw)/2:y=220`,
+  `drawtext=fontfile='${font}':textfile='${escaped(endTitle)}':fontsize=72:fontcolor=0xf3efe4:x=(w-tw)/2:y=220`,
+  `drawtext=fontfile='${font}':textfile='${escaped(endTitleSecond)}':fontsize=72:fontcolor=0xf3efe4:x=(w-tw)/2:y=300`,
   `drawtext=fontfile='${font}':textfile='${escaped(endSub)}':fontsize=23:fontcolor=0xd5a355:x=(w-tw)/2:y=430`,
   `drawtext=fontfile='${font}':textfile='${escaped(endFooter)}':fontsize=14:fontcolor=0x85969a:x=(w-tw)/2:y=610`,
   'fade=t=in:st=0:d=0.3','fade=t=out:st=3.4:d=0.6',

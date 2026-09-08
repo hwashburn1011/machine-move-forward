@@ -1,0 +1,636 @@
+{
+  "seed": "expansion-flow",
+  "fixtureMode": true,
+  "checks": [
+    {
+      "name": "expansion harness boots with diagnostics",
+      "ok": true,
+      "detail": "{\"calls\":74,\"tris\":62418,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":0,\"chunks\":9,\"speed\":0,\"bodies\":38,\"playerY\":4.8,\"grounded\":false,\"vy\":0,\"simTime\":0,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":0,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "campaign fixture restores route-selection state",
+      "ok": true,
+      "detail": "{\"phase\":\"route-selection\",\"expeditionId\":\"wreck-one\",\"routeButtons\":[\"foundry-direct\",\"foundry-detour\"],\"distance\":0,\"gunboat\":null,\"gunboatActive\":false,\"skiffActive\":false,\"externalEncounter\":false,\"destination\":{\"active\":false,\"docked\":false,\"interactables\":0},\"resources\":{\"scrap\":260,\"components\":0},\"diagnostics\":{\"calls\":74,\"tris\":62418,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":0,\"chunks\":9,\"speed\":0,\"bodies\":38,\"playerY\":4.8,\"grounded\":false,\"vy\":0,\"simTime\":0,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":0,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}}",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "foundry-direct route card is visible",
+      "ok": true,
+      "detail": "",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "foundry-direct route selection exposes an explicit confirmation",
+      "ok": true,
+      "detail": "",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "foundry-direct confirmation commits a non-selection story phase",
+      "ok": true,
+      "detail": "{\"phase\":\"approach\",\"expeditionId\":\"relay-foundry\",\"routeButtons\":[\"foundry-direct\",\"foundry-detour\"],\"distance\":1.3551616383732,\"gunboat\":null,\"gunboatActive\":false,\"skiffActive\":false,\"externalEncounter\":false,\"destination\":{\"active\":true,\"docked\":false,\"interactables\":0},\"resources\":{\"scrap\":260,\"components\":0},\"diagnostics\":{\"calls\":56,\"tris\":59506,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":1,\"chunks\":9,\"speed\":5.4,\"bodies\":38,\"playerY\":4.664,\"grounded\":true,\"vy\":0,\"simTime\":0.4,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":6,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}}",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "direct route starts a gunboat encounter when scripted contact is due",
+      "ok": true,
+      "detail": "{\"phase\":\"approach\",\"expeditionId\":\"relay-foundry\",\"routeButtons\":[\"foundry-direct\",\"foundry-detour\"],\"distance\":251.22487349433308,\"gunboat\":{\"phase\":\"approach\",\"side\":\"port\",\"lateral\":-18,\"forward\":59.33333333333332,\"hullHealth\":420,\"weaponHealth\":120,\"engineHealth\":160,\"phaseElapsed\":0,\"nextVolleyAt\":4,\"volleySerial\":0,\"outcome\":null},\"gunboatActive\":true,\"skiffActive\":false,\"externalEncounter\":true,\"destination\":{\"active\":true,\"docked\":false,\"interactables\":0},\"resources\":{\"scrap\":260,\"components\":0},\"diagnostics\":{\"calls\":73,\"tris\":60850,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":251,\"chunks\":9,\"speed\":7.37,\"bodies\":41,\"playerY\":4.671,\"grounded\":true,\"vy\":0,\"simTime\":34.4,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":48,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}}",
+      "category": "gunboat",
+      "fixture": true
+    },
+    {
+      "name": "gunboat volley exposes delayed pending shells",
+      "ok": true,
+      "detail": "{\"phase\":\"broadside\",\"side\":\"port\",\"lateral\":-18,\"forward\":18.000000000000103,\"hullHealth\":420,\"weaponHealth\":120,\"engineHealth\":160,\"phaseElapsed\":83.63333333332992,\"nextVolleyAt\":84,\"volleySerial\":20,\"outcome\":null}",
+      "category": "gunboat",
+      "fixture": true
+    },
+    {
+      "name": "gunboat subsystem receives real PlayerCombat camera-ray hits",
+      "ok": true,
+      "detail": "{\"active\":false,\"hits\":15,\"scrap\":290,\"externalEncounter\":false}",
+      "category": "gunboat",
+      "fixture": true
+    },
+    {
+      "name": "gunboat terminal clears after real combat fire",
+      "ok": true,
+      "detail": "{\"active\":false,\"hits\":15,\"scrap\":290,\"externalEncounter\":false,\"shots\":55}",
+      "category": "gunboat",
+      "fixture": true
+    },
+    {
+      "name": "gunboat terminal clears the external encounter",
+      "ok": true,
+      "detail": "{\"telegraph\":0,\"volley\":22,\"phases\":[\"ended\"]}",
+      "category": "gunboat",
+      "fixture": true
+    },
+    {
+      "name": "gunboat hull resolution grants exactly one salvage reward",
+      "ok": true,
+      "detail": "{\"before\":260,\"after\":290}",
+      "category": "gunboat",
+      "fixture": true
+    },
+    {
+      "name": "Foundry reaches a docked destination state",
+      "ok": true,
+      "detail": "{\"phase\":\"docked\",\"expeditionId\":\"relay-foundry\",\"routeButtons\":[\"foundry-direct\",\"foundry-detour\"],\"distance\":881.3396391545842,\"gunboat\":null,\"gunboatActive\":false,\"skiffActive\":false,\"externalEncounter\":false,\"destination\":{\"active\":true,\"docked\":true,\"interactables\":5},\"resources\":{\"scrap\":290,\"components\":2},\"diagnostics\":{\"calls\":70,\"tris\":60618,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":881,\"chunks\":9,\"speed\":0,\"bodies\":38,\"playerY\":4.673,\"grounded\":true,\"vy\":0,\"simTime\":187.39,\"hp\":100,\"ammo\":\"13/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":45,\"scrap\":290,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}}",
+      "category": "foundry",
+      "fixture": true
+    },
+    {
+      "name": "Foundry exposes unique pickups and return interaction data",
+      "ok": true,
+      "detail": "[{\"id\":\"relay-foundry-journal-log\",\"kind\":\"journal\",\"label\":\"Read foundry log\",\"x\":11,\"z\":-2},{\"id\":\"relay-foundry-journal-blueprint\",\"kind\":\"journal\",\"label\":\"Read maintenance blueprint\",\"x\":14,\"z\":2},{\"id\":\"relay-foundry-salvage-controller\",\"kind\":\"unique\",\"label\":\"Recover salvage controller\",\"x\":12,\"z\":1.5},{\"id\":\"relay-foundry-tracking-servo\",\"kind\":\"unique\",\"label\":\"Recover tracking servo\",\"x\":16,\"z\":-1.5},{\"id\":\"relay-foundry-departure\",\"kind\":\"departure\",\"label\":\"Return to machine\",\"x\":5.5,\"z\":0}]",
+      "category": "foundry",
+      "fixture": true
+    },
+    {
+      "name": "both Foundry specialist pickups use real walking and E interaction",
+      "ok": true,
+      "detail": "[{\"id\":\"relay-foundry-salvage-controller\",\"walked\":true,\"recovered\":true},{\"id\":\"relay-foundry-tracking-servo\",\"walked\":true,\"recovered\":true}]",
+      "category": "foundry",
+      "fixture": true
+    },
+    {
+      "name": "player returns from Foundry to machine space",
+      "ok": true,
+      "detail": "",
+      "category": "foundry",
+      "fixture": true
+    },
+    {
+      "name": "Foundry departure interaction advances the campaign",
+      "ok": true,
+      "detail": "{\"phase\":\"complete\",\"expeditionId\":\"relay-foundry\",\"routeButtons\":[\"foundry-direct\",\"foundry-detour\"],\"distance\":895.3754251060706,\"gunboat\":null,\"gunboatActive\":false,\"skiffActive\":false,\"externalEncounter\":false,\"destination\":{\"active\":false,\"docked\":false,\"interactables\":0},\"resources\":{\"scrap\":290,\"components\":2},\"diagnostics\":{\"calls\":93,\"tris\":62222,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":895,\"chunks\":9,\"speed\":7.36,\"bodies\":38,\"playerY\":4.658,\"grounded\":true,\"vy\":0,\"simTime\":213.39,\"hp\":100,\"ammo\":\"13/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":16,\"scrap\":290,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}}",
+      "category": "foundry",
+      "fixture": true
+    },
+    {
+      "name": "actual SaveManager write and Game loadFrom APIs succeed at a safe boundary",
+      "ok": true,
+      "detail": "{\"saved\":true,\"loaded\":true,\"encounterActive\":false,\"phase\":\"complete\",\"distanceBefore\":905.5392277227879,\"distanceAfter\":905.5392277227879,\"expeditionBefore\":null,\"expeditionAfter\":null}",
+      "category": "save",
+      "fixture": true
+    },
+    {
+      "name": "save reload preserves campaign distance and expedition identity",
+      "ok": true,
+      "detail": "{\"saved\":true,\"loaded\":true,\"encounterActive\":false,\"phase\":\"complete\",\"distanceBefore\":905.5392277227879,\"distanceAfter\":905.5392277227879,\"expeditionBefore\":null,\"expeditionAfter\":null}",
+      "category": "save",
+      "fixture": true
+    },
+    {
+      "name": "detour route uses an explicit fixture only when enabled",
+      "ok": true,
+      "detail": "[object Object]",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "foundry-detour route card is visible",
+      "ok": true,
+      "detail": "",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "foundry-detour route selection exposes an explicit confirmation",
+      "ok": true,
+      "detail": "",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "foundry-detour confirmation commits a non-selection story phase",
+      "ok": true,
+      "detail": "{\"phase\":\"approach\",\"expeditionId\":\"relay-foundry\",\"routeButtons\":[\"foundry-direct\",\"foundry-detour\"],\"distance\":1.3551616383732,\"gunboat\":null,\"gunboatActive\":false,\"skiffActive\":false,\"externalEncounter\":false,\"destination\":{\"active\":true,\"docked\":false,\"interactables\":0},\"resources\":{\"scrap\":260,\"components\":0},\"diagnostics\":{\"calls\":51,\"tris\":61106,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":1,\"chunks\":9,\"speed\":5.4,\"bodies\":38,\"playerY\":4.664,\"grounded\":true,\"vy\":0,\"simTime\":0.4,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":2,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}}",
+      "category": "route",
+      "fixture": true
+    },
+    {
+      "name": "detour route has no scripted gunboat contact",
+      "ok": true,
+      "detail": "{\"phase\":\"approach\",\"expeditionId\":\"relay-foundry\",\"routeButtons\":[\"foundry-direct\",\"foundry-detour\"],\"distance\":8.162680457257531,\"gunboat\":null,\"gunboatActive\":false,\"skiffActive\":false,\"externalEncounter\":false,\"destination\":{\"active\":true,\"docked\":false,\"interactables\":0},\"resources\":{\"scrap\":260,\"components\":0},\"diagnostics\":{\"calls\":85,\"tris\":62010,\"skyBakes\":1,\"graphics\":{\"logicalWidth\":1100,\"logicalHeight\":700,\"pixelRatio\":1,\"drawingBufferWidth\":1100,\"drawingBufferHeight\":700,\"msaaSamples\":0,\"gtao\":false,\"gtaoWidth\":0,\"gtaoHeight\":0,\"shimmer\":false,\"postBypassed\":false},\"distance\":8,\"chunks\":9,\"speed\":7.29,\"bodies\":38,\"playerY\":4.665,\"grounded\":true,\"vy\":0,\"simTime\":1.4,\"hp\":100,\"ammo\":\"30/150\",\"weapon\":\"rifle\",\"enemies\":0,\"particles\":10,\"scrap\":260,\"pieces\":2,\"rooms\":1,\"buildMode\":false,\"opening\":\"done\",\"armed\":true}}",
+      "category": "route",
+      "fixture": true
+    }
+  ],
+  "errors": [],
+  "evidence": {
+    "fixture": true,
+    "route": [
+      {
+        "route": "foundry-direct",
+        "after": {
+          "phase": "approach",
+          "expeditionId": "relay-foundry",
+          "routeButtons": [
+            "foundry-direct",
+            "foundry-detour"
+          ],
+          "distance": 1.3551616383732,
+          "gunboat": null,
+          "gunboatActive": false,
+          "skiffActive": false,
+          "externalEncounter": false,
+          "destination": {
+            "active": true,
+            "docked": false,
+            "interactables": 0
+          },
+          "resources": {
+            "scrap": 260,
+            "components": 0
+          },
+          "diagnostics": {
+            "calls": 56,
+            "tris": 59506,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 1100,
+              "logicalHeight": 700,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 1100,
+              "drawingBufferHeight": 700,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 1,
+            "chunks": 9,
+            "speed": 5.4,
+            "bodies": 38,
+            "playerY": 4.664,
+            "grounded": true,
+            "vy": 0,
+            "simTime": 0.4,
+            "hp": 100,
+            "ammo": "30/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 6,
+            "scrap": 260,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          }
+        }
+      },
+      {
+        "route": "foundry-detour",
+        "after": {
+          "phase": "approach",
+          "expeditionId": "relay-foundry",
+          "routeButtons": [
+            "foundry-direct",
+            "foundry-detour"
+          ],
+          "distance": 1.3551616383732,
+          "gunboat": null,
+          "gunboatActive": false,
+          "skiffActive": false,
+          "externalEncounter": false,
+          "destination": {
+            "active": true,
+            "docked": false,
+            "interactables": 0
+          },
+          "resources": {
+            "scrap": 260,
+            "components": 0
+          },
+          "diagnostics": {
+            "calls": 51,
+            "tris": 61106,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 1100,
+              "logicalHeight": 700,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 1100,
+              "drawingBufferHeight": 700,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 1,
+            "chunks": 9,
+            "speed": 5.4,
+            "bodies": 38,
+            "playerY": 4.664,
+            "grounded": true,
+            "vy": 0,
+            "simTime": 0.4,
+            "hp": 100,
+            "ammo": "30/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 2,
+            "scrap": 260,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          }
+        }
+      },
+      {
+        "route": "foundry-detour",
+        "state": {
+          "phase": "approach",
+          "expeditionId": "relay-foundry",
+          "routeButtons": [
+            "foundry-direct",
+            "foundry-detour"
+          ],
+          "distance": 8.162680457257531,
+          "gunboat": null,
+          "gunboatActive": false,
+          "skiffActive": false,
+          "externalEncounter": false,
+          "destination": {
+            "active": true,
+            "docked": false,
+            "interactables": 0
+          },
+          "resources": {
+            "scrap": 260,
+            "components": 0
+          },
+          "diagnostics": {
+            "calls": 85,
+            "tris": 62010,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 1100,
+              "logicalHeight": 700,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 1100,
+              "drawingBufferHeight": 700,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 8,
+            "chunks": 9,
+            "speed": 7.29,
+            "bodies": 38,
+            "playerY": 4.665,
+            "grounded": true,
+            "vy": 0,
+            "simTime": 1.4,
+            "hp": 100,
+            "ammo": "30/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 10,
+            "scrap": 260,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          }
+        }
+      }
+    ],
+    "gunboat": [
+      {
+        "live": {
+          "phase": "braking",
+          "expeditionId": "relay-foundry",
+          "routeButtons": [
+            "foundry-direct",
+            "foundry-detour"
+          ],
+          "distance": 636.3633660125365,
+          "gunboat": {
+            "phase": "broadside",
+            "side": "port",
+            "lateral": -18,
+            "forward": 18.000000000000103,
+            "hullHealth": 420,
+            "weaponHealth": 120,
+            "engineHealth": 160,
+            "phaseElapsed": 83.63333333332992,
+            "nextVolleyAt": 84,
+            "volleySerial": 20,
+            "outcome": null
+          },
+          "gunboatActive": true,
+          "skiffActive": false,
+          "externalEncounter": true,
+          "destination": {
+            "active": true,
+            "docked": false,
+            "interactables": 0
+          },
+          "resources": {
+            "scrap": 260,
+            "components": 0
+          },
+          "diagnostics": {
+            "calls": 81,
+            "tris": 61738,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 1100,
+              "logicalHeight": 700,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 1100,
+              "drawingBufferHeight": 700,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 636,
+            "chunks": 9,
+            "speed": 2,
+            "bodies": 41,
+            "playerY": 4.664,
+            "grounded": true,
+            "vy": 0,
+            "simTime": 124.4,
+            "hp": 100,
+            "ammo": "30/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 49,
+            "scrap": 260,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          }
+        },
+        "events": {
+          "telegraph": 0,
+          "volley": 22,
+          "phases": [
+            "ended"
+          ]
+        },
+        "terminal": {
+          "active": false,
+          "hits": 15,
+          "scrap": 290,
+          "externalEncounter": false
+        },
+        "shots": 55
+      }
+    ],
+    "foundry": [
+      {
+        "state": {
+          "phase": "docked",
+          "expeditionId": "relay-foundry",
+          "routeButtons": [
+            "foundry-direct",
+            "foundry-detour"
+          ],
+          "distance": 881.3396391545842,
+          "gunboat": null,
+          "gunboatActive": false,
+          "skiffActive": false,
+          "externalEncounter": false,
+          "destination": {
+            "active": true,
+            "docked": true,
+            "interactables": 5
+          },
+          "resources": {
+            "scrap": 290,
+            "components": 2
+          },
+          "diagnostics": {
+            "calls": 70,
+            "tris": 60618,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 1100,
+              "logicalHeight": 700,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 1100,
+              "drawingBufferHeight": 700,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 881,
+            "chunks": 9,
+            "speed": 0,
+            "bodies": 38,
+            "playerY": 4.673,
+            "grounded": true,
+            "vy": 0,
+            "simTime": 187.39,
+            "hp": 100,
+            "ammo": "13/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 45,
+            "scrap": 290,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          }
+        },
+        "interactables": [
+          {
+            "id": "relay-foundry-journal-log",
+            "kind": "journal",
+            "label": "Read foundry log",
+            "x": 11,
+            "z": -2
+          },
+          {
+            "id": "relay-foundry-journal-blueprint",
+            "kind": "journal",
+            "label": "Read maintenance blueprint",
+            "x": 14,
+            "z": 2
+          },
+          {
+            "id": "relay-foundry-salvage-controller",
+            "kind": "unique",
+            "label": "Recover salvage controller",
+            "x": 12,
+            "z": 1.5
+          },
+          {
+            "id": "relay-foundry-tracking-servo",
+            "kind": "unique",
+            "label": "Recover tracking servo",
+            "x": 16,
+            "z": -1.5
+          },
+          {
+            "id": "relay-foundry-departure",
+            "kind": "departure",
+            "label": "Return to machine",
+            "x": 5.5,
+            "z": 0
+          }
+        ],
+        "pickups": [
+          {
+            "id": "relay-foundry-salvage-controller",
+            "walked": true,
+            "recovered": true
+          },
+          {
+            "id": "relay-foundry-tracking-servo",
+            "walked": true,
+            "recovered": true
+          }
+        ],
+        "afterDepart": {
+          "phase": "complete",
+          "expeditionId": "relay-foundry",
+          "routeButtons": [
+            "foundry-direct",
+            "foundry-detour"
+          ],
+          "distance": 895.3754251060706,
+          "gunboat": null,
+          "gunboatActive": false,
+          "skiffActive": false,
+          "externalEncounter": false,
+          "destination": {
+            "active": false,
+            "docked": false,
+            "interactables": 0
+          },
+          "resources": {
+            "scrap": 290,
+            "components": 2
+          },
+          "diagnostics": {
+            "calls": 93,
+            "tris": 62222,
+            "skyBakes": 1,
+            "graphics": {
+              "logicalWidth": 1100,
+              "logicalHeight": 700,
+              "pixelRatio": 1,
+              "drawingBufferWidth": 1100,
+              "drawingBufferHeight": 700,
+              "msaaSamples": 0,
+              "gtao": false,
+              "gtaoWidth": 0,
+              "gtaoHeight": 0,
+              "shimmer": false,
+              "postBypassed": false
+            },
+            "distance": 895,
+            "chunks": 9,
+            "speed": 7.36,
+            "bodies": 38,
+            "playerY": 4.658,
+            "grounded": true,
+            "vy": 0,
+            "simTime": 213.39,
+            "hp": 100,
+            "ammo": "13/150",
+            "weapon": "rifle",
+            "enemies": 0,
+            "particles": 16,
+            "scrap": 290,
+            "pieces": 2,
+            "rooms": 1,
+            "buildMode": false,
+            "opening": "done",
+            "armed": true
+          }
+        }
+      }
+    ],
+    "automation": [],
+    "save": [
+      {
+        "save": {
+          "saved": true,
+          "loaded": true,
+          "encounterActive": false,
+          "phase": "complete",
+          "distanceBefore": 905.5392277227879,
+          "distanceAfter": 905.5392277227879,
+          "expeditionBefore": null,
+          "expeditionAfter": null
+        }
+      }
+    ]
+  },
+  "passed": 23,
+  "failed": 0
+}

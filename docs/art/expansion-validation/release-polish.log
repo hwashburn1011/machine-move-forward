@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+(node:1304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\e2e\seen.spec.ts:122:3 › what the player can see › the weapon stays in the hand, in every pose and on both weapons (13.3s)
+  ok 2 tests\e2e\smoke.spec.ts:83:3 › Machine Move Forward › the machine travels forward on its own (4.9s)
+
+  2 passed (19.3s)

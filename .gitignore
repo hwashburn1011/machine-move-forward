@@ -10,3 +10,4 @@ __pycache__/
 *.blend1
 # Reproducible trailer capture/edit intermediates; published media lives in docs/media.
 /assets/trailer/
+/automation-run.log
