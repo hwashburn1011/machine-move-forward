@@ -49,6 +49,7 @@ export class Player {
   private readonly own = new THREE.Vector3();
   private verticalVelocity = 0;
   private grounded = false;
+  private crouching = false;
   /**
    * Heading, in the same convention as everything else: local +Z along it.
    *
@@ -181,6 +182,7 @@ export class Player {
     if (input.isDown('right')) ix += 1;
 
     const crouching = input.isDown('crouch');
+    this.crouching = crouching;
     // Thirst takes the sprint and nothing else. Walking, crouching, jumping and
     // shooting are all untouched at zero hydration — the roadmap's promise is
     // that running dry slows you down, so it takes the fast option away rather
@@ -256,7 +258,7 @@ export class Player {
     while (delta < -Math.PI) delta += Math.PI * 2;
     this.object3D.rotation.y = current + delta * 0.25;
 
-    this.visual.setMotion(this.speed, this.grounded);
+    this.visual.setMotion(this.stats.alive ? this.speed : 0, this.grounded, this.crouching);
     this.visual.update(dt);
   }
 

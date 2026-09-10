@@ -64,6 +64,10 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
     'raider-gunboat',
     'scavenger',
     'raider',
+    'bastion',
+    'revenant',
+    'warden',
+    'sovereign',
     'salvaged-radio',
     'expedition-wreck',
     'relay-foundry',
@@ -72,7 +76,11 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
   ];
   await Promise.all(
     ids.map(async (id) => {
-      const model = await loadModel(`models/authored/${id}.glb`);
+      const model =
+        id === 'player'
+          ? ((await loadModel('models/authored/s07-player.glb')) ??
+            (await loadModel('models/authored/player.glb')))
+          : await loadModel(`models/authored/${id}.glb`);
       if (!model) return;
       prepareAuthoredModel(model);
       models.set(id, model);

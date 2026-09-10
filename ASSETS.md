@@ -1,13 +1,23 @@
 # Third-Party Assets
 
+## S-07 main character
+
+The default player is the original reference-driven S-07 gunner. The 5.89 MB runtime asset is `public/models/authored/s07-player.glb`, with 95,215 triangles, 50 bones and 12 in-place armed/unarmed clips. The detailed source remains in `assets/gunner-s07/source`; its gameplay derivative and build records are in `assets/gunner-s07/game`. The previous character remains an automatic loading fallback. See [playable review](docs/art/s07-playable/README.md).
+
+## Mech enemy art collection
+
+Four additional original reference-derived enemy models are available in [assets/mech-enemies](assets/mech-enemies/README.md): Bastion, Revenant, Warden and Sovereign. All four are integrated into random encounters with authored animation and distinct combat roles. The art collection also contains editable Blender sources, neutral character rigs, GLB/FBX exports, separate equipment and optional reduced-detail meshes.
+
 ## Current original artwork
 
-The current runtime contains **19 original GLBs** in `public/models/authored/`:
+The original graphics and expansion packs contain **20 original GLBs** in `public/models/authored/`:
 the 13-file graphics-v2 pack, the graphics-v3 walker and character refinements,
 and five expansion models. Later sections preserve the history and third-party
 provenance of earlier assets. Current source-to-runtime records are in
 [graphics-v3](docs/art/graphics-v3/README.md) and
 [expansion-v1](docs/art/expansion-v1/README.md).
+
+Seven newer runtime GLBs add S-07, the four mech enemies, and the Iron Nomad visual/collision pair. Their editable sources and compressed models are in Git. The [v0.2.0 art packages](https://github.com/hwashburn1011/machine-move-forward/releases/tag/v0.2.0) preserve the original full-detail standalone collections; current gameplay derivatives and animation sources are versioned separately in this repository. Uncompressed interchangeable exports and generated Unreal content are excluded from ordinary checkouts.
 
 The expansion's navigation helm, Relay Foundry, raider gunboat, automatic
 collector and automatic turret were built from original geometry in Blender.
@@ -363,3 +373,13 @@ The September 2026 expansion introduces the original `navigation-helm.glb` and `
 Foundry placement and colliders are definition-driven. The authored contract is 14m wide by 10m deep, with a west entry at local `(-7, 0, 0)`, a gangway at `(-7.5, -0.08, 0)` with half-extents `(0.5, 0.08, 1)`, and a clear entrance lane for `|Z| < 1`. The controller pedestal is centered at `(-1, .45, 1.5)` with half-extents `(.45, .45, .4)`; the log console is `(-2, .45, -2)` with half-extents `(.4, .45, .3)`. The visible unique markers are the controller at `(-1, 1, 1.5)`, journal log at `(-2, 1, -2)`, blueprint on the machine-shop top at `(1, 1.23, 2)`, and Tracking Servo at `(3, 1, -1.5)`.
 
 These models and the six unique accessories are original project work. Blender sources and rebuild instructions remain under `assets/blender/` and `tools/art/`; the runtime loader preserves procedural geometry as a compatible fallback. No third-party provenance entry is removed or superseded by this addition.
+
+## Reference-derived mech combat variants
+
+`public/models/authored/bastion.glb`, `revenant.glb`, `warden.glb` and `sovereign.glb` are original Blender geometry derived from the project's four mech masters and the user-supplied `badmechs.png` reference. Each runtime variant includes attached equipment, five authored skeletal clips and a muzzle socket. No external source meshes or paid generation services were used. Editable combat sources and intermediate exports are under `assets/mech-enemies/gameplay/`; full-detail neutral models are preserved in the original collection. See [random mech integration](docs/art/mech-enemies/README.md) for budgets, behaviors and validation.
+
+## Iron Nomad reference walker
+
+`assets/iron-nomad/` contains an original four-legged mobile foundry modeled from the user-supplied walking-fortress illustration. Its Blender geometry, procedural PBR textures, cartographic linework, and rigid mechanical animation were created for this project. No downloaded source meshes or paid generation service was used. The reference image is retained for comparison; its inclusion does not assert a third-party license. Viewer dependencies retain their MIT notices under `viewer/vendor/`.
+
+Editable sources, GLB/FBX exports, a reduced mesh, collider proxies, six review renders, and a standalone interactive viewer are included. The gameplay derivative now replaces the playable machine with three usable decks, animated legs, exhaust, updated docking and an authored collision shell. See [playable integration](docs/art/iron-nomad-playable/README.md) for runtime budgets and verification. See [the Iron Nomad delivery](assets/iron-nomad/README.md) for dimensions, parts, animation, import limits, and validation. Rebuild scripts are under `tools/art/iron_nomad/`.

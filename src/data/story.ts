@@ -44,7 +44,7 @@ export interface ExpeditionDefinition {
 }
 export const WRECK_CHAPTER_ID = 'wreck-one' as const;
 const wreckPlacement: DestinationPlacement = {
-  root: { x: 12, y: 0, z: 0 },
+  root: { x: 14, y: 0, z: 0 },
   entryAnchor: { x: -6.5, y: -0.08, z: 0 },
   exitSightline: { x: -6.5, y: 1, z: 0 },
   gangway: { x: -6.5, y: -0.08, z: 0 },
@@ -137,7 +137,7 @@ export const WRECK_ONE: ExpeditionDefinition = {
   colliders: wreckColliders,
 };
 const foundryPlacement: DestinationPlacement = {
-  root: { x: 13, y: 0, z: 0 },
+  root: { x: 15, y: 0, z: 0 },
   entryAnchor: { x: -7, y: 0, z: 0 },
   exitSightline: { x: -5.8, y: 1.6, z: 0 },
   gangway: { x: -7.5, y: -0.08, z: 0 },

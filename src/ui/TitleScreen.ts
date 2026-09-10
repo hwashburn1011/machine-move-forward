@@ -1,4 +1,5 @@
 import { QUALITY_TIERS, type QualityTier } from '@/core/renderer/QualitySettings';
+import { DEFAULT_AMBIENCE_VOLUME } from '@/audio/SoundBank';
 
 /**
  * The game's front door, and the pause menu behind it.
@@ -19,6 +20,8 @@ export const GAME_TITLE = 'Machine Move Forward';
 export interface GameSettings {
   /** Master audio volume, 0..1. */
   volume: number;
+  /** Engine, mechanical footsteps and calm atmosphere, independent of effects. */
+  ambienceVolume: number;
   /**
    * Forced quality tier, or null to leave it to the boot-time probe.
    *
@@ -45,7 +48,11 @@ export type TitleMode = 'boot' | 'pause';
 
 const SETTINGS_KEY = 'mmf-settings';
 
-const DEFAULT_SETTINGS: GameSettings = { volume: 0.8, quality: null };
+const DEFAULT_SETTINGS: GameSettings = {
+  volume: 0.8,
+  ambienceVolume: DEFAULT_AMBIENCE_VOLUME,
+  quality: null,
+};
 
 /** The value the `auto` option carries, since a `<select>` has no null. */
 const AUTO_QUALITY = 'auto';
@@ -69,7 +76,11 @@ export function loadSettings(): GameSettings {
     const quality = QUALITY_TIERS.includes(parsed.quality as QualityTier)
       ? (parsed.quality as QualityTier)
       : null;
-    return { volume, quality };
+    const ambienceVolume =
+      typeof parsed.ambienceVolume === 'number' && Number.isFinite(parsed.ambienceVolume)
+        ? Math.max(0, Math.min(1, parsed.ambienceVolume))
+        : DEFAULT_SETTINGS.ambienceVolume;
+    return { volume, ambienceVolume, quality };
   } catch {
     return { ...DEFAULT_SETTINGS };
   }
@@ -121,9 +132,14 @@ export class TitleScreen {
           <nav id="title-menu"></nav>
           <form id="title-settings">
             <label class="title-setting">
-              <span>Volume</span>
+              <span>Master volume</span>
               <input id="title-volume" type="range" min="0" max="100" step="1" />
               <output id="title-volume-value"></output>
+            </label>
+            <label class="title-setting">
+              <span>Machine &amp; ambience</span>
+              <input id="title-ambience" type="range" min="0" max="100" step="1" />
+              <output id="title-ambience-value"></output>
             </label>
             <label class="title-setting">
               <span>Quality</span>
@@ -148,6 +164,8 @@ export class TitleScreen {
       'title-settings-back',
       'title-volume',
       'title-volume-value',
+      'title-ambience',
+      'title-ambience-value',
       'title-quality',
       'title-card',
       'title-card-text',
@@ -161,6 +179,16 @@ export class TitleScreen {
 
     const volume = this.el['title-volume'] as HTMLInputElement | undefined;
     const quality = this.el['title-quality'] as HTMLSelectElement | undefined;
+    const ambience = this.el['title-ambience'] as HTMLInputElement | undefined;
+    if (ambience) {
+      ambience.value = String(Math.round(this.settings.ambienceVolume * 100));
+      const onInput = (): void => {
+        this.settings = { ...this.settings, ambienceVolume: Number(ambience.value) / 100 };
+        this.applySettings();
+      };
+      ambience.addEventListener('input', onInput);
+      this.disposers.push(() => ambience.removeEventListener('input', onInput));
+    }
     if (volume) {
       volume.value = String(Math.round(this.settings.volume * 100));
       const onInput = (): void => {
@@ -293,6 +321,8 @@ export class TitleScreen {
   private syncVolumeLabel(): void {
     const out = this.el['title-volume-value'];
     if (out) out.textContent = `${Math.round(this.settings.volume * 100)}%`;
+    const ambience = this.el['title-ambience-value'];
+    if (ambience) ambience.textContent = `${Math.round(this.settings.ambienceVolume * 100)}%`;
   }
 
   private showMenu(): void {

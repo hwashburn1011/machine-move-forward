@@ -3,7 +3,12 @@ import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js
 import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { fitToCapsule } from '@/enemies/EnemyVisual';
-import { PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
+import {
+  PLAYER_CAPSULE_HALF_HEIGHT,
+  PLAYER_CAPSULE_RADIUS,
+  PLAYER_WALK_SPEED,
+  PLAYER_SPRINT_SPEED,
+} from '@/game/constants';
 import { buildPlayerMesh } from './PlayerMesh';
 import {
   findHandBone,
@@ -44,7 +49,8 @@ export class PlayerVisual {
   private readonly actions = new Map<string, THREE.AnimationAction>();
   private readonly clipNames: string[] = [];
   private current: THREE.AnimationAction | null = null;
-  private gait: Gait | null = null;
+  private gait: string | null = null;
+  private readonly isS07: boolean = false;
   /**
    * The hand the weapon hangs off, or null when there is no rig to hang it on.
    *
@@ -88,6 +94,7 @@ export class PlayerVisual {
 
     // SkeletonUtils, never Object3D.clone — the skeleton would be shared.
     const scene = cloneSkinned(model.scene);
+    this.isS07 = scene.getObjectByName('S07_Rig') !== undefined;
 
     // Precise, and only once the matrices exist. The cheap path measures each
     // mesh's bind-pose bounding box, which for a skinned mesh is the
@@ -105,7 +112,7 @@ export class PlayerVisual {
     // which aims local +Z along the heading. This model is authored facing -Z,
     // the glTF convention, so without half a turn here it walks backwards
     // everywhere it goes.
-    scene.rotation.y = scene.getObjectByName('MMF_Player') ? 0 : Math.PI;
+    scene.rotation.y = this.isS07 || scene.getObjectByName('MMF_Player') ? 0 : Math.PI;
     scene.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         o.castShadow = true;
@@ -125,11 +132,12 @@ export class PlayerVisual {
       }
     });
     const handName = findHandBone(boneNames);
-    this.hand = handName ? (bones.get(handName) ?? null) : null;
+    this.hand =
+      scene.getObjectByName('WeaponSocket') ?? (handName ? (bones.get(handName) ?? null) : null);
 
     // Rest offsets, which are pose-independent — so unlike the world-rotation
     // measurement this replaced, it does not matter that the mixer has not run.
-    if (this.hand) {
+    if (this.hand && !this.isS07) {
       this.gripAlign.copy(
         handGripAlign(
           handGripAxes(
@@ -154,15 +162,18 @@ export class PlayerVisual {
   }
 
   /** Pick the gait from how fast the body is actually moving. */
-  setMotion(speed: number, grounded: boolean): void {
+  setMotion(speed: number, grounded: boolean, crouching = false): void {
     if (!this.mixer) return;
     const next = playerGait(speed, grounded);
-    if (next === this.gait) return;
-    this.gait = next;
+    const key = this.isS07 ? s07MotionClip(speed, grounded, crouching, this.held !== null) : next;
+    if (key === this.gait) return;
+    this.gait = key;
 
-    const name = CLIPS[next]
-      .map((want) => this.clipNames.find((n) => n.toLowerCase().includes(want)))
-      .find((n): n is string => n !== undefined);
+    const name = this.isS07
+      ? this.clipNames.find((n) => n === key)
+      : CLIPS[next]
+          .map((want) => this.clipNames.find((n) => n.toLowerCase().includes(want)))
+          .find((n): n is string => n !== undefined);
     const action = name ? this.actions.get(name) : undefined;
     if (!action || action === this.current) return;
 
@@ -311,4 +322,25 @@ export class PlayerVisual {
     this.mixer?.stopAllAction();
     this.actions.clear();
   }
+}
+
+/** Exact names avoid matching an unarmed clip through the substring "armed". */
+export function s07MotionClip(
+  speed: number,
+  grounded: boolean,
+  crouching: boolean,
+  armed: boolean,
+): string {
+  const gait =
+    playerGait(speed, grounded) === 'idle'
+      ? 'idle'
+      : speed >= (PLAYER_WALK_SPEED + PLAYER_SPRINT_SPEED) / 2
+        ? 'run'
+        : 'walk';
+  const motion = !grounded
+    ? 'jump'
+    : crouching
+      ? `crouch_${gait === 'idle' ? 'idle' : 'walk'}`
+      : gait;
+  return `${armed ? 'armed' : 'unarmed'}_${motion}`;
 }

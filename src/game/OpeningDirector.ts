@@ -1,10 +1,6 @@
+import nomad from '@/data/iron-nomad.json';
 import type { Vec3Like } from '@/core/events/GameEvents';
-import {
-  DECK_SURFACE_Y,
-  GRID_TILE,
-  MACHINE_TILES_X,
-  MACHINE_TILES_Z,
-} from '@/game/constants';
+import { DECK_SURFACE_Y, GRID_TILE, MACHINE_TILES_Z } from '@/game/constants';
 
 /**
  * Where the opening has got to.
@@ -34,11 +30,7 @@ export type OpeningMode = 'new-game' | 'continue' | 'skipped';
  * commands rather than having to remember whether it has already obeyed one.
  */
 export type OpeningEffect =
-  | 'spawn-rooftop'
-  | 'grant-weapons'
-  | 'throttle-up'
-  | 'show-title-card'
-  | 'teardown-rooftop';
+  'spawn-rooftop' | 'grant-weapons' | 'throttle-up' | 'show-title-card' | 'teardown-rooftop';
 
 export interface OpeningInput {
   playerGrounded: boolean;
@@ -70,7 +62,7 @@ export const SKIP_HOLD_S = 1;
  * derives `deckBounds` from rather than restated, so a machine that changes
  * size cannot leave the landing test measuring the old one.
  */
-export const LANDING_HALF_X = (MACHINE_TILES_X * GRID_TILE) / 2;
+export const LANDING_HALF_X = nomad.deckHalfWidth;
 export const LANDING_HALF_Z = (MACHINE_TILES_Z * GRID_TILE) / 2;
 
 /**

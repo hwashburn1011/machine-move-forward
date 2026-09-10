@@ -1,5 +1,6 @@
 import { hashSeed, Rng } from '@/core/math/Random';
-import { MAX_ACTIVE_ENEMIES } from '@/data/enemies';
+import { ENEMIES, MAX_ACTIVE_ENEMIES } from '@/data/enemies';
+import { mechWave } from './MechEncounters';
 
 /**
  * Encounter pacing (handoff sections 3.2, 28, and milestone 10).
@@ -430,30 +431,18 @@ export class ThreatDirector {
     return { defId };
   }
 
-  /**
-   * What the next wave is made of.
-   *
-   * The size is still arithmetic -- one body, then two, then three, capped at
-   * what the deck holds -- and still deliberately not a threat-point economy:
-   * a budget over two types is a multiplication dressed up as a system.
-   *
-   * The COMPOSITION is where the second type earns its place. Raiders are held
-   * back until `RAIDERS_FROM`, so a player meets the slow, tough thing first
-   * and learns that backing away and shooting works. The raider is the answer
-   * to that: 60% faster than a walk, so it closes while you retreat, and the
-   * lesson has to be unlearnt. Introducing both at once would teach neither.
-   *
-   * From then on a wave is mixed rather than swapped -- half raiders, rounded
-   * down, so there is always at least one scavenger anchoring it. A pure
-   * raider wave is a rush with no shape to it.
-   */
+  /** Grow the body count gradually, then draw the unlocked mech replacements. */
   private composeWave(healthFraction: number): string[] {
     let size = 1 + Math.floor(this.wavesSurvived / RAMP_EVERY);
     if (healthFraction < MERCY_HEALTH_FRACTION) size -= 1;
     size = Math.max(1, Math.min(size, MAX_ACTIVE_ENEMIES));
 
     const raiders = this.wavesSurvived >= RAIDERS_FROM ? Math.floor(size / 2) : 0;
-    return Array.from({ length: size }, (_, i) => (i < raiders ? 'raider' : 'scavenger'));
+    const base = Array.from({ length: size }, (_, i) => (i < raiders ? 'raider' : 'scavenger'));
+    return mechWave(base, this.wavesSurvived, healthFraction, () => {
+      this.draws += 1;
+      return this.rng.next();
+    });
   }
 
   private rollCalm(): number {
@@ -497,7 +486,7 @@ export class ThreatDirector {
     this.wavesSurvived = count(save.wavesSurvived);
     this.pending = Array.isArray(save.pending)
       ? save.pending
-          .filter((id) => id === 'scavenger' || id === 'raider')
+          .filter((id) => typeof id === 'string' && Object.hasOwn(ENEMIES, id))
           .slice(0, MAX_ACTIVE_ENEMIES)
       : [];
     this.nextReleaseAt = distance(save.nextReleaseAt);

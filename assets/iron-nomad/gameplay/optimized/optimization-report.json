@@ -1,0 +1,533 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-10T01:48:03.128Z",
+  "encoder": "meshoptimizer 1.1.1",
+  "texturePolicy": "Full: baseColor/emissive up to 2K, normal/ORM up to 1K. Game: baseColor/emissive up to 1K, normal/ORM up to 512. WebP base q92, data maps lossless. Original PNG masters retained. GPU residency is uncompressed.",
+  "geometryPolicy": "EXT_meshopt_compression; articulated nodes and animation retained.",
+  "assets": [
+    {
+      "asset": "iron-nomad-full",
+      "sourceBytes": 64363136,
+      "optimizedBytes": 34355912,
+      "sourceGeometryBytes": 38573376,
+      "compressedGeometryBytes": 23282734,
+      "meshoptFallbackBufferBytes": 38573376,
+      "sourceTextureBytes": 24165036,
+      "webpTextureBytes": 9308842,
+      "selectedTextureGpuBytesWithMips": 139810133,
+      "images": [
+        {
+          "image": "ChevronBanner_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 2048,
+          "height": 2048,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 756256,
+          "webpBytes": 133412,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Worn_HandrailBrass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305344,
+          "webpBytes": 1060978,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Worn_HandrailBrass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 670412,
+          "webpBytes": 243134,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Worn_HandrailBrass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 789896,
+          "webpBytes": 471012,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Aged_BareMetal_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1266152,
+          "webpBytes": 1026414,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Aged_BareMetal_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 677949,
+          "webpBytes": 231958,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Aged_BareMetal_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 759610,
+          "webpBytes": 452858,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WarmIvory_PaintedSteel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 3237709,
+          "webpBytes": 938624,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WarmIvory_PaintedSteel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 2048,
+          "height": 2048,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2768615,
+          "webpBytes": 588538,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WarmIvory_PaintedSteel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2545381,
+          "webpBytes": 819634,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Charcoal_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1205907,
+          "webpBytes": 975252,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Charcoal_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 467658,
+          "webpBytes": 86928,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Charcoal_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 740723,
+          "webpBytes": 425124,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "OxideRed_PaintedSteel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 3132791,
+          "webpBytes": 901064,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "OxideRed_PaintedSteel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 2048,
+          "height": 2048,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 1370186,
+          "webpBytes": 193978,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "OxideRed_PaintedSteel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2470447,
+          "webpBytes": 759934,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "IronNomad_FourLegWalker",
+        "CargoCrane_Yaw",
+        "Turbine_Rotor",
+        "PlayerSpawn",
+        "Exhaust_A",
+        "Exhaust_B",
+        "Leg_FrontLeft_Hip",
+        "Leg_FrontRight_Hip",
+        "Leg_RearLeft_Hip",
+        "Leg_RearRight_Hip"
+      ],
+      "extras": {
+        "assetId": "iron-nomad",
+        "authoredPalette": true,
+        "description": "Reference-derived four-legged mobile industrial foundry",
+        "units": "meters",
+        "forward": "-Y Blender / +Z glTF",
+        "legCount": 4,
+        "deckLevels": "10.6,14.2,17.8",
+        "gameplayNote": "Reference scale; collider proxies and access anchors are supplied separately.",
+        "gameplayLayout": "iron-nomad-v1"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\iron-nomad\\gameplay\\optimized\\iron-nomad-full.glb"
+    },
+    {
+      "asset": "iron-nomad-game",
+      "sourceBytes": 44027028,
+      "optimizedBytes": 17113900,
+      "sourceGeometryBytes": 19049592,
+      "compressedGeometryBytes": 12461061,
+      "meshoptFallbackBufferBytes": 19049604,
+      "sourceTextureBytes": 24165036,
+      "webpTextureBytes": 3701600,
+      "selectedTextureGpuBytesWithMips": 47535445,
+      "images": [
+        {
+          "image": "ChevronBanner_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 756256,
+          "webpBytes": 60802,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Worn_HandrailBrass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305344,
+          "webpBytes": 329278,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Worn_HandrailBrass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 670412,
+          "webpBytes": 243134,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Worn_HandrailBrass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 789896,
+          "webpBytes": 309408,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Aged_BareMetal_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1266152,
+          "webpBytes": 315548,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Aged_BareMetal_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 677949,
+          "webpBytes": 231958,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Aged_BareMetal_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 759610,
+          "webpBytes": 300524,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WarmIvory_PaintedSteel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 3237709,
+          "webpBytes": 238234,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "WarmIvory_PaintedSteel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2768615,
+          "webpBytes": 257516,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "WarmIvory_PaintedSteel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2545381,
+          "webpBytes": 253674,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Charcoal_Steel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1205907,
+          "webpBytes": 292486,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "Charcoal_Steel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 467658,
+          "webpBytes": 86928,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "Charcoal_Steel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 740723,
+          "webpBytes": 244434,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "OxideRed_PaintedSteel_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 3132791,
+          "webpBytes": 227616,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "OxideRed_PaintedSteel_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 1370186,
+          "webpBytes": 66260,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "OxideRed_PaintedSteel_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2470447,
+          "webpBytes": 243800,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "IronNomad_FourLegWalker",
+        "CargoCrane_Yaw",
+        "Turbine_Rotor",
+        "PlayerSpawn",
+        "Exhaust_A",
+        "Exhaust_B",
+        "Leg_FrontLeft_Hip",
+        "Leg_FrontRight_Hip",
+        "Leg_RearLeft_Hip",
+        "Leg_RearRight_Hip"
+      ],
+      "extras": {
+        "assetId": "iron-nomad",
+        "authoredPalette": true,
+        "description": "Reference-derived four-legged mobile industrial foundry",
+        "units": "meters",
+        "forward": "-Y Blender / +Z glTF",
+        "legCount": 4,
+        "deckLevels": "10.6,14.2,17.8",
+        "gameplayNote": "Reference scale; collider proxies and access anchors are supplied separately.",
+        "gameplayLayout": "iron-nomad-v1"
+      },
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\iron-nomad\\gameplay\\optimized\\iron-nomad-game.glb"
+    }
+  ]
+}

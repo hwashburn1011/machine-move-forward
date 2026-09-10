@@ -30,8 +30,8 @@ import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
  */
 
 /** Footprint, in world X. The near face is the ledge. */
-export const ROOFTOP_MIN_X = 7.5;
-export const ROOFTOP_MAX_X = 17.5;
+export const ROOFTOP_MIN_X = 9.5;
+export const ROOFTOP_MAX_X = 19.5;
 
 /** Footprint, in world Z, before the set starts scrolling astern. */
 export const ROOFTOP_MIN_Z = -5;
@@ -44,7 +44,7 @@ export const ROOFTOP_MAX_Z = 5;
  * and the landing starts hurting; level with the deck and it is a step across
  * rather than a leap of faith.
  */
-export const ROOFTOP_ROOF_Y = 6.6;
+export const ROOFTOP_ROOF_Y = DECK_SURFACE_Y + 2.91;
 
 /** Parapet height above the roof. Chest-high: a barrier, not a kerb. */
 const PARAPET_H = 1.0;
@@ -73,7 +73,7 @@ export const ROOFTOP_LEDGE = { x: ROOFTOP_MIN_X, y: ROOFTOP_ROOF_Y, z: 0 } as co
 export const ROOFTOP_DROP_Y = ROOFTOP_ROOF_Y + (CHARACTER_DROP_Y - DECK_SURFACE_Y);
 
 /** Mid-roof, between the stair stub they came through and the ledge. */
-export const ROOFTOP_PLAYER_SPAWN = { x: 13.5, y: ROOFTOP_DROP_Y, z: 0 } as const;
+export const ROOFTOP_PLAYER_SPAWN = { x: 15.5, y: ROOFTOP_DROP_Y, z: 0 } as const;
 
 /**
  * Where the scavengers come up.
@@ -82,8 +82,8 @@ export const ROOFTOP_PLAYER_SPAWN = { x: 13.5, y: ROOFTOP_DROP_Y, z: 0 } as cons
  * behind them and the only way out is forward, over the ledge.
  */
 export const ROOFTOP_ENEMY_SPAWNS = [
-  { x: 16, y: ROOFTOP_DROP_Y, z: 3 },
-  { x: 16, y: ROOFTOP_DROP_Y, z: -3 },
+  { x: 18, y: ROOFTOP_DROP_Y, z: 3 },
+  { x: 18, y: ROOFTOP_DROP_Y, z: -3 },
 ] as const;
 
 /**

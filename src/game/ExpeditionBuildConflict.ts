@@ -5,8 +5,8 @@ import { GRID_TILE } from '@/game/constants';
 
 /** World-space XZ area reserved by the docked wreck and its gangway. */
 export const EXPEDITION_RESERVED_AREA = {
-  minX: 5,
-  maxX: 18,
+  minX: 7,
+  maxX: 20,
   minZ: -9,
   maxZ: 9,
 } as const;

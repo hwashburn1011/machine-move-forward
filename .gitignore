@@ -11,3 +11,13 @@ __pycache__/
 # Reproducible trailer capture/edit intermediates; published media lives in docs/media.
 /assets/trailer/
 /automation-run.log
+/assets/trailer-*.log
+# Large interchangeable art exports are delivered as GitHub release packages.
+# Keep editable Blender sources, textures, runtime GLBs and rebuild tools in Git.
+/assets/gunner-s07/exports/
+/assets/gunner-s07/game/*.glb
+/assets/gunner-s07/unreal/Content/
+/assets/iron-nomad/exports/
+/assets/iron-nomad/gameplay/exports/
+/assets/mech-enemies/exports/
+/assets/mech-enemies/gameplay/*.glb

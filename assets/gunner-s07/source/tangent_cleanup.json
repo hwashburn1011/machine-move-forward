@@ -1,0 +1,17 @@
+[
+  {
+    "file": "S07_Character_Rigged.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 8
+  },
+  {
+    "file": "S07_Heavy_Weapon.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 8
+  },
+  {
+    "file": "S07_Showcase.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 16
+  }
+]

@@ -47,6 +47,11 @@ export interface EnemyDefinition {
    * failure state is dead code.
    */
   targetPriority: 'player' | 'engine';
+  /** Authored mech combat uses a committed aim point and a visible windup. */
+  ranged?: { windup: number; shots: number; shotInterval: number };
+  /** Wider body, with the same 1.92m collision height for deck doorways. */
+  capsuleRadius?: number;
+  surface?: 'metal';
 }
 
 export const ENEMIES: Record<string, EnemyDefinition> = {
@@ -107,7 +112,90 @@ export const ENEMIES: Record<string, EnemyDefinition> = {
     // It is here to stop the machine, not to rob you.
     targetPriority: 'engine',
   },
+
+  warden: {
+    id: 'warden',
+    name: 'Warden Rifleman',
+    maxHealth: 85,
+    moveSpeed: 2.9,
+    damage: 8,
+    attackRange: 13,
+    detectRange: 42,
+    attackCooldown: 2.7,
+    armor: 1,
+    threat: 3,
+    targetPriority: 'player',
+    surface: 'metal',
+    tint: { r: 1, g: 1, b: 1 },
+    ranged: { windup: 0.85, shots: 1, shotInterval: 0.12 },
+    drops: [
+      { id: 'scrap', min: 10, max: 18 },
+      { id: 'components', min: 1, max: 2, chance: 0.35 },
+    ],
+  },
+  revenant: {
+    id: 'revenant',
+    name: 'Revenant Blademaster',
+    maxHealth: 75,
+    moveSpeed: 5.8,
+    damage: 10,
+    attackRange: 2.1,
+    detectRange: 44,
+    attackCooldown: 1.05,
+    armor: 0,
+    threat: 3,
+    targetPriority: 'player',
+    surface: 'metal',
+    tint: { r: 1, g: 1, b: 1 },
+    drops: [
+      { id: 'scrap', min: 9, max: 16 },
+      { id: 'components', min: 1, max: 1, chance: 0.3 },
+    ],
+  },
+  bastion: {
+    id: 'bastion',
+    name: 'Bastion Heavy Gunner',
+    maxHealth: 180,
+    moveSpeed: 2.0,
+    damage: 4,
+    attackRange: 11,
+    detectRange: 40,
+    attackCooldown: 3.6,
+    armor: 3,
+    threat: 5,
+    targetPriority: 'player',
+    capsuleRadius: 0.56,
+    surface: 'metal',
+    tint: { r: 1, g: 1, b: 1 },
+    ranged: { windup: 1.15, shots: 3, shotInterval: 0.14 },
+    drops: [
+      { id: 'scrap', min: 20, max: 30 },
+      { id: 'components', min: 2, max: 3 },
+    ],
+  },
+  sovereign: {
+    id: 'sovereign',
+    name: 'Sovereign Drone Commander',
+    maxHealth: 140,
+    moveSpeed: 2.4,
+    damage: 13,
+    attackRange: 15,
+    detectRange: 46,
+    attackCooldown: 3.8,
+    armor: 2,
+    threat: 5,
+    targetPriority: 'player',
+    surface: 'metal',
+    tint: { r: 1, g: 1, b: 1 },
+    ranged: { windup: 1.2, shots: 1, shotInterval: 0.12 },
+    drops: [
+      { id: 'scrap', min: 18, max: 28 },
+      { id: 'components', min: 2, max: 3 },
+    ],
+  },
 };
+
+export const MECH_ENEMY_IDS = ['warden', 'revenant', 'bastion', 'sovereign'] as const;
 
 /**
  * Metres of travel between arrivals.

@@ -20,7 +20,7 @@ it('opens a real machine railing for walking across the dock, then restores the 
   destination.setActive(true);
   destination.setDocked(true);
   physics.step();
-  const position = new THREE.Vector3(4.4,
+  const position = new THREE.Vector3(6.1,
     DECK_SURFACE_Y + PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS + 0.05, 0);
   const character = physics.addCharacter(PLAYER_CAPSULE_RADIUS, PLAYER_CAPSULE_HALF_HEIGHT, position);
   const walk = (dx: number, frames: number) => {
@@ -31,7 +31,7 @@ it('opens a real machine railing for walking across the dock, then restores the 
   };
   try {
     walk(0.06, 60);
-    expect(position.x).toBeLessThan(4.9);
+    expect(position.x).toBeLessThan(6.7);
     machine.setExpeditionGangwayOpen(true);
     walk(0.06, 230);
     expect(position.x).toBeGreaterThan(17);
@@ -39,8 +39,8 @@ it('opens a real machine railing for walking across the dock, then restores the 
     expect(position.y).toBeGreaterThan(DECK_SURFACE_Y);
     machine.setExpeditionGangwayOpen(false);
     walk(-0.06, 250);
-    expect(position.x).toBeGreaterThan(5);
-    expect(position.x).toBeLessThan(5.6);
+    expect(position.x).toBeGreaterThan(7);
+    expect(position.x).toBeLessThan(7.6);
   } finally {
     destination.dispose();
     physics.dispose();

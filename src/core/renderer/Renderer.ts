@@ -1,3 +1,4 @@
+import { DECK_SURFACE_Y } from '@/game/constants';
 import * as THREE from 'three';
 import { PALETTE } from '@/art/Palette';
 import type { QualitySettings } from './QualitySettings';
@@ -53,7 +54,7 @@ export class Renderer {
       0.1,
       2000,
     );
-    this.camera.position.set(0, 6, 12);
+    this.camera.position.set(0, DECK_SURFACE_Y + 6, 12);
 
     // --- Sun ---------------------------------------------------------------
     // Because the machine never leaves the origin, this shadow camera can be a
@@ -63,7 +64,8 @@ export class Renderer {
     this.sun = new THREE.DirectionalLight(PALETTE.sunLight, 3.1);
     // Match Sky's initial direction so construction has no one-frame lighting
     // discontinuity before Game applies the first environment bake.
-    this.sun.position.set(47, 30, 22);
+    this.sun.target.position.set(0, DECK_SURFACE_Y * .65, 0);
+    this.sun.position.set(47, 30, 22).add(this.sun.target.position);
     this.sun.castShadow = quality.shadowsEnabled;
     this.sun.shadow.camera.left = -22;
     this.sun.shadow.camera.right = 22;
@@ -92,11 +94,11 @@ export class Renderer {
 
   /** Direction the sun light arrives FROM, normalised. */
   get sunDirection(): THREE.Vector3 {
-    return this.sun.position.clone().normalize();
+    return this.sun.position.clone().sub(this.sun.target.position).normalize();
   }
 
   setSunDirection(dir: THREE.Vector3, distance = 60): void {
-    this.sun.position.copy(dir).normalize().multiplyScalar(distance);
+    this.sun.position.copy(dir).normalize().multiplyScalar(distance).add(this.sun.target.position);
   }
 
   setEnvironment(texture: THREE.Texture): void {

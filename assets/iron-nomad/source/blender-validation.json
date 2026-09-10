@@ -1,0 +1,188 @@
+[
+  {
+    "file": "iron-nomad-full.glb",
+    "meshes": 33,
+    "boundsBlenderZUp": {
+      "min": [
+        -10.742000579833984,
+        -11.463640213012695,
+        -0.09615115821361542
+      ],
+      "max": [
+        17.030000686645508,
+        11.463640213012695,
+        31.350000381469727
+      ]
+    },
+    "actions": 1,
+    "assertions": {
+      "finiteBounds": true,
+      "meterScale": true,
+      "fourHips": true,
+      "fourFeet": true,
+      "fourSecondDuration": true,
+      "allFourFeetAnimate": true,
+      "fourDistinctPhaseSamples": true,
+      "loopCloses": true,
+      "feetAboveGround": true
+    },
+    "importedFrameRange": [
+      0.0,
+      96.0
+    ],
+    "fps": 24,
+    "feetMotionRanges": [
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ]
+    ]
+  },
+  {
+    "file": "iron-nomad-game.glb",
+    "meshes": 33,
+    "boundsBlenderZUp": {
+      "min": [
+        -10.742000579833984,
+        -11.460485458374023,
+        -0.09615115821361542
+      ],
+      "max": [
+        17.030000686645508,
+        11.463640213012695,
+        31.349998474121094
+      ]
+    },
+    "actions": 1,
+    "assertions": {
+      "finiteBounds": true,
+      "meterScale": true,
+      "fourHips": true,
+      "fourFeet": true,
+      "fourSecondDuration": true,
+      "allFourFeetAnimate": true,
+      "fourDistinctPhaseSamples": true,
+      "loopCloses": true,
+      "feetAboveGround": true
+    },
+    "importedFrameRange": [
+      0.0,
+      96.0
+    ],
+    "fps": 24,
+    "feetMotionRanges": [
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ]
+    ]
+  },
+  {
+    "file": "iron-nomad-full.fbx",
+    "meshes": 33,
+    "boundsBlenderZUp": {
+      "min": [
+        -10.7420015335083,
+        -11.463641166687012,
+        -0.09615115821361542
+      ],
+      "max": [
+        17.030000686645508,
+        11.463641166687012,
+        31.350000381469727
+      ]
+    },
+    "actions": 12,
+    "assertions": {
+      "finiteBounds": true,
+      "meterScale": true,
+      "fourHips": true,
+      "fourFeet": true,
+      "fourSecondDuration": true,
+      "allFourFeetAnimate": true,
+      "fourDistinctPhaseSamples": true,
+      "loopCloses": true,
+      "feetAboveGround": true
+    },
+    "importedFrameRange": [
+      1.0,
+      121.0
+    ],
+    "fps": 30,
+    "feetMotionRanges": [
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.6953535079956055,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.700000286102295,
+        0.7000000476837158
+      ],
+      [
+        0.0,
+        1.6953535079956055,
+        0.7000000476837158
+      ]
+    ]
+  },
+  {
+    "file": "iron-nomad-colliders.glb",
+    "meshes": 46,
+    "boundsBlenderZUp": {
+      "min": [
+        -8.0,
+        -10.0,
+        10.359999656677246
+      ],
+      "max": [
+        10.274999618530273,
+        10.0,
+        25.600000381469727
+      ]
+    },
+    "actions": 0,
+    "assertions": {
+      "finiteBounds": true,
+      "only46CollisionMeshes": true
+    }
+  }
+]

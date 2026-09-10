@@ -1,0 +1,1099 @@
+{
+  "name": "Iron Nomad \u2014 mobile foundry",
+  "legCount": 4,
+  "parts": 4592,
+  "modules": [
+    "Chassis_StructuralFrame",
+    "Decks_and_PerimeterCatwalks",
+    "Hull_WeatheredPanels",
+    "Open_Workshop_and_EngineBays",
+    "Front_Turbine_Housing",
+    "CommandHouse_and_Navigation",
+    "Communications_Masts",
+    "Twin_Exhaust_Furnaces",
+    "Canvas_and_Rigging",
+    "CargoCrane_Yaw",
+    "External_Stairs_Ladders",
+    "Lamps_and_UtilityTowers",
+    "Cargo_Cables_and_ServiceAccessories",
+    "Leg_FrontLeft_Hip",
+    "Leg_FrontLeft_Upper",
+    "Leg_FrontLeft_Lower",
+    "Leg_FrontLeft_Foot",
+    "Leg_FrontRight_Hip",
+    "Leg_FrontRight_Upper",
+    "Leg_FrontRight_Lower",
+    "Leg_FrontRight_Foot",
+    "Leg_RearLeft_Hip",
+    "Leg_RearLeft_Upper",
+    "Leg_RearLeft_Lower",
+    "Leg_RearLeft_Foot",
+    "Leg_RearRight_Hip",
+    "Leg_RearRight_Upper",
+    "Leg_RearRight_Lower",
+    "Leg_RearRight_Foot",
+    "Reference_Refinement_Details"
+  ],
+  "anchors": [
+    {
+      "name": "Deck edge amber marker_Light",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.004",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.005",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.006",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.007",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.004",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.005",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.008",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.009",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.010",
+      "role": "light"
+    },
+    {
+      "name": "Deck edge amber marker_Light.011",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.006",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.007",
+      "role": "light"
+    },
+    {
+      "name": "Side deck edge task lamp_Light.008",
+      "role": "light"
+    },
+    {
+      "name": "Workshop suspended strip_Light",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.001",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.002",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.003",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.004",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.004",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.005",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.005",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.006",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.006",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.007",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.007",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.008",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.008",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.009",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.009",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.010",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.010",
+      "role": "area-light"
+    },
+    {
+      "name": "Workshop suspended strip_Light.011",
+      "role": "light"
+    },
+    {
+      "name": "Workshop warm fill.011",
+      "role": "area-light"
+    },
+    {
+      "name": "Bay equipment status_Light",
+      "role": "light"
+    },
+    {
+      "name": "Bay equipment status_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Bay equipment status_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Bay equipment status_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "Bridge approach light_Light",
+      "role": "light"
+    },
+    {
+      "name": "Bridge approach light_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Bridge approach light_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Mast signal beacon_Light",
+      "role": "light"
+    },
+    {
+      "name": "Mast signal beacon_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Mast signal beacon_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Furnace blue readout_Light",
+      "role": "light"
+    },
+    {
+      "name": "Furnace blue readout_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Furnace blue readout_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Exhaust_A",
+      "role": "exhaust"
+    },
+    {
+      "name": "Furnace blue readout_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "Furnace blue readout_Light.004",
+      "role": "light"
+    },
+    {
+      "name": "Furnace blue readout_Light.005",
+      "role": "light"
+    },
+    {
+      "name": "Exhaust_B",
+      "role": "exhaust"
+    },
+    {
+      "name": "Floodlight",
+      "role": "light"
+    },
+    {
+      "name": "Floodlight.001",
+      "role": "light"
+    },
+    {
+      "name": "Floodlight.002",
+      "role": "light"
+    },
+    {
+      "name": "Floodlight.003",
+      "role": "light"
+    },
+    {
+      "name": "Cyan side status strip_Light",
+      "role": "light"
+    },
+    {
+      "name": "Cyan underbody marker_Light",
+      "role": "light"
+    },
+    {
+      "name": "Cyan side status strip_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Cyan underbody marker_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Cyan side status strip_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Cyan underbody marker_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Cyan side status strip_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "Cyan underbody marker_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "Vertical prow cyan strip_Light",
+      "role": "light"
+    },
+    {
+      "name": "Vertical prow cyan strip_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "Leg joint cyan status_Light",
+      "role": "light"
+    },
+    {
+      "name": "Leg joint cyan status_Light.001",
+      "role": "light"
+    },
+    {
+      "name": "FootContact_FrontLeft",
+      "role": "foot-contact"
+    },
+    {
+      "name": "Leg joint cyan status_Light.002",
+      "role": "light"
+    },
+    {
+      "name": "Leg joint cyan status_Light.003",
+      "role": "light"
+    },
+    {
+      "name": "FootContact_FrontRight",
+      "role": "foot-contact"
+    },
+    {
+      "name": "Leg joint cyan status_Light.004",
+      "role": "light"
+    },
+    {
+      "name": "Leg joint cyan status_Light.005",
+      "role": "light"
+    },
+    {
+      "name": "FootContact_RearLeft",
+      "role": "foot-contact"
+    },
+    {
+      "name": "Leg joint cyan status_Light.006",
+      "role": "light"
+    },
+    {
+      "name": "Leg joint cyan status_Light.007",
+      "role": "light"
+    },
+    {
+      "name": "FootContact_RearRight",
+      "role": "foot-contact"
+    },
+    {
+      "name": "DeckAccess_0",
+      "role": "deck-access"
+    },
+    {
+      "name": "DeckAccess_1",
+      "role": "deck-access"
+    },
+    {
+      "name": "DeckAccess_2",
+      "role": "deck-access"
+    },
+    {
+      "name": "PlayerSpawn",
+      "role": "player-spawn"
+    },
+    {
+      "name": "EngineService",
+      "role": "interaction"
+    }
+  ],
+  "legRig": [
+    {
+      "id": "FrontLeft",
+      "hip": [
+        -6.5,
+        -6.0,
+        9.600000381469727
+      ],
+      "knee": [
+        -8.699999809265137,
+        -5.099999904632568,
+        5.050000190734863
+      ],
+      "foot": [
+        -9.350000381469727,
+        -8.0,
+        1.0
+      ],
+      "upperLength": 5.133468678886506,
+      "lowerLength": 5.023445390425161
+    },
+    {
+      "id": "FrontRight",
+      "hip": [
+        6.5,
+        -6.0,
+        9.600000381469727
+      ],
+      "knee": [
+        8.699999809265137,
+        -5.099999904632568,
+        5.050000190734863
+      ],
+      "foot": [
+        9.350000381469727,
+        -8.0,
+        1.0
+      ],
+      "upperLength": 5.133468678886506,
+      "lowerLength": 5.023445390425161
+    },
+    {
+      "id": "RearLeft",
+      "hip": [
+        -6.5,
+        6.0,
+        9.600000381469727
+      ],
+      "knee": [
+        -8.699999809265137,
+        5.099999904632568,
+        5.050000190734863
+      ],
+      "foot": [
+        -9.350000381469727,
+        8.0,
+        1.0
+      ],
+      "upperLength": 5.133468678886506,
+      "lowerLength": 5.023445390425161
+    },
+    {
+      "id": "RearRight",
+      "hip": [
+        6.5,
+        6.0,
+        9.600000381469727
+      ],
+      "knee": [
+        8.699999809265137,
+        5.099999904632568,
+        5.050000190734863
+      ],
+      "foot": [
+        9.350000381469727,
+        8.0,
+        1.0
+      ],
+      "upperLength": 5.133468678886506,
+      "lowerLength": 5.023445390425161
+    }
+  ],
+  "proxies": [
+    {
+      "name": "Deck_0",
+      "center": [
+        0,
+        0,
+        10.48
+      ],
+      "size": [
+        16,
+        20,
+        0.24
+      ]
+    },
+    {
+      "name": "Deck_1",
+      "center": [
+        0,
+        0,
+        14.08
+      ],
+      "size": [
+        16,
+        20,
+        0.24
+      ]
+    },
+    {
+      "name": "Deck_2",
+      "center": [
+        0,
+        0,
+        17.68
+      ],
+      "size": [
+        16,
+        20,
+        0.24
+      ]
+    },
+    {
+      "name": "Workshop equipment",
+      "center": [
+        6.2,
+        -6,
+        15.4
+      ],
+      "size": [
+        0.9,
+        1.8,
+        2.4
+      ]
+    },
+    {
+      "name": "Workshop equipment",
+      "center": [
+        6.2,
+        -3,
+        15.4
+      ],
+      "size": [
+        0.9,
+        1.8,
+        2.4
+      ]
+    },
+    {
+      "name": "Workshop equipment",
+      "center": [
+        6.2,
+        0,
+        15.4
+      ],
+      "size": [
+        0.9,
+        1.8,
+        2.4
+      ]
+    },
+    {
+      "name": "Workshop equipment",
+      "center": [
+        6.2,
+        3,
+        15.4
+      ],
+      "size": [
+        0.9,
+        1.8,
+        2.4
+      ]
+    },
+    {
+      "name": "Command house",
+      "center": [
+        -4.5,
+        -5.6,
+        18.9
+      ],
+      "size": [
+        5.1,
+        5.3,
+        2.2
+      ]
+    },
+    {
+      "name": "Furnace_0",
+      "center": [
+        3.8,
+        3.0,
+        21.7
+      ],
+      "size": [
+        3,
+        3,
+        7.8
+      ]
+    },
+    {
+      "name": "Furnace_1",
+      "center": [
+        3.8,
+        7.1,
+        21.25
+      ],
+      "size": [
+        3,
+        3,
+        6.9
+      ]
+    },
+    {
+      "name": "Stair_0_0",
+      "center": [
+        9.65,
+        3.6,
+        10.56
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_1",
+      "center": [
+        9.65,
+        3.8777777777777778,
+        10.76
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_2",
+      "center": [
+        9.65,
+        4.155555555555556,
+        10.96
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_3",
+      "center": [
+        9.65,
+        4.433333333333334,
+        11.16
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_4",
+      "center": [
+        9.65,
+        4.711111111111111,
+        11.360000000000001
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_5",
+      "center": [
+        9.65,
+        4.988888888888889,
+        11.56
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_6",
+      "center": [
+        9.65,
+        5.266666666666667,
+        11.760000000000002
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_7",
+      "center": [
+        9.65,
+        5.544444444444444,
+        11.96
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_8",
+      "center": [
+        9.65,
+        5.822222222222223,
+        12.16
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_9",
+      "center": [
+        9.65,
+        6.1,
+        12.36
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_10",
+      "center": [
+        9.65,
+        6.377777777777778,
+        12.56
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_11",
+      "center": [
+        9.65,
+        6.655555555555555,
+        12.760000000000002
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_12",
+      "center": [
+        9.65,
+        6.933333333333334,
+        12.96
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_13",
+      "center": [
+        9.65,
+        7.211111111111111,
+        13.16
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_14",
+      "center": [
+        9.65,
+        7.488888888888889,
+        13.36
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_15",
+      "center": [
+        9.65,
+        7.7666666666666675,
+        13.56
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_16",
+      "center": [
+        9.65,
+        8.044444444444444,
+        13.760000000000002
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_0_17",
+      "center": [
+        9.65,
+        8.322222222222223,
+        13.96
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_0",
+      "center": [
+        9.65,
+        8.6,
+        14.16
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_1",
+      "center": [
+        9.65,
+        8.322222222222221,
+        14.36
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_2",
+      "center": [
+        9.65,
+        8.044444444444444,
+        14.56
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_3",
+      "center": [
+        9.65,
+        7.766666666666667,
+        14.76
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_4",
+      "center": [
+        9.65,
+        7.488888888888889,
+        14.96
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_5",
+      "center": [
+        9.65,
+        7.21111111111111,
+        15.16
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_6",
+      "center": [
+        9.65,
+        6.933333333333333,
+        15.36
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_7",
+      "center": [
+        9.65,
+        6.655555555555555,
+        15.56
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_8",
+      "center": [
+        9.65,
+        6.377777777777777,
+        15.76
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_9",
+      "center": [
+        9.65,
+        6.1,
+        15.96
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_10",
+      "center": [
+        9.65,
+        5.822222222222222,
+        16.16
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_11",
+      "center": [
+        9.65,
+        5.544444444444444,
+        16.36
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_12",
+      "center": [
+        9.65,
+        5.266666666666666,
+        16.560000000000002
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_13",
+      "center": [
+        9.65,
+        4.988888888888889,
+        16.76
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_14",
+      "center": [
+        9.65,
+        4.71111111111111,
+        16.96
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_15",
+      "center": [
+        9.65,
+        4.433333333333333,
+        17.16
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_16",
+      "center": [
+        9.65,
+        4.155555555555555,
+        17.36
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    },
+    {
+      "name": "Stair_1_17",
+      "center": [
+        9.65,
+        3.8777777777777773,
+        17.560000000000002
+      ],
+      "size": [
+        1.25,
+        0.3,
+        0.08
+      ]
+    }
+  ],
+  "referenceScale": true,
+  "motion": "Rigid articulated node animation; no skinned armature required."
+}

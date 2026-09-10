@@ -1,6 +1,6 @@
 /** Edit real gameplay captures with FFmpeg. All typography and audio are original. */
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '../..');
@@ -15,25 +15,31 @@ const run = (program, args) => {
 const escaped = path => path.replaceAll('\\','/').replace(':','\\:');
 const font = escaped('C:/Windows/Fonts/bahnschrift.ttf');
 const scenes = [
-  ['walker', 6, 'MACHINE MOVE FORWARD', 'A HOME BUILT TO SURVIVE.'],
-  ['salvage', 7, 'REEL IN YOUR NEXT CHANCE.', 'SALVAGE THE DESERT'],
-  ['combat', 9, 'DEFEND WHAT KEEPS YOU ALIVE.', 'DISABLE. OUTLAST. KEEP MOVING.'],
-  ['foundry', 7, 'FOLLOW THE SIGNAL.', 'EXPLORE THE RELAY FOUNDRY'],
-  ['automation', 7, 'BUILD A MACHINE THAT FIGHTS BACK.', 'ENGINEER YOUR SURVIVAL'],
+  ['walker', 7, 'MACHINE MOVE FORWARD', 'MEET THE IRON NOMAD'],
+  ['hero', 5, 'BECOME S-07.', 'ONE GUNNER. A MOVING HOME.'],
+  ['warden', 2.5, 'WARDEN', 'PRECISION UNDER FIRE'],
+  ['revenant', 2.5, 'REVENANT', 'CLOSE-QUARTERS HUNTER'],
+  ['bastion', 2.5, 'BASTION', 'HEAVY METAL. HEAVIER FIREPOWER.'],
+  ['sovereign', 2.5, 'SOVEREIGN', 'THE DRONE COMMANDER'],
+  ['combat', 8, 'HOLD YOUR GROUND.', 'DEFEND WHAT KEEPS YOU ALIVE'],
+  ['salvage', 7, 'REEL IN YOUR NEXT CHANCE.', 'FIND THE RADIO. FOLLOW THE SIGNAL.'],
+  ['decks', 5, 'YOUR HOME. THREE DECKS.', 'EXPLORE. BUILD. KEEP IT WALKING.'],
 ];
 const outputs=[];
 for (let i=0;i<scenes.length;i++) {
   const [name,duration,title,kicker] = scenes[i];
+  const portrait = ['hero','warden','revenant','bastion','sovereign'].includes(name);
   const source=resolve(work,`raw/${name}.webm`);
   const length=Number(run('ffprobe',['-v','error','-show_entries','format=duration','-of','default=nw=1:nk=1',source]).trim());
   const titlePath=resolve(work,`${name}-title.txt`), kickerPath=resolve(work,`${name}-kicker.txt`);
   writeFileSync(titlePath,title); writeFileSync(kickerPath,kicker);
   const filter=[
-    'scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,fps=30',
-    'drawbox=x=0:y=540:w=iw:h=180:color=0x0c141a@0.62:t=fill',
-    'drawbox=x=52:y=577:w=4:h=82:color=0xd5a355:t=fill',
-    `drawtext=fontfile='${font}':textfile='${escaped(kickerPath)}':fontsize=18:fontcolor=0xd5a355:x=74:y=578`,
-    `drawtext=fontfile='${font}':textfile='${escaped(titlePath)}':fontsize=${title.length>32?34:40}:fontcolor=0xf3efe4:x=72:y=613`,
+    'scale=1280:720:force_original_aspect_ratio=increase,crop=1280:720,setsar=1,setpts=PTS-STARTPTS,fps=30',
+    `tpad=stop_mode=clone:stop_duration=0.5,trim=duration=${duration}`,
+    `drawbox=x=0:y=0:w=${portrait ? 430 : 'iw'}:h=125:color=0x0c141a@0.62:t=fill`,
+    'drawbox=x=42:y=30:w=3:h=64:color=0xd5a355:t=fill',
+    `drawtext=fontfile='${font}':textfile='${escaped(kickerPath)}':fontsize=16:fontcolor=0xd5a355:x=62:y=30`,
+    `drawtext=fontfile='${font}':textfile='${escaped(titlePath)}':fontsize=${title.length>32?32:38}:fontcolor=0xf3efe4:x=60:y=58`,
     'fade=t=in:st=0:d=0.35', `fade=t=out:st=${duration-.35}:d=0.35`,
   ].join(',');
   const output=resolve(work,`edit-${i}.mp4`);
@@ -60,6 +66,8 @@ run('ffmpeg',['-y','-f','lavfi','-i','color=c=0x0c141a:s=1280x720:r=30:d=4','-vf
 outputs.push(end);
 const list=resolve(work,'concat.txt');
 writeFileSync(list,outputs.map(path=>`file '${path.replaceAll('\\','/')}'`).join('\n'));
-run('ffmpeg',['-y','-f','concat','-safe','0','-i',list,'-i',resolve(work,'industrial-cue.wav'),'-map','0:v','-map','1:a','-c:v','copy','-c:a','aac','-b:a','160k','-movflags','+faststart','-shortest',resolve(media,'machine-move-forward-trailer.mp4')]);
+const final = resolve(work,'final.mp4');
+run('ffmpeg',['-y','-f','concat','-safe','0','-i',list,'-i',resolve(work,'industrial-cue.wav'),'-map','0:v','-map','1:a','-c:v','copy','-c:a','aac','-b:a','160k','-movflags','+faststart','-shortest',final]);
+copyFileSync(final, resolve(media,'machine-move-forward-trailer.mp4'));
 run('ffmpeg',['-y','-ss','2','-i',resolve(media,'machine-move-forward-trailer.mp4'),'-frames:v','1','-q:v','2',resolve(media,'trailer-poster.jpg')]);
 console.log(resolve(media,'machine-move-forward-trailer.mp4'));

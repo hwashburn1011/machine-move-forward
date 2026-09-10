@@ -28,7 +28,7 @@ describe('Destination', () => {
     expect(oldGyro.visible).toBe(false);
     destination.setActive(false);
     expect(destination.configure(RELAY_FOUNDRY)).toBe(true);
-    expect(destination.root.position.x).toBe(13);
+    expect(destination.root.position.x).toBe(15);
     destination.setActive(true);
     destination.setDocked(true);
     expect(
@@ -52,7 +52,7 @@ describe('Destination', () => {
     destination.setActive(true);
     destination.setDocked(true);
     destination.fixedUpdate(702);
-    expect(destination.root.position.x).toBe(12);
+    expect(destination.root.position.x).toBe(14);
     expect(destination.root.position.y).toBe(DECK_SURFACE_Y);
     expect(destination.root.position.z).toBe(0);
     destination.dispose();
@@ -72,7 +72,7 @@ describe('Destination', () => {
     destination.setDocked(true);
     expect(destination.gangwayEnabled).toBe(true);
     expect(destination.containsPlayer(new THREE.Vector3(12, DECK_SURFACE_Y + 1, 0))).toBe(true);
-    expect(destination.containsPlayer(new THREE.Vector3(5.7, DECK_SURFACE_Y + 0.5, 0))).toBe(true);
+    expect(destination.containsPlayer(new THREE.Vector3(7.7, DECK_SURFACE_Y + 0.5, 0))).toBe(true);
     destination.dispose();
   });
 
@@ -144,7 +144,7 @@ describe('Destination', () => {
     // The destination owns the gangway and wreck floor; this box represents
     // the fixed machine deck ending at x=5, leaving the one metre approach gap.
     physics.addFixedBox(
-      new THREE.Vector3(5, 0.1, 8),
+      new THREE.Vector3(7, 0.1, 8),
       new THREE.Vector3(0, DECK_SURFACE_Y - 0.1, 0),
     );
     const destination = new Destination({
@@ -153,7 +153,7 @@ describe('Destination', () => {
       arrivalDistance: 700,
     });
     destination.fixedUpdate(700);
-    const probeOrigin = new THREE.Vector3(12, 10, 0);
+    const probeOrigin = new THREE.Vector3(14, DECK_SURFACE_Y + 5, 0);
     const down = new THREE.Vector3(0, -1, 0);
     expect(physics.raycast(probeOrigin, down, 10)).toBeNull();
     destination.setActive(true);
@@ -162,7 +162,7 @@ describe('Destination', () => {
     physics.step();
     expect(physics.raycast(probeOrigin, down, 10)).not.toBeNull();
     const position = new THREE.Vector3(
-      3.5,
+      5.5,
       DECK_SURFACE_Y + PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS + 0.05,
       0,
     );

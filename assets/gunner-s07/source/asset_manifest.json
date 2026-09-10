@@ -1,0 +1,52 @@
+{
+  "blender": "5.1.0",
+  "character": {
+    "vertices": 223764,
+    "triangles": 317386,
+    "materials": 14
+  },
+  "weapon": {
+    "vertices": 97520,
+    "triangles": 128188,
+    "materials": 12
+  },
+  "bones": 50,
+  "source_components": {
+    "character": 833,
+    "weapon": 404
+  },
+  "units": "meters",
+  "blender_forward": "-Y",
+  "blender_up": "+Z",
+  "rig": "Original named skeleton; no claim of Unreal Mannequin compatibility",
+  "materials": "Original tileable BaseColor, OpenGL tangent normal, packed ORM. Textures embedded in GLB and Blender. FBX includes textures; Unreal materials may require reconnecting maps.",
+  "pose": "Neutral A-pose skeletal character; Gun_Ready editable static action in source; static posed showcase GLB.",
+  "inferred": [
+    "back",
+    "boots",
+    "weapon muzzle",
+    "hidden armor and cloth surfaces"
+  ],
+  "exports": [
+    {
+      "file": "S07_Character_Rigged.fbx",
+      "bytes": 55065196
+    },
+    {
+      "file": "S07_Character_Rigged.glb",
+      "bytes": 63649220
+    },
+    {
+      "file": "S07_Heavy_Weapon.fbx",
+      "bytes": 25954188
+    },
+    {
+      "file": "S07_Heavy_Weapon.glb",
+      "bytes": 29814924
+    },
+    {
+      "file": "S07_Showcase.glb",
+      "bytes": 67351412
+    }
+  ]
+}

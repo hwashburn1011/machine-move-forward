@@ -1,4 +1,5 @@
 import type { EventBus } from '@/core/events/EventBus';
+import { ENEMIES } from '@/data/enemies';
 import { damageBearing } from './DamageDirection';
 import { deckBearingName } from './DeckBearing';
 import type { FirstRunStep } from '@/game/FirstRunDirector';
@@ -233,7 +234,8 @@ export class HUD {
         // behind them, screened by cargo, on a deck they are usually facing
         // away from. Nothing announced it, so the first news of an arrival was
         // being hit by it.
-        this.boardingText = `Scavenger boarding ${deckBearingName(
+        const name = e.defId ? (ENEMIES[e.defId]?.name ?? 'Enemy') : 'Scavenger';
+        this.boardingText = `${name} boarding ${deckBearingName(
           e.position.x,
           e.position.z,
           this.deckHalf.w,

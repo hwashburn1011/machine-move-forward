@@ -1,0 +1,11 @@
+{
+  "layout": "iron-nomad-v1",
+  "scale": [0.75, 0.8333333333333334, 0.8],
+  "offsetY": -0.0033333333333338544,
+  "deckSurface": 14.83,
+  "deckHalfWidth": 6.975,
+  "deckHalfLength": 8.776,
+  "stairwell": { "minX": -3, "maxX": -1, "minZ": -2, "maxZ": 2 },
+  "model": "iron-nomad-playable.glb",
+  "collision": "iron-nomad-collision.glb"
+}

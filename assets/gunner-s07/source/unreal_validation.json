@@ -1,0 +1,29 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "imports": [
+    {
+      "path": "/Game/S07_Ready/S07_Character_Rigged.S07_Character_Rigged",
+      "type": "SkeletalMesh",
+      "size_cm": [
+        215.44154357910156,
+        69.66867256164551,
+        214.86762988567352
+      ],
+      "material_slots": 14,
+      "assigned_materials": 14
+    },
+    {
+      "path": "/Game/S07_Ready/S07_Heavy_Weapon.S07_Heavy_Weapon",
+      "type": "StaticMesh",
+      "size_cm": [
+        34.58245849609375,
+        173.0500259399414,
+        81.18062400817871
+      ],
+      "material_slots": 12
+    }
+  ],
+  "status": "success",
+  "materials": 16,
+  "textures": 18
+}

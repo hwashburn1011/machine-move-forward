@@ -18,7 +18,7 @@ describe('machine subsystems', () => {
     // subsystem at its hitbox would be unreachable for four of the five.
     for (const id of ALL) {
       const at = SUBSYSTEMS[id].repairAt;
-      expect(Math.abs(at.x), `${id} x`).toBeLessThanOrEqual(5);
+      expect(Math.abs(at.x), `${id} x`).toBeLessThanOrEqual(6.975);
       expect(Math.abs(at.z), `${id} z`).toBeLessThanOrEqual(8);
       expect(at.y, `${id} y`).toBe(DECK_HEIGHT);
     }

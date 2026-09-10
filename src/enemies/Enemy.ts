@@ -21,8 +21,9 @@ import {
   steerAround,
   type FanProbe,
 } from './EnemySteering';
-import { CAPSULE_FOOT_OFFSET, CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
+import { CAPSULE_FOOT_OFFSET, CAPSULE_RADIUS } from './EnemyMesh';
 import { EnemyVisual } from './EnemyVisual';
+import { RangedWindup } from './RangedWindup';
 import { levelOf, nextWaypointIndex, segmentIsClear, type NavGraph } from './NavGraph';
 import { cellCenter, worldToCell, type Cell } from '@/building/BuildGrid';
 import { SUBSYSTEMS, type SubsystemId } from '@/data/subsystems';
@@ -83,7 +84,6 @@ const WAYPOINT_LOOKAHEAD = 3.2;
  * The radius plus the gap the controller keeps around it. Measured short of
  * this, the fan cannot tell a usable route from a slot the enemy will wedge in.
  */
-const BODY_HALF_WIDTH = CAPSULE_RADIUS + CHARACTER_SKIN;
 
 /**
  * Seconds of asking to move and not moving before an enemy is called wedged.
@@ -113,6 +113,9 @@ const BLOCKED_FRACTION = 0.25;
  * keep in sync.
  */
 export class Enemy {
+  private readonly ranged: RangedWindup | null;
+  private readonly shotOrigin = new THREE.Vector3();
+  private readonly shotDirection = new THREE.Vector3();
   private readonly visual: EnemyVisual;
 
   private handle: CharacterHandle | null = null;
@@ -168,6 +171,7 @@ export class Enemy {
   ) {
     this.health = def.maxHealth;
     this.visual = new EnemyVisual(model, materials, def.tint);
+    this.ranged = def.ranged ? new RangedWindup(def.ranged) : null;
     this.object3D.visible = false;
     scene.add(this.object3D);
   }
@@ -244,6 +248,7 @@ export class Enemy {
   }
 
   spawn(at: THREE.Vector3): void {
+    this.ranged?.reset();
     this.health = this.def.maxHealth;
     this.state = 'idle';
     this.verticalVelocity = 0;
@@ -267,12 +272,14 @@ export class Enemy {
     this.position.copy(at);
     this.previousPosition.copy(at);
 
-    this.handle = this.physics.addCharacter(CAPSULE_RADIUS, CAPSULE_HALF_HEIGHT, at);
+    const radius = this.def.capsuleRadius ?? CAPSULE_RADIUS;
+    this.handle = this.physics.addCharacter(radius, CAPSULE_FOOT_OFFSET - radius, at);
 
     const damageable: Damageable = {
       kind: 'enemy',
       id: this.id,
       armor: this.def.armor,
+      surface: this.def.surface,
       takeDamage: (amount) => this.takeDamage(amount),
     };
     this.physics.setUserData(this.handle.collider, damageable);
@@ -285,7 +292,7 @@ export class Enemy {
 
     this.object3D.visible = true;
     this.active = true;
-    this.bus.emit('enemy:spawned', { enemyId: this.id, position: { ...at } });
+    this.bus.emit('enemy:spawned', { enemyId: this.id, defId: this.def.id, position: { ...at } });
   }
 
   takeDamage(amount: number): void {
@@ -307,6 +314,8 @@ export class Enemy {
   }
 
   private die(): void {
+    this.ranged?.reset();
+    this.visual.clearAim();
     this.state = 'dead';
     this.deathTimer = 0;
     // Drop the collider immediately so corpses do not block shots or bodies.
@@ -354,6 +363,59 @@ export class Enemy {
       timeSinceLastAttack: this.timeSinceLastAttack,
       blockedBy,
     });
+    if (
+      !this.ranged &&
+      this.def.surface === 'metal' &&
+      decision.attackTarget === 'player' &&
+      !this.canSeePlayer(this.position, playerPos)
+    ) {
+      decision.state = 'pursue';
+      decision.shouldAttack = false;
+      decision.attackTarget = null;
+    }
+    if (this.ranged) {
+      // Indestructible machinery, floors, walls and other characters all block fire.
+      // Walk around cover instead of stopping at rifle range behind a generator.
+      this.attackOrigin(this.shotOrigin);
+      const visible = this.canSeePlayer(this.shotOrigin, playerPos);
+      const canEngage = (visible && distance <= this.def.attackRange) || blockedBy !== null;
+      decision.state = this.ranged.target
+        ? 'attack'
+        : distance > this.def.detectRange
+          ? 'idle'
+          : canEngage
+            ? 'attack'
+            : 'pursue';
+      decision.shouldAttack = false;
+      decision.attackTarget = null;
+      if (decision.state === 'attack') {
+        const target = this.ranged.target ?? playerPos;
+        this.facing = Math.atan2(target.x - this.position.x, target.z - this.position.z);
+        if (
+          !this.ranged.target &&
+          canEngage &&
+          this.timeSinceLastAttack >= this.def.attackCooldown
+        ) {
+          this.ranged.begin(playerPos);
+        }
+      }
+      if (this.ranged.target) {
+        const target = this.ranged.target;
+        target.x += this.carry.x;
+        target.y += this.carry.y;
+        target.z += this.carry.z;
+        if (this.ranged.step(dt)) {
+          this.fireRanged(target, playerStats);
+          this.visual.attack();
+          if (this.ranged.complete) {
+            this.ranged.reset();
+            this.timeSinceLastAttack = 0;
+          }
+        }
+        if (this.ranged.target) this.visual.setAim(this.shotOrigin, target, this.ranged.charge);
+      }
+      if (!this.ranged.target) this.visual.clearAim();
+    }
     /**
      * Arriving at the subsystem it came for is its OWN attack trigger.
      *
@@ -379,6 +441,7 @@ export class Enemy {
       }
     } else if (decision.shouldAttack) {
       this.timeSinceLastAttack = 0;
+      this.visual.attack();
       if (decision.attackTarget === 'player') {
         playerStats.damage(this.def.damage, this.def.name, {
           x: this.position.x,
@@ -513,7 +576,7 @@ export class Enemy {
     if (gap < 1e-4) return null;
     this.blockDir.divideScalar(gap);
 
-    const reach = Math.min(gap, this.def.attackRange);
+    const reach = Math.min(gap, this.ranged ? 2.2 : this.def.attackRange);
     const hit = this.physics.raycast(this.position, this.blockDir, reach, handle.collider);
     // A climbable ramp is a route, not a wall to destroy.
     if (!hit || hit.normal.y >= WALKABLE_NORMAL_Y) return null;
@@ -618,7 +681,11 @@ export class Enemy {
       this.probeDir.set(dx, dy, dz).normalize();
 
       let nearest: number | null = null;
-      for (const offset of shoulderOrigins(dx, dz, BODY_HALF_WIDTH)) {
+      for (const offset of shoulderOrigins(
+        dx,
+        dz,
+        (this.def.capsuleRadius ?? CAPSULE_RADIUS) + CHARACTER_SKIN,
+      )) {
         this.probeOrigin.set(this.position.x + offset.x, y, this.position.z + offset.z);
         const hit = this.physics.raycast(
           this.probeOrigin,
@@ -656,6 +723,8 @@ export class Enemy {
   }
 
   despawn(): void {
+    this.ranged?.reset();
+    this.visual.clearAim();
     if (this.handle) {
       this.physics.removeCollider(this.handle.collider);
       this.physics.removeBody(this.handle.body);
@@ -670,5 +739,79 @@ export class Enemy {
     this.despawn();
     this.scene.remove(this.object3D);
     this.visual.dispose();
+  }
+
+  private attackOrigin(out: THREE.Vector3): void {
+    this.object3D.position.copy(this.position);
+    this.object3D.rotation.y = this.facing;
+    this.visual.muzzlePosition(out);
+  }
+
+  private canSeePlayer(origin: THREE.Vector3, target: THREE.Vector3): boolean {
+    if (!this.handle) return false;
+    // A long barrel may protrude through a wall: never let its tip bypass cover.
+    this.shotDirection.subVectors(origin, this.position);
+    const barrelLength = this.shotDirection.length();
+    if (
+      barrelLength > 0.001 &&
+      this.physics.raycast(
+        this.position,
+        this.shotDirection.divideScalar(barrelLength),
+        barrelLength,
+        this.handle.collider,
+      )
+    )
+      return false;
+    this.shotDirection.subVectors(target, origin);
+    const distance = this.shotDirection.length();
+    if (distance < 0.001) return false;
+    const hit = this.physics.raycast(
+      origin,
+      this.shotDirection.divideScalar(distance),
+      distance + 0.5,
+      this.handle.collider,
+    );
+    return (hit?.userData as { kind?: string } | undefined)?.kind === 'player';
+  }
+
+  private fireRanged(target: { x: number; y: number; z: number }, playerStats: PlayerStats): void {
+    if (!this.handle) return;
+    this.attackOrigin(this.shotOrigin);
+    // Recheck the barrel segment at release as well as at acquisition.
+    this.shotDirection.subVectors(this.shotOrigin, this.position);
+    const barrelLength = this.shotDirection.length();
+    if (
+      barrelLength > 0.001 &&
+      this.physics.raycast(
+        this.position,
+        this.shotDirection.divideScalar(barrelLength),
+        barrelLength,
+        this.handle.collider,
+      )
+    )
+      return;
+    this.shotDirection.set(target.x, target.y, target.z).sub(this.shotOrigin);
+    const distance = this.shotDirection.length();
+    if (distance < 0.001) return;
+    this.shotDirection.divideScalar(distance);
+    const reach = Math.min(distance + 1, this.def.attackRange + 2);
+    const hit = this.physics.raycast(
+      this.shotOrigin,
+      this.shotDirection,
+      reach,
+      this.handle.collider,
+    );
+    const end = hit?.point ?? this.shotOrigin.clone().addScaledVector(this.shotDirection, reach);
+    if ((hit?.userData as { kind?: string } | undefined)?.kind === 'player') {
+      playerStats.damage(this.def.damage, this.def.name, this.position);
+    } else if (isDamageable(hit?.userData) && hit.userData.kind === 'structure') {
+      hit.userData.takeDamage(this.def.damage);
+    }
+    this.bus.emit('enemy:fired', {
+      enemyId: this.id,
+      defId: this.def.id,
+      visualOrigin: { x: this.shotOrigin.x, y: this.shotOrigin.y, z: this.shotOrigin.z },
+      aimEnd: { x: end.x, y: end.y, z: end.z },
+    });
   }
 }

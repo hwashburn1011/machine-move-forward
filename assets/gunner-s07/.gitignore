@@ -1,0 +1,7 @@
+source/*.log
+source/*.blend1
+unreal/DerivedDataCache/
+unreal/Intermediate/
+unreal/Saved/
+unreal/Content/S07/
+*.zip

@@ -212,7 +212,7 @@ function validateDecor(grid: BuildGrid<PieceId>, p: Placement): Validation {
 }
 
 function validateFloorSupport(grid: BuildGrid<PieceId>, cell: Cell): Validation {
-  if (cell.y === 0) return OK; // the chassis carries it
+  if (cell.y === 0 || grid.isMachineSupported(cell)) return OK;
 
   // Above level 0, a floor needs something holding it up: a wall on the level
   // below touching one of its edges, or an existing floor beside it. This one

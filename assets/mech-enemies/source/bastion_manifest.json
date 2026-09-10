@@ -1,0 +1,24 @@
+{
+  "asset": "bastion",
+  "body": {
+    "vertices": 94109,
+    "triangles": 154332,
+    "materials": 8
+  },
+  "bones": 46,
+  "sourceComponents": 771,
+  "units": "meters",
+  "pose": "Neutral A pose. Editable Reference_Pose action remains in source. No locomotion or attack animations.",
+  "equipment": [
+    {
+      "vertices": 36158,
+      "triangles": 47604,
+      "materials": 9
+    }
+  ],
+  "gameBody": {
+    "vertices": 40622,
+    "triangles": 74078,
+    "materials": 8
+  }
+}

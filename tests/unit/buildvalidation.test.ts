@@ -23,6 +23,23 @@ const c = (x: number, y: number, z: number): Cell => ({ x, y, z });
 const RICH: CanAfford = () => true;
 const POOR: CanAfford = () => false;
 
+it('supports construction on fixed lower decks without supporting a stair hole', () => {
+  const grid = new BuildGrid<PieceId>();
+  grid.supportCell(c(0, -2, 0));
+  expect(validatePlacement(grid, { piece: 'floor', cell: c(0, -2, 0), rotation: 0 }, RICH).ok).toBe(
+    true,
+  );
+  expect(validatePlacement(grid, { piece: 'floor', cell: c(3, -2, 3), rotation: 0 }, RICH).ok).toBe(
+    false,
+  );
+  grid.blockCell(c(-1, -1, 0));
+  expect(
+    validatePlacement(grid, { piece: 'floor', cell: c(-1, -1, 0), rotation: 0 }, RICH).ok,
+  ).toBe(false);
+  grid.clear();
+  expect(grid.isMachineSupported(c(0, -2, 0))).toBe(true);
+});
+
 /** A purse holding exactly these items, for the affordability cases. */
 const purse =
   (have: ItemCost): CanAfford =>

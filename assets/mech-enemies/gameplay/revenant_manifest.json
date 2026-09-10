@@ -1,0 +1,14 @@
+{
+  "id": "revenant",
+  "vertices": 25956,
+  "triangles": 48452,
+  "materials": 10,
+  "bones": 48,
+  "clips": [
+    "idle",
+    "walk",
+    "run",
+    "attack",
+    "death"
+  ]
+}

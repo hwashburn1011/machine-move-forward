@@ -1,0 +1,24 @@
+{
+  "asset": "warden",
+  "body": {
+    "vertices": 107805,
+    "triangles": 200514,
+    "materials": 14
+  },
+  "bones": 46,
+  "sourceComponents": 644,
+  "units": "meters",
+  "pose": "Neutral A pose. Editable Reference_Pose action remains in source. No locomotion or attack animations.",
+  "equipment": [
+    {
+      "vertices": 19150,
+      "triangles": 26076,
+      "materials": 9
+    }
+  ],
+  "gameBody": {
+    "vertices": 40324,
+    "triangles": 76194,
+    "materials": 14
+  }
+}

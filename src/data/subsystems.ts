@@ -32,7 +32,7 @@ export interface SubsystemDefinition {
   /**
    * Where the player stands to repair it. DELIBERATELY NOT the hitbox.
    *
-   * The leg hips sit at x = +/-6.0, y = 3.1: outboard of a deck 10m wide and
+   * The leg hips sit below the lowest floor at x = +/-4.875, y = 7.997 and
    * below its plane. There is nowhere to stand at one. Each leg is serviced
    * from an access panel on the nearest deck cell inboard of its hip, and the
    * engine — which stands on the deck — is the one case where the two nearly
@@ -44,8 +44,8 @@ export interface SubsystemDefinition {
   repairScrap: number;
 }
 
-/** Deck edge, inboard of the hips at x = +/-6. */
-const PANEL_X = 4.2;
+/** Service panels along the outer catwalk, clear of the command cabin. */
+const PANEL_X = 6.3;
 
 const leg = (id: SubsystemId, name: string, hip: Vec3): SubsystemDefinition => ({
   id,
@@ -75,10 +75,10 @@ export const SUBSYSTEMS: Record<SubsystemId, SubsystemDefinition> = {
     repairAt: { x: 0, y: DECK_HEIGHT, z: 4.4 },
     repairScrap: 80,
   },
-  'leg-front-left': leg('leg-front-left', 'Port Foreleg', { x: -6, y: 3.1, z: -4.5 }),
-  'leg-front-right': leg('leg-front-right', 'Starboard Foreleg', { x: 6, y: 3.1, z: -4.5 }),
-  'leg-rear-left': leg('leg-rear-left', 'Port Hindleg', { x: -6, y: 3.1, z: 4.5 }),
-  'leg-rear-right': leg('leg-rear-right', 'Starboard Hindleg', { x: 6, y: 3.1, z: 4.5 }),
+  'leg-front-left': leg('leg-front-left', 'Port Foreleg', { x: -4.875, y: 7.997, z: -4.8 }),
+  'leg-front-right': leg('leg-front-right', 'Starboard Foreleg', { x: 4.875, y: 7.997, z: -4.8 }),
+  'leg-rear-left': leg('leg-rear-left', 'Port Hindleg', { x: -4.875, y: 7.997, z: 4.8 }),
+  'leg-rear-right': leg('leg-rear-right', 'Starboard Hindleg', { x: 4.875, y: 7.997, z: 4.8 }),
 };
 
 /** The subsystem that owns each leg of the gait. */

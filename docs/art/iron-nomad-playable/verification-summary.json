@@ -1,0 +1,14 @@
+{
+  "unitTests": 1068,
+  "unitTestFiles": 99,
+  "unitTestsPassed": true,
+  "productionBuildPassed": true,
+  "lintPassed": true,
+  "diffWhitespaceCheckPassed": true,
+  "modelValidation": "asset-validation.json",
+  "traversal": "initial-qa.json",
+  "systems": "systems-qa.json",
+  "opening": "opening-qa.json",
+  "runtimeUrl": "http://127.0.0.1:5193/",
+  "scope": "Local integration on codex/gunner-s07-model; no publish or git push performed."
+}

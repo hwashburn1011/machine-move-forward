@@ -64,6 +64,7 @@ export class ImpactFX {
     }
 
     this.unsubscribe.push(bus.on('combat:hit', (e) => this.onHit(e)));
+    this.unsubscribe.push(bus.on('enemy:fired', (e) => this.showShot(e.visualOrigin, e.aimEnd)));
     this.unsubscribe.push(
       bus.on('weapon:fired', (e) => {
         const from = e.visualOrigin;
