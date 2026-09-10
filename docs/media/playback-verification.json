@@ -1,0 +1,123 @@
+{
+  "base": "http://127.0.0.1:5198/machine-move-forward/",
+  "video": {
+    "width": 1280,
+    "height": 720,
+    "duration": 46,
+    "controls": true,
+    "advanced": true,
+    "frames": [
+      {
+        "at": 3,
+        "actual": 3,
+        "ready": 4
+      },
+      {
+        "at": 9,
+        "actual": 9,
+        "ready": 4
+      },
+      {
+        "at": 13,
+        "actual": 13,
+        "ready": 4
+      },
+      {
+        "at": 16,
+        "actual": 16,
+        "ready": 4
+      },
+      {
+        "at": 18.5,
+        "actual": 18.5,
+        "ready": 4
+      },
+      {
+        "at": 21,
+        "actual": 21,
+        "ready": 4
+      },
+      {
+        "at": 25,
+        "actual": 25,
+        "ready": 4
+      },
+      {
+        "at": 32,
+        "actual": 32,
+        "ready": 4
+      },
+      {
+        "at": 40,
+        "actual": 40,
+        "ready": 4
+      },
+      {
+        "at": 44,
+        "actual": 44,
+        "ready": 4
+      }
+    ]
+  },
+  "game": {
+    "stats": {
+      "calls": 593,
+      "tris": 1477322,
+      "skyBakes": 1,
+      "graphics": {
+        "logicalWidth": 1280,
+        "logicalHeight": 800,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1280,
+        "drawingBufferHeight": 800,
+        "msaaSamples": 2,
+        "gtao": false,
+        "gtaoWidth": 0,
+        "gtaoHeight": 0,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "distance": 11,
+      "chunks": 9,
+      "speed": 7.35,
+      "bodies": 24,
+      "playerY": 15.805,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 1.817,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 0,
+      "particles": 82,
+      "scrap": 260,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    },
+    "machine": true,
+    "player": true,
+    "mechs": [
+      {
+        "id": "warden",
+        "loaded": true
+      },
+      {
+        "id": "revenant",
+        "loaded": true
+      },
+      {
+        "id": "bastion",
+        "loaded": true
+      },
+      {
+        "id": "sovereign",
+        "loaded": true
+      }
+    ]
+  },
+  "errors": [],
+  "failed": []
+}

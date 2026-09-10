@@ -1,10 +1,10 @@
-"""Original 40-second industrial trailer cue; no sampled or licensed music."""
+"""Original 46-second industrial trailer cue; no sampled or licensed music."""
 from pathlib import Path
 import wave
 import numpy as np
 
 RATE = 48000
-DURATION = 40
+DURATION = 46
 out = Path(__file__).resolve().parents[2] / "assets/trailer/industrial-cue.wav"
 out.parent.mkdir(parents=True, exist_ok=True)
 t = np.arange(RATE * DURATION) / RATE
@@ -13,8 +13,8 @@ left = np.zeros_like(t)
 right = np.zeros_like(t)
 
 # A restrained D minor drone, with slowly breathing harmonics.
-for frequency, level, pan in [(36.708, .12, -.1), (73.416, .055, .15),
-                               (110, .025, -.35), (146.832, .016, .4)]:
+for frequency, level, pan in [(36.708, .024, -.1), (73.416, .018, .15),
+                               (110, .016, -.35), (146.832, .012, .4)]:
     tone = np.sin(2 * np.pi * frequency * t + .07 * np.sin(t * .6))
     tone *= level * (.65 + .35 * np.sin(t * .31) ** 2)
     left += tone * (1 - pan * .4)
@@ -22,7 +22,7 @@ for frequency, level, pan in [(36.708, .12, -.1), (73.416, .055, .15),
 
 # Mechanical pulse: synthesized damped resonators and filtered noise.
 beat = 60 / 96
-for index, when in enumerate(np.arange(1.25, 37.5, beat)):
+for index, when in enumerate(np.arange(1.25, 43.5, beat)):
     start = int(when * RATE)
     u = np.arange(int(.7 * RATE)) / RATE
     accent = 1 if index % 4 == 0 else .58
@@ -39,7 +39,7 @@ for index, when in enumerate(np.arange(1.25, 37.5, beat)):
     right[start:end] += pulse[:end-start] * (.92 if index % 2 else 1)
 
 # Soft rises connect the trailer's cuts; no loud impact stingers.
-for when in [5.5, 12.5, 21.5, 28.5, 35.5]:
+for when in [6.5, 11.5, 14, 16.5, 19, 21.5, 29.5, 36.5, 41.5]:
     start = int((when - .7) * RATE)
     length = int(1.2 * RATE)
     u = np.linspace(0, 1, length)
@@ -52,7 +52,7 @@ for when in [5.5, 12.5, 21.5, 28.5, 35.5]:
 fade = np.minimum(1, t / 1.2) * np.minimum(1, np.maximum(0, DURATION-t) / 2.2)
 stereo = np.column_stack([left, right]) * fade[:, None]
 stereo = np.tanh(stereo * 1.5)
-stereo *= .7 / max(.001, np.max(np.abs(stereo)))
+stereo *= .45 / max(.001, np.max(np.abs(stereo)))
 with wave.open(str(out), "wb") as wav:
     wav.setnchannels(2)
     wav.setsampwidth(2)

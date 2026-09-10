@@ -1,6 +1,6 @@
 # Iron Nomad — four-legged mobile foundry
 
-[Download the full portable art package](https://github.com/hwashburn1011/machine-move-forward/releases/download/v0.2.0/IronNomad_3D_Package.zip). Editable Blender sources, textures and optimized models remain in this repository. The `exports/` and native Unreal binary links below refer to files inside that package; unpack it into this directory to use those paths. Current gameplay derivatives are versioned separately alongside the game integration.
+[Download the full portable art package](https://github.com/hwashburn1011/machine-move-forward/releases/download/v0.2.0/IronNomad_3D_Package.zip). Editable Blender sources, textures and optimized models remain in this repository. The `exports/` and native Unreal binary links below refer to files inside that package; unpack it at the repository root to use those paths. Current gameplay derivatives are versioned separately alongside the game integration.
 
 
 An original Blender vehicle model based on the supplied walking-fortress illustration, intended as the visual basis for the player's main machine in **Machine Move Forward**.
