@@ -1,0 +1,82 @@
+[
+  {
+    "file": "bastion_equipment.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 6
+  },
+  {
+    "file": "bastion_game.glb",
+    "degenerate_uv_tangents_repaired": 7,
+    "unused_tangent_attributes_removed": 5
+  },
+  {
+    "file": "bastion_rigged.glb",
+    "degenerate_uv_tangents_repaired": 42,
+    "unused_tangent_attributes_removed": 5
+  },
+  {
+    "file": "bastion_showcase.glb",
+    "degenerate_uv_tangents_repaired": 38,
+    "unused_tangent_attributes_removed": 11
+  },
+  {
+    "file": "revenant_equipment.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 4
+  },
+  {
+    "file": "revenant_game.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 6
+  },
+  {
+    "file": "revenant_rigged.glb",
+    "degenerate_uv_tangents_repaired": 3,
+    "unused_tangent_attributes_removed": 6
+  },
+  {
+    "file": "revenant_showcase.glb",
+    "degenerate_uv_tangents_repaired": 2,
+    "unused_tangent_attributes_removed": 14
+  },
+  {
+    "file": "sovereign_equipment.glb",
+    "degenerate_uv_tangents_repaired": 1,
+    "unused_tangent_attributes_removed": 3
+  },
+  {
+    "file": "sovereign_game.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 7
+  },
+  {
+    "file": "sovereign_rigged.glb",
+    "degenerate_uv_tangents_repaired": 3,
+    "unused_tangent_attributes_removed": 7
+  },
+  {
+    "file": "sovereign_showcase.glb",
+    "degenerate_uv_tangents_repaired": 7,
+    "unused_tangent_attributes_removed": 10
+  },
+  {
+    "file": "warden_equipment.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 5
+  },
+  {
+    "file": "warden_game.glb",
+    "degenerate_uv_tangents_repaired": 1,
+    "unused_tangent_attributes_removed": 7
+  },
+  {
+    "file": "warden_rigged.glb",
+    "degenerate_uv_tangents_repaired": 2,
+    "unused_tangent_attributes_removed": 7
+  },
+  {
+    "file": "warden_showcase.glb",
+    "degenerate_uv_tangents_repaired": 2,
+    "unused_tangent_attributes_removed": 12
+  }
+]

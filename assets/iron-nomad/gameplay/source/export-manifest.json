@@ -1,0 +1,14 @@
+{
+  "full": {
+    "triangles": 551792,
+    "meshObjects": 34,
+    "materialPrimitives": 193
+  },
+  "game": {
+    "triangles": 231716,
+    "meshObjects": 34,
+    "materialPrimitives": 193
+  },
+  "colliders": 46,
+  "lightAnchors": 83
+}

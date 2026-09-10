@@ -1,0 +1,458 @@
+{
+  "name": "Iron Nomad complete 3D model package",
+  "files": [
+    {
+      "path": "assets/iron-nomad/exports/iron-nomad-colliders.glb",
+      "bytes": 69892,
+      "sha256": "c49d04767413de80d898ecf2fe7ee9a58ff5e77a98cd7c3c7c2055f838c9431a"
+    },
+    {
+      "path": "assets/iron-nomad/exports/iron-nomad-full.fbx",
+      "bytes": 47660732,
+      "sha256": "3f1ffa00a5c66ee64f1b6bde3a46c4774f82fafe894071a376bd373bae801d2e"
+    },
+    {
+      "path": "assets/iron-nomad/exports/iron-nomad-full.glb",
+      "bytes": 64332804,
+      "sha256": "dd5bc2a9967ee19d5058038a5eb79e19984e1a73f1ca0db8e0f2eb9cbad760cc"
+    },
+    {
+      "path": "assets/iron-nomad/exports/iron-nomad-game.glb",
+      "bytes": 43861220,
+      "sha256": "bd736e41f1c8acbaa4dc799864dd2aee2a6183fd0d68adb9e0507b3253576706"
+    },
+    {
+      "path": "assets/iron-nomad/exports/tangent_cleanup.json",
+      "bytes": 415,
+      "sha256": "9d1ef2e1a61ffc8599d3aa8b10b6764957f9975a219f95d2b433cb7494c8ba2b"
+    },
+    {
+      "path": "assets/iron-nomad/optimized/iron-nomad-full.glb",
+      "bytes": 34291584,
+      "sha256": "9b790eb7f41b8ba2b4d0dfd04f1b628f4e857225a9cacb8eb24c685ee63f1b4f"
+    },
+    {
+      "path": "assets/iron-nomad/optimized/iron-nomad-game.glb",
+      "bytes": 16926496,
+      "sha256": "93ca0b10f1c0cf93d672fbf59151695c8a0e3a8f3a8d2505e4d228843f0a642b"
+    },
+    {
+      "path": "assets/iron-nomad/optimized/optimize-manifest.json",
+      "bytes": 14251,
+      "sha256": "bfb8598ef01e645f2c4ed606f17804a89b64a9156855e77d3b3ef989164f9c87"
+    },
+    {
+      "path": "assets/iron-nomad/preview/banner.png",
+      "bytes": 3622964,
+      "sha256": "29e28feef91d73d54611cda559f96739a17fb83d0c0d017db0ab9c991fdcbf6e"
+    },
+    {
+      "path": "assets/iron-nomad/preview/blender-mcp.png",
+      "bytes": 621710,
+      "sha256": "ed8e804e3ab4bcb155afad2712418222249b4f7bdc95b65a2be58c88c507b86f"
+    },
+    {
+      "path": "assets/iron-nomad/preview/front.png",
+      "bytes": 3629306,
+      "sha256": "79144ad011f613adf639b44fdfdcd93202f1038360b5121c459d67e1dc313ca7"
+    },
+    {
+      "path": "assets/iron-nomad/preview/hero.png",
+      "bytes": 3467768,
+      "sha256": "f91cb77602791a5e7d23cc4ec65f1fa85cc9d29ca99dfd7a0bca462419399d28"
+    },
+    {
+      "path": "assets/iron-nomad/preview/leg.png",
+      "bytes": 3426567,
+      "sha256": "6ce618cb8ed3a7feb130e03083d2a703bfc1e87d028221905c37842f22fdcb51"
+    },
+    {
+      "path": "assets/iron-nomad/preview/rear.png",
+      "bytes": 3808157,
+      "sha256": "5621bab91526b909acdc631946fce1bef86f9c8db682b262e3f009584acbb764"
+    },
+    {
+      "path": "assets/iron-nomad/preview/top.png",
+      "bytes": 3596144,
+      "sha256": "f43421c7261bcf2e396cfc0426cced074ec3cf4a3f653220f83c9ac300dc9a7b"
+    },
+    {
+      "path": "assets/iron-nomad/preview/viewer-full-legs.png",
+      "bytes": 1091663,
+      "sha256": "e6e6f83c95f6a8dbe9d96b1160a6f868e71d60394da8c83c9e1023bd00d488a6"
+    },
+    {
+      "path": "assets/iron-nomad/preview/viewer-full-night.png",
+      "bytes": 657310,
+      "sha256": "b408c88d72032351dfe9a0aa40a85f84c6e23558c37c4d15fe54172b618c78c9"
+    },
+    {
+      "path": "assets/iron-nomad/preview/viewer-full.png",
+      "bytes": 680879,
+      "sha256": "1d5643f57df0f2352a7d8d138a633b6f233743c42d5dc1085f70a8faab4e9365"
+    },
+    {
+      "path": "assets/iron-nomad/preview/viewer-game-legs.png",
+      "bytes": 1093426,
+      "sha256": "27aa8985ed5aa8e0b422e801c73e4e8b380ea99e6db0001e69842be25f99cf3d"
+    },
+    {
+      "path": "assets/iron-nomad/preview/viewer-game-night.png",
+      "bytes": 657718,
+      "sha256": "34ecd402f27348d4393c599d5ad2918aa29721160dd3d58a4a58f029f04d3582"
+    },
+    {
+      "path": "assets/iron-nomad/preview/viewer-game.png",
+      "bytes": 682483,
+      "sha256": "5a68e39289b30abce32ca058fb0845704f11f1e9e84f99d16ba6daa632382cbf"
+    },
+    {
+      "path": "assets/iron-nomad/README.md",
+      "bytes": 10787,
+      "sha256": "1211ebff8336a37466ebbaecae704019189f0f8d24d057836c0f672de556c62b"
+    },
+    {
+      "path": "assets/iron-nomad/reference/banner_crane.png",
+      "bytes": 416981,
+      "sha256": "2b3276aac8369a32ea68021f26b74d107d391343927106f7765860af5ce5bf5e"
+    },
+    {
+      "path": "assets/iron-nomad/reference/decks_fan.png",
+      "bytes": 671723,
+      "sha256": "dbd3dc166870f9cb1c337953b9eb8c2e28f0da2f08f6b101bcd109274407f2e5"
+    },
+    {
+      "path": "assets/iron-nomad/reference/front_leg.png",
+      "bytes": 571582,
+      "sha256": "b9cef0c7045e4e2bda47f318617b43f5a3435a09f15bedaa7394fd13de1e6bb2"
+    },
+    {
+      "path": "assets/iron-nomad/reference/rear_leg.png",
+      "bytes": 130165,
+      "sha256": "2e7f7e4b3639c2d39510a89222773c79b57b1f24fcc29bfb00ef7e343685047a"
+    },
+    {
+      "path": "assets/iron-nomad/reference/superstructure.png",
+      "bytes": 557441,
+      "sha256": "236f18cb1af1d08cb4276ac987f3ab2a76374f2e35e5755d5bb952db1b8b71f1"
+    },
+    {
+      "path": "assets/iron-nomad/reference/walker.png",
+      "bytes": 3230914,
+      "sha256": "d11ea0aa1b125a3fcf21d5e0ef678d85edfa8bdc530df5c95b7a163c4534b19d"
+    },
+    {
+      "path": "assets/iron-nomad/REFERENCE.md",
+      "bytes": 1791,
+      "sha256": "9d0b119a9871716f98bff892bb1df1cbe372a7b5104012b0e1e615a36f4f03af"
+    },
+    {
+      "path": "assets/iron-nomad/source/blender-validation.json",
+      "bytes": 3757,
+      "sha256": "1c11ac3eca725e62b2d289e94bd9a40e159c2fff56fe8c107d95ce31c2ce24b1"
+    },
+    {
+      "path": "assets/iron-nomad/source/browser-validation.json",
+      "bytes": 9874,
+      "sha256": "90014a6d3f0730f6dcfb6834f7bcd2ec86bcc21a443a88dc298a33236b21f5b3"
+    },
+    {
+      "path": "assets/iron-nomad/source/export-manifest.json",
+      "bytes": 295,
+      "sha256": "db752d3f783b57f68bdc92604813b075edaf2903b2d61c37a8441f7d116c7d87"
+    },
+    {
+      "path": "assets/iron-nomad/source/gltf-validation.json",
+      "bytes": 105665,
+      "sha256": "5a14f24b93c12923c27d78f4081c9eb4678a3379e3e8bffb8dcf024edc3eaf86"
+    },
+    {
+      "path": "assets/iron-nomad/source/IronNomad_Master.blend",
+      "bytes": 25325149,
+      "sha256": "5b9b460d1f25b3f8ac6afe2f9b8ca3f59f0d58011d69022599265da76bffff7e"
+    },
+    {
+      "path": "assets/iron-nomad/source/IronNomad_Portable.blend",
+      "bytes": 34591254,
+      "sha256": "05e4739ebb20a083d5b425fb59989a37e395d9a9a7cef9c21ed14cd423d4e0c1"
+    },
+    {
+      "path": "assets/iron-nomad/source/IronNomad_Review.blend",
+      "bytes": 26244353,
+      "sha256": "2e73b9af4297bd6e32ac4b3af96eac97bce8a4acb64cc1423209d39c05b1e96f"
+    },
+    {
+      "path": "assets/iron-nomad/source/manifest.json",
+      "bytes": 19833,
+      "sha256": "598e12c99e7eb3022b7878d319a239e843a9d73985d0c259d70f00713ba9c90d"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Aged_BareMetal_BaseColor.png",
+      "bytes": 677949,
+      "sha256": "1abe56f3c0bec33a9ea634b2be7d3b0a890c09fca9052bf2f6a702c93791db34"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Aged_BareMetal_Normal.png",
+      "bytes": 1266152,
+      "sha256": "ce18348f974dcdb5ab878d6172c12b70ebb414bd34732f4df176f7ccd2acc95f"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Aged_BareMetal_ORM.png",
+      "bytes": 759610,
+      "sha256": "215fb8e22e822e41d9ee91b07f04f621e8d303efcb75e7d2922df78e7f20b9b6"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Charcoal_Steel_BaseColor.png",
+      "bytes": 467658,
+      "sha256": "8651a88a6ce2e89a86b257db41df5176b01787a7a1792adb0d99d88ec79701a1"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Charcoal_Steel_Normal.png",
+      "bytes": 1205907,
+      "sha256": "6dc860d731349f4b9cc6985f41c7b279dbd8ba0465265d4a2da5cec31b934f10"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Charcoal_Steel_ORM.png",
+      "bytes": 740723,
+      "sha256": "999220360e1a1b1e03c356cd5a7320a68ebdbc69d6f23f1f08743d38e4f286ae"
+    },
+    {
+      "path": "assets/iron-nomad/textures/ChevronBanner_BaseColor.png",
+      "bytes": 756256,
+      "sha256": "7986198bf147054cbd21d492602a6fb1416e046f04524f71f8e22d5d14c26c3c"
+    },
+    {
+      "path": "assets/iron-nomad/textures/OxideRed_PaintedSteel_BaseColor.png",
+      "bytes": 1370186,
+      "sha256": "1a4475e94f13f46782af2d69ddcbe4bada6b5906f44dcc6d74bc03a635ded375"
+    },
+    {
+      "path": "assets/iron-nomad/textures/OxideRed_PaintedSteel_Normal.png",
+      "bytes": 3132791,
+      "sha256": "087d9e90166492dd91aec2ab26199c69f3842c87f0bddd81bacd7b7f3aa2b5a6"
+    },
+    {
+      "path": "assets/iron-nomad/textures/OxideRed_PaintedSteel_ORM.png",
+      "bytes": 2470447,
+      "sha256": "2dc869fd10d2ef1d30c25ba3383948ee7af234285b6490ef081315328b9e5cdd"
+    },
+    {
+      "path": "assets/iron-nomad/textures/WarmIvory_PaintedSteel_BaseColor.png",
+      "bytes": 2768615,
+      "sha256": "3aded0d861ca78a24dce4d01ccbadcec8c75ff9c6344ae93949d5613608f38ae"
+    },
+    {
+      "path": "assets/iron-nomad/textures/WarmIvory_PaintedSteel_Normal.png",
+      "bytes": 3237709,
+      "sha256": "feca40c91a5a3a2f85ae3ad6835f740298fc4086cfee9d9cff453a6abc94fca3"
+    },
+    {
+      "path": "assets/iron-nomad/textures/WarmIvory_PaintedSteel_ORM.png",
+      "bytes": 2545381,
+      "sha256": "534132f131678359d08aab5a2bcebabb46ae838bab3ae098e21dc2c36f34ebb5"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Worn_HandrailBrass_BaseColor.png",
+      "bytes": 670412,
+      "sha256": "c824168d1cdb6f24c47b9ef6d6c4bba2ee8a28e4f6ab42c00ad81a5ed92547a2"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Worn_HandrailBrass_Normal.png",
+      "bytes": 1305344,
+      "sha256": "910dcc680057d62790c9a8bb1b045889df5ad5f4fcd1182cd61689350571f73d"
+    },
+    {
+      "path": "assets/iron-nomad/textures/Worn_HandrailBrass_ORM.png",
+      "bytes": 789896,
+      "sha256": "ce55a430f10fc02ad7b213094a184f90e9ba75fcb76297d8ce43adfd95faa60b"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/index.html",
+      "bytes": 5936,
+      "sha256": "cbfd96443dc8f610075f98b46f0ee40ae8184c75a52d1a0cc7c32779d8d1f746"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/controls/OrbitControls.js",
+      "bytes": 40504,
+      "sha256": "faabb4e8dfd9235ee4a9fd7c9a3d75f90f1689dbd4944bd6fd32117dacec5f93"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/environments/RoomEnvironment.js",
+      "bytes": 4960,
+      "sha256": "55f466192cc84298755a424c5e040345006b2ee1455589b3b54126c2ea4123f4"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/loaders/GLTFLoader.js",
+      "bytes": 114959,
+      "sha256": "97642d720f16cc9a0c9844934198e4d0c023bea8e89576d0f7545d03b2d103d2"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/meshopt_decoder.module.js",
+      "bytes": 29256,
+      "sha256": "d428e73a000057c6c94bfcedc3412d0c2dc14ca8800e88553aab05113ad2bf19"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/postprocessing/EffectComposer.js",
+      "bytes": 8501,
+      "sha256": "4e079a5886152d7e529a59aef644e968ab4d32c6a33ce016b36bf29b2eac26f7"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/postprocessing/MaskPass.js",
+      "bytes": 4694,
+      "sha256": "7cd08eee9d5d6f5578beaddbdcbe9c384f6873810af27f22ab7db3ceeb127aa3"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/postprocessing/OutputPass.js",
+      "bytes": 4184,
+      "sha256": "02e4a261af34de71338185e9e87f0cbe5cba9115608d984363e1269dec1d2272"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/postprocessing/Pass.js",
+      "bytes": 4218,
+      "sha256": "444b409c235ead986893c472e720da1b779a56985c7d10b279c7944b52bd61c5"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/postprocessing/RenderPass.js",
+      "bytes": 4280,
+      "sha256": "817f6c3cdcd0fd41515d112359ea0532568eefb5aabd3b33903957ebca1b8a6a"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/postprocessing/ShaderPass.js",
+      "bytes": 3228,
+      "sha256": "e2500a5913b26bbf5148ceaae644c6edcff06a18b01494ee37bf856353d2ab9d"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/postprocessing/UnrealBloomPass.js",
+      "bytes": 14921,
+      "sha256": "1158bb02f6467889aba19c1a788b9107054d7f6a558498b5e2152db5873bb859"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/shaders/CopyShader.js",
+      "bytes": 729,
+      "sha256": "a33057d5ac91c43304c186ac0e8816e62bb2ed471d3a00ff3018dfd5c0389718"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/shaders/LuminosityHighPassShader.js",
+      "bytes": 1291,
+      "sha256": "5044f780b6e6cf863947f64c36fe1587132f7fbe395ada863cd1e5f0388dcf1e"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/shaders/OutputShader.js",
+      "bytes": 1876,
+      "sha256": "353479f77a8d7e2629d49ccac9fc2f5dbfdda5442e0adf867b00377a2fcb0cb2"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/utils/BufferGeometryUtils.js",
+      "bytes": 37621,
+      "sha256": "5c552223a9309883743b80538d6e9cdb45e3227f30d3ec56fb2c39b46e78d595"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/addons/utils/SkeletonUtils.js",
+      "bytes": 11535,
+      "sha256": "b1632a703206c3d830de9fcbe515696770d04b71a15ee6b50afa6d2c3298c86f"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/MESHOPT-LICENSE.md",
+      "bytes": 1079,
+      "sha256": "f03037ca7bad1e3eb7f4a63fa6084a8baabd5ba30d3c239a9a7f35705d873e26"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/THREE-LICENSE.txt",
+      "bytes": 1081,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/three.core.js",
+      "bytes": 1443056,
+      "sha256": "3718df126d69c125362a03340913204470d8c50238605150e57f808840fb7759"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/vendor/three.module.js",
+      "bytes": 650153,
+      "sha256": "bbf5ed13fe4373f5bd38b14ea8e62e9f157327da5638edc6d3863e08b167c9c7"
+    },
+    {
+      "path": "assets/iron-nomad/viewer/viewer.js",
+      "bytes": 9447,
+      "sha256": "e24e8fcd0f9e610b3d5f7e1b81d77ee7752713d88658ca0678a529757bf0be69"
+    },
+    {
+      "path": "tools/art/iron_nomad/browser_qa.mjs",
+      "bytes": 3736,
+      "sha256": "65c6138ad95371a783c20b3d9ca6be7c4d8b32540cd6b1e1010e8fee207ad4e3"
+    },
+    {
+      "path": "tools/art/iron_nomad/build.py",
+      "bytes": 40970,
+      "sha256": "96e19051aa30878e7e91f5b576fb7aa8a09db376ff33e07b37643bc8cd2e364f"
+    },
+    {
+      "path": "tools/art/iron_nomad/clean_gltf.py",
+      "bytes": 2659,
+      "sha256": "40811f56e7df280a1256d85a4410060262eb0b66408d97692fd835c8b1153f51"
+    },
+    {
+      "path": "tools/art/iron_nomad/export.py",
+      "bytes": 6079,
+      "sha256": "9f38126b2a472c771ececcb2a011c0bd7ae35b7ecf13de203443c1ac218f75d0"
+    },
+    {
+      "path": "tools/art/iron_nomad/kit.py",
+      "bytes": 13571,
+      "sha256": "f649bef9f36adfe71eb347948f85066439c4424ed9cba52d46db27f0fa4b4855"
+    },
+    {
+      "path": "tools/art/iron_nomad/optimize.mjs",
+      "bytes": 13204,
+      "sha256": "a108b3ffc68bb148148b3463f21b677956cb22f8bcf225fe80d8143be9a1581b"
+    },
+    {
+      "path": "tools/art/iron_nomad/package.py",
+      "bytes": 2878,
+      "sha256": "f3bb8829aec8458ffe1763844295f3220ea34c7afb94986bcbd6a7b764a892b5"
+    },
+    {
+      "path": "tools/art/iron_nomad/reexport.py",
+      "bytes": 3360,
+      "sha256": "c3333050beae46969037da7bf952f598d2e11289f2ba7a4eb2fb7487963e9f8a"
+    },
+    {
+      "path": "tools/art/iron_nomad/render.py",
+      "bytes": 7871,
+      "sha256": "1c1dae70e2641a049961c92525620309184c4778b7a7bf704e4f20e54f8e8994"
+    },
+    {
+      "path": "tools/art/iron_nomad/stage_mcp.py",
+      "bytes": 860,
+      "sha256": "6f36b6d09646b2ee4285afb6188d5ddffafc786cc5c4b1ddcaf829b4fa2abe82"
+    },
+    {
+      "path": "tools/art/iron_nomad/validate.mjs",
+      "bytes": 2497,
+      "sha256": "bdc26f274415c5ac34ec6532aecbc3a07078e49b293f946906dda4402648f69d"
+    },
+    {
+      "path": "tools/art/iron_nomad/validate_blender.py",
+      "bytes": 3181,
+      "sha256": "e9f24e2112c076ebfa3ac2319630c76ee7b7edb2574a78b0288faee78a048dee"
+    }
+  ],
+  "verifiedGLBs": 5,
+  "parts": 4592,
+  "geometry": {
+    "full": {
+      "triangles": 551156,
+      "meshObjects": 33,
+      "materialPrimitives": 191,
+      "sourceTriangles": 551156
+    },
+    "game": {
+      "triangles": 231312,
+      "meshObjects": 33,
+      "materialPrimitives": 191,
+      "sourceTriangles": 231448
+    },
+    "colliders": 46,
+    "lightAnchors": 83
+  }
+}

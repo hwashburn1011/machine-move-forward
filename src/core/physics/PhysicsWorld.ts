@@ -138,7 +138,22 @@ export class PhysicsWorld {
     return collider;
   }
 
-  /** Move a kinematic body. Rapier interpolates to this over the next step. */
+  /** Attach evaluated static surfaces to the driven hull body. */
+  addTrimeshTo(
+    body: RAPIER.RigidBody,
+    vertices: Float32Array,
+    indices: Uint32Array,
+    userData?: unknown,
+  ): RAPIER.Collider {
+    const collider = this.world.createCollider(
+      RAPIER.ColliderDesc.trimesh(vertices, indices),
+      body,
+    );
+    if (userData !== undefined) this.setUserData(collider, userData);
+    return collider;
+  }
+
+  /** Move a kinematic body. Rapier interpolates over the next step. */
   setKinematicPose(
     body: RAPIER.RigidBody,
     position: THREE.Vector3,

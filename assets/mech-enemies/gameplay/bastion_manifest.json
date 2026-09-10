@@ -1,0 +1,14 @@
+{
+  "id": "bastion",
+  "vertices": 35278,
+  "triangles": 61532,
+  "materials": 10,
+  "bones": 47,
+  "clips": [
+    "idle",
+    "walk",
+    "run",
+    "attack",
+    "death"
+  ]
+}

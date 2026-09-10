@@ -136,7 +136,7 @@ describe('Foundry destination contract', () => {
     });
     destination.setActive(true);
     destination.setDocked(true);
-    expect(destination.root.position.x).toBe(13);
+    expect(destination.root.position.x).toBe(15);
     expect(destination.interactables.map((item) => item.id)).toEqual(
       expect.arrayContaining([
         'relay-foundry-salvage-controller',

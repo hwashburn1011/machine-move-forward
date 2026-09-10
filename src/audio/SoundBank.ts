@@ -160,12 +160,10 @@ const SOUNDS: Record<SoundId, VoiceSpec> = {
   },
 
   // --- The machine ---------------------------------------------------------
-  // The whole point of the exercise. A walker's footfall is a mass arriving:
-  // almost all low end, a very fast attack, and a decay short enough that four
-  // a second do not turn into a drone.
+  // Rounded, quiet impacts: the player hears these for the whole journey.
   footfall: {
     source: { kind: 'noise', filter: 'lowpass', hz: 130, q: 1.1 },
-    envelope: { peak: 0.55, attack: 0.004, decay: 0.34 },
+    envelope: { peak: 0.24, attack: 0.035, decay: 0.3 },
     layers: [0, -12],
   },
 
@@ -264,8 +262,11 @@ export const DRONE_IDLE_HZ = 41;
 export const DRONE_FULL_HZ = 58;
 
 /** Gain of the drone at rest and at full speed. A stopped machine is quiet. */
-export const DRONE_IDLE_GAIN = 0.02;
-export const DRONE_FULL_GAIN = 0.09;
+export const DRONE_IDLE_GAIN = 0.0002;
+export const DRONE_FULL_GAIN = 0.006;
+
+/** Independent of master/effects volume; old settings inherit the quieter mix. */
+export const DEFAULT_AMBIENCE_VOLUME = 0.6;
 
 /**
  * The drone's pitch and volume at a given speed.
@@ -275,11 +276,17 @@ export const DRONE_FULL_GAIN = 0.09;
  * not scream.
  */
 export function dronePitch(speed: number, baseSpeed: number): number {
-  return DRONE_IDLE_HZ + (DRONE_FULL_HZ - DRONE_IDLE_HZ) * clamp01(speed / baseSpeed);
+  return DRONE_IDLE_HZ + (DRONE_FULL_HZ - DRONE_IDLE_HZ) * speedRatio(speed, baseSpeed);
 }
 
 export function droneGain(speed: number, baseSpeed: number): number {
-  return DRONE_IDLE_GAIN + (DRONE_FULL_GAIN - DRONE_IDLE_GAIN) * clamp01(speed / baseSpeed);
+  return DRONE_IDLE_GAIN + (DRONE_FULL_GAIN - DRONE_IDLE_GAIN) * speedRatio(speed, baseSpeed);
+}
+
+function speedRatio(speed: number, baseSpeed: number): number {
+  return Number.isFinite(speed) && Number.isFinite(baseSpeed) && baseSpeed > 0
+    ? clamp01(speed / baseSpeed)
+    : 0;
 }
 
 function clamp01(v: number): number {
@@ -311,12 +318,8 @@ export function ambienceGain(inside: boolean): number {
 // ---------------------------------------------------------------------------
 
 /**
- * Two oscillators barely apart, low, under everything.
- *
- * Synthesised like everything else here, and for the reason `ASSETS.md` gives:
- * a sustained pad is two detuned saws through a low-pass whether it comes out
- * of an OGG or out of an oscillator, and the OGG brings a licence, a download,
- * a loading state and a decode with it.
+ * Two quiet sine voices. Short, gently shaped phrases leave real rests rather
+ * than adding another continuous buzz on top of the machinery.
  *
  * It plays in `calm` and nowhere else. That is the design rather than a
  * limitation: music that STOPS is a warning the player hears before they see
@@ -331,13 +334,19 @@ export const PAD_ROOT_HZ = 98;
  * about a quarter tone they stop beating against each other and start sounding
  * like a mistake.
  */
-export const PAD_DETUNE_CENTS = 11;
+export const PAD_DETUNE_CENTS = 3;
 
 /** Low-pass cutoff. The top taken off, so it is a presence rather than a note. */
 export const PAD_FILTER_HZ = 420;
 
 /** Peak gain. Under the engine at full speed, deliberately — see the test. */
-export const PAD_GAIN = 0.05;
+export const PAD_GAIN = 0.0015;
+
+/** A 14-second phrase followed by 22 seconds of rest; no hard gain edges. */
+export function calmPadEnvelope(seconds: number): number {
+  const phase = Math.max(0, seconds) % 36;
+  return phase < 14 ? Math.sin((phase / 14) * Math.PI) ** 2 : 0;
+}
 
 /** Seconds to fade in, and out. Long enough that neither is an event. */
 export const PAD_ATTACK_S = 6;

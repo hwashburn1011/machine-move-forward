@@ -229,6 +229,14 @@ export class BuildGrid<T = string> {
    */
   private readonly fixtures = new Map<string, T>();
   private readonly blocked = new Set<string>();
+  private readonly machineSupports = new Set<string>();
+
+  supportCell(c: Cell): void {
+    this.machineSupports.add(cellKey(c));
+  }
+  isMachineSupported(c: Cell): boolean {
+    return this.machineSupports.has(cellKey(c));
+  }
 
   getCell(c: Cell): T | undefined {
     return this.cells.get(cellKey(c));

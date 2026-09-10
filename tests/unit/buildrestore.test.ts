@@ -60,6 +60,47 @@ function buildForRestore(inventory = new Container(16)): BuildSystem {
 }
 
 describe('build save identity', () => {
+  it('relocates a blocked legacy station with its id, health and contents', () => {
+    const build = buildForRestore();
+    build.gridView.blockCell({ x: 2, y: 0, z: 2 });
+    build.restore(
+      [
+        {
+          instanceId: 'bp-20',
+          definitionId: 'crate',
+          cell: { x: 2, y: 0, z: 2 },
+          rotation: 0,
+          health: 41,
+          state: { slots: [{ itemId: 'components', count: 3 }] },
+        },
+      ],
+      true,
+    );
+    const crate = build.serialise().find((p) => p.instanceId === 'bp-20');
+    expect(crate?.cell).toEqual({ x: 0, y: 0, z: 0 });
+    expect(crate?.health).toBe(41);
+    expect((crate?.state?.slots as unknown[])?.[0]).toEqual({ itemId: 'components', count: 3 });
+    expect(build.recoveryPieces).toHaveLength(0);
+    build.clear();
+  });
+
+  it('retains an unplaceable legacy piece for the next save instead of discarding it', () => {
+    const build = buildForRestore();
+    build.gridView.blockCell({ x: 0, y: 0, z: 0 });
+    const piece = {
+      instanceId: 'bp-21',
+      definitionId: 'crate' as const,
+      cell: { x: 0, y: 0, z: 0 },
+      rotation: 0,
+      health: 41,
+      state: { slots: [{ itemId: 'components', count: 3 }] },
+    };
+    build.restore([piece], true);
+    expect(build.recoveryPieces).toEqual([piece]);
+    expect(build.serialise()).toHaveLength(0);
+    build.clear();
+  });
+
   it('sanitizes malformed collector buffer slots during restore', () => {
     const build = buildForRestore();
     build.restore([

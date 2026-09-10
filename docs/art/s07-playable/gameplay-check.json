@@ -1,0 +1,148 @@
+{
+  "idle": {
+    "model": true,
+    "clip": "armed_idle",
+    "position": [
+      0.0005738129870221848,
+      4.6652567469414885,
+      -0.9989794908222992
+    ],
+    "grounded": true,
+    "weapon": "rifle",
+    "muzzleForwardDot": 0.9999999999999701,
+    "holds": true
+  },
+  "walk": {
+    "model": true,
+    "clip": "armed_walk",
+    "position": [
+      0.0016672811483716336,
+      4.666138742490423,
+      -2.797779596311582
+    ],
+    "grounded": true,
+    "weapon": "rifle",
+    "muzzleForwardDot": 0.9999999999998479,
+    "holds": true
+  },
+  "run": {
+    "model": true,
+    "clip": "armed_run",
+    "position": [
+      -0.00503894547780833,
+      4.671376871916206,
+      -5.296375811191988
+    ],
+    "grounded": true,
+    "weapon": "rifle",
+    "muzzleForwardDot": 0.9999999999999812,
+    "holds": true
+  },
+  "crouch": {
+    "model": true,
+    "clip": "armed_crouch_idle",
+    "position": [
+      0.005386044776466576,
+      4.66118258614037,
+      -5.30384244750892
+    ],
+    "grounded": true,
+    "weapon": "rifle",
+    "muzzleForwardDot": 0.9999999999998479,
+    "holds": true
+  },
+  "jump": {
+    "model": true,
+    "clip": "armed_jump",
+    "position": [
+      0.00347297303080008,
+      5.615772771269585,
+      -5.2952158473503745
+    ],
+    "grounded": false,
+    "weapon": "rifle",
+    "muzzleForwardDot": 0.9999999999999929,
+    "holds": true
+  },
+  "shotgun": {
+    "model": true,
+    "clip": "armed_idle",
+    "position": [
+      -0.006875401223362724,
+      4.677438503306215,
+      -5.295598779591476
+    ],
+    "grounded": true,
+    "weapon": "shotgun",
+    "muzzleForwardDot": 0.9999999999999702,
+    "holds": true
+  },
+  "fired": {
+    "model": true,
+    "clip": "armed_idle",
+    "position": [
+      -0.0006632808361833082,
+      4.661654624090914,
+      -5.303222293853948
+    ],
+    "grounded": true,
+    "weapon": "shotgun",
+    "muzzleForwardDot": 0.9999857823220063,
+    "holds": true
+  },
+  "unarmed": {
+    "model": true,
+    "clip": "unarmed_idle",
+    "position": [
+      0.0011009824202183102,
+      4.674649810885872,
+      -5.29603550273309
+    ],
+    "grounded": true,
+    "weapon": "shotgun",
+    "muzzleForwardDot": null,
+    "holds": true
+  },
+  "perf": {
+    "fps": 60.03876046429064,
+    "p95Ms": 16.799999999999272,
+    "stats": {
+      "calls": 698,
+      "tris": 2002208,
+      "skyBakes": 1,
+      "graphics": {
+        "logicalWidth": 1920,
+        "logicalHeight": 1080,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1920,
+        "drawingBufferHeight": 1080,
+        "msaaSamples": 4,
+        "gtao": true,
+        "gtaoWidth": 960,
+        "gtaoHeight": 540,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "distance": 115,
+      "chunks": 9,
+      "speed": 7.37,
+      "bodies": 38,
+      "playerY": 4.669,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 15.867,
+      "hp": 100,
+      "ammo": "5/48",
+      "weapon": "shotgun",
+      "enemies": 0,
+      "particles": 272,
+      "scrap": 260,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    }
+  },
+  "errors": []
+}

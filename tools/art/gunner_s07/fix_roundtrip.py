@@ -1,0 +1,3 @@
+from pathlib import Path
+p=Path('tools/art/gunner_s07/validate_blender.py');s=p.read_text();s=s.replace("meshes=[o for o in bpy.context.scene.objects if o.type=='MESH'];rigs=[o for o in bpy.context.scene.objects if o.type=='ARMATURE'];points=", "rigs=[o for o in bpy.context.scene.objects if o.type=='ARMATURE'];shapes={pb.custom_shape for r in rigs for pb in r.pose.bones if pb.custom_shape};meshes=[o for o in bpy.context.scene.objects if o.type=='MESH' and o not in shapes];print('Imported mesh inventory',[(o.name,o.hide_render,o in shapes) for o in bpy.context.scene.objects if o.type=='MESH'],flush=True);points=")
+p.write_text(s)

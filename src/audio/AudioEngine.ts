@@ -1,6 +1,8 @@
 import {
   allSoundIds,
   ambienceGain,
+  calmPadEnvelope,
+  DEFAULT_AMBIENCE_VOLUME,
   droneGain,
   dronePitch,
   PAD_ATTACK_S,
@@ -50,11 +52,13 @@ export interface AudioOptions {
   enabled?: boolean;
   /** Master volume, 0..1. */
   volume?: number;
+  ambienceVolume?: number;
 }
 
 export class AudioEngine {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
+  private ambience: GainNode | null = null;
   private noise: AudioBuffer | null = null;
   private droneOsc: OscillatorNode | null = null;
   private droneGainNode: GainNode | null = null;
@@ -62,6 +66,15 @@ export class AudioEngine {
   private readonly padOscs: OscillatorNode[] = [];
   /** The gain the pad is currently being ramped toward. See `padAudible`. */
   private padTarget = 0;
+  private padStartedAt: number | null = null;
+  private active = true;
+  private hidden = false;
+  private combatDuck = 1;
+  private ambienceVolume: number;
+  private readonly onVisibility = (): void => {
+    this.hidden = document.hidden;
+    this.syncOutput();
+  };
   /**
    * The interior duck, 0..1. Read by `updateDrone` every frame.
    *
@@ -81,6 +94,7 @@ export class AudioEngine {
   constructor(options: AudioOptions = {}) {
     this.enabled = options.enabled ?? true;
     this.volume = options.volume ?? 0.8;
+    this.ambienceVolume = options.ambienceVolume ?? DEFAULT_AMBIENCE_VOLUME;
     if (!this.enabled) return;
 
     try {
@@ -88,15 +102,21 @@ export class AudioEngine {
       // a browser with audio disabled throws rather than returning null.
       const Ctor =
         globalThis.AudioContext ??
-        (globalThis as unknown as { webkitAudioContext?: typeof AudioContext })
-          .webkitAudioContext;
+        (globalThis as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (!Ctor) return;
 
       this.ctx = new Ctor();
       this.master = this.ctx.createGain();
       this.master.gain.value = this.volume;
       this.master.connect(this.ctx.destination);
+      this.ambience = this.ctx.createGain();
+      this.ambience.gain.value = this.ambienceVolume;
+      this.ambience.connect(this.master);
       this.noise = this.buildNoise(this.ctx);
+      if (typeof document !== 'undefined') {
+        document.addEventListener('visibilitychange', this.onVisibility);
+        this.onVisibility();
+      }
     } catch {
       // A page that cannot have audio still has a game.
       this.ctx = null;
@@ -141,17 +161,39 @@ export class AudioEngine {
    * dragging the slider under a muted game must not unmute it.
    */
   setVolume(value: number): void {
-    this.volume = Math.max(0, Math.min(1, value));
-    if (this.master && this.ctx && !this.muted) {
-      this.master.gain.setTargetAtTime(this.volume, this.ctx.currentTime, 0.02);
+    this.volume = Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0.8;
+    this.syncOutput();
+  }
+
+  setAmbienceVolume(value: number): void {
+    this.ambienceVolume = Number.isFinite(value)
+      ? Math.max(0, Math.min(1, value))
+      : DEFAULT_AMBIENCE_VOLUME;
+    if (this.ambience && this.ctx) {
+      this.ambience.gain.setTargetAtTime(this.ambienceVolume, this.ctx.currentTime, 0.15);
     }
+  }
+
+  /** Pause/title screens and background tabs fade the entire mix to silence. */
+  setActive(active: boolean): void {
+    if (this.active === active) return;
+    this.active = active;
+    this.syncOutput();
+  }
+
+  setCombatActive(active: boolean): void {
+    this.combatDuck = active ? 0.45 : 1;
+  }
+
+  private syncOutput(): void {
+    if (!this.master || !this.ctx) return;
+    const audible = !this.muted && this.active && !this.hidden;
+    this.master.gain.setTargetAtTime(audible ? this.volume : 0, this.ctx.currentTime, 0.08);
   }
 
   toggleMute(): boolean {
     this.muted = !this.muted;
-    if (this.master && this.ctx) {
-      this.master.gain.setTargetAtTime(this.muted ? 0 : this.volume, this.ctx.currentTime, 0.02);
-    }
+    this.syncOutput();
     return this.muted;
   }
 
@@ -163,7 +205,7 @@ export class AudioEngine {
    * player IS rather than hears: their own weapon, their own pain.
    */
   play(id: SoundId, dx?: number, dz?: number): void {
-    if (!this.ctx || !this.master || this.muted) return;
+    if (!this.ctx || !this.master || this.muted || !this.active || this.hidden) return;
     // A frame that fires thirty impacts should drop the last few rather than
     // building thirty node graphs. Dropped, not queued: a late gunshot is
     // worse than a missing one.
@@ -180,7 +222,13 @@ export class AudioEngine {
     }
 
     for (const semitones of spec.layers ?? [0]) {
-      this.voice(spec, semitones, gain, pan);
+      this.voice(
+        spec,
+        semitones,
+        gain * (id === 'footfall' ? this.duck * this.combatDuck : 1),
+        pan,
+        id === 'footfall' ? this.ambience : this.master,
+      );
     }
     this.played += 1;
   }
@@ -202,7 +250,7 @@ export class AudioEngine {
     const now = this.ctx.currentTime;
     this.droneOsc.frequency.setTargetAtTime(dronePitch(speed, baseSpeed), now, DRONE_GLIDE);
     this.droneGainNode.gain.setTargetAtTime(
-      droneGain(speed, baseSpeed) * this.duck,
+      droneGain(speed, baseSpeed) * this.duck * this.combatDuck,
       now,
       DRONE_GLIDE,
     );
@@ -242,7 +290,9 @@ export class AudioEngine {
     if (!this.padGainNode) return;
 
     const now = this.ctx.currentTime;
-    this.padTarget = playing ? PAD_GAIN : 0;
+    if (playing && this.padStartedAt === null) this.padStartedAt = now;
+    if (!playing) this.padStartedAt = null;
+    this.padTarget = playing ? PAD_GAIN * calmPadEnvelope(now - (this.padStartedAt ?? now)) : 0;
     // `setTargetAtTime` approaches its target exponentially, so the time
     // constant is roughly a third of the audible fade.
     this.padGainNode.gain.setTargetAtTime(
@@ -265,6 +315,8 @@ export class AudioEngine {
   }
 
   dispose(): void {
+    if (typeof document !== 'undefined')
+      document.removeEventListener('visibilitychange', this.onVisibility);
     try {
       this.droneOsc?.stop();
       for (const osc of this.padOscs) osc.stop();
@@ -274,7 +326,9 @@ export class AudioEngine {
     }
     this.ctx = null;
     this.master = null;
+    this.ambience = null;
     this.droneOsc = null;
+    this.droneGainNode = null;
     this.padOscs.length = 0;
     this.padGainNode = null;
   }
@@ -282,40 +336,31 @@ export class AudioEngine {
   // -------------------------------------------------------------------------
 
   private startDrone(): void {
-    if (!this.ctx || !this.master) return;
+    if (!this.ctx || !this.ambience) return;
 
-    // Sawtooth through a low-pass, not a sine: a pure sine reads as a test
-    // tone. What is wanted is the bottom of something big and mechanical, and
-    // that is harmonics with the top taken off.
+    // Triangle has far less harmonic buzz than the previous sawtooth.
     const osc = this.ctx.createOscillator();
-    osc.type = 'sawtooth';
+    osc.type = 'triangle';
     osc.frequency.value = dronePitch(0, 1);
 
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.value = 180;
+    filter.frequency.value = 100;
     filter.Q.value = 0.6;
 
     const gain = this.ctx.createGain();
     gain.gain.value = 0;
 
-    osc.connect(filter).connect(gain).connect(this.master);
+    osc.connect(filter).connect(gain).connect(this.ambience);
     osc.start();
 
     this.droneOsc = osc;
     this.droneGainNode = gain;
   }
 
-  /**
-   * Two detuned saws through a low-pass, held at zero until something wants
-   * them.
-   *
-   * Sawtooth rather than sine for the reason the drone gives — a pure sine
-   * reads as a test tone — but filtered much harder, so what is left is the
-   * beating between the two voices rather than any note in particular.
-   */
+  /** Quiet sine voices, shaped into phrases by updatePad. */
   private startPad(): void {
-    if (!this.ctx || !this.master) return;
+    if (!this.ctx || !this.ambience) return;
 
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'lowpass';
@@ -324,11 +369,11 @@ export class AudioEngine {
 
     const gain = this.ctx.createGain();
     gain.gain.value = 0;
-    filter.connect(gain).connect(this.master);
+    filter.connect(gain).connect(this.ambience);
 
     for (const cents of [-PAD_DETUNE_CENTS, PAD_DETUNE_CENTS]) {
       const osc = this.ctx.createOscillator();
-      osc.type = 'sawtooth';
+      osc.type = 'sine';
       osc.frequency.value = PAD_ROOT_HZ;
       osc.detune.value = cents;
       osc.connect(filter);
@@ -340,10 +385,16 @@ export class AudioEngine {
   }
 
   /** One layer of one sound. */
-  private voice(spec: VoiceSpec, semitones: number, gain: number, pan: number): void {
+  private voice(
+    spec: VoiceSpec,
+    semitones: number,
+    gain: number,
+    pan: number,
+    output: GainNode | null,
+  ): void {
     const ctx = this.ctx;
     const master = this.master;
-    if (!ctx || !master) return;
+    if (!ctx || !master || !output) return;
 
     const ratio = semitoneRatio(semitones);
     const now = ctx.currentTime;
@@ -362,7 +413,7 @@ export class AudioEngine {
       env.connect(panner);
       tail = panner;
     }
-    tail.connect(master);
+    tail.connect(output);
 
     let node: AudioScheduledSourceNode;
     if (spec.source.kind === 'noise') {

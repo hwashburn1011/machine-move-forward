@@ -81,7 +81,13 @@ export class EnemyManager {
     // `spawn` only moves a body.
     let enemy = this.pool.find((e) => !e.isActive && e.def.id === defId);
     if (!enemy) {
-      if (this.pool.length >= POOL_SIZE) return null;
+      if (this.pool.length >= POOL_SIZE) {
+        // Retire an idle slot of another type. A full cache is not a full deck.
+        const retired = this.pool.findIndex((e) => !e.isActive);
+        if (retired < 0) return null;
+        this.pool[retired]!.dispose();
+        this.pool.splice(retired, 1);
+      }
       enemy = new Enemy(
         `enemy-${this.nextId++}`,
         def,

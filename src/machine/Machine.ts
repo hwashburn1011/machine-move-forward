@@ -10,8 +10,10 @@ import {
   MACHINE_TILES_X,
   MACHINE_TILES_Z,
 } from '@/game/constants';
-import { buildMachine } from './MachineGeometry';
-import { MachineLegs } from './MachineLegs';
+import { buildIronNomad, nomadEquipmentCells, overNomadStairwell } from './IronNomadGeometry';
+import profile from '@/data/iron-nomad.json';
+import { IronNomadLegs } from './IronNomadLegs';
+import { NomadExhaust } from './NomadExhaust';
 import { gaitPose } from './Gait';
 import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
 import type { Cell } from '@/building/BuildGrid';
@@ -27,7 +29,6 @@ import {
   poseEquals,
   REST_POSE,
   type BodyPose,
-  transformPoint,
   untransformPoint,
   type Vec3,
 } from './MachineBody';
@@ -42,16 +43,6 @@ const FORWARD_Z = new THREE.Vector3(0, 0, 1);
  * to float precision or the shadow camera.
  */
 const MAX_STATION_KEEPING = 0.5;
-
-function hasRenderableGeometry(root: THREE.Object3D): boolean {
-  let found = false;
-  root.traverse((object) => {
-    if (found || !(object as THREE.Mesh).isMesh) return;
-    const geometry = (object as THREE.Mesh).geometry;
-    found = Boolean(geometry?.getAttribute('position')?.count);
-  });
-  return found;
-}
 
 /** Colliders sit at their body's own origin in this layout. */
 const ZERO = new THREE.Vector3(0, 0, 0);
@@ -128,24 +119,16 @@ export class Machine {
    */
   readonly power = new MachinePower();
   readonly deckBounds: THREE.Box3;
-  /** Level-0 cells the starting equipment sits in. Unbuildable. */
+  /** Authored equipment and access clearances on all three fixed decks. */
   readonly equipmentCells: Cell[];
-  /**
-   * Cells the MACHINE itself makes walkable, at any level: the bare deck at
-   * level 0 and the engine-room floor at level -1.
-   */
+  /** Walkable cells on the three fixed decks, excluding stair openings. */
   readonly deckCells: Cell[];
-  /**
-   * Vertical connections the machine's own structure provides.
-   *
-   * Today that is the engine-room stair. Without it the engine room would be
-   * reachable by the player and unreachable by anything hunting them, which is
-   * the safe-room problem the sealed-room design deliberately avoids.
-   */
+  /** Both internal stairs are part of the enemies' navigation graph. */
   readonly fixedLinks: FixedLink[];
   private pose: BodyPose = REST_POSE;
   private previousPose: BodyPose = REST_POSE;
   private writtenPose: BodyPose = REST_POSE;
+  private writtenLean = 0;
   private readonly bodies: RAPIER.RigidBody[] = [];
   private expeditionGateCollider: RAPIER.Collider | null = null;
   private expeditionGateOpen = false;
@@ -157,7 +140,9 @@ export class Machine {
   private readonly poseQuat = new THREE.Quaternion();
   private readonly pitchQuat = new THREE.Quaternion();
   private readonly rollQuat = new THREE.Quaternion();
-  private readonly legs: MachineLegs;
+  private readonly legs: IronNomadLegs;
+  private readonly exhaust = new NomadExhaust();
+  private authoredCollisionBody: RAPIER.RigidBody | null = null;
   private readonly scratchFoot = new THREE.Vector3();
   private authoredDetailRoot: THREE.Object3D | null = null;
   private readonly authoredFallbackMeshes: THREE.Mesh[] = [];
@@ -166,10 +151,10 @@ export class Machine {
 
   constructor(
     scene: THREE.Scene,
-    physics: PhysicsWorld,
+    private readonly physics: PhysicsWorld,
     materials: Materials,
   ) {
-    const build = buildMachine(materials);
+    const build = buildIronNomad(materials);
     this.group = build.group;
     this.proceduralBodyRoots = [...this.group.children];
 
@@ -179,8 +164,9 @@ export class Machine {
 
     // Hung off the machine's own group, so the body pose carries the legs with
     // the hull rather than leaving them behind when it heaves.
-    this.legs = new MachineLegs(materials);
+    this.legs = new IronNomadLegs(materials);
     this.group.add(this.legs.object3D);
+    this.group.add(this.exhaust.object3D);
 
     // EXPERIMENT 2 (spec 4.3): DYNAMIC bodies, locked and gravity-free, so they
     // behave like fixed ones while still generating contacts against the
@@ -226,130 +212,102 @@ export class Machine {
       new THREE.Vector3(halfW, DECK_HEIGHT, halfL),
     );
 
-    this.equipmentCells = projectEquipmentCells(build.colliders);
-
-    // Derived from the deck's own bounds, so it cannot drift out of step with
-    // the machine's actual size the way a hardcoded cell range would.
-    //
-    // Cells over the stairwell are then removed: there is no deck there any
-    // more. Leaving them in made the graph route enemies straight across an
-    // open hole, and they fell into the engine room on the way to the player.
-    // The deck plates are centred on odd metres and the grid cells on even
-    // ones, so a cell only PARTLY over the well is still a hole to fall
-    // through — hence overlap, not containment, is the test.
-    const wellMinX = -(MACHINE_TILES_X * GRID_TILE) / 2 + GRID_TILE;
-    const wellMaxX = wellMinX + GRID_TILE;
-    const wellMinZ = -2.0;
-    const wellMaxZ = 2.0;
-    const overWell = (c: Cell): boolean => {
-      const cx = c.x * GRID_TILE;
-      const cz = c.z * GRID_TILE;
-      const half = GRID_TILE / 2;
-      return (
-        cx + half > wellMinX &&
-        cx - half < wellMaxX &&
-        cz + half > wellMinZ &&
-        cz - half < wellMaxZ
-      );
-    };
-    this.deckCells = deckCells({
-      minX: this.deckBounds.min.x,
-      maxX: this.deckBounds.max.x,
-      minZ: this.deckBounds.min.z,
-      maxZ: this.deckBounds.max.z,
-    }).filter((c) => !overWell(c));
-
-    // The engine room floor, one level down. Its interior is the hull shell
-    // inset by its wall thickness, derived here the same way the deck is.
-    const roomHalfW = (MACHINE_TILES_X * GRID_TILE - 0.6) / 2 - 0.3;
-    const roomHalfL = (MACHINE_TILES_Z * GRID_TILE - 0.4) / 2 - 0.3;
-    for (const c of deckCells({
-      minX: -roomHalfW,
-      maxX: roomHalfW,
-      minZ: -roomHalfL,
-      maxZ: roomHalfL,
-    })) {
-      this.deckCells.push({ x: c.x, y: -1, z: c.z });
+    this.equipmentCells = [...projectEquipmentCells(build.colliders), ...nomadEquipmentCells()];
+    this.deckCells = [];
+    for (const y of [-2, -1, 0]) {
+      for (const cell of deckCells({ minX: -halfW, maxX: halfW, minZ: -halfL, maxZ: halfL })) {
+        const c = { ...cell, y };
+        if (!overNomadStairwell(c)) this.deckCells.push(c);
+      }
     }
-
-    // The stair's two ends: the first SOLID deck cell aft of the well, and the
-    // engine-room cell at the ramp's foot. Cell (0,0,1) would be the natural
-    // head but it sits partly over the opening and is no longer deck, so the
-    // link starts one cell further aft and steering walks the last metre onto
-    // the ramp.
-    this.fixedLinks = [[{ x: -1, y: 0, z: 2 }, { x: -1, y: -1, z: -1 }]];
+    this.fixedLinks = [
+      [
+        { x: -1, y: 0, z: 2 },
+        { x: -1, y: -1, z: -2 },
+      ],
+      [
+        { x: -1, y: -1, z: 2 },
+        { x: -1, y: -2, z: -2 },
+      ],
+    ];
 
     // Rough starting mass: structure plus the section 49 loadout.
     this.movement.totalWeight = 12000;
   }
 
-  /**
-   * Swap the optional authored machine detail skin into the existing runtime
-   * machine. Gameplay geometry and colliders remain owned by
-   * `MachineGeometry`; only meshes explicitly marked as visual fallbacks are
-   * hidden while a matching authored root is active. The legs, gate, lamps,
-   * and all named interaction objects stay in the original group.
-   */
-  applyAuthoredDetailModel(model: LoadedModel | null): void {
-    this.legs.clearAuthoredModules();
+  /** Replace the visual hull and static surface collision as one reusable bundle. */
+  applyAuthoredDetailModel(model: LoadedModel | null, collision: LoadedModel | null = null): void {
+    this.legs.apply(null);
+    this.exhaust.apply(null);
     for (const mesh of this.authoredFallbackMeshes) mesh.visible = true;
     this.authoredFallbackMeshes.length = 0;
-    if (this.authoredDetailRoot) {
-      this.group.remove(this.authoredDetailRoot);
-      this.authoredDetailRoot = null;
+    this.authoredDetailRoot?.removeFromParent();
+    this.authoredDetailRoot = null;
+    if (this.authoredCollisionBody) {
+      const index = this.bodies.indexOf(this.authoredCollisionBody);
+      if (index >= 0) {
+        this.bodies.splice(index, 1);
+        this.restPositions.splice(index, 1);
+        this.restRotations.splice(index, 1);
+      }
+      while (this.authoredCollisionBody.numColliders() > 0) {
+        this.physics.removeCollider(this.authoredCollisionBody.collider(0));
+      }
+      this.physics.removeBody(this.authoredCollisionBody);
+      this.authoredCollisionBody = null;
     }
-    if (!model) return;
-
-    // Keep the loader-owned source graph reusable. Leg modules are rehomed
-    // under the live IK pivots below, so consuming a clone avoids mutating the
-    // cached model and makes apply(null)/reapply/partial-model fallback safe.
-    const root = model.scene.clone(true);
-    const v3SkinRoots = new Map([
-      ['hull', 'MMF_HullSkin'],
-      ['engine', 'MMF_EngineSkin'],
-      ['prow', 'MMF_ProwSkin'],
-      ['deck', 'MMF_DeckTrim'],
-      ['equipment:generator', 'MMF_Equipment_generator'],
-      ['equipment:fuel-tank', 'MMF_Equipment_fuel-tank'],
-      ['equipment:workbench', 'MMF_Equipment_workbench'],
-      ['equipment:crate-a', 'MMF_Equipment_crate-a'],
-      ['equipment:crate-b', 'MMF_Equipment_crate-b'],
-      ['equipment:collector', 'MMF_Equipment_collector'],
-    ]);
-    const fallbackMeshes: THREE.Mesh[] = [];
-    this.group.traverse((object) => {
-      const mesh = object as THREE.Mesh;
-      if (!mesh.isMesh || mesh.userData.machineDetailFallback !== true) return;
-      const skin = mesh.userData.machineVisualSkin;
-      const replacementRoot = typeof skin === 'string' ? v3SkinRoots.get(skin) : undefined;
-      const authoredReplacement = replacementRoot ? root.getObjectByName(replacementRoot) : null;
-      const replaced = Boolean(authoredReplacement && hasRenderableGeometry(authoredReplacement));
-      if (replaced) fallbackMeshes.push(mesh);
+    if (!model?.scene.getObjectByName('IronNomad_FourLegWalker') || !collision) return;
+    const wrapper = new THREE.Group();
+    wrapper.name = 'authored-machine-details';
+    wrapper.scale.set(profile.scale[0]!, profile.scale[1]!, profile.scale[2]!);
+    wrapper.rotation.y = Math.PI;
+    wrapper.position.y = profile.offsetY;
+    wrapper.add(model.scene.clone(true));
+    wrapper.traverse((o) => {
+      if (!(o instanceof THREE.Mesh)) return;
+      o.castShadow = o.receiveShadow = true;
     });
-    for (const mesh of fallbackMeshes) {
-      mesh.visible = false;
-      this.authoredFallbackMeshes.push(mesh);
+    this.group.traverse((o) => {
+      if (o instanceof THREE.Mesh && o.userData.nomadFallback) {
+        o.visible = false;
+        this.authoredFallbackMeshes.push(o);
+      }
+    });
+    this.group.add(wrapper);
+    this.authoredDetailRoot = wrapper;
+    this.legs.apply(wrapper);
+    this.exhaust.apply(wrapper);
+    // Local work lights keep the enclosed bays readable. Emissive fixtures in
+    // the GLB handle the remaining lamps without extra lighting passes.
+    for (const y of [profile.deckSurface - 4.1, profile.deckSurface - 1.1]) {
+      const light = new THREE.PointLight(0xffbb70, 30, 9, 2);
+      light.position.set(0, y, 0);
+      this.group.add(light);
+      light.name = 'Nomad workshop illumination';
+      // Parent under the authored wrapper while keeping the game-space anchor.
+      wrapper.updateWorldMatrix(true, false);
+      wrapper.attach(light);
     }
-
-    // A v3 walker may provide segment skins with exact local pivot names. The
-    // leg rig consumes those modules before the remaining body skin is added,
-    // so authored legs inherit the existing IK and never double-draw static
-    // copies from the GLB root.
-    this.legs.applyAuthoredModules(root);
-    // v3 ships static hip housings and named moving modules. Static housings
-    // replace only their procedural hip skins; moving modules are cloned into
-    // the existing IK pivots, which continue to own gait and foot placement.
-    this.legs.applyAuthoredHousings(root);
-    root.name = 'authored-machine-details';
-    root.traverse((object) => {
-      const mesh = object as THREE.Mesh;
-      if (!mesh.isMesh) return;
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      mesh.frustumCulled = true;
-    });
-    this.authoredDetailRoot = root;
-    this.group.add(root);
+    if (collision) {
+      collision.scene.updateMatrixWorld(true);
+      const body = this.physics.createDrivenBody(this.group.position, this.group.quaternion);
+      collision.scene.traverse((o) => {
+        if (!(o instanceof THREE.Mesh)) return;
+        const geo = o.geometry.clone().applyMatrix4(o.matrixWorld);
+        const position = geo.getAttribute('position');
+        const indices = geo.index
+          ? new Uint32Array(geo.index.array)
+          : Uint32Array.from({ length: position.count }, (_, i) => i);
+        this.physics.addTrimeshTo(body, new Float32Array(position.array), indices, {
+          kind: 'machine',
+        });
+        geo.dispose();
+      });
+      this.authoredCollisionBody = body;
+      this.bodies.push(body);
+      this.restPositions.push(new THREE.Vector3());
+      this.restRotations.push(new THREE.Quaternion());
+    }
   }
 
   /**
@@ -371,7 +329,7 @@ export class Machine {
     this.expeditionGateOpen = open;
     this.expeditionGateCollider?.setEnabled(!open);
     const gate = this.group.getObjectByName('ExpeditionGate');
-    if (gate) gate.position.y = open ? -1.2 : 0;
+    if (gate) gate.position.y = profile.deckSurface + 0.55 + (open ? -1.2 : 0);
   }
 
   /** Release procedural geometry while leaving loader-owned GLB resources alive. */
@@ -380,6 +338,7 @@ export class Machine {
     this.disposed = true;
     this.applyAuthoredDetailModel(null);
     this.legs.dispose();
+    this.exhaust.dispose();
 
     const geometries = new Set<THREE.BufferGeometry>();
     for (const root of this.proceduralBodyRoots) {
@@ -401,6 +360,7 @@ export class Machine {
    * which is precisely the cue this whole feature exists to sell.
    */
   updateVisuals(renderedDistance: number): readonly number[] {
+    this.exhaust.update(renderedDistance);
     return this.legs.setDistance(renderedDistance);
   }
 
@@ -487,8 +447,9 @@ export class Machine {
     // the player was grounded and could not walk. While the machine is not
     // walking, this leaves the body untouched and it behaves exactly as the
     // fixed bodies it replaced.
-    if (poseEquals(this.pose, this.writtenPose)) return;
+    if (poseEquals(this.pose, this.writtenPose) && this.writtenLean === this.damage.lean) return;
     this.writtenPose = this.pose;
+    this.writtenLean = this.damage.lean;
 
     // Roll about Z, then pitch about X -- the same order MachineBody composes
     // them, so the colliders and the rendered hull cannot disagree.
@@ -510,8 +471,7 @@ export class Machine {
     // is how a locked dynamic body is driven -- the solver will not move it.
     for (let i = 0; i < this.bodies.length; i++) {
       const rest = this.restPositions[i] as THREE.Vector3;
-      const moved = transformPoint(rest, this.pose);
-      this.scratchPos.set(moved.x, moved.y, moved.z);
+      this.scratchPos.copy(rest).applyQuaternion(this.poseQuat).add(this.poseOrigin);
       this.scratchQuat.copy(this.poseQuat).multiply(this.restRotations[i] as THREE.Quaternion);
       (this.bodies[i] as RAPIER.RigidBody).setTranslation(this.scratchPos, true);
       (this.bodies[i] as RAPIER.RigidBody).setRotation(this.scratchQuat, true);

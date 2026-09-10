@@ -178,6 +178,8 @@ export class BuildSystem {
 
   private graph: RoomGraph = { rooms: [], byCell: new Map(), links: [] };
   private nav: NavGraph = { links: new Map() };
+  /** Items that could not fit during a hull migration remain in the next save. */
+  readonly recoveryPieces: BuildPieceInstance[] = [];
   private nextId = 0;
   private weight = 0;
   private buildAuthorizer: (piece: PieceId) => boolean = () => true;
@@ -195,6 +197,7 @@ export class BuildSystem {
     scene.add(this.group);
 
     for (const cell of machine.equipmentCells) this.grid.blockCell(cell);
+    for (const cell of machine.deckCells) this.grid.supportCell(cell);
     this.recomputeRooms();
   }
 
@@ -1264,8 +1267,13 @@ export class BuildSystem {
    * never reconstruct a structure the live rules would reject. Order matters:
    * floors must land before the walls and roofs that depend on them.
    */
-  restore(pieces: BuildPieceInstance[]): void {
+  restore(pieces: BuildPieceInstance[], relocate = false): void {
     this.clear();
+    // Migration foundations must never claim an id belonging to a later piece.
+    for (const piece of pieces)
+      if (/^bp-\d+$/.test(piece.instanceId)) {
+        this.nextId = Math.max(this.nextId, Number(piece.instanceId.slice(3)) + 1);
+      }
 
     // Floors first: everything else in the list depends on one existing.
     const rank: Record<PieceId, number> = {
@@ -1299,7 +1307,7 @@ export class BuildSystem {
     );
 
     for (const piece of ordered) {
-      const created = this.place(
+      let created = this.place(
         {
           piece: piece.definitionId,
           cell: piece.cell,
@@ -1309,7 +1317,34 @@ export class BuildSystem {
         true,
         piece.instanceId,
       );
-      if (!created) continue;
+      if (!created && relocate && !piece.edge) {
+        const candidates = [...this.machine.deckCells].sort(
+          (a, b) =>
+            Math.abs(a.y - piece.cell.y) * 50 +
+            Math.abs(a.x - piece.cell.x) +
+            Math.abs(a.z - piece.cell.z) -
+            Math.abs(b.y - piece.cell.y) * 50 -
+            Math.abs(b.x - piece.cell.x) -
+            Math.abs(b.z - piece.cell.z),
+        );
+        for (const cell of candidates) {
+          if (this.grid.isBlocked(cell)) continue;
+          // Stations require a player-built foundation, even on the fixed deck.
+          if (isStation(piece.definitionId) || isDecor(piece.definitionId)) {
+            this.place({ piece: 'floor', cell, rotation: 0 }, true);
+          }
+          created = this.place(
+            { piece: piece.definitionId, cell, rotation: piece.rotation },
+            true,
+            piece.instanceId,
+          );
+          if (created) break;
+        }
+      }
+      if (!created) {
+        this.recoveryPieces.push(structuredClone(piece));
+        continue;
+      }
 
       created.health = piece.health;
       const slots = (piece.state as CrateState | undefined)?.slots;
@@ -1327,6 +1362,7 @@ export class BuildSystem {
   }
 
   clear(): void {
+    this.recoveryPieces.length = 0;
     for (const id of [...this.instances.keys()]) {
       const live = this.instances.get(id);
       if (!live) continue;

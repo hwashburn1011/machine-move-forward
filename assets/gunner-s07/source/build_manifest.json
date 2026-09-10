@@ -1,0 +1,15 @@
+{
+  "character": {
+    "meshes": 737,
+    "vertices": 213890,
+    "triangles": 298574
+  },
+  "weapon": {
+    "meshes": 404,
+    "vertices": 97520,
+    "triangles": 128188
+  },
+  "bones": 50,
+  "blender": "5.1.0",
+  "status": "First reference render; exports follow visual refinement"
+}

@@ -74,6 +74,8 @@ export interface SaveGameV1 {
   };
 
   machine: {
+    /** Determines whether saved positions use the taller three-deck hull. */
+    layout?: string;
     structures: BuildPieceInstance[];
     /** Empty until the machine-device milestone. */
     devices: unknown[];

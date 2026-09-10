@@ -1,0 +1,14 @@
+{
+  "id": "sovereign",
+  "vertices": 31322,
+  "triangles": 57759,
+  "materials": 13,
+  "bones": 47,
+  "clips": [
+    "idle",
+    "walk",
+    "run",
+    "attack",
+    "death"
+  ]
+}

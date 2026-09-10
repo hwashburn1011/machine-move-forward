@@ -1,0 +1,20 @@
+{
+  "triangles": 95215,
+  "bones": 50,
+  "clips": [
+    "armed_crouch_idle",
+    "armed_crouch_walk",
+    "armed_idle",
+    "armed_jump",
+    "armed_run",
+    "armed_walk",
+    "unarmed_crouch_idle",
+    "unarmed_crouch_walk",
+    "unarmed_idle",
+    "unarmed_jump",
+    "unarmed_run",
+    "unarmed_walk"
+  ],
+  "source": "S07_Engine_Setup.blend",
+  "cape": "Folded closer behind the right hip"
+}

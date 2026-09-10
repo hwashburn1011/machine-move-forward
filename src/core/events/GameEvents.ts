@@ -64,7 +64,8 @@ export type GameEvents = {
     targetIds: string[];
   };
 
-  'enemy:spawned': { enemyId: string; position: Vec3Like };
+  'enemy:spawned': { enemyId: string; defId?: string; position: Vec3Like };
+  'enemy:fired': { enemyId: string; defId: string; visualOrigin: Vec3Like; aimEnd: Vec3Like };
   'enemy:damaged': { enemyId: string; amount: number; remaining: number };
   /** `defId` indexes ENEMIES, so a listener can look up what it was worth. */
   'enemy:killed': { enemyId: string; defId: string; position: Vec3Like };

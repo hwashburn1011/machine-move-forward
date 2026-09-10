@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "result": {
+    "phase": "landed",
+    "position": [
+      0.14826228015068196,
+      15.804738180952704,
+      0.006310541765643989
+    ],
+    "armed": true,
+    "speed": 7.345685116212209,
+    "grounded": true
+  },
+  "errors": []
+}

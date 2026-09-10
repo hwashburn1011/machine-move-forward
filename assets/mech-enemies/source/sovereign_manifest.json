@@ -1,0 +1,24 @@
+{
+  "asset": "sovereign",
+  "body": {
+    "vertices": 105186,
+    "triangles": 199642,
+    "materials": 13
+  },
+  "bones": 46,
+  "sourceComponents": 702,
+  "units": "meters",
+  "pose": "Neutral A pose. Editable Reference_Pose action remains in source. No locomotion or attack animations.",
+  "equipment": [
+    {
+      "vertices": 4876,
+      "triangles": 9184,
+      "materials": 5
+    }
+  ],
+  "gameBody": {
+    "vertices": 50433,
+    "triangles": 95827,
+    "materials": 13
+  }
+}

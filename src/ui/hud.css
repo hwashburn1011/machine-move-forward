@@ -1000,7 +1000,7 @@
 
 .title-setting {
   display: grid;
-  grid-template-columns: 78px 1fr 48px;
+  grid-template-columns: 112px minmax(60px, 1fr) 48px;
   align-items: center;
   gap: 12px;
   font-size: 10px;

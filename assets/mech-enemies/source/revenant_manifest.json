@@ -1,0 +1,24 @@
+{
+  "asset": "revenant",
+  "body": {
+    "vertices": 80022,
+    "triangles": 149258,
+    "materials": 10
+  },
+  "bones": 46,
+  "sourceComponents": 577,
+  "units": "meters",
+  "pose": "Neutral A pose. Editable Reference_Pose action remains in source. No locomotion or attack animations.",
+  "equipment": [
+    {
+      "vertices": 2222,
+      "triangles": 4380,
+      "materials": 6
+    }
+  ],
+  "gameBody": {
+    "vertices": 37673,
+    "triangles": 71643,
+    "materials": 10
+  }
+}

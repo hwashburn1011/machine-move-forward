@@ -63,6 +63,7 @@ export function connectGameSounds(
     // --- Weapons. Not positional: the player IS the source. ----------------
     bus.on('weapon:fired', (e) => audio.play(e.weaponId === 'shotgun' ? 'shotgun' : 'rifle')),
     bus.on('turret:fired', () => audio.play('rifle')),
+    bus.on('enemy:fired', (e) => at('rifle', e.visualOrigin.x, e.visualOrigin.z)),
     bus.on('gunboat:telegraph', () => audio.play('warning')),
     bus.on('gunboat:volley', () => audio.play('rifle')),
     bus.on('weapon:dry-fire', () => audio.play('dry-fire')),

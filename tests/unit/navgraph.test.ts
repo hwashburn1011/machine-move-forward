@@ -234,7 +234,7 @@ describe('levelOf', () => {
 
   it('clamps below the deck and above the top storey', () => {
     // Clamps to the engine room, not to the deck -- -1 is a real level now.
-    expect(levelOf(DECK_HEIGHT - 10)).toBe(-1);
+    expect(levelOf(DECK_HEIGHT - 10)).toBe(-2);
     expect(levelOf(DECK_HEIGHT + LEVEL_HEIGHT * 99)).toBe(2);
   });
 });

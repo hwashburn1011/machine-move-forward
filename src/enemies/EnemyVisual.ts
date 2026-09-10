@@ -152,6 +152,24 @@ export class EnemyVisual {
   private readonly bar = new THREE.Group();
   private readonly barFill: THREE.Sprite;
   private appliedFraction = -1;
+  private mech = false;
+  private muzzle: THREE.Object3D | null = null;
+  private attackRemaining = 0;
+  private readonly aim = new THREE.Line(
+    new THREE.BufferGeometry().setAttribute(
+      'position',
+      new THREE.Float32BufferAttribute(new Float32Array(6), 3),
+    ),
+    new THREE.LineBasicMaterial({
+      color: 0xff4935,
+      transparent: true,
+      opacity: 0.4,
+      depthWrite: false,
+      toneMapped: false,
+    }),
+  );
+  private readonly aimStart = new THREE.Vector3();
+  private readonly aimEnd = new THREE.Vector3();
 
   constructor(
     model: LoadedModel | null,
@@ -187,6 +205,12 @@ export class EnemyVisual {
     // and every pooled enemy then animates as one, holding whichever pose the
     // last mixer to run produced.
     const scene = cloneSkinned(model.scene);
+    let standingHeight: number | null = null;
+    scene.traverse((o) => {
+      if (typeof o.userData.standingHeight === 'number') standingHeight = o.userData.standingHeight;
+      if (o.userData.mechId) this.mech = true;
+    });
+    this.muzzle = scene.getObjectByName('EnemyMuzzle') ?? null;
 
     // Precise, and only once the clone's matrices exist. The cheap path
     // measures each mesh's bind-pose bounding box, which for a skinned mesh is
@@ -201,7 +225,11 @@ export class EnemyVisual {
     const box = new THREE.Box3().setFromObject(scene, true);
     const size = new THREE.Vector3();
     box.getSize(size);
-    const fit = fitToCapsule(size.y, box.min.y, CAPSULE_FOOT_OFFSET * 2);
+    const fit = fitToCapsule(
+      standingHeight ?? size.y,
+      standingHeight ? 0 : box.min.y,
+      CAPSULE_FOOT_OFFSET * 2,
+    );
 
     scene.scale.setScalar(fit.scale);
     scene.position.y = fit.yOffset - CAPSULE_FOOT_OFFSET;
@@ -229,6 +257,9 @@ export class EnemyVisual {
       this.clipNames.push(clip.name);
       this.actions.set(clip.name, this.mixer.clipAction(clip));
     }
+    this.aim.visible = false;
+    this.aim.frustumCulled = false;
+    this.object3D.add(this.aim);
   }
 
   /**
@@ -252,7 +283,11 @@ export class EnemyVisual {
         toneMapped: false,
       }),
     );
-    plate.scale.set((BAR_WIDTH + 0.07) * BAR_SCREEN_SCALE, (BAR_HEIGHT + 0.05) * BAR_SCREEN_SCALE, 1);
+    plate.scale.set(
+      (BAR_WIDTH + 0.07) * BAR_SCREEN_SCALE,
+      (BAR_HEIGHT + 0.05) * BAR_SCREEN_SCALE,
+      1,
+    );
     plate.renderOrder = 900;
 
     const fill = new THREE.Sprite(
@@ -405,13 +440,15 @@ export class EnemyVisual {
     if (state === this.currentState) return;
     this.currentState = state;
     this.deadFor = 0;
+    this.attackRemaining = 0;
+    if (state === 'dead') this.clearAim();
     // A corpse is not a threat and does not need a bar hanging over it.
     this.bar.visible = state !== 'dead';
 
     // The box has no clips; `update` topples it instead.
     if (!this.mixer) return;
 
-    const name = resolveClip(this.clipNames, state);
+    const name = resolveClip(this.clipNames, this.mech && state === 'attack' ? 'idle' : state);
     const next = name ? this.actions.get(name) : undefined;
     if (!next || next === this.current) return;
 
@@ -438,6 +475,8 @@ export class EnemyVisual {
    * repeat calls for a state — never restarts it walking.
    */
   reset(): void {
+    this.clearAim();
+    this.attackRemaining = 0;
     this.current = null;
     this.currentState = null;
     this.deadFor = 0;
@@ -464,6 +503,14 @@ export class EnemyVisual {
 
     if (this.mixer) {
       this.mixer.update(dt);
+      if (this.attackRemaining > 0 && this.currentState !== 'dead') {
+        this.attackRemaining -= dt;
+        if (this.attackRemaining <= 0) {
+          const state = this.currentState ?? 'idle';
+          this.currentState = null;
+          this.setState(state);
+        }
+      }
       return;
     }
 
@@ -477,6 +524,10 @@ export class EnemyVisual {
 
   dispose(): void {
     this.reset();
+    // Authored geometry is shared with the model cache. Only procedural bodies own theirs.
+    this.fallback?.traverse((o) => {
+      if ((o as THREE.Mesh).isMesh) (o as THREE.Mesh).geometry.dispose();
+    });
     for (const sprite of this.bar.children) {
       (sprite as THREE.Sprite).material.dispose();
     }
@@ -488,5 +539,41 @@ export class EnemyVisual {
     this.clipNames.length = 0;
     this.current = null;
     this.currentState = null;
+    this.aim.geometry.dispose();
+    this.aim.material.dispose();
+  }
+
+  /** Play one strike or recoil at the actual damage tick, not throughout aiming. */
+  attack(): void {
+    if (!this.mech || this.currentState === 'dead') return;
+    const action = this.actions.get('attack');
+    if (!action) return;
+    if (this.current && this.current !== action) this.current.fadeOut(0.06);
+    action.reset().setLoop(THREE.LoopOnce, 1).setEffectiveWeight(1).fadeIn(0.04).play();
+    action.clampWhenFinished = true;
+    this.current = action;
+    this.attackRemaining = action.getClip().duration;
+  }
+
+  muzzlePosition(out: THREE.Vector3): void {
+    this.object3D.updateWorldMatrix(true, true);
+    if (this.muzzle) this.muzzle.getWorldPosition(out);
+    else this.object3D.localToWorld(out.set(0, 0.3, 0.45));
+  }
+
+  setAim(from: THREE.Vector3, to: { x: number; y: number; z: number }, charge: number): void {
+    this.object3D.updateWorldMatrix(true, false);
+    this.object3D.worldToLocal(this.aimStart.copy(from));
+    this.object3D.worldToLocal(this.aimEnd.set(to.x, to.y, to.z));
+    const p = this.aim.geometry.getAttribute('position') as THREE.BufferAttribute;
+    p.setXYZ(0, this.aimStart.x, this.aimStart.y, this.aimStart.z);
+    p.setXYZ(1, this.aimEnd.x, this.aimEnd.y, this.aimEnd.z);
+    p.needsUpdate = true;
+    this.aim.material.opacity = 0.25 + charge * 0.65;
+    this.aim.visible = true;
+  }
+
+  clearAim(): void {
+    this.aim.visible = false;
   }
 }

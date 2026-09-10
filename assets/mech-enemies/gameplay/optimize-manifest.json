@@ -1,0 +1,917 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-09T07:44:27.512Z",
+  "encoder": "meshoptimizer 1.1.1",
+  "texturePolicy": "optimized GLBs require EXT_texture_webp and select baseColor/emissive WebP q92 at 1K or normal/ORM lossless WebP at 512; original 1K PNG masters remain in staging; WebP does not reduce GPU residency",
+  "geometryPolicy": "EXT_meshopt parents use a placeholder fallback buffer sized for decoded accessors; compressed payloads remain in GLB BIN",
+  "assets": [
+    {
+      "asset": "bastion",
+      "sourceBytes": 11635436,
+      "optimizedBytes": 3939144,
+      "sourceGeometryBytes": 4470020,
+      "compressedGeometryBytes": 1918386,
+      "meshoptFallbackBufferBytes": 4470024,
+      "sourceTextureBytes": 5995482,
+      "webpTextureBytes": 840790,
+      "selectedTextureGpuBytesWithMips": 25165824,
+      "images": [
+        {
+          "image": "MECH_Worn_Gunmetal_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305963,
+          "webpBytes": 181836,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1269274,
+          "webpBytes": 124188,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 562866,
+          "webpBytes": 89452,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 480641,
+          "webpBytes": 89684,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 377057,
+          "webpBytes": 25722,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 404054,
+          "webpBytes": 86838,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_FadedTan_Panels_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 540001,
+          "webpBytes": 103896,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_FadedTan_Panels_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 557110,
+          "webpBytes": 30528,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_FadedTan_Panels_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 498516,
+          "webpBytes": 108646,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\public\\models\\authored\\bastion.glb"
+    },
+    {
+      "asset": "revenant",
+      "sourceBytes": 12517684,
+      "optimizedBytes": 3467912,
+      "sourceGeometryBytes": 3476472,
+      "compressedGeometryBytes": 1610014,
+      "meshoptFallbackBufferBytes": 3476480,
+      "sourceTextureBytes": 8299753,
+      "webpTextureBytes": 1106072,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "MECH_Worn_Gunmetal_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305963,
+          "webpBytes": 181836,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1269274,
+          "webpBytes": 124188,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 562866,
+          "webpBytes": 89452,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 503284,
+          "webpBytes": 96328,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 369058,
+          "webpBytes": 37366,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 440186,
+          "webpBytes": 97572,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 480641,
+          "webpBytes": 89684,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 377057,
+          "webpBytes": 25722,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 404054,
+          "webpBytes": 86838,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charred_Cloth_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1581233,
+          "webpBytes": 185568,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charred_Cloth_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 650287,
+          "webpBytes": 17364,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Charred_Cloth_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 355850,
+          "webpBytes": 74154,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\public\\models\\authored\\revenant.glb"
+    },
+    {
+      "asset": "warden",
+      "sourceBytes": 21016676,
+      "optimizedBytes": 4861652,
+      "sourceGeometryBytes": 4234586,
+      "compressedGeometryBytes": 1960213,
+      "meshoptFallbackBufferBytes": 4234588,
+      "sourceTextureBytes": 15955504,
+      "webpTextureBytes": 2059042,
+      "selectedTextureGpuBytesWithMips": 58720256,
+      "images": [
+        {
+          "image": "MECH_Worn_Gunmetal_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305963,
+          "webpBytes": 181836,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1269274,
+          "webpBytes": 124188,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 562866,
+          "webpBytes": 89452,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 503284,
+          "webpBytes": 96328,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 369058,
+          "webpBytes": 37366,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 440186,
+          "webpBytes": 97572,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_FadedTan_Panels_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 540001,
+          "webpBytes": 103896,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_FadedTan_Panels_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 557110,
+          "webpBytes": 30528,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_FadedTan_Panels_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 498516,
+          "webpBytes": 108646,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 480641,
+          "webpBytes": 89684,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 377057,
+          "webpBytes": 25722,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 404054,
+          "webpBytes": 86838,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_DustCamouflage_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1581683,
+          "webpBytes": 185756,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_DustCamouflage_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 999011,
+          "webpBytes": 60462,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_DustCamouflage_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 357789,
+          "webpBytes": 74272,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Weathered_WovenScarf_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1580892,
+          "webpBytes": 185572,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Weathered_WovenScarf_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1026393,
+          "webpBytes": 64508,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Weathered_WovenScarf_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 356641,
+          "webpBytes": 74108,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Leather_Webbing_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1306112,
+          "webpBytes": 181896,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Leather_Webbing_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 879237,
+          "webpBytes": 70910,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Leather_Webbing_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 559736,
+          "webpBytes": 89502,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\public\\models\\authored\\warden.glb"
+    },
+    {
+      "asset": "sovereign",
+      "sourceBytes": 19335024,
+      "optimizedBytes": 4682464,
+      "sourceGeometryBytes": 4281430,
+      "compressedGeometryBytes": 2031333,
+      "meshoptFallbackBufferBytes": 4281432,
+      "sourceTextureBytes": 14309526,
+      "webpTextureBytes": 1893352,
+      "selectedTextureGpuBytesWithMips": 50331648,
+      "images": [
+        {
+          "image": "MECH_Worn_Gunmetal_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305963,
+          "webpBytes": 181836,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1269274,
+          "webpBytes": 124188,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Worn_Gunmetal_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 562866,
+          "webpBytes": 89452,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Burnished_Brass_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305097,
+          "webpBytes": 182084,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Burnished_Brass_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1371861,
+          "webpBytes": 216006,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Burnished_Brass_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 558632,
+          "webpBytes": 89624,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 503284,
+          "webpBytes": 96328,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 369058,
+          "webpBytes": 37366,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Black_Enamel_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 440186,
+          "webpBytes": 97572,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 480641,
+          "webpBytes": 89684,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 377057,
+          "webpBytes": 25722,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Charcoal_ChippedArmor_Refined_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 404054,
+          "webpBytes": 86838,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charred_Cloth_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1581233,
+          "webpBytes": 185568,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Charred_Cloth_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 650287,
+          "webpBytes": 17364,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Charred_Cloth_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 355850,
+          "webpBytes": 74154,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Oxblood_Cloak_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1581389,
+          "webpBytes": 185776,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "MECH_Oxblood_Cloak_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 835021,
+          "webpBytes": 39418,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "MECH_Oxblood_Cloak_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 357773,
+          "webpBytes": 74372,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\public\\models\\authored\\sovereign.glb"
+    }
+  ]
+}

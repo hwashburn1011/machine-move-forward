@@ -1,0 +1,278 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-09T01:31:03.089Z",
+  "encoder": "meshoptimizer 1.1.1",
+  "texturePolicy": "optimized GLBs require EXT_texture_webp and select baseColor/emissive WebP q92 at 1K or normal/ORM lossless WebP at 512; original 1K PNG masters remain in staging; WebP does not reduce GPU residency",
+  "geometryPolicy": "EXT_meshopt parents use a placeholder fallback buffer sized for decoded accessors; compressed payloads remain in GLB BIN",
+  "assets": [
+    {
+      "asset": "s07-player",
+      "sourceBytes": 41786204,
+      "optimizedBytes": 5887692,
+      "sourceGeometryBytes": 5552474,
+      "compressedGeometryBytes": 2502660,
+      "meshoptFallbackBufferBytes": 5552484,
+      "sourceTextureBytes": 35825661,
+      "webpTextureBytes": 2963824,
+      "selectedTextureGpuBytesWithMips": 50331648,
+      "images": [
+        {
+          "image": "S07_DustCamouflage_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 7951279,
+          "webpBytes": 116266,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_DustCamouflage_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 3886191,
+          "webpBytes": 49420,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "S07_DustCamouflage_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 972109,
+          "webpBytes": 73714,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Charcoal_ChippedArmor_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 4436235,
+          "webpBytes": 266654,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Charcoal_ChippedArmor_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 4046708,
+          "webpBytes": 267304,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "S07_Charcoal_ChippedArmor_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2352884,
+          "webpBytes": 238954,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_FadedTan_Panels_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1368331,
+          "webpBytes": 341934,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_FadedTan_Panels_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1185049,
+          "webpBytes": 301988,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "S07_FadedTan_Panels_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 779761,
+          "webpBytes": 245618,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Worn_Gunmetal_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1305963,
+          "webpBytes": 181836,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Worn_Gunmetal_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1269274,
+          "webpBytes": 124188,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "S07_Worn_Gunmetal_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 562866,
+          "webpBytes": 89452,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Leather_Webbing_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1306112,
+          "webpBytes": 181896,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Leather_Webbing_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 879237,
+          "webpBytes": 70910,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "S07_Leather_Webbing_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 559736,
+          "webpBytes": 89502,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Weathered_WovenScarf_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1580892,
+          "webpBytes": 185572,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "S07_Weathered_WovenScarf_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 1026393,
+          "webpBytes": 64508,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "S07_Weathered_WovenScarf_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 512,
+          "height": 512,
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "pngBytes": 356641,
+          "webpBytes": 74108,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [],
+      "extras": {},
+      "lod": null,
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\public\\models\\authored\\s07-player.glb"
+    }
+  ]
+}

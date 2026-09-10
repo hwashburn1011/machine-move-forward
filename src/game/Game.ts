@@ -1,3 +1,5 @@
+import { DECK_SURFACE_Y } from './constants';
+import nomadProfile from '@/data/iron-nomad.json';
 import * as THREE from 'three';
 import { Renderer } from '@/core/renderer/Renderer';
 import { PostProcessing } from '@/core/renderer/PostProcessing';
@@ -152,9 +154,9 @@ import { footprintOverlapsExpedition } from '@/game/ExpeditionBuildConflict';
  * screenshot harness's would quietly drift apart.
  */
 export const CAMERA_PRESETS: Record<string, [THREE.Vector3, THREE.Vector3]> = {
-  far: [new THREE.Vector3(9, 7.5, 19), new THREE.Vector3(0, 2, -30)],
-  front: [new THREE.Vector3(11, 6.5, -19), new THREE.Vector3(0, 3, 0)],
-  side: [new THREE.Vector3(22, 6, 2), new THREE.Vector3(0, 2.5, 0)],
+  far: [new THREE.Vector3(-28, 23, -32), new THREE.Vector3(0, 12, 0)],
+  front: [new THREE.Vector3(-26, 21, -30), new THREE.Vector3(0, 12, 0)],
+  side: [new THREE.Vector3(-34, 18, 2), new THREE.Vector3(0, 12, 0)],
   sky: [new THREE.Vector3(0, 2, 0), new THREE.Vector3(0, 40, -18)],
 };
 
@@ -328,6 +330,7 @@ export class Game implements LoopCallbacks {
   private readonly radioModel: THREE.Group;
   /** Game owns this one walker source until final teardown; the machine only borrows clones. */
   private machineAuthoredModel: LoadedModel | null = null;
+  private machineCollisionModel: LoadedModel | null = null;
   private readonly radioPowerConsumerId = 'fixed-radio';
   private readonly helmPowerConsumerId = 'navigation-helm';
   private playableStartedAt: number | null = null;
@@ -419,7 +422,8 @@ export class Game implements LoopCallbacks {
     if (options.models !== false) {
       const kits = await loadMachineStationVisualModels();
       game.machineAuthoredModel = kits.machine;
-      game.machine.applyAuthoredDetailModel(kits.machine);
+      game.machineCollisionModel = kits.collision;
+      game.machine.applyAuthoredDetailModel(kits.machine, kits.collision);
       game.build.applyAuthoredStationKit(kits.stations);
       const authoredHelm =
         authoredModel('navigation-helm')?.scene ??
@@ -459,6 +463,9 @@ export class Game implements LoopCallbacks {
         'raider',
         authoredEnemyModel('raider') ?? (await loadModel('models/scavenger.glb')),
       );
+      for (const id of ['bastion', 'revenant', 'warden', 'sovereign']) {
+        game.enemies.setModelFor(id, authoredEnemyModel(id));
+      }
     }
 
     // The player is on screen from behind for the whole game, so this is the
@@ -547,7 +554,7 @@ export class Game implements LoopCallbacks {
 
     this.machine = new Machine(this.renderer.scene, this.physics, this.materials);
     this.radioModel = buildRadioModel(this.materials);
-    this.radioModel.position.set(3.9, 3.69, -3.3);
+    this.radioModel.position.set(0.65, DECK_SURFACE_Y, -5.8);
     this.radioModel.visible = false;
     this.machine.group.add(this.radioModel);
     this.destination = new Destination({
@@ -1983,6 +1990,9 @@ export class Game implements LoopCallbacks {
     // own distance the feet skate on the sand by up to 0.125m at speed.
     const walked = renderedDistance(this.world.distanceTraveled, alpha, this.machine.speed);
     const plants = this.machine.updateVisuals(walked);
+    this.audio.setActive(!this.state.paused && !this.titleScreen?.isOpen);
+    this.audio.setInterior(this.playerIsIndoors);
+    this.audio.setCombatActive(this.threatPhase !== 'calm' && this.threatPhase !== 'recovery');
     // Footfalls, and the dust that goes with them, are made where a foot
     // actually lands at the moment it lands — not laid down by the metre.
     for (const leg of plants) {
@@ -2002,7 +2012,6 @@ export class Game implements LoopCallbacks {
     // Where the player is standing, and what the desert is doing, before the
     // drone is asked how loud it should be. Both are level-triggered and both
     // ramp, so a doorway is a threshold rather than a switch.
-    this.audio.setInterior(this.playerIsIndoors);
     this.audio.updatePad(padPlaying(this.threatPhase));
     this.audio.updateDrone(this.machine.speed, BASE_MACHINE_SPEED);
     // Given the same walked distance the legs are driven by, so a print and
@@ -2864,6 +2873,7 @@ export class Game implements LoopCallbacks {
 
   private applySettings(settings: GameSettings): void {
     this.audio.setVolume(settings.volume);
+    this.audio.setAmbienceVolume(settings.ambienceVolume);
     // A `?quality=` in the URL is a deliberate override for a harness or a
     // screenshot, and must outrank a stored preference.
     if (settings.quality && !this.options.qualityTier) this.setQuality(settings.quality);
@@ -3962,7 +3972,8 @@ export class Game implements LoopCallbacks {
         },
       },
       machine: {
-        structures: this.build.serialise(),
+        layout: nomadProfile.layout,
+        structures: [...this.build.serialise(), ...this.build.recoveryPieces],
         devices: [],
         // Written for real at last. `machine.fuel` has been in the schema
         // since v1 and written as a flat 100 ever since, so a save from before
@@ -4059,7 +4070,7 @@ export class Game implements LoopCallbacks {
     this.automaticDefense.clear();
     for (const collector of this.collectors.values()) collector.dispose();
     this.collectors.clear();
-    this.build.restore(save.machine.structures ?? []);
+    this.build.restore(save.machine.structures ?? [], true);
     this.defense.clear();
     const savedTurrets = new Map(
       (save.progression.turrets ?? []).map((turret) => [turret.instanceId, turret]),
@@ -4170,7 +4181,9 @@ export class Game implements LoopCallbacks {
     this.bus.emit('inventory:changed', { scrap: this.inventory.count('scrap') });
 
     this.player.teleport(
-      new THREE.Vector3(save.player.position.x, save.player.position.y, save.player.position.z),
+      save.machine.layout === nomadProfile.layout
+        ? new THREE.Vector3(save.player.position.x, save.player.position.y, save.player.position.z)
+        : this.machine.deckSpawn,
     );
     this.player.stats.reset();
     this.player.stats.restoreHealth(save.player.health);
@@ -4259,6 +4272,8 @@ export class Game implements LoopCallbacks {
     this.lampLights.dispose();
     this.machine.dispose();
     disposeLoadedModel(this.machineAuthoredModel);
+    disposeLoadedModel(this.machineCollisionModel);
+    this.machineCollisionModel = null;
     this.machineAuthoredModel = null;
     this.build.dispose();
     disposeAutomationModels();

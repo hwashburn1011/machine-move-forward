@@ -1,0 +1,22 @@
+[
+  {
+    "file": "bastion.glb",
+    "degenerate_uv_tangents_repaired": 5,
+    "unused_tangent_attributes_removed": 7
+  },
+  {
+    "file": "revenant.glb",
+    "degenerate_uv_tangents_repaired": 1,
+    "unused_tangent_attributes_removed": 6
+  },
+  {
+    "file": "sovereign.glb",
+    "degenerate_uv_tangents_repaired": 1,
+    "unused_tangent_attributes_removed": 7
+  },
+  {
+    "file": "warden.glb",
+    "degenerate_uv_tangents_repaired": 0,
+    "unused_tangent_attributes_removed": 8
+  }
+]

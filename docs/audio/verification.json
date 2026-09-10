@@ -1,0 +1,47 @@
+{
+  "legacy": {
+    "phraseRms": 0.04485703312639839,
+    "restRms": 0.04501977954602288,
+    "lateRms": 0.045229125318201356,
+    "cueRms": 0.046411039112036756,
+    "peak": 0.14758315682411194
+  },
+  "normal": {
+    "phraseRms": 0.0019936968178967188,
+    "restRms": 0.0019289019372368806,
+    "lateRms": 0.002004171347619203,
+    "cueRms": 0.001928521921412588,
+    "peak": 0.00282578868791461
+  },
+  "off": {
+    "phraseRms": 0,
+    "restRms": 0,
+    "lateRms": 0,
+    "cueRms": 0,
+    "peak": 0
+  },
+  "effects": {
+    "phraseRms": 0,
+    "restRms": 0,
+    "lateRms": 0,
+    "cueRms": 0.060921085618248445,
+    "peak": 0.3080078065395355
+  },
+  "paused": {
+    "phraseRms": 0.001711635097741431,
+    "restRms": 0,
+    "lateRms": 0,
+    "cueRms": 0,
+    "peak": 0
+  },
+  "hidden": {
+    "phraseRms": 0.001711635676492579,
+    "restRms": 0,
+    "lateRms": 0,
+    "cueRms": 0,
+    "peak": 0
+  },
+  "reductionDb": -27.04342859953651,
+  "persisted": true,
+  "errors": []
+}

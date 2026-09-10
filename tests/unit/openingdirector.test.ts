@@ -176,7 +176,7 @@ describe('isDeckLanding', () => {
   });
 
   it('rejects anything outside the deck footprint or off its height', () => {
-    expect(isDeckLanding({ x: 6, y: DECK_SURFACE_Y, z: 0 })).toBe(false);
+    expect(isDeckLanding({ x: 7.5, y: DECK_SURFACE_Y, z: 0 })).toBe(false);
     expect(isDeckLanding({ x: 0, y: DECK_SURFACE_Y, z: 9 })).toBe(false);
     expect(isDeckLanding({ x: 0, y: 6.6, z: 0 })).toBe(false);
     expect(isDeckLanding({ x: 0, y: -0.35, z: 0 })).toBe(false);

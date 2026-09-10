@@ -3,6 +3,7 @@ import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUti
 import type { Materials } from './Materials';
 import { loadModel, type LoadedModel } from './ModelLoader';
 import { applyHeightFog } from './Fog';
+import nomad from '@/data/iron-nomad.json';
 import {
   DECK_HEIGHT,
   DECK_PLATE_HALF,
@@ -24,11 +25,12 @@ export interface MachineDetailBatch {
 
 export interface MachineStationVisualModels {
   machine: LoadedModel | null;
+  collision: LoadedModel | null;
   stations: LoadedModel | null;
 }
 
-/** Canonical v3 walker export consumed by Machine.applyAuthoredDetailModel. */
-export const MACHINE_WALKER_V3_ASSET = 'machine-walker-v3.glb';
+/** Playable walker export; the constant name remains compatible with older tools. */
+export const MACHINE_WALKER_V3_ASSET = nomad.model;
 
 /**
  * Load the optional authored kit from the served model root. The caller keeps
@@ -39,22 +41,22 @@ export const MACHINE_WALKER_V3_ASSET = 'machine-walker-v3.glb';
 export async function loadMachineStationVisualModels(
   baseUrl = 'models/authored',
 ): Promise<MachineStationVisualModels> {
-  // Do not load the legacy machine-kit beside the v3 export: the old pack
-  // contains the floor-level cross-beam skin that caused the lower-room
-  // walking report. A missing v3 file falls all the way back to the safe
-  // procedural machine instead of spending another large GLB allocation.
-  const machine = await loadModel(`${baseUrl}/${MACHINE_WALKER_V3_ASSET}`);
-  const [stations] = await Promise.all([loadModel(`${baseUrl}/station-kit.glb`)]);
+  const [machine, stations, collision] = await Promise.all([
+    loadModel(`${baseUrl}/${MACHINE_WALKER_V3_ASSET}`),
+    loadModel(`${baseUrl}/station-kit.glb`),
+    loadModel(`${baseUrl}/${nomad.collision}`),
+  ]);
   const prepared = new Set<THREE.Material>();
-  for (const model of [machine, stations]) model?.scene.traverse((object) => {
-    if (!(object instanceof THREE.Mesh)) return;
-    for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
-      if (prepared.has(material)) continue;
-      prepared.add(material);
-      applyHeightFog(material);
-    }
-  });
-  return { machine, stations };
+  for (const model of [machine, stations])
+    model?.scene.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+        if (prepared.has(material)) continue;
+        prepared.add(material);
+        applyHeightFog(material);
+      }
+    });
+  return { machine, collision, stations };
 }
 
 interface Part {
@@ -93,7 +95,12 @@ function cylinderBetween(
   radialSegments = 12,
 ): THREE.BufferGeometry {
   const direction = new THREE.Vector3().subVectors(b, a);
-  const geometry = new THREE.CylinderGeometry(radius, radius * 1.08, direction.length(), radialSegments);
+  const geometry = new THREE.CylinderGeometry(
+    radius,
+    radius * 1.08,
+    direction.length(),
+    radialSegments,
+  );
   const rotation = new THREE.Quaternion().setFromUnitVectors(
     new THREE.Vector3(0, 1, 0),
     direction.normalize(),
@@ -161,7 +168,10 @@ export function createMachineDetailBatches(materials: Materials): MachineDetailB
       });
       continue;
     }
-    for (const [minX, maxX] of [[beamMinX, openingMinX], [openingMaxX, beamMaxX]] as const) {
+    for (const [minX, maxX] of [
+      [beamMinX, openingMinX],
+      [openingMaxX, beamMaxX],
+    ] as const) {
       dark.push({
         geometry: detailBox(maxX - minX, 0.24, 0.22),
         position: new THREE.Vector3((minX + maxX) / 2, ceilingFrameY, z),
@@ -188,7 +198,12 @@ export function createMachineDetailBatches(materials: Materials): MachineDetailB
         ),
       });
       steel.push({
-        geometry: torusAt(new THREE.Vector3(x + side * 0.31, 1.55, z), 0.37, 0.055, new THREE.Euler(0, 0, Math.PI / 2)),
+        geometry: torusAt(
+          new THREE.Vector3(x + side * 0.31, 1.55, z),
+          0.37,
+          0.055,
+          new THREE.Euler(0, 0, Math.PI / 2),
+        ),
       });
       steel.push({
         geometry: cylinderBetween(
@@ -199,7 +214,12 @@ export function createMachineDetailBatches(materials: Materials): MachineDetailB
         ),
       });
       rubber.push({
-        geometry: torusAt(new THREE.Vector3(x + side * 0.34, 1.55, z), 0.23, 0.045, new THREE.Euler(0, 0, Math.PI / 2)),
+        geometry: torusAt(
+          new THREE.Vector3(x + side * 0.34, 1.55, z),
+          0.23,
+          0.045,
+          new THREE.Euler(0, 0, Math.PI / 2),
+        ),
       });
     }
   }
@@ -219,7 +239,11 @@ export function createMachineDetailBatches(materials: Materials): MachineDetailB
 
   // Formed service hatches, perimeter seams and restrained bolt heads on the
   // deck. These stay below the existing autostep clearance.
-  for (const [x, z] of [[1.9, -1.9], [1.9, 1.9], [-1.9, 4.9]] as const) {
+  for (const [x, z] of [
+    [1.9, -1.9],
+    [1.9, 1.9],
+    [-1.9, 4.9],
+  ] as const) {
     steel.push({
       geometry: detailBox(1.25, 0.06, 0.86),
       position: new THREE.Vector3(x, DECK_HEIGHT + 0.12, z),
@@ -242,15 +266,23 @@ export function createMachineDetailBatches(materials: Materials): MachineDetailB
   for (const side of [-1, 1]) {
     const x = side * 1.35;
     steel.push({
-      geometry: tube([
-        new THREE.Vector3(x, DECK_HEIGHT + 1.75, 5.8),
-        new THREE.Vector3(x * 1.05, DECK_HEIGHT + 2.35, 5.2),
-        new THREE.Vector3(side * 2.25, DECK_HEIGHT + 2.35, 4.5),
-      ], 0.07),
+      geometry: tube(
+        [
+          new THREE.Vector3(x, DECK_HEIGHT + 1.75, 5.8),
+          new THREE.Vector3(x * 1.05, DECK_HEIGHT + 2.35, 5.2),
+          new THREE.Vector3(side * 2.25, DECK_HEIGHT + 2.35, 4.5),
+        ],
+        0.07,
+      ),
     });
     for (const z of [5.35, 4.95]) {
       steel.push({
-        geometry: torusAt(new THREE.Vector3(x, DECK_HEIGHT + 2.03, z), 0.09, 0.018, new THREE.Euler(Math.PI / 2, 0, 0)),
+        geometry: torusAt(
+          new THREE.Vector3(x, DECK_HEIGHT + 2.03, z),
+          0.09,
+          0.018,
+          new THREE.Euler(Math.PI / 2, 0, 0),
+        ),
       });
     }
   }

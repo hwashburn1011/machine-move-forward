@@ -1,0 +1,105 @@
+{
+  "checks": [
+    {
+      "name": "salvage reel reaches the lower ground from the raised deck",
+      "ok": true,
+      "detail": {
+        "reel": {
+          "target": true,
+          "id": "crate-0",
+          "from": [
+            -0.012423080931300385,
+            15.811512629816209,
+            -0.9839846029864991
+          ],
+          "to": [
+            -10.847424087580293,
+            2.3989249795209617,
+            -17.646006483150767
+          ]
+        },
+        "salvage": {
+          "step": "build-refinery",
+          "blueprint": true
+        }
+      }
+    },
+    {
+      "name": "current saves restore on the elevated deck",
+      "ok": true,
+      "detail": {
+        "loaded": true,
+        "layout": "iron-nomad-v1",
+        "y": 15.806789857225441,
+        "pieces": 2
+      }
+    },
+    {
+      "name": "legacy saves relocate conflicting cargo without losing its contents",
+      "ok": true,
+      "detail": {
+        "current": {
+          "loaded": true,
+          "layout": "iron-nomad-v1",
+          "y": 15.806789857225441,
+          "pieces": 2
+        },
+        "migrated": true,
+        "y": 15.94,
+        "crate": {
+          "instanceId": "bp-80",
+          "definitionId": "crate",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -2
+          },
+          "rotation": 0,
+          "health": 43,
+          "state": {
+            "slots": [
+              {
+                "itemId": "components",
+                "count": 3
+              },
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          }
+        },
+        "stored": []
+      }
+    },
+    {
+      "name": "skiff boarders reach the new top deck",
+      "ok": true,
+      "detail": [
+        {
+          "id": "raider",
+          "cell": {
+            "x": -3,
+            "y": 0,
+            "z": -1
+          },
+          "y": 15.94,
+          "path": 0
+        }
+      ]
+    },
+    {
+      "name": "no runtime exceptions",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "errors": []
+}

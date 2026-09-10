@@ -1,0 +1,14 @@
+{
+  "id": "warden",
+  "vertices": 31229,
+  "triangles": 57067,
+  "materials": 15,
+  "bones": 47,
+  "clips": [
+    "idle",
+    "walk",
+    "run",
+    "attack",
+    "death"
+  ]
+}

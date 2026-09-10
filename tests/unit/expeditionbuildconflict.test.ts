@@ -23,17 +23,17 @@ describe('expedition build reservation', () => {
   it('leaves the machine-side floor boundary legal but rejects a wall on it', () => {
     const machineFloor = {
       piece: 'floor' as const,
-      cell: { x: 2, y: 0, z: 0 },
+      cell: { x: 3, y: 0, z: 0 },
       rotation: 0,
     };
     const boundaryWall = {
       piece: 'wall' as const,
-      cell: { x: 2, y: 0, z: 0 },
-      edge: { x: 2, y: 0, z: 0, axis: 'x' as const },
+      cell: { x: 3, y: 0, z: 0 },
+      edge: { x: 3, y: 0, z: 0, axis: 'x' as const },
       rotation: 0,
     };
 
-    expect(buildFootprint(machineFloor).maxX).toBe(5);
+    expect(buildFootprint(machineFloor).maxX).toBe(7);
     expect(footprintOverlapsExpedition(machineFloor)).toBe(false);
     expect(footprintOverlapsExpedition(boundaryWall)).toBe(true);
   });
@@ -42,15 +42,15 @@ describe('expedition build reservation', () => {
     const savedFloor: BuildPieceInstance = {
       instanceId: 'bp-1',
       definitionId: 'floor',
-      cell: { x: 2, y: 0, z: 0 },
+      cell: { x: 3, y: 0, z: 0 },
       rotation: 0,
       health: 120,
     };
     const savedWall: BuildPieceInstance = {
       instanceId: 'bp-2',
       definitionId: 'wall',
-      cell: { x: 2, y: 0, z: 0 },
-      edge: { x: 2, y: 0, z: 0, axis: 'x' },
+      cell: { x: 3, y: 0, z: 0 },
+      edge: { x: 3, y: 0, z: 0, axis: 'x' },
       rotation: 0,
       health: 150,
     };
@@ -62,8 +62,8 @@ describe('expedition build reservation', () => {
   it('accounts for an edge offset along z when a wall reaches the wreck', () => {
     expect(footprintOverlapsExpedition({
       piece: 'wall',
-      cell: { x: 3, z: 4 },
-      edge: { x: 3, z: 4, axis: 'z' },
+      cell: { x: 4, z: 4 },
+      edge: { x: 4, z: 4, axis: 'z' },
       rotation: 0,
     })).toBe(true);
   });

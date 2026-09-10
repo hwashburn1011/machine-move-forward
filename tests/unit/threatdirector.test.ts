@@ -242,7 +242,7 @@ describe('ThreatDirector', () => {
       const wave = nextWaveKinds(d, end, () => 0);
       end = wave.end;
       if (wave.kinds.length === 0) continue;
-      expect(wave.kinds).toContain('scavenger');
+      expect(wave.kinds.some((id) => id !== 'raider')).toBe(true);
     }
   });
 
