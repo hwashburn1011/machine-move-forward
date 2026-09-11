@@ -9,6 +9,7 @@ import {
   aimSkiffWeapon,
   updateSkiffCrewModel,
   placeSkiffCrewOnCable,
+  authoredEnemyModel,
 } from '@/art/DefenseModels';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { Damageable } from '@/combat/Damageable';
@@ -16,9 +17,18 @@ import { Rng } from '@/core/math/Random';
 import { planVolley, type VolleyTarget } from './VolleyPlanner';
 import { VehicleManager } from './VehicleManager';
 import type { BoardingEncounterState } from './BoardingEncounter';
-import { combatProfile, VEHICLES, type VehicleCombatProfile, type VehicleId } from '@/data/vehicles';
+import {
+  combatProfile,
+  VEHICLES,
+  type VehicleCombatProfile,
+  type VehicleId,
+} from '@/data/vehicles';
 import { CHARACTER_DROP_Y, DECK_SURFACE_Y } from '@/game/constants';
 import { BoardingEffects } from '@/art/BoardingEffects';
+import { EnemyVisual } from '@/enemies/EnemyVisual';
+import { ENEMIES } from '@/data/enemies';
+import type { MechBoarder } from '@/story/RadioRaids';
+import nomad from '@/data/iron-nomad.json';
 
 interface ActorCollider {
   body: RAPIER.RigidBody;
@@ -29,7 +39,12 @@ export interface VehicleSceneCallbacks {
   terrainHeightAt?: (x: number, z: number) => number;
   boardingLanding?: (side: 'port' | 'starboard', crewIndex: number) => THREE.Vector3;
   /** Spawn a normal EnemyManager raider at this valid deck position. */
-  spawnBoarder(position: THREE.Vector3, crewIndex: number): void;
+  spawnBoarder(
+    position: THREE.Vector3,
+    crewIndex: number,
+    definitionId?: string,
+    health?: number,
+  ): void;
   getVolleyTargets(): readonly VolleyTarget[];
   getVolleyTargetPosition?(targetId: string): THREE.Vector3 | null;
   canDamageVolleyTarget?(targetId: string, origin: THREE.Vector3, target: THREE.Vector3): boolean;
@@ -63,6 +78,9 @@ export class VehicleScene {
   private readonly volleyRng = new Rng(0x5a1ff);
   private activeProfile: VehicleCombatProfile = combatProfile(VEHICLES.skiff);
   private cleaned = true;
+  private roster: readonly MechBoarder[] | null = null;
+  private readonly mechVisuals: EnemyVisual[] = [];
+  private readonly gripGeometry: THREE.BufferGeometry[] = [];
 
   constructor(
     scene: THREE.Scene,
@@ -78,7 +96,8 @@ export class VehicleScene {
     this.hook.visible = false;
     this.group.add(this.skiff, this.hook);
     this.manager = new VehicleManager({
-      onSpawn: (vehicleId, state, profile) => this.spawnActors(vehicleId, state, profile, materials),
+      onSpawn: (vehicleId, state, profile) =>
+        this.spawnActors(vehicleId, state, profile, materials),
       onState: (state) => this.syncState(state),
       onCrewLand: (index) => this.landCrew(index),
       onDestroyed: () => this.destroyed(),
@@ -96,8 +115,19 @@ export class VehicleScene {
     });
   }
 
-  spawn(side: 'port' | 'starboard' = 'port', tutorial = false): boolean {
-    return this.manager.spawn('skiff', side, tutorial);
+  spawn(
+    side: 'port' | 'starboard' = 'port',
+    tutorial = false,
+    crew?: readonly [MechBoarder, MechBoarder],
+  ): boolean {
+    if (this.manager.snapshot) return false;
+    this.roster = tutorial ? null : (crew ?? null);
+    return this.manager.spawn(
+      'skiff',
+      side,
+      tutorial,
+      this.roster?.map((id) => ENEMIES[id]!.maxHealth),
+    );
   }
   get active(): boolean {
     return this.manager.active;
@@ -158,6 +188,7 @@ export class VehicleScene {
     this.manager.fixedUpdate(dt, hookAttached, cutHook);
     for (let i = 0; i < this.crew.length; i++) {
       updateSkiffCrewModel(this.crew[i]!, dt, this.state?.crewStatus[i] === 'crossing');
+      this.mechVisuals[i]?.update(dt);
     }
   }
 
@@ -173,8 +204,38 @@ export class VehicleScene {
     this.activeProfile = profile;
     this.skiff.visible = true;
     for (let i = 0; i < state.crewHealth.length; i++) {
-      const model = buildSkiffCrewModel(materials);
+      let model: THREE.Group;
+      const mechId = this.roster?.[i];
+      if (mechId) {
+        model = new THREE.Group();
+        model.name = `Boarding-${mechId}`;
+        model.userData.mechId = mechId;
+        const visual = new EnemyVisual(authoredEnemyModel(mechId), materials);
+        visual.setState('idle');
+        visual.setPresentationOnly();
+        visual.update(0);
+        visual.object3D.position.y = 0.96;
+        model.add(visual.object3D);
+        this.mechVisuals.push(visual);
+        // Powered cable trolley: a visible harness joins the armored passenger
+        // to the grapple instead of pretending a weapon-holding idle is a climb.
+        const grip = new THREE.Group();
+        grip.name = 'BoardingGrip';
+        grip.position.set(0, 2.2, 0.6);
+        const rollerGeo = new THREE.TorusGeometry(0.13, 0.035, 6, 12);
+        const roller = new THREE.Mesh(rollerGeo, materials.bareSteel);
+        roller.rotation.y = Math.PI / 2;
+        grip.add(roller);
+        model.add(grip);
+        const tetherGeo = new THREE.CylinderGeometry(0.024, 0.024, Math.hypot(0.9, 0.6), 6);
+        const tether = new THREE.Mesh(tetherGeo, materials.bareSteel);
+        tether.position.set(0, 1.72, 0.3);
+        tether.rotation.x = Math.atan2(0.6, 0.9);
+        model.add(tether);
+        this.gripGeometry.push(rollerGeo, tetherGeo);
+      } else model = buildSkiffCrewModel(materials);
       model.position.copy(SKiffSeat(i));
+      model.rotation.y = state.side === 'port' ? Math.PI / 2 : -Math.PI / 2;
       this.skiff.add(model);
       this.crew.push(model);
     }
@@ -207,7 +268,7 @@ export class VehicleScene {
     const damageable: Damageable = {
       kind: 'enemy',
       id: `skiff-crew-${index}`,
-      armor: 0,
+      armor: this.roster?.[index] ? ENEMIES[this.roster[index]!]!.armor : 0,
       takeDamage: (amount) => this.manager.damageCrew(index, amount),
     };
     const collider = this.physics.addBoxTo(
@@ -245,7 +306,7 @@ export class VehicleScene {
     this.hook.visible =
       state.phase === 'hook-flight' || state.phase === 'attached' || state.phase === 'boarding';
     const hookT = state.phase === 'hook-flight' ? Math.min(1, state.phaseElapsed / 0.75) : 1;
-    const hookTarget = this.landingFor(state, 0).feet;
+    const hookTarget = this.landingFor(state, 0).anchor;
     const launcher = new THREE.Vector3(
       state.lateral + (state.side === 'port' ? 0.9 : -0.9),
       terrain + 1.7,
@@ -265,7 +326,14 @@ export class VehicleScene {
       }
       if (status === 'crossing') {
         const crossingAt = state.crossingAt[i] ?? 0;
-        const t = Math.max(0, Math.min(1, (state.phaseElapsed - crossingAt) / 2));
+        const t = Math.max(
+          0,
+          Math.min(
+            1,
+            (state.phaseElapsed - crossingAt) /
+              Math.max(0.1, this.activeProfile.crewStaggerSeconds),
+          ),
+        );
         if (this.crew[i]!.parent !== this.group) {
           this.crew[i]!.removeFromParent();
           this.group.add(this.crew[i]!);
@@ -276,7 +344,14 @@ export class VehicleScene {
           terrain + SKiffSeat(i).y,
           state.forward + SKiffSeat(i).z,
         );
-        placeSkiffCrewOnCable(this.crew[i]!, launcher, target, startWorld, t);
+        placeSkiffCrewOnCable(
+          this.crew[i]!,
+          launcher,
+          target,
+          startWorld,
+          t,
+          this.roster ? this.landingFor(state, i).anchor : undefined,
+        );
       }
     }
     this.group.updateMatrixWorld(true);
@@ -316,19 +391,30 @@ export class VehicleScene {
 
   private landCrew(index: number): void {
     if (!this.state) return;
-    this.callbacks.spawnBoarder(this.landingFor(this.state, index).spawn, index);
+    const position = this.landingFor(this.state, index).spawn;
+    const id = this.roster?.[index];
+    if (id)
+      this.callbacks.spawnBoarder(position, index, id, this.manager.snapshot?.crewHealth[index]);
+    else this.callbacks.spawnBoarder(position, index);
   }
 
   private landingFor(
     state: BoardingEncounterState,
     index: number,
-  ): { feet: THREE.Vector3; spawn: THREE.Vector3 } {
+  ): { feet: THREE.Vector3; spawn: THREE.Vector3; anchor: THREE.Vector3 } {
     const spawn =
       this.callbacks.boardingLanding?.(state.side, index) ??
       new THREE.Vector3(state.side === 'port' ? -4 : 4, CHARACTER_DROP_Y, -2);
     return {
       spawn: spawn.clone(),
       feet: new THREE.Vector3(spawn.x, DECK_SURFACE_Y + 0.05, spawn.z),
+      anchor: this.roster
+        ? new THREE.Vector3(
+            (state.side === 'port' ? -1 : 1) * nomad.deckHalfWidth,
+            DECK_SURFACE_Y + 1.1,
+            spawn.z,
+          )
+        : new THREE.Vector3(spawn.x, DECK_SURFACE_Y + 0.05, spawn.z),
     };
   }
 
@@ -400,6 +486,11 @@ export class VehicleScene {
       model.visible = false;
     }
     this.crew.length = 0;
+    for (const visual of this.mechVisuals) visual.dispose();
+    this.mechVisuals.length = 0;
+    for (const geometry of this.gripGeometry) geometry.dispose();
+    this.gripGeometry.length = 0;
+    this.roster = null;
   }
 }
 

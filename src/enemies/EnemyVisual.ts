@@ -522,6 +522,12 @@ export class EnemyVisual {
     }
   }
 
+  /** Noncombat actors and visible passengers have no floating combat UI. */
+  setPresentationOnly(): void {
+    this.bar.removeFromParent();
+    this.aim.removeFromParent();
+  }
+
   dispose(): void {
     this.reset();
     // Authored geometry is shared with the model cache. Only procedural bodies own theirs.

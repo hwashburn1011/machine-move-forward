@@ -102,6 +102,8 @@ const PHASE_TEXT: Record<string, string | null> = {
 const STORY_PHASE_LABELS: Record<string, string> = {
   locked: 'Locked',
   signal: 'Recovered receiver',
+  crossfire: 'Crossfire',
+  raids: 'Hold the Nomad',
   approach: 'Relay tender',
   braking: 'Docking',
   docked: 'The Wake',

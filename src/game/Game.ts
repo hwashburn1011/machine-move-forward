@@ -1,5 +1,7 @@
 import { DECK_SURFACE_Y } from './constants';
 import nomadProfile from '@/data/iron-nomad.json';
+import { SignalBattleScene } from '@/story/SignalBattleScene';
+import { RadioRaids } from '@/story/RadioRaids';
 import * as THREE from 'three';
 import { Renderer } from '@/core/renderer/Renderer';
 import { PostProcessing } from '@/core/renderer/PostProcessing';
@@ -326,6 +328,9 @@ export class Game implements LoopCallbacks {
   readonly progression = new Progression();
   readonly sessionMetrics = new SessionMetrics();
   readonly story = new StoryDirector();
+  readonly radioRaids = new RadioRaids();
+  private signalBattle: SignalBattleScene | null = null;
+  private readonly normalSunTarget = new THREE.Vector3();
   readonly destination: Destination;
   private readonly radioModel: THREE.Group;
   /** Game owns this one walker source until final teardown; the machine only borrows clones. */
@@ -493,6 +498,7 @@ export class Game implements LoopCallbacks {
     }
 
     if (options.models !== false) {
+      const battle = game.prepareSignalBattle();
       const encounterAssets = [
         'manual-turret',
         'raider-skiff',
@@ -502,12 +508,40 @@ export class Game implements LoopCallbacks {
       ]
         .map((id) => authoredModel(id)?.scene)
         .filter((root): root is THREE.Group => root !== undefined);
-      await warmAuthoredGraphics(
-        game.renderer.three,
-        game.renderer.scene,
-        game.playerCamera.camera,
-        encounterAssets,
-      );
+      // Upload/compile the extra actors during boot, before reception
+      // can lock. Creating all five detailed rigs at the reveal causes a hitch.
+      battle.root.visible = true;
+      try {
+        game.lampLights.update(1, game.lampSamples(), game.playerCamera.camera.position);
+        const warmCamera = game.playerCamera.camera.clone();
+        warmCamera.position.set(0, 22, 35);
+        warmCamera.lookAt(0, 8, 0);
+        await warmAuthoredGraphics(
+          game.renderer.three,
+          game.renderer.scene,
+          game.playerCamera.camera,
+          [...encounterAssets, battle.root],
+          warmCamera,
+        );
+      } finally {
+        battle.root.visible = false;
+      }
+      const sunTarget = game.renderer.sun.target.position.clone();
+      try {
+        battle.prewarm(game.playerCamera.camera, (camera, focus) => {
+          game.renderer.sun.target.position.copy(focus);
+          game.renderer.setSunDirection(game.sky.direction);
+          game.post.setCamera(camera);
+          game.post.render(0, game.renderer.scene, camera);
+        });
+      } finally {
+        game.renderer.sun.target.position.copy(sunTarget);
+        game.renderer.setSunDirection(game.sky.direction);
+        game.post.setCamera(game.activeCamera);
+        // The normal-play light count needs its shader variants too, so the
+        // first playable frame and the eventual hand-back are both warm.
+        game.post.render(0, game.renderer.scene, game.activeCamera);
+      }
     }
     return game;
   }
@@ -584,7 +618,8 @@ export class Game implements LoopCallbacks {
       terrainHeightAt: (x, z) =>
         duneHeightAt(x, z - WORLD_Z_PER_METRE * this.world.distanceTraveled),
       boardingLanding: (side, crewIndex) => this.boardingLanding(side, crewIndex),
-      spawnBoarder: (position, index) => this.spawnBoarder(index, position),
+      spawnBoarder: (position, index, definitionId, health) =>
+        this.spawnBoarder(index, position, definitionId, health),
       getVolleyTargets: () => this.getVolleyTargets(),
       getVolleyTargetPosition: (targetId) => this.volleyTargetPosition(targetId),
       canDamageVolleyTarget: (targetId, origin, target) =>
@@ -1319,7 +1354,11 @@ export class Game implements LoopCallbacks {
    * end up running the chase behind its own menu.
    */
   private get cinematicCamera(): THREE.PerspectiveCamera | null {
-    return this.titleCamera ?? this.freeCamera;
+    return (
+      this.titleCamera ??
+      (this.signalBattle?.active ? this.signalBattle.camera : null) ??
+      this.freeCamera
+    );
   }
 
   get isFreeCamera(): boolean {
@@ -1347,6 +1386,20 @@ export class Game implements LoopCallbacks {
       this.autosavePending = true;
     }
 
+    if (this.signalBattle?.active) {
+      // The Nomad keeps passing the battle, but the player cannot be damaged,
+      // starved, or moved by held input while the camera has control.
+      this.machine.fixedUpdate(dt);
+      this.world.fixedUpdate(dt, this.machine.speed);
+      if (this.signalBattle.update(dt, this.world.distanceTraveled, this.input.isDown('cancel')))
+        this.finishSignalBattle();
+      else {
+        this.renderer.sun.target.position.copy(this.signalBattle.lightingFocus);
+        this.renderer.setSunDirection(this.sky.direction);
+      }
+      this.physics.step();
+      return;
+    }
     this.updatePanels(dt);
     // Build mode and the panels are mutually exclusive: both want LMB.
     if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
@@ -1509,7 +1562,7 @@ export class Game implements LoopCallbacks {
       }
     }
     // After the world moves, so the distance the spawner reads is this tick's.
-    if (!this.cinematicCamera) this.updateSpawns();
+    if (!this.cinematicCamera) this.updateSpawns(dt);
 
     if (!this.cinematicCamera) {
       this.salvage.update(dt, this.world.distanceTraveled, this.machine.speed);
@@ -1545,8 +1598,17 @@ export class Game implements LoopCallbacks {
       maxSpeed: this.machine.movement.maxSpeed,
       encounterActive:
         this.enemies.activeCount > 0 || this.vehicleManager.active || this.gunboatScene.active,
+      signalBattleMode: true,
     });
     if (effects.length > 0) this.applyStoryEffects(effects);
+    // Defensive recovery for an externally supplied mid-scene save. Ordinary
+    // saves are taken before the reveal or after control has been restored.
+    if (
+      this.story.currentPhase === 'crossfire' &&
+      !this.signalBattle?.active &&
+      !this.cinematicCamera
+    )
+      this.beginSignalBattle();
     const after = this.story.currentPhase;
     if (after !== before) {
       this.bus.emit('story:phase', { chapterId: this.story.chapter.id, phase: after });
@@ -1559,7 +1621,10 @@ export class Game implements LoopCallbacks {
     if (helmLamp) helmLamp.visible = this.machine.power.isPowered(this.helmPowerConsumerId);
     this.hud.setStoryState({
       phase: view.phase,
-      objective: view.objective,
+      objective:
+        view.phase === 'signal'
+          ? `Signal ${Math.floor(view.signalStrength * 100)}% · ${view.objective}`
+          : view.objective,
       remainingM: view.remainingM,
     });
     this.hud.setRadioState(
@@ -1580,13 +1645,84 @@ export class Game implements LoopCallbacks {
     this.machine.setExpeditionGangwayOpen(this.destination.docked);
   }
 
+  private prepareSignalBattle(): SignalBattleScene {
+    this.signalBattle ??= new SignalBattleScene(
+      this.renderer.scene,
+      this.materials,
+      (x, z) => duneHeightAt(x, z - WORLD_Z_PER_METRE * this.world.distanceTraveled),
+      (kind) => this.audio.play(kind === 'shot' ? 'distant-gunfire' : 'distant-explosion', 24, 32),
+      this.weaponModels.get('rifle') ?? null,
+    );
+    if (!this.renderer.extraCameras.includes(this.signalBattle.camera))
+      this.renderer.extraCameras.push(this.signalBattle.camera);
+    return this.signalBattle;
+  }
+
+  private beginSignalBattle(): void {
+    if (this.signalBattle?.active) return;
+    this.closePanels();
+    this.defense.exit();
+    this.input.clearAll();
+    // Retire any unreleased ordinary wave; the radio now owns encounter pacing.
+    this.director.finishExternalEncounter(this.world.distanceTraveled);
+    this.prepareSignalBattle().start(this.playerCamera.camera, this.world.distanceTraveled);
+    this.normalSunTarget.copy(this.renderer.sun.target.position);
+    this.setHudVisible(false);
+    this.audio.play('radio-signal');
+  }
+
+  private cancelSignalBattle(): void {
+    if (this.signalBattle?.active) {
+      this.renderer.sun.target.position.copy(this.normalSunTarget);
+      this.renderer.setSunDirection(this.sky.direction);
+      this.signalBattle.stop();
+      this.input.clearAll();
+    }
+  }
+
+  private finishSignalBattle(): void {
+    if (!this.story.finishSignalBattle()) return;
+    this.renderer.sun.target.position.copy(this.normalSunTarget);
+    this.renderer.setSunDirection(this.sky.direction);
+    this.input.clearAll();
+    this.setHudVisible(true);
+    this.bus.emit('story:phase', { chapterId: 'wreck-one', phase: 'raids' });
+    this.hud.setWarning('They saw us. Watch for grapples on both sides of the machine.');
+    this.requestAutosave();
+  }
+
+  private updateRadioRaids(dt: number): void {
+    const safe =
+      this.enemies.activeCount === 0 &&
+      !this.vehicleScene.active &&
+      !this.gunboatScene.active &&
+      !this.pendingBoardingOutcome &&
+      !this.scriptedGunboatPending &&
+      !this.panelsOpen &&
+      !this.buildMode &&
+      this.player.stats.health / this.player.stats.maxHealth >= 0.35 &&
+      this.destination.playerOnMachine(this.player.worldPosition);
+    const plan = this.radioRaids.update(dt, safe, this.state.seed);
+    if (!plan || !this.vehicleScene.spawn(plan.side, false, plan.crew)) return;
+    this.radioRaids.started();
+    this.tutorialStarted = false;
+    // Claim the ordinary director too so save/debug consumers agree about the
+    // encounter owner. Its normal infantry release path is never called here.
+    this.director.update(this.world.distanceTraveled, 0, 1, true);
+    this.threatPhase = 'engagement';
+    this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
+    this.bus.emit('boarding:started', { encounterId: 'robot-boarding-ship' });
+    this.hud.setWarning(
+      `Robot boarding ship — ${plan.side}! Destroy its grapple or hold the deck.`,
+    );
+  }
+
   private isStableForStory(): boolean {
     const clearForApproach =
-      !['signal', 'route-selection'].includes(this.story.currentPhase) ||
-      !this.hasDestinationBuildConflict();
-    if (!clearForApproach && this.story.currentPhase === 'signal') {
+      this.story.currentPhase !== 'route-selection' || !this.hasDestinationBuildConflict();
+    if (!clearForApproach) {
       this.hud?.setWarning(
-        'Clear structures from the wreck approach lane before following the signal',
+        'Clear structures from the expedition approach lane before choosing a route',
       );
     }
     return (
@@ -1598,6 +1734,11 @@ export class Game implements LoopCallbacks {
       this.pendingBoardingOutcome === null &&
       !this.state.playerDead &&
       this.hook === null &&
+      !this.cinematicCamera &&
+      // Route selection itself happens inside a panel. Only the new signal
+      // camera takeover needs the player to finish their current interaction.
+      (this.story.currentPhase !== 'signal' ||
+        ((!this.panelsOpen || this.radioUI.isOpen) && !this.buildMode && !this.defense.mounted)) &&
       this.opening.phase === 'done'
     );
   }
@@ -1618,6 +1759,9 @@ export class Game implements LoopCallbacks {
   private applyStoryEffects(effects: readonly StoryEffect[]): void {
     for (const effect of effects) {
       switch (effect.type) {
+        case 'begin-signal-battle':
+          this.beginSignalBattle();
+          break;
         case 'begin-signal':
           this.bus.emit('story:signal', {
             strength: 0.08,
@@ -2141,11 +2285,15 @@ export class Game implements LoopCallbacks {
    * simulation keeps running behind panels, and making the crafting screen a
    * safe room by accident would contradict that quietly.
    */
-  private updateSpawns(): void {
+  private updateSpawns(dt = 1 / 60): void {
     // Ordinary threat pacing waits until the guided boarding loop is done.
     if (!this.firstRun.isComplete) return;
     if (!this.enemySpawnsEnabled) return;
     if (this.state.playerDead) return;
+    if (this.story.currentPhase === 'raids') {
+      this.updateRadioRaids(dt);
+      return;
+    }
     // A destroyed hull can leave shells in flight. Keep scheduling paused
     // during that tail without reacquiring the encounter just resolved.
     if (this.gunboatResolutionApplied && this.gunboatScene.active) return;
@@ -2232,10 +2380,17 @@ export class Game implements LoopCallbacks {
     }
   }
 
-  private spawnBoarder(index: number, landing?: THREE.Vector3): void {
+  private spawnBoarder(
+    index: number,
+    landing?: THREE.Vector3,
+    definitionId = 'raider',
+    health?: number,
+  ): void {
     if (landing) {
-      const enemy = this.enemies.spawn('raider', landing);
+      const enemy = this.enemies.spawn(definitionId, landing);
       if (enemy) {
+        if (health !== undefined && health < enemy.currentHealth)
+          enemy.takeDamage(enemy.currentHealth - health);
         this.boardingEnemyIds.add(enemy.id);
         this.bus.emit('boarding:crossed', { enemyId: enemy.id, crewIndex: index });
       }
@@ -2244,7 +2399,7 @@ export class Game implements LoopCallbacks {
     const side = this.vehicleManager.snapshot?.side === 'starboard' ? 1 : -1;
     const z = index === 0 ? -this.machine.deckBounds.max.z + 1 : this.machine.deckBounds.max.z - 1;
     const enemy = this.enemies.spawn(
-      'raider',
+      definitionId,
       new THREE.Vector3(side * Math.max(2, this.machine.deckBounds.max.x - 1), CHARACTER_DROP_Y, z),
     );
     if (enemy) {
@@ -2382,6 +2537,7 @@ export class Game implements LoopCallbacks {
 
   private finishBoarding(outcome: 'hull' | 'crew' | 'hook' | 'defended'): void {
     const wasTutorial = this.tutorialStarted;
+    if (this.story.currentPhase === 'raids') this.radioRaids.finished(this.state.seed);
     const needsRepair = this.machine.damage.damaged().length > 0;
     const reward = VEHICLES.skiff.defenseReward;
     this.resources.deposit('scrap', reward.scrap);
@@ -2781,6 +2937,8 @@ export class Game implements LoopCallbacks {
     this.resetInventory();
     this.progression.restore(undefined);
     this.story.restore(undefined);
+    this.cancelSignalBattle();
+    this.radioRaids.restore();
     this.destination.setActive(false);
     this.destination.configure(this.story.chapter);
     this.routeRefusal = null;
@@ -3253,7 +3411,7 @@ export class Game implements LoopCallbacks {
       this.pendingBoardingOutcome === null &&
       !this.state.playerDead &&
       this.destination.playerOnMachine(this.player.worldPosition) &&
-      ['locked', 'signal', 'route-selection', 'docked', 'complete'].includes(
+      ['locked', 'signal', 'raids', 'route-selection', 'docked', 'complete'].includes(
         this.story.currentPhase,
       )
     );
@@ -3876,7 +4034,7 @@ export class Game implements LoopCallbacks {
       this.pendingBoardingOutcome === null &&
       this.hook === null &&
       this.hookedCrate === null &&
-      ['locked', 'signal', 'route-selection', 'docked', 'complete'].includes(
+      ['locked', 'signal', 'raids', 'route-selection', 'docked', 'complete'].includes(
         this.story.currentPhase,
       ) &&
       !(
@@ -3999,6 +4157,7 @@ export class Game implements LoopCallbacks {
         chunkIndex: Math.floor(this.world.distanceTraveled / 64),
         threatDirector: this.director.toSave(),
         story: this.story.toSave(),
+        radioRaids: this.radioRaids.toSave(),
       },
     };
   }
@@ -4106,6 +4265,8 @@ export class Game implements LoopCallbacks {
       this.radioPowered = this.machine.power.isPowered(this.radioPowerConsumerId);
     }
     this.story.restore(save.world.story);
+    this.cancelSignalBattle();
+    this.radioRaids.restore(save.world.radioRaids);
     const recovered = this.story.snapshot(save.distanceTraveled).recoveredUniques;
     if (recovered.includes('salvage-controller'))
       this.progression.grantBlueprint('automatic-salvage-collector');
@@ -4252,6 +4413,7 @@ export class Game implements LoopCallbacks {
   };
 
   dispose(): void {
+    this.signalBattle?.dispose();
     this.disconnectSounds();
     this.audio.dispose();
     window.removeEventListener('resize', this.onResize);

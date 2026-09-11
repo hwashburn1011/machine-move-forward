@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { Materials } from '@/art/Materials';
-import { DECK_SURFACE_Y } from '@/game/constants';
+import { DECK_SURFACE_Y, LEVEL_HEIGHT } from '@/game/constants';
+import nomad from '@/data/iron-nomad.json';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { Interactable } from '@/interaction/InteractionSystem';
@@ -235,13 +236,10 @@ export class Destination {
   }
   playerOnMachine(p: Vec3Like) {
     return (
-      (p.x >= -5 && p.x <= 5 && p.z >= -8 && p.z <= 8 && p.y >= DECK_SURFACE_Y - 0.5) ||
-      (p.x >= -4.5 &&
-        p.x <= 4.5 &&
-        p.z >= -6 &&
-        p.z <= 6 &&
-        p.y >= 0.6 &&
-        p.y < DECK_SURFACE_Y - 0.5)
+      Math.abs(p.x) <= nomad.deckHalfWidth &&
+      Math.abs(p.z) <= nomad.deckHalfLength &&
+      p.y >= DECK_SURFACE_Y - LEVEL_HEIGHT * 2 - 0.5 &&
+      p.y <= DECK_SURFACE_Y + 4.5
     );
   }
   dispose() {

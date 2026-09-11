@@ -16,6 +16,7 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - Play as the detailed S-07 gunner with armed/unarmed movement, crouch and jump animations.
 - Rifle and shotgun combat against scavengers, raiders and four random mech archetypes: Warden, Revenant, Bastion and Sovereign.
 - A boarding skiff with hull, crew and hook damage targets.
+- At 100% radio reception, a passing human/robot ship battle leads into the Revenant's face reveal and recurring mixed-mech grapple raids.
 - Manual deck gun with power draw, aim, damage, repair and persistence.
 - A ranged raider gunboat with separate hull, weapon and engine damage, visible shell warnings and disable outcomes.
 - Earned automatic salvage collectors with persistent storage, and powered defense turrets that track exposed enemies.
@@ -65,9 +66,15 @@ Editable Blender masters, textures and optimized game models are versioned along
 
 Build mode uses `G` for category, `1`–`9` for the active piece, mouse wheel for level, `Q`/`E` to rotate, LMB to place and RMB to demolish. Demolition refunds 60%; build weight affects machine speed.
 
-## Expedition chapter
+## Radio encounter loop
 
-The first eligible salvage chest after the opening contains the radio. Complete the guided defense, power the radio, and follow its signal. Wreck One is a physical dock: slow at the safe boundary, cross the authored gangway, read its three logs and recover the Course Gyro. Returning to the radio enables departure.
+The first eligible salvage chest after the opening contains the radio. Reception builds as the Nomad travels. At 100%, after the guided defense is complete and the deck is safe, a 17-second cinematic looks off the starboard bow: human and robot ships exchange fire, then the sword-wielding Revenant turns toward the Nomad. Hold **Esc** to skip.
+
+Control returns with a short breather. Random boarding ships then approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health and become normal combat enemies on deck. Attacks have a 75–115 second recovery interval, and this version's new-game story stops at that repeatable loop. [Implementation and in-game review](docs/signal-crossfire/README.md).
+
+## Existing expedition saves
+
+Saves already committed to Wreck One or Relay Foundry retain their expedition progression. Wreck One is a physical dock: slow at the safe boundary, cross the authored gangway, read its three logs and recover the Course Gyro. Returning to the radio enables departure.
 
 The Course Gyro unlocks the Navigation Helm. Choose a shorter direct route with a gunboat encounter or a longer detour. The machine holds outside the Foundry until nearby fighting ends, then docks for exploration. Recover the Salvage Controller and Tracking Servo and read the Foundry's records before returning aboard. These components unlock the automatic collector and defense turret.
 
