@@ -1,6 +1,6 @@
 # Signal crossfire and mech boarding
 
-The radio found in the first salvage chest now leads new games to a repeatable combat loop. These changes are on `codex/signal-crossfire-boarders`; the published v0.2.0 trailer and release are unchanged.
+The radio found in the first salvage chest now leads new games to a repeatable combat loop. The scene preview below shows this encounter; the v0.2.0 release trailer remains available separately.
 
 ## Playing the sequence
 
