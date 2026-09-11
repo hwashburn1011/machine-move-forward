@@ -1,0 +1,175 @@
+{
+  "start": {
+    "health": 100,
+    "position": [
+      5.615484688659715,
+      15.793641496428881,
+      1.5162372969850038
+    ]
+  },
+  "frames": [
+    {
+      "time": 3.4999999999999925,
+      "camera": [
+        9,
+        21,
+        -16
+      ],
+      "face": [
+        63.65,
+        12.185227460092058,
+        -50.29849295883787
+      ],
+      "calls": 780
+    },
+    {
+      "time": 7.799999999999978,
+      "camera": [
+        52.80088852479992,
+        15.040778599538442,
+        -34.53968743713808
+      ],
+      "face": [
+        63.65,
+        12.181493549668595,
+        -18.62396573923843
+      ],
+      "calls": 398
+    },
+    {
+      "time": 9.800000000000066,
+      "camera": [
+        53,
+        15.013688980947304,
+        -19.891627138650165
+      ],
+      "face": [
+        63.65,
+        12.181493549668595,
+        -3.891627138650165
+      ],
+      "calls": 442
+    },
+    {
+      "time": 13.50000000000025,
+      "camera": [
+        62.83,
+        12.265227460092058,
+        22.323199272438124
+      ],
+      "face": [
+        63.65,
+        12.185227460092058,
+        23.363199272438123
+      ],
+      "calls": 340
+    }
+  ],
+  "completion": {
+    "phase": "raids",
+    "health": 100,
+    "position": [
+      5.615484688659715,
+      15.793641496428881,
+      1.5162372969850038
+    ],
+    "safe": true,
+    "activeCamera": true
+  },
+  "boarding": {
+    "roster": [
+      "bastion",
+      "sovereign"
+    ],
+    "side": "starboard",
+    "initialHealth": 180,
+    "phases": [
+      "approach",
+      "firing-pass",
+      "alongside",
+      "hook-flight",
+      "attached",
+      "boarding"
+    ],
+    "crew": [
+      {
+        "id": "bastion",
+        "position": [
+          8.301843585624836,
+          11.189632695481382,
+          -1.1210249642384889
+        ]
+      },
+      {
+        "id": "sovereign",
+        "position": [
+          13.558163231390122,
+          0.6118726627056714,
+          1.7918135783912812
+        ]
+      }
+    ],
+    "saveBlocked": true
+  },
+  "landing": {
+    "landings": [
+      {
+        "index": 0,
+        "id": "bastion",
+        "health": 169,
+        "position": [
+          6,
+          15.94,
+          -2
+        ]
+      },
+      {
+        "index": 1,
+        "id": "sovereign",
+        "health": 140,
+        "position": [
+          6,
+          15.94,
+          -2
+        ]
+      }
+    ],
+    "safeDuringCombat": false,
+    "moved": true,
+    "ended": true,
+    "recovery": {
+      "wave": 1,
+      "remaining": 106.45115766016146
+    },
+    "safeAfter": true
+  },
+  "cut": {
+    "roster": [
+      "revenant",
+      "warden"
+    ],
+    "active": false,
+    "enemies": 0,
+    "recovery": {
+      "wave": 2,
+      "remaining": 84.07915086758634
+    }
+  },
+  "restore": {
+    "phase": "raids",
+    "cinematic": false,
+    "sameRaidState": true
+  },
+  "skip": {
+    "phase": "raids",
+    "camera": true,
+    "cleared": true,
+    "sunRestored": true
+  },
+  "legacyRoute": {
+    "stableWithPanel": true,
+    "phase": "approach",
+    "route": "foundry-detour"
+  },
+  "errors": []
+}

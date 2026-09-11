@@ -207,11 +207,12 @@ export class InputManager {
   /** Losing focus mid-key would otherwise leave the player running forever. */
   private readonly onBlur = (): void => this.clearAll();
 
-  private clearAll(): void {
+  clearAll(): void {
     this.held.clear();
     this.pressed.clear();
     this.look.x = 0;
     this.look.y = 0;
+    this.wheel = 0;
   }
 
   dispose(): void {

@@ -82,9 +82,19 @@ export type SoundId =
   | 'hook-catch'
   | 'breaker-open'
   | 'breaker-close'
-  | 'radio-signal';
+  | 'radio-signal'
+  | 'distant-gunfire'
+  | 'distant-explosion';
 
 const SOUNDS: Record<SoundId, VoiceSpec> = {
+  'distant-gunfire': {
+    source: { kind: 'noise', filter: 'lowpass', hz: 900, q: 0.6 },
+    envelope: { peak: 0.14, attack: 0.018, decay: 0.22 },
+  },
+  'distant-explosion': {
+    source: { kind: 'noise', filter: 'lowpass', hz: 230, q: 0.5 },
+    envelope: { peak: 0.22, attack: 0.09, decay: 1.25 },
+  },
   // A brief receiver lock-on chirp, only at discovery and a new transmission.
   'radio-signal': {
     source: { kind: 'tone', wave: 'sine', hz: 720, toHz: 1180 },

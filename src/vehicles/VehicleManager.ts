@@ -47,6 +47,7 @@ export class VehicleManager {
     vehicleId: VehicleId = 'skiff',
     side: 'port' | 'starboard' = 'port',
     tutorial = false,
+    crewHealth?: readonly number[],
   ): boolean {
     if (this.state) return false;
     if (vehicleId !== 'skiff') return false;
@@ -59,6 +60,13 @@ export class VehicleManager {
       this.profile.hookHealth,
     );
     this.previousPhase = this.state.phase;
+    if (
+      crewHealth?.length === def.crewCount &&
+      crewHealth.every((health) => Number.isFinite(health) && health > 0)
+    ) {
+      this.state.crewHealth = [...crewHealth];
+      this.profile = { ...this.profile, crewStaggerSeconds: 3.2 };
+    }
     this.endedNotified = false;
     this.landedBoardersAlive = 0;
     this.callbacks.onSpawn(vehicleId, this.state, this.profile);

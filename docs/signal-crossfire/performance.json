@@ -1,0 +1,13 @@
+{
+  "seconds": 25.945,
+  "updateStoryMs": 1.2000000476837158,
+  "startMs": 0.09999996423721313,
+  "programsBefore": 132,
+  "sampledFrames": 1544,
+  "averageFps": 59.6115980077989,
+  "p95FrameMs": 16.799999999999272,
+  "longestFrameMs": 50.099999999998545,
+  "programsAfter": 134,
+  "renderer": "WebKit WebGL",
+  "errors": []
+}

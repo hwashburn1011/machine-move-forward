@@ -26,6 +26,8 @@ export interface ExpeditionUICallbacks {
 const STORY_PHASE_LABELS: Record<StoryPhase, string> = {
   locked: 'Locked',
   signal: 'Recovered receiver',
+  crossfire: 'Crossfire',
+  raids: 'Hold the Nomad',
   'route-selection': 'Choose a route',
   approach: 'Relay tender',
   braking: 'Docking',

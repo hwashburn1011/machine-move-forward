@@ -11,6 +11,8 @@ import { routeDefinition, type RouteId } from '@/data/routes';
 export type StoryPhase =
   | 'locked'
   | 'signal'
+  | 'crossfire'
+  | 'raids'
   | 'route-selection'
   | 'approach'
   | 'braking'
@@ -32,6 +34,7 @@ export interface ActiveExpeditionSave {
   arrivalDistance: number | null;
   journalsRead: string[];
   scriptedEncounter: 'not-due' | 'queued' | 'resolved';
+  signalStartedAt?: number;
 }
 export interface CampaignSave {
   format: 2;
@@ -50,9 +53,12 @@ export interface StoryInput {
   playerOnMachine: boolean;
   maxSpeed?: number;
   encounterActive?: boolean;
+  /** New-game radio path. Existing expeditions continue on their committed route. */
+  signalBattleMode?: boolean;
 }
 export type StoryEffect =
   | { type: 'begin-signal' }
+  | { type: 'begin-signal-battle' }
   | { type: 'begin-approach'; arrivalDistance: number }
   | { type: 'request-sanctuary'; active: boolean }
   | { type: 'request-speed-limit'; mps: number | null }
@@ -131,8 +137,22 @@ export class StoryDirector {
       return effects;
     }
     if (this.phase === 'signal') {
+      // Old saves did not store the signal origin. Establish it once, not on
+      // every snapshot (which would leave those saves permanently at 8%).
+      this.signalStartedAt ??= distance;
       if (this.expedition.id === 'wreck-one') {
         if (!input.firstRunComplete || !input.stable) return effects;
+        if (input.signalBattleMode) {
+          if (
+            this.snapshot(distance).signalStrength < 1 ||
+            input.encounterActive ||
+            !input.playerOnMachine
+          )
+            return effects;
+          this.phase = 'crossfire';
+          effects.push({ type: 'begin-signal-battle' });
+          return effects;
+        }
         this.arrivalDistance = distance + WRECK_ONE.approachDistanceM;
         this.phase = 'approach';
         effects.push(
@@ -195,6 +215,13 @@ export class StoryDirector {
       );
     }
     return effects;
+  }
+
+  /** Both the final shot and Skip converge here; the reveal can only end once. */
+  finishSignalBattle(): boolean {
+    if (this.phase !== 'crossfire') return false;
+    this.phase = 'raids';
+    return true;
   }
 
   private advanceBraking(
@@ -326,7 +353,9 @@ export class StoryDirector {
             this.expedition.signalStartDistanceM,
         ),
       );
-    else if (['approach', 'braking', 'docked', 'departing'].includes(this.phase))
+    else if (
+      ['crossfire', 'raids', 'approach', 'braking', 'docked', 'departing'].includes(this.phase)
+    )
       signalStrength = 1;
     return {
       phase: this.phase,
@@ -340,6 +369,9 @@ export class StoryDirector {
   }
   private objective(): string {
     if (this.phase === 'locked') return 'Reel in a salvage chest to find the radio.';
+    if (this.phase === 'crossfire') return 'Signal locked — crossfire off the starboard bow.';
+    if (this.phase === 'raids')
+      return 'Keep moving. Watch for boarding ships; cut their grapples or defeat the mechs.';
     if (this.phase === 'signal')
       return this.expedition.id === 'wreck-one'
         ? 'Listen for the source of the signal.'
@@ -358,7 +390,7 @@ export class StoryDirector {
 
   toSave(): StorySave {
     const safeActive =
-      this.phase === 'signal' ||
+      ['signal', 'crossfire', 'raids'].includes(this.phase) ||
       (['approach', 'braking', 'docked', 'departing'].includes(this.phase) &&
         this.arrivalDistance !== null);
     return {
@@ -373,6 +405,7 @@ export class StoryDirector {
             arrivalDistance: this.arrivalDistance,
             journalsRead: [...this.journals],
             scriptedEncounter: this.scripted,
+            ...(this.signalStartedAt !== null ? { signalStartedAt: this.signalStartedAt } : {}),
           }
         : null,
     };
@@ -405,6 +438,7 @@ export class StoryDirector {
     this.uniques.clear();
     this.completed.clear();
     this.sanctuaryRequested = false;
+    this.signalStartedAt = null;
     if (!save || typeof save !== 'object') return;
     const raw = save as Record<string, unknown>;
     if (raw.format === 2) {
@@ -430,10 +464,18 @@ export class StoryDirector {
           active.arrivalDistance >= 0
             ? active.arrivalDistance
             : null;
-        const validPhases = ['signal', 'approach', 'braking', 'docked', 'departing'];
+        const validPhases = [
+          'signal',
+          'crossfire',
+          'raids',
+          'approach',
+          'braking',
+          'docked',
+          'departing',
+        ];
         const phaseValid =
           validPhases.includes(phase) && expedition.id === 'wreck-one'
-            ? phase === 'signal'
+            ? ['signal', 'crossfire', 'raids'].includes(phase)
               ? arrival === null
               : arrival !== null
             : expedition.id === 'relay-foundry' &&
@@ -454,6 +496,10 @@ export class StoryDirector {
         this.expedition = expedition;
         this.routeId = route?.id ?? null;
         this.phase = phase as StoryPhase;
+        this.signalStartedAt =
+          typeof active.signalStartedAt === 'number' && Number.isFinite(active.signalStartedAt)
+            ? Math.max(0, active.signalStartedAt)
+            : null;
         this.arrivalDistance = arrival;
         this.scripted =
           active.scriptedEncounter === 'queued' || active.scriptedEncounter === 'resolved'

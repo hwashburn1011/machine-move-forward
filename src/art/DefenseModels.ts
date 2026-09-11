@@ -413,25 +413,42 @@ export function placeSkiffCrewOnCable(
   landingFeet: THREE.Vector3,
   seat: THREE.Vector3,
   progress: number,
+  railAnchor?: THREE.Vector3,
 ): void {
   const t = THREE.MathUtils.clamp(progress, 0, 1);
-  const forward = landingFeet.clone().sub(launcher);
+  const forward = (railAnchor ?? landingFeet).clone().sub(launcher);
   model.rotation.y = Math.atan2(forward.x, forward.z);
   model.position.set(0, 0, 0);
   model.updateMatrixWorld(true);
   const left = model.getObjectByName('HandL') ?? model.getObjectByName('Hand.L');
   const right = model.getObjectByName('HandR') ?? model.getObjectByName('Hand.R');
-  const grip =
-    left && right
+  const trolley = model.getObjectByName('BoardingGrip');
+  const grip = trolley
+    ? trolley.getWorldPosition(new THREE.Vector3())
+    : left && right
       ? left
           .getWorldPosition(new THREE.Vector3())
           .add(right.getWorldPosition(new THREE.Vector3()))
           .multiplyScalar(0.5)
       : new THREE.Vector3(0, 1.7, 0);
-  const cablePoint = launcher.clone().lerp(landingFeet, t);
-  cablePoint.y -= Math.sin(t * Math.PI) * Math.min(0.45, forward.length() * 0.035);
+  const along = railAnchor ? Math.min(1, t / 0.6) : t;
+  const cablePoint = launcher.clone().lerp(railAnchor ?? landingFeet, along);
+  cablePoint.y -= Math.sin(along * Math.PI) * Math.min(0.45, forward.length() * 0.035);
   const hanging = cablePoint.sub(grip);
   // Step off the skiff and grab the line, then pull the torso over the deck edge.
   model.position.copy(seat).lerp(hanging, THREE.MathUtils.smoothstep(t, 0, 0.18));
-  model.position.lerp(landingFeet, THREE.MathUtils.smoothstep(t, 0.72, 1));
+  if (railAnchor) {
+    // Hoist outside the hull, rise above its rail, THEN move onto the deck.
+    // A diagonal feet-to-deck lerp cuts straight through the upper floor.
+    const lift = THREE.MathUtils.smootherstep(t, 0.6, 0.75);
+    model.position.y = THREE.MathUtils.lerp(model.position.y, landingFeet.y + 1.15, lift);
+    const ontoDeck = THREE.MathUtils.smootherstep(t, 0.75, 0.87);
+    model.position.x = THREE.MathUtils.lerp(model.position.x, landingFeet.x, ontoDeck);
+    model.position.z = THREE.MathUtils.lerp(model.position.z, landingFeet.z, ontoDeck);
+    model.position.y = THREE.MathUtils.lerp(
+      model.position.y,
+      landingFeet.y,
+      THREE.MathUtils.smootherstep(t, 0.87, 1),
+    );
+  } else model.position.lerp(landingFeet, THREE.MathUtils.smoothstep(t, 0.72, 1));
 }
