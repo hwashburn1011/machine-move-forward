@@ -23,7 +23,9 @@ export class GameLoop {
   }
 
   advance(frameSeconds: number): void {
-    this.accumulator += frameSeconds;
+    // A rAF queued during a long boot may still carry that frame's OLD timestamp.
+    // Never bank negative/invalid time: it would freeze simulation while rendering continued.
+    this.accumulator += Number.isFinite(frameSeconds) ? Math.max(0, frameSeconds) : 0;
 
     let steps = 0;
     while (this.accumulator >= FIXED_DT && steps < MAX_STEPS_PER_FRAME) {
@@ -46,8 +48,8 @@ export class GameLoop {
     const tick = (now: number) => {
       // Cap raw frame time so returning from an alt-tab does not deliver a
       // multi-second delta.
-      const frameSeconds = Math.min((now - this.lastTime) / 1000, 0.25);
-      this.lastTime = now;
+      const frameSeconds = Math.max(0, Math.min((now - this.lastTime) / 1000, 0.25));
+      this.lastTime = Math.max(this.lastTime, now);
       this.advance(frameSeconds);
       this.rafId = requestAnimationFrame(tick);
     };

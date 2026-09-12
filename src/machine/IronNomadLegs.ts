@@ -48,6 +48,12 @@ export function solveNomadKnee(
 export class IronNomadLegs {
   readonly object3D = new THREE.Group();
   private root: THREE.Object3D | null = null;
+  private readonly joints: ({
+    upper: THREE.Object3D;
+    lower: THREE.Object3D;
+    foot: THREE.Object3D;
+  } | null)[] = [];
+  private rotor: THREE.Object3D | null = null;
   private readonly feet = DEFINITIONS.map(() => new THREE.Vector3());
   private readonly fallback: THREE.Mesh[] = [];
   private readonly plants: number[] = [];
@@ -63,6 +69,16 @@ export class IronNomadLegs {
   }
   apply(root: THREE.Object3D | null): void {
     this.root = root?.getObjectByName('IronNomad_FourLegWalker') ?? null;
+    this.joints.length = 0;
+    this.rotor = this.root?.getObjectByName('Turbine_Rotor') ?? null;
+    if (this.root) {
+      for (const name of SOURCE_NAMES) {
+        const upper = this.root.getObjectByName(`Leg_${name}_Upper`);
+        const lower = this.root.getObjectByName(`Leg_${name}_Lower`);
+        const foot = this.root.getObjectByName(`Leg_${name}_Foot`);
+        this.joints.push(upper && lower && foot ? { upper, lower, foot } : null);
+      }
+    }
     this.object3D.visible = !this.root;
     this.setDistance(this.distance);
   }
@@ -80,11 +96,9 @@ export class IronNomadLegs {
       const k = new THREE.Vector3(sx * 8.7, sy * 5.1, 5.05);
       const f = new THREE.Vector3(sx * 9.35, sy * 8, 1);
       if (this.root) {
-        const name = `Leg_${SOURCE_NAMES[i]}`;
-        const upper = this.root.getObjectByName(`${name}_Upper`),
-          lower = this.root.getObjectByName(`${name}_Lower`),
-          foot = this.root.getObjectByName(`${name}_Foot`);
-        if (!upper || !lower || !foot) continue;
+        const joint = this.joints[i];
+        if (!joint) continue;
+        const { upper, lower, foot } = joint;
         const gltfLocal = this.root.worldToLocal(
           target.clone().add(new THREE.Vector3(0, 0.8166667, 0)),
         );
@@ -116,7 +130,7 @@ export class IronNomadLegs {
         }
       }
     }
-    const rotor = this.root?.getObjectByName('Turbine_Rotor');
+    const rotor = this.rotor;
     if (rotor) rotor.rotation.y = distance * 0.8;
     this.distance = distance;
     return this.plants;
@@ -127,5 +141,7 @@ export class IronNomadLegs {
   dispose(): void {
     for (const mesh of this.fallback) mesh.geometry.dispose();
     this.root = null;
+    this.rotor = null;
+    this.joints.length = 0;
   }
 }

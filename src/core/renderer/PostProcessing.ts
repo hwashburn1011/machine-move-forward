@@ -119,9 +119,7 @@ export class PostProcessing {
 
   setBypassed(bypassed: boolean): void {
     this.enabled = !bypassed;
-    this.renderer.three.toneMapping = bypassed
-      ? THREE.ACESFilmicToneMapping
-      : THREE.NoToneMapping;
+    this.renderer.three.toneMapping = bypassed ? THREE.ACESFilmicToneMapping : THREE.NoToneMapping;
   }
 
   get bypassed(): boolean {
@@ -151,12 +149,26 @@ export class PostProcessing {
       return;
     }
 
-    if (this.shimmerPass.enabled && !this.gtaoPass) this.renderDepth(scene, camera);
-    this.time += dt;
-    this.shimmerPass.uniforms.uTime!.value = this.time;
-    this.gradePass.uniforms.uTime!.value = this.time;
-    this.updateCameraUniforms(camera);
-    this.composer.render(dt);
+    const autoMatrices = scene.matrixWorldAutoUpdate;
+    const shadowMap = this.renderer.three.shadowMap;
+    const autoShadows = shadowMap.autoUpdate;
+    // Color, AO normals and optional depth all draw the same frame. Traverse
+    // transforms and render the sun shadow once, not once per scene pass.
+    scene.updateMatrixWorld();
+    scene.matrixWorldAutoUpdate = false;
+    shadowMap.autoUpdate = false;
+    shadowMap.needsUpdate = true;
+    try {
+      if (this.shimmerPass.enabled && !this.gtaoPass) this.renderDepth(scene, camera);
+      this.time += dt;
+      this.shimmerPass.uniforms.uTime!.value = this.time;
+      this.gradePass.uniforms.uTime!.value = this.time;
+      this.updateCameraUniforms(camera);
+      this.composer.render(dt);
+    } finally {
+      scene.matrixWorldAutoUpdate = autoMatrices;
+      shadowMap.autoUpdate = autoShadows;
+    }
   }
 
   resize(width: number, height: number): void {

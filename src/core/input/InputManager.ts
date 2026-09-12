@@ -83,6 +83,7 @@ export class InputManager {
   private readonly held = new Set<InputAction>();
   private readonly pressed = new Set<InputAction>();
   private readonly look = { x: 0, y: 0 };
+  private readonly consumedLook = { x: 0, y: 0 };
   private wheel = 0;
   private locked = false;
 
@@ -117,6 +118,14 @@ export class InputManager {
     return this.look;
   }
 
+  /** Drain each physical mouse movement once, regardless of simulation step count. */
+  consumeLook(): Readonly<{ x: number; y: number }> {
+    this.consumedLook.x = this.look.x;
+    this.consumedLook.y = this.look.y;
+    this.look.x = this.look.y = 0;
+    return this.consumedLook;
+  }
+
   get wheelDelta(): number {
     return this.wheel;
   }
@@ -132,10 +141,8 @@ export class InputManager {
     return true;
   }
 
-  /** Clear per-frame deltas. Call after every render. */
+  /** Wheel is frame-scoped; unconsumed look survives frames without a simulation tick. */
   endFrame(): void {
-    this.look.x = 0;
-    this.look.y = 0;
     this.wheel = 0;
   }
 

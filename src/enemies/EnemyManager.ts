@@ -69,6 +69,26 @@ export class EnemyManager {
     return n;
   }
 
+  /** Build reusable rigs during loading, without spawning bodies or encounter events. */
+  prewarm(definitions: readonly string[]): readonly Enemy[] {
+    for (const id of definitions) {
+      const def = ENEMIES[id];
+      if (!def || this.pool.length >= POOL_SIZE) continue;
+      this.pool.push(
+        new Enemy(
+          `enemy-${this.nextId++}`,
+          def,
+          this.scene,
+          this.physics,
+          this.bus,
+          this.materials,
+          this.modelByDefinition.get(id) ?? this.model,
+        ),
+      );
+    }
+    return this.pool;
+  }
+
   spawn(defId: string, at: THREE.Vector3): Enemy | null {
     const def = ENEMIES[defId];
     if (!def) return null;
@@ -179,5 +199,11 @@ export class EnemyManager {
 
   despawnAll(): void {
     for (const e of this.pool) if (e.isActive) e.despawn();
+  }
+
+  dispose(): void {
+    for (const enemy of this.pool) enemy.dispose();
+    this.pool.length = 0;
+    this.modelByDefinition.clear();
   }
 }

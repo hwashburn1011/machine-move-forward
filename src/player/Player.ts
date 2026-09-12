@@ -256,7 +256,7 @@ export class Player {
     let delta = this.facing - current;
     while (delta > Math.PI) delta -= Math.PI * 2;
     while (delta < -Math.PI) delta += Math.PI * 2;
-    this.object3D.rotation.y = current + delta * 0.25;
+    this.object3D.rotation.y = current + delta * (1 - Math.pow(0.75, dt * 60));
 
     this.visual.setMotion(this.stats.alive ? this.speed : 0, this.grounded, this.crouching);
     this.visual.update(dt);

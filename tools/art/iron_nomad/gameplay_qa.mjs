@@ -1,11 +1,11 @@
 import { chromium } from '@playwright/test';
 import { mkdir, writeFile } from 'node:fs/promises';
-const out='docs/art/iron-nomad-playable'; await mkdir(out,{recursive:true});
+const out=process.env.MMF_QA_OUT ?? 'docs/art/iron-nomad-playable'; await mkdir(out,{recursive:true});
 const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',args:['--use-angle=d3d11','--enable-gpu']});
 const page=await browser.newPage({viewport:{width:1440,height:900}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
 try {
-  await page.goto('http://127.0.0.1:5193/?nomenu=1&nolock=1&nospawn=1&nosound=1&quality=medium');
+  await page.goto(`http://127.0.0.1:${process.env.MMF_PORT ?? 5193}/?nomenu=1&nolock=1&nospawn=1&nosound=1&quality=medium`);
   await page.waitForFunction(()=>globalThis.__game?.game, null, {timeout:120000});
   await page.click('#game');
   await page.evaluate(()=>{__game.game.state.paused=false;});

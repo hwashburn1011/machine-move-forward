@@ -1,0 +1,165 @@
+{
+  "initial": {
+    "stats": {
+      "calls": 595,
+      "tris": 1483662,
+      "skyBakes": 1,
+      "graphics": {
+        "logicalWidth": 1440,
+        "logicalHeight": 900,
+        "pixelRatio": 1,
+        "drawingBufferWidth": 1440,
+        "drawingBufferHeight": 900,
+        "msaaSamples": 2,
+        "gtao": false,
+        "gtaoWidth": 0,
+        "gtaoHeight": 0,
+        "shimmer": false,
+        "postBypassed": false
+      },
+      "distance": 11,
+      "chunks": 9,
+      "speed": 7.34,
+      "bodies": 24,
+      "playerY": 15.804,
+      "grounded": true,
+      "vy": 0,
+      "simTime": 1.767,
+      "hp": 100,
+      "ammo": "30/150",
+      "weapon": "rifle",
+      "enemies": 0,
+      "particles": 80,
+      "scrap": 260,
+      "pieces": 2,
+      "rooms": 1,
+      "buildMode": false,
+      "opening": "done",
+      "armed": true
+    },
+    "position": {
+      "x": 0.017850712220724582,
+      "y": 15.804423954100683,
+      "z": -1.0090600391217912
+    },
+    "authored": true,
+    "pieces": [
+      {
+        "instanceId": "bp-0",
+        "definitionId": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-1",
+        "definitionId": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "rotation": 0,
+        "health": 170
+      }
+    ]
+  },
+  "result": {
+    "blocked": 59,
+    "deck": 183
+  },
+  "traversal": [
+    {
+      "name": "top-to-middle",
+      "position": [
+        -2.0020557690681926,
+        12.803538314408287,
+        -3.4169508300721647
+      ]
+    },
+    {
+      "name": "middle-to-bottom",
+      "position": [
+        -2.001936971366831,
+        9.803678330686525,
+        -3.416688122600317
+      ]
+    },
+    {
+      "name": "bottom-to-middle",
+      "position": [
+        -2.009295550889817,
+        12.800187066533399,
+        6.771768751367927
+      ]
+    },
+    {
+      "name": "middle-to-top",
+      "position": [
+        -2.008886481452862,
+        15.80035258175616,
+        6.773729045689106
+      ]
+    },
+    {
+      "name": "cabin-wall",
+      "position": [
+        1.0762622321601611,
+        15.807110897801467,
+        -3.997455309003726
+      ]
+    },
+    {
+      "name": "dock-crossing",
+      "position": [
+        11.910010149029404,
+        15.810165444528538,
+        0.00020326601142395262
+      ]
+    },
+    {
+      "name": "gate-closed",
+      "position": [
+        6.5169316329547655,
+        15.812300787857081,
+        0.0007972604639689962
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "top-to-middle",
+      "ok": true
+    },
+    {
+      "name": "middle-to-bottom",
+      "ok": true
+    },
+    {
+      "name": "bottom-to-middle",
+      "ok": true
+    },
+    {
+      "name": "middle-to-top",
+      "ok": true
+    },
+    {
+      "name": "cabin-wall",
+      "ok": true
+    },
+    {
+      "name": "dock-crossing",
+      "ok": true
+    },
+    {
+      "name": "gate-closed",
+      "ok": true
+    }
+  ],
+  "frame": 60.091905266743105,
+  "errors": []
+}

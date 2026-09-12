@@ -9,6 +9,34 @@ function makeLoop() {
 }
 
 describe('GameLoop', () => {
+  it('starts ticking immediately after a stale animation frame queued during loading', () => {
+    const { loop, fixedUpdate } = makeLoop();
+    let nextFrame: FrameRequestCallback = () => {};
+    const now = vi.spyOn(performance, 'now').mockReturnValue(10000);
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
+      nextFrame = callback;
+      return 1;
+    });
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+    try {
+      loop.start();
+      nextFrame(100); // timestamp from the frame in which loading started
+      expect(fixedUpdate).not.toHaveBeenCalled();
+      nextFrame(10017);
+      expect(fixedUpdate).toHaveBeenCalledTimes(1);
+    } finally {
+      loop.stop();
+      now.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('ignores stale or invalid frame timestamps without delaying the next simulation tick', () => {
+    const { loop, fixedUpdate } = makeLoop();
+    for (const delta of [-10, NaN, Infinity]) loop.advance(delta);
+    loop.advance(FIXED_DT);
+    expect(fixedUpdate).toHaveBeenCalledTimes(1);
+  });
   it('runs exactly one fixed step for exactly one timestep of frame time', () => {
     const { loop, fixedUpdate } = makeLoop();
     loop.advance(FIXED_DT);

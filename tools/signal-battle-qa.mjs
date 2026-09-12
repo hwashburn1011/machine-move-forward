@@ -1,6 +1,6 @@
 import { chromium } from '@playwright/test';
 import { mkdir, writeFile } from 'node:fs/promises';
-const out = 'docs/signal-crossfire';
+const out = process.env.MMF_QA_OUT ?? 'docs/signal-crossfire';
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({
   executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',

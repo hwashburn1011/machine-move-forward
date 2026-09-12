@@ -10,7 +10,7 @@ const AIM_FOV = 38;
 // adding a full body-height again here puts the camera above the player's
 // head and drops the character out of frame entirely.
 const HIP_OFFSET = new THREE.Vector3(0.62, 0.38, 3.4);
-const AIM_OFFSET = new THREE.Vector3(0.48, 0.30, 2.0);
+const AIM_OFFSET = new THREE.Vector3(0.48, 0.3, 2.0);
 
 const PITCH_MIN = THREE.MathUtils.degToRad(-70);
 const PITCH_MAX = THREE.MathUtils.degToRad(75);
@@ -37,6 +37,9 @@ export class PlayerCamera {
 
   private readonly goal = new THREE.Vector3();
   private readonly smoothed = new THREE.Vector3();
+  private readonly previousSmoothed = new THREE.Vector3();
+  private readonly toCamera = new THREE.Vector3();
+  private previousAimBlend = 0;
   private readonly anchor = new THREE.Vector3();
   private readonly offset = new THREE.Vector3();
   private readonly forwardVec = new THREE.Vector3();
@@ -89,10 +92,9 @@ export class PlayerCamera {
     physics: PhysicsWorld,
     ignore?: RAPIER.Collider,
   ): void {
-    const look = input.lookDelta;
-    this.yaw -= look.x * LOOK_SENSITIVITY;
-    this.pitch -= look.y * LOOK_SENSITIVITY;
-    this.pitch = THREE.MathUtils.clamp(this.pitch, PITCH_MIN, PITCH_MAX);
+    this.applyLook(input);
+    this.previousSmoothed.copy(this.smoothed);
+    this.previousAimBlend = this.aimBlend;
 
     // Recoil recovers over roughly a quarter second.
     const recover = 1 - Math.exp(-dt * 9);
@@ -104,9 +106,7 @@ export class PlayerCamera {
     // ~120ms blend between hip and aim.
     this.aimBlend += (aimTarget - this.aimBlend) * (1 - Math.exp(-dt * 18));
 
-    this.camera.fov = THREE.MathUtils.lerp(HIP_FOV, AIM_FOV, this.aimBlend);
-    this.camera.updateProjectionMatrix();
-
+    this.setFov(this.aimBlend);
     this.offset.lerpVectors(HIP_OFFSET, AIM_OFFSET, this.aimBlend);
 
     const pitch = this.pitch + this.recoilPitch;
@@ -129,29 +129,56 @@ export class PlayerCamera {
     );
 
     // Pull in on contact so the machine's own structures never clip through.
-    const toCamera = this.goal.clone().sub(this.anchor);
+    const toCamera = this.toCamera.subVectors(this.goal, this.anchor);
     const dist = toCamera.length();
     if (dist > 0.001) {
       toCamera.divideScalar(dist);
-      // The anchor sits INSIDE the player's own capsule, and a solid raycast
-      // starting inside a collider reports a hit at distance zero — which
-      // would pin the camera to the player's head every single frame.
+      // The camera ray starts inside the player's capsule, which must be excluded.
       const hit = physics.raycast(this.anchor, toCamera, dist + 0.3, ignore);
-      if (hit) this.goal.copy(this.anchor).addScaledVector(toCamera, Math.max(hit.distance - 0.3, 0.4));
+      if (hit)
+        this.goal.copy(this.anchor).addScaledVector(toCamera, Math.max(hit.distance - 0.3, 0.4));
     }
 
     if (!this.initialised) {
       this.smoothed.copy(this.goal);
+      this.previousSmoothed.copy(this.goal);
       this.initialised = true;
     } else {
-      // Frame-rate independent smoothing on position only.
       this.smoothed.lerp(this.goal, 1 - Math.pow(0.0008, dt));
     }
 
     this.camera.position.copy(this.smoothed);
-    this.camera.rotation.set(0, 0, 0);
-    this.camera.rotateY(yaw);
-    this.camera.rotateX(pitch);
+    this.applyRotation();
+  }
+
+  /** Interpolate the camera alongside the character; mouse aim remains immediate. */
+  update(alpha: number, input: InputManager): void {
+    this.applyLook(input);
+    if (this.initialised)
+      this.camera.position.lerpVectors(this.previousSmoothed, this.smoothed, alpha);
+    this.setFov(THREE.MathUtils.lerp(this.previousAimBlend, this.aimBlend, alpha));
+    this.applyRotation();
+  }
+
+  private applyLook(input: InputManager): void {
+    const look = input.consumeLook();
+    this.yaw -= look.x * LOOK_SENSITIVITY;
+    this.pitch = THREE.MathUtils.clamp(
+      this.pitch - look.y * LOOK_SENSITIVITY,
+      PITCH_MIN,
+      PITCH_MAX,
+    );
+  }
+
+  private setFov(blend: number): void {
+    const fov = THREE.MathUtils.lerp(HIP_FOV, AIM_FOV, blend);
+    if (Math.abs(this.camera.fov - fov) < 0.00001) return;
+    this.camera.fov = fov;
+    this.camera.updateProjectionMatrix();
+  }
+
+  private applyRotation(): void {
+    this.camera.rotation.set(this.pitch + this.recoilPitch, this.yaw + this.recoilYaw, 0, 'YXZ');
   }
 
   setAspect(aspect: number): void {

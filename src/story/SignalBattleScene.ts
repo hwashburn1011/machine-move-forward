@@ -68,7 +68,7 @@ export class SignalBattleScene {
   private warming = false;
 
   constructor(
-    scene: THREE.Scene,
+    private readonly scene: THREE.Scene,
     private readonly materials: Materials,
     private readonly terrainHeight: (x: number, z: number) => number,
     private readonly sound: (kind: 'shot' | 'explosion') => void,
@@ -122,6 +122,7 @@ export class SignalBattleScene {
   }
 
   start(from: THREE.PerspectiveCamera, distance: number): void {
+    this.scene.add(this.root);
     this.elapsed = this.skipHeld = this.shotClock = this.shotIndex = 0;
     this.burstClock = 1.7;
     this.startDistance = distance;
@@ -213,6 +214,8 @@ export class SignalBattleScene {
 
   stop(): void {
     this.running = this.root.visible = false;
+    // Invisible roots still traverse every child during matrix updates.
+    this.root.removeFromParent();
     this.overlay.style.display = 'none';
     for (const tracer of this.tracers) {
       tracer.age = 1;
