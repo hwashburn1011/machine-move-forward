@@ -92,6 +92,9 @@ export class VehicleScene {
     scene.add(this.group);
     this.effects = new BoardingEffects(scene);
     this.skiff = buildSkiffModel(materials);
+    // Preloaded art has no encounter position yet. Leaving it visible here
+    // parks a ghost skiff at the origin underneath the moving machine.
+    this.skiff.visible = false;
     this.hook = buildBoardingHookModel(materials);
     this.hook.visible = false;
     this.group.add(this.skiff, this.hook);
