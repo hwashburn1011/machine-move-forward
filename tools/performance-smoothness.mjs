@@ -4,7 +4,10 @@ import { mkdir, writeFile } from 'node:fs/promises';
 
 const label = process.argv.find((x) => x.startsWith('--label='))?.split('=')[1] ?? 'after';
 const seconds = Number(process.argv.find((x) => x.startsWith('--seconds='))?.split('=')[1] ?? 12);
-const out = 'docs/performance-smoothness';
+const seed =
+  process.argv.find((x) => x.startsWith('--seed='))?.split('=')[1] ?? 'smoothness-review';
+const distance = Number(process.argv.find((x) => x.startsWith('--distance='))?.split('=')[1] ?? 0);
+const out = process.env.MMF_QA_OUT ?? 'docs/performance-smoothness';
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({
   executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -18,10 +21,11 @@ try {
   });
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(
-    `http://127.0.0.1:${process.env.MMF_PORT ?? 5201}/?nomenu=1&nolock=1&nosound=1&nospawn=1&quality=high&seed=smoothness-review`,
+    `http://127.0.0.1:${process.env.MMF_PORT ?? 5201}/?nomenu=1&nolock=1&nosound=1&nospawn=1&quality=high&seed=${encodeURIComponent(seed)}`,
   );
   await page.waitForFunction(() => globalThis.__game?.game, null, { timeout: 180000 });
   await page.click('#game');
+  if (distance) await page.evaluate((d) => globalThis.__game.game.world.reset(d), distance);
   const hardware = await page.evaluate(() => {
     const g = globalThis.__game.game;
     g.state.paused = false;
@@ -200,7 +204,7 @@ try {
   }
   await writeFile(
     `${out}/${label}.json`,
-    JSON.stringify({ hardware, seconds, results, errors }, null, 2) + '\n',
+    JSON.stringify({ hardware, seconds, seed, distance, results, errors }, null, 2) + '\n',
   );
   if (errors.length) throw new Error(errors.join('\n'));
 } finally {

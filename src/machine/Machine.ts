@@ -483,6 +483,7 @@ export class Machine {
     // rather than last frame's.
     this.movement.enginePower = this.damage.enginePower;
     this.movement.legScale = this.damage.speedScale;
+    this.movement.fuelAvailable = this.power.fuel > 0;
     this.movement.fixedUpdate(dt);
     this.applyPose();
 

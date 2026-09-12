@@ -1,0 +1,54 @@
+{
+  "desert": true,
+  "instances": 99,
+  "models": [
+    "ruin-house",
+    "ruin-shop",
+    "ruin-apartment",
+    "ruin-tower",
+    "ruin-factory",
+    "overpass",
+    "wreck-car",
+    "wreck-bus",
+    "wreck-tanker",
+    "billboard",
+    "water-sign",
+    "road-sign",
+    "pylon",
+    "water-tower"
+  ],
+  "material": "DesertAtlas_BaseColor_webp",
+  "memory": {
+    "geometries": 460,
+    "textures": 489
+  },
+  "behavior": {
+    "low": 45,
+    "medium": 63,
+    "ultra": 126,
+    "high": 99,
+    "empty": {
+      "target": 1.4732338600612152,
+      "power": 0,
+      "hint": "Fuel empty · emergency crawlReel in salvage [F]. Refuel a generator [E].",
+      "visible": "block"
+    },
+    "saved": true,
+    "loaded": true,
+    "restored": {
+      "fuel": 0,
+      "distance": 800.1460088345978,
+      "expectedDistance": 800.0743364708171,
+      "crawl": true,
+      "instances": 99
+    },
+    "refueled": true,
+    "after": {
+      "fuel": 4,
+      "target": 7.366169300306075,
+      "consumed": 4,
+      "hint": "none"
+    }
+  },
+  "errors": []
+}

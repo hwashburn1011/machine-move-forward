@@ -1,5 +1,7 @@
 import { BASE_MACHINE_SPEED, REFERENCE_WEIGHT } from '@/game/constants';
 
+export const EMERGENCY_DRIVE_SCALE = 0.2;
+
 export interface MachineMovementModifiers {
   speedMultiplier: number;
   effectiveWeightMultiplier: number;
@@ -20,6 +22,9 @@ export class MachineMovement {
 
   /** Engine output. 1.0 is the starting engine, 0 is a wrecked one. */
   enginePower = 1;
+
+  /** Reserve drive keeps salvage reachable after the generator tank runs dry. */
+  fuelAvailable = true;
 
   /**
    * Speed retained given the legs' condition. 1.0 is four sound legs.
@@ -62,7 +67,15 @@ export class MachineMovement {
     const payloadWeight = Math.max(0, this.totalWeight - REFERENCE_WEIGHT);
     const effectiveWeight = baseWeight + payloadWeight * this.modifiers.effectiveWeightMultiplier;
     const ratio = Math.max(effectiveWeight, 1) / REFERENCE_WEIGHT;
-    return (BASE_MACHINE_SPEED * this.enginePower * this.legScale * this.modifiers.speedMultiplier) / Math.sqrt(ratio);
+    const fuelScale = this.fuelAvailable ? 1 : EMERGENCY_DRIVE_SCALE;
+    return (
+      (BASE_MACHINE_SPEED *
+        this.enginePower *
+        this.legScale *
+        this.modifiers.speedMultiplier *
+        fuelScale) /
+      Math.sqrt(ratio)
+    );
   }
 
   get targetSpeed(): number {
@@ -97,7 +110,9 @@ export class MachineMovement {
 
   /** Compatibility alias for callers that express a scripted throttle. */
   setScriptedThrottle(value: number | null): void {
-    this.setScriptedSpeedLimit(value === null ? null : this.maxSpeed * Math.max(0, Math.min(1, value)));
+    this.setScriptedSpeedLimit(
+      value === null ? null : this.maxSpeed * Math.max(0, Math.min(1, value)),
+    );
   }
 
   get currentScriptedSpeedLimit(): number | null {

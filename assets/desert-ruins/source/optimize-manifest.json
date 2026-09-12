@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-12T16:38:03.442Z",
+  "encoder": "meshoptimizer 1.1.1",
+  "texturePolicy": "optimized GLBs require EXT_texture_webp and select baseColor WebP q92 at 2K and normal/ORM lossless WebP at 1K; original 2K texture masters remain in assets/desert-ruins/textures; WebP does not reduce GPU residency",
+  "geometryPolicy": "EXT_meshopt parents use a placeholder fallback buffer sized for decoded accessors; compressed payloads remain in GLB BIN",
+  "assets": [
+    {
+      "asset": "desert-ruins",
+      "sourceBytes": 19160752,
+      "optimizedBytes": 8615952,
+      "sourceGeometryBytes": 9791192,
+      "compressedGeometryBytes": 5856532,
+      "meshoptFallbackBufferBytes": 9791192,
+      "sourceTextureBytes": 9343777,
+      "webpTextureBytes": 2715914,
+      "selectedTextureGpuBytesWithMips": 33554432,
+      "images": [
+        {
+          "image": "DesertAtlas_Normal",
+          "roles": [
+            "normal"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 5119050,
+          "webpBytes": 1017976,
+          "format": "webp",
+          "lossless": true
+        },
+        {
+          "image": "DesertAtlas_BaseColor",
+          "roles": [
+            "baseColor"
+          ],
+          "width": 2048,
+          "height": 2048,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 1491763,
+          "webpBytes": 999996,
+          "format": "webp",
+          "lossless": false
+        },
+        {
+          "image": "DesertAtlas_ORM",
+          "roles": [
+            "ORM"
+          ],
+          "width": 1024,
+          "height": 1024,
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "pngBytes": 2732964,
+          "webpBytes": 697942,
+          "format": "webp",
+          "lossless": true
+        }
+      ],
+      "requiredNodes": [
+        "ruin-house",
+        "ruin-house__lod",
+        "ruin-shop",
+        "ruin-shop__lod",
+        "ruin-apartment",
+        "ruin-apartment__lod",
+        "ruin-tower",
+        "ruin-tower__lod",
+        "ruin-factory",
+        "ruin-factory__lod",
+        "overpass",
+        "overpass__lod",
+        "wreck-car",
+        "wreck-car__lod",
+        "wreck-bus",
+        "wreck-bus__lod",
+        "wreck-tanker",
+        "wreck-tanker__lod",
+        "billboard",
+        "billboard__lod",
+        "water-sign",
+        "water-sign__lod",
+        "road-sign",
+        "road-sign__lod",
+        "pylon",
+        "pylon__lod",
+        "water-tower",
+        "water-tower__lod"
+      ],
+      "extras": {},
+      "lod": {
+        "source": "Blender Decimate",
+        "ratio": 0.32,
+        "sharedOrigins": true,
+        "modelCount": 14
+      },
+      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\public\\models\\props\\ruins\\desert-ruins.glb"
+    }
+  ]
+}

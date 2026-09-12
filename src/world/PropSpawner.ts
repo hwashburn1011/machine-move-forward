@@ -58,9 +58,11 @@ export interface PropGeometries {
 export function createPropGeometries(): PropGeometries {
   // An eroded icosphere gives boulders a rounded silhouette while the seeded
   // radial distortion keeps them from reading as repeated golf balls. Detail
-  // 2 is still inexpensive when instanced and avoids the sharp tetrahedron
+  // 3 is still inexpensive when instanced and avoids the sharp tetrahedron
   // profile of the former detail-0 primitive.
-  const rock = new THREE.IcosahedronGeometry(1, 2);
+  const rockSource = new THREE.IcosahedronGeometry(1, 3);
+  const rock = BufferGeometryUtils.mergeVertices(rockSource);
+  rockSource.dispose();
   erodeBoulder(rock, 991);
 
   const slab = new THREE.BoxGeometry(1, 0.34, 1.6, 2, 1, 2);
@@ -91,7 +93,11 @@ export function createPropGeometries(): PropGeometries {
   // It is intentionally a small 3D form rather than a camera-facing card, so
   // silhouettes hold up in grazing views without a texture dependency.
   const scrubParts: THREE.BufferGeometry[] = [];
-  for (const [yaw, lean] of [[0, 0.22], [2.1, -0.16], [4.2, 0.12]] as const) {
+  for (const [yaw, lean] of [
+    [0, 0.22],
+    [2.1, -0.16],
+    [4.2, 0.12],
+  ] as const) {
     const branch = new THREE.CylinderGeometry(0.018, 0.07, 0.9, 5, 1);
     branch.rotateZ(lean);
     branch.rotateY(yaw);
@@ -135,18 +141,26 @@ function jitterVertices(geo: THREE.BufferGeometry, amount: number, seed: number)
 }
 
 function erodeBoulder(geo: THREE.BufferGeometry, seed: number): void {
-  const rng = new Rng(seed);
   const pos = geo.attributes.position as THREE.BufferAttribute;
+  const phase = seed * 0.017;
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i);
     const y = pos.getY(i);
     const z = pos.getZ(i);
     const length = Math.max(Math.sqrt(x * x + y * y + z * z), 1e-5);
-    const direction = new THREE.Vector3(x / length, y / length, z / length);
-    const broad = 0.86 + rng.range(0, 0.25);
-    const vertical = 0.78 + rng.range(0, 0.24);
-    const lobe = 1 + Math.sin(direction.x * 4.1 + direction.z * 2.7) * 0.06;
-    pos.setXYZ(i, direction.x * broad * lobe, direction.y * vertical, direction.z * broad);
+    const dx = x / length,
+      dy = y / length,
+      dz = z / length;
+    // A continuous surface keeps shared positions together; independent
+    // per-vertex randomness tore the old boulders into triangular shards.
+    const broad = 0.93 + Math.sin(dx * 4.1 + dz * 2.7 + phase) * 0.11;
+    const erosion = Math.sin(dz * 8 + dy * 4 + phase) * Math.sin(dx * 6 - dy * 3) * 0.035;
+    pos.setXYZ(
+      i,
+      dx * (broad + erosion),
+      dy * (0.72 + broad * 0.2 + erosion),
+      dz * (broad + erosion),
+    );
   }
   pos.needsUpdate = true;
   geo.computeVertexNormals();
@@ -300,7 +314,14 @@ export class PropSpawner {
     if (quality.propsPerChunk === this.quality.propsPerChunk) return;
     this.quality = quality;
 
-    for (const mesh of [this.rocks, this.slabs, this.debris, this.scrap, this.scrub, this.nearField]) {
+    for (const mesh of [
+      this.rocks,
+      this.slabs,
+      this.debris,
+      this.scrap,
+      this.scrub,
+      this.nearField,
+    ]) {
       this.group.remove(mesh);
       mesh.dispose();
     }
@@ -311,11 +332,31 @@ export class PropSpawner {
     const debrisCount = Math.max(1, Math.round(n * 0.14));
     const scrapCount = Math.max(1, Math.round(n * 0.08));
     const scrubCount = Math.max(1, Math.round(n * 0.05));
-    this.rocks = this.makeInstanced(this.geometries.rock, this.materials.rustedSteel, rockCount, true);
+    this.rocks = this.makeInstanced(
+      this.geometries.rock,
+      this.materials.rustedSteel,
+      rockCount,
+      true,
+    );
     this.slabs = this.makeInstanced(this.geometries.slab, this.materials.hullDark, slabCount, true);
-    this.debris = this.makeInstanced(this.geometries.debris, this.materials.bareSteel, debrisCount, false);
-    this.scrap = this.makeInstanced(this.geometries.scrap, this.materials.rustedSteel, scrapCount, false);
-    this.scrub = this.makeInstanced(this.geometries.scrub, this.materials.rustedSteel, scrubCount, false);
+    this.debris = this.makeInstanced(
+      this.geometries.debris,
+      this.materials.bareSteel,
+      debrisCount,
+      false,
+    );
+    this.scrap = this.makeInstanced(
+      this.geometries.scrap,
+      this.materials.rustedSteel,
+      scrapCount,
+      false,
+    );
+    this.scrub = this.makeInstanced(
+      this.geometries.scrub,
+      this.materials.rustedSteel,
+      scrubCount,
+      false,
+    );
     this.nearField = this.makeInstanced(
       this.geometries.debris,
       this.materials.rustedSteel,
@@ -386,7 +427,8 @@ export class PropSpawner {
     const clusters: { x: number; z: number; archetype: number }[] = [];
     for (let c = 0; c < clusterCount; c++) {
       const side = rng.next() < 0.5 ? -1 : 1;
-      const x = side *
+      const x =
+        side *
         (nearBand
           ? rng.range(NEAR_BAND_MIN_X, NEAR_BAND_MAX_X)
           : rng.range(MACHINE_CLEARANCE_X + 3, CHUNK_SIZE_X / 2 - 5));

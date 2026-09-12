@@ -1,16 +1,18 @@
 import * as THREE from 'three';
 import * as BufferGeometryUtils from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { loadModel } from '@/art/ModelLoader';
+import { loadDesertLibrary } from './DesertModels';
+import type { DesertLibrary } from './DesertScenery';
 
 /**
- * The wrecks and rubble that litter the desert, loaded from CC0 models.
+ * Original textured desert scenery, with the previous CC0 wrecks as fallback.
  *
  * These are the things the machine passes: a ship's hull on its side, a stack
  * of containers, a pile of debris. Half-buried, because the fiction is a world
  * the sand has swallowed — `PropSpawner` sinks them, this only supplies the
  * shapes.
  *
- * Each pack arrives as one mesh split into several primitives, one per
+ * Each legacy pack arrives as one mesh split into several primitives, one per
  * material, with no textures at all — Quaternius and Kenney both colour by
  * material rather than by map. `InstancedMesh` draws one geometry with one
  * material, so the primitives are merged and each one's colour is baked into
@@ -23,6 +25,7 @@ import { loadModel } from '@/art/ModelLoader';
  */
 
 export interface PropModelGeometries {
+  desert?: DesertLibrary;
   wreck?: THREE.BufferGeometry;
   containers?: THREE.BufferGeometry;
   debris?: THREE.BufferGeometry;
@@ -116,8 +119,7 @@ export function mergePropGeometry(source: THREE.Object3D): THREE.BufferGeometry 
 
     const colourOf = (index: number): THREE.Color => {
       const material = materials[Math.min(index, materials.length - 1)] as
-        | THREE.MeshStandardMaterial
-        | undefined;
+        THREE.MeshStandardMaterial | undefined;
       return material?.color ?? new THREE.Color(1, 1, 1);
     };
 
@@ -170,7 +172,9 @@ export function mergePropGeometry(source: THREE.Object3D): THREE.BufferGeometry 
   }
 
   const merged =
-    parts.length === 1 ? (parts[0] as THREE.BufferGeometry) : BufferGeometryUtils.mergeGeometries(parts);
+    parts.length === 1
+      ? (parts[0] as THREE.BufferGeometry)
+      : BufferGeometryUtils.mergeGeometries(parts);
   if (parts.length > 1) for (const part of parts) part.dispose();
   if (!merged) return null;
 
@@ -198,8 +202,7 @@ export function createPropTemplate(
     const mesh = object as THREE.Mesh;
     if (!mesh.isMesh) return;
     const first = (Array.isArray(mesh.material) ? mesh.material[0] : mesh.material) as
-      | THREE.MeshStandardMaterial
-      | undefined;
+      THREE.MeshStandardMaterial | undefined;
     if (first?.isMeshStandardMaterial) sourceMaterial = first;
   });
 
@@ -266,6 +269,8 @@ const BASE = 'models/props';
  * `loadTextureSets` makes, for the same reason.
  */
 export async function loadPropModels(): Promise<PropModelGeometries> {
+  const desert = await loadDesertLibrary();
+  if (desert) return { desert, dispose: () => desert.dispose() };
   const wanted = ['wreck', 'containers', 'debris'] as const;
 
   const loaded = await Promise.all(
