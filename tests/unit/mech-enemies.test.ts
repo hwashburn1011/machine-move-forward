@@ -145,6 +145,30 @@ describe('actual pooled combat and cover', () => {
     }
   });
 
+  it('prewarms reusable rigs without creating encounters or physics bodies', () => {
+    const { enemies, physics, bus } = fixture();
+    const count = physics.bodyCount;
+    let spawned = 0;
+    bus.on('enemy:spawned', () => spawned++);
+    const warmed = [...enemies.prewarm([...MECH_ENEMY_IDS, ...MECH_ENEMY_IDS])];
+    for (const enemy of warmed) {
+      enemy.stageForWarmup(new THREE.Vector3(0, 30, 0));
+      enemy.finishWarmup();
+      expect(enemy.object3D.parent).toBeNull();
+    }
+    expect(enemies.activeCount).toBe(0);
+    expect(physics.bodyCount).toBe(count);
+    expect(spawned).toBe(0);
+    const enemy = enemies.spawn('warden', new THREE.Vector3(0, 5, 0))!;
+    expect(warmed).toContain(enemy);
+    expect(enemy.object3D.parent).not.toBeNull();
+    expect(spawned).toBe(1);
+    enemy.despawn();
+    expect(enemy.object3D.parent).toBeNull();
+    expect(enemies.spawn('warden', new THREE.Vector3(0, 5, 0))).toBe(enemy);
+    expect(spawned).toBe(2);
+  });
+
   it('damages a stationary visible player only after the warning', () => {
     const f = fixture();
     f.enemies.spawn('warden', new THREE.Vector3(0, 5, 0));

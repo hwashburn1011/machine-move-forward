@@ -333,6 +333,10 @@ export class Game implements LoopCallbacks {
   private readonly normalSunTarget = new THREE.Vector3();
   readonly destination: Destination;
   private readonly radioModel: THREE.Group;
+  private readonly radioLamp: THREE.Object3D | null;
+  private helmGyro: THREE.Object3D | null = null;
+  private helmLamp: THREE.Object3D | null = null;
+  private helmInteract: THREE.Object3D | null = null;
   /** Game owns this one walker source until final teardown; the machine only borrows clones. */
   private machineAuthoredModel: LoadedModel | null = null;
   private machineCollisionModel: LoadedModel | null = null;
@@ -436,6 +440,11 @@ export class Game implements LoopCallbacks {
         kits.stations?.scene.getObjectByName('HelmRoot');
       if (authoredHelm) installNavigationHelm(game.machine.group, authoredHelm.clone(true));
     }
+    // Models are installed once at boot. Searching the entire detailed walker
+    // for these tiny anchors every simulation/render tick costs more than using them.
+    game.helmGyro = game.machine.group.getObjectByName('GyroInstalled') ?? null;
+    game.helmLamp = game.machine.group.getObjectByName('HelmPowerLamp') ?? null;
+    game.helmInteract = game.machine.group.getObjectByName('HelmInteract') ?? null;
 
     // After construction: the procedural materials are already complete and
     // usable, and this only swaps their surfaces. A failed fetch costs a
@@ -499,6 +508,16 @@ export class Game implements LoopCallbacks {
 
     if (options.models !== false) {
       const battle = game.prepareSignalBattle();
+      const warmEnemies = game.enemies.prewarm([
+        'bastion',
+        'warden',
+        'revenant',
+        'sovereign',
+        'bastion',
+        'warden',
+        'revenant',
+        'sovereign',
+      ]);
       const encounterAssets = [
         'manual-turret',
         'raider-skiff',
@@ -537,6 +556,40 @@ export class Game implements LoopCallbacks {
       } finally {
         game.renderer.sun.target.position.copy(sunTarget);
         game.renderer.setSunDirection(game.sky.direction);
+        // Keep real pooled materials and rigs alive so first boarding does not
+        // allocate/fit eight characters or compile their first normal/depth pass.
+        const warmCrewCamera = game.playerCamera.camera.clone();
+        warmCrewCamera.position.set(0, 31.5, 13);
+        warmCrewCamera.lookAt(0, 30.6, 0);
+        warmEnemies.forEach((enemy, i) =>
+          enemy.stageForWarmup(new THREE.Vector3(-7 + i * 2, 30, 0)),
+        );
+        try {
+          game.post.setCamera(warmCrewCamera);
+          game.post.render(0, game.renderer.scene, warmCrewCamera);
+        } finally {
+          for (const enemy of warmEnemies) enemy.finishWarmup();
+        }
+        // Exercise the normal scene's shadow/normal/depth variants from every
+        // direction while loading, before a fast mouse turn can expose them.
+        const warmView = game.playerCamera.camera.clone();
+        warmView.position.set(5.6, CHARACTER_DROP_Y + 1, 1.5);
+        for (const [x, y, z] of [
+          [0, 0, -1],
+          [1, 0, 0],
+          [0, 0, 1],
+          [-1, 0, 0],
+          [0, 1, -0.01],
+          [0, -1, -0.01],
+        ]) {
+          warmView.lookAt(
+            warmView.position.x + x!,
+            warmView.position.y + y!,
+            warmView.position.z + z!,
+          );
+          game.post.setCamera(warmView);
+          game.post.render(0, game.renderer.scene, warmView);
+        }
         game.post.setCamera(game.activeCamera);
         // The normal-play light count needs its shader variants too, so the
         // first playable frame and the eventual hand-back are both warm.
@@ -588,6 +641,7 @@ export class Game implements LoopCallbacks {
 
     this.machine = new Machine(this.renderer.scene, this.physics, this.materials);
     this.radioModel = buildRadioModel(this.materials);
+    this.radioLamp = this.radioModel.getObjectByName('SignalLamp') ?? null;
     this.radioModel.position.set(0.65, DECK_SURFACE_Y, -5.8);
     this.radioModel.visible = false;
     this.machine.group.add(this.radioModel);
@@ -1483,12 +1537,13 @@ export class Game implements LoopCallbacks {
       else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
 
       if (this.defense.mounted) {
+        const look = this.input.consumeLook();
         const view = this.defense.update(this.state.simTime, {
           dt,
-          lookX: this.input.lookDelta.x * 0.004,
+          lookX: look.x * 0.004,
           // Mouse down is positive in InputManager; turret pitch uses
           // positive values for raising the barrel, so invert the screen Y.
-          lookY: -this.input.lookDelta.y * 0.004,
+          lookY: -look.y * 0.004,
           fireHeld: this.input.isDown('fire'),
           powered: this.machine.power.isPowered(this.defense.mounted),
           occupied: true,
@@ -1615,9 +1670,9 @@ export class Game implements LoopCallbacks {
       if (after === 'route-selection') this.openExpedition();
     }
     const view = this.story.snapshot(this.world.distanceTraveled);
-    const gyro = this.machine.group.getObjectByName('GyroInstalled');
+    const gyro = this.helmGyro;
     if (gyro) gyro.visible = view.recoveredUniques.includes('course-gyro');
-    const helmLamp = this.machine.group.getObjectByName('HelmPowerLamp');
+    const helmLamp = this.helmLamp;
     if (helmLamp) helmLamp.visible = this.machine.power.isPowered(this.helmPowerConsumerId);
     this.hud.setStoryState({
       phase: view.phase,
@@ -2108,6 +2163,13 @@ export class Game implements LoopCallbacks {
     const now = performance.now();
 
     this.player.update(alpha, frameDt);
+    if (this.cinematicCamera || this.state.paused) {
+      // A locked cursor can still move during a cutscene. Do not bank that
+      // movement for the hand-back to the player; mounted look waits for its tick.
+      this.input.consumeLook();
+    } else if (!this.defense.mounted) {
+      this.playerCamera.update(alpha, this.input);
+    }
     this.enemies.update(alpha, frameDt);
     // Whether a throw would catch something, asked of the same function the
     // throw itself uses -- a cue derived from different rules to the mechanic
@@ -2269,7 +2331,7 @@ export class Game implements LoopCallbacks {
         lit,
       });
     }
-    const radioLamp = this.radioModel.getObjectByName('SignalLamp');
+    const radioLamp = this.radioLamp;
     if (radioLamp) {
       radioLamp.visible =
         this.progression.earlyRadioDrop.radioFound &&
@@ -3132,7 +3194,7 @@ export class Game implements LoopCallbacks {
         kind: 'radio',
       });
     }
-    const helm = this.machine.group.getObjectByName('HelmInteract');
+    const helm = this.helmInteract;
     if (helm) {
       const position = new THREE.Vector3();
       helm.getWorldPosition(position);
@@ -4440,7 +4502,7 @@ export class Game implements LoopCallbacks {
     this.build.dispose();
     disposeAutomationModels();
     this.post.dispose();
-    this.enemies.despawnAll();
+    this.enemies.dispose();
     this.world.dispose();
     this.sandFX.dispose();
     this.impactFX.dispose();

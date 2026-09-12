@@ -185,6 +185,23 @@ export class Enemy {
     return this.active;
   }
 
+  /** Prepare rendering only; no collider, damage, AI tick or spawn event. */
+  stageForWarmup(at: THREE.Vector3): void {
+    this.visual.setState('idle');
+    this.visual.update(0);
+    this.object3D.position.copy(at);
+    this.object3D.visible = true;
+    this.scene.add(this.object3D);
+    this.visual.setAim(at, { x: at.x, y: at.y + 1, z: at.z - 2 }, 0.5);
+  }
+
+  finishWarmup(): void {
+    if (this.active) return;
+    this.visual.clearAim();
+    this.object3D.visible = false;
+    this.object3D.removeFromParent();
+  }
+
   get aiState(): EnemyAIState {
     return this.state;
   }
@@ -248,6 +265,7 @@ export class Enemy {
   }
 
   spawn(at: THREE.Vector3): void {
+    this.scene.add(this.object3D);
     this.ranged?.reset();
     this.health = this.def.maxHealth;
     this.state = 'idle';
@@ -723,6 +741,7 @@ export class Enemy {
   }
 
   despawn(): void {
+    this.object3D.removeFromParent();
     this.ranged?.reset();
     this.visual.clearAim();
     if (this.handle) {
