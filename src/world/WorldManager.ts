@@ -5,6 +5,7 @@ import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
 import { ChunkManager } from './ChunkManager';
 import { TerrainChunk } from './TerrainChunk';
+import { DesertScenery } from './DesertScenery';
 import type { TextureSet } from '@/art/TextureLoader';
 import type { PropModelGeometries } from './PropModels';
 import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSpawner';
@@ -79,6 +80,8 @@ export function renderedDistance(distance: number, alpha: number, speed: number)
  * that needs saving — the world regenerates from it deterministically.
  */
 export class WorldManager {
+  private desert: DesertScenery | null = null;
+  private propModels: PropModelGeometries | null = null;
   private readonly chunkManager: ChunkManager;
   private readonly terrain: TerrainChunk[] = [];
   private readonly props: PropSpawner[] = [];
@@ -145,11 +148,21 @@ export class WorldManager {
     for (const slot of this.chunkManager.slots) {
       this.placeSlot(slot.slotId, slot.chunkIndex, slot.z);
     }
+    this.desert?.setDistance(this.distance);
+    this.desert?.syncSlots(
+      this.chunkManager.slots,
+      this.worldSeed,
+      this.quality.propsPerChunk,
+      true,
+    );
   }
 
   private applyDistance(): void {
     this.renderOffset = 0;
     const recycled = this.chunkManager.advance(this.distance);
+    this.desert?.setDistance(this.distance);
+    if (recycled.length)
+      this.desert?.syncSlots(this.chunkManager.slots, this.worldSeed, this.quality.propsPerChunk);
 
     // Every slot needs its Z applied each step; only recycled ones need their
     // contents regenerated.
@@ -184,6 +197,7 @@ export class WorldManager {
   applyRenderOffset(alpha: number, speed: number): void {
     const offset = scrollOffset(alpha, speed);
     this.renderOffset = offset;
+    this.desert?.setDistance(this.distance, offset);
     for (const slot of this.chunkManager.slots) {
       // Only where it is DRAWN moves by the sub-step offset. The ground it
       // represents is the same ground it was a moment ago, so its world origin
@@ -211,11 +225,25 @@ export class WorldManager {
    * recycle sixty-odd metres from now.
    */
   applyPropModels(models: PropModelGeometries): void {
+    if (models === this.propModels) return;
+    if (this.desert) {
+      this.scene.remove(this.desert.group);
+      this.desert.dispose();
+      this.desert = null;
+    }
     for (const slot of this.chunkManager.slots) {
       const prop = this.props[slot.slotId];
       if (!prop) continue;
       prop.attachModels(models);
       prop.populate(this.worldSeed, slot.chunkIndex);
+    }
+    this.propModels?.dispose();
+    this.propModels = models;
+    if (models.desert) {
+      this.desert = new DesertScenery(models.desert, this.chunkManager.slots.length);
+      this.desert.setDistance(this.distance, this.renderOffset);
+      this.desert.syncSlots(this.chunkManager.slots, this.worldSeed, this.quality.propsPerChunk);
+      this.scene.add(this.desert.group);
     }
   }
 
@@ -259,6 +287,7 @@ export class WorldManager {
     }
 
     if (propsChanged) {
+      this.desert?.syncSlots(this.chunkManager.slots, this.worldSeed, quality.propsPerChunk, true);
       for (const slot of this.chunkManager.slots) {
         this.props[slot.slotId]?.applyQuality(quality, this.worldSeed, slot.chunkIndex);
         this.props[slot.slotId]?.setZ(slot.z + this.renderOffset);
@@ -267,6 +296,11 @@ export class WorldManager {
   }
 
   dispose(): void {
+    if (this.desert) {
+      this.scene.remove(this.desert.group);
+      this.desert.dispose();
+      this.desert = null;
+    }
     for (const chunk of this.terrain) {
       this.scene.remove(chunk.mesh);
       chunk.dispose();
@@ -277,6 +311,8 @@ export class WorldManager {
     }
     this.geometry.dispose();
     this.propGeometries.dispose();
+    this.propModels?.dispose();
+    this.propModels = null;
     this.terrain.length = 0;
     this.props.length = 0;
   }

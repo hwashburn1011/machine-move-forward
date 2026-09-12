@@ -3344,7 +3344,10 @@ export class Game implements LoopCallbacks {
     const power = this.machine.power;
     const tank = `${Math.floor(power.fuel)}/${FUEL_TANK_CAP}`;
     const carried = this.resources.count('fuel');
-    if (carried <= 0) return `${nearest.label} — ◆ ${tank}`;
+    if (carried <= 0)
+      return power.fuel <= 0
+        ? `${nearest.label} — empty. Reel salvage [F] for fuel.`
+        : `${nearest.label} — ◆ ${tank}`;
     if (power.fuel >= FUEL_TANK_CAP) return `${nearest.label} — tank full ◆ ${tank}`;
     return `[E] Refuel ${nearest.label} — ◆ ${tank} (carrying ${carried})`;
   }

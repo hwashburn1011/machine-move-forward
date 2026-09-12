@@ -1,0 +1,156 @@
+[
+  {
+    "name": "ruin-house",
+    "triangles": 7716,
+    "vertices": 4064,
+    "size_m": [
+      11.300697326660156,
+      8.499451637268066,
+      5.669192790985107
+    ],
+    "lod_triangles": 2468
+  },
+  {
+    "name": "ruin-shop",
+    "triangles": 6108,
+    "vertices": 3248,
+    "size_m": [
+      12.71804141998291,
+      9.27962875366211,
+      7.399771690368652
+    ],
+    "lod_triangles": 1954
+  },
+  {
+    "name": "ruin-apartment",
+    "triangles": 14224,
+    "vertices": 7496,
+    "size_m": [
+      14.565741539001465,
+      13.675512313842773,
+      13.531590461730957
+    ],
+    "lod_triangles": 4550
+  },
+  {
+    "name": "ruin-tower",
+    "triangles": 35568,
+    "vertices": 18656,
+    "size_m": [
+      17.872169494628906,
+      15.868583679199219,
+      26.89002227783203
+    ],
+    "lod_triangles": 11380
+  },
+  {
+    "name": "ruin-factory",
+    "triangles": 8500,
+    "vertices": 4464,
+    "size_m": [
+      23.0067138671875,
+      14.215721130371094,
+      12.312044143676758
+    ],
+    "lod_triangles": 2720
+  },
+  {
+    "name": "overpass",
+    "triangles": 2132,
+    "vertices": 1192,
+    "size_m": [
+      27.6845645904541,
+      9.594061851501465,
+      10.116450309753418
+    ],
+    "lod_triangles": 682
+  },
+  {
+    "name": "wreck-car",
+    "triangles": 7160,
+    "vertices": 3712,
+    "size_m": [
+      3.789358615875244,
+      5.146106719970703,
+      2.129999876022339
+    ],
+    "lod_triangles": 2290
+  },
+  {
+    "name": "wreck-bus",
+    "triangles": 8960,
+    "vertices": 4664,
+    "size_m": [
+      5.676753520965576,
+      10.555551528930664,
+      3.5200002193450928
+    ],
+    "lod_triangles": 2866
+  },
+  {
+    "name": "wreck-tanker",
+    "triangles": 11676,
+    "vertices": 6032,
+    "size_m": [
+      6.686755657196045,
+      8.300000190734863,
+      2.990000009536743
+    ],
+    "lod_triangles": 3736
+  },
+  {
+    "name": "billboard",
+    "triangles": 1372,
+    "vertices": 796,
+    "size_m": [
+      9.359999656677246,
+      1.8658599853515625,
+      10.128000259399414
+    ],
+    "lod_triangles": 438
+  },
+  {
+    "name": "water-sign",
+    "triangles": 1372,
+    "vertices": 796,
+    "size_m": [
+      7.28000020980835,
+      1.8654605150222778,
+      8.227999687194824
+    ],
+    "lod_triangles": 438
+  },
+  {
+    "name": "road-sign",
+    "triangles": 1372,
+    "vertices": 796,
+    "size_m": [
+      3.640000104904175,
+      1.8637745380401611,
+      5.127999782562256
+    ],
+    "lod_triangles": 438
+  },
+  {
+    "name": "pylon",
+    "triangles": 7096,
+    "vertices": 3640,
+    "size_m": [
+      7.507547378540039,
+      4.016724109649658,
+      18.051298141479492
+    ],
+    "lod_triangles": 2270
+  },
+  {
+    "name": "water-tower",
+    "triangles": 1320,
+    "vertices": 680,
+    "size_m": [
+      5.800000190734863,
+      5.800000190734863,
+      13.509011268615723
+    ],
+    "lod_triangles": 422
+  }
+]

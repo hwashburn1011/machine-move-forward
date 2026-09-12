@@ -60,11 +60,14 @@ varying vec3 vHeightFogWorldPos;
 `;
 
 const VERTEX_MAIN = /* glsl */ `
-#ifdef USE_INSTANCING
-  vHeightFogWorldPos = (modelMatrix * instanceMatrix * vec4(transformed, 1.0)).xyz;
-#else
-  vHeightFogWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;
+vec4 heightFogPosition = vec4(transformed, 1.0);
+#ifdef USE_BATCHING
+  heightFogPosition = batchingMatrix * heightFogPosition;
 #endif
+#ifdef USE_INSTANCING
+  heightFogPosition = instanceMatrix * heightFogPosition;
+#endif
+vHeightFogWorldPos = (modelMatrix * heightFogPosition).xyz;
 `;
 
 const FRAGMENT_PARS = /* glsl */ `
@@ -123,7 +126,10 @@ export function applyHeightFog(material: THREE.Material, cacheTag = 'heightfog')
       // Blend while the fragment is still scene-linear. The later
       // tone mapping and colour conversion then apply equally to geometry and
       // fog, including when the final image goes through OutputPass.
-      .replace('#include <tonemapping_fragment>', `${FRAGMENT_MAIN}\n#include <tonemapping_fragment>`);
+      .replace(
+        '#include <tonemapping_fragment>',
+        `${FRAGMENT_MAIN}\n#include <tonemapping_fragment>`,
+      );
   };
 
   // Force a recompile if the material has already been used.

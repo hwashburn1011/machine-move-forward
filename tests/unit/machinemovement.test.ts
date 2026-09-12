@@ -9,6 +9,34 @@ const step = (m: MachineMovement, seconds: number) => {
 };
 
 describe('MachineMovement', () => {
+  it('decelerates to a useful reserve crawl on empty fuel and recovers after refueling', () => {
+    const m = new MachineMovement();
+    step(m, 30);
+    const cruise = m.currentSpeed;
+    m.fuelAvailable = false;
+    m.fixedUpdate(FIXED_DT);
+    expect(m.currentSpeed).toBeLessThan(cruise);
+    expect(m.currentSpeed).toBeGreaterThan(m.targetSpeed);
+    step(m, 30);
+    expect(m.currentSpeed).toBeCloseTo(BASE_MACHINE_SPEED * 0.2, 4);
+    m.fuelAvailable = true;
+    step(m, 30);
+    expect(m.currentSpeed).toBeCloseTo(cruise, 4);
+  });
+
+  it('reserve drive respects damaged engines, throttle and docking stops', () => {
+    const m = new MachineMovement();
+    m.fuelAvailable = false;
+    m.enginePower = 0;
+    expect(m.targetSpeed).toBe(0);
+    m.enginePower = 1;
+    m.setThrottle(0);
+    expect(m.targetSpeed).toBe(0);
+    m.setThrottle(1);
+    m.setScriptedSpeedLimit(0);
+    expect(m.targetSpeed).toBe(0);
+  });
+
   it('starts stopped', () => {
     expect(new MachineMovement().currentSpeed).toBe(0);
   });
@@ -98,7 +126,11 @@ describe('MachineMovement', () => {
   it('applies upgrade movement modifiers to speed, load, and acceleration', () => {
     const baseline = new MachineMovement();
     const tuned = new MachineMovement();
-    tuned.setModifiers({ speedMultiplier: 1.2, effectiveWeightMultiplier: 0.7, accelerationMultiplier: 0.5 });
+    tuned.setModifiers({
+      speedMultiplier: 1.2,
+      effectiveWeightMultiplier: 0.7,
+      accelerationMultiplier: 0.5,
+    });
     expect(tuned.maxSpeed).toBeGreaterThan(baseline.maxSpeed);
     tuned.fixedUpdate(FIXED_DT);
     baseline.fixedUpdate(FIXED_DT);
@@ -108,14 +140,22 @@ describe('MachineMovement', () => {
   it('keeps the torque clutch empty-machine penalty while improving a heavy payload', () => {
     const emptyBaseline = new MachineMovement();
     const emptyTorque = new MachineMovement();
-    emptyTorque.setModifiers({ speedMultiplier: 0.97, effectiveWeightMultiplier: 0.65, accelerationMultiplier: 0.7 });
+    emptyTorque.setModifiers({
+      speedMultiplier: 0.97,
+      effectiveWeightMultiplier: 0.65,
+      accelerationMultiplier: 0.7,
+    });
     expect(emptyTorque.maxSpeed).toBeCloseTo(emptyBaseline.maxSpeed * 0.97, 6);
 
     const heavyBaseline = new MachineMovement();
     heavyBaseline.totalWeight = REFERENCE_WEIGHT + 3000;
     const heavyTorque = new MachineMovement();
     heavyTorque.totalWeight = REFERENCE_WEIGHT + 3000;
-    heavyTorque.setModifiers({ speedMultiplier: 0.97, effectiveWeightMultiplier: 0.65, accelerationMultiplier: 0.7 });
+    heavyTorque.setModifiers({
+      speedMultiplier: 0.97,
+      effectiveWeightMultiplier: 0.65,
+      accelerationMultiplier: 0.7,
+    });
     expect(heavyTorque.maxSpeed).toBeGreaterThan(heavyBaseline.maxSpeed);
   });
 });

@@ -11,6 +11,8 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 ## Playable features
 
 - Salvage reel, inventory, storage, crafting, refinery, workbench, power and fuel.
+- Empty fuel tanks engage a smooth 20% emergency crawl so salvage remains reachable. Reel crates with **F**, then take their fuel to a generator and press **E** to refuel.
+- Seeded desert districts with 14 original ruin and wreck models: buried houses, exposed apartment towers, factories, broken overpasses, hollow cars and buses, ruptured tankers, torn billboards, pylons and water towers.
 - Buildable floors, walls, doorways, rails, roofs, stairs, stations and equipment on a 2m grid.
 - Localized engine and leg damage, repair, weight, gait, rooms and enemy pathfinding over player construction.
 - Play as the detailed S-07 gunner with armed/unarmed movement, crouch and jump animations.
@@ -42,6 +44,8 @@ The title screen offers New Game, Continue and Settings. Click the canvas for po
 Settings includes **Machine & ambience**, independent of master volume. Set it to zero to silence engine rumble, mechanical footsteps and the calm atmosphere while keeping combat, radio and warning cues. The default mix is deliberately faint, uses smooth fades and quiet musical intervals, and fades out in menus or background tabs.
 
 Mouse look now handles changing frame rates consistently, and the camera interpolates movement between simulation ticks. The renderer shares shadow and transform work across passes and prepares mech rigs during loading. See the [performance measurements and regression checks](docs/performance-smoothness/README.md).
+
+The roadside art uses shared PBR textures, distance detail levels and one geometry batch across the visible world. See the [Blender/Unreal scenery library and review](docs/art/desert-ruins/README.md).
 
 Editable Blender masters, textures and optimized game models are versioned alongside their rebuild tools. Full portable GLB/FBX collections and the standalone viewers are also available in the [Iron Nomad release downloads](https://github.com/hwashburn1011/machine-move-forward/releases/tag/v0.2.0). Large interchangeable exports and Unreal caches are kept out of normal source checkouts.
 

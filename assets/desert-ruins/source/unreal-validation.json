@@ -1,0 +1,149 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "imports": [
+    {
+      "name": "billboard",
+      "path": "/Game/DesertRuins/Meshes/billboard.billboard",
+      "size_cm": [
+        935.9999389648438,
+        186.5860595703125,
+        1012.8000619411469
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "overpass",
+      "path": "/Game/DesertRuins/Meshes/overpass.overpass",
+      "size_cm": [
+        2768.4564208984375,
+        959.4062805175781,
+        1011.6449890136719
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "pylon",
+      "path": "/Game/DesertRuins/Meshes/pylon.pylon",
+      "size_cm": [
+        750.7547607421875,
+        401.6724395751953,
+        1805.129852771759
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "road-sign",
+      "path": "/Game/DesertRuins/Meshes/road_sign.road_sign",
+      "size_cm": [
+        364.0,
+        186.37747192382812,
+        512.8000009059906
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "ruin-apartment",
+      "path": "/Game/DesertRuins/Meshes/ruin_apartment.ruin_apartment",
+      "size_cm": [
+        1456.57421875,
+        1367.5512084960938,
+        1353.1590270996094
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "ruin-factory",
+      "path": "/Game/DesertRuins/Meshes/ruin_factory.ruin_factory",
+      "size_cm": [
+        2300.67138671875,
+        1421.5720825195312,
+        1231.2045230865479
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "ruin-house",
+      "path": "/Game/DesertRuins/Meshes/ruin_house.ruin_house",
+      "size_cm": [
+        1130.0697631835938,
+        849.9451904296875,
+        566.9192790985107
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "ruin-shop",
+      "path": "/Game/DesertRuins/Meshes/ruin_shop.ruin_shop",
+      "size_cm": [
+        1271.8041381835938,
+        927.9628295898438,
+        739.9771575927734
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "ruin-tower",
+      "path": "/Game/DesertRuins/Meshes/ruin_tower.ruin_tower",
+      "size_cm": [
+        1787.217041015625,
+        1586.8582763671875,
+        2689.0023498535156
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "water-sign",
+      "path": "/Game/DesertRuins/Meshes/water_sign.water_sign",
+      "size_cm": [
+        728.0,
+        186.54608917236328,
+        822.8000009059906
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "water-tower",
+      "path": "/Game/DesertRuins/Meshes/water_tower.water_tower",
+      "size_cm": [
+        580.0000305175781,
+        580.0000305175781,
+        1350.9011356830597
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "wreck-bus",
+      "path": "/Game/DesertRuins/Meshes/wreck_bus.wreck_bus",
+      "size_cm": [
+        567.6753540039062,
+        1055.55517578125,
+        352.00003242492676
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "wreck-car",
+      "path": "/Game/DesertRuins/Meshes/wreck_car.wreck_car",
+      "size_cm": [
+        378.9358825683594,
+        514.6107330322266,
+        212.99999904632568
+      ],
+      "material_assigned": true
+    },
+    {
+      "name": "wreck-tanker",
+      "path": "/Game/DesertRuins/Meshes/wreck_tanker.wreck_tanker",
+      "size_cm": [
+        668.6755065917969,
+        830.0000305175781,
+        298.99999809265137
+      ],
+      "material_assigned": true
+    }
+  ],
+  "status": "success",
+  "textures": 3,
+  "materials": 1,
+  "review_level": "/Game/DesertRuins/DesertLibraryReview"
+}

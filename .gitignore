@@ -21,3 +21,10 @@ __pycache__/
 /assets/iron-nomad/gameplay/exports/
 /assets/mech-enemies/exports/
 /assets/mech-enemies/gameplay/*.glb
+/assets/desert-ruins/exports/
+/assets/desert-ruins/unreal/Content/
+/assets/desert-ruins/unreal/DerivedDataCache/
+/assets/desert-ruins/unreal/Intermediate/
+/assets/desert-ruins/unreal/Saved/
+/assets/desert-ruins/unreal/Config/
+/assets/desert-ruins/source/*.log
