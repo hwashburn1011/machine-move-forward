@@ -54,7 +54,7 @@ Design: [approved plan](../superpowers/plans/2026-09-12-gameplay-polish-plan.md)
 | AN-04/05 | [36 combat muzzle comparisons](acceptance/combat-parity.json): all four real GLBs at 30/60/144 FPS retain exact original muzzle positions, clip order and transition behavior (maximum difference 0). Cosmetic muzzle motion is separate. |
 | INT-02, QA-01 | Integrated save/reset/opening/cinematic/UI lifecycle; unit/lint/build and focused compatibility acceptance recorded below. |
 | QA-02 | Hardware visual, performance and 100-cycle/10-minute lifecycle evidence recorded below. |
-| REL-01 | Release pending final acceptance; no deployment is claimed by this record yet. |
+| REL-01 | Release via [PR #7](https://github.com/hwashburn1011/machine-move-forward/pull/7) and the main/Pages workflow. See the PR timeline for final CI, merge and live verification results. |
 
 ## Review findings and corrections
 
@@ -169,9 +169,15 @@ node tools/polish/hook-cut-qa.mjs
 node tools/polish/lifecycle-soak.mjs
 node tools/polish/gameplay-review.mjs
 node tools/polish/capture-animation-review.mjs
+node tools/polish/release-smoke.mjs
 ```
 
 `tools/performance-smoothness.mjs` accepts `MMF_PORT`, `MMF_QA_OUT`, `--label`,
 `--seconds`, `--seed` and `--distance`. `performance-isolation.mjs` temporarily
 disables features only inside its test page to identify costs; it is not a
 playable configuration or a release performance claim.
+`release-smoke.mjs` defaults to the public Pages site, verifies physical build/
+camera/settings controls and compares SHA-256 hashes for all five deployed GLBs.
+Its outputs go to ignored `test-results/gameplay-polish-release/`; `MMF_SITE`
+and `MMF_REV` select a different deployment. The final public outcome is recorded
+in PR #7 after the main workflow completes.
