@@ -1,0 +1,13 @@
+{
+  "kind": "revenant",
+  "originalSha256": "e09f7c759f5a91becdceddaa2e0c9755bb49e6241a0a48b688b2937b5d85e928",
+  "originalBytes": 3467912,
+  "outputBytes": 3564696,
+  "originalAnimationCount": 5,
+  "originalBufferPreserved": true,
+  "added": [
+    "polish_attack",
+    "polish_death",
+    "polish_hit"
+  ]
+}

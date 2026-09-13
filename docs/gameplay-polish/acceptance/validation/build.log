@@ -1,0 +1,19 @@
+
+> machine-move-forward@0.2.0 build
+> tsc --noEmit && vite build --base=/machine-move-forward/
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 202 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                     1.62 kB │ gzip:     0.79 kB
+dist/assets/index-BNFq7Mp0.css     25.24 kB │ gzip:     5.84 kB
+dist/assets/index-cTd0WZVL.js   4,138.03 kB │ gzip: 1,446.14 kB │ map: 8,328.09 kB
+
+✓ built in 730ms
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 1200 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.

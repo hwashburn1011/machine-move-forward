@@ -1,0 +1,99 @@
+{
+  "generatedAt": "2026-09-12T22:22:30.551Z",
+  "port": 5201,
+  "denied": {
+    "attempts": 1,
+    "paused": true,
+    "menuOpen": true,
+    "locked": false
+  },
+  "resumed": {
+    "paused": false,
+    "menuOpen": false,
+    "locked": true
+  },
+  "live": {
+    "stored": {
+      "version": 2,
+      "volume": 0.8,
+      "ambienceVolume": 0.6,
+      "quality": null,
+      "sensitivity": 1,
+      "hipFov": 70,
+      "shoulder": "right",
+      "bindings": {
+        "play:forward": "KeyN",
+        "play:interact": "KeyH"
+      }
+    },
+    "applied": 70
+  },
+  "persisted": {
+    "settings": {
+      "version": 2,
+      "volume": 0.8,
+      "ambienceVolume": 0.6,
+      "quality": null,
+      "sensitivity": 1,
+      "hipFov": 70,
+      "shoulder": "right",
+      "bindings": {
+        "play:forward": "KeyN",
+        "play:interact": "KeyH"
+      }
+    },
+    "fov": 70
+  },
+  "physical": {
+    "nForward": true,
+    "wForward": false,
+    "hInteract": true
+  },
+  "reloadedLabels": {
+    "forward": "N",
+    "interact": "H"
+  },
+  "checks": [
+    {
+      "name": "denied Resume stays paused with menu open",
+      "ok": true,
+      "detail": "{\"attempts\":1,\"paused\":true,\"menuOpen\":true,\"locked\":false}"
+    },
+    {
+      "name": "trusted Resume locks pointer before unpausing",
+      "ok": true,
+      "detail": "{\"paused\":false,\"menuOpen\":false,\"locked\":true}"
+    },
+    {
+      "name": "FOV applies to live settings and stores 70",
+      "ok": true,
+      "detail": "{\"stored\":{\"version\":2,\"volume\":0.8,\"ambienceVolume\":0.6,\"quality\":null,\"sensitivity\":1,\"hipFov\":70,\"shoulder\":\"right\",\"bindings\":{\"play:forward\":\"KeyN\",\"play:interact\":\"KeyH\"}},\"applied\":70}"
+    },
+    {
+      "name": "movement and use labels follow remaps",
+      "ok": true,
+      "detail": "{\"forwardLabel\":\"N\",\"interactLabel\":\"H\"}"
+    },
+    {
+      "name": "movement and use remaps persist immediately",
+      "ok": true,
+      "detail": "{\"play:forward\":\"KeyN\",\"play:interact\":\"KeyH\"}"
+    },
+    {
+      "name": "FOV and both remaps survive reload",
+      "ok": true,
+      "detail": "{\"settings\":{\"version\":2,\"volume\":0.8,\"ambienceVolume\":0.6,\"quality\":null,\"sensitivity\":1,\"hipFov\":70,\"shoulder\":\"right\",\"bindings\":{\"play:forward\":\"KeyN\",\"play:interact\":\"KeyH\"}},\"fov\":70}"
+    },
+    {
+      "name": "reloaded physical map uses N/H and releases W",
+      "ok": true,
+      "detail": "{\"nForward\":true,\"wForward\":false,\"hInteract\":true}"
+    },
+    {
+      "name": "reloaded Settings labels show N/H",
+      "ok": true,
+      "detail": "{\"forward\":\"N\",\"interact\":\"H\"}"
+    }
+  ],
+  "errors": []
+}

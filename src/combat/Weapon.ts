@@ -73,6 +73,16 @@ export class Weapon {
     return this.reloadEndsAt !== null;
   }
 
+  /** Presentation reads the same deadline that commits ammunition. */
+  reloadProgress(now: number): number {
+    return this.reloadEndsAt === null
+      ? 0
+      : Math.max(
+          0,
+          Math.min(1, 1 - (this.reloadEndsAt - now) / Math.max(0.001, this.def.reloadTime)),
+        );
+  }
+
   get isEmpty(): boolean {
     return this.ammoInMag === 0;
   }

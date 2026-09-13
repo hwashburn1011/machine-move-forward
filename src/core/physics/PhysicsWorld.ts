@@ -28,6 +28,10 @@ export interface RaycastHit {
   collider: RAPIER.Collider;
   userData: unknown;
 }
+export interface SweepHit {
+  distance: number;
+  collider: RAPIER.Collider;
+}
 
 export interface CharacterHandle {
   body: RAPIER.RigidBody;
@@ -47,7 +51,11 @@ export class PhysicsWorld {
 
   /** Rapier colliders cannot carry JS payloads, so identity lives here. */
   private readonly userData = new Map<number, unknown>();
+  /** Bodies created by the single-box helpers are owned by their colliders. */
+  private readonly boxBodies = new Set<number>();
   private readonly scratchRay: RAPIER.Ray;
+  private readonly cameraBall: RAPIER.Ball;
+  private readonly queryRotation = { x: 0, y: 0, z: 0, w: 1 };
 
   constructor() {
     if (!rapierReady) {
@@ -60,6 +68,7 @@ export class PhysicsWorld {
     this.world.timestep = FIXED_DT;
 
     this.scratchRay = new RAPIER.Ray({ x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: -1 });
+    this.cameraBall = new RAPIER.Ball(0.15);
   }
 
   step(): void {
@@ -184,6 +193,7 @@ export class PhysicsWorld {
       bodyDesc.setRotation({ x: q.x, y: q.y, z: q.z, w: q.w });
     }
     const body = this.world.createRigidBody(bodyDesc);
+    this.boxBodies.add(body.handle);
     const collider = this.world.createCollider(
       RAPIER.ColliderDesc.cuboid(halfExtents.x, halfExtents.y, halfExtents.z),
       body,
@@ -207,6 +217,7 @@ export class PhysicsWorld {
         .setTranslation(position.x, position.y, position.z)
         .setRotation({ x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w }),
     );
+    this.boxBodies.add(body.handle);
     const collider = this.world.createCollider(
       RAPIER.ColliderDesc.cuboid(halfExtents.x, halfExtents.y, halfExtents.z),
       body,
@@ -309,6 +320,7 @@ export class PhysicsWorld {
     direction: THREE.Vector3,
     maxDistance: number,
     exclude?: RAPIER.Collider,
+    predicate?: (collider: RAPIER.Collider) => boolean,
   ): RaycastHit | null {
     this.scratchRay.origin.x = origin.x;
     this.scratchRay.origin.y = origin.y;
@@ -324,6 +336,8 @@ export class PhysicsWorld {
       undefined,
       undefined,
       exclude,
+      undefined,
+      predicate,
     );
     if (!hit) return null;
 
@@ -341,17 +355,69 @@ export class PhysicsWorld {
     };
   }
 
+  /** Camera-only volume query; never changes world colliders or their masks. */
+  sweepSphere(
+    origin: THREE.Vector3,
+    direction: THREE.Vector3,
+    distance: number,
+    radius: number,
+    exclude?: RAPIER.Collider,
+  ): SweepHit | null {
+    if (!Number.isFinite(radius) || radius <= 0 || !Number.isFinite(distance) || distance <= 0)
+      return null;
+    this.cameraBall.radius = radius;
+    const hit = this.world.castShape(
+      origin,
+      this.queryRotation,
+      direction,
+      this.cameraBall,
+      0.005,
+      distance,
+      true,
+      RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,
+      undefined,
+      exclude,
+    );
+    if (!hit || hit.collider === exclude) return null;
+    return { distance: Math.max(0, hit.time_of_impact), collider: hit.collider };
+  }
+
+  overlapsSphere(position: THREE.Vector3, radius: number, exclude?: RAPIER.Collider): boolean {
+    this.cameraBall.radius = radius;
+    return (
+      this.world.intersectionWithShape(
+        position,
+        this.queryRotation,
+        this.cameraBall,
+        RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,
+        undefined,
+        exclude,
+      ) !== null
+    );
+  }
+
   removeCollider(collider: RAPIER.Collider): void {
+    const body = collider.parent();
     this.userData.delete(collider.handle);
     this.world.removeCollider(collider, true);
+    // Building replacement/removal owns only the returned collider. Reclaim
+    // its helper body too, while retaining explicitly owned shared bodies.
+    if (body && this.boxBodies.has(body.handle) && body.numColliders() === 0) {
+      this.boxBodies.delete(body.handle);
+      this.world.removeRigidBody(body);
+    }
   }
 
   removeBody(body: RAPIER.RigidBody): void {
+    for (let i = 0; i < body.numColliders(); i++)
+      this.userData.delete(body.collider(i).handle);
+    this.boxBodies.delete(body.handle);
     this.world.removeRigidBody(body);
   }
 
   dispose(): void {
     this.userData.clear();
+    this.boxBodies.clear();
     this.world.free();
   }
 }

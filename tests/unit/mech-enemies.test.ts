@@ -70,6 +70,9 @@ describe('mech encounter roster', () => {
         'attack',
         'death',
         'idle',
+        'polish_attack',
+        'polish_death',
+        'polish_hit',
         'run',
         'walk',
       ]);

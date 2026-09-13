@@ -1,0 +1,76 @@
+{
+  "url": "http://127.0.0.1:5201/?nolock=1&nomenu=1&quality=low&nospawn=1&notex=1&nomodel=1&nosound=1&seed=polish-build-storage",
+  "checks": [
+    {
+      "name": "game initializes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "B opens build catalog",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "build HUD is hidden while catalog owns cursor",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "catalog card selects a piece",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "build confirm does not fire weapon",
+      "ok": true,
+      "detail": "30/150 -> 30/150"
+    },
+    {
+      "name": "manual level control reaches lower deck",
+      "ok": true,
+      "detail": "Deck Plate8▪⚠ out-of-reachLower deck · ManualReach 99.3 / 12.0 mFacing north260 ▪ · 0 ⬡ · rooms 1 · enclosed 0G · rotate · level · auto · V · Escape · X"
+    },
+    {
+      "name": "build threat guard exposed for integration",
+      "ok": true,
+      "detail": "{\"supported\":true,\"before\":false}"
+    },
+    {
+      "name": "opens real crate transfer panel",
+      "ok": true,
+      "detail": "{\"ok\":true,\"id\":\"bp-3\"}"
+    },
+    {
+      "name": "storage bulk controls are labeled",
+      "ok": true,
+      "detail": "Take all | Deposit matching | Sort"
+    },
+    {
+      "name": "Take All reports partial overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Take All conserves items and leaves exact overflow",
+      "ok": true,
+      "detail": "{\"before\":{\"supported\":true,\"id\":\"bp-3\",\"invScrap\":95,\"crateScrap\":20},\"after\":{\"inv\":100,\"crate\":15}}"
+    },
+    {
+      "name": "Deposit Matching conserves and moves only matching items",
+      "ok": true,
+      "detail": "{\"before\":{\"inv\":3,\"crate\":5,\"unmatched\":7},\"after\":{\"inv\":0,\"crate\":8}}"
+    },
+    {
+      "name": "Sort conserves crate totals and produces deterministic actual order",
+      "ok": true,
+      "detail": "{\"before\":{\"fuel\":2,\"scrap\":4,\"components\":3},\"first\":{\"ids\":[\"components\",\"fuel\",\"scrap\"],\"totals\":{\"components\":3,\"fuel\":2,\"scrap\":4}},\"second\":[\"components\",\"fuel\",\"scrap\"]}"
+    },
+    {
+      "name": "storage panel invalidates when target is destroyed",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "errors": []
+}

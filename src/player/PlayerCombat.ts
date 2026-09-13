@@ -70,6 +70,14 @@ export class PlayerCombat {
     return this.weapons.get(this.currentId) as Weapon;
   }
 
+  get presentation(): Readonly<{ weaponId: string; reloading: boolean; reloadProgress: number }> {
+    return {
+      weaponId: this.currentId,
+      reloading: this.current.reloading,
+      reloadProgress: this.current.reloadProgress(this.time),
+    };
+  }
+
   /** Current cone half-angle in degrees, accounting for aim. */
   currentSpread(aiming: boolean): number {
     return aiming ? this.current.def.aimSpread : this.current.def.spread;

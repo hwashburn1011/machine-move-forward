@@ -28,3 +28,5 @@ __pycache__/
 /assets/desert-ruins/unreal/Saved/
 /assets/desert-ruins/unreal/Config/
 /assets/desert-ruins/source/*.log
+/assets/animation-polish/exports/
+/assets/animation-polish/optimized/*.glb

@@ -14,6 +14,10 @@ export interface PanelContext {
   storageLabel?: string;
   /** Crafting mode: whose recipe list to show. */
   station?: StationId;
+  /** Stable identity for the open world target; invalidation closes safely. */
+  targetId?: string;
+  isTargetValid?: () => boolean;
+  actionLabel?: (action: string) => string;
 }
 
 export interface InventoryUIState {
@@ -30,6 +34,8 @@ export interface InventoryUIState {
   stationNote?: string | null;
   /** Infinite ammo keeps dead ammo recipes out of the crafting surface. */
   infiniteAmmo?: boolean;
+  /** Optional truthful result from the last bulk operation. */
+  transferFeedback?: string | null;
 }
 
 export interface InventoryUICallbacks {
@@ -39,6 +45,9 @@ export interface InventoryUICallbacks {
   /** Use or fit whatever is in a player slot. */
   useSlot: (slotIndex: number) => void;
   craft: (recipeId: string) => void;
+  takeAll?: () => void;
+  depositMatching?: () => void;
+  sort?: () => void;
   close: () => void;
 }
 
@@ -108,6 +117,9 @@ export class InventoryUI {
   setMode(mode: PanelMode, context: PanelContext = {}): void {
     this.mode = mode;
     this.context = context;
+    const hint = this.root.querySelector<HTMLElement>('.inv-hint');
+    if (hint && context.actionLabel)
+      hint.textContent = `[${context.actionLabel('inventory')}] or [${context.actionLabel('cancel')}] to close ×`;
     this.signature = '';
     this.root.style.display = mode === 'closed' ? 'none' : 'block';
     this.heading.textContent = context.title ?? 'Inventory';
@@ -116,19 +128,25 @@ export class InventoryUI {
   /** Rebuilds only when something the panel shows has actually changed. */
   update(state: InventoryUIState): void {
     if (this.mode === 'closed') return;
+    if (this.context.isTargetValid && !this.context.isTargetValid()) {
+      this.setMode('closed');
+      this.callbacks.close();
+      return;
+    }
 
     const signature = this.signatureFor(state);
     if (signature === this.signature) return;
     this.signature = signature;
 
-    this.body.innerHTML = this.mode === 'crafting' ? this.craftingHtml(state) : this.slotsHtml();
+    this.body.innerHTML =
+      this.mode === 'crafting' ? this.craftingHtml(state) : this.slotsHtml(state.transferFeedback);
   }
 
   // -------------------------------------------------------------------------
   // Rendering
   // -------------------------------------------------------------------------
 
-  private slotsHtml(): string {
+  private slotsHtml(feedback?: string | null): string {
     const player = `
       <div class="inv-side">
         <div class="inv-side-label">Carried &middot; ${this.inventory.totalWeight().toFixed(1)} kg</div>
@@ -137,7 +155,7 @@ export class InventoryUI {
 
     const storage = this.context.crate ?? this.context.buffer;
     if (this.mode !== 'transfer' || !storage) {
-      return `${player}<div class="inv-foot">Click a kit, a drink, a meal or a mod to use it.</div>`;
+      return `${player}<div class="inv-actions inv-actions-plain"><button data-action="sort" ${this.callbacks.sort ? '' : 'disabled'}>Sort</button></div><div class="inv-foot">Click a kit, a drink, a meal or a mod to use it.</div>`;
     }
 
     return `
@@ -148,7 +166,7 @@ export class InventoryUI {
           ${this.gridHtml(storage, 'crate')}
         </div>
       </div>
-      <div class="inv-foot">Click moves a stack &middot; shift-click moves one.</div>`;
+      <div class="inv-actions"><button data-action="take-all" ${this.callbacks.takeAll ? '' : 'disabled'}>Take all</button><button data-action="deposit-matching" ${this.callbacks.depositMatching ? '' : 'disabled'}>Deposit matching</button><button data-action="sort" ${this.callbacks.sort ? '' : 'disabled'}>Sort</button></div>${feedback ? `<div class="inv-feedback" role="status">${feedback}</div>` : ''}<div class="inv-foot">Click moves a stack · shift-click moves one.</div>`;
   }
 
   private gridHtml(container: Container, side: 'player' | 'crate'): string {
@@ -210,6 +228,7 @@ export class InventoryUI {
       this.context.station ?? '',
       this.context.title ?? '',
       state.stationNote ?? '',
+      state.transferFeedback ?? '',
       state.infiniteAmmo ? 'infinite-ammo' : 'finite-ammo',
     ];
 
@@ -241,6 +260,19 @@ export class InventoryUI {
 
     if (target.closest('[data-close]')) {
       this.callbacks.close();
+      return;
+    }
+    const action = target.closest<HTMLElement>('[data-action]')?.dataset.action;
+    if (action === 'take-all') {
+      this.callbacks.takeAll?.();
+      return;
+    }
+    if (action === 'deposit-matching') {
+      this.callbacks.depositMatching?.();
+      return;
+    }
+    if (action === 'sort') {
+      this.callbacks.sort?.();
       return;
     }
 

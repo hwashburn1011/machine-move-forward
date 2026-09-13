@@ -19,6 +19,20 @@ import { PlayerStats } from './PlayerStats';
 import { Needs } from './Needs';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { PlayerVisual } from './PlayerVisual';
+import type { GroundSampler } from './PlayerFootPlacement';
+
+export interface PlayerPresentationState {
+  readonly velocity: Readonly<{ x: number; y: number; z: number }>;
+  readonly grounded: boolean;
+  readonly crouching: boolean;
+  readonly armed: boolean;
+  readonly aiming: boolean;
+  readonly aimPitch: number;
+  readonly aimYaw: number;
+  readonly weaponId: string | null;
+  readonly reloading: boolean;
+  readonly reloadProgress: number;
+}
 
 /**
  * The player character.
@@ -39,17 +53,26 @@ export class Player {
   readonly needs = new Needs();
 
   private visual: PlayerVisual;
+  private groundSampler: GroundSampler | null = null;
 
   private readonly handle: CharacterHandle;
   private readonly position = new THREE.Vector3();
   private readonly previousPosition = new THREE.Vector3();
   private readonly renderPosition = new THREE.Vector3();
   private readonly desired = new THREE.Vector3();
+  /** Resolved self motion for animation only; gameplay speed remains intent-based. */
+  private readonly resolvedSelfVelocity = new THREE.Vector3();
   /** This step's own movement, kept off the hot path's allocator. */
   private readonly own = new THREE.Vector3();
   private verticalVelocity = 0;
   private grounded = false;
   private crouching = false;
+  private aiming = false;
+  private aimPitch = 0;
+  private aimYaw = 0;
+  private reloading = false;
+  private reloadProgress = 0;
+  private readonly presentationVelocity = new THREE.Vector3();
   /**
    * Heading, in the same convention as everything else: local +Z along it.
    *
@@ -101,6 +124,7 @@ export class Player {
     // The rig changed under it, so whatever was in the old hand is gone with
     // the old skeleton. Put it back on the new one.
     this.visual.setHeldWeapon(this.heldWeaponId, this.heldWeaponModel);
+    this.visual.setGroundSampler(this.groundSampler);
   }
 
   /**
@@ -149,6 +173,51 @@ export class Player {
     return this.desired.length();
   }
 
+  get presentationState(): PlayerPresentationState {
+    this.setPresentationVelocity(this.facing);
+    return {
+      velocity: { x: this.presentationVelocity.x, y: 0, z: this.presentationVelocity.z },
+      grounded: this.grounded,
+      crouching: this.crouching,
+      armed: this.heldWeaponId !== null,
+      aiming: this.aiming,
+      aimPitch: this.aimPitch,
+      aimYaw: this.aimYaw,
+      weaponId: this.heldWeaponId,
+      reloading: this.reloading,
+      reloadProgress: this.reloadProgress,
+    };
+  }
+
+  /** Presentation-only weapon clock snapshot supplied by the owning combat loop. */
+  setWeaponPresentation(state: {
+    aiming?: boolean;
+    pitch?: number;
+    yaw?: number;
+    reloading?: boolean;
+    reloadProgress?: number;
+  }): void {
+    this.aiming = state.aiming ?? this.aiming;
+    this.aimPitch = state.pitch ?? this.aimPitch;
+    this.aimYaw = state.yaw ?? this.aimYaw;
+    this.reloading = state.reloading ?? this.reloading;
+    this.reloadProgress = Math.max(0, Math.min(1, state.reloadProgress ?? this.reloadProgress));
+    this.visual.setCombatPresentation({
+      weaponId: this.heldWeaponId,
+      aiming: this.aiming,
+      aimPitch: this.aimPitch,
+      aimYaw: this.aimYaw,
+      reloading: this.reloading,
+      reloadProgress: this.reloadProgress,
+    });
+  }
+
+  /** Root injects PhysicsWorld's read-only foot probe after construction. */
+  setGroundSampler(sampler: GroundSampler | null): void {
+    this.groundSampler = sampler;
+    this.visual.setGroundSampler(sampler);
+  }
+
   /** Diagnostics for the movement harness. */
   get debug(): { vy: number; grounded: boolean } {
     return { vy: this.verticalVelocity, grounded: this.grounded };
@@ -168,6 +237,7 @@ export class Player {
     // what makes death a state rather than a costume: without it a corpse
     // walks and shoots, because `damage` already refuses to hurt the dead.
     if (!this.stats.alive) {
+      this.resolvedSelfVelocity.set(0, 0, 0);
       this.deathTimer += dt;
       if (this.deathTimer >= RESPAWN_DELAY_S) this.respawn();
       return;
@@ -234,6 +304,13 @@ export class Player {
     this.own.set(this.desired.x * dt, this.verticalVelocity * dt, this.desired.z * dt);
     this.previousPosition.copy(this.position);
     this.grounded = this.physics.moveCharacter(this.handle, this.position, this.own, this.carry);
+    if (dt > 0 && Number.isFinite(dt))
+      this.resolvedSelfVelocity.set(
+        (this.position.x - this.previousPosition.x - this.carry.x) / dt,
+        0,
+        (this.position.z - this.previousPosition.z - this.carry.z) / dt,
+      );
+    else this.resolvedSelfVelocity.set(0, 0, 0);
 
     // Cancel accumulated fall speed on landing, or it makes the next jump feel
     // sticky and can punch the capsule through thin geometry.
@@ -258,14 +335,31 @@ export class Player {
     while (delta < -Math.PI) delta += Math.PI * 2;
     this.object3D.rotation.y = current + delta * (1 - Math.pow(0.75, dt * 60));
 
-    this.visual.setMotion(this.stats.alive ? this.speed : 0, this.grounded, this.crouching);
+    this.setPresentationVelocity(this.object3D.rotation.y);
+    this.visual.setMotion(
+      this.stats.alive ? this.resolvedSelfVelocity.length() : 0,
+      this.grounded,
+      this.crouching,
+      this.presentationVelocity,
+    );
     this.visual.update(dt);
+  }
+
+  private setPresentationVelocity(yaw: number): void {
+    const sin = Math.sin(yaw),
+      cos = Math.cos(yaw);
+    this.presentationVelocity.set(
+      cos * this.resolvedSelfVelocity.x - sin * this.resolvedSelfVelocity.z,
+      0,
+      sin * this.resolvedSelfVelocity.x + cos * this.resolvedSelfVelocity.z,
+    );
   }
 
   /** Seconds since the player was killed. Only meaningful while dead. */
   private deathTimer = 0;
 
   respawn(): void {
+    this.resolvedSelfVelocity.set(0, 0, 0);
     this.position.copy(this.spawn);
     this.previousPosition.copy(this.spawn);
     this.verticalVelocity = 0;
@@ -291,6 +385,7 @@ export class Player {
   }
 
   teleport(to: THREE.Vector3): void {
+    this.resolvedSelfVelocity.set(0, 0, 0);
     this.position.copy(to);
     this.previousPosition.copy(to);
     this.verticalVelocity = 0;
@@ -300,6 +395,7 @@ export class Player {
 
   /** Clear transient death state when a save restores a live player capsule. */
   restoreAfterLoad(): void {
+    this.resolvedSelfVelocity.set(0, 0, 0);
     this.deathTimer = 0;
     this.verticalVelocity = 0;
     this.grounded = false;

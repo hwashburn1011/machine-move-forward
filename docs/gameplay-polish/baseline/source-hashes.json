@@ -1,0 +1,62 @@
+[
+  {
+    "path": "src/data/enemies.ts",
+    "bytes": 6780,
+    "sha256": "6C889E68FCF86F45F48D62D39AD279932D9DA1D6BCD22C5751092AD4F4ECC580"
+  },
+  {
+    "path": "src/data/weapons.ts",
+    "bytes": 2117,
+    "sha256": "D673DCE22799D11A896F87DC089E1E7F0C9E2EBE98F90F401C27D27E27E99B7E"
+  },
+  {
+    "path": "src/save/SaveSchema.ts",
+    "bytes": 5059,
+    "sha256": "3B78C57FC8FFF2AFF4EB4ED98CB4E0B079D1CE957AF3BFFA7444BD813E874681"
+  },
+  {
+    "path": "src/game/constants.ts",
+    "bytes": 9934,
+    "sha256": "38B861C77A178E59FA9C41E9B01B32EF13574AD8767A2EDF2BCF6E6765940344"
+  },
+  {
+    "path": "src/vehicles/BoardingEncounter.ts",
+    "bytes": 7484,
+    "sha256": "9D1115A927BC51EBFFB07941025200F8C9E059A14A2BEC7F537D60634130DF48"
+  },
+  {
+    "path": "src/vehicles/GunboatEncounter.ts",
+    "bytes": 7596,
+    "sha256": "D160FFA622CC6B070E72B9E37A299ADEC3801229BA5D9A35ACAF249885703884"
+  },
+  {
+    "path": "src/enemies/RangedWindup.ts",
+    "bytes": 1027,
+    "sha256": "7E3582A863C0BC967465921FAAAE728551B1268D04A1B576B11F482ABACA6C7B"
+  },
+  {
+    "path": "public/models/authored/s07-player.glb",
+    "bytes": 5887692,
+    "sha256": "E5A73F7C6527C54CCCAD53083BC0101DC37A400BF803FF02F280178095EA3915"
+  },
+  {
+    "path": "public/models/authored/bastion.glb",
+    "bytes": 3939144,
+    "sha256": "4D73711D83F8ED2663455B30B2D50269548B918093DCB676E07651AFB3EABB64"
+  },
+  {
+    "path": "public/models/authored/revenant.glb",
+    "bytes": 3467912,
+    "sha256": "E09F7C759F5A91BECDCEDDAA2E0C9755BB49E6241A0A48B688B2937B5D85E928"
+  },
+  {
+    "path": "public/models/authored/warden.glb",
+    "bytes": 4861652,
+    "sha256": "EB28BF2DE9DCC0BFB522831F2C09D87780C725754AECF5CDE37D8DE6BA4EC1D8"
+  },
+  {
+    "path": "public/models/authored/sovereign.glb",
+    "bytes": 4682464,
+    "sha256": "9ADF2401FD23FFA3DD3E14831B4A803C6F6B308753CB041D212824F796BA9D8D"
+  }
+]

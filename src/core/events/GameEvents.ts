@@ -6,6 +6,7 @@ import type { FirstRunStep } from '@/game/FirstRunDirector';
 import type { BoardingPhase } from '@/vehicles/BoardingEncounter';
 import type { UpgradeBranch, UpgradeId } from '@/data/upgrades';
 import type { StoryPhase } from '@/story/StoryDirector';
+import type { Placement } from '@/building/BuildValidation';
 
 export type UnlockId = 'manual-turret' | 'automatic-salvage-collector' | 'automatic-defense-turret';
 export type ImpactSurface = 'flesh' | 'metal' | 'sand';
@@ -80,6 +81,7 @@ export type GameEvents = {
   'threat:phase': { phase: ThreatPhase; wavesSurvived: number };
 
   'build:placed': { instanceId: string; definitionId: string; cost: ItemCost };
+  'build:relocated': { instanceId: string; oldPlacement: Placement; newPlacement: Placement };
   /**
    * A machine subsystem took a hit, rate-limited to a cue rather than a tick.
    *

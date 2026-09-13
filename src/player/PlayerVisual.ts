@@ -19,7 +19,18 @@ import {
 } from '@/art/HeldItem';
 import { WEAPON_MODELS } from '@/data/weapon-models';
 import { WEAPONS } from '@/data/weapons';
-import { playerGait, type Gait } from './PlayerGait';
+import {
+  directionalBlend,
+  directionalMotion,
+  MOTION_DEADZONE,
+  playerGait,
+  type DirectionalMotion,
+  type Gait,
+} from './PlayerGait';
+import { authoredLocomotionSpeed, footContactWeight } from './AnimationProfile';
+import { PlayerFootPlacement, type GroundSampler } from './PlayerFootPlacement';
+import { playerCombatSnapshot, type PlayerCombatClock } from './WeaponPresentation';
+import { ReloadPresentation } from './ReloadPresentation';
 
 /**
  * How the player looks.
@@ -83,6 +94,19 @@ export class PlayerVisual {
   private recoilRecovery = 18;
   private readonly recoilOffset = new THREE.Vector3();
   private readonly recoilRotation = new THREE.Euler();
+  private footPlacement: PlayerFootPlacement | null = null;
+  private pendingFeet: { left: THREE.Object3D; right: THREE.Object3D } | null = null;
+  private footRig: import('./PlayerFootPlacement').FootRig = {};
+  private reloadLayer: ReloadPresentation | null = null;
+  private readonly activeDirectional: THREE.AnimationAction[] = [];
+  private readonly directionalTargets = new Map<THREE.AnimationAction, number>();
+  private directionalGait: 'walk' | 'run' | 'crouch_walk' | null = null;
+  private grounded = false;
+  private readonly stance = { left: 1, right: 1 };
+  private readonly aimBones: THREE.Object3D[] = [];
+  private aimPitch = 0;
+  private aimYaw = 0;
+  private readonly appliedAim = { pitch: 0, yaw: 0 };
 
   constructor(model: LoadedModel | null, materials: Materials) {
     if (!model) {
@@ -119,7 +143,37 @@ export class PlayerVisual {
         o.receiveShadow = true;
       }
     });
+    const leftFoot = scene.getObjectByName('foot_l') ?? scene.getObjectByName('Foot.L');
+    const rightFoot = scene.getObjectByName('foot_r') ?? scene.getObjectByName('Foot.R');
+    if (leftFoot && rightFoot) this.pendingFeet = { left: leftFoot, right: rightFoot };
+    const bone = (name: string) => scene.getObjectByName(name) ?? undefined;
+    this.footRig = {
+      pelvis: bone('pelvis'),
+      leftThigh: bone('thigh_l'),
+      rightThigh: bone('thigh_r'),
+      leftCalf: bone('calf_l'),
+      rightCalf: bone('calf_r'),
+    };
+    for (const name of ['spine', 'chest']) {
+      const bone = scene.getObjectByName(name) ?? scene.getObjectByName(name.replace('_', '.'));
+      if (bone) this.aimBones.push(bone);
+    }
     this.object3D.add(scene);
+    scene.updateWorldMatrix(true, true);
+    if (leftFoot && rightFoot) {
+      // The ankle joint is above the boot sole; probing it directly into the
+      // deck would bury the boots. Derive clearance from this fitted rig once.
+      this.footRig.soleHeight = Math.max(
+        0,
+        Math.min(
+          0.2,
+          (leftFoot.getWorldPosition(new THREE.Vector3()).y +
+            rightFoot.getWorldPosition(new THREE.Vector3()).y) /
+            2 +
+            FOOT_OFFSET,
+        ),
+      );
+    }
 
     // Found once. Walking the graph per weapon swap would be wasteful, and the
     // rig does not change under us.
@@ -154,6 +208,26 @@ export class PlayerVisual {
       this.clipNames.push(clip.name);
       this.actions.set(clip.name, this.mixer.clipAction(clip));
     }
+    this.reloadLayer = new ReloadPresentation(scene, model.clips);
+  }
+
+  setGroundSampler(sampler: GroundSampler | null): void {
+    this.footPlacement =
+      sampler && this.pendingFeet
+        ? new PlayerFootPlacement(
+            this.pendingFeet.left,
+            this.pendingFeet.right,
+            sampler,
+            this.footRig,
+          )
+        : null;
+  }
+
+  setCombatPresentation(clock: PlayerCombatClock): void {
+    const state = playerCombatSnapshot(clock);
+    this.aimPitch = Math.max(-1.1, Math.min(1.1, state.aimPitch));
+    this.aimYaw = Math.max(-0.8, Math.min(0.8, state.aimYaw));
+    this.reloadLayer?.setState(state.weaponId, state.reloading, state.reloadProgress);
   }
 
   /** True when the player is drawn as the character model. */
@@ -162,10 +236,58 @@ export class PlayerVisual {
   }
 
   /** Pick the gait from how fast the body is actually moving. */
-  setMotion(speed: number, grounded: boolean, crouching = false): void {
+  setMotion(
+    speed: number,
+    grounded: boolean,
+    crouching = false,
+    selfVelocity?: THREE.Vector3,
+  ): void {
+    this.grounded = grounded;
     if (!this.mixer) return;
     const next = playerGait(speed, grounded);
-    const key = this.isS07 ? s07MotionClip(speed, grounded, crouching, this.held !== null) : next;
+    const local = selfVelocity;
+    const key =
+      this.isS07 && local
+        ? `${this.held !== null ? 'armed' : 'unarmed'}_${directionalMotion(local.x, local.z, crouching, grounded)}`
+        : this.isS07
+          ? s07MotionClip(speed, grounded, crouching, this.held !== null)
+          : next;
+    if (
+      this.isS07 &&
+      local &&
+      this.held &&
+      grounded &&
+      Math.hypot(local.x, local.z) > MOTION_DEADZONE
+    ) {
+      const blend = directionalBlend(local.x, local.z);
+      const gait = crouching
+        ? 'crouch_walk'
+        : speed >= (PLAYER_WALK_SPEED + PLAYER_SPRINT_SPEED) / 2
+          ? 'run'
+          : 'walk';
+      const primary = this.actions.get(`armed_${gait}_${blend.primary}`);
+      if (primary) {
+        if (this.directionalGait !== gait) this.enterDirectionalGait(gait);
+        const weights = directionalWeights(blend);
+        const cadence = locomotionCadence(speed, gait, weights);
+        for (const direction of DIRECTIONS) {
+          const action = this.actions.get(`armed_${gait}_${direction}`);
+          if (!action) continue;
+          this.directionalTargets.set(action, weights[direction]);
+          action.setEffectiveTimeScale(cadence);
+        }
+        this.gait = key;
+        this.current = primary;
+        return;
+      }
+    }
+    if (this.activeDirectional.length) {
+      for (const active of this.activeDirectional) active.fadeOut(CROSS_FADE);
+      this.activeDirectional.length = 0;
+      this.directionalTargets.clear();
+      this.directionalGait = null;
+      this.current = null;
+    }
     if (key === this.gait) return;
     this.gait = key;
 
@@ -307,7 +429,37 @@ export class PlayerVisual {
 
   /** Advance the animation. Render step: `dt` is a frame delta, not a tick. */
   update(dt: number): void {
+    if (this.appliedAim.pitch !== 0 || this.appliedAim.yaw !== 0)
+      for (const bone of this.aimBones) {
+        bone.rotation.x -= this.appliedAim.pitch / this.aimBones.length;
+        bone.rotation.y -= this.appliedAim.yaw / this.aimBones.length;
+      }
+    this.footPlacement?.resetApplied();
+    this.reloadLayer?.resetApplied();
+    const weightBlend = 1 - Math.exp(-Math.max(0, dt) / CROSS_FADE);
+    for (const [action, target] of this.directionalTargets)
+      action.setEffectiveWeight(
+        THREE.MathUtils.lerp(action.getEffectiveWeight(), target, weightBlend),
+      );
     this.mixer?.update(dt);
+    this.reloadLayer?.apply();
+    if (this.aimBones.length) {
+      const pitch = Math.max(-0.32, Math.min(0.32, this.aimPitch * 0.3));
+      const yaw = Math.max(-0.24, Math.min(0.24, this.aimYaw * 0.3));
+      for (const bone of this.aimBones) {
+        bone.rotation.x += pitch / this.aimBones.length;
+        bone.rotation.y += yaw / this.aimBones.length;
+      }
+      this.appliedAim.pitch = pitch;
+      this.appliedAim.yaw = yaw;
+    }
+    const cycle = this.activeDirectional[0];
+    const phase = cycle ? (cycle.time / cycle.getClip().duration) % 1 : 0;
+    this.stance.right = this.directionalGait ? footContactWeight(phase, this.directionalGait) : 1;
+    this.stance.left = this.directionalGait
+      ? footContactWeight((phase + 0.5) % 1, this.directionalGait)
+      : 1;
+    this.footPlacement?.update(this.object3D.position, this.grounded, 1, this.stance);
     if (!this.recoilNode) return;
     const recovery = 1 - Math.exp(-Math.max(0, dt) * this.recoilRecovery);
     this.recoilOffset.multiplyScalar(1 - recovery);
@@ -322,6 +474,51 @@ export class PlayerVisual {
     this.mixer?.stopAllAction();
     this.actions.clear();
   }
+
+  private enterDirectionalGait(gait: 'walk' | 'run' | 'crouch_walk'): void {
+    let phase = 0;
+    const reference = this.activeDirectional[0];
+    if (reference) phase = (reference.time / Math.max(reference.getClip().duration, 1e-6)) % 1;
+    for (const active of this.activeDirectional) active.fadeOut(CROSS_FADE);
+    this.activeDirectional.length = 0;
+    this.directionalTargets.clear();
+    this.current?.fadeOut(CROSS_FADE);
+    for (const direction of DIRECTIONS) {
+      const action = this.actions.get(`armed_${gait}_${direction}`);
+      if (!action) continue;
+      action.reset().play();
+      action.time = phase * action.getClip().duration;
+      action.setEffectiveWeight(0);
+      this.activeDirectional.push(action);
+      this.directionalTargets.set(action, 0);
+    }
+    this.directionalGait = gait;
+  }
+}
+
+const DIRECTIONS: readonly DirectionalMotion[] = ['fwd', 'back', 'left', 'right'];
+export function directionalWeights(
+  blend: ReturnType<typeof directionalBlend>,
+): Record<DirectionalMotion, number> {
+  const weights = { fwd: 0, back: 0, left: 0, right: 0 };
+  weights[blend.primary] = blend.secondary ? blend.primaryWeight : 1;
+  if (blend.secondary) weights[blend.secondary] = blend.secondaryWeight;
+  return weights;
+}
+export function locomotionCadence(
+  speed: number,
+  gait: 'walk' | 'run' | 'crouch_walk',
+  weights: Record<DirectionalMotion, number>,
+): number {
+  const reference = DIRECTIONS.reduce(
+    (sum, direction) => sum + weights[direction] * authoredLocomotionSpeed(gait, direction),
+    0,
+  );
+  return THREE.MathUtils.clamp(
+    Number.isFinite(speed) && reference > 1e-6 ? Math.abs(speed) / reference : 1,
+    0.1,
+    2.5,
+  );
 }
 
 /** Exact names avoid matching an unarmed clip through the substring "armed". */

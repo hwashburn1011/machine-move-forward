@@ -1,0 +1,66 @@
+{
+  "url": "http://127.0.0.1:5201/?nolock=1&nomenu=1&quality=low&nospawn=1&notex=1&nomodel=1&nosound=1&seed=build-invariants",
+  "checks": [
+    {
+      "name": "physical endpoint resolves at 4m",
+      "ok": true,
+      "detail": "{\"distance\":4,\"angle\":0,\"rejection\":null,\"placement\":{\"piece\":\"floor\",\"cell\":{\"x\":0,\"y\":0,\"z\":0},\"rotation\":0}}"
+    },
+    {
+      "name": "physical endpoint resolves at 8m",
+      "ok": true,
+      "detail": "{\"distance\":8,\"angle\":0.39269908169872414,\"rejection\":null,\"placement\":{\"piece\":\"floor\",\"cell\":{\"x\":0,\"y\":0,\"z\":0},\"rotation\":0}}"
+    },
+    {
+      "name": "physical endpoint resolves at 11m",
+      "ok": true,
+      "detail": "{\"distance\":11,\"angle\":0.39269908169872414,\"rejection\":null,\"placement\":{\"piece\":\"floor\",\"cell\":{\"x\":0,\"y\":0,\"z\":0},\"rotation\":0}}"
+    },
+    {
+      "name": "physical endpoint rejects beyond 12m",
+      "ok": true,
+      "detail": "{\"distance\":12.6,\"angle\":0,\"rejection\":\"out-of-reach\",\"placement\":{\"piece\":\"floor\",\"cell\":{\"x\":0,\"y\":0,\"z\":0},\"rotation\":0}}"
+    },
+    {
+      "name": "real LMB places floor on level -2",
+      "ok": true,
+      "detail": "{\"level\":-2,\"wanted\":{\"x\":-3,\"y\":-2,\"z\":-4},\"cameraAt\":{\"x\":-2,\"y\":10.34,\"z\":-8},\"target\":{\"placement\":{\"piece\":\"floor\",\"cell\":{\"x\":-3,\"y\":-2,\"z\":-4},\"rotation\":0},\"rejection\":null},\"placed\":true}"
+    },
+    {
+      "name": "real LMB places floor on level -1",
+      "ok": true,
+      "detail": "{\"level\":-1,\"wanted\":{\"x\":-3,\"y\":-1,\"z\":-4},\"cameraAt\":{\"x\":-2,\"y\":13.34,\"z\":-8},\"target\":{\"placement\":{\"piece\":\"floor\",\"cell\":{\"x\":-3,\"y\":-1,\"z\":-4},\"rotation\":0},\"rejection\":null},\"placed\":true}"
+    },
+    {
+      "name": "real LMB places floor on level 0",
+      "ok": true,
+      "detail": "{\"level\":0,\"wanted\":{\"x\":-4,\"y\":0,\"z\":-4},\"cameraAt\":{\"x\":-4,\"y\":16.34,\"z\":-8},\"target\":{\"placement\":{\"piece\":\"floor\",\"cell\":{\"x\":-4,\"y\":0,\"z\":-4},\"rotation\":0},\"rejection\":null},\"placed\":true}"
+    },
+    {
+      "name": "V selects the aimed crate",
+      "ok": true,
+      "detail": "{\"relocationSetup\":{\"id\":\"bp-7\",\"destinationFloorId\":\"bp-6\",\"before\":[{\"itemId\":\"scrap\",\"count\":20},{\"itemId\":\"components\",\"count\":10},{\"itemId\":\"fuel\",\"count\":5},null,null,null,null,null,null,null,null,null],\"aimed\":null,\"cameraAt\":{\"x\":7.695518130045146,\"z\":4.469266270539638,\"overhead\":false},\"oldCell\":{\"x\":2,\"y\":0,\"z\":3},\"context\":\"build-placement\",\"paused\":false,\"canRelocate\":{\"ok\":true,\"instance\":{\"instanceId\":\"bp-7\",\"definitionId\":\"crate\",\"cell\":{\"x\":2,\"y\":0,\"z\":3},\"rotation\":0,\"health\":110},\"oldPlacement\":{\"piece\":\"crate\",\"cell\":{\"x\":2,\"y\":0,\"z\":3},\"rotation\":0},\"newPlacement\":{\"piece\":\"crate\",\"cell\":{\"x\":2,\"y\":0,\"z\":3},\"rotation\":0}},\"rawHit\":{\"distance\":5.6988630294799805,\"userData\":{\"kind\":\"machine\"},\"point\":{\"x\":2.6189160773045828,\"y\":14.828909521884446,\"z\":6.572063691555879}}},\"relocationInput\":{\"aimedImmediately\":\"bp-7\",\"before\":{\"pressed\":[\"relocate\"],\"held\":[\"key:KeyV\"],\"suppressed\":[]},\"after\":{\"pressed\":[],\"state\":\"relocation\"}}}"
+    },
+    {
+      "name": "LMB relocation preserves crate id and full contents",
+      "ok": true,
+      "detail": "{\"live\":true,\"id\":\"bp-7\",\"cell\":{\"x\":3,\"y\":0,\"z\":3},\"after\":[{\"itemId\":\"scrap\",\"count\":20},{\"itemId\":\"components\",\"count\":10},{\"itemId\":\"fuel\",\"count\":5},null,null,null,null,null,null,null,null,null],\"state\":\"placement\"}"
+    },
+    {
+      "name": "hostile cancels held-confirm build without firing",
+      "ok": true,
+      "detail": "{\"beforeThreat\":{\"ammo\":\"30/150\",\"pieces\":3},\"afterThreat\":{\"ammo\":\"30/150\",\"pieces\":3,\"buildMode\":false}}"
+    },
+    {
+      "name": "catalog hostile interruption pauses atomically with held fire suppressed",
+      "ok": true,
+      "detail": "{\"catalogBefore\":{\"ammo\":30,\"simTime\":3.383333333333326,\"state\":\"catalog\",\"buildMode\":true},\"catalogAfter\":{\"ammo\":30,\"simTime\":3.383333333333326,\"paused\":true,\"buildMode\":false,\"session\":\"closed\"}}"
+    },
+    {
+      "name": "save/load excludes preview and closes build session",
+      "ok": true,
+      "detail": "{\"saved\":true,\"loaded\":true,\"same\":true,\"before\":[{\"instanceId\":\"bp-5\",\"definitionId\":\"floor\",\"cell\":{\"x\":2,\"y\":0,\"z\":3},\"rotation\":0,\"health\":120},{\"instanceId\":\"bp-6\",\"definitionId\":\"floor\",\"cell\":{\"x\":3,\"y\":0,\"z\":3},\"rotation\":0,\"health\":120},{\"instanceId\":\"bp-7\",\"definitionId\":\"crate\",\"cell\":{\"x\":3,\"y\":0,\"z\":3},\"rotation\":0,\"health\":110,\"state\":{\"slots\":[{\"itemId\":\"scrap\",\"count\":20},{\"itemId\":\"components\",\"count\":10},{\"itemId\":\"fuel\",\"count\":5},null,null,null,null,null,null,null,null,null]}}],\"after\":[{\"instanceId\":\"bp-5\",\"definitionId\":\"floor\",\"cell\":{\"x\":2,\"y\":0,\"z\":3},\"rotation\":0,\"health\":120},{\"instanceId\":\"bp-6\",\"definitionId\":\"floor\",\"cell\":{\"x\":3,\"y\":0,\"z\":3},\"rotation\":0,\"health\":120},{\"instanceId\":\"bp-7\",\"definitionId\":\"crate\",\"cell\":{\"x\":3,\"y\":0,\"z\":3},\"rotation\":0,\"health\":110,\"state\":{\"slots\":[{\"itemId\":\"scrap\",\"count\":20},{\"itemId\":\"components\",\"count\":10},{\"itemId\":\"fuel\",\"count\":5},null,null,null,null,null,null,null,null,null]}}],\"buildMode\":false,\"session\":\"closed\"}"
+    }
+  ],
+  "browserErrors": []
+}

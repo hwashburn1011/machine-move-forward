@@ -14,6 +14,8 @@ import {
 } from '@/core/renderer/QualitySettings';
 import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import { InputManager } from '@/core/input/InputManager';
+import { withBindingOverrides, type BindingAction, type InputContext } from '@/core/input/Bindings';
+import { loadSettings } from '@/core/settings/SettingsStore';
 import { EventBus } from '@/core/events/EventBus';
 import { DebugOverlay } from '@/core/debug/DebugOverlay';
 import { Sky } from '@/art/Sky';
@@ -42,6 +44,7 @@ import { RepairSystem, type RepairTarget } from '@/interaction/RepairSystem';
 import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
 import { PlayerCamera } from '@/player/PlayerCamera';
+import { PlayerFade } from '@/player/PlayerFade';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { isDamageable, type Damageable } from '@/combat/Damageable';
 import { EnemyManager } from '@/enemies/EnemyManager';
@@ -67,6 +70,15 @@ import {
   type Interactable,
 } from '@/interaction/InteractionSystem';
 import { InventoryUI } from '@/ui/InventoryUI';
+import { takeAll, depositMatching, sortContainer } from '@/items/ContainerTransfer';
+import { InteractionHighlight } from '@/interaction/InteractionHighlight';
+import { MachineStatusView } from '@/ui/MachineStatusView';
+import { BuildCatalog } from '@/ui/BuildCatalog';
+import { BuildSession, type BuildCloseReason } from '@/building/BuildSession';
+import { BuildCombatGuard, type ThreatSource } from '@/building/BuildCombatGuard';
+import { selectAutoLevel, type BuildTargetInput } from '@/building/BuildTargeting';
+import { pieceColliders } from '@/building/BuildPieceGeometry';
+import { subsystemRepairCost } from '@/building/RepairPricing';
 import { BuildSystem } from '@/building/BuildSystem';
 import { BuildPreview } from '@/building/BuildPreview';
 import { LampLights, type LampSample } from '@/building/LampLights';
@@ -95,6 +107,7 @@ import {
   DESERT_FLOOR_HALF_Z,
   DESERT_FLOOR_Y,
   GRID_LEVELS,
+  GRID_MIN_LEVEL,
   GRID_TILE,
   LOST_IN_THE_DESERT_S,
   LEVEL_HEIGHT,
@@ -309,6 +322,29 @@ export class Game implements LoopCallbacks {
   readonly lampLights: LampLights;
   readonly buildPreview: BuildPreview;
   readonly buildUI: BuildUI;
+  readonly buildCatalog: BuildCatalog;
+  readonly buildSession = new BuildSession();
+  readonly buildGuard = new BuildCombatGuard();
+  readonly machineStatus: MachineStatusView;
+  private readonly interactionHighlight = new InteractionHighlight();
+  private readonly playerFade = new PlayerFade();
+  private transferFeedback: string | null = null;
+  private inventoryTargetId: string | null = null;
+  private demolitionTargetId: string | null = null;
+  private demolitionSeconds = 0;
+  private aimedBuildId: string | null = null;
+  private buildMessage = '';
+  private readonly pendingBuildDamage = new Set<ThreatSource>();
+  private readonly buildSubsystemHealth = new Map<SubsystemId, number>();
+  private lastPlayerHealth = Number.POSITIVE_INFINITY;
+  private lockRequestPending = false;
+  private nextStatusUpdateAt = 0;
+  private cancelControlRequest: (() => void) | null = null;
+  private readonly buildViewOrigin = new THREE.Vector3();
+  private readonly buildViewDirection = new THREE.Vector3();
+  private readonly buildChest = new THREE.Vector3();
+  private readonly buildRayDirection = new THREE.Vector3();
+  private readonly down = new THREE.Vector3(0, -1, 0);
   readonly crafting: CraftingSystem;
   readonly interaction = new InteractionSystem(INTERACT_REACH);
   readonly inventoryUI: InventoryUI;
@@ -567,6 +603,25 @@ export class Game implements LoopCallbacks {
         try {
           game.post.setCamera(warmCrewCamera);
           game.post.render(0, game.renderer.scene, warmCrewCamera);
+          // A close camera can first occur amid eight boarding enemies. Compile
+          // the local-player transparency variants during loading, including
+          // the composer's normal/depth passes, before that crowded frame.
+          const playerPosition = game.player.object3D.position.clone();
+          try {
+            game.player.object3D.position.set(0, 30, 1);
+            game.playerFade.apply(game.player.object3D, 1.35, 1);
+            await warmAuthoredGraphics(
+              game.renderer.three,
+              game.renderer.scene,
+              warmCrewCamera,
+              [],
+              warmCrewCamera,
+            );
+            game.post.render(0, game.renderer.scene, warmCrewCamera);
+          } finally {
+            game.playerFade.restore();
+            game.player.object3D.position.copy(playerPosition);
+          }
         } finally {
           for (const enemy of warmEnemies) enemy.finishWarmup();
         }
@@ -659,6 +714,21 @@ export class Game implements LoopCallbacks {
       this.machine.deckSpawn,
     );
     this.playerCamera = new PlayerCamera(window.innerWidth / window.innerHeight);
+    this.player.setGroundSampler({
+      sample: (origin, maxDistance) => {
+        const hit = this.physics.raycast(
+          origin,
+          this.down,
+          maxDistance,
+          this.player.collider,
+          (collider) =>
+            !collider.isSensor() &&
+            (this.physics.getUserData(collider) as { kind?: string } | undefined)?.kind !== 'enemy',
+        );
+        return hit ? { hit: true, point: hit.point, normal: hit.normal } : { hit: false };
+      },
+    });
+    this.renderer.scene.add(this.interactionHighlight.object);
     this.renderer.extraCameras.push(this.playerCamera.camera);
 
     this.combat = new PlayerCombat(this.bus, this.physics);
@@ -819,7 +889,11 @@ export class Game implements LoopCallbacks {
       this.resources,
     );
     this.build.setBuildAuthorization((piece) => canBuildPiece(piece, this.progression));
-    this.build.setBuildBlocker((placement) => this.expeditionBuildBlock(placement));
+    this.build.setBuildBlocker(
+      (placement) =>
+        this.expeditionBuildBlock(placement) ??
+        (this.placementOverlapsActor(placement) ? { ok: false, reason: 'needs-clearance' } : null),
+    );
     this.lampLights = new LampLights(this.renderer.scene, this.quality.lampLights);
     this.buildPreview = new BuildPreview(this.renderer.scene);
     // Before the starting structures are laid, so the generator they include
@@ -1100,12 +1174,27 @@ export class Game implements LoopCallbacks {
     this.hud = new HUD(options.hudRoot, this.bus);
     this.defenseHUD = new DefenseHUD(options.hudRoot);
     this.buildUI = new BuildUI(options.hudRoot);
+    this.buildCatalog = new BuildCatalog(options.hudRoot, {
+      select: (piece) => this.selectBuildPiece(piece),
+      category: (category) => {
+        this.buildCategory = category;
+      },
+      close: () => this.exitBuildMode('user'),
+    });
+    this.machineStatus = new MachineStatusView(options.hudRoot);
     this.inventoryUI = new InventoryUI(options.hudRoot, this.inventory, {
       moveToCrate: (slot, all) => this.transfer('player', slot, all),
       moveToPlayer: (slot, all) => this.transfer('crate', slot, all),
       useSlot: (slot) => this.useSlot(slot),
       craft: (recipeId) => this.crafting.craft(recipeId),
       close: () => this.closePanels(),
+      takeAll: () => this.bulkTransfer('take'),
+      depositMatching: () => this.bulkTransfer('deposit'),
+      sort: () => {
+        if (!this.validInventoryTarget()) return;
+        sortContainer(this.inventoryUI.currentCrate ?? this.inventory);
+        this.transferFeedback = 'Sorted by category and name';
+      },
     });
     this.radioUI = new RadioUI(
       options.hudRoot,
@@ -1148,13 +1237,17 @@ export class Game implements LoopCallbacks {
       });
       this.applySettings(this.titleScreen.current);
     }
+    if (!this.titleScreen) this.applySettings(loadSettings());
+    this.bus.on('build:damaged', () => this.pendingBuildDamage.add('construction-damage'));
 
     // Crafted rounds go straight to the gun that fires them, so the HUD
     // reserve rises on the same click that spent the materials.
     this.bus.on('craft:completed', ({ recipeId }) => this.autoLoadAmmo(recipeId));
     // Off the event, not polled, so the model in the hand and the name on the
     // HUD change on the same tick and cannot disagree about what is held.
-    this.bus.on('weapon:equipped', () => this.equipHeldWeapon());
+    this.bus.on('weapon:equipped', () => {
+      this.equipHeldWeapon();
+    });
     this.bus.on('opening:phase', ({ phase }) => {
       if (phase !== 'done' || this.playableStartedAt !== null) return;
       this.playableStartedAt = this.state.simTime;
@@ -1247,9 +1340,13 @@ export class Game implements LoopCallbacks {
 
     this.bus.on('player:died', () => {
       this.state.playerDead = true;
+      this.exitBuildMode('death');
+      this.playerFade.restore();
     });
     this.bus.on('player:respawned', () => {
       this.state.playerDead = false;
+      this.playerCamera.resetHistory();
+      this.playerFade.restore();
     });
 
     window.addEventListener('resize', this.onResize);
@@ -1377,6 +1474,7 @@ export class Game implements LoopCallbacks {
    * save carries whatever generator the player actually has.
    */
   resetStructures(): void {
+    if (this.buildMode) this.exitBuildMode('load');
     // `clear` drops its instances wholesale rather than demolishing them, so
     // no `build:removed` fires and nothing would otherwise unregister.
     this.machine.power.clearDevices();
@@ -1434,6 +1532,9 @@ export class Game implements LoopCallbacks {
 
   fixedUpdate(dt: number): void {
     if (this.state.paused) return;
+    this.syncInputContext();
+    this.updateBuildGuard(dt);
+    if (this.state.paused) return;
     this.state.simTime += dt;
     if (this.state.simTime >= this.nextAutosaveAt) {
       if (!this.autosavePending) this.bus.emit('game:autosave-pending', {});
@@ -1455,6 +1556,7 @@ export class Game implements LoopCallbacks {
       return;
     }
     this.updatePanels(dt);
+    if (this.state.paused) return;
     // Build mode and the panels are mutually exclusive: both want LMB.
     if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
 
@@ -1508,7 +1610,7 @@ export class Game implements LoopCallbacks {
         this.player.carry.z = carried.z;
       }
 
-      if (this.defense.mounted)
+      if (this.defense.mounted || this.panelsOpen || this.buildSession.state === 'catalog')
         this.player.fixedUpdate(dt, this.idleInput, this.playerCamera.yawAngle);
       else this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
       // The camera follows where the player would be if the body were at rest,
@@ -1518,7 +1620,7 @@ export class Game implements LoopCallbacks {
       if (!this.defense.mounted) {
         this.playerCamera.fixedUpdate(
           dt,
-          this.input,
+          this.buildMode || this.panelsOpen ? this.buildCameraInput : this.input,
           this.machine.steadyPoint(this.player.worldPosition, this.cameraAnchor),
           this.physics,
           this.player.collider,
@@ -1533,8 +1635,12 @@ export class Game implements LoopCallbacks {
       // is: the answer up there is run.
       if (this.panelsOpen || this.state.playerDead || !this.armed || this.defense.mounted) {
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
-      } else if (this.buildMode) this.updateBuildMode();
-      else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
+      } else if (this.buildMode) {
+        this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
+        this.updateBuildMode(dt);
+      } else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
+      if (!this.buildMode && !this.panelsOpen && this.input.consumePressed('shoulder'))
+        this.playerCamera.swapShoulder();
 
       if (this.defense.mounted) {
         const look = this.input.consumeLook();
@@ -1627,6 +1733,7 @@ export class Game implements LoopCallbacks {
     // Last: resolve everything the kinematic bodies above just requested.
     this.physics.step();
 
+    this.updateBuildGuard(0);
     this.handleDebugKeys();
     if (!this.state.paused && this.opening.phase === 'done' && !this.state.playerDead) {
       this.sessionMetrics.advance(dt, {
@@ -1715,7 +1822,9 @@ export class Game implements LoopCallbacks {
 
   private beginSignalBattle(): void {
     if (this.signalBattle?.active) return;
-    this.closePanels();
+    this.exitBuildMode('cinematic');
+    this.playerFade.restore();
+    this.closePanels(false);
     this.defense.exit();
     this.input.clearAll();
     // Retire any unreleased ordinary wave; the radio now owns encounter pacing.
@@ -1740,6 +1849,8 @@ export class Game implements LoopCallbacks {
     this.renderer.sun.target.position.copy(this.normalSunTarget);
     this.renderer.setSunDirection(this.sky.direction);
     this.input.clearAll();
+    this.playerCamera.resetHistory();
+    this.playerFade.restore();
     this.setHudVisible(true);
     this.bus.emit('story:phase', { chapterId: 'wreck-one', phase: 'raids' });
     this.hud.setWarning('They saw us. Watch for grapples on both sides of the machine.');
@@ -1754,7 +1865,6 @@ export class Game implements LoopCallbacks {
       !this.pendingBoardingOutcome &&
       !this.scriptedGunboatPending &&
       !this.panelsOpen &&
-      !this.buildMode &&
       this.player.stats.health / this.player.stats.maxHealth >= 0.35 &&
       this.destination.playerOnMachine(this.player.worldPosition);
     const plan = this.radioRaids.update(dt, safe, this.state.seed);
@@ -2162,7 +2272,14 @@ export class Game implements LoopCallbacks {
     const frameDt = Math.min(this.clock.getDelta(), 0.1);
     const now = performance.now();
 
-    this.player.update(alpha, frameDt);
+    this.player.setWeaponPresentation({
+      ...this.combat.presentation,
+      reloading: !this.state.playerDead && this.combat.current.reloading,
+      aiming: this.playerCamera.isAiming,
+      pitch: this.playerCamera.pitchAngle,
+      yaw: 0,
+    });
+    this.player.update(alpha, this.state.paused ? 0 : frameDt);
     if (this.cinematicCamera || this.state.paused) {
       // A locked cursor can still move during a cutscene. Do not bank that
       // movement for the hand-back to the player; mounted look waits for its tick.
@@ -2170,7 +2287,15 @@ export class Game implements LoopCallbacks {
     } else if (!this.defense.mounted) {
       this.playerCamera.update(alpha, this.input);
     }
-    this.enemies.update(alpha, frameDt);
+    this.enemies.update(alpha, this.state.paused ? 0 : frameDt);
+    if (this.cinematicCamera || this.state.playerDead || this.defense.mounted)
+      this.playerFade.restore();
+    else
+      this.playerFade.apply(
+        this.player.object3D,
+        this.playerCamera.camera.position.distanceTo(this.player.worldPosition),
+        frameDt,
+      );
     // Whether a throw would catch something, asked of the same function the
     // throw itself uses -- a cue derived from different rules to the mechanic
     // is a cue that lies.
@@ -2264,7 +2389,17 @@ export class Game implements LoopCallbacks {
       canCraft: this.canCraft,
       stationNote: this.stationNote(),
       infiniteAmmo: this.combat.current.infiniteReserve,
+      transferFeedback: this.transferFeedback,
     });
+
+    this.updateMachineStatus();
+    if (this.buildSession.state === 'catalog')
+      this.buildCatalog.update({
+        category: this.buildCategory,
+        selected: this.selectedPiece,
+        canAfford: this.canAffordCost,
+        canBuild: this.canBuildSelectedPiece,
+      });
 
     if (this.buildMode) {
       this.buildUI.update({
@@ -2275,10 +2410,20 @@ export class Game implements LoopCallbacks {
         scrap: this.resources.count('scrap'),
         components: this.resources.count('components'),
         canAfford: this.canAffordCost,
-        canBuild: this.build.canBuildPiece.bind(this.build),
+        canBuild: this.canBuildSelectedPiece,
         validation: this.buildPreview.validation,
         roomCount: this.build.rooms.rooms.length,
         enclosedCount: countEnclosed(this.build.rooms),
+        range: this.buildPreview.target?.distance,
+        levelPinned: this.buildLevelPinned,
+        targetRejection: this.buildPreview.target?.rejection,
+        message: this.buildMessage,
+        relocation: this.buildSession.state === 'relocation',
+        aimedName: this.aimedBuildId
+          ? BUILD_PIECES[this.build.instance(this.aimedBuildId)!.definitionId].name
+          : '',
+        demolition: this.demolitionStatus(),
+        label: this.buildControlLabel,
       });
     }
 
@@ -2820,6 +2965,9 @@ export class Game implements LoopCallbacks {
   }
 
   private beginOpening(mode: OpeningMode): void {
+    this.exitBuildMode('cinematic');
+    this.playerCamera.resetHistory();
+    this.playerFade.restore();
     this.applyOpeningEffects(this.opening.begin(mode));
     this.bus.emit('opening:phase', { phase: this.opening.phase });
     this.refreshFirstRunObjective();
@@ -3030,7 +3178,7 @@ export class Game implements LoopCallbacks {
     this.pendingSaveAndQuit = false;
     this.nextAutosaveAt = this.state.simTime + 60;
     this.announcedNeeds = null;
-    this.closePanels();
+    this.closePanels(false);
     this.beginOpening('new-game');
   }
 
@@ -3060,16 +3208,20 @@ export class Game implements LoopCallbacks {
   /** `Esc` in play. The world genuinely stops behind it. */
   pause(): void {
     if (!this.titleScreen || this.titleScreen.isOpen) return;
+    this.exitBuildMode('pause');
     this.state.paused = true;
+    this.syncInputContext();
     this.releasePointerLock();
     this.titleScreen.show('pause');
   }
 
   resume(): void {
-    if (!this.titleScreen) return;
-    this.state.paused = false;
-    this.titleScreen.hide();
-    if (!this.options.bypassPointerLock) this.input.requestPointerLock();
+    this.requestControl(() => {
+      this.state.paused = false;
+      this.titleScreen?.hide();
+      this.syncInputContext();
+      this.input.suppressUntilReleased(['fire', 'aim', 'interact']);
+    });
   }
 
   /**
@@ -3094,6 +3246,12 @@ export class Game implements LoopCallbacks {
   private applySettings(settings: GameSettings): void {
     this.audio.setVolume(settings.volume);
     this.audio.setAmbienceVolume(settings.ambienceVolume);
+    this.playerCamera.setOptions(settings);
+    const maps = withBindingOverrides(settings.bindings);
+    // Open panels retain the configured inventory close key as well as Escape.
+    maps.menu.push(...maps.play.filter((binding) => binding.action === 'inventory'));
+    this.input.setBindings(maps);
+    this.hud.setControlLabels(this.controlLabel);
     // A `?quality=` in the URL is a deliberate override for a harness or a
     // screenshot, and must outrank a stored preference.
     if (settings.quality && !this.options.qualityTier) this.setQuality(settings.quality);
@@ -3117,8 +3275,10 @@ export class Game implements LoopCallbacks {
    * what is being held.
    */
   equipHeldWeapon(): void {
+    this.playerFade.restore();
     const id = this.combat.current.def.id;
     this.player.setHeldWeapon(id, this.weaponModels.get(id) ?? null);
+    this.playerFade.retainFor(this.player.object3D);
   }
 
   /** Keep-out predicate for `EnemySpawner.placementFor` — see `blockedSpawnCellKeys`. */
@@ -3277,6 +3437,13 @@ export class Game implements LoopCallbacks {
   }
 
   private updatePanels(dt: number): void {
+    if (this.buildMode) {
+      this.interactionHighlight.clear();
+      this.repair.update(dt, null, false, this.resources);
+      if (this.input.consumePressed('cancel')) this.cancelBuildSelection();
+      return;
+    }
+    this.validInventoryTarget();
     if (this.defense.mounted) {
       if (this.input.consumePressed('interact') || this.input.consumePressed('cancel')) {
         this.defense.exit();
@@ -3289,6 +3456,16 @@ export class Game implements LoopCallbacks {
       : this.interaction.update(this.player.worldPosition, this.candidates());
 
     const repairPrompt = this.updateRepair(dt, nearest);
+    this.interactionHighlight.setTarget(
+      nearest && !this.panelsOpen
+        ? {
+            id: nearest.id,
+            object: this.build.visual(nearest.id) ?? undefined,
+            position: nearest.position,
+            usable: true,
+          }
+        : null,
+    );
 
     if (this.input.consumePressed('inventory')) {
       if (this.panelsOpen) this.closePanels();
@@ -3408,6 +3585,9 @@ export class Game implements LoopCallbacks {
   }
 
   openInventory(): void {
+    this.exitBuildMode('user');
+    this.inventoryTargetId = null;
+    this.transferFeedback = null;
     this.closeSpecialPanels();
     this.inventoryUI.setMode('inventory', { title: 'Inventory' });
     this.releasePointerLock();
@@ -3654,6 +3834,7 @@ export class Game implements LoopCallbacks {
   /** Open whatever the player is standing at. Returns false if nothing is. */
   openInteractable(target: Interactable | null = this.interaction.current): boolean {
     if (!target) return false;
+    if (this.buildMode) return false;
     // A repair has no panel. `updateRepair` drives it from the held key.
     if (target.kind === 'repair') return false;
 
@@ -3671,10 +3852,14 @@ export class Game implements LoopCallbacks {
     if (target.kind === 'collector') {
       const buffer = this.build.collectorContainer(target.id);
       if (!buffer) return false;
+      this.inventoryTargetId = target.id;
+      this.transferFeedback = null;
       this.inventoryUI.setMode('transfer', {
         title: target.label,
         buffer,
         storageLabel: 'Collector Buffer',
+        targetId: target.id,
+        isTargetValid: () => this.validInventoryTarget(),
       });
       this.releasePointerLock();
       return true;
@@ -3702,11 +3887,21 @@ export class Game implements LoopCallbacks {
     if (target.kind === 'crate') {
       const crate = this.build.crateContainer(target.id);
       if (!crate) return false;
-      this.inventoryUI.setMode('transfer', { title: target.label, crate });
+      this.inventoryTargetId = target.id;
+      this.transferFeedback = null;
+      this.inventoryUI.setMode('transfer', {
+        title: target.label,
+        crate,
+        targetId: target.id,
+        isTargetValid: () => this.validInventoryTarget(),
+      });
     } else {
+      this.inventoryTargetId = target.id;
       this.inventoryUI.setMode('crafting', {
         title: target.label,
         station: target.kind as StationId,
+        targetId: target.id,
+        isTargetValid: () => this.validInventoryTarget(),
       });
     }
 
@@ -3768,24 +3963,37 @@ export class Game implements LoopCallbacks {
     return true;
   }
 
-  closePanels(): void {
+  closePanels(reclaimControl = true): void {
     if (!this.panelsOpen) return;
     this.inventoryUI.setMode('closed');
     this.radioUI.close();
     this.researchUI.close();
     this.expeditionUI.close();
-    // Only reclaim the mouse if the player had it to begin with.
-    if (!this.options.bypassPointerLock) this.input.requestPointerLock();
+    this.inventoryTargetId = null;
+    this.transferFeedback = null;
+    if (
+      reclaimControl &&
+      !this.options.bypassPointerLock &&
+      !this.state.paused &&
+      !this.cinematicCamera
+    ) {
+      this.state.paused = true;
+      this.titleScreen?.show('pause');
+      this.syncInputContext();
+      this.resume();
+    } else this.syncInputContext();
   }
 
   /** Without this the panels cannot be clicked at all. */
   private releasePointerLock(): void {
+    this.syncInputContext();
     if (this.options.bypassPointerLock) return;
     if (document.pointerLockElement) document.exitPointerLock();
   }
 
   /** Move a stack between the player and the open crate. */
   private transfer(from: 'player' | 'crate', slotIndex: number, all: boolean): void {
+    if (!this.validInventoryTarget()) return;
     const crate = this.inventoryUI.currentCrate;
     if (!crate) return;
 
@@ -3793,6 +4001,103 @@ export class Game implements LoopCallbacks {
     const target = from === 'player' ? crate : this.inventory;
     source.moveTo(target, slotIndex, all ? undefined : 1);
     this.bus.emit('inventory:changed', { scrap: this.resources.count('scrap') });
+  }
+
+  private validInventoryTarget(): boolean {
+    if (!this.inventoryTargetId) return true;
+    const visual = this.build.visual(this.inventoryTargetId);
+    if (
+      visual &&
+      visual.getWorldPosition(this.buildRayDirection).distanceTo(this.player.worldPosition) <=
+        INTERACT_REACH
+    )
+      return true;
+    this.closePanels();
+    return false;
+  }
+
+  private bulkTransfer(direction: 'take' | 'deposit'): void {
+    if (!this.validInventoryTarget()) return;
+    const crate = this.inventoryUI.currentCrate;
+    if (!crate) return;
+    const result =
+      direction === 'take'
+        ? takeAll(crate, this.inventory)
+        : depositMatching(this.inventory, crate);
+    this.transferFeedback = `${result.moved} items moved${result.leftovers ? ` · ${result.leftovers} left: destination full` : ''}`;
+    if (!result.moved && !result.leftovers)
+      this.transferFeedback =
+        direction === 'deposit' ? 'No matching items in this storage' : 'Storage is empty';
+    this.bus.emit('inventory:changed', { scrap: this.resources.count('scrap') });
+  }
+
+  private readonly canBuildSelectedPiece = (piece: PieceId): boolean =>
+    this.build.canBuildPiece(piece);
+  private readonly buildControlLabel = (action: string): string =>
+    this.controlLabel(action, 'build-placement');
+
+  private demolitionStatus(): { progress: number; cascade: number; refund: string } | undefined {
+    if (!this.aimedBuildId) return undefined;
+    const preview = this.build.demolitionPreview(this.aimedBuildId);
+    return {
+      progress: this.demolitionSeconds / 0.6,
+      cascade: preview.ids.length,
+      refund:
+        Object.entries(preview.refund)
+          .map(([id, count]) => `${count} ${ITEMS[id as ItemId].name}`)
+          .join(', ') || 'None',
+    };
+  }
+
+  private updateMachineStatus(): void {
+    this.machineStatus.root.hidden =
+      this.buildMode || !!this.cinematicCamera || this.state.playerDead;
+    if (this.machineStatus.root.hidden) return;
+    if (this.state.simTime < this.nextStatusUpdateAt) return;
+    this.nextStatusUpdateAt = this.state.simTime + 0.25;
+    const ids = Object.keys(SUBSYSTEMS) as SubsystemId[];
+    const condition = ids.map((id) => ({
+      id,
+      fraction: this.machine.damage.fraction(id),
+      failed: this.machine.damage.health(id) <= 0,
+    }));
+    const shed = this.build
+      .serialise()
+      .filter(
+        (piece) =>
+          powerRoleOf(piece.definitionId)?.kind === 'consumer' &&
+          !this.machine.power.isPowered(piece.instanceId),
+      )
+      .map((piece) => BUILD_PIECES[piece.definitionId].name);
+    if (
+      this.progression.earlyRadioDrop.radioFound &&
+      !this.machine.power.isPowered(this.radioPowerConsumerId)
+    )
+      shed.push('Recovered Radio');
+    this.machineStatus.update({
+      fuel: {
+        current: this.machine.power.fuel,
+        capacity: FUEL_TANK_CAP,
+        crawling: this.machine.power.fuel <= 0 && !this.machine.damage.isStopped,
+      },
+      power: {
+        capacity: this.machine.power.capacity,
+        demand: this.machine.power.draw,
+        shed: [...new Set(shed)],
+      },
+      condition,
+      serviceDecks: ids
+        .filter((id) => this.machine.damage.fraction(id) < 1)
+        .map((id) => {
+          const cost = subsystemRepairCost(id, 1 - this.machine.damage.fraction(id));
+          return {
+            name: SUBSYSTEMS[id].name + ' · Command deck service panel',
+            subsystem: id,
+            repairScrap: cost.scrap ?? 0,
+            available: this.resources.canAfford(cost),
+          };
+        }),
+    });
   }
 
   /**
@@ -3874,74 +4179,455 @@ export class Game implements LoopCallbacks {
   // Build mode
   // -------------------------------------------------------------------------
 
+  private readonly controlLabel = (action: string, context: InputContext = 'play'): string =>
+    this.input.getBindingLabel(action as BindingAction, context);
+
+  private syncInputContext(): void {
+    this.input.setContext(
+      this.state.paused || this.panelsOpen
+        ? 'menu'
+        : this.buildSession.state === 'catalog'
+          ? 'catalog'
+          : this.buildMode
+            ? 'build-placement'
+            : this.defense.mounted
+              ? 'mounted'
+              : 'play',
+    );
+  }
+
+  private readonly buildCameraInput = {
+    isDown: () => false,
+    consumeLook: () =>
+      this.buildSession.state === 'catalog' || this.panelsOpen
+        ? (this.input.consumeLook(), { x: 0, y: 0 })
+        : this.input.consumeLook(),
+  } as unknown as InputManager;
+
+  /** All construction commands observe committed threats before the next step. */
+  private updateBuildGuard(dt: number): void {
+    const sources = [...this.pendingBuildDamage];
+    this.pendingBuildDamage.clear();
+    if (this.enemies.active.some((enemy) => enemy.currentHealth > 0))
+      sources.push('hostile-aboard');
+    if (this.vehicleScene.constructionThreat || this.gunboatScene.active)
+      sources.push('approach-attack');
+    if (this.vehicleScene.hookWorldPosition) sources.push('grapple');
+    if (this.gunboatScene.pendingShellCount > 0) sources.push('projectile');
+    if (Number.isFinite(this.lastPlayerHealth) && this.player.stats.health < this.lastPlayerHealth)
+      sources.push('player-damage');
+    this.lastPlayerHealth = this.player.stats.health;
+    for (const id of Object.keys(SUBSYSTEMS) as SubsystemId[]) {
+      const health = this.machine.damage.health(id);
+      if (health < (this.buildSubsystemHealth.get(id) ?? health)) sources.push('machine-damage');
+      this.buildSubsystemHealth.set(id, health);
+    }
+    this.buildGuard.update(dt, { sources });
+    if (this.buildMode && this.buildGuard.shouldInterrupt()) this.exitBuildMode('threat');
+  }
+
   toggleBuildMode(): void {
-    this.buildMode = !this.buildMode;
-    this.buildPreview.setVisible(this.buildMode);
-    this.buildUI.setVisible(this.buildMode);
-    if (!this.buildMode) this.buildLevelPinned = false;
+    if (this.buildMode) {
+      this.exitBuildMode('user');
+      return;
+    }
+    this.updateBuildGuard(0);
+    if (
+      !this.buildGuard.canEnter() ||
+      this.state.playerDead ||
+      this.cinematicCamera ||
+      !this.armed ||
+      this.defense.mounted ||
+      this.panelsOpen ||
+      this.state.paused
+    ) {
+      this.hud.setWarning('Building is available after the deck has been clear for two seconds.');
+      return;
+    }
+    this.buildSession.enter(this.combat.current.def.id);
+    this.buildMode = true;
+    this.buildLevelPinned = false;
+    this.buildMessage = '';
+    this.openBuildCatalog();
+  }
+
+  private openBuildCatalog(): void {
+    if (!this.buildMode) return;
+    this.buildSession.openCatalog();
+    this.demolitionSeconds = 0;
+    this.demolitionTargetId = null;
+    this.buildPreview.setVisible(false);
+    this.buildUI.setVisible(false);
+    this.buildCatalog.setVisible(true);
+    this.syncInputContext();
+    this.releasePointerLock();
+  }
+
+  private selectBuildPiece(piece: PieceId): void {
+    this.updateBuildGuard(0);
+    if (!this.buildMode || !this.buildGuard.canEnter() || !this.build.canBuildPiece(piece)) return;
+    // The selection click belongs to the catalog until pointer lock succeeds.
+    this.requestControl(() => {
+      if (!this.buildMode || !this.buildGuard.canEnter()) return;
+      this.selectedPiece = piece;
+      this.buildCategory = BUILD_PIECES[piece].category;
+      this.buildSession.selectPiece(piece);
+      this.buildCatalog.setVisible(false);
+      this.buildPreview.setVisible(true);
+      this.buildUI.setVisible(true);
+      this.buildMessage = '';
+      this.syncInputContext();
+      this.input.suppressUntilReleased(['fire', 'aim', 'interact', 'demolish']);
+    });
+  }
+
+  private exitBuildMode(reason: BuildCloseReason): void {
+    if (!this.buildMode) return;
+    const cursorOwned = this.buildSession.state === 'catalog';
+    this.cancelControlRequest?.();
+    this.input.suppressUntilReleased(['fire', 'aim', 'interact', 'demolish', 'relocate', 'build']);
+    this.buildSession.exit(reason);
+    this.buildMode = false;
+    this.buildLevelPinned = false;
+    this.demolitionSeconds = 0;
+    this.demolitionTargetId = null;
+    this.aimedBuildId = null;
+    this.buildPreview.setVisible(false);
+    this.buildUI.setVisible(false);
+    this.buildCatalog.setVisible(false);
+    this.syncInputContext();
+    if (reason === 'threat') {
+      this.hud.setWarning('Hostiles incoming — construction closed. Weapons ready.');
+      if (cursorOwned) {
+        this.state.paused = true;
+        this.syncInputContext();
+        this.releasePointerLock();
+        this.titleScreen?.show('pause');
+      }
+    } else if (reason === 'user' && cursorOwned) {
+      this.state.paused = true;
+      this.syncInputContext();
+      this.titleScreen?.show('pause');
+      this.resume();
+    }
+  }
+
+  private cancelBuildSelection(): void {
+    if (this.buildSession.state === 'relocation') {
+      this.buildSession.selectPiece(this.selectedPiece);
+      this.buildMessage = 'Move cancelled — equipment unchanged';
+      this.demolitionSeconds = 0;
+    } else this.exitBuildMode('user');
+  }
+
+  /** Lock failures leave the cursor UI and simulation state as they were. */
+  private requestControl(ready: () => void): void {
+    if (this.options.bypassPointerLock || document.pointerLockElement === this.options.canvas) {
+      ready();
+      return;
+    }
+    if (this.lockRequestPending) return;
+    this.lockRequestPending = true;
+    const cleanup = () => {
+      document.removeEventListener('pointerlockchange', changed);
+      document.removeEventListener('pointerlockerror', failed);
+      window.removeEventListener('blur', failed);
+      this.lockRequestPending = false;
+      this.cancelControlRequest = null;
+    };
+    const failed = () => {
+      cleanup();
+      this.hud.setWarning('Click Resume to return to the game.');
+    };
+    const changed = () => {
+      if (document.pointerLockElement !== this.options.canvas) return;
+      cleanup();
+      this.input.clearAll();
+      ready();
+    };
+    this.cancelControlRequest = cleanup;
+    document.addEventListener('pointerlockchange', changed);
+    document.addEventListener('pointerlockerror', failed);
+    window.addEventListener('blur', failed);
+    try {
+      const request = this.options.canvas.requestPointerLock();
+      if (request) void request.catch(failed);
+    } catch {
+      failed();
+    }
   }
 
   get currentBuildLevel(): number {
     return this.buildLevel;
   }
 
-  /**
-   * Move to the next group, and take the selection with it.
-   *
-   * The selection moves because leaving it behind is how a player presses `G`,
-   * presses `1`, and gets a deck plate when the panel is showing them chairs.
-   */
+  /** Compatibility seam for old developer harnesses; G now opens the catalog. */
   cycleBuildCategory(): void {
     const at = PIECE_CATEGORIES.indexOf(this.buildCategory);
-    const next = PIECE_CATEGORIES[(at + 1) % PIECE_CATEGORIES.length] ?? 'structure';
-    this.buildCategory = next;
-    const first = piecesInCategory(next)[0];
-    if (first) this.selectedPiece = first;
+    this.buildCategory = PIECE_CATEGORIES[(at + 1) % PIECE_CATEGORIES.length] ?? 'structure';
+    this.selectedPiece = piecesInCategory(this.buildCategory)[0] ?? 'floor';
   }
 
-  private updateBuildMode(): void {
-    // Follow the player between storeys unless the wheel has overridden it,
-    // so changing level is an override rather than a chore.
-    if (!this.buildLevelPinned) {
-      const standingOn = Math.round((this.player.worldPosition.y - DECK_HEIGHT - 1) / LEVEL_HEIGHT);
-      this.buildLevel = Math.max(0, Math.min(GRID_LEVELS - 1, standingOn));
-    }
-
-    const wheel = this.input.wheelDelta;
-    if (wheel !== 0) {
-      this.buildLevelPinned = true;
-      const step = wheel > 0 ? -1 : 1;
-      this.buildLevel = Math.max(0, Math.min(GRID_LEVELS - 1, this.buildLevel + step));
-    }
-
-    // Page between structure, stations and comforts. The number keys only
-    // reach nine and the table holds eighteen, so a group is what makes the
-    // last of them selectable at all — see `BuildUI`.
-    if (this.input.consumePressed('build-category')) this.cycleBuildCategory();
-
-    piecesInCategory(this.buildCategory).forEach((id, i) => {
-      if (this.input.consumePressed(`slot${i + 1}` as 'slot1')) this.selectedPiece = id;
-    });
-
-    if (this.input.consumePressed('rotate-left')) this.buildRotation = (this.buildRotation + 3) % 4;
-    if (this.input.consumePressed('rotate-right'))
-      this.buildRotation = (this.buildRotation + 1) % 4;
-
-    this.buildPreview.update(
-      this.activeCamera,
-      this.physics,
-      this.build,
-      this.buildLevel,
-      this.selectedPiece,
-      this.buildRotation,
-      this.player.collider,
+  private placementOverlapsActor(placement: Placement): boolean {
+    const { position, rotationY } = BuildSystem.transformFor(
+      placement.piece,
+      placement.cell,
+      placement.edge,
+      placement.rotation,
     );
+    const cos = Math.cos(rotationY),
+      sin = Math.sin(rotationY);
+    const colliders = pieceColliders(placement.piece);
+    const actors = [
+      this.player.worldPosition,
+      ...this.enemies.active
+        .filter((enemy) => enemy.currentHealth > 0)
+        .map((enemy) => enemy.worldPosition),
+    ];
+    const inverse = this.build.group.matrixWorld.clone().invert();
+    return actors.some((worldActor) => {
+      const actor = worldActor.clone().applyMatrix4(inverse);
+      const dx = actor.x - position.x,
+        dz = actor.z - position.z;
+      const x = dx * cos - dz * sin,
+        z = dx * sin + dz * cos;
+      return colliders.some(
+        (spec) =>
+          Math.abs(x - spec.offset.x) < spec.half.x + 0.34 &&
+          Math.abs(z - spec.offset.z) < spec.half.z + 0.34 &&
+          actor.y + 0.88 > position.y + spec.offset.y - spec.half.y &&
+          actor.y - 0.88 < position.y + spec.offset.y + spec.half.y - 0.03,
+      );
+    });
+  }
 
+  private readonly relocationOptions = {
+    isBusy: (instance: { instanceId: string }) =>
+      this.defense.mounted === instance.instanceId ||
+      this.inventoryTargetId === instance.instanceId ||
+      !!this.collectors.get(instance.instanceId)?.targetId,
+  };
+
+  private buildTargetInput(): BuildTargetInput {
+    this.activeCamera.getWorldPosition(this.buildViewOrigin);
+    this.activeCamera.getWorldDirection(this.buildViewDirection);
+    this.buildChest.copy(this.player.worldPosition).y += 0.3;
+    const source = this.buildSession.current.selectedInstanceId;
+    const ignoreIds = new Set<string>(source ? [source] : []);
+    const predicate = (collider: Parameters<PhysicsWorld['getUserData']>[0]) => {
+      const data = this.physics.getUserData(collider) as { id?: string } | undefined;
+      return !collider.isSensor() && !(data?.id && ignoreIds.has(data.id));
+    };
+    const ray = (start: THREE.Vector3, end: THREE.Vector3) => {
+      this.buildRayDirection.subVectors(end, start);
+      const distance = this.buildRayDirection.length();
+      if (distance <= 0.0001) return null;
+      return this.physics.raycast(
+        start,
+        this.buildRayDirection.divideScalar(distance),
+        distance,
+        this.player.collider,
+        predicate,
+      );
+    };
+    const hitId = (hit: NonNullable<ReturnType<typeof ray>>) =>
+      (hit.userData as { id?: string } | undefined)?.id ?? 'collider-' + hit.collider.handle;
+    return {
+      viewOrigin: this.buildViewOrigin,
+      viewDirection: this.buildViewDirection,
+      chestWorld: this.buildChest,
+      piece: this.selectedPiece,
+      rotation: this.buildRotation,
+      grid: this.build.gridView,
+      machineTransform: this.build.group.matrixWorld,
+      levelMode: this.buildLevelPinned ? 'manual' : 'auto',
+      manualLevel: this.buildLevel,
+      autoLevel: this.buildLevel,
+      ignoreIds,
+      supportRaycast: (start, end) => {
+        const hit = ray(start, end);
+        if (!hit) return [];
+        const data = this.build.instance((hit.userData as { id?: string })?.id ?? '');
+        return data?.edge
+          ? [
+              {
+                id: hitId(hit),
+                point: hit.point,
+                normal: hit.normal,
+                compatible: data.cell.y === this.buildLevel,
+              },
+            ]
+          : [];
+      },
+      resolveEndpoint: (placement, snapped) => {
+        const local = snapped.clone();
+        const world = local.clone().applyMatrix4(this.build.group.matrixWorld);
+        if (placement.edge) {
+          // Aim at the near face of the intended edge, rather than through its
+          // volume to a centre hidden inside a wall.
+          const axis = placement.edge.axis;
+          const toChest = this.buildChest
+            .clone()
+            .applyMatrix4(this.build.group.matrixWorld.clone().invert());
+          local.y += placement.piece === 'lamp' ? 2.1 : 0.6;
+          if (axis === 'x') local.x += Math.sign(toChest.x - local.x || 1) * 0.12;
+          else local.z += Math.sign(toChest.z - local.z || 1) * 0.12;
+          return { pointLocal: local };
+        }
+        const up = new THREE.Vector3(0, 1, 0).transformDirection(this.build.group.matrixWorld);
+        world.addScaledVector(up, 0.45);
+        const hit = this.physics.raycast(
+          world,
+          up.clone().negate(),
+          0.8,
+          this.player.collider,
+          predicate,
+        );
+        if (hit && hit.normal.dot(up) > 0.55) {
+          return {
+            pointLocal: hit.point
+              .clone()
+              .applyMatrix4(this.build.group.matrixWorld.clone().invert()),
+            supportId: hitId(hit),
+          };
+        }
+        return { pointLocal: local };
+      },
+      raycast: (start, end) => {
+        const hit = ray(start, end);
+        return hit ? [{ id: hitId(hit), point: hit.point, distance: hit.distance }] : [];
+      },
+    };
+  }
+
+  private refreshBuildTarget(): void {
+    const source = this.buildSession.current.selectedInstanceId;
+    this.buildPreview.updateTargeted(
+      this.buildTargetInput(),
+      this.build,
+      source
+        ? (placement) => {
+            const result = this.build.canRelocate(source, placement, this.relocationOptions);
+            if (!result.ok)
+              this.buildMessage =
+                result.reason === 'busy' ? 'Device is busy' : 'Move blocked: ' + result.reason;
+            return result.ok ? { ok: true } : { ok: false, reason: 'needs-clearance' };
+          }
+        : undefined,
+    );
+    this.activeCamera.getWorldPosition(this.buildViewOrigin);
+    this.activeCamera.getWorldDirection(this.buildViewDirection);
+    const hit = this.physics.raycast(
+      this.buildViewOrigin,
+      this.buildViewDirection,
+      22,
+      this.player.collider,
+      (collider) => !collider.isSensor(),
+    );
+    const id = (hit?.userData as { kind?: string; id?: string } | undefined)?.id;
+    this.aimedBuildId =
+      hit && id && this.build.instance(id) && hit.point.distanceTo(this.buildChest) <= 12
+        ? id
+        : null;
+  }
+
+  private updateBuildMode(dt: number): void {
+    if (this.buildSession.state === 'catalog') return;
+    if (!this.buildLevelPinned) {
+      const support = this.player.worldPosition.clone();
+      support.y -= 0.96;
+      support.applyMatrix4(this.build.group.matrixWorld.clone().invert());
+      this.buildLevel = selectAutoLevel(support.y, this.buildLevel);
+    }
+    if (this.input.consumePressed('catalog')) {
+      this.openBuildCatalog();
+      return;
+    }
+    if (this.input.consumePressed('aim')) {
+      if (this.buildSession.state === 'relocation') this.cancelBuildSelection();
+      else this.openBuildCatalog();
+      return;
+    }
+    const levelDelta =
+      Number(this.input.consumePressed('next-level')) -
+      Number(this.input.consumePressed('previous-level'));
+    if (levelDelta) {
+      this.buildLevelPinned = true;
+      this.buildLevel = THREE.MathUtils.clamp(
+        this.buildLevel + levelDelta,
+        GRID_MIN_LEVEL,
+        GRID_LEVELS - 1,
+      );
+    }
+    if (this.input.consumePressed('auto-level')) this.buildLevelPinned = false;
+    const rotation =
+      Number(this.input.consumePressed('rotate-right')) -
+      Number(this.input.consumePressed('rotate-left')) +
+      Math.sign(this.input.consumeWheel());
+    if (rotation) this.buildRotation = (this.buildRotation + rotation + 4) % 4;
+    this.refreshBuildTarget();
+    if (this.input.consumePressed('relocate') && this.aimedBuildId) {
+      const instance = this.build.instance(this.aimedBuildId);
+      if (instance) {
+        const checked = this.build.canRelocate(
+          instance.instanceId,
+          {
+            piece: instance.definitionId,
+            cell: instance.cell,
+            edge: instance.edge,
+            rotation: instance.rotation,
+          },
+          this.relocationOptions,
+        );
+        if (checked.ok) {
+          this.selectedPiece = instance.definitionId;
+          this.buildRotation = instance.rotation;
+          this.buildSession.beginRelocation(instance.instanceId);
+          this.buildMessage = 'Choose a new position; contents and condition are preserved';
+          this.refreshBuildTarget();
+        } else
+          this.buildMessage =
+            checked.reason === 'structural'
+              ? 'Only equipment, furniture and lamps can move'
+              : 'Device is busy or blocked';
+      }
+    }
+    if (
+      this.input.isDown('demolish') &&
+      this.buildSession.state === 'placement' &&
+      this.aimedBuildId
+    ) {
+      if (this.demolitionTargetId !== this.aimedBuildId) {
+        this.demolitionTargetId = this.aimedBuildId;
+        this.demolitionSeconds = 0;
+      }
+      this.demolitionSeconds += dt;
+      if (this.demolitionSeconds >= 0.6) {
+        this.build.demolish(this.aimedBuildId);
+        this.input.suppressUntilReleased(['demolish']);
+        this.demolitionSeconds = 0;
+        this.demolitionTargetId = null;
+        this.refreshBuildTarget();
+      }
+    } else {
+      this.demolitionTargetId = null;
+      this.demolitionSeconds = 0;
+    }
+    if (!this.input.consumePressed('fire')) return;
+    this.updateBuildGuard(0);
+    if (!this.buildMode || this.buildGuard.shouldInterrupt()) return;
+    this.refreshBuildTarget();
     const placement = this.buildPreview.placement;
-    if (!placement) return;
-
-    if (this.input.consumePressed('fire')) this.build.place(placement);
-    if (this.input.consumePressed('demolish')) this.build.demolishAt(placement);
+    if (!placement || !this.buildPreview.validation.ok || this.buildPreview.target?.rejection)
+      return;
+    const source = this.buildSession.current.selectedInstanceId;
+    if (source) {
+      const result = this.build.relocate(source, placement, this.relocationOptions);
+      if (result.ok) {
+        this.buildSession.selectPiece(this.selectedPiece);
+        this.buildMessage = 'Equipment moved';
+      }
+    } else this.build.place(placement);
   }
 
   private applySky(): void {
@@ -4251,6 +4937,14 @@ export class Game implements LoopCallbacks {
   async loadFrom(slot: string): Promise<boolean> {
     const save = await this.saves.load(slot);
     if (!save) return false;
+    this.exitBuildMode('load');
+    this.playerCamera.resetHistory();
+    this.playerFade.restore();
+    this.buildGuard.reset();
+    this.buildSubsystemHealth.clear();
+    this.lastPlayerHealth = Number.POSITIVE_INFINITY;
+    this.pendingBuildDamage.clear();
+    this.nextStatusUpdateAt = 0;
     this.sessionMetrics.reset();
 
     // Distance drives everything about the world, so restoring it regenerates
@@ -4465,7 +5159,7 @@ export class Game implements LoopCallbacks {
 
     // A panel open over a world that just changed underneath it would be
     // showing stale containers.
-    this.closePanels();
+    this.closePanels(false);
 
     this.bus.emit('game:save-loaded', { slot });
     return true;
@@ -4478,6 +5172,11 @@ export class Game implements LoopCallbacks {
   };
 
   dispose(): void {
+    this.cancelControlRequest?.();
+    this.playerFade.dispose();
+    this.interactionHighlight.dispose();
+    this.buildCatalog.dispose();
+    this.machineStatus.dispose();
     this.signalBattle?.dispose();
     this.disconnectSounds();
     this.audio.dispose();

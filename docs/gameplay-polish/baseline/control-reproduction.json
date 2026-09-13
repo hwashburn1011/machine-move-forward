@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-09-12T21:34:25.858Z",
+  "baselineCheckout": "1cf3835739d7e5318ec9506faaed149c6957c4bc",
+  "port": "5203",
+  "result": {
+    "cases": [
+      {
+        "requestedY": 8.7,
+        "playerY": 8.688884711531554,
+        "currentBuildLevel": 0
+      },
+      {
+        "requestedY": 11.7,
+        "playerY": 11.70019908990153,
+        "currentBuildLevel": 0
+      }
+    ],
+    "camera": {
+      "x": 0.6114066786228264,
+      "y": 10.933002911749139,
+      "z": 3.336773735104504
+    },
+    "target": null
+  },
+  "errors": []
+}

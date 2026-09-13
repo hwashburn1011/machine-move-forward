@@ -1,0 +1,80 @@
+{
+  "kind": "revenant",
+  "source": "assets\\mech-enemies\\gameplay\\revenant_combat.blend",
+  "sourceSha256": "ae37706ec06288bda4dca1c89448f438c3138f4dc31f17725d0ff51e74da1eac",
+  "bones": [
+    "root",
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "neck",
+    "head",
+    "clavicle_r",
+    "upperarm_r",
+    "lowerarm_r",
+    "hand_r",
+    "finger_1_1_r",
+    "finger_1_2_r",
+    "finger_1_3_r",
+    "finger_2_1_r",
+    "finger_2_2_r",
+    "finger_2_3_r",
+    "finger_3_1_r",
+    "finger_3_2_r",
+    "finger_3_3_r",
+    "finger_4_1_r",
+    "finger_4_2_r",
+    "finger_4_3_r",
+    "thumb_r",
+    "clavicle_l",
+    "upperarm_l",
+    "lowerarm_l",
+    "hand_l",
+    "finger_1_1_l",
+    "finger_1_2_l",
+    "finger_1_3_l",
+    "finger_2_1_l",
+    "finger_2_2_l",
+    "finger_2_3_l",
+    "finger_3_1_l",
+    "finger_3_2_l",
+    "finger_3_3_l",
+    "finger_4_1_l",
+    "finger_4_2_l",
+    "finger_4_3_l",
+    "thumb_l",
+    "thigh_r",
+    "calf_r",
+    "foot_r",
+    "thigh_l",
+    "calf_l",
+    "foot_l",
+    "equipment_0",
+    "equipment_1"
+  ],
+  "clipsAdded": [
+    {
+      "name": "polish_attack",
+      "duration": 0.8,
+      "frames": 25
+    },
+    {
+      "name": "polish_hit",
+      "duration": 0.4,
+      "frames": 13
+    },
+    {
+      "name": "polish_death",
+      "duration": 1.4,
+      "frames": 43
+    }
+  ],
+  "originalClipsPreserved": [
+    "attack",
+    "death",
+    "idle",
+    "run",
+    "walk"
+  ],
+  "meshVertices": 25956
+}

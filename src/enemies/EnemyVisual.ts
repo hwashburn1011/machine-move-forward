@@ -41,15 +41,135 @@ const CLIP_PREFERENCES: Record<EnemyAIState, readonly string[]> = {
  * `Armature|CharacterArmature_Walk`, and an exact match would find nothing.
  */
 export function resolveClip(names: readonly string[], state: EnemyAIState): string | null {
-  if (names.length === 0) return null;
+  const originals = names.filter((name) => !name.toLowerCase().startsWith('polish_'));
+  if (originals.length === 0) return null;
 
   for (const wanted of CLIP_PREFERENCES[state]) {
-    const found = names.find((name) => name.toLowerCase().includes(wanted));
+    const found = originals.find((name) => name.toLowerCase().includes(wanted));
     if (found) return found;
   }
 
   // Something is better than a character frozen in its bind pose.
-  return names[0] ?? null;
+  return originals[0] ?? null;
+}
+
+/**
+ * Invisible copy of the shipped animation hierarchy used by combat queries.
+ * Appended polish clips can freely animate the rendered clone without moving
+ * the muzzle that raycasts, cover checks and damage use.
+ */
+export class OriginalEnemyPose {
+  readonly root: THREE.Object3D;
+  private readonly mixer: THREE.AnimationMixer;
+  private readonly actions = new Map<string, THREE.AnimationAction>();
+  private readonly names: string[] = [];
+  private current: THREE.AnimationAction | null = null;
+  private currentState: EnemyAIState | null = null;
+  private attackRemaining = 0;
+  private readonly muzzle: THREE.Object3D | null;
+
+  constructor(scene: THREE.Object3D, clips: readonly THREE.AnimationClip[]) {
+    this.root = cloneSkinned(scene);
+    const renderables: THREE.Object3D[] = [];
+    this.root.traverse((object) => {
+      if ((object as THREE.Mesh).isMesh) renderables.push(object);
+    });
+    for (const object of renderables) object.removeFromParent();
+    this.muzzle = this.root.getObjectByName('EnemyMuzzle') ?? null;
+    this.root.visible = false;
+    const keep = new Set<THREE.Object3D>();
+    if (this.muzzle) {
+      for (let node: THREE.Object3D | null = this.muzzle; node; node = node.parent) keep.add(node);
+      const unused: THREE.Object3D[] = [];
+      this.root.traverse((node) => {
+        if (!keep.has(node)) unused.push(node);
+      });
+      for (const node of unused) node.removeFromParent();
+    }
+    const names = new Set([...keep].map((node) => node.name));
+    this.mixer = new THREE.AnimationMixer(this.root);
+    for (const clip of clips) {
+      if (clip.name.toLowerCase().startsWith('polish_')) continue;
+      this.names.push(clip.name);
+      // The original equipment pose depends only on its ancestor transforms;
+      // unrelated arms/legs need neither an invisible mixer nor render traversal.
+      const tracks = this.muzzle
+        ? clip.tracks.filter((track) =>
+            names.has(THREE.PropertyBinding.parseTrackName(track.name).nodeName),
+          )
+        : clip.tracks;
+      this.actions.set(
+        clip.name,
+        this.mixer.clipAction(
+          new THREE.AnimationClip(clip.name, clip.duration, tracks, clip.blendMode),
+        ),
+      );
+    }
+  }
+
+  setFit(scale: number, yOffset: number): void {
+    this.root.scale.setScalar(scale);
+    this.root.position.y = yOffset - CAPSULE_FOOT_OFFSET;
+  }
+
+  setState(state: EnemyAIState, mech: boolean): void {
+    if (state === this.currentState) return;
+    this.currentState = state;
+    this.attackRemaining = 0;
+    const name = resolveClip(this.names, mech && state === 'attack' ? 'idle' : state);
+    const next = name ? this.actions.get(name) : undefined;
+    if (!next || next === this.current) return;
+    if (state === 'dead') {
+      next.setLoop(THREE.LoopOnce, 1);
+      next.clampWhenFinished = true;
+    } else {
+      next.setLoop(THREE.LoopRepeat, Infinity);
+      next.clampWhenFinished = false;
+    }
+    next.reset().play();
+    if (this.current) this.current.crossFadeTo(next, CROSS_FADE, false);
+    this.current = next;
+  }
+
+  attack(mech: boolean): void {
+    if (!mech || this.currentState === 'dead') return;
+    const action = this.actions.get('attack');
+    if (!action) return;
+    if (this.current && this.current !== action) this.current.fadeOut(0.06);
+    action.reset().setLoop(THREE.LoopOnce, 1).setEffectiveWeight(1).fadeIn(0.04).play();
+    action.clampWhenFinished = true;
+    this.current = action;
+    this.attackRemaining = action.getClip().duration;
+  }
+
+  update(dt: number, mech: boolean): void {
+    this.mixer.update(dt);
+    if (this.attackRemaining <= 0 || this.currentState === 'dead') return;
+    this.attackRemaining -= dt;
+    if (this.attackRemaining <= 0) {
+      const state = this.currentState ?? 'idle';
+      this.currentState = null;
+      this.setState(state, mech);
+    }
+  }
+
+  reset(): void {
+    this.mixer.stopAllAction();
+    this.current = null;
+    this.currentState = null;
+    this.attackRemaining = 0;
+  }
+
+  muzzlePosition(out: THREE.Vector3): boolean {
+    if (!this.muzzle) return false;
+    this.muzzle.getWorldPosition(out);
+    return true;
+  }
+
+  dispose(): void {
+    this.mixer.stopAllAction();
+    this.actions.clear();
+  }
 }
 
 export interface CapsuleFit {
@@ -154,7 +274,9 @@ export class EnemyVisual {
   private appliedFraction = -1;
   private mech = false;
   private muzzle: THREE.Object3D | null = null;
+  private readonly originalPose: OriginalEnemyPose | null = null;
   private attackRemaining = 0;
+  private cosmeticHitRemaining = 0;
   private readonly aim = new THREE.Line(
     new THREE.BufferGeometry().setAttribute(
       'position',
@@ -205,6 +327,8 @@ export class EnemyVisual {
     // and every pooled enemy then animates as one, holding whichever pose the
     // last mixer to run produced.
     const scene = cloneSkinned(model.scene);
+    this.originalPose = new OriginalEnemyPose(model.scene, model.clips);
+    this.object3D.add(this.originalPose.root);
     let standingHeight: number | null = null;
     scene.traverse((o) => {
       if (typeof o.userData.standingHeight === 'number') standingHeight = o.userData.standingHeight;
@@ -233,6 +357,7 @@ export class EnemyVisual {
 
     scene.scale.setScalar(fit.scale);
     scene.position.y = fit.yOffset - CAPSULE_FOOT_OFFSET;
+    this.originalPose.setFit(fit.scale, fit.yOffset);
     scene.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         o.castShadow = true;
@@ -255,7 +380,18 @@ export class EnemyVisual {
     this.mixer = new THREE.AnimationMixer(scene);
     for (const clip of model.clips) {
       this.clipNames.push(clip.name);
-      this.actions.set(clip.name, this.mixer.clipAction(clip));
+      let visualClip = clip;
+      if (clip.name === 'polish_hit') {
+        visualClip = new THREE.AnimationClip(
+          clip.name,
+          clip.duration,
+          clip.tracks
+            .filter((track) => /(?:spine|chest|neck|head)/i.test(track.name))
+            .map((track) => track.clone()),
+        );
+        THREE.AnimationUtils.makeClipAdditive(visualClip, 0, visualClip);
+      }
+      this.actions.set(clip.name, this.mixer.clipAction(visualClip));
     }
     this.aim.visible = false;
     this.aim.frustumCulled = false;
@@ -417,6 +553,12 @@ export class EnemyVisual {
   flash(): void {
     this.flashElapsed = 0;
     this.applyFlash(1);
+    this.playCosmetic('polish_hit', 1);
+  }
+
+  /** Optional bounded visual hit layer; it never changes AI or damage timing. */
+  hit(): void {
+    this.flash();
   }
 
   /**
@@ -439,9 +581,14 @@ export class EnemyVisual {
   setState(state: EnemyAIState): void {
     if (state === this.currentState) return;
     this.currentState = state;
+    this.originalPose?.setState(state, this.mech);
     this.deadFor = 0;
     this.attackRemaining = 0;
-    if (state === 'dead') this.clearAim();
+    this.cosmeticHitRemaining = 0;
+    if (state === 'dead') {
+      this.clearAim();
+      this.stopCosmeticActions();
+    }
     // A corpse is not a threat and does not need a bar hanging over it.
     this.bar.visible = state !== 'dead';
 
@@ -449,7 +596,12 @@ export class EnemyVisual {
     if (!this.mixer) return;
 
     const name = resolveClip(this.clipNames, this.mech && state === 'attack' ? 'idle' : state);
-    const next = name ? this.actions.get(name) : undefined;
+    const next =
+      state === 'dead' && this.mech
+        ? (this.findCosmetic('polish_death') ?? (name ? this.actions.get(name) : undefined))
+        : name
+          ? this.actions.get(name)
+          : undefined;
     if (!next || next === this.current) return;
 
     // Death holds its final pose. Left looping, the corpse springs back
@@ -477,6 +629,7 @@ export class EnemyVisual {
   reset(): void {
     this.clearAim();
     this.attackRemaining = 0;
+    this.cosmeticHitRemaining = 0;
     this.current = null;
     this.currentState = null;
     this.deadFor = 0;
@@ -485,6 +638,7 @@ export class EnemyVisual {
     this.bar.visible = true;
     this.appliedFraction = -1;
     this.mixer?.stopAllAction();
+    this.originalPose?.reset();
     if (this.fallback) this.fallback.rotation.z = 0;
   }
 
@@ -503,6 +657,9 @@ export class EnemyVisual {
 
     if (this.mixer) {
       this.mixer.update(dt);
+      this.originalPose?.update(dt, this.mech);
+      if (this.cosmeticHitRemaining > 0)
+        this.cosmeticHitRemaining = Math.max(0, this.cosmeticHitRemaining - dt);
       if (this.attackRemaining > 0 && this.currentState !== 'dead') {
         this.attackRemaining -= dt;
         if (this.attackRemaining <= 0) {
@@ -541,6 +698,7 @@ export class EnemyVisual {
     for (const rec of this.flashMaterials) rec.mat.dispose();
     this.flashMaterials.length = 0;
     this.mixer?.stopAllAction();
+    this.originalPose?.dispose();
     this.actions.clear();
     this.clipNames.length = 0;
     this.current = null;
@@ -552,17 +710,44 @@ export class EnemyVisual {
   /** Play one strike or recoil at the actual damage tick, not throughout aiming. */
   attack(): void {
     if (!this.mech || this.currentState === 'dead') return;
-    const action = this.actions.get('attack');
+    this.originalPose?.attack(this.mech);
+    const action = this.findCosmetic('polish_attack') ?? this.actions.get('attack');
     if (!action) return;
     if (this.current && this.current !== action) this.current.fadeOut(0.06);
     action.reset().setLoop(THREE.LoopOnce, 1).setEffectiveWeight(1).fadeIn(0.04).play();
     action.clampWhenFinished = true;
     this.current = action;
     this.attackRemaining = action.getClip().duration;
+    // Only the rendered rig uses this clip; OriginalEnemyPose owns firing transforms.
+  }
+
+  private playCosmetic(name: string, weight: number): void {
+    if (!this.mixer || !this.mech) return;
+    const action = this.findCosmetic(name);
+    if (!action) return;
+    action.reset().setLoop(THREE.LoopOnce, 1).setEffectiveWeight(weight).fadeIn(0.03).play();
+    action.clampWhenFinished = false;
+    if (name === 'polish_hit') this.cosmeticHitRemaining = action.getClip().duration;
+  }
+
+  private findCosmetic(name: string): THREE.AnimationAction | undefined {
+    return [...this.actions.entries()].find(([clipName]) => clipName.toLowerCase() === name)?.[1];
+  }
+
+  private stopCosmeticActions(): void {
+    for (const [name, action] of this.actions) {
+      if (name.toLowerCase().startsWith('polish_')) action.stop();
+    }
   }
 
   muzzlePosition(out: THREE.Vector3): void {
-    this.object3D.updateWorldMatrix(true, true);
+    if (this.originalPose?.muzzlePosition(out)) return;
+    if (this.muzzle) this.muzzle.getWorldPosition(out);
+    else this.object3D.localToWorld(out.set(0, 0.3, 0.45));
+  }
+
+  /** Rendered muzzle for tracer/flash payloads only; never use for a raycast. */
+  cosmeticMuzzlePosition(out: THREE.Vector3): void {
     if (this.muzzle) this.muzzle.getWorldPosition(out);
     else this.object3D.localToWorld(out.set(0, 0.3, 0.45));
   }

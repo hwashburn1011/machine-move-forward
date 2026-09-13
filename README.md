@@ -15,7 +15,7 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - Seeded desert districts with 14 original ruin and wreck models: buried houses, exposed apartment towers, factories, broken overpasses, hollow cars and buses, ruptured tankers, torn billboards, pylons and water towers.
 - Buildable floors, walls, doorways, rails, roofs, stairs, stations and equipment on a 2m grid.
 - Localized engine and leg damage, repair, weight, gait, rooms and enemy pathfinding over player construction.
-- Play as the detailed S-07 gunner with armed/unarmed movement, crouch and jump animations.
+- Play as the detailed S-07 gunner with directional armed walking, running and crouching, visible rifle/shotgun reloads, upper-body aiming and bounded foot contact on stairs.
 - Rifle and shotgun combat against scavengers, raiders and four random mech archetypes: Warden, Revenant, Bastion and Sovereign.
 - A boarding skiff with hull, crew and hook damage targets.
 - At 100% radio reception, a passing human/robot ship battle leads into the Revenant's face reveal and recurring mixed-mech grapple raids.
@@ -25,6 +25,13 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - Original Blender characters, machine, weapons, skiff and expedition models with procedural fallbacks.
 - Radio-led Wreck One followed by Relay Foundry: route choice, direct gunboat hazard, detour, sanctuary hold, gangway exploration, journals, required uniques and departure.
 - Local saves with safe Save & Quit boundaries and persistent inventory, construction, upgrades and expedition progress.
+- A searchable build catalog opened with **B**, with direct piece selection and **G** returning to the catalog from placement.
+- Reach-aware placement up to 12 m from the player across all three decks; **Q**/**E** rotate, **Page Up**/**Page Down** select a deck, and **Home** returns to automatic deck selection.
+- Equipment relocation with **V** in build placement, camera shoulder swap with **V** during normal play, **RMB** to cancel placement or relocation, and **hold X** to demolish with a refund preview.
+- Building keeps the world running and closes automatically when combat threatens the Nomad. If the catalog owns the cursor, the whole game pauses until Resume successfully recaptures mouse control.
+- Storage panels provide **Take All**, **Deposit Matching** and **Sort** operations with truthful overflow feedback.
+- Volume-based camera collision, smooth close-player fading, shoulder swap and remappable controls make cramped decks easier to navigate.
+- A compact maintenance view combines fuel, emergency crawl, power shortages and service-deck repair needs.
 
 ## Run the game
 
@@ -65,12 +72,17 @@ Editable Blender masters, textures and optimized game models are versioned along
 | `F` | Fire salvage reel |
 | `E` | Use stations, radio, journals, uniques and deck gun |
 | Hold `E` | Repair or cut a boarding hook |
-| `B` | Build mode |
+| `B` | Enter build catalog / exit building |
 | `Tab` | Inventory |
 | `M` | Mute |
+| `V` | Swap camera shoulder |
 | `Esc` | Close panel, leave gun or pause |
 
-Build mode uses `G` for category, `1`–`9` for the active piece, mouse wheel for level, `Q`/`E` to rotate, LMB to place and RMB to demolish. Demolition refunds 60%; build weight affects machine speed.
+Build placement uses `G` to reopen the searchable catalog, `Q`/`E` to rotate, `Page Up`/`Page Down` for manual deck selection, `Home` for automatic selection, LMB to place, RMB to cancel, `V` to select equipment for relocation, and hold `X` for demolition and its refund preview. Out-of-range targets remain visible as invalid; valid placement reaches 12 m from the player and supports all three decks.
+
+Settings preserve existing audio and quality preferences and add look sensitivity, hip FOV (50–80 degrees, default 55 with the original 38-degree aim ratio), shoulder preference, and context-aware keyboard/mouse remapping. Conflicting bindings require an explicit replacement choice; Escape remains available for recovery.
+
+The [gameplay polish implementation and acceptance record](docs/gameplay-polish/README.md) covers these controls, preserved combat rules, Blender animation sources and validation evidence.
 
 ## Radio encounter loop
 

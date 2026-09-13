@@ -1,104 +1,41 @@
-export type InputAction =
-  | 'forward'
-  | 'back'
-  | 'left'
-  | 'right'
-  | 'jump'
-  | 'sprint'
-  | 'crouch'
-  | 'fire'
-  | 'aim'
-  | 'demolish'
-  | 'reload'
-  | 'interact'
-  | 'contextual'
-  | 'inventory'
-  | 'build'
-  | 'rotate-left'
-  | 'rotate-right'
-  /** Build mode: page between structure, stations and decoration. */
-  | 'build-category'
-  | 'slot1'
-  | 'slot2'
-  | 'slot3'
-  | 'slot4'
-  | 'slot5'
-  | 'slot6'
-  | 'slot7'
-  | 'slot8'
-  | 'slot9'
-  | 'cancel';
+import {
+  DEFAULT_BINDINGS,
+  type Binding,
+  type BindingAction,
+  type InputContext,
+  getBindingLabel,
+} from './Bindings';
 
-/** Control map from handoff section 8. */
-const KEY_MAP: Record<string, InputAction> = {
-  KeyW: 'forward',
-  KeyS: 'back',
-  KeyA: 'left',
-  KeyD: 'right',
-  Space: 'jump',
-  ShiftLeft: 'sprint',
-  ShiftRight: 'sprint',
-  ControlLeft: 'crouch',
-  KeyC: 'crouch',
-  KeyR: 'reload',
-  KeyE: 'interact',
-  KeyF: 'contextual',
-  Tab: 'inventory',
-  KeyB: 'build',
-  KeyQ: 'rotate-left',
-  // Free, adjacent to the movement hand, and unused in normal play — the
-  // number keys only reach nine pieces and the table now holds eighteen.
-  KeyG: 'build-category',
-  Digit1: 'slot1',
-  Digit2: 'slot2',
-  Digit3: 'slot3',
-  Digit4: 'slot4',
-  Digit5: 'slot5',
-  Digit6: 'slot6',
-  Digit7: 'slot7',
-  Digit8: 'slot8',
-  Digit9: 'slot9',
-  Escape: 'cancel',
-};
+export type InputAction = BindingAction | 'build-category';
+type PhysicalCode = `key:${string}` | `mouse:${number}`;
+const DANGEROUS: BindingAction[] = [
+  'fire',
+  'aim',
+  'interact',
+  'shoulder',
+  'relocate',
+  'demolish',
+  'build',
+];
 
-/**
- * Keys that mean one thing in normal play and another in build mode.
- *
- * Both actions are raised and the consumer picks by mode. Rebinding the map at
- * runtime instead would leave a stale held action if the mode flips while the
- * key is down.
- */
-const SECONDARY_KEY_MAP: Record<string, InputAction> = {
-  KeyE: 'rotate-right',
-};
-
-/**
- * Keyboard and mouse state.
- *
- * Held keys and edge-triggered presses are tracked separately. At high frame
- * rates a single keypress can straddle two fixed steps, and without the
- * `consumePressed` drain it would fire the action twice.
- */
 export class InputManager {
-  private readonly held = new Set<InputAction>();
-  private readonly pressed = new Set<InputAction>();
+  private readonly held = new Set<PhysicalCode>();
+  private readonly pressed = new Set<BindingAction>();
+  private readonly suppressed = new Set<PhysicalCode>();
+  private maps: Record<InputContext, Binding[]>;
+  private context: InputContext = 'play';
+  private locked = false;
+  private wheel = 0;
   private readonly look = { x: 0, y: 0 };
   private readonly consumedLook = { x: 0, y: 0 };
-  private wheel = 0;
-  private locked = false;
-
-  /**
-   * When true, input is accepted without pointer lock. Headless browsers
-   * cannot reliably acquire pointer lock, so the e2e and screenshot harnesses
-   * need a way in.
-   */
   private readonly bypassLock: boolean;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
-    options: { bypassPointerLock?: boolean } = {},
+    options: { bypassPointerLock?: boolean; bindings?: Record<InputContext, Binding[]> } = {},
   ) {
     this.bypassLock = options.bypassPointerLock ?? false;
+    this.maps = options.bindings ?? DEFAULT_BINDINGS;
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
     window.addEventListener('mousedown', this.onMouseDown);
@@ -113,115 +50,156 @@ export class InputManager {
   get pointerLocked(): boolean {
     return this.locked || this.bypassLock;
   }
-
   get lookDelta(): { x: number; y: number } {
     return this.look;
   }
-
-  /** Drain each physical mouse movement once, regardless of simulation step count. */
-  consumeLook(): Readonly<{ x: number; y: number }> {
-    this.consumedLook.x = this.look.x;
-    this.consumedLook.y = this.look.y;
-    this.look.x = this.look.y = 0;
-    return this.consumedLook;
-  }
-
   get wheelDelta(): number {
     return this.wheel;
   }
-
-  isDown(action: InputAction): boolean {
-    return this.held.has(action);
+  consumeWheel(): number {
+    const wheel = this.wheel;
+    this.wheel = 0;
+    return wheel;
+  }
+  get inputContext(): InputContext {
+    return this.context;
   }
 
-  /** True once per physical press. Drains the flag. */
+  setBindings(maps: Record<InputContext, Binding[]>): void {
+    this.maps = maps;
+    this.pressed.clear();
+    for (const code of this.held) this.suppressed.add(code);
+  }
+
+  setContext(context: InputContext): void {
+    if (context === this.context) return;
+    for (const code of this.held) {
+      const oldAction = this.find(code, this.context)?.action;
+      const newAction = this.find(code, context)?.action;
+      if (
+        DANGEROUS.includes(oldAction as BindingAction) ||
+        (oldAction !== newAction &&
+          (oldAction === undefined ||
+            newAction === undefined ||
+            DANGEROUS.includes(newAction as BindingAction)))
+      )
+        this.suppressed.add(code);
+    }
+    this.context = context;
+    this.pressed.clear();
+  }
+
+  suppressUntilReleased(actions: InputAction[]): void {
+    for (const code of this.held) {
+      const action = this.find(code, this.context)?.action;
+      if (actions.includes(action as InputAction)) this.suppressed.add(code);
+    }
+  }
+
+  isDown(action: InputAction): boolean {
+    for (const code of this.held) {
+      if (this.find(code, this.context)?.action === action && !this.suppressed.has(code))
+        return true;
+    }
+    return false;
+  }
+
   consumePressed(action: InputAction): boolean {
-    if (!this.pressed.has(action)) return false;
-    this.pressed.delete(action);
+    const current = action as BindingAction;
+    if (!this.pressed.has(current)) return false;
+    this.pressed.delete(current);
     return true;
   }
 
-  /** Wheel is frame-scoped; unconsumed look survives frames without a simulation tick. */
+  consumeLook(): Readonly<{ x: number; y: number }> {
+    this.consumedLook.x = this.look.x;
+    this.consumedLook.y = this.look.y;
+    this.look.x = 0;
+    this.look.y = 0;
+    return this.consumedLook;
+  }
+
   endFrame(): void {
     this.wheel = 0;
   }
-
   readonly requestPointerLock = (): void => {
-    if (this.bypassLock || this.locked) return;
-    void this.canvas.requestPointerLock();
+    if (!this.bypassLock && !this.locked) {
+      try {
+        const request = this.canvas.requestPointerLock();
+        request?.catch(() => {
+          /* Game retains the paused menu on denial. */
+        });
+      } catch {
+        /* Browsers can also reject synchronously. */
+      }
+    }
   };
-
   private readonly onPointerLockChange = (): void => {
     this.locked = document.pointerLockElement === this.canvas;
     if (!this.locked && !this.bypassLock) this.clearAll();
   };
 
-  private readonly onKeyDown = (e: KeyboardEvent): void => {
-    // Tab would move focus out of the canvas and Space would scroll.
-    if (e.code === 'Tab' || e.code === 'Space') e.preventDefault();
-    const action = KEY_MAP[e.code];
-    const secondary = SECONDARY_KEY_MAP[e.code];
-    if (!action && !secondary) return;
+  private find(code: PhysicalCode, context: InputContext = this.context): Binding | undefined {
+    return this.maps[context]?.find((binding) =>
+      binding.mouse !== undefined
+        ? code === `mouse:${binding.mouse}`
+        : code === `key:${binding.code}`,
+    );
+  }
 
-    for (const a of [action, secondary]) {
-      if (!a) continue;
-      if (!e.repeat) this.pressed.add(a);
-      this.held.add(a);
+  private readonly onKeyDown = (event: KeyboardEvent): void => {
+    const code: PhysicalCode = `key:${event.code}`;
+    const binding = this.find(code);
+    if (!binding || (this.context === 'catalog' && event.target instanceof HTMLInputElement))
+      return;
+    if (['Tab', 'Space', 'PageUp', 'PageDown', 'Home'].includes(event.code)) event.preventDefault();
+    this.held.add(code);
+    if (!event.repeat && !this.suppressed.has(code)) this.pressed.add(binding.action);
+  };
+
+  private readonly onKeyUp = (event: KeyboardEvent): void => {
+    const code: PhysicalCode = `key:${event.code}`;
+    this.held.delete(code);
+    this.suppressed.delete(code);
+  };
+  private readonly onMouseDown = (event: MouseEvent): void => {
+    if (!this.pointerLocked && this.context !== 'catalog') return;
+    const code: PhysicalCode = `mouse:${event.button}`;
+    const binding = this.find(code);
+    if (binding) {
+      this.held.add(code);
+      if (!this.suppressed.has(code)) this.pressed.add(binding.action);
     }
   };
-
-  private readonly onKeyUp = (e: KeyboardEvent): void => {
-    const action = KEY_MAP[e.code];
-    const secondary = SECONDARY_KEY_MAP[e.code];
-    if (action) this.held.delete(action);
-    if (secondary) this.held.delete(secondary);
+  private readonly onMouseUp = (event: MouseEvent): void => {
+    const code: PhysicalCode = `mouse:${event.button}`;
+    this.held.delete(code);
+    this.suppressed.delete(code);
   };
-
-  private readonly onMouseDown = (e: MouseEvent): void => {
-    if (!this.pointerLocked) return;
-    if (e.button === 0) {
-      this.held.add('fire');
-      this.pressed.add('fire');
-    }
-    if (e.button === 2) {
-      // RMB means aim in combat and demolish in build mode. Both actions are
-      // raised and the consumer picks by mode; rebinding at runtime instead
-      // would leave a stuck 'aim' if the mode flips mid-press.
-      this.held.add('aim');
-      this.held.add('demolish');
-      this.pressed.add('demolish');
+  private readonly onMouseMove = (event: MouseEvent): void => {
+    if (this.pointerLocked) {
+      this.look.x += event.movementX;
+      this.look.y += event.movementY;
     }
   };
-
-  private readonly onMouseUp = (e: MouseEvent): void => {
-    if (e.button === 0) this.held.delete('fire');
-    if (e.button === 2) {
-      this.held.delete('aim');
-      this.held.delete('demolish');
-    }
+  private readonly onWheel = (event: WheelEvent): void => {
+    if (this.pointerLocked || this.context === 'catalog') this.wheel += event.deltaY;
   };
-
-  private readonly onMouseMove = (e: MouseEvent): void => {
-    if (!this.pointerLocked) return;
-    this.look.x += e.movementX;
-    this.look.y += e.movementY;
-  };
-
-  private readonly onWheel = (e: WheelEvent): void => {
-    if (this.pointerLocked) this.wheel += e.deltaY;
-  };
-
-  /** Losing focus mid-key would otherwise leave the player running forever. */
   private readonly onBlur = (): void => this.clearAll();
-
   clearAll(): void {
     this.held.clear();
     this.pressed.clear();
+    this.suppressed.clear();
     this.look.x = 0;
     this.look.y = 0;
     this.wheel = 0;
   }
-
+  hasKeyBinding(code: string): boolean {
+    return this.find(`key:${code}`) !== undefined;
+  }
+  getBindingLabel(action: BindingAction, context: InputContext = this.context): string {
+    return getBindingLabel(action, context, this.maps);
+  }
   dispose(): void {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);

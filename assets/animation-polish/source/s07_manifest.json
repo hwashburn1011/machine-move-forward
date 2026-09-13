@@ -1,0 +1,144 @@
+{
+  "kind": "s07",
+  "source": "assets\\gunner-s07\\game\\S07_Playable.blend",
+  "sourceSha256": "c01bb6b4a1acf10c7229e20cbc70ef3ddca74abdae5eeb4b4eb423a82b1dcd98",
+  "bones": [
+    "root",
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "neck_01",
+    "head",
+    "clavicle_r",
+    "upperarm_r",
+    "lowerarm_r",
+    "hand_r",
+    "finger_01_01_r",
+    "finger_01_02_r",
+    "finger_01_03_r",
+    "finger_02_01_r",
+    "finger_02_02_r",
+    "finger_02_03_r",
+    "finger_03_01_r",
+    "finger_03_02_r",
+    "finger_03_03_r",
+    "finger_04_01_r",
+    "finger_04_02_r",
+    "finger_04_03_r",
+    "thumb_01_r",
+    "thumb_02_r",
+    "clavicle_l",
+    "upperarm_l",
+    "lowerarm_l",
+    "hand_l",
+    "finger_01_01_l",
+    "finger_01_02_l",
+    "finger_01_03_l",
+    "finger_02_01_l",
+    "finger_02_02_l",
+    "finger_02_03_l",
+    "finger_03_01_l",
+    "finger_03_02_l",
+    "finger_03_03_l",
+    "finger_04_01_l",
+    "finger_04_02_l",
+    "finger_04_03_l",
+    "thumb_01_l",
+    "thumb_02_l",
+    "thigh_r",
+    "calf_r",
+    "foot_r",
+    "ball_r",
+    "thigh_l",
+    "calf_l",
+    "foot_l",
+    "ball_l"
+  ],
+  "clipsAdded": [
+    {
+      "name": "armed_walk_fwd",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "armed_walk_back",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "armed_walk_left",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "armed_walk_right",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "armed_run_fwd",
+      "duration": 0.4,
+      "frames": 13
+    },
+    {
+      "name": "armed_run_back",
+      "duration": 0.4,
+      "frames": 13
+    },
+    {
+      "name": "armed_run_left",
+      "duration": 0.4,
+      "frames": 13
+    },
+    {
+      "name": "armed_run_right",
+      "duration": 0.4,
+      "frames": 13
+    },
+    {
+      "name": "armed_crouch_walk_fwd",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "armed_crouch_walk_back",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "armed_crouch_walk_left",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "armed_crouch_walk_right",
+      "duration": 0.5333333333333333,
+      "frames": 17
+    },
+    {
+      "name": "reload_rifle",
+      "duration": 2.0,
+      "frames": 61
+    },
+    {
+      "name": "reload_shotgun",
+      "duration": 2.4,
+      "frames": 73
+    }
+  ],
+  "originalClipsPreserved": [
+    "armed_crouch_idle",
+    "armed_crouch_walk",
+    "armed_idle",
+    "armed_jump",
+    "armed_run",
+    "armed_walk",
+    "unarmed_crouch_idle",
+    "unarmed_crouch_walk",
+    "unarmed_idle",
+    "unarmed_jump",
+    "unarmed_run",
+    "unarmed_walk"
+  ],
+  "meshVertices": 62158
+}
