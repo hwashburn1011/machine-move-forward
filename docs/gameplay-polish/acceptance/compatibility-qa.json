@@ -1,0 +1,217 @@
+{
+  "generatedAt": "2026-09-12T23:29:17.730Z",
+  "baseUrl": "http://127.0.0.1:5201",
+  "checks": [
+    {
+      "name": "opening returns to armed play",
+      "ok": true,
+      "detail": {
+        "phase": "done",
+        "armed": true,
+        "rooftopReleased": true,
+        "speed": 2.3538547135221064,
+        "paused": false
+      }
+    },
+    {
+      "name": "signal fixture reaches genuine 100 percent",
+      "ok": true,
+      "detail": {
+        "phase": "signal",
+        "signalStrength": 1,
+        "remainingM": null,
+        "objective": "Listen for the source of the signal.",
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "recoveredUniques": []
+      }
+    },
+    {
+      "name": "100 percent signal runs cinematic and restores control UI",
+      "ok": true,
+      "detail": {
+        "during": {
+          "phase": "crossfire",
+          "hudHidden": true
+        },
+        "after": {
+          "phase": "raids",
+          "hudHidden": false,
+          "paused": false
+        }
+      }
+    },
+    {
+      "name": "port boarding real hook damage retreats",
+      "ok": true,
+      "detail": {
+        "before": {
+          "phase": "attached",
+          "side": "port",
+          "lateral": -13.10738006036983,
+          "forward": 1.466219756803942,
+          "hullHealth": 260,
+          "crewHealth": [
+            55,
+            55
+          ],
+          "hookHealth": 60,
+          "hookMaxHealth": 60,
+          "elapsed": 6.283333333333316,
+          "phaseElapsed": 0,
+          "nextCrossing": 0,
+          "crossed": 0,
+          "crossingAt": [
+            0,
+            1.5
+          ],
+          "crewStatus": [
+            "seated",
+            "seated"
+          ],
+          "ended": false,
+          "landedBoardersAlive": 0
+        },
+        "after": {
+          "phase": "attached",
+          "side": "port",
+          "lateral": -13.10738006036983,
+          "forward": 1.466219756803942,
+          "hullHealth": 260,
+          "crewHealth": [
+            55,
+            55
+          ],
+          "hookHealth": 0,
+          "hookMaxHealth": 60,
+          "elapsed": 6.283333333333316,
+          "phaseElapsed": 0,
+          "nextCrossing": 0,
+          "crossed": 0,
+          "crossingAt": [
+            0,
+            1.5
+          ],
+          "crewStatus": [
+            "seated",
+            "seated"
+          ],
+          "ended": false,
+          "landedBoardersAlive": 0
+        },
+        "kind": "hook",
+        "id": "skiff-hook"
+      }
+    },
+    {
+      "name": "starboard boarding real hook damage retreats",
+      "ok": true,
+      "detail": {
+        "before": {
+          "phase": "attached",
+          "side": "starboard",
+          "lateral": 13.10738006036983,
+          "forward": 1.466219756803942,
+          "hullHealth": 260,
+          "crewHealth": [
+            55,
+            55
+          ],
+          "hookHealth": 60,
+          "hookMaxHealth": 60,
+          "elapsed": 6.283333333333316,
+          "phaseElapsed": 0,
+          "nextCrossing": 0,
+          "crossed": 0,
+          "crossingAt": [
+            0,
+            1.5
+          ],
+          "crewStatus": [
+            "seated",
+            "seated"
+          ],
+          "ended": false,
+          "landedBoardersAlive": 0
+        },
+        "after": {
+          "phase": "attached",
+          "side": "starboard",
+          "lateral": 13.10738006036983,
+          "forward": 1.466219756803942,
+          "hullHealth": 260,
+          "crewHealth": [
+            55,
+            55
+          ],
+          "hookHealth": 0,
+          "hookMaxHealth": 60,
+          "elapsed": 6.283333333333316,
+          "phaseElapsed": 0,
+          "nextCrossing": 0,
+          "crossed": 0,
+          "crossingAt": [
+            0,
+            1.5
+          ],
+          "crewStatus": [
+            "seated",
+            "seated"
+          ],
+          "ended": false,
+          "landedBoardersAlive": 0
+        },
+        "kind": "hook",
+        "id": "skiff-hook"
+      }
+    },
+    {
+      "name": "docked expedition restores through Game.loadFrom",
+      "ok": true,
+      "detail": {
+        "loaded": true,
+        "phase": "docked",
+        "docked": true,
+        "gate": true
+      }
+    },
+    {
+      "name": "expedition progress round trips and departs through Game",
+      "ok": true,
+      "detail": {
+        "journal": "wreck-one-journal-cargo",
+        "unique": true,
+        "saved": true,
+        "loaded": true,
+        "restored": {
+          "phase": "docked",
+          "signalStrength": 1,
+          "remainingM": -0.15957244342495752,
+          "objective": "Return to the machine and depart.",
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "recoveredUniques": [
+            "course-gyro"
+          ]
+        },
+        "phaseAfterDepart": "departing",
+        "dockedAfterDepart": false
+      }
+    },
+    {
+      "name": "no browser console or page errors",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "fixtures": [
+    "signal: restore a valid signal-phase StoryDirector snapshot and advance world distance; Game fixedUpdate owns cinematic start/finish",
+    "boarding: call VehicleScene.spawn(side), then damage the registered skiff-hook Damageable from its real physics collider",
+    "expedition: load a valid docked campaign save through SaveManager/Game.loadFrom; invoke Game interaction handlers for journal/unique/departure"
+  ],
+  "inputDriven": [
+    "opening: ?opening=1 boot and held Escape skip through normal InputManager/fixed loop",
+    "signal: held Escape ends the running SignalBattleScene through normal InputManager/fixed loop"
+  ]
+}

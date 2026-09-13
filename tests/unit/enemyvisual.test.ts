@@ -1,10 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { fitToCapsule, resolveClip } from '@/enemies/EnemyVisual';
+import * as THREE from 'three';
+import { fitToCapsule, OriginalEnemyPose, resolveClip } from '@/enemies/EnemyVisual';
 
 /** A pack that names things the obvious way. */
 const TYPICAL = ['Idle', 'Walk', 'Run', 'Attack', 'Death'];
 
 describe('clip resolution', () => {
+  it('never resolves appended polish clips as authoritative originals', () => {
+    expect(resolveClip(['polish_hit', 'polish_death', 'Idle'], 'attack')).toBe('Idle');
+    expect(resolveClip(['polish_attack'], 'attack')).toBeNull();
+  });
   it('maps every AI state to a clip', () => {
     for (const state of ['idle', 'navigate', 'pursue', 'attack', 'dead'] as const) {
       expect(resolveClip(TYPICAL, state)).not.toBeNull();
@@ -47,14 +52,84 @@ describe('clip resolution', () => {
   });
 });
 
+describe('authoritative enemy pose', () => {
+  function rig(includePolish: boolean): OriginalEnemyPose {
+    const root = new THREE.Group();
+    const muzzle = new THREE.Object3D();
+    muzzle.name = 'EnemyMuzzle';
+    muzzle.position.set(0, 1, 0);
+    root.add(muzzle);
+    const clips = [
+      new THREE.AnimationClip('idle', 1, [
+        new THREE.VectorKeyframeTrack('EnemyMuzzle.position', [0, 1], [0, 1, 0, 0.1, 1, 0]),
+      ]),
+      new THREE.AnimationClip('attack', 0.3, [
+        new THREE.VectorKeyframeTrack('EnemyMuzzle.position', [0, 0.3], [0, 1, 0, 0.6, 1, 0]),
+      ]),
+    ];
+    if (includePolish)
+      clips.push(
+        new THREE.AnimationClip('polish_attack', 0.3, [
+          new THREE.VectorKeyframeTrack('EnemyMuzzle.position', [0, 0.3], [0, 1, 0, 30, 1, 0]),
+        ]),
+      );
+    return new OriginalEnemyPose(root, clips);
+  }
+
+  it.each([30, 60, 144])('matches the old-only rig through a three-shot recoil at %i Hz', (fps) => {
+    const baseline = rig(false);
+    const appended = rig(true);
+    baseline.setState('idle', true);
+    appended.setState('idle', true);
+    const a = new THREE.Vector3(),
+      b = new THREE.Vector3();
+    for (let frame = 0; frame < fps; frame++) {
+      if (frame === 2 || frame === Math.floor(fps / 3) || frame === Math.floor((2 * fps) / 3)) {
+        baseline.attack(true);
+        appended.attack(true);
+      }
+      baseline.update(1 / fps, true);
+      appended.update(1 / fps, true);
+      baseline.muzzlePosition(a);
+      appended.muzzlePosition(b);
+      expect(b.distanceTo(a)).toBeLessThan(1e-7);
+    }
+  });
+
+  it('clears attack pose on pooled reset', () => {
+    const pose = rig(true);
+    pose.setState('idle', true);
+    pose.attack(true);
+    pose.update(0.15, true);
+    pose.reset();
+    pose.setState('idle', true);
+    pose.update(0, true);
+    const point = new THREE.Vector3();
+    expect(pose.muzzlePosition(point)).toBe(true);
+    expect(point.x).toBeCloseTo(0, 7);
+  });
+});
+
 describe('the clip names the committed model actually ships', () => {
   // Read off public/models/scavenger.glb — RobotExpressive, by Quaternius.
   // Pinned here because the mapping is what makes that file usable at all, and
   // a swap to a pack that names things differently should fail in node rather
   // than as a scavenger standing still while it sprints at you.
   const SHIPPED = [
-    'Dance', 'Death', 'Idle', 'Jump', 'No', 'Punch', 'Running',
-    'Sitting', 'Standing', 'ThumbsUp', 'Walking', 'WalkJump', 'Wave', 'Yes',
+    'Dance',
+    'Death',
+    'Idle',
+    'Jump',
+    'No',
+    'Punch',
+    'Running',
+    'Sitting',
+    'Standing',
+    'ThumbsUp',
+    'Walking',
+    'WalkJump',
+    'Wave',
+    'Yes',
   ];
 
   it('covers every AI state', () => {

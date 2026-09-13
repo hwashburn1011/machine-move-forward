@@ -1,0 +1,37 @@
+[
+  {
+    "path": "src/data/enemies.ts",
+    "unchanged": true,
+    "sha256": "6C889E68FCF86F45F48D62D39AD279932D9DA1D6BCD22C5751092AD4F4ECC580"
+  },
+  {
+    "path": "src/data/weapons.ts",
+    "unchanged": true,
+    "sha256": "D673DCE22799D11A896F87DC089E1E7F0C9E2EBE98F90F401C27D27E27E99B7E"
+  },
+  {
+    "path": "src/save/SaveSchema.ts",
+    "unchanged": true,
+    "sha256": "3B78C57FC8FFF2AFF4EB4ED98CB4E0B079D1CE957AF3BFFA7444BD813E874681"
+  },
+  {
+    "path": "src/game/constants.ts",
+    "unchanged": true,
+    "sha256": "38B861C77A178E59FA9C41E9B01B32EF13574AD8767A2EDF2BCF6E6765940344"
+  },
+  {
+    "path": "src/vehicles/BoardingEncounter.ts",
+    "unchanged": true,
+    "sha256": "9D1115A927BC51EBFFB07941025200F8C9E059A14A2BEC7F537D60634130DF48"
+  },
+  {
+    "path": "src/vehicles/GunboatEncounter.ts",
+    "unchanged": true,
+    "sha256": "D160FFA622CC6B070E72B9E37A299ADEC3801229BA5D9A35ACAF249885703884"
+  },
+  {
+    "path": "src/enemies/RangedWindup.ts",
+    "unchanged": true,
+    "sha256": "7E3582A863C0BC967465921FAAAE728551B1268D04A1B576B11F482ABACA6C7B"
+  }
+]

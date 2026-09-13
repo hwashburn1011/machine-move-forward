@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-09-13T00:05:59.519Z",
+  "url": "http://127.0.0.1:5201/?nomenu=1&nolock=1&nospawn=1&nosound=1&quality=high&seed=polish-hook-cut",
+  "fixtures": [
+    "VehicleScene.spawn(side) starts the real encounter because random encounter timing is outside this focused check.",
+    "Player.teleport(hookWorldPosition) puts the capsule within Game updateBoarding proximity; no cut method is called by the harness."
+  ],
+  "inputDriven": "Playwright holds physical KeyE; InputManager, Game proximity/phase checks, VehicleScene.holdCutHook, and VehicleManager own completion.",
+  "checks": [
+    {
+      "name": "port physical hold-E cuts attached hook",
+      "ok": true,
+      "before": {
+        "side": "port",
+        "phase": "attached",
+        "hookHealth": 60,
+        "simTime": 6.283333333333316,
+        "distanceToHook": 0
+      },
+      "after": {
+        "active": true,
+        "phase": "retreat",
+        "hookHealth": 0,
+        "simTime": 7.533333333333312
+      },
+      "browserErrors": []
+    },
+    {
+      "name": "starboard physical hold-E cuts attached hook",
+      "ok": true,
+      "before": {
+        "side": "starboard",
+        "phase": "attached",
+        "hookHealth": 60,
+        "simTime": 6.283333333333316,
+        "distanceToHook": 0
+      },
+      "after": {
+        "active": true,
+        "phase": "retreat",
+        "hookHealth": 0,
+        "simTime": 7.533333333333312
+      },
+      "browserErrors": []
+    }
+  ],
+  "errors": []
+}

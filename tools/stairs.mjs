@@ -22,11 +22,14 @@
  */
 import { chromium } from '@playwright/test';
 import { BASE_URL } from './base-url.mjs';
+import { browserLaunchOptions } from './browser-options.mjs';
+import fs from 'node:fs/promises';
 
-const browser = await chromium.launch({
-  args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
-});
-const page = await browser.newPage({ viewport: { width: 640, height: 360 } });
+const artReview = process.env.MMF_STAIR_ART === '1';
+const output = process.env.MMF_QA_OUT;
+if (output) await fs.mkdir(output, { recursive: true });
+const browser = await chromium.launch(browserLaunchOptions);
+const page = await browser.newPage({ viewport: artReview ? { width: 1280, height: 720 } : { width: 640, height: 360 } });
 const errors = [];
 page.on('console', (message) => {
   if (message.type() === 'error') errors.push(message.text());
@@ -100,7 +103,7 @@ async function until(predicate, seconds = 35) {
 
 try {
   await page.goto(
-    `${BASE_URL}/?nolock=1&nomenu=1&quality=low&seed=stairs-harness&nospawn=1&notex=1&nomodel=1&nosound=1`,
+    `${BASE_URL.replace('localhost','127.0.0.1')}/?nolock=1&nomenu=1&quality=${artReview?'high':'low'}&seed=stairs-harness&nospawn=1&${artReview?'':'notex=1&nomodel=1&'}nosound=1`,
     { waitUntil: 'load' },
   );
   await page.waitForFunction(
@@ -249,11 +252,16 @@ try {
     return { x: p.x, y: p.y, z: p.z, grounded: globalThis.__game.player.isGrounded };
   });
   await page.keyboard.down('d');
+  if (artReview && output) {
+    await until(() => page.evaluate(() => globalThis.__game.player.worldPosition.x >= -2.5));
+    await page.screenshot({ path: `${output}/s07-mid-stair.png` });
+  }
   // Walk far enough onto the upper platform that a pursuing enemy must also
   // finish the flight before it can reach the player's normal attack radius.
   await until(() => page.evaluate(() => globalThis.__game.player.worldPosition.x >= 1.6));
   await page.keyboard.up('d');
   await sim(0.5);
+  if (artReview && output) await page.screenshot({ path: `${output}/s07-upper-landing.png` });
 
   const afterWalk = await page.evaluate((start) => {
     const root = globalThis.__game;
@@ -347,6 +355,24 @@ try {
     }),
   );
 
+  await page.evaluate(() => {
+    const root = globalThis.__game;
+    root.game.start();
+    root.game.enemies.despawnAll();
+  });
+  await page.keyboard.down('a');
+  await until(() => page.evaluate(() => globalThis.__game.player.worldPosition.x <= -6.8));
+  await page.keyboard.up('a');
+  await sim(0.5);
+  if (artReview && output) await page.screenshot({ path: `${output}/s07-lower-descent.png` });
+  const afterDescent = await page.evaluate(() => {
+    const root = globalThis.__game; const p = root.player.worldPosition;
+    const deckSurface = root.game.machine.deckBounds.min.y + 0.09;
+    const level = Math.round((p.y - (deckSurface + 1.11)) / 3);
+    return { x: p.x, y: p.y, z: p.z, level, grounded: root.player.isGrounded, standingError: Math.abs(p.y - (deckSurface + 1.11)) };
+  });
+  check('player physically descends the built stair flight', afterDescent.grounded === true && afterDescent.level === 0 && afterDescent.standingError < 0.35, JSON.stringify({ x: afterDescent.x.toFixed(2), y: afterDescent.y.toFixed(2), level: afterDescent.level, grounded: afterDescent.grounded }));
+
   const failed = results.filter((result) => !result.ok);
   console.log(`\n${results.length - failed.length}/${results.length} stair checks passed`);
   if (errors.length) {
@@ -355,8 +381,10 @@ try {
   }
   if (failed.length || errors.length) process.exitCode = 1;
 } catch (error) {
+  errors.push(String(error));
   console.error(`STAIRS HARNESS ERROR: ${error instanceof Error ? error.message : String(error)}`);
   process.exitCode = 1;
 } finally {
+  if (output) await fs.writeFile(`${output}/results.json`, JSON.stringify({artReview, results, errors}, null, 2));
   await browser.close();
 }

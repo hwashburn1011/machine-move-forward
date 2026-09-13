@@ -1,0 +1,935 @@
+{
+  "generatedAt": "2026-09-12T22:53:47.895Z",
+  "baselineOrigin": "http://127.0.0.1:5203",
+  "currentOrigin": "http://127.0.0.1:5201",
+  "tolerance": 1e-7,
+  "results": [
+    {
+      "id": "bastion",
+      "fps": 30,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.0066750796841524,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "bastion",
+      "fps": 60,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.1200581003533976,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "bastion",
+      "fps": 144,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.186667485824185,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "revenant",
+      "fps": 30,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.1478859012217715,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "revenant",
+      "fps": 60,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.2842117660190084,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "revenant",
+      "fps": 144,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.365819793669274,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "warden",
+      "fps": 30,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.0463143642524184,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "warden",
+      "fps": 60,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.164238496445526,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "warden",
+      "fps": 144,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.2334823057975814,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "sovereign",
+      "fps": 30,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.3455224948488709,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "sovereign",
+      "fps": 60,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.499617223898907,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "id": "sovereign",
+      "fps": 144,
+      "originalClipsExact": true,
+      "maxAuthoritativeDelta": 0,
+      "maxCosmeticDelta": 1.5906576416846356,
+      "baselineClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        }
+      ],
+      "currentClips": [
+        {
+          "name": "attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "idle",
+          "duration": 2
+        },
+        {
+          "name": "run",
+          "duration": 0.7333333492279053
+        },
+        {
+          "name": "walk",
+          "duration": 1
+        },
+        {
+          "name": "polish_attack",
+          "duration": 0.800000011920929
+        },
+        {
+          "name": "polish_death",
+          "duration": 1.399999976158142
+        },
+        {
+          "name": "polish_hit",
+          "duration": 0.4000000059604645
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "bastion 30Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "bastion 30Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "bastion 30Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.0066750796841524
+    },
+    {
+      "name": "bastion 60Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "bastion 60Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "bastion 60Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.1200581003533976
+    },
+    {
+      "name": "bastion 144Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "bastion 144Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "bastion 144Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.186667485824185
+    },
+    {
+      "name": "revenant 30Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "revenant 30Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "revenant 30Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.1478859012217715
+    },
+    {
+      "name": "revenant 60Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "revenant 60Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "revenant 60Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.2842117660190084
+    },
+    {
+      "name": "revenant 144Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "revenant 144Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "revenant 144Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.365819793669274
+    },
+    {
+      "name": "warden 30Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "warden 30Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "warden 30Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.0463143642524184
+    },
+    {
+      "name": "warden 60Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "warden 60Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "warden 60Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.164238496445526
+    },
+    {
+      "name": "warden 144Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "warden 144Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "warden 144Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.2334823057975814
+    },
+    {
+      "name": "sovereign 30Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "sovereign 30Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "sovereign 30Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.3455224948488709
+    },
+    {
+      "name": "sovereign 60Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "sovereign 60Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "sovereign 60Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.499617223898907
+    },
+    {
+      "name": "sovereign 144Hz original clip inventory",
+      "ok": true
+    },
+    {
+      "name": "sovereign 144Hz authoritative muzzle parity",
+      "ok": true,
+      "maxDelta": 0
+    },
+    {
+      "name": "sovereign 144Hz cosmetic muzzle separated",
+      "ok": true,
+      "maxDelta": 1.5906576416846356
+    }
+  ],
+  "errors": []
+}

@@ -3,6 +3,8 @@ import type { QualityTier } from '@/core/renderer/QualitySettings';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { canonicalEdge } from '@/building/BuildGrid';
 import '@/art/interface.css';
+import '@/ui/storage-ui.css';
+import '@/ui/settings.css';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 const hudRoot = document.querySelector<HTMLElement>('#hud');
@@ -58,6 +60,13 @@ const DEBUG_KEYS: Record<string, Parameters<typeof game.queueDebugAction>[0]> = 
 };
 
 window.addEventListener('keydown', (e) => {
+  if (
+    game.input.inputContext !== 'play' ||
+    game.input.hasKeyBinding(e.code) ||
+    e.target instanceof HTMLInputElement ||
+    e.target instanceof HTMLTextAreaElement
+  )
+    return;
   const action = DEBUG_KEYS[e.code];
   if (!action) return;
   e.preventDefault();

@@ -1,0 +1,38 @@
+{
+  "artReview": true,
+  "results": [
+    {
+      "name": "rotation-1 stair sits on an equipment-free z=-5 platform",
+      "ok": true
+    },
+    {
+      "name": "stair has a real upper landing floor and vertical nav link",
+      "ok": true
+    },
+    {
+      "name": "upper floor is supported by the placed lower wall",
+      "ok": true
+    },
+    {
+      "name": "player uses actual movement input to cross the stair flight",
+      "ok": true
+    },
+    {
+      "name": "player finishes grounded at level 1 standing height",
+      "ok": true
+    },
+    {
+      "name": "ordinary scavenger keeps player-seeking priority",
+      "ok": true
+    },
+    {
+      "name": "ordinary scavenger climbs to level 1 and reaches attack range",
+      "ok": true
+    },
+    {
+      "name": "player physically descends the built stair flight",
+      "ok": true
+    }
+  ],
+  "errors": []
+}

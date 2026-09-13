@@ -1,0 +1,12 @@
+{
+  "before": 174,
+  "after": 174,
+  "firstFadeCpuMs": 3.1000000089406967,
+  "partialDraws": 689,
+  "hiddenDraws": 501,
+  "restoredDraws": 708,
+  "hidden": true,
+  "restored": true,
+  "visibleAfter100Cycles": true,
+  "programsAfter100Cycles": 174
+}

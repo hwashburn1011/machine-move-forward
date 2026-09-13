@@ -65,6 +65,28 @@ export interface BuildPieceInstance {
   state?: Record<string, unknown>;
 }
 
+export type RelocationReason =
+  | 'not-found'
+  | 'structural'
+  | 'busy'
+  | 'supporting-piece'
+  | 'destroyed'
+  | 'invalid'
+  | 'blocked'
+  | 'actor-overlap';
+export type RelocationResult =
+  | { ok: true; instance: BuildPieceInstance; oldPlacement: Placement; newPlacement: Placement }
+  | { ok: false; reason: RelocationReason };
+export interface RelocationOptions {
+  isBusy?: (instance: BuildPieceInstance) => boolean;
+  overlapsActor?: (instance: BuildPieceInstance, placement: Placement) => boolean;
+  onRelocated?: (event: {
+    instanceId: string;
+    oldPlacement: Placement;
+    newPlacement: Placement;
+  }) => void;
+}
+
 /** A built producer near the player, for the interaction system. */
 export interface ProducerRef {
   instanceId: string;
@@ -282,11 +304,227 @@ export class BuildSystem {
     return this.grid;
   }
 
+  instance(instanceId: string): BuildPieceInstance | null {
+    const data = this.instances.get(instanceId)?.data;
+    return data
+      ? { ...data, cell: { ...data.cell }, edge: data.edge ? { ...data.edge } : undefined }
+      : null;
+  }
+
+  visual(instanceId: string): THREE.Object3D | null {
+    return this.instances.get(instanceId)?.mesh ?? null;
+  }
+
+  demolish(instanceId: string): number {
+    const refunded = this.removeCascade(instanceId);
+    this.recomputeRooms();
+    return refunded;
+  }
+
+  /** Same support rules as removal, evaluated on a detached occupancy grid. */
+  demolitionPreview(instanceId: string): { ids: string[]; refund: ItemCost } {
+    const probe = this.grid.clone();
+    const ids = new Set<string>();
+    const root = this.instances.get(instanceId);
+    if (!root) return { ids: [], refund: {} };
+    if (root.data.definitionId === 'collector-auto' && !this.canEmptyCollector(instanceId))
+      return { ids: [], refund: {} };
+    const remove = (data: BuildPieceInstance) => {
+      ids.add(data.instanceId);
+      this.removeFromProbe(probe, data);
+    };
+    remove(root.data);
+    for (;;) {
+      let orphan: BuildPieceInstance | null = null;
+      for (const { data } of this.instances.values()) {
+        if (ids.has(data.instanceId)) continue;
+        const noFloor = probe.getCell(data.cell) !== 'floor';
+        const isOrphan =
+          isFixture(data.definitionId) && data.edge
+            ? !canHoldFixture(probe.getEdge(data.edge))
+            : data.edge
+              ? cellsOfEdge(data.edge).every((cell) => probe.getCell(cell) !== 'floor')
+              : (data.definitionId === 'roof' ||
+                  data.definitionId === 'stairs' ||
+                  isStation(data.definitionId) ||
+                  isDecor(data.definitionId)) &&
+                noFloor;
+        if (isOrphan) {
+          orphan = data;
+          break;
+        }
+      }
+      if (
+        !orphan ||
+        (orphan.definitionId === 'collector-auto' && !this.canEmptyCollector(orphan.instanceId))
+      )
+        break;
+      remove(orphan);
+    }
+    const refund: ItemCost = {};
+    for (const id of ids) {
+      for (const [item, amount] of Object.entries(
+        BUILD_PIECES[this.instances.get(id)!.data.definitionId].cost,
+      )) {
+        const key = item as ItemId;
+        refund[key] = (refund[key] ?? 0) + Math.floor(amount * REFUND_FRACTION);
+      }
+    }
+    return { ids: [...ids], refund };
+  }
+
   canPlace(placement: Placement): Validation {
     if (!this.buildAuthorizer(placement.piece)) return { ok: false, reason: 'locked' };
     const blocked = this.buildBlocker(placement);
     if (blocked) return blocked;
     return validatePlacement(this.grid, placement, this.affordable);
+  }
+
+  /** Validate a move against a probe grid; the live occupancy is untouched. */
+  canRelocate(
+    instanceId: string,
+    placement: Placement,
+    options: RelocationOptions = {},
+  ): RelocationResult {
+    const live = this.instances.get(instanceId);
+    if (!live) return { ok: false, reason: 'not-found' };
+    if (live.data.health <= 0) return { ok: false, reason: 'destroyed' };
+    const movable =
+      isStation(live.data.definitionId) ||
+      isDecor(live.data.definitionId) ||
+      isFixture(live.data.definitionId);
+    if (!movable) return { ok: false, reason: 'structural' };
+    if (options.isBusy?.(live.data)) return { ok: false, reason: 'busy' };
+    if (placement.piece !== live.data.definitionId) return { ok: false, reason: 'invalid' };
+    if (options.overlapsActor?.(live.data, placement))
+      return { ok: false, reason: 'actor-overlap' };
+    const runtimeBlock = this.buildBlocker(placement);
+    if (runtimeBlock && !runtimeBlock.ok)
+      return { ok: false, reason: this.relocationReason(runtimeBlock) };
+    const probe = this.grid.clone();
+    this.removeFromProbe(probe, live.data);
+    const validation = validatePlacement(probe, placement, () => true);
+    if (!validation.ok) return { ok: false, reason: this.relocationReason(validation) };
+    const oldPlacement = this.placementOf(live.data);
+    return {
+      ok: true,
+      instance: {
+        ...live.data,
+        cell: { ...live.data.cell },
+        edge: live.data.edge ? { ...live.data.edge } : undefined,
+      },
+      oldPlacement,
+      newPlacement: {
+        ...placement,
+        cell: { ...placement.cell },
+        edge: placement.edge ? { ...placement.edge } : undefined,
+      },
+    };
+  }
+
+  /** Commit a previously validated move while preserving the live instance and all state bags. */
+  relocate(
+    instanceId: string,
+    placement: Placement,
+    options: RelocationOptions = {},
+  ): RelocationResult {
+    const checked = this.canRelocate(instanceId, placement, options);
+    if (!checked.ok) return checked;
+    const live = this.instances.get(instanceId)!;
+    const oldPlacement = checked.oldPlacement;
+    const oldData = {
+      ...live.data,
+      cell: { ...live.data.cell },
+      edge: live.data.edge ? { ...live.data.edge } : undefined,
+    };
+    const oldColliders = live.colliders;
+    let newColliders: RAPIER.Collider[] = [];
+    try {
+      // Prepare collision before touching the committed instance. Preserve the
+      // mesh and its controller-owned turret/collector/material state in place.
+      const newData = {
+        ...live.data,
+        cell: { ...placement.cell },
+        edge: placement.edge ? { ...placement.edge } : undefined,
+        rotation: placement.rotation,
+      };
+      newColliders = this.createColliders(newData);
+      this.vacate(live.data);
+      this.occupy((live.data = newData));
+      const transform = BuildSystem.transformFor(
+        newData.definitionId,
+        newData.cell,
+        newData.edge,
+        newData.rotation,
+      );
+      live.mesh.position.copy(transform.position);
+      live.mesh.rotation.y = transform.rotationY;
+      live.mesh.updateMatrixWorld(true);
+      this.recomputeRooms();
+    } catch {
+      for (const collider of newColliders) this.physics.removeCollider(collider);
+      this.vacate(live.data);
+      this.occupy((live.data = oldData));
+      const transform = BuildSystem.transformFor(
+        oldData.definitionId,
+        oldData.cell,
+        oldData.edge,
+        oldData.rotation,
+      );
+      live.mesh.position.copy(transform.position);
+      live.mesh.rotation.y = transform.rotationY;
+      live.mesh.updateMatrixWorld(true);
+      this.recomputeRooms();
+      return { ok: false, reason: 'invalid' };
+    }
+    for (const collider of oldColliders) this.physics.removeCollider(collider);
+    live.colliders = newColliders;
+    const result: RelocationResult = {
+      ok: true,
+      instance: this.instance(instanceId)!,
+      oldPlacement,
+      newPlacement: this.placementOf(live.data),
+    };
+    this.bus.emit('build:relocated', {
+      instanceId,
+      oldPlacement,
+      newPlacement: result.newPlacement,
+    });
+    try {
+      options.onRelocated?.({ instanceId, oldPlacement, newPlacement: result.newPlacement });
+    } catch {
+      /* A notification cannot undo a committed move. */
+    }
+    return result;
+  }
+
+  private relocationReason(validation: Validation): RelocationReason {
+    if (validation.ok) return 'invalid';
+    return validation.reason === 'blocked'
+      ? 'blocked'
+      : validation.reason === 'needs-support' || validation.reason === 'needs-floor'
+        ? 'supporting-piece'
+        : 'invalid';
+  }
+
+  private placementOf(data: BuildPieceInstance): Placement {
+    return {
+      piece: data.definitionId,
+      cell: { ...data.cell },
+      edge: data.edge ? { ...data.edge } : undefined,
+      rotation: data.rotation,
+    };
+  }
+  private removeFromProbe(probe: BuildGrid<PieceId>, data: BuildPieceInstance): void {
+    if (data.edge) {
+      if (isFixture(data.definitionId)) probe.clearFixture(data.edge);
+      else probe.clearEdge(data.edge);
+    } else if (data.definitionId === 'roof') probe.clearRoof(data.cell);
+    else if (data.definitionId === 'stairs')
+      probe.clearStairs(stairsCells(data.cell, data.rotation).run);
+    else if (isStation(data.definitionId)) probe.clearStation(data.cell);
+    else if (isDecor(data.definitionId)) probe.clearDecor(data.cell);
+    else probe.clearCell(data.cell);
   }
 
   /**
@@ -998,8 +1236,7 @@ export class BuildSystem {
       // Build rotation 1 means +X. The authored turret points down -Z, so
       // Three's positive Y rotation needs the opposite sign to face that cell
       // direction; preview, mesh, and colliders all share this transform.
-      rotationY:
-        piece === 'turret-manual' || piece === 'turret-auto' ? -rotation * (Math.PI / 2) : 0,
+      rotationY: -rotation * (Math.PI / 2),
     };
   }
 
@@ -1161,26 +1398,33 @@ export class BuildSystem {
       },
     };
 
-    for (const spec of pieceColliders(data.definitionId)) {
-      offset.copy(spec.offset).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationY);
-      const center = position.clone().add(offset);
+    try {
+      for (const spec of pieceColliders(data.definitionId)) {
+        offset.copy(spec.offset).applyAxisAngle(new THREE.Vector3(0, 1, 0), rotationY);
+        const center = position.clone().add(offset);
 
-      // Rotated shapes (the stair ramp) need a quaternion, so they take the
-      // general path; everything else is an axis-aligned box.
-      const collider =
-        spec.rotX !== undefined
-          ? this.physics.addFixedBoxRotated(
-              spec.half,
-              center,
-              // Pitch in the piece's local frame, then turn the whole ramp.
-              // XYZ pitches around world X after yaw, flattening a quarter-
-              // turned flight in its direction of travel.
-              new THREE.Quaternion().setFromEuler(new THREE.Euler(spec.rotX, rotationY, 0, 'YXZ')),
-              target,
-            )
-          : this.physics.addFixedBox(spec.half, center, rotationY, target);
+        // Rotated shapes (the stair ramp) need a quaternion, so they take the
+        // general path; everything else is an axis-aligned box.
+        const collider =
+          spec.rotX !== undefined
+            ? this.physics.addFixedBoxRotated(
+                spec.half,
+                center,
+                // Pitch in the piece's local frame, then turn the whole ramp.
+                // XYZ pitches around world X after yaw, flattening a quarter-
+                // turned flight in its direction of travel.
+                new THREE.Quaternion().setFromEuler(
+                  new THREE.Euler(spec.rotX, rotationY, 0, 'YXZ'),
+                ),
+                target,
+              )
+            : this.physics.addFixedBox(spec.half, center, rotationY, target);
 
-      out.push(collider);
+        out.push(collider);
+      }
+    } catch (error) {
+      for (const collider of out) this.physics.removeCollider(collider);
+      throw error;
     }
 
     return out;

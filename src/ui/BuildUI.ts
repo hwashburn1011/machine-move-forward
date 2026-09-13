@@ -1,161 +1,115 @@
-import {
-  BUILD_PIECES,
-  PIECE_CATEGORIES,
-  piecesInCategory,
-  requiredUnlockOf,
-  type PieceCategory,
-  type PieceId,
-} from '@/data/build-pieces';
+import { BUILD_PIECES, type PieceCategory, type PieceId } from '@/data/build-pieces';
 import { formatCostGlyphs, type ItemCost } from '@/data/items';
 import { REASON_TEXT, type Validation } from '@/building/BuildValidation';
+import { TARGET_REJECTION_TEXT, type TargetRejection } from '@/building/BuildTargeting';
 
 export interface BuildUIState {
   piece: PieceId;
-  /** Which group the number keys are addressing right now. */
   category: PieceCategory;
   level: number;
   rotation: number;
   scrap: number;
   components: number;
-  /**
-   * A predicate rather than a scrap number: costs are itemised now, and the
-   * panel must not have its own opinion about where materials live.
-   */
   canAfford: (cost: ItemCost) => boolean;
   canBuild?: (piece: PieceId) => boolean;
   validation: Validation;
   roomCount: number;
   enclosedCount: number;
+  range?: number;
+  levelPinned?: boolean;
+  targetRejection?: TargetRejection;
+  message?: string;
+  relocation?: boolean;
+  aimedName?: string;
+  demolition?: { progress: number; cascade: number; refund: string };
+  label?: (action: string) => string;
 }
-
-/** What each group is called on the panel. */
-const CATEGORY_LABEL: Record<PieceCategory, string> = {
-  structure: 'Structure',
-  station: 'Stations',
-  automation: 'Automation',
-  decor: 'Comforts',
+const LEVEL_NAMES: Record<number, string> = {
+  [-2]: 'Lower deck',
+  [-1]: 'Service deck',
+  0: 'Command deck',
+  1: 'Build level 1',
+  2: 'Build level 2',
 };
 
-/**
- * Build-mode HUD panel.
- *
- * Same cached-write discipline as the main HUD: nothing touches the DOM unless
- * the value actually changed.
- *
- * **Grouped, and the grouping is load-bearing rather than cosmetic.**
- * `InputManager` binds `slot1`..`slot9` and no more, and the piece table is
- * eighteen pieces now. A flat row would have left the last nine unselectable
- * — a bug that reads as the pieces never having been implemented. So the
- * number keys address the ACTIVE group and `G` pages between them; every
- * group is held inside nine pieces by a test in `decor.test.ts`.
- */
+/** Compact, cached build HUD. Catalog selection remains owned by BuildCatalog. */
 export class BuildUI {
   private readonly root: HTMLDivElement;
-  private readonly slots = new Map<PieceId, HTMLElement>();
-  private readonly groups = new Map<PieceCategory, HTMLElement>();
-  private readonly cache = new Map<string, string>();
-  private readonly el: Record<string, HTMLElement> = {};
-
+  private readonly el = new Map<string, HTMLElement>();
+  private signature = '';
   constructor(parent: HTMLElement) {
     this.root = document.createElement('div');
     this.root.id = 'build-panel';
-    this.root.style.display = 'none';
-
-    const groups = PIECE_CATEGORIES.map((category) => {
-      const row = piecesInCategory(category)
-        .map((id, i) => {
-          const def = BUILD_PIECES[id];
-          return `
-            <div class="build-slot" data-piece="${id}">
-              <span class="build-slot-key">${i + 1}</span>
-              <span class="build-slot-name">${def.name}</span>
-              <span class="build-slot-cost">${formatCostGlyphs(def.cost)}</span>
-            </div>`;
-        })
-        .join('');
-      return `
-        <div class="build-group" data-category="${category}">
-          <span class="build-group-label">${CATEGORY_LABEL[category]}</span>
-          <div class="build-row">${row}</div>
-        </div>`;
-    }).join('');
-
-    this.root.innerHTML = `
-      ${groups}
-      <div class="build-status">
-        <span id="build-scrap">400 &#9642; &middot; 0 &#11041;</span>
-        <span id="build-level">Level 0</span>
-        <span id="build-rooms">rooms 0 &middot; enclosed 0</span>
-        <span id="build-group-hint">[G] group</span>
-      </div>
-      <div id="build-reason"></div>
-    `;
-
+    this.root.hidden = true;
+    this.root.innerHTML = `<div class="build-selected"><span class="build-selected-name"></span><span class="build-selected-cost"></span></div><div class="build-target"><span class="build-target-status"></span><span class="build-target-name"></span></div><div class="build-placement"><span class="build-level"></span><span class="build-range"></span><span class="build-facing"></span></div><div class="build-resources"></div><div class="build-message"></div><div class="build-controls"></div><div class="build-demolition"></div>`;
     parent.appendChild(this.root);
-
-    for (const id of Object.keys(BUILD_PIECES) as PieceId[]) {
-      const node = this.root.querySelector<HTMLElement>(`[data-piece="${id}"]`);
-      if (node) this.slots.set(id, node);
-    }
-    for (const category of PIECE_CATEGORIES) {
-      const node = this.root.querySelector<HTMLElement>(`[data-category="${category}"]`);
-      if (node) this.groups.set(category, node);
-    }
-    for (const id of ['build-scrap', 'build-level', 'build-rooms', 'build-reason']) {
-      const node = this.root.querySelector<HTMLElement>(`#${id}`);
-      if (node) this.el[id] = node;
+    for (const key of [
+      'selected-name',
+      'selected-cost',
+      'target-status',
+      'target-name',
+      'level',
+      'range',
+      'facing',
+      'resources',
+      'message',
+      'controls',
+      'demolition',
+    ]) {
+      const node = this.root.querySelector<HTMLElement>(`.build-${key}`);
+      if (node) this.el.set(key, node);
     }
   }
-
   setVisible(visible: boolean): void {
-    this.root.style.display = visible ? 'block' : 'none';
+    this.root.hidden = !visible;
   }
-
   update(state: BuildUIState): void {
-    for (const [id, node] of this.slots) {
-      const selected = id === state.piece;
-      const affordable = state.canAfford(BUILD_PIECES[id].cost);
-      const unlocked = state.canBuild?.(id) ?? true;
-      node.classList.toggle('is-selected', selected);
-      node.classList.toggle('is-poor', !affordable || !unlocked);
-      node.classList.toggle('is-locked', !unlocked);
-      const required = requiredUnlockOf(id);
-      const names: Record<string, string> = {
-        'manual-turret': 'Manual turret blueprint',
-        'automatic-salvage-collector': 'Salvage Controller',
-        'automatic-defense-turret': 'Tracking Servo',
-      };
-      node.title =
-        !unlocked && required ? `Requires ${names[required] ?? required}` : BUILD_PIECES[id].name;
-    }
-
-    // Only the active group's number keys do anything, so only the active
-    // group is drawn as though they might.
-    for (const [category, node] of this.groups) {
-      node.classList.toggle('is-active', category === state.category);
-    }
-
-    this.write('scrap', this.el['build-scrap'], `${state.scrap} ▪ · ${state.components} ⬡`);
-    this.write('level', this.el['build-level'], `Level ${state.level}`);
-    this.write(
-      'rooms',
-      this.el['build-rooms'],
-      `rooms ${state.roomCount} · enclosed ${state.enclosedCount}`,
-    );
-
-    // Blank while valid, so the reason line is pure signal.
+    const def = BUILD_PIECES[state.piece];
     const reason =
-      state.validation.ok || !state.validation.reason ? '' : REASON_TEXT[state.validation.reason];
-    this.write('reason', this.el['build-reason'], reason);
+      (state.targetRejection && TARGET_REJECTION_TEXT[state.targetRejection]) ||
+      (!state.validation.ok && state.validation.reason
+        ? REASON_TEXT[state.validation.reason]
+        : 'Ready to place');
+    const level = LEVEL_NAMES[state.level] ?? `Build level ${state.level}`;
+    const range =
+      state.range === undefined ? 'Reach 12.0 m' : `Reach ${state.range.toFixed(1)} / 12.0 m`;
+    const facing = `Facing ${['north', 'east', 'south', 'west'][((state.rotation % 4) + 4) % 4]}`;
+    const key = (action: string, fallback: string) => state.label?.(action) ?? fallback;
+    const controls = [
+      `${key('fire', 'LMB')} ${state.relocation ? 'Move here' : 'Place'}`,
+      `${key('catalog', 'G')} Catalog`,
+      `${key('rotate-left', 'Q')}/${key('rotate-right', 'E')} or wheel Rotate`,
+      `${key('next-level', 'PgUp')}/${key('previous-level', 'PgDn')} Deck`,
+      `${key('auto-level', 'Home')} Auto deck`,
+      `${key('relocate', 'V')} Move equipment`,
+      `${key('aim', 'RMB')}/${key('cancel', 'Esc')} Cancel`,
+      `Hold ${key('demolish', 'X')} Demolish`,
+    ].join(' · ');
+    const values: Record<string, string> = {
+      'selected-name': state.relocation ? `Moving ${state.aimedName ?? def.name}` : def.name,
+      'selected-cost': state.relocation ? '' : formatCostGlyphs(def.cost),
+      'target-status': state.validation.ok && !state.targetRejection ? '✓ Valid' : `⚠ ${reason}`,
+      'target-name': state.aimedName ? `Target: ${state.aimedName}` : '',
+      level: `${level} · ${state.levelPinned ? 'Manual' : 'Auto'}`,
+      range,
+      facing,
+      resources: `${state.scrap} ▪ · ${state.components} ⬡ · rooms ${state.roomCount} · enclosed ${state.enclosedCount}`,
+      message: state.message ?? '',
+      controls,
+      demolition: state.demolition
+        ? `Demolish ${Math.round(state.demolition.progress * 100)}% · ${state.demolition.cascade} affected · Refund ${state.demolition.refund}`
+        : '',
+    };
+    const sig = JSON.stringify(values);
+    if (sig === this.signature) return;
+    this.signature = sig;
+    for (const [key, value] of Object.entries(values)) {
+      const node = this.el.get(key);
+      if (node && node.textContent !== value) node.textContent = value;
+    }
+    this.root.classList.toggle('is-invalid', !(state.validation.ok && !state.targetRejection));
+    this.root.classList.toggle('is-relocating', !!state.relocation);
   }
-
-  private write(key: string, node: HTMLElement | undefined, value: string): void {
-    if (!node) return;
-    if (this.cache.get(key) === value) return;
-    this.cache.set(key, value);
-    node.textContent = value;
-  }
-
   dispose(): void {
     this.root.remove();
   }

@@ -1,0 +1,35 @@
+{
+  "result": {
+    "deckY": 14.74,
+    "x": -2,
+    "z": 2.2,
+    "levels": [
+      -2,
+      -1,
+      0
+    ]
+  },
+  "checks": [
+    {
+      "name": "authored ramp -2 to -1 ascent",
+      "ok": true,
+      "detail": "{\"level\":-1,\"grounded\":true,\"z\":2.9410946304634518,\"expected\":-1}"
+    },
+    {
+      "name": "authored ramp -1 to -2 descent",
+      "ok": true,
+      "detail": "{\"level\":-2,\"grounded\":true,\"z\":-2.8160455178049806,\"expected\":-2}"
+    },
+    {
+      "name": "authored ramp -1 to 0 ascent",
+      "ok": true,
+      "detail": "{\"level\":0,\"grounded\":true,\"z\":3.020501007728633,\"expected\":0}"
+    },
+    {
+      "name": "authored ramp 0 to -1 descent",
+      "ok": true,
+      "detail": "{\"level\":-1,\"grounded\":true,\"z\":-2.8827465092178497,\"expected\":-1}"
+    }
+  ],
+  "errors": []
+}

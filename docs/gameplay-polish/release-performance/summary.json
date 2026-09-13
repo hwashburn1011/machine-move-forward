@@ -1,0 +1,314 @@
+{
+  "generatedAt": "2026-09-13T00:06:50.059Z",
+  "hardware": {
+    "backend": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "width": 1920,
+    "height": 1080,
+    "dpr": 1,
+    "quality": "high"
+  },
+  "secondsPerScenario": 30,
+  "samplesPerBuild": 3,
+  "seed": "desert-review",
+  "distance": 800,
+  "baselineCommit": "1cf3835739d7e5318ec9506faaed149c6957c4bc",
+  "sources": {
+    "baseline": [
+      "baseline/baseline-1.json",
+      "baseline/baseline-2.json",
+      "baseline/baseline-3.json"
+    ],
+    "current": [
+      "release-performance/current-1.json",
+      "release-performance/current-2.json",
+      "release-performance/current-3.json"
+    ],
+    "contemporary": [
+      "release-performance/paired-baseline.json"
+    ]
+  },
+  "scenarios": [
+    {
+      "scenario": "deck",
+      "baseline": {
+        "fps": [
+          53.14,
+          59.73,
+          59.83
+        ],
+        "medianFps": 59.73,
+        "p95Ms": [
+          33.4,
+          16.8,
+          16.8
+        ],
+        "p99Ms": [
+          33.4,
+          16.8,
+          16.8
+        ],
+        "worstFrameMs": 33.5,
+        "over50ms": [
+          0,
+          0,
+          0
+        ],
+        "frames": [
+          1595,
+          1793,
+          1796
+        ],
+        "programs": [
+          157,
+          157,
+          157
+        ]
+      },
+      "current": {
+        "fps": [
+          60,
+          60,
+          54.94
+        ],
+        "medianFps": 60,
+        "p95Ms": [
+          16.8,
+          16.8,
+          33.3
+        ],
+        "p99Ms": [
+          16.8,
+          16.8,
+          33.4
+        ],
+        "worstFrameMs": 33.5,
+        "over50ms": [
+          0,
+          0,
+          0
+        ],
+        "frames": [
+          1801,
+          1801,
+          1650
+        ],
+        "programs": [
+          174,
+          174,
+          174
+        ]
+      },
+      "contemporaryOriginal": {
+        "fps": [
+          60
+        ],
+        "medianFps": 60,
+        "p95Ms": [
+          16.8
+        ],
+        "p99Ms": [
+          16.8
+        ],
+        "worstFrameMs": 16.9,
+        "over50ms": [
+          0
+        ],
+        "frames": [
+          1801
+        ],
+        "programs": [
+          157
+        ]
+      },
+      "medianFpsChangePercent": 0.45
+    },
+    {
+      "scenario": "rapid-look",
+      "baseline": {
+        "fps": [
+          58.53,
+          60,
+          59.96
+        ],
+        "medianFps": 59.96,
+        "p95Ms": [
+          16.8,
+          16.8,
+          16.8
+        ],
+        "p99Ms": [
+          33.4,
+          16.8,
+          16.8
+        ],
+        "worstFrameMs": 33.5,
+        "over50ms": [
+          0,
+          0,
+          0
+        ],
+        "frames": [
+          1757,
+          1801,
+          1800
+        ],
+        "programs": [
+          157,
+          157,
+          157
+        ]
+      },
+      "current": {
+        "fps": [
+          59.93,
+          59.8,
+          53.57
+        ],
+        "medianFps": 59.8,
+        "p95Ms": [
+          16.8,
+          16.8,
+          33.4
+        ],
+        "p99Ms": [
+          16.8,
+          16.8,
+          33.5
+        ],
+        "worstFrameMs": 33.7,
+        "over50ms": [
+          0,
+          0,
+          0
+        ],
+        "frames": [
+          1799,
+          1795,
+          1608
+        ],
+        "programs": [
+          174,
+          174,
+          174
+        ]
+      },
+      "contemporaryOriginal": {
+        "fps": [
+          59.86
+        ],
+        "medianFps": 59.86,
+        "p95Ms": [
+          16.8
+        ],
+        "p99Ms": [
+          16.8
+        ],
+        "worstFrameMs": 33.4,
+        "over50ms": [
+          0
+        ],
+        "frames": [
+          1797
+        ],
+        "programs": [
+          157
+        ]
+      },
+      "medianFpsChangePercent": -0.27
+    },
+    {
+      "scenario": "crowded-look",
+      "baseline": {
+        "fps": [
+          57.93,
+          59.66,
+          57.9
+        ],
+        "medianFps": 57.93,
+        "p95Ms": [
+          16.8,
+          16.8,
+          16.8
+        ],
+        "p99Ms": [
+          33.4,
+          16.8,
+          33.4
+        ],
+        "worstFrameMs": 33.5,
+        "over50ms": [
+          0,
+          0,
+          0
+        ],
+        "frames": [
+          1739,
+          1791,
+          1738
+        ],
+        "programs": [
+          158,
+          158,
+          158
+        ]
+      },
+      "current": {
+        "fps": [
+          57.07,
+          54.67,
+          58.8
+        ],
+        "medianFps": 57.07,
+        "p95Ms": [
+          16.9,
+          33.3,
+          16.8
+        ],
+        "p99Ms": [
+          33.4,
+          33.4,
+          33.3
+        ],
+        "worstFrameMs": 83.4,
+        "over50ms": [
+          1,
+          2,
+          0
+        ],
+        "frames": [
+          1713,
+          1641,
+          1765
+        ],
+        "programs": [
+          174,
+          174,
+          174
+        ]
+      },
+      "contemporaryOriginal": {
+        "fps": [
+          55.6
+        ],
+        "medianFps": 55.6,
+        "p95Ms": [
+          33.3
+        ],
+        "p99Ms": [
+          33.4
+        ],
+        "worstFrameMs": 50.1,
+        "over50ms": [
+          1
+        ],
+        "frames": [
+          1669
+        ],
+        "programs": [
+          158
+        ]
+      },
+      "medianFpsChangePercent": -1.48
+    }
+  ]
+}

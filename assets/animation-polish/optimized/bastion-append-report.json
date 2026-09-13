@@ -1,0 +1,13 @@
+{
+  "kind": "bastion",
+  "originalSha256": "4d73711d83f8ed2663455b30b2d50269548b918093dcb676e07651afb3eabb64",
+  "originalBytes": 3939144,
+  "outputBytes": 4033660,
+  "originalAnimationCount": 5,
+  "originalBufferPreserved": true,
+  "added": [
+    "polish_attack",
+    "polish_death",
+    "polish_hit"
+  ]
+}

@@ -231,6 +231,32 @@ export class BuildGrid<T = string> {
   private readonly blocked = new Set<string>();
   private readonly machineSupports = new Set<string>();
 
+  /** Snapshot occupancy for validation probes. Payloads remain opaque. */
+  clone(): BuildGrid<T> {
+    const copy = new BuildGrid<T>();
+    for (const [k, v] of this.cells) copy.cells.set(k, v);
+    for (const [k, v] of this.edges) copy.edges.set(k, v);
+    for (const [k, v] of this.roofs) copy.roofs.set(k, v);
+    for (const [k, v] of this.stations) copy.stations.set(k, v);
+    for (const [k, v] of this.stairs) copy.stairs.set(k, v);
+    for (const [k, v] of this.decor) copy.decor.set(k, v);
+    for (const [k, v] of this.fixtures) copy.fixtures.set(k, v);
+    for (const k of this.blocked) copy.blocked.add(k);
+    for (const k of this.machineSupports) copy.machineSupports.add(k);
+    return copy;
+  }
+
+  /** Remove one known payload from every occupancy layer in a probe copy. */
+  removeValue(value: T): void {
+    for (const [k, v] of this.cells) if (v === value) this.cells.delete(k);
+    for (const [k, v] of this.edges) if (v === value) this.edges.delete(k);
+    for (const [k, v] of this.roofs) if (v === value) this.roofs.delete(k);
+    for (const [k, v] of this.stations) if (v === value) this.stations.delete(k);
+    for (const [k, v] of this.stairs) if (v === value) this.stairs.delete(k);
+    for (const [k, v] of this.decor) if (v === value) this.decor.delete(k);
+    for (const [k, v] of this.fixtures) if (v === value) this.fixtures.delete(k);
+  }
+
   supportCell(c: Cell): void {
     this.machineSupports.add(cellKey(c));
   }

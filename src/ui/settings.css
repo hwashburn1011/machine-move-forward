@@ -1,0 +1,117 @@
+#title-settings {
+  display: none;
+  box-sizing: border-box;
+  width: 100%;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  background: rgba(13, 18, 17, 0.97);
+  border: 1px solid rgba(216, 160, 90, 0.5);
+  padding: 24px;
+  color: #eadfca;
+}
+#title-settings.is-open {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+#title-plate:has(#title-settings.is-open) {
+  width: min(780px, calc(100vw - 48px));
+  max-width: none;
+  margin: 0 auto;
+}
+#title-screen:has(#title-settings.is-open) {
+  background: rgba(5, 9, 8, 0.78);
+}
+#title-settings .title-setting {
+  display: grid;
+  grid-template-columns: 170px minmax(100px, 1fr) 62px;
+  gap: 0.4rem 0.8rem;
+  align-items: center;
+  min-height: 26px;
+  font-size: 11px;
+  color: #c9b796;
+}
+.title-setting input,
+.title-setting select {
+  accent-color: #d99b48;
+}
+#title-bindings {
+  border: 1px solid rgba(216, 160, 90, 0.3);
+  padding: 12px;
+  margin: 4px 0 0;
+  min-width: 0;
+}
+#title-bindings legend {
+  padding: 0 8px;
+  color: #e8b86e;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+}
+#title-bindings > label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font:
+    12px ui-monospace,
+    monospace;
+  color: #c9b796;
+}
+#title-binding-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  max-height: 242px;
+  overflow-y: auto;
+  margin: 12px 0;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #8f7045 #171d1a;
+}
+#title-settings .title-binding,
+#title-bindings-reset {
+  border: 1px solid rgba(216, 160, 90, 0.25);
+  background: #202722;
+  color: #e2d6be;
+  font:
+    12px ui-monospace,
+    monospace;
+  padding: 9px 10px;
+  cursor: pointer;
+}
+#title-settings .title-binding {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 38px;
+  text-align: left;
+}
+.title-binding b {
+  color: #edbb73;
+  white-space: nowrap;
+  font-weight: 600;
+}
+#title-settings .title-binding:hover:not(:disabled),
+#title-bindings-reset:hover {
+  background: #34372a;
+  border-color: #d7a058;
+}
+#title-settings .title-binding:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+#title-settings button:focus-visible,
+#title-settings select:focus-visible,
+#title-settings input:focus-visible {
+  outline: 2px solid #edbb73;
+  outline-offset: 2px;
+}
+@media (max-width: 700px) {
+  #title-settings .title-setting {
+    grid-template-columns: 120px minmax(70px, 1fr) 46px;
+  }
+  #title-binding-list {
+    grid-template-columns: 1fr;
+  }
+}

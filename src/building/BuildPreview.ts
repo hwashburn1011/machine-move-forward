@@ -3,24 +3,39 @@ import type RAPIER from '@dimforge/rapier3d-compat';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import { BUILD_PIECES, type PieceId } from '@/data/build-pieces';
 import { GRID_TILE } from '@/game/constants';
-import {
-  canonicalEdge,
-  cellCenter,
-  worldToCell,
-  type Cell,
-  type Side,
-} from './BuildGrid';
+import { canonicalEdge, cellCenter, worldToCell, type Cell, type Side } from './BuildGrid';
 import type { Placement, Validation } from './BuildValidation';
 import { buildPieceGeometry } from './BuildPieceGeometry';
 import { BuildSystem } from './BuildSystem';
+import {
+  resolveBuildTarget,
+  type BuildTargetInput,
+  type BuildTargetResult,
+  BUILD_MAX_REACH,
+} from './BuildTargeting';
 
-const MAX_REACH = 9;
+const MAX_REACH = BUILD_MAX_REACH;
 /** Where the target lands when the ray hits nothing, so the player can still
  *  extend a floor out over empty space at the deck edge. */
-const FALLBACK_DISTANCE = 5;
 
 const VALID_COLOR = new THREE.Color(0x5ad86a);
 const INVALID_COLOR = new THREE.Color(0xd6483b);
+const FOOTPRINT_CUE_GEOMETRY = new THREE.BufferGeometry().setFromPoints([
+  new THREE.Vector3(-2, 0.04, -2),
+  new THREE.Vector3(2, 0.04, -2),
+  new THREE.Vector3(2, 0.04, -2),
+  new THREE.Vector3(2, 0.04, 2),
+  new THREE.Vector3(2, 0.04, 2),
+  new THREE.Vector3(-2, 0.04, 2),
+  new THREE.Vector3(-2, 0.04, 2),
+  new THREE.Vector3(-2, 0.04, -2),
+  new THREE.Vector3(0, 0.05, 1.4),
+  new THREE.Vector3(0, 0.05, -1.6),
+  new THREE.Vector3(0, 0.05, -1.6),
+  new THREE.Vector3(-0.45, 0.05, -1.05),
+  new THREE.Vector3(0, 0.05, -1.6),
+  new THREE.Vector3(0.45, 0.05, -1.05),
+]);
 
 /**
  * Targeting and ghost rendering for build mode.
@@ -40,6 +55,15 @@ export class BuildPreview {
   private current: Placement | null = null;
   private currentValidation: Validation = { ok: false };
   private currentPiece: PieceId | null = null;
+  private currentTarget: BuildTargetResult | null = null;
+  private readonly cueMaterial = new THREE.LineBasicMaterial({
+    color: VALID_COLOR,
+    depthTest: false,
+    transparent: true,
+    opacity: 0.9,
+  });
+  private readonly cue = new THREE.LineSegments(FOOTPRINT_CUE_GEOMETRY, this.cueMaterial);
+  private readonly localMatrix = new THREE.Matrix4();
 
   constructor(scene: THREE.Scene) {
     this.material = new THREE.MeshBasicMaterial({
@@ -56,6 +80,8 @@ export class BuildPreview {
     this.mesh.visible = false;
     this.mesh.renderOrder = 999;
     this.mesh.frustumCulled = false;
+    this.cue.renderOrder = 1001;
+    this.mesh.add(this.cue);
     scene.add(this.mesh);
   }
 
@@ -65,6 +91,9 @@ export class BuildPreview {
 
   get validation(): Validation {
     return this.currentValidation;
+  }
+  get target(): BuildTargetResult | null {
+    return this.currentTarget;
   }
 
   setVisible(visible: boolean): void {
@@ -92,8 +121,14 @@ export class BuildPreview {
       // Nudge inward along the surface normal so a hit exactly on a boundary
       // resolves to the cell the player is looking AT, not the one behind it.
       this.hitPoint.addScaledVector(hit.normal, -0.02);
+      system.group.updateWorldMatrix(true, false);
+      this.hitPoint.applyMatrix4(this.localMatrix.copy(system.group.matrixWorld).invert());
     } else {
-      this.hitPoint.copy(origin).addScaledVector(direction, FALLBACK_DISTANCE);
+      this.current = null;
+      this.currentTarget = null;
+      this.currentValidation = { ok: false, reason: 'out-of-bounds' };
+      this.mesh.visible = false;
+      return;
     }
 
     const cell = worldToCell(this.hitPoint.x, this.hitPoint.z, level);
@@ -106,6 +141,25 @@ export class BuildPreview {
 
     this.currentValidation = system.canPlace(this.current);
     this.applyGhost(piece, this.current, system);
+  }
+
+  /** Chest-relative targeting seam for the integrated build session. */
+  updateTargeted(
+    input: BuildTargetInput,
+    system: BuildSystem,
+    validate?: (placement: Placement) => Validation,
+  ): void {
+    const result = resolveBuildTarget(input);
+    this.current = result.placement;
+    this.currentTarget = result;
+    this.currentValidation =
+      result.placement && !result.rejection
+        ? (validate ?? ((placement) => system.canPlace(placement)))(result.placement)
+        : { ok: false, reason: 'out-of-bounds' };
+    if (result.placement) {
+      this.applyGhost(input.piece, result.placement, system);
+      this.mesh.visible = true;
+    } else this.mesh.visible = false;
   }
 
   private applyGhost(piece: PieceId, placement: Placement, system: BuildSystem): void {
@@ -129,9 +183,14 @@ export class BuildPreview {
       placement.edge,
       placement.rotation,
     );
-    this.mesh.position.copy(position);
-    this.mesh.rotation.y = rotationY;
+    system.group.updateWorldMatrix(true, false);
+    this.localMatrix
+      .makeRotationY(rotationY)
+      .setPosition(position)
+      .premultiply(system.group.matrixWorld);
+    this.localMatrix.decompose(this.mesh.position, this.mesh.quaternion, this.mesh.scale);
     this.material.color.copy(this.currentValidation.ok ? VALID_COLOR : INVALID_COLOR);
+    this.cueMaterial.color.copy(this.currentValidation.ok ? VALID_COLOR : INVALID_COLOR);
     this.tintAuthoredGhost(this.currentValidation.ok ? VALID_COLOR : INVALID_COLOR);
   }
 
@@ -186,6 +245,7 @@ export class BuildPreview {
     this.mesh.removeFromParent();
     this.emptyGeometry.dispose();
     this.material.dispose();
+    this.cueMaterial.dispose();
   }
 }
 

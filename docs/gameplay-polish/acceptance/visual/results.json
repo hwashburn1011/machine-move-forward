@@ -1,0 +1,71 @@
+{
+  "generatedAt": "2026-09-13T00:03:39.607Z",
+  "viewports": [
+    [
+      1280,
+      720
+    ],
+    [
+      1920,
+      1080
+    ]
+  ],
+  "checks": [
+    {
+      "name": "locked automation reasons visible at 1280",
+      "ok": true
+    },
+    {
+      "name": "locked automation reasons visible at 1920",
+      "ok": true
+    },
+    {
+      "name": "placement panel stays inside 720p view",
+      "ok": true,
+      "detail": {
+        "x": 260,
+        "y": 564,
+        "width": 760,
+        "height": 138
+      }
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "calls": 837,
+    "tris": 2860206,
+    "skyBakes": 1,
+    "graphics": {
+      "logicalWidth": 1280,
+      "logicalHeight": 720,
+      "pixelRatio": 1,
+      "drawingBufferWidth": 1280,
+      "drawingBufferHeight": 720,
+      "msaaSamples": 4,
+      "gtao": true,
+      "gtaoWidth": 640,
+      "gtaoHeight": 360,
+      "shimmer": false,
+      "postBypassed": false
+    },
+    "distance": 1001,
+    "chunks": 9,
+    "speed": 7.37,
+    "bodies": 28,
+    "playerY": 15.83,
+    "grounded": true,
+    "vy": 0,
+    "simTime": 27.517,
+    "hp": 100,
+    "ammo": "6/48",
+    "weapon": "shotgun",
+    "enemies": 4,
+    "particles": 269,
+    "scrap": 260,
+    "pieces": 2,
+    "rooms": 1,
+    "buildMode": false,
+    "opening": "done",
+    "armed": true
+  }
+}

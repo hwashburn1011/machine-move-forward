@@ -1,0 +1,13 @@
+{
+  "kind": "warden",
+  "originalSha256": "eb28bf2de9dcc0bfb522831f2c09d87780c725754aecf5cde37d8de6ba4ec1d8",
+  "originalBytes": 4861652,
+  "outputBytes": 4957504,
+  "originalAnimationCount": 5,
+  "originalBufferPreserved": true,
+  "added": [
+    "polish_attack",
+    "polish_death",
+    "polish_hit"
+  ]
+}

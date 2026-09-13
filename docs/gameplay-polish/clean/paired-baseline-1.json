@@ -1,0 +1,669 @@
+{
+  "hardware": {
+    "backend": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "width": 1920,
+    "height": 1080,
+    "dpr": 1,
+    "quality": "high"
+  },
+  "seconds": 30,
+  "seed": "desert-review",
+  "distance": 800,
+  "results": [
+    {
+      "scenario": "deck",
+      "simulationSeconds": 30.01666666666609,
+      "steps": 1801,
+      "frames": 1767,
+      "fps": 58.865465593518465,
+      "frameMs": {
+        "mean": 16.987889077532543,
+        "p50": 16.69999999999709,
+        "p95": 16.80000000000291,
+        "p99": 33.30000000000291,
+        "max": 33.5
+      },
+      "renderCpuMs": {
+        "mean": 9.365837104348845,
+        "p50": 8.799999997019768,
+        "p95": 16.299999997019768,
+        "p99": 20.399999991059303,
+        "max": 25.700000002980232
+      },
+      "fixedCpuMs": {
+        "mean": 2.206218767065197,
+        "p50": 2.1000000089406967,
+        "p95": 3,
+        "p99": 4,
+        "max": 5
+      },
+      "breakdown": {
+        "physicsStep": {
+          "calls": 1801,
+          "ms": 1847.5000003874302,
+          "max": 2.800000011920929
+        },
+        "characterMove": {
+          "calls": 1801,
+          "ms": 1176.6999997645617,
+          "max": 3.5999999940395355
+        },
+        "raycast": {
+          "calls": 1801,
+          "ms": 76.29999978840351,
+          "max": 1.4000000059604645
+        },
+        "enemyTick": {
+          "calls": 1801,
+          "ms": 20.60000003874302,
+          "max": 0.29999999701976776
+        },
+        "playerTick": {
+          "calls": 1801,
+          "ms": 1199.199999883771,
+          "max": 3.5999999940395355
+        },
+        "machineTick": {
+          "calls": 1801,
+          "ms": 139.30000038444996,
+          "max": 2.2000000029802322
+        }
+      },
+      "over25ms": 34,
+      "over50ms": 0,
+      "peakDraws": 722,
+      "peakTriangles": 2575250,
+      "enemies": 0,
+      "enemyStates": [],
+      "yawTravel": 0,
+      "deliveredX": 0,
+      "memory": {
+        "geometries": 436,
+        "textures": 489
+      },
+      "programs": 157,
+      "hotspots": [
+        {
+          "location": "(idle)  :0",
+          "selfMs": 8612.602
+        },
+        {
+          "location": "projectObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51577",
+          "selfMs": 1646.958
+        },
+        {
+          "location": "updateMatrixWorld node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :9897",
+          "selfMs": 1147.381
+        },
+        {
+          "location": "(program)  :0",
+          "selfMs": 1080.888
+        },
+        {
+          "location": "WebGLRenderer.renderBufferDirect node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51294",
+          "selfMs": 967.451
+        },
+        {
+          "location": "renderObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :46908",
+          "selfMs": 955.334
+        },
+        {
+          "location": "setProgram node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51818",
+          "selfMs": 702.182
+        },
+        {
+          "location": "wasm-function[35] wasm://wasm/007b5d42 :1",
+          "selfMs": 630.462
+        },
+        {
+          "location": "multiplyMatrices node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :8108",
+          "selfMs": 539.562
+        },
+        {
+          "location": "wasm-function[28] wasm://wasm/007b5d42 :1",
+          "selfMs": 537.568
+        },
+        {
+          "location": "bindVertexArray  :0",
+          "selfMs": 528.209
+        },
+        {
+          "location": "getBindingState node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42431",
+          "selfMs": 411.206
+        },
+        {
+          "location": "refreshUniformsCommon node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :49602",
+          "selfMs": 377.218
+        },
+        {
+          "location": "needsUpdate node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42477",
+          "selfMs": 357.49
+        },
+        {
+          "location": "traverse node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :9837",
+          "selfMs": 350.452
+        },
+        {
+          "location": "upload node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :45006",
+          "selfMs": 316.271
+        },
+        {
+          "location": "setup node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42406",
+          "selfMs": 314.837
+        },
+        {
+          "location": "getParameters node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :45676",
+          "selfMs": 286.814
+        },
+        {
+          "location": "wasm-function[385] wasm://wasm/007b5d42 :1",
+          "selfMs": 280.925
+        },
+        {
+          "location": "getProgram node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51721",
+          "selfMs": 279.395
+        },
+        {
+          "location": "renderObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51705",
+          "selfMs": 262.285
+        },
+        {
+          "location": "arraysEqual node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :44492",
+          "selfMs": 253.622
+        },
+        {
+          "location": "intersectsObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :18484",
+          "selfMs": 223.124
+        },
+        {
+          "location": "renderObjects node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51695",
+          "selfMs": 218.432
+        },
+        {
+          "location": "update node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :41639",
+          "selfMs": 211.699
+        }
+      ]
+    },
+    {
+      "scenario": "rapid-look",
+      "simulationSeconds": 30.016666666664968,
+      "steps": 1801,
+      "frames": 1632,
+      "fps": 54.36810404562655,
+      "frameMs": {
+        "mean": 18.393137254901966,
+        "p50": 16.69999999999709,
+        "p95": 33.30000000000291,
+        "p99": 33.40000000000873,
+        "max": 50
+      },
+      "renderCpuMs": {
+        "mean": 12.977036129868038,
+        "p50": 12,
+        "p95": 20.900000005960464,
+        "p99": 25.200000002980232,
+        "max": 32.5
+      },
+      "fixedCpuMs": {
+        "mean": 2.332537479396663,
+        "p50": 2.2000000029802322,
+        "p95": 3.5,
+        "p99": 4.4000000059604645,
+        "max": 9.600000008940697
+      },
+      "breakdown": {
+        "physicsStep": {
+          "calls": 1801,
+          "ms": 1848.400000423193,
+          "max": 8.100000008940697
+        },
+        "characterMove": {
+          "calls": 1801,
+          "ms": 1468.7999997287989,
+          "max": 3.7999999970197678
+        },
+        "raycast": {
+          "calls": 1801,
+          "ms": 67.90000012516975,
+          "max": 1.2999999970197678
+        },
+        "enemyTick": {
+          "calls": 1801,
+          "ms": 25.799999952316284,
+          "max": 1.300000011920929
+        },
+        "playerTick": {
+          "calls": 1801,
+          "ms": 1487.1999998092651,
+          "max": 3.7999999970197678
+        },
+        "machineTick": {
+          "calls": 1801,
+          "ms": 121.69999988377094,
+          "max": 1.6000000089406967
+        }
+      },
+      "over25ms": 168,
+      "over50ms": 0,
+      "peakDraws": 756,
+      "peakTriangles": 2597040,
+      "enemies": 0,
+      "enemyStates": [],
+      "yawTravel": 117.39200000000214,
+      "deliveredX": 53360,
+      "memory": {
+        "geometries": 436,
+        "textures": 489
+      },
+      "programs": 157,
+      "hotspots": [
+        {
+          "location": "(idle)  :0",
+          "selfMs": 3313.902
+        },
+        {
+          "location": "projectObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51577",
+          "selfMs": 2132.763
+        },
+        {
+          "location": "WebGLRenderer.renderBufferDirect node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51294",
+          "selfMs": 1373.698
+        },
+        {
+          "location": "renderObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :46908",
+          "selfMs": 1362.789
+        },
+        {
+          "location": "(program)  :0",
+          "selfMs": 1312.18
+        },
+        {
+          "location": "updateMatrixWorld node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :9897",
+          "selfMs": 1268.495
+        },
+        {
+          "location": "setProgram node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51818",
+          "selfMs": 903.213
+        },
+        {
+          "location": "bindVertexArray  :0",
+          "selfMs": 740.871
+        },
+        {
+          "location": "getBindingState node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42431",
+          "selfMs": 576.099
+        },
+        {
+          "location": "wasm-function[35] wasm://wasm/007b5d42 :1",
+          "selfMs": 559.682
+        },
+        {
+          "location": "multiplyMatrices node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :8108",
+          "selfMs": 553.953
+        },
+        {
+          "location": "traverse node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :9837",
+          "selfMs": 463.331
+        },
+        {
+          "location": "getProgram node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51721",
+          "selfMs": 459.892
+        },
+        {
+          "location": "wasm-function[28] wasm://wasm/007b5d42 :1",
+          "selfMs": 454.971
+        },
+        {
+          "location": "refreshUniformsCommon node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :49602",
+          "selfMs": 434.096
+        },
+        {
+          "location": "needsUpdate node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42477",
+          "selfMs": 419.235
+        },
+        {
+          "location": "renderObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51705",
+          "selfMs": 404.759
+        },
+        {
+          "location": "getParameters node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :45676",
+          "selfMs": 383.753
+        },
+        {
+          "location": "setup node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42406",
+          "selfMs": 380.678
+        },
+        {
+          "location": "upload node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :45006",
+          "selfMs": 378.922
+        },
+        {
+          "location": "setValue node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :44949",
+          "selfMs": 354.227
+        },
+        {
+          "location": "arraysEqual node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :44492",
+          "selfMs": 309.843
+        },
+        {
+          "location": "renderObjects node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51695",
+          "selfMs": 299.971
+        },
+        {
+          "location": "uniformMatrix4fv  :0",
+          "selfMs": 291.24
+        },
+        {
+          "location": "intersectsObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :18484",
+          "selfMs": 282.285
+        }
+      ]
+    },
+    {
+      "scenario": "crowded-look",
+      "simulationSeconds": 30.01666666666496,
+      "steps": 1801,
+      "frames": 1275,
+      "fps": 42.475222786707754,
+      "frameMs": {
+        "mean": 23.54313725490196,
+        "p50": 16.69999999999709,
+        "p95": 33.5,
+        "p99": 50.09999999999127,
+        "max": 66.69999999999709
+      },
+      "renderCpuMs": {
+        "mean": 14.560423197323999,
+        "p50": 13.600000008940697,
+        "p95": 27,
+        "p99": 32.599999994039536,
+        "max": 37.70000000298023
+      },
+      "fixedCpuMs": {
+        "mean": 4.531038311961159,
+        "p50": 4.299999997019768,
+        "p95": 6.5,
+        "p99": 8.800000011920929,
+        "max": 13.400000005960464
+      },
+      "breakdown": {
+        "enemy-0-bastion": {
+          "calls": 1801,
+          "ms": 146.6000001579523,
+          "max": 0.9000000059604645
+        },
+        "enemy-1-warden": {
+          "calls": 1801,
+          "ms": 867.1999998986721,
+          "max": 3
+        },
+        "enemy-2-revenant": {
+          "calls": 1801,
+          "ms": 591.9999998211861,
+          "max": 1.5
+        },
+        "enemy-3-sovereign": {
+          "calls": 1801,
+          "ms": 258.1000004708767,
+          "max": 8.200000002980232
+        },
+        "enemy-4-bastion": {
+          "calls": 1801,
+          "ms": 1070.3999998122454,
+          "max": 3.199999988079071
+        },
+        "enemy-5-warden": {
+          "calls": 1801,
+          "ms": 693.0999997705221,
+          "max": 2
+        },
+        "enemy-6-revenant": {
+          "calls": 1801,
+          "ms": 58.900000020861626,
+          "max": 0.30000001192092896
+        },
+        "enemy-7-sovereign": {
+          "calls": 1801,
+          "ms": 282.2000000476837,
+          "max": 1.6000000089406967
+        },
+        "physicsStep": {
+          "calls": 1801,
+          "ms": 1515.7000002712011,
+          "max": 2.8999999910593033
+        },
+        "characterMove": {
+          "calls": 1801,
+          "ms": 240.40000016987324,
+          "max": 3.5
+        },
+        "raycast": {
+          "calls": 94420,
+          "ms": 769.8999998420477,
+          "max": 1.7000000029802322
+        },
+        "enemyTick": {
+          "calls": 1801,
+          "ms": 5752.999999925494,
+          "max": 12.200000002980232
+        },
+        "playerTick": {
+          "calls": 1801,
+          "ms": 251.9000002592802,
+          "max": 3.5
+        },
+        "machineTick": {
+          "calls": 1801,
+          "ms": 78.40000003576279,
+          "max": 1.4000000059604645
+        }
+      },
+      "over25ms": 463,
+      "over50ms": 16,
+      "peakDraws": 1126,
+      "peakTriangles": 3882580,
+      "enemies": 8,
+      "enemyStates": [
+        {
+          "id": "enemy-0",
+          "kind": "bastion",
+          "state": "attack",
+          "at": [
+            -3.2022899809354004,
+            15.805651783924706,
+            -4.472842912247043
+          ],
+          "grounded": true
+        },
+        {
+          "id": "enemy-1",
+          "kind": "warden",
+          "state": "attack",
+          "at": [
+            -5.951089251171998,
+            15.819274762199942,
+            -2.0149952424813566
+          ],
+          "grounded": true
+        },
+        {
+          "id": "enemy-2",
+          "kind": "revenant",
+          "state": "navigate",
+          "at": [
+            -5.8526807358178505,
+            15.817351579857219,
+            3.6681173845477315
+          ],
+          "grounded": true
+        },
+        {
+          "id": "enemy-3",
+          "kind": "sovereign",
+          "state": "attack",
+          "at": [
+            -2.211329699177518,
+            15.803042498576659,
+            5.381083831739564
+          ],
+          "grounded": true
+        },
+        {
+          "id": "enemy-4",
+          "kind": "bastion",
+          "state": "attack",
+          "at": [
+            6.039505685559351,
+            15.822154924779989,
+            -5.077168622463873
+          ],
+          "grounded": true
+        },
+        {
+          "id": "enemy-5",
+          "kind": "warden",
+          "state": "attack",
+          "at": [
+            6.014561114205963,
+            15.821250675544434,
+            -1.9806693331391385
+          ],
+          "grounded": true
+        },
+        {
+          "id": "enemy-6",
+          "kind": "revenant",
+          "state": "attack",
+          "at": [
+            5.069174237475693,
+            15.80480269288361,
+            3.8942948425584003
+          ],
+          "grounded": true
+        },
+        {
+          "id": "enemy-7",
+          "kind": "sovereign",
+          "state": "attack",
+          "at": [
+            5.728213048116802,
+            15.81840703646237,
+            6.327179957057094
+          ],
+          "grounded": true
+        }
+      ],
+      "yawTravel": 117.6295999999961,
+      "deliveredX": 53468,
+      "memory": {
+        "geometries": 439,
+        "textures": 489
+      },
+      "programs": 158,
+      "hotspots": [
+        {
+          "location": "(idle)  :0",
+          "selfMs": 2328.509
+        },
+        {
+          "location": "projectObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51577",
+          "selfMs": 1892.476
+        },
+        {
+          "location": "WebGLRenderer.renderBufferDirect node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51294",
+          "selfMs": 1134.707
+        },
+        {
+          "location": "renderObject node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :46908",
+          "selfMs": 975.335
+        },
+        {
+          "location": "updateMatrixWorld node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :9897",
+          "selfMs": 972.292
+        },
+        {
+          "location": "(program)  :0",
+          "selfMs": 888.638
+        },
+        {
+          "location": "multiplyMatrices node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :8108",
+          "selfMs": 877.226
+        },
+        {
+          "location": "setProgram node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :51818",
+          "selfMs": 833.484
+        },
+        {
+          "location": "wasm-function[114] wasm://wasm/007b5d42 :1",
+          "selfMs": 724.071
+        },
+        {
+          "location": "wasm-function[47] wasm://wasm/007b5d42 :1",
+          "selfMs": 708.511
+        },
+        {
+          "location": "bindVertexArray  :0",
+          "selfMs": 526.91
+        },
+        {
+          "location": "wasm-function[30] wasm://wasm/007b5d42 :1",
+          "selfMs": 522.513
+        },
+        {
+          "location": "traverse node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :9837",
+          "selfMs": 452.121
+        },
+        {
+          "location": "wasm-function[35] wasm://wasm/007b5d42 :1",
+          "selfMs": 415.713
+        },
+        {
+          "location": "getBindingState node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42431",
+          "selfMs": 411.872
+        },
+        {
+          "location": "texSubImage2D  :0",
+          "selfMs": 405.875
+        },
+        {
+          "location": "refreshUniformsCommon node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :49602",
+          "selfMs": 400.711
+        },
+        {
+          "location": "wasm-function[117] wasm://wasm/007b5d42 :1",
+          "selfMs": 399.754
+        },
+        {
+          "location": "wasm-function[28] wasm://wasm/007b5d42 :1",
+          "selfMs": 380.032
+        },
+        {
+          "location": "updateWorldMatrix node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :9919",
+          "selfMs": 377.214
+        },
+        {
+          "location": "needsUpdate node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42477",
+          "selfMs": 364.935
+        },
+        {
+          "location": "upload node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :45006",
+          "selfMs": 363.211
+        },
+        {
+          "location": "setup node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :42406",
+          "selfMs": 351.148
+        },
+        {
+          "location": "setValue node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :44998",
+          "selfMs": 322.353
+        },
+        {
+          "location": "evaluate node_modules/.vite/deps/three.module-Bq63ik64.js?v=dc673a6d :29703",
+          "selfMs": 296.62
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

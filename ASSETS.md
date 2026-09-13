@@ -378,6 +378,14 @@ These models and the six unique accessories are original project work. Blender s
 
 `public/models/authored/bastion.glb`, `revenant.glb`, `warden.glb` and `sovereign.glb` are original Blender geometry derived from the project's four mech masters and the user-supplied `badmechs.png` reference. Each runtime variant includes attached equipment, five authored skeletal clips and a muzzle socket. No external source meshes or paid generation services were used. Editable combat sources and intermediate exports are under `assets/mech-enemies/gameplay/`; full-detail neutral models are preserved in the original collection. See [random mech integration](docs/art/mech-enemies/README.md) for budgets, behaviors and validation.
 
+## Gameplay animation additions
+
+The S-07 and four mech runtime GLBs now also include the original project motion
+authored under `assets/animation-polish/source/`. Existing geometry, materials,
+textures and original gameplay animation bytes are preserved. See the
+[animation delivery](assets/animation-polish/README.md) for clip scope, size budgets,
+Blender rebuild steps and the separation between visual recoil and combat queries.
+
 ## Iron Nomad reference walker
 
 `assets/iron-nomad/` contains an original four-legged mobile foundry modeled from the user-supplied walking-fortress illustration. Its Blender geometry, procedural PBR textures, cartographic linework, and rigid mechanical animation were created for this project. No downloaded source meshes or paid generation service was used. The reference image is retained for comparison; its inclusion does not assert a third-party license. Viewer dependencies retain their MIT notices under `viewer/vendor/`.

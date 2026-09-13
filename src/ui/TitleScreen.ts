@@ -1,5 +1,19 @@
+import { isSupportedBindingCode } from '@/core/settings/SettingsStore';
 import { QUALITY_TIERS, type QualityTier } from '@/core/renderer/QualitySettings';
-import { DEFAULT_AMBIENCE_VOLUME } from '@/audio/SoundBank';
+import {
+  loadSettings as loadStoredSettings,
+  saveSettings as saveStoredSettings,
+  type Settings as StoredSettings,
+} from '@/core/settings/SettingsStore';
+import {
+  ACTION_LABELS,
+  DEFAULT_BINDINGS,
+  effectiveBindingCode,
+  rebindAction,
+  type InputContext,
+  type BindingAction,
+} from '@/core/input/Bindings';
+import './settings.css';
 
 /**
  * The game's front door, and the pause menu behind it.
@@ -30,6 +44,10 @@ export interface GameSettings {
    * would silently override that on every machine they ever load the game on.
    */
   quality: QualityTier | null;
+  sensitivity?: number;
+  hipFov?: number;
+  shoulder?: 'left' | 'right';
+  bindings?: Record<string, string>;
 }
 
 export interface TitleScreenCallbacks {
@@ -46,14 +64,6 @@ export interface TitleScreenCallbacks {
 
 export type TitleMode = 'boot' | 'pause';
 
-const SETTINGS_KEY = 'mmf-settings';
-
-const DEFAULT_SETTINGS: GameSettings = {
-  volume: 0.8,
-  ambienceVolume: DEFAULT_AMBIENCE_VOLUME,
-  quality: null,
-};
-
 /** The value the `auto` option carries, since a `<select>` has no null. */
 const AUTO_QUALITY = 'auto';
 
@@ -65,33 +75,16 @@ const AUTO_QUALITY = 'auto';
  * defaults, because a settings file is not worth a failed boot.
  */
 export function loadSettings(): GameSettings {
-  try {
-    const raw = globalThis.localStorage?.getItem(SETTINGS_KEY);
-    if (!raw) return { ...DEFAULT_SETTINGS };
-    const parsed = JSON.parse(raw) as Partial<GameSettings>;
-    const volume =
-      typeof parsed.volume === 'number' && Number.isFinite(parsed.volume)
-        ? Math.max(0, Math.min(1, parsed.volume))
-        : DEFAULT_SETTINGS.volume;
-    const quality = QUALITY_TIERS.includes(parsed.quality as QualityTier)
-      ? (parsed.quality as QualityTier)
-      : null;
-    const ambienceVolume =
-      typeof parsed.ambienceVolume === 'number' && Number.isFinite(parsed.ambienceVolume)
-        ? Math.max(0, Math.min(1, parsed.ambienceVolume))
-        : DEFAULT_SETTINGS.ambienceVolume;
-    return { volume, ambienceVolume, quality };
-  } catch {
-    return { ...DEFAULT_SETTINGS };
-  }
+  const settings = loadStoredSettings();
+  return {
+    volume: settings.volume,
+    ambienceVolume: settings.ambienceVolume,
+    quality: settings.quality,
+  };
 }
 
-function saveSettings(settings: GameSettings): void {
-  try {
-    globalThis.localStorage?.setItem(SETTINGS_KEY, JSON.stringify(settings));
-  } catch {
-    // A private-mode browser refuses to store. It still gets to play.
-  }
+function saveSettings(settings: StoredSettings): void {
+  saveStoredSettings(settings);
 }
 
 interface MenuItem {
@@ -110,14 +103,16 @@ export class TitleScreen {
   private items: MenuItem[] = [];
   private selected = 0;
   private hasSaveGame = false;
-  private settings: GameSettings;
+  private settings: StoredSettings;
   private cardTimer: ReturnType<typeof setTimeout> | null = null;
+  private renderBindings: (() => void) | null = null;
+  private cancelBindingCapture: (() => void) | null = null;
 
   constructor(
     private readonly root: HTMLElement,
     private readonly callbacks: TitleScreenCallbacks,
   ) {
-    this.settings = loadSettings();
+    this.settings = loadStoredSettings();
 
     root.innerHTML = `
       <div id="title-card"><span id="title-card-text"></span></div>
@@ -148,6 +143,10 @@ export class TitleScreen {
                 ${QUALITY_TIERS.map((t) => `<option value="${t}">${t}</option>`).join('')}
               </select>
             </label>
+            <label class="title-setting"><span>Look sensitivity</span><input id="title-sensitivity" type="range" min="0.25" max="3" step="0.05" /><output id="title-sensitivity-value"></output></label>
+            <label class="title-setting"><span>Hip FOV</span><input id="title-fov" type="range" min="50" max="80" step="1" /><output id="title-fov-value"></output></label>
+            <label class="title-setting"><span>Shoulder</span><select id="title-shoulder"><option value="right">Right</option><option value="left">Left</option></select></label>
+            <fieldset id="title-bindings"><legend>Controls</legend><label>Context <select id="title-binding-context"><option value="play">Play</option><option value="build-placement">Build placement</option><option value="catalog">Catalog</option><option value="mounted">Mounted gun</option><option value="menu">Menu</option></select></label><div id="title-binding-list"></div><button type="button" id="title-bindings-reset">Reset controls</button></fieldset>
             <button type="button" id="title-settings-back" class="title-item">Back</button>
           </form>
           <div id="title-status" role="status" aria-live="polite"></div>
@@ -172,6 +171,14 @@ export class TitleScreen {
       'title-skip',
       'title-skip-fill',
       'title-status',
+      'title-sensitivity',
+      'title-sensitivity-value',
+      'title-fov',
+      'title-fov-value',
+      'title-shoulder',
+      'title-binding-context',
+      'title-binding-list',
+      'title-bindings-reset',
     ]) {
       const node = root.querySelector<HTMLElement>(`#${id}`);
       if (node) this.el[id] = node;
@@ -180,6 +187,40 @@ export class TitleScreen {
     const volume = this.el['title-volume'] as HTMLInputElement | undefined;
     const quality = this.el['title-quality'] as HTMLSelectElement | undefined;
     const ambience = this.el['title-ambience'] as HTMLInputElement | undefined;
+    const sensitivity = this.el['title-sensitivity'] as HTMLInputElement | undefined;
+    const fov = this.el['title-fov'] as HTMLInputElement | undefined;
+    const shoulder = this.el['title-shoulder'] as HTMLSelectElement | undefined;
+    if (sensitivity) {
+      sensitivity.value = String(this.settings.sensitivity);
+      const onInput = () => {
+        this.settings = { ...this.settings, sensitivity: Number(sensitivity.value) };
+        this.applySettings();
+      };
+      sensitivity.addEventListener('input', onInput);
+      this.disposers.push(() => sensitivity.removeEventListener('input', onInput));
+    }
+    if (fov) {
+      fov.value = String(this.settings.hipFov);
+      const onInput = () => {
+        this.settings = { ...this.settings, hipFov: Number(fov.value) };
+        this.applySettings();
+      };
+      fov.addEventListener('input', onInput);
+      this.disposers.push(() => fov.removeEventListener('input', onInput));
+    }
+    if (shoulder) {
+      shoulder.value = this.settings.shoulder;
+      const onChange = () => {
+        this.settings = {
+          ...this.settings,
+          shoulder: shoulder.value === 'left' ? 'left' : 'right',
+        };
+        this.applySettings();
+      };
+      shoulder.addEventListener('change', onChange);
+      this.disposers.push(() => shoulder.removeEventListener('change', onChange));
+    }
+    this.setupBindings();
     if (ambience) {
       ambience.value = String(Math.round(this.settings.ambienceVolume * 100));
       const onInput = (): void => {
@@ -312,10 +353,123 @@ export class TitleScreen {
     this.el['title-skip']?.classList.remove('is-active');
   }
 
+  private setupBindings(): void {
+    const context = this.el['title-binding-context'] as HTMLSelectElement | undefined;
+    const list = this.el['title-binding-list'];
+    const reset = this.el['title-bindings-reset'];
+    if (!context || !list || !reset) return;
+    const render = (): void => {
+      const ctx = context.value as InputContext;
+      const bindings = (DEFAULT_BINDINGS[ctx] ?? []).filter(
+        (binding, index, all) =>
+          all.findIndex((candidate) => candidate.action === binding.action) === index,
+      );
+      list.innerHTML = bindings
+        .map((binding) => {
+          const key = `${ctx}:${binding.action}`;
+          const value =
+            effectiveBindingCode(ctx, binding.action, this.settings.bindings) ?? binding.code;
+          const name =
+            ACTION_LABELS[binding.action] ??
+            (binding.action === 'slot1'
+              ? 'Equip rifle'
+              : binding.action === 'slot2'
+                ? 'Equip shotgun'
+                : binding.action);
+          const codeNames: Record<string, string> = {
+            Mouse0: 'LMB',
+            Mouse1: 'MMB',
+            Mouse2: 'RMB',
+            ShiftLeft: 'Left Shift',
+            ControlLeft: 'Left Ctrl',
+            Escape: 'Esc',
+            PageUp: 'Page Up',
+            PageDown: 'Page Down',
+          };
+          return `<button type="button" class="title-binding" data-binding="${key}" ${binding.action === 'cancel' ? 'disabled title="Escape is reserved for recovery"' : ''}><span>${name}</span><b>${codeNames[value] ?? value.replace(/^Key|^Digit/, '')}</b></button>`;
+        })
+        .join('');
+      list.querySelectorAll<HTMLButtonElement>('[data-binding]').forEach((button) => {
+        button.addEventListener('click', () =>
+          this.captureBinding(button, ctx, button.dataset.binding?.split(':')[1] as BindingAction),
+        );
+      });
+    };
+    this.renderBindings = render;
+    const onReset = () => {
+      this.settings = { ...this.settings, bindings: {} };
+      this.applySettings();
+      render();
+    };
+    context.addEventListener('change', render);
+    reset.addEventListener('click', onReset);
+    this.disposers.push(() => context.removeEventListener('change', render));
+    this.disposers.push(() => reset.removeEventListener('click', onReset));
+    render();
+  }
+
+  private captureBinding(
+    button: HTMLButtonElement,
+    context: InputContext,
+    action: BindingAction,
+  ): void {
+    this.cancelBindingCapture?.();
+    button.textContent = 'Press a key or mouse button (Esc cancels)';
+    let done = false;
+    const finish = (): void => {
+      if (done) return;
+      done = true;
+      window.removeEventListener('keydown', onKey, true);
+      window.removeEventListener('mousedown', onMouse, true);
+      this.cancelBindingCapture = null;
+    };
+    const commit = (code: string): void => {
+      if (!isSupportedBindingCode(code)) {
+        button.textContent = 'Unsupported key. Try another (Esc cancels)';
+        return;
+      }
+      if (code === 'Escape' || code === 'Tab' || (code === 'Space' && context === 'menu')) {
+        finish();
+        this.renderBindings?.();
+        return;
+      }
+      const change = rebindAction(this.settings.bindings, context, action, code);
+      if (change.conflict && !globalThis.confirm(`Swap with ${change.conflict}?`)) {
+        finish();
+        this.renderBindings?.();
+        return;
+      }
+      this.settings = { ...this.settings, bindings: change.overrides };
+      this.applySettings();
+      finish();
+      this.renderBindings?.();
+    };
+    const onKey = (event: KeyboardEvent): void => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      if (event.code === 'Escape') {
+        finish();
+        this.renderBindings?.();
+        return;
+      }
+      commit(event.code);
+    };
+    const onMouse = (event: MouseEvent): void => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      commit(`Mouse${event.button}`);
+    };
+    window.addEventListener('keydown', onKey, true);
+    window.addEventListener('mousedown', onMouse, true);
+    this.cancelBindingCapture = finish;
+  }
+
   private applySettings(): void {
     this.syncVolumeLabel();
     saveSettings(this.settings);
-    this.callbacks.onSettings({ ...this.settings });
+    this.callbacks.onSettings(this.current);
   }
 
   private syncVolumeLabel(): void {
@@ -323,6 +477,10 @@ export class TitleScreen {
     if (out) out.textContent = `${Math.round(this.settings.volume * 100)}%`;
     const ambience = this.el['title-ambience-value'];
     if (ambience) ambience.textContent = `${Math.round(this.settings.ambienceVolume * 100)}%`;
+    const sensitivity = this.el['title-sensitivity-value'];
+    if (sensitivity) sensitivity.textContent = `${this.settings.sensitivity.toFixed(2)}×`;
+    const fov = this.el['title-fov-value'];
+    if (fov) fov.textContent = `${this.settings.hipFov}°`;
   }
 
   private showMenu(): void {
@@ -438,6 +596,7 @@ export class TitleScreen {
   }
 
   dispose(): void {
+    this.cancelBindingCapture?.();
     if (this.cardTimer) clearTimeout(this.cardTimer);
     for (const off of this.disposers) off();
     this.disposers.length = 0;

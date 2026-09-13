@@ -25,6 +25,7 @@
     "@types/three": "^0.185.4",
     "eslint": "^10.9.0",
     "gltf-validator": "^2.0.0-dev.3.10",
+    "jsdom": "^26.1.0",
     "meshoptimizer": "^1.1.1",
     "prettier": "^3.9.6",
     "sharp": "^0.33.5",

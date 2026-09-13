@@ -16,6 +16,12 @@ const PITCH_MIN = THREE.MathUtils.degToRad(-70);
 const PITCH_MAX = THREE.MathUtils.degToRad(75);
 const LOOK_SENSITIVITY = 0.0022;
 
+/** Enclose the near-plane corners, including wide aspect ratios and FOV settings. */
+export function cameraCollisionRadius(near: number, fov: number, aspect: number): number {
+  const halfHeight = near * Math.tan(THREE.MathUtils.degToRad(fov / 2));
+  return Math.max(0.12, Math.min(0.35, Math.hypot(near, halfHeight, halfHeight * aspect) + 0.015));
+}
+
 /**
  * Third-person over-the-shoulder rig (handoff section 8).
  *
@@ -44,9 +50,49 @@ export class PlayerCamera {
   private readonly offset = new THREE.Vector3();
   private readonly forwardVec = new THREE.Vector3();
   private initialised = false;
+  private sensitivity = 1;
+  private hipFov = HIP_FOV;
+  private shoulder: 'left' | 'right' = 'right';
+  private physics: PhysicsWorld | null = null;
+  private ignoreCollider: RAPIER.Collider | undefined;
+  private readonly safeAnchor = new THREE.Vector3();
+  private readonly lastRendered = new THREE.Vector3();
+  private readonly motionDirection = new THREE.Vector3();
+  private renderedOnce = false;
 
-  constructor(aspect: number) {
+  constructor(
+    aspect: number,
+    options: { sensitivity?: number; hipFov?: number; shoulder?: 'left' | 'right' } = {},
+  ) {
     this.camera = new THREE.PerspectiveCamera(HIP_FOV, aspect, 0.1, 2000);
+    this.setOptions(options);
+  }
+
+  setOptions(options: {
+    sensitivity?: number;
+    hipFov?: number;
+    shoulder?: 'left' | 'right';
+  }): void {
+    if (options.sensitivity !== undefined && Number.isFinite(options.sensitivity))
+      this.sensitivity = THREE.MathUtils.clamp(options.sensitivity, 0.25, 3);
+    if (options.hipFov !== undefined && Number.isFinite(options.hipFov))
+      this.hipFov = THREE.MathUtils.clamp(options.hipFov, 50, 80);
+    if (options.shoulder !== undefined) this.shoulder = options.shoulder;
+  }
+  get shoulderSide(): 'left' | 'right' {
+    return this.shoulder;
+  }
+  swapShoulder(): void {
+    this.shoulder = this.shoulder === 'right' ? 'left' : 'right';
+  }
+  resetHistory(): void {
+    this.initialised = false;
+    this.renderedOnce = false;
+    this.previousSmoothed.copy(this.smoothed);
+  }
+
+  get pitchAngle(): number {
+    return this.pitch;
   }
 
   get yawAngle(): number {
@@ -92,6 +138,8 @@ export class PlayerCamera {
     physics: PhysicsWorld,
     ignore?: RAPIER.Collider,
   ): void {
+    this.physics = physics;
+    this.ignoreCollider = ignore;
     this.applyLook(input);
     this.previousSmoothed.copy(this.smoothed);
     this.previousAimBlend = this.aimBlend;
@@ -108,6 +156,7 @@ export class PlayerCamera {
 
     this.setFov(this.aimBlend);
     this.offset.lerpVectors(HIP_OFFSET, AIM_OFFSET, this.aimBlend);
+    if (this.shoulder === 'left') this.offset.x *= -1;
 
     const pitch = this.pitch + this.recoilPitch;
     const yaw = this.yaw + this.recoilYaw;
@@ -128,26 +177,27 @@ export class PlayerCamera {
       this.anchor.z - sinY * this.offset.x + cosY * back,
     );
 
-    // Pull in on contact so the machine's own structures never clip through.
-    const toCamera = this.toCamera.subVectors(this.goal, this.anchor);
-    const dist = toCamera.length();
-    if (dist > 0.001) {
-      toCamera.divideScalar(dist);
-      // The camera ray starts inside the player's capsule, which must be excluded.
-      const hit = physics.raycast(this.anchor, toCamera, dist + 0.3, ignore);
-      if (hit)
-        this.goal.copy(this.anchor).addScaledVector(toCamera, Math.max(hit.distance - 0.3, 0.4));
-    }
+    this.recoverAnchor();
+    const obstructed = this.restrictToVisibleSegment(this.goal, this.safeAnchor);
 
     if (!this.initialised) {
       this.smoothed.copy(this.goal);
       this.previousSmoothed.copy(this.goal);
       this.initialised = true;
+    } else if (
+      obstructed &&
+      this.goal.distanceToSquared(this.safeAnchor) <
+        this.smoothed.distanceToSquared(this.safeAnchor)
+    ) {
+      // Inward motion is immediate. Only easing outward is safe near a wall.
+      this.smoothed.copy(this.goal);
+      this.previousSmoothed.copy(this.goal);
     } else {
       this.smoothed.lerp(this.goal, 1 - Math.pow(0.0008, dt));
     }
 
     this.camera.position.copy(this.smoothed);
+    this.restrictToVisibleSegment(this.camera.position, this.safeAnchor);
     this.applyRotation();
   }
 
@@ -157,21 +207,76 @@ export class PlayerCamera {
     if (this.initialised)
       this.camera.position.lerpVectors(this.previousSmoothed, this.smoothed, alpha);
     this.setFov(THREE.MathUtils.lerp(this.previousAimBlend, this.aimBlend, alpha));
+    if (this.initialised) {
+      this.recoverAnchor();
+      // Validate AFTER interpolation; a fixed-step-only check is overwritten above.
+      if (this.renderedOnce && !this.overlaps(this.lastRendered)) {
+        this.restrictToVisibleSegment(
+          this.camera.position,
+          this.lastRendered,
+          this.motionDirection,
+        );
+      }
+      this.restrictToVisibleSegment(this.camera.position, this.safeAnchor);
+      this.lastRendered.copy(this.camera.position);
+      this.renderedOnce = true;
+    }
     this.applyRotation();
+  }
+
+  private get radius(): number {
+    return cameraCollisionRadius(this.camera.near, this.camera.fov, this.camera.aspect);
+  }
+
+  private overlaps(at: THREE.Vector3): boolean {
+    return this.physics?.overlapsSphere?.(at, this.radius, this.ignoreCollider) ?? false;
+  }
+
+  private recoverAnchor(): void {
+    this.safeAnchor.copy(this.anchor);
+    // A low ceiling can touch the shoulder anchor even though the capsule is
+    // valid. Retreat toward its centre, never push the camera through the ceiling.
+    for (let i = 0; i < 6 && this.overlaps(this.safeAnchor); i++) this.safeAnchor.y -= 0.08;
+  }
+
+  private restrictToVisibleSegment(
+    at: THREE.Vector3,
+    from: THREE.Vector3,
+    direction = this.toCamera,
+  ): boolean {
+    if (!this.physics) return false;
+    direction.subVectors(at, from);
+    const distance = direction.length();
+    if (distance <= 0.0001) return false;
+    direction.divideScalar(distance);
+    const hit = this.physics.sweepSphere
+      ? this.physics.sweepSphere(from, direction, distance, this.radius, this.ignoreCollider)
+      : this.physics.raycast(from, direction, distance, this.ignoreCollider);
+    if (!hit) return false;
+    // No arbitrary minimum pull-in: that would place the near plane through
+    // obstacles closer than the old 0.4m clamp. Player fading handles close views.
+    at.copy(from).addScaledVector(direction, Math.max(0, hit.distance - 0.01));
+    return true;
   }
 
   private applyLook(input: InputManager): void {
     const look = input.consumeLook();
-    this.yaw -= look.x * LOOK_SENSITIVITY;
+    this.yaw -= look.x * LOOK_SENSITIVITY * this.sensitivity;
     this.pitch = THREE.MathUtils.clamp(
-      this.pitch - look.y * LOOK_SENSITIVITY,
+      this.pitch - look.y * LOOK_SENSITIVITY * this.sensitivity,
       PITCH_MIN,
       PITCH_MAX,
     );
   }
 
   private setFov(blend: number): void {
-    const fov = THREE.MathUtils.lerp(HIP_FOV, AIM_FOV, blend);
+    const ratio =
+      Math.tan(THREE.MathUtils.degToRad(AIM_FOV / 2)) /
+      Math.tan(THREE.MathUtils.degToRad(HIP_FOV / 2));
+    const aimFov = THREE.MathUtils.radToDeg(
+      2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(this.hipFov / 2)) * ratio),
+    );
+    const fov = THREE.MathUtils.lerp(this.hipFov, aimFov, blend);
     if (Math.abs(this.camera.fov - fov) < 0.00001) return;
     this.camera.fov = fov;
     this.camera.updateProjectionMatrix();

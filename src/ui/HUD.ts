@@ -4,6 +4,8 @@ import { damageBearing } from './DamageDirection';
 import { deckBearingName } from './DeckBearing';
 import type { FirstRunStep } from '@/game/FirstRunDirector';
 import './hud.css';
+import { formatControlText, type ControlLabelResolver } from './ControlLabels';
+import type { InputContext } from '@/core/input/Bindings';
 
 export interface HUDState {
   health: number;
@@ -115,6 +117,8 @@ const STORY_PHASE_LABELS: Record<string, string> = {
 const PICKUP_SECONDS = 2.6;
 
 export class HUD {
+  private controlResolver: ControlLabelResolver | null = null;
+  private controlContext: InputContext = 'play';
   private readonly el: Record<string, HTMLElement> = {};
   private readonly disposers: (() => void)[] = [];
   private readonly cache = new Map<string, string>();
@@ -306,9 +310,31 @@ export class HUD {
       bus.on('story:signal', (e) => {
         const remaining =
           e.remainingM === null ? '' : ` · ${Math.max(0, Math.round(e.remainingM))} m`;
-        this.write('story-detail-event', this.el['hud-story-detail'], `${e.text}${remaining}`);
+        this.write(
+          'story-detail-event',
+          this.el['hud-story-detail'],
+          this.formatControls(`${e.text}${remaining}`),
+        );
       }),
     );
+  }
+
+  setControlLabels(resolve: ControlLabelResolver, context: InputContext = 'play'): void {
+    this.controlResolver = resolve;
+    this.controlContext = context;
+    for (const id of ['hud-fuel-help', 'hud-prompt', 'hud-objective-control', 'hud-story-detail']) {
+      const node = this.el[id];
+      if (!node) continue;
+      if (node.dataset.controlSource === undefined)
+        node.dataset.controlSource = node.textContent ?? '';
+      node.textContent = formatControlText(node.dataset.controlSource, resolve, context);
+    }
+  }
+
+  private formatControls(text: string): string {
+    return this.controlResolver
+      ? formatControlText(text, this.controlResolver, this.controlContext)
+      : text;
   }
 
   setObjective(objective: {
@@ -319,7 +345,11 @@ export class HUD {
   }): void {
     this.write('objective-title', this.el['hud-objective-title'], objective.title);
     this.write('objective-detail', this.el['hud-objective-detail'], objective.detail);
-    this.write('objective-control', this.el['hud-objective-control'], objective.control);
+    this.write(
+      'objective-control',
+      this.el['hud-objective-control'],
+      this.formatControls(objective.control),
+    );
     this.el['hud-objective']?.classList.toggle('is-complete', objective.step === 'complete');
   }
 
@@ -327,7 +357,7 @@ export class HUD {
     const node = this.el['hud-prompt'];
     if (!node) return;
     node.style.display = text ? 'block' : 'none';
-    if (text) this.write('prompt', node, text);
+    if (text) this.write('prompt', node, this.formatControls(text));
   }
 
   setWarning(text: string | null): void {
@@ -347,7 +377,11 @@ export class HUD {
       state.remainingM === null || state.remainingM === undefined
         ? ''
         : ` · ${Math.max(0, Math.round(state.remainingM))} m`;
-    this.write('story-detail', this.el['hud-story-detail'], `${state.objective}${remaining}`);
+    this.write(
+      'story-detail',
+      this.el['hud-story-detail'],
+      this.formatControls(`${state.objective}${remaining}`),
+    );
     this.el['hud-story']?.classList.toggle('is-active', state.phase !== 'locked');
   }
 

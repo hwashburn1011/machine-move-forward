@@ -157,6 +157,7 @@ export class Enemy {
   private verticalVelocity = 0;
   private timeSinceLastAttack = 999;
   private deathTimer = 0;
+  private readonly visualShotOrigin = new THREE.Vector3();
   private facing = 0;
   private active = false;
 
@@ -826,10 +827,15 @@ export class Enemy {
     } else if (isDamageable(hit?.userData) && hit.userData.kind === 'structure') {
       hit.userData.takeDamage(this.def.damage);
     }
+    this.visual.cosmeticMuzzlePosition(this.visualShotOrigin);
     this.bus.emit('enemy:fired', {
       enemyId: this.id,
       defId: this.def.id,
-      visualOrigin: { x: this.shotOrigin.x, y: this.shotOrigin.y, z: this.shotOrigin.z },
+      visualOrigin: {
+        x: this.visualShotOrigin.x,
+        y: this.visualShotOrigin.y,
+        z: this.visualShotOrigin.z,
+      },
       aimEnd: { x: end.x, y: end.y, z: end.z },
     });
   }

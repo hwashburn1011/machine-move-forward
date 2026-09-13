@@ -1,0 +1,13 @@
+{
+  "kind": "sovereign",
+  "originalSha256": "9adf2401fd23ffa3dd3e14831b4a803c6f6b308753cb041d212824f796ba9d8d",
+  "originalBytes": 4682464,
+  "outputBytes": 4763588,
+  "originalAnimationCount": 5,
+  "originalBufferPreserved": true,
+  "added": [
+    "polish_attack",
+    "polish_death",
+    "polish_hit"
+  ]
+}

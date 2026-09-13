@@ -135,6 +135,16 @@ export class VehicleScene {
   get active(): boolean {
     return this.manager.active;
   }
+  /** Read-only construction threat projection, including shells after retreat. */
+  get constructionThreat(): boolean {
+    return (
+      this.pendingVolleys.length > 0 ||
+      (this.active &&
+        this.state !== null &&
+        this.state.phase !== 'retreat' &&
+        this.state.phase !== 'destroyed')
+    );
+  }
   get hookWorldPosition(): THREE.Vector3 | null {
     if (!this.hook.visible) return null;
     const position = new THREE.Vector3();

@@ -1,0 +1,24 @@
+{
+  "kind": "s07",
+  "originalSha256": "e5a73f7c6527c54cccad53083bc0101dc37a400bf803ff02f280178095ea3915",
+  "originalBytes": 5887692,
+  "outputBytes": 6223472,
+  "originalAnimationCount": 12,
+  "originalBufferPreserved": true,
+  "added": [
+    "armed_crouch_walk_back",
+    "armed_crouch_walk_fwd",
+    "armed_crouch_walk_left",
+    "armed_crouch_walk_right",
+    "armed_run_back",
+    "armed_run_fwd",
+    "armed_run_left",
+    "armed_run_right",
+    "armed_walk_back",
+    "armed_walk_fwd",
+    "armed_walk_left",
+    "armed_walk_right",
+    "reload_rifle",
+    "reload_shotgun"
+  ]
+}
