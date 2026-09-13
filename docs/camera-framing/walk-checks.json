@@ -1,0 +1,74 @@
+{
+  "generatedAt": "2026-09-13T01:02:31.772Z",
+  "site": "http://127.0.0.1:5201/",
+  "fixtures": "Isolated storage, prepared stair starts and heading resets; physical W/S/V/RMB/mouse input. Frame samples run after game render.",
+  "checks": [
+    {
+      "name": "ramp -2 ascent",
+      "ok": true,
+      "detail": {
+        "y": 12.813467897670332,
+        "z": 2.617053380461472,
+        "grounded": true
+      }
+    },
+    {
+      "name": "ramp -2 descent",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "ramp -1 ascent",
+      "ok": true,
+      "detail": {
+        "y": 15.80377321759852,
+        "z": 2.652124379238319,
+        "grounded": true
+      }
+    },
+    {
+      "name": "ramp -1 descent",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "full character restores after leaving cover",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "render-only look keeps the same player framing",
+      "ok": true,
+      "detail": {
+        "before": [
+          -0.1666454088296436,
+          -0.21333390433967883,
+          0.9417972880804772
+        ],
+        "after": [
+          -0.16664540882964385,
+          -0.21333390433968283,
+          0.9417972880804772
+        ],
+        "delta": 4.0046015358489336e-15
+      }
+    },
+    {
+      "name": "visible upper body stays in frame through stair movement and fast turns",
+      "ok": true,
+      "detail": {
+        "frames": 895,
+        "visibleFrames": 847,
+        "outside": []
+      }
+    },
+    {
+      "name": "camera volume stays out of solid geometry",
+      "ok": true,
+      "detail": {
+        "overlapFrames": 0
+      }
+    }
+  ],
+  "errors": []
+}

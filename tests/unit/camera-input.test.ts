@@ -54,6 +54,37 @@ describe('mouse input across simulation and rendering rates', () => {
     input.dispose();
   });
 
+  it.each([30, 60, 144])('keeps the character framed during rapid turns at %i FPS', (fps) => {
+    const { input, camera, loop, target } = fixture();
+    loop.advance(1 / 60);
+    const chest = target.clone().add(new THREE.Vector3(0, 0.5, 0));
+    camera.camera.updateMatrixWorld(true);
+    const before = chest.clone().project(camera.camera);
+    for (let frame = 0; frame < 12; frame++) {
+      input.lookDelta.x += 450;
+      loop.advance(1 / fps);
+      camera.camera.updateMatrixWorld(true);
+      const after = chest.clone().project(camera.camera);
+      expect(after.x).toBeCloseTo(before.x, 5);
+      expect(after.y).toBeCloseTo(before.y, 5);
+    }
+    input.dispose();
+  });
+
+  it('orbits on a render-only mouse update instead of looking away from the player', () => {
+    const { input, camera, target, physics } = fixture();
+    camera.fixedUpdate(1 / 60, input, target, physics);
+    camera.update(1, input);
+    camera.camera.updateMatrixWorld(true);
+    const before = target.clone().project(camera.camera);
+    input.lookDelta.x = 600;
+    camera.update(1, input);
+    camera.camera.updateMatrixWorld(true);
+    expect(target.clone().project(camera.camera).x).toBeCloseTo(before.x, 5);
+    expect(camera.camera.rotation.y).toBeCloseTo(-1.32, 10);
+    input.dispose();
+  });
+
   it('retains unconsumed mounted-gun look and discards it on focus loss', () => {
     const { input } = fixture();
     input.lookDelta.x = 55;
@@ -73,9 +104,14 @@ describe('mouse input across simulation and rendering rates', () => {
     target.x = 1;
     camera.fixedUpdate(1 / 60, input, target, physics);
     const after = camera.camera.position.clone();
-    input.lookDelta.x = 100;
     camera.update(0.5, input);
     expect(camera.camera.position.distanceTo(before.lerp(after, 0.5))).toBeLessThan(1e-9);
+    input.lookDelta.x = 100;
+    camera.update(0.5, input);
+    const reference = new PlayerCamera(16 / 9);
+    reference.setYaw(-0.22);
+    reference.fixedUpdate(1 / 60, input, target.clone().setX(0.5), physics);
+    expect(camera.camera.position.distanceTo(reference.camera.position)).toBeLessThan(1e-9);
     expect(camera.camera.rotation.y).toBeCloseTo(-0.22, 10);
     input.dispose();
   });

@@ -11,6 +11,8 @@ const AIM_FOV = 38;
 // head and drops the character out of frame entirely.
 const HIP_OFFSET = new THREE.Vector3(0.62, 0.38, 3.4);
 const AIM_OFFSET = new THREE.Vector3(0.48, 0.3, 2.0);
+// Lower the boom under stair landings before sacrificing third-person distance.
+const COMPACT_DROP = 0.58;
 
 const PITCH_MIN = THREE.MathUtils.degToRad(-70);
 const PITCH_MAX = THREE.MathUtils.degToRad(75);
@@ -25,9 +27,9 @@ export function cameraCollisionRadius(near: number, fov: number, aspect: number)
 /**
  * Third-person over-the-shoulder rig (handoff section 8).
  *
- * Yaw and pitch are applied raw, with no smoothing. Position is smoothed, but
- * aim never is — a smoothed crosshair feels like input lag, and this is a
- * shooter first.
+ * Mouse rotation and the orbit share the same frame. Only target translation
+ * is interpolated and the obstructed boom eases outward; smoothing the whole
+ * camera position lets the view turn away from the player during a quick pan.
  */
 export class PlayerCamera {
   readonly camera: THREE.PerspectiveCamera;
@@ -42,11 +44,12 @@ export class PlayerCamera {
   private recoilYaw = 0;
 
   private readonly goal = new THREE.Vector3();
-  private readonly smoothed = new THREE.Vector3();
-  private readonly previousSmoothed = new THREE.Vector3();
   private readonly toCamera = new THREE.Vector3();
+  private readonly probe = new THREE.Vector3();
   private previousAimBlend = 0;
   private readonly anchor = new THREE.Vector3();
+  private readonly previousAnchor = new THREE.Vector3();
+  private readonly renderAnchor = new THREE.Vector3();
   private readonly offset = new THREE.Vector3();
   private readonly forwardVec = new THREE.Vector3();
   private initialised = false;
@@ -56,9 +59,12 @@ export class PlayerCamera {
   private physics: PhysicsWorld | null = null;
   private ignoreCollider: RAPIER.Collider | undefined;
   private readonly safeAnchor = new THREE.Vector3();
-  private readonly lastRendered = new THREE.Vector3();
-  private readonly motionDirection = new THREE.Vector3();
-  private renderedOnce = false;
+  private boomFraction = 1;
+  private previousBoomFraction = 1;
+  private shoulderBlend = 1;
+  private previousShoulderBlend = 1;
+  private compactBlend = 0;
+  private previousCompactBlend = 0;
 
   constructor(
     aspect: number,
@@ -87,8 +93,8 @@ export class PlayerCamera {
   }
   resetHistory(): void {
     this.initialised = false;
-    this.renderedOnce = false;
-    this.previousSmoothed.copy(this.smoothed);
+    this.boomFraction = this.previousBoomFraction = 1;
+    this.compactBlend = this.previousCompactBlend = 0;
   }
 
   get pitchAngle(): number {
@@ -141,8 +147,11 @@ export class PlayerCamera {
     this.physics = physics;
     this.ignoreCollider = ignore;
     this.applyLook(input);
-    this.previousSmoothed.copy(this.smoothed);
+    this.previousAnchor.copy(this.anchor);
+    this.previousBoomFraction = this.boomFraction;
     this.previousAimBlend = this.aimBlend;
+    this.previousShoulderBlend = this.shoulderBlend;
+    this.previousCompactBlend = this.compactBlend;
 
     // Recoil recovers over roughly a quarter second.
     const recover = 1 - Math.exp(-dt * 9);
@@ -154,74 +163,108 @@ export class PlayerCamera {
     // ~120ms blend between hip and aim.
     this.aimBlend += (aimTarget - this.aimBlend) * (1 - Math.exp(-dt * 18));
 
-    this.setFov(this.aimBlend);
-    this.offset.lerpVectors(HIP_OFFSET, AIM_OFFSET, this.aimBlend);
-    if (this.shoulder === 'left') this.offset.x *= -1;
-
-    const pitch = this.pitch + this.recoilPitch;
-    const yaw = this.yaw + this.recoilYaw;
-
     this.anchor.copy(target);
     // Slightly above the capsule centre: shoulder height, not eye height.
     this.anchor.y += PLAYER_EYE_HEIGHT * 0.31;
 
-    // Build the goal in the yaw frame: right, up, then back along view.
-    const sinY = Math.sin(yaw);
-    const cosY = Math.cos(yaw);
-    const back = this.offset.z * Math.cos(pitch);
-    const up = this.offset.y - this.offset.z * Math.sin(pitch);
-
-    this.goal.set(
-      this.anchor.x + cosY * this.offset.x + sinY * back,
-      this.anchor.y + up,
-      this.anchor.z - sinY * this.offset.x + cosY * back,
-    );
-
-    this.recoverAnchor();
-    const obstructed = this.restrictToVisibleSegment(this.goal, this.safeAnchor);
-
+    const shoulder = this.shoulder === 'left' ? -1 : 1;
+    this.shoulderBlend = this.initialised
+      ? THREE.MathUtils.damp(this.shoulderBlend, shoulder, 18, dt)
+      : shoulder;
+    this.setFov(this.aimBlend);
+    this.recoverAnchor(this.anchor);
+    const compact = this.prefersCompactBoom() ? 1 : 0;
+    this.compactBlend = this.initialised
+      ? THREE.MathUtils.damp(this.compactBlend, compact, 12, dt)
+      : compact;
     if (!this.initialised) {
-      this.smoothed.copy(this.goal);
-      this.previousSmoothed.copy(this.goal);
-      this.initialised = true;
-    } else if (
-      obstructed &&
-      this.goal.distanceToSquared(this.safeAnchor) <
-        this.smoothed.distanceToSquared(this.safeAnchor)
-    ) {
-      // Inward motion is immediate. Only easing outward is safe near a wall.
-      this.smoothed.copy(this.goal);
-      this.previousSmoothed.copy(this.goal);
-    } else {
-      this.smoothed.lerp(this.goal, 1 - Math.pow(0.0008, dt));
+      this.previousAnchor.copy(this.anchor);
+      this.previousShoulderBlend = this.shoulderBlend;
+      this.previousCompactBlend = this.compactBlend;
     }
-
-    this.camera.position.copy(this.smoothed);
-    this.restrictToVisibleSegment(this.camera.position, this.safeAnchor);
-    this.applyRotation();
+    // The boom is a scalar along the CURRENT view direction, never a lagging
+    // world-space point that can drag the character out of the frame.
+    this.boomFraction += (1 - this.boomFraction) * (1 - Math.pow(0.0008, dt));
+    this.placeCamera(
+      this.anchor,
+      this.aimBlend,
+      this.boomFraction,
+      this.shoulderBlend,
+      this.compactBlend,
+    );
+    this.initialised = true;
   }
 
   /** Interpolate the camera alongside the character; mouse aim remains immediate. */
   update(alpha: number, input: InputManager): void {
     this.applyLook(input);
-    if (this.initialised)
-      this.camera.position.lerpVectors(this.previousSmoothed, this.smoothed, alpha);
-    this.setFov(THREE.MathUtils.lerp(this.previousAimBlend, this.aimBlend, alpha));
+    const blend = THREE.MathUtils.lerp(this.previousAimBlend, this.aimBlend, alpha);
     if (this.initialised) {
-      this.recoverAnchor();
-      // Validate AFTER interpolation; a fixed-step-only check is overwritten above.
-      if (this.renderedOnce && !this.overlaps(this.lastRendered)) {
-        this.restrictToVisibleSegment(
-          this.camera.position,
-          this.lastRendered,
-          this.motionDirection,
-        );
-      }
-      this.restrictToVisibleSegment(this.camera.position, this.safeAnchor);
-      this.lastRendered.copy(this.camera.position);
-      this.renderedOnce = true;
+      this.renderAnchor.lerpVectors(this.previousAnchor, this.anchor, alpha);
+      this.placeCamera(
+        this.renderAnchor,
+        blend,
+        THREE.MathUtils.lerp(this.previousBoomFraction, this.boomFraction, alpha),
+        THREE.MathUtils.lerp(this.previousShoulderBlend, this.shoulderBlend, alpha),
+        THREE.MathUtils.lerp(this.previousCompactBlend, this.compactBlend, alpha),
+      );
+    } else {
+      this.setFov(blend);
+      this.applyRotation();
+    }
+  }
+
+  private placeCamera(
+    anchor: THREE.Vector3,
+    blend: number,
+    fraction: number,
+    shoulder: number,
+    compact: number,
+  ): void {
+    this.setFov(blend);
+    this.recoverAnchor(anchor);
+    this.buildGoal(blend, shoulder, compact);
+    const fullDistance = this.goal.distanceTo(this.safeAnchor);
+    this.camera.position.lerpVectors(this.safeAnchor, this.goal, fraction);
+    // Cast from the interpolated player anchor AFTER applying this frame's
+    // mouse input. A chord from the old camera position cuts across an orbit,
+    // and stopping on that chord breaks framing around stairs and pillars.
+    if (this.restrictToVisibleSegment(this.camera.position, this.safeAnchor)) {
+      const allowed = this.camera.position.distanceTo(this.safeAnchor) / fullDistance;
+      this.boomFraction = Math.min(this.boomFraction, allowed);
+      this.previousBoomFraction = Math.min(this.previousBoomFraction, allowed);
     }
     this.applyRotation();
+  }
+
+  private buildGoal(blend: number, shoulder: number, compact: number): void {
+    this.offset.lerpVectors(HIP_OFFSET, AIM_OFFSET, blend);
+    this.offset.x *= shoulder;
+    const pitch = this.pitch + this.recoilPitch;
+    const yaw = this.yaw + this.recoilYaw;
+    const sinY = Math.sin(yaw),
+      cosY = Math.cos(yaw);
+    const back = this.offset.z * Math.cos(pitch);
+    this.goal.set(
+      this.safeAnchor.x + cosY * this.offset.x + sinY * back,
+      this.safeAnchor.y + this.offset.y - this.offset.z * Math.sin(pitch) - COMPACT_DROP * compact,
+      this.safeAnchor.z - sinY * this.offset.x + cosY * back,
+    );
+  }
+
+  private prefersCompactBoom(): boolean {
+    this.buildGoal(this.aimBlend, this.shoulderBlend, 0);
+    const fullDistance = this.goal.distanceTo(this.safeAnchor);
+    this.probe.copy(this.goal);
+    if (!this.restrictToVisibleSegment(this.probe, this.safeAnchor)) return false;
+    const normalDistance = this.probe.distanceTo(this.safeAnchor);
+    if (normalDistance > fullDistance * 0.9) return false;
+    this.buildGoal(this.aimBlend, this.shoulderBlend, 1);
+    this.probe.copy(this.goal);
+    this.restrictToVisibleSegment(this.probe, this.safeAnchor);
+    // Hysteresis keeps a ceiling edge from repeatedly raising/lowering the rig.
+    const gain = this.compactBlend > 0.5 ? 0.15 : 0.45;
+    return this.probe.distanceTo(this.safeAnchor) > normalDistance + gain;
   }
 
   private get radius(): number {
@@ -232,8 +275,8 @@ export class PlayerCamera {
     return this.physics?.overlapsSphere?.(at, this.radius, this.ignoreCollider) ?? false;
   }
 
-  private recoverAnchor(): void {
-    this.safeAnchor.copy(this.anchor);
+  private recoverAnchor(anchor: THREE.Vector3): void {
+    this.safeAnchor.copy(anchor);
     // A low ceiling can touch the shoulder anchor even though the capsule is
     // valid. Retreat toward its centre, never push the camera through the ceiling.
     for (let i = 0; i < 6 && this.overlaps(this.safeAnchor); i++) this.safeAnchor.y -= 0.08;

@@ -2293,7 +2293,7 @@ export class Game implements LoopCallbacks {
     else
       this.playerFade.apply(
         this.player.object3D,
-        this.playerCamera.camera.position.distanceTo(this.player.worldPosition),
+        this.playerCamera.camera.position.distanceTo(this.player.object3D.position),
         frameDt,
       );
     // Whether a throw would catch something, asked of the same function the
