@@ -10,6 +10,64 @@ beforeAll(async () => {
 });
 
 describe('camera obstruction volume', () => {
+  it('lowers the boom under a ceiling to retain a useful third-person view', () => {
+    const physics = new PhysicsWorld();
+    physics.addFixedBox(new THREE.Vector3(5, 0.1, 5), new THREE.Vector3(0, 2.05, 0));
+    physics.step();
+    const input = {
+      consumeLook: () => ({ x: 0, y: 0 }),
+      isDown: () => false,
+    } as unknown as InputManager;
+    const camera = new PlayerCamera(16 / 9);
+    const target = new THREE.Vector3(0, 0.96, 0);
+    for (let i = 0; i < 60; i++) {
+      camera.fixedUpdate(1 / 60, input, target, physics);
+      camera.update(1, input);
+    }
+    expect(camera.camera.position.distanceTo(target)).toBeGreaterThan(3);
+    expect(
+      physics.overlapsSphere(camera.camera.position, cameraCollisionRadius(0.1, 55, 16 / 9)),
+    ).toBe(false);
+    physics.dispose();
+  });
+
+  it.each(['left', 'right'] as const)(
+    'keeps fast %s-shoulder orbits framed and clear in a narrow corridor',
+    (shoulder) => {
+      const physics = new PhysicsWorld();
+      for (const x of [-1.1, 1.1])
+        physics.addFixedBox(new THREE.Vector3(0.1, 2, 8), new THREE.Vector3(x, 1, 0));
+      physics.step();
+      let look = 0;
+      const input = {
+        consumeLook: () => {
+          const x = look;
+          look = 0;
+          return { x, y: 0 };
+        },
+        isDown: () => false,
+      } as unknown as InputManager;
+      const camera = new PlayerCamera(2.4, { hipFov: 80, shoulder });
+      const target = new THREE.Vector3(0, 0.96, 0);
+      camera.fixedUpdate(1 / 60, input, target, physics);
+      for (let frame = 0; frame < 36; frame++) {
+        look = 100;
+        camera.update(0.5, input);
+        camera.camera.updateMatrixWorld(true);
+        expect(
+          physics.overlapsSphere(camera.camera.position, cameraCollisionRadius(0.1, 80, 2.4)),
+        ).toBe(false);
+        const chest = target
+          .clone()
+          .add(new THREE.Vector3(0, 0.5, 0))
+          .project(camera.camera);
+        expect(Math.abs(chest.x)).toBeLessThan(0.4);
+        expect(Math.abs(chest.y)).toBeLessThan(0.4);
+      }
+      physics.dispose();
+    },
+  );
+
   it('validates the final interpolated camera when a wall appears after its fixed step', () => {
     const physics = new PhysicsWorld();
     physics.step();
