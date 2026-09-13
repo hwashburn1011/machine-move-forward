@@ -6,6 +6,7 @@ import {
   type Settings as StoredSettings,
 } from '@/core/settings/SettingsStore';
 import {
+  ACTION_LABELS,
   DEFAULT_BINDINGS,
   effectiveBindingCode,
   rebindAction,
@@ -368,7 +369,24 @@ export class TitleScreen {
           const key = `${ctx}:${binding.action}`;
           const value =
             effectiveBindingCode(ctx, binding.action, this.settings.bindings) ?? binding.code;
-          return `<button type="button" class="title-binding" data-binding="${key}"><span>${binding.action}</span><b>${value.replace(/^Key|^Digit/, '')}</b></button>`;
+          const name =
+            ACTION_LABELS[binding.action] ??
+            (binding.action === 'slot1'
+              ? 'Equip rifle'
+              : binding.action === 'slot2'
+                ? 'Equip shotgun'
+                : binding.action);
+          const codeNames: Record<string, string> = {
+            Mouse0: 'LMB',
+            Mouse1: 'MMB',
+            Mouse2: 'RMB',
+            ShiftLeft: 'Left Shift',
+            ControlLeft: 'Left Ctrl',
+            Escape: 'Esc',
+            PageUp: 'Page Up',
+            PageDown: 'Page Down',
+          };
+          return `<button type="button" class="title-binding" data-binding="${key}" ${binding.action === 'cancel' ? 'disabled title="Escape is reserved for recovery"' : ''}><span>${name}</span><b>${codeNames[value] ?? value.replace(/^Key|^Digit/, '')}</b></button>`;
         })
         .join('');
       list.querySelectorAll<HTMLButtonElement>('[data-binding]').forEach((button) => {

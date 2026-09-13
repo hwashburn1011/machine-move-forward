@@ -103,6 +103,11 @@ Inherited panel positioning and unreadable unlock IDs were corrected during
 this review. The maintenance view says "No repairs needed" when all subsystems
 are sound.
 
+The final [720p Settings review](acceptance/visual/settings.png) verifies readable
+action names, aligned sliders, keyboard focus states and a scrollable binding
+list. The final local release smoke check passes all nine checks with zero
+browser errors and matching hashes for the five authored character assets.
+
 The initial lifecycle run is retained in
 [lifecycle-soak-before-fix](acceptance/lifecycle-soak-before-fix/results.json).
 It correctly failed because empty bodies accumulated. The corrected

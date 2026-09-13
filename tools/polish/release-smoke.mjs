@@ -97,6 +97,7 @@ try {
       (await page.locator('#title-fov').isVisible()) &&
       (await page.locator('#title-binding-list').isVisible()),
   );
+  await page.waitForTimeout(500);
   await page.screenshot({ path: `${out}/release-smoke.png`, fullPage: true });
   for (const name of assets) {
     const local = await readFile(`public/models/authored/${name}`);
