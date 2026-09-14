@@ -48,6 +48,8 @@ import { PlayerFade } from '@/player/PlayerFade';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { isDamageable, type Damageable } from '@/combat/Damageable';
 import { EnemyManager } from '@/enemies/EnemyManager';
+import { RaidMissionSystem } from '@/enemies/RaidMissionSystem';
+import { EnemyTacticsVisual } from '@/enemies/EnemyTacticsVisual';
 import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner';
 import { ThreatDirector, type ThreatPhase } from '@/enemies/ThreatDirector';
 import { SandFX } from '@/fx/SandFX';
@@ -365,6 +367,9 @@ export class Game implements LoopCallbacks {
   readonly sessionMetrics = new SessionMetrics();
   readonly story = new StoryDirector();
   readonly radioRaids = new RadioRaids();
+  readonly raidMissions: RaidMissionSystem;
+  readonly tacticsVisual: EnemyTacticsVisual;
+  private tacticsModel: LoadedModel | null = null;
   private signalBattle: SignalBattleScene | null = null;
   private readonly normalSunTarget = new THREE.Vector3();
   readonly destination: Destination;
@@ -501,6 +506,9 @@ export class Game implements LoopCallbacks {
     // on the horizon, never a boot.
     if (options.models !== false) {
       game.world.applyPropModels(await loadPropModels());
+      game.tacticsModel = await loadModel('models/authored/tactical-accessories.glb');
+      if (game.tacticsModel) prepareAuthoredModel(game.tacticsModel);
+      game.tacticsVisual.setModel(game.tacticsModel);
     }
 
     const model =
@@ -563,6 +571,8 @@ export class Game implements LoopCallbacks {
       ]
         .map((id) => authoredModel(id)?.scene)
         .filter((root): root is THREE.Group => root !== undefined);
+      if (game.tacticsModel) encounterAssets.push(game.tacticsModel.scene);
+      encounterAssets.push(game.tacticsVisual.warmupObject);
       // Upload/compile the extra actors during boot, before reception
       // can lock. Creating all five detailed rigs at the reveal causes a hitch.
       battle.root.visible = true;
@@ -835,9 +845,10 @@ export class Game implements LoopCallbacks {
     this.renderer.scene.add(this.reelHead);
     // Its own stream, so loot rolls cannot shift where arrivals are placed.
     this.lootRng = new Rng(hashSeed(seed, 'loot'));
-    this.bus.on('enemy:killed', (e) =>
-      this.collectKillReward(e.defId, ENEMIES[e.defId]?.name ?? 'Scavenger'),
-    );
+    this.bus.on('enemy:killed', (e) => {
+      this.raidMissions.onKilled(e.enemyId);
+      this.collectKillReward(e.defId, ENEMIES[e.defId]?.name ?? 'Scavenger');
+    });
     this.enemySpawnsEnabled = options.enemySpawns ?? true;
     this.blockedSpawnCellKeys = new Set(this.machine.equipmentCells.map(cellKey));
 
@@ -887,6 +898,25 @@ export class Game implements LoopCallbacks {
       this.materials,
       this.machine,
       this.resources,
+    );
+    this.raidMissions = new RaidMissionSystem(
+      this.enemies,
+      this.build,
+      this.physics,
+      this.resources,
+      this.machine.damage,
+      this.vehicleManager,
+      (message) => this.hud.setWarning(message),
+      () => {
+        this.bus.emit('inventory:changed', { scrap: this.resources.count('scrap') });
+        this.requestAutosave();
+      },
+    );
+    this.tacticsVisual = new EnemyTacticsVisual(
+      this.renderer.scene,
+      this.physics,
+      this.enemies,
+      this.raidMissions,
     );
     this.build.setBuildAuthorization((piece) => canBuildPiece(piece, this.progression));
     this.build.setBuildBlocker(
@@ -1202,6 +1232,8 @@ export class Game implements LoopCallbacks {
         close: () => this.closePanels(),
         openResearch: () => this.openResearch(),
         depart: () => this.requestExpeditionDeparture(),
+        beginTrace: () => this.beginWreckTrace(),
+        collectRecovered: () => this.raidMissions.collectRecovered(),
       },
       this.bus,
     );
@@ -1681,6 +1713,7 @@ export class Game implements LoopCallbacks {
       // hand every scavenger up there an empty route computed against a deck
       // ten metres away. Null is the honest input, and the fallback it selects
       // — steer straight at the player — is exactly the chase this wants.
+      this.raidMissions.update(dt);
       this.enemies.fixedUpdate(
         dt,
         this.player.worldPosition,
@@ -1690,6 +1723,7 @@ export class Game implements LoopCallbacks {
         this.build,
         this.machine.damage,
       );
+      this.tacticsVisual.fixedUpdate();
 
       if (this.scriptedGunboatPending) this.spawnGunboatEncounter('port');
       this.updateVehicles(dt);
@@ -1786,7 +1820,9 @@ export class Game implements LoopCallbacks {
       objective:
         view.phase === 'signal'
           ? `Signal ${Math.floor(view.signalStrength * 100)}% · ${view.objective}`
-          : view.objective,
+          : this.raidMissions.status
+            ? `${view.objective} · ${this.raidMissions.status}`
+            : view.objective,
       remainingM: view.remainingM,
     });
     this.hud.setRadioState(
@@ -1799,6 +1835,7 @@ export class Game implements LoopCallbacks {
         strength: view.signalStrength,
         remainingM: view.remainingM,
         signalText: view.objective,
+        ...this.radioTraceView(),
       });
     if (this.expeditionUI.isOpen) this.expeditionUI.setView(this.expeditionView());
     // Keep the machine-side gate in lockstep with the destination state. This
@@ -1870,6 +1907,7 @@ export class Game implements LoopCallbacks {
     const plan = this.radioRaids.update(dt, safe, this.state.seed);
     if (!plan || !this.vehicleScene.spawn(plan.side, false, plan.crew)) return;
     this.radioRaids.started();
+    const objective = this.raidMissions.start(this.state.seed, this.radioRaids.toSave().wave + 1);
     this.tutorialStarted = false;
     // Claim the ordinary director too so save/debug consumers agree about the
     // encounter owner. Its normal infantry release path is never called here.
@@ -1878,7 +1916,7 @@ export class Game implements LoopCallbacks {
     this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
     this.bus.emit('boarding:started', { encounterId: 'robot-boarding-ship' });
     this.hud.setWarning(
-      `Robot boarding ship — ${plan.side}! Destroy its grapple or hold the deck.`,
+      `Robot boarding ship — ${plan.side}! ${objective === 'theft' ? 'Supply raid: defend storage or cut the grapple.' : objective === 'sabotage' ? 'Saboteurs inbound: protect machine service panels.' : 'Destroy its grapple or hold the deck.'}`,
     );
   }
 
@@ -2288,6 +2326,7 @@ export class Game implements LoopCallbacks {
       this.playerCamera.update(alpha, this.input);
     }
     this.enemies.update(alpha, this.state.paused ? 0 : frameDt);
+    this.tacticsVisual.render();
     if (this.cinematicCamera || this.state.playerDead || this.defense.mounted)
       this.playerFade.restore();
     else
@@ -2497,7 +2536,7 @@ export class Game implements LoopCallbacks {
     if (!this.firstRun.isComplete) return;
     if (!this.enemySpawnsEnabled) return;
     if (this.state.playerDead) return;
-    if (this.story.currentPhase === 'raids') {
+    if (this.story.permitsRadioRaids) {
       this.updateRadioRaids(dt);
       return;
     }
@@ -2599,6 +2638,7 @@ export class Game implements LoopCallbacks {
         if (health !== undefined && health < enemy.currentHealth)
           enemy.takeDamage(enemy.currentHealth - health);
         this.boardingEnemyIds.add(enemy.id);
+        this.raidMissions.onBoarder(enemy);
         this.bus.emit('boarding:crossed', { enemyId: enemy.id, crewIndex: index });
       }
       return;
@@ -2611,6 +2651,7 @@ export class Game implements LoopCallbacks {
     );
     if (enemy) {
       this.boardingEnemyIds.add(enemy.id);
+      this.raidMissions.onBoarder(enemy);
       this.bus.emit('boarding:crossed', { enemyId: enemy.id, crewIndex: index });
     }
   }
@@ -2743,8 +2784,12 @@ export class Game implements LoopCallbacks {
   }
 
   private finishBoarding(outcome: 'hull' | 'crew' | 'hook' | 'defended'): void {
+    this.raidMissions.finish();
     const wasTutorial = this.tutorialStarted;
-    if (this.story.currentPhase === 'raids') this.radioRaids.finished(this.state.seed);
+    const previousRaid = this.radioRaids.toSave().wave;
+    this.radioRaids.finished(this.state.seed);
+    if (this.radioRaids.toSave().wave > previousRaid && this.story.recordRadioRaidVictory())
+      this.hud.setWarning('New trace recovered. Use the radio to follow it to Wreck One.');
     const needsRepair = this.machine.damage.damaged().length > 0;
     const reward = VEHICLES.skiff.defenseReward;
     this.resources.deposit('scrap', reward.scrap);
@@ -3108,6 +3153,7 @@ export class Game implements LoopCallbacks {
     this.state.paused = false;
     this.machine.movement.setThrottle(1);
     this.enemies.despawnAll();
+    this.tacticsVisual.clear();
     this.setHudVisible(false);
     this.releasePointerLock();
     this.titleScreen?.show('boot');
@@ -3149,6 +3195,9 @@ export class Game implements LoopCallbacks {
     this.story.restore(undefined);
     this.cancelSignalBattle();
     this.radioRaids.restore();
+    this.raidMissions.cancelTransient();
+    this.raidMissions.ledger.restore();
+    this.tacticsVisual.clear();
     this.destination.setActive(false);
     this.destination.configure(this.story.chapter);
     this.routeRefusal = null;
@@ -3610,12 +3659,68 @@ export class Game implements LoopCallbacks {
       strength: snapshot.signalStrength,
       remainingM: snapshot.remainingM,
       nextSignal: this.story.legacyProjection().nextSignal,
+      ...this.radioTraceView(),
       canDepart:
         this.story.currentPhase === 'docked' &&
         this.story.legacyProjection().uniqueCollected &&
         this.destination.playerOnMachine(this.player.worldPosition),
     });
     this.releasePointerLock();
+  }
+
+  private radioTraceView() {
+    const view = this.story.snapshot(this.world.distanceTraveled);
+    const recovered = new Map<ItemId, number>();
+    for (const cargo of this.raidMissions.ledger.recoveredLedger)
+      recovered.set(cargo.itemId, (recovered.get(cargo.itemId) ?? 0) + cargo.count);
+    const reason = !this.machine.power.isPowered(this.radioPowerConsumerId)
+      ? 'Power the radio to trace the transmission.'
+      : this.enemies.activeCount > 0 ||
+          this.vehicleScene.active ||
+          this.gunboatScene.active ||
+          this.pendingBoardingOutcome !== null ||
+          this.scriptedGunboatPending
+        ? 'Clear the attack before committing to an expedition.'
+        : !this.destination.playerOnMachine(this.player.worldPosition)
+          ? 'Return aboard the machine to set a course.'
+          : this.hasDestinationBuildConflict()
+            ? 'Move equipment out of the expedition gangway before departing.'
+            : !this.isStableForStory() || this.buildMode || this.defense.mounted
+              ? 'Finish the current interaction before setting a course.'
+              : undefined;
+    return {
+      traceOffer: view.radioTraceOffer,
+      traceReady: view.radioTraceReady && !reason,
+      traceDisabledReason: reason,
+      chapterComplete: view.chapterComplete,
+      recoveredSupplies: [...recovered]
+        .map(([id, count]) => `${count} ${ITEMS[id].name}`)
+        .join(', '),
+    };
+  }
+
+  private beginWreckTrace(): void {
+    const availability = this.radioTraceView();
+    if (!availability.traceReady) {
+      this.hud.setWarning(availability.traceDisabledReason ?? 'No new trace is available yet.');
+      return;
+    }
+    const result = this.story.beginWreckExpedition({
+      currentDistance: this.world.distanceTraveled,
+      playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
+      stable: this.isStableForStory(),
+      encounterActive:
+        this.enemies.activeCount > 0 || this.vehicleScene.active || this.gunboatScene.active,
+    });
+    if (!result.ok) return;
+    this.closePanels();
+    this.applyStoryEffects(result.effects);
+    this.bus.emit('story:phase', {
+      chapterId: this.story.chapter.id,
+      phase: this.story.currentPhase,
+    });
+    this.hud.setWarning('Course set for Wreck One. Recover the Course Gyro and return aboard.');
+    this.requestAutosave();
   }
 
   private openResearch(): void {
@@ -4909,6 +5014,7 @@ export class Game implements LoopCallbacks {
         threatDirector: this.director.toSave(),
         story: this.story.toSave(),
         radioRaids: this.radioRaids.toSave(),
+        raidRecovery: this.raidMissions.ledger.toSave(),
       },
     };
   }
@@ -5026,6 +5132,11 @@ export class Game implements LoopCallbacks {
     this.story.restore(save.world.story);
     this.cancelSignalBattle();
     this.radioRaids.restore(save.world.radioRaids);
+    this.raidMissions.cancelTransient();
+    this.raidMissions.ledger.restore(save.world.raidRecovery);
+    this.tacticsVisual.clear();
+    // Earlier raid-loop saves already earned the optional expedition offer.
+    this.story.recordRadioRaidVictory(this.radioRaids.toSave().wave);
     const recovered = this.story.snapshot(save.distanceTraveled).recoveredUniques;
     if (recovered.includes('salvage-controller'))
       this.progression.grantBlueprint('automatic-salvage-collector');
@@ -5205,6 +5316,8 @@ export class Game implements LoopCallbacks {
     disposeAutomationModels();
     this.post.dispose();
     this.enemies.dispose();
+    this.tacticsVisual.dispose();
+    disposeLoadedModel(this.tacticsModel);
     this.world.dispose();
     this.sandFX.dispose();
     this.impactFX.dispose();

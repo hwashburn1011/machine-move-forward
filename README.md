@@ -88,15 +88,19 @@ The [gameplay polish implementation and acceptance record](docs/gameplay-polish/
 
 The first eligible salvage chest after the opening contains the radio. Reception builds as the Nomad travels. At 100%, after the guided defense is complete and the deck is safe, a 17-second cinematic looks off the starboard bow: human and robot ships exchange fire, then the sword-wielding Revenant turns toward the Nomad. Hold **Esc** to skip.
 
-Control returns with a short breather. Random boarding ships then approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health and become normal combat enemies on deck. Attacks have a 75–115 second recovery interval, and this version's new-game story stops at that repeatable loop. [Implementation and in-game review](docs/signal-crossfire/README.md).
+Control returns with a short breather. Random boarding ships approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health on deck. Attacks have a 75–115 second recovery interval. After your first successful defense, the powered radio offers **Trace Wreck One**. You can accept it when safe or keep surviving aboard the machine.
 
-## Existing expedition saves
+Mechs now have distinct counters: dodge the Revenant's marked lunge, shoot the Bastion's glowing cooling vent after its burst, watch the Warden reposition around cover, and destroy the Sovereign's armored support orb to remove nearby allies' damage protection. Later raids can assault the player, sabotage a machine service panel, or steal a small stack from built storage. Supply carriers are marked; kill them to recover the cargo, or cut their ship's grapple to block extraction. Recovered supplies that cannot fit remain available at the radio and survive saving and loading.
 
-Saves already committed to Wreck One or Relay Foundry retain their expedition progression. Wreck One is a physical dock: slow at the safe boundary, cross the authored gangway, read its three logs and recover the Course Gyro. Returning to the radio enables departure.
+## First expedition chapter
+
+The optional radio trace leads to Wreck One, a physical dock: slow at the safe boundary, cross the authored gangway, read its three logs and recover the Course Gyro. Returning to the radio enables departure. Saves already committed to either expedition retain their progression; older saves with a completed radio raid gain the trace offer.
 
 The Course Gyro unlocks the Navigation Helm. Choose a shorter direct route with a gunboat encounter or a longer detour. The machine holds outside the Foundry until nearby fighting ends, then docks for exploration. Recover the Salvage Controller and Tracking Servo and read the Foundry's records before returning aboard. These components unlock the automatic collector and defense turret.
 
 Collectors reel in nearby salvage and store it in six slots for later transfer. Automatic turrets consume power, turn toward visible infantry or gunboat components, and fire only with a clear shot. Position and power both matter.
+
+Departing the Foundry completes the first chapter and resumes recurring mech raids. [Chapter and tactical encounter implementation, plans and validation](docs/chapter-tactics/README.md).
 
 ## Developer harnesses
 

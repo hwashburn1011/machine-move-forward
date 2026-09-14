@@ -41,6 +41,8 @@ export interface BoardingEncounterInput {
   crossingSeconds?: number;
   telegraphSeconds?: number;
   landedBoardersAlive?: number;
+  /** Keep an extraction skiff alongside after all boarders land. */
+  holdForExtraction?: boolean;
 }
 
 export function createBoardingEncounter(
@@ -165,7 +167,7 @@ export function stepBoardingEncounter(
       elapsed,
       phaseElapsed: state.phaseElapsed + dt,
     };
-    return crewStatus.every((status) => status === 'landed' || status === 'dead')
+    return crewStatus.every((status) => status === 'landed' || status === 'dead') && !input.holdForExtraction
       ? transition('retreat', next)
       : next;
   }

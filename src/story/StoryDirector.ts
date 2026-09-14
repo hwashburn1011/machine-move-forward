@@ -41,6 +41,8 @@ export interface CampaignSave {
   completed: ExpeditionId[];
   recoveredUniques: StoryUniqueId[];
   active: ActiveExpeditionSave | null;
+  radioTraceEligible?: boolean;
+  chapterComplete?: boolean;
 }
 /** Compile-time bridge for legacy callers; campaign writes never include these fields. */
 export type StorySave = CampaignSave;
@@ -79,7 +81,25 @@ export interface StorySnapshot {
   expeditionId: ExpeditionId;
   routeId: RouteId | null;
   recoveredUniques: readonly StoryUniqueId[];
+  radioTraceOffer: boolean;
+  radioTraceReady: boolean;
+  chapterComplete: boolean;
 }
+export type WreckStartRefusal =
+  | 'not-offered'
+  | 'encounter-active'
+  | 'off-machine'
+  | 'unstable'
+  | 'invalid-distance'
+  | 'already-active';
+export interface WreckStartContext {
+  currentDistance: number;
+  playerOnMachine: boolean;
+  stable: boolean;
+  encounterActive: boolean;
+}
+export type WreckStartResult =
+  { ok: true; effects: StoryEffect[] } | { ok: false; reason: WreckStartRefusal };
 export interface RouteSelectionContext {
   poweredHelm: boolean;
   playerOnMachine: boolean;
@@ -117,11 +137,50 @@ export class StoryDirector {
   private readonly completed = new Set<ExpeditionId>();
   private signalStartedAt: number | null = null;
   private sanctuaryRequested = false;
+  private radioTraceEligible = false;
+  private chapterComplete = false;
   get chapter(): ExpeditionDefinition {
     return this.expedition;
   }
   get currentPhase(): StoryPhase {
     return this.phase;
+  }
+  // Raids remain available while the raid phase is active, and after a
+  // genuinely completed Foundry chapter. A loose save bit must not unlock
+  // raids while an expedition is malformed or still in progress.
+  get permitsRadioRaids(): boolean {
+    return this.phase === 'raids' || (this.phase === 'complete' && this.chapterComplete);
+  }
+  recordRadioRaidVictory(count = 1): boolean {
+    if (
+      !Number.isSafeInteger(count) ||
+      count <= 0 ||
+      this.phase !== 'raids' ||
+      this.radioTraceEligible
+    )
+      return false;
+    this.radioTraceEligible = true;
+    return true;
+  }
+  beginWreckExpedition(context: WreckStartContext): WreckStartResult {
+    if (!this.radioTraceEligible) return { ok: false, reason: 'not-offered' };
+    if (this.phase !== 'raids') return { ok: false, reason: 'already-active' };
+    if (context.encounterActive) return { ok: false, reason: 'encounter-active' };
+    if (!context.playerOnMachine) return { ok: false, reason: 'off-machine' };
+    if (!context.stable) return { ok: false, reason: 'unstable' };
+    if (!Number.isFinite(context.currentDistance)) return { ok: false, reason: 'invalid-distance' };
+    this.arrivalDistance = context.currentDistance + WRECK_ONE.approachDistanceM;
+    this.expedition = WRECK_ONE;
+    this.routeId = null;
+    this.phase = 'approach';
+    this.sanctuaryRequested = false;
+    return {
+      ok: true,
+      effects: [
+        { type: 'begin-approach', arrivalDistance: this.arrivalDistance },
+        { type: 'request-sanctuary', active: true },
+      ],
+    };
   }
 
   update(input: StoryInput): StoryEffect[] {
@@ -208,6 +267,7 @@ export class StoryDirector {
     ) {
       this.completed.add(this.expedition.id);
       this.phase = this.expedition.id === 'wreck-one' ? 'route-selection' : 'complete';
+      if (this.expedition.id === 'relay-foundry') this.chapterComplete = true;
       effects.push(
         { type: 'expedition-complete', expeditionId: this.expedition.id },
         { type: 'chapter-complete' },
@@ -365,13 +425,18 @@ export class StoryDirector {
       expeditionId: this.expedition.id,
       routeId: this.routeId,
       recoveredUniques: [...this.uniques],
+      radioTraceOffer: this.radioTraceEligible && this.phase === 'raids',
+      radioTraceReady: this.radioTraceEligible && this.phase === 'raids',
+      chapterComplete: this.chapterComplete,
     };
   }
   private objective(): string {
     if (this.phase === 'locked') return 'Reel in a salvage chest to find the radio.';
     if (this.phase === 'crossfire') return 'Signal locked — crossfire off the starboard bow.';
     if (this.phase === 'raids')
-      return 'Keep moving. Watch for boarding ships; cut their grapples or defeat the mechs.';
+      return this.radioTraceEligible
+        ? 'New trace available at the radio. Keep moving and watch for boarding ships.'
+        : 'Keep moving. Watch for boarding ships; cut their grapples or defeat the mechs.';
     if (this.phase === 'signal')
       return this.expedition.id === 'wreck-one'
         ? 'Listen for the source of the signal.'
@@ -385,6 +450,7 @@ export class StoryDirector {
         ? 'Return to the machine and depart.'
         : this.expedition.objective;
     if (this.phase === 'departing') return 'Clear the expedition and resume the route.';
+    if (this.phase === 'complete') return 'First chapter complete. Radio raids continue.';
     return 'A faint signal waits somewhere beyond the route.';
   }
 
@@ -408,6 +474,8 @@ export class StoryDirector {
             ...(this.signalStartedAt !== null ? { signalStartedAt: this.signalStartedAt } : {}),
           }
         : null,
+      ...(this.radioTraceEligible ? { radioTraceEligible: true } : {}),
+      ...(this.chapterComplete ? { chapterComplete: true } : {}),
     };
   }
 
@@ -439,20 +507,29 @@ export class StoryDirector {
     this.completed.clear();
     this.sanctuaryRequested = false;
     this.signalStartedAt = null;
+    this.radioTraceEligible = false;
+    this.chapterComplete = false;
     if (!save || typeof save !== 'object') return;
     const raw = save as Record<string, unknown>;
     if (raw.format === 2) {
+      this.radioTraceEligible = raw.radioTraceEligible === true;
+      // Recompute completion from the durable expedition marker below. Older
+      // or hand-edited saves may contain the optional bit without the route.
+      this.chapterComplete = false;
       for (const item of Array.isArray(raw.completed) ? raw.completed : [])
         if (storyExpedition(String(item))) this.completed.add(item as ExpeditionId);
       for (const item of Array.isArray(raw.recoveredUniques) ? raw.recoveredUniques : [])
         if (['course-gyro', 'salvage-controller', 'tracking-servo'].includes(String(item)))
           this.uniques.add(item as StoryUniqueId);
       if (this.completed.has('wreck-one')) this.uniques.add('course-gyro');
+      const active = raw.active as Record<string, unknown> | null;
       if (this.completed.has('relay-foundry')) {
         this.completed.add('wreck-one');
         this.uniques.add('course-gyro');
+        this.chapterComplete = true;
+        this.phase = 'complete';
+        return;
       }
-      const active = raw.active as Record<string, unknown> | null;
       if (active && storyExpedition(String(active.expeditionId))) {
         const expedition = storyExpedition(String(active.expeditionId))!;
         const route =
@@ -508,8 +585,10 @@ export class StoryDirector {
         for (const item of Array.isArray(active.journalsRead) ? active.journalsRead : [])
           if (expedition.journals.some((journal) => journal.id === item))
             this.journals.add(item as string);
-      } else if (this.completed.has('relay-foundry')) this.phase = 'complete';
-      else if (this.completed.has('wreck-one')) this.phase = 'route-selection';
+      } else if (this.completed.has('relay-foundry')) {
+        this.phase = 'complete';
+        this.chapterComplete = true;
+      } else if (this.completed.has('wreck-one')) this.phase = 'route-selection';
       return;
     }
     if (raw.chapterId !== undefined && raw.chapterId !== 'wreck-one') return;

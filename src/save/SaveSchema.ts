@@ -128,6 +128,7 @@ export interface SaveGameV1 {
     /** Optional expedition chapter state. */
     story?: StorySave;
     radioRaids?: import('@/story/RadioRaids').RadioRaidSave;
+    raidRecovery?: import('@/enemies/RaidObjectives').RaidObjectiveSave;
   };
 }
 

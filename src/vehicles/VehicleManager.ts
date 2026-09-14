@@ -40,6 +40,7 @@ export class VehicleManager {
   private endedNotified = false;
   private landedBoardersAlive = 0;
   private profile: VehicleCombatProfile = combatProfile(VEHICLES.skiff);
+  private extractionHold = false;
 
   constructor(private readonly callbacks: VehicleRuntimeCallbacks) {}
 
@@ -69,6 +70,7 @@ export class VehicleManager {
     }
     this.endedNotified = false;
     this.landedBoardersAlive = 0;
+    this.extractionHold = false;
     this.callbacks.onSpawn(vehicleId, this.state, this.profile);
     return true;
   }
@@ -92,6 +94,7 @@ export class VehicleManager {
     this.state = null;
     this.previousPhase = null;
     this.volleyClock = 0;
+    this.extractionHold = false;
   }
 
   damageHull(amount: number): void {
@@ -106,6 +109,7 @@ export class VehicleManager {
   setLandedBoardersAlive(count: number): void {
     this.landedBoardersAlive = Math.max(0, Math.floor(count));
   }
+  setExtractionHold(hold: boolean): void { this.extractionHold = hold; }
 
   fixedUpdate(dt: number, hookAttached = false, cutHook = false): void {
     if (!this.state) return;
@@ -119,6 +123,7 @@ export class VehicleManager {
       crossingSeconds: this.profile.crewStaggerSeconds,
       telegraphSeconds: this.profile.telegraphSeconds,
       landedBoardersAlive: this.landedBoardersAlive,
+      holdForExtraction: this.extractionHold,
     });
     if (
       this.state.phase === 'firing-pass' &&
@@ -165,5 +170,6 @@ export class VehicleManager {
     this.previousPhase = this.state?.phase ?? null;
     this.endedNotified = this.state?.ended ?? false;
     this.landedBoardersAlive = this.state?.landedBoardersAlive ?? 0;
+    this.extractionHold = false;
   }
 }

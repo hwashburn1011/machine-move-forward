@@ -4,9 +4,25 @@ import { InventoryUI } from '@/ui/InventoryUI';
 import { MachineStatusView } from '@/ui/MachineStatusView';
 import { BuildCatalog } from '@/ui/BuildCatalog';
 import { BuildUI } from '@/ui/BuildUI';
+import { RadioUI } from '@/ui/RadioUI';
 import { Container } from '@/items/Container';
 
 describe('polish UI components', () => {
+  it('shows and invokes recovered supplies collection once per click', () => {
+    const parent = document.createElement('div');
+    const collect = vi.fn();
+    const ui = new RadioUI(parent, { close: vi.fn(), collectRecovered: collect });
+    ui.open({ recoveredSupplies: '6 Scrap' });
+    expect(parent.textContent).toContain('Recovered supplies: 6 Scrap');
+    const button = parent.querySelector('[data-radio-collect]') as HTMLButtonElement;
+    expect(button.hidden).toBe(false);
+    button.click();
+    expect(collect).toHaveBeenCalledTimes(1);
+    ui.setView({ recoveredSupplies: '' });
+    expect(button.hidden).toBe(true);
+    ui.dispose();
+  });
+
   it('shows readable placement reasons and real action names for remapped controls', () => {
     const parent = document.createElement('div');
     const ui = new BuildUI(parent);

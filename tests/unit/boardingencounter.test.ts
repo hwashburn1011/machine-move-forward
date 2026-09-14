@@ -1,11 +1,20 @@
 import { describe, expect, it } from 'vitest';
-import { boardingEncounterToSave, createBoardingEncounter, damageBoardingCrew, damageBoardingHook, restoreBoardingEncounter, stepBoardingEncounter } from '@/vehicles/BoardingEncounter';
+import {
+  boardingEncounterToSave,
+  createBoardingEncounter,
+  damageBoardingCrew,
+  damageBoardingHook,
+  restoreBoardingEncounter,
+  stepBoardingEncounter,
+  type BoardingEncounterState,
+} from '@/vehicles/BoardingEncounter';
 import { VehicleManager } from '@/vehicles/VehicleManager';
 
 describe('boarding encounter choreography', () => {
   it('keeps the complete telegraphed sequence and saves live counters', () => {
     let s = createBoardingEncounter('port', 2);
-    for (let i = 0; i < 30 && s.phase === 'approach'; i++) s = stepBoardingEncounter(s, { dt: 0.25, hookRange: 10 });
+    for (let i = 0; i < 30 && s.phase === 'approach'; i++)
+      s = stepBoardingEncounter(s, { dt: 0.25, hookRange: 10 });
     expect(s.phase).toBe('firing-pass');
     s = stepBoardingEncounter(s, { dt: 2.1, hookRange: 10 });
     expect(s.phase).toBe('alongside');
@@ -42,7 +51,8 @@ describe('boarding encounter choreography', () => {
     });
     expect(manager.spawn()).toBe(true);
     manager.damageCrew(0, 55);
-    for (let i = 0; i < 80 && manager.snapshot?.phase !== 'boarding'; i++) manager.fixedUpdate(0.25);
+    for (let i = 0; i < 80 && manager.snapshot?.phase !== 'boarding'; i++)
+      manager.fixedUpdate(0.25);
     expect(manager.snapshot?.phase).toBe('boarding');
     for (let i = 0; i < 20 && landed.length === 0; i++) manager.fixedUpdate(0.25);
     expect(landed).toEqual([1]);
@@ -50,16 +60,24 @@ describe('boarding encounter choreography', () => {
   });
 
   it('selects a tutorial profile per spawn and returns to regular stats next time', () => {
-    const profiles: { maxHealth: number; hookHealth: number; damage: number; shots: number; stagger: number; telegraph: number }[] = [];
+    const profiles: {
+      maxHealth: number;
+      hookHealth: number;
+      damage: number;
+      shots: number;
+      stagger: number;
+      telegraph: number;
+    }[] = [];
     const manager = new VehicleManager({
-      onSpawn: (_id, state, profile) => profiles.push({
-        maxHealth: state.hullHealth,
-        hookHealth: state.hookHealth,
-        damage: profile.weapon.damage,
-        shots: profile.weapon.volleyShots,
-        stagger: profile.crewStaggerSeconds,
-        telegraph: profile.telegraphSeconds,
-      }),
+      onSpawn: (_id, state, profile) =>
+        profiles.push({
+          maxHealth: state.hullHealth,
+          hookHealth: state.hookHealth,
+          damage: profile.weapon.damage,
+          shots: profile.weapon.volleyShots,
+          stagger: profile.crewStaggerSeconds,
+          telegraph: profile.telegraphSeconds,
+        }),
       onState: () => undefined,
       onCrewLand: () => undefined,
       onDestroyed: () => undefined,
@@ -84,7 +102,9 @@ describe('boarding encounter choreography', () => {
     let published = 0;
     const manager = new VehicleManager({
       onSpawn: () => undefined,
-      onState: () => { published++; },
+      onState: () => {
+        published++;
+      },
       onCrewLand: () => undefined,
       onDestroyed: () => undefined,
       onRetreat: () => undefined,
@@ -98,5 +118,55 @@ describe('boarding encounter choreography', () => {
     manager.fixedUpdate(3.1);
     expect(published).toBe(2);
     expect(manager.snapshot).toBeNull();
+  });
+
+  it('holds alongside after all crew land until extraction is released', () => {
+    let s = createBoardingEncounter();
+    s = { ...s, phase: 'boarding', phaseElapsed: 10, crossingAt: [0, 0] };
+    s = stepBoardingEncounter(s, { dt: 0.1, hookRange: 10, holdForExtraction: true });
+    expect(s.phase).toBe('boarding');
+    const landed = s.crewStatus;
+    s = stepBoardingEncounter(s, { dt: 0.1, hookRange: 10, holdForExtraction: true });
+    expect(s.crewStatus).toEqual(landed);
+    expect(stepBoardingEncounter(s, { dt: 0.1, hookRange: 10 }).phase).toBe('retreat');
+  });
+
+  it('terminal hull and hook outcomes override an extraction hold', () => {
+    let s: BoardingEncounterState = {
+      ...createBoardingEncounter(),
+      phase: 'boarding',
+      phaseElapsed: 10,
+      crossingAt: [0, 0],
+    };
+    expect(
+      stepBoardingEncounter(s, {
+        dt: 0.1,
+        hookRange: 10,
+        holdForExtraction: true,
+        destroyHull: true,
+      }).phase,
+    ).toBe('destroyed');
+    s = damageBoardingHook(s, 100);
+    expect(
+      stepBoardingEncounter(s, { dt: 0.1, hookRange: 10, holdForExtraction: true }).phase,
+    ).toBe('retreat');
+  });
+
+  it('VehicleManager hold resets on clear and restore', () => {
+    const manager = new VehicleManager({
+      onSpawn: () => undefined,
+      onState: () => undefined,
+      onCrewLand: () => undefined,
+      onDestroyed: () => undefined,
+      onRetreat: () => undefined,
+      onVolley: () => undefined,
+    });
+    manager.spawn();
+    manager.setExtractionHold(true);
+    manager.clear();
+    manager.spawn();
+    for (let i = 0; i < 30 && manager.snapshot?.phase === 'approach'; i++)
+      manager.fixedUpdate(0.25);
+    expect(manager.snapshot?.phase).toBe('firing-pass');
   });
 });
