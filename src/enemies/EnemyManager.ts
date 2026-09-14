@@ -7,8 +7,9 @@ import type { PlayerStats } from '@/player/PlayerStats';
 import { ENEMIES } from '@/data/enemies';
 import { Enemy, type StructureDamage, type SubsystemDamage } from './Enemy';
 import { findPath, levelOf, type NavGraph } from './NavGraph';
-import { worldToCell } from '@/building/BuildGrid';
+import { cellCenter, worldToCell } from '@/building/BuildGrid';
 import { PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
+import { chooseWardenFlank, type FlankCandidate } from './EnemyTactics';
 
 const POOL_SIZE = 8;
 
@@ -23,6 +24,9 @@ export class EnemyManager {
   private readonly modelByDefinition = new Map<string, LoadedModel | null>();
   private nextId = 0;
   private repathTick = 0;
+  private readonly flankUntil = new Map<string, number>();
+  private readonly flankTargets = new Map<string, { x: number; y: number; z: number }>();
+  private simulationTime = 0;
 
   constructor(
     private readonly scene: THREE.Scene,
@@ -67,6 +71,32 @@ export class EnemyManager {
     let n = 0;
     for (const e of this.pool) if (e.isActive) n++;
     return n;
+  }
+
+  /** Sovereign support reduction; definitions remain immutable. */
+  damageMultiplierFor(enemy: Enemy): number {
+    if (!enemy.isActive) return 1;
+    for (const owner of this.pool) {
+      if (
+        owner === enemy ||
+        !owner.isActive ||
+        owner.aiState === 'dead' ||
+        owner.def.id !== 'sovereign'
+      )
+        continue;
+      const support = owner.tacticalSnapshot;
+      if (support?.droneAlive && owner.worldPosition.distanceTo(enemy.worldPosition) <= 7)
+        return 0.8;
+    }
+    return 1;
+  }
+  chooseWardenFlank(candidates: readonly FlankCandidate[]): FlankCandidate | null {
+    return chooseWardenFlank(candidates);
+  }
+
+  /** The currently committed Warden destination, for tactical visuals/tests. */
+  flankTarget(enemyId: string): { x: number; y: number; z: number } | null {
+    return this.flankTargets.get(enemyId) ?? null;
   }
 
   /** Build reusable rigs during loading, without spawning bodies or encounter events. */
@@ -121,6 +151,8 @@ export class EnemyManager {
     }
 
     enemy.spawn(at);
+    this.flankUntil.delete(enemy.id);
+    this.flankTargets.delete(enemy.id);
     return enemy;
   }
 
@@ -142,6 +174,27 @@ export class EnemyManager {
     /** What a raider chews on once it has crossed the deck to the engine. */
     machineDamage: SubsystemDamage | null = null,
   ): void {
+    this.simulationTime += Math.max(0, dt);
+    for (const enemy of this.pool) {
+      if (!enemy.isActive || enemy.aiState === 'dead') {
+        this.flankUntil.delete(enemy.id);
+        this.flankTargets.delete(enemy.id);
+        enemy.clearWardenFlank();
+        continue;
+      }
+      if (!nav || enemy.tacticalSnapshot?.missionTarget) {
+        this.flankUntil.delete(enemy.id);
+        this.flankTargets.delete(enemy.id);
+        enemy.clearWardenFlank();
+      } else if (
+        this.flankTargets.has(enemy.id) &&
+        (this.flankUntil.get(enemy.id) ?? 0) <= this.simulationTime
+      ) {
+        this.flankUntil.delete(enemy.id);
+        this.flankTargets.delete(enemy.id);
+        enemy.clearWardenFlank();
+      }
+    }
     if (nav) this.repath(nav, playerPos);
     for (const e of this.pool) {
       if (carryFor && e.isActive) {
@@ -154,6 +207,8 @@ export class EnemyManager {
         e.carry.y = 0;
         e.carry.z = 0;
       }
+      e.setWardenFlankCommitted(this.flankTargets.has(e.id));
+      e.setDamageTakenMultiplier(this.damageMultiplierFor(e));
       e.fixedUpdate(dt, playerPos, playerStats, build, machineDamage);
     }
   }
@@ -180,13 +235,118 @@ export class EnemyManager {
     for (let i = 0; i < this.pool.length; i++) {
       this.repathTick = (this.repathTick + 1) % this.pool.length;
       const enemy = this.pool[this.repathTick] as Enemy;
-      if (!enemy.isActive) continue;
+      if (!enemy.isActive) {
+        this.flankUntil.delete(enemy.id);
+        this.flankTargets.delete(enemy.id);
+        continue;
+      }
 
       const playerFeetY = playerPos.y - (PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS);
       const playerCell = worldToCell(playerPos.x, playerPos.z, levelOf(playerFeetY));
       // The enemy decides where it is going: a raider routes to the engine,
       // a scavenger to the player. The manager only knows where the player is.
       const goal = enemy.goalCell(playerCell);
+
+      // External mission routing owns the destination for this repath. Clear
+      // any prior flank commitment first so a Warden cannot spend one more
+      // search on tactical cover after its mission has begun.
+      if (enemy.tacticalSnapshot?.missionTarget) {
+        this.flankUntil.delete(enemy.id);
+        this.flankTargets.delete(enemy.id);
+        enemy.clearWardenFlank();
+        enemy.setPath(findPath(nav, enemy.gridCell, goal), nav);
+        return;
+      }
+
+      if (enemy.def.id === 'warden' && enemy.tacticalSnapshot?.phase === 'flank') {
+        const activeUntil = this.flankUntil.get(enemy.id) ?? 0;
+        const committed = this.flankTargets.get(enemy.id);
+        let released = false;
+        if (committed) {
+          const dx = enemy.worldPosition.x - committed.x;
+          const dz = enemy.worldPosition.z - committed.z;
+          if (Math.hypot(dx, dz) <= 0.7) {
+            this.flankUntil.delete(enemy.id);
+            this.flankTargets.delete(enemy.id);
+            enemy.clearWardenFlank();
+            released = true;
+          } else if (activeUntil > this.simulationTime) {
+            continue;
+          } else {
+            this.flankUntil.delete(enemy.id);
+            this.flankTargets.delete(enemy.id);
+            enemy.clearWardenFlank();
+            released = true;
+          }
+        }
+        if (released) {
+          enemy.setPath(findPath(nav, enemy.gridCell, goal), nav);
+          return;
+        }
+        const candidates: FlankCandidate[] = [];
+        const seen = new Set<string>();
+        for (const cell of nav.links.values()) {
+          for (const candidate of cell) {
+            const key = `${candidate.x}:${candidate.y}:${candidate.z}`;
+            if (seen.has(key) || candidates.length >= 12 || candidate.y !== enemy.gridCell.y)
+              continue;
+            seen.add(key);
+            const centre = cellCenter(candidate);
+            const point = new THREE.Vector3(centre.x, centre.y, centre.z);
+            const distance = enemy.worldPosition.distanceTo(point);
+            if (distance > 8) continue;
+            // A flank is useful when the route from the Warden to the cell is
+            // protected by cover, while the cell itself has a clear firing
+            // lane to the player. Testing player->cell for both flags would
+            // make those requirements mutually exclusive.
+            point.y = enemy.worldPosition.y;
+            const fromEnemy = point.clone().sub(enemy.worldPosition);
+            const coverDistance = fromEnemy.length();
+            const covered =
+              coverDistance > 0.01 &&
+              this.physics.raycast(
+                enemy.worldPosition,
+                fromEnemy.normalize(),
+                coverDistance,
+                enemy.physicsCollider ?? undefined,
+              ) !== null;
+            const shot = point.clone().setY(enemy.worldPosition.y);
+            const aim = playerPos.clone().sub(shot);
+            const shotDistance = aim.length();
+            const clearShot =
+              shotDistance > 0.01 &&
+              this.physics.raycast(
+                shot,
+                aim.normalize(),
+                shotDistance,
+                enemy.physicsCollider ?? undefined,
+                (collider) => {
+                  const data = this.physics.getUserData(collider);
+                  return !(
+                    typeof data === 'object' &&
+                    data !== null &&
+                    (data as { kind?: unknown }).kind === 'player'
+                  );
+                },
+              ) === null;
+            const route = findPath(nav, enemy.gridCell, candidate);
+            candidates.push({
+              cell: candidate,
+              distance,
+              covered,
+              clearShot,
+              reachable: route.length > 0,
+            });
+          }
+        }
+        const flank = chooseWardenFlank(candidates);
+        if (flank) {
+          enemy.setPath(findPath(nav, enemy.gridCell, flank.cell), nav);
+          this.flankUntil.set(enemy.id, this.simulationTime + 1.5);
+          this.flankTargets.set(enemy.id, { ...cellCenter(flank.cell) });
+          return;
+        }
+      }
 
       enemy.setPath(findPath(nav, enemy.gridCell, goal), nav);
       return;
@@ -199,11 +359,15 @@ export class EnemyManager {
 
   despawnAll(): void {
     for (const e of this.pool) if (e.isActive) e.despawn();
+    this.flankUntil.clear();
+    this.flankTargets.clear();
   }
 
   dispose(): void {
     for (const enemy of this.pool) enemy.dispose();
     this.pool.length = 0;
     this.modelByDefinition.clear();
+    this.flankUntil.clear();
+    this.flankTargets.clear();
   }
 }

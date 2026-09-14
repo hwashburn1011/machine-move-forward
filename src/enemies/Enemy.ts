@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type RAPIER from '@dimforge/rapier3d-compat';
 import type { PhysicsWorld, CharacterHandle } from '@/core/physics/PhysicsWorld';
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
@@ -28,6 +29,7 @@ import { levelOf, nextWaypointIndex, segmentIsClear, type NavGraph } from './Nav
 import { cellCenter, worldToCell, type Cell } from '@/building/BuildGrid';
 import { SUBSYSTEMS, type SubsystemId } from '@/data/subsystems';
 import { hitboxContains, subsystemTargetFor } from './EnemyTargeting';
+import { EnemyTactics, type EnemyTacticalSnapshot } from './EnemyTactics';
 
 export { CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS } from './EnemyMesh';
 
@@ -130,6 +132,9 @@ export class Enemy {
   private lastTurn = 0;
   /** Seconds spent asking to move and going nowhere. */
   private blockedFor = 0;
+  private wardenBlockedFor = 0;
+  private revenantHit = false;
+  private wardenFlankCommitted = false;
   /** Seconds left of backing out of a pinch. */
   private backingOutFor = 0;
 
@@ -160,6 +165,8 @@ export class Enemy {
   private readonly visualShotOrigin = new THREE.Vector3();
   private facing = 0;
   private active = false;
+  private damageTakenMultiplier = 1;
+  private readonly tactics: EnemyTactics | null;
 
   constructor(
     readonly id: string,
@@ -173,6 +180,9 @@ export class Enemy {
     this.health = def.maxHealth;
     this.visual = new EnemyVisual(model, materials, def.tint);
     this.ranged = def.ranged ? new RangedWindup(def.ranged) : null;
+    this.tactics = ['revenant', 'bastion', 'warden', 'sovereign'].includes(def.id)
+      ? new EnemyTactics(def.id as 'revenant' | 'bastion' | 'warden' | 'sovereign')
+      : null;
     this.object3D.visible = false;
     scene.add(this.object3D);
   }
@@ -211,8 +221,51 @@ export class Enemy {
     return this.health;
   }
 
+  get tacticalSnapshot(): EnemyTacticalSnapshot | null {
+    return this.tactics?.snapshot() ?? null;
+  }
+  damageDrone(amount: number): number {
+    return this.tactics?.damageDrone(amount) ?? 0;
+  }
+  applyHit(hit: { amount: number; weakpoint?: 'vent' | 'drone' }): number {
+    if (hit.weakpoint === 'drone') return this.damageDrone(hit.amount);
+    const amount =
+      hit.weakpoint === 'vent' && this.tacticalSnapshot?.ventOpen ? hit.amount * 2 : hit.amount;
+    this.takeDamage(amount);
+    return amount;
+  }
+  setMissionTarget(
+    point: THREE.Vector3 | null,
+    mode: 'travel' | 'sabotage',
+    subsystemId?: string,
+  ): void {
+    this.ranged?.reset();
+    this.visual.clearAim();
+    this.tactics?.setMissionTarget(point, mode, subsystemId);
+    if (point) this.clearWardenFlank();
+  }
+  clearWardenFlank(): void {
+    this.tactics?.clearWardenFlank();
+    this.wardenFlankCommitted = false;
+  }
+  setWardenFlankCommitted(committed: boolean): void {
+    this.wardenFlankCommitted = committed;
+    if (committed) {
+      this.ranged?.reset();
+      this.visual.clearAim();
+    }
+  }
+  setDamageTakenMultiplier(value: number): void {
+    this.damageTakenMultiplier = Number.isFinite(value) ? Math.max(0.8, Math.min(1, value)) : 1;
+  }
+
   get worldPosition(): THREE.Vector3 {
     return this.position;
+  }
+
+  /** Collider identity for manager LOS queries; never expose the body handle. */
+  get physicsCollider(): RAPIER.Collider | null {
+    return this.handle?.collider ?? null;
   }
 
   /**
@@ -235,6 +288,8 @@ export class Enemy {
    * to stand on to hit it.
    */
   goalCell(playerCell: Cell): Cell {
+    const mission = this.tactics?.snapshot().missionTarget;
+    if (mission) return worldToCell(mission.x, mission.z, levelOf(mission.y - CAPSULE_FOOT_OFFSET));
     const sub = this.subsystemGoal;
     if (!sub) return playerCell;
     const at = SUBSYSTEMS[sub].repairAt;
@@ -268,12 +323,17 @@ export class Enemy {
   spawn(at: THREE.Vector3): void {
     this.scene.add(this.object3D);
     this.ranged?.reset();
+    this.tactics?.reset();
+    this.damageTakenMultiplier = 1;
     this.health = this.def.maxHealth;
     this.state = 'idle';
     this.verticalVelocity = 0;
     this.timeSinceLastAttack = 999;
     this.deathTimer = 0;
     this.blockedFor = 0;
+    this.wardenBlockedFor = 0;
+    this.revenantHit = false;
+    this.wardenFlankCommitted = false;
     this.backingOutFor = 0;
     // This enemy is a pooled slot, not a fresh object — anything not reset
     // here is inherited from whatever last occupied it. `path`/`pathIndex`
@@ -317,7 +377,8 @@ export class Enemy {
   takeDamage(amount: number): void {
     if (!this.active || this.state === 'dead') return;
 
-    this.health = Math.max(0, this.health - amount);
+    const applied = Math.max(0, amount * this.damageTakenMultiplier);
+    this.health = Math.max(0, this.health - applied);
     // Shooting one used to produce nothing visible until it died. A scavenger
     // that does not react is indistinguishable from deck furniture, which is
     // exactly what the player took it for.
@@ -325,7 +386,7 @@ export class Enemy {
     this.visual.setHealth(this.health, this.def.maxHealth);
     this.bus.emit('enemy:damaged', {
       enemyId: this.id,
-      amount,
+      amount: applied,
       remaining: this.health,
     });
 
@@ -375,6 +436,24 @@ export class Enemy {
     // Computed once and reused below, so the thing that decided the swing is
     // the same thing the swing lands on.
     const blockedBy = this.blockerToward(playerPos);
+    if (this.def.id === 'warden' && distance <= this.def.detectRange) {
+      this.wardenBlockedFor = this.canSeePlayer(this.position, playerPos)
+        ? 0
+        : this.wardenBlockedFor + dt;
+    } else {
+      this.wardenBlockedFor = 0;
+    }
+
+    const tacticalDecision = this.tactics?.update(dt, {
+      blockedLos: this.def.id === 'warden' ? this.wardenBlockedFor : blockedBy ? 1.25 : 0,
+      lungeDirection:
+        this.def.id === 'revenant' &&
+        !this.tactics?.snapshot().missionTarget &&
+        distance <= this.def.attackRange + 4.5 &&
+        !blockedBy
+          ? this.toPlayer
+          : undefined,
+    });
 
     const decision = stepEnemyAI(this.state, this.def, {
       distanceToPlayer: distance,
@@ -382,6 +461,45 @@ export class Enemy {
       timeSinceLastAttack: this.timeSinceLastAttack,
       blockedBy,
     });
+    const tacticState = this.tactics?.snapshot();
+    const venting = tacticState?.ventOpen ?? false;
+    const missionActive =
+      tacticState?.missionTarget !== null && tacticState?.missionTarget !== undefined;
+    const missionSabotage = tacticState?.missionMode === 'sabotage';
+    if (missionActive) {
+      decision.state = 'navigate';
+      decision.shouldAttack = false;
+      decision.attackTarget = null;
+    }
+    if (this.wardenFlankCommitted) {
+      decision.state = 'navigate';
+      decision.shouldAttack = false;
+      decision.attackTarget = null;
+    }
+    if (tacticState && tacticState.kind === 'revenant' && tacticState.phase !== 'idle') {
+      decision.shouldAttack = false;
+      decision.attackTarget = null;
+      const facing = tacticState.lungeDirection;
+      const toTarget = this.toPlayer.clone().setY(0);
+      const forward =
+        toTarget.lengthSq() > 0.001 &&
+        facing.lengthSq() > 0.001 &&
+        facing.dot(toTarget.normalize()) >= 0.35;
+      if (
+        tacticState.phase === 'lunge' &&
+        !this.revenantHit &&
+        distance <= this.def.attackRange + 0.5 &&
+        forward &&
+        this.canSeePlayer(this.position, playerPos)
+      ) {
+        playerStats.damage(this.def.damage, this.def.name, {
+          x: this.position.x,
+          y: this.position.y,
+          z: this.position.z,
+        });
+        this.revenantHit = true;
+      }
+    }
     if (
       !this.ranged &&
       this.def.surface === 'metal' &&
@@ -392,7 +510,7 @@ export class Enemy {
       decision.shouldAttack = false;
       decision.attackTarget = null;
     }
-    if (this.ranged) {
+    if (this.ranged && !venting && !missionActive && !this.wardenFlankCommitted) {
       // Indestructible machinery, floors, walls and other characters all block fire.
       // Walk around cover instead of stopping at rifle range behind a generator.
       this.attackOrigin(this.shotOrigin);
@@ -427,6 +545,7 @@ export class Enemy {
           this.fireRanged(target, playerStats);
           this.visual.attack();
           if (this.ranged.complete) {
+            this.tactics?.beginBastionVent();
             this.ranged.reset();
             this.timeSinceLastAttack = 0;
           }
@@ -434,6 +553,9 @@ export class Enemy {
         if (this.ranged.target) this.visual.setAim(this.shotOrigin, target, this.ranged.charge);
       }
       if (!this.ranged.target) this.visual.clearAim();
+    } else if (venting || missionActive || this.wardenFlankCommitted) {
+      this.ranged?.reset();
+      this.visual.clearAim();
     }
     /**
      * Arriving at the subsystem it came for is its OWN attack trigger.
@@ -444,11 +566,23 @@ export class Enemy {
      * touch it, and engine-as-stop would be dead code. Death still wins: a
      * corpse at the engine is not attacking anything.
      */
-    const sub = this.subsystemGoal;
+    const missionTarget = tacticState?.missionTarget;
+    const missionSubsystem =
+      missionSabotage && tacticState?.subsystemId && tacticState.subsystemId in SUBSYSTEMS
+        ? (tacticState.subsystemId as SubsystemId)
+        : null;
+    const sub = missionSubsystem ?? this.subsystemGoal;
+    const atMissionTarget =
+      missionTarget !== null &&
+      missionTarget !== undefined &&
+      Math.hypot(this.position.x - missionTarget.x, this.position.z - missionTarget.z) <= 0.65 &&
+      Math.abs(this.position.y - missionTarget.y) <= 1;
     const atSubsystem =
-      sub !== null && decision.state !== 'dead' && hitboxContains(sub, this.position);
+      sub !== null &&
+      decision.state !== 'dead' &&
+      (missionSabotage ? atMissionTarget : hitboxContains(sub, this.position));
 
-    this.state = atSubsystem ? 'attack' : decision.state;
+    this.state = atSubsystem ? 'attack' : missionActive ? 'navigate' : decision.state;
     this.visual.setState(this.state);
 
     if (atSubsystem && sub) {
@@ -479,7 +613,12 @@ export class Enemy {
     // half of them used to wedge and never arrive.
     let vx = 0;
     let vz = 0;
-    if (this.state === 'navigate' || this.state === 'pursue') {
+    const revenantPhase = tacticState?.kind === 'revenant' ? tacticState.phase : null;
+    if (
+      (this.state === 'navigate' || this.state === 'pursue') &&
+      revenantPhase !== 'telegraph' &&
+      revenantPhase !== 'recovery'
+    ) {
       // Aim at the next waypoint, not at the player. A* decided which way
       // round the building; the probe fan below still decides how to get down
       // the next metre and a half without walking into the generator. Those
@@ -489,8 +628,16 @@ export class Enemy {
       // what it came for. For a raider that is its subsystem, not the player —
       // otherwise it would path the whole way to the engine and then peel off
       // toward the player on the final two metres.
-      const finalX = sub ? SUBSYSTEMS[sub].repairAt.x - this.position.x : this.toPlayer.x;
-      const finalZ = sub ? SUBSYSTEMS[sub].repairAt.z - this.position.z : this.toPlayer.z;
+      const finalX = missionTarget
+        ? missionTarget.x - this.position.x
+        : sub
+          ? SUBSYSTEMS[sub].repairAt.x - this.position.x
+          : this.toPlayer.x;
+      const finalZ = missionTarget
+        ? missionTarget.z - this.position.z
+        : sub
+          ? SUBSYSTEMS[sub].repairAt.z - this.position.z
+          : this.toPlayer.z;
       const tx = target ? target.x - this.position.x : finalX;
       const tz = target ? target.z - this.position.z : finalZ;
 
@@ -505,8 +652,16 @@ export class Enemy {
         this.lastTurn = heading.turn;
         vx = heading.x * this.def.moveSpeed;
         vz = heading.z * this.def.moveSpeed;
+        if (tacticalDecision && tacticState?.kind === 'revenant' && tacticState.phase === 'lunge') {
+          vx = tacticalDecision.move.x;
+          vz = tacticalDecision.move.z;
+        }
         this.facing = Math.atan2(vx, vz);
       }
+    }
+    if (tacticalDecision && revenantPhase === 'lunge') {
+      vx = tacticalDecision.move.x;
+      vz = tacticalDecision.move.z;
     }
 
     const { controller, collider, body } = this.handle;

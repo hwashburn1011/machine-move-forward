@@ -110,7 +110,7 @@ const STORY_PHASE_LABELS: Record<string, string> = {
   braking: 'Docking',
   docked: 'The Wake',
   departing: 'Resuming route',
-  complete: 'Next transmission',
+  complete: 'First chapter complete',
 };
 
 /** Seconds a loot line stays up. */

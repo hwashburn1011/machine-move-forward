@@ -11,6 +11,7 @@ import { PhysicsWorld, initRapier } from '@/core/physics/PhysicsWorld';
 import { EventBus } from '@/core/events/EventBus';
 import { Materials } from '@/art/Materials';
 import { PlayerStats } from '@/player/PlayerStats';
+import { cellCenter, cellKey, type Cell } from '@/building/BuildGrid';
 
 describe('mech encounter roster', () => {
   it('preserves the opening, gradually unlocks elites, and retains an engine attacker', () => {
@@ -204,6 +205,184 @@ describe('actual pooled combat and cover', () => {
     f.physics.addBoxTo(wall, new THREE.Vector3(10, 2, 0.2), new THREE.Vector3());
     f.tick(80);
     expect(f.stats.health).toBe(100);
+    f.enemies.despawnAll();
+  });
+
+  it('commits a warden to a covered reachable flank when its direct lane is blocked', () => {
+    const f = fixture();
+    const enemy = f.enemies.spawn('warden', new THREE.Vector3(0, 5, 0))!;
+    const level = enemy.gridCell.y;
+    const start: Cell = { x: 0, y: level, z: 0 };
+    const side: Cell = { x: 2, y: level, z: 0 };
+    const flank: Cell = { x: 2, y: level, z: 2 };
+    const nav = {
+      links: new Map<string, Cell[]>([
+        [cellKey(start), [side]],
+        [cellKey(side), [start, flank]],
+        [cellKey(flank), [side]],
+      ]),
+    };
+    const wall = f.physics.createDrivenBody(new THREE.Vector3(0, 5, 1.5));
+    const coverCollider = f.physics.addBoxTo(
+      wall,
+      new THREE.Vector3(2, 2, 0.2),
+      new THREE.Vector3(),
+      undefined,
+      {
+        kind: 'structure',
+        id: 'flank-cover',
+        armor: 0,
+        takeDamage: () => undefined,
+      },
+    );
+
+    // The first tick observes the cover and transitions the Warden into its
+    // flank phase. The next manager repath is the one that commits a route.
+    const before = enemy.worldPosition.clone();
+    let committedAt: THREE.Vector3 | null = null;
+    let healthAtCommit = 0;
+    for (let i = 0; i < 90; i++) {
+      f.physics.step();
+      f.enemies.fixedUpdate(1 / 60, f.playerPos, f.stats, nav);
+      const target = f.enemies.flankTarget(enemy.id);
+      if (target && !committedAt) {
+        committedAt = enemy.worldPosition.clone();
+        healthAtCommit = f.stats.health;
+      }
+    }
+
+    expect(enemy.tacticalSnapshot?.phase).toBe('flank');
+    expect(enemy.gridCell.y).toBe(start.y);
+    const committed = f.enemies.flankTarget(enemy.id);
+    expect(committed).not.toBeNull();
+    expect(Math.hypot(committed!.x, committed!.z)).toBeGreaterThan(0);
+    expect(committed!.y).toBeCloseTo(cellCenter(flank).y);
+    expect(enemy.pathLength).toBeGreaterThan(0);
+    expect(committedAt).not.toBeNull();
+    expect(enemy.worldPosition.distanceTo(before)).toBeGreaterThan(0.2);
+    expect(f.stats.health).toBe(healthAtCommit);
+    f.physics.removeCollider(coverCollider);
+    for (let i = 0; i < 180; i++) {
+      f.physics.step();
+      f.enemies.fixedUpdate(1 / 60, f.playerPos, f.stats, nav);
+    }
+    expect(f.enemies.flankTarget(enemy.id)).toBeNull();
+    expect(f.stats.health).toBeLessThan(healthAtCommit);
+    f.enemies.despawnAll();
+  });
+
+  it('moves a Revenant at its committed lunge speed and strikes once in range', () => {
+    const f = fixture();
+    const enemy = f.enemies.spawn('revenant', new THREE.Vector3(0, 5, 0))!;
+    f.playerPos.z = 5.5;
+    f.player.body.setTranslation(f.playerPos, true);
+    const before = enemy.worldPosition.clone();
+    for (let i = 0; i < 70; i++) {
+      f.physics.step();
+      f.enemies.fixedUpdate(1 / 60, f.playerPos, f.stats);
+    }
+    const travelled = enemy.worldPosition.distanceTo(before);
+    expect(travelled).toBeGreaterThan(2.5);
+    expect(travelled).toBeLessThan(7);
+    expect(f.stats.health).toBe(90);
+    f.enemies.despawnAll();
+  });
+
+  it('hits a close target during the lunge but misses a target that dodges behind distance', () => {
+    const close = fixture();
+    close.playerPos.z = 1;
+    close.player.body.setTranslation(close.playerPos, true);
+    close.enemies.spawn('revenant', new THREE.Vector3(0, 5, 0));
+    for (let i = 0; i < 70; i++) {
+      close.physics.step();
+      close.enemies.fixedUpdate(1 / 60, close.playerPos, close.stats);
+    }
+    expect(close.stats.health).toBe(90);
+    close.enemies.despawnAll();
+
+    const dodge = fixture();
+    const enemy = dodge.enemies.spawn('revenant', new THREE.Vector3(0, 5, 0))!;
+    dodge.playerPos.z = 5.5;
+    dodge.player.body.setTranslation(dodge.playerPos, true);
+    for (let i = 0; i < 35; i++) {
+      dodge.physics.step();
+      dodge.enemies.fixedUpdate(1 / 60, dodge.playerPos, dodge.stats);
+    }
+    dodge.playerPos.z = 20;
+    dodge.player.body.setTranslation(dodge.playerPos, true);
+    for (let i = 0; i < 45; i++) {
+      dodge.physics.step();
+      dodge.enemies.fixedUpdate(1 / 60, dodge.playerPos, dodge.stats);
+    }
+    expect(dodge.stats.health).toBe(100);
+    expect(enemy.tacticalSnapshot?.phase).toBe('recovery');
+    dodge.enemies.despawnAll();
+  });
+
+  it('travel missions suppress player attacks and stop steering at their target', () => {
+    const f = fixture();
+    const enemy = f.enemies.spawn('warden', new THREE.Vector3(0, 5, 0))!;
+    const target = new THREE.Vector3(0, 5, 2);
+    enemy.setMissionTarget(target, 'travel', 'engine');
+    for (let i = 0; i < 240; i++) {
+      f.physics.step();
+      f.enemies.fixedUpdate(1 / 60, f.playerPos, f.stats);
+    }
+    expect(f.stats.health).toBe(100);
+    expect(enemy.tacticalSnapshot?.missionMode).toBe('travel');
+    expect(enemy.worldPosition.distanceTo(target)).toBeLessThan(1.5);
+    f.enemies.despawnAll();
+  });
+
+  it('sabotage missions damage only their validated subsystem at the target', () => {
+    const f = fixture();
+    const enemy = f.enemies.spawn('warden', new THREE.Vector3(0, 5, 0))!;
+    const damages: Array<{ id: string; amount: number }> = [];
+    enemy.setMissionTarget(new THREE.Vector3(0, 5, 0), 'sabotage', 'engine');
+    for (let i = 0; i < 40; i++) {
+      f.physics.step();
+      f.enemies.fixedUpdate(1 / 60, f.playerPos, f.stats, null, null, null, {
+        damage: (id, amount) => (damages.push({ id, amount }), amount),
+      });
+    }
+    expect(f.stats.health).toBe(100);
+    expect(damages.length).toBeGreaterThan(0);
+    expect(damages.every((damage) => damage.id === 'engine')).toBe(true);
+    f.enemies.despawnAll();
+  });
+
+  it('opens Bastion vent only after its burst and doubles open-vent damage', () => {
+    const f = fixture();
+    const enemy = f.enemies.spawn('bastion', new THREE.Vector3(0, 5, 0))!;
+    let opened = false;
+    for (let i = 0; i < 240; i++) {
+      f.physics.step();
+      f.enemies.fixedUpdate(1 / 60, f.playerPos, f.stats);
+      if (enemy.tacticalSnapshot?.ventOpen) {
+        opened = true;
+        break;
+      }
+    }
+    expect(opened).toBe(true);
+    const before = enemy.currentHealth;
+    enemy.applyHit({ amount: 10, weakpoint: 'vent' });
+    expect(enemy.currentHealth).toBe(before - 20);
+    f.enemies.despawnAll();
+  });
+
+  it('protects allies only while Sovereign drone is alive and Sovereign is alive', () => {
+    const f = fixture();
+    const sovereign = f.enemies.spawn('sovereign', new THREE.Vector3(0, 5, 0))!;
+    const ally = f.enemies.spawn('warden', new THREE.Vector3(1, 5, 0))!;
+    expect(f.enemies.damageMultiplierFor(ally)).toBeCloseTo(0.8);
+    sovereign.damageDrone(999);
+    expect(f.enemies.damageMultiplierFor(ally)).toBe(1);
+    sovereign.despawn();
+    f.enemies.spawn('sovereign', new THREE.Vector3(0, 5, 0));
+    expect(sovereign.tacticalSnapshot?.droneAlive).toBe(true);
+    expect(f.enemies.damageMultiplierFor(ally)).toBeCloseTo(0.8);
+    sovereign.takeDamage(999);
+    expect(f.enemies.damageMultiplierFor(ally)).toBe(1);
     f.enemies.despawnAll();
   });
 });
