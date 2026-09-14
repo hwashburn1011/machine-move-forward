@@ -4,6 +4,8 @@ Status: implemented and locally accepted. This record describes the changes
 based on main `97630f4` on 13 September 2026. It complements the design contract in
 [`2026-09-13-chapter-tactics-plan.md`](../superpowers/plans/2026-09-13-chapter-tactics-plan.md).
 
+Release review and CI: [pull request #9](https://github.com/hwashburn1011/machine-move-forward/pull/9).
+
 The implementation completes an optional first progression chapter using the
 existing Wreck One and Relay Foundry destinations, then returns the player to
 continuing survival. It also gives the four existing mech types tactical
@@ -106,7 +108,7 @@ duplicate cargo.
 | INT-02 mission/tactical feedback | Complete locally | Real carrier navigation, pickup, hook-cut recovery, escape, storage relocation/demolition and real drone/vent sensors passed. Browser QA also walked a live sabotage actor to the engine service point and verified that only its selected subsystem took damage. Assault controller behavior is covered by focused pure tests. |
 | ACC-01 chapter browser acceptance | 28 checks passed | The actual Radio UI, destination pickup, gangway, both routes, gunboat distinction, Foundry rewards, completion, later raid scheduling, reload and legacy backfill were exercised. Travel distance was shortened by the fixture; this is not evidence of a manual 20-minute traversal. |
 | ACC-02 tactical/resource acceptance | 24 checks passed | Real theft physics and conservation, hook cut, full inventory ledger, save/load, collection idempotence, carrier escape, relocation, demolition, sabotage travel, Revenant dodge, Warden committed movement/release, drone ray, vent damage and 100 lifecycle cycles passed. Visual captures document the drone, vent and lunge warning. Warden evidence uses an automated isolated fixture rather than manual play. |
-| VAL-01 final regression | Complete locally | Final runtime code passed 1,214 tests across 122 files, lint and production build. Runtime QA passed 52/52; camera/stair regression passed 8/8. The local production bundle includes `assets/index-PILyQiL3.js`. Publication to main remains pending. |
+| VAL-01 final regression | Complete locally | Final runtime code passed 1,214 tests across 122 files, lint and production build. Runtime QA passed 52/52; camera/stair regression passed 8/8. The local production bundle includes `assets/index-PILyQiL3.js`. Release CI and publication are tracked in pull request #9. |
 
 ## Runtime acceptance evidence
 
