@@ -1,0 +1,179 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "models": true,
+  "checks": [
+    {
+      "name": "real enclosed room and furniture",
+      "ok": true,
+      "detail": {
+        "cells": [
+          {
+            "x": -3,
+            "y": 0,
+            "z": -4
+          },
+          {
+            "x": -2,
+            "y": 0,
+            "z": -4
+          },
+          {
+            "x": -1,
+            "y": 0,
+            "z": -4
+          }
+        ],
+        "chair": "bp-16",
+        "shelf": "bp-18",
+        "indoors": true,
+        "firstRun": "complete",
+        "context": {
+          "chairId": "bp-16",
+          "playerCell": {
+            "x": -3,
+            "y": 0,
+            "z": -4
+          },
+          "sameRoom": false,
+          "rangeM": 1.1816923307939196,
+          "alive": true,
+          "health": 60,
+          "maxHealth": 100,
+          "safe": true,
+          "busy": false,
+          "moving": false,
+          "firing": false
+        }
+      }
+    },
+    {
+      "name": "E starts maintenance; Game heals exactly 10 HP in five seconds",
+      "ok": true,
+      "detail": {
+        "active": true,
+        "before": 60.03333333333333,
+        "after": 70.03333333333333
+      }
+    },
+    {
+      "name": "movement cancels immediately",
+      "ok": true
+    },
+    {
+      "name": "hungry repair reaches full health and ends",
+      "ok": true,
+      "detail": {
+        "started": true,
+        "hp": 100,
+        "active": false
+      }
+    },
+    {
+      "name": "damage interrupts without another heal",
+      "ok": true,
+      "detail": {
+        "hp": 69,
+        "active": false
+      }
+    },
+    {
+      "name": "known record persists on shelf",
+      "ok": true,
+      "detail": {
+        "selected": "course-gyro",
+        "saved": "course-gyro",
+        "text": "Aboard the NomadKeepsake shelfCourse GyroSalvage ControllerTracking ServoClear selectionCourse GyroCourse Gyro, recovered at The Wake. A record of what S-07 chose to carry forward.Close",
+        "bounds": {
+          "x": 288,
+          "y": 88.921875,
+          "w": 704,
+          "h": 542.140625
+        },
+        "lit": true
+      }
+    },
+    {
+      "name": "record visible; panel fits 1280x720",
+      "ok": true,
+      "detail": {
+        "x": 288,
+        "y": 88.921875,
+        "w": 704,
+        "h": 542.140625
+      }
+    },
+    {
+      "name": "authored shelf display illuminates",
+      "ok": true
+    },
+    {
+      "name": "rotation and record survive real save/load",
+      "ok": true,
+      "detail": {
+        "moved": true,
+        "saved": true,
+        "loaded": true,
+        "state": {
+          "factId": "course-gyro"
+        },
+        "rotation": 1,
+        "rot": 1
+      }
+    },
+    {
+      "name": "actual enclosure prevents extra water loss",
+      "ok": true,
+      "detail": {
+        "indoor": true,
+        "outsideFlag": false,
+        "inside": 98,
+        "outside": 97,
+        "before": {
+          "format": 1,
+          "phase": "front",
+          "elapsedS": 20,
+          "nextAtM": 0.018665298345964212,
+          "sequence": 0
+        },
+        "after": {
+          "format": 1,
+          "phase": "front",
+          "elapsedS": 20,
+          "nextAtM": 0.018665298345964212,
+          "sequence": 0
+        },
+        "eligible": true
+      }
+    },
+    {
+      "name": "pause freezes weather",
+      "ok": true
+    },
+    {
+      "name": "old save clear runway and unknown facts rejected",
+      "ok": true,
+      "detail": {
+        "weather": {
+          "format": 1,
+          "phase": "clear",
+          "elapsedS": 0,
+          "nextAtM": 600.0186652983459,
+          "sequence": 0
+        },
+        "distance": 0.018665298345964212,
+        "fact": null
+      }
+    },
+    {
+      "name": "roof loss interrupts without stale-room healing",
+      "ok": true,
+      "detail": {
+        "started": true,
+        "active": false,
+        "hp": 50,
+        "indoors": false
+      }
+    }
+  ],
+  "errors": []
+}

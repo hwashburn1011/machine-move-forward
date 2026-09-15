@@ -1,0 +1,37 @@
+{
+  "name": "home-furnishings",
+  "meshes": 29,
+  "triangles": 31800,
+  "anchors": {
+    "NomadHome": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HomeChair": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HomeTable": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HomeRug": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HomeShelf": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "KeepsakeLit": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

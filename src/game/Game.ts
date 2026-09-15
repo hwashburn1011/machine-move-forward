@@ -38,7 +38,11 @@ import { loadTextureSets } from '@/art/TextureLoader';
 import { disposeLoadedModel, loadModel, type LoadedModel } from '@/art/ModelLoader';
 import { loadPropModels } from '@/world/PropModels';
 import { duneHeightAt } from '@/world/DuneField';
-import { updateFogColor } from '@/art/Fog';
+import { updateFogColor, setFogParams, DEFAULT_FOG } from '@/art/Fog';
+import { DustFrontDirector } from '@/world/DustFrontDirector';
+import { DustFrontFX } from '@/fx/DustFrontFX';
+import { HomeLife, type HomeLifeRestContext, type HomeLifeCancelReason } from '@/building/HomeLife';
+import { HomeLifeUI } from '@/ui/HomeLifeUI';
 import { WorldManager, renderedDistance, WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
 import { installNavigationHelm } from '@/machine/MachineGeometry';
@@ -453,6 +457,16 @@ export class Game implements LoopCallbacks {
   private readonly loop: GameLoop;
   private readonly clock = new THREE.Clock();
   private quality: QualitySettings;
+  readonly homeRest = new HomeLife({ rooms: [], byCell: new Map(), links: [] }, []);
+  readonly homeUI: HomeLifeUI;
+  dustFront: DustFrontDirector;
+  private readonly dustFrontFX: DustFrontFX;
+  private homeShelfId: string | null = null;
+  private optionalSalvageEncounterId: string | null = null;
+  private optionalSalvageFailed = false;
+  private weatherPhase = 'clear';
+  private readonly weatherFog = new THREE.Color();
+  private readonly weatherTint = new THREE.Color(0x998069);
   private readonly freeCamera: THREE.PerspectiveCamera | null = null;
 
   private frameCount = 0;
@@ -726,6 +740,7 @@ export class Game implements LoopCallbacks {
   private constructor(private readonly options: GameOptions) {
     const seed = options.seed ?? 'mmf-default-seed';
     this.state = createGameState(seed);
+    this.dustFront = new DustFrontDirector(seed);
 
     // Probe on a throwaway context so tier detection does not disturb the
     // real renderer's configuration.
@@ -918,6 +933,8 @@ export class Game implements LoopCallbacks {
     this.blockedSpawnCellKeys = new Set(this.machine.equipmentCells.map(cellKey));
 
     this.sandFX = new SandFX(this.renderer.scene, this.quality);
+    this.dustFrontFX = new DustFrontFX(this.renderer.scene);
+    this.bus.on('player:damaged', () => this.stopHomeRest());
     this.tracks = new TrackMarks(this.renderer.scene);
     this.impactFX = new ImpactFX(this.renderer.scene, this.bus, this.quality);
 
@@ -1290,6 +1307,11 @@ export class Game implements LoopCallbacks {
       },
     });
     this.campaignLog = new CampaignLogUI(options.hudRoot, { close: () => this.closePanels() });
+    this.homeUI = new HomeLifeUI(options.hudRoot, {
+      close: () => this.closePanels(),
+      selectKeepsake: (id) => this.selectHomeKeepsake(id),
+      chooseSalvage: (mode) => this.chooseOpportunitySalvage(mode),
+    });
     this.inventoryUI = new InventoryUI(options.hudRoot, this.inventory, {
       moveToCrate: (slot, all) => this.transfer('player', slot, all),
       moveToPlayer: (slot, all) => this.transfer('crate', slot, all),
@@ -1313,6 +1335,7 @@ export class Game implements LoopCallbacks {
         depart: () => this.requestExpeditionDeparture(),
         beginTrace: () => this.beginWreckTrace(),
         collectRecovered: () => this.raidMissions.collectRecovered(),
+        openSalvage: () => this.openSalvageChoice(),
       },
       this.bus,
     );
@@ -1466,6 +1489,8 @@ export class Game implements LoopCallbacks {
     this.refreshFirstRunObjective();
 
     this.bus.on('player:died', () => {
+      this.stopHomeRest();
+      if (this.optionalSalvageEncounterId) this.optionalSalvageFailed = true;
       this.state.playerDead = true;
       this.exitBuildMode('death');
       this.playerFade.restore();
@@ -1711,6 +1736,7 @@ export class Game implements LoopCallbacks {
     } else this.updatePanels(dt);
     if (this.state.paused) return;
     // Build mode and the panels are mutually exclusive: both want LMB.
+    this.tickHomeRest(0);
     if (!this.endingInProgress && !this.panelsOpen && this.input.consumePressed('build'))
       this.toggleBuildMode();
 
@@ -1797,6 +1823,7 @@ export class Game implements LoopCallbacks {
       if (
         this.endingInProgress ||
         this.panelsOpen ||
+        this.homeRest.active ||
         this.state.playerDead ||
         !this.armed ||
         this.defense.mounted
@@ -1872,6 +1899,8 @@ export class Game implements LoopCallbacks {
     this.machine.fixedUpdate(dt);
     this.updateStory();
     this.destination.fixedUpdate(this.world.distanceTraveled);
+    this.tickDustFront(dt);
+    this.tickHomeRest(dt);
     this.tickNeeds(dt);
     this.tickPower(dt);
     this.automaticAimEnds.clear();
@@ -2494,7 +2523,13 @@ export class Game implements LoopCallbacks {
 
     const needs = this.player.needs;
     const before = this.announcedNeeds;
-    needs.fixedUpdate(dt);
+    needs.fixedUpdate(
+      dt,
+      1 +
+        (this.playerIsIndoors || !this.weatherEligible
+          ? 0
+          : 0.5 * this.dustFront.snapshot().intensity),
+    );
 
     const hydration = Math.ceil(needs.hydration);
     const nourishment = Math.ceil(needs.nourishment);
@@ -2857,6 +2892,8 @@ export class Game implements LoopCallbacks {
     this.world.update(this.clock.elapsedTime);
 
     if (this.sky.update(now)) this.applySky();
+    this.renderDustFront(camera);
+    if (this.homeUI.isOpen) this.refreshHomePanel();
 
     this.hud.update({
       health: this.player.stats.health,
@@ -2952,10 +2989,265 @@ export class Game implements LoopCallbacks {
   get playerIsIndoors(): boolean {
     const at = this.player.worldPosition;
     const level = Math.max(
-      0,
+      GRID_MIN_LEVEL,
       Math.min(GRID_LEVELS - 1, Math.round((at.y - DECK_HEIGHT - 1) / LEVEL_HEIGHT)),
     );
     return insideEnclosed(this.build.rooms, worldToCell(at.x, at.z, level));
+  }
+
+  private homeRestContext(chairId: string): HomeLifeRestContext {
+    const at = this.player.worldPosition;
+    const level = Math.max(
+      GRID_MIN_LEVEL,
+      Math.min(GRID_LEVELS - 1, Math.round((at.y - DECK_HEIGHT - 1) / LEVEL_HEIGHT)),
+    );
+    const visual = this.build.visual(chairId);
+    return {
+      chairId,
+      playerCell: worldToCell(at.x, at.z, level),
+      sameRoom: false,
+      rangeM: visual ? visual.position.distanceTo(at) : Infinity,
+      alive: this.player.stats.alive && !this.state.playerDead,
+      health: this.player.stats.health,
+      maxHealth: this.player.stats.maxHealth,
+      safe:
+        this.firstRun.current === 'complete' &&
+        this.isStableForStory() &&
+        !this.director.hasActiveExternalEncounter &&
+        !this.optionalSalvageEncounterId &&
+        (this.threatPhase === 'calm' || this.threatPhase === 'recovery') &&
+        this.destination.playerOnMachine(at),
+      busy:
+        this.panelsOpen ||
+        this.buildMode ||
+        !!this.defense.mounted ||
+        !!this.cinematicCamera ||
+        this.endingInProgress,
+      moving:
+        this.player.speed > 0.12 ||
+        (['forward', 'back', 'left', 'right', 'jump', 'crouch'] as const).some((action) =>
+          this.input.isDown(action),
+        ),
+      firing: this.input.isDown('fire') || this.input.isDown('aim'),
+    };
+  }
+
+  private homeRestMessage(reason: HomeLifeCancelReason): string {
+    const messages: Record<HomeLifeCancelReason, string> = {
+      'chair-missing': 'The maintenance chair is no longer here.',
+      'room-not-enclosed': 'Build walls and a roof around this chair to make shelter.',
+      'no-comfort': 'Add a table or rug in this room for quiet maintenance.',
+      'out-of-range': 'Stand closer to the maintenance chair.',
+      unsafe: 'Quiet maintenance needs a calm, secure deck after the tutorial.',
+      busy: 'Finish the current interaction before maintenance.',
+      moving: 'Stand still beside the chair to begin maintenance.',
+      firing: 'Lower your weapon to begin maintenance.',
+      dead: 'Maintenance unavailable.',
+      'full-health': 'S-07 is fully repaired.',
+    };
+    return messages[reason];
+  }
+
+  private startHomeRest(chairId: string): boolean {
+    if (this.state.paused || this.artTransition) return false;
+    if (this.homeRest.activeChairId === chairId) {
+      this.stopHomeRest();
+      return true;
+    }
+    this.homeRest.updateLayout(this.build.rooms, this.build.homePieces());
+    const result = this.homeRest.start(chairId, this.homeRestContext(chairId));
+    if (!result.ok) {
+      this.hud.setWarning(this.homeRestMessage(result.reason));
+      return false;
+    }
+    this.player.setHeldWeapon(null, null);
+    this.hud.setWarning(
+      'Quiet maintenance started. Remain beside the chair; moving or an attack interrupts repair.',
+    );
+    return true;
+  }
+
+  private stopHomeRest(): void {
+    if (!this.homeRest.active) return;
+    this.homeRest.cancel();
+    if (this.armed) this.equipHeldWeapon();
+  }
+
+  private tickHomeRest(dt: number): void {
+    const id = this.homeRest.activeChairId;
+    if (!id) return;
+    this.homeRest.updateLayout(this.build.rooms, this.build.homePieces());
+    const result = this.homeRest.tick(dt, this.homeRestContext(id));
+    if (result.cancelReason || !this.homeRest.active) {
+      this.homeRest.cancel();
+      if (this.armed) this.equipHeldWeapon();
+      this.hud.setWarning(this.homeRestMessage(result.cancelReason ?? 'chair-missing'));
+      return;
+    }
+    if (result.healAmount > 0) this.player.stats.heal(result.healAmount);
+  }
+
+  private keepsakeChoices(): { id: string; title: string; text: string }[] {
+    const view = this.expeditionView();
+    const choices = [...(view.journalArchive ?? []), ...(view.extraJournals ?? [])].map(
+      ({ id, title, text }) => ({ id, title, text }),
+    );
+    const known = this.story.toSave().recoveredUniques;
+    for (const id of known) {
+      if (choices.some((choice) => choice.id === id)) continue;
+      const title = id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      const chapter = STORY_EXPEDITIONS.find((entry) => entry.requiredUniques.includes(id));
+      if (chapter)
+        choices.push({
+          id,
+          title,
+          text: `${title}, recovered at ${chapter.title}. A record of what S-07 chose to carry forward.`,
+        });
+    }
+    return choices;
+  }
+
+  private openHomeShelf(id: string): boolean {
+    if (
+      this.state.paused ||
+      this.artTransition ||
+      this.endingInProgress ||
+      !this.build
+        .decorNear(this.player.worldPosition, INTERACT_REACH)
+        .some((p) => p.instanceId === id && p.piece === 'shelf')
+    )
+      return false;
+    this.stopHomeRest();
+    this.closePanels(false);
+    this.homeShelfId = id;
+    this.homeUI.open({
+      mode: 'shelf',
+      title: 'Keepsake shelf',
+      choices: this.keepsakeChoices(),
+      selectedId: (this.build.instance(id)?.state?.factId as string | undefined) ?? null,
+    });
+    this.releasePointerLock();
+    return true;
+  }
+
+  private selectHomeKeepsake(id: string | null): void {
+    if (!this.homeUI.isOpen || !this.homeShelfId || this.state.paused) return;
+    if (
+      !this.build
+        .decorNear(this.player.worldPosition, INTERACT_REACH)
+        .some((p) => p.instanceId === this.homeShelfId && p.piece === 'shelf')
+    )
+      return;
+    if (
+      this.build.setKeepsake(
+        this.homeShelfId,
+        id,
+        this.keepsakeChoices().map((choice) => choice.id),
+      )
+    ) {
+      this.refreshHomePanel();
+      this.requestAutosave();
+    }
+  }
+
+  private refreshHomePanel(): void {
+    if (!this.homeUI.isOpen) return;
+    if (this.homeShelfId) {
+      if (
+        !this.build
+          .decorNear(this.player.worldPosition, INTERACT_REACH)
+          .some((p) => p.instanceId === this.homeShelfId)
+      ) {
+        this.closePanels(false);
+        return;
+      }
+      const choices = this.keepsakeChoices();
+      this.homeUI.setView({
+        mode: 'shelf',
+        title: 'Keepsake shelf',
+        choices,
+        selectedId:
+          (this.build.instance(this.homeShelfId)?.state?.factId as string | undefined) ?? null,
+        refusal: choices.length
+          ? undefined
+          : 'Recover journals and keepsakes during expeditions to display them here.',
+      });
+    } else {
+      const view = this.salvageChoiceView();
+      if (view) this.homeUI.setView(view);
+      else this.closePanels(false);
+    }
+  }
+
+  private get weatherEligible(): boolean {
+    return (
+      this.opening.phase === 'done' &&
+      this.firstRun.current === 'complete' &&
+      !this.cinematicCamera &&
+      !this.state.playerDead &&
+      !this.endingInProgress &&
+      !this.destination.docked &&
+      !['approach', 'braking', 'departing', 'route-selection'].includes(this.story.currentPhase)
+    );
+  }
+
+  private tickDustFront(dt: number): void {
+    const weather = this.dustFront.tick(dt, {
+      distanceM: this.world.distanceTraveled,
+      eligible: this.weatherEligible,
+    });
+    if (weather.phase === this.weatherPhase) return;
+    this.weatherPhase = weather.phase;
+    if (weather.phase === 'forecast')
+      this.hud.setWarning('Dust front in 35 seconds. Enclosed rooms protect your water reserves.');
+    if (weather.phase === 'front')
+      this.hud.setWarning(
+        'Dust front crossing. Visibility is reduced; shelter prevents extra water use.',
+      );
+    if (weather.phase === 'clearing') this.hud.setWarning('The dust front is passing.');
+  }
+
+  private weatherStatus(): { label: string; detail: string } {
+    const weather = this.dustFront.snapshot();
+    const sheltered = this.playerIsIndoors;
+    if (weather.phase === 'clear')
+      return {
+        label: 'Clear skies',
+        detail: `${sheltered ? 'Sheltered' : 'Exposed'} · next forecast in ${Math.max(0, Math.round(this.dustFront.toSave().nextAtM - this.world.distanceTraveled))} m`,
+      };
+    if (!this.weatherEligible)
+      return { label: 'Weather holding', detail: 'Forecast resumes after this stop or sequence.' };
+    return {
+      label:
+        weather.phase === 'forecast'
+          ? 'Dust approaching'
+          : weather.phase === 'front'
+            ? 'Dust front'
+            : 'Dust clearing',
+      detail: `${Math.ceil(weather.remainingS)} s · ${sheltered ? 'Sheltered · normal water use' : weather.phase === 'forecast' ? 'Build an enclosed room for shelter' : 'Exposed · up to 50% extra water use'}`,
+    };
+  }
+
+  private renderDustFront(camera: THREE.Camera): void {
+    const intensity =
+      this.cinematicCamera || this.endingInProgress || this.destination.docked
+        ? 0
+        : this.dustFront.snapshot().intensity;
+    this.sky.setDustFront(intensity);
+    setFogParams({
+      density: DEFAULT_FOG.density + 0.021 * intensity,
+      heightFalloff: DEFAULT_FOG.heightFalloff - 0.041 * intensity,
+      baseHeight: 8 * intensity,
+    });
+    this.weatherFog.copy(this.sky.sampleHorizonColor()).lerp(this.weatherTint, intensity * 0.5);
+    updateFogColor(this.weatherFog);
+    this.dustFrontFX.update(
+      this.state.simTime,
+      intensity,
+      camera.position,
+      this.playerIsIndoors,
+      this.quality.tier === 'low',
+    );
   }
 
   /**
@@ -3253,23 +3545,26 @@ export class Game implements LoopCallbacks {
   }
 
   private finishBoarding(outcome: 'hull' | 'crew' | 'hook' | 'defended'): void {
+    const optionalId = this.optionalSalvageEncounterId;
     this.raidMissions.finish();
     const wasTutorial = this.tutorialStarted;
     const previousRaid = this.radioRaids.toSave().wave;
-    this.radioRaids.finished(this.state.seed);
+    if (!optionalId) this.radioRaids.finished(this.state.seed);
     if (this.radioRaids.toSave().wave > previousRaid && this.story.recordRadioRaidVictory())
       this.hud.setWarning('New trace recovered. Use the radio to follow it to Wreck One.');
     const needsRepair = this.machine.damage.damaged().length > 0;
     const reward = VEHICLES.skiff.defenseReward;
-    this.resources.deposit('scrap', reward.scrap);
-    this.resources.deposit('components', reward.components);
-    this.bus.emit('loot:collected', {
-      items: [
-        { id: 'scrap', count: reward.scrap },
-        { id: 'components', count: reward.components },
-      ],
-      source: 'Dust skiff salvage',
-    });
+    if (!optionalId) {
+      this.resources.deposit('scrap', reward.scrap);
+      this.resources.deposit('components', reward.components);
+      this.bus.emit('loot:collected', {
+        items: [
+          { id: 'scrap', count: reward.scrap },
+          { id: 'components', count: reward.components },
+        ],
+        source: 'Dust skiff salvage',
+      });
+    }
     this.bus.emit('boarding:survived', { encounterId: 'tutorial-skiff' });
     this.bus.emit('boarding:ended', { outcome, tutorial: this.tutorialStarted, needsRepair });
     if (wasTutorial) {
@@ -3288,6 +3583,21 @@ export class Game implements LoopCallbacks {
       });
     }
     this.pendingBoardingOutcome = null;
+    if (optionalId) {
+      const earned =
+        !this.optionalSalvageFailed &&
+        !this.state.playerDead &&
+        this.routeChart.resolveSalvage(optionalId);
+      if (!earned) this.routeChart.abortSalvage(optionalId);
+      this.optionalSalvageEncounterId = null;
+      this.optionalSalvageFailed = false;
+      this.updateOpportunities();
+      this.hud.setWarning(
+        earned
+          ? 'Patrol cleared. The deep locker is open: 48 scrap and 6 components await at the wreck.'
+          : 'Broadcast recovery failed. The original supplies remain at the wreck.',
+      );
+    }
     if (this.scriptedSkiffActive) {
       this.scriptedSkiffActive = false;
       this.applyStoryEffects(this.story.resolveScriptedEncounter());
@@ -3683,6 +3993,11 @@ export class Game implements LoopCallbacks {
     if (this.artTransition || this.continuing) return;
     this.dismissedRecovery.clear();
     this.endingRecordPhase = '';
+    this.stopHomeRest();
+    this.optionalSalvageEncounterId = null;
+    this.optionalSalvageFailed = false;
+    this.dustFront.reset(0);
+    this.weatherPhase = 'clear';
     // Fresh state before the opening, so New Game after a session in progress
     // does not start the chase over a deck the last run built.
     this.state.simTime = 0;
@@ -3892,6 +4207,7 @@ export class Game implements LoopCallbacks {
       this.researchUI.isOpen ||
       this.expeditionUI.isOpen ||
       this.helmUI.isOpen ||
+      this.homeUI.isOpen ||
       this.campaignLog.isOpen
     );
   }
@@ -3943,6 +4259,13 @@ export class Game implements LoopCallbacks {
               ? 'collector'
               : ((isProducer(station.piece) ? 'producer' : station.piece) as Interactable['kind']),
     }));
+    for (const decor of this.build.decorNear(at, INTERACT_REACH))
+      out.push({
+        id: decor.instanceId,
+        label: BUILD_PIECES[decor.piece].name,
+        position: decor.position,
+        kind: decor.piece === 'chair' ? 'rest-chair' : 'keepsake-shelf',
+      });
 
     if (this.progression.earlyRadioDrop.radioFound) {
       out.push({
@@ -4100,6 +4423,16 @@ export class Game implements LoopCallbacks {
   /** What standing at something says. Null when standing at nothing. */
   private promptFor(nearest: Interactable | null): string | null {
     if (!nearest) return null;
+    if (nearest.kind === 'rest-chair') {
+      if (this.homeRest.activeChairId === nearest.id)
+        return `[E] End maintenance · ${Math.ceil(this.player.stats.health)} / 100 · Move to stop`;
+      this.homeRest.updateLayout(this.build.rooms, this.build.homePieces());
+      const refusal = this.homeRest.inspect(nearest.id, this.homeRestContext(nearest.id));
+      return refusal
+        ? this.homeRestMessage(refusal)
+        : '[E] Quiet maintenance · Gradual self-repair';
+    }
+    if (nearest.kind === 'keepsake-shelf') return '[E] Display a recovered memory';
     if (nearest.kind === 'producer') return this.producerPrompt(nearest);
     if (nearest.kind === 'seed-garden') {
       const garden = this.build.gardenSnapshot(nearest.id);
@@ -4212,6 +4545,8 @@ export class Game implements LoopCallbacks {
   }
 
   private closeSpecialPanels(): void {
+    this.homeUI.close();
+    this.homeShelfId = null;
     this.campaignLog.close();
     this.radioUI.close();
     this.researchUI.close();
@@ -4311,6 +4646,10 @@ export class Game implements LoopCallbacks {
                 ? 'Finish the current interaction before setting a course.'
                 : undefined;
     return {
+      salvageAvailable:
+        this.routeChart.contact?.kind === 'salvage-wreck' &&
+        !!this.optionalModelId &&
+        this.destination.docked,
       traceOffer: view.radioTraceOffer || !!view.nextExpedition,
       traceReady: (view.radioTraceReady || !!view.nextExpedition) && !reason,
       traceLabel: view.nextExpedition ? `Trace ${view.nextExpedition.title}` : 'Trace Wreck One',
@@ -4748,8 +5087,8 @@ export class Game implements LoopCallbacks {
     if (contact.state === 'docked' || contact.state === 'visited') {
       this.course.holdCourse();
       this.destination.setLateralRoot(14);
-      this.destination.setDocked(true);
-      this.machine.setExpeditionGangwayOpen(true);
+      this.destination.setDocked(!this.optionalSalvageEncounterId);
+      this.machine.setExpeditionGangwayOpen(!this.optionalSalvageEncounterId);
       this.machine.movement.setScriptedSpeedLimit(0);
       const reward = this.destination.root.getObjectByName('Reward');
       if (reward) reward.visible = contact.state !== 'visited' || contact.kind === 'memorial';
@@ -4806,6 +5145,119 @@ export class Game implements LoopCallbacks {
     );
   }
 
+  private salvageChoiceView(): Extract<
+    Parameters<HomeLifeUI['open']>[0],
+    { mode: 'salvage' }
+  > | null {
+    const contact = this.routeChart.contact;
+    if (
+      !contact ||
+      contact.kind !== 'salvage-wreck' ||
+      !this.optionalModelId ||
+      !['docked', 'visited'].includes(contact.state)
+    )
+      return null;
+    const aboard = this.destination.playerOnMachine(this.player.worldPosition);
+    const canBroadcast =
+      aboard &&
+      this.destination.docked &&
+      this.isStableForStory() &&
+      !this.director.hasActiveExternalEncounter &&
+      !this.buildMode &&
+      !this.defense.mounted &&
+      !this.endingInProgress &&
+      this.firstRun.current === 'complete' &&
+      !this.optionalSalvageEncounterId;
+    return {
+      mode: 'salvage',
+      title: 'A locked deep-salvage cache',
+      description:
+        'Secure the accessible supplies: 24 scrap and 2 components. Or return aboard and broadcast the locker override: one patrol skiff will grapple the Nomad. Clear it to unlock 48 scrap and 6 components in total. The gangway retracts during the fight.',
+      status: contact.salvageMode ?? 'undecided',
+      canBroadcast,
+      remaining: contact.rewards
+        .filter((r) => r.type === 'item')
+        .map((r) => `${r.remaining} ${r.itemId}`)
+        .join(' · '),
+      refusal:
+        contact.salvageMode === 'broadcast'
+          ? 'Patrol inbound — defend the Nomad.'
+          : contact.salvageMode
+            ? 'Walk across the gangway to collect the remaining supplies.'
+            : !aboard
+              ? 'Return aboard and use Wreck salvage choices at the radio to broadcast.'
+              : !canBroadcast
+                ? 'Clear the current interaction or attack before calling a patrol.'
+                : undefined,
+    };
+  }
+
+  private openSalvageChoice(): void {
+    if (this.artTransition || this.state.paused || this.endingInProgress) return;
+    const view = this.salvageChoiceView();
+    if (!view) return;
+    this.stopHomeRest();
+    this.closePanels(false);
+    this.homeShelfId = null;
+    this.homeUI.open(view);
+    this.releasePointerLock();
+  }
+
+  private chooseOpportunitySalvage(mode: 'secure' | 'broadcast'): void {
+    if (!this.homeUI.isOpen || this.state.paused || this.artTransition) return;
+    const contact = this.routeChart.contact;
+    const view = this.salvageChoiceView();
+    if (!contact || !view || contact.salvageMode) return;
+    if (mode === 'secure') {
+      if (!this.routeChart.chooseSalvage(contact.id, mode).ok) return;
+      this.closePanels();
+      if (this.destination.containsPlayer(this.player.worldPosition)) this.claimOpportunityReward();
+      else
+        this.hud.setWarning(
+          'Accessible supplies secured. Walk across the gangway to collect them.',
+        );
+      this.requestAutosave();
+      return;
+    }
+    if (!view.canBroadcast) {
+      this.refreshHomePanel();
+      return;
+    }
+    if (
+      !this.director.queueExternal('skiff') ||
+      !this.director.tryBeginExternal(
+        'skiff',
+        this.world.distanceTraveled,
+        this.enemies.activeCount,
+      )
+    )
+      return;
+    // Port is opposite the wreck's starboard gangway. This reuses the real
+    // vehicle/grapple/boarding simulation, with a separate reward owner.
+    if (!this.vehicleScene.spawn('port', false)) {
+      this.director.abortOrphanExternal(this.world.distanceTraveled);
+      this.hud.setWarning('The transmitter could not establish a contact. Try again.');
+      return;
+    }
+    if (!this.routeChart.chooseSalvage(contact.id, mode).ok) {
+      this.vehicleScene.clear();
+      this.director.abortOrphanExternal(this.world.distanceTraveled);
+      return;
+    }
+    this.optionalSalvageEncounterId = contact.id;
+    this.optionalSalvageFailed = false;
+    this.tutorialStarted = false;
+    this.threatPhase = 'engagement';
+    this.destination.setDocked(false);
+    this.machine.setExpeditionGangwayOpen(false);
+    this.closePanels();
+    this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
+    this.bus.emit('boarding:started', { encounterId: `salvage-${contact.id}` });
+    this.hud.setWarning(
+      'Broadcast sent. Port-side patrol inbound — cut its hook, disable the skiff, or clear every boarder.',
+    );
+  }
+
   private claimOpportunityReward(): boolean {
     const contact = this.routeChart.contact;
     if (
@@ -4814,6 +5266,10 @@ export class Game implements LoopCallbacks {
       !this.destination.containsPlayer(this.player.worldPosition)
     )
       return false;
+    if (contact.kind === 'salvage-wreck' && !contact.salvageMode) {
+      this.openSalvageChoice();
+      return true;
+    }
     let transferred = 0;
     // At most two item stacks; each acceptance is acknowledged immediately.
     for (let i = 0; i < 2; i++) {
@@ -4845,6 +5301,10 @@ export class Game implements LoopCallbacks {
   }
 
   private departOpportunity(): void {
+    if (this.optionalSalvageEncounterId) {
+      this.hud.setWarning('Clear the called patrol before departing.');
+      return;
+    }
     const contact = this.routeChart.contact;
     if (
       !contact ||
@@ -5054,6 +5514,8 @@ export class Game implements LoopCallbacks {
   openInteractable(target: Interactable | null = this.interaction.current): boolean {
     if (!target) return false;
     if (this.buildMode) return false;
+    if (target.kind === 'rest-chair') return this.startHomeRest(target.id);
+    if (target.kind === 'keepsake-shelf') return this.openHomeShelf(target.id);
     // A repair has no panel. `updateRepair` drives it from the held key.
     if (target.kind === 'repair') return false;
 
@@ -5262,6 +5724,8 @@ export class Game implements LoopCallbacks {
 
   closePanels(reclaimControl = true): void {
     if (!this.panelsOpen) return;
+    this.homeUI.close();
+    this.homeShelfId = null;
     this.inventoryUI.setMode('closed');
     this.radioUI.close();
     this.researchUI.close();
@@ -5415,6 +5879,7 @@ export class Game implements LoopCallbacks {
     for (const hint of recovery)
       if (hint.severity === 'blocked') this.dismissedRecovery.delete(hint.topic);
     this.machineStatus.update({
+      weather: this.firstRun.current === 'complete' ? this.weatherStatus() : undefined,
       recovery: recovery.filter((hint) => !this.dismissedRecovery.has(hint.topic)),
       controlsHint:
         this.firstRun.current === 'complete'
@@ -6132,6 +6597,7 @@ export class Game implements LoopCallbacks {
       !this.gunboatScene.active &&
       !this.scriptedGunboatPending &&
       !this.scriptedSkiffPending &&
+      this.optionalSalvageEncounterId === null &&
       this.pendingBoardingOutcome === null &&
       this.hook === null &&
       this.hookedCrate === null &&
@@ -6262,6 +6728,7 @@ export class Game implements LoopCallbacks {
         radioRaids: this.radioRaids.toSave(),
         raidRecovery: this.raidMissions.ledger.toSave(),
         routeChart: this.routeChart.toSave(),
+        dustFront: this.dustFront.toSave(),
       },
     };
   }
@@ -6318,6 +6785,12 @@ export class Game implements LoopCallbacks {
     if (savedContact && Object.hasOwn(OPPORTUNITIES, savedContact.kind))
       assetIds.add(OPPORTUNITIES[savedContact.kind].model);
     if (!(await this.prepareCampaignArt([...assetIds]))) return false;
+    this.stopHomeRest();
+    this.optionalSalvageEncounterId = null;
+    this.optionalSalvageFailed = false;
+    this.dustFront = new DustFrontDirector(save.seed);
+    this.dustFront.restore(save.world.dustFront, save.distanceTraveled);
+    this.weatherPhase = this.dustFront.snapshot().phase;
     this.dismissedRecovery.clear();
     this.endingRecordPhase = '';
     this.exitBuildMode('load');
@@ -6410,6 +6883,10 @@ export class Game implements LoopCallbacks {
       this.radioPowered = this.machine.power.isPowered(this.radioPowerConsumerId);
     }
     this.story.restore(save.world.story);
+    const knownKeepsakes = this.keepsakeChoices().map((choice) => choice.id);
+    for (const piece of save.machine.structures ?? [])
+      if (piece.definitionId === 'shelf')
+        this.build.setKeepsake(piece.instanceId, piece.state?.factId ?? null, knownKeepsakes);
     this.arrivalScene?.stop();
     this.ending.restore(
       savedStory && typeof savedStory === 'object' && 'ending' in savedStory
@@ -6638,6 +7115,9 @@ export class Game implements LoopCallbacks {
     this.researchUI.dispose();
     this.expeditionUI.dispose();
     this.helmUI.dispose();
+    this.homeUI.dispose();
+    this.dustFrontFX.dispose();
+    setFogParams(DEFAULT_FOG);
     this.destination.dispose();
     this.buildPreview.dispose();
     this.lampLights.dispose();

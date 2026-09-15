@@ -8,6 +8,9 @@ const seed =
   process.argv.find((x) => x.startsWith('--seed='))?.split('=')[1] ?? 'smoothness-review';
 const distance = Number(process.argv.find((x) => x.startsWith('--distance='))?.split('=')[1] ?? 0);
 const out = process.env.MMF_QA_OUT ?? 'docs/performance-smoothness';
+const homeWeather = process.argv.includes('--home-weather');
+const quality = process.argv.find((x) => x.startsWith('--quality='))?.split('=')[1] ?? 'high';
+if (!['low', 'medium', 'high'].includes(quality)) throw new Error('Invalid quality tier');
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({
   executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -21,7 +24,7 @@ try {
   });
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(
-    `http://127.0.0.1:${process.env.MMF_PORT ?? 5201}/?nomenu=1&nolock=1&nosound=1&nospawn=1&quality=high&seed=${encodeURIComponent(seed)}`,
+    `http://127.0.0.1:${process.env.MMF_PORT ?? 5201}/?nomenu=1&nolock=1&nosound=1&nospawn=1&quality=${quality}&seed=${encodeURIComponent(seed)}`,
   );
   await page.waitForFunction(() => globalThis.__game?.game, null, { timeout: 180000 });
   await page.click('#game');
@@ -44,6 +47,10 @@ try {
   });
   if (/swiftshader|software/i.test(hardware.backend)) throw new Error('Hardware renderer required');
   console.log(JSON.stringify({ hardware }));
+  const homeFixture = homeWeather
+    ? await (await import('./campaign/home-weather-performance.mjs')).configureHomeWeather(page)
+    : undefined;
+  if (homeFixture) console.log(JSON.stringify({ homeFixture }));
   const results = [];
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('Profiler.enable');
@@ -181,6 +188,8 @@ try {
           deliveredX,
           memory: g.renderer.three.info.memory,
           programs: g.renderer.three.info.programs.length,
+          skyBakes: g.sky.bakes,
+          weather: g.dustFront?.snapshot(),
         };
       },
       { scenario, seconds },
@@ -202,9 +211,17 @@ try {
     console.log(JSON.stringify({ ...result, hotspots: result.hotspots.slice(0, 8) }));
     await page.screenshot({ path: `${out}/${label}-${scenario}.jpg`, quality: 82 });
   }
+  const soak = homeWeather
+    ? await (await import('./campaign/home-weather-performance.mjs')).soakHomeFurniture(page)
+    : undefined;
+  if (soak) console.log(JSON.stringify({ soak }));
   await writeFile(
     `${out}/${label}.json`,
-    JSON.stringify({ hardware, seconds, seed, distance, results, errors }, null, 2) + '\n',
+    JSON.stringify(
+      { hardware, seconds, seed, distance, homeFixture, results, soak, errors },
+      null,
+      2,
+    ) + '\n',
   );
   if (errors.length) throw new Error(errors.join('\n'));
 } finally {

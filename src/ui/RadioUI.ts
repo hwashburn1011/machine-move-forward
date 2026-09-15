@@ -16,6 +16,7 @@ export interface RadioView {
   traceDescription?: string;
   chapterComplete?: boolean;
   recoveredSupplies?: string;
+  salvageAvailable?: boolean;
 }
 
 export interface RadioUICallbacks {
@@ -25,6 +26,7 @@ export interface RadioUICallbacks {
   beginTrace?: () => void;
   collectRecovered?: () => void;
   openCampaignLog?: () => void;
+  openSalvage?: () => void;
 }
 
 /** Functional radio panel. Appearance belongs to the application stylesheet. */
@@ -61,6 +63,12 @@ export class RadioUI {
     this.root.innerHTML =
       '<div class="radio-panel-content"><div class="radio-panel-title">Recovered Radio</div><div data-radio-status></div><div data-radio-strength></div><div data-radio-message></div><div data-radio-distance hidden></div><div data-radio-next hidden>Another signal waits beyond the route.</div><div data-radio-trace hidden></div><div data-radio-recovered hidden></div><div class="radio-panel-actions"><button type="button" data-radio-research hidden>Research</button><button type="button" data-radio-trace-button hidden>Trace Wreck One</button><button type="button" data-radio-collect hidden>Collect recovered supplies</button><button type="button" data-radio-depart hidden>Depart</button><button type="button" data-radio-log hidden>Campaign record</button><button type="button" data-radio-close>Close</button></div></div>';
     parent.appendChild(this.root);
+    const salvageButton = document.createElement('button');
+    salvageButton.type = 'button';
+    salvageButton.dataset.radioSalvage = '';
+    salvageButton.textContent = 'Wreck salvage choices';
+    salvageButton.hidden = true;
+    this.root.querySelector('.radio-panel-actions')!.append(salvageButton);
     this.content = this.root.firstElementChild as HTMLDivElement;
     this.status = this.content.querySelector('[data-radio-status]') as HTMLDivElement;
     this.strength = this.content.querySelector('[data-radio-strength]') as HTMLDivElement;
@@ -105,6 +113,8 @@ export class RadioUI {
 
   private render(): void {
     const v = this.view;
+    (this.root.querySelector('[data-radio-salvage]') as HTMLButtonElement).hidden =
+      !v.salvageAvailable;
     const status = !v.found
       ? 'Radio not recovered'
       : v.powered
@@ -146,6 +156,8 @@ export class RadioUI {
     const target = event.target as HTMLElement | null;
     if (!target) return;
     if (target.closest('[data-radio-close]')) this.callbacks.close();
+    else if (target.closest('[data-radio-salvage]') && this.view.salvageAvailable)
+      this.callbacks.openSalvage?.();
     else if (target.closest('[data-radio-research]')) this.callbacks.openResearch?.();
     else if (target.closest('[data-radio-depart]')) this.callbacks.depart?.();
     else if (target.closest('[data-radio-log]')) this.callbacks.openCampaignLog?.();

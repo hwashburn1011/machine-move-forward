@@ -74,6 +74,7 @@ export const CRITICAL_MODEL_IDS = [
   'expedition-wreck',
   'navigation-helm',
   'player',
+  'home-furnishings',
 ] as const;
 export const CAMPAIGN_MODEL_IDS = [
   'relay-foundry',
@@ -136,7 +137,8 @@ export async function ensureAuthoredModels(ids: readonly string[]): Promise<void
           const owned = snapshotOwnedResources(model);
           try {
             prepareAuthoredModel(model);
-            if ((CAMPAIGN_MODEL_IDS as readonly string[]).includes(id)) shareArrayPalette(model);
+            if (id === 'home-furnishings' || (CAMPAIGN_MODEL_IDS as readonly string[]).includes(id))
+              shareArrayPalette(model);
             models.set(id, model);
           } catch {
             // Malformed optional art is a settled procedural fallback. Dispose

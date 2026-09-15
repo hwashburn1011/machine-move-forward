@@ -133,6 +133,7 @@ export interface SaveGameV1 {
     radioRaids?: import('@/story/RadioRaids').RadioRaidSave;
     raidRecovery?: import('@/enemies/RaidObjectives').RaidObjectiveSave;
     routeChart?: import('@/navigation/RouteChart').RouteChartSave;
+    dustFront?: import('@/world/DustFrontDirector').DustFrontSave;
   };
 }
 

@@ -298,7 +298,17 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     rotatable: false,
   },
   'seed-garden': {
-    id: 'seed-garden', name: 'Seed Garden', category: 'station', anchor: 'cell', cost: { scrap: 35, components: 4 }, weight: 180, maxHealth: 110, armor: 0, boundsRoom: false, blocksNavigation: false, rotatable: true,
+    id: 'seed-garden',
+    name: 'Seed Garden',
+    category: 'station',
+    anchor: 'cell',
+    cost: { scrap: 35, components: 4 },
+    weight: 180,
+    maxHealth: 110,
+    armor: 0,
+    boundsRoom: false,
+    blocksNavigation: false,
+    rotatable: true,
   },
   'turret-manual': {
     id: 'turret-manual',
@@ -341,10 +351,9 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
   },
 
   // --- Decoration ---------------------------------------------------------
-  // Four pieces that do nothing. No collider, no room boundary, no navigation
-  // block, and a weight the machine cannot feel — so a player can furnish the
-  // whole deck without paying for it in speed. They are rotatable because the
-  // only thing a chair has to get right is which way it faces.
+  // Furnishings share the existing nonblocking decor layer. HomeLife uses
+  // enclosed chairs with a table/rug for maintenance, and shelves hold records;
+  // neither feature changes room boundaries, navigation, or machine speed.
   chair: {
     id: 'chair',
     name: 'Chair',
@@ -427,7 +436,7 @@ export function isStation(piece: PieceId): boolean {
 }
 
 /**
- * Pieces that stand on a floor, are looked at, and do nothing else.
+ * Nonblocking furnishings supported by a floor, with optional HomeLife uses.
  *
  * Their own grid layer, for exactly the reason stations have one over floors:
  * a rug under a workbench is two things in one cell, and sharing a map would

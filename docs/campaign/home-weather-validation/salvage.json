@@ -1,0 +1,236 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "real docked optional wreck configured",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-1",
+          "slot": 1,
+          "kind": "salvage-wreck",
+          "atDistanceM": 700,
+          "worldX": 0,
+          "confidence": 1,
+          "hazard": "hostile",
+          "detectedAtM": 250,
+          "expiresAtM": 880,
+          "state": "docked",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "scrap",
+              "remaining": 24
+            },
+            {
+              "type": "item",
+              "itemId": "components",
+              "remaining": 2
+            }
+          ]
+        },
+        "docked": true,
+        "aboard": true
+      }
+    },
+    {
+      "name": "broadcast disabled while player is on wreck",
+      "ok": true
+    },
+    {
+      "name": "safe choice pays exactly 24 scrap and 2 components without patrol",
+      "ok": true,
+      "detail": {
+        "scrap": 24,
+        "components": 2,
+        "mode": "secure",
+        "vehicle": false
+      }
+    },
+    {
+      "name": "broadcast requires confirmation",
+      "ok": true
+    },
+    {
+      "name": "patrol owns encounter; gangway, claims, save and departure blocked",
+      "ok": true,
+      "detail": {
+        "active": true,
+        "mode": "broadcast",
+        "docked": false,
+        "safe": false,
+        "saved": false,
+        "ticket": "route-contact-1",
+        "rewards": null,
+        "radio": 0
+      }
+    },
+    {
+      "name": "destroyed hull resolves through actual vehicle callbacks",
+      "ok": true,
+      "detail": {
+        "ticket": null,
+        "mode": "defended",
+        "rewards": [
+          {
+            "type": "item",
+            "itemId": "scrap",
+            "remaining": 48
+          },
+          {
+            "type": "item",
+            "itemId": "components",
+            "remaining": 6
+          }
+        ],
+        "scrap": 0,
+        "components": 0,
+        "radio": 0,
+        "docked": true,
+        "snapshot": null
+      }
+    },
+    {
+      "name": "no generic skiff payout or radio progression from optional fight",
+      "ok": true,
+      "detail": {
+        "ticket": null,
+        "mode": "defended",
+        "rewards": [
+          {
+            "type": "item",
+            "itemId": "scrap",
+            "remaining": 48
+          },
+          {
+            "type": "item",
+            "itemId": "components",
+            "remaining": 6
+          }
+        ],
+        "scrap": 0,
+        "components": 0,
+        "radio": 0,
+        "docked": true,
+        "snapshot": null
+      }
+    },
+    {
+      "name": "confirmed broadcast reaches boarding with real boarders before reward resolution",
+      "ok": true,
+      "detail": {
+        "spawned": true,
+        "phaseAtSpawn": "boarding",
+        "boarderCount": 2,
+        "earlyReward": null,
+        "ticket": null,
+        "mode": "defended",
+        "docked": true,
+        "rewards": [
+          48,
+          6
+        ],
+        "scrap": 16,
+        "components": 0,
+        "killScrap": 16,
+        "radio": 0,
+        "snapshot": null
+      }
+    },
+    {
+      "name": "defeated boarders finish optional defense and redock for the deep reward",
+      "ok": true,
+      "detail": {
+        "spawned": true,
+        "phaseAtSpawn": "boarding",
+        "boarderCount": 2,
+        "earlyReward": null,
+        "ticket": null,
+        "mode": "defended",
+        "docked": true,
+        "rewards": [
+          48,
+          6
+        ],
+        "scrap": 16,
+        "components": 0,
+        "killScrap": 16,
+        "radio": 0,
+        "snapshot": null
+      }
+    },
+    {
+      "name": "boarding resolution does not award generic skiff loot or radio progress",
+      "ok": true,
+      "detail": {
+        "spawned": true,
+        "phaseAtSpawn": "boarding",
+        "boarderCount": 2,
+        "earlyReward": null,
+        "ticket": null,
+        "mode": "defended",
+        "docked": true,
+        "rewards": [
+          48,
+          6
+        ],
+        "scrap": 16,
+        "components": 0,
+        "killScrap": 16,
+        "radio": 0,
+        "snapshot": null
+      }
+    },
+    {
+      "name": "partial upgraded reward survives full inventory and save/load",
+      "ok": true,
+      "detail": {
+        "remaining": [
+          0,
+          6
+        ],
+        "saved": true,
+        "loaded": true,
+        "after": [
+          0,
+          6
+        ],
+        "scrap": 0,
+        "components": 6,
+        "mode": "defended"
+      }
+    },
+    {
+      "name": "remaining reward claimed once after making room",
+      "ok": true,
+      "detail": {
+        "remaining": [
+          0,
+          6
+        ],
+        "saved": true,
+        "loaded": true,
+        "after": [
+          0,
+          6
+        ],
+        "scrap": 0,
+        "components": 6,
+        "mode": "defended"
+      }
+    },
+    {
+      "name": "death cannot unlock bonus; original cache retained",
+      "ok": true,
+      "detail": {
+        "mode": "secure",
+        "rewards": [
+          24,
+          2
+        ],
+        "ticket": null
+      }
+    }
+  ],
+  "errors": []
+}

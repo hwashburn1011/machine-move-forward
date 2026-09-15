@@ -14,6 +14,7 @@ export interface MachineStatusSnapshot {
   }[];
   recovery?: readonly RecoveryHint[];
   controlsHint?: string;
+  weather?: { label: string; detail: string };
 }
 
 /** Readonly presentation of maintenance state. It deliberately has no repair controls. */
@@ -80,6 +81,12 @@ export class MachineStatusView {
       '[data-service-details]',
     ) as HTMLDetailsElement | null;
     if (nextDetails) nextDetails.open = wasOpen;
+    if (snapshot.weather) {
+      const weather = document.createElement('p');
+      weather.dataset.weatherStatus = '';
+      weather.textContent = `${snapshot.weather.label} · ${snapshot.weather.detail}`;
+      this.root.append(weather);
+    }
     this.renderRecovery(snapshot.recovery ?? [], snapshot.controlsHint, recoveryWasOpen);
     if (focused)
       (this.root.querySelector(`[data-focus-key="${focused}"]`) as HTMLElement | null)?.focus();
@@ -163,6 +170,7 @@ function normalizeSnapshot(snapshot: MachineStatusSnapshot): MachineStatusSnapsh
     })),
     recovery: snapshot.recovery?.map((hint) => ({ ...hint })),
     controlsHint: snapshot.controlsHint,
+    weather: snapshot.weather,
   };
 }
 
