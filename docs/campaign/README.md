@@ -50,6 +50,10 @@ See the [campaign direction](../superpowers/plans/2026-09-14-campaign-direction.
 
 ## Verification
 
+The [campaign readiness delivery](readiness-delivery.md) covers staged loading,
+survival forecasts, the Campaign Record and conditional ending recognition,
+including real recovery actions, network failure fixtures and save/load checks.
+
 Orchard implementation and evidence are recorded in
 [the delivery report](orchard-delivery.md). Source art and rebuild instructions
 are in [the Blender/Unreal delivery](../../assets/glass-orchard/README.md).

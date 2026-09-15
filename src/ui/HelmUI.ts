@@ -49,6 +49,7 @@ export interface HelmCallbacks {
   plotContact?(id: string): void;
   cancelApproach?(): void;
   commitEnding?(): void;
+  openCampaignLog?(): void;
 }
 const limits = { 0: 0, 1: 12, 2: 28, 3: 45 };
 const fmt = (n: number): string => `${n >= 0 ? '+' : ''}${n.toFixed(1)}°`;
@@ -77,7 +78,7 @@ export class HelmUI {
       <div class="helm-steer"><button type="button" data-steer="-1">Port</button><button type="button" data-steer="0">Straight ahead</button><button type="button" data-steer="1">Starboard</button></div>
       <label><span data-throttle-label></span><input aria-label="Engine throttle" type="range" min=".35" max="1" step=".01" data-testid="helm-throttle"></label>
       <p class="helm-fuel"></p><div class="helm-chart" data-testid="helm-chart"><span class="helm-axis">AHEAD · 1 KM</span><span class="helm-ownship">▲ NOMAD</span></div>
-      <div class="helm-contacts"></div><footer>Positive bearing moves starboard. Course holds when you leave the helm.<button type="button" data-log>Expedition journal</button></footer>`;
+      <div class="helm-contacts"></div><footer>Positive bearing moves starboard. Course holds when you leave the helm.<button type="button" data-log>Expedition journal</button><button type="button" data-helm-log>Campaign record</button></footer>`;
     this.bearing = this.get('[data-testid="helm-bearing"]');
     this.throttle = this.get('[data-testid="helm-throttle"]');
     this.bearing.addEventListener('input', () => callbacks.setBearing(Number(this.bearing.value)));
@@ -88,6 +89,9 @@ export class HelmUI {
     const log = this.get<HTMLButtonElement>('[data-log]');
     log.hidden = !callbacks.openLog;
     log.addEventListener('click', () => callbacks.openLog?.());
+    const campaignLog = this.get<HTMLButtonElement>('[data-helm-log]');
+    campaignLog.hidden = !callbacks.openCampaignLog;
+    campaignLog.addEventListener('click', () => callbacks.openCampaignLog?.());
     for (const button of root.querySelectorAll<HTMLButtonElement>('[data-steer]'))
       button.addEventListener('click', () => {
         if (!button.disabled)

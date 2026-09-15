@@ -1,0 +1,201 @@
+{
+  "bootMs": 23491.099999964237,
+  "bootVisible": false,
+  "resources": [
+    {
+      "url": "/models/authored/manual-turret.glb",
+      "bytes": 1475344,
+      "durationMs": 33
+    },
+    {
+      "url": "/models/authored/raider-skiff.glb",
+      "bytes": 2686068,
+      "durationMs": 74.20000004768372
+    },
+    {
+      "url": "/models/authored/raider-gunboat.glb",
+      "bytes": 1698512,
+      "durationMs": 38.30000001192093
+    },
+    {
+      "url": "/models/authored/scavenger.glb",
+      "bytes": 996456,
+      "durationMs": 26.899999976158142
+    },
+    {
+      "url": "/models/authored/raider.glb",
+      "bytes": 1784732,
+      "durationMs": 41.19999998807907
+    },
+    {
+      "url": "/models/authored/bastion.glb",
+      "bytes": 4033960,
+      "durationMs": 145.5
+    },
+    {
+      "url": "/models/authored/revenant.glb",
+      "bytes": 3564996,
+      "durationMs": 151.5
+    },
+    {
+      "url": "/models/authored/warden.glb",
+      "bytes": 4957804,
+      "durationMs": 247.5
+    },
+    {
+      "url": "/models/authored/sovereign.glb",
+      "bytes": 4763888,
+      "durationMs": 255
+    },
+    {
+      "url": "/models/authored/salvaged-radio.glb",
+      "bytes": 1423260,
+      "durationMs": 65.5
+    },
+    {
+      "url": "/models/authored/expedition-wreck.glb",
+      "bytes": 3271300,
+      "durationMs": 185.30000001192093
+    },
+    {
+      "url": "/models/authored/relay-foundry.glb",
+      "bytes": 1704628,
+      "durationMs": 113.19999998807907
+    },
+    {
+      "url": "/models/authored/quiet-array.glb",
+      "bytes": 13153268,
+      "durationMs": 937.9000000357628
+    },
+    {
+      "url": "/models/authored/route-water-cache.glb",
+      "bytes": 9217532,
+      "durationMs": 598.5
+    },
+    {
+      "url": "/models/authored/route-salvage-wreck.glb",
+      "bytes": 9148512,
+      "durationMs": 604.1000000238419
+    },
+    {
+      "url": "/models/authored/route-memorial.glb",
+      "bytes": 9380504,
+      "durationMs": 739.5999999642372
+    },
+    {
+      "url": "/models/authored/glass-orchard.glb",
+      "bytes": 15073428,
+      "durationMs": 1377.699999988079
+    },
+    {
+      "url": "/models/authored/seed-garden.glb",
+      "bytes": 5920104,
+      "durationMs": 585.4000000357628
+    },
+    {
+      "url": "/models/authored/route-repair-depot.glb",
+      "bytes": 9237132,
+      "durationMs": 1454.1000000238419
+    },
+    {
+      "url": "/models/authored/last-garden-meridian.glb",
+      "bytes": 13500680,
+      "durationMs": 1763.3999999761581
+    },
+    {
+      "url": "/models/authored/meridian-horizon.glb",
+      "bytes": 9354664,
+      "durationMs": 1464.4000000357628
+    },
+    {
+      "url": "/models/authored/navigation-helm.glb",
+      "bytes": 975548,
+      "durationMs": 749.3000000119209
+    },
+    {
+      "url": "/models/authored/s07-player.glb",
+      "bytes": 6223772,
+      "durationMs": 1341
+    },
+    {
+      "url": "/models/authored/salvage-chest.glb",
+      "bytes": 422416,
+      "durationMs": 944.1999999880791
+    },
+    {
+      "url": "/models/authored/forged-hook.glb",
+      "bytes": 358316,
+      "durationMs": 954
+    },
+    {
+      "url": "/models/authored/automatic-collector.glb",
+      "bytes": 1241272,
+      "durationMs": 972
+    },
+    {
+      "url": "/models/authored/automatic-turret.glb",
+      "bytes": 1047688,
+      "durationMs": 999.5
+    },
+    {
+      "url": "/models/authored/iron-nomad-playable.glb",
+      "bytes": 17114200,
+      "durationMs": 260.2000000476837
+    },
+    {
+      "url": "/models/authored/station-kit.glb",
+      "bytes": 1686544,
+      "durationMs": 26.900000035762787
+    },
+    {
+      "url": "/models/authored/iron-nomad-collision.glb",
+      "bytes": 7889740,
+      "durationMs": 127.20000004768372
+    },
+    {
+      "url": "/textures/hull/diffuse.jpg",
+      "bytes": 212388,
+      "durationMs": 8
+    },
+    {
+      "url": "/textures/hull/normal.jpg",
+      "bytes": 121679,
+      "durationMs": 6.800000011920929
+    },
+    {
+      "url": "/textures/hull/arm.jpg",
+      "bytes": 108974,
+      "durationMs": 7.399999976158142
+    },
+    {
+      "url": "/textures/rusted-steel/diffuse.jpg",
+      "bytes": 472166,
+      "durationMs": 11.599999964237213
+    },
+    {
+      "url": "/textures/rusted-steel/arm.jpg",
+      "bytes": 372915,
+      "durationMs": 10.400000035762787
+    },
+    {
+      "url": "/textures/rusted-steel/normal.jpg",
+      "bytes": 484458,
+      "durationMs": 12.699999988079071
+    },
+    {
+      "url": "/textures/build-plate/normal.jpg",
+      "bytes": 183564,
+      "durationMs": 19.200000047683716
+    },
+    {
+      "url": "/textures/build-plate/arm.jpg",
+      "bytes": 1076139,
+      "durationMs": 33.700000047683716
+    }
+  ],
+  "modelCount": 30,
+  "geometries": 432,
+  "textures": 490,
+  "wallMs": 23576,
+  "errors": []
+}

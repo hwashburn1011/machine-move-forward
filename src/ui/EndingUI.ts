@@ -5,6 +5,7 @@ export interface EndingView {
   remainingM: number;
   caption: string;
   paused: boolean;
+  recognition?: readonly string[];
 }
 
 export interface EndingUICallbacks {
@@ -19,6 +20,8 @@ export class EndingUI {
   private readonly caption: HTMLElement;
   private readonly skipButton: HTMLButtonElement;
   private readonly keepWalkingButton: HTMLButtonElement;
+  private readonly recognition: HTMLDivElement;
+  private recognitionKey = '';
   private renderedKey = '';
   private phase: EndingView['phase'] = null;
   private paused = false;
@@ -36,6 +39,9 @@ export class EndingUI {
     this.caption = this.root.querySelector('.ending-caption') as HTMLElement;
     this.skipButton = this.root.querySelector('[data-ending-skip]') as HTMLButtonElement;
     this.keepWalkingButton = this.root.querySelector('[data-ending-keep]') as HTMLButtonElement;
+    this.recognition = document.createElement('div');
+    this.recognition.className = 'ending-recognition';
+    this.keepWalkingButton.before(this.recognition);
     this.skipButton.addEventListener('click', () => {
       if (!this.paused && this.phase !== null) this.callbacks.skip();
     });
@@ -57,6 +63,17 @@ export class EndingUI {
     this.distance.textContent =
       view.phase === 'committed' ? `${Math.max(0, Math.round(view.remainingM))} m to Meridian` : '';
     this.caption.textContent = view.caption;
+    const recognitionKey = JSON.stringify(view.recognition ?? []);
+    if (recognitionKey !== this.recognitionKey) {
+      this.recognitionKey = recognitionKey;
+      this.recognition.replaceChildren(
+        ...(view.recognition ?? []).map((line) => {
+          const paragraph = document.createElement('p');
+          paragraph.textContent = line;
+          return paragraph;
+        }),
+      );
+    }
     this.skipButton.hidden = !visible;
     this.skipButton.disabled = !visible;
     this.keepWalkingButton.hidden = !visible || view.phase !== 'credits';

@@ -1,0 +1,1851 @@
+{
+  "base": "http://127.0.0.1:5201",
+  "cases": [
+    {
+      "name": "default",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardLoading the machine and crew22 of 24Visual files preparedRetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": false,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [],
+      "latePreparation": null,
+      "criticalReadyState": false,
+      "glbResponsesAtReady": 31,
+      "deferredGlbResponses": 3,
+      "continuation": null,
+      "errors": [],
+      "elapsedMs": 13042,
+      "passed": true
+    },
+    {
+      "name": "critical-404",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardLoading the machine and crew23 of 24Visual files preparedSome visual details are unavailable; the game can still be played.RetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": false,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 404
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [
+        "http://127.0.0.1:5201/models/authored/manual-turret.glb"
+      ],
+      "latePreparation": null,
+      "criticalReadyState": false,
+      "glbResponsesAtReady": 31,
+      "deferredGlbResponses": 3,
+      "continuation": null,
+      "errors": [
+        {
+          "kind": "console",
+          "message": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb"
+        }
+      ],
+      "elapsedMs": 12666,
+      "passed": true
+    },
+    {
+      "name": "late-404",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardPreparing lighting and combat24 of 24Visual files preparedRetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": false,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 404
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [
+        "http://127.0.0.1:5201/models/authored/quiet-array.glb"
+      ],
+      "latePreparation": {
+        "result": true,
+        "inputBefore": "play",
+        "bodiesBefore": 24,
+        "bodiesAfter": 24,
+        "collidersBefore": 35,
+        "collidersAfter": 35,
+        "artTransition": false,
+        "inputContext": "play",
+        "ready": true
+      },
+      "criticalReadyState": null,
+      "glbResponsesAtReady": 27,
+      "deferredGlbResponses": 7,
+      "continuation": null,
+      "errors": [
+        {
+          "kind": "console",
+          "message": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb"
+        }
+      ],
+      "elapsedMs": 11893,
+      "passed": true
+    },
+    {
+      "name": "stalled",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardLoading the machine and crew21 of 24Visual files preparedRetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": true,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [],
+      "latePreparation": null,
+      "criticalReadyState": null,
+      "glbResponsesAtReady": 26,
+      "deferredGlbResponses": 7,
+      "continuation": null,
+      "errors": [],
+      "elapsedMs": 55735,
+      "passed": true
+    },
+    {
+      "name": "stalled-simpler",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardLoading the machine and crew22 of 24Visual files preparedRetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": true,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [],
+      "latePreparation": null,
+      "criticalReadyState": null,
+      "glbResponsesAtReady": 23,
+      "deferredGlbResponses": 0,
+      "continuation": null,
+      "errors": [],
+      "elapsedMs": 21683,
+      "passed": true
+    },
+    {
+      "name": "continue-meridian",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardLoading the machine and crew22 of 24Visual files preparedRetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": false,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [],
+      "latePreparation": null,
+      "criticalReadyState": null,
+      "glbResponsesAtReady": 26,
+      "deferredGlbResponses": 8,
+      "continuation": {
+        "slot": "readiness-continue-meridian",
+        "fixture": {
+          "hasGarden": true,
+          "story": {
+            "format": 2,
+            "completed": [
+              "wreck-one",
+              "relay-foundry",
+              "quiet-array",
+              "glass-orchard"
+            ],
+            "recoveredUniques": [
+              "course-gyro",
+              "salvage-controller",
+              "tracking-servo",
+              "course-actuator",
+              "annika-archive-shard",
+              "human-seed-bank",
+              "vector-governor",
+              "orchard-memory-core"
+            ],
+            "journalArchive": [
+              "orchard-memory-record"
+            ],
+            "active": {
+              "expeditionId": "last-garden-meridian",
+              "routeId": "meridian-quiet-line",
+              "phase": "docked",
+              "arrivalDistance": 5.274905145734877,
+              "journalsRead": [
+                "meridian-common-record"
+              ],
+              "scriptedEncounter": "resolved",
+              "objectivesCompleted": []
+            },
+            "ending": {
+              "format": 1,
+              "phase": "available",
+              "committedAtDistance": null,
+              "arrivalElapsedS": 0
+            }
+          }
+        },
+        "loaded": {
+          "story": {
+            "format": 2,
+            "completed": [
+              "wreck-one",
+              "relay-foundry",
+              "quiet-array",
+              "glass-orchard"
+            ],
+            "recoveredUniques": [
+              "course-gyro",
+              "salvage-controller",
+              "tracking-servo",
+              "course-actuator",
+              "annika-archive-shard",
+              "human-seed-bank",
+              "vector-governor",
+              "orchard-memory-core"
+            ],
+            "journalArchive": [
+              "orchard-memory-record",
+              "quiet-array-journal-port",
+              "quiet-array-journal-starboard",
+              "meridian-common-record"
+            ],
+            "active": {
+              "expeditionId": "last-garden-meridian",
+              "routeId": "meridian-quiet-line",
+              "phase": "docked",
+              "arrivalDistance": 5.274905145734877,
+              "journalsRead": [
+                "meridian-common-record"
+              ],
+              "scriptedEncounter": "resolved"
+            },
+            "chapterComplete": true
+          },
+          "destinationAuthored": true,
+          "destinationDocked": true,
+          "authoredGarden": true,
+          "garden": {
+            "format": 1,
+            "water": 0,
+            "greens": 3,
+            "progressS": 0
+          },
+          "ending": "available",
+          "arrivalActive": false,
+          "horizonVisible": false,
+          "authoredHorizon": false,
+          "arrivalOwnedGeometry": null,
+          "courseTier": 2,
+          "titleOpen": false
+        }
+      },
+      "errors": [],
+      "elapsedMs": 17174,
+      "passed": true
+    },
+    {
+      "name": "continue-arrival",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardLoading the machine and crew23 of 24Visual files preparedRetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": false,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [],
+      "latePreparation": null,
+      "criticalReadyState": null,
+      "glbResponsesAtReady": 30,
+      "deferredGlbResponses": 4,
+      "continuation": {
+        "slot": "readiness-continue-arrival",
+        "fixture": {
+          "hasGarden": true,
+          "story": {
+            "format": 2,
+            "completed": [
+              "wreck-one",
+              "relay-foundry",
+              "quiet-array",
+              "glass-orchard",
+              "last-garden-meridian"
+            ],
+            "recoveredUniques": [
+              "course-gyro",
+              "salvage-controller",
+              "tracking-servo",
+              "course-actuator",
+              "annika-archive-shard",
+              "human-seed-bank",
+              "vector-governor",
+              "orchard-memory-core",
+              "meridian-solution"
+            ],
+            "journalArchive": [
+              "orchard-memory-record"
+            ],
+            "active": null,
+            "ending": {
+              "format": 1,
+              "phase": "arrival",
+              "committedAtDistance": 5.989011722723016,
+              "arrivalElapsedS": 0
+            }
+          }
+        },
+        "loaded": {
+          "story": {
+            "format": 2,
+            "completed": [
+              "wreck-one",
+              "relay-foundry",
+              "quiet-array",
+              "glass-orchard",
+              "last-garden-meridian"
+            ],
+            "recoveredUniques": [
+              "course-gyro",
+              "salvage-controller",
+              "tracking-servo",
+              "course-actuator",
+              "annika-archive-shard",
+              "human-seed-bank",
+              "vector-governor",
+              "orchard-memory-core",
+              "meridian-solution"
+            ],
+            "journalArchive": [
+              "orchard-memory-record",
+              "quiet-array-journal-port",
+              "quiet-array-journal-starboard",
+              "meridian-common-record"
+            ],
+            "active": null,
+            "chapterComplete": true
+          },
+          "destinationAuthored": true,
+          "destinationDocked": false,
+          "authoredGarden": true,
+          "garden": {
+            "format": 1,
+            "water": 0,
+            "greens": 3,
+            "progressS": 0
+          },
+          "ending": "arrival",
+          "arrivalActive": true,
+          "horizonVisible": true,
+          "authoredHorizon": true,
+          "arrivalOwnedGeometry": 0,
+          "courseTier": 3,
+          "titleOpen": false
+        }
+      },
+      "errors": [],
+      "elapsedMs": 18530,
+      "passed": true
+    },
+    {
+      "name": "corrupt-save",
+      "ready": true,
+      "bootVisible": true,
+      "bootText": "IRON NOMAD / SYSTEM STARTMachine Move ForwardLoading the machine and crew21 of 24Visual files preparedRetryUse simpler visuals",
+      "simplerVisibleAfterDeadline": false,
+      "retryVisible": false,
+      "titleText": "\n      \n      \n        Hold Esc to skip\n        \n      \n      \n        \n          Machine Move Forward\n          Keep it walking.\n          New GameSettings\n          \n            \n              Master volume\n              \n              80%\n            \n            \n              Machine & ambience\n              \n              60%\n            \n            \n              Quality\n              \n                auto\n                lowmediumhighultra\n              \n            \n            Look sensitivity1.00×\n            Hip FOV55°\n            ShoulderRightLeft\n            ControlsContext PlayBuild placementCatalogMounted gunMenuMove forwardWMove backSMove leftAMove rightDJumpSpaceSprintLeft ShiftCrouchLeft CtrlFire / placeLMBAim / cancelRMBReloadRUseEInteractFInventoryTabEquip rifle1Equip shotgun2Build / exitBSwap shoulderVMenu / cancelEscReset controls\n            Back\n          \n          \n        \n      \n    ",
+      "responses": [
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-playable.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/station-kit.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/iron-nomad-collision.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/props/ruins/desert-ruins.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/tactical-accessories.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-rifle.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scrap-shotgun.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/manual-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-skiff.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider-gunboat.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/scavenger.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/raider.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/bastion.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/revenant.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/warden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/sovereign.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvaged-radio.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/expedition-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/navigation-helm.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/s07-player.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/salvage-chest.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/forged-hook.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-collector.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/automatic-turret.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/relay-foundry.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/quiet-array.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-salvage-wreck.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-memorial.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-water-cache.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/glass-orchard.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/seed-garden.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/route-repair-depot.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/last-garden-meridian.glb",
+          "status": 200
+        },
+        {
+          "url": "http://127.0.0.1:5201/models/authored/meridian-horizon.glb",
+          "status": 200
+        }
+      ],
+      "expectedFallbacks": [],
+      "latePreparation": null,
+      "criticalReadyState": null,
+      "glbResponsesAtReady": 30,
+      "deferredGlbResponses": 4,
+      "continuation": {
+        "slot": "readiness-corrupt-save",
+        "fixture": {
+          "hasGarden": false,
+          "story": {
+            "format": 2,
+            "completed": "bad",
+            "recoveredUniques": null,
+            "active": null
+          }
+        },
+        "loaded": {
+          "story": {
+            "format": 2,
+            "completed": [],
+            "recoveredUniques": [],
+            "journalArchive": [],
+            "active": null
+          },
+          "destinationAuthored": true,
+          "destinationDocked": false,
+          "authoredGarden": false,
+          "garden": null,
+          "ending": "available",
+          "arrivalActive": false,
+          "horizonVisible": false,
+          "authoredHorizon": false,
+          "arrivalOwnedGeometry": null,
+          "courseTier": 0,
+          "titleOpen": false
+        }
+      },
+      "errors": [],
+      "elapsedMs": 16612,
+      "passed": true
+    }
+  ]
+}

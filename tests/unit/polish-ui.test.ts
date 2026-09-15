@@ -5,6 +5,7 @@ import { MachineStatusView } from '@/ui/MachineStatusView';
 import { BuildCatalog } from '@/ui/BuildCatalog';
 import { BuildUI } from '@/ui/BuildUI';
 import { RadioUI } from '@/ui/RadioUI';
+import { HelmUI } from '@/ui/HelmUI';
 import { Container } from '@/items/Container';
 
 describe('polish UI components', () => {
@@ -20,6 +21,43 @@ describe('polish UI components', () => {
     expect(collect).toHaveBeenCalledTimes(1);
     ui.setView({ recoveredSupplies: '' });
     expect(button.hidden).toBe(true);
+    ui.dispose();
+  });
+
+  it('exposes the campaign record from radio even when it is unpowered', () => {
+    const parent = document.createElement('div');
+    const openLog = vi.fn();
+    const ui = new RadioUI(parent, { close: vi.fn(), openCampaignLog: openLog });
+    ui.open({ found: true, powered: false });
+    const button = parent.querySelector('[data-radio-log]') as HTMLButtonElement;
+    expect(button.hidden).toBe(false);
+    button.click();
+    expect(openLog).toHaveBeenCalledOnce();
+    ui.dispose();
+  });
+
+  it('exposes the campaign record from the powered Helm when configured', () => {
+    const parent = document.createElement('div');
+    const openLog = vi.fn();
+    const ui = new HelmUI(parent, {
+      close: vi.fn(),
+      setBearing: vi.fn(),
+      setThrottle: vi.fn(),
+      openCampaignLog: openLog,
+    });
+    ui.render({
+      tier: 1,
+      bearingDeg: 0,
+      desiredDeg: 0,
+      throttle: 1,
+      powered: true,
+      locked: false,
+      objective: 'Course',
+    });
+    const button = parent.querySelector('[data-helm-log]') as HTMLButtonElement;
+    expect(button.hidden).toBe(false);
+    button.click();
+    expect(openLog).toHaveBeenCalledOnce();
     ui.dispose();
   });
 
@@ -119,6 +157,7 @@ describe('polish UI components', () => {
       serviceDecks: [{ name: 'Lower deck', subsystem: 'engine' as never, repairScrap: 2 }],
     };
     view.update(snapshot);
+    expect(view.root.querySelector('[data-recovery-details]')).toBeNull();
     const summary = view.root.querySelector('summary') as HTMLElement;
     const details = view.root.querySelector('details') as HTMLDetailsElement;
     details.open = true;
@@ -127,6 +166,50 @@ describe('polish UI components', () => {
     expect((view.root.querySelector('details') as HTMLDetailsElement).open).toBe(true);
     expect(document.activeElement?.textContent).toContain('Service decks');
     expect(view.root.textContent).toContain('Engine');
+  });
+
+  it('keeps recovery details open and dismisses only non-blocking hints', () => {
+    const parent = document.createElement('div');
+    document.body.append(parent);
+    const dismiss = vi.fn();
+    const view = new MachineStatusView(parent, { dismissRecovery: dismiss });
+    const snapshot = {
+      fuel: { current: 5, capacity: 10 },
+      power: { capacity: 4, demand: 2, shed: [] },
+      condition: [],
+      serviceDecks: [],
+      recovery: [
+        {
+          topic: 'save' as const,
+          severity: 'blocked' as const,
+          title: 'Saving is unavailable',
+          detail: 'Clear danger.',
+        },
+        {
+          topic: 'fuel' as const,
+          severity: 'info' as const,
+          title: 'Fuel forecast',
+          detail: 'Reel salvage later.',
+          metric: '5 min',
+        },
+      ],
+      controlsHint: 'Use the helm controls to refuel.',
+    };
+    view.update(snapshot);
+    const details = view.root.querySelector('[data-recovery-details]') as HTMLDetailsElement;
+    details.open = true;
+    const summary = details.querySelector('summary') as HTMLElement;
+    summary.focus();
+    (details.querySelector('[data-recovery-dismiss="fuel"]') as HTMLButtonElement).click();
+    expect(dismiss).toHaveBeenCalledTimes(1);
+    expect(dismiss).toHaveBeenCalledWith('fuel');
+    summary.focus();
+    view.update({ ...snapshot, controlsHint: 'Updated helm controls.' });
+    expect((view.root.querySelector('[data-recovery-details]') as HTMLDetailsElement).open).toBe(
+      true,
+    );
+    expect(document.activeElement?.textContent).toContain('Saving is unavailable');
+    expect(view.root.querySelector('[data-recovery-dismiss="save"]')).toBeNull();
   });
 
   it('selects a catalog card once and keeps search focused while updating', () => {

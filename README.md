@@ -32,6 +32,8 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - Storage panels provide **Take All**, **Deposit Matching** and **Sort** operations with truthful overflow feedback.
 - Volume-based camera collision, smooth close-player fading, shoulder swap and remappable controls make cramped decks easier to navigate.
 - A compact maintenance view combines fuel, emergency crawl, power shortages and service-deck repair needs.
+- After the guided first run, expand **Care & forecasts** in machine status for fuel range, water/food recovery, growing-garden timing, repair materials and save restrictions.
+- Open **Campaign Record** from the Radio or Helm to reread preserved journals, review completed chapters and discoveries, and find optional Keep Walking goals.
 
 ## Current campaign iteration
 
@@ -46,6 +48,8 @@ S-07 preserves human names, seeds and memories; the fate of humanity remains unc
 After departure, confirm the final course twice at the powered Helm. A durable checkpoint precedes the +32-degree, 400m journey and a 12-second arrival scene. Skip or choose **Keep Walking** to continue the same survival/build game with your machine, supplies, gardens and progress. Wider authority also reaches newly discovered repair depots 265–290m off course; existing tier-two contacts retain their 120–150m band.
 
 The expedition journal keeps the records you read. Old saves recover only records proven by their existing progress. Continue selects the most recently written readable save, including the Meridian checkpoint.
+
+Loading now prepares the machine, player and combat first, then prepares later destination art at safe transitions or before restoring a save. The progress screen offers simpler visuals during slow startup; unavailable art uses the existing procedural fallback. Credits reflect the records, seed bank, discoveries and garden actually preserved aboard. See the [campaign readiness delivery and validation](docs/campaign/readiness-delivery.md).
 
 This remains a development prototype. See the [campaign notes](docs/campaign/README.md), [Meridian delivery](docs/campaign/meridian-delivery.md), and [Blender/Unreal assets](assets/meridian/README.md) for scope and validation.
 

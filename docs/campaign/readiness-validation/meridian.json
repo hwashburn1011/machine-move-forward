@@ -1,0 +1,591 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "Meridian passive offer coexists with optional contact",
+      "ok": true
+    },
+    {
+      "name": "Powered radio offers Meridian",
+      "ok": true,
+      "detail": "Trace Last Garden Meridian"
+    },
+    {
+      "name": "Meridian route choice contains exactly two matching cards",
+      "ok": true
+    },
+    {
+      "name": "No ending before Meridian completion",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Authored model and route begin",
+      "ok": true,
+      "detail": {
+        "format": 2,
+        "completed": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core"
+        ],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record"
+        ],
+        "active": {
+          "expeditionId": "last-garden-meridian",
+          "routeId": "meridian-quiet-line",
+          "phase": "approach",
+          "arrivalDistance": 5250,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due"
+        },
+        "chapterComplete": true
+      }
+    },
+    {
+      "name": "meridian-quiet-line: Correct actual existing patrol appears",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Unresolved patrol holds destination at 220m",
+      "ok": true,
+      "detail": {
+        "phase": "braking",
+        "signalStrength": 1,
+        "remainingM": 220,
+        "objective": "Bring the machine alongside the Last Garden Meridian.",
+        "expeditionId": "last-garden-meridian",
+        "routeId": "meridian-quiet-line",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "completedObjectives": [],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "meridian-quiet-line: Actual patrol callback resolves story encounter",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Docked with both required objectives incomplete",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "signalStrength": 1,
+        "remainingM": 0,
+        "objective": "Restore the Meridian transmitter, install its archive, and recover the solution record.",
+        "expeditionId": "last-garden-meridian",
+        "routeId": "meridian-quiet-line",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "completedObjectives": [],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "meridian-quiet-line: Solution gated before objectives and journals",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Physical objective meridian-transmitter-online",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Physical objective meridian-archive-installed",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Alternate testimony unavailable",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Recovered solution grants tier3",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Memory-core installation preserves prior recovered fact",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Both records archived, alternate not fabricated",
+      "ok": true,
+      "detail": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "orchard-memory-record",
+        "meridian-civilian-record",
+        "meridian-common-record"
+      ]
+    },
+    {
+      "name": "meridian-quiet-line: Completed objectives permit departure",
+      "ok": true
+    },
+    {
+      "name": "meridian-quiet-line: Real docked save/load preserves route/objectives/tier",
+      "ok": true
+    },
+    {
+      "name": "Meridian departure enables deliberate final course",
+      "ok": true,
+      "detail": {
+        "phase": "complete",
+        "signalStrength": 0,
+        "remainingM": null,
+        "objective": "The Meridian bearing is secure. Return to the helm when you are ready to commit.",
+        "expeditionId": "last-garden-meridian",
+        "routeId": "meridian-quiet-line",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core",
+          "meridian-solution"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard",
+          "last-garden-meridian"
+        ],
+        "completedObjectives": [
+          "meridian-transmitter-online",
+          "meridian-archive-installed"
+        ],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record",
+          "meridian-civilian-record",
+          "meridian-common-record"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "meridian-cordon-gap: Authored model and route begin",
+      "ok": true,
+      "detail": {
+        "format": 2,
+        "completed": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core"
+        ],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record"
+        ],
+        "active": {
+          "expeditionId": "last-garden-meridian",
+          "routeId": "meridian-cordon-gap",
+          "phase": "approach",
+          "arrivalDistance": 5050,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due"
+        },
+        "chapterComplete": true
+      }
+    },
+    {
+      "name": "meridian-cordon-gap: Correct actual existing patrol appears",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Unresolved patrol holds destination at 220m",
+      "ok": true,
+      "detail": {
+        "phase": "braking",
+        "signalStrength": 1,
+        "remainingM": 220,
+        "objective": "Bring the machine alongside the Last Garden Meridian.",
+        "expeditionId": "last-garden-meridian",
+        "routeId": "meridian-cordon-gap",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "completedObjectives": [],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "meridian-cordon-gap: Actual patrol callback resolves story encounter",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Docked with both required objectives incomplete",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "signalStrength": 1,
+        "remainingM": 0,
+        "objective": "Restore the Meridian transmitter, install its archive, and recover the solution record.",
+        "expeditionId": "last-garden-meridian",
+        "routeId": "meridian-cordon-gap",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "completedObjectives": [],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "meridian-cordon-gap: Solution gated before objectives and journals",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Physical objective meridian-transmitter-online",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Physical objective meridian-archive-installed",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Alternate testimony unavailable",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Recovered solution grants tier3",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Memory-core installation preserves prior recovered fact",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Both records archived, alternate not fabricated",
+      "ok": true,
+      "detail": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "orchard-memory-record",
+        "meridian-defense-record",
+        "meridian-common-record"
+      ]
+    },
+    {
+      "name": "meridian-cordon-gap: Completed objectives permit departure",
+      "ok": true
+    },
+    {
+      "name": "meridian-cordon-gap: Real docked save/load preserves route/objectives/tier",
+      "ok": true
+    },
+    {
+      "name": "Meridian departure enables deliberate final course",
+      "ok": true,
+      "detail": {
+        "phase": "complete",
+        "signalStrength": 0,
+        "remainingM": null,
+        "objective": "The Meridian bearing is secure. Return to the helm when you are ready to commit.",
+        "expeditionId": "last-garden-meridian",
+        "routeId": "meridian-cordon-gap",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "vector-governor",
+          "orchard-memory-core",
+          "meridian-solution"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard",
+          "last-garden-meridian"
+        ],
+        "completedObjectives": [
+          "meridian-transmitter-online",
+          "meridian-archive-installed"
+        ],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "orchard-memory-record",
+          "meridian-defense-record",
+          "meridian-common-record"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "Failed checkpoint does not commit",
+      "ok": true
+    },
+    {
+      "name": "Failed checkpoint keeps world and resources unchanged",
+      "ok": true
+    },
+    {
+      "name": "Retry remains enabled",
+      "ok": true
+    },
+    {
+      "name": "Incoming unspawned threat refuses commitment",
+      "ok": true
+    },
+    {
+      "name": "Clearing a temporary threat re-enables confirmation",
+      "ok": true
+    },
+    {
+      "name": "Post-checkpoint threat revalidation refuses takeover",
+      "ok": true
+    },
+    {
+      "name": "Successful checkpoint commits exactly once",
+      "ok": true,
+      "detail": {
+        "format": 1,
+        "phase": "committed",
+        "committedAtDistance": 5260,
+        "arrivalElapsedS": 0
+      }
+    },
+    {
+      "name": "Checkpoint contains available ending before control takeover",
+      "ok": true
+    },
+    {
+      "name": "Continue chooses recent Meridian checkpoint over stale quicksave",
+      "ok": true
+    },
+    {
+      "name": "Ending owns course and sanctuary",
+      "ok": true
+    },
+    {
+      "name": "Committed save written",
+      "ok": true
+    },
+    {
+      "name": "Committed load resumes phase and earned authority",
+      "ok": true
+    },
+    {
+      "name": "Natural 400m journey reaches arrival",
+      "ok": true,
+      "detail": {
+        "steps": 3264,
+        "distance": 400.02212627357767
+      }
+    },
+    {
+      "name": "Journey consumes normal fuel and steers",
+      "ok": true,
+      "detail": {
+        "fuelUsed": 3.264000000015585,
+        "lateral": 201.84774803419444
+      }
+    },
+    {
+      "name": "Arrival owns camera and presents original refuge",
+      "ok": true
+    },
+    {
+      "name": "Pause stops arrival and world clocks",
+      "ok": true
+    },
+    {
+      "name": "Arrival save restores elapsed time and camera",
+      "ok": true
+    },
+    {
+      "name": "Natural 12s arrival reaches credits and advances lateral projection",
+      "ok": true
+    },
+    {
+      "name": "Credits restore without replaying journey",
+      "ok": true
+    },
+    {
+      "name": "Keep Walking releases camera and sanctuary",
+      "ok": true
+    },
+    {
+      "name": "Completion does not alter resources/builds/gardens/world/course",
+      "ok": true
+    },
+    {
+      "name": "Repeated completion input is idempotent",
+      "ok": true
+    },
+    {
+      "name": "Completion remains complete after actual load",
+      "ok": true
+    },
+    {
+      "name": "Full control restored with Meridian authority",
+      "ok": true
+    },
+    {
+      "name": "Readable journal archive survives chapter departure and load",
+      "ok": true,
+      "detail": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "orchard-memory-record",
+        "meridian-defense-record",
+        "meridian-common-record"
+      ]
+    },
+    {
+      "name": "Archive rereads never grant rewards",
+      "ok": true
+    },
+    {
+      "name": "Optional discoveries and raids remain available",
+      "ok": true
+    },
+    {
+      "name": "Skip committed journey enters same-save continuation",
+      "ok": true
+    },
+    {
+      "name": "A lethal arrival-boundary hit defers camera takeover",
+      "ok": true
+    },
+    {
+      "name": "Normal respawn completes before arrival begins",
+      "ok": true,
+      "detail": {
+        "respawnSteps": 181,
+        "phase": "arrival",
+        "dead": false
+      }
+    },
+    {
+      "name": "Skipping restored arrival releases ownership once",
+      "ok": true
+    }
+  ],
+  "errors": []
+}
