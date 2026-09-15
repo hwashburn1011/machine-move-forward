@@ -1,0 +1,168 @@
+[
+  {
+    "type": "boarding:started",
+    "detail": {
+      "encounterId": "tutorial-skiff"
+    },
+    "simTime": 15.23333333333367
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": null
+    },
+    "simTime": 15.250000000000338
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": null
+    },
+    "simTime": 16.0833333333337
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": null
+    },
+    "simTime": 16.933333333333653
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": null
+    },
+    "simTime": 17.783333333333605
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": null
+    },
+    "simTime": 18.633333333333557
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": null
+    },
+    "simTime": 19.48333333333351
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": null
+    },
+    "simTime": 20.33333333333346
+  },
+  {
+    "type": "combat:hit",
+    "detail": {
+      "position": {
+        "x": 3.005741927609116,
+        "y": 14.824987223091973,
+        "z": -1.7804169381027208
+      },
+      "normal": {
+        "x": -0.00011987364268861711,
+        "y": 1,
+        "z": -0.00020977886742912233
+      },
+      "targetId": null,
+      "onMetal": true
+    },
+    "simTime": 20.33333333333346
+  },
+  {
+    "type": "boarding:hook-attached",
+    "detail": {
+      "side": "port"
+    },
+    "simTime": 20.48333333333345
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": "skiff-hook"
+    },
+    "simTime": 21.18333333333341
+  },
+  {
+    "type": "combat:hit",
+    "detail": {
+      "position": {
+        "x": -5.840000215305299,
+        "y": 14.852426285940469,
+        "z": -1.9857485021097552
+      },
+      "normal": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "targetId": "skiff-hook",
+      "onMetal": true
+    },
+    "simTime": 21.18333333333341
+  },
+  {
+    "type": "turret:fired",
+    "detail": {
+      "instanceId": "bp-9",
+      "targetId": "skiff-hook"
+    },
+    "simTime": 22.033333333333363
+  },
+  {
+    "type": "combat:hit",
+    "detail": {
+      "position": {
+        "x": -5.840000215305299,
+        "y": 14.852426285940469,
+        "z": -1.9857485021097552
+      },
+      "normal": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "targetId": "skiff-hook",
+      "onMetal": true
+    },
+    "simTime": 22.033333333333363
+  },
+  {
+    "type": "loot:collected",
+    "detail": {
+      "items": [
+        {
+          "id": "scrap",
+          "count": 30
+        },
+        {
+          "id": "components",
+          "count": 2
+        }
+      ],
+      "source": "Dust skiff salvage"
+    },
+    "simTime": 25.04999999999986
+  },
+  {
+    "type": "boarding:ended",
+    "detail": {
+      "outcome": "hook",
+      "tutorial": true,
+      "needsRepair": false
+    },
+    "simTime": 25.04999999999986
+  }
+]

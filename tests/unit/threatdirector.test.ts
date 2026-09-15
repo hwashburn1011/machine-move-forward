@@ -106,6 +106,29 @@ function nextWaveKinds(
 }
 
 describe('ThreatDirector', () => {
+  it('reseed changes the captured owner while reset reconstructs the selected stream', () => {
+    const control = new ThreatDirector('campaign-a');
+    const loaded = new ThreatDirector('campaign-b');
+    loaded.reseed('campaign-a');
+    loaded.reset(0);
+    expect(loaded.toSave()).toEqual(control.toSave());
+  });
+
+  it('replays saved draws on the adopted seed after a different campaign has consumed its RNG', () => {
+    const original = new ThreatDirector('campaign-a');
+    walk(original, 0, 1200, () => 0);
+    const saved = original.toSave();
+    expect(saved.draws).toBeGreaterThan(1);
+    const expected = walk(original, 1200, 1200, () => 0);
+    const loaded = new ThreatDirector('campaign-b');
+    walk(loaded, 0, 2000, () => 0);
+    for (let repeat = 0; repeat < 2; repeat++) {
+      loaded.reseed('campaign-a');
+      loaded.restore(saved);
+      expect(walk(loaded, 1200, 1200, () => 0)).toEqual(expected);
+    }
+  });
+
   it('starts calm and stays quiet for at least the guaranteed stretch', () => {
     const d = new ThreatDirector('seed-a');
     expect(d.currentPhase).toBe('calm');

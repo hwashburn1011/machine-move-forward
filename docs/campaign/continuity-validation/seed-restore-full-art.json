@@ -1,0 +1,1132 @@
+{
+  "status": "passed",
+  "source": "test-results/continuity-radio/run-1789475135178/browser-profile",
+  "url": "http://127.0.0.1:5205/?seed=seed-restore-new-campaign&nosound=1&quality=medium",
+  "parent": {
+    "slot": "quicksave",
+    "save": {
+      "version": 1,
+      "savedAt": 1789475474365,
+      "seed": "mmf-dev-seed",
+      "profile": "story",
+      "distanceTraveled": 2713.6375924137337,
+      "player": {
+        "position": {
+          "x": 1.3328291460039452,
+          "y": 15.804813725808899,
+          "z": -4.479861154973608
+        },
+        "health": 78,
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 16
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "components",
+            "count": 9
+          },
+          {
+            "itemId": "fuel",
+            "count": 4
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "needs": {
+          "hydration": 73.10666666661054,
+          "nourishment": 75.60666666658486
+        },
+        "equipment": {
+          "currentWeapon": "rifle",
+          "weapons": [
+            {
+              "id": "rifle",
+              "ammoInMag": 15,
+              "reserveAmmo": 150,
+              "magazineBonus": 0
+            },
+            {
+              "id": "shotgun",
+              "ammoInMag": 6,
+              "reserveAmmo": 48,
+              "magazineBonus": 0
+            }
+          ]
+        }
+      },
+      "machine": {
+        "layout": "iron-nomad-v1",
+        "structures": [
+          {
+            "instanceId": "bp-2",
+            "definitionId": "floor",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-4",
+            "definitionId": "floor",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-6",
+            "definitionId": "floor",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-8",
+            "definitionId": "floor",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-3",
+            "definitionId": "generator",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 170
+          },
+          {
+            "instanceId": "bp-5",
+            "definitionId": "refinery",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0,
+            "health": 160
+          },
+          {
+            "instanceId": "bp-7",
+            "definitionId": "workbench",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 130
+          },
+          {
+            "instanceId": "bp-9",
+            "definitionId": "turret-manual",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": 0,
+            "health": 150
+          }
+        ],
+        "devices": [],
+        "fuel": 38.4170000000503,
+        "coreHealth": 100,
+        "navigationTier": 0,
+        "course": {
+          "tier": 0,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 0
+        },
+        "subsystems": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ]
+      },
+      "progression": {
+        "caretaker": {
+          "format": 1,
+          "recruited": false,
+          "mode": "companion"
+        },
+        "unlocks": [
+          "manual-turret"
+        ],
+        "turretBlueprintProgress": 1,
+        "upgrades": {
+          "researched": [],
+          "active": {}
+        },
+        "radio": {
+          "status": "found",
+          "armedAtSimTime": null,
+          "foundAtSimTime": 10.766666666666781,
+          "foundAtDistance": 59.97686964118998,
+          "eligibleChestsOpened": 1
+        },
+        "opening": {
+          "phase": "done"
+        },
+        "firstRun": {
+          "completed": [
+            "salvage",
+            "build-refinery",
+            "refine-components",
+            "build-workbench",
+            "build-defense",
+            "survive-boarding",
+            "repair"
+          ],
+          "counters": {
+            "salvage": 4,
+            "componentsAvailable": 9,
+            "refineryBuilt": 1,
+            "components": 4,
+            "workbenchBuilt": 1,
+            "defense": 2,
+            "defenseCrewed": 2,
+            "boardingSurvived": 4,
+            "boardingEnded": 1,
+            "repairsAfterBoarding": 1
+          }
+        },
+        "turrets": [
+          {
+            "instanceId": "bp-9",
+            "yaw": -1.572,
+            "pitch": -0.09159877559829879,
+            "filter": "all"
+          }
+        ],
+        "automaticTurrets": []
+      },
+      "world": {
+        "chunkIndex": 42,
+        "threatDirector": {
+          "phase": "recovery",
+          "phaseEndsAt": 2948.965853621844,
+          "wavesSurvived": 1,
+          "pending": [],
+          "nextReleaseAt": 0,
+          "draws": 3,
+          "wavesSinceVehicle": 1,
+          "queuedVehicle": null,
+          "externalEncounterActive": false,
+          "sanctuaryActive": false,
+          "sanctuaryReleaseAt": null
+        },
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": {
+            "expeditionId": "wreck-one",
+            "routeId": null,
+            "phase": "raids",
+            "arrivalDistance": null,
+            "journalsRead": [],
+            "scriptedEncounter": "not-due",
+            "signalStartedAt": 59.97686964118998
+          },
+          "radioTraceEligible": true,
+          "ending": {
+            "format": 1,
+            "phase": "available",
+            "committedAtDistance": null,
+            "arrivalElapsedS": 0
+          }
+        },
+        "radioRaids": {
+          "wave": 1,
+          "remaining": 104.4344909934949
+        },
+        "raidRecovery": {
+          "recovered": []
+        },
+        "routeChart": {
+          "format": 1,
+          "nextSlot": 1,
+          "discovered": [],
+          "visited": [],
+          "missed": []
+        },
+        "dustFront": {
+          "format": 1,
+          "phase": "clear",
+          "elapsedS": 0,
+          "nextAtM": 3352.429139007102,
+          "sequence": 1
+        }
+      }
+    }
+  },
+  "restored": {
+    "stateSeed": "mmf-dev-seed",
+    "worldSeed": "mmf-dev-seed",
+    "directorSeed": "mmf-dev-seed",
+    "weatherSeed": "mmf-dev-seed",
+    "save": {
+      "version": 1,
+      "savedAt": 1789476408161,
+      "seed": "mmf-dev-seed",
+      "profile": "story",
+      "distanceTraveled": 2715.053491841348,
+      "player": {
+        "position": {
+          "x": 1.3237820469265935,
+          "y": 15.798176118561402,
+          "z": -4.4671592303525856
+        },
+        "health": 78,
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 16
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "components",
+            "count": 9
+          },
+          {
+            "itemId": "fuel",
+            "count": 4
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "needs": {
+          "hydration": 73.09333333327716,
+          "nourishment": 75.59333333325148
+        },
+        "equipment": {
+          "currentWeapon": "rifle",
+          "weapons": [
+            {
+              "id": "rifle",
+              "ammoInMag": 15,
+              "reserveAmmo": 150,
+              "magazineBonus": 0
+            },
+            {
+              "id": "shotgun",
+              "ammoInMag": 6,
+              "reserveAmmo": 48,
+              "magazineBonus": 0
+            }
+          ]
+        }
+      },
+      "machine": {
+        "layout": "iron-nomad-v1",
+        "structures": [
+          {
+            "instanceId": "bp-2",
+            "definitionId": "floor",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-4",
+            "definitionId": "floor",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-6",
+            "definitionId": "floor",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-8",
+            "definitionId": "floor",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-3",
+            "definitionId": "generator",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 170
+          },
+          {
+            "instanceId": "bp-5",
+            "definitionId": "refinery",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0,
+            "health": 160
+          },
+          {
+            "instanceId": "bp-7",
+            "definitionId": "workbench",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 130
+          },
+          {
+            "instanceId": "bp-9",
+            "definitionId": "turret-manual",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": 0,
+            "health": 150
+          }
+        ],
+        "devices": [],
+        "fuel": 38.40500000005033,
+        "coreHealth": 100,
+        "navigationTier": 0,
+        "course": {
+          "tier": 0,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 0
+        },
+        "subsystems": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ]
+      },
+      "progression": {
+        "caretaker": {
+          "format": 1,
+          "recruited": false,
+          "mode": "companion"
+        },
+        "unlocks": [
+          "manual-turret"
+        ],
+        "turretBlueprintProgress": 1,
+        "upgrades": {
+          "researched": [],
+          "active": {}
+        },
+        "radio": {
+          "status": "found",
+          "armedAtSimTime": null,
+          "foundAtSimTime": 10.766666666666781,
+          "foundAtDistance": 59.97686964118998,
+          "eligibleChestsOpened": 1
+        },
+        "opening": {
+          "phase": "done"
+        },
+        "firstRun": {
+          "completed": [
+            "salvage",
+            "build-refinery",
+            "refine-components",
+            "build-workbench",
+            "build-defense",
+            "survive-boarding",
+            "repair"
+          ],
+          "counters": {
+            "salvage": 4,
+            "componentsAvailable": 9,
+            "refineryBuilt": 1,
+            "components": 4,
+            "workbenchBuilt": 1,
+            "defense": 2,
+            "defenseCrewed": 2,
+            "boardingSurvived": 4,
+            "boardingEnded": 1,
+            "repairsAfterBoarding": 1
+          }
+        },
+        "turrets": [
+          {
+            "instanceId": "bp-9",
+            "yaw": -1.572,
+            "pitch": -0.09159877559829879,
+            "filter": "all"
+          }
+        ],
+        "automaticTurrets": []
+      },
+      "world": {
+        "chunkIndex": 42,
+        "threatDirector": {
+          "phase": "recovery",
+          "phaseEndsAt": 2948.965853621844,
+          "wavesSurvived": 1,
+          "pending": [],
+          "nextReleaseAt": 0,
+          "draws": 3,
+          "wavesSinceVehicle": 1,
+          "queuedVehicle": null,
+          "externalEncounterActive": false,
+          "sanctuaryActive": false,
+          "sanctuaryReleaseAt": null
+        },
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": {
+            "expeditionId": "wreck-one",
+            "routeId": null,
+            "phase": "raids",
+            "arrivalDistance": null,
+            "journalsRead": [],
+            "scriptedEncounter": "not-due",
+            "signalStartedAt": 59.97686964118998
+          },
+          "radioTraceEligible": true,
+          "ending": {
+            "format": 1,
+            "phase": "available",
+            "committedAtDistance": null,
+            "arrivalElapsedS": 0
+          }
+        },
+        "radioRaids": {
+          "wave": 1,
+          "remaining": 104.23449099349492
+        },
+        "raidRecovery": {
+          "recovered": []
+        },
+        "routeChart": {
+          "format": 1,
+          "nextSlot": 1,
+          "discovered": [],
+          "visited": [],
+          "missed": []
+        },
+        "dustFront": {
+          "format": 1,
+          "phase": "clear",
+          "elapsedS": 0,
+          "nextAtM": 3352.429139007102,
+          "sequence": 1
+        }
+      }
+    },
+    "authoredPlayer": true,
+    "tacticsModel": true,
+    "authoredMachine": true,
+    "machineObjects": [
+      {
+        "name": "Nomad floor -2"
+      },
+      {
+        "name": "Nomad access ramp -2"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad access ramp -1"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "engine"
+      },
+      {
+        "name": "ExpeditionGate"
+      },
+      {
+        "name": "NomadLegFallback"
+      },
+      {
+        "name": "Nomad twin exhaust"
+      },
+      {
+        "name": "Scene",
+        "authored": true
+      },
+      {
+        "name": "authored-machine-details"
+      },
+      {
+        "name": "HelmRoot",
+        "authored": true
+      },
+      {
+        "name": "Upgrade_longstride-rams"
+      },
+      {
+        "name": "Upgrade_torque-clutch"
+      },
+      {
+        "name": "Upgrade_overwound-dynamo"
+      },
+      {
+        "name": "Upgrade_lean-governor"
+      }
+    ],
+    "phase": "done"
+  },
+  "fresh": {
+    "stateSeed": "seed-restore-new-campaign",
+    "worldSeed": "seed-restore-new-campaign",
+    "directorSeed": "seed-restore-new-campaign",
+    "weatherSeed": "seed-restore-new-campaign",
+    "save": {
+      "version": 1,
+      "savedAt": 1789476410402,
+      "seed": "seed-restore-new-campaign",
+      "profile": "story",
+      "distanceTraveled": 0.8288964127639309,
+      "player": {
+        "position": {
+          "x": 1.3130556404340532,
+          "y": 15.79591647646179,
+          "z": -4.491148343817544
+        },
+        "health": 100,
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "needs": {
+          "hydration": 100,
+          "nourishment": 100
+        },
+        "equipment": {
+          "currentWeapon": "rifle",
+          "weapons": [
+            {
+              "id": "rifle",
+              "ammoInMag": 30,
+              "reserveAmmo": 150,
+              "magazineBonus": 0
+            },
+            {
+              "id": "shotgun",
+              "ammoInMag": 6,
+              "reserveAmmo": 48,
+              "magazineBonus": 0
+            }
+          ]
+        }
+      },
+      "machine": {
+        "layout": "iron-nomad-v1",
+        "structures": [
+          {
+            "instanceId": "bp-10",
+            "definitionId": "floor",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-11",
+            "definitionId": "generator",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 170
+          }
+        ],
+        "devices": [],
+        "fuel": 60,
+        "coreHealth": 100,
+        "navigationTier": 0,
+        "course": {
+          "tier": 0,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 0
+        },
+        "subsystems": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ]
+      },
+      "progression": {
+        "caretaker": {
+          "format": 1,
+          "recruited": false,
+          "mode": "companion"
+        },
+        "unlocks": [],
+        "turretBlueprintProgress": 0,
+        "upgrades": {
+          "researched": [],
+          "active": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "opening": {
+          "phase": "rooftop"
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "turrets": [],
+        "automaticTurrets": []
+      },
+      "world": {
+        "chunkIndex": 0,
+        "threatDirector": {
+          "phase": "calm",
+          "phaseEndsAt": 452.73139239288867,
+          "wavesSurvived": 0,
+          "pending": [],
+          "nextReleaseAt": 0,
+          "draws": 1,
+          "wavesSinceVehicle": 0,
+          "queuedVehicle": null,
+          "externalEncounterActive": false,
+          "sanctuaryActive": false,
+          "sanctuaryReleaseAt": null
+        },
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null,
+          "ending": {
+            "format": 1,
+            "phase": "available",
+            "committedAtDistance": null,
+            "arrivalElapsedS": 0
+          }
+        },
+        "radioRaids": {
+          "wave": 0,
+          "remaining": 24
+        },
+        "raidRecovery": {
+          "recovered": []
+        },
+        "routeChart": {
+          "format": 1,
+          "nextSlot": 1,
+          "discovered": [],
+          "visited": [],
+          "missed": []
+        },
+        "dustFront": {
+          "format": 1,
+          "phase": "clear",
+          "elapsedS": 0,
+          "nextAtM": 600,
+          "sequence": 0
+        }
+      }
+    },
+    "authoredPlayer": true,
+    "tacticsModel": true,
+    "authoredMachine": true,
+    "machineObjects": [
+      {
+        "name": "Nomad floor -2"
+      },
+      {
+        "name": "Nomad access ramp -2"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad floor -1"
+      },
+      {
+        "name": "Nomad access ramp -1"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "Nomad floor 0"
+      },
+      {
+        "name": "engine"
+      },
+      {
+        "name": "ExpeditionGate"
+      },
+      {
+        "name": "NomadLegFallback"
+      },
+      {
+        "name": "Nomad twin exhaust"
+      },
+      {
+        "name": "Scene",
+        "authored": true
+      },
+      {
+        "name": "authored-machine-details"
+      },
+      {
+        "name": "HelmRoot",
+        "authored": true
+      },
+      {
+        "name": "Upgrade_longstride-rams"
+      },
+      {
+        "name": "Upgrade_torque-clutch"
+      },
+      {
+        "name": "Upgrade_overwound-dynamo"
+      },
+      {
+        "name": "Upgrade_lean-governor"
+      }
+    ],
+    "phase": "rooftop"
+  },
+  "checks": [
+    {
+      "name": "Saved campaign and requested New Game seed differ",
+      "ok": true
+    },
+    {
+      "name": "Continue restores stateSeed",
+      "ok": true,
+      "detail": "mmf-dev-seed"
+    },
+    {
+      "name": "Continue restores worldSeed",
+      "ok": true,
+      "detail": "mmf-dev-seed"
+    },
+    {
+      "name": "Continue restores directorSeed",
+      "ok": true,
+      "detail": "mmf-dev-seed"
+    },
+    {
+      "name": "Continue restores weatherSeed",
+      "ok": true,
+      "detail": "mmf-dev-seed"
+    },
+    {
+      "name": "Next save retains campaign seed",
+      "ok": true
+    },
+    {
+      "name": "Inventory survives cross-seed Continue",
+      "ok": true
+    },
+    {
+      "name": "Construction survives cross-seed Continue",
+      "ok": true
+    },
+    {
+      "name": "Authored S-07 is animated",
+      "ok": true
+    },
+    {
+      "name": "Authored Iron Nomad is present",
+      "ok": true
+    },
+    {
+      "name": "Mech tactics art prepared",
+      "ok": true
+    },
+    {
+      "name": "No missing destination art notice",
+      "ok": true
+    },
+    {
+      "name": "Committed save retains source seed under different URL",
+      "ok": true
+    },
+    {
+      "name": "New Game restores requested stateSeed",
+      "ok": true,
+      "detail": "seed-restore-new-campaign"
+    },
+    {
+      "name": "New Game restores requested worldSeed",
+      "ok": true,
+      "detail": "seed-restore-new-campaign"
+    },
+    {
+      "name": "New Game restores requested directorSeed",
+      "ok": true,
+      "detail": "seed-restore-new-campaign"
+    },
+    {
+      "name": "New Game restores requested weatherSeed",
+      "ok": true,
+      "detail": "seed-restore-new-campaign"
+    },
+    {
+      "name": "New Game restarts progress",
+      "ok": true
+    },
+    {
+      "name": "No browser or asset errors",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "loaded": [
+    "http://127.0.0.1:5205/assets/index-CsHS6Xqy.css",
+    "http://127.0.0.1:5205/assets/index-vyJQQKdA.js",
+    "http://127.0.0.1:5205/models/authored/iron-nomad-playable.glb",
+    "http://127.0.0.1:5205/models/authored/station-kit.glb",
+    "http://127.0.0.1:5205/models/authored/iron-nomad-collision.glb",
+    "http://127.0.0.1:5205/models/props/ruins/desert-ruins.glb",
+    "http://127.0.0.1:5205/models/authored/tactical-accessories.glb",
+    "http://127.0.0.1:5205/models/authored/scrap-rifle.glb",
+    "http://127.0.0.1:5205/models/authored/scrap-shotgun.glb",
+    "http://127.0.0.1:5205/models/authored/manual-turret.glb",
+    "http://127.0.0.1:5205/models/authored/raider-skiff.glb",
+    "http://127.0.0.1:5205/models/authored/raider-gunboat.glb",
+    "http://127.0.0.1:5205/models/authored/scavenger.glb",
+    "http://127.0.0.1:5205/models/authored/raider.glb",
+    "http://127.0.0.1:5205/models/authored/bastion.glb",
+    "http://127.0.0.1:5205/models/authored/revenant.glb",
+    "http://127.0.0.1:5205/models/authored/warden.glb",
+    "http://127.0.0.1:5205/models/authored/sovereign.glb",
+    "http://127.0.0.1:5205/models/authored/salvaged-radio.glb",
+    "http://127.0.0.1:5205/models/authored/expedition-wreck.glb",
+    "http://127.0.0.1:5205/models/authored/navigation-helm.glb",
+    "http://127.0.0.1:5205/models/authored/s07-player.glb",
+    "http://127.0.0.1:5205/models/authored/home-furnishings.glb",
+    "http://127.0.0.1:5205/models/authored/salvage-chest.glb",
+    "http://127.0.0.1:5205/models/authored/forged-hook.glb",
+    "http://127.0.0.1:5205/models/authored/automatic-collector.glb",
+    "http://127.0.0.1:5205/models/authored/automatic-turret.glb",
+    "http://127.0.0.1:5205/models/authored/fieldwork-kit.glb",
+    "http://127.0.0.1:5205/models/authored/relay-foundry.glb",
+    "http://127.0.0.1:5205/models/authored/quiet-array.glb",
+    "http://127.0.0.1:5205/models/authored/route-water-cache.glb",
+    "http://127.0.0.1:5205/models/authored/route-salvage-wreck.glb",
+    "http://127.0.0.1:5205/models/authored/route-memorial.glb",
+    "http://127.0.0.1:5205/models/authored/glass-orchard.glb",
+    "http://127.0.0.1:5205/models/authored/seed-garden.glb",
+    "http://127.0.0.1:5205/models/authored/route-repair-depot.glb",
+    "http://127.0.0.1:5205/models/authored/last-garden-meridian.glb",
+    "http://127.0.0.1:5205/models/authored/meridian-horizon.glb"
+  ]
+}

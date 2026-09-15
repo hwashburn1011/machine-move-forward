@@ -1,0 +1,975 @@
+[
+  {
+    "at": "2026-09-15T12:17:06.822Z",
+    "type": "provenance",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789474059926\\browser-profile",
+    "sourcePathLength": 107,
+    "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789474626542",
+    "outputPathLength": 91
+  },
+  {
+    "at": "2026-09-15T12:17:08.203Z",
+    "type": "continued",
+    "snapshot": {
+      "simTime": 0.3833333333333333,
+      "distanceM": 2692.208825237279,
+      "resources": [
+        [
+          "scrap",
+          204
+        ],
+        [
+          "components",
+          9
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "raids",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        },
+        "radioTraceEligible": true
+      },
+      "phase": "raids",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 1,
+        "remaining": 79.29993843597671
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": false,
+      "playerHealth": 84,
+      "needs": {
+        "hydration": 73.3066666666112,
+        "nourishment": 75.80666666658553
+      },
+      "ammo": {
+        "mag": 16,
+        "reserve": 150
+      },
+      "events": []
+    }
+  },
+  {
+    "at": "2026-09-15T12:17:08.225Z",
+    "type": "resume-offer-verified",
+    "simTime": 0.3833333333333333,
+    "distanceM": 2692.208825237279,
+    "resources": [
+      [
+        "scrap",
+        204
+      ],
+      [
+        "components",
+        9
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 4,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 4,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "raids",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      },
+      "radioTraceEligible": true
+    },
+    "phase": "raids",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 1,
+      "remaining": 79.29993843597671
+    },
+    "vehicle": null,
+    "enemies": 0,
+    "paused": false,
+    "panels": false,
+    "playerHealth": 84,
+    "needs": {
+      "hydration": 73.3066666666112,
+      "nourishment": 75.80666666658553
+    },
+    "ammo": {
+      "mag": 16,
+      "reserve": 150
+    },
+    "events": []
+  },
+  {
+    "at": "2026-09-15T12:17:09.735Z",
+    "type": "radio-open",
+    "snapshot": {
+      "simTime": 1.9166666666666647,
+      "distanceM": 2702.4560746118423,
+      "resources": [
+        [
+          "scrap",
+          204
+        ],
+        [
+          "components",
+          9
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "raids",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        },
+        "radioTraceEligible": true
+      },
+      "phase": "raids",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 1,
+        "remaining": 77.81660510264346
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": true,
+      "playerHealth": 84,
+      "needs": {
+        "hydration": 73.20444444438864,
+        "nourishment": 75.70444444436296
+      },
+      "ammo": {
+        "mag": 16,
+        "reserve": 150
+      },
+      "events": []
+    },
+    "text": "Recovered Radio\nSignal decoded\nSignal 100%\nNew trace available at the radio. Keep moving and watch for boarding ships.\nOptional trace: recover a Course Gyro to bring the Navigation Helm online.\nResearch\nTrace Wreck One\nCampaign record\nClose"
+  },
+  {
+    "at": "2026-09-15T12:17:09.978Z",
+    "type": "pre-trace-cold-checkpoint",
+    "snapshot": {
+      "simTime": 2.033333333333331,
+      "distanceM": 2703.0420979314604,
+      "resources": [
+        [
+          "scrap",
+          204
+        ],
+        [
+          "components",
+          9
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "raids",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        },
+        "radioTraceEligible": true
+      },
+      "phase": "raids",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 1,
+        "remaining": 77.7999384359768
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": false,
+      "playerHealth": 84,
+      "needs": {
+        "hydration": 73.20333333327753,
+        "nourishment": 75.70333333325185
+      },
+      "ammo": {
+        "mag": 16,
+        "reserve": 150
+      },
+      "events": []
+    }
+  },
+  {
+    "at": "2026-09-15T12:17:11.683Z",
+    "type": "pre-trace-cold-restored",
+    "restored": {
+      "simTime": 0.3,
+      "distanceM": 2702.927689060291,
+      "resources": [
+        [
+          "scrap",
+          204
+        ],
+        [
+          "components",
+          9
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "raids",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        },
+        "radioTraceEligible": true
+      },
+      "phase": "raids",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 1,
+        "remaining": 77.71660510264347
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": false,
+      "playerHealth": 84,
+      "needs": {
+        "hydration": 73.19777777772195,
+        "nourishment": 75.69777777769627
+      },
+      "ammo": {
+        "mag": 16,
+        "reserve": 150
+      },
+      "events": []
+    }
+  },
+  {
+    "at": "2026-09-15T12:17:12.684Z",
+    "type": "trace-offer-restored",
+    "snapshot": {
+      "simTime": 1.183333333333334,
+      "distanceM": 2708.453971924505,
+      "resources": [
+        [
+          "scrap",
+          204
+        ],
+        [
+          "components",
+          9
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "raids",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        },
+        "radioTraceEligible": true
+      },
+      "phase": "raids",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 1,
+        "remaining": 76.86660510264352
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": true,
+      "playerHealth": 84,
+      "needs": {
+        "hydration": 73.13888888883287,
+        "nourishment": 75.63888888880719
+      },
+      "ammo": {
+        "mag": 16,
+        "reserve": 150
+      },
+      "events": []
+    }
+  }
+]

@@ -136,6 +136,7 @@ export interface ThreatDirectorSave {
 
 export class ThreatDirector {
   private rng: Rng;
+  private seed: string;
   private phase: ThreatPhase = 'calm';
   /**
    * Distance at which the current phase is done, for the phases that end on
@@ -165,10 +166,8 @@ export class ThreatDirector {
    */
   private draws = 0;
 
-  constructor(
-    private readonly seed: string,
-    startDistance = 0,
-  ) {
+  constructor(seed: string, startDistance = 0) {
+    this.seed = seed;
     this.rng = new Rng(hashSeed(seed, 'threat-director'));
     this.phaseEndsAt = startDistance + this.rollCalm();
   }
@@ -213,6 +212,17 @@ export class ThreatDirector {
     this.sanctuaryReleaseAt = Number.POSITIVE_INFINITY;
     this.draws = 0;
     this.phaseEndsAt = startDistance + this.rollCalm();
+  }
+
+  /**
+   * Change the campaign seed without changing the live phase. Callers should
+   * invoke this before restore/reset so their saved draw count is replayed by
+   * the normal lifecycle methods.
+   */
+  reseed(seed: string): void {
+    this.seed = seed;
+    this.rng = new Rng(hashSeed(seed, 'threat-director'));
+    for (let i = 0; i < this.draws; i++) this.rng.next();
   }
 
   /**

@@ -12,12 +12,12 @@ tracked in the [delivery record](../../campaign/continuity-and-smoothness-delive
 | STAIR-03 | Authored Game transfer/follow/relocation fixture 8/8; interruption regression 15/15; 24 directional/cadence cases plus 100 physical crossings pass on final source |
 | PERF-01 | Corrected actual-frame warm-up; 3 warmed main samples median 59.00 FPS at 1080p Medium, eight enemies |
 | PERF-02 | No production enemy optimization justified by the corrected baseline; combat and quality unchanged |
-| PERF-03 | Three alternating Medium pairs plus Low/High samples collected; candidate median59.12 FPS with unfavorable variability; improvement and repeatable startup remain open |
+| PERF-03 | Three alternating Medium pairs plus Low/High samples collected; candidate median 59.12 FPS with unfavorable variability; improvement and repeatable startup remain open |
 | FLOW-01 | Interaction audit written; normal opening/salvage/save actions mapped and exercised |
 | FLOW-02 | Incremental persistent-profile runners implemented; cold restart and real building/crafting/turret entry pass through tutorial boarding start |
 | FLOW-03 | Opening-owned pursuer cleanup fixed an observed saving blocker; full Story lineage through ending remains incomplete |
 | FLOW-04 | Not yet run; no duration or Survival-completion claim |
-| VAL-01 | 1,457 tests / 163 files pass; lint, TypeScript and production build pass; Sol source/evidence review passed; CI/release pending; full campaign and performance targets remain open |
+| VAL-01 | 1,457 tests / 163 files pass; lint, TypeScript and production build pass; Sol source/evidence review passed; PR #16 merged at 6487abd; CI/Pages deployment and live asset hash pass; full campaign and performance targets remain open |
 
 Root took ownership of final navigation clearance/connector integration after
 the initial Luna implementation. Luna retained the movement tests and Game QA

@@ -1,0 +1,1055 @@
+{
+  "diagnosticOnly": true,
+  "provenance": {
+    "url": "http://127.0.0.1:5206/?nomenu=1&nolock=1&nosound=1&nospawn=1&quality=medium&seed=continuity-crowd",
+    "scripts": [
+      "http://127.0.0.1:5206/assets/index-BpEseghj.js"
+    ],
+    "capturedAt": "2026-09-15T11:58:31.443Z"
+  },
+  "hardware": {
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "width": 1920,
+    "height": 1080,
+    "quality": "medium"
+  },
+  "seed": "continuity-crowd",
+  "quality": "medium",
+  "seconds": 8,
+  "repetitions": 2,
+  "results": [
+    {
+      "mode": "all",
+      "repetition": 0,
+      "frames": 480,
+      "fps": 59.998500037499056,
+      "frameMs": {
+        "mean": 16.667083333333334,
+        "p50": 16.69999999999709,
+        "p95": 16.799999999999272,
+        "p99": 16.80000000000291,
+        "max": 16.80000000000291
+      },
+      "activeFrameMs": {
+        "mean": 16.667083333333334,
+        "p50": 16.69999999999709,
+        "p95": 16.799999999999272,
+        "p99": 16.80000000000291,
+        "max": 16.80000000000291
+      },
+      "blockedFrameCount": 0,
+      "renderCpuMs": {
+        "mean": 6.0983367981137455,
+        "p50": 6.099999964237213,
+        "p95": 8.800000011920929,
+        "p99": 10.600000023841858,
+        "max": 13.699999988079071
+      },
+      "work": {
+        "enemyFixed": {
+          "calls": 480,
+          "ms": 1800.800000488758,
+          "max": 13.400000035762787
+        },
+        "enemyRenderUpdate": {
+          "calls": 481,
+          "ms": 102.39999997615814,
+          "max": 0.9000000357627869
+        },
+        "tacticalFixed": {
+          "calls": 480,
+          "ms": 8.699999868869781,
+          "max": 0.19999998807907104
+        },
+        "tacticalRender": {
+          "calls": 481,
+          "ms": 5.899999737739563,
+          "max": 0.19999998807907104
+        },
+        "cameraRender": {
+          "calls": 481,
+          "ms": 19.800000429153442,
+          "max": 0.6000000238418579
+        },
+        "physicsStep": {
+          "calls": 480,
+          "ms": 287.90000051259995,
+          "max": 1.600000023841858
+        },
+        "raycast": {
+          "calls": 44520,
+          "ms": 300.20000171661377,
+          "max": 0.30000001192092896
+        },
+        "move:enemy-0": {
+          "calls": 480,
+          "ms": 46.300000071525574,
+          "max": 0.40000003576278687
+        },
+        "move:enemy-1": {
+          "calls": 480,
+          "ms": 164.49999994039536,
+          "max": 0.9000000357627869
+        },
+        "move:enemy-2": {
+          "calls": 480,
+          "ms": 146.89999866485596,
+          "max": 1
+        },
+        "move:enemy-3": {
+          "calls": 480,
+          "ms": 527.899999499321,
+          "max": 9.300000011920929
+        },
+        "move:enemy-4": {
+          "calls": 480,
+          "ms": 181.70000088214874,
+          "max": 1.100000023841858
+        },
+        "move:enemy-5": {
+          "calls": 480,
+          "ms": 163.59999990463257,
+          "max": 1.100000023841858
+        },
+        "move:enemy-6": {
+          "calls": 480,
+          "ms": 40.50000041723251,
+          "max": 0.800000011920929
+        },
+        "move:enemy-7": {
+          "calls": 480,
+          "ms": 15.800000309944153,
+          "max": 0.3999999761581421
+        }
+      },
+      "over25ms": 0,
+      "over50ms": 0,
+      "draws": 864,
+      "triangles": 2674115,
+      "resources": {
+        "geometries": 452,
+        "textures": 490
+      },
+      "enemies": 8,
+      "warmupMs": 3223.899999976158,
+      "warmupFrames": 180,
+      "initialSnapshot": {
+        "simTime": 0,
+        "enemyClock": 0,
+        "repathTick": 0,
+        "worldDistance": 0,
+        "lateralOffset": 0,
+        "machine": {
+          "speed": 0,
+          "targetSpeed": 7.5,
+          "scriptedSpeedLimit": null,
+          "pose": {
+            "heave": -0.004999999999999973,
+            "pitch": -0.0008508480103472356,
+            "roll": 0.0004861988630555634
+          }
+        },
+        "power": {
+          "fuel": 60,
+          "capacity": 100,
+          "demand": 0,
+          "modifiers": {
+            "generationBonus": 0,
+            "fuelBurnMultiplier": 1
+          }
+        },
+        "movementModifiers": {
+          "speedMultiplier": 1,
+          "effectiveWeightMultiplier": 1,
+          "accelerationMultiplier": 1
+        },
+        "damage": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ],
+        "camera": {
+          "yaw": 0,
+          "pitch": -0.08,
+          "shoulder": "right"
+        },
+        "enemies": [
+          {
+            "id": "enemy-0",
+            "kind": "bastion",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              -6
+            ]
+          },
+          {
+            "id": "enemy-1",
+            "kind": "warden",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              -2
+            ]
+          },
+          {
+            "id": "enemy-2",
+            "kind": "revenant",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              2
+            ]
+          },
+          {
+            "id": "enemy-3",
+            "kind": "sovereign",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              6
+            ]
+          },
+          {
+            "id": "enemy-4",
+            "kind": "bastion",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              -6
+            ]
+          },
+          {
+            "id": "enemy-5",
+            "kind": "warden",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              -2
+            ]
+          },
+          {
+            "id": "enemy-6",
+            "kind": "revenant",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              2
+            ]
+          },
+          {
+            "id": "enemy-7",
+            "kind": "sovereign",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              6
+            ]
+          }
+        ],
+        "physics": {
+          "bodies": 32,
+          "colliders": 43
+        },
+        "art": {
+          "playerAnimated": true,
+          "tacticsModelLoaded": true,
+          "enemyAnimated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "warmupSnapshot": {
+        "simTime": 2.9833333333333276,
+        "enemyClock": 2.9833333333333276,
+        "repathTick": 3,
+        "worldDistance": 20.164317037518924,
+        "lateralOffset": 0,
+        "machine": {
+          "speed": 7.499602413079344,
+          "targetSpeed": 7.5,
+          "scriptedSpeedLimit": null,
+          "pose": {
+            "heave": 0.0022522322414424856,
+            "pitch": -0.0010565329227874847,
+            "roll": 0.0008388015700959881
+          }
+        },
+        "power": {
+          "fuel": 60,
+          "capacity": 100,
+          "demand": 0,
+          "modifiers": {
+            "generationBonus": 0,
+            "fuelBurnMultiplier": 1
+          }
+        },
+        "movementModifiers": {
+          "speedMultiplier": 1,
+          "effectiveWeightMultiplier": 1,
+          "accelerationMultiplier": 1
+        },
+        "damage": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ],
+        "camera": {
+          "yaw": 0,
+          "pitch": -0.08,
+          "shoulder": "right"
+        },
+        "enemies": [
+          {
+            "id": "enemy-0",
+            "kind": "bastion",
+            "state": "attack",
+            "position": [
+              -3.5597931543079144,
+              15.80297997250606,
+              -5.535202650857376
+            ]
+          },
+          {
+            "id": "enemy-1",
+            "kind": "warden",
+            "state": "attack",
+            "position": [
+              -5.971406087096219,
+              15.819789838513506,
+              -2.0374380121002322
+            ]
+          },
+          {
+            "id": "enemy-2",
+            "kind": "revenant",
+            "state": "navigate",
+            "position": [
+              -5.875273777821535,
+              15.825670335296106,
+              3.723990470232994
+            ]
+          },
+          {
+            "id": "enemy-3",
+            "kind": "sovereign",
+            "state": "attack",
+            "position": [
+              -5.698357071664771,
+              15.828843815573752,
+              6.315697782349593
+            ]
+          },
+          {
+            "id": "enemy-4",
+            "kind": "bastion",
+            "state": "attack",
+            "position": [
+              6.135695658485542,
+              15.817132144910946,
+              -3.5708812552456584
+            ]
+          },
+          {
+            "id": "enemy-5",
+            "kind": "warden",
+            "state": "attack",
+            "position": [
+              5.994419702873463,
+              15.829096054338423,
+              -2.0032582428853543
+            ]
+          },
+          {
+            "id": "enemy-6",
+            "kind": "revenant",
+            "state": "attack",
+            "position": [
+              5.120106946655917,
+              15.817333378675759,
+              1.0102112584079483
+            ]
+          },
+          {
+            "id": "enemy-7",
+            "kind": "sovereign",
+            "state": "attack",
+            "position": [
+              5.174935008925395,
+              15.819134696101235,
+              2.6716696750259725
+            ]
+          }
+        ],
+        "physics": {
+          "bodies": 32,
+          "colliders": 47
+        },
+        "art": {
+          "playerAnimated": true,
+          "tacticsModelLoaded": true,
+          "enemyAnimated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "yawTravel": 31.266399999999965,
+      "deliveredX": 14400.36,
+      "enemyStates": [
+        {
+          "id": "enemy-0",
+          "kind": "bastion",
+          "state": "attack",
+          "at": [
+            -0.1205811641504787,
+            15.802291214578556,
+            -3.2485681363261834
+          ]
+        },
+        {
+          "id": "enemy-1",
+          "kind": "warden",
+          "state": "navigate",
+          "at": [
+            -4.240576252031711,
+            15.800589235502791,
+            0.736773733491883
+          ]
+        },
+        {
+          "id": "enemy-2",
+          "kind": "revenant",
+          "state": "navigate",
+          "at": [
+            -5.871762356748096,
+            15.81485846356347,
+            3.669520133467268
+          ]
+        },
+        {
+          "id": "enemy-3",
+          "kind": "sovereign",
+          "state": "attack",
+          "at": [
+            -5.529367747201275,
+            15.80190180334431,
+            5.989367507670454
+          ]
+        },
+        {
+          "id": "enemy-4",
+          "kind": "bastion",
+          "state": "pursue",
+          "at": [
+            6.14732300515406,
+            15.809993035892118,
+            -3.8163805842603162
+          ]
+        },
+        {
+          "id": "enemy-5",
+          "kind": "warden",
+          "state": "attack",
+          "at": [
+            5.942969784996601,
+            15.82843799244108,
+            -1.9284013196760446
+          ]
+        },
+        {
+          "id": "enemy-6",
+          "kind": "revenant",
+          "state": "attack",
+          "at": [
+            1.9134792824453577,
+            15.807765397368156,
+            -1.1073396562797455
+          ]
+        },
+        {
+          "id": "enemy-7",
+          "kind": "sovereign",
+          "state": "attack",
+          "at": [
+            4.785053516321918,
+            15.809676306501583,
+            -1.4807411878703858
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "all",
+      "repetition": 1,
+      "frames": 480,
+      "fps": 59.998500037499085,
+      "frameMs": {
+        "mean": 16.667083333333327,
+        "p50": 16.69999999999709,
+        "p95": 16.799999999995634,
+        "p99": 16.80000000000291,
+        "max": 16.80000000000291
+      },
+      "activeFrameMs": {
+        "mean": 16.667083333333327,
+        "p50": 16.69999999999709,
+        "p95": 16.799999999995634,
+        "p99": 16.80000000000291,
+        "max": 16.80000000000291
+      },
+      "blockedFrameCount": 0,
+      "renderCpuMs": {
+        "mean": 5.93908523806911,
+        "p50": 5.599999964237213,
+        "p95": 9.599999964237213,
+        "p99": 11.599999964237213,
+        "max": 12.099999964237213
+      },
+      "work": {
+        "enemyFixed": {
+          "calls": 480,
+          "ms": 1929.1000003814697,
+          "max": 12.5
+        },
+        "enemyRenderUpdate": {
+          "calls": 481,
+          "ms": 114.09999960660934,
+          "max": 1.300000011920929
+        },
+        "tacticalFixed": {
+          "calls": 480,
+          "ms": 5.999999701976776,
+          "max": 0.10000002384185791
+        },
+        "tacticalRender": {
+          "calls": 481,
+          "ms": 8.500000238418579,
+          "max": 0.20000004768371582
+        },
+        "cameraRender": {
+          "calls": 481,
+          "ms": 18.999999821186066,
+          "max": 0.30000001192092896
+        },
+        "physicsStep": {
+          "calls": 480,
+          "ms": 275.20000034570694,
+          "max": 1
+        },
+        "raycast": {
+          "calls": 48602,
+          "ms": 297.89999955892563,
+          "max": 0.20000004768371582
+        },
+        "move:enemy-0": {
+          "calls": 480,
+          "ms": 54.60000038146973,
+          "max": 0.40000003576278687
+        },
+        "move:enemy-1": {
+          "calls": 480,
+          "ms": 184.90000015497208,
+          "max": 1
+        },
+        "move:enemy-2": {
+          "calls": 480,
+          "ms": 145.5000001192093,
+          "max": 0.9000000357627869
+        },
+        "move:enemy-3": {
+          "calls": 480,
+          "ms": 704.8000005483627,
+          "max": 10.199999988079071
+        },
+        "move:enemy-4": {
+          "calls": 480,
+          "ms": 162.39999961853027,
+          "max": 1.199999988079071
+        },
+        "move:enemy-5": {
+          "calls": 480,
+          "ms": 123.99999988079071,
+          "max": 0.800000011920929
+        },
+        "move:enemy-6": {
+          "calls": 480,
+          "ms": 54.30000060796738,
+          "max": 0.8999999761581421
+        },
+        "move:enemy-7": {
+          "calls": 480,
+          "ms": 21.399999856948853,
+          "max": 0.6000000238418579
+        }
+      },
+      "over25ms": 0,
+      "over50ms": 0,
+      "draws": 534,
+      "triangles": 1483375,
+      "resources": {
+        "geometries": 452,
+        "textures": 490
+      },
+      "enemies": 8,
+      "warmupMs": 3001.2000000476837,
+      "warmupFrames": 180,
+      "initialSnapshot": {
+        "simTime": 0,
+        "enemyClock": 0,
+        "repathTick": 0,
+        "worldDistance": 0,
+        "lateralOffset": 0,
+        "machine": {
+          "speed": 0,
+          "targetSpeed": 7.5,
+          "scriptedSpeedLimit": null,
+          "pose": {
+            "heave": -0.004999999999999973,
+            "pitch": -0.0008508480103472356,
+            "roll": 0.0004861988630555634
+          }
+        },
+        "power": {
+          "fuel": 60,
+          "capacity": 100,
+          "demand": 0,
+          "modifiers": {
+            "generationBonus": 0,
+            "fuelBurnMultiplier": 1
+          }
+        },
+        "movementModifiers": {
+          "speedMultiplier": 1,
+          "effectiveWeightMultiplier": 1,
+          "accelerationMultiplier": 1
+        },
+        "damage": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ],
+        "camera": {
+          "yaw": 0,
+          "pitch": -0.08,
+          "shoulder": "right"
+        },
+        "enemies": [
+          {
+            "id": "enemy-0",
+            "kind": "bastion",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              -6
+            ]
+          },
+          {
+            "id": "enemy-1",
+            "kind": "warden",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              -2
+            ]
+          },
+          {
+            "id": "enemy-2",
+            "kind": "revenant",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              2
+            ]
+          },
+          {
+            "id": "enemy-3",
+            "kind": "sovereign",
+            "state": "idle",
+            "position": [
+              -6,
+              15.94,
+              6
+            ]
+          },
+          {
+            "id": "enemy-4",
+            "kind": "bastion",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              -6
+            ]
+          },
+          {
+            "id": "enemy-5",
+            "kind": "warden",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              -2
+            ]
+          },
+          {
+            "id": "enemy-6",
+            "kind": "revenant",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              2
+            ]
+          },
+          {
+            "id": "enemy-7",
+            "kind": "sovereign",
+            "state": "idle",
+            "position": [
+              6,
+              15.94,
+              6
+            ]
+          }
+        ],
+        "physics": {
+          "bodies": 32,
+          "colliders": 45
+        },
+        "art": {
+          "playerAnimated": true,
+          "tacticsModelLoaded": true,
+          "enemyAnimated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "warmupSnapshot": {
+        "simTime": 2.9833333333333276,
+        "enemyClock": 2.9833333333333276,
+        "repathTick": 3,
+        "worldDistance": 20.164317037518924,
+        "lateralOffset": 0,
+        "machine": {
+          "speed": 7.499602413079344,
+          "targetSpeed": 7.5,
+          "scriptedSpeedLimit": null,
+          "pose": {
+            "heave": 0.0022522322414424856,
+            "pitch": -0.0010565329227874847,
+            "roll": 0.0008388015700959881
+          }
+        },
+        "power": {
+          "fuel": 60,
+          "capacity": 100,
+          "demand": 0,
+          "modifiers": {
+            "generationBonus": 0,
+            "fuelBurnMultiplier": 1
+          }
+        },
+        "movementModifiers": {
+          "speedMultiplier": 1,
+          "effectiveWeightMultiplier": 1,
+          "accelerationMultiplier": 1
+        },
+        "damage": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ],
+        "camera": {
+          "yaw": 0,
+          "pitch": -0.08,
+          "shoulder": "right"
+        },
+        "enemies": [
+          {
+            "id": "enemy-0",
+            "kind": "bastion",
+            "state": "attack",
+            "position": [
+              -3.3439544296368777,
+              15.802721628607783,
+              -5.3266198908066835
+            ]
+          },
+          {
+            "id": "enemy-1",
+            "kind": "warden",
+            "state": "attack",
+            "position": [
+              -5.971406087096219,
+              15.819789838513506,
+              -2.0374380121002322
+            ]
+          },
+          {
+            "id": "enemy-2",
+            "kind": "revenant",
+            "state": "navigate",
+            "position": [
+              -5.806034119007343,
+              15.825462771746903,
+              3.5645290133889382
+            ]
+          },
+          {
+            "id": "enemy-3",
+            "kind": "sovereign",
+            "state": "pursue",
+            "position": [
+              -5.591810694226836,
+              15.819486271561605,
+              6.100911610967054
+            ]
+          },
+          {
+            "id": "enemy-4",
+            "kind": "bastion",
+            "state": "attack",
+            "position": [
+              6.135632068161939,
+              15.817254529140492,
+              -3.5708262620242412
+            ]
+          },
+          {
+            "id": "enemy-5",
+            "kind": "warden",
+            "state": "attack",
+            "position": [
+              5.994419702873463,
+              15.829096054338423,
+              -2.0032582428853543
+            ]
+          },
+          {
+            "id": "enemy-6",
+            "kind": "revenant",
+            "state": "attack",
+            "position": [
+              4.6642014772030915,
+              15.818019662666225,
+              1.7507577525834932
+            ]
+          },
+          {
+            "id": "enemy-7",
+            "kind": "sovereign",
+            "state": "pursue",
+            "position": [
+              4.637646099082308,
+              15.81914348046509,
+              3.0880024035062235
+            ]
+          }
+        ],
+        "physics": {
+          "bodies": 32,
+          "colliders": 47
+        },
+        "art": {
+          "playerAnimated": true,
+          "tacticsModelLoaded": true,
+          "enemyAnimated": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "yawTravel": 31.281799999999958,
+      "deliveredX": 14400.359999999977,
+      "enemyStates": [
+        {
+          "id": "enemy-0",
+          "kind": "bastion",
+          "state": "pursue",
+          "at": [
+            -0.7587047827553514,
+            15.801073579037263,
+            -3.557595451883509
+          ]
+        },
+        {
+          "id": "enemy-1",
+          "kind": "warden",
+          "state": "attack",
+          "at": [
+            -5.840235474313331,
+            15.811873691533105,
+            -2.1671496737095235
+          ]
+        },
+        {
+          "id": "enemy-2",
+          "kind": "revenant",
+          "state": "navigate",
+          "at": [
+            -5.812669367988456,
+            15.814757624196243,
+            3.56984398762731
+          ]
+        },
+        {
+          "id": "enemy-3",
+          "kind": "sovereign",
+          "state": "attack",
+          "at": [
+            -5.830260470514837,
+            15.81642424158523,
+            6.727275262598758
+          ]
+        },
+        {
+          "id": "enemy-4",
+          "kind": "bastion",
+          "state": "pursue",
+          "at": [
+            6.155758368639271,
+            15.809853775006815,
+            -3.895212622451649
+          ]
+        },
+        {
+          "id": "enemy-5",
+          "kind": "warden",
+          "state": "attack",
+          "at": [
+            1.9522522661127502,
+            15.805485702218862,
+            -1.4771060162341105
+          ]
+        },
+        {
+          "id": "enemy-6",
+          "kind": "revenant",
+          "state": "attack",
+          "at": [
+            3.050891626026085,
+            15.884664018765962,
+            -1.327445968973401
+          ]
+        },
+        {
+          "id": "enemy-7",
+          "kind": "sovereign",
+          "state": "attack",
+          "at": [
+            3.5581019786492587,
+            15.846786646105066,
+            -1.915398047984003
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

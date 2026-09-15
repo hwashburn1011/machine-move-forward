@@ -137,6 +137,14 @@ export class TerrainChunk {
     this.uniforms.uLateralOffset!.value = Number.isFinite(offset) ? offset : 0;
   }
 
+  /** Change deterministic dune noise without rebuilding shared geometry. */
+  setSeed(worldSeed: string): void {
+    const terrainSeed = (hashSeed(worldSeed, 'terrain-macro') % 100000) / 100000;
+    const rippleOrientation = (hashSeed(worldSeed, 'terrain-ripple') % 100000) / 100000;
+    this.uniforms.uTerrainSeed!.value = terrainSeed;
+    this.uniforms.uRippleOrientation!.value = rippleOrientation * Math.PI * 2;
+  }
+
   /**
    * Give the dunes their photographed surface.
    *

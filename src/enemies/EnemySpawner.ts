@@ -42,7 +42,7 @@ const OCTANTS = 8;
 const SWEEP_STEPS = 64;
 
 export class EnemySpawner {
-  private readonly rng: Rng;
+  private rng: Rng;
   private threshold: number;
 
   constructor(
@@ -80,6 +80,12 @@ export class EnemySpawner {
   /** Re-derive the threshold from a distance. Used on save load. */
   resync(distance: number): void {
     this.threshold = this.boundaryAfter(distance);
+  }
+
+  /** Adopt the campaign seed when a save is loaded into an existing owner. */
+  reseed(seed: string, distance: number): void {
+    this.rng = new Rng(hashSeed(seed, 'enemy-spawner'));
+    this.resync(distance);
   }
 
   /**
