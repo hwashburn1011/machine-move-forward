@@ -205,7 +205,9 @@ try {
       globalThis.__game.game.vehicleScene.active ||
       globalThis.__game.game.enemies.activeCount > 0,
     null,
-    { timeout: 25_000 },
+    // Tutorial readiness uses simulation time; software-rendered runs can
+    // advance it more slowly than wall time after the turret is crewed.
+    { timeout: 120_000 },
   );
   await record('tutorial-boarding-begun', { snapshot: await snap() });
   const final = await snap();

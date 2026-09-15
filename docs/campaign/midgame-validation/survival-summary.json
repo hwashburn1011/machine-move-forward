@@ -1,0 +1,1434 @@
+{
+  "status": "passed",
+  "scope": "Mechanics evidence: graphics disabled (nomodel/notex), not full-art validation.",
+  "provenance": {
+    "testedBundle": "DIcql4Hj.js",
+    "url": "http://127.0.0.1:5205/?nomodel=1&notex=1&quality=low&nosound=1",
+    "fullArt": false,
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-boarding\\run-1789482484702\\browser-profile",
+    "acceptedRun": "run-2026-09-15T14-39-16-978Z",
+    "lineage": [
+      {
+        "run": "run-2026-09-15T14-11-13-182Z",
+        "boundary": "fresh Title Screen Survival starter, opening and first salvage with Save & Quit and Continue"
+      },
+      {
+        "run": "first-loop-1789482287821",
+        "boundary": "ordinary build/refine/crew autosave; short wall-clock wait ended before tutorial delay"
+      },
+      {
+        "run": "continuity-boarding/run-1789482484702",
+        "boundary": "boarding, reward, normal save and cold Continue passed"
+      },
+      {
+        "run": "run-2026-09-15T14-31-01-240Z / run-2026-09-15T14-34-31-037Z",
+        "boundary": "damaged support plate selected instead of workbench; incorrect idle repair price diagnosed"
+      },
+      {
+        "run": "run-2026-09-15T14-39-16-978Z",
+        "boundary": "accepted ammo crafting, finite depletion, repair and cold Continue with zero errors"
+      }
+    ]
+  },
+  "source": {
+    "slot": "quicksave",
+    "seed": "mmf-dev-seed",
+    "profile": "survival",
+    "ammo": [
+      {
+        "id": "rifle",
+        "ammoInMag": 30,
+        "reserveAmmo": 150,
+        "magazineBonus": 0
+      },
+      {
+        "id": "shotgun",
+        "ammoInMag": 6,
+        "reserveAmmo": 48,
+        "magazineBonus": 0
+      }
+    ],
+    "pieces": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "health": 120
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        },
+        "health": 80
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 2
+        },
+        "health": 120
+      },
+      {
+        "instanceId": "bp-3",
+        "definitionId": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "health": 170
+      },
+      {
+        "instanceId": "bp-5",
+        "definitionId": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "health": 160
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        },
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 2
+        },
+        "health": 150
+      }
+    ]
+  },
+  "starting": {
+    "seed": "mmf-dev-seed",
+    "profile": "survival",
+    "phase": "signal",
+    "health": 91,
+    "resources": {
+      "scrap": 121,
+      "components": 5,
+      "fuel": 7
+    },
+    "weapons": [
+      {
+        "id": "rifle",
+        "mag": 30,
+        "reserve": 150,
+        "infinite": false
+      },
+      {
+        "id": "shotgun",
+        "mag": 6,
+        "reserve": 48,
+        "infinite": false
+      }
+    ],
+    "structures": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "health": 80
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-3",
+        "definitionId": "generator",
+        "health": 170
+      },
+      {
+        "instanceId": "bp-5",
+        "definitionId": "refinery",
+        "health": 160
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "health": 150
+      }
+    ],
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "signal",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 66.97494350912471
+      }
+    }
+  },
+  "final": {
+    "seed": "mmf-dev-seed",
+    "profile": "survival",
+    "phase": "signal",
+    "health": 91,
+    "resources": {
+      "scrap": 115,
+      "components": 4,
+      "fuel": 7
+    },
+    "weapons": [
+      {
+        "id": "rifle",
+        "mag": 22,
+        "reserve": 150,
+        "infinite": false
+      },
+      {
+        "id": "shotgun",
+        "mag": 6,
+        "reserve": 2,
+        "infinite": false
+      }
+    ],
+    "structures": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-3",
+        "definitionId": "generator",
+        "health": 170
+      },
+      {
+        "instanceId": "bp-5",
+        "definitionId": "refinery",
+        "health": 160
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "health": 150
+      }
+    ],
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "signal",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 66.97494350912471
+      }
+    }
+  },
+  "ammo": {
+    "rifleCraft": {
+      "before": {
+        "mag": 22,
+        "reserve": 150
+      },
+      "after": {
+        "mag": 22,
+        "reserve": 150
+      }
+    },
+    "shotgunDryTrigger": {
+      "mag": 0,
+      "reserve": 0
+    },
+    "reloaded": {
+      "weaponId": "shotgun",
+      "mag": 6
+    },
+    "postCraft": {
+      "scrap": 115,
+      "components": 4
+    },
+    "roundsFired": 92
+  },
+  "gameplayEvents": [
+    {
+      "type": "repair:completed",
+      "simTime": 3.099999999999994,
+      "event": {
+        "targetId": "bp-6",
+        "targetKind": "structure"
+      }
+    },
+    {
+      "type": "craft:completed",
+      "simTime": 3.433333333333326,
+      "event": {
+        "recipeId": "craft-rifle-ammo",
+        "outputs": [
+          {
+            "id": "ammo-rifle",
+            "count": 30
+          }
+        ]
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 3.816666666666658,
+      "event": {
+        "shotId": 1,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 4.533333333333323,
+      "event": {
+        "shotId": 2,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 5.249999999999987,
+      "event": {
+        "shotId": 3,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 5.966666666666651,
+      "event": {
+        "shotId": 4,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 6.683333333333315,
+      "event": {
+        "shotId": 5,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 7.399999999999979,
+      "event": {
+        "shotId": 6,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 7.416666666666646,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 7.416666666666646,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 10.616666666666774,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 10.633333333333441,
+      "event": {
+        "shotId": 7,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 11.350000000000144,
+      "event": {
+        "shotId": 8,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 12.066666666666846,
+      "event": {
+        "shotId": 9,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 12.783333333333548,
+      "event": {
+        "shotId": 10,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 13.50000000000025,
+      "event": {
+        "shotId": 11,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 14.216666666666953,
+      "event": {
+        "shotId": 12,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 14.23333333333362,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 14.23333333333362,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 17.433333333333625,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 17.45000000000029,
+      "event": {
+        "shotId": 13,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 18.166666666666917,
+      "event": {
+        "shotId": 14,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 18.883333333333542,
+      "event": {
+        "shotId": 15,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 19.60000000000017,
+      "event": {
+        "shotId": 16,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 20.316666666666794,
+      "event": {
+        "shotId": 17,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 21.03333333333342,
+      "event": {
+        "shotId": 18,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 21.050000000000086,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 21.050000000000086,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 24.26666666666657,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 24.283333333333236,
+      "event": {
+        "shotId": 19,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 24.99999999999986,
+      "event": {
+        "shotId": 20,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 25.716666666666487,
+      "event": {
+        "shotId": 21,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 26.433333333333113,
+      "event": {
+        "shotId": 22,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 27.14999999999974,
+      "event": {
+        "shotId": 23,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 27.866666666666365,
+      "event": {
+        "shotId": 24,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 27.88333333333303,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 27.88333333333303,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 31.099999999999515,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 31.11666666666618,
+      "event": {
+        "shotId": 25,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 31.833333333332806,
+      "event": {
+        "shotId": 26,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 32.549999999999436,
+      "event": {
+        "shotId": 27,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 33.26666666666606,
+      "event": {
+        "shotId": 28,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 33.98333333333269,
+      "event": {
+        "shotId": 29,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 34.699999999999314,
+      "event": {
+        "shotId": 30,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 34.71666666666598,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 34.71666666666598,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 37.93333333333246,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 37.94999999999913,
+      "event": {
+        "shotId": 31,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 38.666666666665755,
+      "event": {
+        "shotId": 32,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 39.38333333333238,
+      "event": {
+        "shotId": 33,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 40.09999999999901,
+      "event": {
+        "shotId": 34,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 40.81666666666563,
+      "event": {
+        "shotId": 35,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 41.53333333333226,
+      "event": {
+        "shotId": 36,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 41.549999999998924,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 41.549999999998924,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 44.76666666666541,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 44.783333333332074,
+      "event": {
+        "shotId": 37,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 45.4999999999987,
+      "event": {
+        "shotId": 38,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 46.216666666665326,
+      "event": {
+        "shotId": 39,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 46.93333333333195,
+      "event": {
+        "shotId": 40,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 47.64999999999858,
+      "event": {
+        "shotId": 41,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 48.3666666666652,
+      "event": {
+        "shotId": 42,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 48.38333333333187,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 48.38333333333187,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 51.59999999999835,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 51.61666666666502,
+      "event": {
+        "shotId": 43,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 52.333333333331645,
+      "event": {
+        "shotId": 44,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 53.04999999999827,
+      "event": {
+        "shotId": 45,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 53.7666666666649,
+      "event": {
+        "shotId": 46,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 54.48333333333152,
+      "event": {
+        "shotId": 47,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 55.19999999999815,
+      "event": {
+        "shotId": 48,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 55.216666666664814,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 55.216666666664814,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 58.4333333333313,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 58.449999999997964,
+      "event": {
+        "shotId": 49,
+        "weaponId": "shotgun",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 59.16666666666459,
+      "event": {
+        "shotId": 50,
+        "weaponId": "shotgun",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 59.883333333331215,
+      "event": {
+        "shotId": 51,
+        "weaponId": "shotgun",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 60.59999999999784,
+      "event": {
+        "shotId": 52,
+        "weaponId": "shotgun",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 61.31666666666447,
+      "event": {
+        "shotId": 53,
+        "weaponId": "shotgun",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 62.03333333333109,
+      "event": {
+        "shotId": 54,
+        "weaponId": "shotgun",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 62.04999999999776,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 62.61666666666439,
+      "event": {
+        "weaponId": "shotgun"
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.116666666664365,
+      "event": {
+        "shotId": 55,
+        "weaponId": "rifle",
+        "ammoRemaining": 29
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.233333333331025,
+      "event": {
+        "shotId": 56,
+        "weaponId": "rifle",
+        "ammoRemaining": 28
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.349999999997685,
+      "event": {
+        "shotId": 57,
+        "weaponId": "rifle",
+        "ammoRemaining": 27
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.466666666664345,
+      "event": {
+        "shotId": 58,
+        "weaponId": "rifle",
+        "ammoRemaining": 26
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.59999999999767,
+      "event": {
+        "shotId": 59,
+        "weaponId": "rifle",
+        "ammoRemaining": 25
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.71666666666433,
+      "event": {
+        "shotId": 60,
+        "weaponId": "rifle",
+        "ammoRemaining": 24
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.83333333333099,
+      "event": {
+        "shotId": 61,
+        "weaponId": "rifle",
+        "ammoRemaining": 23
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 63.94999999999765,
+      "event": {
+        "shotId": 62,
+        "weaponId": "rifle",
+        "ammoRemaining": 22
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.08333333333098,
+      "event": {
+        "shotId": 63,
+        "weaponId": "rifle",
+        "ammoRemaining": 21
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.19999999999764,
+      "event": {
+        "shotId": 64,
+        "weaponId": "rifle",
+        "ammoRemaining": 20
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.3166666666643,
+      "event": {
+        "shotId": 65,
+        "weaponId": "rifle",
+        "ammoRemaining": 19
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.43333333333096,
+      "event": {
+        "shotId": 66,
+        "weaponId": "rifle",
+        "ammoRemaining": 18
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.56666666666429,
+      "event": {
+        "shotId": 67,
+        "weaponId": "rifle",
+        "ammoRemaining": 17
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.68333333333095,
+      "event": {
+        "shotId": 68,
+        "weaponId": "rifle",
+        "ammoRemaining": 16
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.79999999999761,
+      "event": {
+        "shotId": 69,
+        "weaponId": "rifle",
+        "ammoRemaining": 15
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 64.91666666666427,
+      "event": {
+        "shotId": 70,
+        "weaponId": "rifle",
+        "ammoRemaining": 14
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.0499999999976,
+      "event": {
+        "shotId": 71,
+        "weaponId": "rifle",
+        "ammoRemaining": 13
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.16666666666426,
+      "event": {
+        "shotId": 72,
+        "weaponId": "rifle",
+        "ammoRemaining": 12
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.28333333333092,
+      "event": {
+        "shotId": 73,
+        "weaponId": "rifle",
+        "ammoRemaining": 11
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.39999999999758,
+      "event": {
+        "shotId": 74,
+        "weaponId": "rifle",
+        "ammoRemaining": 10
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.5333333333309,
+      "event": {
+        "shotId": 75,
+        "weaponId": "rifle",
+        "ammoRemaining": 9
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.64999999999756,
+      "event": {
+        "shotId": 76,
+        "weaponId": "rifle",
+        "ammoRemaining": 8
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.76666666666422,
+      "event": {
+        "shotId": 77,
+        "weaponId": "rifle",
+        "ammoRemaining": 7
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 65.88333333333088,
+      "event": {
+        "shotId": 78,
+        "weaponId": "rifle",
+        "ammoRemaining": 6
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 66.01666666666421,
+      "event": {
+        "shotId": 79,
+        "weaponId": "rifle",
+        "ammoRemaining": 5
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 66.13333333333087,
+      "event": {
+        "shotId": 80,
+        "weaponId": "rifle",
+        "ammoRemaining": 4
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 66.24999999999753,
+      "event": {
+        "shotId": 81,
+        "weaponId": "rifle",
+        "ammoRemaining": 3
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 66.36666666666419,
+      "event": {
+        "shotId": 82,
+        "weaponId": "rifle",
+        "ammoRemaining": 2
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 66.49999999999751,
+      "event": {
+        "shotId": 83,
+        "weaponId": "rifle",
+        "ammoRemaining": 1
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 66.61666666666417,
+      "event": {
+        "shotId": 84,
+        "weaponId": "rifle",
+        "ammoRemaining": 0
+      }
+    },
+    {
+      "type": "weapon:dry-fire",
+      "simTime": 66.63333333333084,
+      "event": {
+        "weaponId": "rifle"
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 66.63333333333084,
+      "event": {
+        "weaponId": "rifle",
+        "durationMs": 2100
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 68.74999999999739,
+      "event": {
+        "weaponId": "rifle",
+        "ammoRemaining": 30
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 68.76666666666405,
+      "event": {
+        "shotId": 85,
+        "weaponId": "rifle",
+        "ammoRemaining": 29
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 68.88333333333071,
+      "event": {
+        "shotId": 86,
+        "weaponId": "rifle",
+        "ammoRemaining": 28
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 68.99999999999737,
+      "event": {
+        "shotId": 87,
+        "weaponId": "rifle",
+        "ammoRemaining": 27
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 69.11666666666403,
+      "event": {
+        "shotId": 88,
+        "weaponId": "rifle",
+        "ammoRemaining": 26
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 69.23333333333069,
+      "event": {
+        "shotId": 89,
+        "weaponId": "rifle",
+        "ammoRemaining": 25
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 69.34999999999735,
+      "event": {
+        "shotId": 90,
+        "weaponId": "rifle",
+        "ammoRemaining": 24
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 69.46666666666401,
+      "event": {
+        "shotId": 91,
+        "weaponId": "rifle",
+        "ammoRemaining": 23
+      }
+    },
+    {
+      "type": "weapon:fired",
+      "simTime": 69.58333333333067,
+      "event": {
+        "shotId": 92,
+        "weaponId": "rifle",
+        "ammoRemaining": 22
+      }
+    },
+    {
+      "type": "craft:completed",
+      "simTime": 69.78333333333066,
+      "event": {
+        "recipeId": "craft-shotgun-ammo",
+        "outputs": [
+          {
+            "id": "ammo-shotgun",
+            "count": 8
+          }
+        ]
+      }
+    },
+    {
+      "type": "weapon:reload-started",
+      "simTime": 69.98333333333065,
+      "event": {
+        "weaponId": "shotgun",
+        "durationMs": 3200
+      }
+    },
+    {
+      "type": "weapon:reload-finished",
+      "simTime": 73.19999999999713,
+      "event": {
+        "weaponId": "shotgun",
+        "ammoRemaining": 6
+      }
+    }
+  ],
+  "saveColdInvariants": [
+    "paused checkpoint matched committed save after savedAt normalization",
+    "ammo, inventory, resources, health, structures, story, and damage preserved across cold Continue",
+    "finite ammunition remained false-infinite for both weapons"
+  ],
+  "errors": 0,
+  "notes": [
+    "Normal repair displayed and consumed cost 1 after the production repair-cost fix.",
+    "The accepted run captured actual shotgun dry-fire/reload and rifle craft/drain/reload behavior; exact round counts are retained in ammo-ledger and gameplay-events."
+  ]
+}

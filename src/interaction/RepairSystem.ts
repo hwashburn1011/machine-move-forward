@@ -58,9 +58,20 @@ export class RepairSystem {
   }
 
   update(dt: number, target: RepairTarget | null, holding: boolean, purse: Purse): RepairTick {
-    if (!target || !holding) {
+    if (!target) {
       this.reset();
       return NOTHING;
+    }
+
+    // The interaction prompt is updated before E is held. Keep the hold
+    // state reset, but expose the same price that the first held frame will
+    // use. Checking affordability here must not spend anything.
+    if (!holding) {
+      this.reset();
+      if (target.missingFraction <= 0)
+        return { completed: false, cost: null, blocked: 'undamaged' };
+      const cost = costOf(target);
+      return { completed: false, cost, blocked: purse.canAfford(cost) ? null : 'cannot-afford' };
     }
 
     // Turning to a different thing abandons the hold rather than inheriting it.

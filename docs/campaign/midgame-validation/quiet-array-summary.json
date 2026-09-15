@@ -1,0 +1,304 @@
+{
+  "status": "passed",
+  "provenance": {
+    "testedCommit": "4052c73",
+    "fullArt": true,
+    "site": "http://127.0.0.1:5205/?quality=medium&nosound=1",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-21-47-346Z\\browser-profile",
+    "acceptedRun": "run-2026-09-15T14-23-53-655Z"
+  },
+  "lineage": [
+    {
+      "run": "run-2026-09-15T14-15-15-728Z",
+      "status": "blocked",
+      "boundary": "Foundry parent, generator rebuild, Quiet signal at 950m, then blocked at north spine camera waypoint; no success claimed."
+    },
+    {
+      "run": "run-2026-09-15T14-20-05-806Z",
+      "status": "blocked",
+      "boundary": "Resumed real autosave, then blocked on a camera-offset waypoint; no success claimed."
+    },
+    {
+      "run": "run-2026-09-15T14-21-47-346Z",
+      "status": "blocked",
+      "boundary": "Normal continuation recovered both required uniques and optional archive, returned/departed, and exercised Helm; harness falsely failed on transient legacyStory comparison."
+    },
+    {
+      "run": "run-2026-09-15T14-23-53-655Z",
+      "status": "passed",
+      "boundary": "Accepted cold-verification child from completed checkpoint; 11 events, exact committed save and cold restore."
+    }
+  ],
+  "verified": {
+    "signal": "Quiet Array radio trace at 950m",
+    "journals": [
+      "quiet-array-journal-port",
+      "quiet-array-journal-starboard",
+      "quiet-array-journal-archive"
+    ],
+    "uniques": [
+      "course-actuator",
+      "annika-archive-shard"
+    ],
+    "helm": {
+      "tier": 1,
+      "leftDesiredDeg": -12,
+      "rightDesiredDeg": 12,
+      "powered": true,
+      "registeredDemand": 5
+    }
+  },
+  "starting": {
+    "phase": "complete",
+    "seed": "mmf-dev-seed",
+    "distanceM": 5644.803825255036,
+    "simTime": 0.7000000000000005,
+    "health": 60,
+    "resources": {
+      "scrap": 174,
+      "components": 3,
+      "fuel": 4
+    },
+    "tankFuel": 7.765000000050057,
+    "structureIds": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "health": 40
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "health": 150
+      },
+      {
+        "instanceId": "bp-10",
+        "definitionId": "generator",
+        "health": 170
+      }
+    ],
+    "story": {
+      "format": 2,
+      "completed": [
+        "wreck-one",
+        "relay-foundry",
+        "quiet-array"
+      ],
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "journalArchive": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ],
+      "active": null,
+      "radioTraceEligible": true,
+      "chapterComplete": true
+    },
+    "course": {
+      "tier": 1,
+      "bearingDeg": 0.9333333333333326,
+      "desiredDeg": 12,
+      "throttle": 1,
+      "lateralM": 0.02732106259454982
+    },
+    "power": {
+      "fuel": 7.765000000050057,
+      "capacity": 16,
+      "draw": 5,
+      "registeredDemand": 5,
+      "helmPowered": true
+    },
+    "destination": {
+      "active": false,
+      "docked": false,
+      "root": [
+        14,
+        14.83,
+        5644.694931471415
+      ],
+      "colliders": 0,
+      "gangwayEnabled": false,
+      "playerOnMachine": true,
+      "interactables": []
+    },
+    "assets": {
+      "authored": true,
+      "fullArt": true,
+      "playerS07": true
+    }
+  },
+  "final": {
+    "phase": "complete",
+    "seed": "mmf-dev-seed",
+    "distanceM": 5647.750047928482,
+    "simTime": 0.6000000000000002,
+    "health": 60,
+    "resources": {
+      "scrap": 174,
+      "components": 3,
+      "fuel": 4
+    },
+    "tankFuel": 7.738000000050048,
+    "structureIds": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "health": 40
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "health": 150
+      },
+      {
+        "instanceId": "bp-10",
+        "definitionId": "generator",
+        "health": 170
+      }
+    ],
+    "story": {
+      "format": 2,
+      "completed": [
+        "wreck-one",
+        "relay-foundry",
+        "quiet-array"
+      ],
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "journalArchive": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ],
+      "active": null,
+      "radioTraceEligible": true,
+      "chapterComplete": true
+    },
+    "course": {
+      "tier": 1,
+      "bearingDeg": 1.4399999999999984,
+      "desiredDeg": 12,
+      "throttle": 1,
+      "lateralM": 0.08672326205601515
+    },
+    "power": {
+      "fuel": 7.738000000050048,
+      "capacity": 16,
+      "draw": 5,
+      "registeredDemand": 5,
+      "helmPowered": true
+    },
+    "destination": {
+      "active": false,
+      "docked": false,
+      "root": [
+        14,
+        14.83,
+        5647.646512382086
+      ],
+      "colliders": 0,
+      "gangwayEnabled": false,
+      "playerOnMachine": true,
+      "interactables": []
+    },
+    "assets": {
+      "authored": true,
+      "fullArt": true,
+      "playerS07": true
+    }
+  },
+  "gameplayEvents": [
+    {
+      "type": "story:phase",
+      "chapterId": "quiet-array",
+      "phase": "complete",
+      "simTime": 28.683333333332985
+    },
+    {
+      "type": "story:journal-read",
+      "ids": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ]
+    },
+    {
+      "type": "story:unique-collected",
+      "ids": [
+        "course-actuator",
+        "annika-archive-shard"
+      ]
+    },
+    {
+      "type": "helm:steer",
+      "desiredDeg": [
+        -12,
+        12
+      ],
+      "tier": 1,
+      "powered": true
+    }
+  ],
+  "saveColdInvariants": [
+    "committed paused checkpoint matched committed save after savedAt normalization",
+    "story, course, health, inventory, resources, structures, and damage preserved across cold Continue",
+    "destination inactive, undocked, colliders 0, gangway disabled, playerOnMachine true"
+  ],
+  "errors": 0,
+  "notes": [
+    "The accepted run used full authored art and ordinary input; no authority writes, teleports, or seed overrides.",
+    "Earlier blocked runs remain preserved in lineage; the accepted child started from the completed checkpoint.",
+    "The accepted child summary had no accumulated event buffer after cold reload; gameplay event entries above are condensed from the preceding normal-input run and accepted checkpoint records."
+  ]
+}

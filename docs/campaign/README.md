@@ -50,6 +50,13 @@ See the [campaign direction](../superpowers/plans/2026-09-14-campaign-direction.
 
 ## Verification
 
+The [midgame and Survival continuity report](midgame-survival-notes.md) records
+normal-input lineages through the full-art Foundry and Quiet Array, earned
+tier-one steering, and a separate fresh Survival campaign through finite-ammo
+crafting, depletion, repair and cold Continue. The tests preserve actual combat
+losses and material costs; the report separates graphics modes and failed
+tooling attempts from accepted checkpoints.
+
 The [campaign readiness delivery](readiness-delivery.md) covers staged loading,
 survival forecasts, the Campaign Record and conditional ending recognition,
 including real recovery actions, network failure fixtures and save/load checks.

@@ -17,6 +17,9 @@ if (!fresh)
   );
 const fullArt = process.argv.includes('--full-art');
 const headed = process.argv.includes('--headed');
+const campaignProfile = process.env.MMF_CAMPAIGN_PROFILE ?? 'story';
+if (!['story', 'survival'].includes(campaignProfile))
+  throw new Error(`Unknown MMF_CAMPAIGN_PROFILE: ${campaignProfile}`);
 const requestedOut = path.resolve(
   process.env.MMF_CONTINUITY_OUT ?? 'test-results/continuity-story',
 );
@@ -43,7 +46,8 @@ const append = async (type, detail = {}) => {
 const url = new URL(site);
 url.searchParams.set('quality', 'low');
 url.searchParams.set('nosound', '1');
-url.searchParams.set('seed', 'continuity-story-v1');
+if (campaignProfile === 'story') url.searchParams.set('seed', 'continuity-story-v1');
+else url.searchParams.delete('seed');
 // This first logical run is intentionally cheap and is not visual evidence.
 // Full-art continuity uses the identical path with --full-art.
 if (!fullArt) {
@@ -82,6 +86,12 @@ const snapshot = () =>
       firstRun: g.firstRun.toSave(),
       radio: g.progression.earlyRadioDrop.toSave(),
       weapons: g.combat.serialise(),
+      weaponLedger: g.combat.all.map((weapon) => ({
+        id: weapon.def.id,
+        magazine: weapon.ammoInMag,
+        reserve: weapon.reserveAmmo,
+        infinite: weapon.infiniteReserve,
+      })),
       inventory: g.inventory.serialise(),
       resources: {
         scrap: g.resources.count('scrap'),
@@ -96,6 +106,7 @@ const saveSummary = async (status, blocker = null) => {
     generatedAt: new Date().toISOString(),
     status,
     boundary: 'first-salvage-save-continue',
+    campaignProfile,
     fullArt,
     site,
     blocker,
@@ -118,7 +129,10 @@ const clearActiveAttack = async () => {
     .waitForFunction(() => globalThis.__game.game.enemies.activeCount === 0, null, {
       timeout: 12_000,
     })
-    .then(() => true, () => false);
+    .then(
+      () => true,
+      () => false,
+    );
   if (retired) return true;
   const menuOpen = await page.evaluate(() => globalThis.__game.game.titleScreen?.isOpen ?? false);
   if (menuOpen) {
@@ -132,7 +146,9 @@ const clearActiveAttack = async () => {
   // A refused Save & Quit calls Game.resume(), whose pointer-lock callback is
   // what clears pause and restores the gameplay input context. Do not treat a
   // merely hidden menu as resumed; wait for that whole production transition.
-  if (!(await page.evaluate(() => document.pointerLockElement === document.querySelector('canvas'))))
+  if (
+    !(await page.evaluate(() => document.pointerLockElement === document.querySelector('canvas')))
+  )
     await canvas.click({ position: { x: 320, y: 180 } });
   await page.waitForFunction(
     () =>
@@ -220,8 +236,13 @@ const clearActiveAttack = async () => {
 
 const openPauseMenu = async () => {
   if (await page.evaluate(() => globalThis.__game.game.titleScreen?.isOpen ?? false)) return;
-  if (!(await page.evaluate(() => document.pointerLockElement === document.querySelector('canvas')))) {
-    await page.locator('canvas').first().click({ position: { x: 320, y: 180 } });
+  if (
+    !(await page.evaluate(() => document.pointerLockElement === document.querySelector('canvas')))
+  ) {
+    await page
+      .locator('canvas')
+      .first()
+      .click({ position: { x: 320, y: 180 } });
     await page.waitForFunction(
       () => document.pointerLockElement === document.querySelector('canvas'),
       null,
@@ -271,17 +292,47 @@ try {
 
   await page.getByRole('button', { name: 'New Game', exact: true }).click();
   await page.locator('#title-profile').waitFor({ state: 'visible' });
-  await page.getByRole('button', { name: 'Story', exact: true }).click();
+  await page
+    .getByRole('button', {
+      name: campaignProfile === 'survival' ? 'Survival' : 'Story',
+      exact: true,
+    })
+    .click();
   await page.waitForFunction(
-    () => globalThis.__game.game.campaignProfile === 'story' && globalThis.__game.game.opening.phase === 'rooftop',
-    null,
+    (profile) =>
+      globalThis.__game.game.campaignProfile === profile &&
+      globalThis.__game.game.opening.phase === 'rooftop',
+    campaignProfile,
     { timeout: 30_000 },
   );
-  await append('story-selected', { snapshot: await snapshot() });
+  const selected = await snapshot();
+  if (campaignProfile === 'survival') {
+    const ledger = Object.fromEntries(selected.weaponLedger.map((weapon) => [weapon.id, weapon]));
+    const ammoInInventory = selected.inventory
+      .filter(Boolean)
+      .filter((slot) => slot.itemId === 'ammo-rifle' || slot.itemId === 'ammo-shotgun');
+    if (
+      ledger.rifle?.magazine !== 30 ||
+      ledger.rifle?.reserve !== 150 ||
+      ledger.shotgun?.magazine !== 6 ||
+      ledger.shotgun?.reserve !== 48 ||
+      ledger.rifle?.infinite !== false ||
+      ledger.shotgun?.infinite !== false ||
+      selected.resources.scrap !== 260 ||
+      ammoInInventory.length !== 0
+    )
+      throw new Error(`Fresh Survival starter ledger mismatch: ${JSON.stringify(selected)}`);
+  }
+  await append('profile-selected', { campaignProfile, snapshot: selected });
 
   // Play the authored opening through ordinary movement and jump controls.
-  if (!(await page.evaluate(() => document.pointerLockElement === document.querySelector('canvas')))) {
-    await page.locator('canvas').first().click({ position: { x: 320, y: 180 } });
+  if (
+    !(await page.evaluate(() => document.pointerLockElement === document.querySelector('canvas')))
+  ) {
+    await page
+      .locator('canvas')
+      .first()
+      .click({ position: { x: 320, y: 180 } });
     await page.waitForFunction(
       () => document.pointerLockElement === document.querySelector('canvas'),
       null,
@@ -294,7 +345,11 @@ try {
     null,
     { timeout: 45_000 },
   );
-  await append('opening-complete', { method: 'WASD sprint and jump', openingInput, snapshot: await snapshot() });
+  await append('opening-complete', {
+    method: 'WASD sprint and jump',
+    openingInput,
+    snapshot: await snapshot(),
+  });
 
   // Release suppression settles before Escape is used as Pause.
   await page.waitForTimeout(500);
@@ -321,9 +376,10 @@ try {
   const continueButton = page.getByRole('button', { name: 'Continue', exact: true });
   // IndexedDB completion and title transition are asynchronous. `isVisible`
   // is only a snapshot and its timeout option does not wait for visibility.
-  const returnedToTitle = await continueButton
-    .waitFor({ state: 'visible', timeout: 15_000 })
-    .then(() => true, () => false);
+  const returnedToTitle = await continueButton.waitFor({ state: 'visible', timeout: 15_000 }).then(
+    () => true,
+    () => false,
+  );
   if (!returnedToTitle) {
     const attackBefore = await page.evaluate(() => globalThis.__game.game.enemies.activeCount);
     await append('save-quit-refused', {
@@ -379,15 +435,13 @@ try {
   for (let correction = 0; correction < 8; correction++) {
     const aim = await page.evaluate(() => {
       const g = globalThis.__game.game;
-      const target = g.salvage.targets
-        .slice()
-        .sort((a, b) => {
-          const p = g.player.worldPosition;
-          return (
-            Math.hypot(a.x - p.x, a.y - (p.y + 0.35), a.z - p.z) -
-            Math.hypot(b.x - p.x, b.y - (p.y + 0.35), b.z - p.z)
-          );
-        })[0];
+      const target = g.salvage.targets.slice().sort((a, b) => {
+        const p = g.player.worldPosition;
+        return (
+          Math.hypot(a.x - p.x, a.y - (p.y + 0.35), a.z - p.z) -
+          Math.hypot(b.x - p.x, b.y - (p.y + 0.35), b.z - p.z)
+        );
+      })[0];
       if (!target) return null;
       const p = g.player.worldPosition;
       const dx = target.x - p.x;
@@ -467,10 +521,13 @@ try {
   const result = await saveSummary('passed');
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
 } catch (error) {
-  const message = error instanceof Error ? error.stack ?? error.message : String(error);
+  const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
   await append('blocked', { message }).catch(() => {});
   await page.screenshot({ path: path.join(out, 'failure.png') }).catch(() => {});
-  const result = await saveSummary('blocked', message).catch(() => ({ status: 'blocked', blocker: message }));
+  const result = await saveSummary('blocked', message).catch(() => ({
+    status: 'blocked',
+    blocker: message,
+  }));
   process.stderr.write(`${JSON.stringify(result, null, 2)}\n`);
   process.exitCode = 1;
 } finally {
