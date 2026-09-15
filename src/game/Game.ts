@@ -4077,7 +4077,13 @@ export class Game implements LoopCallbacks {
     this.state.paused = false;
     this.setHudVisible(true);
     this.titleScreen?.hide();
-    if (!this.options.bypassPointerLock) this.input.requestPointerLock();
+    // Ending restore owns the presentation and intentionally releases the
+    // pointer. A late lock request here can race restoreEndingPresentation()
+    // during Continue and leave the committed/credits screen stuck waiting
+    // for a cursor that the ending must keep free.
+    if (!this.options.bypassPointerLock && !this.endingInProgress) {
+      this.input.requestPointerLock();
+    }
   }
 
   private startNewGame(profile: CampaignProfile = 'story'): void {

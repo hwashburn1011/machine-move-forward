@@ -56,24 +56,33 @@ export class CraftingSystem {
       return 'no-power';
     }
     if (!this.resources.canAfford(recipe.inputs)) return 'cannot-afford';
-    if (!this.hasRoomForOutput(recipe)) return 'no-room';
+    if (
+      !this.resources.canExchange(recipe.inputs, {
+        [recipe.output.itemId]: recipe.output.count,
+      })
+    )
+      return 'no-room';
     return null;
   }
 
   /**
    * Run a recipe. Returns false, changing nothing, if it cannot complete.
    *
-   * Order matters: affordability, then storage, then consume, then deposit.
-   * Consuming before confirming the output fits is how materials get eaten
-   * into nothing.
+   * ResourceAccess plans removal and output placement on clones, then commits
+   * both sides together. This permits an ingredient slot to become the output
+   * slot without exposing a partial spend.
    */
   craft(recipeId: string): boolean {
     const recipe = recipeById(recipeId);
     if (!recipe) return false;
     if (!this.canCraft(recipe)) return false;
 
-    if (!this.resources.consume(recipe.inputs)) return false;
-    this.resources.deposit(recipe.output.itemId, recipe.output.count);
+    if (
+      !this.resources.exchange(recipe.inputs, {
+        [recipe.output.itemId]: recipe.output.count,
+      })
+    )
+      return false;
 
     const event: { recipeId: string; outputs: { id: string; count: number }[] } = {
       recipeId: recipe.id,
@@ -81,16 +90,5 @@ export class CraftingSystem {
     };
     this.bus.emit('craft:completed', event);
     return true;
-  }
-
-  /**
-   * Room for the output BEFORE the inputs are spent.
-   *
-   * Deliberately conservative: emptying the input slots would often free the
-   * space, but checking afterwards would mean discovering the problem with the
-   * materials already gone.
-   */
-  private hasRoomForOutput(recipe: Recipe): boolean {
-    return this.resources.roomFor(recipe.output.itemId) >= recipe.output.count;
   }
 }

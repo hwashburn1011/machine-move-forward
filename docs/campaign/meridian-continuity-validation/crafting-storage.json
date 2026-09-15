@@ -1,0 +1,688 @@
+{
+  "scope": "Atomic crafting/storage evidence only; neither Meridian run is claimed as a complete campaign pass.",
+  "craftRun": {
+    "run": "run-2026-09-15T17-52-36-083Z",
+    "sourceProfile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-41-37-658Z\\browser-profile",
+    "lineage": [
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-41-37-658Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-38-12-840Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-38-12-840Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-23-08-452Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-23-08-452Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-14-53-535Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-14-53-535Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-04-13-273Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-04-13-273Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-57-51-118Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-57-51-118Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-51-36-911Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-51-36-911Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-42-56-295Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-42-56-295Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-37-16-944Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-37-16-944Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-32-56-333Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-32-56-333Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-26-02-088Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-26-02-088Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-19-57-597Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-19-57-597Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-04-03-293Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-04-03-293Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-52-49-854Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-52-49-854Z\\browser-profile",
+        "status": "passed",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-46-21-901Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-46-21-901Z\\browser-profile",
+        "status": "blocked",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-38-01-923Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-38-01-923Z\\browser-profile",
+        "status": "blocked",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-30-01-615Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-30-01-615Z\\browser-profile",
+        "status": "blocked",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-28-40-193Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-28-40-193Z\\browser-profile",
+        "status": "passed",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-25-39-173Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-25-39-173Z\\browser-profile",
+        "status": "blocked",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-16-56-128Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-16-56-128Z\\browser-profile",
+        "status": "blocked",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-13-15-354Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-13-15-354Z\\browser-profile",
+        "status": "blocked",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-09-38-696Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-09-38-696Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-23-53-655Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-23-53-655Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-21-47-346Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-21-47-346Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-20-05-806Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-20-05-806Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-15-15-728Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-15-15-728Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-midgame\\run-2026-09-15T13-59-55-419Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-midgame\\run-2026-09-15T13-59-55-419Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-wreck\\run-2026-09-15T13-39-44-061Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-wreck\\run-2026-09-15T13-39-44-061Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789475135178\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789475135178\\browser-profile",
+        "status": "passed-slice-2-offer-ready",
+        "stage": null,
+        "parent": null
+      }
+    ],
+    "runtimeBundle": [
+      "http://127.0.0.1:5205/assets/index-C14Vr-ed.js"
+    ],
+    "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+    "events": [
+      "preflight-rations-cooked",
+      "preflight-item-used:rations",
+      "preflight-repair-kit-crafted",
+      "preflight-item-used:repair-kit"
+    ],
+    "rationsCooked": {
+      "at": "2026-09-15T17:52:53.474Z",
+      "before": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 8.816666666666684,
+        "distanceM": 15229.450720458351,
+        "health": 22,
+        "needs": {
+          "hydration": 93.07777777775456,
+          "nourishment": 45.2633333333804
+        },
+        "inventoryOccupied": 20,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1598,
+          "components": 83,
+          "greens": 2,
+          "water": 1
+        },
+        "resources": {
+          "scrap": 1598,
+          "components": 83,
+          "fuel": 0,
+          "water": 1,
+          "greens": 2,
+          "rations": 0
+        },
+        "powerFuel": 23.881550000038228
+      },
+      "after": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 8.883333333333354,
+        "distanceM": 15229.91815990452,
+        "health": 22,
+        "needs": {
+          "hydration": 93.0733333333101,
+          "nourishment": 45.25888888893597
+        },
+        "inventoryOccupied": 20,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1598,
+          "components": 83,
+          "greens": 1,
+          "rations": 1
+        },
+        "resources": {
+          "scrap": 1598,
+          "components": 83,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 1
+        },
+        "powerFuel": 23.879350000038226
+      }
+    },
+    "rationsUsed": {
+      "at": "2026-09-15T17:52:53.806Z",
+      "before": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 8.933333333333357,
+        "distanceM": 15230.151879627605,
+        "health": 22,
+        "needs": {
+          "hydration": 93.07111111108787,
+          "nourishment": 45.256666666713755
+        },
+        "inventoryOccupied": 20,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1598,
+          "components": 83,
+          "greens": 1,
+          "rations": 1
+        },
+        "resources": {
+          "scrap": 1598,
+          "components": 83,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 1
+        },
+        "powerFuel": 23.878250000038225
+      },
+      "after": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 9.183333333333369,
+        "distanceM": 15231.904777550739,
+        "health": 22,
+        "needs": {
+          "hydration": 93.05444444442115,
+          "nourishment": 99.98666666666662
+        },
+        "inventoryOccupied": 19,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1598,
+          "components": 83,
+          "greens": 1
+        },
+        "resources": {
+          "scrap": 1598,
+          "components": 83,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "powerFuel": 23.870000000038218
+      }
+    },
+    "rationsDeltas": {
+      "greens": -1,
+      "water": -1,
+      "rations": 1,
+      "unrelatedInventoryTotalsEqual": {
+        "components": {
+          "before": 83,
+          "after": 83
+        },
+        "scrap": {
+          "before": 1598,
+          "after": 1598
+        }
+      },
+      "fullBagBefore": {
+        "occupied": 20,
+        "slots": 20
+      }
+    },
+    "repairKitCrafted": {
+      "at": "2026-09-15T17:52:59.340Z",
+      "before": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 14.666666666666975,
+        "distanceM": 15270.234812136598,
+        "health": 22,
+        "needs": {
+          "hydration": 92.68999999997548,
+          "nourishment": 99.62222222222096
+        },
+        "inventoryOccupied": 19,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1598,
+          "components": 83,
+          "greens": 1
+        },
+        "resources": {
+          "scrap": 1598,
+          "components": 83,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "powerFuel": 23.689600000038055
+      },
+      "after": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 14.716666666666978,
+        "distanceM": 15270.585391721224,
+        "health": 22,
+        "needs": {
+          "hydration": 92.68666666664214,
+          "nourishment": 99.61888888888761
+        },
+        "inventoryOccupied": 20,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1596,
+          "components": 81,
+          "greens": 1,
+          "repair-kit": 1
+        },
+        "resources": {
+          "scrap": 1596,
+          "components": 81,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "powerFuel": 23.687950000038054
+      }
+    },
+    "repairKitUsed": {
+      "at": "2026-09-15T17:52:59.686Z",
+      "before": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 14.816666666666983,
+        "distanceM": 15271.169691028936,
+        "health": 22,
+        "needs": {
+          "hydration": 92.68111111108657,
+          "nourishment": 99.61333333333204
+        },
+        "inventoryOccupied": 20,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1596,
+          "components": 81,
+          "greens": 1,
+          "repair-kit": 1
+        },
+        "resources": {
+          "scrap": 1596,
+          "components": 81,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "powerFuel": 23.68520000003805
+      },
+      "after": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 15.083333333333663,
+        "distanceM": 15273.039448813612,
+        "health": 62,
+        "needs": {
+          "hydration": 92.66333333330873,
+          "nourishment": 99.5955555555542
+        },
+        "inventoryOccupied": 19,
+        "inventorySlots": 20,
+        "itemTotals": {
+          "scrap": 1596,
+          "components": 81,
+          "greens": 1
+        },
+        "resources": {
+          "scrap": 1596,
+          "components": 81,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "powerFuel": 23.676400000038043
+      }
+    },
+    "repairKitDeltas": {
+      "scrap": -2,
+      "components": -2,
+      "repair-kit": 1,
+      "unrelatedInventoryTotalsEqual": {
+        "greens": {
+          "before": 1,
+          "after": 1
+        }
+      }
+    }
+  },
+  "storageRun": {
+    "run": "run-2026-09-15T17-55-52-445Z",
+    "sourceProfile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-52-36-083Z\\browser-profile",
+    "lineage": [
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-52-36-083Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-41-37-658Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-41-37-658Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-38-12-840Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-38-12-840Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-23-08-452Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-23-08-452Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-14-53-535Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-14-53-535Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-04-13-273Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-04-13-273Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-57-51-118Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-57-51-118Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-51-36-911Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-51-36-911Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-42-56-295Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-42-56-295Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-37-16-944Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-37-16-944Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-32-56-333Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-32-56-333Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-26-02-088Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-26-02-088Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-19-57-597Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-19-57-597Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-04-03-293Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-04-03-293Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-52-49-854Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-52-49-854Z\\browser-profile",
+        "status": "passed",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-46-21-901Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-46-21-901Z\\browser-profile",
+        "status": "blocked",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-38-01-923Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-38-01-923Z\\browser-profile",
+        "status": "blocked",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-30-01-615Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-30-01-615Z\\browser-profile",
+        "status": "blocked",
+        "stage": "sustain",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-28-40-193Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-28-40-193Z\\browser-profile",
+        "status": "passed",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-25-39-173Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-25-39-173Z\\browser-profile",
+        "status": "blocked",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-16-56-128Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-16-56-128Z\\browser-profile",
+        "status": "blocked",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-13-15-354Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-13-15-354Z\\browser-profile",
+        "status": "blocked",
+        "stage": "infrastructure",
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-09-38-696Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-09-38-696Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-23-53-655Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-23-53-655Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-21-47-346Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-21-47-346Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-20-05-806Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-20-05-806Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-15-15-728Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-15-15-728Z\\browser-profile",
+        "status": "blocked",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-midgame\\run-2026-09-15T13-59-55-419Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-midgame\\run-2026-09-15T13-59-55-419Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-wreck\\run-2026-09-15T13-39-44-061Z\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-wreck\\run-2026-09-15T13-39-44-061Z\\browser-profile",
+        "status": "passed",
+        "stage": null,
+        "parent": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789475135178\\browser-profile"
+      },
+      {
+        "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789475135178\\browser-profile",
+        "status": "passed-slice-2-offer-ready",
+        "stage": null,
+        "parent": null
+      }
+    ],
+    "runtimeBundle": [
+      "http://127.0.0.1:5205/assets/index-C14Vr-ed.js"
+    ],
+    "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+    "event": "recovery-storage-ready",
+    "crateId": "bp-18",
+    "movedScrap": 800,
+    "beforeCounts": {
+      "scrap": 1573,
+      "components": 79,
+      "greens": 1
+    },
+    "afterCounts": {
+      "scrap": 773,
+      "components": 79,
+      "greens": 1
+    },
+    "crateBeforeCounts": {},
+    "crateAfterCounts": {
+      "scrap": 800
+    },
+    "aggregateConservation": {
+      "scrap": true,
+      "components": true,
+      "greens": true
+    },
+    "note": "The storage fixture also recorded floor build cost and crate contents in its event snapshots; this section reports the transfer event without upgrading it to a full Meridian acceptance.",
+    "buildCostsObserved": {
+      "floor": {
+        "scrap": 8,
+        "components": 0
+      },
+      "crate": {
+        "scrap": 15,
+        "components": 2
+      }
+    },
+    "buildCostEvidence": "recovery-storage-piece-built before/after resource snapshots"
+  }
+}

@@ -1,0 +1,1134 @@
+{
+  "scope": "Completed Meridian attempts with summary.json present; no campaign acceptance implied",
+  "attempts": [
+    {
+      "run": "run-2026-09-15T16-51-36-911Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-42-56-295Z\\browser-profile",
+      "parentRun": "run-2026-09-15T16-42-56-295Z",
+      "status": "blocked",
+      "message": "Error: walk preflight-generator-west-aisle timed out",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [],
+      "observedPlayerDeathCount": 0,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 71.4166666666639,
+        "distanceM": 10144.731398164358,
+        "health": 51,
+        "needs": {
+          "hydration": 40.216944444462655,
+          "nourishment": 46.25555555557225
+        },
+        "resources": {
+          "scrap": 776,
+          "components": 41,
+          "fuel": 3,
+          "water": 0,
+          "greens": 0,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 7.832000000039212,
+          "burnRate": 0.06,
+          "capacity": 16,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": true,
+        "inventoryTotals": {
+          "scrap": 776,
+          "components": 41,
+          "fuel": 3
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 0.01666666665519756,
+              "stored": 1
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 49.66666666669972,
+              "stored": 2
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 6
+    },
+    {
+      "run": "run-2026-09-15T16-57-51-118Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-51-36-911Z\\browser-profile",
+      "parentRun": "run-2026-09-15T16-51-36-911Z",
+      "status": "blocked",
+      "message": "Error: scripted Meridian skiff did not resolve through normal defense",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [],
+      "observedPlayerDeathCount": 0,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 217.2666666667317,
+        "distanceM": 11380.9565434837,
+        "health": 51,
+        "needs": {
+          "hydration": 26.998888888918916,
+          "nourishment": 34.49888888894134
+        },
+        "resources": {
+          "scrap": 844,
+          "components": 44,
+          "fuel": 0,
+          "water": 0,
+          "greens": 0,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 6.251000000043672,
+          "burnRate": 0.06,
+          "capacity": 16,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": false,
+        "inventoryTotals": {
+          "scrap": 844,
+          "components": 44
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 0.01666666665519756,
+              "stored": 1
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 4.6128434405545704e-11,
+              "stored": 3
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 91
+    },
+    {
+      "run": "run-2026-09-15T17-04-13-273Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T16-57-51-118Z\\browser-profile",
+      "parentRun": "run-2026-09-15T16-57-51-118Z",
+      "status": "blocked",
+      "message": "page.waitForFunction: Timeout 50000ms exceeded.",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [
+        {
+          "type": "player:died",
+          "event": {
+            "position": {
+              "x": 0.7296855884472861,
+              "y": 15.79413590867673,
+              "z": -8.352190946202278
+            }
+          },
+          "simTime": 49.649999999998464
+        },
+        {
+          "type": "player:died",
+          "event": {
+            "position": {
+              "x": 0.9598000470287719,
+              "y": 15.817163186358664,
+              "z": -4.395111637609821
+            }
+          },
+          "simTime": 71.74999999999721
+        }
+      ],
+      "observedPlayerDeathCount": 2,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 283.2333333334044,
+        "distanceM": 11661.855782021186,
+        "health": 25,
+        "needs": {
+          "hydration": 20.340000000028986,
+          "nourishment": 27.840000000059398
+        },
+        "resources": {
+          "scrap": 1129,
+          "components": 61,
+          "fuel": 0,
+          "water": 0,
+          "greens": 0,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 18.258000000034883,
+          "burnRate": 0.06,
+          "capacity": 16,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": true,
+        "inventoryTotals": {
+          "scrap": 1129,
+          "components": 61
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 0.01666666665519756,
+              "stored": 1
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 4.6128434405545704e-11,
+              "stored": 3
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 98
+    },
+    {
+      "run": "run-2026-09-15T17-14-53-535Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-04-13-273Z\\browser-profile",
+      "parentRun": "run-2026-09-15T17-04-13-273Z",
+      "status": "blocked",
+      "message": "Error: walk defense-east-bow timed out",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [],
+      "observedPlayerDeathCount": 0,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 251.95000000009264,
+        "distanceM": 11663.94248849735,
+        "health": 17,
+        "needs": {
+          "hydration": 67.25999999997445,
+          "nourishment": 74.76000000002617
+        },
+        "resources": {
+          "scrap": 1127,
+          "components": 59,
+          "fuel": 0,
+          "water": 0,
+          "greens": 2,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 6.486000000043157,
+          "burnRate": 0.06,
+          "capacity": 16,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": false,
+        "inventoryTotals": {
+          "scrap": 1127,
+          "components": 59,
+          "greens": 2
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 0.01666666664755212,
+              "stored": 1
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 92.81666666672035,
+              "stored": 1
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 88
+    },
+    {
+      "run": "run-2026-09-15T17-23-08-452Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-14-53-535Z\\browser-profile",
+      "parentRun": "run-2026-09-15T17-14-53-535Z",
+      "status": "blocked",
+      "message": "Error: normal recovery spent its bounded fuel reserve: {\"seed\":\"mmf-dev-seed\",\"profile\":\"story\",\"phase\":\"complete\",\"simTime\":409.14999999995655,\"distanceM\":14425.10585521245,\"paused\":false,\"safe\":true,\"health\":22,\"needs\":{\"hydration\":42.913",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [
+        {
+          "type": "player:died",
+          "event": {
+            "position": {
+              "x": 3.0954879844999863,
+              "y": 15.943992042470098,
+              "z": -7.695942955037984
+            }
+          },
+          "simTime": 189.50000000004295
+        }
+      ],
+      "observedPlayerDeathCount": 1,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 409.4333333332896,
+        "distanceM": 14427.092472858669,
+        "health": 22,
+        "needs": {
+          "hydration": 42.89444444445167,
+          "nourishment": 52.894444444468306
+        },
+        "resources": {
+          "scrap": 1536,
+          "components": 85,
+          "fuel": 0,
+          "water": 0,
+          "greens": 2,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 17.807000000041864,
+          "burnRate": 0.06,
+          "capacity": 16,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": true,
+        "inventoryTotals": {
+          "scrap": 1536,
+          "components": 85,
+          "greens": 2
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 0.01666666664755212,
+              "stored": 1
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 8.074607649177779e-11,
+              "stored": 3
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 161
+    },
+    {
+      "run": "run-2026-09-15T17-38-12-840Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-23-08-452Z\\browser-profile",
+      "parentRun": "run-2026-09-15T17-23-08-452Z",
+      "status": "blocked",
+      "message": "Error: condenser claim did not provide cooking water",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [],
+      "observedPlayerDeathCount": 0,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 109.36666666666174,
+        "distanceM": 15183.807020447031,
+        "health": 22,
+        "needs": {
+          "hydration": 93.5144444444227,
+          "nourishment": 45.70000000004574
+        },
+        "resources": {
+          "scrap": 1598,
+          "components": 83,
+          "fuel": 10,
+          "water": 0,
+          "greens": 2,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 14.097700000038422,
+          "burnRate": 0.033,
+          "capacity": 14,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": true,
+        "inventoryTotals": {
+          "scrap": 1598,
+          "components": 83,
+          "greens": 2,
+          "fuel": 10
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 0.0166666666437294,
+              "stored": 1
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 8.074607649177779e-11,
+              "stored": 3
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 44
+    },
+    {
+      "run": "run-2026-09-15T17-41-37-658Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-38-12-840Z\\browser-profile",
+      "parentRun": "run-2026-09-15T17-38-12-840Z",
+      "status": "blocked",
+      "message": "Error: cook-rations is disabled after collecting inputs",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [],
+      "observedPlayerDeathCount": 0,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 25.31666666666651,
+        "distanceM": 15191.974034839435,
+        "health": 22,
+        "needs": {
+          "hydration": 93.43666666664465,
+          "nourishment": 45.6222222222682
+        },
+        "resources": {
+          "scrap": 1598,
+          "components": 83,
+          "fuel": 0,
+          "water": 1,
+          "greens": 2,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 24.059200000038388,
+          "burnRate": 0.033,
+          "capacity": 14,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": true,
+        "inventoryTotals": {
+          "scrap": 1598,
+          "components": 83,
+          "greens": 2,
+          "water": 1
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 2.916666666643724,
+              "stored": 0
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 8.074607649177779e-11,
+              "stored": 3
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 26
+    },
+    {
+      "run": "run-2026-09-15T17-52-36-083Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-41-37-658Z\\browser-profile",
+      "parentRun": "run-2026-09-15T17-41-37-658Z",
+      "status": "blocked",
+      "message": "Error: no exact camera-visible safe floor placement",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-C14Vr-ed.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [],
+      "observedPlayerDeathCount": 0,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 21.166666666666746,
+        "distanceM": 15315.576438414992,
+        "health": 62,
+        "needs": {
+          "hydration": 92.25888888886293,
+          "nourishment": 99.1911111111084
+        },
+        "resources": {
+          "scrap": 1596,
+          "components": 81,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 23.476200000037863,
+          "burnRate": 0.033,
+          "capacity": 14,
+          "draw": 6
+        },
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": true,
+        "inventoryTotals": {
+          "scrap": 1596,
+          "components": 81,
+          "greens": 1
+        },
+        "structureCount": 10,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 20.58333333331051,
+              "stored": 0
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 8.074607649177779e-11,
+              "stored": 3
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 33
+    },
+    {
+      "run": "run-2026-09-15T17-55-52-445Z",
+      "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-52-36-083Z\\browser-profile",
+      "parentRun": "run-2026-09-15T17-52-36-083Z",
+      "status": "passed",
+      "message": null,
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-C14Vr-ed.js"
+      ],
+      "observedEventCapture": true,
+      "observedPlayerDeaths": [],
+      "observedPlayerDeathCount": 0,
+      "lastActualSnapshot": {
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "phase": "complete",
+        "simTime": 347.08333333334633,
+        "distanceM": 17212.330786003047,
+        "health": 62,
+        "needs": {
+          "hydration": 67.76138888880496,
+          "nourishment": 76.51777777769902
+        },
+        "resources": {
+          "scrap": 1641,
+          "components": 87,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "power": {
+          "fuel": 22.252900000027772,
+          "burnRate": 0.033,
+          "capacity": 14,
+          "draw": 6
+        },
+        "course": {
+          "tier": 3,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 12.878389469606343
+        },
+        "safe": true,
+        "inventoryTotals": {
+          "scrap": 841,
+          "components": 87,
+          "greens": 1
+        },
+        "structureCount": 12,
+        "structureIds": [
+          "bp-2",
+          "bp-4",
+          "bp-6",
+          "bp-12",
+          "bp-15",
+          "bp-7",
+          "bp-10",
+          "bp-13",
+          "bp-14",
+          "bp-16",
+          "bp-17",
+          "bp-18"
+        ],
+        "producerStates": [
+          {
+            "id": "bp-13",
+            "definitionId": "condenser",
+            "state": {
+              "progress": 0.01666666663990668,
+              "stored": 1
+            }
+          },
+          {
+            "id": "bp-14",
+            "definitionId": "planter",
+            "state": {
+              "progress": 8.074607649177779e-11,
+              "stored": 3
+            }
+          },
+          {
+            "id": "bp-18",
+            "definitionId": "crate",
+            "state": {
+              "slots": [
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          }
+        ],
+        "story": {
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard",
+            "last-garden-meridian"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor",
+            "meridian-solution"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record",
+            "meridian-common-record",
+            "meridian-civilian-record"
+          ],
+          "active": null
+        },
+        "destination": {
+          "active": false,
+          "docked": false,
+          "colliders": 0,
+          "playerOnMachine": true
+        }
+      },
+      "eventCount": 145
+    }
+  ]
+}

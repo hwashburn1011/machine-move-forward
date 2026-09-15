@@ -13,7 +13,12 @@ const origin = { x: 0, y: 0, z: 0 };
 function make(capacity = 20, powered: (station: StationId) => boolean = () => true) {
   const bus = new EventBus();
   const inventory = new Container(capacity);
-  const access = new ResourceAccess(inventory, () => [], () => origin, bus);
+  const access = new ResourceAccess(
+    inventory,
+    () => [],
+    () => origin,
+    bus,
+  );
   return { bus, inventory, crafting: new CraftingSystem(access, bus, powered) };
 }
 
@@ -89,15 +94,42 @@ describe('craft', () => {
     expect(inventory.count('scrap')).toBe(50);
   });
 
-  it('refuses when the output cannot be stored, leaving the inputs intact', () => {
-    // One slot, already holding the scrap the recipe wants. Components have
-    // nowhere to go, so the craft must not run.
+  it('uses an ingredient slot freed by the transaction for the output', () => {
+    // One slot holding exactly the ingredient becomes available atomically.
     const { inventory, crafting } = make(1);
     inventory.add('scrap', 8);
 
-    expect(crafting.craft(REFINE)).toBe(false);
-    expect(inventory.count('scrap')).toBe(8);
-    expect(inventory.count('components')).toBe(0);
+    expect(crafting.craft(REFINE)).toBe(true);
+    expect(inventory.count('scrap')).toBe(0);
+    expect(inventory.count('components')).toBe(2);
+  });
+
+  it('cooks from a full twenty-slot bag by exchanging the water slot', () => {
+    const { inventory, crafting } = make(20);
+    for (let i = 0; i < 18; i++) inventory.add('scrap', 100);
+    inventory.add('greens', 2);
+    inventory.add('water', 1);
+
+    expect(inventory.slots.filter(Boolean)).toHaveLength(20);
+    expect(crafting.craft('cook-rations')).toBe(true);
+    expect(inventory.count('scrap')).toBe(1800);
+    expect(inventory.count('greens')).toBe(1);
+    expect(inventory.count('water')).toBe(0);
+    expect(inventory.count('rations')).toBe(1);
+    expect(inventory.slots.filter(Boolean)).toHaveLength(20);
+  });
+
+  it('charges repeated recipes exactly once and emits one craft event each', () => {
+    const { bus, inventory, crafting } = make();
+    inventory.add('scrap', 6);
+    const completed = vi.fn();
+    bus.on('craft:completed', completed);
+
+    expect(crafting.craft('craft-shotgun-ammo')).toBe(true);
+    expect(crafting.craft('craft-shotgun-ammo')).toBe(true);
+    expect(inventory.count('scrap')).toBe(0);
+    expect(inventory.count('ammo-shotgun')).toBe(16);
+    expect(completed).toHaveBeenCalledTimes(2);
   });
 
   it('rejects an unknown recipe id', () => {
@@ -186,7 +218,7 @@ describe('the powered refinery', () => {
     expect(broke.crafting.craftBlock(recipeById(REFINE)!)).toBe('cannot-afford');
 
     const full = make(1);
-    full.inventory.add('scrap', 8);
+    full.inventory.add('scrap', 100);
     expect(full.crafting.craftBlock(recipeById(REFINE)!)).toBe('no-room');
   });
 

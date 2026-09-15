@@ -8,7 +8,13 @@ const origin = { x: 0, y: 0, z: 0 };
 function make(crates: CrateRef[] = []) {
   const bus = new EventBus();
   const inventory = new Container(10);
-  const access = new ResourceAccess(inventory, () => crates, () => origin, bus, 6);
+  const access = new ResourceAccess(
+    inventory,
+    () => crates,
+    () => origin,
+    bus,
+    6,
+  );
   return { bus, inventory, access };
 }
 
@@ -137,6 +143,77 @@ describe('deposit', () => {
   it('returns what does not fit anywhere', () => {
     const { access } = make();
     expect(access.deposit('scrap', 1500)).toBe(500);
+  });
+});
+
+describe('atomic exchange', () => {
+  it('can free an ingredient slot before placing output', () => {
+    const { inventory, access } = make();
+    inventory.restore([{ itemId: 'greens', count: 1 }, ...new Array(9).fill(null)]);
+    expect(access.exchange({ greens: 1 }, { rations: 1 })).toBe(true);
+    expect(inventory.count('greens')).toBe(0);
+    expect(inventory.count('rations')).toBe(1);
+  });
+
+  it('leaves every container and emits no event when output still cannot fit', () => {
+    const { bus, inventory, access } = make();
+    // Both ingredient stacks remain non-empty after removal, so all ten
+    // occupied slots still have no compatible or empty output slot.
+    inventory.add('greens', 2);
+    inventory.add('water', 2);
+    for (let i = 0; i < 8; i++) inventory.add('scrap', 100);
+    const before = inventory.serialise();
+    const changed = vi.fn();
+    bus.on('inventory:changed', changed);
+    expect(access.exchange({ greens: 1, water: 1 }, { rations: 1 })).toBe(false);
+    expect(inventory.serialise()).toEqual(before);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it('uses reachable crates but excludes an out-of-range ingredient source', () => {
+    const near = crateAt(2, (c) => c.add('water', 1));
+    const far = crateAt(20, (c) => c.add('greens', 1));
+    const { inventory, access } = make([near, far]);
+    for (let i = 0; i < 10; i++) inventory.add('scrap', 100);
+    expect(access.exchange({ greens: 1, water: 1 }, { rations: 1 })).toBe(false);
+    expect(inventory.count('greens')).toBe(0);
+    expect(near.container.count('water')).toBe(1);
+    expect(far.container.count('greens')).toBe(1);
+  });
+
+  it('exchanges ingredients split between the player and nearest crate', () => {
+    const near = crateAt(2, (c) => c.add('water', 1));
+    const far = crateAt(5, (c) => c.add('water', 1));
+    const { inventory, access } = make([far, near]);
+    inventory.add('greens', 1);
+
+    expect(access.exchange({ greens: 1, water: 1 }, { rations: 1 })).toBe(true);
+    expect(inventory.count('greens')).toBe(0);
+    expect(inventory.count('rations')).toBe(1);
+    expect(near.container.count('water')).toBe(0);
+    expect(far.container.count('water')).toBe(1);
+  });
+
+  it('rejects malformed costs without mutation or events', () => {
+    const { bus, inventory, access } = make();
+    inventory.add('greens', 1);
+    inventory.add('water', 1);
+    const before = inventory.serialise();
+    const changed = vi.fn();
+    bus.on('inventory:changed', changed);
+    const malformed = [
+      [{ greens: -1 }, { rations: 1 }],
+      [{ greens: 1.5 }, { rations: 1 }],
+      [{ unknown: 1 }, { rations: 1 }],
+      [{ greens: 1 }, { unknown: 1 }],
+      [[], { rations: 1 }],
+    ] as const;
+    for (const [inputs, output] of malformed) {
+      expect(access.canExchange(inputs as never, output as never)).toBe(false);
+      expect(access.exchange(inputs as never, output as never)).toBe(false);
+    }
+    expect(inventory.serialise()).toEqual(before);
+    expect(changed).not.toHaveBeenCalled();
   });
 });
 
