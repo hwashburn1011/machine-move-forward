@@ -1,7 +1,10 @@
 # Continuity and smoothness
 
-Status: reviewed release candidate for stair navigation, machine collision and
-opening cleanup. Broader campaign/performance acceptance remains in progress.
+Released in [PR #16](https://github.com/hwashburn1011/machine-move-forward/pull/16),
+main commit `6487abd290e128acf0eaccd3bb623848dc80dbc9`. GitHub validation and
+Pages deployment passed. The live page returned HTTP 200 and the deployed Nomad
+GLB matched the tested SHA-256 `7555e87ddef3868e10c16148d4bf8a9b281198e5b70a496e3497d11bf982216f`.
+Broader campaign/performance acceptance remains in progress.
 
 L-12 can now use both internal stairways to follow the player and service equipment
 on all three Nomad decks. Moving its dock cancels the current delivery while

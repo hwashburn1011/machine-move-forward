@@ -102,7 +102,7 @@ export class WorldManager {
     quality: QualitySettings,
     private readonly bus: EventBus,
     materials: Materials,
-    private readonly worldSeed: string,
+    private worldSeed: string,
   ) {
     this.quality = quality;
     this.chunkManager = new ChunkManager(
@@ -150,6 +150,19 @@ export class WorldManager {
 
   get lateralBandIds(): readonly number[] {
     return this.courseBands.slots.map((slot) => slot.bandIndex);
+  }
+
+  /**
+   * Reseed the deterministic scenery in-place when a save is continued.
+   * Geometry, materials, and instanced allocations remain owned by this
+   * manager; only seed uniforms and instance matrices are rewritten.
+   */
+  reseed(seed: string, distance = this.distance): void {
+    if (typeof seed !== 'string' || seed.length === 0) return;
+    this.worldSeed = seed;
+    for (const chunk of this.terrain) chunk.setSeed(seed);
+    // reset already repopulates each prop band and forces desert sync.
+    this.reset(Number.isFinite(distance) ? distance : this.distance);
   }
 
   setLateralOffset(offset: number): void {

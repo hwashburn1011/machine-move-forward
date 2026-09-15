@@ -1,0 +1,1825 @@
+[
+  {
+    "at": "2026-09-15T12:07:40.192Z",
+    "type": "provenance",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-build-clean\\run-2026-09-15T11-02-16-853Z\\first-loop-1789470403504\\boarding-1789473321465\\browser-profile",
+    "sourcePathLength": 172,
+    "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789474059926",
+    "outputPathLength": 91
+  },
+  {
+    "at": "2026-09-15T12:07:41.69Z",
+    "type": "continued",
+    "snapshot": {
+      "simTime": 0.4666666666666666,
+      "distanceM": 364.1671491790169,
+      "resources": [
+        [
+          "scrap",
+          116
+        ],
+        [
+          "components",
+          3
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 3,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 2,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "signal",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        }
+      },
+      "phase": "signal",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 0,
+        "remaining": 24
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": false,
+      "playerHealth": 100,
+      "needs": {
+        "hydration": 96.71777777776677,
+        "nourishment": 96.71777777776677
+      },
+      "ammo": {
+        "mag": 30,
+        "reserve": 150
+      },
+      "events": []
+    }
+  },
+  {
+    "at": "2026-09-15T12:07:41.848Z",
+    "type": "phase-change",
+    "simTime": 0.4666666666666666,
+    "distanceM": 364.1671491790169,
+    "resources": [
+      [
+        "scrap",
+        116
+      ],
+      [
+        "components",
+        3
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 3,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 2,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "signal",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      }
+    },
+    "phase": "signal",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 0,
+      "remaining": 24
+    },
+    "vehicle": null,
+    "enemies": 0,
+    "paused": false,
+    "panels": false,
+    "playerHealth": 100,
+    "needs": {
+      "hydration": 96.71777777776677,
+      "nourishment": 96.71777777776677
+    },
+    "ammo": {
+      "mag": 30,
+      "reserve": 150
+    },
+    "events": []
+  },
+  {
+    "at": "2026-09-15T12:08:12.166Z",
+    "type": "travel-status",
+    "simTime": 30.933333333332858,
+    "distanceM": 578.3078435731588,
+    "resources": [
+      [
+        "scrap",
+        116
+      ],
+      [
+        "components",
+        3
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 3,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 2,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "signal",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      }
+    },
+    "phase": "signal",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 0,
+      "remaining": 24
+    },
+    "vehicle": null,
+    "enemies": 0,
+    "paused": false,
+    "panels": false,
+    "playerHealth": 100,
+    "needs": {
+      "hydration": 94.68666666664885,
+      "nourishment": 94.68666666664885
+    },
+    "ammo": {
+      "mag": 30,
+      "reserve": 150
+    },
+    "events": []
+  },
+  {
+    "at": "2026-09-15T12:12:12.863Z",
+    "type": "phase-change",
+    "simTime": 269.75000000008333,
+    "distanceM": 2260.1586047646347,
+    "resources": [
+      [
+        "scrap",
+        130
+      ],
+      [
+        "components",
+        3
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 3,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 2,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "crossfire",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      }
+    },
+    "phase": "crossfire",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 0,
+      "remaining": 24
+    },
+    "vehicle": null,
+    "enemies": 0,
+    "paused": false,
+    "panels": false,
+    "playerHealth": 100,
+    "needs": {
+      "hydration": 76.26666666662113,
+      "nourishment": 78.76666666659546
+    },
+    "ammo": {
+      "mag": 12,
+      "reserve": 150
+    },
+    "events": [
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 14
+            }
+          ],
+          "source": "Wasteland Scavenger"
+        }
+      },
+      {
+        "type": "story:phase",
+        "event": {
+          "chapterId": "wreck-one",
+          "phase": "crossfire"
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-15T12:12:29.991Z",
+    "type": "phase-change",
+    "simTime": 286.75000000006787,
+    "distanceM": 2379.879993306455,
+    "resources": [
+      [
+        "scrap",
+        130
+      ],
+      [
+        "components",
+        3
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 3,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 2,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "raids",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      }
+    },
+    "phase": "raids",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 0,
+      "remaining": 24
+    },
+    "vehicle": null,
+    "enemies": 0,
+    "paused": false,
+    "panels": false,
+    "playerHealth": 100,
+    "needs": {
+      "hydration": 76.26666666662113,
+      "nourishment": 78.76666666659546
+    },
+    "ammo": {
+      "mag": 12,
+      "reserve": 150
+    },
+    "events": [
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 14
+            }
+          ],
+          "source": "Wasteland Scavenger"
+        }
+      },
+      {
+        "type": "story:phase",
+        "event": {
+          "chapterId": "wreck-one",
+          "phase": "crossfire"
+        }
+      },
+      {
+        "type": "story:phase",
+        "event": {
+          "chapterId": "wreck-one",
+          "phase": "raids"
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-15T12:13:12.416Z",
+    "type": "travel-status",
+    "simTime": 329.2500000000292,
+    "distanceM": 2679.1834646610064,
+    "resources": [
+      [
+        "scrap",
+        174
+      ],
+      [
+        "components",
+        7
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 3,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 2,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "raids",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      }
+    },
+    "phase": "raids",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 0,
+      "remaining": 0
+    },
+    "vehicle": {
+      "phase": "retreat",
+      "side": "port",
+      "lateral": -69.50738006036993,
+      "forward": 57.86621975680378,
+      "hullHealth": 260,
+      "crewHealth": [
+        140,
+        159
+      ],
+      "hookHealth": 60,
+      "hookMaxHealth": 60,
+      "elapsed": 18.483333333333565,
+      "phaseElapsed": 7.04999999999998,
+      "nextCrossing": 0,
+      "crossed": 2,
+      "crossingAt": [
+        0,
+        1.5
+      ],
+      "crewStatus": [
+        "landed",
+        "landed"
+      ],
+      "ended": false,
+      "landedBoardersAlive": 1
+    },
+    "enemies": 1,
+    "paused": false,
+    "panels": false,
+    "playerHealth": 84,
+    "needs": {
+      "hydration": 73.4333333332783,
+      "nourishment": 75.93333333325262
+    },
+    "ammo": {
+      "mag": 24,
+      "reserve": 150
+    },
+    "events": [
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 14
+            }
+          ],
+          "source": "Wasteland Scavenger"
+        }
+      },
+      {
+        "type": "story:phase",
+        "event": {
+          "chapterId": "wreck-one",
+          "phase": "crossfire"
+        }
+      },
+      {
+        "type": "story:phase",
+        "event": {
+          "chapterId": "wreck-one",
+          "phase": "raids"
+        }
+      },
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 21
+            },
+            {
+              "id": "components",
+              "count": 2
+            }
+          ],
+          "source": "Sovereign Drone Commander"
+        }
+      },
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 23
+            },
+            {
+              "id": "components",
+              "count": 2
+            }
+          ],
+          "source": "Bastion Heavy Gunner"
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-15T12:13:14.744Z",
+    "type": "radio-raid-observation",
+    "simTime": 331.58333333336043,
+    "distanceM": 2695.615812107923,
+    "resources": [
+      [
+        "scrap",
+        204
+      ],
+      [
+        "components",
+        9
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 4,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 4,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "raids",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      },
+      "radioTraceEligible": true
+    },
+    "phase": "raids",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 1,
+      "remaining": 78.8666051026434
+    },
+    "vehicle": null,
+    "enemies": 0,
+    "paused": false,
+    "panels": false,
+    "playerHealth": 84,
+    "needs": {
+      "hydration": 73.27777777772222,
+      "nourishment": 75.77777777769654
+    },
+    "ammo": {
+      "mag": 15,
+      "reserve": 150
+    },
+    "events": [
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 14
+            }
+          ],
+          "source": "Wasteland Scavenger"
+        }
+      },
+      {
+        "type": "story:phase",
+        "event": {
+          "chapterId": "wreck-one",
+          "phase": "crossfire"
+        }
+      },
+      {
+        "type": "story:phase",
+        "event": {
+          "chapterId": "wreck-one",
+          "phase": "raids"
+        }
+      },
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 21
+            },
+            {
+              "id": "components",
+              "count": 2
+            }
+          ],
+          "source": "Sovereign Drone Commander"
+        }
+      },
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 23
+            },
+            {
+              "id": "components",
+              "count": 2
+            }
+          ],
+          "source": "Bastion Heavy Gunner"
+        }
+      },
+      {
+        "type": "loot:collected",
+        "event": {
+          "items": [
+            {
+              "id": "scrap",
+              "count": 30
+            },
+            {
+              "id": "components",
+              "count": 2
+            }
+          ],
+          "source": "Dust skiff salvage"
+        }
+      },
+      {
+        "type": "boarding:ended",
+        "event": {
+          "outcome": "defended",
+          "tutorial": false,
+          "needsRepair": false
+        }
+      }
+    ]
+  },
+  {
+    "at": "2026-09-15T12:13:16.213Z",
+    "type": "radio-open",
+    "snapshot": {
+      "simTime": 333.05000000002576,
+      "distanceM": 2705.9447162174133,
+      "resources": [
+        [
+          "scrap",
+          204
+        ],
+        [
+          "components",
+          9
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "raids",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        },
+        "radioTraceEligible": true
+      },
+      "phase": "raids",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 1,
+        "remaining": 77.43327176931015
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": true,
+      "playerHealth": 84,
+      "needs": {
+        "hydration": 73.17999999994412,
+        "nourishment": 75.67999999991844
+      },
+      "ammo": {
+        "mag": 15,
+        "reserve": 150
+      },
+      "events": [
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 14
+              }
+            ],
+            "source": "Wasteland Scavenger"
+          }
+        },
+        {
+          "type": "story:phase",
+          "event": {
+            "chapterId": "wreck-one",
+            "phase": "crossfire"
+          }
+        },
+        {
+          "type": "story:phase",
+          "event": {
+            "chapterId": "wreck-one",
+            "phase": "raids"
+          }
+        },
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 21
+              },
+              {
+                "id": "components",
+                "count": 2
+              }
+            ],
+            "source": "Sovereign Drone Commander"
+          }
+        },
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 23
+              },
+              {
+                "id": "components",
+                "count": 2
+              }
+            ],
+            "source": "Bastion Heavy Gunner"
+          }
+        },
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 30
+              },
+              {
+                "id": "components",
+                "count": 2
+              }
+            ],
+            "source": "Dust skiff salvage"
+          }
+        },
+        {
+          "type": "boarding:ended",
+          "event": {
+            "outcome": "defended",
+            "tutorial": false,
+            "needsRepair": false
+          }
+        }
+      ]
+    },
+    "text": "Recovered Radio\nSignal decoded\nSignal 100%\nNew trace available at the radio. Keep moving and watch for boarding ships.\nOptional trace: recover a Course Gyro to bring the Navigation Helm online.\nResearch\nTrace Wreck One\nCampaign record\nClose"
+  },
+  {
+    "at": "2026-09-15T12:13:46.274Z",
+    "type": "blocked",
+    "message": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Save & Quit', exact: true })\u001b[22m\n\u001b[2m    - locator resolved to <button type=\"button\" class=\"title-item\" data-id=\"save-quit\">Save & Quit</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is not stable\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is not visible\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    56 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at C:\\Users\\hwash\\Documents\\MachineMoveForward\\tools\\campaign\\continuity-radio.mjs:195:72",
+    "snapshot": {
+      "simTime": 363.0666666666651,
+      "distanceM": 2917.217754820626,
+      "resources": [
+        [
+          "scrap",
+          204
+        ],
+        [
+          "components",
+          9
+        ],
+        [
+          "fuel",
+          4
+        ]
+      ],
+      "pieces": [
+        {
+          "id": "bp-2",
+          "piece": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-4",
+          "piece": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-6",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-8",
+          "piece": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        },
+        {
+          "id": "bp-3",
+          "piece": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          }
+        },
+        {
+          "id": "bp-5",
+          "piece": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "id": "bp-7",
+          "piece": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          }
+        },
+        {
+          "id": "bp-9",
+          "piece": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          }
+        }
+      ],
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "story": {
+        "format": 2,
+        "completed": [],
+        "recoveredUniques": [],
+        "journalArchive": [],
+        "active": {
+          "expeditionId": "wreck-one",
+          "routeId": null,
+          "phase": "raids",
+          "arrivalDistance": null,
+          "journalsRead": [],
+          "scriptedEncounter": "not-due",
+          "signalStartedAt": 59.97686964118998
+        },
+        "radioTraceEligible": true
+      },
+      "phase": "raids",
+      "radio": {
+        "status": "found",
+        "armedAt": null,
+        "foundAtTime": 10.766666666666781,
+        "foundAt": 59.97686964118998,
+        "opened": 1
+      },
+      "raids": {
+        "wave": 1,
+        "remaining": 47.43327176931186
+      },
+      "vehicle": null,
+      "enemies": 0,
+      "paused": false,
+      "panels": false,
+      "playerHealth": 84,
+      "needs": {
+        "hydration": 71.17999999993741,
+        "nourishment": 73.67999999991173
+      },
+      "ammo": {
+        "mag": 15,
+        "reserve": 150
+      },
+      "events": [
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 14
+              }
+            ],
+            "source": "Wasteland Scavenger"
+          }
+        },
+        {
+          "type": "story:phase",
+          "event": {
+            "chapterId": "wreck-one",
+            "phase": "crossfire"
+          }
+        },
+        {
+          "type": "story:phase",
+          "event": {
+            "chapterId": "wreck-one",
+            "phase": "raids"
+          }
+        },
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 21
+              },
+              {
+                "id": "components",
+                "count": 2
+              }
+            ],
+            "source": "Sovereign Drone Commander"
+          }
+        },
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 23
+              },
+              {
+                "id": "components",
+                "count": 2
+              }
+            ],
+            "source": "Bastion Heavy Gunner"
+          }
+        },
+        {
+          "type": "loot:collected",
+          "event": {
+            "items": [
+              {
+                "id": "scrap",
+                "count": 30
+              },
+              {
+                "id": "components",
+                "count": 2
+              }
+            ],
+            "source": "Dust skiff salvage"
+          }
+        },
+        {
+          "type": "boarding:ended",
+          "event": {
+            "outcome": "defended",
+            "tutorial": false,
+            "needsRepair": false
+          }
+        }
+      ]
+    },
+    "errors": []
+  }
+]

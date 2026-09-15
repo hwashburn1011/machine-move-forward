@@ -119,4 +119,26 @@ describe('SalvageField first target pacing', () => {
     field.update(0, 1360, 0);
     expect(field.targets).toHaveLength(2);
   });
+
+  it('reseed clears the old pool and matches a fresh field at the loaded distance', () => {
+    const materials = {
+      rustedSteel: new THREE.MeshBasicMaterial(),
+      hullDark: new THREE.MeshBasicMaterial(),
+      emissiveWarn: new THREE.MeshBasicMaterial(),
+    } as never;
+    const loaded = new SalvageField(new THREE.Scene(), new EventBus(), materials, 'old-seed');
+    loaded.armAfterOpening(0);
+    loaded.update(0, 0, 0);
+    expect(loaded.targets).toHaveLength(1);
+    loaded.reseed('new-seed', 500);
+    expect(loaded.targets).toHaveLength(0);
+    const control = new SalvageField(new THREE.Scene(), new EventBus(), materials, 'new-seed');
+    control.reset(500);
+    expect(loaded.targets).toEqual(control.targets);
+    loaded.armAfterOpening(500);
+    control.armAfterOpening(500);
+    loaded.update(0, 500, 0);
+    control.update(0, 500, 0);
+    expect(loaded.targets).toEqual(control.targets);
+  });
 });

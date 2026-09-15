@@ -522,7 +522,8 @@ export class Game implements LoopCallbacks {
   private readonly reelAim = new THREE.Vector3();
   /** A crate is lined up and a throw would reach it. Read by the HUD. */
   private reelReady = false;
-  private readonly lootRng: Rng;
+  private lootRng: Rng;
+  private readonly requestedSeed: string;
   private fps = 0;
   private frameMs = 0;
 
@@ -776,6 +777,7 @@ export class Game implements LoopCallbacks {
 
   private constructor(private readonly options: GameOptions) {
     const seed = options.seed ?? 'mmf-default-seed';
+    this.requestedSeed = seed;
     this.state = createGameState(seed);
     this.dustFront = new DustFrontDirector(seed);
 
@@ -889,7 +891,13 @@ export class Game implements LoopCallbacks {
         });
         void targetId;
       },
-      onHookAttached: (state) => this.bus.emit('boarding:hook-attached', { side: state.side }),
+      onHookAttached: (state) => {
+        this.bus.emit('boarding:hook-attached', { side: state.side });
+        if (this.tutorialStarted)
+          this.hud.setWarning(
+            `Grapple attached. Shoot the hook, or leave the gun and hold [${this.controlLabel('interact')}] beside the hook to cut it.`,
+          );
+      },
       onRetreat: (state) => {
         const outcome = state.crewHealth.every((health) => health <= 0)
           ? 'crew'
@@ -3783,7 +3791,8 @@ export class Game implements LoopCallbacks {
       this.tutorialReadyAt !== null &&
       this.state.simTime >= this.tutorialReadyAt
     ) {
-      if (this.vehicleScene.spawn(this.tutorialSkiffSide(), true)) {
+      const side = this.tutorialSkiffSide();
+      if (this.vehicleScene.spawn(side, true)) {
         this.tutorialStarted = true;
         // The guided encounter happens before the director's recurring
         // schedule, so explicitly hand ownership to it for the same recovery
@@ -3795,6 +3804,9 @@ export class Game implements LoopCallbacks {
           true,
         );
         this.bus.emit('boarding:started', { encounterId: 'tutorial-skiff' });
+        this.hud.setWarning(
+          `Skiff approaching ${side === 'starboard' ? 'starboard (right)' : 'port (left)'}. Aim at its grapple and climbing crew, or leave the gun and defend the deck.`,
+        );
       }
     }
     if (!this.vehicleManager.active) {
@@ -4067,6 +4079,7 @@ export class Game implements LoopCallbacks {
 
   private startNewGame(profile: CampaignProfile = 'story'): void {
     if (this.artTransition || this.continuing) return;
+    this.adoptCampaignSeed(this.requestedSeed, 0);
     this.closePanels(false);
     this.caretaker.reset();
     this.clearCaretakerActor();
@@ -4078,7 +4091,6 @@ export class Game implements LoopCallbacks {
     this.stopHomeRest();
     this.optionalSalvageEncounterId = null;
     this.optionalSalvageFailed = false;
-    this.dustFront.reset(0);
     this.weatherPhase = 'clear';
     // Fresh state before the opening, so New Game after a session in progress
     // does not start the chase over a deck the last run built.
@@ -4091,8 +4103,6 @@ export class Game implements LoopCallbacks {
     this.course.restore(undefined);
     this.courseDeltaM = 0;
     this.world.setLateralOffset(0);
-    this.world.reset(0);
-    this.spawner.resync(0);
     this.director.reset(0);
     this.threatPhase = 'calm';
     this.vehicleScene.clear();
@@ -4141,7 +4151,6 @@ export class Game implements LoopCallbacks {
     this.machine.power.unregisterConsumer(this.radioPowerConsumerId);
     this.machine.power.unregisterConsumer(this.helmPowerConsumerId);
     this.radioPowered = false;
-    this.salvage.reset(0);
     this.hook = null;
     this.hookedCrate = null;
     this.reelReady = false;
@@ -5857,7 +5866,12 @@ export class Game implements LoopCallbacks {
   }
 
   private expeditionAssetIds(id: string): string[] {
-    const model = STORY_EXPEDITIONS.find((chapter) => chapter.id === id)?.modelId;
+    // Wreck One keeps its original logical model ID in the chapter data;
+    // the shipped art catalog uses expedition-wreck for that model.
+    const model =
+      id === 'wreck-one'
+        ? 'expedition-wreck'
+        : STORY_EXPEDITIONS.find((chapter) => chapter.id === id)?.modelId;
     return [
       ...(model ? [model] : []),
       ...(id === 'relay-foundry' ? ['fieldwork-kit'] : []),
@@ -7284,10 +7298,28 @@ export class Game implements LoopCallbacks {
     }
   }
 
+  /** The loaded campaign owns every deterministic stream, including scenery. */
+  private adoptCampaignSeed(seed: string, distance: number): void {
+    this.state.seed = seed;
+    this.world.reseed(seed, distance);
+    this.spawner.reseed(seed, distance);
+    this.director.reseed(seed);
+    this.salvage.reseed(seed, distance);
+    this.lootRng = new Rng(hashSeed(seed, 'loot'));
+    this.dustFront = new DustFrontDirector(seed);
+  }
+
   async loadFrom(slot: string): Promise<boolean> {
     if (this.artTransition || this.disposed) return false;
     const save = await this.saves.load(slot);
     if (!save) return false;
+    if (
+      typeof save.seed !== 'string' ||
+      save.seed.length === 0 ||
+      !Number.isFinite(save.distanceTraveled) ||
+      save.distanceTraveled < 0
+    )
+      return false;
     const savedStory = save.world.story;
     const assetIds = new Set<string>();
     if (
@@ -7320,10 +7352,10 @@ export class Game implements LoopCallbacks {
     if (savedContact && Object.hasOwn(OPPORTUNITIES, savedContact.kind))
       assetIds.add(OPPORTUNITIES[savedContact.kind].model);
     if (!(await this.prepareCampaignArt([...assetIds]))) return false;
+    this.adoptCampaignSeed(save.seed, save.distanceTraveled);
     this.stopHomeRest();
     this.optionalSalvageEncounterId = null;
     this.optionalSalvageFailed = false;
-    this.dustFront = new DustFrontDirector(save.seed);
     this.dustFront.restore(save.world.dustFront, save.distanceTraveled);
     this.weatherPhase = this.dustFront.snapshot().phase;
     this.dismissedRecovery.clear();
@@ -7338,9 +7370,6 @@ export class Game implements LoopCallbacks {
     this.nextStatusUpdateAt = 0;
     this.sessionMetrics.reset();
 
-    // Distance drives everything about the world, so restoring it regenerates
-    // the identical chunks — nothing about the world itself is stored.
-    this.world.reset(save.distanceTraveled);
     this.vehicleScene.clear();
     this.gunboatScene.clear();
     this.boardingEnemyIds.clear();
@@ -7354,8 +7383,6 @@ export class Game implements LoopCallbacks {
     this.tutorialStarted = false;
     this.tutorialReadyAt = null;
     this.tutorialTurretId = null;
-    // Derived from distance, so a load re-derives it rather than restoring it.
-    this.spawner.resync(save.distanceTraveled);
     // A save written before the director existed restores as a fresh one from
     // the same seed, which is the same thing a new game gets.
     if (save.world.threatDirector) {
@@ -7507,7 +7534,6 @@ export class Game implements LoopCallbacks {
       this.scriptedSkiffPending = pendingRoute.scriptedVehicle === 'skiff';
     }
     this.playableStartedAt = this.state.simTime;
-    this.salvage.reset(save.distanceTraveled);
     this.hook = null;
     this.hookedCrate = null;
     this.reelReady = false;

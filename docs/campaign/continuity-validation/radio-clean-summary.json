@@ -1,0 +1,187 @@
+{
+  "status": "passed-slice-2-offer-ready",
+  "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-build-clean\\run-2026-09-15T11-02-16-853Z\\first-loop-1789470403504\\boarding-1789473321465\\browser-profile",
+  "profile": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789475135178\\browser-profile",
+  "seed": "mmf-dev-seed",
+  "restored": {
+    "simTime": 0.36666666666666664,
+    "seed": "mmf-dev-seed",
+    "distanceM": 2714.168440549419,
+    "resources": [
+      [
+        "scrap",
+        216
+      ],
+      [
+        "components",
+        9
+      ],
+      [
+        "fuel",
+        4
+      ]
+    ],
+    "pieces": [
+      {
+        "id": "bp-2",
+        "piece": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-4",
+        "piece": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-6",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-8",
+        "piece": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      },
+      {
+        "id": "bp-3",
+        "piece": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        }
+      },
+      {
+        "id": "bp-5",
+        "piece": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "bp-7",
+        "piece": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        }
+      },
+      {
+        "id": "bp-9",
+        "piece": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        }
+      }
+    ],
+    "firstRun": {
+      "completed": [
+        "salvage",
+        "build-refinery",
+        "refine-components",
+        "build-workbench",
+        "build-defense",
+        "survive-boarding",
+        "repair"
+      ],
+      "counters": {
+        "salvage": 4,
+        "componentsAvailable": 9,
+        "refineryBuilt": 1,
+        "components": 4,
+        "workbenchBuilt": 1,
+        "defense": 2,
+        "defenseCrewed": 2,
+        "boardingSurvived": 4,
+        "boardingEnded": 1,
+        "repairsAfterBoarding": 1
+      }
+    },
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "raids",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      },
+      "radioTraceEligible": true
+    },
+    "phase": "raids",
+    "radio": {
+      "status": "found",
+      "armedAt": null,
+      "foundAtTime": 10.766666666666781,
+      "foundAt": 59.97686964118998,
+      "opened": 1
+    },
+    "raids": {
+      "wave": 1,
+      "remaining": 104.31782432682824
+    },
+    "vehicle": null,
+    "enemies": 0,
+    "paused": true,
+    "panels": false,
+    "playerHealth": 78,
+    "damage": [
+      {
+        "id": "engine",
+        "health": 320
+      },
+      {
+        "id": "leg-front-left",
+        "health": 180
+      },
+      {
+        "id": "leg-front-right",
+        "health": 180
+      },
+      {
+        "id": "leg-rear-left",
+        "health": 180
+      },
+      {
+        "id": "leg-rear-right",
+        "health": 180
+      }
+    ],
+    "needs": {
+      "hydration": 73.09888888883273,
+      "nourishment": 75.59888888880705
+    },
+    "ammo": {
+      "mag": 15,
+      "reserve": 150
+    },
+    "events": []
+  },
+  "errors": []
+}

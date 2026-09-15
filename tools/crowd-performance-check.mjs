@@ -66,16 +66,55 @@ try {
       const result = await page.evaluate(
         async ({ mode, seconds, repetition }) => {
           const g = globalThis.__game.game;
+          const fixture = {
+            fuel: 60,
+            modifiers: { generationBonus: 0, fuelBurnMultiplier: 1 },
+            totalWeight: 12000,
+          };
           g.stop();
           g.loop.accumulator = 0;
           g.state.paused = false;
           g.opening.restore({ phase: 'done' });
           g.enemies.despawnAll();
+          g.tacticsVisual.clear();
           g.world.reset(0);
+          g.world.setLateralOffset(0);
           g.player.stats.invulnerable = true;
           g.player.teleport(g.player.worldPosition.clone().set(5.6, 15.8, 1.5));
           g.playerCamera.setYaw(0);
+          g.playerCamera.setOptions({ shoulder: 'right' });
           g.playerCamera.resetHistory();
+          // These are private implementation fields, deliberately touched only
+          // by this QA fixture to make pooled runs start from one known state.
+          g.playerCamera.pitch = -0.08;
+          g.playerCamera.recoilPitch = 0;
+          g.playerCamera.recoilYaw = 0;
+          g.playerCamera.aimed = false;
+          g.playerCamera.aimBlend = 0;
+          g.state.simTime = 0;
+          g.enemies.simulationTime = 0;
+          g.enemies.repathTick = 0;
+          g.enemies.flankUntil.clear();
+          g.enemies.flankTargets.clear();
+          g.machine.movement.speed = 0;
+          g.machine.movement.totalWeight = fixture.totalWeight;
+          g.machine.movement.enginePower = 1;
+          g.machine.movement.legScale = 1;
+          g.machine.movement.fuelAvailable = true;
+          g.machine.damage.restore(undefined);
+          g.machine.movement.setModifiers({
+            speedMultiplier: 1,
+            effectiveWeightMultiplier: 1,
+            accelerationMultiplier: 1,
+          });
+          g.machine.movement.setThrottle(1);
+          g.machine.movement.setScriptedSpeedLimit(null);
+          g.machine.power.restore({ fuel: fixture.fuel });
+          g.machine.power.setModifiers(fixture.modifiers);
+          const restPose = g.machine.poseAt(0);
+          g.machine.setPose(restPose);
+          g.machine.setPose(restPose);
+          g.machine.fixedUpdate(0);
           const positions = [
             [-6, -6],
             [-6, -2],
@@ -97,6 +136,47 @@ try {
             )
               throw new Error(`enemy ${i} failed to spawn`);
           }
+          g.physics.step();
+          const snapshot = () => ({
+            simTime: g.state.simTime,
+            enemyClock: g.enemies.simulationTime,
+            repathTick: g.enemies.repathTick,
+            worldDistance: g.world.distanceTraveled,
+            lateralOffset: g.world.lateralWorldOffset,
+            machine: {
+              speed: g.machine.speed,
+              targetSpeed: g.machine.movement.targetSpeed,
+              scriptedSpeedLimit: g.machine.movement.currentScriptedSpeedLimit,
+              pose: { ...g.machine.currentPose },
+            },
+            power: {
+              fuel: g.machine.power.fuel,
+              capacity: g.machine.power.fuelCapacity,
+              demand: g.machine.power.registeredDemand,
+              modifiers: g.machine.power.activeModifiers,
+            },
+            movementModifiers: { ...g.machine.movement.modifiers },
+            damage: g.machine.damage.toSave(),
+            camera: {
+              yaw: g.playerCamera.yawAngle,
+              pitch: g.playerCamera.pitchAngle,
+              shoulder: g.playerCamera.shoulderSide,
+            },
+            enemies: g.enemies.active.map((enemy) => ({
+              id: enemy.id,
+              kind: enemy.def.id,
+              state: enemy.aiState,
+              position: enemy.worldPosition.toArray(),
+            })),
+            player: g.player.worldPosition.toArray(),
+            physics: { bodies: g.physics.bodyCount, colliders: g.physics.colliderCount },
+            art: {
+              playerAnimated: g.player.visual.isAnimated,
+              tacticsModelLoaded: Boolean(g.tacticsModel),
+              enemyAnimated: g.enemies.active.map((enemy) => enemy.visual.isAnimated),
+            },
+          });
+          const initialSnapshot = snapshot();
           const restore = [];
           const replace = (object, key, replacement) => {
             const original = object[key];
@@ -156,6 +236,7 @@ try {
             requestAnimationFrame(warm);
           });
           const warmupMs = performance.now() - warmupStart;
+          const warmupSnapshot = snapshot();
           frameWork.length = 0;
           for (const item of Object.values(work)) Object.assign(item, { calls: 0, ms: 0, max: 0 });
           const frames = [];
@@ -212,12 +293,14 @@ try {
             enemies: g.enemies.activeCount,
             warmupMs,
             warmupFrames: 180,
+            initialSnapshot,
+            warmupSnapshot,
             yawTravel: initialYaw - g.playerCamera.yawAngle,
             deliveredX,
             enemyStates: g.enemies.active.map((enemy) => ({
               id: enemy.id,
               kind: enemy.def.id,
-              state: enemy.state,
+              state: enemy.aiState,
               at: enemy.worldPosition.toArray(),
             })),
           };

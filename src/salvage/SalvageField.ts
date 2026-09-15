@@ -71,7 +71,7 @@ export interface SalvageTransferResult {
 
 export class SalvageField {
   private readonly crates: Crate[] = [];
-  private readonly seed: number;
+  private seed: number;
   private rng: Rng;
   private nextAt = INTERVAL_M;
   private nextId = 0;
@@ -127,6 +127,12 @@ export class SalvageField {
     this.earlySpawned = false;
     this.cadenceInterval = EARLY_INTERVAL_M;
     this.rng = new Rng(this.seed);
+  }
+
+  /** Adopt a loaded campaign seed and rebuild the deterministic crate pool. */
+  reseed(seed: string, distance: number): void {
+    this.seed = hashSeed(seed, 'salvage');
+    this.reset(distance);
   }
 
   /** Crates the reel is allowed to consider, in world space. */

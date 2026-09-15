@@ -80,6 +80,15 @@ describe('resync', () => {
     s.resync(INTERVAL);
     expect(s.nextSpawnAt).toBe(INTERVAL * 2);
   });
+
+  it('reseed adopts another campaign without retaining the old placement stream', () => {
+    const control = new EnemySpawner('campaign-a', INTERVAL, CAP);
+    const loaded = new EnemySpawner('campaign-b', INTERVAL, CAP);
+    loaded.reseed('campaign-a', 1000);
+    control.resync(1000);
+    expect(loaded.nextSpawnAt).toBe(control.nextSpawnAt);
+    expect(loaded.placementFor(BOUNDS, ORIGIN)).toEqual(control.placementFor(BOUNDS, ORIGIN));
+  });
 });
 
 describe('spawn points', () => {
@@ -131,9 +140,12 @@ describe('the keep-out predicate', () => {
   // inside this box on all three axes — this is finding 1 of the review.
   const PROW = { xMin: -4.5, xMax: 4.5, yMin: 2.49, yMax: 3.59, zMin: -8.2, zMax: -6.6 };
   const insideProw = (p: Vec3Like): boolean =>
-    p.x >= PROW.xMin && p.x <= PROW.xMax &&
-    p.y >= PROW.yMin && p.y <= PROW.yMax &&
-    p.z >= PROW.zMin && p.z <= PROW.zMax;
+    p.x >= PROW.xMin &&
+    p.x <= PROW.xMax &&
+    p.y >= PROW.yMin &&
+    p.y <= PROW.yMax &&
+    p.z >= PROW.zMin &&
+    p.z <= PROW.zMax;
 
   it('never places an arrival inside the prow, for any player position on the whole deck', () => {
     // Sweep the whole deck, including z > 0 (the rear half) — no existing
@@ -148,12 +160,7 @@ describe('the keep-out predicate', () => {
       for (let px = -BOUNDS.halfWidth; px <= BOUNDS.halfWidth; px += 1) {
         for (let seed = 0; seed < 6; seed++) {
           total++;
-          const p = perimeterSpawnPoint(
-            BOUNDS,
-            { x: px, y: 0, z: pz },
-            new Rng(seed),
-            insideProw,
-          );
+          const p = perimeterSpawnPoint(BOUNDS, { x: px, y: 0, z: pz }, new Rng(seed), insideProw);
           if (p === null) continue;
           sawNonNull++;
           expect(insideProw(p)).toBe(false);

@@ -110,11 +110,19 @@ The first eligible salvage chest after the opening contains the radio. Reception
 
 Control returns with a short breather. Random boarding ships approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health on deck. Attacks have a 75–115 second recovery interval. After your first successful defense, the powered radio offers **Trace Wreck One**. You can accept it when safe or keep surviving aboard the machine.
 
+Campaign saves carry their requested seed across terrain, scenery, threats,
+spawning, salvage, loot and radio routes, so continuing a non-default seed does
+not silently rebuild the world from the default URL seed. See the [campaign
+save continuity delivery record](docs/campaign/campaign-save-continuity-delivery.md)
+for the validated lineage and current boundaries.
+
 Mechs now have distinct counters: dodge the Revenant's marked lunge, shoot the Bastion's glowing cooling vent after its burst, watch the Warden reposition around cover, and destroy the Sovereign's armored support orb to remove nearby allies' damage protection. Later raids can assault the player, sabotage a machine service panel, or steal a small stack from built storage. Supply carriers are marked; kill them to recover the cargo, or cut their ship's grapple to block extraction. Recovered supplies that cannot fit remain available at the radio and survive saving and loading.
 
 ## First expedition chapter
 
 The optional radio trace leads to Wreck One, a physical dock: slow at the safe boundary, cross the authored gangway, read its three logs and recover the Course Gyro. Returning to the radio enables departure. Saves already committed to either expedition retain their progression; older saves with a completed radio raid gain the trace offer.
+
+The validated save-seed and Wreck continuity lineage is recorded in the [campaign continuity delivery notes](docs/campaign/campaign-save-continuity-delivery.md).
 
 The Course Gyro unlocks the Navigation Helm. Choose a shorter direct route with a gunboat encounter or a longer detour. The machine holds outside the Foundry until nearby fighting ends, then docks for exploration. Recover the Salvage Controller and Tracking Servo and read the Foundry's records before returning aboard. These components unlock the automatic collector and defense turret.
 
