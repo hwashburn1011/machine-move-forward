@@ -75,6 +75,7 @@ export const CRITICAL_MODEL_IDS = [
   'navigation-helm',
   'player',
   'home-furnishings',
+  'galley-kit',
 ] as const;
 export const CAMPAIGN_MODEL_IDS = [
   'fieldwork-kit',
@@ -159,7 +160,11 @@ export async function ensureAuthoredModels(ids: readonly string[]): Promise<void
                 mesh.matrixAutoUpdate = false;
               });
             }
-            if (id === 'home-furnishings' || (CAMPAIGN_MODEL_IDS as readonly string[]).includes(id))
+            if (
+              id === 'home-furnishings' ||
+              id === 'galley-kit' ||
+              (CAMPAIGN_MODEL_IDS as readonly string[]).includes(id)
+            )
               shareArrayPalette(model);
             models.set(id, model);
           } catch {

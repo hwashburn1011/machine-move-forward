@@ -1,0 +1,27 @@
+{
+  "name": "galley-kit",
+  "meshes": 25,
+  "triangles": 38740,
+  "anchors": {
+    "NomadGalley": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "GalleyStove": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "GalleyCondenser": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "GalleyPlanter": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

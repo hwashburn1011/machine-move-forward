@@ -146,6 +146,11 @@ export class Machine {
   private readonly scratchFoot = new THREE.Vector3();
   private authoredDetailRoot: THREE.Object3D | null = null;
   private readonly authoredFallbackMeshes: THREE.Mesh[] = [];
+  private cameraCloth: readonly THREE.Mesh[] = [];
+  /** Proven decorative canvas occluders; never included in gameplay collision. */
+  get cameraClothMeshes(): readonly THREE.Mesh[] {
+    return this.cameraCloth;
+  }
   private readonly proceduralBodyRoots: readonly THREE.Object3D[];
   private disposed = false;
 
@@ -237,6 +242,7 @@ export class Machine {
 
   /** Replace the visual hull and static surface collision as one reusable bundle. */
   applyAuthoredDetailModel(model: LoadedModel | null, collision: LoadedModel | null = null): void {
+    this.cameraCloth = [];
     this.legs.apply(null);
     this.exhaust.apply(null);
     for (const mesh of this.authoredFallbackMeshes) mesh.visible = true;
@@ -275,6 +281,14 @@ export class Machine {
     });
     this.group.add(wrapper);
     this.authoredDetailRoot = wrapper;
+    const cloth: THREE.Mesh[] = [];
+    wrapper.getObjectByName('Canvas_and_Rigging')?.traverse((node) => {
+      if (!(node instanceof THREE.Mesh)) return;
+      const materials = Array.isArray(node.material) ? node.material : [node.material];
+      if (materials.length > 0 && materials.every((material) => material.name === 'Nomad_cloth'))
+        cloth.push(node);
+    });
+    this.cameraCloth = cloth;
     this.legs.apply(wrapper);
     this.exhaust.apply(wrapper);
     // Local work lights keep the enclosed bays readable. Emissive fixtures in

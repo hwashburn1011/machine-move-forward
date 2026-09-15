@@ -1,0 +1,2284 @@
+{
+  "date": "2026-09-15",
+  "baseCommit": "7042af3eb5e5b60ab8f61736379e10abf9e38172",
+  "authority": "Normal-input cloned campaign profiles; no state grants, teleports, encounter suppression, or accelerated simulation.",
+  "sourceProfiles": {
+    "cameraAndGalley": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-55-52-445Z\\browser-profile",
+    "coldAndMatrix": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-ending\\run-2026-09-15T18-11-26-503Z\\browser-profile"
+  },
+  "camera": {
+    "before": {
+      "label": "orbit-3.2--0.35",
+      "player": [
+        0.6827106816772784,
+        15.804292815342608,
+        3.8827660639517374
+      ],
+      "camera": [
+        -0.11894884054184063,
+        17.848890778608354,
+        0.7358895543815587
+      ],
+      "yaw": 9.482000000000001,
+      "pitch": -0.3483999999999997,
+      "bodyDistance": 3.837449957821224,
+      "boomFraction": 0.9981756169393726,
+      "blocker": null,
+      "interaction": null,
+      "shoulder": null,
+      "aiming": null,
+      "cloth": null,
+      "runtimeBundle": null,
+      "render": {
+        "frame": 20804,
+        "calls": 598,
+        "triangles": 1673845,
+        "points": 528,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 490,
+        "textures": 559
+      }
+    },
+    "after": {
+      "label": "orbit-3.2--0.35",
+      "player": [
+        0.6973266610690354,
+        15.806166558755582,
+        3.9507587646027327
+      ],
+      "camera": [
+        -0.10842063463334684,
+        17.84933735821187,
+        0.8105585922665499
+      ],
+      "yaw": 9.482,
+      "pitch": -0.34839999999999993,
+      "bodyDistance": 3.832058593735153,
+      "boomFraction": 0.9982790451241074,
+      "blocker": null,
+      "interaction": null,
+      "shoulder": null,
+      "aiming": null,
+      "cloth": null,
+      "runtimeBundle": null,
+      "render": {
+        "frame": 20132,
+        "calls": 626,
+        "triangles": 1773271,
+        "points": 534,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 512,
+        "textures": 559
+      }
+    },
+    "foreground": {
+      "name": "Tailored_hanging_banner001_2",
+      "distance": 1.440051806807382,
+      "parents": [
+        "Tailored_hanging_banner001_2",
+        "Canvas_and_Rigging_Geometry",
+        "Canvas_and_Rigging",
+        "IronNomad_FourLegWalker",
+        "Iron_Nomad_-_portable_articulated_asset",
+        "authored-machine-details",
+        "IronNomad_PlayableMachine",
+        "Scene"
+      ]
+    },
+    "matrix": {
+      "status": "passed",
+      "lowerY": 12.803225578768252,
+      "upperY": 15.869436820498539,
+      "input": "KeyV and right mouse; normal W movement on both stair directions",
+      "captures": [
+        {
+          "label": "continued",
+          "player": [
+            0.7632075536697032,
+            15.802668700725405,
+            -0.5014451075772203
+          ],
+          "camera": [
+            1.4011402841322784,
+            16.960697100619942,
+            2.887518181914131
+          ],
+          "yaw": 0,
+          "pitch": -0.08,
+          "bodyDistance": 3.637739171674884,
+          "boomFraction": 1,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-14",
+            "kind": "producer",
+            "label": "Planter Box"
+          },
+          "shoulder": "right",
+          "aiming": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 1,
+                  "transparent": false
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 676,
+            "calls": 714,
+            "triangles": 1790510,
+            "points": 499,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 481,
+            "textures": 533
+          }
+        },
+        {
+          "label": "galley-right-hip",
+          "player": [
+            0.7015842824749783,
+            15.806094171168839,
+            3.9514236395919995
+          ],
+          "camera": [
+            -0.11805628143656377,
+            17.852790666797212,
+            0.804087351697159
+          ],
+          "yaw": 3.1988000000000003,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 3.8397914241029794,
+          "boomFraction": 0.9999999971188822,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-16",
+            "kind": "stove",
+            "label": "Stove"
+          },
+          "shoulder": "right",
+          "aiming": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 0.06,
+                  "transparent": true
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 3780,
+            "calls": 584,
+            "triangles": 1498004,
+            "points": 527,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 481,
+            "textures": 533
+          }
+        },
+        {
+          "label": "galley-right-aim",
+          "player": [
+            0.7015768726158241,
+            15.806331297117145,
+            3.9506358878570427
+          ],
+          "camera": [
+            0.09694140462560175,
+            17.294985370622296,
+            2.109806904761702
+          ],
+          "yaw": 3.1988000000000003,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 2.4434193150970556,
+          "boomFraction": 0.9999999999967077,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-16",
+            "kind": "stove",
+            "label": "Stove"
+          },
+          "shoulder": "right",
+          "aiming": true,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 0.8693400000373525,
+                  "transparent": true
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 4660,
+            "calls": 515,
+            "triangles": 1418080,
+            "points": 527,
+            "lines": 0
+          },
+          "memory": {
+            "geometries": 481,
+            "textures": 533
+          }
+        },
+        {
+          "label": "galley-left-hip",
+          "player": [
+            0.7015760129598957,
+            15.806491411086814,
+            3.949824547578998
+          ],
+          "camera": [
+            1.1198714833869952,
+            17.8528782442124,
+            0.7332111041802265
+          ],
+          "yaw": 3.1988000000000003,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 3.8352549362101773,
+          "boomFraction": 0.9999999999999962,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-16",
+            "kind": "stove",
+            "label": "Stove"
+          },
+          "shoulder": "left",
+          "aiming": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 0.06,
+                  "transparent": true
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 5524,
+            "calls": 576,
+            "triangles": 1501932,
+            "points": 538,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 481,
+            "textures": 533
+          }
+        },
+        {
+          "label": "galley-left-aim",
+          "player": [
+            0.7015789651748853,
+            15.806590873255855,
+            3.94902722974361
+          ],
+          "camera": [
+            1.0553777657429768,
+            17.294849513568813,
+            2.054894161214638
+          ],
+          "yaw": 3.1988000000000003,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 2.434701595163555,
+          "boomFraction": 0.9999999999999996,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-16",
+            "kind": "stove",
+            "label": "Stove"
+          },
+          "shoulder": "left",
+          "aiming": true,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 0.06,
+                  "transparent": true
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 6388,
+            "calls": 535,
+            "triangles": 1422928,
+            "points": 528,
+            "lines": 0
+          },
+          "memory": {
+            "geometries": 481,
+            "textures": 533
+          }
+        },
+        {
+          "label": "upper-stair-mouth",
+          "player": [
+            -1.9610965018022117,
+            15.801412755727359,
+            2.819103435549066
+          ],
+          "camera": [
+            1.3001169260448777,
+            17.85303882991955,
+            3.090480467094811
+          ],
+          "yaw": 7.959600000000002,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 3.8624242354970404,
+          "boomFraction": 0.9999989161845765,
+          "blocker": null,
+          "interaction": null,
+          "shoulder": "left",
+          "aiming": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 0.06,
+                  "transparent": true
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 8724,
+            "calls": 650,
+            "triangles": 1732236,
+            "points": 524,
+            "lines": 0
+          },
+          "memory": {
+            "geometries": 481,
+            "textures": 536
+          }
+        },
+        {
+          "label": "middle-stair-mouth-right-hip",
+          "player": [
+            -2.006645708751213,
+            12.803583922064346,
+            -2.658494484094046
+          ],
+          "camera": [
+            -2.811587754716546,
+            14.27194842385844,
+            -5.803377204979469
+          ],
+          "yaw": 3.201000000000001,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 3.5629218171870143,
+          "boomFraction": 0.9988965213253513,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-18",
+            "kind": "crate",
+            "label": "Storage Crate"
+          },
+          "shoulder": "right",
+          "aiming": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 1,
+                  "transparent": false
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 12036,
+            "calls": 785,
+            "triangles": 1833341,
+            "points": 528,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 509,
+            "textures": 559
+          }
+        },
+        {
+          "label": "middle-stair-mouth-right-aim",
+          "player": [
+            -2.0152483942141806,
+            12.80875729302046,
+            -2.667499246093325
+          ],
+          "camera": [
+            -2.593767110682265,
+            14.293077521072885,
+            -4.499034803820291
+          ],
+          "yaw": 3.201000000000001,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 2.4274490987780704,
+          "boomFraction": 0.9986064273212696,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-18",
+            "kind": "crate",
+            "label": "Storage Crate"
+          },
+          "shoulder": "right",
+          "aiming": true,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 1,
+                  "transparent": false
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 12980,
+            "calls": 634,
+            "triangles": 1708037,
+            "points": 540,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 509,
+            "textures": 559
+          }
+        },
+        {
+          "label": "middle-stair-mouth-left-hip",
+          "player": [
+            -2.01834293549218,
+            12.801825551147362,
+            -2.658357591369028
+          ],
+          "camera": [
+            -1.5769718188592066,
+            14.268538355850007,
+            -5.863204248788447
+          ],
+          "yaw": 3.201000000000001,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 3.5520470349483224,
+          "boomFraction": 0.9946594615674673,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-18",
+            "kind": "crate",
+            "label": "Storage Crate"
+          },
+          "shoulder": "left",
+          "aiming": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 1,
+                  "transparent": false
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 13940,
+            "calls": 801,
+            "triangles": 1847381,
+            "points": 531,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 509,
+            "textures": 559
+          }
+        },
+        {
+          "label": "middle-stair-mouth-left-aim",
+          "player": [
+            -2.0179366777360546,
+            12.80711673801178,
+            -2.6419570029273047
+          ],
+          "camera": [
+            -1.6445841357280198,
+            14.271783186226411,
+            -4.515538358642538
+          ],
+          "yaw": 3.201000000000001,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 2.407270092741613,
+          "boomFraction": 0.9774096894994315,
+          "blocker": {
+            "distance": 2.1293821334838867,
+            "position": {
+              "x": 0,
+              "y": -0.003021240234375,
+              "z": 0
+            },
+            "half": null,
+            "userData": {
+              "kind": "machine"
+            }
+          },
+          "interaction": {
+            "id": "bp-18",
+            "kind": "crate",
+            "label": "Storage Crate"
+          },
+          "shoulder": "left",
+          "aiming": true,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 1,
+                  "transparent": false
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 14900,
+            "calls": 638,
+            "triangles": 1711897,
+            "points": 529,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 509,
+            "textures": 559
+          }
+        },
+        {
+          "label": "upper-stair-exit",
+          "player": [
+            0.6680873822041294,
+            15.869436820498539,
+            2.8031558029176726
+          ],
+          "camera": [
+            -2.5332612033881214,
+            17.9183239310391,
+            2.226256052738504
+          ],
+          "yaw": 4.7278,
+          "pitch": -0.34840000000000004,
+          "bodyDistance": 3.844389348380788,
+          "boomFraction": 0.9999999999998144,
+          "blocker": null,
+          "interaction": {
+            "id": "bp-16",
+            "kind": "stove",
+            "label": "Stove"
+          },
+          "shoulder": "left",
+          "aiming": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materials": [
+                {
+                  "opacity": 1,
+                  "transparent": false
+                }
+              ]
+            }
+          ],
+          "runtimeBundle": [
+            "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+          ],
+          "render": {
+            "frame": 20468,
+            "calls": 738,
+            "triangles": 1916353,
+            "points": 537,
+            "lines": 12
+          },
+          "memory": {
+            "geometries": 515,
+            "textures": 559
+          }
+        }
+      ]
+    }
+  },
+  "galley": {
+    "initial": {
+      "resources": {
+        "water": 0,
+        "greens": 1,
+        "rations": 0,
+        "scrap": 1641,
+        "components": 87
+      },
+      "needs": {
+        "hydration": 67.65638888880505,
+        "nourishment": 76.44777777769879
+      },
+      "health": 62,
+      "player": [
+        0.8106734097151115,
+        15.797919768307006,
+        -4.601682536129455
+      ]
+    },
+    "before": {
+      "resources": {
+        "water": 1,
+        "greens": 4,
+        "rations": 0,
+        "scrap": 841,
+        "components": 87
+      },
+      "needs": {
+        "hydration": 66.565487499917,
+        "nourishment": 75.71888888880746
+      },
+      "health": 62,
+      "player": [
+        0.7101603903334197,
+        15.807294256355272,
+        1.8934431446477349
+      ]
+    },
+    "cooked": {
+      "resources": {
+        "water": 0,
+        "greens": 3,
+        "rations": 1,
+        "scrap": 841,
+        "components": 87
+      },
+      "needs": {
+        "hydration": 66.54447685176885,
+        "nourishment": 75.70444444436296
+      },
+      "health": 62,
+      "player": [
+        0.7192925052870692,
+        15.802775865689654,
+        1.9183612734460174
+      ]
+    },
+    "used": {
+      "resources": {
+        "water": 0,
+        "greens": 3,
+        "rations": 0,
+        "scrap": 841,
+        "components": 87
+      },
+      "needs": {
+        "hydration": 66.48350972213922,
+        "nourishment": 99.98777777777774
+      },
+      "health": 62,
+      "player": [
+        0.6989803038314348,
+        15.803742009657714,
+        1.9116946263873453
+      ]
+    },
+    "final": {
+      "resources": {
+        "water": 0,
+        "greens": 3,
+        "rations": 0,
+        "scrap": 1641,
+        "components": 87
+      },
+      "needs": {
+        "hydration": 66.3185236110281,
+        "nourishment": 99.87111111111068
+      },
+      "health": 62,
+      "player": [
+        0.6742808463006706,
+        15.80634698621602,
+        -1.3799818272967626
+      ]
+    }
+  },
+  "cold": {
+    "checks": {
+      "committedMatchesPaused": true,
+      "structures": true,
+      "inventory": true,
+      "art": true,
+      "warningClear": true
+    },
+    "allStructuresExactlyEqualIncludingProgress": true,
+    "checkpoint": {
+      "version": 1,
+      "savedAt": 1789500222403,
+      "seed": "mmf-dev-seed",
+      "profile": "story",
+      "distanceTraveled": 17725.630273618746,
+      "player": {
+        "position": {
+          "x": 0.7978847427178909,
+          "y": 15.803445718341019,
+          "z": -0.49996413948445095
+        },
+        "health": 62,
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 12
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 21
+          },
+          {
+            "itemId": "components",
+            "count": 50
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "components",
+            "count": 37
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "greens",
+            "count": 1
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          null
+        ],
+        "needs": {
+          "hydration": 63.484166666571575,
+          "nourishment": 72.38555555546294
+        },
+        "equipment": {
+          "currentWeapon": "rifle",
+          "weapons": [
+            {
+              "id": "rifle",
+              "ammoInMag": 2,
+              "reserveAmmo": 150,
+              "magazineBonus": 0
+            },
+            {
+              "id": "shotgun",
+              "ammoInMag": 6,
+              "reserveAmmo": 48,
+              "magazineBonus": 0
+            }
+          ]
+        }
+      },
+      "machine": {
+        "layout": "iron-nomad-v1",
+        "structures": [
+          {
+            "instanceId": "bp-2",
+            "definitionId": "floor",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-4",
+            "definitionId": "floor",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0,
+            "health": 40
+          },
+          {
+            "instanceId": "bp-6",
+            "definitionId": "floor",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-12",
+            "definitionId": "floor",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 2
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-15",
+            "definitionId": "floor",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-17",
+            "definitionId": "floor",
+            "cell": {
+              "x": -2,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-19",
+            "definitionId": "floor",
+            "cell": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 120
+          },
+          {
+            "instanceId": "bp-7",
+            "definitionId": "workbench",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 130
+          },
+          {
+            "instanceId": "bp-10",
+            "definitionId": "generator",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 3
+            },
+            "rotation": 0,
+            "health": 170
+          },
+          {
+            "instanceId": "bp-13",
+            "definitionId": "condenser",
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": 2
+            },
+            "rotation": 0,
+            "health": 130,
+            "state": {
+              "progress": 0.01666666663990668,
+              "stored": 1
+            }
+          },
+          {
+            "instanceId": "bp-14",
+            "definitionId": "planter",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0,
+            "health": 90,
+            "state": {
+              "progress": 8.074607649177779e-11,
+              "stored": 3
+            }
+          },
+          {
+            "instanceId": "bp-16",
+            "definitionId": "stove",
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 95
+          },
+          {
+            "instanceId": "bp-18",
+            "definitionId": "crate",
+            "cell": {
+              "x": -2,
+              "y": 0,
+              "z": -1
+            },
+            "rotation": 0,
+            "health": 110,
+            "state": {
+              "slots": [
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                {
+                  "itemId": "scrap",
+                  "count": 100
+                },
+                null,
+                null,
+                null,
+                null
+              ]
+            }
+          }
+        ],
+        "devices": [],
+        "fuel": 20.207450000025933,
+        "coreHealth": 100,
+        "navigationTier": 3,
+        "course": {
+          "tier": 3,
+          "bearingDeg": 32,
+          "desiredDeg": 32,
+          "throttle": 1,
+          "lateralM": 282.6982515019259
+        },
+        "subsystems": [
+          {
+            "id": "engine",
+            "health": 320
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ]
+      },
+      "progression": {
+        "caretaker": {
+          "format": 1,
+          "recruited": false,
+          "mode": "companion"
+        },
+        "unlocks": [
+          "manual-turret",
+          "automatic-salvage-collector",
+          "automatic-defense-turret",
+          "seed-garden"
+        ],
+        "turretBlueprintProgress": 1,
+        "upgrades": {
+          "researched": [
+            "lean-governor"
+          ],
+          "active": {
+            "power": "lean-governor"
+          }
+        },
+        "radio": {
+          "status": "found",
+          "armedAtSimTime": null,
+          "foundAtSimTime": 10.766666666666781,
+          "foundAtDistance": 59.97686964118998,
+          "eligibleChestsOpened": 1
+        },
+        "opening": {
+          "phase": "done"
+        },
+        "firstRun": {
+          "completed": [
+            "salvage",
+            "build-refinery",
+            "refine-components",
+            "build-workbench",
+            "build-defense",
+            "survive-boarding",
+            "repair"
+          ],
+          "counters": {
+            "salvage": 52,
+            "componentsAvailable": 87,
+            "refineryBuilt": 1,
+            "components": 6,
+            "workbenchBuilt": 1,
+            "defense": 2,
+            "defenseCrewed": 2,
+            "boardingSurvived": 24,
+            "boardingEnded": 1,
+            "repairsAfterBoarding": 4,
+            "repairs": 3
+          }
+        },
+        "turrets": [],
+        "automaticTurrets": []
+      },
+      "world": {
+        "chunkIndex": 276,
+        "threatDirector": {
+          "phase": "recovery",
+          "phaseEndsAt": 18020.56386150533,
+          "wavesSurvived": 2,
+          "pending": [],
+          "nextReleaseAt": 0,
+          "draws": 5,
+          "wavesSinceVehicle": 2,
+          "queuedVehicle": null,
+          "externalEncounterActive": false,
+          "sanctuaryActive": true,
+          "sanctuaryReleaseAt": 18020.56386150533
+        },
+        "story": {
+          "format": 2,
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array",
+            "glass-orchard",
+            "last-garden-meridian"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard",
+            "human-seed-bank",
+            "orchard-memory-core",
+            "vector-governor",
+            "meridian-solution"
+          ],
+          "journalArchive": [
+            "quiet-array-journal-port",
+            "quiet-array-journal-starboard",
+            "quiet-array-journal-archive",
+            "orchard-caretaker-record",
+            "orchard-memory-record",
+            "meridian-common-record",
+            "meridian-civilian-record"
+          ],
+          "active": null,
+          "radioTraceEligible": true,
+          "chapterComplete": true,
+          "ending": {
+            "format": 1,
+            "phase": "complete",
+            "committedAtDistance": 17220.86739436783,
+            "arrivalElapsedS": 12
+          }
+        },
+        "radioRaids": {
+          "wave": 9,
+          "remaining": 9.74748725196197
+        },
+        "raidRecovery": {
+          "recovered": []
+        },
+        "routeChart": {
+          "format": 1,
+          "nextSlot": 23,
+          "discovered": [
+            "route-contact-9",
+            "route-contact-10",
+            "route-contact-11",
+            "route-contact-12",
+            "route-contact-13",
+            "route-contact-16",
+            "route-contact-17",
+            "route-contact-18",
+            "route-contact-19",
+            "route-contact-20",
+            "route-contact-21",
+            "route-contact-22",
+            "route-contact-23"
+          ],
+          "visited": [],
+          "missed": [
+            "route-contact-9",
+            "route-contact-10",
+            "route-contact-11",
+            "route-contact-12",
+            "route-contact-13",
+            "route-contact-16",
+            "route-contact-17",
+            "route-contact-18",
+            "route-contact-19",
+            "route-contact-20",
+            "route-contact-21",
+            "route-contact-22"
+          ],
+          "active": {
+            "id": "route-contact-23",
+            "slot": 23,
+            "kind": "water-cache",
+            "atDistanceM": 17849.029667751613,
+            "worldX": -50.135571712835215,
+            "confidence": 1,
+            "hazard": "calm",
+            "detectedAtM": 17704.24589698167,
+            "expiresAtM": 18029.029667751613,
+            "state": "detected",
+            "rewards": [
+              {
+                "type": "item",
+                "itemId": "water",
+                "remaining": 4
+              }
+            ]
+          }
+        },
+        "dustFront": {
+          "format": 1,
+          "phase": "front",
+          "elapsedS": 64.06666666666361,
+          "nextAtM": 15287.940985716075,
+          "sequence": 4
+        }
+      }
+    },
+    "restored": {
+      "save": {
+        "version": 1,
+        "savedAt": 1789500232782,
+        "seed": "mmf-dev-seed",
+        "profile": "story",
+        "distanceTraveled": 17726.301842297788,
+        "player": {
+          "position": {
+            "x": 0.7960268075794303,
+            "y": 15.805558197781224,
+            "z": -0.48802660949197946
+          },
+          "health": 62,
+          "inventory": [
+            {
+              "itemId": "scrap",
+              "count": 12
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 21
+            },
+            {
+              "itemId": "components",
+              "count": 50
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "components",
+              "count": 37
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "greens",
+              "count": 1
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            null
+          ],
+          "needs": {
+            "hydration": 63.474166666571584,
+            "nourishment": 72.37888888879625
+          },
+          "equipment": {
+            "currentWeapon": "rifle",
+            "weapons": [
+              {
+                "id": "rifle",
+                "ammoInMag": 2,
+                "reserveAmmo": 150,
+                "magazineBonus": 0
+              },
+              {
+                "id": "shotgun",
+                "ammoInMag": 6,
+                "reserveAmmo": 48,
+                "magazineBonus": 0
+              }
+            ]
+          }
+        },
+        "machine": {
+          "layout": "iron-nomad-v1",
+          "structures": [
+            {
+              "instanceId": "bp-2",
+              "definitionId": "floor",
+              "cell": {
+                "x": 2,
+                "y": 0,
+                "z": 3
+              },
+              "rotation": 0,
+              "health": 120
+            },
+            {
+              "instanceId": "bp-4",
+              "definitionId": "floor",
+              "cell": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": 0,
+              "health": 40
+            },
+            {
+              "instanceId": "bp-6",
+              "definitionId": "floor",
+              "cell": {
+                "x": 3,
+                "y": 0,
+                "z": 1
+              },
+              "rotation": 0,
+              "health": 120
+            },
+            {
+              "instanceId": "bp-12",
+              "definitionId": "floor",
+              "cell": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+              },
+              "rotation": 0,
+              "health": 120
+            },
+            {
+              "instanceId": "bp-15",
+              "definitionId": "floor",
+              "cell": {
+                "x": 1,
+                "y": 0,
+                "z": 1
+              },
+              "rotation": 0,
+              "health": 120
+            },
+            {
+              "instanceId": "bp-17",
+              "definitionId": "floor",
+              "cell": {
+                "x": -2,
+                "y": 0,
+                "z": -1
+              },
+              "rotation": 0,
+              "health": 120
+            },
+            {
+              "instanceId": "bp-19",
+              "definitionId": "floor",
+              "cell": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "rotation": 0,
+              "health": 120
+            },
+            {
+              "instanceId": "bp-7",
+              "definitionId": "workbench",
+              "cell": {
+                "x": 3,
+                "y": 0,
+                "z": 1
+              },
+              "rotation": 0,
+              "health": 130
+            },
+            {
+              "instanceId": "bp-10",
+              "definitionId": "generator",
+              "cell": {
+                "x": 2,
+                "y": 0,
+                "z": 3
+              },
+              "rotation": 0,
+              "health": 170
+            },
+            {
+              "instanceId": "bp-13",
+              "definitionId": "condenser",
+              "cell": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+              },
+              "rotation": 0,
+              "health": 130,
+              "state": {
+                "progress": 0.01666666663990668,
+                "stored": 1
+              }
+            },
+            {
+              "instanceId": "bp-14",
+              "definitionId": "planter",
+              "cell": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": 0,
+              "health": 90,
+              "state": {
+                "progress": 8.074607649177779e-11,
+                "stored": 3
+              }
+            },
+            {
+              "instanceId": "bp-16",
+              "definitionId": "stove",
+              "cell": {
+                "x": 1,
+                "y": 0,
+                "z": 1
+              },
+              "rotation": 0,
+              "health": 95
+            },
+            {
+              "instanceId": "bp-18",
+              "definitionId": "crate",
+              "cell": {
+                "x": -2,
+                "y": 0,
+                "z": -1
+              },
+              "rotation": 0,
+              "health": 110,
+              "state": {
+                "slots": [
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  {
+                    "itemId": "scrap",
+                    "count": 100
+                  },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+              }
+            }
+          ],
+          "devices": [],
+          "fuel": 20.20415000002593,
+          "coreHealth": 100,
+          "navigationTier": 3,
+          "course": {
+            "tier": 3,
+            "bearingDeg": 32,
+            "desiredDeg": 32,
+            "throttle": 1,
+            "lateralM": 283.1178941871629
+          },
+          "subsystems": [
+            {
+              "id": "engine",
+              "health": 320
+            },
+            {
+              "id": "leg-front-left",
+              "health": 180
+            },
+            {
+              "id": "leg-front-right",
+              "health": 180
+            },
+            {
+              "id": "leg-rear-left",
+              "health": 180
+            },
+            {
+              "id": "leg-rear-right",
+              "health": 180
+            }
+          ]
+        },
+        "progression": {
+          "caretaker": {
+            "format": 1,
+            "recruited": false,
+            "mode": "companion"
+          },
+          "unlocks": [
+            "manual-turret",
+            "automatic-salvage-collector",
+            "automatic-defense-turret",
+            "seed-garden"
+          ],
+          "turretBlueprintProgress": 1,
+          "upgrades": {
+            "researched": [
+              "lean-governor"
+            ],
+            "active": {
+              "power": "lean-governor"
+            }
+          },
+          "radio": {
+            "status": "found",
+            "armedAtSimTime": null,
+            "foundAtSimTime": 10.766666666666781,
+            "foundAtDistance": 59.97686964118998,
+            "eligibleChestsOpened": 1
+          },
+          "opening": {
+            "phase": "done"
+          },
+          "firstRun": {
+            "completed": [
+              "salvage",
+              "build-refinery",
+              "refine-components",
+              "build-workbench",
+              "build-defense",
+              "survive-boarding",
+              "repair"
+            ],
+            "counters": {
+              "salvage": 52,
+              "componentsAvailable": 87,
+              "refineryBuilt": 1,
+              "components": 6,
+              "workbenchBuilt": 1,
+              "defense": 2,
+              "defenseCrewed": 2,
+              "boardingSurvived": 24,
+              "boardingEnded": 1,
+              "repairsAfterBoarding": 4,
+              "repairs": 3
+            }
+          },
+          "turrets": [],
+          "automaticTurrets": []
+        },
+        "world": {
+          "chunkIndex": 276,
+          "threatDirector": {
+            "phase": "recovery",
+            "phaseEndsAt": 18025.630273618746,
+            "wavesSurvived": 2,
+            "pending": [],
+            "nextReleaseAt": 0,
+            "draws": 5,
+            "wavesSinceVehicle": 2,
+            "queuedVehicle": null,
+            "externalEncounterActive": false,
+            "sanctuaryActive": true,
+            "sanctuaryReleaseAt": 18025.630273618746
+          },
+          "story": {
+            "format": 2,
+            "completed": [
+              "wreck-one",
+              "relay-foundry",
+              "quiet-array",
+              "glass-orchard",
+              "last-garden-meridian"
+            ],
+            "recoveredUniques": [
+              "course-gyro",
+              "salvage-controller",
+              "tracking-servo",
+              "course-actuator",
+              "annika-archive-shard",
+              "human-seed-bank",
+              "orchard-memory-core",
+              "vector-governor",
+              "meridian-solution"
+            ],
+            "journalArchive": [
+              "quiet-array-journal-port",
+              "quiet-array-journal-starboard",
+              "quiet-array-journal-archive",
+              "orchard-caretaker-record",
+              "orchard-memory-record",
+              "meridian-common-record",
+              "meridian-civilian-record"
+            ],
+            "active": null,
+            "radioTraceEligible": true,
+            "chapterComplete": true,
+            "ending": {
+              "format": 1,
+              "phase": "complete",
+              "committedAtDistance": 17220.86739436783,
+              "arrivalElapsedS": 12
+            }
+          },
+          "radioRaids": {
+            "wave": 9,
+            "remaining": 9.647487251961966
+          },
+          "raidRecovery": {
+            "recovered": []
+          },
+          "routeChart": {
+            "format": 1,
+            "nextSlot": 23,
+            "discovered": [
+              "route-contact-9",
+              "route-contact-10",
+              "route-contact-11",
+              "route-contact-12",
+              "route-contact-13",
+              "route-contact-16",
+              "route-contact-17",
+              "route-contact-18",
+              "route-contact-19",
+              "route-contact-20",
+              "route-contact-21",
+              "route-contact-22",
+              "route-contact-23"
+            ],
+            "visited": [],
+            "missed": [
+              "route-contact-9",
+              "route-contact-10",
+              "route-contact-11",
+              "route-contact-12",
+              "route-contact-13",
+              "route-contact-16",
+              "route-contact-17",
+              "route-contact-18",
+              "route-contact-19",
+              "route-contact-20",
+              "route-contact-21",
+              "route-contact-22"
+            ],
+            "active": {
+              "id": "route-contact-23",
+              "slot": 23,
+              "kind": "water-cache",
+              "atDistanceM": 17849.029667751613,
+              "worldX": -50.135571712835215,
+              "confidence": 1,
+              "hazard": "calm",
+              "detectedAtM": 17704.24589698167,
+              "expiresAtM": 18029.029667751613,
+              "state": "detected",
+              "rewards": [
+                {
+                  "type": "item",
+                  "itemId": "water",
+                  "remaining": 4
+                }
+              ]
+            }
+          },
+          "dustFront": {
+            "format": 1,
+            "phase": "front",
+            "elapsedS": 64.1666666666636,
+            "nextAtM": 15287.940985716075,
+            "sequence": 4
+          }
+        }
+      },
+      "art": [
+        true,
+        true,
+        true
+      ],
+      "warningVisible": false,
+      "bundle": [
+        "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+      ]
+    }
+  },
+  "performance": {
+    "mediumArchivedDist": {
+      "before": {
+        "memory": {
+          "geometries": 459,
+          "textures": 536
+        },
+        "programs": 170
+      },
+      "samples": [
+        {
+          "mode": "still",
+          "frames": 180,
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272,
+          "p99": 16.80000000000291,
+          "over50": 0,
+          "memory": {
+            "geometries": 459,
+            "textures": 536
+          },
+          "programs": 170
+        },
+        {
+          "mode": "orbit",
+          "frames": 180,
+          "median": 16.700000000000728,
+          "p95": 16.700000000000728,
+          "p99": 16.799999999999272,
+          "over50": 0,
+          "memory": {
+            "geometries": 459,
+            "textures": 536
+          },
+          "programs": 170
+        },
+        {
+          "mode": "restored",
+          "frames": 180,
+          "median": 16.69999999999709,
+          "p95": 16.799999999999272,
+          "p99": 16.80000000000291,
+          "over50": 1,
+          "memory": {
+            "geometries": 487,
+            "textures": 559
+          },
+          "programs": 170
+        }
+      ],
+      "after": {
+        "memory": {
+          "geometries": 487,
+          "textures": 559
+        },
+        "programs": 170
+      },
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-tv9aKn5k.js"
+      ]
+    },
+    "mediumCurrent": {
+      "before": {
+        "memory": {
+          "geometries": 481,
+          "textures": 536
+        },
+        "programs": 167
+      },
+      "samples": [
+        {
+          "mode": "still",
+          "frames": 180,
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272,
+          "p99": 16.80000000000109,
+          "over50": 0,
+          "memory": {
+            "geometries": 481,
+            "textures": 536
+          },
+          "programs": 167
+        },
+        {
+          "mode": "orbit",
+          "frames": 180,
+          "median": 16.69999999999709,
+          "p95": 16.799999999999272,
+          "p99": 16.799999999999272,
+          "over50": 0,
+          "memory": {
+            "geometries": 481,
+            "textures": 536
+          },
+          "programs": 167
+        },
+        {
+          "mode": "restored",
+          "frames": 180,
+          "median": 16.69999999999709,
+          "p95": 16.700000000000728,
+          "p99": 16.799999999999272,
+          "over50": 1,
+          "memory": {
+            "geometries": 509,
+            "textures": 559
+          },
+          "programs": 167
+        }
+      ],
+      "after": {
+        "memory": {
+          "geometries": 509,
+          "textures": 559
+        },
+        "programs": 167
+      },
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-C2NlLItl.js"
+      ]
+    },
+    "highCurrent": {
+      "before": {
+        "memory": {
+          "geometries": 481,
+          "textures": 542
+        },
+        "programs": 181,
+        "enemies": 0,
+        "skiff": false,
+        "cloth": [
+          {
+            "name": "Tailored_hanging_banner001_2",
+            "materialIds": [
+              "be34044d-6503-4f99-913b-91efe5e66529"
+            ],
+            "opacities": [
+              0.06
+            ]
+          }
+        ]
+      },
+      "samples": [
+        {
+          "mode": "still",
+          "frames": 180,
+          "median": 16.69999999999891,
+          "p95": 16.799999999999272,
+          "p99": 16.80000000000109,
+          "over50": 0,
+          "memory": {
+            "geometries": 481,
+            "textures": 542
+          },
+          "programs": 181,
+          "enemies": 0,
+          "skiff": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materialIds": [
+                "be34044d-6503-4f99-913b-91efe5e66529"
+              ],
+              "opacities": [
+                0.06
+              ]
+            }
+          ]
+        },
+        {
+          "mode": "orbit",
+          "frames": 180,
+          "median": 16.700000000000728,
+          "p95": 16.700000000000728,
+          "p99": 16.799999999999272,
+          "over50": 0,
+          "memory": {
+            "geometries": 481,
+            "textures": 542
+          },
+          "programs": 181,
+          "enemies": 0,
+          "skiff": false,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materialIds": [
+                "be34044d-6503-4f99-913b-91efe5e66529"
+              ],
+              "opacities": [
+                0.06
+              ]
+            }
+          ]
+        },
+        {
+          "mode": "clear",
+          "frames": 180,
+          "median": 16.700000000000728,
+          "p95": 16.700000000000728,
+          "p99": 16.799999999999272,
+          "over50": 1,
+          "memory": {
+            "geometries": 505,
+            "textures": 565
+          },
+          "programs": 181,
+          "enemies": 0,
+          "skiff": true,
+          "cloth": [
+            {
+              "name": "Tailored_hanging_banner001_2",
+              "materialIds": [
+                "f70bab31-ccce-4c34-b0a2-b19ea963f5c8"
+              ],
+              "opacities": [
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "after": {
+        "memory": {
+          "geometries": 505,
+          "textures": 565
+        },
+        "programs": 181,
+        "enemies": 0,
+        "skiff": true,
+        "cloth": [
+          {
+            "name": "Tailored_hanging_banner001_2",
+            "materialIds": [
+              "f70bab31-ccce-4c34-b0a2-b19ea963f5c8"
+            ],
+            "opacities": [
+              1
+            ]
+          }
+        ]
+      },
+      "quality": "high",
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-DonPxY4C.js"
+      ]
+    },
+    "limit": "1280x720 headless Chromium D3D11, 180 RAF intervals per stage at a 60Hz presentation cap. The archived Medium reference is PR21, not exact main A/B. Its restored stage and current Medium restored stage are post-orbit views, not clear-view restoration proof. High clear stage does verify restoration. Ordinary encounter spawn explains coincident resource changes; this is not a universal hardware or GPU-time guarantee."
+  },
+  "model": {
+    "name": "galley-kit",
+    "bytes": 4685152,
+    "errors": 0,
+    "warnings": 0,
+    "infos": 22,
+    "geometry": {
+      "roots": {
+        "GalleyStove": {
+          "min": [
+            -0.7749999761581421,
+            0,
+            -0.6330000013113022
+          ],
+          "max": [
+            0.7749999761581421,
+            1.4900000095367432,
+            0.5899999737739563
+          ],
+          "triangles": 12848,
+          "width": 1.5499999523162842,
+          "depth": 1.2229999750852585,
+          "reference": {
+            "min": [
+              -0.7749999761581421,
+              0,
+              -0.6330000162124634
+            ],
+            "max": [
+              0.7749999761581421,
+              1.4900000095367432,
+              0.5899999737739563
+            ],
+            "triangles": 12848,
+            "meshes": 8
+          },
+          "errors": []
+        },
+        "GalleyCondenser": {
+          "min": [
+            -0.6078534722328186,
+            0,
+            -0.6099999994039536
+          ],
+          "max": [
+            0.607853502035141,
+            1.869999885559082,
+            0.5950000286102295
+          ],
+          "triangles": 14152,
+          "width": 1.2157069742679596,
+          "depth": 1.205000028014183,
+          "reference": {
+            "min": [
+              -0.6078534722328186,
+              0,
+              -0.6100000143051147
+            ],
+            "max": [
+              0.6078535318374634,
+              1.869999885559082,
+              0.5950000286102295
+            ],
+            "triangles": 14152,
+            "meshes": 8
+          },
+          "errors": []
+        },
+        "GalleyPlanter": {
+          "min": [
+            -0.8199999928474426,
+            0.025000005960464478,
+            -0.6574999811127782
+          ],
+          "max": [
+            0.8199999928474426,
+            0.7704106569290161,
+            0.6449999809265137
+          ],
+          "triangles": 11740,
+          "width": 1.6399999856948853,
+          "depth": 1.3024999620392919,
+          "reference": {
+            "min": [
+              -0.8199999928474426,
+              0.025000005960464478,
+              -0.6574999690055847
+            ],
+            "max": [
+              0.8199999928474426,
+              0.7704106569290161,
+              0.6449999809265137
+            ],
+            "triangles": 11740,
+            "meshes": 9
+          },
+          "errors": []
+        }
+      },
+      "totalTriangles": 38740
+    },
+    "messages": [
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/3/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/3/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/6/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/6/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/7/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/7/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/8/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/8/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/9/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/9/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/10/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/10/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/14/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/14/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/15/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/15/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/17/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/17/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/22/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/22/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/23/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/23/primitives/0/attributes/TEXCOORD_0"
+      }
+    ]
+  },
+  "productionHashes": {
+    "src/player/CameraClothFade.ts": "e0bf119f9a77c2a668742b617c20924ebee077f400017f3bd9b13c00ee80703a",
+    "src/game/Game.ts": "b39bb4e6992cdf54cb446866b516a5dca8e1bd83b2e5306ec4fa9b638a7bca28",
+    "src/machine/Machine.ts": "536dcfa76008733dcfc2e68f311bf41aef7cce06d70af7eef73b5050629bec57",
+    "src/ui/OwnedWarning.ts": "d3e1a0123c90e83408aee9a1caff65a4f7e565ff2a2abd33881efbe6152bfc11",
+    "src/ui/HUD.ts": "ae78edbd205bf5d3a01f887cdaeea1b5e2d137a02d1cb6f87d61df5cf84f97bf",
+    "src/art/HomeModels.ts": "2cbdf9bdc5fa90c08904af50a17b419b58140d14ead0a449ac0f042383ceb52b",
+    "src/art/DefenseModels.ts": "ac2344b4058ec5dddd1f24d111f950f950703c64201fa37ea8a5925c22ffb321",
+    "public/models/authored/galley-kit.glb": "5f917f67e06d78cb1082864fe346c1a09a7f9b473979a2967c86772e019c2431"
+  },
+  "hashConvention": "SHA-256 of canonical LF source text; GLB hashes use exact bytes."
+}
