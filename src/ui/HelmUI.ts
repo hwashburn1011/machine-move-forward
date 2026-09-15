@@ -39,6 +39,7 @@ export interface HelmView {
     refusal?: string;
     canCommit: boolean;
   };
+  ending?: { available: boolean; busy: boolean; refusal?: string | null };
 }
 export interface HelmCallbacks {
   close(): void;
@@ -47,6 +48,7 @@ export interface HelmCallbacks {
   openLog?(): void;
   plotContact?(id: string): void;
   cancelApproach?(): void;
+  commitEnding?(): void;
 }
 const limits = { 0: 0, 1: 12, 2: 28, 3: 45 };
 const fmt = (n: number): string => `${n >= 0 ? '+' : ''}${n.toFixed(1)}°`;
@@ -57,6 +59,7 @@ export class HelmUI {
   private readonly bearing: HTMLInputElement;
   private readonly throttle: HTMLInputElement;
   private markersKey = '';
+  private endingConfirmation = false;
 
   constructor(
     private readonly root: HTMLElement,
@@ -103,6 +106,8 @@ export class HelmUI {
   }
   close(): void {
     this.root.hidden = true;
+    this.endingConfirmation = false;
+    this.markersKey = '';
   }
   render(view: HelmView): void {
     const limit = limits[view.tier];
@@ -114,9 +119,11 @@ export class HelmUI {
         ? 'Automatic approach guidance has control until departure.'
         : view.tier < 1
           ? 'Recover the Quiet Array course actuator to unlock steering.'
-          : view.powered
-            ? 'Course actuator online.'
-            : 'Helm unpowered. Automatic course is holding.');
+          : view.tier >= 3
+            ? 'Meridian authority online.'
+            : view.powered
+              ? 'Course actuator online.'
+              : 'Helm unpowered. Automatic course is holding.');
     this.get('[data-bearing-label]').textContent =
       `Bearing ${fmt(view.bearingDeg)} · target ${fmt(view.desiredDeg)} · limit ±${limit}°`;
     this.bearing.min = String(-limit);
@@ -146,6 +153,8 @@ export class HelmUI {
         view.opportunity.canCommit,
         view.opportunity.refusal,
       ],
+      view.ending,
+      this.endingConfirmation,
     ]);
     if (key !== this.markersKey) {
       this.markersKey = key;
@@ -208,6 +217,44 @@ export class HelmUI {
           card.append(refusal);
         }
         contacts.append(card);
+      }
+      if (view.ending?.available) {
+        const ending = document.createElement('article');
+        ending.className = 'helm-ending';
+        const title = document.createElement('h3');
+        title.textContent = 'Meridian bearing';
+        ending.append(title);
+        const info = document.createElement('p');
+        info.textContent = this.endingConfirmation
+          ? 'Final course: +32°, 400 m, after a safe checkpoint. You can return to this same game afterward.'
+          : 'A final course is available.';
+        ending.append(info);
+        if (view.ending.refusal) {
+          const refusal = document.createElement('p');
+          refusal.textContent = view.ending.refusal;
+          ending.append(refusal);
+        }
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = this.endingConfirmation
+          ? 'Confirm final course'
+          : 'Commit to Meridian bearing';
+        button.disabled = view.ending.busy || !!view.ending.refusal;
+        button.dataset.testid = 'helm-commit-ending';
+        button.addEventListener('click', () => {
+          if (button.disabled) return;
+          if (!this.endingConfirmation) {
+            this.endingConfirmation = true;
+            this.markersKey = '';
+            this.render({ ...view });
+          } else {
+            this.callbacks.commitEnding?.();
+          }
+        });
+        ending.append(button);
+        contacts.append(ending);
+      } else {
+        this.endingConfirmation = false;
       }
     }
     this.root.dataset.tier = String(view.tier);

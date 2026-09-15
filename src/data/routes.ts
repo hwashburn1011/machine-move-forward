@@ -1,7 +1,12 @@
 import type { ExpeditionId } from './story';
 
 export type RouteId =
-  'foundry-direct' | 'foundry-detour' | 'orchard-caretaker' | 'orchard-cold-vault';
+  | 'foundry-direct'
+  | 'foundry-detour'
+  | 'orchard-caretaker'
+  | 'orchard-cold-vault'
+  | 'meridian-quiet-line'
+  | 'meridian-cordon-gap';
 export interface RouteDefinition {
   id: RouteId;
   destinationId: ExpeditionId;
@@ -48,8 +53,32 @@ export const ORCHARD_ROUTES: readonly RouteDefinition[] = [
     scriptedVehicleRemainingM: 500,
   },
 ];
+export const MERIDIAN_ROUTES: readonly RouteDefinition[] = [
+  {
+    id: 'meridian-quiet-line',
+    destinationId: 'last-garden-meridian',
+    distanceM: 1250,
+    scriptedVehicle: 'skiff',
+    scriptedVehicleRemainingM: 520,
+  },
+  {
+    id: 'meridian-cordon-gap',
+    destinationId: 'last-garden-meridian',
+    distanceM: 1050,
+    scriptedVehicle: 'gunboat',
+    scriptedVehicleRemainingM: 620,
+  },
+];
+const ALL_ROUTES: readonly RouteDefinition[] = [
+  ...FOUNDRY_ROUTES,
+  ...ORCHARD_ROUTES,
+  ...MERIDIAN_ROUTES,
+];
 export function routeDefinition(id: string): RouteDefinition | undefined {
-  return [...FOUNDRY_ROUTES, ...ORCHARD_ROUTES].find((route) => route.id === id);
+  return ALL_ROUTES.find((route) => route.id === id);
+}
+export function routeDefinitionsFor(destinationId: ExpeditionId): readonly RouteDefinition[] {
+  return ALL_ROUTES.filter((route) => route.destinationId === destinationId);
 }
 export function routeCards(
   currentDistance: number,
@@ -61,26 +90,22 @@ export function routeCards(
   const burn = Number.isFinite(burnPerMetre) && burnPerMetre >= 0 ? burnPerMetre : 0;
   const speed = Number.isFinite(speedMps) && speedMps > 0 ? speedMps : 0;
   void speed;
-  return [...FOUNDRY_ROUTES, ...ORCHARD_ROUTES]
-    .filter((route) => route.destinationId === destinationId)
-    .map((route) => ({
-      id: route.id,
-      distanceM: route.distanceM,
-      estimatedFuel: Math.ceil(route.distanceM * burn),
-      hazard: route.scriptedVehicle
-        ? `One scripted ${route.scriptedVehicle} at ${route.scriptedVehicleRemainingM} m remaining`
-        : 'No scripted gunboat; ordinary threats may still occur',
-    }));
+  return routeDefinitionsFor(destinationId).map((route) => ({
+    id: route.id,
+    distanceM: route.distanceM,
+    estimatedFuel: Math.ceil(route.distanceM * burn),
+    hazard: route.scriptedVehicle
+      ? `One scripted ${route.scriptedVehicle} at ${route.scriptedVehicleRemainingM} m remaining`
+      : 'No scripted gunboat; ordinary threats may still occur',
+  }));
 }
-export function validateRoutes(
-  routes: readonly RouteDefinition[] = [...FOUNDRY_ROUTES, ...ORCHARD_ROUTES],
-): string[] {
+export function validateRoutes(routes: readonly RouteDefinition[] = ALL_ROUTES): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
   for (const route of routes) {
     if (ids.has(route.id)) errors.push(`duplicate route ${route.id}`);
     ids.add(route.id);
-    if (!['relay-foundry', 'glass-orchard'].includes(route.destinationId))
+    if (!['relay-foundry', 'glass-orchard', 'last-garden-meridian'].includes(route.destinationId))
       errors.push(`unknown destination ${route.destinationId}`);
     if (!(Number.isFinite(route.distanceM) && route.distanceM > 0))
       errors.push(`invalid distance ${route.id}`);
@@ -88,7 +113,9 @@ export function validateRoutes(
       ? 'relay-foundry'
       : route.id.startsWith('orchard-')
         ? 'glass-orchard'
-        : null;
+        : route.id.startsWith('meridian-')
+          ? 'last-garden-meridian'
+          : null;
     if (expectedDestination && route.destinationId !== expectedDestination)
       errors.push(`destination mismatch ${route.id}`);
     if (

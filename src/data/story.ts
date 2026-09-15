@@ -1,5 +1,6 @@
 /** Typed, authored campaign content. Runtime state lives in StoryDirector. */
-export type ExpeditionId = 'wreck-one' | 'relay-foundry' | 'quiet-array' | 'glass-orchard';
+export type ExpeditionId =
+  'wreck-one' | 'relay-foundry' | 'quiet-array' | 'glass-orchard' | 'last-garden-meridian';
 export type StoryUniqueId =
   | 'course-gyro'
   | 'salvage-controller'
@@ -8,9 +9,15 @@ export type StoryUniqueId =
   | 'annika-archive-shard'
   | 'human-seed-bank'
   | 'vector-governor'
-  | 'orchard-memory-core';
-export type StoryObjectiveId = 'orchard-port-isolator' | 'orchard-starboard-isolator';
-export type DestinationModelId = 'relay-wreck' | 'relay-foundry' | 'quiet-array' | 'glass-orchard';
+  | 'orchard-memory-core'
+  | 'meridian-solution';
+export type StoryObjectiveId =
+  | 'orchard-port-isolator'
+  | 'orchard-starboard-isolator'
+  | 'meridian-transmitter-online'
+  | 'meridian-archive-installed';
+export type DestinationModelId =
+  'relay-wreck' | 'relay-foundry' | 'quiet-array' | 'glass-orchard' | 'last-garden-meridian';
 export interface StoryJournal {
   id: string;
   title: string;
@@ -489,11 +496,142 @@ export const GLASS_ORCHARD: ExpeditionDefinition = {
     ['gangway', [0.5, 0.08, 1], [-9.5, -0.08, 0]],
   ]),
 };
+export const LAST_GARDEN_MERIDIAN: ExpeditionDefinition = {
+  id: 'last-garden-meridian',
+  title: 'Last Garden Meridian',
+  modelId: 'last-garden-meridian',
+  approachDistanceM: 1250,
+  brakingDistanceM: 220,
+  sanctuaryDistanceM: 220,
+  objective:
+    'Restore the Meridian transmitter, install its archive, and recover the solution record.',
+  signalText: [
+    'A maintained refuge channel answers through the dust.',
+    'The Meridian signal carries names, seeds, and an ambiguous recent reply.',
+  ],
+  signalStartDistanceM: 1,
+  signalStrongDistanceM: 1,
+  journals: [
+    {
+      id: 'meridian-common-record',
+      title: 'Common refuge record',
+      text: 'Signed by Ilya Senn: the refuge channel remains maintained for names, seeds, and any traveller who can carry them. A recent reply arrived without a source. We keep the channel open and leave room for doubt.',
+    },
+    {
+      id: 'meridian-civilian-record',
+      title: 'Civilian passage record',
+      text: 'Signed by Mara Vale: the seed drawers travelled under family names, with water measured twice and no one promised a safe arrival. The garden was kept ready for whoever came next.',
+    },
+    {
+      id: 'meridian-defense-record',
+      title: 'Defense watch record',
+      text: 'Signed by Tomas Rhee: the channel was defended without closing it. A recent reply used a human cadence, but no one here claims to know who sent it.',
+    },
+  ],
+  requiredJournals: ['meridian-common-record'],
+  requiredUniques: ['meridian-solution'],
+  requiredObjectives: ['meridian-transmitter-online', 'meridian-archive-installed'],
+  placement: {
+    root: { x: 17, y: 0, z: 0 },
+    entryAnchor: { x: -8, y: 0, z: 0 },
+    exitSightline: { x: -9.5, y: 1, z: 0 },
+    gangway: { x: -9.5, y: -0.08, z: 0 },
+  },
+  interactables: [
+    {
+      id: 'meridian-transmitter-online',
+      label: 'Restore Meridian transmitter',
+      kind: 'objective',
+      objectiveId: 'meridian-transmitter-online',
+      anchor: 'TransmitterConsole',
+      fallback: { x: 2.4, y: 1.2, z: -3.1 },
+    },
+    {
+      id: 'meridian-archive-installed',
+      label: 'Install Meridian archive',
+      kind: 'objective',
+      objectiveId: 'meridian-archive-installed',
+      anchor: 'ArchiveCradle',
+      fallback: { x: -4, y: 1.2, z: 4.5 },
+    },
+    {
+      id: 'meridian-solution',
+      label: 'Recover Meridian solution',
+      kind: 'unique',
+      factId: 'meridian-solution',
+      anchor: 'MeridianSolution',
+      fallback: { x: 4, y: 1.2, z: 4.5 },
+    },
+    ...[
+      [
+        'meridian-common-record',
+        'Read common refuge record',
+        'CommonJournal',
+        { x: 0, y: 1.2, z: -6.8 },
+      ],
+      [
+        'meridian-civilian-record',
+        'Read civilian passage record',
+        'CivilianJournal',
+        { x: -4, y: 1.2, z: -2.4 },
+      ],
+      [
+        'meridian-defense-record',
+        'Read defense watch record',
+        'DefenseJournal',
+        { x: 5.8, y: 1.2, z: 0.8 },
+      ],
+    ].map(([id, label, anchor, fallback]) => ({
+      id: id as string,
+      label: label as string,
+      kind: 'journal' as const,
+      anchor: anchor as string,
+      fallback: fallback as { x: number; y: number; z: number },
+    })),
+    {
+      id: 'meridian-departure',
+      label: 'Return to machine',
+      kind: 'departure',
+      anchor: 'Gangway',
+      fallback: { x: -9.5, y: 0.2, z: 0 },
+    },
+  ],
+  colliders: boxes([
+    ['floor', [9, 0.1, 10], [0, -0.1, 0]],
+    ['north-rail', [9, 0.58, 0.06], [0, 0.58, -9.9]],
+    ['south-rail', [9, 0.58, 0.06], [0, 0.58, 9.9]],
+    ['east-rail', [0.06, 0.58, 10], [8.9, 0.58, 0]],
+    ['west-north', [0.06, 0.58, 4.3], [-8.9, 0.58, -5.6]],
+    ['west-south', [0.06, 0.58, 4.3], [-8.9, 0.58, 5.6]],
+    ['transmitter-foundation', [2.25, 0.35, 2.25], [5, 0.35, -6]],
+    ['transmitter-housing', [1.25, 4.7, 1.25], [5, 5.4, -6]],
+    ['garden-west-glass', [0.06, 1.5, 2.5], [-7.5, 1.5, -6]],
+    ['garden-east-glass', [0.06, 1.5, 2.5], [-2.5, 1.5, -6]],
+    ['garden-west-bed', [0.575, 0.36, 1.9], [-6.65, 0.36, -6]],
+    ['garden-east-bed', [0.575, 0.36, 1.9], [-3.35, 0.36, -6]],
+    ['archive-bench', [2.3, 0.5, 1], [-4, 0.5, 6.5]],
+    ['solution-bench', [2.3, 0.5, 1], [4, 0.5, 6.5]],
+    ['transmitter-console', [0.3, 0.6, 0.24], [2.4, 0.6, -3.1]],
+    ['archive-console', [0.3, 0.6, 0.24], [-4, 0.6, 4.5]],
+    ['solution-console', [0.3, 0.6, 0.24], [4, 0.6, 4.5]],
+    ['common-log-console', [0.3, 0.6, 0.24], [0, 0.6, -6.8]],
+    ['civilian-log-console', [0.3, 0.6, 0.24], [-4, 0.6, -2.4]],
+    ['defense-log-console', [0.3, 0.6, 0.24], [5.8, 0.6, 0.8]],
+    ['gangway', [0.5, 0.08, 1], [-9.5, -0.08, 0]],
+  ]),
+};
+export const REQUIRED_JOURNALS_PROVEN_BY_UNIQUE: Partial<Record<StoryUniqueId, readonly string[]>> =
+  {
+    'course-actuator': ['quiet-array-journal-port', 'quiet-array-journal-starboard'],
+    'vector-governor': ['orchard-memory-record'],
+    'meridian-solution': ['meridian-common-record'],
+  };
 export const STORY_EXPEDITIONS: readonly ExpeditionDefinition[] = [
   WRECK_ONE,
   RELAY_FOUNDRY,
   QUIET_ARRAY,
   GLASS_ORCHARD,
+  LAST_GARDEN_MERIDIAN,
 ];
 export const STORY_CHAPTERS = STORY_EXPEDITIONS;
 export function storyExpedition(id: string): ExpeditionDefinition | undefined {
@@ -533,6 +671,7 @@ export function validateStoryData(
           'human-seed-bank',
           'vector-governor',
           'orchard-memory-core',
+          'meridian-solution',
         ].includes(u)
       )
         errors.push(`unknown unique ${u}`);

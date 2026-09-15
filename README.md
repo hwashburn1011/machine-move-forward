@@ -41,7 +41,13 @@ The seed bank unlocks a buildable **Seed Garden**: add up to two water, grow thr
 
 Optional water caches, salvage wrecks and memorials continue appearing while an unanswered story offer waits. Wider steering opens distant **Linekeeper repair depots**, with a repair kit and a persistent service record. Plot or cancel approaches at the powered Helm; leftover supplies stay until explicit departure. Raids pause while docked.
 
-S-07 preserves human names, seeds and memories; the fate of humanity remains uncertain. Last Garden at Meridian is the next planned chapter. The full campaign is not complete. See the [campaign notes](docs/campaign/README.md) and [Orchard Blender/Unreal delivery](assets/glass-orchard/README.md) for current scope and evidence.
+S-07 preserves human names, seeds and memories; the fate of humanity remains uncertain. **Last Garden at Meridian** closes the current playable campaign. Choose the 1,250m Quiet Line with a boarding skiff or the 1,050m Cordon Gap with a gunboat. Restore the transmitter and archive, read the common record and the selected route's testimony, then recover the Meridian solution to unlock steering to ±45 degrees.
+
+After departure, confirm the final course twice at the powered Helm. A durable checkpoint precedes the +32-degree, 400m journey and a 12-second arrival scene. Skip or choose **Keep Walking** to continue the same survival/build game with your machine, supplies, gardens and progress. Wider authority also reaches newly discovered repair depots 265–290m off course; existing tier-two contacts retain their 120–150m band.
+
+The expedition journal keeps the records you read. Old saves recover only records proven by their existing progress. Continue selects the most recently written readable save, including the Meridian checkpoint.
+
+This remains a development prototype. See the [campaign notes](docs/campaign/README.md), [Meridian delivery](docs/campaign/meridian-delivery.md), and [Blender/Unreal assets](assets/meridian/README.md) for scope and validation.
 
 ## Run the game
 

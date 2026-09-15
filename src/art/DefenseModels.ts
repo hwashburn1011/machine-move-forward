@@ -78,6 +78,8 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
     'glass-orchard',
     'seed-garden',
     'route-repair-depot',
+    'last-garden-meridian',
+    'meridian-horizon',
     'navigation-helm',
     'player',
   ];
@@ -106,6 +108,8 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
     'glass-orchard',
     'seed-garden',
     'route-repair-depot',
+    'last-garden-meridian',
+    'meridian-horizon',
   ]) {
     models.get(id)?.scene.traverse((object) => {
       const mesh = object as THREE.Mesh;

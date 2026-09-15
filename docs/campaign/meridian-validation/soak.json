@@ -1,0 +1,298 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "cyclesRequested": 100,
+  "samples": [
+    {
+      "cycle": 5,
+      "wallTime": 1789448888662,
+      "simTime": 23.88333333333326,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 10,
+      "wallTime": 1789448918703,
+      "simTime": 53.79999999999823,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 15,
+      "wallTime": 1789448948746,
+      "simTime": 83.73333333332987,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 20,
+      "wallTime": 1789448978797,
+      "simTime": 113.64999999999483,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 25,
+      "wallTime": 1789449008831,
+      "simTime": 143.56666666667306,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 30,
+      "wallTime": 1789449038888,
+      "simTime": 173.5000000000302,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 35,
+      "wallTime": 1789449068917,
+      "simTime": 203.400000000054,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 40,
+      "wallTime": 1789449098992,
+      "simTime": 233.35000000007784,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 45,
+      "wallTime": 1789449129009,
+      "simTime": 263.25000000008924,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 50,
+      "wallTime": 1789449159036,
+      "simTime": 293.1666666667287,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 55,
+      "wallTime": 1789449189073,
+      "simTime": 323.0666666667015,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 60,
+      "wallTime": 1789449219127,
+      "simTime": 353.01666666667427,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 65,
+      "wallTime": 1789449249189,
+      "simTime": 382.96666666664703,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 70,
+      "wallTime": 1789449279215,
+      "simTime": 412.86666666661984,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 75,
+      "wallTime": 1789449309258,
+      "simTime": 442.7833333332593,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 80,
+      "wallTime": 1789449339294,
+      "simTime": 472.69999999989875,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 85,
+      "wallTime": 1789449369345,
+      "simTime": 502.63333333320486,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 90,
+      "wallTime": 1789449399385,
+      "simTime": 532.5499999998443,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 95,
+      "wallTime": 1789449429428,
+      "simTime": 562.4833333331504,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    },
+    {
+      "cycle": 100,
+      "wallTime": 1789449459484,
+      "simTime": 592.3999999997899,
+      "ending": "complete",
+      "pieces": 2,
+      "bodies": 24,
+      "geometries": 436,
+      "textures": 490,
+      "programs": 163,
+      "gardenCount": 0
+    }
+  ],
+  "checks": [
+    {
+      "name": "live Game fixture initialized",
+      "ok": true
+    },
+    {
+      "name": "100 lifecycle cycles completed",
+      "ok": true
+    },
+    {
+      "name": "Requested wall-clock duration elapsed",
+      "ok": true
+    },
+    {
+      "name": "Live simulation advanced between save cycles",
+      "ok": true
+    },
+    {
+      "name": "garden/build count returned to baseline",
+      "ok": true
+    },
+    {
+      "name": "geometry count bounded after warmup",
+      "ok": true
+    },
+    {
+      "name": "texture count bounded after warmup",
+      "ok": true
+    },
+    {
+      "name": "program count bounded after warmup",
+      "ok": true
+    },
+    {
+      "name": "physics body count bounded after warmup",
+      "ok": true
+    },
+    {
+      "name": "ending completion remains stable",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "complete": true,
+  "url": "http://127.0.0.1:5201/?nomenu=1&nolock=1&nosound=1&nospawn=1&quality=medium&seed=meridian-soak",
+  "durationMs": 600845,
+  "finalSimTime": 598.3666666664511,
+  "coverageGaps": [
+    "Raid objective plans were not force-selected: no stable public Game helper exists for assault/sabotage/theft fixture selection.",
+    "Destination model replacements and far-depot guidance are covered separately by meridian-visual.mjs.",
+    "This lifecycle soak disables enemy spawning; recurring raid behaviors are covered separately by chapter/tactics QA."
+  ]
+}

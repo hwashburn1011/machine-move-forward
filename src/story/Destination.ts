@@ -5,7 +5,12 @@ import nomad from '@/data/iron-nomad.json';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { Interactable } from '@/interaction/InteractionSystem';
-import { buildFoundryModel, buildWreckModel, buildOrchardModel } from '@/art/ExpeditionModels';
+import {
+  buildFoundryModel,
+  buildWreckModel,
+  buildOrchardModel,
+  buildMeridianModel,
+} from '@/art/ExpeditionModels';
 import {
   WRECK_ONE,
   type ExpeditionDefinition,
@@ -98,9 +103,11 @@ export class Destination {
       o.modelFactory ??
       (this.definition.id === 'relay-foundry'
         ? buildFoundryModel
-        : this.definition.id === 'glass-orchard'
-          ? buildOrchardModel
-          : buildWreckModel);
+        : this.definition.id === 'last-garden-meridian'
+          ? buildMeridianModel
+          : this.definition.id === 'glass-orchard'
+            ? buildOrchardModel
+            : buildWreckModel);
     this.materials = o.materials;
     this.root =
       o.model ??
@@ -163,11 +170,13 @@ export class Destination {
       !model && this.materials
         ? definition.id === 'relay-foundry'
           ? buildFoundryModel(this.materials)
-          : definition.id === 'glass-orchard'
-            ? buildOrchardModel(this.materials)
-            : definition.id === 'quiet-array'
-              ? undefined
-              : buildWreckModel(this.materials)
+          : definition.id === 'last-garden-meridian'
+            ? buildMeridianModel(this.materials)
+            : definition.id === 'glass-orchard'
+              ? buildOrchardModel(this.materials)
+              : definition.id === 'quiet-array'
+                ? undefined
+                : buildWreckModel(this.materials)
         : model;
     this.replaceVisual(generated);
     this.definition = definition;

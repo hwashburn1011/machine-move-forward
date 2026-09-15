@@ -357,7 +357,7 @@ function makeContact(
   const depot = (tier === 2 || tier === 3) && slot % 3 === 0;
   const kind = depot ? 'repair-depot' : KINDS[(kindOffset + slot - 1) % KINDS.length]!;
   const offset = depot
-    ? rng.range(120, 150) * (rng.next() < 0.5 ? -1 : 1)
+    ? rng.range(tier === 3 ? 265 : 120, tier === 3 ? 290 : 150) * (rng.next() < 0.5 ? -1 : 1)
     : rng.range(45, 70) * (rng.next() < 0.5 ? -1 : 1);
   const rewards =
     kind === 'repair-depot'

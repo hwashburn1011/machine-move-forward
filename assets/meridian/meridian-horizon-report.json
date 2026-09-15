@@ -1,0 +1,12 @@
+{
+  "name": "meridian-horizon",
+  "meshes": 10,
+  "triangles": 40984,
+  "anchors": {
+    "MeridianHorizon": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}
