@@ -93,5 +93,7 @@ completion. See the [route reference](orchard-normal-route-map.md) and
 
 All **1,487 tests across 168 files** pass, including the doorway collision
 regression. Lint, TypeScript and the production build pass. The remaining
-late-campaign validation proceeds from recovery through the caretaker-route
-expedition and Meridian; those continuous completions are not claimed here.
+late-campaign validation proceeded from this recovery checkpoint through the
+caretaker-route expedition. The subsequent accepted Orchard continuation is
+documented in [Orchard continuity](orchard-continuity-notes.md); Meridian and
+the ending remain outstanding.

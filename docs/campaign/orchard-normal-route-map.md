@@ -41,7 +41,7 @@ This validates the doorway and rebuilt anchor. Fixture setup supplies the
 docked chapter; it is **not** evidence of earning or completing the expedition
 through the campaign.
 
-## Candidate routes for the continuous playthrough
+## Routes exercised in the continuous playthrough
 
 Use the west gangway and the open `z=0` aisle. Visit the port and starboard
 switches from that aisle. Greenhouse approaches should stay near `x=-5`,
@@ -51,13 +51,18 @@ interaction. Do not walk into the terminal itself.
 
 Approach the common record from `(2.3,-3)`. For the memory core, avoid that
 record's pedestal: use `(1.5,-1)` → `(1.5,-4)` → `(5,-4)` and stop before the
-core terminal. The cold archive extends to z=-5.1, so do not approach through
-the building. Approach the governor from `(5,3.5)`; its workbench occupies
-z=5..8 and blocks an approach from beyond it.
+core terminal. Move within 0.75 m of the core so it becomes nearer than the
+common-record pedestal; camera aim does not choose the interaction. The cold
+archive extends to z=-5.1, so do not approach through the building. Approach
+the governor via `(0,0)` → `(3.5,0)` → `(3.5,3.5)` → `(5,3.5)` to avoid the
+starboard switch cabinet. Its workbench occupies z=5..8 and blocks an approach
+from beyond it. Reverse that route when returning to the central aisle.
 
-These remaining routes are planning guidance, not accepted runtime traversal
-evidence. Log player position and nearby enabled colliders if movement stalls,
-then adjust the walking route without disabling collision. Preserve the
-route-selected testimony; the other route's record must remain unknown.
-Return physically across the gangway and verify `playerOnMachine` before
-departure and the subsequent save/load checkpoint.
+The normal-input runs `run-2026-09-15T16-37-16-944Z` and
+`run-2026-09-15T16-42-56-295Z` exercised these approaches in the earned
+caretaker-route expedition. They retained its selected testimony and kept
+the other route's record unknown. Physical return across the gangway,
+`playerOnMachine`, radio departure and the subsequent cold save/load check
+passed. See [continuity notes](orchard-continuity-notes.md) for retry history
+and the exact evidence boundary; the isolated doorway fixture above remains
+separate evidence.
