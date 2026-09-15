@@ -1,0 +1,60 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "docked repair depot exposes real caretaker recovery candidate",
+      "ok": true,
+      "detail": {
+        "recovery": {
+          "id": "l12-recovery",
+          "kind": "caretaker-recovery"
+        },
+        "components": 5,
+        "docked": true,
+        "candidateCount": 4
+      }
+    },
+    {
+      "name": "recovery panel shows six-component cost",
+      "ok": true,
+      "detail": "Caretaker recruitmentL-12 · LinekeeperA maintenance unit kept this repair bay open. Restore its damaged controller and give it a place aboard the Nomad. Build its charging dock to let it follow you or tend supplies.Recruitment cost: 6 componentsRepair and recover caretakerRequires 6 components. You can return at a later repair depot.Close"
+    },
+    {
+      "name": "insufficient components disables recovery without charge",
+      "ok": true,
+      "detail": {
+        "before": 5,
+        "disabled": true,
+        "after": 5
+      }
+    },
+    {
+      "name": "real recovery consumes exactly six components once",
+      "ok": true,
+      "detail": {
+        "recruited": true,
+        "components": 0
+      }
+    },
+    {
+      "name": "repeat recovery cannot charge or re-recruit",
+      "ok": true,
+      "detail": {
+        "recruited": true,
+        "components": 0
+      }
+    },
+    {
+      "name": "recruitment save contains only durable caretaker state",
+      "ok": true,
+      "detail": {
+        "caretaker": {
+          "format": 1,
+          "recruited": true,
+          "mode": "companion"
+        }
+      }
+    }
+  ],
+  "errors": []
+}

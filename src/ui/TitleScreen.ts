@@ -29,6 +29,7 @@ import './settings.css';
  */
 
 export const GAME_TITLE = 'Machine Move Forward';
+export type CampaignProfile = 'story' | 'survival';
 
 /** What the settings panel can change. Small on purpose; Phase 15 grows it. */
 export interface GameSettings {
@@ -51,7 +52,7 @@ export interface GameSettings {
 }
 
 export interface TitleScreenCallbacks {
-  onNewGame(): void;
+  onNewGame(profile?: CampaignProfile): void;
   onContinue(): void;
   onResume(): void;
   onQuitToTitle(): void;
@@ -107,6 +108,7 @@ export class TitleScreen {
   private cardTimer: ReturnType<typeof setTimeout> | null = null;
   private renderBindings: (() => void) | null = null;
   private cancelBindingCapture: (() => void) | null = null;
+  private profileChooserOpen = false;
 
   constructor(
     private readonly root: HTMLElement,
@@ -125,6 +127,7 @@ export class TitleScreen {
           <h1 id="title-name">${GAME_TITLE}</h1>
           <div id="title-tagline">Keep it walking.</div>
           <nav id="title-menu"></nav>
+          <section id="title-profile" hidden><h2>Choose a campaign</h2><p>Story keeps the current infinite reserve. Survival uses finite ammunition with the same enemies and needs.</p><button type="button" data-profile="story">Story</button><button type="button" data-profile="survival">Survival</button><button type="button" data-profile-cancel>Cancel</button></section>
           <form id="title-settings">
             <label class="title-setting">
               <span>Master volume</span>
@@ -159,6 +162,7 @@ export class TitleScreen {
       'title-plate',
       'title-name',
       'title-menu',
+      'title-profile',
       'title-settings',
       'title-settings-back',
       'title-volume',
@@ -183,6 +187,16 @@ export class TitleScreen {
       const node = root.querySelector<HTMLElement>(`#${id}`);
       if (node) this.el[id] = node;
     }
+    for (const button of root.querySelectorAll<HTMLButtonElement>('[data-profile]')) {
+      button.addEventListener('click', () => {
+        this.profileChooserOpen = false;
+        this.el['title-profile']?.setAttribute('hidden', '');
+        this.callbacks.onNewGame(button.dataset.profile as CampaignProfile);
+      });
+    }
+    root
+      .querySelector<HTMLButtonElement>('[data-profile-cancel]')
+      ?.addEventListener('click', () => this.showMenu());
 
     const volume = this.el['title-volume'] as HTMLInputElement | undefined;
     const quality = this.el['title-quality'] as HTMLSelectElement | undefined;
@@ -484,6 +498,8 @@ export class TitleScreen {
   }
 
   private showMenu(): void {
+    this.profileChooserOpen = false;
+    if (this.el['title-profile']) this.el['title-profile'].hidden = true;
     this.inSettings = false;
     this.el['title-settings']?.classList.remove('is-open');
     this.el['title-menu']?.classList.remove('is-hidden');
@@ -491,7 +507,7 @@ export class TitleScreen {
     this.items =
       this.mode === 'boot'
         ? [
-            { id: 'new-game', label: 'New Game', run: () => this.callbacks.onNewGame() },
+            { id: 'new-game', label: 'New Game', run: () => this.showProfileChooser() },
             ...(this.hasSaveGame
               ? [
                   {
@@ -521,6 +537,15 @@ export class TitleScreen {
 
     this.selected = Math.min(this.selected, this.items.length - 1);
     this.renderMenu();
+  }
+
+  private showProfileChooser(): void {
+    this.profileChooserOpen = true;
+    this.el['title-menu']?.classList.add('is-hidden');
+    const chooser = this.el['title-profile'];
+    if (!chooser) return;
+    chooser.hidden = false;
+    chooser.querySelector<HTMLButtonElement>('[data-profile="story"]')?.focus();
   }
 
   private showSettings(): void {
@@ -560,6 +585,15 @@ export class TitleScreen {
 
   private onKeyDown(e: KeyboardEvent): void {
     if (!this.open) return;
+
+    if (this.profileChooserOpen) {
+      if (e.code === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        this.showMenu();
+      }
+      return;
+    }
 
     if (this.inSettings) {
       if (e.code === 'Escape') {

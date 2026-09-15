@@ -23,11 +23,18 @@ export interface RecoverySnapshot {
   garden?: { water: number; greens: number; progressS: number; cycleS: number };
   damagedSubsystems: number;
   repairKits: number;
+  /** Effective campaign rule, not the compile-time default. */
+  infiniteAmmo: boolean;
+  /** Currently selected gun, so the recovery action matches the HUD. */
+  weaponId: 'rifle' | 'shotgun';
+  /** Reserve of the currently selected gun. */
+  ammoReserve: number;
   safeToSave: boolean;
   saveRefusal?: string;
 }
 
-export type RecoveryTopic = 'fuel' | 'power' | 'water' | 'food' | 'garden' | 'repair' | 'save';
+export type RecoveryTopic =
+  'fuel' | 'power' | 'water' | 'food' | 'ammo' | 'garden' | 'repair' | 'save';
 export interface RecoveryHint {
   topic: RecoveryTopic;
   severity: 'info' | 'warning' | 'blocked';
@@ -136,6 +143,16 @@ export function projectRecovery(snapshot: RecoverySnapshot): readonly RecoveryHi
     });
   }
 
+  if (!s.infiniteAmmo && nonnegative(s.ammoReserve) === 0) {
+    add({
+      topic: 'ammo',
+      severity: 'warning',
+      title: 'Ammunition reserve is empty',
+      detail: `Craft ${s.weaponId === 'shotgun' ? 'shotgun shells' : 'rifle rounds'} at a workbench before the next fight.`,
+      metric: '0 reserve',
+    });
+  }
+
   const garden = s.garden;
   if (garden && nonnegative(garden.water) > 0 && nonnegative(garden.greens) <= 3) {
     const cycle = positive(garden.cycleS) || 180;
@@ -172,6 +189,7 @@ export function projectRecovery(snapshot: RecoverySnapshot): readonly RecoveryHi
     'power',
     'water',
     'food',
+    'ammo',
     'garden',
     'repair',
   ];

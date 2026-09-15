@@ -376,7 +376,7 @@ def weapon(stem, shotgun=False):
         for z in (.04,.20,.32): screw('Receiver fastener',(x,.225,z),M['Steel'],root,.010)
     box('Sight housing',(0,.31,.12),(.095,.07,.12),M['Dark'],root,.012)
     box('Sight glass',(0,.348,.12),(.058,.012,.045),M['Glass'],root,.006)
-    empty('Muzzle',(0,0,length),root)
+    empty('Muzzle',(0,.13,length),root)
     join_static(); uv_all()
     return root
 

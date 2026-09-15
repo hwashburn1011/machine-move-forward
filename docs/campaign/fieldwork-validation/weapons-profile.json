@@ -1,0 +1,222 @@
+{
+  "generatedAt": "2026-09-15T09:26:32.238Z",
+  "site": "http://127.0.0.1:5201/",
+  "setup": [
+    "fixture: tutorial and Foundry facts; real built generator/workbench; 30 scrap/20 components"
+  ],
+  "checks": [
+    {
+      "name": "story is offered by the real New Game chooser",
+      "ok": true
+    },
+    {
+      "name": "story selection applies its ammunition rule",
+      "ok": true,
+      "detail": {
+        "profile": "story",
+        "reservesInfinite": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "name": "survival is offered by the real New Game chooser",
+      "ok": true
+    },
+    {
+      "name": "survival selection applies its ammunition rule",
+      "ok": true,
+      "detail": {
+        "profile": "survival",
+        "reservesInfinite": [
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "name": "real generator supplies the workbench fixture",
+      "ok": true,
+      "detail": {
+        "workbenchId": "bp-3",
+        "generatorId": "bp-1",
+        "powerCapacity": 16,
+        "before": {
+          "scrap": 30,
+          "components": 20
+        }
+      }
+    },
+    {
+      "name": "Game opens Fieldwork at the live powered workbench",
+      "ok": true,
+      "detail": {
+        "text": "FieldworkRifleShotgunScrapline ARSurvival · Scrap 30 · Components 20 · Ammo 30/150Damage 24 · Fire 9/s · Hip spread 0.9 · Aim spread 0.25 · Recoil 0.35 · Range 120m · Reload 2.1sRifle Stabilizer55% spread, 65% recoil; reload is 15% slower.Research (12 scrap, 8 components)Rifle Burst CamThree rounds at 12/s, then a 0.50s recovery.Research (12 scrap, 8 components)Remove attachmentClose"
+      }
+    },
+    {
+      "name": "Survival Fieldwork reports finite ammunition",
+      "ok": true
+    },
+    {
+      "name": "research charges 12 scrap and 8 components exactly once",
+      "ok": true,
+      "detail": {
+        "scrap": 18,
+        "components": 12,
+        "researched": [
+          "rifle-stabilizer"
+        ],
+        "active": "rifle-stabilizer"
+      }
+    },
+    {
+      "name": "free equip applies the stabilizer tradeoff without another charge",
+      "ok": true,
+      "detail": {
+        "active": "rifle-stabilizer",
+        "spread": 0.49500000000000005,
+        "aimSpread": 0.1375,
+        "recoil": 0.22749999999999998,
+        "reload": 2.415,
+        "scrap": 18,
+        "components": 12
+      }
+    },
+    {
+      "name": "repeat research is refused without payment or duplicate ownership",
+      "ok": true,
+      "detail": {
+        "scrap": 18,
+        "components": 12,
+        "count": 1
+      }
+    },
+    {
+      "name": "shotgun exposes both registry attachments with exact runtime IDs",
+      "ok": true,
+      "detail": [
+        "shotgun-choke",
+        "shotgun-scatter-brake"
+      ]
+    },
+    {
+      "name": "DOM research purchases both shotgun attachments at their registry cost",
+      "ok": true,
+      "detail": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "DOM equip applies a researched shotgun attachment",
+      "ok": true,
+      "detail": "shotgun-choke"
+    },
+    {
+      "name": "DOM remove clears the active shotgun attachment",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "DOM buys and equips the rifle burst cam",
+      "ok": true,
+      "detail": {
+        "researched": [
+          "rifle-stabilizer",
+          "rifle-burst-cam"
+        ],
+        "active": "rifle-burst-cam"
+      }
+    },
+    {
+      "name": "panel, weapon swap, manual reload and build entry cancel pending burst rounds",
+      "ok": true,
+      "detail": {
+        "began": true,
+        "panel": true,
+        "swap": true,
+        "reload": true,
+        "build": true
+      }
+    },
+    {
+      "name": "Survival crafting routes matching rounds and finite reload conserves them",
+      "ok": true,
+      "detail": {
+        "crafted": true,
+        "depleted": true,
+        "routed": true,
+        "started": true,
+        "rifleMag": 30,
+        "rifleReserve": 0,
+        "shotgunReserve": 3,
+        "conserved": true
+      }
+    },
+    {
+      "name": "full Game save/load restores Survival loadouts and recruitment without transient work",
+      "ok": true,
+      "detail": {
+        "profile": "survival",
+        "infinite": [
+          false,
+          false
+        ],
+        "burst": false,
+        "caretaker": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "idle",
+          "job": null,
+          "token": null,
+          "serviceRemainingS": 0,
+          "refusal": null
+        },
+        "burstCam": true
+      }
+    },
+    {
+      "name": "explicit Story Game save restores infinite reserve without losing its loadout",
+      "ok": true,
+      "detail": {
+        "profile": "story",
+        "infinite": [
+          true,
+          true
+        ],
+        "burstCam": true
+      }
+    },
+    {
+      "name": "legacy Game save defaults to Story and grants no caretaker or attachments",
+      "ok": true,
+      "detail": {
+        "profile": "story",
+        "infinite": [
+          true,
+          true
+        ],
+        "recruited": false,
+        "researched": []
+      }
+    },
+    {
+      "name": "build save preserves survival profile and researched shotgun attachments",
+      "ok": true,
+      "detail": "survival"
+    },
+    {
+      "name": "fieldwork refuses an unpowered workbench",
+      "ok": true,
+      "detail": {
+        "refused": true,
+        "disabled": true,
+        "before": 80,
+        "after": 80
+      }
+    }
+  ],
+  "errors": []
+}

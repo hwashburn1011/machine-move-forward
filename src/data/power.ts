@@ -86,6 +86,8 @@ export type PowerRole =
 
 export function powerRoleOf(piece: PieceId): PowerRole {
   switch (piece) {
+    case 'caretaker-dock':
+      return { kind: 'consumer', draw: 3, priority: 'station' };
     case 'generator':
       return { kind: 'producer', capacity: GENERATOR_CAPACITY };
     case 'lamp':

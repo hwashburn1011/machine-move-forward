@@ -147,6 +147,10 @@ export class Player {
     return this.visual.getMuzzleWorldPosition(out);
   }
 
+  setWeaponAttachment(id: string | null, source: THREE.Object3D | null): void {
+    this.visual.setAttachment(id, source);
+  }
+
   kickHeldWeapon(distance: number, pitch: number, yaw: number): void {
     this.visual.kickHeldWeapon(distance, pitch, yaw);
   }

@@ -1,0 +1,45 @@
+.fieldwork {
+  position: fixed;
+  inset: 0;
+  z-index: 43;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: rgb(4 10 15 / 78%);
+  color: #d6f2ed;
+  pointer-events: auto;
+}
+.fieldwork[hidden] {
+  display: none;
+}
+.fieldwork-content {
+  width: min(48rem, 100%);
+  max-height: 88vh;
+  overflow: auto;
+  padding: 2rem;
+  border: 1px solid #46b7ad;
+  background: #0b1820;
+}
+.fieldwork h2 {
+  margin-top: 0;
+  color: #f0b45d;
+}
+.fieldwork h3 {
+  color: #73d9cf;
+}
+.fieldwork article {
+  margin: 0.6rem 0;
+  padding: 0.6rem;
+  border: 1px solid #28535a;
+}
+.fieldwork button {
+  margin: 0.35rem;
+  padding: 0.65rem 1rem;
+  color: inherit;
+  background: #122832;
+  border: 1px solid #559f9d;
+  cursor: pointer;
+}
+.fieldwork button:disabled {
+  opacity: 0.45;
+}

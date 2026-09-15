@@ -258,6 +258,12 @@ export class PhysicsWorld {
     return { body, collider, controller };
   }
 
+  /** Release both the Rapier controller allocation and its kinematic body. */
+  removeCharacter(handle: CharacterHandle): void {
+    handle.controller.free();
+    this.removeBody(handle.body);
+  }
+
   /**
    * Move a character by its own movement, then carry it with its platform.
    *
@@ -409,8 +415,7 @@ export class PhysicsWorld {
   }
 
   removeBody(body: RAPIER.RigidBody): void {
-    for (let i = 0; i < body.numColliders(); i++)
-      this.userData.delete(body.collider(i).handle);
+    for (let i = 0; i < body.numColliders(); i++) this.userData.delete(body.collider(i).handle);
     this.boxBodies.delete(body.handle);
     this.world.removeRigidBody(body);
   }

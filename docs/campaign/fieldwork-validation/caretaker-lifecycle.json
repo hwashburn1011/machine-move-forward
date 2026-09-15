@@ -1,0 +1,601 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "Real recruited caretaker fixture placed",
+      "ok": true,
+      "detail": {
+        "dock": "bp-6",
+        "crate": "bp-7",
+        "garden": "bp-8"
+      }
+    },
+    {
+      "name": "Caretaker panel opens at real dock",
+      "ok": true
+    },
+    {
+      "name": "Caretaker performs a real steward job",
+      "ok": true,
+      "detail": {
+        "before": {
+          "crate": [
+            {
+              "itemId": "water",
+              "count": 1
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "garden": {
+            "format": 1,
+            "water": 0,
+            "greens": 0,
+            "progressS": 0
+          }
+        },
+        "run": {
+          "traveled": 9.934845326098259,
+          "serviceDistances": {
+            "service-source": 0.5390181568684731,
+            "service-target": 0.5327228713959202
+          },
+          "initialState": {
+            "recruited": true,
+            "mode": "steward",
+            "phase": "to-source",
+            "job": {
+              "kind": "water-garden",
+              "sourceId": "bp-7",
+              "targetId": "bp-8",
+              "itemId": "water",
+              "count": 1
+            },
+            "token": 1,
+            "serviceRemainingS": 0,
+            "refusal": null
+          },
+          "state": {
+            "recruited": true,
+            "mode": "steward",
+            "phase": "idle",
+            "job": null,
+            "token": null,
+            "serviceRemainingS": 0,
+            "refusal": null
+          },
+          "crate": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "garden": {
+            "format": 1,
+            "water": 1,
+            "greens": 0,
+            "progressS": 13.30000000000024
+          },
+          "actor": {
+            "x": -5.459799150768436,
+            "y": 14.849476667483447,
+            "z": -6.041114071343234
+          },
+          "initialActor": {
+            "x": -5.993220002876272,
+            "y": 14.726224193430477,
+            "z": -6.0169342489474635
+          },
+          "finalActor": {
+            "x": -5.459799150768436,
+            "y": 14.849476667483447,
+            "z": -6.041114071343234
+          },
+          "source": {
+            "x": -4,
+            "y": 14.74,
+            "z": -8
+          },
+          "target": {
+            "x": -2,
+            "y": 14.74,
+            "z": -8
+          },
+          "approachSource": {
+            "x": -3.984384721957114,
+            "y": 14.737968707179666,
+            "z": -6.0144834404868925
+          },
+          "approachTarget": {
+            "x": -1.9843858439233093,
+            "y": 14.735408121362267,
+            "z": -6.464481141885237
+          },
+          "actorTarget": {
+            "x": -5.984383599991014,
+            "y": 14.740087163974286,
+            "z": -6.014485521890636
+          },
+          "actorRoute": [
+            {
+              "x": -3.9843847219571447,
+              "y": 14.737968707179903,
+              "z": -6.014483440486894
+            },
+            {
+              "x": -5.984383599991014,
+              "y": 14.740087163974286,
+              "z": -6.014485521890636
+            }
+          ],
+          "actorWaypoint": 2,
+          "actorLastTurn": 0,
+          "probeHits": [
+            {
+              "offset": -2,
+              "data": null
+            },
+            {
+              "offset": -1.5,
+              "distance": 1.308534860610962,
+              "point": {
+                "x": -5.61841346852388,
+                "y": 15.229476667483448,
+                "z": -7.340000124712476
+              },
+              "collider": {
+                "x": -6,
+                "y": 15.239999771118164,
+                "z": -8
+              },
+              "shape": {
+                "type": 1,
+                "halfExtents": {
+                  "x": 0.64,
+                  "y": 0.5,
+                  "z": 0.66
+                }
+              },
+              "data": {
+                "kind": "structure",
+                "id": "bp-6"
+              }
+            },
+            {
+              "offset": -1,
+              "distance": 1.597650170326233,
+              "point": {
+                "x": -6.390057679738521,
+                "y": 15.229476667483448,
+                "z": -7.340000184912031
+              },
+              "collider": {
+                "x": -6,
+                "y": 15.239999771118164,
+                "z": -8
+              },
+              "shape": {
+                "type": 1,
+                "halfExtents": {
+                  "x": 0.64,
+                  "y": 0.5,
+                  "z": 0.66
+                }
+              },
+              "data": {
+                "kind": "structure",
+                "id": "bp-6"
+              }
+            },
+            {
+              "offset": -0.5,
+              "data": null
+            },
+            {
+              "offset": 0,
+              "data": null
+            },
+            {
+              "offset": 0.5,
+              "data": null
+            },
+            {
+              "offset": 1,
+              "data": null
+            },
+            {
+              "offset": 1.5,
+              "data": null
+            },
+            {
+              "offset": 2,
+              "data": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Caretaker physically visits both service points",
+      "ok": true,
+      "detail": {
+        "traveled": 9.934845326098259,
+        "serviceDistances": {
+          "service-source": 0.5390181568684731,
+          "service-target": 0.5327228713959202
+        },
+        "initialState": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "to-source",
+          "job": {
+            "kind": "water-garden",
+            "sourceId": "bp-7",
+            "targetId": "bp-8",
+            "itemId": "water",
+            "count": 1
+          },
+          "token": 1,
+          "serviceRemainingS": 0,
+          "refusal": null
+        },
+        "state": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "idle",
+          "job": null,
+          "token": null,
+          "serviceRemainingS": 0,
+          "refusal": null
+        },
+        "actor": {
+          "x": -5.459799150768436,
+          "y": 14.849476667483447,
+          "z": -6.041114071343234
+        },
+        "source": {
+          "x": -4,
+          "y": 14.74,
+          "z": -8
+        },
+        "target": {
+          "x": -2,
+          "y": 14.74,
+          "z": -8
+        }
+      }
+    },
+    {
+      "name": "panel-open",
+      "ok": true,
+      "detail": {
+        "started": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "to-source",
+          "job": {
+            "kind": "water-garden",
+            "sourceId": "bp-7",
+            "targetId": "bp-8",
+            "itemId": "water",
+            "count": 1
+          },
+          "token": 2,
+          "serviceRemainingS": 0,
+          "refusal": null
+        },
+        "state": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "idle",
+          "job": null,
+          "token": null,
+          "serviceRemainingS": 0,
+          "refusal": "unsafe"
+        },
+        "before": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "after": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "build-mode",
+      "ok": true,
+      "detail": {
+        "started": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "to-source",
+          "job": {
+            "kind": "water-garden",
+            "sourceId": "bp-7",
+            "targetId": "bp-8",
+            "itemId": "water",
+            "count": 1
+          },
+          "token": 3,
+          "serviceRemainingS": 0,
+          "refusal": null
+        },
+        "state": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "idle",
+          "job": null,
+          "token": null,
+          "serviceRemainingS": 0,
+          "refusal": "unsafe"
+        },
+        "before": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "after": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "player-dead",
+      "ok": true,
+      "detail": {
+        "started": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "to-source",
+          "job": {
+            "kind": "water-garden",
+            "sourceId": "bp-7",
+            "targetId": "bp-8",
+            "itemId": "water",
+            "count": 1
+          },
+          "token": 4,
+          "serviceRemainingS": 0,
+          "refusal": null
+        },
+        "state": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "idle",
+          "job": null,
+          "token": null,
+          "serviceRemainingS": 0,
+          "refusal": "unsafe"
+        },
+        "before": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "after": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "dock-power-loss",
+      "ok": true,
+      "detail": {
+        "started": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "to-source",
+          "job": {
+            "kind": "water-garden",
+            "sourceId": "bp-7",
+            "targetId": "bp-8",
+            "itemId": "water",
+            "count": 1
+          },
+          "token": 5,
+          "serviceRemainingS": 0,
+          "refusal": null
+        },
+        "state": {
+          "recruited": true,
+          "mode": "steward",
+          "phase": "idle",
+          "job": null,
+          "token": null,
+          "serviceRemainingS": 0,
+          "refusal": "unpowered"
+        },
+        "before": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "after": [
+          {
+            "itemId": "water",
+            "count": 1
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "name": "dock-demolition-recreate",
+      "ok": true,
+      "detail": {
+        "bodiesBefore": 30,
+        "bodiesAfterRemove": 28,
+        "collidersBefore": 41,
+        "collidersAfterRemove": 39,
+        "recreated": "bp-10",
+        "actors": 1
+      }
+    },
+    {
+      "name": "moving dock to another deck redeploys one caretaker",
+      "ok": true,
+      "detail": {
+        "moved": true,
+        "actor": true,
+        "deck": -2,
+        "bodiesBefore": 31,
+        "bodiesAfter": 31
+      }
+    },
+    {
+      "name": "Caretaker save excludes transient state",
+      "ok": true,
+      "detail": {
+        "format": 1,
+        "recruited": true,
+        "mode": "steward"
+      }
+    },
+    {
+      "name": "Restore clears injected transient fields",
+      "ok": true
+    },
+    {
+      "name": "Removed garden endpoint refuses without loss",
+      "ok": true,
+      "detail": {
+        "result": false,
+        "unchanged": true
+      }
+    },
+    {
+      "name": "real dock and built contents survive Game save/load with one fresh actor",
+      "ok": true,
+      "detail": {
+        "loaded": true,
+        "recruited": true,
+        "mode": "steward",
+        "job": null,
+        "preserved": true,
+        "docks": 1,
+        "oldRemoved": true,
+        "actor": true
+      }
+    }
+  ],
+  "errors": []
+}

@@ -124,6 +124,14 @@ Departing the Foundry completes the first chapter and resumes recurring mech rai
 
 ## Home life and route risk
 
+New campaigns offer **Story** (the existing infinite reserve ammunition) or **Survival** (finite rifle and shotgun reserves, replenished with existing ammunition and workbench recipes). The choice stays with that campaign; older saves remain Story.
+
+After Relay Foundry, open a **workbench → Weapon attachments**. Research a rifle stabilizer or three-round burst cam, or a shotgun choke or scatter brake. Each costs 12 scrap and 8 components once; swapping or removing researched attachments is free. Fieldwork tools draw 1 power while open. Attachments trade handling, range, reload time or firing cadence without changing base damage, and coexist with the extended magazine.
+
+Repair depots offer **Restore L-12** for 6 components until you recover the maintenance unit. Build its **charging dock** from the Automation category (40 scrap, 8 components, 3 power). L-12 follows you or tends built storage, completed producer outputs and seed gardens **on the dock's deck**. It waits when you change decks; moving the dock redeploys it on the new deck. It carries no inventory: each one-unit transfer commits only after it reaches both live endpoints. Attacks, power loss, blocked routes and open panels stop its work safely.
+
+[Fieldwork update, artwork and validation](docs/campaign/fieldwork-delivery.md).
+
 Build a chair in an enclosed room with a table or rug, then press **E beside the chair** to start quiet maintenance. Remain still to restore 2 HP/s (1 HP/s while hungry); movement, combat, damage or a broken enclosure interrupts it. There is no sitting animation or time skip. Use **E at a shelf** to display an already recovered campaign record. Moving the shelf preserves its selection; removing it never erases the record.
 
 Docked salvage wrecks offer **Secure** for 24 scrap and 2 components, or **Broadcast** for a defended total of 48 scrap and 6 components. To broadcast, return aboard and open the Radio's wreck salvage choices. Confirming calls one enemy skiff and retracts the gangways until the encounter ends. Rewards stay at the wreck until collected, including anything that did not fit in your inventory. Dying during the defense retains only the original secure cache.
