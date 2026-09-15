@@ -1,0 +1,8 @@
+
+ RUN  v4.1.11 C:/Users/hwash/Documents/MachineMoveForward
+
+
+ Test Files  163 passed (163)
+      Tests  1457 passed (1457)
+   Start at  07:00:24
+   Duration  23.07s (transform 18.16s, setup 0ms, import 45.92s, tests 43.67s, environment 16.02s)

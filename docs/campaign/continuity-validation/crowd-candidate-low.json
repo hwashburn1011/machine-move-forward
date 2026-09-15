@@ -1,0 +1,223 @@
+{
+  "diagnosticOnly": true,
+  "provenance": {
+    "url": "http://127.0.0.1:5206/?nomenu=1&nolock=1&nosound=1&nospawn=1&quality=low&seed=continuity-crowd",
+    "scripts": [
+      "http://127.0.0.1:5206/assets/index-BpEseghj.js"
+    ],
+    "capturedAt": "2026-09-15T11:13:04.207Z"
+  },
+  "hardware": {
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 (0x00002484) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "width": 1920,
+    "height": 1080,
+    "quality": "low"
+  },
+  "seed": "continuity-crowd",
+  "quality": "low",
+  "seconds": 8,
+  "repetitions": 1,
+  "results": [
+    {
+      "mode": "all",
+      "repetition": 0,
+      "frames": 407,
+      "fps": 50.873092259040284,
+      "frameMs": {
+        "mean": 19.656756756756756,
+        "p50": 16.700000000000728,
+        "p95": 33.39999999999782,
+        "p99": 50,
+        "max": 50.099999999998545
+      },
+      "activeFrameMs": {
+        "mean": 19.656756756756756,
+        "p50": 16.700000000000728,
+        "p95": 33.39999999999782,
+        "p99": 50,
+        "max": 50.099999999998545
+      },
+      "blockedFrameCount": 0,
+      "renderCpuMs": {
+        "mean": 9.098529413780746,
+        "p50": 8.300000011920929,
+        "p95": 17.899999976158142,
+        "p99": 22.099999964237213,
+        "max": 24.69999998807907
+      },
+      "work": {
+        "enemyFixed": {
+          "calls": 480,
+          "ms": 2013.200000166893,
+          "max": 11.899999976158142
+        },
+        "enemyRenderUpdate": {
+          "calls": 408,
+          "ms": 173.50000047683716,
+          "max": 1.300000011920929
+        },
+        "tacticalFixed": {
+          "calls": 480,
+          "ms": 13.300000011920929,
+          "max": 0.5999999642372131
+        },
+        "tacticalRender": {
+          "calls": 408,
+          "ms": 9.200000584125519,
+          "max": 0.20000004768371582
+        },
+        "cameraRender": {
+          "calls": 408,
+          "ms": 29.29999965429306,
+          "max": 0.8999999761581421
+        },
+        "physicsStep": {
+          "calls": 480,
+          "ms": 432.6000007390976,
+          "max": 2
+        },
+        "raycast": {
+          "calls": 63385,
+          "ms": 345.39999890327454,
+          "max": 0.5
+        },
+        "move:enemy-0": {
+          "calls": 480,
+          "ms": 95.30000001192093,
+          "max": 1.100000023841858
+        },
+        "move:enemy-1": {
+          "calls": 480,
+          "ms": 86.00000005960464,
+          "max": 1.199999988079071
+        },
+        "move:enemy-2": {
+          "calls": 480,
+          "ms": 138.50000047683716,
+          "max": 1.5
+        },
+        "move:enemy-3": {
+          "calls": 480,
+          "ms": 172.09999990463257,
+          "max": 7.699999988079071
+        },
+        "move:enemy-4": {
+          "calls": 480,
+          "ms": 308.0999999642372,
+          "max": 2
+        },
+        "move:enemy-5": {
+          "calls": 480,
+          "ms": 224.60000032186508,
+          "max": 2.5
+        },
+        "move:enemy-6": {
+          "calls": 480,
+          "ms": 294.5999995470047,
+          "max": 6.5
+        },
+        "move:enemy-7": {
+          "calls": 480,
+          "ms": 127.29999959468842,
+          "max": 2.5
+        }
+      },
+      "over25ms": 68,
+      "over50ms": 2,
+      "draws": 202,
+      "triangles": 570386,
+      "resources": {
+        "geometries": 452,
+        "textures": 477
+      },
+      "enemies": 8,
+      "warmupMs": 3374.300000011921,
+      "warmupFrames": 180,
+      "yawTravel": 31.308199999999985,
+      "deliveredX": 14400.539999999997,
+      "enemyStates": [
+        {
+          "id": "enemy-0",
+          "kind": "bastion",
+          "state": "pursue",
+          "at": [
+            0.9950788635061755,
+            15.809944308829683,
+            -1.6873616075098914
+          ]
+        },
+        {
+          "id": "enemy-1",
+          "kind": "warden",
+          "state": "pursue",
+          "at": [
+            0.9487212772608098,
+            15.809158377204179,
+            -2.909635124781246
+          ]
+        },
+        {
+          "id": "enemy-2",
+          "kind": "revenant",
+          "state": "navigate",
+          "at": [
+            -5.809052353000245,
+            15.822961041754226,
+            3.557263160333293
+          ]
+        },
+        {
+          "id": "enemy-3",
+          "kind": "sovereign",
+          "state": "pursue",
+          "at": [
+            3.7087075148671618,
+            15.81395819826828,
+            -1.0344077825608948
+          ]
+        },
+        {
+          "id": "enemy-4",
+          "kind": "bastion",
+          "state": "pursue",
+          "at": [
+            6.316373011665981,
+            15.813457716453847,
+            -3.602964089508868
+          ]
+        },
+        {
+          "id": "enemy-5",
+          "kind": "warden",
+          "state": "attack",
+          "at": [
+            6.48539970007744,
+            15.855409214443721,
+            -2.676687510628988
+          ]
+        },
+        {
+          "id": "enemy-6",
+          "kind": "revenant",
+          "state": "attack",
+          "at": [
+            5.7964216546650364,
+            15.939306057018863,
+            -1.679105444437671
+          ]
+        },
+        {
+          "id": "enemy-7",
+          "kind": "sovereign",
+          "state": "attack",
+          "at": [
+            6.498529878884415,
+            15.816739346501814,
+            -0.9349708098296947
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

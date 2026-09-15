@@ -35,11 +35,21 @@ scene.view_layers[0].update()
 def bounds(o):
     pts = [game(o.matrix_world @ Vector(v)) for v in o.bound_box]
     return Vector(tuple(min(v[i] for v in pts) for i in range(3))), Vector(tuple(max(v[i] for v in pts) for i in range(3)))
+# Move an entire workbench assembly according to its tabletop, not according
+# to each child's centre. The inner pedestal of the neighbouring left bench
+# otherwise falls inside this relocation band and lands in the service aisle.
+bench_centers = [(bounds(o)[0] + bounds(o)[1]) * .5 for o in scene.objects
+                 if 'workshop bench top' in o.name.lower()]
 for o in list(scene.objects):
     if o.type not in ['MESH', 'CURVE']: continue
     lo, hi = bounds(o); c=(lo+hi)*.5
-    if 11.7 < c.y < 14.2 and 2.7 < c.z < 3.9 and -3.1 < c.x < .1:
-        if any(s in o.name.lower() for s in ['bench', 'pressure', 'tank crown', 'instrument gauge', 'gauge needle', 'service tool case']):
+    bench_piece = any(s in o.name.lower() for s in ['bench', 'service tool case'])
+    if bench_piece:
+        table = min(bench_centers, key=lambda at: (at.x-c.x)**2 + (at.z-c.z)**2)
+        if 11.7 < c.y < 14.2 and 2.7 < table.z < 3.9 and -3.1 < table.x < .1:
+            o.location.x -= 2.6/sx
+    elif 11.7 < c.y < 14.2 and 2.7 < c.z < 3.9 and -3.1 < c.x < .1:
+        if any(s in o.name.lower() for s in ['pressure', 'tank crown', 'instrument gauge', 'gauge needle']):
             o.location.x -= 2.6/sx
     if 11.7 < c.y < 14.2 and .2 < c.z < 2.7 and -3.1 < c.x < -.2:
         if any(s in o.name.lower() for s in ['pump', 'discharge', 'service hose']):

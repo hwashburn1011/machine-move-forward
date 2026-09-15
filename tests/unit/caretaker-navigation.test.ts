@@ -34,6 +34,35 @@ const buildView = (grid: BuildGrid<PieceId>, navGraph = buildNavGraph(grid, []))
 });
 
 describe('CaretakerNavigation', () => {
+  it('rejects a same-cell target behind an obstacle with clear endpoints', () => {
+    const grid = new BuildGrid<PieceId>();
+    floor(grid, [c(0, 0, 0)]);
+    const group = new THREE.Group();
+    group.updateMatrixWorld(true);
+    const nav = new CaretakerNavigation(
+      { group },
+      buildView(grid) as never,
+      (point) => Math.abs(point.x) > 0.1,
+    );
+    const from = world(group, c(0, 0, 0)).add(new THREE.Vector3(-0.7, 0, 0));
+    const target = from.clone().add(new THREE.Vector3(1.4, 0, 0));
+    expect(nav.routeFor(from, target)).toBeNull();
+  });
+
+  it('validates the last connector from a grid node to the actual service target', () => {
+    const grid = new BuildGrid<PieceId>();
+    floor(grid, [c(-1, 0, 0), c(0, 0, 0)]);
+    const group = new THREE.Group();
+    group.updateMatrixWorld(true);
+    const nav = new CaretakerNavigation(
+      { group },
+      buildView(grid) as never,
+      (point) => Math.abs(point.x - 0.3) > 0.11,
+    );
+    const target = world(group, c(0, 0, 0)).add(new THREE.Vector3(0.7, 0, 0));
+    expect(nav.routeFor(world(group, c(-1, 0, 0)), target)).toBeNull();
+  });
+
   it('converts a detour around a real wall between machine-local cells into world space', () => {
     const grid = new BuildGrid<PieceId>();
     floor(grid, [c(0, 0, 0), c(0, 0, 1), c(1, 0, 1), c(1, 0, 0)]);
@@ -48,11 +77,11 @@ describe('CaretakerNavigation', () => {
     const target = world(group, c(1, 0, 0));
     const route = nav.routeFor(start, target);
     expect(route).not.toBeNull();
-    expect(route).toHaveLength(3);
+    expect(route!.length).toBeGreaterThanOrEqual(3);
     expect(route?.at(-1)?.distanceTo(target)).toBeLessThan(1e-7);
     const localRoute = route!.map((point) => group.worldToLocal(point.clone()));
-    expect(localRoute[0]!.z).toBeCloseTo(2);
-    expect(localRoute[1]!.x).toBeCloseTo(2);
+    expect(localRoute.some((point) => Math.abs(point.z - 2) < 1e-6)).toBe(true);
+    expect(localRoute.some((point) => Math.abs(point.x - 2) < 1e-6)).toBe(true);
   });
 
   it('chooses a reachable adjacent approach instead of a station collider cell', () => {
@@ -97,6 +126,77 @@ describe('CaretakerNavigation', () => {
     // The shared graph remains intact for enemies/player-facing systems; this
     // fallback belongs only to the caretaker projection.
     expect(graph.links.get(cellKey(stairs[0]))?.map(cellKey)).toContain(cellKey(stairs[1]));
+  });
+
+  it('commits an authored fixed-link portal with ramp samples across decks', () => {
+    const grid = new BuildGrid<PieceId>();
+    const upper = c(-1, 0, 2);
+    const lower = c(-1, -1, -2);
+    floor(grid, [upper, lower]);
+    const graph = buildNavGraph(grid, [], [[upper, lower]]);
+    const group = new THREE.Group();
+    group.position.set(4, 0, -3);
+    group.rotation.y = 0.35;
+    group.updateMatrixWorld(true);
+    const nav = new CaretakerNavigation(
+      { group, fixedLinks: [[upper, lower]] } as never,
+      buildView(grid, graph) as never,
+    );
+    const route = nav.routeFor(world(group, upper), world(group, lower));
+    expect(route).not.toBeNull();
+    const portal = route!.filter((point) => point.portalId);
+    expect(portal.length).toBeGreaterThanOrEqual(6);
+    expect(new Set(portal.map((point) => point.portalId)).size).toBe(1);
+    expect(portal.filter((point) => point.portalExit)).toHaveLength(1);
+    expect(route?.[0]?.distanceTo(world(group, upper))).toBeLessThan(0.7);
+    expect(route?.at(-1)?.distanceTo(world(group, lower))).toBeLessThan(1e-7);
+    const local = route!.map((point) => group.worldToLocal(point.clone()));
+    expect(local[2]!.y).toBeGreaterThan(local[3]!.y);
+    expect(local[2]!.x).toBeCloseTo(-2);
+    expect(local[3]!.x).toBeCloseTo(-2);
+    const downFromRamp = nav.routeFor(route![2]!, world(group, lower));
+    expect(downFromRamp?.at(-1)?.distanceTo(world(group, lower))).toBeLessThan(1e-7);
+    const reverse = nav.routeFor(world(group, lower), world(group, upper));
+    expect(reverse).not.toBeNull();
+    const upFromRamp = nav.routeFor(reverse![2]!, world(group, upper));
+    expect(upFromRamp?.at(-1)?.distanceTo(world(group, upper))).toBeLessThan(1e-7);
+  });
+
+  it('refuses malformed fixed links and a portal with an occupied landing', () => {
+    const grid = new BuildGrid<PieceId>();
+    const upper = c(-1, 0, 2);
+    const lower = c(-1, -1, -2);
+    floor(grid, [upper, lower]);
+    const group = new THREE.Group();
+    group.updateMatrixWorld(true);
+    const malformed = new CaretakerNavigation(
+      { group, fixedLinks: [[c(0, 0, 0), c(0, 2, 2)]] } as never,
+      buildView(grid, buildNavGraph(grid, [])) as never,
+    );
+    expect(malformed.routeFor(world(group, upper), world(group, lower))).toBeNull();
+    const graph = buildNavGraph(grid, [], [[upper, lower]]);
+    const blocked = new CaretakerNavigation(
+      { group, fixedLinks: [[upper, lower]] } as never,
+      buildView(grid, graph) as never,
+      (point) => Math.abs(point.x + 2) > 0.1 || point.z < 3,
+    );
+    expect(blocked.routeFor(world(group, upper), world(group, lower))).toBeNull();
+  });
+
+  it('does not mistake the continuous floor below a ramp for ramp traversal', () => {
+    const grid = new BuildGrid<PieceId>();
+    const upper = c(-1, -1, 2);
+    const lower = c(-1, -2, -2);
+    floor(grid, [upper, lower]);
+    const graph = buildNavGraph(grid, [], [[upper, lower]]);
+    const group = new THREE.Group();
+    group.updateMatrixWorld(true);
+    const nav = new CaretakerNavigation(
+      { group, fixedLinks: [[upper, lower]] } as never,
+      buildView(grid, graph) as never,
+    );
+    const belowRamp = new THREE.Vector3(-2, 14.74 + -2 * 3 - 0.25, 0);
+    expect(nav.routeFor(belowRamp, world(group, upper))).toBeNull();
   });
 
   it('cannot leave and re-enter a level to connect same-level rooms', () => {
@@ -164,7 +264,10 @@ describe('CaretakerNavigation', () => {
     const graph = buildNavGraph(grid, []);
     const nav = new CaretakerNavigation({ group } as never, buildView(grid, graph) as never);
     const route = nav.routeFor(world(group, c(0, 0, 0)), world(group, c(2, 0, 0)));
-    expect(route?.map((point) => worldToCell(point.x, point.z, 0).x)).toEqual([1, 2]);
+    const routeCells = route?.map((point) => worldToCell(point.x, point.z, 0).x) ?? [];
+    expect(routeCells[0]).toBe(1);
+    expect(routeCells.at(-1)).toBe(2);
+    expect(routeCells.every((x) => x === 1 || x === 2)).toBe(true);
   });
 
   it('selects a clear in-cell service offset when the adjacent cell centre is occupied', () => {

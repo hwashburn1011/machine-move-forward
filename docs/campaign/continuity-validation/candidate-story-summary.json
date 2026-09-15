@@ -1,0 +1,837 @@
+{
+  "generatedAt": "2026-09-15T11:02:42.353Z",
+  "status": "passed",
+  "boundary": "first-salvage-save-continue",
+  "fullArt": false,
+  "site": "http://127.0.0.1:5205/",
+  "blocker": null,
+  "errors": [],
+  "final": {
+    "profile": "story",
+    "opening": "done",
+    "armed": true,
+    "paused": false,
+    "dead": false,
+    "simTime": 11.066666666666796,
+    "distanceM": 60.83625605955867,
+    "health": 100,
+    "enemies": 0,
+    "pointerLocked": true,
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": {
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "phase": "signal",
+        "arrivalDistance": null,
+        "journalsRead": [],
+        "scriptedEncounter": "not-due",
+        "signalStartedAt": 59.97686964118998
+      }
+    },
+    "firstRun": {
+      "completed": [
+        "salvage"
+      ],
+      "counters": {
+        "salvage": 2,
+        "componentsAvailable": 1
+      }
+    },
+    "radio": {
+      "status": "found",
+      "armedAtSimTime": null,
+      "foundAtSimTime": 10.766666666666781,
+      "foundAtDistance": 59.97686964118998,
+      "eligibleChestsOpened": 1
+    },
+    "weapons": [
+      {
+        "id": "rifle",
+        "ammoInMag": 30,
+        "reserveAmmo": 150,
+        "magazineBonus": 0
+      },
+      {
+        "id": "shotgun",
+        "ammoInMag": 6,
+        "reserveAmmo": 48,
+        "magazineBonus": 0
+      }
+    ],
+    "inventory": [
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 94
+      },
+      {
+        "itemId": "components",
+        "count": 1
+      },
+      {
+        "itemId": "fuel",
+        "count": 4
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "resources": {
+      "scrap": 294,
+      "components": 1,
+      "fuel": 4
+    }
+  },
+  "events": [
+    {
+      "at": "2026-09-15T11:02:16.979Z",
+      "type": "launch",
+      "url": "http://127.0.0.1:5205/?quality=low&nosound=1&seed=continuity-story-v1&nomodel=1&notex=1",
+      "fullArt": false,
+      "fresh": true
+    },
+    {
+      "at": "2026-09-15T11:02:21.575Z",
+      "type": "boot-ready",
+      "snapshot": {
+        "profile": "story",
+        "opening": "title",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 0.24999999999999997,
+        "distanceM": 0.6217536309255371,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": false,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T11:02:22.287Z",
+      "type": "story-selected",
+      "snapshot": {
+        "profile": "story",
+        "opening": "rooftop",
+        "armed": false,
+        "paused": false,
+        "dead": false,
+        "simTime": 0.11666666666666665,
+        "distanceM": 0.5184199739325713,
+        "health": 100,
+        "enemies": 2,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T11:02:30.204Z",
+      "type": "opening-complete",
+      "method": "WASD sprint and jump",
+      "openingInput": {
+        "yaw": 0,
+        "keys": [
+          "KeyA"
+        ]
+      },
+      "snapshot": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 4.29999999999999,
+        "distanceM": 14.431519241938071,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T11:02:31.155Z",
+      "type": "pause-save-attempt",
+      "status": "Saved",
+      "snapshot": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": true,
+        "dead": false,
+        "simTime": 4.649999999999989,
+        "distanceM": 16.885144431850446,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": false,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T11:02:31.474Z",
+      "type": "returned-to-title"
+    },
+    {
+      "at": "2026-09-15T11:02:32.139Z",
+      "type": "continue-restored",
+      "durableMatch": true,
+      "snapshot": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 4.999999999999988,
+        "distanceM": 17.498904069894508,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T11:02:40.769Z",
+      "type": "first-salvage-recovered",
+      "input": "normal look plus KeyF",
+      "before": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 9.350000000000044,
+        "distanceM": 49.54146313258328,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      },
+      "after": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 10.800000000000116,
+        "distanceM": 60.22240861786669,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": {
+            "expeditionId": "wreck-one",
+            "routeId": null,
+            "phase": "signal",
+            "arrivalDistance": null,
+            "journalsRead": [],
+            "scriptedEncounter": "not-due",
+            "signalStartedAt": 59.97686964118998
+          }
+        },
+        "firstRun": {
+          "completed": [
+            "salvage"
+          ],
+          "counters": {
+            "salvage": 2
+          }
+        },
+        "radio": {
+          "status": "found",
+          "armedAtSimTime": null,
+          "foundAtSimTime": 10.766666666666781,
+          "foundAtDistance": 59.97686964118998,
+          "eligibleChestsOpened": 1
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 94
+          },
+          {
+            "itemId": "components",
+            "count": 1
+          },
+          {
+            "itemId": "fuel",
+            "count": 4
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 294,
+          "components": 1,
+          "fuel": 4
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T11:02:42.351Z",
+      "type": "first-salvage-continue-restored",
+      "durableMatch": true,
+      "snapshot": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 11.066666666666796,
+        "distanceM": 60.83625605955867,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": {
+            "expeditionId": "wreck-one",
+            "routeId": null,
+            "phase": "signal",
+            "arrivalDistance": null,
+            "journalsRead": [],
+            "scriptedEncounter": "not-due",
+            "signalStartedAt": 59.97686964118998
+          }
+        },
+        "firstRun": {
+          "completed": [
+            "salvage"
+          ],
+          "counters": {
+            "salvage": 2,
+            "componentsAvailable": 1
+          }
+        },
+        "radio": {
+          "status": "found",
+          "armedAtSimTime": null,
+          "foundAtSimTime": 10.766666666666781,
+          "foundAtDistance": 59.97686964118998,
+          "eligibleChestsOpened": 1
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 94
+          },
+          {
+            "itemId": "components",
+            "count": 1
+          },
+          {
+            "itemId": "fuel",
+            "count": 4
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 294,
+          "components": 1,
+          "fuel": 4
+        }
+      }
+    }
+  ]
+}

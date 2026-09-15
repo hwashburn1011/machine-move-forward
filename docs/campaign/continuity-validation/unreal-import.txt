@@ -1,0 +1,7 @@
+Unreal Engine 5.8.2 commandlet import of the corrected playable FBX.
+Final run: test-results/nomad-continuity-unreal-final.log
+Success: 0 errors, 0 warnings.
+The first import reported missing smoothing groups on 34 meshes. The Blender
+FBX export now includes mesh_smooth_type=FACE; the final run reimported that FBX.
+The static validation imports geometry and normals without materials/textures.
+The glTF runtime and the full material sources remain unchanged by this FBX setting.

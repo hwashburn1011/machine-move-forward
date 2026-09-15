@@ -1,0 +1,15 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "scope": "static FBX geometry import; runtime animation remains in Three.js",
+  "status": "success",
+  "meshes": [
+    {
+      "asset": "/Game/NomadContinuity/IronNomad_CorrectedWorkshop.IronNomad_CorrectedWorkshop",
+      "dimensions_cm": [
+        2777.2001953125,
+        2292.728271484375,
+        3128.999993801117
+      ]
+    }
+  ]
+}

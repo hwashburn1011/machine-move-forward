@@ -77,7 +77,7 @@ select(objects)
 bpy.ops.export_scene.fbx(filepath=str(OUT/'exports/iron-nomad-full.fbx'),use_selection=True,
     object_types={'MESH','EMPTY'},apply_unit_scale=True,apply_scale_options='FBX_SCALE_UNITS',
     add_leaf_bones=False,bake_anim=True,bake_anim_use_all_actions=False,bake_anim_use_nla_strips=False,
-    path_mode='COPY',embed_textures=True,use_tspace=True,axis_forward='-Y',axis_up='Z')
+    path_mode='COPY',embed_textures=True,use_tspace=True,mesh_smooth_type='FACE',axis_forward='-Y',axis_up='Z')
 print('Full portable model exported',manifest,flush=True)
 for o in meshes:
     if len(o.data.polygons)<200:continue

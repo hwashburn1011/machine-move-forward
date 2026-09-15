@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { CaretakerActor } from '@/companion/CaretakerActor';
+import type { CaretakerWaypoint } from '@/companion/CaretakerPortals';
 import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
 
 describe('CaretakerActor', () => {
@@ -119,6 +120,69 @@ describe('CaretakerActor', () => {
     version++;
     actor.fixedUpdate(1 / 60, target);
     expect(calls).toBe(2);
+    actor.dispose();
+  });
+
+  it('commits portal waypoints while target drift waits for the portal exit', async () => {
+    await initRapier();
+    const physics = new PhysicsWorld();
+    physics.addFixedBox(new THREE.Vector3(6, 0.1, 6), new THREE.Vector3(0, -0.1, 0));
+    physics.step();
+    let calls = 0;
+    const routeFor = (_from: THREE.Vector3, target: THREE.Vector3): CaretakerWaypoint[] => {
+      calls++;
+      const entry = new THREE.Vector3(0, 0, 0.5) as CaretakerWaypoint;
+      entry.portalId = 'nomad:-1:up';
+      const exit = new THREE.Vector3(0, 0, 1) as CaretakerWaypoint;
+      exit.portalId = entry.portalId;
+      exit.portalExit = true;
+      return [entry, exit, target.clone() as CaretakerWaypoint];
+    };
+    const actor = new CaretakerActor({
+      physics,
+      machine: { carryFor: () => ({ x: 0, y: 0, z: 0 }) },
+      routeFor,
+    } as never);
+    actor.spawn(new THREE.Vector3(0, 0, 0));
+    actor.fixedUpdate(1 / 60, new THREE.Vector3(0, 0, 2));
+    physics.step();
+    actor.fixedUpdate(1 / 60, new THREE.Vector3(0, 0, 3));
+    expect(calls).toBe(1);
+    actor.fixedUpdate(1 / 60, null);
+    expect(actor.status).toBe('waiting');
+    actor.dispose();
+  });
+
+  it('does not consume a portal exit at the ordinary half-metre tolerance', () => {
+    const handle = {
+      collider: { setEnabled: () => undefined },
+      body: {
+        setTranslation: () => undefined,
+        setNextKinematicTranslation: () => undefined,
+      },
+    } as never;
+    let calls = 0;
+    const physics = {
+      addCharacter: () => handle,
+      removeCharacter: () => undefined,
+      moveCharacter: () => false,
+      raycast: () => null,
+    } as never;
+    const actor = new CaretakerActor({
+      physics,
+      machine: { carryFor: () => ({ x: 0, y: 0, z: 0 }) },
+      routeFor: (_from: THREE.Vector3, target: THREE.Vector3): CaretakerWaypoint[] => {
+        calls++;
+        const exit = new THREE.Vector3(0, 0, 0.45) as CaretakerWaypoint;
+        exit.portalId = 'nomad:exit';
+        exit.precise = true;
+        return [exit, target.clone() as CaretakerWaypoint];
+      },
+    } as never);
+    actor.spawn(new THREE.Vector3(0, 0, 0));
+    actor.fixedUpdate(1 / 60, new THREE.Vector3(0, 0, 2));
+    actor.fixedUpdate(1 / 60, new THREE.Vector3(0, 0, 3));
+    expect(calls).toBe(1);
     actor.dispose();
   });
 });

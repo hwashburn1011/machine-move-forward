@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import type { CharacterHandle, PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import { GRAVITY } from '@/game/constants';
 import type { Machine } from '@/machine/Machine';
+import { cloneCaretakerWaypoint, type CaretakerWaypoint } from '@/companion/CaretakerPortals';
 import {
   FAN_OFFSETS,
   PROBE_RANGE,
@@ -19,7 +20,7 @@ export interface CaretakerMotion {
 export interface CaretakerActorDependencies {
   physics: PhysicsWorld;
   machine: Pick<Machine, 'carryFor'>;
-  routeFor(from: THREE.Vector3, target: THREE.Vector3): readonly THREE.Vector3[] | null;
+  routeFor(from: THREE.Vector3, target: THREE.Vector3): readonly CaretakerWaypoint[] | null;
   routeVersion?: () => number;
   onMotion?(motion: Readonly<CaretakerMotion>): void;
 }
@@ -48,7 +49,7 @@ export class CaretakerActor {
   private readonly fan: FanProbe[] = FAN_OFFSETS.map((angle) => ({ angle, distance: null }));
   private readonly deps: CaretakerActorDependencies;
   private readonly wheels: THREE.Object3D[] = [];
-  private route: THREE.Vector3[] | null = null;
+  private route: CaretakerWaypoint[] | null = null;
   private target: THREE.Vector3 | null = null;
   private waypoint = 0;
   private active = false;
@@ -56,6 +57,7 @@ export class CaretakerActor {
   private grounded = false;
   private verticalVelocity = 0;
   private lastTurn = 0;
+  private activePortalId: string | null = null;
   private disposed = false;
 
   constructor(deps: CaretakerActorDependencies, model?: THREE.Group) {
@@ -132,27 +134,28 @@ export class CaretakerActor {
     if (!target || !finitePoint(target)) this.clearRoute();
     else {
       const version = this.deps.routeVersion?.() ?? 0;
-      if (
-        !this.target ||
-        this.target.distanceToSquared(target) > TARGET_EPSILON ** 2 ||
-        version !== this.routeVersion
-      ) {
+      const targetChanged =
+        !this.target || this.target.distanceToSquared(target) > TARGET_EPSILON ** 2;
+      if ((targetChanged && !this.activePortalId) || version !== this.routeVersion) {
         this.target = target.clone();
         const proposed = this.deps.routeFor(this.position, target);
         this.route = validCompleteRoute(proposed, target)
-          ? proposed.map((point) => point.clone())
+          ? proposed.map((point) => cloneCaretakerWaypoint(point))
           : null;
         this.routeVersion = version;
         this.waypoint = 0;
       }
     }
 
-    while (
-      this.route &&
-      this.waypoint < this.route.length &&
-      this.position.distanceTo(this.route[this.waypoint]!) <= REACH
-    )
+    while (this.route && this.waypoint < this.route.length) {
+      const waypoint = this.route[this.waypoint]!;
+      const tolerance = waypoint.portalExit || waypoint.precise ? 0.2 : REACH;
+      if (this.position.distanceTo(waypoint) > tolerance) break;
       this.waypoint++;
+    }
+
+    const nextWaypoint = this.route?.[this.waypoint];
+    this.activePortalId = nextWaypoint?.portalId ?? null;
 
     const next = this.route?.[this.waypoint];
     this.own.set(0, 0, 0);
@@ -162,11 +165,9 @@ export class CaretakerActor {
       if (distance > 1e-6) {
         const requestedSpeed = Math.min(SPEED, distance / dt);
         this.heading.divideScalar(distance);
-        const steered = this.steer(
-          this.heading.x,
-          this.heading.z,
-          Math.min(PROBE_RANGE, distance + 0.03),
-        );
+        const steered = this.activePortalId
+          ? { x: this.heading.x, z: this.heading.z }
+          : this.steer(this.heading.x, this.heading.z, Math.min(PROBE_RANGE, distance + 0.03));
         this.own.set(steered.x * requestedSpeed * dt, 0, steered.z * requestedSpeed * dt);
         this.root.rotation.y = Math.atan2(steered.x, steered.z);
       }
@@ -174,7 +175,7 @@ export class CaretakerActor {
 
     this.verticalVelocity =
       this.grounded && this.verticalVelocity <= 0
-        ? -2
+        ? -0.2
         : Math.max(TERMINAL_FALL_SPEED, this.verticalVelocity + GRAVITY * dt);
     this.own.y = this.verticalVelocity * dt;
     const beforeX = this.position.x;
@@ -222,6 +223,7 @@ export class CaretakerActor {
     this.target = null;
     this.route = null;
     this.waypoint = 0;
+    this.activePortalId = null;
     this.routeVersion = -1;
     this.lastTurn = 0;
   }
@@ -246,6 +248,11 @@ export class CaretakerActor {
           probeRange,
           this.handle.collider,
         );
+        // A horizontal fan ray can clip the authored stair's sloped walking
+        // surface. It is support, not a blocking obstacle; treating it as a
+        // wall pins L-12 at the lower landing. Side/vertical faces retain the
+        // normal avoidance behavior.
+        if (hit && hit.normal.y > 0.55) continue;
         if (hit && (nearest === null || hit.distance < nearest)) nearest = hit.distance;
       }
       probe.distance = nearest;
