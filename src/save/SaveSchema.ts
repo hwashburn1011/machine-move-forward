@@ -9,6 +9,7 @@ import type { AutomaticDefenseSave } from '@/defense/AutomaticDefenseSystem';
 import type { UpgradeSave } from '@/progression/UpgradeSystem';
 import type { EarlyRadioDropSave } from '@/progression/EarlyRadioDrop';
 import type { StorySave } from '@/story/StoryDirector';
+import type { CourseSnapshot } from '@/navigation/CourseController';
 export type {
   CampaignSave,
   ActiveExpeditionSave,
@@ -82,6 +83,8 @@ export interface SaveGameV1 {
     fuel: number;
     coreHealth: number;
     navigationTier: number;
+    /** Optional earned course state. Unlock authority is checked against story facts. */
+    course?: CourseSnapshot;
     /**
      * Absent in saves written before machine damage, and absent means
      * undamaged. No version bump and no migration for the reason
@@ -129,6 +132,7 @@ export interface SaveGameV1 {
     story?: StorySave;
     radioRaids?: import('@/story/RadioRaids').RadioRaidSave;
     raidRecovery?: import('@/enemies/RaidObjectives').RaidObjectiveSave;
+    routeChart?: import('@/navigation/RouteChart').RouteChartSave;
   };
 }
 

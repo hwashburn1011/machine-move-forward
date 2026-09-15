@@ -1,4 +1,5 @@
 import type { StoryPhase } from '@/story/StoryDirector';
+import type { ExpeditionId } from '@/data/story';
 import { WRECK_ONE, storyExpedition } from '@/data/story';
 import type { RouteId } from '@/data/routes';
 
@@ -12,10 +13,11 @@ export interface ExpeditionView {
   playerOnMachine: boolean;
   journalTexts?: Readonly<Record<string, string>>;
   routes?: readonly RouteId[];
-  expeditionId?: 'wreck-one' | 'relay-foundry';
+  expeditionId?: ExpeditionId;
   recoveredUniques?: readonly string[];
   routeCards?: readonly { id: RouteId; distanceM: number; estimatedFuel: number; hazard: string }[];
   routeRefusal?: string | null;
+  extraJournals?: readonly { id: string; title: string; text: string }[];
 }
 
 export interface ExpeditionUICallbacks {
@@ -93,12 +95,19 @@ export class ExpeditionUI {
       v.remainingM === null
         ? ''
         : `<div data-expedition-distance>${Math.max(0, Math.round(v.remainingM))} m remaining</div>`;
-    const journals = (storyExpedition(v.expeditionId ?? 'wreck-one') ?? WRECK_ONE).journals
-      .map((journal) => {
-        const read = v.journalsRead.includes(journal.id);
-        return `<article data-journal-id="${journal.id}" class="expedition-log${read ? ' is-read' : ''}"><strong>${escapeHtml(journal.title)}</strong>${read ? `<p>${escapeHtml(v.journalTexts?.[journal.id] ?? journal.text)}</p>` : '<span>Interact at the log to read</span>'}</article>`;
-      })
-      .join('');
+    const journals =
+      (storyExpedition(v.expeditionId ?? 'wreck-one') ?? WRECK_ONE).journals
+        .map((journal) => {
+          const read = v.journalsRead.includes(journal.id);
+          return `<article data-journal-id="${journal.id}" class="expedition-log${read ? ' is-read' : ''}"><strong>${escapeHtml(journal.title)}</strong>${read ? `<p>${escapeHtml(v.journalTexts?.[journal.id] ?? journal.text)}</p>` : '<span>Interact at the log to read</span>'}</article>`;
+        })
+        .join('') +
+      (v.extraJournals ?? [])
+        .map(
+          (j) =>
+            `<article data-journal-id="${escapeHtml(j.id)}" class="expedition-log is-read"><strong>${escapeHtml(j.title)}</strong><p>${escapeHtml(j.text)}</p></article>`,
+        )
+        .join('');
     const gyro = v.uniqueCollected
       ? '<span data-expedition-gyro>Course Gyro recovered</span>'
       : '<span data-expedition-gyro>Course Gyro: interact with its pedestal</span>';
@@ -117,8 +126,15 @@ export class ExpeditionUI {
       ? `<div data-route-options>${routeCards.map((route) => `<article data-route-card="${route.id}"><strong>${route.id === 'foundry-direct' ? 'Direct' : 'Detour'}</strong><span>${route.distanceM} m · estimated fuel ${route.estimatedFuel}</span><span>${escapeHtml(route.hazard)}</span><button type="button" data-route="${route.id}">Select</button>${this.pendingRoute === route.id ? `<button type="button" data-route-confirm="${route.id}">Confirm route</button>` : ''}</article>`).join('')}</div>${v.routeRefusal ? `<div data-route-refusal>${escapeHtml(v.routeRefusal)}</div>` : ''}`
       : '';
     const uniqueFacts =
-      v.expeditionId === 'relay-foundry'
+      v.expeditionId === 'relay-foundry' || v.expeditionId === 'quiet-array'
         ? ['salvage-controller', 'tracking-servo']
+            .map((id) =>
+              v.expeditionId === 'quiet-array'
+                ? id === 'salvage-controller'
+                  ? 'course-actuator'
+                  : 'annika-archive-shard'
+                : id,
+            )
             .map(
               (id) =>
                 `<span data-expedition-unique="${id}">${v.recoveredUniques?.includes(id) ? `${id} recovered` : `${id} pending`}</span>`,
@@ -169,6 +185,7 @@ function viewKey(view: ExpeditionView): string {
     recoveredUniques: view.recoveredUniques ?? [],
     routeCards: view.routeCards ?? [],
     routeRefusal: view.routeRefusal ?? null,
+    extraJournals: view.extraJournals ?? [],
   });
 }
 

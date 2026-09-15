@@ -6,6 +6,8 @@ export type AutomationPieceId = 'collector-auto' | 'turret-auto';
 
 export const SPECIALIST_BLUEPRINT: Record<StoryUniqueId, UnlockId | null> = {
   'course-gyro': null,
+  'course-actuator': null,
+  'annika-archive-shard': null,
   'salvage-controller': 'automatic-salvage-collector',
   'tracking-servo': 'automatic-defense-turret',
 };

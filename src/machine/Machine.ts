@@ -359,9 +359,9 @@ export class Machine {
    * simulation's distance skates against the sand by up to 0.125m at speed —
    * which is precisely the cue this whole feature exists to sell.
    */
-  updateVisuals(renderedDistance: number): readonly number[] {
+  updateVisuals(renderedDistance: number, lateralM = 0): readonly number[] {
     this.exhaust.update(renderedDistance);
-    return this.legs.setDistance(renderedDistance);
+    return this.legs.setDistance(renderedDistance, lateralM);
   }
 
   /**

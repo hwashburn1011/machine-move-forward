@@ -2,6 +2,37 @@ import * as THREE from 'three';
 import type { Materials } from './Materials';
 import { authoredModel } from './DefenseModels';
 import { applyHeightFog } from './Fog';
+import { QUIET_ARRAY } from '@/data/story';
+
+/** Uses the same bounds and explicit anchors even when the authored asset is unavailable. */
+export function buildQuietArrayModel(materials: Materials): THREE.Group {
+  const authored = authoredWithAnchors('quiet-array', [
+    'Gangway',
+    'CourseActuator',
+    'AnnikaArchive',
+    'JournalPort',
+    'JournalStarboard',
+    'JournalArchive',
+  ]);
+  if (authored) {
+    authored.userData.authored = true;
+    return authored;
+  }
+  const root = new THREE.Group();
+  root.name = 'MMF_Quiet_Array_Fallback';
+  for (const collider of QUIET_ARRAY.colliders) {
+    const { at, half } = collider;
+    box(root, [half.x * 2, half.y * 2, half.z * 2], [at.x, at.y, at.z], materials.hull);
+  }
+  for (const item of QUIET_ARRAY.interactables) {
+    const marker = new THREE.Group();
+    marker.name = item.anchor;
+    marker.position.set(item.fallback.x, item.fallback.y, item.fallback.z);
+    root.add(marker);
+    if (item.kind !== 'departure') box(marker, [0.4, 0.1, 0.3], [0, 0, 0], materials.accent);
+  }
+  return root;
+}
 
 function authoredWithAnchors(id: string, required: readonly string[]): THREE.Group | null {
   const source = authoredModel(id);

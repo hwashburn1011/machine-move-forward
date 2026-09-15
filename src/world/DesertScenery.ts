@@ -4,6 +4,12 @@ import { CHUNK_SIZE_Z } from '@/game/constants';
 import { chunkAspectSeed } from './WorldSeed';
 import { duneHeightAt } from './DuneField';
 import type { ChunkSlot } from './ChunkManager';
+import {
+  WorldCourseBands,
+  courseBandSeed,
+  renderXAt,
+  WORLD_COURSE_BAND_WIDTH,
+} from './WorldCourse';
 
 export const DESERT_ARCHETYPES = [
   'ruin-house',
@@ -162,6 +168,9 @@ export function desertLayout(
 interface Instance {
   id: number;
   chunk: number;
+  bandIndex: number;
+  worldX: number;
+  groundY: number;
   placement: DesertPlacement;
   matrix: THREE.Matrix4;
   distant: boolean;
@@ -175,8 +184,12 @@ export class DesertScenery {
   readonly group = new THREE.Group();
   readonly batch: THREE.BatchedMesh;
   private readonly geometryIds = new Map<DesertKind, readonly [number, number]>();
-  private readonly slots = new Map<number, Instance[]>();
-  private readonly slotChunks = new Map<number, number>();
+  private readonly slots = new Map<string, Instance[]>();
+  private readonly slotContents = new Map<string, string>();
+  private readonly courseBands = new WorldCourseBands();
+  private syncedSlots: readonly ChunkSlot[] = [];
+  private syncedSeed = '';
+  private syncedPropsPerChunk = 0;
   private originChunk = 0;
   private distance = 0;
   private lastLodDistance = Infinity;
@@ -195,7 +208,7 @@ export class DesertScenery {
       }
     }
     this.batch = new THREE.BatchedMesh(
-      chunkCount * DESERT_MAX_PER_CHUNK,
+      chunkCount * this.courseBands.slots.length * DESERT_MAX_PER_CHUNK,
       vertices,
       indices,
       library.material,
@@ -219,40 +232,66 @@ export class DesertScenery {
   }
 
   syncSlots(slots: readonly ChunkSlot[], seed: string, propsPerChunk: number, force = false): void {
-    for (const slot of slots) {
-      if (!force && this.slotChunks.get(slot.slotId) === slot.chunkIndex) continue;
-      for (const instance of this.slots.get(slot.slotId) ?? [])
-        this.batch.deleteInstance(instance.id);
-      const instances = desertLayout(seed, slot.chunkIndex, propsPerChunk).map((placement) => {
-        const id = this.batch.addInstance(this.geometryIds.get(placement.kind)![0]);
-        const geometry = this.library.models[placement.kind].geometry;
-        const half = placement.width * 0.32;
-        const worldZ = slot.chunkIndex * CHUNK_SIZE_Z + placement.z;
-        // Seat broad structures against the surrounding dune, leaving their
-        // lower walls swallowed by sand instead of hanging above a trough.
-        let ground = duneHeightAt(placement.x, worldZ);
-        for (const dx of [-half, half]) {
-          for (const dz of [-half, half])
-            ground = Math.min(ground, duneHeightAt(placement.x + dx, worldZ + dz));
-        }
-        const height = geometry.boundingBox!.max.y * placement.width;
-        const matrix = new THREE.Matrix4().compose(
-          new THREE.Vector3(placement.x, ground - height * placement.burial, placement.z),
-          new THREE.Quaternion().setFromEuler(new THREE.Euler(0, placement.yaw, placement.tilt)),
-          new THREE.Vector3().setScalar(placement.width),
-        );
-        this.batch.setColorAt(
-          id,
-          this.color.setRGB(placement.tint, placement.tint * 0.98, placement.tint * 0.94),
-        );
-        const instance = { id, chunk: slot.chunkIndex, placement, matrix, distant: false };
-        this.place(instance);
-        return instance;
-      });
-      this.slots.set(slot.slotId, instances);
-      this.slotChunks.set(slot.slotId, slot.chunkIndex);
-    }
+    this.syncedSlots = slots;
+    this.syncedSeed = seed;
+    this.syncedPropsPerChunk = propsPerChunk;
+    for (const slot of slots)
+      for (const band of this.courseBands.slots)
+        this.syncBand(slot, band.slotId, band.bandIndex, seed, propsPerChunk, force);
     this.updateLods(true);
+  }
+
+  private syncBand(
+    slot: ChunkSlot,
+    bandSlotId: number,
+    bandIndex: number,
+    seed: string,
+    propsPerChunk: number,
+    force: boolean,
+  ): void {
+    const key = `${slot.slotId}:${bandSlotId}`;
+    const identity = `${slot.chunkIndex}:${bandIndex}`;
+    if (!force && this.slotContents.get(key) === identity) return;
+    for (const instance of this.slots.get(key) ?? []) this.batch.deleteInstance(instance.id);
+    const bandSeed = courseBandSeed(seed, bandIndex);
+    const instances = desertLayout(bandSeed, slot.chunkIndex, propsPerChunk).map((placement) => {
+      const id = this.batch.addInstance(this.geometryIds.get(placement.kind)![0]);
+      const geometry = this.library.models[placement.kind].geometry;
+      const half = placement.width * 0.32;
+      const worldZ = slot.chunkIndex * CHUNK_SIZE_Z + placement.z;
+      const worldX = bandIndex * WORLD_COURSE_BAND_WIDTH + placement.x;
+      // Seat broad structures against the surrounding dune, leaving their
+      // lower walls swallowed by sand instead of hanging above a trough.
+      let ground = duneHeightAt(worldX, worldZ);
+      for (const dx of [-half, half]) {
+        for (const dz of [-half, half])
+          ground = Math.min(ground, duneHeightAt(worldX + dx, worldZ + dz));
+      }
+      const height = geometry.boundingBox!.max.y * placement.width;
+      const matrix = new THREE.Matrix4().compose(
+        new THREE.Vector3(worldX, ground - height * placement.burial, placement.z),
+        new THREE.Quaternion().setFromEuler(new THREE.Euler(0, placement.yaw, placement.tilt)),
+        new THREE.Vector3().setScalar(placement.width),
+      );
+      this.batch.setColorAt(
+        id,
+        this.color.setRGB(placement.tint, placement.tint * 0.98, placement.tint * 0.94),
+      );
+      const instance = {
+        id,
+        chunk: slot.chunkIndex,
+        bandIndex,
+        worldX,
+        groundY: ground,
+        placement,
+        matrix,
+        distant: false,
+      };
+      this.place(instance);
+      return instance;
+    });
+    this.slots.set(key, instances);
+    this.slotContents.set(key, identity);
   }
 
   setDistance(distance: number, renderOffset = 0): void {
@@ -267,6 +306,55 @@ export class DesertScenery {
     this.updateLods(false);
   }
 
+  setLateralOffset(offset: number): void {
+    const lateral = Number.isFinite(offset) ? offset : 0;
+    const recycled = this.courseBands.advance(lateral);
+    this.group.position.x = -lateral;
+    if (recycled.length && this.syncedSlots.length) {
+      for (const slot of this.syncedSlots)
+        for (const band of recycled)
+          this.syncBand(
+            slot,
+            band.slotId,
+            band.bandIndex,
+            this.syncedSeed,
+            this.syncedPropsPerChunk,
+            false,
+          );
+      this.updateLods(true);
+    }
+  }
+
+  /** Readonly diagnostics for streaming and real-matrix acceptance tests. */
+  get placementSnapshot(): readonly {
+    bandIndex: number;
+    worldX: number;
+    renderX: number;
+    worldZ: number;
+    y: number;
+    groundY: number;
+  }[] {
+    const out: {
+      bandIndex: number;
+      worldX: number;
+      renderX: number;
+      worldZ: number;
+      y: number;
+      groundY: number;
+    }[] = [];
+    for (const instances of this.slots.values())
+      for (const instance of instances)
+        out.push({
+          bandIndex: instance.bandIndex,
+          worldX: instance.worldX,
+          renderX: renderXAt(instance.worldX, -this.group.position.x),
+          worldZ: instance.chunk * CHUNK_SIZE_Z + instance.placement.z,
+          y: instance.matrix.elements[13]!,
+          groundY: instance.groundY,
+        });
+    return out;
+  }
+
   private place(instance: Instance): void {
     instance.matrix.elements[14] =
       (instance.chunk + this.originChunk) * CHUNK_SIZE_Z + instance.placement.z;
@@ -279,7 +367,10 @@ export class DesertScenery {
     for (const instances of this.slots.values())
       for (const instance of instances) {
         const p = instance.placement;
-        const distance = Math.hypot(p.x, instance.chunk * CHUNK_SIZE_Z + p.z + this.distance);
+        const distance = Math.hypot(
+          renderXAt(instance.worldX, -this.group.position.x),
+          instance.chunk * CHUNK_SIZE_Z + p.z + this.distance,
+        );
         const distant = distance > (instance.distant ? 116 : 136);
         if (distant === instance.distant) continue;
         instance.distant = distant;
@@ -291,5 +382,7 @@ export class DesertScenery {
     this.batch.dispose();
     this.group.clear();
     this.slots.clear();
+    this.slotContents.clear();
+    this.syncedSlots = [];
   }
 }

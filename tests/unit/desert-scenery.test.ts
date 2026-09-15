@@ -10,6 +10,7 @@ import {
 import { createDesertLibrary } from '@/world/DesertModels';
 import { ChunkManager } from '@/world/ChunkManager';
 import { applyHeightFog } from '@/art/Fog';
+import { courseBandSeed } from '@/world/WorldCourse';
 
 function fixture(): DesertLibrary {
   const scene = new THREE.Group();
@@ -63,26 +64,34 @@ describe('desert scenery', () => {
       chunks.reset(distance);
       scenery.setDistance(distance, -0.02);
       scenery.syncSlots(chunks.slots, 'rebase', 20, true);
-      expect(scenery.batch.instanceCount).toBe(99);
+      expect(scenery.batch.instanceCount).toBe(99 * 3);
       expect(scenery.batch.geometry.getAttribute('position').array).toBe(buffer);
       const matrix = new THREE.Matrix4();
       const actual: number[] = [];
       // IDs are reused by BatchedMesh; only their world-space positions matter.
-      for (let id = 0; id < 99; id++) {
+      for (let id = 0; id < 99 * 3; id++) {
         scenery.batch.getMatrixAt(id, matrix);
         actual.push(matrix.elements[14]! + scenery.group.position.z);
       }
       const expected = chunks.slots.flatMap((slot) =>
-        desertLayout('rebase', slot.chunkIndex, 20).map((p) => p.z + slot.z - 0.02),
+        [-1, 0, 1].flatMap((band) =>
+          desertLayout(courseBandSeed('rebase', band), slot.chunkIndex, 20).map(
+            (p) => p.z + slot.z - 0.02,
+          ),
+        ),
       );
       actual.sort((a, b) => a - b);
       expected.sort((a, b) => a - b);
       for (let i = 0; i < actual.length; i++) expect(actual[i]).toBeCloseTo(expected[i]!, 3);
     }
     scenery.syncSlots(chunks.slots, 'rebase', 6, true);
-    expect(scenery.batch.instanceCount).toBe(45);
+    expect(scenery.batch.instanceCount).toBe(45 * 3);
     scenery.syncSlots(chunks.slots, 'rebase', 28, true);
-    expect(scenery.batch.instanceCount).toBe(126);
+    expect(scenery.batch.instanceCount).toBe(126 * 3);
+    expect(new Set(scenery.placementSnapshot.map((item) => item.bandIndex))).toEqual(
+      new Set([-1, 0, 1]),
+    );
+    expect(scenery.placementSnapshot.filter((item) => item.bandIndex === 0)).toHaveLength(126);
     const dispose = vi.spyOn(library.material, 'dispose');
     scenery.dispose();
     expect(dispose).not.toHaveBeenCalled();

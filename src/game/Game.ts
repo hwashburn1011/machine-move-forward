@@ -159,6 +159,12 @@ import {
 import { RadioUI } from '@/ui/RadioUI';
 import { ResearchUI, type ResearchUIState } from '@/ui/ResearchUI';
 import { ExpeditionUI } from '@/ui/ExpeditionUI';
+import { HelmUI, type HelmView, type HelmMarker } from '@/ui/HelmUI';
+import { CourseController, type CourseContext } from '@/navigation/CourseController';
+import { buildQuietArrayModel } from '@/art/ExpeditionModels';
+import { RouteChart } from '@/navigation/RouteChart';
+import { opportunityDefinition, OPPORTUNITIES, MEMORIAL_MESSAGE } from '@/data/opportunities';
+import { buildOpportunityModel } from '@/art/OpportunityModels';
 import { SessionMetrics } from '@/game/SessionMetrics';
 import { footprintOverlapsExpedition } from '@/game/ExpeditionBuildConflict';
 
@@ -353,6 +359,12 @@ export class Game implements LoopCallbacks {
   readonly radioUI: RadioUI;
   readonly researchUI: ResearchUI;
   readonly expeditionUI: ExpeditionUI;
+  readonly course = new CourseController();
+  readonly helmUI: HelmUI;
+  private courseDeltaM = 0;
+  readonly routeChart = new RouteChart();
+  private optionalModelId: string | null = null;
+  private optionalRetireAt = 0;
 
   /**
    * Where the opening has got to. Exposed on `__game` for the harnesses.
@@ -750,7 +762,10 @@ export class Game implements LoopCallbacks {
     this.enemies = new EnemyManager(this.renderer.scene, this.physics, this.bus, this.materials);
     this.vehicleScene = new VehicleScene(this.renderer.scene, this.physics, this.materials, {
       terrainHeightAt: (x, z) =>
-        duneHeightAt(x, z - WORLD_Z_PER_METRE * this.world.distanceTraveled),
+        duneHeightAt(
+          x + this.world.lateralWorldOffset,
+          z - WORLD_Z_PER_METRE * this.world.distanceTraveled,
+        ),
       boardingLanding: (side, crewIndex) => this.boardingLanding(side, crewIndex),
       spawnBoarder: (position, index, definitionId, health) =>
         this.spawnBoarder(index, position, definitionId, health),
@@ -794,7 +809,10 @@ export class Game implements LoopCallbacks {
     this.vehicleManager = this.vehicleScene.manager;
     this.gunboatScene = new GunboatScene(this.renderer.scene, this.physics, this.materials, {
       terrainHeightAt: (x, z) =>
-        duneHeightAt(x, z - WORLD_Z_PER_METRE * this.world.distanceTraveled),
+        duneHeightAt(
+          x + this.world.lateralWorldOffset,
+          z - WORLD_Z_PER_METRE * this.world.distanceTraveled,
+        ),
       getVolleyTargetPosition: (targetId) =>
         targetId === 'player'
           ? this.player.worldPosition.clone().add(new THREE.Vector3(0, 0.3, 0))
@@ -1247,6 +1265,16 @@ export class Game implements LoopCallbacks {
       close: () => this.closePanels(),
       selectRoute: (route) => this.selectStoryRoute(route),
     });
+    const helmHost = document.createElement('section');
+    options.hudRoot.append(helmHost);
+    this.helmUI = new HelmUI(helmHost, {
+      close: () => this.closePanels(),
+      setBearing: (degrees) => this.commandCourse('bearing', degrees),
+      setThrottle: (value) => this.commandCourse('throttle', value),
+      openLog: () => this.openExpedition(),
+      plotContact: (id) => this.plotOpportunity(id),
+      cancelApproach: () => this.cancelOpportunityApproach(),
+    });
     this.debug = new DebugOverlay(options.hudRoot);
 
     // The menu. Its callbacks are the ONLY way it reaches the game, so it can
@@ -1564,6 +1592,7 @@ export class Game implements LoopCallbacks {
 
   fixedUpdate(dt: number): void {
     if (this.state.paused) return;
+    this.world.setLateralOffset(this.course.snapshot.lateralM);
     this.syncInputContext();
     this.updateBuildGuard(dt);
     if (this.state.paused) return;
@@ -1731,6 +1760,8 @@ export class Game implements LoopCallbacks {
       this.updateOpening(dt);
     }
 
+    if (this.opening.phase === 'done' && !this.cinematicCamera)
+      this.machine.movement.setThrottle(this.course.snapshot.throttle);
     this.machine.fixedUpdate(dt);
     this.updateStory();
     this.destination.fixedUpdate(this.world.distanceTraveled);
@@ -1746,7 +1777,14 @@ export class Game implements LoopCallbacks {
     // burning fuel before settling.
     this.tickProducers(dt);
     this.announceMachineDamage(dt);
+    this.updateOpportunities();
+    const courseContext = this.courseContext();
+    if (courseContext.locked || !courseContext.powered) this.course.holdCourse();
+    this.courseDeltaM = this.course.fixedUpdate(dt, this.machine.speed * dt).lateralM;
+    this.world.setLateralOffset(this.course.snapshot.lateralM);
+    this.salvage.shiftLateral(this.courseDeltaM);
     this.world.fixedUpdate(dt, this.machine.speed);
+    if (this.helmUI.isOpen) this.helmUI.render(this.helmView());
     // The building recedes by exactly what the world does, and only once the
     // opening has released it — nothing stands on it while it moves.
     if (this.rooftop && this.rooftopScrolling) {
@@ -1815,15 +1853,29 @@ export class Game implements LoopCallbacks {
     if (gyro) gyro.visible = view.recoveredUniques.includes('course-gyro');
     const helmLamp = this.helmLamp;
     if (helmLamp) helmLamp.visible = this.machine.power.isPowered(this.helmPowerConsumerId);
+    const optional = this.routeChart.contact;
+    const exploring = optional && ['committed', 'docked', 'visited'].includes(optional.state);
     this.hud.setStoryState({
       phase: view.phase,
-      objective:
-        view.phase === 'signal'
+      title: exploring
+        ? OPPORTUNITIES[optional.kind].title
+        : this.story.chapter.id === 'quiet-array'
+          ? 'The Quiet Array'
+          : view.recoveredUniques.includes('course-actuator')
+            ? 'The open route'
+            : undefined,
+      objective: exploring
+        ? optional.state === 'committed'
+          ? 'Automatic approach plotted. Use the helm to cancel or adjust the course.'
+          : 'Gangway deployed. Recover supplies, then return aboard to depart.'
+        : view.phase === 'signal'
           ? `Signal ${Math.floor(view.signalStrength * 100)}% · ${view.objective}`
           : this.raidMissions.status
             ? `${view.objective} · ${this.raidMissions.status}`
             : view.objective,
-      remainingM: view.remainingM,
+      remainingM: exploring
+        ? Math.max(0, optional.atDistanceM - this.world.distanceTraveled)
+        : view.remainingM,
     });
     this.hud.setRadioState(
       this.progression.earlyRadioDrop.radioFound,
@@ -1848,7 +1900,11 @@ export class Game implements LoopCallbacks {
     this.signalBattle ??= new SignalBattleScene(
       this.renderer.scene,
       this.materials,
-      (x, z) => duneHeightAt(x, z - WORLD_Z_PER_METRE * this.world.distanceTraveled),
+      (x, z) =>
+        duneHeightAt(
+          x + this.world.lateralWorldOffset,
+          z - WORLD_Z_PER_METRE * this.world.distanceTraveled,
+        ),
       (kind) => this.audio.play(kind === 'shot' ? 'distant-gunfire' : 'distant-explosion', 24, 32),
       this.weaponModels.get('rifle') ?? null,
     );
@@ -1896,6 +1952,11 @@ export class Game implements LoopCallbacks {
 
   private updateRadioRaids(dt: number): void {
     const safe =
+      !this.destination.docked &&
+      !(
+        this.optionalModelId &&
+        (this.routeChart.contact?.atDistanceM ?? 0) - this.world.distanceTraveled < 70
+      ) &&
       this.enemies.activeCount === 0 &&
       !this.vehicleScene.active &&
       !this.gunboatScene.active &&
@@ -1974,7 +2035,8 @@ export class Game implements LoopCallbacks {
           break;
         case 'begin-approach':
           this.destination.setActive(false);
-          this.destination.configure(this.story.chapter);
+          this.course.holdCourse();
+          this.configureDestination();
           this.destination.setActive(true);
           this.destination.setArrivalDistance(effect.arrivalDistance);
           this.destination.fixedUpdate(this.world.distanceTraveled);
@@ -2005,10 +2067,18 @@ export class Game implements LoopCallbacks {
           this.destination.setDocked(false);
           this.machine.setExpeditionGangwayOpen(false);
           break;
-        case 'chapter-complete':
+        case 'expedition-complete':
           this.destination.setActive(false);
           this.machine.setExpeditionGangwayOpen(false);
           this.bus.emit('story:departed', { chapterId: this.story.chapter.id });
+          if (effect.expeditionId === 'quiet-array') {
+            this.hud.setWarning('ANNIKA archive secured. Course control is online at the helm.');
+          }
+          break;
+        case 'chapter-complete':
+          this.hud.setWarning(
+            'Relay Foundry complete. Build automatic defenses and salvage collectors, or follow the next radio lead.',
+          );
           break;
         case 'next-signal':
           this.bus.emit('story:next-signal', { id: 'signal-two' });
@@ -2359,7 +2429,10 @@ export class Game implements LoopCallbacks {
     // a fraction of a step ahead of the simulation. Against the simulation's
     // own distance the feet skate on the sand by up to 0.125m at speed.
     const walked = renderedDistance(this.world.distanceTraveled, alpha, this.machine.speed);
-    const plants = this.machine.updateVisuals(walked);
+    const renderedLateral = this.course.snapshot.lateralM - this.courseDeltaM * alpha;
+    this.world.setLateralOffset(renderedLateral);
+    this.tracks.update(walked, renderedLateral);
+    const plants = this.machine.updateVisuals(walked, renderedLateral);
     this.audio.setActive(!this.state.paused && !this.titleScreen?.isOpen);
     this.audio.setInterior(this.playerIsIndoors);
     this.audio.setCombatActive(this.threatPhase !== 'calm' && this.threatPhase !== 'recovery');
@@ -2388,7 +2461,7 @@ export class Game implements LoopCallbacks {
     // the foot that made it agree about which piece of ground they are on --
     // and so both agree with the dunes. `TrackMarks` takes its scroll from the
     // delta of this rather than from wall time; see its `update`.
-    this.tracks.update(walked);
+    this.tracks.refresh();
     this.world.applyRenderOffset(alpha, this.machine.speed);
     this.world.update(this.clock.elapsedTime);
 
@@ -3173,6 +3246,12 @@ export class Game implements LoopCallbacks {
     this.state.simTime = 0;
     this.state.paused = false;
     this.state.playerDead = false;
+    this.routeChart.reset();
+    this.optionalModelId = null;
+    this.optionalRetireAt = 0;
+    this.course.restore(undefined);
+    this.courseDeltaM = 0;
+    this.world.setLateralOffset(0);
     this.world.reset(0);
     this.spawner.resync(0);
     this.director.reset(0);
@@ -3199,7 +3278,7 @@ export class Game implements LoopCallbacks {
     this.raidMissions.ledger.restore();
     this.tacticsVisual.clear();
     this.destination.setActive(false);
-    this.destination.configure(this.story.chapter);
+    this.configureDestination();
     this.routeRefusal = null;
     this.destination.syncProgress({ journalsRead: [], uniqueCollected: false });
     this.resetStructures();
@@ -3343,7 +3422,8 @@ export class Game implements LoopCallbacks {
       this.inventoryUI.isOpen ||
       this.radioUI.isOpen ||
       this.researchUI.isOpen ||
-      this.expeditionUI.isOpen
+      this.expeditionUI.isOpen ||
+      this.helmUI.isOpen
     );
   }
 
@@ -3646,6 +3726,7 @@ export class Game implements LoopCallbacks {
     this.radioUI.close();
     this.researchUI.close();
     this.expeditionUI.close();
+    this.helmUI.close();
   }
 
   private openRadio(): void {
@@ -3660,9 +3741,10 @@ export class Game implements LoopCallbacks {
       remainingM: snapshot.remainingM,
       nextSignal: this.story.legacyProjection().nextSignal,
       ...this.radioTraceView(),
+      departLabel: this.optionalModelId ? 'Depart — leave unclaimed supplies behind' : 'Depart',
       canDepart:
-        this.story.currentPhase === 'docked' &&
-        this.story.legacyProjection().uniqueCollected &&
+        ((this.story.currentPhase === 'docked' && this.story.legacyProjection().uniqueCollected) ||
+          (!!this.optionalModelId && this.destination.docked)) &&
         this.destination.playerOnMachine(this.player.worldPosition),
     });
     this.releasePointerLock();
@@ -3673,24 +3755,28 @@ export class Game implements LoopCallbacks {
     const recovered = new Map<ItemId, number>();
     for (const cargo of this.raidMissions.ledger.recoveredLedger)
       recovered.set(cargo.itemId, (recovered.get(cargo.itemId) ?? 0) + cargo.count);
-    const reason = !this.machine.power.isPowered(this.radioPowerConsumerId)
-      ? 'Power the radio to trace the transmission.'
-      : this.enemies.activeCount > 0 ||
-          this.vehicleScene.active ||
-          this.gunboatScene.active ||
-          this.pendingBoardingOutcome !== null ||
-          this.scriptedGunboatPending
-        ? 'Clear the attack before committing to an expedition.'
-        : !this.destination.playerOnMachine(this.player.worldPosition)
-          ? 'Return aboard the machine to set a course.'
-          : this.hasDestinationBuildConflict()
-            ? 'Move equipment out of the expedition gangway before departing.'
-            : !this.isStableForStory() || this.buildMode || this.defense.mounted
-              ? 'Finish the current interaction before setting a course.'
-              : undefined;
+    const reason = this.optionalModelId
+      ? 'Leave or cancel the current discovery before tracing a story signal.'
+      : !this.machine.power.isPowered(this.radioPowerConsumerId)
+        ? 'Power the radio to trace the transmission.'
+        : this.enemies.activeCount > 0 ||
+            this.vehicleScene.active ||
+            this.gunboatScene.active ||
+            this.pendingBoardingOutcome !== null ||
+            this.scriptedGunboatPending
+          ? 'Clear the attack before committing to an expedition.'
+          : !this.destination.playerOnMachine(this.player.worldPosition)
+            ? 'Return aboard the machine to set a course.'
+            : this.hasDestinationBuildConflict()
+              ? 'Move equipment out of the expedition gangway before departing.'
+              : !this.isStableForStory() || this.buildMode || this.defense.mounted
+                ? 'Finish the current interaction before setting a course.'
+                : undefined;
     return {
-      traceOffer: view.radioTraceOffer,
-      traceReady: view.radioTraceReady && !reason,
+      traceOffer: view.radioTraceOffer || !!view.nextExpedition,
+      traceReady: (view.radioTraceReady || !!view.nextExpedition) && !reason,
+      traceLabel: view.nextExpedition ? `Trace ${view.nextExpedition.title}` : 'Trace Wreck One',
+      traceDescription: view.nextExpedition?.summary,
       traceDisabledReason: reason,
       chapterComplete: view.chapterComplete,
       recoveredSupplies: [...recovered]
@@ -3705,7 +3791,10 @@ export class Game implements LoopCallbacks {
       this.hud.setWarning(availability.traceDisabledReason ?? 'No new trace is available yet.');
       return;
     }
-    const result = this.story.beginWreckExpedition({
+    const begin = this.story.snapshot(this.world.distanceTraveled).nextExpedition
+      ? this.story.beginNextExpedition.bind(this.story)
+      : this.story.beginWreckExpedition.bind(this.story);
+    const result = begin({
       currentDistance: this.world.distanceTraveled,
       playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
       stable: this.isStableForStory(),
@@ -3719,7 +3808,9 @@ export class Game implements LoopCallbacks {
       chapterId: this.story.chapter.id,
       phase: this.story.currentPhase,
     });
-    this.hud.setWarning('Course set for Wreck One. Recover the Course Gyro and return aboard.');
+    this.hud.setWarning(
+      `Course set for ${this.story.chapter.title}. ${this.story.snapshot(this.world.distanceTraveled).objective}`,
+    );
     this.requestAutosave();
   }
 
@@ -3890,6 +3981,9 @@ export class Game implements LoopCallbacks {
           : [],
       routeRefusal: this.routeRefusal,
       recoveredUniques: snapshot.recoveredUniques,
+      extraJournals: this.progression.has('memorial-transmission')
+        ? [{ id: 'memorial-transmission', title: 'Last shift transmitter', text: MEMORIAL_MESSAGE }]
+        : [],
     };
   }
 
@@ -3920,6 +4014,310 @@ export class Game implements LoopCallbacks {
     this.closePanels();
   }
 
+  private get chartContext() {
+    return {
+      distanceM: this.world.distanceTraveled,
+      // An intercept places the site's west gangway at our starboard rail.
+      lateralM: this.course.snapshot.lateralM + 14,
+      maxBearingDeg: this.course.snapshot.tier > 0 ? 12 : 0,
+      fuelPerM:
+        (FUEL_BURN_PER_S * this.progression.upgrades.modifiers().fuelBurnMultiplier) /
+        Math.max(0.1, this.machine.movement.maxSpeed * this.course.snapshot.throttle),
+      poweredHelm: this.machine.power.isPowered(this.helmPowerConsumerId),
+      safe:
+        this.isStableForStory() &&
+        this.destination.playerOnMachine(this.player.worldPosition) &&
+        !this.hasDestinationBuildConflict() &&
+        !this.buildMode &&
+        !this.state.paused,
+      storyPriority:
+        this.story.currentPhase !== 'complete' ||
+        !!this.story.snapshot(this.world.distanceTraveled).nextExpedition,
+    };
+  }
+
+  private opportunityView(): HelmView['opportunity'] {
+    const contact = this.routeChart.contact;
+    if (!contact || contact.state === 'suspended') return undefined;
+    const context = this.chartContext;
+    const preview = this.routeChart.preview(contact.id, context);
+    if (!preview) return undefined;
+    const info = OPPORTUNITIES[contact.kind];
+    const refusal = context.storyPriority
+      ? 'Follow the current story route first.'
+      : !context.poweredHelm
+        ? 'Power the navigation helm.'
+        : !context.safe
+          ? 'Clear the attack and the gangway before plotting.'
+          : !preview.reachable && contact.state === 'detected'
+            ? 'Outside course authority. Another opportunity will appear ahead.'
+            : undefined;
+    return {
+      id: contact.id,
+      title: info.title,
+      description: info.description,
+      hazard: info.hazard,
+      remainingM: preview.remainingM,
+      bearingDeg: preview.bearingDeg,
+      estimatedFuel: preview.estimatedFuel,
+      state:
+        contact.state === 'detected'
+          ? 'available'
+          : contact.state === 'committed'
+            ? 'plotted'
+            : contact.state,
+      canCommit: contact.state === 'detected' && !refusal,
+      refusal,
+    };
+  }
+
+  private plotOpportunity(id: string): void {
+    if (!this.helmUI.isOpen || this.state.paused) return;
+    const result = this.routeChart.commit(id, this.chartContext);
+    if (!result.ok) {
+      this.hud.setWarning(
+        'Approach unavailable. Check helm power, bearing and the current encounter.',
+      );
+      return;
+    }
+    this.updateOpportunities();
+    this.closePanels();
+    this.hud.setWarning(
+      `Approach plotted: ${OPPORTUNITIES[result.contact.kind].title}. Automatic guidance will line up the gangway.`,
+    );
+  }
+
+  private cancelOpportunityApproach(): void {
+    const contact = this.routeChart.contact;
+    if (!contact || !this.routeChart.cancelApproach(contact.id)) return;
+    this.destination.setActive(false);
+    this.optionalModelId = null;
+    this.machine.setExpeditionGangwayOpen(false);
+    this.machine.movement.setScriptedSpeedLimit(null);
+    this.course.holdCourse();
+    this.hud.setWarning('Approach canceled. The Nomad is back on its automatic line.');
+  }
+
+  private updateOpportunities(): void {
+    if (this.course.snapshot.tier < 1) return;
+    const context = this.chartContext;
+    const contact = this.routeChart.observe(this.state.seed, {
+      distanceM: context.distanceM,
+      lateralM: this.course.snapshot.lateralM,
+      storyPriority: context.storyPriority,
+    });
+    if (context.storyPriority) return;
+    if (!contact || !['committed', 'docked', 'visited'].includes(contact.state)) {
+      if (this.optionalModelId && context.distanceM >= this.optionalRetireAt) {
+        this.destination.setActive(false);
+        this.optionalModelId = null;
+        this.machine.movement.setScriptedSpeedLimit(null);
+      }
+      return;
+    }
+    if (this.optionalModelId !== contact.id) {
+      this.destination.setActive(false);
+      this.destination.configure(
+        opportunityDefinition(contact.kind),
+        buildOpportunityModel(contact.kind, this.materials),
+      );
+      this.optionalModelId = contact.id;
+      this.destination.setArrivalDistance(contact.atDistanceM);
+      this.destination.setActive(true);
+    }
+    if (contact.state === 'docked' || contact.state === 'visited') {
+      this.course.holdCourse();
+      this.destination.setLateralRoot(14);
+      this.destination.setDocked(true);
+      this.machine.setExpeditionGangwayOpen(true);
+      this.machine.movement.setScriptedSpeedLimit(0);
+      const reward = this.destination.root.getObjectByName('Reward');
+      if (reward) reward.visible = contact.state !== 'visited' || contact.kind === 'memorial';
+      return;
+    }
+    if (!context.poweredHelm) {
+      this.cancelOpportunityApproach();
+      this.hud.setWarning('Helm power lost. Approach canceled; emergency drive remains available.');
+      return;
+    }
+    const remaining = contact.atDistanceM - context.distanceM;
+    const align = contact.worldX - context.lateralM;
+    if (remaining < -0.6) {
+      this.cancelOpportunityApproach();
+      return;
+    }
+    const bearing = (Math.atan2(align, Math.max(0.4, remaining)) * 180) / Math.PI;
+    this.course.setDesiredBearing(bearing, {
+      powered: true,
+      playerOnMachine: true,
+      stable: true,
+      locked: false,
+    });
+    this.destination.setLateralRoot(contact.worldX - this.course.snapshot.lateralM);
+    this.destination.fixedUpdate(context.distanceM);
+    const clear =
+      this.enemies.activeCount === 0 &&
+      !this.vehicleManager.active &&
+      !this.gunboatScene.active &&
+      !this.pendingBoardingOutcome;
+    if (remaining <= 0.3 && this.machine.speed < 0.12) {
+      if (!clear) return;
+      if (Math.abs(align) > 0.65) {
+        this.cancelOpportunityApproach();
+        this.hud.setWarning(
+          'The gangway could not align safely. Continue ahead to the next discovery.',
+        );
+        return;
+      }
+      this.routeChart.markDocked(contact.id);
+      this.destination.setLateralRoot(14);
+      this.destination.setDocked(true);
+      this.course.holdCourse();
+      this.machine.setExpeditionGangwayOpen(true);
+      this.hud.setWarning(
+        `${OPPORTUNITIES[contact.kind].title} — gangway deployed. Explore, recover supplies, then return aboard.`,
+      );
+      this.requestAutosave();
+    }
+    this.machine.movement.setScriptedSpeedLimit(
+      remaining <= 0.3
+        ? 0
+        : Math.max(0.1, Math.min(this.machine.movement.maxSpeed, remaining * 0.16)),
+    );
+  }
+
+  private claimOpportunityReward(): boolean {
+    const contact = this.routeChart.contact;
+    if (
+      !contact ||
+      !this.destination.docked ||
+      !this.destination.containsPlayer(this.player.worldPosition)
+    )
+      return false;
+    let transferred = 0;
+    // At most two item stacks; each acceptance is acknowledged immediately.
+    for (let i = 0; i < 2; i++) {
+      const claim = this.routeChart.requestReward(contact.id);
+      if (!claim) break;
+      const accepted =
+        claim.type === 'journal'
+          ? 1
+          : claim.count - this.resources.deposit(claim.itemId, claim.count);
+      if (claim.type === 'journal') this.progression.grant(claim.factId);
+      this.routeChart.resolveReward(claim.token, accepted);
+      transferred += accepted;
+      if (!accepted) break;
+    }
+    if (contact.kind === 'memorial') {
+      this.openExpedition();
+    } else
+      this.hud.setWarning(
+        transferred
+          ? 'Supplies recovered. Remaining supplies stay here until departure.'
+          : 'Inventory full. Make room and return to the cache.',
+      );
+    this.updateOpportunities();
+    this.requestAutosave();
+    return transferred > 0 || contact.kind === 'memorial';
+  }
+
+  private departOpportunity(): void {
+    const contact = this.routeChart.contact;
+    if (
+      !contact ||
+      !this.destination.docked ||
+      !this.destination.playerOnMachine(this.player.worldPosition)
+    ) {
+      this.hud.setWarning('Return aboard the Nomad before departing.');
+      return;
+    }
+    // Both radio and physical departure controls disclose leaving unclaimed supplies.
+    if (!this.routeChart.depart(contact.id, true)) return;
+    this.destination.setDocked(false);
+    this.machine.setExpeditionGangwayOpen(false);
+    this.machine.movement.setScriptedSpeedLimit(null);
+    this.course.holdCourse();
+    this.optionalRetireAt = this.world.distanceTraveled + 70;
+    this.closePanels();
+    this.hud.setWarning('Gangway retracted. The Nomad is moving on.');
+    this.requestAutosave();
+  }
+
+  private configureDestination(): void {
+    this.destination.configure(
+      this.story.chapter,
+      this.story.chapter.id === 'quiet-array' ? buildQuietArrayModel(this.materials) : undefined,
+    );
+  }
+
+  private courseContext(): CourseContext {
+    return {
+      powered: this.machine.power.isPowered(this.helmPowerConsumerId),
+      playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
+      stable: this.isStableForStory() && !this.buildMode && !this.defense.mounted,
+      locked:
+        this.cinematicCamera !== null ||
+        this.opening.phase !== 'done' ||
+        this.destination.docked ||
+        ['approach', 'braking', 'docked', 'departing', 'route-selection'].includes(
+          this.story.currentPhase,
+        ),
+    };
+  }
+
+  private helmView(): HelmView {
+    const context = this.courseContext();
+    const story = this.story.snapshot(this.world.distanceTraveled);
+    const markers: HelmMarker[] = this.salvage.targets.map((crate) => ({
+      id: crate.id,
+      label: 'Drifting salvage',
+      forwardM: -crate.z,
+      lateralM: crate.x,
+      kind: 'salvage',
+    }));
+    if (story.remainingM !== null)
+      markers.push({
+        id: this.story.chapter.id,
+        label: this.story.chapter.title,
+        forwardM: story.remainingM,
+        lateralM: 17,
+        kind: 'story',
+      });
+    return {
+      ...this.course.snapshot,
+      ...context,
+      opportunity: this.opportunityView(),
+      refusal: !context.playerOnMachine
+        ? 'Return aboard to use the helm.'
+        : !context.stable
+          ? 'Finish the current interaction or clear the attack to change course.'
+          : null,
+      objective: story.objective,
+      markers,
+      fuel: this.machine.power.fuel,
+      fuelPerMinute:
+        FUEL_BURN_PER_S * this.progression.upgrades.modifiers().fuelBurnMultiplier * 60,
+    };
+  }
+
+  private openHelm(): void {
+    this.closeSpecialPanels();
+    this.helmUI.open(this.helmView());
+    this.releasePointerLock();
+  }
+
+  private commandCourse(command: 'bearing' | 'throttle', value: number): void {
+    if (!this.helmUI.isOpen || this.state.paused) return;
+    if (this.routeChart.contact?.state === 'committed') this.cancelOpportunityApproach();
+    const result =
+      command === 'bearing'
+        ? this.course.setDesiredBearing(value, this.courseContext())
+        : this.course.setThrottle(value, this.courseContext());
+    if (!result.ok)
+      this.hud.setWarning('Course change unavailable. Check helm power and the current encounter.');
+    this.helmUI.render(this.helmView());
+  }
+
   private openExpedition(): void {
     this.closeSpecialPanels();
     this.expeditionUI.open(this.expeditionView());
@@ -3927,6 +4325,10 @@ export class Game implements LoopCallbacks {
   }
 
   private requestExpeditionDeparture(): void {
+    if (this.optionalModelId) {
+      this.departOpportunity();
+      return;
+    }
     const effects = this.story.requestDepart({
       playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
     });
@@ -3969,12 +4371,14 @@ export class Game implements LoopCallbacks {
       this.releasePointerLock();
       return true;
     }
+    if (target.id === 'opportunity-reward') return this.claimOpportunityReward();
     if (target.kind === 'radio') {
       this.openRadio();
       return true;
     }
     if (target.kind === 'helm') {
-      this.openExpedition();
+      if (this.story.currentPhase === 'route-selection') this.openExpedition();
+      else this.openHelm();
       return true;
     }
     if (target.kind === 'journal') {
@@ -4015,14 +4419,22 @@ export class Game implements LoopCallbacks {
   }
 
   private collectStoryUnique(interactionId: string): boolean {
-    const id = interactionId.includes('salvage-controller')
-      ? 'salvage-controller'
-      : interactionId.includes('tracking-servo')
-        ? 'tracking-servo'
-        : 'course-gyro';
+    const id = this.destination.factForInteractable(interactionId);
+    if (!id) return false;
     if (!this.destination.docked || !this.destination.containsPlayer(this.player.worldPosition))
       return false;
+    const requirement = this.story.unmetRequirement(id);
+    if (requirement) {
+      this.hud.setWarning(requirement);
+      return false;
+    }
     if (!this.story.collectUnique(id)) return false;
+    if (id === 'course-actuator') {
+      this.course.setTier(1);
+      this.hud.setWarning(
+        'Course actuator recovered. Limited steering is available at the helm after departure.',
+      );
+    }
     if (
       id === 'salvage-controller' &&
       this.progression.grantBlueprint('automatic-salvage-collector')
@@ -4074,6 +4486,7 @@ export class Game implements LoopCallbacks {
     this.radioUI.close();
     this.researchUI.close();
     this.expeditionUI.close();
+    this.helmUI.close();
     this.inventoryTargetId = null;
     this.transferFeedback = null;
     if (
@@ -4995,7 +5408,8 @@ export class Game implements LoopCallbacks {
         // migration and no version bump.
         fuel: this.machine.power.toSave().fuel,
         coreHealth: 100,
-        navigationTier: 0,
+        navigationTier: this.course.snapshot.tier,
+        course: this.course.toSave(),
         subsystems: this.machine.damage.toSave(),
       },
       // Optional field, so no version bump and no migration: a save written
@@ -5015,6 +5429,7 @@ export class Game implements LoopCallbacks {
         story: this.story.toSave(),
         radioRaids: this.radioRaids.toSave(),
         raidRecovery: this.raidMissions.ledger.toSave(),
+        routeChart: this.routeChart.toSave(),
       },
     };
   }
@@ -5130,6 +5545,9 @@ export class Game implements LoopCallbacks {
       this.radioPowered = this.machine.power.isPowered(this.radioPowerConsumerId);
     }
     this.story.restore(save.world.story);
+    this.routeChart.restore(save.world.routeChart);
+    this.optionalModelId = null;
+    this.optionalRetireAt = 0;
     this.cancelSignalBattle();
     this.radioRaids.restore(save.world.radioRaids);
     this.raidMissions.cancelTransient();
@@ -5138,6 +5556,10 @@ export class Game implements LoopCallbacks {
     // Earlier raid-loop saves already earned the optional expedition offer.
     this.story.recordRadioRaidVictory(this.radioRaids.toSave().wave);
     const recovered = this.story.snapshot(save.distanceTraveled).recoveredUniques;
+    this.course.restore(recovered.includes('course-actuator') ? save.machine.course : undefined);
+    this.course.setTier(recovered.includes('course-actuator') ? 1 : 0);
+    this.courseDeltaM = 0;
+    this.world.setLateralOffset(this.course.snapshot.lateralM);
     if (recovered.includes('salvage-controller'))
       this.progression.grantBlueprint('automatic-salvage-collector');
     if (recovered.includes('tracking-servo'))
@@ -5161,7 +5583,7 @@ export class Game implements LoopCallbacks {
     // changes while docked; undocking first keeps loading a new/legacy run
     // from silently retaining its old wreck position.
     this.destination.setActive(false);
-    this.destination.configure(this.story.chapter);
+    this.configureDestination();
     this.destination.syncProgress({
       journalsRead: storyJournals,
       uniqueIds: storyUniques,
@@ -5265,6 +5687,7 @@ export class Game implements LoopCallbacks {
     this.setArmed(true);
     this.machine.movement.setThrottle(1);
     this.machine.movement.setScriptedSpeedLimit(dockedRestore ? 0 : null);
+    this.updateOpportunities();
     this.bus.emit('opening:phase', { phase: this.opening.phase });
     this.refreshFirstRunObjective();
 
@@ -5304,6 +5727,7 @@ export class Game implements LoopCallbacks {
     this.radioUI.dispose();
     this.researchUI.dispose();
     this.expeditionUI.dispose();
+    this.helmUI.dispose();
     this.destination.dispose();
     this.buildPreview.dispose();
     this.lampLights.dispose();

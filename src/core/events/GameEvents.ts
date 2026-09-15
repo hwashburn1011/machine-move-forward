@@ -6,6 +6,7 @@ import type { FirstRunStep } from '@/game/FirstRunDirector';
 import type { BoardingPhase } from '@/vehicles/BoardingEncounter';
 import type { UpgradeBranch, UpgradeId } from '@/data/upgrades';
 import type { StoryPhase } from '@/story/StoryDirector';
+import type { ExpeditionId } from '@/data/story';
 import type { Placement } from '@/building/BuildValidation';
 
 export type UnlockId = 'manual-turret' | 'automatic-salvage-collector' | 'automatic-defense-turret';
@@ -185,12 +186,12 @@ export type GameEvents = {
   'radio:power': { powered: boolean };
   'upgrade:researched': { id: UpgradeId };
   'upgrade:active-changed': { branch: UpgradeBranch; id: UpgradeId | null };
-  'story:phase': { chapterId: 'wreck-one' | 'relay-foundry'; phase: StoryPhase };
+  'story:phase': { chapterId: ExpeditionId; phase: StoryPhase };
   'story:signal': { strength: number; remainingM: number | null; text: string };
   'story:journal-read': { id: string };
   'story:unique-collected': { id: 'course-gyro' };
-  'story:docked': { chapterId: 'wreck-one' | 'relay-foundry' };
-  'story:departed': { chapterId: 'wreck-one' | 'relay-foundry' };
+  'story:docked': { chapterId: ExpeditionId };
+  'story:departed': { chapterId: ExpeditionId };
   'story:next-signal': { id: 'signal-two' };
 
   /**

@@ -1,0 +1,17 @@
+[
+  {
+    "kind": "water-cache",
+    "meshes": 11,
+    "triangles": 32044
+  },
+  {
+    "kind": "salvage-wreck",
+    "meshes": 10,
+    "triangles": 29928
+  },
+  {
+    "kind": "memorial",
+    "meshes": 11,
+    "triangles": 35408
+  }
+]

@@ -386,7 +386,11 @@ textures and original gameplay animation bytes are preserved. See the
 [animation delivery](assets/animation-polish/README.md) for clip scope, size budgets,
 Blender rebuild steps and the separation between visual recoil and combat queries.
 
-## Iron Nomad reference walker
+## Quiet Array and route discoveries
+
+`quiet-array.glb`, `route-water-cache.glb`, `route-salvage-wreck.glb` and `route-memorial.glb` are original project Blender geometry with reused original Iron Nomad PBR textures. The models contain semantic interaction anchors and emissive practical lights. Their four packed `.blend` masters, source scripts, geometry budgets and Blender/Unreal/glTF review evidence are documented in [the Quiet Array delivery](assets/quiet-array/README.md). No external source mesh or paid generation service was used. Existing third-party licences are unchanged.
+
+## Iron Nomad reference walker (source and integration)
 
 `assets/iron-nomad/` contains an original four-legged mobile foundry modeled from the user-supplied walking-fortress illustration. Its Blender geometry, procedural PBR textures, cartographic linework, and rigid mechanical animation were created for this project. No downloaded source meshes or paid generation service was used. The reference image is retained for comparison; its inclusion does not assert a third-party license. Viewer dependencies retain their MIT notices under `viewer/vendor/`.
 

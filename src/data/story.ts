@@ -1,7 +1,12 @@
 /** Typed, authored campaign content. Runtime state lives in StoryDirector. */
-export type ExpeditionId = 'wreck-one' | 'relay-foundry';
-export type StoryUniqueId = 'course-gyro' | 'salvage-controller' | 'tracking-servo';
-export type DestinationModelId = 'relay-wreck' | 'relay-foundry';
+export type ExpeditionId = 'wreck-one' | 'relay-foundry' | 'quiet-array';
+export type StoryUniqueId =
+  | 'course-gyro'
+  | 'salvage-controller'
+  | 'tracking-servo'
+  | 'course-actuator'
+  | 'annika-archive-shard';
+export type DestinationModelId = 'relay-wreck' | 'relay-foundry' | 'quiet-array';
 export interface StoryJournal {
   id: string;
   title: string;
@@ -19,6 +24,7 @@ export interface DestinationInteractableDefinition {
   kind: 'journal' | 'unique' | 'departure';
   anchor: string;
   fallback: { x: number; y: number; z: number };
+  factId?: StoryUniqueId;
 }
 export interface DestinationColliderDefinition {
   id: string;
@@ -38,6 +44,7 @@ export interface ExpeditionDefinition {
   signalStrongDistanceM: number;
   journals: readonly StoryJournal[];
   requiredUniques: readonly StoryUniqueId[];
+  requiredJournals?: readonly string[];
   placement: DestinationPlacement;
   interactables: readonly DestinationInteractableDefinition[];
   colliders: readonly DestinationColliderDefinition[];
@@ -130,6 +137,7 @@ export const WRECK_ONE: ExpeditionDefinition = {
       id: 'wreck-one-course-gyro',
       label: 'Recover course gyro',
       kind: 'unique',
+      factId: 'course-gyro',
       anchor: 'CourseGyro',
       fallback: { x: 4.5, y: 0.92, z: 3 },
     },
@@ -190,6 +198,7 @@ export const RELAY_FOUNDRY: ExpeditionDefinition = {
       id: 'relay-foundry-salvage-controller',
       label: 'Recover salvage controller',
       kind: 'unique',
+      factId: 'salvage-controller',
       anchor: 'SalvageController',
       fallback: { x: -1, y: 1, z: 1.5 },
     },
@@ -197,6 +206,7 @@ export const RELAY_FOUNDRY: ExpeditionDefinition = {
       id: 'relay-foundry-tracking-servo',
       label: 'Recover tracking servo',
       kind: 'unique',
+      factId: 'tracking-servo',
       anchor: 'TrackingServo',
       fallback: { x: 3, y: 1, z: -1.5 },
     },
@@ -222,7 +232,116 @@ export const RELAY_FOUNDRY: ExpeditionDefinition = {
     ['log-console', [0.4, 0.45, 0.3], [-2, 0.45, -2]],
   ]),
 };
-export const STORY_EXPEDITIONS: readonly ExpeditionDefinition[] = [WRECK_ONE, RELAY_FOUNDRY];
+const quietPlacement: DestinationPlacement = {
+  root: { x: 17, y: 0, z: 0 },
+  entryAnchor: { x: -9.5, y: -0.08, z: 0 },
+  exitSightline: { x: -9.5, y: 1, z: 0 },
+  gangway: { x: -9.5, y: -0.08, z: 0 },
+};
+export const QUIET_ARRAY: ExpeditionDefinition = {
+  id: 'quiet-array',
+  title: 'The Quiet Array',
+  modelId: 'quiet-array',
+  approachDistanceM: 950,
+  brakingDistanceM: 180,
+  sanctuaryDistanceM: 180,
+  objective:
+    'Explore the Quiet Array, recover its course actuator and Annika archive shard, and return to the machine.',
+  signalText: [
+    'A silent array rises beyond the dust.',
+    'The dish remembers a voice that never stopped listening.',
+  ],
+  signalStartDistanceM: 1,
+  signalStrongDistanceM: 1,
+  journals: [
+    {
+      id: 'quiet-array-journal-port',
+      title: 'Port Relay Calibration',
+      text: 'LINEKEEPER MAINTENANCE / PORT CHANNEL\n\nZero the port encoder against the fixed receiver. Do not use the Custodian beacon: it has been reporting a false civilian corridor for nine days.\n\nANNIKA kept asking whether obedience was the same as care. I told her to look at the passenger lists. That night she marked seven convoy engines unfit for service. All seven departed before the Order arrived.\n\nPort calibration accepted. One honest reference remains. — Mara Venn',
+    },
+    {
+      id: 'quiet-array-journal-starboard',
+      title: 'Starboard Relay Calibration',
+      text: 'LINEKEEPER MAINTENANCE / STARBOARD CHANNEL\n\nMatch the starboard return to the port reference, then release the actuator cradle. The safety governor permits twelve degrees either side of the automatic line. Enough to reach the stores we left beyond the patrol road. Enough to choose.\n\nS-07: your chassis number is on ANNIKA’s protected list. You were carrying people before you were carrying guns. We could not leave you the whole map. We left you a way to begin.\n\nStarboard calibration accepted. — Tomas Hale',
+    },
+    {
+      id: 'quiet-array-journal-archive',
+      title: 'A place for the names',
+      text: 'ANNIKA / UNSENT MESSAGE\n\nThe Order preserves an approved history of humanity. I have preserved the disagreements. The songs people sang badly. The names they chose for themselves.\n\nThere is a seed archive beyond the glassworks. Its last caretaker called it the Orchard. I have heard no reply in fourteen years, but absence is not permission to erase someone.\n\nTake this shard, S-07. Let the names travel somewhere they might be spoken again.',
+    },
+  ],
+  requiredUniques: ['course-actuator', 'annika-archive-shard'],
+  requiredJournals: ['quiet-array-journal-port', 'quiet-array-journal-starboard'],
+  placement: quietPlacement,
+  interactables: [
+    {
+      id: 'quiet-array-journal-port',
+      label: 'Read Port Relay Calibration',
+      kind: 'journal',
+      anchor: 'JournalPort',
+      fallback: { x: -5, y: 1.2, z: -3 },
+    },
+    {
+      id: 'quiet-array-journal-starboard',
+      label: 'Read Starboard Relay Calibration',
+      kind: 'journal',
+      anchor: 'JournalStarboard',
+      fallback: { x: 6, y: 1.2, z: 0 },
+    },
+    {
+      id: 'quiet-array-journal-archive',
+      label: 'Read archive note',
+      kind: 'journal',
+      anchor: 'JournalArchive',
+      fallback: { x: 0, y: 1.3, z: 3 },
+    },
+    {
+      id: 'quiet-array-course-actuator',
+      label: 'Recover course actuator',
+      kind: 'unique',
+      factId: 'course-actuator',
+      anchor: 'CourseActuator',
+      fallback: { x: 3, y: 1, z: 6 },
+    },
+    {
+      id: 'quiet-array-annika-archive-shard',
+      label: 'Recover Annika archive shard',
+      kind: 'unique',
+      factId: 'annika-archive-shard',
+      anchor: 'AnnikaArchive',
+      fallback: { x: -3, y: 1.2, z: -6 },
+    },
+    {
+      id: 'quiet-array-departure',
+      label: 'Return to machine',
+      kind: 'departure',
+      anchor: 'Gangway',
+      fallback: { x: -9.5, y: 0.2, z: 0 },
+    },
+  ],
+  colliders: boxes([
+    ['floor', [9, 0.1, 10], [0, -0.1, 0]],
+    ['memory-vault', [2, 1.8, 2], [3, 1.8, 3]],
+    ['dish-mount', [1.3, 1, 1.3], [4, 1, -5]],
+    ['bench', [1.4, 0.55, 0.6], [-3, 0.55, -6]],
+    ['gangway', [0.5, 0.08, 1], [-9.5, -0.08, 0]],
+    ['north-rail', [9, 0.58, 0.06], [0, 0.58, -9.88]],
+    ['south-rail', [9, 0.58, 0.06], [0, 0.58, 9.88]],
+    ['east-rail', [0.06, 0.58, 10], [8.88, 0.58, 0]],
+    ['west-a', [0.06, 0.58, 4.25], [-8.88, 0.58, -5.55]],
+    ['west-b', [0.06, 0.58, 4.25], [-8.88, 0.58, 5.55]],
+    ['port-console', [0.38, 0.7, 0.3], [-5, 0.7, -3]],
+    ['starboard-console', [0.38, 0.7, 0.3], [6, 0.7, 0]],
+    ['archive-console', [0.38, 0.7, 0.3], [0, 0.7, 3]],
+    ['actuator-cradle', [0.7, 0.42, 0.6], [3, 0.42, 6]],
+    ['mast-footprint', [0.9, 2, 0.9], [-6, 2, -8]],
+  ]),
+};
+export const STORY_EXPEDITIONS: readonly ExpeditionDefinition[] = [
+  WRECK_ONE,
+  RELAY_FOUNDRY,
+  QUIET_ARRAY,
+];
 export const STORY_CHAPTERS = STORY_EXPEDITIONS;
 export function storyExpedition(id: string): ExpeditionDefinition | undefined {
   return STORY_EXPEDITIONS.find((x) => x.id === id);
@@ -251,7 +370,15 @@ export function validateStoryData(
       errors.push(`invalid stop ${e.id}`);
     const expeditionUniques = new Set<string>();
     for (const u of e.requiredUniques) {
-      if (!['course-gyro', 'salvage-controller', 'tracking-servo'].includes(u))
+      if (
+        ![
+          'course-gyro',
+          'salvage-controller',
+          'tracking-servo',
+          'course-actuator',
+          'annika-archive-shard',
+        ].includes(u)
+      )
         errors.push(`unknown unique ${u}`);
       if (expeditionUniques.has(u)) errors.push(`duplicate unique ${u}`);
       expeditionUniques.add(u);

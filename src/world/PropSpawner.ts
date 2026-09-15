@@ -7,6 +7,7 @@ import type { Materials } from '@/art/Materials';
 import { chunkAspectSeed } from './WorldSeed';
 import { duneHeightAt, PROP_SINK } from './DuneField';
 import type { PropModelGeometries } from './PropModels';
+import { WORLD_COURSE_BAND_WIDTH } from './WorldCourse';
 
 /**
  * Scattered rocks and wreck debris for one terrain chunk.
@@ -235,6 +236,7 @@ export class PropSpawner {
   private quality: QualitySettings;
   private readonly geometries: PropGeometries;
   private readonly materials: Materials;
+  private bandIndex = 0;
   private models: PropModelGeometries | null = null;
 
   constructor(
@@ -398,7 +400,8 @@ export class PropSpawner {
    * Takes the chunk's INDEX, not where it is drawn: props are seated on the
    * dune field, and that field is a function of permanent world position.
    */
-  populate(worldSeed: string, chunkIndex: number): void {
+  populate(worldSeed: string, chunkIndex: number, bandIndex = 0): void {
+    this.bandIndex = bandIndex;
     this.fill(this.rocks, worldSeed, chunkIndex, 'rock', 0.8, 3.4);
     this.fill(this.slabs, worldSeed, chunkIndex, 'slab', 1.2, 3.0);
     this.fill(this.debris, worldSeed, chunkIndex, 'debris', 0.5, 1.4);
@@ -462,10 +465,11 @@ export class PropSpawner {
       // per instance: a field where everything is sunk to the same line reads
       // as a waterline, not as sand.
       const sink = wreck ? scale * wreck.sink * rng.range(0.55, 1.45) : PROP_SINK * scale;
-      const y = duneHeightAt(x, worldZ) - sink;
+      const worldX = x + this.bandIndex * WORLD_COURSE_BAND_WIDTH;
+      const y = duneHeightAt(worldX, worldZ) - sink;
       const tilt = wreck?.tilt ?? 0.25;
 
-      this.posVec.set(x, y, localZ);
+      this.posVec.set(worldX, y, localZ);
       this.euler.set(rng.signed(tilt), rng.range(0, Math.PI * 2), rng.signed(tilt));
       this.quat.setFromEuler(this.euler);
       // Non-uniform scale so instances of one mesh do not read as clones.
@@ -488,6 +492,10 @@ export class PropSpawner {
 
   setZ(z: number): void {
     this.group.position.z = z;
+  }
+
+  setLateralOffset(offset: number): void {
+    this.group.position.x = Number.isFinite(offset) ? -offset : 0;
   }
 
   dispose(): void {

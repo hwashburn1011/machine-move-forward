@@ -103,6 +103,14 @@ export class SalvageField {
     }
   }
 
+  /** Shift only free drifting crates with the lateral world projection. */
+  shiftLateral(deltaM: number): void {
+    if (!Number.isFinite(deltaM)) return;
+    for (const crate of this.crates) {
+      if (crate.active && crate.claimedBy === null) crate.object3D.position.x -= deltaM;
+    }
+  }
+
   /**
    * Drop all runtime crates and restart distance pacing for a fresh session.
    * The RNG is reseeded so New Game and a load produce the same first target

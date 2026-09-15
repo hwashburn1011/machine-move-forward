@@ -6,7 +6,11 @@ import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { Interactable } from '@/interaction/InteractionSystem';
 import { buildFoundryModel, buildWreckModel } from '@/art/ExpeditionModels';
-import { WRECK_ONE, type ExpeditionDefinition } from '@/data/story';
+import { WRECK_ONE, type ExpeditionDefinition, type StoryUniqueId } from '@/data/story';
+export type DestinationDefinition = Omit<
+  Pick<ExpeditionDefinition, 'title' | 'modelId' | 'placement' | 'interactables' | 'colliders'>,
+  'modelId'
+> & { id: string; modelId: string };
 
 export interface Vec3Like {
   x: number;
@@ -20,7 +24,7 @@ export interface DestinationOptions {
   arrivalDistance: number;
   modelFactory?: (materials: Materials) => THREE.Group;
   model?: THREE.Group;
-  definition?: ExpeditionDefinition;
+  definition?: DestinationDefinition;
 }
 export interface DestinationProgress {
   uniqueCollected?: boolean;
@@ -57,7 +61,7 @@ export class Destination {
   private currentDistance = 0;
   private readonly uniqueIds = new Set<string>();
   private readonly journalsRead = new Set<string>();
-  private definition: ExpeditionDefinition;
+  private definition: DestinationDefinition;
   private readonly materials?: Materials;
   private ownsVisuals = false;
   constructor(options: DestinationOptions);
@@ -87,10 +91,18 @@ export class Destination {
       o.modelFactory ??
       (this.definition.id === 'relay-foundry' ? buildFoundryModel : buildWreckModel);
     this.materials = o.materials;
-    this.root = o.model ?? (o.materials ? factory(o.materials) : new THREE.Group());
+    this.root =
+      o.model ??
+      (o.materials && this.definition.id !== 'quiet-array'
+        ? factory(o.materials)
+        : new THREE.Group());
     this.ownsVisuals = !o.model && Boolean(o.materials) && !this.root.userData.authored;
     this.root.name ||=
-      this.definition.id === 'relay-foundry' ? 'MMF_Relay_Foundry' : 'MMF_Wreck_One';
+      this.definition.id === 'relay-foundry'
+        ? 'MMF_Relay_Foundry'
+        : this.definition.id === 'quiet-array'
+          ? 'MMF_Quiet_Array'
+          : 'MMF_Wreck_One';
     this.root.position.set(
       this.definition.placement.root.x,
       DECK_SURFACE_Y + this.definition.placement.root.y,
@@ -114,30 +126,33 @@ export class Destination {
   get interactables(): readonly Interactable[] {
     if (!this._active || !this._docked) return [];
     return this.localInteractables.filter(
-      (x) =>
-        x.kind !== 'unique' ||
-        !this.uniqueIds.has(
-          x.id.includes('course-gyro')
-            ? 'course-gyro'
-            : x.id.includes('salvage-controller')
-              ? 'salvage-controller'
-              : 'tracking-servo',
-        ),
+      (x) => x.kind !== 'unique' || !this.uniqueIds.has(this.factForInteractable(x.id) ?? ''),
     );
   }
-  configure(definition: ExpeditionDefinition, model?: THREE.Group) {
+  factForInteractable(id: string): StoryUniqueId | null {
+    const item = this.definition.interactables.find((entry) => entry.id === id);
+    if (item?.kind !== 'unique') return null;
+    return item.factId ?? null;
+  }
+  configure(definition: DestinationDefinition, model?: THREE.Group) {
     if (this._active) return false;
     this.clearDefinition();
     const generated =
       !model && this.materials
         ? definition.id === 'relay-foundry'
           ? buildFoundryModel(this.materials)
-          : buildWreckModel(this.materials)
+          : definition.id === 'quiet-array'
+            ? undefined
+            : buildWreckModel(this.materials)
         : model;
     this.replaceVisual(generated);
     this.definition = definition;
-    if (model) this.ownsVisuals = false;
-    this.root.name = definition.id === 'relay-foundry' ? 'MMF_Relay_Foundry' : 'MMF_Wreck_One';
+    this.root.name =
+      definition.id === 'relay-foundry'
+        ? 'MMF_Relay_Foundry'
+        : definition.id === 'quiet-array'
+          ? 'MMF_Quiet_Array'
+          : 'MMF_Wreck_One';
     this.root.position.set(
       definition.placement.root.x,
       DECK_SURFACE_Y + definition.placement.root.y,
@@ -157,12 +172,8 @@ export class Destination {
     if (gyro) gyro.visible = !this.uniqueIds.has('course-gyro');
     for (const item of this.definition.interactables.filter((item) => item.kind === 'unique')) {
       const anchor = this.root.getObjectByName(item.anchor);
-      const fact = item.id.includes('course-gyro')
-        ? 'course-gyro'
-        : item.id.includes('salvage-controller')
-          ? 'salvage-controller'
-          : 'tracking-servo';
-      if (anchor) anchor.visible = !this.uniqueIds.has(fact);
+      const fact = this.factForInteractable(item.id);
+      if (anchor && fact) anchor.visible = !this.uniqueIds.has(fact);
     }
     for (const x of this.localInteractables)
       if (x.kind === 'journal') {
@@ -175,6 +186,11 @@ export class Destination {
       this.arrivalDistance = distance;
       this.fixedUpdate(this.currentDistance);
     }
+  }
+  setLateralRoot(renderX: number): void {
+    if (!Number.isFinite(renderX)) return;
+    this.root.position.x = renderX;
+    this.fixedUpdate(this.currentDistance);
   }
   setActive(active: boolean) {
     this._active = active;
@@ -214,14 +230,11 @@ export class Destination {
       y: p.y - this.root.position.y,
       z: p.z - this.root.position.z,
     };
-    const foundry = this.definition.id === 'relay-foundry';
+    const floor = this.definition.colliders.find((collider) => collider.id === 'floor');
+    const halfX = floor?.half.x ?? (this.definition.id === 'relay-foundry' ? 7 : 6);
+    const halfZ = floor?.half.z ?? (this.definition.id === 'relay-foundry' ? 5 : 9);
     const inside =
-      l.x >= -(foundry ? 7 : 6) &&
-      l.x <= (foundry ? 7 : 6) &&
-      l.z >= -(foundry ? 5 : 9) &&
-      l.z <= (foundry ? 5 : 9) &&
-      l.y >= -0.3 &&
-      l.y <= 5;
+      l.x >= -halfX && l.x <= halfX && l.z >= -halfZ && l.z <= halfZ && l.y >= -0.3 && l.y <= 5;
     return inside || this.playerOnGangway(p);
   }
   playerOnGangway(p: Vec3Like) {
@@ -293,9 +306,12 @@ export class Destination {
     }
     for (const d of this.definition.interactables) {
       const anchor = this.root.getObjectByName(d.anchor);
-      const local = anchor
-        ? anchor.position.clone()
-        : new THREE.Vector3(d.fallback.x, d.fallback.y, d.fallback.z);
+      let local: THREE.Vector3;
+      if (anchor) {
+        this.root.updateWorldMatrix(true, false);
+        anchor.updateWorldMatrix(true, false);
+        local = this.root.worldToLocal(anchor.getWorldPosition(new THREE.Vector3()));
+      } else local = new THREE.Vector3(d.fallback.x, d.fallback.y, d.fallback.z);
       this.localInteractables.push({
         id: d.id,
         label: d.label,
