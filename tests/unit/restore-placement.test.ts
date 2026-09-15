@@ -10,9 +10,11 @@ describe('PhysicsWorld capsule fit', () => {
     const physics = new PhysicsWorld();
     const floor = physics.addFixedBox(new THREE.Vector3(5, 0.1, 5), new THREE.Vector3(0, -0.1, 0));
     const player = physics.addCharacter(0.34, 0.62, new THREE.Vector3(0, 0.96, 0));
+    player.body.setNextKinematicTranslation({ x: 3, y: 0.96, z: 0 });
     expect(physics.capsuleFits(new THREE.Vector3(0, 0.96, 0), 0.34, 0.62, player.collider)).toBe(
       true,
     );
+    expect(player.body.translation().x).toBe(0);
 
     const obstacle = physics.addFixedBox(
       new THREE.Vector3(0.5, 1, 0.5),
@@ -73,13 +75,13 @@ describe('PhysicsWorld capsule fit', () => {
 describe('resolveRestorePlacement', () => {
   const origin: RestorePoint = { x: 0, y: 10, z: 0 };
 
-  it('preserves a valid position exactly', () => {
+  it('preserves a clear airborne position exactly without requiring a floor', () => {
     const point = { x: 1.315109974, y: 15.804595516, z: -4.464025578 };
     expect(
       resolveRestorePlacement({
         position: point,
         capsuleFits: () => true,
-        hasDownwardSupport: () => true,
+        hasDownwardSupport: () => false,
       }),
     ).toEqual(point);
   });
