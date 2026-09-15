@@ -38,12 +38,12 @@ The journal archive contains only records actually read. Older saves use
 conservative proof from recovered uniques and never invent route testimony.
 Save metadata preserves the latest readable timestamp and completed
 transaction before confirmation. Tier-three discovery depots use the
-265–290m lateral band; older tier-one and tier-two contacts retain their
-120–150m behavior. The full campaign remains a development prototype with
+265–290m lateral band; existing contacts retain their saved positions and
+tier-two depots keep their 120–150m band. The full campaign remains a development prototype with
 bounded steering rather than a 360-degree turn.
 
 See the [Meridian delivery notes](meridian-delivery.md) and
-[Meridian asset notes](../../assets/meridian/README.md) for the forthcoming
+[Meridian asset notes](../../assets/meridian/README.md) for the
 delivery and art records.
 
 See the [campaign direction](../superpowers/plans/2026-09-14-campaign-direction.md), [refined tasks](../superpowers/plans/2026-09-14-campaign-direction-tasks.md), and [asset pipeline](../../assets/quiet-array/README.md).
