@@ -68,8 +68,9 @@ c.terminal('MemoryCore',(5,1.3,-5),r)
 c.terminal('MemoryJournal',(3.8,1.2,-3),r)
 c.terminal('CaretakerJournal',(-5,1.2,5),r)
 c.terminal('EvacuationJournal',(0,1.2,-7),r)
-for name,x in [('PortIsolator',-5),('StarboardIsolator',5)]:
-    # Hardware sits clear of the east/west walkway; anchor is at its operating face.
+for name,x in [('PortIsolator',-7.1),('StarboardIsolator',5)]:
+    # Port hardware sits beside the greenhouse doorway, outside both walking lanes.
+    # Keep the operating anchors and source colliders in src/data/story.ts aligned.
     c.box(name+' switch cabinet',(x,.65,1.45),(.8,1.3,.55),c.red,r,.05)
     c.box(name+' inset',(x,1.05,1.14),(.56,.45,.035),c.dark,r,.008)
     c.tube(name+' lever',(x,1.04,1.08),(x,1.31,1.01),.045,c.brass,r)

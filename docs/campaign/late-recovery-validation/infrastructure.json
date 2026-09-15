@@ -1,0 +1,616 @@
+{
+  "status": "passed",
+  "stage": "infrastructure",
+  "evidence": "Full-art normal-input Story lineage; no gameplay state writes or speed/encounter overrides",
+  "acceptedRun": "test-results\\continuity-late-recovery\\run-2026-09-15T15-28-40-193Z",
+  "ledger": {
+    "hadRefinery": true,
+    "hadCondenser": true,
+    "refineBatches": 0,
+    "repairSpend": 0,
+    "expectedScrap": 30
+  },
+  "pausedSavePayload": {
+    "version": 1,
+    "savedAt": 1789486129220,
+    "seed": "mmf-dev-seed",
+    "profile": "story",
+    "distanceTraveled": 5732.396878031663,
+    "player": {
+      "position": {
+        "x": 2.445366585093693,
+        "y": 15.799985586835895,
+        "z": 1.4261299045170608
+      },
+      "health": 60,
+      "inventory": [
+        null,
+        null,
+        {
+          "itemId": "scrap",
+          "count": 30
+        },
+        {
+          "itemId": "components",
+          "count": 2
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "needs": {
+        "hydration": 31.74000000001061,
+        "nourishment": 34.239999999969776
+      },
+      "equipment": {
+        "currentWeapon": "rifle",
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 18,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ]
+      }
+    },
+    "machine": {
+      "layout": "iron-nomad-v1",
+      "structures": [
+        {
+          "instanceId": "bp-2",
+          "definitionId": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          },
+          "rotation": 0,
+          "health": 120
+        },
+        {
+          "instanceId": "bp-4",
+          "definitionId": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0,
+          "health": 40
+        },
+        {
+          "instanceId": "bp-6",
+          "definitionId": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "health": 120
+        },
+        {
+          "instanceId": "bp-8",
+          "definitionId": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          },
+          "rotation": 0,
+          "health": 120
+        },
+        {
+          "instanceId": "bp-12",
+          "definitionId": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 2
+          },
+          "rotation": 0,
+          "health": 120
+        },
+        {
+          "instanceId": "bp-7",
+          "definitionId": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "health": 130
+        },
+        {
+          "instanceId": "bp-9",
+          "definitionId": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          },
+          "rotation": 0,
+          "health": 150
+        },
+        {
+          "instanceId": "bp-10",
+          "definitionId": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          },
+          "rotation": 0,
+          "health": 170
+        },
+        {
+          "instanceId": "bp-11",
+          "definitionId": "refinery",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0,
+          "health": 160
+        },
+        {
+          "instanceId": "bp-13",
+          "definitionId": "condenser",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 2
+          },
+          "rotation": 0,
+          "health": 130,
+          "state": {
+            "progress": 0,
+            "stored": 0
+          }
+        }
+      ],
+      "devices": [],
+      "fuel": 11.01800000005019,
+      "coreHealth": 100,
+      "navigationTier": 1,
+      "course": {
+        "tier": 1,
+        "bearingDeg": 0,
+        "desiredDeg": 0,
+        "throttle": 1,
+        "lateralM": 12.878389469606343
+      },
+      "subsystems": [
+        {
+          "id": "engine",
+          "health": 320
+        },
+        {
+          "id": "leg-front-left",
+          "health": 180
+        },
+        {
+          "id": "leg-front-right",
+          "health": 180
+        },
+        {
+          "id": "leg-rear-left",
+          "health": 180
+        },
+        {
+          "id": "leg-rear-right",
+          "health": 180
+        }
+      ]
+    },
+    "progression": {
+      "caretaker": {
+        "format": 1,
+        "recruited": false,
+        "mode": "companion"
+      },
+      "unlocks": [
+        "manual-turret",
+        "automatic-salvage-collector",
+        "automatic-defense-turret"
+      ],
+      "turretBlueprintProgress": 1,
+      "upgrades": {
+        "researched": [],
+        "active": {}
+      },
+      "radio": {
+        "status": "found",
+        "armedAtSimTime": null,
+        "foundAtSimTime": 10.766666666666781,
+        "foundAtDistance": 59.97686964118998,
+        "eligibleChestsOpened": 1
+      },
+      "opening": {
+        "phase": "done"
+      },
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 6,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "turrets": [
+        {
+          "instanceId": "bp-9",
+          "yaw": -1.572,
+          "pitch": -0.09159877559829879,
+          "filter": "all"
+        }
+      ],
+      "automaticTurrets": []
+    },
+    "world": {
+      "chunkIndex": 89,
+      "threatDirector": {
+        "phase": "recovery",
+        "phaseEndsAt": 6031.373198856133,
+        "wavesSurvived": 2,
+        "pending": [],
+        "nextReleaseAt": 0,
+        "draws": 3,
+        "wavesSinceVehicle": 2,
+        "queuedVehicle": null,
+        "externalEncounterActive": false,
+        "sanctuaryActive": true,
+        "sanctuaryReleaseAt": 6031.373198856133
+      },
+      "story": {
+        "format": 2,
+        "completed": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "quiet-array-journal-archive"
+        ],
+        "active": null,
+        "radioTraceEligible": true,
+        "chapterComplete": true,
+        "ending": {
+          "format": 1,
+          "phase": "available",
+          "committedAtDistance": null,
+          "arrivalElapsedS": 0
+        }
+      },
+      "radioRaids": {
+        "wave": 1,
+        "remaining": 82.20115766016283
+      },
+      "raidRecovery": {
+        "recovered": []
+      },
+      "routeChart": {
+        "format": 1,
+        "nextSlot": 9,
+        "discovered": [],
+        "visited": [],
+        "missed": []
+      },
+      "dustFront": {
+        "format": 1,
+        "phase": "forecast",
+        "elapsedS": 23.116666666666635,
+        "nextAtM": 3352.429139007102,
+        "sequence": 1
+      }
+    }
+  },
+  "coldRestored": {
+    "seed": "mmf-dev-seed",
+    "profile": "story",
+    "phase": "complete",
+    "simTime": 0.850000000000001,
+    "distanceM": 5733.185126769826,
+    "paused": false,
+    "health": 60,
+    "player": [
+      2.4486964341369086,
+      15.7838284761563,
+      1.4386268125394974
+    ],
+    "needs": {
+      "hydration": 31.73222222223283,
+      "nourishment": 34.23222222219202
+    },
+    "inventory": [
+      null,
+      null,
+      {
+        "itemId": "scrap",
+        "count": 30
+      },
+      {
+        "itemId": "components",
+        "count": 2
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "resources": {
+      "scrap": 30,
+      "components": 2,
+      "fuel": 0,
+      "water": 0,
+      "greens": 0,
+      "rations": 0
+    },
+    "power": {
+      "fuel": 11.011000000050194,
+      "capacity": 16,
+      "draw": 3,
+      "demand": 19,
+      "generators": 1
+    },
+    "pieces": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "health": 40
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-12",
+        "definitionId": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 2
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": -1
+        },
+        "rotation": 0,
+        "health": 150
+      },
+      {
+        "instanceId": "bp-10",
+        "definitionId": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "rotation": 0,
+        "health": 170
+      },
+      {
+        "instanceId": "bp-11",
+        "definitionId": "refinery",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "health": 160
+      },
+      {
+        "instanceId": "bp-13",
+        "definitionId": "condenser",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 2
+        },
+        "rotation": 0,
+        "health": 130,
+        "state": {
+          "progress": 0,
+          "stored": 0
+        }
+      }
+    ],
+    "damage": [
+      {
+        "id": "engine",
+        "health": 320
+      },
+      {
+        "id": "leg-front-left",
+        "health": 180
+      },
+      {
+        "id": "leg-front-right",
+        "health": 180
+      },
+      {
+        "id": "leg-rear-left",
+        "health": 180
+      },
+      {
+        "id": "leg-rear-right",
+        "health": 180
+      }
+    ],
+    "story": {
+      "format": 2,
+      "completed": [
+        "wreck-one",
+        "relay-foundry",
+        "quiet-array"
+      ],
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "journalArchive": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ],
+      "active": null,
+      "radioTraceEligible": true,
+      "chapterComplete": true,
+      "ending": {
+        "format": 1,
+        "phase": "available",
+        "committedAtDistance": null,
+        "arrivalElapsedS": 0
+      }
+    },
+    "course": {
+      "tier": 1,
+      "bearingDeg": 0,
+      "desiredDeg": 0,
+      "throttle": 1,
+      "lateralM": 12.878389469606343
+    },
+    "buildState": {
+      "selectedPiece": "floor",
+      "buildMode": false,
+      "preview": {
+        "placement": null,
+        "validation": {
+          "ok": false
+        },
+        "target": null
+      }
+    },
+    "interaction": {
+      "id": "bp-11",
+      "kind": "refinery",
+      "position": [
+        2,
+        14.74,
+        0
+      ]
+    },
+    "enemies": [],
+    "vehicle": {
+      "active": false
+    },
+    "safe": true,
+    "errors": []
+  },
+  "remaining": "Resolve 19 demand against16 capacity before water production; then recover food and sufficient route fuel."
+}

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { StoryDirector, type CampaignSave } from '@/story/StoryDirector';
+import { GLASS_ORCHARD } from '@/data/story';
 
 const safe = { currentDistance: 2000, playerOnMachine: true, stable: true, encounterActive: false };
 const inherited = [
@@ -40,6 +41,36 @@ const docked = (routeId: 'orchard-caretaker' | 'orchard-cold-vault'): StoryDirec
 };
 
 describe('Glass Orchard campaign state', () => {
+  it('keeps the greenhouse entrance clear for a walking player capsule', () => {
+    const radius = 0.34;
+    const playerHeight = 1.96;
+    const corridorX = -5;
+    const corridorStartZ = 0;
+    const corridorEndZ = 3;
+    const overlaps = (collider: (typeof GLASS_ORCHARD.colliders)[number]): boolean => {
+      if (collider.id === 'floor') return false;
+      const horizontalX =
+        Math.max(0, Math.abs(corridorX - collider.at.x) - collider.half.x) <= radius;
+      const horizontalZ =
+        collider.at.z + collider.half.z >= corridorStartZ - radius &&
+        collider.at.z - collider.half.z <= corridorEndZ + radius;
+      const vertical =
+        collider.at.y + collider.half.y >= 0 && collider.at.y - collider.half.y <= playerHeight;
+      return horizontalX && horizontalZ && vertical;
+    };
+
+    const authoredCabinet = GLASS_ORCHARD.colliders.find(
+      (collider) => collider.id === 'port-isolator',
+    );
+    expect(authoredCabinet).toBeDefined();
+    const oldCabinet = { ...authoredCabinet!, at: { ...authoredCabinet!.at, x: -5 } };
+    expect(overlaps(oldCabinet)).toBe(true);
+
+    // Inspect the actual destination, including the cabinet. Substituting a
+    // hypothetical corrected cabinet would let the original defect pass.
+    expect(GLASS_ORCHARD.colliders.filter(overlaps).map((collider) => collider.id)).toEqual([]);
+  });
+
   it('offers one shared persisted route selection after Quiet Array', () => {
     const story = ready();
     expect(story.snapshot(0).nextExpedition?.id).toBe('glass-orchard');

@@ -50,6 +50,14 @@ See the [campaign direction](../superpowers/plans/2026-09-14-campaign-direction.
 
 ## Verification
 
+The [Orchard traversal reference](orchard-normal-route-map.md) records a rebuilt port
+switch cabinet and a full-art keyboard traversal through the cleared greenhouse doorway.
+This isolated geometry check is separate from the continuous late-campaign playthrough.
+
+The [late-campaign continuity notes](late-campaign-continuity-notes.md) record
+the real recovery costs, power constraint, water production and checkpoint
+provenance after Quiet Array, with failed driver attempts retained separately.
+
 The [midgame and Survival continuity report](midgame-survival-notes.md) records
 normal-input lineages through the full-art Foundry and Quiet Array, earned
 tier-one steering, and a separate fresh Survival campaign through finite-ammo

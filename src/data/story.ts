@@ -442,7 +442,7 @@ export const GLASS_ORCHARD: ExpeditionDefinition = {
       kind: 'objective',
       objectiveId: 'orchard-port-isolator',
       anchor: 'PortIsolator',
-      fallback: { x: -5, y: 1.1, z: 0 },
+      fallback: { x: -7.1, y: 1.1, z: 0 },
     },
     {
       id: 'orchard-starboard-isolator',
@@ -491,7 +491,8 @@ export const GLASS_ORCHARD: ExpeditionDefinition = {
     ['memory-journal-terminal', [0.36, 0.5, 0.28], [3.8, 0.5, -3]],
     ['caretaker-terminal', [0.36, 0.5, 0.28], [-5, 0.5, 5]],
     ['evacuation-terminal', [0.36, 0.5, 0.28], [0, 0.5, -7]],
-    ['port-isolator', [0.4, 0.65, 0.28], [-5, 0.65, 1.45]],
+    // Put the cabinet beside the greenhouse entrance, preserving its central walking lane.
+    ['port-isolator', [0.4, 0.65, 0.28], [-7.1, 0.65, 1.45]],
     ['starboard-isolator', [0.4, 0.65, 0.28], [5, 0.65, 1.45]],
     ['gangway', [0.5, 0.08, 1], [-9.5, -0.08, 0]],
   ]),
