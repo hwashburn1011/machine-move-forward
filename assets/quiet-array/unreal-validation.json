@@ -1,0 +1,46 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "assets": [
+    {
+      "name": "QuietArray",
+      "path": "/Game/QuietArray/QuietArray.QuietArray",
+      "size_cm": [
+        1905.0,
+        2011.0001220703125,
+        3072.744873046875
+      ],
+      "materials": 9
+    },
+    {
+      "name": "route-memorial",
+      "path": "/Game/QuietArray/route_memorial.route_memorial",
+      "size_cm": [
+        1304.5,
+        1000.0,
+        2117.5001220703125
+      ],
+      "materials": 7
+    },
+    {
+      "name": "route-salvage-wreck",
+      "path": "/Game/QuietArray/route_salvage_wreck.route_salvage_wreck",
+      "size_cm": [
+        1304.5,
+        1000.0,
+        1791.5001831054688
+      ],
+      "materials": 7
+    },
+    {
+      "name": "route-water-cache",
+      "path": "/Game/QuietArray/route_water_cache.route_water_cache",
+      "size_cm": [
+        1304.5,
+        1000.0,
+        1791.5001525878906
+      ],
+      "materials": 7
+    }
+  ],
+  "status": "success"
+}

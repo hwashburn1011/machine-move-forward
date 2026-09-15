@@ -9,6 +9,7 @@ import { DesertScenery } from './DesertScenery';
 import type { TextureSet } from '@/art/TextureLoader';
 import type { PropModelGeometries } from './PropModels';
 import { createPropGeometries, PropSpawner, type PropGeometries } from './PropSpawner';
+import { WorldCourseBands, courseBandSeed } from './WorldCourse';
 
 /**
  * How far the world has scrolled PAST its last simulated step, for rendering.
@@ -84,13 +85,15 @@ export class WorldManager {
   private propModels: PropModelGeometries | null = null;
   private readonly chunkManager: ChunkManager;
   private readonly terrain: TerrainChunk[] = [];
-  private readonly props: PropSpawner[] = [];
+  private readonly props: PropSpawner[][] = [];
+  private readonly courseBands = new WorldCourseBands();
   private geometry: THREE.BufferGeometry;
   private readonly propGeometries: PropGeometries;
   private quality: QualitySettings;
   private sand: TextureSet | null = null;
   private readonly sunDirection = new THREE.Vector3(0.78, 0.5, 0.37).normalize();
   private renderOffset = 0;
+  private lateralOffset = 0;
 
   private distance = 0;
 
@@ -113,16 +116,23 @@ export class WorldManager {
 
     for (const slot of this.chunkManager.slots) {
       const chunk = new TerrainChunk(quality, this.geometry, this.worldSeed);
-      const prop = new PropSpawner(quality, this.propGeometries, materials);
-
       chunk.setZ(slot.z, slot.chunkIndex * CHUNK_SIZE_Z);
-      prop.setZ(slot.z);
-      prop.populate(this.worldSeed, slot.chunkIndex);
-
+      chunk.setLateralOffset(this.lateralOffset);
       scene.add(chunk.mesh);
-      scene.add(prop.group);
       this.terrain.push(chunk);
-      this.props.push(prop);
+      const bands = this.courseBands.slots.map((band) => {
+        const extra = new PropSpawner(quality, this.propGeometries, materials);
+        extra.setZ(slot.z);
+        extra.setLateralOffset(this.lateralOffset);
+        extra.populate(
+          courseBandSeed(this.worldSeed, band.bandIndex),
+          slot.chunkIndex,
+          band.bandIndex,
+        );
+        scene.add(extra.group);
+        return extra;
+      });
+      this.props.push(bands);
     }
   }
 
@@ -132,6 +142,38 @@ export class WorldManager {
 
   get activeChunkCount(): number {
     return this.terrain.length;
+  }
+
+  get lateralWorldOffset(): number {
+    return this.lateralOffset;
+  }
+
+  get lateralBandIds(): readonly number[] {
+    return this.courseBands.slots.map((slot) => slot.bandIndex);
+  }
+
+  setLateralOffset(offset: number): void {
+    this.lateralOffset = Number.isFinite(offset) ? offset : 0;
+    const recycled = this.courseBands.advance(this.lateralOffset);
+    for (const chunk of this.terrain) chunk.setLateralOffset(this.lateralOffset);
+    for (const groups of this.props)
+      for (const prop of groups) prop.setLateralOffset(this.lateralOffset);
+    for (let slotId = 0; slotId < this.props.length; slotId++) {
+      const groups = this.props[slotId]!;
+      const zSlot = this.chunkManager.slots[slotId]!;
+      for (let bandSlot = 0; bandSlot < groups.length; bandSlot++) {
+        const band = this.courseBands.slots[bandSlot]!;
+        groups[bandSlot]!.setZ(zSlot.z);
+        groups[bandSlot]!.setLateralOffset(this.lateralOffset);
+        if (recycled.some((changed) => changed.slotId === bandSlot))
+          groups[bandSlot]!.populate(
+            courseBandSeed(this.worldSeed, band.bandIndex),
+            zSlot.chunkIndex,
+            band.bandIndex,
+          );
+      }
+    }
+    this.desert?.setLateralOffset(this.lateralOffset);
   }
 
   /** Advance the world past the machine at `speed` metres per second. */
@@ -168,19 +210,36 @@ export class WorldManager {
     // contents regenerated.
     for (const slot of this.chunkManager.slots) {
       this.terrain[slot.slotId]?.setZ(slot.z, slot.chunkIndex * CHUNK_SIZE_Z);
-      this.props[slot.slotId]?.setZ(slot.z);
+      for (const prop of this.props[slot.slotId] ?? []) prop.setZ(slot.z);
+      this.terrain[slot.slotId]?.setLateralOffset(this.lateralOffset);
+      for (const prop of this.props[slot.slotId] ?? []) prop.setLateralOffset(this.lateralOffset);
     }
 
     for (const slot of recycled) {
-      this.props[slot.slotId]?.populate(this.worldSeed, slot.chunkIndex);
+      for (let i = 0; i < (this.props[slot.slotId] ?? []).length; i++) {
+        const band = this.courseBands.slots[i]!;
+        this.props[slot.slotId]![i]!.populate(
+          courseBandSeed(this.worldSeed, band.bandIndex),
+          slot.chunkIndex,
+          band.bandIndex,
+        );
+      }
       this.bus.emit('world:chunk-recycled', { chunkIndex: slot.chunkIndex });
     }
   }
 
   private placeSlot(slotId: number, chunkIndex: number, z: number): void {
     this.terrain[slotId]?.setZ(z, chunkIndex * CHUNK_SIZE_Z);
-    this.props[slotId]?.setZ(z);
-    this.props[slotId]?.populate(this.worldSeed, chunkIndex);
+    for (const prop of this.props[slotId] ?? []) prop.setZ(z);
+    this.terrain[slotId]?.setLateralOffset(this.lateralOffset);
+    for (let i = 0; i < (this.props[slotId] ?? []).length; i++) {
+      const band = this.courseBands.slots[i]!;
+      this.props[slotId]![i]!.populate(
+        courseBandSeed(this.worldSeed, band.bandIndex),
+        chunkIndex,
+        band.bandIndex,
+      );
+    }
   }
 
   /**
@@ -204,7 +263,9 @@ export class WorldManager {
       // is untouched — nudging that too would slide the dune field itself and
       // undo the whole point of keeping the two apart.
       this.terrain[slot.slotId]?.setZ(slot.z + offset, slot.chunkIndex * CHUNK_SIZE_Z);
-      this.props[slot.slotId]?.setZ(slot.z + offset);
+      for (const prop of this.props[slot.slotId] ?? []) prop.setZ(slot.z + offset);
+      this.terrain[slot.slotId]?.setLateralOffset(this.lateralOffset);
+      for (const prop of this.props[slot.slotId] ?? []) prop.setLateralOffset(this.lateralOffset);
     }
   }
 
@@ -232,16 +293,23 @@ export class WorldManager {
       this.desert = null;
     }
     for (const slot of this.chunkManager.slots) {
-      const prop = this.props[slot.slotId];
-      if (!prop) continue;
-      prop.attachModels(models);
-      prop.populate(this.worldSeed, slot.chunkIndex);
+      for (let i = 0; i < (this.props[slot.slotId] ?? []).length; i++) {
+        const band = this.courseBands.slots[i]!;
+        const prop = this.props[slot.slotId]![i]!;
+        prop.attachModels(models);
+        prop.populate(
+          courseBandSeed(this.worldSeed, band.bandIndex),
+          slot.chunkIndex,
+          band.bandIndex,
+        );
+      }
     }
     this.propModels?.dispose();
     this.propModels = models;
     if (models.desert) {
       this.desert = new DesertScenery(models.desert, this.chunkManager.slots.length);
       this.desert.setDistance(this.distance, this.renderOffset);
+      this.desert.setLateralOffset(this.lateralOffset);
       this.desert.syncSlots(this.chunkManager.slots, this.worldSeed, this.quality.propsPerChunk);
       this.scene.add(this.desert.group);
     }
@@ -277,6 +345,7 @@ export class WorldManager {
         old.dispose();
         const next = new TerrainChunk(quality, nextGeometry, this.worldSeed);
         next.setZ(slot.z + this.renderOffset, slot.chunkIndex * CHUNK_SIZE_Z);
+        next.setLateralOffset(this.lateralOffset);
         next.setSunDirection(this.sunDirection);
         if (this.sand) next.applySand(this.sand);
         this.scene.add(next.mesh);
@@ -289,8 +358,19 @@ export class WorldManager {
     if (propsChanged) {
       this.desert?.syncSlots(this.chunkManager.slots, this.worldSeed, quality.propsPerChunk, true);
       for (const slot of this.chunkManager.slots) {
-        this.props[slot.slotId]?.applyQuality(quality, this.worldSeed, slot.chunkIndex);
-        this.props[slot.slotId]?.setZ(slot.z + this.renderOffset);
+        for (const prop of this.props[slot.slotId] ?? []) {
+          prop.applyQuality(quality, this.worldSeed, slot.chunkIndex);
+          prop.setZ(slot.z + this.renderOffset);
+          prop.setLateralOffset(this.lateralOffset);
+        }
+        for (let i = 0; i < (this.props[slot.slotId] ?? []).length; i++) {
+          const band = this.courseBands.slots[i]!;
+          this.props[slot.slotId]![i]!.populate(
+            courseBandSeed(this.worldSeed, band.bandIndex),
+            slot.chunkIndex,
+            band.bandIndex,
+          );
+        }
       }
     }
   }
@@ -305,10 +385,11 @@ export class WorldManager {
       this.scene.remove(chunk.mesh);
       chunk.dispose();
     }
-    for (const prop of this.props) {
-      this.scene.remove(prop.group);
-      prop.dispose();
-    }
+    for (const groups of this.props)
+      for (const prop of groups) {
+        this.scene.remove(prop.group);
+        prop.dispose();
+      }
     this.geometry.dispose();
     this.propGeometries.dispose();
     this.propModels?.dispose();

@@ -367,11 +367,16 @@ export class HUD {
     if (text) this.write('warning', node, text);
   }
 
-  setStoryState(state: { phase: string; objective: string; remainingM?: number | null }): void {
+  setStoryState(state: {
+    phase: string;
+    objective: string;
+    remainingM?: number | null;
+    title?: string;
+  }): void {
     this.write(
       'story-phase',
       this.el['hud-story-phase'],
-      STORY_PHASE_LABELS[state.phase] ?? state.phase,
+      state.title ?? STORY_PHASE_LABELS[state.phase] ?? state.phase,
     );
     const remaining =
       state.remainingM === null || state.remainingM === undefined

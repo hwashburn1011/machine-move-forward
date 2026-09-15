@@ -30,3 +30,10 @@ __pycache__/
 /assets/desert-ruins/source/*.log
 /assets/animation-polish/exports/
 /assets/animation-polish/optimized/*.glb
+/assets/quiet-array/exports/
+/assets/quiet-array/QuietArrayReview.blend
+/assets/quiet-array/unreal/Content/
+/assets/quiet-array/unreal/DerivedDataCache/
+/assets/quiet-array/unreal/Intermediate/
+/assets/quiet-array/unreal/Saved/
+/assets/quiet-array/unreal/Config/

@@ -33,6 +33,14 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - Volume-based camera collision, smooth close-player fading, shoulder swap and remappable controls make cramped decks easier to navigate.
 - A compact maintenance view combines fuel, emergency crawl, power shortages and service-deck repair needs.
 
+## Current campaign iteration
+
+The radio progression now continues from Wreck One through Relay Foundry into the optional Quiet Array expedition. Quiet Array asks for two calibration journals before its course actuator can be recovered, while the ANNIKA archive shard is independent. The powered Helm limits actuator steering to ±12 degrees and throttle to 35–100%; route positioning uses the actual global X coordinate across three world bands.
+
+The route also supports three optional physical contacts: water caches, salvage wrecks and memorials. Exact partial rewards persist through saves, and unclaimed supplies remain available until explicit departure. Approach guidance can be cancelled, expedition commitment requires power and a safe attack-free state, and raids pause while docked. S-07 is presented as a benevolent AI preserving human records, while humanity’s fate remains uncertain.
+
+Glass Orchard and Last Garden remain planned. The full campaign is not complete. See the [campaign progression notes](docs/campaign/README.md) for current scope and evidence.
+
 ## Run the game
 
 ```bash

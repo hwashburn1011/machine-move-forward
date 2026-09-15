@@ -35,6 +35,7 @@ export class TerrainChunk {
     const rippleOrientation = (hashSeed(worldSeed, 'terrain-ripple') % 100000) / 100000;
     this.uniforms = {
       uChunkOffset: { value: 0 },
+      uLateralOffset: { value: 0 },
       // The chunk's permanent world origin, as distinct from where it is
       // currently drawn. The dune field is a function of this one.
       uChunkWorldZ: { value: 0 },
@@ -130,6 +131,10 @@ export class TerrainChunk {
     this.mesh.position.z = renderZ;
     this.uniforms.uChunkOffset!.value = renderZ;
     this.uniforms.uChunkWorldZ!.value = worldZ;
+  }
+
+  setLateralOffset(offset: number): void {
+    this.uniforms.uLateralOffset!.value = Number.isFinite(offset) ? offset : 0;
   }
 
   /**

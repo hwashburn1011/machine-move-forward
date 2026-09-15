@@ -71,6 +71,10 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
     'salvaged-radio',
     'expedition-wreck',
     'relay-foundry',
+    'quiet-array',
+    'route-water-cache',
+    'route-salvage-wreck',
+    'route-memorial',
     'navigation-helm',
     'player',
   ];
@@ -86,6 +90,37 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
       models.set(id, model);
     }),
   );
+  // These four original assets deliberately share one material palette. Keep
+  // one GPU texture set instead of uploading the same maps four times.
+  const arrayPalette = new Map<string, THREE.Material>();
+  const redundantMaterials = new Set<THREE.Material>();
+  const retainedTextures = new Set<THREE.Texture>();
+  const redundantTextures = new Set<THREE.Texture>();
+  for (const id of ['quiet-array', 'route-water-cache', 'route-salvage-wreck', 'route-memorial']) {
+    models.get(id)?.scene.traverse((object) => {
+      const mesh = object as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const share = (material: THREE.Material): THREE.Material => {
+        if (!material.name.startsWith('Array_')) return material;
+        const shared = arrayPalette.get(material.name);
+        if (shared && shared !== material) {
+          redundantMaterials.add(material);
+          for (const value of Object.values(material))
+            if (value instanceof THREE.Texture) redundantTextures.add(value);
+          return shared;
+        }
+        arrayPalette.set(material.name, material);
+        for (const value of Object.values(material))
+          if (value instanceof THREE.Texture) retainedTextures.add(value);
+        return material;
+      };
+      mesh.material = Array.isArray(mesh.material)
+        ? mesh.material.map(share)
+        : share(mesh.material);
+    });
+  }
+  for (const material of redundantMaterials) material.dispose();
+  for (const texture of redundantTextures) if (!retainedTextures.has(texture)) texture.dispose();
 }
 
 export function authoredEnemyModel(id: string): LoadedModel | null {

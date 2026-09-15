@@ -71,7 +71,8 @@ describe('optional Wreck One trace', () => {
     const view = story.snapshot(0);
     expect(view.chapterComplete).toBe(true);
     expect(story.permitsRadioRaids).toBe(true);
-    expect(view.objective).toContain('chapter complete');
+    expect(view.nextExpedition?.id).toBe('quiet-array');
+    expect(view.objective).toContain('Trace the next transmission');
     const roundTrip = new StoryDirector();
     roundTrip.restore(story.toSave());
     expect(roundTrip.snapshot(0).chapterComplete).toBe(true);

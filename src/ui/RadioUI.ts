@@ -8,9 +8,12 @@ export interface RadioView {
   remainingM: number | null;
   nextSignal: boolean;
   canDepart?: boolean;
+  departLabel?: string;
   traceOffer?: boolean;
   traceReady?: boolean;
   traceDisabledReason?: string;
+  traceLabel?: string;
+  traceDescription?: string;
   chapterComplete?: boolean;
   recoveredSupplies?: string;
 }
@@ -115,9 +118,12 @@ export class RadioUI {
     this.nextSignal.hidden = !v.nextSignal;
     this.researchButton.hidden = !(this.callbacks.openResearch && v.found);
     this.departButton.hidden = !(this.callbacks.depart && v.canDepart);
+    this.departButton.textContent = v.departLabel ?? 'Depart';
     this.traceButton.hidden = !(this.callbacks.beginTrace && v.traceOffer);
     this.traceButton.disabled = !!v.traceDisabledReason || v.traceReady === false;
-    this.traceButton.title = v.traceDisabledReason ?? 'Begin the optional Wreck One trace';
+    this.traceButton.textContent = v.traceLabel ?? 'Trace Wreck One';
+    this.traceButton.title =
+      v.traceDisabledReason ?? v.traceDescription ?? 'Begin the optional Wreck One trace';
     const recovered = this.content.querySelector('[data-radio-recovered]') as HTMLDivElement;
     const collect = this.content.querySelector('[data-radio-collect]') as HTMLButtonElement;
     const hasRecovered = !!v.recoveredSupplies;
@@ -126,10 +132,10 @@ export class RadioUI {
     collect.hidden = !(hasRecovered && this.callbacks.collectRecovered);
     const trace = this.content.querySelector('[data-radio-trace]') as HTMLElement;
     trace.hidden = !v.traceOffer && !v.chapterComplete;
-    trace.textContent = v.chapterComplete
-      ? 'First chapter complete — automate, fortify and survive.'
-      : v.traceOffer
-        ? `Optional trace: recover a Course Gyro to bring the Navigation Helm online.${v.traceDisabledReason ? ` ${v.traceDisabledReason}` : ''}`
+    trace.textContent = v.traceOffer
+      ? `${v.traceDescription ?? 'Optional trace: recover a Course Gyro to bring the Navigation Helm online.'}${v.traceDisabledReason ? ` ${v.traceDisabledReason}` : ''}`
+      : v.chapterComplete
+        ? 'First chapter complete — automate, fortify and survive.'
         : '';
   }
 

@@ -75,6 +75,7 @@ export class TrackMarks {
   private readonly position = new THREE.Vector3();
   private cursor = 0;
   private distance = 0;
+  private lateral = 0;
 
   constructor(scene: THREE.Scene) {
     // The size of the foot that made it, near enough. A tread mark was long
@@ -135,7 +136,15 @@ export class TrackMarks {
    * two are reconciled here rather than letting a print sample the height of
    * ground it is no longer over.
    */
-  update(distance: number): void {
+  update(distance: number, lateralM = 0): void {
+    lateralM = Number.isFinite(lateralM) ? lateralM : 0;
+    const lateralDelta = lateralM - this.lateral;
+    if (Math.abs(lateralDelta) > RETIRE_ASTERN) {
+      for (const mark of this.marks) mark.live = false;
+    } else if (lateralDelta !== 0) {
+      for (const mark of this.marks) if (mark.live) mark.x -= lateralDelta;
+    }
+    this.lateral = lateralM;
     const travelled = distance - this.distance;
     this.distance = distance;
 
@@ -180,6 +189,11 @@ export class TrackMarks {
     mark.yaw = (((this.cursor * 53) % 17) - 8) * 0.004;
   }
 
+  /** Flush a newly pressed mark after the caller has supplied current offsets. */
+  refresh(): void {
+    this.writeMatrices();
+  }
+
   private writeMatrices(): void {
     for (let i = 0; i < this.marks.length; i++) {
       const mark = this.marks[i] as Mark;
@@ -191,7 +205,8 @@ export class TrackMarks {
           // pressed. `- WORLD_Z_PER_METRE * distance` is the inverse of the
           // scroll above, and derived from the same constant so the two cannot
           // disagree about which way the world went.
-          duneHeightAt(mark.x, mark.z - WORLD_Z_PER_METRE * this.distance) + SAND_LIFT,
+          duneHeightAt(mark.x + this.lateral, mark.z - WORLD_Z_PER_METRE * this.distance) +
+            SAND_LIFT,
           mark.z,
         );
         this.euler.set(0, mark.yaw, 0);

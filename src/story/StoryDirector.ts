@@ -1,6 +1,7 @@
 import {
   RELAY_FOUNDRY,
   WRECK_ONE,
+  QUIET_ARRAY,
   storyExpedition,
   type ExpeditionDefinition,
   type ExpeditionId,
@@ -84,6 +85,8 @@ export interface StorySnapshot {
   radioTraceOffer: boolean;
   radioTraceReady: boolean;
   chapterComplete: boolean;
+  completedExpeditions: readonly ExpeditionId[];
+  nextExpedition: { id: ExpeditionId; title: string; summary: string } | null;
 }
 export type WreckStartRefusal =
   | 'not-offered'
@@ -150,6 +153,35 @@ export class StoryDirector {
   // raids while an expedition is malformed or still in progress.
   get permitsRadioRaids(): boolean {
     return this.phase === 'raids' || (this.phase === 'complete' && this.chapterComplete);
+  }
+  get completedExpeditions(): readonly ExpeditionId[] {
+    return [...this.completed];
+  }
+  beginNextExpedition(context: WreckStartContext): WreckStartResult {
+    if (
+      this.phase !== 'complete' ||
+      !this.completed.has('relay-foundry') ||
+      this.completed.has('quiet-array')
+    )
+      return { ok: false, reason: 'already-active' };
+    if (context.encounterActive) return { ok: false, reason: 'encounter-active' };
+    if (!context.playerOnMachine) return { ok: false, reason: 'off-machine' };
+    if (!context.stable) return { ok: false, reason: 'unstable' };
+    if (!Number.isFinite(context.currentDistance)) return { ok: false, reason: 'invalid-distance' };
+    this.expedition = QUIET_ARRAY;
+    this.routeId = null;
+    this.arrivalDistance = context.currentDistance + 950;
+    this.phase = 'approach';
+    this.scripted = 'not-due';
+    this.sanctuaryRequested = false;
+    this.journals.clear();
+    return {
+      ok: true,
+      effects: [
+        { type: 'begin-approach', arrivalDistance: this.arrivalDistance },
+        { type: 'request-sanctuary', active: true },
+      ],
+    };
   }
   recordRadioRaidVictory(count = 1): boolean {
     if (
@@ -268,11 +300,9 @@ export class StoryDirector {
       this.completed.add(this.expedition.id);
       this.phase = this.expedition.id === 'wreck-one' ? 'route-selection' : 'complete';
       if (this.expedition.id === 'relay-foundry') this.chapterComplete = true;
-      effects.push(
-        { type: 'expedition-complete', expeditionId: this.expedition.id },
-        { type: 'chapter-complete' },
-        { type: 'next-signal' },
-      );
+      effects.push({ type: 'expedition-complete', expeditionId: this.expedition.id });
+      if (this.expedition.id === 'relay-foundry') effects.push({ type: 'chapter-complete' });
+      effects.push({ type: 'next-signal' });
     }
     return effects;
   }
@@ -348,8 +378,23 @@ export class StoryDirector {
       this.uniques.has(id)
     )
       return false;
+    if (
+      id === 'course-actuator' &&
+      this.expedition.requiredJournals?.some((journal) => !this.journals.has(journal))
+    )
+      return false;
     this.uniques.add(id);
     return true;
+  }
+  unmetRequirement(id: StoryUniqueId): string | null {
+    if (this.phase !== 'docked' || !this.expedition.requiredUniques.includes(id)) return null;
+    const journal =
+      id === 'course-actuator'
+        ? this.expedition.requiredJournals?.find((entry) => !this.journals.has(entry))
+        : undefined;
+    return journal
+      ? `Read ${this.expedition.journals.find((item) => item.id === journal)?.title ?? journal} first.`
+      : null;
   }
   resolveScriptedEncounter(): StoryEffect[] {
     if (this.scripted !== 'queued') return [];
@@ -428,6 +473,13 @@ export class StoryDirector {
       radioTraceOffer: this.radioTraceEligible && this.phase === 'raids',
       radioTraceReady: this.radioTraceEligible && this.phase === 'raids',
       chapterComplete: this.chapterComplete,
+      completedExpeditions: [...this.completed],
+      nextExpedition:
+        this.phase === 'complete' &&
+        this.completed.has('relay-foundry') &&
+        !this.completed.has('quiet-array')
+          ? { id: 'quiet-array', title: QUIET_ARRAY.title, summary: QUIET_ARRAY.objective }
+          : null,
     };
   }
   private objective(): string {
@@ -450,7 +502,10 @@ export class StoryDirector {
         ? 'Return to the machine and depart.'
         : this.expedition.objective;
     if (this.phase === 'departing') return 'Clear the expedition and resume the route.';
-    if (this.phase === 'complete') return 'First chapter complete. Radio raids continue.';
+    if (this.phase === 'complete')
+      return this.completed.has('quiet-array')
+        ? 'Course control online. Plot nearby discoveries at the helm, preserve records, and keep the Nomad supplied.'
+        : 'Relay Foundry complete. Trace the next transmission at the radio when ready.';
     return 'A faint signal waits somewhere beyond the route.';
   }
 
@@ -519,11 +574,33 @@ export class StoryDirector {
       for (const item of Array.isArray(raw.completed) ? raw.completed : [])
         if (storyExpedition(String(item))) this.completed.add(item as ExpeditionId);
       for (const item of Array.isArray(raw.recoveredUniques) ? raw.recoveredUniques : [])
-        if (['course-gyro', 'salvage-controller', 'tracking-servo'].includes(String(item)))
+        if (
+          [
+            'course-gyro',
+            'salvage-controller',
+            'tracking-servo',
+            'course-actuator',
+            'annika-archive-shard',
+          ].includes(String(item))
+        )
           this.uniques.add(item as StoryUniqueId);
       if (this.completed.has('wreck-one')) this.uniques.add('course-gyro');
-      const active = raw.active as Record<string, unknown> | null;
       if (this.completed.has('relay-foundry')) {
+        this.completed.add('wreck-one');
+        this.uniques.add('course-gyro');
+        this.uniques.add('salvage-controller');
+        this.uniques.add('tracking-servo');
+      }
+      if (this.completed.has('quiet-array')) {
+        this.uniques.add('course-actuator');
+        this.uniques.add('annika-archive-shard');
+      }
+      const active = raw.active as Record<string, unknown> | null;
+      if (this.completed.has('relay-foundry')) this.chapterComplete = true;
+      if (
+        this.completed.has('relay-foundry') &&
+        (!active || active.expeditionId !== 'quiet-array')
+      ) {
         this.completed.add('wreck-one');
         this.uniques.add('course-gyro');
         this.chapterComplete = true;
@@ -555,15 +632,15 @@ export class StoryDirector {
             ? ['signal', 'crossfire', 'raids'].includes(phase)
               ? arrival === null
               : arrival !== null
-            : expedition.id === 'relay-foundry' &&
+            : expedition.id !== 'wreck-one' &&
               ['approach', 'braking', 'docked', 'departing'].includes(phase) &&
               arrival !== null;
         const routeValid =
-          expedition.id === 'wreck-one'
+          expedition.id === 'wreck-one' || expedition.id === 'quiet-array'
             ? active.routeId === null || active.routeId === undefined
             : route?.destinationId === 'relay-foundry';
         if (this.completed.has(expedition.id)) {
-          this.phase = expedition.id === 'relay-foundry' ? 'complete' : 'route-selection';
+          this.phase = expedition.id === 'wreck-one' ? 'route-selection' : 'complete';
           return;
         }
         if (!phaseValid || !routeValid || (expedition.id === 'relay-foundry' && !route)) {

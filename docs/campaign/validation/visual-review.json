@@ -1,0 +1,140 @@
+{
+  "generatedAt": "2026-09-15T03:06:34.162Z",
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "Player capsule physically crosses the Quiet Array gangway",
+      "ok": true,
+      "detail": {
+        "before": {
+          "x": 5.4,
+          "y": 15.96,
+          "z": 0
+        },
+        "position": {
+          "x": 16.38587384658292,
+          "y": 15.810510638460492,
+          "z": -0.0023355448998447215
+        },
+        "inside": true,
+        "onGangway": false,
+        "docked": true,
+        "colliderCount": 38
+      }
+    },
+    {
+      "name": "water-cache authored site is docked and interactive",
+      "ok": true,
+      "detail": {
+        "kind": "water-cache",
+        "root": {
+          "x": 14,
+          "y": 14.83,
+          "z": 0
+        },
+        "children": 1,
+        "floor": {
+          "x": 6,
+          "y": 0.12,
+          "z": 5
+        },
+        "interactables": [
+          "opportunity-reward",
+          "opportunity-departure"
+        ]
+      }
+    },
+    {
+      "name": "salvage-wreck authored site is docked and interactive",
+      "ok": true,
+      "detail": {
+        "kind": "salvage-wreck",
+        "root": {
+          "x": 14,
+          "y": 14.83,
+          "z": 0
+        },
+        "children": 1,
+        "floor": {
+          "x": 6,
+          "y": 0.12,
+          "z": 5
+        },
+        "interactables": [
+          "opportunity-reward",
+          "opportunity-departure"
+        ]
+      }
+    },
+    {
+      "name": "memorial authored site is docked and interactive",
+      "ok": true,
+      "detail": {
+        "kind": "memorial",
+        "root": {
+          "x": 14,
+          "y": 14.83,
+          "z": 0
+        },
+        "children": 1,
+        "floor": {
+          "x": 6,
+          "y": 0.12,
+          "z": 5
+        },
+        "interactables": [
+          "opportunity-reward",
+          "opportunity-departure"
+        ]
+      }
+    },
+    {
+      "name": "Powered unlocked Helm displays a live chart contact",
+      "ok": true,
+      "detail": {
+        "tier": "1",
+        "locked": "false",
+        "contact": "Burned service tenderA maintenance platform with usable metal under its scorched shell.available · -7.8° · 450 m · fuel 6 units · hazard Custodian patrol riskThis opportunity can be missed if the course window closes.Plot approach",
+        "status": "Course actuator online.",
+        "bearingDisabled": false
+      }
+    },
+    {
+      "name": "20-second medium 1080p render sample completed",
+      "ok": true,
+      "detail": {
+        "durationMs": 20008.399999976158,
+        "frames": 1201,
+        "fps": 60.024789588444406,
+        "renderWorkMs": {
+          "median": 7.400000035762787,
+          "p95": 12.299999952316284,
+          "over33": 0
+        },
+        "frameIntervalMs": {
+          "median": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "over33": 0
+        },
+        "renderer": {
+          "geometries": 490,
+          "textures": 506,
+          "programs": 163,
+          "calls": 822,
+          "triangles": 2209168
+        },
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36"
+      }
+    }
+  ],
+  "errors": [],
+  "captures": [
+    "test-results/campaign/visual-review/quiet-array-overview.png",
+    "test-results/campaign/visual-review/site-water-cache.png",
+    "test-results/campaign/visual-review/site-salvage-wreck.png",
+    "test-results/campaign/visual-review/site-memorial.png",
+    "test-results/campaign/visual-review/helm-unlocked-contact.png"
+  ],
+  "passed": 6,
+  "total": 6
+}

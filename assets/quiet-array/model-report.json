@@ -1,0 +1,38 @@
+{
+  "source": "Original Blender geometry with original Iron Nomad PBR textures",
+  "objects": 30,
+  "meshes": 22,
+  "triangles": 140654,
+  "anchors": {
+    "Gangway": [
+      -9.5,
+      0.0,
+      -0.08
+    ],
+    "CourseActuator": [
+      3.0,
+      -6.0,
+      1.0
+    ],
+    "AnnikaArchive": [
+      -3.0,
+      6.0,
+      1.2
+    ],
+    "JournalPort": [
+      -5.0,
+      3.0,
+      1.2
+    ],
+    "JournalStarboard": [
+      6.0,
+      0.0,
+      1.2
+    ],
+    "JournalArchive": [
+      0.0,
+      -3.0,
+      1.3
+    ]
+  }
+}

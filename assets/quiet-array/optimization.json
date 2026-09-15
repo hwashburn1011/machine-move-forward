@@ -1,0 +1,30 @@
+[
+  {
+    "name": "quiet-array",
+    "sourceBytes": 19788604,
+    "optimizedBytes": 13152968,
+    "textureBytes": 7895810,
+    "repairedTangents": 10
+  },
+  {
+    "name": "route-water-cache",
+    "sourceBytes": 15852864,
+    "optimizedBytes": 9217232,
+    "textureBytes": 7895810,
+    "repairedTangents": 0
+  },
+  {
+    "name": "route-salvage-wreck",
+    "sourceBytes": 15783836,
+    "optimizedBytes": 9148212,
+    "textureBytes": 7895810,
+    "repairedTangents": 0
+  },
+  {
+    "name": "route-memorial",
+    "sourceBytes": 16015832,
+    "optimizedBytes": 9380204,
+    "textureBytes": 7895810,
+    "repairedTangents": 0
+  }
+]

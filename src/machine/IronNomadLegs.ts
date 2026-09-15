@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import type { Materials } from '@/art/Materials';
-import { LEGS, FOOT_SPLAY } from '@/data/gait';
-import { footAt, planted } from './Gait';
+import { DUTY, FOOT_SPLAY, LEGS, STRIDE_LENGTH } from '@/data/gait';
+import { footAt, isPlanted, legCycle, planted } from './Gait';
+import { duneHeightAt } from '@/world/DuneField';
+import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 
 const SOURCE_NAMES = ['FrontRight', 'FrontLeft', 'RearRight', 'RearLeft'];
 const DEFINITIONS = LEGS.map((l) => ({
@@ -58,6 +60,13 @@ export class IronNomadLegs {
   private readonly fallback: THREE.Mesh[] = [];
   private readonly plants: number[] = [];
   private distance = 0;
+  private lateralM = 0;
+  private progressionDistance = 0;
+  private progressionLateralM = 0;
+  private progressionInitialized = false;
+  private readonly plantWorldX = DEFINITIONS.map(() => 0);
+  private readonly swingStartOffsets = DEFINITIONS.map(() => 0);
+  private readonly stanceState = DEFINITIONS.map(() => false);
   constructor(materials: Materials) {
     this.object3D.name = 'NomadLegFallback';
     for (let i = 0; i < 8; i++) {
@@ -82,14 +91,56 @@ export class IronNomadLegs {
     this.object3D.visible = !this.root;
     this.setDistance(this.distance);
   }
-  setDistance(distance: number): readonly number[] {
+  setDistance(distance: number, lateralM = this.lateralM): readonly number[] {
+    if (!Number.isFinite(distance) || !Number.isFinite(lateralM)) return this.plants;
+    const deltaLateral = lateralM - this.progressionLateralM;
+    const deltaDistance = distance - this.progressionDistance;
+    const largeReset = Math.abs(deltaDistance) > 32 || Math.abs(deltaLateral) > 32;
+    const advancing = !this.progressionInitialized || deltaDistance > 1e-9 || largeReset;
     this.plants.length = 0;
     this.root?.updateWorldMatrix(true, false);
     for (let i = 0; i < DEFINITIONS.length; i++) {
       const leg = DEFINITIONS[i]!;
       const p = footAt(distance, leg);
-      const target = this.feet[i]!.set(p.x + leg.side * (2.1375 - FOOT_SPLAY), p.y + 0.04, p.z);
-      if (planted(this.distance, distance, leg)) this.plants.push(i);
+      const stance = isPlanted(distance, leg);
+      const baseX = p.x + leg.side * (2.1375 - FOOT_SPLAY);
+      if (advancing && planted(this.progressionDistance, distance, leg)) this.plants.push(i);
+      let renderX: number;
+      if (stance) {
+        if (advancing && (largeReset || !this.stanceState[i])) {
+          const touchdownLateral = largeReset
+            ? lateralM
+            : lateralAtBoundary(
+                this.progressionDistance,
+                distance,
+                this.progressionLateralM,
+                lateralM,
+                touchdownDistance(distance, leg.phase),
+              );
+          this.plantWorldX[i] = baseX + touchdownLateral;
+        }
+        renderX = this.plantWorldX[i]! - lateralM;
+      } else {
+        if (advancing && largeReset) this.swingStartOffsets[i] = 0;
+        else if (advancing && this.stanceState[i]) {
+          const liftLateral = lateralAtBoundary(
+            this.progressionDistance,
+            distance,
+            this.progressionLateralM,
+            lateralM,
+            liftDistance(distance, leg.phase),
+          );
+          this.swingStartOffsets[i] = this.plantWorldX[i]! - liftLateral - baseX;
+        }
+        const swing = THREE.MathUtils.clamp((legCycle(distance, leg) - DUTY) / (1 - DUTY), 0, 1);
+        const eased = swing * swing * (3 - 2 * swing);
+        renderX = baseX + this.swingStartOffsets[i]! * (1 - eased);
+      }
+      if (advancing) this.stanceState[i] = stance;
+      const renderZ = p.z - WORLD_Z_PER_METRE * distance;
+      const heightDifference =
+        duneHeightAt(renderX + lateralM, renderZ) - duneHeightAt(renderX, renderZ);
+      const target = this.feet[i]!.set(renderX, p.y + 0.04 + heightDifference, p.z);
       const sx = -leg.side,
         sy = leg.end;
       const h = new THREE.Vector3(sx * 6.5, sy * 6, 9.6);
@@ -133,6 +184,12 @@ export class IronNomadLegs {
     const rotor = this.rotor;
     if (rotor) rotor.rotation.y = distance * 0.8;
     this.distance = distance;
+    this.lateralM = lateralM;
+    if (advancing) {
+      this.progressionDistance = distance;
+      this.progressionLateralM = lateralM;
+      this.progressionInitialized = true;
+    }
     return this.plants;
   }
   footPosition(index: number, out: THREE.Vector3): THREE.Vector3 {
@@ -144,4 +201,28 @@ export class IronNomadLegs {
     this.rotor = null;
     this.joints.length = 0;
   }
+}
+
+function touchdownDistance(distance: number, phase: number): number {
+  const cycle = Math.floor(distance / STRIDE_LENGTH + phase);
+  return (cycle - phase) * STRIDE_LENGTH;
+}
+
+function liftDistance(distance: number, phase: number): number {
+  const cycle = Math.floor(distance / STRIDE_LENGTH + phase);
+  return (cycle + DUTY - phase) * STRIDE_LENGTH;
+}
+
+function lateralAtBoundary(
+  previousDistance: number,
+  distance: number,
+  previousLateral: number,
+  lateral: number,
+  boundaryDistance: number,
+): number {
+  const span = distance - previousDistance;
+  if (!(span > 1e-9)) return lateral;
+  if (boundaryDistance <= previousDistance) return previousLateral;
+  const t = THREE.MathUtils.clamp((boundaryDistance - previousDistance) / span, 0, 1);
+  return THREE.MathUtils.lerp(previousLateral, lateral, t);
 }

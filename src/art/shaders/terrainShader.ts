@@ -94,6 +94,7 @@ float duneHeight(vec2 worldXZ) {
 export const TERRAIN_VERTEX_PARS = /* glsl */ `
 uniform float uChunkOffset;
 uniform float uChunkWorldZ;
+uniform float uLateralOffset;
 varying vec3 vTerrainWorld;
 varying vec3 vTerrainRender;
 varying float vTerrainSlope;
@@ -119,7 +120,7 @@ export const TERRAIN_VERTEX_MAIN = /* glsl */ `
   //
   // uChunkWorldZ is the chunk's permanent world origin instead, which does
   // not move, so a dune keeps its shape while the mesh carrying it slides past.
-  vec2 worldXZ = vec2(position.x, position.z + uChunkWorldZ);
+  vec2 worldXZ = vec2(position.x + uLateralOffset, position.z + uChunkWorldZ);
   float h = duneHeight(worldXZ);
   transformed.y += h;
 
