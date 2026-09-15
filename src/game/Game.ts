@@ -5213,7 +5213,10 @@ export class Game implements LoopCallbacks {
         this.enemies.activeCount > 0 || this.vehicleScene.active || this.gunboatScene.active,
     });
     if (!result.ok) return;
-    this.closePanels();
+    // Route choices replace the radio panel and must retain its free cursor.
+    // Reclaiming control here can grant a delayed pointer lock after the
+    // expedition panel has already opened and attempted to release it.
+    this.closePanels(!result.effects.some((effect) => effect.type === 'route-available'));
     this.applyStoryEffects(result.effects);
     this.bus.emit('story:phase', {
       chapterId: this.story.chapter.id,

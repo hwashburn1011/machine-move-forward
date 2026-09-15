@@ -1,5 +1,12 @@
 # Late campaign continuity slices
 
+Current status: REC-LATE and caretaker-route ORCH-LATE are accepted with
+normal-input save lineage and cold-restart evidence. See
+[recovery notes](../../campaign/late-campaign-continuity-notes.md) and
+[Orchard notes](../../campaign/orchard-continuity-notes.md). MER-LATE is in
+progress; the ending remains a separate unaccepted slice. The detailed
+requirements below remain the acceptance contract.
+
 This is a validation and recovery plan for behavior already implemented in the game. It does not
 claim that Glass Orchard, Last Garden Meridian, or Keep Walking have been completed in one normal
 input lineage. The accepted parent is
@@ -20,8 +27,10 @@ This comes first because the checkpoint is playable but has little margin. The f
 units can be deposited by standing at the live generator and pressing `E`; `Game.depositFuel`
 transfers only what fits. The expected tank becomes 11.746 and carried fuel becomes zero. A healthy
 generator burns 0.06 fuel per simulated second. At the base 7.5 m/s an unloaded 900 m route would
-consume about 7.2 fuel, but the Helm's live estimate is authoritative because machine weight,
-damage, upgrades, and throttle alter travel. The emergency drive still crawls at zero fuel, so low
+consume about 7.2 fuel. The current Helm estimate accounts for rated speed
+and burn modifiers but assumes uninterrupted full-speed travel; it excludes
+additional fuel used while encounters hold speed and docking tapers it.
+Carry a reserve and record actual burn. The emergency drive still crawls at zero fuel, so low
 fuel is recoverable rather than a hard failure.
 
 Use normal build/catalog controls to replace the refinery for 80 scrap. One `refine-components`

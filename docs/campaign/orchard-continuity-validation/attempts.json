@@ -1,0 +1,199 @@
+{
+  "scope": "Orchard attempts through 2026-09-15T16:37:16.944Z plus accepted child 16:42:56.295Z",
+  "attempts": [
+    {
+      "run": "run-2026-09-15T16-04-03-293Z",
+      "status": "blocked",
+      "classification": "cursor-production",
+      "message": "locator.click: Timeout 30000ms exceeded.",
+      "runtimeBundle": "http://127.0.0.1:5205/assets/index-BWandoId.js",
+      "seed": "mmf-dev-seed",
+      "phase": "route-selection",
+      "distanceM": 8903.516365702144,
+      "health": 87,
+      "deathsObserved": 0,
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "journals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ],
+      "objectives": [],
+      "skiffResolutionObservedInEventOrAncestor": false,
+      "lineageSource": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-52-49-854Z\\browser-profile",
+      "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+      "deathEvidence": "summary.observedDeaths=[]"
+    },
+    {
+      "run": "run-2026-09-15T16-19-57-597Z",
+      "status": "blocked",
+      "classification": "normal-input-combat",
+      "message": "page.waitForFunction: Timeout 12000ms exceeded.",
+      "runtimeBundle": "http://127.0.0.1:5205/assets/index-tv9aKn5k.js",
+      "seed": "mmf-dev-seed",
+      "phase": "braking",
+      "distanceM": 9440.251409904527,
+      "health": 100,
+      "deathsObserved": null,
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "journals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ],
+      "objectives": [
+        "orchard-port-isolator"
+      ],
+      "skiffResolutionObservedInEventOrAncestor": false,
+      "lineageSource": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-04-03-293Z\\browser-profile",
+      "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+      "deathEvidence": "unavailable: runner did not subscribe to player:died"
+    },
+    {
+      "run": "run-2026-09-15T16-26-02-088Z",
+      "status": "blocked",
+      "classification": "normal-input-combat",
+      "message": "Error: scripted Orchard skiff did not resolve through normal defense",
+      "runtimeBundle": "http://127.0.0.1:5205/assets/index-tv9aKn5k.js",
+      "seed": "mmf-dev-seed",
+      "phase": "braking",
+      "distanceM": 9659.733606863803,
+      "health": 82,
+      "deathsObserved": 8,
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "journals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ],
+      "objectives": [
+        "orchard-port-isolator"
+      ],
+      "skiffResolutionObservedInEventOrAncestor": false,
+      "lineageSource": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-19-57-597Z\\browser-profile",
+      "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+      "deathEvidence": "summary.observedDeaths"
+    },
+    {
+      "run": "run-2026-09-15T16-32-56-333Z",
+      "status": "blocked",
+      "classification": "normal-input-combat",
+      "message": "Error: walk defense-starboard-view timed out",
+      "runtimeBundle": "http://127.0.0.1:5205/assets/index-tv9aKn5k.js",
+      "seed": "mmf-dev-seed",
+      "phase": "braking",
+      "distanceM": 9443.525289031119,
+      "health": 87,
+      "deathsObserved": 0,
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "journals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive"
+      ],
+      "objectives": [
+        "orchard-port-isolator"
+      ],
+      "skiffResolutionObservedInEventOrAncestor": false,
+      "lineageSource": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-26-02-088Z\\browser-profile",
+      "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+      "deathEvidence": "summary.observedDeaths=[]"
+    },
+    {
+      "run": "run-2026-09-15T16-37-16-944Z",
+      "status": "blocked",
+      "classification": "normal-input-interaction",
+      "message": "page.waitForFunction: Timeout 8000ms exceeded.",
+      "runtimeBundle": "http://127.0.0.1:5205/assets/index-tv9aKn5k.js",
+      "seed": "mmf-dev-seed",
+      "phase": "docked",
+      "distanceM": 9633.426700593285,
+      "health": 51,
+      "deathsObserved": 0,
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank"
+      ],
+      "journals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive",
+        "orchard-caretaker-record",
+        "orchard-memory-record"
+      ],
+      "objectives": [
+        "orchard-port-isolator",
+        "orchard-starboard-isolator"
+      ],
+      "skiffResolutionObservedInEventOrAncestor": true,
+      "lineageSource": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-32-56-333Z\\browser-profile",
+      "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+      "deathEvidence": "summary.observedDeaths=[]"
+    },
+    {
+      "run": "run-2026-09-15T16-42-56-295Z",
+      "status": "passed",
+      "classification": "accepted",
+      "message": null,
+      "runtimeBundle": "http://127.0.0.1:5205/assets/index-tv9aKn5k.js",
+      "seed": "mmf-dev-seed",
+      "phase": "complete",
+      "distanceM": 9646.382896587624,
+      "health": 51,
+      "deathsObserved": 0,
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor"
+      ],
+      "journals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive",
+        "orchard-caretaker-record",
+        "orchard-memory-record"
+      ],
+      "objectives": [
+        "orchard-port-isolator",
+        "orchard-starboard-isolator"
+      ],
+      "skiffResolutionObservedInEventOrAncestor": true,
+      "lineageSource": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-orchard\\run-2026-09-15T16-37-16-944Z\\browser-profile",
+      "authority": "full-art normal input; no grants, fixed stepping, encounter suppression, or state writes",
+      "deathEvidence": "summary.observedDeaths=[]"
+    }
+  ]
+}
