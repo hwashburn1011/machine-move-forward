@@ -29,8 +29,8 @@ game normally, or use `/?nomenu=1` to go straight to its upper deck.
 
 | Asset | File size | Triangles |
 |---|---:|---:|
-| `public/models/authored/iron-nomad-playable.glb` | 17,113,900 bytes | 231,580 |
-| `public/models/authored/iron-nomad-collision.glb` | 7,889,440 bytes | 110,148 |
+| `public/models/authored/iron-nomad-playable.glb` | 17,113,316 bytes | 231,580 |
+| `public/models/authored/iron-nomad-collision.glb` | 7,889,632 bytes | 110,148 |
 
 The visual GLB retains the detailed material assemblies, using Meshopt and WebP.
 The collision GLB contains static structural surfaces in game coordinates;
@@ -54,6 +54,13 @@ They are not refunded or silently discarded. Existing compatible saves keep the
 player's saved position.
 
 ## Verification
+
+The September 15 continuity pass corrects a workbench pedestal that had moved
+separately into the middle-deck aisle. The full assembly now relocates together;
+the rebuilt visual and collision GLBs retain the same triangle counts. The
+[continuity delivery](../../campaign/continuity-and-smoothness-delivery.md)
+records the Blender cutaway, physical caretaker crossings and updated GLB/Unreal
+import checks. Figures below describe the original integration acceptance.
 
 The final production build, lint, and **1,068 unit tests across 99 files** pass.
 

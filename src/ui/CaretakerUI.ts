@@ -89,7 +89,7 @@ export class CaretakerUI {
     this.content.append(fact);
     const help = document.createElement('p');
     help.textContent =
-      'Companion follows on the dock’s deck. Steward stores completed output and waters gardens on that deck. Move the dock to redeploy L-12 on another deck.';
+      'Companion follows you between decks using the internal stairs. Steward stores completed output and waters reachable gardens. Keep the stairs and station approaches clear; moving the dock sends L-12 to its new home.';
     this.content.append(help);
     const status = document.createElement('p');
     status.textContent = view.status;

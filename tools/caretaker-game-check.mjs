@@ -207,6 +207,38 @@ try {
       target: run.target,
     },
   );
+  const relocation = await page.evaluate((ids) => {
+    const g = globalThis.__game.game;
+    const dock = g.build.serialise().find((piece) => piece.instanceId === ids.dock);
+    const oldActor = g.caretakerActor;
+    if (!dock || !oldActor) return { ok: false, reason: 'dock or actor unavailable' };
+    const originalCell = { ...dock.cell };
+    let moved = null;
+    for (const cell of (g.machine.deckCells ?? []).filter((entry) => entry.y !== dock.cell.y)) {
+      g.build.place({ piece: 'floor', cell, rotation: 0 }, true);
+      const candidate = { piece: 'caretaker-dock', cell, rotation: dock.rotation };
+      if (!g.build.canRelocate(ids.dock, candidate).ok) continue;
+      moved = g.build.relocate(ids.dock, candidate);
+      if (moved.ok) break;
+    }
+    g.fixedUpdate(1 / 60);
+    const sameActorAfterMove = g.caretakerActor === oldActor;
+    const movedEndpoint = g.build.caretakerEndpoint(ids.dock);
+    if (movedEndpoint)
+      g.player.teleport({
+        x: movedEndpoint.x,
+        y: movedEndpoint.y + 1.05,
+        z: movedEndpoint.z - 0.5,
+      });
+    return {
+      ok: !!moved?.ok && sameActorAfterMove && g.caretakerActor === oldActor,
+      moved: !!moved?.ok,
+      sameActor: sameActorAfterMove && g.caretakerActor === oldActor,
+      bodies: g.physics.bodyCount,
+      actor: !!g.caretakerActor,
+    };
+  }, fixture);
+  check('Cross-deck dock relocation preserves the live caretaker actor', relocation.ok, relocation);
   for (const result of await checkCaretakerInterruptions(page, fixture))
     check(result.name, result.ok, result.detail);
   const transient = await page.evaluate(() => globalThis.__game.game.caretaker.toSave());
@@ -255,24 +287,38 @@ try {
     const slot = 'caretaker-lifecycle-fixture';
     const oldActor = g.caretakerActor;
     const save = g.buildSave();
-    const before = g.build.serialise().sort((a,b) => a.instanceId.localeCompare(b.instanceId));
+    const before = g.build.serialise().sort((a, b) => a.instanceId.localeCompare(b.instanceId));
     await g.saves.save(slot, save);
     g.caretaker.reset();
     const loaded = await g.loadFrom(slot);
-    const after = g.build.serialise().sort((a,b) => a.instanceId.localeCompare(b.instanceId));
+    const after = g.build.serialise().sort((a, b) => a.instanceId.localeCompare(b.instanceId));
     const restored = g.caretaker.snapshot();
     g.state.paused = false;
     g.fixedUpdate(1 / 60);
     await g.saves.delete(slot);
-    return { loaded, recruited: restored.recruited, mode: restored.mode,
-      job: restored.job, preserved: JSON.stringify(before) === JSON.stringify(after),
-      docks: after.filter(p => p.definitionId === 'caretaker-dock').length,
-      oldRemoved: oldActor?.root.parent === null, actor: !!g.caretakerActor };
+    return {
+      loaded,
+      recruited: restored.recruited,
+      mode: restored.mode,
+      job: restored.job,
+      preserved: JSON.stringify(before) === JSON.stringify(after),
+      docks: after.filter((p) => p.definitionId === 'caretaker-dock').length,
+      oldRemoved: oldActor?.root.parent === null,
+      actor: !!g.caretakerActor,
+    };
   });
-  check('real dock and built contents survive Game save/load with one fresh actor',
-    roundTrip.loaded && roundTrip.recruited && roundTrip.mode === 'steward' &&
-    !roundTrip.job && roundTrip.preserved && roundTrip.docks === 1 &&
-    roundTrip.oldRemoved && roundTrip.actor, roundTrip);
+  check(
+    'real dock and built contents survive Game save/load with one fresh actor',
+    roundTrip.loaded &&
+      roundTrip.recruited &&
+      roundTrip.mode === 'steward' &&
+      !roundTrip.job &&
+      roundTrip.preserved &&
+      roundTrip.docks === 1 &&
+      roundTrip.oldRemoved &&
+      roundTrip.actor,
+    roundTrip,
+  );
   await page.evaluate(() => {
     const g = globalThis.__game.game;
     const actor = g.caretakerActor;

@@ -1,7 +1,6 @@
 import { DECK_SURFACE_Y } from './constants';
 import nomadProfile from '@/data/iron-nomad.json';
 import { SignalBattleScene } from '@/story/SignalBattleScene';
-import { levelOf } from '@/enemies/NavGraph';
 import { RadioRaids } from '@/story/RadioRaids';
 import * as THREE from 'three';
 import { Renderer } from '@/core/renderer/Renderer';
@@ -69,6 +68,7 @@ import { PlayerFade } from '@/player/PlayerFade';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { isDamageable, type Damageable } from '@/combat/Damageable';
 import { EnemyManager } from '@/enemies/EnemyManager';
+import type { Enemy } from '@/enemies/Enemy';
 import { RaidMissionSystem } from '@/enemies/RaidMissionSystem';
 import { EnemyTacticsVisual } from '@/enemies/EnemyTacticsVisual';
 import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner';
@@ -450,6 +450,7 @@ export class Game implements LoopCallbacks {
   rooftop: RooftopSet | null = null;
   /** True once the opening is over and the set is receding with the world. */
   private rooftopScrolling = false;
+  private readonly rooftopPursuers = new Set<Enemy>();
   /**
    * The player has their weapons. False for the length of the rooftop chase:
    * the answer up there is run, and a gun in hand says otherwise.
@@ -485,7 +486,7 @@ export class Game implements LoopCallbacks {
   private caretakerPlanAt = 0;
   private caretakerNavVersion = 0;
   private caretakerNavGraph: object | null = null;
-  private caretakerDockLevel: number | null = null;
+  private caretakerDockPosition: THREE.Vector3 | null = null;
   private caretakerRecoveryModel: THREE.Group | null = null;
   private readonly caretakerFallbackGeometry = new THREE.BoxGeometry(0.65, 0.6, 0.7);
   private readonly caretakerClearance = new THREE.Vector3();
@@ -3988,7 +3989,11 @@ export class Game implements LoopCallbacks {
     // dropped on an unattended machine would be waiting on it at the landing.
     this.enemySpawnsEnabled = false;
     this.enemies.despawnAll();
-    for (const at of set.enemySpawns) this.enemies.spawn('scavenger', at);
+    this.rooftopPursuers.clear();
+    for (const at of set.enemySpawns) {
+      const pursuer = this.enemies.spawn('scavenger', at);
+      if (pursuer) this.rooftopPursuers.add(pursuer);
+    }
 
     this.setHudVisible(true);
   }
@@ -4000,6 +4005,11 @@ export class Game implements LoopCallbacks {
    * its colliders are about to start moving out from under them.
    */
   private releaseRooftop(): void {
+    // These actors belong to the receding rooftop chase. Without retirement
+    // they can fall onto a lower deck and keep an unreachable attack alive.
+    // Despawn is not a kill: the escape awards no loot or combat progression.
+    for (const pursuer of this.rooftopPursuers) if (pursuer.isActive) pursuer.despawn();
+    this.rooftopPursuers.clear();
     if (!isDeckLanding(this.player.worldPosition)) {
       this.player.teleport(this.machine.deckSpawn);
     }
@@ -4752,7 +4762,7 @@ export class Game implements LoopCallbacks {
     this.caretakerActor?.dispose();
     this.caretakerActor = null;
     this.caretakerNavigation = null;
-    this.caretakerDockLevel = null;
+    this.caretakerDockPosition = null;
     this.caretakerPlanAt = 0;
     this.caretakerJobAnchor = null;
   }
@@ -4766,15 +4776,24 @@ export class Game implements LoopCallbacks {
       this.clearCaretakerActor();
       return;
     }
-    const dockLevel = levelOf(dock.position.y);
-    if (this.caretakerDockLevel !== null && this.caretakerDockLevel !== dockLevel)
-      this.clearCaretakerActor();
+    if (
+      this.caretakerDockPosition &&
+      this.caretakerDockPosition.distanceToSquared(dock.position) > 0.0025
+    ) {
+      // A moved dock invalidates the current service trip. L-12 stays where it
+      // physically is and finds its new home through the machine's stairways.
+      this.caretaker.cancel();
+      this.caretakerJobAnchor = null;
+      this.caretakerPlanAt = this.state.simTime + 1;
+    }
+    (this.caretakerDockPosition ??= new THREE.Vector3()).copy(dock.position);
     this.caretakerNavigation ??= new CaretakerNavigation(this.machine, this.build, (feet) => {
       this.caretakerClearance.copy(feet).y += 0.7;
       return !this.physics.overlapsSphere(
         this.caretakerClearance,
         0.32,
         this.caretakerActor?.collider,
+        true,
       );
     });
     const nav = this.caretakerNavigation;
@@ -4823,7 +4842,6 @@ export class Game implements LoopCallbacks {
       );
       this.renderer.scene.add(this.caretakerActor.root);
       this.caretakerActor.spawn(home);
-      this.caretakerDockLevel = dockLevel;
     }
     const actor = this.caretakerActor;
     const endpoint = (id: string): THREE.Vector3 | null => {

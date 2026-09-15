@@ -388,14 +388,20 @@ export class PhysicsWorld {
     return { distance: Math.max(0, hit.time_of_impact), collider: hit.collider };
   }
 
-  overlapsSphere(position: THREE.Vector3, radius: number, exclude?: RAPIER.Collider): boolean {
+  overlapsSphere(
+    position: THREE.Vector3,
+    radius: number,
+    exclude?: RAPIER.Collider,
+    excludeKinematic = false,
+  ): boolean {
     this.cameraBall.radius = radius;
     return (
       this.world.intersectionWithShape(
         position,
         this.queryRotation,
         this.cameraBall,
-        RAPIER.QueryFilterFlags.EXCLUDE_SENSORS,
+        RAPIER.QueryFilterFlags.EXCLUDE_SENSORS |
+          (excludeKinematic ? RAPIER.QueryFilterFlags.EXCLUDE_KINEMATIC : 0),
         undefined,
         exclude,
       ) !== null

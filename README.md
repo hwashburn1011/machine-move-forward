@@ -128,7 +128,7 @@ New campaigns offer **Story** (the existing infinite reserve ammunition) or **Su
 
 After Relay Foundry, open a **workbench → Weapon attachments**. Research a rifle stabilizer or three-round burst cam, or a shotgun choke or scatter brake. Each costs 12 scrap and 8 components once; swapping or removing researched attachments is free. Fieldwork tools draw 1 power while open. Attachments trade handling, range, reload time or firing cadence without changing base damage, and coexist with the extended magazine.
 
-Repair depots offer **Restore L-12** for 6 components until you recover the maintenance unit. Build its **charging dock** from the Automation category (40 scrap, 8 components, 3 power). L-12 follows you or tends built storage, completed producer outputs and seed gardens **on the dock's deck**. It waits when you change decks; moving the dock redeploys it on the new deck. It carries no inventory: each one-unit transfer commits only after it reaches both live endpoints. Attacks, power loss, blocked routes and open panels stop its work safely.
+Repair depots offer **Restore L-12** for 6 components until you recover the maintenance unit. Build its **charging dock** from the Automation category (40 scrap, 8 components, 3 power). L-12 follows you between decks through the Nomad's internal stairs or tends reachable storage, completed producer outputs and seed gardens. Keep stair landings and station approaches clear. Moving the dock cancels the current delivery and gives L-12 a new home to walk to. It carries no inventory: each one-unit transfer commits only after it reaches both live endpoints. Attacks, power loss, blocked routes and open panels stop its work safely.
 
 [Fieldwork update, artwork and validation](docs/campaign/fieldwork-delivery.md).
 

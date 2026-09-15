@@ -46,7 +46,7 @@ describe('CaretakerUI', () => {
       canChangeMode: false,
     });
     expect(parent.textContent).toContain('Steward stores completed output');
-    expect(parent.textContent).toContain('dock’s deck');
+    expect(parent.textContent).toContain('between decks using the internal stairs');
     expect(
       [...parent.querySelectorAll('[data-mode]')].every(
         (button) => (button as HTMLButtonElement).disabled,

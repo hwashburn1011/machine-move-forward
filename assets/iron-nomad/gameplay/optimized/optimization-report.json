@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-10T01:48:03.128Z",
+  "generatedAt": "2026-09-15T10:35:12.329Z",
   "encoder": "meshoptimizer 1.1.1",
   "texturePolicy": "Full: baseColor/emissive up to 2K, normal/ORM up to 1K. Game: baseColor/emissive up to 1K, normal/ORM up to 512. WebP base q92, data maps lossless. Original PNG masters retained. GPU residency is uncompressed.",
   "geometryPolicy": "EXT_meshopt_compression; articulated nodes and animation retained.",
@@ -8,9 +8,9 @@
     {
       "asset": "iron-nomad-full",
       "sourceBytes": 64363136,
-      "optimizedBytes": 34355912,
+      "optimizedBytes": 34355852,
       "sourceGeometryBytes": 38573376,
-      "compressedGeometryBytes": 23282734,
+      "compressedGeometryBytes": 23282672,
       "meshoptFallbackBufferBytes": 38573376,
       "sourceTextureBytes": 24165036,
       "webpTextureBytes": 9308842,
@@ -265,15 +265,15 @@
         "gameplayLayout": "iron-nomad-v1"
       },
       "lod": null,
-      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\iron-nomad\\gameplay\\optimized\\iron-nomad-full.glb"
+      "output": "assets\\iron-nomad\\gameplay\\optimized\\iron-nomad-full.glb"
     },
     {
       "asset": "iron-nomad-game",
-      "sourceBytes": 44027028,
-      "optimizedBytes": 17113900,
-      "sourceGeometryBytes": 19049592,
-      "compressedGeometryBytes": 12461061,
-      "meshoptFallbackBufferBytes": 19049604,
+      "sourceBytes": 44026548,
+      "optimizedBytes": 17113316,
+      "sourceGeometryBytes": 19049112,
+      "compressedGeometryBytes": 12460480,
+      "meshoptFallbackBufferBytes": 19049124,
       "sourceTextureBytes": 24165036,
       "webpTextureBytes": 3701600,
       "selectedTextureGpuBytesWithMips": 47535445,
@@ -527,7 +527,7 @@
         "gameplayLayout": "iron-nomad-v1"
       },
       "lod": null,
-      "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\assets\\iron-nomad\\gameplay\\optimized\\iron-nomad-game.glb"
+      "output": "assets\\iron-nomad\\gameplay\\optimized\\iron-nomad-game.glb"
     }
   ]
 }

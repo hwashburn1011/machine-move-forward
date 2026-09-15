@@ -95,15 +95,22 @@ export async function checkCaretakerInterruptions(page, fixture) {
         if (moved.ok) break;
       }
       const bodies = g.physics.bodyCount;
-      g.fixedUpdate(1 / 60);
+      let maxStep = 0;
+      for (let i = 0; i < 30; i++) {
+        const before = g.caretakerActor?.position.clone() ?? null;
+        g.fixedUpdate(1 / 60);
+        const after = g.caretakerActor?.position ?? null;
+        if (before && after) maxStep = Math.max(maxStep, before.distanceTo(after));
+      }
       results.push({
-        name: 'moving dock to another deck redeploys one caretaker',
+        name: 'moving dock to another deck preserves one caretaker',
         ok:
           !!moved?.ok &&
           !!g.caretakerActor &&
-          g.caretakerActor !== oldActor &&
-          oldActor.root.parent === null &&
+          g.caretakerActor === oldActor &&
+          oldActor.root.parent !== null &&
           g.physics.bodyCount === bodies &&
+          maxStep < 0.15 &&
           g.caretaker.snapshot().recruited,
         detail: {
           moved: moved?.ok,
@@ -111,6 +118,9 @@ export async function checkCaretakerInterruptions(page, fixture) {
           deck: g.caretakerDockLevel,
           bodiesBefore: bodies,
           bodiesAfter: g.physics.bodyCount,
+          sameActor: g.caretakerActor === oldActor,
+          oldActorAttached: oldActor.root.parent !== null,
+          maxStep,
         },
       });
     }

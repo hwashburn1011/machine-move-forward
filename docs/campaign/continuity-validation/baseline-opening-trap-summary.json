@@ -1,0 +1,913 @@
+{
+  "generatedAt": "2026-09-15T10:34:54.823Z",
+  "status": "blocked",
+  "boundary": "post-opening-save-continue",
+  "fullArt": false,
+  "site": "http://127.0.0.1:5204/",
+  "blocker": "Error: Save & Quit remained blocked; active enemies=2\n    at file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-story.mjs:325:13",
+  "errors": [],
+  "final": {
+    "profile": "story",
+    "opening": "done",
+    "armed": true,
+    "paused": false,
+    "dead": false,
+    "simTime": 17.016666666666982,
+    "distanceM": 109.20691920792227,
+    "health": 100,
+    "enemies": 2,
+    "pointerLocked": true,
+    "story": {
+      "format": 2,
+      "completed": [],
+      "recoveredUniques": [],
+      "journalArchive": [],
+      "active": null
+    },
+    "firstRun": {
+      "completed": [],
+      "counters": {}
+    },
+    "radio": {
+      "status": "pending",
+      "armedAtSimTime": null,
+      "foundAtSimTime": null,
+      "foundAtDistance": null,
+      "eligibleChestsOpened": 0
+    },
+    "weapons": [
+      {
+        "id": "rifle",
+        "ammoInMag": 29,
+        "reserveAmmo": 150,
+        "magazineBonus": 0
+      },
+      {
+        "id": "shotgun",
+        "ammoInMag": 6,
+        "reserveAmmo": 48,
+        "magazineBonus": 0
+      }
+    ],
+    "inventory": [
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 60
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "resources": {
+      "scrap": 260,
+      "components": 0,
+      "fuel": 0
+    }
+  },
+  "events": [
+    {
+      "at": "2026-09-15T10:34:20.528Z",
+      "type": "launch",
+      "url": "http://127.0.0.1:5204/?quality=low&nosound=1&seed=continuity-story-v1&nomodel=1&notex=1",
+      "fullArt": false,
+      "fresh": true
+    },
+    {
+      "at": "2026-09-15T10:34:23.740Z",
+      "type": "boot-ready",
+      "snapshot": {
+        "profile": "story",
+        "opening": "title",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 0.19999999999999998,
+        "distanceM": 0.4241487944621648,
+        "health": 100,
+        "enemies": 0,
+        "pointerLocked": false,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:24.000Z",
+      "type": "story-selected",
+      "snapshot": {
+        "profile": "story",
+        "opening": "rooftop",
+        "armed": false,
+        "paused": false,
+        "dead": false,
+        "simTime": 0,
+        "distanceM": 0,
+        "health": 100,
+        "enemies": 2,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:32.308Z",
+      "type": "opening-complete",
+      "method": "WASD sprint and jump",
+      "openingInput": {
+        "yaw": 0,
+        "keys": [
+          "KeyA"
+        ]
+      },
+      "snapshot": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": false,
+        "dead": false,
+        "simTime": 4.183333333333324,
+        "distanceM": 14.799424687455655,
+        "health": 100,
+        "enemies": 2,
+        "pointerLocked": true,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:33.244Z",
+      "type": "pause-save-attempt",
+      "status": "Finish the attack before saving",
+      "snapshot": {
+        "profile": "story",
+        "opening": "done",
+        "armed": true,
+        "paused": true,
+        "dead": false,
+        "simTime": 4.533333333333323,
+        "distanceM": 17.253318743328798,
+        "health": 100,
+        "enemies": 2,
+        "pointerLocked": false,
+        "story": {
+          "format": 2,
+          "completed": [],
+          "recoveredUniques": [],
+          "journalArchive": [],
+          "active": null
+        },
+        "firstRun": {
+          "completed": [],
+          "counters": {}
+        },
+        "radio": {
+          "status": "pending",
+          "armedAtSimTime": null,
+          "foundAtSimTime": null,
+          "foundAtDistance": null,
+          "eligibleChestsOpened": 0
+        },
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 30,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ],
+        "inventory": [
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 100
+          },
+          {
+            "itemId": "scrap",
+            "count": 60
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "resources": {
+          "scrap": 260,
+          "components": 0,
+          "fuel": 0
+        }
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:33.476Z",
+      "type": "save-quit-refused",
+      "reason": "active attack",
+      "enemies": 2
+    },
+    {
+      "at": "2026-09-15T10:34:46.604Z",
+      "type": "combat-input",
+      "shot": 0,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.9721539113238344,
+          12.810248042727565,
+          -3.1276699779106223
+        ],
+        "player": [
+          5.6806050337624985,
+          15.80283404742398,
+          0.0164475113429548
+        ],
+        "yaw": 1.2187999999999999,
+        "pitch": -0.3946
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:46.953Z",
+      "type": "combat-input",
+      "shot": 1,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.827320104675806,
+          12.801676766194417,
+          -2.947713232460386
+        ],
+        "player": [
+          5.65349323653781,
+          15.811420998248755,
+          -0.007853008162076548
+        ],
+        "yaw": 1.2386,
+        "pitch": -0.4078
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:47.259Z",
+      "type": "combat-input",
+      "shot": 2,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0508137559795485,
+          12.816285807406883,
+          -3.180860952357314
+        ],
+        "player": [
+          5.656881866615415,
+          15.819222685657435,
+          0.019591017519619933
+        ],
+        "yaw": 1.2209999999999999,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:47.625Z",
+      "type": "combat-input",
+      "shot": 3,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.8699730913297927,
+          12.803113752669383,
+          -3.023169471125234
+        ],
+        "player": [
+          5.6782353781903865,
+          15.802175835571866,
+          -0.00976203418556642
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:47.841Z",
+      "type": "combat-input",
+      "shot": 4,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0362330747069182,
+          12.806366468953552,
+          -2.955940257287913
+        ],
+        "player": [
+          5.689364551286902,
+          15.79785816484097,
+          0.0025739459991319835
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:48.071Z",
+      "type": "combat-input",
+      "shot": 5,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.9953833257535974,
+          12.813211198737264,
+          -3.068986950793029
+        ],
+        "player": [
+          5.688319845784425,
+          15.802307430309849,
+          0.017419241984157313
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:48.287Z",
+      "type": "combat-input",
+      "shot": 6,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.9484127982020201,
+          12.802957332299908,
+          -2.8782532022229828
+        ],
+        "player": [
+          5.668214576278278,
+          15.805557923287427,
+          -0.0034926074859715204
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:48.495Z",
+      "type": "combat-input",
+      "shot": 7,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.9359373260193835,
+          12.810224746265149,
+          -3.0742342929806363
+        ],
+        "player": [
+          5.656146531434725,
+          15.820258149450229,
+          -0.01574697726608988
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:48.707Z",
+      "type": "combat-input",
+      "shot": 8,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0685275536999534,
+          12.802957396310337,
+          -3.064176940248678
+        ],
+        "player": [
+          5.653495466788824,
+          15.811523152407593,
+          -0.003698217022816757
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:48.950Z",
+      "type": "combat-input",
+      "shot": 9,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.9946109130735699,
+          12.81216912015062,
+          -3.119679898337432
+        ],
+        "player": [
+          5.660433362700086,
+          15.813273095740435,
+          0.017533052686697515
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:49.180Z",
+      "type": "combat-input",
+      "shot": 10,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0838010774521007,
+          12.805171933922846,
+          -3.0459471119247947
+        ],
+        "player": [
+          5.671066323151854,
+          15.805137316658382,
+          0.0027880958968480043
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:49.407Z",
+      "type": "combat-input",
+      "shot": 11,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.024388482540639,
+          12.809831853200446,
+          -3.0755759399886164
+        ],
+        "player": [
+          5.684209912849377,
+          15.806224578440204,
+          -0.01427349537141619
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:49.605Z",
+      "type": "combat-input",
+      "shot": 12,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0846666747529854,
+          12.804740568536463,
+          -2.9004126202414353
+        ],
+        "player": [
+          5.689373403566268,
+          15.79825779338055,
+          -0.006632522077880153
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:49.878Z",
+      "type": "combat-input",
+      "shot": 13,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0136464170833113,
+          12.817670961129576,
+          -3.131931358816151
+        ],
+        "player": [
+          5.684955574909811,
+          15.807019364619771,
+          0.018985371436218416
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:50.076Z",
+      "type": "combat-input",
+      "shot": 14,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0037591744543546,
+          12.805907841381929,
+          -2.9171279108484796
+        ],
+        "player": [
+          5.673483352394894,
+          15.803869782884389,
+          0.00570931551362204
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:50.314Z",
+      "type": "combat-input",
+      "shot": 15,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -1.0729529754538976,
+          12.802837298346358,
+          -3.1443366757189155
+        ],
+        "player": [
+          5.653956841678767,
+          15.813065723869032,
+          -0.012120473579379287
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:50.568Z",
+      "type": "combat-input",
+      "shot": 16,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.9990466981939399,
+          12.805909568621248,
+          -2.936067137067676
+        ],
+        "player": [
+          5.653500697025755,
+          15.811442220099508,
+          0.003769313447169199
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:50.799Z",
+      "type": "combat-input",
+      "shot": 17,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.8850032016827644,
+          12.805966665886913,
+          -3.0451183098987666
+        ],
+        "player": [
+          5.667722359545602,
+          15.80643020822663,
+          0.008638854641429883
+        ],
+        "yaw": 1.2364,
+        "pitch": -0.41659999999999997
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:51.294Z",
+      "type": "combat-input",
+      "shot": 18,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.9611120571262035,
+          12.807745873387402,
+          -2.8486261082544218
+        ],
+        "player": [
+          5.689368727589645,
+          15.798159039136506,
+          0.0008408195537742565
+        ],
+        "yaw": 1.232,
+        "pitch": -0.41219999999999996
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:51.511Z",
+      "type": "combat-input",
+      "shot": 19,
+      "beforeShot": {
+        "targetHealth": 110,
+        "target": [
+          -0.7963287739171022,
+          12.810791603537137,
+          -3.0345302130598983
+        ],
+        "player": [
+          5.688835639197314,
+          15.800201011481194,
+          0.016559136371335118
+        ],
+        "yaw": 1.232,
+        "pitch": -0.41219999999999996
+      },
+      "afterShot": {
+        "enemies": 2
+      }
+    },
+    {
+      "at": "2026-09-15T10:34:51.514Z",
+      "type": "blocked",
+      "message": "Error: Save & Quit remained blocked; active enemies=2\n    at file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-story.mjs:325:13"
+    }
+  ]
+}

@@ -1,0 +1,1040 @@
+{
+  "site": "http://127.0.0.1:5206/",
+  "fixture": "scene lifecycle seams, placeholder art",
+  "checks": [
+    {
+      "name": "100 scene releases retire only their two owned pursuers",
+      "ok": true
+    },
+    {
+      "name": "No kill reward and no inventory mutation on escape",
+      "ok": true
+    },
+    {
+      "name": "Repeated opening pool and physics allocation remain stable",
+      "ok": true
+    },
+    {
+      "name": "Teardown retains configured no-spawn preference",
+      "ok": true
+    }
+  ],
+  "result": {
+    "samples": [
+      {
+        "cycle": 0,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 1,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 2,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 3,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 4,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 5,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 6,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 7,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 8,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 9,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 10,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 11,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 12,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 13,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 14,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 15,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 16,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 17,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 18,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 19,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 20,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 21,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 22,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 23,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 24,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 25,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 26,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 27,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 28,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 29,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 30,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 31,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 32,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 33,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 34,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 35,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 36,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 37,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 38,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 39,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 40,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 41,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 42,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 43,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 44,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 45,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 46,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 47,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 48,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 49,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 50,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 51,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 52,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 53,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 54,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 55,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 56,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 57,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 58,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 59,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 60,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 61,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 62,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 63,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 64,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 65,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 66,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 67,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 68,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 69,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 70,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 71,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 72,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 73,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 74,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 75,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 76,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 77,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 78,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 79,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 80,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 81,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 82,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 83,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 84,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 85,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 86,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 87,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 88,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 89,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 90,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 91,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 92,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 93,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 94,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 95,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 96,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 97,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 98,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 99,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      },
+      {
+        "cycle": 100,
+        "ownedRetired": true,
+        "outsiderPreserved": true,
+        "active": 1,
+        "tags": 0,
+        "bodies": 32,
+        "colliders": 43,
+        "pool": 3
+      }
+    ],
+    "kills": 0,
+    "inventoryPreserved": true,
+    "spawnsEnabled": false
+  },
+  "errors": []
+}
