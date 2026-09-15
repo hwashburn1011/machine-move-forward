@@ -21,6 +21,7 @@ export type PieceId =
   | 'stove'
   | 'condenser'
   | 'planter'
+  | 'seed-garden'
   | 'turret-manual'
   | 'collector-auto'
   | 'turret-auto'
@@ -296,6 +297,9 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
     blocksNavigation: false,
     rotatable: false,
   },
+  'seed-garden': {
+    id: 'seed-garden', name: 'Seed Garden', category: 'station', anchor: 'cell', cost: { scrap: 35, components: 4 }, weight: 180, maxHealth: 110, armor: 0, boundsRoom: false, blocksNavigation: false, rotatable: true,
+  },
   'turret-manual': {
     id: 'turret-manual',
     name: 'Manual Deck Gun',
@@ -514,6 +518,7 @@ export const BUILD_PIECE_ORDER: readonly PieceId[] = [
   'stove',
   'condenser',
   'planter',
+  'seed-garden',
   'turret-manual',
   'collector-auto',
   'turret-auto',
@@ -529,6 +534,7 @@ export function requiredUnlockOf(piece: PieceId): string | null {
   if (piece === 'collector-auto') return 'automatic-salvage-collector';
   if (piece === 'turret-auto') return 'automatic-defense-turret';
   if (piece === 'turret-manual') return 'manual-turret';
+  if (piece === 'seed-garden') return 'seed-garden';
   return null;
 }
 

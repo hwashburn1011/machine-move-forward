@@ -6,12 +6,12 @@ export const ROUTE_CONTACT_RUNWAY_M = 450;
 export const ROUTE_CONTACT_WINDOW_M = 180;
 export const ROUTE_HISTORY_LIMIT = 128;
 
-export type RouteContactKind = 'water-cache' | 'salvage-wreck' | 'memorial';
+export type RouteContactKind = 'water-cache' | 'salvage-wreck' | 'memorial' | 'repair-depot';
 export type RouteContactState =
   'detected' | 'committed' | 'docked' | 'visited' | 'missed' | 'suspended';
 
 export type RouteReward =
-  | { type: 'item'; itemId: 'water' | 'scrap' | 'components'; remaining: number }
+  | { type: 'item'; itemId: 'water' | 'scrap' | 'components' | 'repair-kit'; remaining: number }
   | { type: 'journal'; factId: 'memorial-transmission'; remaining: number };
 
 export interface RouteContact {
@@ -44,6 +44,7 @@ export interface RouteObservation {
   distanceM: number;
   lateralM: number;
   storyPriority: boolean;
+  tier?: number;
 }
 
 export interface InterceptPreview {
@@ -163,7 +164,13 @@ export class RouteChart {
       }
       const atDistanceM = this.nextSlot * ROUTE_CONTACT_INTERVAL_M;
       if (input.distanceM >= atDistanceM - ROUTE_CONTACT_RUNWAY_M) {
-        this.active = makeContact(seed, this.nextSlot, atDistanceM, input.lateralM);
+        this.active = makeContact(
+          seed,
+          this.nextSlot,
+          atDistanceM,
+          input.lateralM,
+          input.tier ?? 1,
+        );
         addBounded(this.discovered, this.active.id);
         this.scheduleArmed = false;
       }
@@ -343,20 +350,29 @@ function makeContact(
   slot: number,
   atDistanceM: number,
   lateralM: number,
+  tier: number,
 ): RouteContact {
   const rng = new Rng(hashSeed(seed, 'route-chart', slot));
   const kindOffset = hashSeed(seed, 'route-chart-kind') % KINDS.length;
-  const kind = KINDS[(kindOffset + slot - 1) % KINDS.length]!;
-  const offset = rng.range(45, 70) * (rng.next() < 0.5 ? -1 : 1);
-  const rewards: RouteReward[] =
-    kind === 'water-cache'
-      ? [{ type: 'item', itemId: 'water', remaining: 4 }]
-      : kind === 'salvage-wreck'
-        ? [
-            { type: 'item', itemId: 'scrap', remaining: 24 },
-            { type: 'item', itemId: 'components', remaining: 2 },
-          ]
-        : [{ type: 'journal', factId: 'memorial-transmission', remaining: 1 }];
+  const depot = (tier === 2 || tier === 3) && slot % 3 === 0;
+  const kind = depot ? 'repair-depot' : KINDS[(kindOffset + slot - 1) % KINDS.length]!;
+  const offset = depot
+    ? rng.range(120, 150) * (rng.next() < 0.5 ? -1 : 1)
+    : rng.range(45, 70) * (rng.next() < 0.5 ? -1 : 1);
+  const rewards =
+    kind === 'repair-depot'
+      ? [
+          { type: 'item', itemId: 'repair-kit', remaining: 1 },
+          { type: 'journal', factId: 'depot-linekeeper-record', remaining: 1 },
+        ]
+      : kind === 'water-cache'
+        ? [{ type: 'item', itemId: 'water', remaining: 4 }]
+        : kind === 'salvage-wreck'
+          ? [
+              { type: 'item', itemId: 'scrap', remaining: 24 },
+              { type: 'item', itemId: 'components', remaining: 2 },
+            ]
+          : ([{ type: 'journal', factId: 'memorial-transmission', remaining: 1 }] as RouteReward[]);
   return {
     id: `route-contact-${slot}`,
     slot,
@@ -364,11 +380,16 @@ function makeContact(
     atDistanceM,
     worldX: lateralM + offset,
     confidence: 1,
-    hazard: kind === 'water-cache' ? 'calm' : kind === 'salvage-wreck' ? 'hostile' : 'uncertain',
+    hazard:
+      kind === 'repair-depot' || kind === 'water-cache'
+        ? 'calm'
+        : kind === 'salvage-wreck'
+          ? 'hostile'
+          : 'uncertain',
     detectedAtM: atDistanceM - ROUTE_CONTACT_RUNWAY_M,
     expiresAtM: atDistanceM + ROUTE_CONTACT_WINDOW_M,
     state: 'detected',
-    rewards,
+    rewards: rewards as RouteReward[],
   };
 }
 
@@ -378,7 +399,7 @@ function validContact(value: unknown): RouteContact | null {
   if (typeof c.id !== 'string' || !/^route-contact-[1-9]\d*$/.test(c.id)) return null;
   if (!Number.isSafeInteger(c.slot) || c.slot! <= 0 || c.id !== `route-contact-${c.slot}`)
     return null;
-  if (!KINDS.includes(c.kind as RouteContactKind)) return null;
+  if (!KINDS.includes(c.kind as RouteContactKind) && c.kind !== 'repair-depot') return null;
   if (![c.atDistanceM, c.worldX, c.detectedAtM, c.expiresAtM, c.confidence].every(finite))
     return null;
   if (
@@ -416,14 +437,19 @@ function validRewards(
   rewards: readonly unknown[],
 ): rewards is RouteReward[] {
   const expected: [string, number][] =
-    kind === 'water-cache'
-      ? [['water', 4]]
-      : kind === 'salvage-wreck'
-        ? [
-            ['scrap', 24],
-            ['components', 2],
-          ]
-        : [['memorial-transmission', 1]];
+    kind === 'repair-depot'
+      ? [
+          ['repair-kit', 1],
+          ['depot-linekeeper-record', 1],
+        ]
+      : kind === 'water-cache'
+        ? [['water', 4]]
+        : kind === 'salvage-wreck'
+          ? [
+              ['scrap', 24],
+              ['components', 2],
+            ]
+          : [['memorial-transmission', 1]];
   if (rewards.length !== expected.length) return false;
   return rewards.every((value, index) => {
     if (!value || typeof value !== 'object' || Array.isArray(value)) return false;

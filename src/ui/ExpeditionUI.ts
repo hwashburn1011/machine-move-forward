@@ -1,7 +1,7 @@
 import type { StoryPhase } from '@/story/StoryDirector';
 import type { ExpeditionId } from '@/data/story';
 import { WRECK_ONE, storyExpedition } from '@/data/story';
-import type { RouteId } from '@/data/routes';
+import { routeDefinition, type RouteId } from '@/data/routes';
 
 export interface ExpeditionView {
   phase: StoryPhase;
@@ -18,6 +18,8 @@ export interface ExpeditionView {
   routeCards?: readonly { id: RouteId; distanceM: number; estimatedFuel: number; hazard: string }[];
   routeRefusal?: string | null;
   extraJournals?: readonly { id: string; title: string; text: string }[];
+  availableJournalIds?: readonly string[];
+  completedObjectives?: readonly string[];
 }
 
 export interface ExpeditionUICallbacks {
@@ -88,18 +90,27 @@ export class ExpeditionUI {
 
   private render(): void {
     const v = this.view;
+    const expedition = storyExpedition(v.expeditionId ?? 'wreck-one') ?? WRECK_ONE;
     const key = viewKey(v);
     if (key === this.renderedKey) return;
     this.renderedKey = key;
+    const offeredRoutes = v.routeCards?.map((route) => route.id) ?? v.routes ?? [];
+    if (this.pendingRoute && !offeredRoutes.includes(this.pendingRoute)) this.pendingRoute = null;
     const left =
       v.remainingM === null
         ? ''
         : `<div data-expedition-distance>${Math.max(0, Math.round(v.remainingM))} m remaining</div>`;
     const journals =
-      (storyExpedition(v.expeditionId ?? 'wreck-one') ?? WRECK_ONE).journals
+      expedition.journals
         .map((journal) => {
           const read = v.journalsRead.includes(journal.id);
-          return `<article data-journal-id="${journal.id}" class="expedition-log${read ? ' is-read' : ''}"><strong>${escapeHtml(journal.title)}</strong>${read ? `<p>${escapeHtml(v.journalTexts?.[journal.id] ?? journal.text)}</p>` : '<span>Interact at the log to read</span>'}</article>`;
+          const available = !v.availableJournalIds || v.availableJournalIds.includes(journal.id);
+          const status = read
+            ? `<p>${escapeHtml(v.journalTexts?.[journal.id] ?? journal.text)}</p>`
+            : available
+              ? '<span>Interact at the log to read</span>'
+              : '<span>Unavailable on this route</span>';
+          return `<article data-journal-id="${escapeHtml(journal.id)}" class="expedition-log${read ? ' is-read' : ''}"><strong>${escapeHtml(journal.title)}</strong>${status}</article>`;
         })
         .join('') +
       (v.extraJournals ?? [])
@@ -108,40 +119,32 @@ export class ExpeditionUI {
             `<article data-journal-id="${escapeHtml(j.id)}" class="expedition-log is-read"><strong>${escapeHtml(j.title)}</strong><p>${escapeHtml(j.text)}</p></article>`,
         )
         .join('');
-    const gyro = v.uniqueCollected
-      ? '<span data-expedition-gyro>Course Gyro recovered</span>'
-      : '<span data-expedition-gyro>Course Gyro: interact with its pedestal</span>';
     const routeCards =
       v.routeCards ??
       v.routes?.map((id) => ({
         id,
-        distanceM: id === 'foundry-direct' ? 750 : 1150,
+        distanceM: routeDefinition(id)?.distanceM ?? 0,
         estimatedFuel: 0,
-        hazard:
-          id === 'foundry-direct'
-            ? 'One scripted gunboat'
-            : 'No scripted gunboat; ordinary threats may still occur',
+        hazard: routeDefinition(id)?.scriptedVehicle
+          ? `One scripted ${routeDefinition(id)?.scriptedVehicle}`
+          : 'No scripted gunboat; ordinary threats may still occur',
       }));
     const routes = routeCards?.length
-      ? `<div data-route-options>${routeCards.map((route) => `<article data-route-card="${route.id}"><strong>${route.id === 'foundry-direct' ? 'Direct' : 'Detour'}</strong><span>${route.distanceM} m · estimated fuel ${route.estimatedFuel}</span><span>${escapeHtml(route.hazard)}</span><button type="button" data-route="${route.id}">Select</button>${this.pendingRoute === route.id ? `<button type="button" data-route-confirm="${route.id}">Confirm route</button>` : ''}</article>`).join('')}</div>${v.routeRefusal ? `<div data-route-refusal>${escapeHtml(v.routeRefusal)}</div>` : ''}`
+      ? `<div data-route-options>${routeCards.map((route) => `<article data-route-card="${route.id}"><strong>${routeLabel(route.id)}</strong><span>${route.distanceM} m · estimated fuel ${route.estimatedFuel}</span><span>${escapeHtml(formatHazard(route.hazard))}</span><button type="button" data-route="${route.id}">Select</button>${this.pendingRoute === route.id ? `<button type="button" data-route-confirm="${route.id}">Confirm route</button>` : ''}</article>`).join('')}</div>${v.routeRefusal ? `<div data-route-refusal>${escapeHtml(v.routeRefusal)}</div>` : ''}`
       : '';
-    const uniqueFacts =
-      v.expeditionId === 'relay-foundry' || v.expeditionId === 'quiet-array'
-        ? ['salvage-controller', 'tracking-servo']
-            .map((id) =>
-              v.expeditionId === 'quiet-array'
-                ? id === 'salvage-controller'
-                  ? 'course-actuator'
-                  : 'annika-archive-shard'
-                : id,
-            )
-            .map(
-              (id) =>
-                `<span data-expedition-unique="${id}">${v.recoveredUniques?.includes(id) ? `${id} recovered` : `${id} pending`}</span>`,
-            )
-            .join('')
-        : gyro;
-    this.body.innerHTML = `<div data-expedition-phase>${STORY_PHASE_LABELS[v.phase]}</div><div data-expedition-objective>${escapeHtml(v.objective)}</div><div data-expedition-strength>Signal ${Math.round(v.strength * 100)}%</div>${left}${routes}<div data-expedition-logs>${journals}</div><div data-expedition-unique-list>${uniqueFacts}</div>`;
+    const uniqueFacts = expedition.requiredUniques
+      .map(
+        (id) =>
+          `<span data-expedition-unique="${id}">${friendlyFact(id)}: ${v.recoveredUniques?.includes(id) ? 'recovered' : 'pending'}</span>`,
+      )
+      .join('');
+    const objectives = (expedition.requiredObjectives ?? [])
+      .map(
+        (id) =>
+          `<span data-expedition-objective-id="${id}">${friendlyObjective(id)}: ${v.completedObjectives?.includes(id) ? 'complete' : 'pending'}</span>`,
+      )
+      .join('');
+    this.body.innerHTML = `<div data-expedition-phase>${escapeHtml(STORY_PHASE_LABELS[v.phase] ?? expedition.title)}</div><div data-expedition-objective>${escapeHtml(v.objective || expedition.objective)}</div><div data-expedition-strength>Signal ${Math.round(v.strength * 100)}%</div>${left}${routes}<div data-expedition-logs>${journals}</div><div data-expedition-unique-list>${uniqueFacts}${objectives}</div>`;
   }
 
   private readonly onClick = (event: MouseEvent): void => {
@@ -149,7 +152,12 @@ export class ExpeditionUI {
     if (!target) return;
     if (target.closest('[data-expedition-close]')) return this.callbacks.close();
     const route = target.closest('[data-route]')?.getAttribute('data-route') as RouteId | null;
-    if (route) {
+    const offered = route
+      ? (this.view.routeCards?.some((card) => card.id === route) ??
+        this.view.routes?.includes(route) ??
+        false)
+      : false;
+    if (route && offered) {
       this.pendingRoute = route;
       // The selected route is transient UI state and is not part of the
       // campaign view key. Force the confirmation control to render.
@@ -160,7 +168,12 @@ export class ExpeditionUI {
     const confirm = target
       .closest('[data-route-confirm]')
       ?.getAttribute('data-route-confirm') as RouteId | null;
-    if (confirm) {
+    const stillOffered =
+      confirm &&
+      (this.view.routeCards?.some((card) => card.id === confirm) ??
+        this.view.routes?.includes(confirm) ??
+        false);
+    if (confirm && stillOffered) {
       this.pendingRoute = null;
       this.callbacks.selectRoute?.(confirm);
     }
@@ -183,10 +196,41 @@ function viewKey(view: ExpeditionView): string {
     journalTexts: view.journalTexts ?? {},
     expeditionId: view.expeditionId,
     recoveredUniques: view.recoveredUniques ?? [],
+    routes: view.routes ?? [],
     routeCards: view.routeCards ?? [],
     routeRefusal: view.routeRefusal ?? null,
     extraJournals: view.extraJournals ?? [],
+    availableJournalIds: view.availableJournalIds ?? [],
+    completedObjectives: view.completedObjectives ?? [],
   });
+}
+
+function routeLabel(id: RouteId): string {
+  return (
+    {
+      'foundry-direct': 'Direct',
+      'foundry-detour': 'Detour',
+      'orchard-caretaker': 'Caretaker Approach',
+      'orchard-cold-vault': 'Cold Vault',
+    } satisfies Record<RouteId, string>
+  )[id];
+}
+
+function friendlyFact(id: string): string {
+  return id.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function friendlyObjective(id: string): string {
+  return id
+    .replace(/-isolator$/, ' isolator')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function formatHazard(hazard: string): string {
+  return hazard
+    .replace(/^One scripted /, 'Encounter: ')
+    .replace(/^No scripted gunboat; /, 'No marked gunboat; ');
 }
 
 function escapeHtml(text: string): string {

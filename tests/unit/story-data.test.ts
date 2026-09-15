@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { RELAY_FOUNDRY, STORY_EXPEDITIONS, WRECK_ONE, validateStoryData } from '@/data/story';
-import { FOUNDRY_ROUTES, validateRoutes, type RouteDefinition } from '@/data/routes';
+import {
+  FOUNDRY_ROUTES,
+  ORCHARD_ROUTES,
+  routeCards,
+  validateRoutes,
+  type RouteDefinition,
+} from '@/data/routes';
 import { StoryDirector } from '@/story/StoryDirector';
 import { Destination } from '@/story/Destination';
 import * as THREE from 'three';
@@ -28,6 +34,29 @@ describe('campaign data and route contracts', () => {
         { ...FOUNDRY_ROUTES[0]!, scriptedVehicleRemainingM: 220 } as RouteDefinition,
       ]),
     ).toContain('gunboat threshold invalid foundry-direct');
+  });
+
+  it('only offers route cards for the selected destination', () => {
+    expect(routeCards(0, 0.1, 1).map((card) => card.id)).toEqual([
+      'foundry-direct',
+      'foundry-detour',
+    ]);
+    expect(routeCards(0, 0.1, 1, 'glass-orchard').map((card) => card.id)).toEqual(
+      ORCHARD_ROUTES.map((route) => route.id),
+    );
+  });
+
+  it('validates skiff thresholds and route destination identity', () => {
+    expect(
+      validateRoutes([
+        { ...ORCHARD_ROUTES[0]!, scriptedVehicleRemainingM: 220 } as RouteDefinition,
+      ]),
+    ).toContain('skiff threshold invalid orchard-caretaker');
+    expect(
+      validateRoutes([
+        { ...FOUNDRY_ROUTES[0]!, destinationId: 'glass-orchard' } as RouteDefinition,
+      ]),
+    ).toContain('destination mismatch foundry-direct');
   });
 
   it('commits from the current world distance and clears Wreck journal state', () => {

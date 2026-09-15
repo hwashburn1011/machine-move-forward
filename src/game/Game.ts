@@ -95,7 +95,13 @@ import {
   type PieceId,
 } from '@/data/build-pieces';
 import { FUEL_BURN_PER_S, FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
-import { routeCards } from '@/data/routes';
+import {
+  routeCards,
+  routeDefinition,
+  FOUNDRY_ROUTES,
+  ORCHARD_ROUTES,
+  type RouteId,
+} from '@/data/routes';
 import { TURRETS } from '@/data/turrets';
 import { isProducer, producerRoleOf, NEEDS_MAX } from '@/data/needs';
 import { countEnclosed, insideEnclosed } from '@/building/RoomDetector';
@@ -161,9 +167,14 @@ import { ResearchUI, type ResearchUIState } from '@/ui/ResearchUI';
 import { ExpeditionUI } from '@/ui/ExpeditionUI';
 import { HelmUI, type HelmView, type HelmMarker } from '@/ui/HelmUI';
 import { CourseController, type CourseContext } from '@/navigation/CourseController';
-import { buildQuietArrayModel } from '@/art/ExpeditionModels';
+import { buildQuietArrayModel, buildOrchardModel } from '@/art/ExpeditionModels';
 import { RouteChart } from '@/navigation/RouteChart';
-import { opportunityDefinition, OPPORTUNITIES, MEMORIAL_MESSAGE } from '@/data/opportunities';
+import {
+  opportunityDefinition,
+  OPPORTUNITIES,
+  MEMORIAL_MESSAGE,
+  DEPOT_MESSAGE,
+} from '@/data/opportunities';
 import { buildOpportunityModel } from '@/art/OpportunityModels';
 import { SessionMetrics } from '@/game/SessionMetrics';
 import { footprintOverlapsExpedition } from '@/game/ExpeditionBuildConflict';
@@ -456,6 +467,9 @@ export class Game implements LoopCallbacks {
   private tutorialStarted = false;
   private pendingBoardingOutcome: 'hull' | 'crew' | 'hook' | 'defended' | null = null;
   private scriptedGunboatPending = false;
+  private scriptedGunboatActive = false;
+  private scriptedSkiffPending = false;
+  private scriptedSkiffActive = false;
   private gunboatResolutionApplied = false;
   private routeRefusal: string | null = null;
   /** Enemy ids landed by the active skiff; ambient enemies are never counted. */
@@ -936,7 +950,14 @@ export class Game implements LoopCallbacks {
       this.enemies,
       this.raidMissions,
     );
-    this.build.setBuildAuthorization((piece) => canBuildPiece(piece, this.progression));
+    this.build.setBuildAuthorization(
+      (piece) =>
+        canBuildPiece(piece, this.progression) &&
+        (piece !== 'seed-garden' ||
+          this.story
+            .snapshot(this.world.distanceTraveled)
+            .recoveredUniques.includes('human-seed-bank')),
+    );
     this.build.setBuildBlocker(
       (placement) =>
         this.expeditionBuildBlock(placement) ??
@@ -1755,6 +1776,7 @@ export class Game implements LoopCallbacks {
       this.tacticsVisual.fixedUpdate();
 
       if (this.scriptedGunboatPending) this.spawnGunboatEncounter('port');
+      if (this.scriptedSkiffPending) this.spawnScriptedSkiff();
       this.updateVehicles(dt);
 
       this.updateOpening(dt);
@@ -1859,8 +1881,8 @@ export class Game implements LoopCallbacks {
       phase: view.phase,
       title: exploring
         ? OPPORTUNITIES[optional.kind].title
-        : this.story.chapter.id === 'quiet-array'
-          ? 'The Quiet Array'
+        : ['quiet-array', 'glass-orchard'].includes(this.story.chapter.id)
+          ? this.story.chapter.title
           : view.recoveredUniques.includes('course-actuator')
             ? 'The open route'
             : undefined,
@@ -1962,6 +1984,7 @@ export class Game implements LoopCallbacks {
       !this.gunboatScene.active &&
       !this.pendingBoardingOutcome &&
       !this.scriptedGunboatPending &&
+      !this.scriptedSkiffPending &&
       !this.panelsOpen &&
       this.player.stats.health / this.player.stats.maxHealth >= 0.35 &&
       this.destination.playerOnMachine(this.player.worldPosition);
@@ -1995,6 +2018,7 @@ export class Game implements LoopCallbacks {
       !this.vehicleManager.active &&
       !this.gunboatScene.active &&
       !this.scriptedGunboatPending &&
+      !this.scriptedSkiffPending &&
       this.pendingBoardingOutcome === null &&
       !this.state.playerDead &&
       this.hook === null &&
@@ -2023,6 +2047,10 @@ export class Game implements LoopCallbacks {
   private applyStoryEffects(effects: readonly StoryEffect[]): void {
     for (const effect of effects) {
       switch (effect.type) {
+        case 'route-available':
+          this.course.holdCourse();
+          this.openExpedition();
+          break;
         case 'begin-signal-battle':
           this.beginSignalBattle();
           break;
@@ -2046,6 +2074,11 @@ export class Game implements LoopCallbacks {
             this.director.queueExternal('gunboat');
             this.scriptedGunboatPending = true;
             this.spawnGunboatEncounter('port');
+          }
+          if (effect.vehicle === 'skiff') {
+            this.director.queueExternal('skiff');
+            this.scriptedSkiffPending = true;
+            this.spawnScriptedSkiff();
           }
           break;
         case 'request-sanctuary':
@@ -2073,6 +2106,11 @@ export class Game implements LoopCallbacks {
           this.bus.emit('story:departed', { chapterId: this.story.chapter.id });
           if (effect.expeditionId === 'quiet-array') {
             this.hud.setWarning('ANNIKA archive secured. Course control is online at the helm.');
+          }
+          if (effect.expeditionId === 'glass-orchard') {
+            this.hud.setWarning(
+              'The Orchard archive is safe. Build a seed garden, or use wider steering to reach distant depots.',
+            );
           }
           break;
         case 'chapter-complete':
@@ -2137,6 +2175,7 @@ export class Game implements LoopCallbacks {
     for (const output of this.build.tickProducers(dt, this.devicePowered)) {
       this.bus.emit('producer:output', output);
     }
+    for (const output of this.build.tickGardens(dt)) this.bus.emit('producer:output', output);
   }
 
   /** Bound once, so `BuildSystem` is handed a stable predicate per tick. */
@@ -2648,12 +2687,17 @@ export class Game implements LoopCallbacks {
               const spawned = this.gunboatScene.spawn('port');
               if (spawned) {
                 this.gunboatResolutionApplied = false;
+                this.scriptedGunboatActive = this.scriptedGunboatPending;
                 this.scriptedGunboatPending = false;
               }
               return spawned;
             })()
           : this.enemies.activeCount === 0 && this.vehicleScene.spawn('port');
       if (started) {
+        if (decision.vehicle.type === 'skiff' && this.scriptedSkiffPending) {
+          this.scriptedSkiffPending = false;
+          this.scriptedSkiffActive = true;
+        }
         this.tutorialStarted = false;
         if (decision.vehicle.type === 'skiff')
           this.bus.emit('boarding:started', { encounterId: 'skiff' });
@@ -2892,6 +2936,10 @@ export class Game implements LoopCallbacks {
       });
     }
     this.pendingBoardingOutcome = null;
+    if (this.scriptedSkiffActive) {
+      this.scriptedSkiffActive = false;
+      this.applyStoryEffects(this.story.resolveScriptedEncounter());
+    }
     this.requestAutosave();
   }
 
@@ -2917,8 +2965,10 @@ export class Game implements LoopCallbacks {
     }
     this.gunboatScene.clear(true);
     this.scriptedGunboatPending = false;
-    if (this.story.snapshot(this.world.distanceTraveled).expeditionId === 'relay-foundry')
+    if (this.scriptedGunboatActive) {
+      this.scriptedGunboatActive = false;
       this.applyStoryEffects(this.story.resolveScriptedEncounter());
+    }
     if (this.director.hasActiveExternalEncounter)
       this.director.finishExternalEncounter(this.world.distanceTraveled);
     this.threatPhase = 'recovery';
@@ -2947,11 +2997,47 @@ export class Game implements LoopCallbacks {
       return false;
     const spawned = this.gunboatScene.spawn(side);
     if (spawned) {
+      this.scriptedGunboatActive = this.scriptedGunboatPending;
       this.scriptedGunboatPending = false;
       this.gunboatResolutionApplied = false;
       this.bus.emit('gunboat:phase', { phase: 'approach', side });
     } else this.director.abortOrphanExternal(this.world.distanceTraveled);
     return spawned;
+  }
+
+  private spawnScriptedSkiff(): boolean {
+    if (
+      !this.scriptedSkiffPending ||
+      this.vehicleManager.active ||
+      this.gunboatScene.active ||
+      this.pendingBoardingOutcome ||
+      this.enemies.activeCount > 0 ||
+      this.director.hasActiveExternalEncounter
+    )
+      return false;
+    if (
+      !this.director.queueExternal('skiff') ||
+      !this.director.tryBeginExternal(
+        'skiff',
+        this.world.distanceTraveled,
+        this.enemies.activeCount,
+      )
+    )
+      return false;
+    if (!this.vehicleScene.spawn('starboard', false)) {
+      this.director.abortOrphanExternal(this.world.distanceTraveled);
+      return false;
+    }
+    this.scriptedSkiffPending = false;
+    this.scriptedSkiffActive = true;
+    this.tutorialStarted = false;
+    this.threatPhase = 'engagement';
+    this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
+    this.bus.emit('boarding:started', { encounterId: 'orchard-patrol-skiff' });
+    this.hud.setWarning(
+      'Orchard patrol — starboard grapple! Clear the boarders or cut their hook.',
+    );
+    return true;
   }
 
   private updateVehicles(dt: number): void {
@@ -3262,6 +3348,9 @@ export class Game implements LoopCallbacks {
     this.boardingEnemyIds.clear();
     this.pendingBoardingOutcome = null;
     this.scriptedGunboatPending = false;
+    this.scriptedGunboatActive = false;
+    this.scriptedSkiffPending = false;
+    this.scriptedSkiffActive = false;
     this.tutorialStarted = false;
     this.tutorialReadyAt = null;
     this.tutorialTurretId = null;
@@ -3489,7 +3578,15 @@ export class Game implements LoopCallbacks {
       helm.getWorldPosition(position);
       out.push({ id: this.helmPowerConsumerId, label: 'Navigation Helm', position, kind: 'helm' });
     }
-    if (this.destination.docked) out.push(...this.destination.interactables);
+    if (this.destination.docked)
+      out.push(
+        ...this.destination.interactables.filter(
+          (item) =>
+            item.kind !== 'journal' ||
+            item.id === 'opportunity-reward' ||
+            this.story.canReadJournal(item.id),
+        ),
+      );
 
     // Subsystems are serviced at their access panel, NOT at their hitbox: four
     // of the five hips are outboard of the deck and below it, so there is
@@ -3624,6 +3721,18 @@ export class Game implements LoopCallbacks {
   private promptFor(nearest: Interactable | null): string | null {
     if (!nearest) return null;
     if (nearest.kind === 'producer') return this.producerPrompt(nearest);
+    if (nearest.kind === 'seed-garden') {
+      const garden = this.build.gardenSnapshot(nearest.id);
+      if (!garden) return null;
+      const status = `Water ${garden.water}/2 · Greens ${garden.greens}/6`;
+      if (garden.greens > 0) return `[E] Harvest seed garden · ${status}`;
+      if (garden.water < 2 && this.resources.count('water') > 0) return `[E] Add water · ${status}`;
+      return garden.water > 0
+        ? `Seed garden · Growing ${Math.floor((garden.progressS / 180) * 100)}% · ${status}`
+        : 'Seed garden needs water — collect water from a condenser or cache.';
+    }
+    if (['objective', 'unique', 'journal', 'departure'].includes(nearest.kind))
+      return `[E] ${nearest.label}`;
     if (nearest.kind === 'turret') {
       return this.machine.power.isPowered(nearest.id)
         ? '[E] Enter Manual Deck Gun'
@@ -3743,7 +3852,7 @@ export class Game implements LoopCallbacks {
       ...this.radioTraceView(),
       departLabel: this.optionalModelId ? 'Depart — leave unclaimed supplies behind' : 'Depart',
       canDepart:
-        ((this.story.currentPhase === 'docked' && this.story.legacyProjection().uniqueCollected) ||
+        (this.story.canDepart(this.destination.playerOnMachine(this.player.worldPosition)) ||
           (!!this.optionalModelId && this.destination.docked)) &&
         this.destination.playerOnMachine(this.player.worldPosition),
     });
@@ -3763,7 +3872,8 @@ export class Game implements LoopCallbacks {
             this.vehicleScene.active ||
             this.gunboatScene.active ||
             this.pendingBoardingOutcome !== null ||
-            this.scriptedGunboatPending
+            this.scriptedGunboatPending ||
+            this.scriptedSkiffPending
           ? 'Clear the attack before committing to an expedition.'
           : !this.destination.playerOnMachine(this.player.worldPosition)
             ? 'Return aboard the machine to set a course.'
@@ -3849,6 +3959,7 @@ export class Game implements LoopCallbacks {
       !this.vehicleManager.active &&
       !this.gunboatScene.active &&
       !this.scriptedGunboatPending &&
+      !this.scriptedSkiffPending &&
       this.pendingBoardingOutcome === null &&
       !this.state.playerDead &&
       this.destination.playerOnMachine(this.player.worldPosition) &&
@@ -3935,12 +4046,20 @@ export class Game implements LoopCallbacks {
   }
 
   private readExpeditionJournal(id: string): void {
-    if (!this.destination.docked) return;
+    const target = this.destination.interactables.find((x) => x.id === id && x.kind === 'journal');
+    if (
+      !target ||
+      target.position.distanceTo(this.player.worldPosition) > INTERACT_REACH ||
+      !this.destination.containsPlayer(this.player.worldPosition) ||
+      !this.story.canReadJournal(id)
+    )
+      return;
     const before = this.story.legacyProjection();
     const alreadyRead = before.journalsRead.includes(id);
     if (!alreadyRead && !this.story.readJournal(id)) return;
     const progress = this.story.legacyProjection();
     this.destination.syncProgress({
+      completedObjectives: this.story.snapshot(this.world.distanceTraveled).completedObjectives,
       journalsRead: progress.journalsRead,
       uniqueIds: this.story.snapshot(this.world.distanceTraveled).recoveredUniques,
     });
@@ -3969,7 +4088,12 @@ export class Game implements LoopCallbacks {
             this.story.chapter.journals.find((journal) => journal.id === id)?.text ?? '',
           ]),
       ),
-      routes: snapshot.phase === 'route-selection' ? ['foundry-direct', 'foundry-detour'] : [],
+      routes:
+        snapshot.phase === 'route-selection'
+          ? (snapshot.expeditionId === 'glass-orchard' ? ORCHARD_ROUTES : FOUNDRY_ROUTES).map(
+              (route) => route.id,
+            )
+          : [],
       routeCards:
         snapshot.phase === 'route-selection'
           ? routeCards(
@@ -3977,17 +4101,46 @@ export class Game implements LoopCallbacks {
               (FUEL_BURN_PER_S * this.progression.upgrades.modifiers().fuelBurnMultiplier) /
                 Math.max(0.1, this.machine.movement.maxSpeed),
               this.machine.movement.maxSpeed,
+              snapshot.expeditionId === 'glass-orchard' ? 'glass-orchard' : 'relay-foundry',
             )
           : [],
       routeRefusal: this.routeRefusal,
       recoveredUniques: snapshot.recoveredUniques,
-      extraJournals: this.progression.has('memorial-transmission')
-        ? [{ id: 'memorial-transmission', title: 'Last shift transmitter', text: MEMORIAL_MESSAGE }]
-        : [],
+      completedObjectives: snapshot.completedObjectives,
+      availableJournalIds: this.story.chapter.journals
+        .filter(
+          (j) =>
+            this.story.chapter.id !== 'glass-orchard' ||
+            snapshot.routeId === null ||
+            j.id === 'orchard-memory-record' ||
+            (snapshot.routeId === 'orchard-caretaker' && j.id === 'orchard-caretaker-record') ||
+            (snapshot.routeId === 'orchard-cold-vault' && j.id === 'orchard-evacuation-record'),
+        )
+        .map((j) => j.id),
+      extraJournals: [
+        ...(this.progression.has('memorial-transmission')
+          ? [
+              {
+                id: 'memorial-transmission',
+                title: 'Last shift transmitter',
+                text: MEMORIAL_MESSAGE,
+              },
+            ]
+          : []),
+        ...(this.progression.has('depot-linekeeper-record')
+          ? [
+              {
+                id: 'depot-linekeeper-record',
+                title: 'Linekeeper service record',
+                text: DEPOT_MESSAGE,
+              },
+            ]
+          : []),
+      ],
     };
   }
 
-  private selectStoryRoute(route: 'foundry-direct' | 'foundry-detour'): void {
+  private selectStoryRoute(route: RouteId): void {
     const result = this.story.selectRoute(route, {
       poweredHelm: this.machine.power.isPowered(this.helmPowerConsumerId),
       playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
@@ -4019,7 +4172,7 @@ export class Game implements LoopCallbacks {
       distanceM: this.world.distanceTraveled,
       // An intercept places the site's west gangway at our starboard rail.
       lateralM: this.course.snapshot.lateralM + 14,
-      maxBearingDeg: this.course.snapshot.tier > 0 ? 12 : 0,
+      maxBearingDeg: [0, 12, 28, 45][this.course.snapshot.tier]!,
       fuelPerM:
         (FUEL_BURN_PER_S * this.progression.upgrades.modifiers().fuelBurnMultiplier) /
         Math.max(0.1, this.machine.movement.maxSpeed * this.course.snapshot.throttle),
@@ -4030,9 +4183,7 @@ export class Game implements LoopCallbacks {
         !this.hasDestinationBuildConflict() &&
         !this.buildMode &&
         !this.state.paused,
-      storyPriority:
-        this.story.currentPhase !== 'complete' ||
-        !!this.story.snapshot(this.world.distanceTraveled).nextExpedition,
+      storyPriority: this.story.currentPhase !== 'complete',
     };
   }
 
@@ -4105,6 +4256,7 @@ export class Game implements LoopCallbacks {
       distanceM: context.distanceM,
       lateralM: this.course.snapshot.lateralM,
       storyPriority: context.storyPriority,
+      tier: this.course.snapshot.tier,
     });
     if (context.storyPriority) return;
     if (!contact || !['committed', 'docked', 'visited'].includes(contact.state)) {
@@ -4208,7 +4360,10 @@ export class Game implements LoopCallbacks {
       transferred += accepted;
       if (!accepted) break;
     }
-    if (contact.kind === 'memorial') {
+    if (
+      contact.kind === 'memorial' ||
+      (contact.kind === 'repair-depot' && this.progression.has('depot-linekeeper-record'))
+    ) {
       this.openExpedition();
     } else
       this.hud.setWarning(
@@ -4246,8 +4401,18 @@ export class Game implements LoopCallbacks {
   private configureDestination(): void {
     this.destination.configure(
       this.story.chapter,
-      this.story.chapter.id === 'quiet-array' ? buildQuietArrayModel(this.materials) : undefined,
+      this.story.chapter.id === 'quiet-array'
+        ? buildQuietArrayModel(this.materials)
+        : this.story.chapter.id === 'glass-orchard'
+          ? buildOrchardModel(this.materials)
+          : undefined,
     );
+    const view = this.story.snapshot(this.world.distanceTraveled);
+    this.destination.syncProgress({
+      journalsRead: this.story.legacyProjection().journalsRead,
+      uniqueIds: view.recoveredUniques,
+      completedObjectives: view.completedObjectives,
+    });
   }
 
   private courseContext(): CourseContext {
@@ -4353,6 +4518,31 @@ export class Game implements LoopCallbacks {
     // Nor does a condenser or a planter: E takes what is ready and you get on
     // with it, for exactly the reason the generator has no panel.
     if (target.kind === 'producer') return this.claimProducer(target.id);
+    if (target.kind === 'seed-garden') {
+      if (
+        !this.build
+          .stationsNear(this.player.worldPosition, INTERACT_REACH)
+          .some((x) => x.instanceId === target.id && x.piece === 'seed-garden')
+      )
+        return false;
+      const state = this.build.gardenSnapshot(target.id);
+      if (!state) return false;
+      const count =
+        state.greens > 0 ? this.build.harvestGarden(target.id) : this.build.waterGarden(target.id);
+      this.hud.setWarning(
+        count > 0
+          ? state.greens > 0
+            ? `Harvested ${count} greens.`
+            : `Added ${count} water to the seed garden.`
+          : state.greens > 0
+            ? 'Inventory full. The greens remain in the garden.'
+            : state.water >= 2
+              ? 'The garden has enough water.'
+              : 'Bring water to tend the garden.',
+      );
+      if (count > 0) this.requestAutosave();
+      return count > 0;
+    }
 
     if (target.kind === 'turret') return this.defense.enter(target.id);
     if (target.kind === 'turret-auto') return false;
@@ -4388,6 +4578,27 @@ export class Game implements LoopCallbacks {
     if (target.kind === 'unique') {
       return this.collectStoryUnique(target.id);
     }
+    if (target.kind === 'objective') {
+      const objective = this.destination.objectiveForInteractable(target.id);
+      const current = this.destination.interactables.find((x) => x.id === target.id);
+      if (
+        !objective ||
+        !current ||
+        current.position.distanceTo(this.player.worldPosition) > INTERACT_REACH ||
+        !this.destination.containsPlayer(this.player.worldPosition) ||
+        !this.story.completeObjective(objective)
+      )
+        return false;
+      const view = this.story.snapshot(this.world.distanceTraveled);
+      this.destination.syncProgress({
+        journalsRead: this.story.legacyProjection().journalsRead,
+        uniqueIds: view.recoveredUniques,
+        completedObjectives: view.completedObjectives,
+      });
+      this.hud.setWarning('Archive bus restored. The next console is ready.');
+      this.requestAutosave();
+      return true;
+    }
     if (target.kind === 'departure') {
       this.requestExpeditionDeparture();
       return true;
@@ -4421,6 +4632,9 @@ export class Game implements LoopCallbacks {
   private collectStoryUnique(interactionId: string): boolean {
     const id = this.destination.factForInteractable(interactionId);
     if (!id) return false;
+    const target = this.destination.interactables.find((x) => x.id === interactionId);
+    if (!target || target.position.distanceTo(this.player.worldPosition) > INTERACT_REACH)
+      return false;
     if (!this.destination.docked || !this.destination.containsPlayer(this.player.worldPosition))
       return false;
     const requirement = this.story.unmetRequirement(id);
@@ -4433,6 +4647,18 @@ export class Game implements LoopCallbacks {
       this.course.setTier(1);
       this.hud.setWarning(
         'Course actuator recovered. Limited steering is available at the helm after departure.',
+      );
+    }
+    if (id === 'vector-governor') {
+      this.course.setTier(2);
+      this.hud.setWarning(
+        'Vector governor secured. Wider steering and distant repair depots are available after departure.',
+      );
+    }
+    if (id === 'human-seed-bank' && this.progression.grantBlueprint('seed-garden')) {
+      this.bus.emit('progression:unlocked', { id: 'seed-garden' });
+      this.hud.setWarning(
+        'Human seed bank secured. Seed gardens are available in the build catalog.',
       );
     }
     if (
@@ -4453,6 +4679,7 @@ export class Game implements LoopCallbacks {
     this.destination.syncProgress({
       journalsRead: this.story.legacyProjection().journalsRead,
       uniqueIds: view.recoveredUniques,
+      completedObjectives: view.completedObjectives,
     });
     if (id === 'course-gyro') this.bus.emit('story:unique-collected', { id });
     this.expeditionUI.setView(this.expeditionView());
@@ -5300,6 +5527,7 @@ export class Game implements LoopCallbacks {
       !this.vehicleManager.active &&
       !this.gunboatScene.active &&
       !this.scriptedGunboatPending &&
+      !this.scriptedSkiffPending &&
       this.pendingBoardingOutcome === null &&
       this.hook === null &&
       this.hookedCrate === null &&
@@ -5476,6 +5704,9 @@ export class Game implements LoopCallbacks {
     this.boardingEnemyIds.clear();
     this.gunboatResolutionApplied = false;
     this.scriptedGunboatPending = false;
+    this.scriptedGunboatActive = false;
+    this.scriptedSkiffPending = false;
+    this.scriptedSkiffActive = false;
     this.routeRefusal = null;
     this.pendingBoardingOutcome = null;
     this.tutorialStarted = false;
@@ -5556,14 +5787,20 @@ export class Game implements LoopCallbacks {
     // Earlier raid-loop saves already earned the optional expedition offer.
     this.story.recordRadioRaidVictory(this.radioRaids.toSave().wave);
     const recovered = this.story.snapshot(save.distanceTraveled).recoveredUniques;
-    this.course.restore(recovered.includes('course-actuator') ? save.machine.course : undefined);
-    this.course.setTier(recovered.includes('course-actuator') ? 1 : 0);
+    const earnedTier = recovered.includes('vector-governor')
+      ? 2
+      : recovered.includes('course-actuator')
+        ? 1
+        : 0;
+    this.course.restore(earnedTier > 0 ? save.machine.course : undefined);
+    this.course.setTier(earnedTier);
     this.courseDeltaM = 0;
     this.world.setLateralOffset(this.course.snapshot.lateralM);
     if (recovered.includes('salvage-controller'))
       this.progression.grantBlueprint('automatic-salvage-collector');
     if (recovered.includes('tracking-servo'))
       this.progression.grantBlueprint('automatic-defense-turret');
+    if (recovered.includes('human-seed-bank')) this.progression.grantBlueprint('seed-garden');
     this.machine.power.unregisterConsumer(this.helmPowerConsumerId);
     if (this.story.snapshot(save.distanceTraveled).recoveredUniques.includes('course-gyro'))
       this.machine.power.registerConsumer({
@@ -5587,6 +5824,7 @@ export class Game implements LoopCallbacks {
     this.destination.syncProgress({
       journalsRead: storyJournals,
       uniqueIds: storyUniques,
+      completedObjectives: this.story.snapshot(save.distanceTraveled).completedObjectives,
     });
     this.destination.setArrivalDistance(storyArrival ?? 0);
     const dockedRestore = storyPhase === 'docked';
@@ -5595,10 +5833,20 @@ export class Game implements LoopCallbacks {
     this.destination.setDocked(dockedRestore);
     this.machine.setExpeditionGangwayOpen(dockedRestore);
     this.destination.fixedUpdate(save.distanceTraveled);
+    const pendingRoute = campaignStory?.active?.routeId
+      ? routeDefinition(campaignStory.active.routeId)
+      : undefined;
+    const awaitsRouteEncounter =
+      pendingRoute?.scriptedVehicle && campaignStory?.active?.scriptedEncounter !== 'resolved';
     this.director.setSanctuary(
-      ['approach', 'braking', 'docked'].includes(storyPhase),
+      !awaitsRouteEncounter && ['approach', 'braking', 'docked'].includes(storyPhase),
       save.distanceTraveled,
     );
+    if (awaitsRouteEncounter && campaignStory?.active?.scriptedEncounter === 'queued') {
+      this.director.queueExternal(pendingRoute.scriptedVehicle!);
+      this.scriptedGunboatPending = pendingRoute.scriptedVehicle === 'gunboat';
+      this.scriptedSkiffPending = pendingRoute.scriptedVehicle === 'skiff';
+    }
     this.playableStartedAt = this.state.simTime;
     this.salvage.reset(save.distanceTraveled);
     this.hook = null;

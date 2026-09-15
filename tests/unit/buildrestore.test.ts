@@ -138,7 +138,7 @@ describe('build save identity', () => {
     build.clear();
   });
 
-  it('refuses collector demolition when its buffer cannot fit, preserving every item', () => {
+  it('removes a combat-destroyed collector even when its buffer cannot fit', () => {
     const inventory = new Container(1);
     inventory.add('scrap', 100);
     const build = buildForRestore(inventory);
@@ -160,8 +160,8 @@ describe('build save identity', () => {
       },
     ]);
     expect(build.damagePiece('bp-2', 99999)).toBeGreaterThan(0);
-    expect(build.collectorContainer('bp-2')?.count('components')).toBe(3);
-    expect(build.serialise().some((piece) => piece.instanceId === 'bp-2')).toBe(true);
+    expect(build.collectorContainer('bp-2')).toBeUndefined();
+    expect(build.serialise().some((piece) => piece.instanceId === 'bp-2')).toBe(false);
     expect(inventory.count('scrap')).toBe(100);
     build.clear();
   });

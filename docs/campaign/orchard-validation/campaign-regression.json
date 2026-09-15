@@ -1,0 +1,614 @@
+{
+  "generatedAt": "2026-09-15T04:21:14.748Z",
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "Completed Foundry exposes Quiet Array trace",
+      "ok": true,
+      "detail": {
+        "phase": "complete",
+        "signalStrength": 0,
+        "remainingM": null,
+        "objective": "Relay Foundry complete. Trace the next transmission at the radio when ready.",
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry"
+        ],
+        "completedObjectives": [],
+        "nextExpedition": {
+          "id": "quiet-array",
+          "title": "The Quiet Array",
+          "summary": "Explore the Quiet Array, recover its course actuator and Annika archive shard, and return to the machine."
+        }
+      }
+    },
+    {
+      "name": "Radio renders enabled Quiet Array action",
+      "ok": true,
+      "detail": "Trace The Quiet Array"
+    },
+    {
+      "name": "Radio click starts real Quiet Array approach",
+      "ok": true,
+      "detail": {
+        "phase": "approach",
+        "signalStrength": 1,
+        "remainingM": 950,
+        "objective": "Follow the signal toward the The Quiet Array.",
+        "expeditionId": "quiet-array",
+        "routeId": null,
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry"
+        ],
+        "completedObjectives": [],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "Quiet Array docks through story braking effects",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "docked": true
+      }
+    },
+    {
+      "name": "Actuator is gated before both calibrations",
+      "ok": true,
+      "detail": "Read Port Relay Calibration first."
+    },
+    {
+      "name": "Calibrated actuator grants tier-one course authority",
+      "ok": true,
+      "detail": {
+        "tier": 1,
+        "bearingDeg": 0,
+        "desiredDeg": 0,
+        "throttle": 1,
+        "lateralM": 0
+      }
+    },
+    {
+      "name": "Annika archive shard is recovered once",
+      "ok": true,
+      "detail": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard"
+      ]
+    },
+    {
+      "name": "Quiet Array departure completes and survival continues",
+      "ok": true,
+      "detail": {
+        "format": 2,
+        "completed": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "active": null,
+        "chapterComplete": true
+      }
+    },
+    {
+      "name": "Powered helm DOM commands steer and throttle",
+      "ok": true,
+      "detail": {
+        "tier": 1,
+        "bearingDeg": 3.200000000000005,
+        "desiredDeg": 12,
+        "throttle": 0.6,
+        "lateralM": 0.3380730211394542
+      }
+    },
+    {
+      "name": "Course state survives actual save and load",
+      "ok": true,
+      "detail": {
+        "savedCourse": {
+          "tier": 1,
+          "bearingDeg": 3.200000000000005,
+          "desiredDeg": 12,
+          "throttle": 0.6,
+          "lateralM": 0.3380730211394542
+        },
+        "restored": {
+          "tier": 1,
+          "bearingDeg": 3.200000000000005,
+          "desiredDeg": 12,
+          "throttle": 0.6,
+          "lateralM": 0.3380730211394542
+        }
+      }
+    },
+    {
+      "name": "Old save cannot manufacture course authority",
+      "ok": true,
+      "detail": {
+        "tier": 0,
+        "bearingDeg": 0,
+        "desiredDeg": 0,
+        "throttle": 1,
+        "lateralM": 0
+      }
+    },
+    {
+      "name": "Real port approach exposes plot control",
+      "ok": true,
+      "detail": {
+        "id": "route-contact-1",
+        "title": "Linekeeper water cache",
+        "description": "A sealed reserve left for machines carrying civilian cargo.",
+        "hazard": "Quiet salvage stop",
+        "remainingM": 450,
+        "bearingDeg": -9.329796294085632,
+        "estimatedFuel": 3.714543527021322,
+        "state": "available",
+        "canCommit": true
+      }
+    },
+    {
+      "name": "Committed approach and powered helm survive actual save/load",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-1",
+          "slot": 1,
+          "kind": "water-cache",
+          "atDistanceM": 700,
+          "worldX": -59.93064156966284,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 250,
+          "expiresAtM": 880,
+          "state": "committed",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "water",
+              "remaining": 4
+            }
+          ]
+        },
+        "destinationActive": true,
+        "powered": true
+      }
+    },
+    {
+      "name": "Real port guidance reaches aligned dock",
+      "ok": true,
+      "detail": {
+        "steps": 5012,
+        "contact": {
+          "id": "route-contact-1",
+          "slot": 1,
+          "kind": "water-cache",
+          "atDistanceM": 700,
+          "worldX": -59.93064156966284,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 250,
+          "expiresAtM": 880,
+          "state": "docked",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "water",
+              "remaining": 4
+            }
+          ]
+        },
+        "course": {
+          "tier": 1,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": -73.87737303307644
+        }
+      }
+    },
+    {
+      "name": "Real starboard approach exposes plot control",
+      "ok": true,
+      "detail": {
+        "id": "route-contact-1",
+        "title": "Linekeeper water cache",
+        "description": "A sealed reserve left for machines carrying civilian cargo.",
+        "hazard": "Quiet salvage stop",
+        "remainingM": 450,
+        "bearingDeg": 5.452147251420541,
+        "estimatedFuel": 3.6820638674351036,
+        "state": "available",
+        "canCommit": true
+      }
+    },
+    {
+      "name": "Real starboard guidance reaches aligned dock",
+      "ok": true,
+      "detail": {
+        "steps": 5012,
+        "contact": {
+          "id": "route-contact-1",
+          "slot": 1,
+          "kind": "water-cache",
+          "atDistanceM": 700,
+          "worldX": 56.95078291348182,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 250,
+          "expiresAtM": 880,
+          "state": "docked",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "water",
+              "remaining": 4
+            }
+          ]
+        },
+        "course": {
+          "tier": 1,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 42.920212890139524
+        }
+      }
+    },
+    {
+      "name": "Automatic approach exercised both lateral directions",
+      "ok": true,
+      "detail": [
+        -1,
+        1
+      ]
+    },
+    {
+      "name": "Chart 1 fixture commits",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "contact": {
+          "id": "route-contact-1",
+          "slot": 1,
+          "kind": "water-cache",
+          "atDistanceM": 700,
+          "worldX": -57.37385988351889,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 250,
+          "expiresAtM": 880,
+          "state": "committed",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "water",
+              "remaining": 4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Chart 1 dock fixture exposes physical site",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-1",
+          "slot": 1,
+          "kind": "water-cache",
+          "atDistanceM": 700,
+          "worldX": -57.37385988351889,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 250,
+          "expiresAtM": 880,
+          "state": "docked",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "water",
+              "remaining": 4
+            }
+          ]
+        },
+        "rootX": 14
+      }
+    },
+    {
+      "name": "Chart 1 refuses departure off machine",
+      "ok": true,
+      "detail": {
+        "x": 18,
+        "y": 15.96,
+        "z": 0
+      }
+    },
+    {
+      "name": "Chart 1 departs after player returns",
+      "ok": true,
+      "detail": {
+        "active": null,
+        "discovered": [
+          "route-contact-1"
+        ],
+        "visited": [
+          "route-contact-1"
+        ],
+        "missed": []
+      }
+    },
+    {
+      "name": "Chart 2 fixture commits",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "contact": {
+          "id": "route-contact-2",
+          "slot": 2,
+          "kind": "salvage-wreck",
+          "atDistanceM": 1400,
+          "worldX": -7.9591688103973866,
+          "confidence": 1,
+          "hazard": "hostile",
+          "detectedAtM": 950,
+          "expiresAtM": 1580,
+          "state": "committed",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "scrap",
+              "remaining": 24
+            },
+            {
+              "type": "item",
+              "itemId": "components",
+              "remaining": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Chart 2 dock fixture exposes physical site",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-2",
+          "slot": 2,
+          "kind": "salvage-wreck",
+          "atDistanceM": 1400,
+          "worldX": -7.9591688103973866,
+          "confidence": 1,
+          "hazard": "hostile",
+          "detectedAtM": 950,
+          "expiresAtM": 1580,
+          "state": "docked",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "scrap",
+              "remaining": 24
+            },
+            {
+              "type": "item",
+              "itemId": "components",
+              "remaining": 2
+            }
+          ]
+        },
+        "rootX": 14
+      }
+    },
+    {
+      "name": "Full inventory accepts only exact partial reward",
+      "ok": true,
+      "detail": [
+        {
+          "type": "item",
+          "itemId": "scrap",
+          "remaining": 23
+        },
+        {
+          "type": "item",
+          "itemId": "components",
+          "remaining": 2
+        }
+      ]
+    },
+    {
+      "name": "Partial reward remainder persists without duplication",
+      "ok": true,
+      "detail": [
+        {
+          "type": "item",
+          "itemId": "scrap",
+          "remaining": 23
+        },
+        {
+          "type": "item",
+          "itemId": "components",
+          "remaining": 2
+        }
+      ]
+    },
+    {
+      "name": "Chart 2 refuses departure off machine",
+      "ok": true,
+      "detail": {
+        "x": 18,
+        "y": 15.96,
+        "z": 0
+      }
+    },
+    {
+      "name": "Chart 2 departs after player returns",
+      "ok": true,
+      "detail": {
+        "active": null,
+        "discovered": [
+          "route-contact-1",
+          "route-contact-2"
+        ],
+        "visited": [
+          "route-contact-1",
+          "route-contact-2"
+        ],
+        "missed": []
+      }
+    },
+    {
+      "name": "Chart 3 fixture commits",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "contact": {
+          "id": "route-contact-3",
+          "slot": 3,
+          "kind": "memorial",
+          "atDistanceM": 2100,
+          "worldX": -82.04210503795184,
+          "confidence": 1,
+          "hazard": "uncertain",
+          "detectedAtM": 1650,
+          "expiresAtM": 2280,
+          "state": "committed",
+          "rewards": [
+            {
+              "type": "journal",
+              "factId": "memorial-transmission",
+              "remaining": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Chart 3 dock fixture exposes physical site",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-3",
+          "slot": 3,
+          "kind": "memorial",
+          "atDistanceM": 2100,
+          "worldX": -82.04210503795184,
+          "confidence": 1,
+          "hazard": "uncertain",
+          "detectedAtM": 1650,
+          "expiresAtM": 2280,
+          "state": "docked",
+          "rewards": [
+            {
+              "type": "journal",
+              "factId": "memorial-transmission",
+              "remaining": 1
+            }
+          ]
+        },
+        "rootX": 14
+      }
+    },
+    {
+      "name": "Chart 3 refuses departure off machine",
+      "ok": true,
+      "detail": {
+        "x": 18,
+        "y": 15.96,
+        "z": 0
+      }
+    },
+    {
+      "name": "Chart 3 departs after player returns",
+      "ok": true,
+      "detail": {
+        "active": null,
+        "discovered": [
+          "route-contact-1",
+          "route-contact-2",
+          "route-contact-3"
+        ],
+        "visited": [
+          "route-contact-1",
+          "route-contact-2",
+          "route-contact-3"
+        ],
+        "missed": []
+      }
+    },
+    {
+      "name": "Seeded chart supplies all three opportunity kinds",
+      "ok": true,
+      "detail": [
+        "water-cache",
+        "salvage-wreck",
+        "memorial"
+      ]
+    },
+    {
+      "name": "World remains populated beyond ±1024m lateral offset",
+      "ok": true,
+      "detail": {
+        "maxInstances": 297
+      }
+    },
+    {
+      "name": "100 lateral/rebase cycles keep scene and physics ownership stable",
+      "ok": true,
+      "detail": {
+        "sceneStart": 96,
+        "sceneEnd": 96,
+        "bodiesStart": 24,
+        "bodiesEnd": 24,
+        "collidersStart": 32,
+        "collidersEnd": 32
+      }
+    },
+    {
+      "name": "Renderer resource counts remain bounded through course cycling",
+      "ok": true,
+      "detail": {
+        "before": {
+          "geometries": 472,
+          "textures": 511
+        },
+        "after": {
+          "geometries": 472,
+          "textures": 511
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "passed": 35,
+  "total": 35
+}

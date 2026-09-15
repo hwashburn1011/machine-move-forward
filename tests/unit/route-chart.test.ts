@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { ROUTE_CONTACT_RUNWAY_M, RouteChart } from '@/navigation/RouteChart';
 
-const observation = (distanceM: number, lateralM = 0, storyPriority = false) => ({
+const observation = (distanceM: number, lateralM = 0, storyPriority = false, tier?: number) => ({
   distanceM,
   lateralM,
   storyPriority,
+  ...(tier === undefined ? {} : { tier }),
 });
 const context = (distanceM: number, lateralM = 0) => ({
   distanceM,
@@ -215,5 +216,92 @@ describe('RouteChart', () => {
     expect(second.token).not.toBe(first.token);
     expect(chart.resolveReward(first.token, first.count)).toBeNull();
     expect(chart.requestReward(c.id)).toEqual(second);
+  });
+
+  it('offers deterministic tier-two repair depots every third slot at both signs', () => {
+    const signs = new Set<number>();
+    for (const seed of ['depot-a', 'depot-b', 'depot-c', 'depot-d']) {
+      const chart = new RouteChart();
+      const contact = chart.observe(seed, observation(1650, 0, false, 2))!;
+      expect(contact.slot).toBe(3);
+      expect(contact.kind).toBe('repair-depot');
+      expect(Math.abs(contact.worldX)).toBeGreaterThanOrEqual(120);
+      expect(Math.abs(contact.worldX)).toBeLessThanOrEqual(150);
+      signs.add(Math.sign(contact.worldX));
+    }
+    expect(signs).toEqual(new Set([-1, 1]));
+  });
+
+  it('does not unlock tier-two depots for invalid or tier-one observations', () => {
+    for (const tier of [1, Number.NaN, Number.POSITIVE_INFINITY, 99]) {
+      const chart = new RouteChart();
+      const contact = chart.observe('no-depot', observation(1650, 0, false, tier));
+      expect(contact?.kind).not.toBe('repair-depot');
+    }
+  });
+
+  it('transfers exactly one depot repair kit and journal, with stale claims rejected', () => {
+    const chart = new RouteChart();
+    const contact = chart.observe('exact-depot', observation(1650, 0, false, 2))!;
+    reachDock(chart, contact.id, contact.detectedAtM, contact.worldX);
+    const first = chart.requestReward(contact.id)!;
+    expect(first).toMatchObject({ type: 'item', itemId: 'repair-kit', count: 1 });
+    expect(chart.requestReward(contact.id)).toEqual(first);
+    expect(chart.resolveReward(first.token, 1)?.completed).toBe(false);
+    const journal = chart.requestReward(contact.id)!;
+    expect(journal).toMatchObject({ type: 'journal', factId: 'depot-linekeeper-record', count: 1 });
+    expect(chart.resolveReward(first.token, 1)).toBeNull();
+    expect(chart.resolveReward(journal.token, 1)?.completed).toBe(true);
+  });
+
+  it('rejects malformed depot rewards while preserving valid old saves', () => {
+    const chart = new RouteChart();
+    const old = chart.observe('old', observation(1650, 0, false, 2))!;
+    const save = chart.toSave();
+    const restored = new RouteChart();
+    restored.restore({
+      ...save,
+      active: { ...save.active!, rewards: [{ type: 'item', itemId: 'repair-kit', remaining: 2 }] },
+    });
+    expect(restored.contact).toBeNull();
+    restored.restore(save);
+    expect(restored.contact?.kind).toBe(old.kind);
+    expect(restored.contact?.rewards).toEqual(old.rewards);
+  });
+
+  it('requires tier-two steering for both-sign far depot approaches', () => {
+    const signs = new Set<number>();
+    for (const seed of ['approach-a', 'approach-b', 'approach-c', 'approach-d']) {
+      const chart = new RouteChart();
+      const c = chart.observe(seed, observation(1650, 14, false, 2))!;
+      const narrow = chart.preview(c.id, {
+        distanceM: c.detectedAtM,
+        lateralM: 14,
+        maxBearingDeg: 12,
+        fuelPerM: 0.2,
+      })!;
+      const wide = chart.preview(c.id, {
+        distanceM: c.detectedAtM,
+        lateralM: 14,
+        maxBearingDeg: 28,
+        fuelPerM: 0.2,
+      })!;
+      expect(narrow.reachable).toBe(false);
+      expect(wide.reachable).toBe(true);
+      signs.add(Math.sign(c.worldX - 14));
+    }
+    expect(signs).toEqual(new Set([-1, 1]));
+  });
+
+  it('does not restore a claimed depot kit after saving mid-transaction', () => {
+    const chart = new RouteChart();
+    const c = chart.observe('claim-save', observation(1650, 0, false, 2))!;
+    reachDock(chart, c.id, c.detectedAtM, c.worldX);
+    const kit = chart.requestReward(c.id)!;
+    expect(chart.resolveReward(kit.token, 1)?.completed).toBe(false);
+    const restored = new RouteChart();
+    restored.restore(chart.toSave());
+    const journal = restored.requestReward(c.id)!;
+    expect(journal).toMatchObject({ type: 'journal', factId: 'depot-linekeeper-record' });
   });
 });

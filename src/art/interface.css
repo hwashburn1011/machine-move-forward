@@ -440,16 +440,74 @@
   font-size: 17px;
   color: #f0e6cd;
 }
+[data-route-options] {
+  display: grid;
+  gap: 12px;
+  margin-block: 18px;
+}
+[data-route-card] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px 14px;
+  padding: 14px 16px;
+  border: 1px solid #ffffff1c;
+  border-left: 3px solid #749d99;
+  background: #070e0d30;
+}
+[data-route-card] strong,
+[data-route-card] span {
+  min-width: 0;
+}
+[data-route-card] strong {
+  color: #f0e6cd;
+}
+[data-route-card] span {
+  grid-column: 1 / -1;
+  color: #bfc7bb;
+  font-size: 12px;
+  line-height: 1.4;
+}
+[data-route-card] button {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+}
+[data-route-card] button[data-route-confirm] {
+  grid-row: 3;
+}
 [data-expedition-logs] {
   border-top: 1px solid #ffffff18;
   padding-top: 18px;
+  display: grid;
+  gap: 10px;
+}
+[data-expedition-logs] article {
+  display: grid;
+  gap: 6px;
+  padding: 11px 13px;
+  border: 1px solid #ffffff14;
+  background: #070e0d28;
+}
+[data-expedition-logs] article span {
+  color: #aeb9ac;
+  font-size: 12px;
 }
 [data-expedition-logs] p {
   color: #bdc7bd;
   max-width: 58ch;
+  margin: 0;
+  line-height: 1.5;
+}
+[data-expedition-unique-list] {
+  display: grid;
+  gap: 7px;
+  padding-top: 4px;
 }
 [data-expedition-unique] {
   color: #d7b780;
+}
+[data-expedition-objective-id] {
+  color: #a8c6b7;
 }
 .radio-panel-actions {
   display: flex;

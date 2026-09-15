@@ -34,6 +34,7 @@ const unlockNames: Record<string, string> = {
   'automatic-salvage-collector': 'Salvage Controller',
   'automatic-defense-turret': 'Tracking Servo',
 };
+const blueprintDisplayNames: Record<string, string> = { 'seed-garden': 'Human Seed Bank' };
 const glyphs: Record<PieceId, string> = Object.fromEntries(
   (Object.keys(BUILD_PIECES) as PieceId[]).map((id) => {
     const paths: Record<string, string> = {
@@ -143,7 +144,7 @@ export class BuildCatalog {
             : !affordable
               ? 'Insufficient materials'
               : '';
-        return `<button class="build-catalog-card${id === state.selected ? ' is-selected' : ''}${!unlocked ? ' is-locked' : ''}" data-piece="${id}" ${!unlocked ? 'disabled' : ''}><span class="build-card-thumb">${glyphs[id]}</span><span class="build-card-name">${d.name}</span><span class="build-card-cost">${formatCostGlyphs(d.cost)}</span>${reason ? `<span class="build-card-reason">${reason}</span>` : ''}</button>`;
+        return `<button class="build-catalog-card${id === state.selected ? ' is-selected' : ''}${!unlocked ? ' is-locked' : ''}" data-piece="${id}" ${!unlocked ? 'disabled' : ''}><span class="build-card-thumb">${glyphs[id]}</span><span class="build-card-name">${blueprintDisplayNames[id] ?? d.name}</span><span class="build-card-cost">${formatCostGlyphs(d.cost)}</span>${reason ? `<span class="build-card-reason">${reason}</span>` : ''}</button>`;
       })
       .join('');
     let tabRoot = this.root.querySelector<HTMLElement>('.build-catalog-tabs');

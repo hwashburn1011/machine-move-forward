@@ -1,11 +1,12 @@
 import type { ExpeditionId } from './story';
 
-export type RouteId = 'foundry-direct' | 'foundry-detour';
+export type RouteId =
+  'foundry-direct' | 'foundry-detour' | 'orchard-caretaker' | 'orchard-cold-vault';
 export interface RouteDefinition {
   id: RouteId;
   destinationId: ExpeditionId;
   distanceM: number;
-  scriptedVehicle: 'gunboat' | null;
+  scriptedVehicle: 'gunboat' | 'skiff' | null;
   scriptedVehicleRemainingM: number | null;
 }
 export interface RouteCardData {
@@ -31,39 +32,67 @@ export const FOUNDRY_ROUTES: readonly RouteDefinition[] = [
     scriptedVehicleRemainingM: null,
   },
 ];
+export const ORCHARD_ROUTES: readonly RouteDefinition[] = [
+  {
+    id: 'orchard-caretaker',
+    destinationId: 'glass-orchard',
+    distanceM: 900,
+    scriptedVehicle: 'skiff',
+    scriptedVehicleRemainingM: 420,
+  },
+  {
+    id: 'orchard-cold-vault',
+    destinationId: 'glass-orchard',
+    distanceM: 1100,
+    scriptedVehicle: 'gunboat',
+    scriptedVehicleRemainingM: 500,
+  },
+];
 export function routeDefinition(id: string): RouteDefinition | undefined {
-  return FOUNDRY_ROUTES.find((route) => route.id === id);
+  return [...FOUNDRY_ROUTES, ...ORCHARD_ROUTES].find((route) => route.id === id);
 }
 export function routeCards(
   currentDistance: number,
   burnPerMetre: number,
   speedMps: number,
+  destinationId: ExpeditionId = 'relay-foundry',
 ): readonly RouteCardData[] {
   void currentDistance;
   const burn = Number.isFinite(burnPerMetre) && burnPerMetre >= 0 ? burnPerMetre : 0;
   const speed = Number.isFinite(speedMps) && speedMps > 0 ? speedMps : 0;
   void speed;
-  return FOUNDRY_ROUTES.map((route) => ({
-    id: route.id,
-    distanceM: route.distanceM,
-    estimatedFuel: Math.ceil(route.distanceM * burn),
-    hazard: route.scriptedVehicle
-      ? `One scripted ${route.scriptedVehicle} at ${route.scriptedVehicleRemainingM} m remaining`
-      : 'No scripted gunboat; ordinary threats may still occur',
-  }));
+  return [...FOUNDRY_ROUTES, ...ORCHARD_ROUTES]
+    .filter((route) => route.destinationId === destinationId)
+    .map((route) => ({
+      id: route.id,
+      distanceM: route.distanceM,
+      estimatedFuel: Math.ceil(route.distanceM * burn),
+      hazard: route.scriptedVehicle
+        ? `One scripted ${route.scriptedVehicle} at ${route.scriptedVehicleRemainingM} m remaining`
+        : 'No scripted gunboat; ordinary threats may still occur',
+    }));
 }
-export function validateRoutes(routes: readonly RouteDefinition[] = FOUNDRY_ROUTES): string[] {
+export function validateRoutes(
+  routes: readonly RouteDefinition[] = [...FOUNDRY_ROUTES, ...ORCHARD_ROUTES],
+): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
   for (const route of routes) {
     if (ids.has(route.id)) errors.push(`duplicate route ${route.id}`);
     ids.add(route.id);
-    if (route.destinationId !== 'relay-foundry')
+    if (!['relay-foundry', 'glass-orchard'].includes(route.destinationId))
       errors.push(`unknown destination ${route.destinationId}`);
     if (!(Number.isFinite(route.distanceM) && route.distanceM > 0))
       errors.push(`invalid distance ${route.id}`);
+    const expectedDestination = route.id.startsWith('foundry-')
+      ? 'relay-foundry'
+      : route.id.startsWith('orchard-')
+        ? 'glass-orchard'
+        : null;
+    if (expectedDestination && route.destinationId !== expectedDestination)
+      errors.push(`destination mismatch ${route.id}`);
     if (
-      route.scriptedVehicle === 'gunboat' &&
+      (route.scriptedVehicle === 'gunboat' || route.scriptedVehicle === 'skiff') &&
       !(
         route.scriptedVehicleRemainingM !== null &&
         Number.isFinite(route.scriptedVehicleRemainingM) &&
@@ -71,7 +100,7 @@ export function validateRoutes(routes: readonly RouteDefinition[] = FOUNDRY_ROUT
         route.scriptedVehicleRemainingM < route.distanceM
       )
     )
-      errors.push(`gunboat threshold invalid ${route.id}`);
+      errors.push(`${route.scriptedVehicle} threshold invalid ${route.id}`);
     if (route.scriptedVehicle === null && route.scriptedVehicleRemainingM !== null)
       errors.push(`unexpected threshold ${route.id}`);
   }

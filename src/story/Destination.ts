@@ -5,8 +5,13 @@ import nomad from '@/data/iron-nomad.json';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { Interactable } from '@/interaction/InteractionSystem';
-import { buildFoundryModel, buildWreckModel } from '@/art/ExpeditionModels';
-import { WRECK_ONE, type ExpeditionDefinition, type StoryUniqueId } from '@/data/story';
+import { buildFoundryModel, buildWreckModel, buildOrchardModel } from '@/art/ExpeditionModels';
+import {
+  WRECK_ONE,
+  type ExpeditionDefinition,
+  type StoryUniqueId,
+  type StoryObjectiveId,
+} from '@/data/story';
 export type DestinationDefinition = Omit<
   Pick<ExpeditionDefinition, 'title' | 'modelId' | 'placement' | 'interactables' | 'colliders'>,
   'modelId'
@@ -30,6 +35,7 @@ export interface DestinationProgress {
   uniqueCollected?: boolean;
   uniqueIds?: readonly string[];
   journalsRead: readonly string[];
+  completedObjectives?: readonly StoryObjectiveId[];
 }
 export interface DestinationConstructor {
   new (options: DestinationOptions): Destination;
@@ -61,6 +67,7 @@ export class Destination {
   private currentDistance = 0;
   private readonly uniqueIds = new Set<string>();
   private readonly journalsRead = new Set<string>();
+  private readonly completedObjectives = new Set<StoryObjectiveId>();
   private definition: DestinationDefinition;
   private readonly materials?: Materials;
   private ownsVisuals = false;
@@ -89,7 +96,11 @@ export class Destination {
     this.definition = o.definition ?? WRECK_ONE;
     const factory =
       o.modelFactory ??
-      (this.definition.id === 'relay-foundry' ? buildFoundryModel : buildWreckModel);
+      (this.definition.id === 'relay-foundry'
+        ? buildFoundryModel
+        : this.definition.id === 'glass-orchard'
+          ? buildOrchardModel
+          : buildWreckModel);
     this.materials = o.materials;
     this.root =
       o.model ??
@@ -102,7 +113,9 @@ export class Destination {
         ? 'MMF_Relay_Foundry'
         : this.definition.id === 'quiet-array'
           ? 'MMF_Quiet_Array'
-          : 'MMF_Wreck_One';
+          : this.definition.id === 'glass-orchard'
+            ? 'MMF_Glass_Orchard'
+            : 'MMF_Wreck_One';
     this.root.position.set(
       this.definition.placement.root.x,
       DECK_SURFACE_Y + this.definition.placement.root.y,
@@ -126,13 +139,22 @@ export class Destination {
   get interactables(): readonly Interactable[] {
     if (!this._active || !this._docked) return [];
     return this.localInteractables.filter(
-      (x) => x.kind !== 'unique' || !this.uniqueIds.has(this.factForInteractable(x.id) ?? ''),
+      (x) =>
+        (x.kind !== 'unique' || !this.uniqueIds.has(this.factForInteractable(x.id) ?? '')) &&
+        (x.kind !== 'objective' ||
+          !this.completedObjectives.has(this.objectiveForInteractable(x.id)!)),
     );
   }
   factForInteractable(id: string): StoryUniqueId | null {
     const item = this.definition.interactables.find((entry) => entry.id === id);
     if (item?.kind !== 'unique') return null;
     return item.factId ?? null;
+  }
+  objectiveForInteractable(id: string): StoryObjectiveId | null {
+    return (
+      this.definition.interactables.find((x) => x.id === id && x.kind === 'objective')
+        ?.objectiveId ?? null
+    );
   }
   configure(definition: DestinationDefinition, model?: THREE.Group) {
     if (this._active) return false;
@@ -141,9 +163,11 @@ export class Destination {
       !model && this.materials
         ? definition.id === 'relay-foundry'
           ? buildFoundryModel(this.materials)
-          : definition.id === 'quiet-array'
-            ? undefined
-            : buildWreckModel(this.materials)
+          : definition.id === 'glass-orchard'
+            ? buildOrchardModel(this.materials)
+            : definition.id === 'quiet-array'
+              ? undefined
+              : buildWreckModel(this.materials)
         : model;
     this.replaceVisual(generated);
     this.definition = definition;
@@ -152,7 +176,9 @@ export class Destination {
         ? 'MMF_Relay_Foundry'
         : definition.id === 'quiet-array'
           ? 'MMF_Quiet_Array'
-          : 'MMF_Wreck_One';
+          : definition.id === 'glass-orchard'
+            ? 'MMF_Glass_Orchard'
+            : 'MMF_Wreck_One';
     this.root.position.set(
       definition.placement.root.x,
       DECK_SURFACE_Y + definition.placement.root.y,
@@ -163,6 +189,8 @@ export class Destination {
     return true;
   }
   syncProgress(progress: DestinationProgress) {
+    this.completedObjectives.clear();
+    for (const id of progress.completedObjectives ?? []) this.completedObjectives.add(id);
     this.uniqueIds.clear();
     if (progress.uniqueIds) for (const id of progress.uniqueIds) this.uniqueIds.add(id);
     else if (progress.uniqueCollected) this.uniqueIds.add('course-gyro');

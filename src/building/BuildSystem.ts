@@ -4,7 +4,8 @@ import type RAPIER from '@dimforge/rapier3d-compat';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
-import { buildTurretModel, type TurretVisual } from '@/art/DefenseModels';
+import { authoredModel, buildTurretModel, type TurretVisual } from '@/art/DefenseModels';
+import { buildSeedGardenModel, type SeedGardenVisual } from '@/art/SeedGardenModels';
 import {
   buildAutomaticCollectorModel,
   buildAutomaticTurretModel,
@@ -49,6 +50,7 @@ import { countEnclosed, detectRooms, type RoomGraph } from './RoomDetector';
 import { buildNavGraph, type FixedLink, type NavGraph } from '@/enemies/NavGraph';
 import { buildPieceGeometry, pieceColliders, pieceMaterial } from './BuildPieceGeometry';
 import { Producer, type ProducerSave } from './Producer';
+import { SeedGarden, type SeedGardenSave } from './SeedGarden';
 import { producerRoleOf } from '@/data/needs';
 
 export interface BuildPieceInstance {
@@ -178,6 +180,10 @@ export class BuildSystem {
    * record and a live model with methods on it is not.
    */
   private readonly producerTimers = new Map<string, Producer>();
+  private readonly gardenTimers = new Map<string, SeedGarden>();
+  private readonly gardenVisuals = new Map<string, SeedGardenVisual>();
+  /** Prevent inventory notifications from re-entering a structural/content transaction. */
+  private buildMutation = false;
   /**
    * Each lamp's own glow material.
    *
@@ -327,8 +333,6 @@ export class BuildSystem {
     const ids = new Set<string>();
     const root = this.instances.get(instanceId);
     if (!root) return { ids: [], refund: {} };
-    if (root.data.definitionId === 'collector-auto' && !this.canEmptyCollector(instanceId))
-      return { ids: [], refund: {} };
     const remove = (data: BuildPieceInstance) => {
       ids.add(data.instanceId);
       this.removeFromProbe(probe, data);
@@ -354,11 +358,7 @@ export class BuildSystem {
           break;
         }
       }
-      if (
-        !orphan ||
-        (orphan.definitionId === 'collector-auto' && !this.canEmptyCollector(orphan.instanceId))
-      )
-        break;
+      if (!orphan) break;
       remove(orphan);
     }
     const refund: ItemCost = {};
@@ -370,7 +370,38 @@ export class BuildSystem {
         refund[key] = (refund[key] ?? 0) + Math.floor(amount * REFUND_FRACTION);
       }
     }
+    const transfer = this.cascadeContents(ids);
+    if (!this.resources.canDepositAll(transfer.contents, transfer.excluded))
+      return { ids: [], refund: {} };
     return { ids: [...ids], refund };
+  }
+
+  private cascadeContents(ids: ReadonlySet<string>): {
+    contents: ItemCost;
+    excluded: Set<Container>;
+  } {
+    const contents: ItemCost = {};
+    const excluded = new Set<Container>();
+    const add = (itemId: ItemId, count: number) => {
+      if (count > 0) contents[itemId] = (contents[itemId] ?? 0) + count;
+    };
+    for (const id of ids) {
+      const garden = this.gardenTimers.get(id)?.snapshot();
+      if (garden) {
+        add('water', garden.water);
+        add('greens', garden.greens);
+      }
+      for (const container of [this.crateContainers.get(id), this.collectorContainers.get(id)]) {
+        if (!container) continue;
+        excluded.add(container);
+        for (const slot of container.slots) if (slot) add(slot.itemId, slot.count);
+      }
+      const timer = this.producerTimers.get(id);
+      const live = this.instances.get(id);
+      const role = live && producerRoleOf(live.data.definitionId);
+      if (timer && role) add(role.itemId, timer.stored);
+    }
+    return { contents, excluded };
   }
 
   canPlace(placement: Placement): Validation {
@@ -386,6 +417,7 @@ export class BuildSystem {
     placement: Placement,
     options: RelocationOptions = {},
   ): RelocationResult {
+    if (this.buildMutation) return { ok: false, reason: 'busy' };
     const live = this.instances.get(instanceId);
     if (!live) return { ok: false, reason: 'not-found' };
     if (live.data.health <= 0) return { ok: false, reason: 'destroyed' };
@@ -535,6 +567,14 @@ export class BuildSystem {
    * cache for ghost rendering.
    */
   createPreviewVisual(piece: PieceId): THREE.Object3D | null {
+    if (piece === 'seed-garden') {
+      const root = authoredModel('seed-garden')?.scene.clone(true) ?? null;
+      for (const stage of ['Growing', 'Ready']) {
+        const object = root?.getObjectByName(stage);
+        if (object) object.visible = false;
+      }
+      return root;
+    }
     if (piece === 'turret-manual') {
       this.previewTurretTemplate ??= buildTurretModel(this.materials).root;
       return this.previewTurretTemplate.clone(true);
@@ -556,6 +596,7 @@ export class BuildSystem {
     free = false,
     requestedInstanceId?: string,
   ): BuildPieceInstance | null {
+    if (this.buildMutation) return null;
     if (!free && !this.buildAuthorizer(placement.piece)) return null;
     if (!free && this.buildBlocker(placement)) return null;
     const def = BUILD_PIECES[placement.piece];
@@ -592,6 +633,11 @@ export class BuildSystem {
     const producing = producerRoleOf(data.definitionId);
     if (producing) {
       this.producerTimers.set(data.instanceId, new Producer(producing.periodS, producing.capacity));
+    }
+    if (data.definitionId === 'seed-garden') {
+      const garden = new SeedGarden();
+      this.gardenTimers.set(data.instanceId, garden);
+      this.gardenVisuals.get(data.instanceId)?.update(garden.snapshot());
     }
     this.instances.set(data.instanceId, {
       data,
@@ -640,6 +686,7 @@ export class BuildSystem {
    * attacked free.
    */
   damagePiece(instanceId: string, amount: number): number {
+    if (this.buildMutation) return 0;
     const live = this.instances.get(instanceId);
     if (!live) return 0;
 
@@ -648,15 +695,20 @@ export class BuildSystem {
     if (dealt === 0) return 0;
 
     live.data.health = Math.max(0, live.data.health - dealt);
-    this.bus.emit('build:damaged', {
-      instanceId,
-      definitionId: live.data.definitionId,
-      health: live.data.health,
-      maxHealth: def.maxHealth,
-    });
+    this.buildMutation = true;
+    try {
+      this.bus.emit('build:damaged', {
+        instanceId,
+        definitionId: live.data.definitionId,
+        health: live.data.health,
+        maxHealth: def.maxHealth,
+      });
+    } finally {
+      this.buildMutation = false;
+    }
 
     if (live.data.health <= 0) {
-      this.removeCascade(instanceId);
+      this.removeCascade(instanceId, true);
       this.recomputeRooms();
     }
     return dealt;
@@ -668,21 +720,40 @@ export class BuildSystem {
    * Pulling a floor must take its roof and any edge piece left with a floor on
    * neither side, or the player is left with walls hanging in mid-air.
    */
-  private removeCascade(rootId: string): number {
-    let refunded = this.removeOne(rootId);
-    if (refunded < 0) return 0;
+  private removeCascade(rootId: string, destroyed = false): number {
+    if (this.buildMutation) return 0;
+    this.buildMutation = true;
+    try {
+      const preview = destroyed ? null : this.demolitionPreview(rootId);
+      if (!destroyed && (!preview || preview.ids.length === 0)) return 0;
+      const secured = new Set(preview?.ids ?? []);
+      if (!destroyed) {
+        const transfer = this.cascadeContents(secured);
+        const hasContents = Object.values(transfer.contents).some((count) => (count ?? 0) > 0);
+        if (hasContents && !this.resources.depositAll(transfer.contents, transfer.excluded))
+          return 0;
+        for (const id of secured) {
+          this.crateContainers.get(id)?.clear();
+          this.collectorContainers.get(id)?.clear();
+          this.producerTimers.get(id)?.claim();
+        }
+        if (hasContents)
+          this.bus.emit('inventory:changed', { scrap: this.resources.count('scrap') });
+      }
 
-    // Iterate to a fixed point: removing an orphaned wall can orphan nothing
-    // else today, but the loop keeps the rule honest as pieces are added.
-    for (;;) {
-      const orphan = this.findOrphan();
-      if (!orphan) break;
-      const amount = this.removeOne(orphan);
-      if (amount < 0) break;
-      refunded += amount;
+      let refunded = this.removeOne(rootId, destroyed, secured.has(rootId));
+      if (refunded < 0) return 0;
+      for (;;) {
+        const orphan = this.findOrphan();
+        if (!orphan) break;
+        const amount = this.removeOne(orphan, destroyed, secured.has(orphan));
+        if (amount < 0) break;
+        refunded += amount;
+      }
+      return refunded;
+    } finally {
+      this.buildMutation = false;
     }
-
-    return refunded;
   }
 
   private findOrphan(): string | null {
@@ -729,7 +800,7 @@ export class BuildSystem {
   }
 
   /** Remove one instance. Returns refund, or -1 if it did not exist. */
-  private removeOne(id: string): number {
+  private removeOne(id: string, destroyed = false, contentsSecured = false): number {
     const live = this.instances.get(id);
     if (!live) return -1;
 
@@ -737,14 +808,33 @@ export class BuildSystem {
     // any accepted item cannot be returned through the normal resource route;
     // silently dropping a full buffer is worse than asking the player to empty
     // it first.
-    if (live.data.definitionId === 'collector-auto' && !this.canEmptyCollector(id)) return -1;
+    if (
+      live.data.definitionId === 'collector-auto' &&
+      !destroyed &&
+      !contentsSecured &&
+      !this.canEmptyCollector(id)
+    )
+      return -1;
+
+    const garden = this.gardenTimers.get(id)?.snapshot();
+    if (garden && !contentsSecured) {
+      if (destroyed) {
+        this.resources.deposit('water', garden.water);
+        this.resources.deposit('greens', garden.greens);
+      } else if (!this.resources.depositAll({ water: garden.water, greens: garden.greens })) {
+        return -1;
+      }
+    }
+    this.gardenTimers.delete(id);
+    this.gardenVisuals.get(id)?.dispose();
+    this.gardenVisuals.delete(id);
 
     const def = BUILD_PIECES[live.data.definitionId];
 
     // Empty the crate BEFORE it stops being a deposit target, or part of the
     // contents lands straight back in the crate being destroyed.
     this.emptyCrate(id);
-    this.emptyCollector(id);
+    this.emptyCollector(id, destroyed || contentsSecured);
     this.emptyProducer(id);
 
     this.vacate(live.data);
@@ -759,7 +849,7 @@ export class BuildSystem {
     this.weight -= def.weight;
     this.machine.movement.totalWeight -= def.weight;
 
-    const refunded = this.refund(def.cost);
+    const refunded = destroyed ? 0 : this.refund(def.cost);
     this.bus.emit('build:removed', {
       instanceId: id,
       definitionId: live.data.definitionId,
@@ -898,10 +988,10 @@ export class BuildSystem {
     );
   }
 
-  private emptyCollector(id: string): void {
+  private emptyCollector(id: string, force = false): void {
     const container = this.collectorContainers.get(id);
     if (!container) return;
-    if (!this.canEmptyCollector(id)) return;
+    if (!force && !this.canEmptyCollector(id)) return;
     this.collectorContainers.delete(id);
     for (const slot of container.slots) if (slot) this.resources.deposit(slot.itemId, slot.count);
     container.clear();
@@ -1258,13 +1348,15 @@ export class BuildSystem {
           : null;
     const collectorVisual =
       data.definitionId === 'collector-auto' ? buildAutomaticCollectorModel(this.materials) : null;
+    const gardenVisual =
+      data.definitionId === 'seed-garden' ? buildSeedGardenModel(this.materials) : null;
     // The wrapper retains the build instance's identity and deck transform;
     // collision still comes from pieceColliders, independent of asset loading.
     const mesh = new THREE.Mesh(
-      visual || collectorVisual || authoredStation
+      visual || collectorVisual || gardenVisual || authoredStation
         ? this.authoredPlaceholderGeometry
         : buildPieceGeometry(data.definitionId),
-      visual || collectorVisual || authoredStation
+      visual || collectorVisual || gardenVisual || authoredStation
         ? this.authoredPlaceholderMaterial
         : this.materialFor(data),
     );
@@ -1275,6 +1367,10 @@ export class BuildSystem {
     if (collectorVisual) {
       mesh.add(collectorVisual.root);
       this.collectorVisuals.set(data.instanceId, collectorVisual);
+    }
+    if (gardenVisual) {
+      mesh.add(gardenVisual.root);
+      this.gardenVisuals.set(data.instanceId, gardenVisual);
     }
     if (authoredStation) {
       this.prepareAuthoredStation(authoredStation, data);
@@ -1486,15 +1582,18 @@ export class BuildSystem {
       const container = this.crateContainers.get(live.data.instanceId);
       const collector = this.collectorContainers.get(live.data.instanceId);
       const timer = this.producerTimers.get(live.data.instanceId);
+      const garden = this.gardenTimers.get(live.data.instanceId);
       // One `state` bag, and at most one of these two ever writes it: a crate
       // does not produce and a condenser holds no slots.
-      const state: CrateState | ProducerSave | undefined = container
+      const state: CrateState | ProducerSave | Record<string, unknown> | undefined = container
         ? { slots: container.serialise() }
         : collector
           ? { slots: collector.serialise() }
           : timer
             ? timer.toSave()
-            : undefined;
+            : garden
+              ? { ...garden.snapshot() }
+              : undefined;
       return {
         ...live.data,
         cell: { ...live.data.cell },
@@ -1512,6 +1611,7 @@ export class BuildSystem {
    * floors must land before the walls and roofs that depend on them.
    */
   restore(pieces: BuildPieceInstance[], relocate = false): void {
+    if (this.buildMutation) return;
     this.clear();
     // Migration foundations must never claim an id belonging to a later piece.
     for (const piece of pieces)
@@ -1534,6 +1634,7 @@ export class BuildSystem {
       stove: 4,
       condenser: 4,
       planter: 4,
+      'seed-garden': 4,
       'turret-manual': 4,
       'collector-auto': 4,
       'turret-auto': 4,
@@ -1597,6 +1698,11 @@ export class BuildSystem {
       // Absent in every save written before Phase 4, and absent restores as an
       // empty unstarted device — see `Producer.restore`.
       this.producerTimers.get(created.instanceId)?.restore(piece.state as ProducerSave | undefined);
+      const garden = this.gardenTimers.get(created.instanceId);
+      if (garden) {
+        garden.restore(piece.state);
+        this.gardenVisuals.get(created.instanceId)?.update(garden.snapshot());
+      }
     }
   }
 
@@ -1606,43 +1712,53 @@ export class BuildSystem {
   }
 
   clear(): void {
-    this.recoveryPieces.length = 0;
-    for (const id of [...this.instances.keys()]) {
-      const live = this.instances.get(id);
-      if (!live) continue;
-      for (const collider of live.colliders) this.physics.removeCollider(collider);
-      this.group.remove(live.mesh);
-      this.disposeLampGlow(id);
-      this.disposeAuthoredLampGlow(id);
-      this.disposeTurretVisual(id);
+    if (this.buildMutation) return;
+    this.buildMutation = true;
+    try {
+      this.recoveryPieces.length = 0;
+      for (const id of [...this.instances.keys()]) {
+        const live = this.instances.get(id);
+        if (!live) continue;
+        for (const collider of live.colliders) this.physics.removeCollider(collider);
+        this.group.remove(live.mesh);
+        this.disposeLampGlow(id);
+        this.disposeAuthoredLampGlow(id);
+        this.disposeTurretVisual(id);
+      }
+      this.instances.clear();
+      this.cellOwner.clear();
+      this.roofOwner.clear();
+      this.edgeOwner.clear();
+      this.fixtureOwner.clear();
+      this.stationOwner.clear();
+      this.decorOwner.clear();
+      this.stairsOwner.clear();
+      this.crateContainers.clear();
+      this.collectorContainers.clear();
+      this.producerTimers.clear();
+      this.gardenTimers.clear();
+      for (const visual of this.gardenVisuals.values()) visual.dispose();
+      this.gardenVisuals.clear();
+      this.turretVisuals.clear();
+      this.collectorVisuals.clear();
+      this.authoredLampGlow.clear();
+      // Templates belong to the session, while clear() also serves New Game and
+      // save restore. Retain them so rebuilt stations keep their authored art.
+      this.externalLinks.clear();
+      this.grid.clear();
+
+      this.machine.movement.totalWeight -= this.weight;
+      this.weight = 0;
+
+      this.recomputeRooms();
+    } finally {
+      this.buildMutation = false;
     }
-    this.instances.clear();
-    this.cellOwner.clear();
-    this.roofOwner.clear();
-    this.edgeOwner.clear();
-    this.fixtureOwner.clear();
-    this.stationOwner.clear();
-    this.decorOwner.clear();
-    this.stairsOwner.clear();
-    this.crateContainers.clear();
-    this.collectorContainers.clear();
-    this.producerTimers.clear();
-    this.turretVisuals.clear();
-    this.collectorVisuals.clear();
-    this.authoredLampGlow.clear();
-    // Templates belong to the session, while clear() also serves New Game and
-    // save restore. Retain them so rebuilt stations keep their authored art.
-    this.externalLinks.clear();
-    this.grid.clear();
-
-    this.machine.movement.totalWeight -= this.weight;
-    this.weight = 0;
-
-    this.recomputeRooms();
   }
 
   /** Release session-owned templates and wrappers after removing live pieces. */
   dispose(): void {
+    if (this.buildMutation) return;
     this.clear();
     if (this.previewTurretTemplate && !this.previewTurretTemplate.userData.authored) {
       const geometries = new Set<THREE.BufferGeometry>();
@@ -1661,5 +1777,63 @@ export class BuildSystem {
   /** Cells reachable on foot from a level, for later navmesh work. */
   neighbouringCells(cell: Cell): Cell[] {
     return SIDES.map((s) => neighbour(cell, s)).filter((n) => this.grid.getCell(n) === 'floor');
+  }
+
+  gardenSnapshot(instanceId: string): Readonly<SeedGardenSave> | null {
+    return this.gardenTimers.get(instanceId)?.snapshot() ?? null;
+  }
+
+  waterGarden(instanceId: string): number {
+    if (this.buildMutation) return 0;
+    const garden = this.gardenTimers.get(instanceId);
+    if (!garden) return 0;
+    const amount = Math.min(2 - garden.snapshot().water, this.resources.count('water'));
+    if (amount <= 0) return 0;
+    this.buildMutation = true;
+    const before = garden.snapshot();
+    try {
+      const accepted = garden.loadWater(amount);
+      if (accepted <= 0 || !this.resources.consume({ water: accepted })) {
+        garden.restore(before);
+        return 0;
+      }
+      this.gardenVisuals.get(instanceId)?.update(garden.snapshot());
+      return accepted;
+    } finally {
+      this.buildMutation = false;
+    }
+  }
+
+  harvestGarden(instanceId: string): number {
+    if (this.buildMutation) return 0;
+    const garden = this.gardenTimers.get(instanceId);
+    if (!garden) return 0;
+    const held = garden.snapshot().greens;
+    const accepted = Math.min(held, this.resources.roomFor('greens'));
+    if (accepted <= 0) return 0;
+    this.buildMutation = true;
+    const before = garden.snapshot();
+    try {
+      garden.harvest(accepted);
+      if (!this.resources.depositAll({ greens: accepted })) {
+        garden.restore(before);
+        return 0;
+      }
+      this.gardenVisuals.get(instanceId)?.update(garden.snapshot());
+      return accepted;
+    } finally {
+      this.buildMutation = false;
+    }
+  }
+
+  tickGardens(dt: number): ProducerOutput[] {
+    const out: ProducerOutput[] = [];
+    if (this.buildMutation) return out;
+    for (const [instanceId, garden] of this.gardenTimers) {
+      const count = garden.fixedUpdate(dt);
+      this.gardenVisuals.get(instanceId)?.update(garden.snapshot());
+      if (count) out.push({ instanceId, itemId: 'greens', count });
+    }
+    return out;
   }
 }
