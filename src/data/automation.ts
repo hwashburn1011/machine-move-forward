@@ -1,7 +1,8 @@
 import type { PieceId } from './build-pieces';
 import type { StoryUniqueId } from './story';
 
-export type UnlockId = 'manual-turret' | 'automatic-salvage-collector' | 'automatic-defense-turret' | 'seed-garden';
+export type UnlockId =
+  'manual-turret' | 'automatic-salvage-collector' | 'automatic-defense-turret' | 'seed-garden';
 export type AutomationPieceId = 'collector-auto' | 'turret-auto';
 
 export const SPECIALIST_BLUEPRINT: Record<StoryUniqueId, UnlockId | null> = {
@@ -12,6 +13,7 @@ export const SPECIALIST_BLUEPRINT: Record<StoryUniqueId, UnlockId | null> = {
   'tracking-servo': 'automatic-defense-turret',
   'human-seed-bank': 'seed-garden',
   'vector-governor': null,
+  'meridian-solution': null,
   'orchard-memory-core': null,
 };
 

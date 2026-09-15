@@ -1,7 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { RELAY_FOUNDRY, STORY_EXPEDITIONS, WRECK_ONE, validateStoryData } from '@/data/story';
+import {
+  LAST_GARDEN_MERIDIAN,
+  RELAY_FOUNDRY,
+  REQUIRED_JOURNALS_PROVEN_BY_UNIQUE,
+  STORY_EXPEDITIONS,
+  WRECK_ONE,
+  validateStoryData,
+} from '@/data/story';
 import {
   FOUNDRY_ROUTES,
+  MERIDIAN_ROUTES,
   ORCHARD_ROUTES,
   routeCards,
   validateRoutes,
@@ -57,6 +65,51 @@ describe('campaign data and route contracts', () => {
         { ...FOUNDRY_ROUTES[0]!, destinationId: 'glass-orchard' } as RouteDefinition,
       ]),
     ).toContain('destination mismatch foundry-direct');
+  });
+
+  it('ships the Meridian expedition with its frozen anchors and records', () => {
+    expect(validateStoryData()).toEqual([]);
+    expect(LAST_GARDEN_MERIDIAN.requiredUniques).toEqual(['meridian-solution']);
+    expect(LAST_GARDEN_MERIDIAN.requiredObjectives).toEqual([
+      'meridian-transmitter-online',
+      'meridian-archive-installed',
+    ]);
+    expect(LAST_GARDEN_MERIDIAN.journals.map((journal) => journal.id)).toEqual([
+      'meridian-common-record',
+      'meridian-civilian-record',
+      'meridian-defense-record',
+    ]);
+    expect(LAST_GARDEN_MERIDIAN.placement).toEqual({
+      root: { x: 17, y: 0, z: 0 },
+      entryAnchor: { x: -8, y: 0, z: 0 },
+      exitSightline: { x: -9.5, y: 1, z: 0 },
+      gangway: { x: -9.5, y: -0.08, z: 0 },
+    });
+    expect(
+      LAST_GARDEN_MERIDIAN.interactables.find((item) => item.id === 'meridian-solution')?.fallback,
+    ).toEqual({ x: 4, y: 1.2, z: 4.5 });
+  });
+
+  it('keeps Meridian route schedules and the legacy journal proof table exact', () => {
+    expect(MERIDIAN_ROUTES).toEqual([
+      expect.objectContaining({
+        id: 'meridian-quiet-line',
+        distanceM: 1250,
+        scriptedVehicle: 'skiff',
+        scriptedVehicleRemainingM: 520,
+      }),
+      expect.objectContaining({
+        id: 'meridian-cordon-gap',
+        distanceM: 1050,
+        scriptedVehicle: 'gunboat',
+        scriptedVehicleRemainingM: 620,
+      }),
+    ]);
+    expect(REQUIRED_JOURNALS_PROVEN_BY_UNIQUE).toEqual({
+      'course-actuator': ['quiet-array-journal-port', 'quiet-array-journal-starboard'],
+      'vector-governor': ['orchard-memory-record'],
+      'meridian-solution': ['meridian-common-record'],
+    });
   });
 
   it('commits from the current world distance and clears Wreck journal state', () => {

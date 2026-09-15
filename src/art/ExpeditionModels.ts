@@ -2,7 +2,38 @@ import * as THREE from 'three';
 import type { Materials } from './Materials';
 import { authoredModel } from './DefenseModels';
 import { applyHeightFog } from './Fog';
-import { QUIET_ARRAY, GLASS_ORCHARD } from '@/data/story';
+import { QUIET_ARRAY, GLASS_ORCHARD, LAST_GARDEN_MERIDIAN } from '@/data/story';
+
+export function buildMeridianModel(materials: Materials): THREE.Group {
+  const definition = LAST_GARDEN_MERIDIAN;
+  const authored = authoredWithAnchors(
+    definition.modelId,
+    definition.interactables.map((x) => x.anchor),
+  );
+  if (authored) {
+    authored.userData.authored = true;
+    return authored;
+  }
+  const root = new THREE.Group();
+  root.name = 'MMF_Last_Garden_Meridian_Fallback';
+  for (const { id, at, half } of definition.colliders) {
+    const mesh = box(
+      root,
+      [half.x * 2, half.y * 2, half.z * 2],
+      [at.x, at.y, at.z],
+      materials.hull,
+    );
+    if (id === 'gangway') mesh.name = 'GangwayFloor';
+  }
+  for (const item of definition.interactables) {
+    const anchor = new THREE.Group();
+    anchor.name = item.anchor;
+    anchor.position.set(item.fallback.x, item.fallback.y, item.fallback.z);
+    root.add(anchor);
+    if (item.kind !== 'departure') box(anchor, [0.4, 0.1, 0.3], [0, 0, 0], materials.accent);
+  }
+  return root;
+}
 
 export function buildOrchardModel(materials: Materials): THREE.Group {
   const authored = authoredWithAnchors(

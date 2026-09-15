@@ -112,6 +112,37 @@ describe('HelmUI', () => {
     );
   });
 
+  it('requires a second confirmation click before committing the Meridian bearing', () => {
+    const root = document.createElement('section');
+    const commit = vi.fn();
+    const helm = new HelmUI(root, {
+      close: vi.fn(),
+      setBearing: vi.fn(),
+      setThrottle: vi.fn(),
+      commitEnding: commit,
+    });
+    helm.render({ ...view, ending: { available: true, busy: false } });
+    const button = root.querySelector('[data-testid="helm-commit-ending"]') as HTMLButtonElement;
+    button.click();
+    expect(commit).not.toHaveBeenCalled();
+    expect(root.textContent).toContain('400 m');
+    button.click();
+    expect(commit).toHaveBeenCalledOnce();
+    helm.render({ ...view, ending: { available: false, busy: false } });
+    expect(root.querySelector('[data-testid="helm-commit-ending"]')).toBeNull();
+    helm.dispose();
+  });
+
+  it('names tier-three Meridian authority in the live status', () => {
+    const root = document.createElement('section');
+    const helm = new HelmUI(root, { close: vi.fn(), setBearing: vi.fn(), setThrottle: vi.fn() });
+    helm.render({ ...view, tier: 3 });
+    expect(root.querySelector('[data-testid="helm-status"]')?.textContent).toBe(
+      'Meridian authority online.',
+    );
+    helm.dispose();
+  });
+
   it('renders external journals and updates them with the next view', () => {
     const root = document.createElement('section');
     const panel = new ExpeditionUI(root, { close: vi.fn() });
@@ -233,6 +264,53 @@ describe('HelmUI', () => {
     expect(root.textContent).toContain('ORCHARD TRANSIT DESK');
     expect(root.textContent).toContain('Caretaker testimony');
     expect(root.textContent).not.toContain('Course Gyro');
+    panel.dispose();
+  });
+
+  it('labels Meridian routes and uses its chapter title while docked', () => {
+    const root = document.createElement('section');
+    const panel = new ExpeditionUI(root, { close: vi.fn() });
+    panel.open({
+      phase: 'docked',
+      objective: 'Restore Meridian.',
+      strength: 1,
+      remainingM: 0,
+      journalsRead: [],
+      uniqueCollected: false,
+      playerOnMachine: false,
+      expeditionId: 'last-garden-meridian',
+      routes: ['meridian-quiet-line', 'meridian-cordon-gap'],
+    });
+    expect(root.querySelector('[data-expedition-phase]')?.textContent).toBe('Last Garden Meridian');
+    expect(root.textContent).toContain('Quiet Line');
+    expect(root.textContent).toContain('Cordon Gap');
+    panel.dispose();
+  });
+
+  it('renders escaped, deduplicated read archive records grouped by chapter', () => {
+    const root = document.createElement('section');
+    const panel = new ExpeditionUI(root, { close: vi.fn() });
+    const base: ExpeditionView = {
+      phase: 'docked',
+      objective: 'Remember.',
+      strength: 1,
+      remainingM: 0,
+      journalsRead: [],
+      uniqueCollected: false,
+      playerOnMachine: false,
+      expeditionId: 'last-garden-meridian',
+      journalArchive: [
+        { id: 'old-1', title: 'Old <record>', text: 'A & B', chapter: 'Orchard' },
+        { id: 'old-1', title: 'Duplicate', text: 'Should not render', chapter: 'Orchard' },
+        { id: 'old-2', title: 'Meridian note', text: 'Signed record', chapter: 'Meridian' },
+      ],
+    };
+    panel.open(base);
+    expect(root.querySelectorAll('[data-archive-id="old-1"]')).toHaveLength(1);
+    expect(root.querySelectorAll('[data-archive-chapter]')).toHaveLength(2);
+    expect(root.textContent).toContain('Old <record>');
+    expect(root.textContent).not.toContain('Should not render');
+    expect(root.querySelector('[data-archive-id="old-1"]')?.innerHTML).toContain('&amp;');
     panel.dispose();
   });
 });

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "last-garden-meridian",
+    "sourceBytes": 20135992,
+    "optimizedBytes": 13500380,
+    "textureBytes": 7895810,
+    "repairedTangents": 0
+  },
+  {
+    "name": "meridian-horizon",
+    "sourceBytes": 15989996,
+    "optimizedBytes": 9354364,
+    "textureBytes": 7895810,
+    "repairedTangents": 0
+  }
+]

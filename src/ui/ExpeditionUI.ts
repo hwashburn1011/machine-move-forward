@@ -20,6 +20,14 @@ export interface ExpeditionView {
   extraJournals?: readonly { id: string; title: string; text: string }[];
   availableJournalIds?: readonly string[];
   completedObjectives?: readonly string[];
+  journalArchive?: readonly { id: string; title: string; text: string; chapter: string }[];
+}
+
+interface JournalArchiveRecord {
+  id: string;
+  title: string;
+  text: string;
+  chapter: string;
 }
 
 export interface ExpeditionUICallbacks {
@@ -138,13 +146,47 @@ export class ExpeditionUI {
           `<span data-expedition-unique="${id}">${friendlyFact(id)}: ${v.recoveredUniques?.includes(id) ? 'recovered' : 'pending'}</span>`,
       )
       .join('');
+    const archiveRecords = new Map<string, JournalArchiveRecord>();
+    for (const record of v.journalArchive ?? []) {
+      if (!archiveRecords.has(record.id)) archiveRecords.set(record.id, record);
+    }
+    const archiveByChapter = new Map<string, Map<string, JournalArchiveRecord>>();
+    for (const record of archiveRecords.values()) {
+      let chapter = archiveByChapter.get(record.chapter);
+      if (!chapter) {
+        chapter = new Map();
+        archiveByChapter.set(record.chapter, chapter);
+      }
+      chapter.set(record.id, record);
+    }
+    const archive = archiveByChapter.size
+      ? `<section data-expedition-archive><strong>Read archive</strong>${[...archiveByChapter]
+          .map(
+            ([chapter, records]) =>
+              `<div data-archive-chapter="${escapeHtml(chapter)}"><h4>${escapeHtml(chapter)}</h4>${[
+                ...records.values(),
+              ]
+                .map(
+                  (record) =>
+                    `<article data-archive-id="${escapeHtml(record.id)}"><strong>${escapeHtml(record.title)}</strong><p>${escapeHtml(record.text)}</p></article>`,
+                )
+                .join('')}</div>`,
+          )
+          .join('')}</section>`
+      : '';
     const objectives = (expedition.requiredObjectives ?? [])
       .map(
         (id) =>
           `<span data-expedition-objective-id="${id}">${friendlyObjective(id)}: ${v.completedObjectives?.includes(id) ? 'complete' : 'pending'}</span>`,
       )
       .join('');
-    this.body.innerHTML = `<div data-expedition-phase>${escapeHtml(STORY_PHASE_LABELS[v.phase] ?? expedition.title)}</div><div data-expedition-objective>${escapeHtml(v.objective || expedition.objective)}</div><div data-expedition-strength>Signal ${Math.round(v.strength * 100)}%</div>${left}${routes}<div data-expedition-logs>${journals}</div><div data-expedition-unique-list>${uniqueFacts}${objectives}</div>`;
+    const phaseLabel =
+      v.phase === 'docked'
+        ? expedition.title
+        : v.phase === 'approach'
+          ? `Approaching ${expedition.title}`
+          : (STORY_PHASE_LABELS[v.phase] ?? expedition.title);
+    this.body.innerHTML = `<div data-expedition-phase>${escapeHtml(phaseLabel)}</div><div data-expedition-objective>${escapeHtml(v.objective || expedition.objective)}</div><div data-expedition-strength>Signal ${Math.round(v.strength * 100)}%</div>${left}${routes}<div data-expedition-logs>${journals}</div>${archive}<div data-expedition-unique-list>${uniqueFacts}${objectives}</div>`;
   }
 
   private readonly onClick = (event: MouseEvent): void => {
@@ -202,6 +244,7 @@ function viewKey(view: ExpeditionView): string {
     extraJournals: view.extraJournals ?? [],
     availableJournalIds: view.availableJournalIds ?? [],
     completedObjectives: view.completedObjectives ?? [],
+    journalArchive: view.journalArchive ?? [],
   });
 }
 
@@ -212,6 +255,8 @@ function routeLabel(id: RouteId): string {
       'foundry-detour': 'Detour',
       'orchard-caretaker': 'Caretaker Approach',
       'orchard-cold-vault': 'Cold Vault',
+      'meridian-quiet-line': 'Quiet Line',
+      'meridian-cordon-gap': 'Cordon Gap',
     } satisfies Record<RouteId, string>
   )[id];
 }

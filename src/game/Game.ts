@@ -95,13 +95,7 @@ import {
   type PieceId,
 } from '@/data/build-pieces';
 import { FUEL_BURN_PER_S, FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
-import {
-  routeCards,
-  routeDefinition,
-  FOUNDRY_ROUTES,
-  ORCHARD_ROUTES,
-  type RouteId,
-} from '@/data/routes';
+import { routeCards, routeDefinition, routeDefinitionsFor, type RouteId } from '@/data/routes';
 import { TURRETS } from '@/data/turrets';
 import { isProducer, producerRoleOf, NEEDS_MAX } from '@/data/needs';
 import { countEnclosed, insideEnclosed } from '@/building/RoomDetector';
@@ -157,6 +151,10 @@ import { Progression } from '@/progression/Progression';
 import type { UpgradeBranch, UpgradeId } from '@/data/upgrades';
 import { StoryDirector, type StoryEffect } from '@/story/StoryDirector';
 import { Destination } from '@/story/Destination';
+import { EndingDirector, type EndingEffect } from '@/story/EndingDirector';
+import { MeridianArrivalScene } from '@/story/MeridianArrivalScene';
+import { EndingUI } from '@/ui/EndingUI';
+import { STORY_EXPEDITIONS } from '@/data/story';
 import {
   buildRadioModel,
   applyUpgradeVisuals,
@@ -389,6 +387,11 @@ export class Game implements LoopCallbacks {
   readonly progression = new Progression();
   readonly sessionMetrics = new SessionMetrics();
   readonly story = new StoryDirector();
+  readonly ending = new EndingDirector();
+  readonly endingUI: EndingUI;
+  private arrivalScene: MeridianArrivalScene | null = null;
+  private endingCheckpointBusy = false;
+  private endingRefusal: string | null = null;
   readonly radioRaids = new RadioRaids();
   readonly raidMissions: RaidMissionSystem;
   readonly tacticsVisual: EnemyTacticsVisual;
@@ -1295,6 +1298,11 @@ export class Game implements LoopCallbacks {
       openLog: () => this.openExpedition(),
       plotContact: (id) => this.plotOpportunity(id),
       cancelApproach: () => this.cancelOpportunityApproach(),
+      commitEnding: () => void this.commitMeridianEnding(),
+    });
+    this.endingUI = new EndingUI(options.hudRoot.parentElement ?? options.hudRoot, {
+      skip: () => this.finishMeridianEnding(true),
+      keepWalking: () => this.finishMeridianEnding(false),
     });
     this.debug = new DebugOverlay(options.hudRoot);
 
@@ -1431,6 +1439,8 @@ export class Game implements LoopCallbacks {
     });
 
     window.addEventListener('resize', this.onResize);
+    window.addEventListener('blur', this.onEndingFocusLost);
+    document.addEventListener('visibilitychange', this.onEndingVisibilityChange);
     this.loop = new GameLoop(this);
   }
 
@@ -1589,6 +1599,7 @@ export class Game implements LoopCallbacks {
   private get cinematicCamera(): THREE.PerspectiveCamera | null {
     return (
       this.titleCamera ??
+      (this.arrivalScene?.active ? this.arrivalScene.camera : null) ??
       (this.signalBattle?.active ? this.signalBattle.camera : null) ??
       this.freeCamera
     );
@@ -1613,6 +1624,25 @@ export class Game implements LoopCallbacks {
 
   fixedUpdate(dt: number): void {
     if (this.state.paused) return;
+    if (!this.titleCamera && this.endingCinematic) {
+      this.syncInputContext();
+      if (this.input.consumePressed('cancel')) {
+        this.pause();
+        return;
+      }
+      if (this.ending.phase === 'arrival') {
+        this.state.simTime += dt;
+        this.machine.fixedUpdate(dt);
+        this.courseDeltaM = this.course.fixedUpdate(dt, this.machine.speed * dt).lateralM;
+        this.world.setLateralOffset(this.course.snapshot.lateralM);
+        this.salvage.shiftLateral(this.courseDeltaM);
+        this.world.fixedUpdate(dt, this.machine.speed);
+        this.physics.step();
+      }
+      this.updateEnding(dt);
+      this.processAutosave();
+      return;
+    }
     this.world.setLateralOffset(this.course.snapshot.lateralM);
     this.syncInputContext();
     this.updateBuildGuard(dt);
@@ -1637,10 +1667,13 @@ export class Game implements LoopCallbacks {
       this.physics.step();
       return;
     }
-    this.updatePanels(dt);
+    if (this.ending.phase === 'committed') {
+      if (this.input.consumePressed('cancel')) this.pause();
+    } else this.updatePanels(dt);
     if (this.state.paused) return;
     // Build mode and the panels are mutually exclusive: both want LMB.
-    if (!this.panelsOpen && this.input.consumePressed('build')) this.toggleBuildMode();
+    if (!this.endingInProgress && !this.panelsOpen && this.input.consumePressed('build'))
+      this.toggleBuildMode();
 
     if (!this.cinematicCamera) {
       // The body's pose for this step, from the gait — how far the machine has
@@ -1692,7 +1725,12 @@ export class Game implements LoopCallbacks {
         this.player.carry.z = carried.z;
       }
 
-      if (this.defense.mounted || this.panelsOpen || this.buildSession.state === 'catalog')
+      if (
+        this.endingInProgress ||
+        this.defense.mounted ||
+        this.panelsOpen ||
+        this.buildSession.state === 'catalog'
+      )
         this.player.fixedUpdate(dt, this.idleInput, this.playerCamera.yawAngle);
       else this.player.fixedUpdate(dt, this.input, this.playerCamera.yawAngle);
       // The camera follows where the player would be if the body were at rest,
@@ -1702,7 +1740,9 @@ export class Game implements LoopCallbacks {
       if (!this.defense.mounted) {
         this.playerCamera.fixedUpdate(
           dt,
-          this.buildMode || this.panelsOpen ? this.buildCameraInput : this.input,
+          this.endingInProgress || this.buildMode || this.panelsOpen
+            ? this.buildCameraInput
+            : this.input,
           this.machine.steadyPoint(this.player.worldPosition, this.cameraAnchor),
           this.physics,
           this.player.collider,
@@ -1715,7 +1755,13 @@ export class Game implements LoopCallbacks {
       // same way an open panel does.
       // An unarmed player reaches no trigger either, which is what the roof
       // is: the answer up there is run.
-      if (this.panelsOpen || this.state.playerDead || !this.armed || this.defense.mounted) {
+      if (
+        this.endingInProgress ||
+        this.panelsOpen ||
+        this.state.playerDead ||
+        !this.armed ||
+        this.defense.mounted
+      ) {
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
       } else if (this.buildMode) {
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
@@ -1801,11 +1847,20 @@ export class Game implements LoopCallbacks {
     this.announceMachineDamage(dt);
     this.updateOpportunities();
     const courseContext = this.courseContext();
-    if (courseContext.locked || !courseContext.powered) this.course.holdCourse();
+    if (this.ending.phase === 'committed' && !this.titleCamera) {
+      // Ending guidance owns the desired bearing; user controls stay locked.
+      this.course.setDesiredBearing(32, {
+        powered: true,
+        playerOnMachine: true,
+        stable: true,
+        locked: false,
+      });
+    } else if (courseContext.locked || !courseContext.powered) this.course.holdCourse();
     this.courseDeltaM = this.course.fixedUpdate(dt, this.machine.speed * dt).lateralM;
     this.world.setLateralOffset(this.course.snapshot.lateralM);
     this.salvage.shiftLateral(this.courseDeltaM);
     this.world.fixedUpdate(dt, this.machine.speed);
+    this.updateEnding(dt);
     if (this.helmUI.isOpen) this.helmUI.render(this.helmView());
     // The building recedes by exactly what the world does, and only once the
     // opening has released it — nothing stands on it while it moves.
@@ -1840,6 +1895,221 @@ export class Game implements LoopCallbacks {
       });
     }
     this.processAutosave();
+  }
+
+  private get endingInProgress(): boolean {
+    return ['committed', 'arrival', 'credits'].includes(this.ending.phase);
+  }
+
+  private get endingCinematic(): boolean {
+    return this.ending.phase === 'arrival' || this.ending.phase === 'credits';
+  }
+
+  private get endingEligible(): boolean {
+    const view = this.story.snapshot(this.world.distanceTraveled);
+    return (
+      view.phase === 'complete' &&
+      view.completedExpeditions.includes('last-garden-meridian') &&
+      view.recoveredUniques.includes('meridian-solution')
+    );
+  }
+
+  private get endingCommitRefusal(): string | null {
+    if (!this.endingEligible || this.ending.phase !== 'available')
+      return 'Finish the Meridian expedition first.';
+    if (this.state.paused || this.titleCamera) return 'Resume the game to set a course.';
+    if (!this.destination.playerOnMachine(this.player.worldPosition))
+      return 'Return aboard the Nomad.';
+    if (!this.machine.power.isPowered(this.helmPowerConsumerId))
+      return 'Power the navigation helm.';
+    if (
+      this.director.pendingCount > 0 ||
+      !['calm', 'recovery'].includes(this.director.currentPhase)
+    )
+      return 'Resolve the incoming threat before committing.';
+    if (
+      this.optionalModelId ||
+      this.destination.active ||
+      ['committed', 'docked', 'visited'].includes(this.routeChart.contact?.state ?? '')
+    )
+      return 'Depart the current discovery before committing.';
+    if (this.hasDestinationBuildConflict()) return 'Clear equipment from the expedition gangway.';
+    if (!this.isStableForStory() || !this.isSafeToSave() || this.buildMode || this.defense.mounted)
+      return 'Clear the attack and finish the current interaction first.';
+    return null;
+  }
+
+  private endingContext() {
+    return {
+      eligible: this.endingEligible,
+      currentDistance: this.world.distanceTraveled,
+      meridianBearingDeg: 32,
+      stable: this.endingCommitRefusal === null && this.helmUI.isOpen,
+    };
+  }
+
+  /** The checkpoint is written before any course, sanctuary or input ownership changes. */
+  private async commitMeridianEnding(): Promise<boolean> {
+    if (this.endingCheckpointBusy || !this.helmUI.isOpen) return false;
+    const prepared = this.ending.prepareCommit(this.endingContext());
+    if (!prepared.ok) {
+      this.hud.setWarning(this.endingCommitRefusal ?? 'The final course is unavailable.');
+      this.endingRefusal = null;
+      this.helmUI.render(this.helmView());
+      return false;
+    }
+    this.endingCheckpointBusy = true;
+    this.endingRefusal = null;
+    this.helmUI.render(this.helmView());
+    const saved = await this.saveTo('meridian-checkpoint');
+    this.endingCheckpointBusy = false;
+    if (!saved) {
+      this.ending.checkpointFailed(prepared.ticket);
+      this.endingRefusal = 'Checkpoint failed. Your game is unchanged; confirm again to retry.';
+      this.hud.setWarning(this.endingRefusal);
+      // Transient save errors must not disable the retry button.
+      this.endingRefusal = null;
+      this.helmUI.render(this.helmView());
+      return false;
+    }
+    const effects = this.ending.checkpointSucceeded(prepared.ticket, this.endingContext());
+    if (!effects.length) {
+      this.hud.setWarning(
+        'The deck changed while saving. Confirm the final course again when ready.',
+      );
+      this.helmUI.render(this.helmView());
+      return false;
+    }
+    this.closePanels(false);
+    this.input.clearAll();
+    this.releasePointerLock();
+    this.applyEndingEffects(effects);
+    this.requestAutosave();
+    return true;
+  }
+
+  private prepareArrival(): MeridianArrivalScene {
+    if (!this.arrivalScene) {
+      this.arrivalScene = new MeridianArrivalScene(this.renderer.scene, this.materials);
+      this.renderer.extraCameras.push(this.arrivalScene.camera);
+    }
+    return this.arrivalScene;
+  }
+
+  private positionArrival(): void {
+    const ending = this.ending.snapshot;
+    const lateral = this.course.snapshot.lateralM;
+    const at = ending.committedAtDistance ?? this.world.distanceTraveled;
+    const ground = duneHeightAt(lateral + 110, -(at + 620));
+    this.prepareArrival().place(at, lateral, this.world.distanceTraveled, ground);
+  }
+
+  private applyEndingEffects(effects: readonly EndingEffect[]): void {
+    for (const effect of effects) {
+      switch (effect.type) {
+        case 'lock-course':
+          this.course.setDesiredBearing(effect.bearingDeg, {
+            powered: true,
+            playerOnMachine: true,
+            stable: true,
+            locked: false,
+          });
+          break;
+        case 'request-sanctuary':
+          this.director.setSanctuary(effect.active, this.world.distanceTraveled);
+          break;
+        case 'begin-arrival':
+          this.closePanels(false);
+          this.exitBuildMode('cinematic');
+          this.defense.exit();
+          this.playerFade.restore();
+          this.input.clearAll();
+          this.positionArrival();
+          this.prepareArrival().begin(this.playerCamera.camera);
+          this.setHudVisible(false);
+          this.releasePointerLock();
+          this.audio.play('radio-signal');
+          this.requestAutosave();
+          break;
+        case 'show-credits':
+          this.requestAutosave();
+          break;
+        case 'enter-keep-walking':
+          this.arrivalScene?.stop();
+          this.input.clearAll();
+          this.playerCamera.resetHistory();
+          this.playerFade.restore();
+          this.setHudVisible(true);
+          this.hud.setWarning(
+            'Keep Walking. The names and seeds are safe aboard. There are still signals to answer.',
+          );
+          this.requestAutosave();
+          this.updateStory();
+          if (!this.options.bypassPointerLock) {
+            this.state.paused = true;
+            this.titleScreen?.show('pause');
+            this.resume();
+          }
+          break;
+      }
+    }
+    this.syncInputContext();
+    this.refreshEndingView();
+  }
+
+  private updateEnding(dt: number): void {
+    if (this.titleCamera || !this.endingInProgress) return;
+    // Let the ordinary respawn clock finish before handing the camera over.
+    if (this.ending.phase === 'committed' && this.state.playerDead) return;
+    this.applyEndingEffects(
+      this.ending.update({ currentDistance: this.world.distanceTraveled, elapsedSimS: dt }),
+    );
+    this.arrivalScene?.updateWorld(this.world.distanceTraveled, this.course.snapshot.lateralM);
+    if (this.endingCinematic) this.arrivalScene?.update(this.ending.snapshot.arrivalElapsedS);
+  }
+
+  private finishMeridianEnding(skip: boolean): void {
+    if (this.state.paused || this.titleCamera) return;
+    this.applyEndingEffects(skip ? this.ending.skip() : this.ending.acknowledgeCredits());
+  }
+
+  private restoreEndingPresentation(): void {
+    if (this.endingInProgress) {
+      this.director.setSanctuary(true, this.world.distanceTraveled);
+      if (this.endingCinematic) {
+        this.positionArrival();
+        this.prepareArrival().begin(this.playerCamera.camera);
+        this.arrivalScene?.update(this.ending.snapshot.arrivalElapsedS);
+        this.setHudVisible(false);
+      }
+      this.releasePointerLock();
+    } else this.setHudVisible(true);
+    this.syncInputContext();
+    this.refreshEndingView();
+  }
+
+  private refreshEndingView(): void {
+    const phase = this.ending.phase;
+    const elapsed = this.ending.snapshot.arrivalElapsedS;
+    this.endingUI?.setView({
+      phase:
+        this.endingInProgress && !this.titleCamera
+          ? (phase as 'committed' | 'arrival' | 'credits')
+          : null,
+      remainingM: Math.max(
+        0,
+        (this.ending.snapshot.committedAtDistance ?? 0) + 400 - this.world.distanceTraveled,
+      ),
+      caption:
+        phase === 'committed'
+          ? 'Meridian bearing locked. Carrying the names forward.'
+          : elapsed < 4
+            ? 'ANNIKA: The transmitter is being maintained. Someone kept a light on.'
+            : elapsed < 8
+              ? 'MERIDIAN: ...we have your names. Keep coming.'
+              : 'S-07: I cannot verify the voice. I can still answer it.',
+      paused: this.state.paused,
+    });
   }
 
   private updateStory(): void {
@@ -1879,22 +2149,30 @@ export class Game implements LoopCallbacks {
     const exploring = optional && ['committed', 'docked', 'visited'].includes(optional.state);
     this.hud.setStoryState({
       phase: view.phase,
-      title: exploring
-        ? OPPORTUNITIES[optional.kind].title
-        : ['quiet-array', 'glass-orchard'].includes(this.story.chapter.id)
-          ? this.story.chapter.title
-          : view.recoveredUniques.includes('course-actuator')
-            ? 'The open route'
-            : undefined,
-      objective: exploring
-        ? optional.state === 'committed'
-          ? 'Automatic approach plotted. Use the helm to cancel or adjust the course.'
-          : 'Gangway deployed. Recover supplies, then return aboard to depart.'
-        : view.phase === 'signal'
-          ? `Signal ${Math.floor(view.signalStrength * 100)}% · ${view.objective}`
-          : this.raidMissions.status
-            ? `${view.objective} · ${this.raidMissions.status}`
-            : view.objective,
+      title:
+        this.ending.phase === 'complete'
+          ? 'Keep Walking'
+          : exploring
+            ? OPPORTUNITIES[optional.kind].title
+            : ['quiet-array', 'glass-orchard', 'last-garden-meridian'].includes(
+                  this.story.chapter.id,
+                )
+              ? this.story.chapter.title
+              : view.recoveredUniques.includes('course-actuator')
+                ? 'The open route'
+                : undefined,
+      objective:
+        this.ending.phase === 'complete' && !exploring
+          ? 'Keep the Nomad supplied, tend what was saved, and answer discoveries along the route.'
+          : exploring
+            ? optional.state === 'committed'
+              ? 'Automatic approach plotted. Use the helm to cancel or adjust the course.'
+              : 'Gangway deployed. Recover supplies, then return aboard to depart.'
+            : view.phase === 'signal'
+              ? `Signal ${Math.floor(view.signalStrength * 100)}% · ${view.objective}`
+              : this.raidMissions.status
+                ? `${view.objective} · ${this.raidMissions.status}`
+                : view.objective,
       remainingM: exploring
         ? Math.max(0, optional.atDistanceM - this.world.distanceTraveled)
         : view.remainingM,
@@ -1908,7 +2186,10 @@ export class Game implements LoopCallbacks {
       this.radioUI.setView({
         strength: view.signalStrength,
         remainingM: view.remainingM,
-        signalText: view.objective,
+        signalText:
+          this.ending.phase === 'complete'
+            ? 'MERIDIAN: We have your names. Keep coming. The route remains open.'
+            : view.objective,
         ...this.radioTraceView(),
       });
     if (this.expeditionUI.isOpen) this.expeditionUI.setView(this.expeditionView());
@@ -1974,6 +2255,7 @@ export class Game implements LoopCallbacks {
 
   private updateRadioRaids(dt: number): void {
     const safe =
+      !this.endingInProgress &&
       !this.destination.docked &&
       !(
         this.optionalModelId &&
@@ -2414,6 +2696,7 @@ export class Game implements LoopCallbacks {
   }
 
   render(alpha: number): void {
+    this.refreshEndingView();
     this.renderer.beginFrame();
 
     const frameDt = Math.min(this.clock.getDelta(), 0.1);
@@ -3361,6 +3644,11 @@ export class Game implements LoopCallbacks {
     this.resetInventory();
     this.progression.restore(undefined);
     this.story.restore(undefined);
+    this.ending.restore(undefined, false);
+    this.arrivalScene?.stop();
+    this.endingCheckpointBusy = false;
+    this.endingRefusal = null;
+    this.refreshEndingView();
     this.cancelSignalBattle();
     this.radioRaids.restore();
     this.raidMissions.cancelTransient();
@@ -3414,9 +3702,7 @@ export class Game implements LoopCallbacks {
 
   private async newestSave(): Promise<string | null> {
     try {
-      const slots = await this.saves.list();
-      if (slots.length === 0) return null;
-      return slots.includes('quicksave') ? 'quicksave' : (slots[0] ?? null);
+      return await this.saves.latestSlot();
     } catch {
       return null;
     }
@@ -3433,6 +3719,13 @@ export class Game implements LoopCallbacks {
   }
 
   resume(): void {
+    if (this.endingInProgress) {
+      this.state.paused = false;
+      this.titleScreen?.hide();
+      this.syncInputContext();
+      this.refreshEndingView();
+      return;
+    }
     this.requestControl(() => {
       this.state.paused = false;
       this.titleScreen?.hide();
@@ -3845,7 +4138,10 @@ export class Game implements LoopCallbacks {
     this.radioUI.open({
       found: true,
       powered: this.machine.power.isPowered(this.radioPowerConsumerId),
-      signalText: snapshot.objective,
+      signalText:
+        this.ending.phase === 'complete'
+          ? 'MERIDIAN: We have your names. Keep coming. The route remains open.'
+          : snapshot.objective,
       strength: snapshot.signalStrength,
       remainingM: snapshot.remainingM,
       nextSignal: this.story.legacyProjection().nextSignal,
@@ -4090,9 +4386,9 @@ export class Game implements LoopCallbacks {
       ),
       routes:
         snapshot.phase === 'route-selection'
-          ? (snapshot.expeditionId === 'glass-orchard' ? ORCHARD_ROUTES : FOUNDRY_ROUTES).map(
-              (route) => route.id,
-            )
+          ? routeDefinitionsFor(
+              snapshot.expeditionId === 'wreck-one' ? 'relay-foundry' : snapshot.expeditionId,
+            ).map((route) => route.id)
           : [],
       routeCards:
         snapshot.phase === 'route-selection'
@@ -4101,22 +4397,35 @@ export class Game implements LoopCallbacks {
               (FUEL_BURN_PER_S * this.progression.upgrades.modifiers().fuelBurnMultiplier) /
                 Math.max(0.1, this.machine.movement.maxSpeed),
               this.machine.movement.maxSpeed,
-              snapshot.expeditionId === 'glass-orchard' ? 'glass-orchard' : 'relay-foundry',
+              snapshot.expeditionId === 'last-garden-meridian'
+                ? 'last-garden-meridian'
+                : snapshot.expeditionId === 'glass-orchard'
+                  ? 'glass-orchard'
+                  : 'relay-foundry',
             )
           : [],
       routeRefusal: this.routeRefusal,
       recoveredUniques: snapshot.recoveredUniques,
       completedObjectives: snapshot.completedObjectives,
       availableJournalIds: this.story.chapter.journals
-        .filter(
-          (j) =>
-            this.story.chapter.id !== 'glass-orchard' ||
-            snapshot.routeId === null ||
-            j.id === 'orchard-memory-record' ||
-            (snapshot.routeId === 'orchard-caretaker' && j.id === 'orchard-caretaker-record') ||
-            (snapshot.routeId === 'orchard-cold-vault' && j.id === 'orchard-evacuation-record'),
+        .filter((j) =>
+          this.story.chapter.id === 'last-garden-meridian'
+            ? snapshot.routeId === null ||
+              j.id === 'meridian-common-record' ||
+              (snapshot.routeId === 'meridian-quiet-line' && j.id === 'meridian-civilian-record') ||
+              (snapshot.routeId === 'meridian-cordon-gap' && j.id === 'meridian-defense-record')
+            : this.story.chapter.id !== 'glass-orchard' ||
+              snapshot.routeId === null ||
+              j.id === 'orchard-memory-record' ||
+              (snapshot.routeId === 'orchard-caretaker' && j.id === 'orchard-caretaker-record') ||
+              (snapshot.routeId === 'orchard-cold-vault' && j.id === 'orchard-evacuation-record'),
         )
         .map((j) => j.id),
+      journalArchive: STORY_EXPEDITIONS.flatMap((chapter) =>
+        chapter.journals
+          .filter((journal) => snapshot.journalArchive.includes(journal.id))
+          .map((journal) => ({ ...journal, chapter: chapter.title })),
+      ),
       extraJournals: [
         ...(this.progression.has('memorial-transmission')
           ? [
@@ -4183,7 +4492,7 @@ export class Game implements LoopCallbacks {
         !this.hasDestinationBuildConflict() &&
         !this.buildMode &&
         !this.state.paused,
-      storyPriority: this.story.currentPhase !== 'complete',
+      storyPriority: this.endingInProgress || this.story.currentPhase !== 'complete',
     };
   }
 
@@ -4421,6 +4730,7 @@ export class Game implements LoopCallbacks {
       playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
       stable: this.isStableForStory() && !this.buildMode && !this.defense.mounted,
       locked:
+        this.endingInProgress ||
         this.cinematicCamera !== null ||
         this.opening.phase !== 'done' ||
         this.destination.docked ||
@@ -4451,7 +4761,12 @@ export class Game implements LoopCallbacks {
     return {
       ...this.course.snapshot,
       ...context,
-      opportunity: this.opportunityView(),
+      opportunity: this.endingInProgress ? undefined : this.opportunityView(),
+      ending: {
+        available: this.endingEligible && this.ending.phase === 'available',
+        busy: this.endingCheckpointBusy,
+        refusal: this.endingRefusal ?? this.endingCommitRefusal,
+      },
       refusal: !context.playerOnMachine
         ? 'Return aboard to use the helm.'
         : !context.stable
@@ -4643,6 +4958,12 @@ export class Game implements LoopCallbacks {
       return false;
     }
     if (!this.story.collectUnique(id)) return false;
+    if (id === 'meridian-solution') {
+      this.course.setTier(3);
+      this.hud.setWarning(
+        'Meridian bearing recovered. Full course authority is online. Depart, then choose the final journey at the helm.',
+      );
+    }
     if (id === 'course-actuator') {
       this.course.setTier(1);
       this.hud.setWarning(
@@ -4929,7 +5250,7 @@ export class Game implements LoopCallbacks {
 
   private syncInputContext(): void {
     this.input.setContext(
-      this.state.paused || this.panelsOpen
+      this.state.paused || this.panelsOpen || this.endingInProgress
         ? 'menu'
         : this.buildSession.state === 'catalog'
           ? 'catalog'
@@ -5654,7 +5975,7 @@ export class Game implements LoopCallbacks {
       world: {
         chunkIndex: Math.floor(this.world.distanceTraveled / 64),
         threatDirector: this.director.toSave(),
-        story: this.story.toSave(),
+        story: { ...this.story.toSave(), ending: this.ending.toSave() },
         radioRaids: this.radioRaids.toSave(),
         raidRecovery: this.raidMissions.ledger.toSave(),
         routeChart: this.routeChart.toSave(),
@@ -5776,6 +6097,13 @@ export class Game implements LoopCallbacks {
       this.radioPowered = this.machine.power.isPowered(this.radioPowerConsumerId);
     }
     this.story.restore(save.world.story);
+    this.arrivalScene?.stop();
+    this.ending.restore(
+      save.world.story && 'ending' in save.world.story ? save.world.story.ending : undefined,
+      this.endingEligible,
+    );
+    this.endingCheckpointBusy = false;
+    this.endingRefusal = null;
     this.routeChart.restore(save.world.routeChart);
     this.optionalModelId = null;
     this.optionalRetireAt = 0;
@@ -5787,11 +6115,13 @@ export class Game implements LoopCallbacks {
     // Earlier raid-loop saves already earned the optional expedition offer.
     this.story.recordRadioRaidVictory(this.radioRaids.toSave().wave);
     const recovered = this.story.snapshot(save.distanceTraveled).recoveredUniques;
-    const earnedTier = recovered.includes('vector-governor')
-      ? 2
-      : recovered.includes('course-actuator')
-        ? 1
-        : 0;
+    const earnedTier = recovered.includes('meridian-solution')
+      ? 3
+      : recovered.includes('vector-governor')
+        ? 2
+        : recovered.includes('course-actuator')
+          ? 1
+          : 0;
     this.course.restore(earnedTier > 0 ? save.machine.course : undefined);
     this.course.setTier(earnedTier);
     this.courseDeltaM = 0;
@@ -5943,6 +6273,7 @@ export class Game implements LoopCallbacks {
     // showing stale containers.
     this.closePanels(false);
 
+    this.restoreEndingPresentation();
     this.bus.emit('game:save-loaded', { slot });
     return true;
   }
@@ -5953,13 +6284,25 @@ export class Game implements LoopCallbacks {
     this.impactFX.onResize();
   };
 
+  private readonly onEndingFocusLost = (): void => {
+    if (!this.titleCamera && (this.endingInProgress || this.endingCheckpointBusy)) this.pause();
+  };
+
+  private readonly onEndingVisibilityChange = (): void => {
+    if (document.hidden) this.onEndingFocusLost();
+  };
+
   dispose(): void {
+    window.removeEventListener('blur', this.onEndingFocusLost);
+    document.removeEventListener('visibilitychange', this.onEndingVisibilityChange);
     this.cancelControlRequest?.();
     this.playerFade.dispose();
     this.interactionHighlight.dispose();
     this.buildCatalog.dispose();
     this.machineStatus.dispose();
     this.signalBattle?.dispose();
+    this.arrivalScene?.dispose();
+    this.endingUI.dispose();
     this.disconnectSounds();
     this.audio.dispose();
     window.removeEventListener('resize', this.onResize);

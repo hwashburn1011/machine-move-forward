@@ -3,6 +3,7 @@ import {
   QUIET_ARRAY,
   GLASS_ORCHARD,
   STORY_EXPEDITIONS,
+  REQUIRED_JOURNALS_PROVEN_BY_UNIQUE,
   storyExpedition,
   type ExpeditionDefinition,
   type ExpeditionId,
@@ -10,6 +11,7 @@ import {
   type StoryObjectiveId,
 } from '@/data/story';
 import { routeDefinition, type RouteId } from '@/data/routes';
+import type { EndingSave } from '@/story/EndingDirector';
 
 export type StoryPhase =
   | 'locked'
@@ -47,6 +49,9 @@ export interface CampaignSave {
   active: ActiveExpeditionSave | null;
   radioTraceEligible?: boolean;
   chapterComplete?: boolean;
+  journalArchive?: string[];
+  /** Composed by Game; StoryDirector deliberately never reads or owns it. */
+  ending?: EndingSave;
 }
 /** Compile-time bridge for legacy callers; campaign writes never include these fields. */
 export type StorySave = CampaignSave;
@@ -90,6 +95,7 @@ export interface StorySnapshot {
   chapterComplete: boolean;
   completedExpeditions: readonly ExpeditionId[];
   completedObjectives: readonly StoryObjectiveId[];
+  journalArchive: readonly string[];
   nextExpedition: { id: ExpeditionId; title: string; summary: string } | null;
 }
 export type WreckStartRefusal =
@@ -140,6 +146,7 @@ export class StoryDirector {
   private routeId: RouteId | null = null;
   private scripted: 'not-due' | 'queued' | 'resolved' = 'not-due';
   private readonly journals = new Set<string>();
+  private readonly archive = new Set<string>();
   private readonly uniques = new Set<StoryUniqueId>();
   private readonly completed = new Set<ExpeditionId>();
   private readonly objectives = new Set<StoryObjectiveId>();
@@ -162,23 +169,33 @@ export class StoryDirector {
   get completedExpeditions(): readonly ExpeditionId[] {
     return [...this.completed];
   }
+  get journalArchive(): readonly string[] {
+    return [...this.archive];
+  }
   beginNextExpedition(context: WreckStartContext): WreckStartResult {
     if (
       this.phase !== 'complete' ||
       !this.completed.has('relay-foundry') ||
-      this.completed.has('glass-orchard')
+      this.completed.has('last-garden-meridian')
     )
       return { ok: false, reason: 'already-active' };
     if (context.encounterActive) return { ok: false, reason: 'encounter-active' };
     if (!context.playerOnMachine) return { ok: false, reason: 'off-machine' };
     if (!context.stable) return { ok: false, reason: 'unstable' };
     if (!Number.isFinite(context.currentDistance)) return { ok: false, reason: 'invalid-distance' };
-    const next = this.completed.has('quiet-array') ? GLASS_ORCHARD : QUIET_ARRAY;
+    const next = this.completed.has('glass-orchard')
+      ? storyExpedition('last-garden-meridian')!
+      : this.completed.has('quiet-array')
+        ? GLASS_ORCHARD
+        : QUIET_ARRAY;
     this.expedition = next;
     this.routeId = null;
     this.arrivalDistance =
       next.id === 'quiet-array' ? context.currentDistance + next.approachDistanceM : null;
-    this.phase = next.id === 'glass-orchard' ? 'route-selection' : 'approach';
+    this.phase =
+      next.id === 'glass-orchard' || next.id === 'last-garden-meridian'
+        ? 'route-selection'
+        : 'approach';
     this.scripted = 'not-due';
     this.sanctuaryRequested = false;
     this.journals.clear();
@@ -186,8 +203,16 @@ export class StoryDirector {
     return {
       ok: true,
       effects:
-        next.id === 'glass-orchard'
-          ? [{ type: 'route-available', routes: ['orchard-caretaker', 'orchard-cold-vault'] }]
+        next.id === 'glass-orchard' || next.id === 'last-garden-meridian'
+          ? [
+              {
+                type: 'route-available',
+                routes:
+                  next.id === 'glass-orchard'
+                    ? ['orchard-caretaker', 'orchard-cold-vault']
+                    : ['meridian-quiet-line', 'meridian-cordon-gap'],
+              },
+            ]
           : [
               { type: 'begin-approach', arrivalDistance: this.arrivalDistance! },
               { type: 'request-sanctuary', active: true },
@@ -291,7 +316,9 @@ export class StoryDirector {
         this.phase === 'approach' &&
         remaining > this.expedition.brakingDistanceM &&
         !(
-          ((['relay-foundry', 'glass-orchard'].includes(this.expedition.id) &&
+          ((['relay-foundry', 'glass-orchard', 'last-garden-meridian'].includes(
+            this.expedition.id,
+          ) &&
             input.encounterActive === true) ||
             (activeRoute?.scriptedVehicle && this.scripted === 'queued')) &&
           remaining <= HOLD
@@ -341,7 +368,8 @@ export class StoryDirector {
     const remaining = this.remaining(distance);
     if (remaining === null) return;
     if (
-      ((['relay-foundry', 'glass-orchard'].includes(this.expedition.id) && encounterActive) ||
+      ((['relay-foundry', 'glass-orchard', 'last-garden-meridian'].includes(this.expedition.id) &&
+        encounterActive) ||
         (this.routeId !== null &&
           routeDefinition(this.routeId)?.scriptedVehicle &&
           this.scripted === 'queued')) &&
@@ -383,8 +411,14 @@ export class StoryDirector {
   canReadJournal(id: string): boolean {
     if (this.phase !== 'docked' || !this.expedition.journals.some((journal) => journal.id === id))
       return false;
-    if (this.expedition.id !== 'glass-orchard') return true;
-    if (id === 'orchard-memory-record') return true;
+    if (this.expedition.id !== 'glass-orchard' && this.expedition.id !== 'last-garden-meridian')
+      return true;
+    if (id === 'orchard-memory-record' || id === 'meridian-common-record') return true;
+    if (this.expedition.id === 'last-garden-meridian')
+      return (
+        (this.routeId === 'meridian-quiet-line' && id === 'meridian-civilian-record') ||
+        (this.routeId === 'meridian-cordon-gap' && id === 'meridian-defense-record')
+      );
     return (
       (this.routeId === 'orchard-caretaker' && id === 'orchard-caretaker-record') ||
       (this.routeId === 'orchard-cold-vault' && id === 'orchard-evacuation-record')
@@ -393,6 +427,7 @@ export class StoryDirector {
   readJournal(id: string): boolean {
     if (!this.canReadJournal(id) || this.journals.has(id)) return false;
     this.journals.add(id);
+    this.archive.add(id);
     return true;
   }
   collectUnique(id: StoryUniqueId = 'course-gyro'): boolean {
@@ -428,6 +463,23 @@ export class StoryDirector {
         if (!this.journals.has('orchard-memory-record')) return 'Read Common memory first.';
       }
     }
+    if (this.expedition.id === 'last-garden-meridian' && id === 'meridian-solution') {
+      const missingObjective = this.expedition.requiredObjectives?.find(
+        (entry) => !this.objectives.has(entry),
+      );
+      if (missingObjective)
+        return missingObjective === 'meridian-transmitter-online'
+          ? 'Bring the Meridian transmitter online first.'
+          : 'Install the Orchard archive core first.';
+      const routeJournal =
+        this.routeId === 'meridian-quiet-line'
+          ? 'meridian-civilian-record'
+          : 'meridian-defense-record';
+      if (!this.journals.has(routeJournal))
+        return `Read ${this.expedition.journals.find((item) => item.id === routeJournal)?.title ?? routeJournal} first.`;
+      if (!this.journals.has('meridian-common-record'))
+        return 'Read the Meridian common record first.';
+    }
     const journal =
       id === 'course-actuator'
         ? this.expedition.requiredJournals?.find((entry) => !this.journals.has(entry))
@@ -440,13 +492,27 @@ export class StoryDirector {
     if (
       this.phase !== 'docked' ||
       !this.expedition.requiredObjectives?.includes(id) ||
-      this.objectives.has(id)
+      this.objectives.has(id) ||
+      (this.expedition.id === 'last-garden-meridian' && !this.uniques.has('orchard-memory-core'))
     )
       return false;
     this.objectives.add(id);
     return true;
   }
   private routeRecordsComplete(): boolean {
+    if (this.expedition.id === 'last-garden-meridian') {
+      const selected =
+        this.routeId === 'meridian-quiet-line'
+          ? 'meridian-civilian-record'
+          : this.routeId === 'meridian-cordon-gap'
+            ? 'meridian-defense-record'
+            : null;
+      return (
+        selected !== null &&
+        this.journals.has(selected) &&
+        this.journals.has('meridian-common-record')
+      );
+    }
     if (this.expedition.id !== 'glass-orchard') return true;
     const selected =
       this.routeId === 'orchard-caretaker'
@@ -486,7 +552,7 @@ export class StoryDirector {
   selectRoute(id: RouteId, context: RouteSelectionContext): RouteSelectionResult {
     if (
       this.phase !== 'route-selection' ||
-      (this.expedition.id !== 'wreck-one' && this.expedition.id !== 'glass-orchard')
+      !['wreck-one', 'glass-orchard', 'last-garden-meridian'].includes(this.expedition.id)
     )
       return { ok: false, reason: 'already-committed' };
     if (this.expedition.id === 'wreck-one' && !this.uniques.has('course-gyro'))
@@ -497,7 +563,11 @@ export class StoryDirector {
     if (context.encounterActive) return { ok: false, reason: 'encounter-active' };
     const route = routeDefinition(id);
     const expectedDestination =
-      this.expedition.id === 'wreck-one' ? 'relay-foundry' : 'glass-orchard';
+      this.expedition.id === 'wreck-one'
+        ? 'relay-foundry'
+        : this.expedition.id === 'glass-orchard'
+          ? 'glass-orchard'
+          : 'last-garden-meridian';
     if (!route || route.destinationId !== expectedDestination)
       return { ok: false, reason: 'invalid-route' };
     const origin = context.currentDistance;
@@ -551,6 +621,7 @@ export class StoryDirector {
       chapterComplete: this.chapterComplete,
       completedExpeditions: [...this.completed],
       completedObjectives: [...this.objectives],
+      journalArchive: [...this.archive],
       nextExpedition:
         this.phase === 'complete' &&
         this.completed.has('relay-foundry') &&
@@ -560,7 +631,14 @@ export class StoryDirector {
               this.completed.has('quiet-array') &&
               !this.completed.has('glass-orchard')
             ? { id: 'glass-orchard', title: GLASS_ORCHARD.title, summary: GLASS_ORCHARD.objective }
-            : null,
+            : this.phase === 'complete' &&
+                this.completed.has('glass-orchard') &&
+                !this.completed.has('last-garden-meridian')
+              ? (() => {
+                  const meridian = storyExpedition('last-garden-meridian')!;
+                  return { id: meridian.id, title: meridian.title, summary: meridian.objective };
+                })()
+              : null,
     };
   }
   private objective(): string {
@@ -577,7 +655,9 @@ export class StoryDirector {
     if (this.phase === 'route-selection')
       return this.expedition.id === 'glass-orchard'
         ? 'Choose an approach to the Glass Orchard.'
-        : 'Choose a route to the Relay Foundry.';
+        : this.expedition.id === 'last-garden-meridian'
+          ? 'Choose a route to the Last Garden at Meridian.'
+          : 'Choose a route to the Relay Foundry.';
     if (this.phase === 'approach') return `Follow the signal toward the ${this.expedition.title}.`;
     if (this.phase === 'braking')
       return `Bring the machine alongside the ${this.expedition.title}.`;
@@ -589,24 +669,28 @@ export class StoryDirector {
         : this.expedition.objective;
     if (this.phase === 'departing') return 'Clear the expedition and resume the route.';
     if (this.phase === 'complete')
-      return this.completed.has('quiet-array')
-        ? this.completed.has('glass-orchard')
-          ? 'The Orchard is preserved. Keep the Nomad supplied while the Meridian bearing waits.'
-          : 'Course control online. Plot nearby discoveries at the helm, preserve records, and keep the Nomad supplied.'
-        : 'Relay Foundry complete. Trace the next transmission at the radio when ready.';
+      return this.completed.has('last-garden-meridian')
+        ? 'The Meridian bearing is secure. Return to the helm when you are ready to commit.'
+        : this.completed.has('quiet-array')
+          ? this.completed.has('glass-orchard')
+            ? 'The Orchard is preserved. Keep the Nomad supplied while the Meridian bearing waits.'
+            : 'Course control online. Plot nearby discoveries at the helm, preserve records, and keep the Nomad supplied.'
+          : 'Relay Foundry complete. Trace the next transmission at the radio when ready.';
     return 'A faint signal waits somewhere beyond the route.';
   }
 
   toSave(): StorySave {
     const safeActive =
       ['signal', 'crossfire', 'raids'].includes(this.phase) ||
-      (this.phase === 'route-selection' && this.expedition.id === 'glass-orchard') ||
+      (this.phase === 'route-selection' &&
+        ['glass-orchard', 'last-garden-meridian'].includes(this.expedition.id)) ||
       (['approach', 'braking', 'docked', 'departing'].includes(this.phase) &&
         this.arrivalDistance !== null);
     return {
       format: 2,
       completed: [...this.completed],
       recoveredUniques: [...this.uniques],
+      journalArchive: [...this.archive],
       active: safeActive
         ? {
             expeditionId: this.expedition.id,
@@ -648,6 +732,7 @@ export class StoryDirector {
     this.routeId = null;
     this.scripted = 'not-due';
     this.journals.clear();
+    this.archive.clear();
     this.uniques.clear();
     this.completed.clear();
     this.objectives.clear();
@@ -664,9 +749,18 @@ export class StoryDirector {
       this.chapterComplete = false;
       for (const item of Array.isArray(raw.completed) ? raw.completed : [])
         if (storyExpedition(String(item))) this.completed.add(item as ExpeditionId);
+      const active = raw.active as Record<string, unknown> | null;
+      // A valid in-progress Meridian route could only have been accepted after
+      // Orchard completion. Preserve that durable prerequisite for early saves
+      // that predate the completed-chain normalization.
+      if (active?.expeditionId === 'last-garden-meridian') this.completed.add('glass-orchard');
       const knownUniques = new Set(STORY_EXPEDITIONS.flatMap((entry) => entry.requiredUniques));
       for (const item of Array.isArray(raw.recoveredUniques) ? raw.recoveredUniques : [])
         if (knownUniques.has(item as StoryUniqueId)) this.uniques.add(item as StoryUniqueId);
+      if (this.completed.has('last-garden-meridian')) {
+        this.completed.add('glass-orchard');
+        this.uniques.add('meridian-solution');
+      }
       if (this.completed.has('glass-orchard')) {
         this.completed.add('quiet-array');
         this.uniques.add('human-seed-bank');
@@ -685,12 +779,21 @@ export class StoryDirector {
         this.uniques.add('tracking-servo');
       }
       if (this.completed.has('wreck-one')) this.uniques.add('course-gyro');
-      const active = raw.active as Record<string, unknown> | null;
+      const knownJournals = new Set(
+        STORY_EXPEDITIONS.flatMap((entry) => entry.journals.map((j) => j.id)),
+      );
+      for (const item of Array.isArray(raw.journalArchive) ? raw.journalArchive : [])
+        if (typeof item === 'string' && knownJournals.has(item)) this.archive.add(item);
+      for (const unique of this.uniques)
+        for (const journal of REQUIRED_JOURNALS_PROVEN_BY_UNIQUE[unique] ?? [])
+          if (knownJournals.has(journal)) this.archive.add(journal);
       if (this.completed.has('relay-foundry')) this.chapterComplete = true;
       if (
         this.completed.has('relay-foundry') &&
         (!active ||
-          (active.expeditionId !== 'quiet-array' && active.expeditionId !== 'glass-orchard'))
+          !['quiet-array', 'glass-orchard', 'last-garden-meridian'].includes(
+            String(active.expeditionId),
+          ))
       ) {
         this.completed.add('wreck-one');
         this.uniques.add('course-gyro');
@@ -724,7 +827,8 @@ export class StoryDirector {
             ? ['signal', 'crossfire', 'raids'].includes(phase)
               ? arrival === null
               : arrival !== null
-            : expedition.id === 'glass-orchard' && phase === 'route-selection'
+            : ['glass-orchard', 'last-garden-meridian'].includes(expedition.id) &&
+                phase === 'route-selection'
               ? arrival === null
               : expedition.id !== 'wreck-one' &&
                 ['approach', 'braking', 'docked', 'departing'].includes(phase) &&
@@ -732,7 +836,8 @@ export class StoryDirector {
         const routeValid =
           expedition.id === 'wreck-one' || expedition.id === 'quiet-array'
             ? active.routeId === null || active.routeId === undefined
-            : phase === 'route-selection' && expedition.id === 'glass-orchard'
+            : phase === 'route-selection' &&
+                ['glass-orchard', 'last-garden-meridian'].includes(expedition.id)
               ? active.routeId === null || active.routeId === undefined
               : route?.destinationId === expedition.id;
         if (this.completed.has(expedition.id)) {
@@ -744,10 +849,12 @@ export class StoryDirector {
           !phaseValid ||
           !routeValid ||
           ((expedition.id === 'relay-foundry' ||
-            (expedition.id === 'glass-orchard' && phase !== 'route-selection')) &&
+            (['glass-orchard', 'last-garden-meridian'].includes(expedition.id) &&
+              phase !== 'route-selection')) &&
             !route)
         ) {
-          if (expedition.id === 'glass-orchard') this.expedition = expedition;
+          if (['glass-orchard', 'last-garden-meridian'].includes(expedition.id))
+            this.expedition = expedition;
           this.phase = 'route-selection';
           return;
         }
@@ -773,12 +880,18 @@ export class StoryDirector {
         for (const item of Array.isArray(active.journalsRead) ? active.journalsRead : [])
           if (
             expedition.journals.some((journal) => journal.id === item) &&
-            (expedition.id !== 'glass-orchard' ||
-              item === 'orchard-memory-record' ||
-              (route?.id === 'orchard-caretaker' && item === 'orchard-caretaker-record') ||
-              (route?.id === 'orchard-cold-vault' && item === 'orchard-evacuation-record'))
+            (expedition.id === 'glass-orchard'
+              ? item === 'orchard-memory-record' ||
+                (route?.id === 'orchard-caretaker' && item === 'orchard-caretaker-record') ||
+                (route?.id === 'orchard-cold-vault' && item === 'orchard-evacuation-record')
+              : expedition.id === 'last-garden-meridian'
+                ? item === 'meridian-common-record' ||
+                  (route?.id === 'meridian-quiet-line' && item === 'meridian-civilian-record') ||
+                  (route?.id === 'meridian-cordon-gap' && item === 'meridian-defense-record')
+                : true)
           )
             this.journals.add(item as string);
+        for (const journal of this.journals) this.archive.add(journal);
       } else if (this.completed.has('relay-foundry')) {
         this.phase = 'complete';
         this.chapterComplete = true;
@@ -809,6 +922,7 @@ export class StoryDirector {
     for (const item of Array.isArray(raw.journalsRead) ? raw.journalsRead : [])
       if (WRECK_ONE.journals.some((journal) => journal.id === item))
         this.journals.add(item as string);
+    for (const journal of this.journals) this.archive.add(journal);
     if (raw.uniqueCollected === true) this.uniques.add('course-gyro');
     if (this.phase === 'complete') {
       this.completed.add('wreck-one');

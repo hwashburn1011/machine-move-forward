@@ -1,0 +1,262 @@
+{
+  "checks": [
+    {
+      "name": "Capsule crosses Meridian gangway",
+      "ok": true,
+      "detail": {
+        "x": 16.36191562299306,
+        "y": 15.809658587672764,
+        "z": -0.015921390330703188
+      }
+    },
+    {
+      "name": "Greenhouse glass blocks sideways walking",
+      "ok": true,
+      "detail": {
+        "x": 9.07997060884008,
+        "y": 15.809972443098975,
+        "z": -5.0008655528232016
+      }
+    },
+    {
+      "name": "Greenhouse entrance admits player along aisle",
+      "ok": true,
+      "detail": {
+        "x": 11.999981277024917,
+        "y": 15.809980504168315,
+        "z": -7.52919848459712
+      }
+    },
+    {
+      "name": "Every mandatory interaction reached by walking from gangway",
+      "ok": true,
+      "detail": [
+        {
+          "id": "meridian-civilian-record",
+          "at": {
+            "x": 13.082156046817694,
+            "y": 15.811160648289782,
+            "z": -1.2722452137261104
+          },
+          "distance": 1.1307434231931404
+        },
+        {
+          "id": "meridian-transmitter-online",
+          "at": {
+            "x": 19.29914551142819,
+            "y": 15.810067476148928,
+            "z": -1.9222313793508983
+          },
+          "distance": 1.1820788240408158
+        },
+        {
+          "id": "meridian-common-record",
+          "at": {
+            "x": 17.002703125563425,
+            "y": 15.810384503781181,
+            "z": -5.578441306905176
+          },
+          "distance": 1.2215618746306074
+        },
+        {
+          "id": "meridian-defense-record",
+          "at": {
+            "x": 21.579268251780753,
+            "y": 15.809967405381826,
+            "z": 0.7770668244725882
+          },
+          "distance": 1.2209473362390375
+        },
+        {
+          "id": "meridian-archive-installed",
+          "at": {
+            "x": 13.073538895527765,
+            "y": 15.810179724769881,
+            "z": 3.3397258882128606
+          },
+          "distance": 1.1626022465309789
+        },
+        {
+          "id": "meridian-solution",
+          "at": {
+            "x": 20.922198602892237,
+            "y": 15.781265820890255,
+            "z": 3.3356801857540117
+          },
+          "distance": 1.1669163154390003
+        }
+      ]
+    },
+    {
+      "name": "HUD names current chapter after dock event",
+      "ok": true
+    },
+    {
+      "name": "20-second 1080p medium Meridian camera sample",
+      "ok": true,
+      "detail": {
+        "durationMs": 20016.099999964237,
+        "frames": 1202,
+        "fps": 60.05165841508324,
+        "renderP95": 15.100000023841858,
+        "intervalP95": 16.80000001192093,
+        "over33": 0,
+        "memory": {
+          "geometries": 448,
+          "textures": 505
+        },
+        "calls": 769,
+        "triangles": 1991888
+      }
+    },
+    {
+      "name": "100 Meridian/depot replacements keep GPU resource counts stable",
+      "ok": true,
+      "detail": {
+        "before": {
+          "geometries": 459,
+          "textures": 505
+        },
+        "after": {
+          "geometries": 459,
+          "textures": 505
+        }
+      }
+    },
+    {
+      "name": "Far repair depot needs earned wider authority",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-3",
+          "slot": 3,
+          "kind": "repair-depot",
+          "atDistanceM": 2100,
+          "worldX": 279.39529741765,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 1650,
+          "expiresAtM": 2280,
+          "state": "detected",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "repair-kit",
+              "remaining": 1
+            },
+            {
+              "type": "journal",
+              "factId": "depot-linekeeper-record",
+              "remaining": 1
+            }
+          ]
+        },
+        "limited": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": 265.39529741765,
+          "bearingDeg": 30.530715001493746,
+          "interceptM": 522.431492055564,
+          "estimatedFuel": 4.2553854310722095,
+          "expiresInM": 630,
+          "reachable": false
+        },
+        "wider": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": 265.39529741765,
+          "bearingDeg": 30.530715001493746,
+          "interceptM": 522.431492055564,
+          "estimatedFuel": 4.2553854310722095,
+          "expiresInM": 630,
+          "reachable": true
+        },
+        "steps": 5030,
+        "docked": true,
+        "state": "docked",
+        "course": {
+          "tier": 3,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 265.17436530964005
+        }
+      }
+    },
+    {
+      "name": "Wider automatic guidance physically docks depot",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-3",
+          "slot": 3,
+          "kind": "repair-depot",
+          "atDistanceM": 2100,
+          "worldX": 279.39529741765,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 1650,
+          "expiresAtM": 2280,
+          "state": "detected",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "repair-kit",
+              "remaining": 1
+            },
+            {
+              "type": "journal",
+              "factId": "depot-linekeeper-record",
+              "remaining": 1
+            }
+          ]
+        },
+        "limited": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": 265.39529741765,
+          "bearingDeg": 30.530715001493746,
+          "interceptM": 522.431492055564,
+          "estimatedFuel": 4.2553854310722095,
+          "expiresInM": 630,
+          "reachable": false
+        },
+        "wider": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": 265.39529741765,
+          "bearingDeg": 30.530715001493746,
+          "interceptM": 522.431492055564,
+          "estimatedFuel": 4.2553854310722095,
+          "expiresInM": 630,
+          "reachable": true
+        },
+        "steps": 5030,
+        "docked": true,
+        "state": "docked",
+        "course": {
+          "tier": 3,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": 265.17436530964005
+        }
+      }
+    },
+    {
+      "name": "Depot repair kit and readable record persist once through save",
+      "ok": true,
+      "detail": {
+        "accepted": true,
+        "record": true,
+        "kit": 1,
+        "saved": true,
+        "restoredRecord": true,
+        "restoredState": "visited"
+      }
+    }
+  ],
+  "errors": [],
+  "passed": 10,
+  "total": 10
+}

@@ -25,8 +25,26 @@ contact at tier two can be a Linekeeper repair depot, 120–150m laterally from
 the current course, with a repair kit and a saved service record. The existing
 700m schedule, 450m approach window and one-contact limit remain intact.
 
-Last Garden at Meridian remains planned. The full campaign is not complete,
-and steering remains bounded rather than allowing a 360-degree turn.
+Last Garden at Meridian is now playable in the current development prototype.
+The 1,250m Quiet Line brings a boarding skiff at 520m; the 1,050m Cordon Gap
+brings a gunboat at 620m. Both routes require the Meridian transmitter and
+archive objectives, the common record plus the route-selected civilian or
+defense record, and the Meridian solution before tier-three steering (±45°)
+becomes available. The powered Helm requires a deliberate two-click final
+commitment after a safe checkpoint, then travels the final +32° bearing for
+400m with a 12-second arrival presentation, Skip, and same-save Keep Walking.
+
+The journal archive contains only records actually read. Older saves use
+conservative proof from recovered uniques and never invent route testimony.
+Save metadata preserves the latest readable timestamp and completed
+transaction before confirmation. Tier-three discovery depots use the
+265–290m lateral band; older tier-one and tier-two contacts retain their
+120–150m behavior. The full campaign remains a development prototype with
+bounded steering rather than a 360-degree turn.
+
+See the [Meridian delivery notes](meridian-delivery.md) and
+[Meridian asset notes](../../assets/meridian/README.md) for the forthcoming
+delivery and art records.
 
 See the [campaign direction](../superpowers/plans/2026-09-14-campaign-direction.md), [refined tasks](../superpowers/plans/2026-09-14-campaign-direction-tasks.md), and [asset pipeline](../../assets/quiet-array/README.md).
 

@@ -162,8 +162,8 @@ describe('Glass Orchard campaign state', () => {
       type: 'expedition-complete',
       expeditionId: 'glass-orchard',
     });
-    expect(copy.snapshot(3013).nextExpedition).toBeNull();
-    expect(copy.beginNextExpedition(safe)).toEqual({ ok: false, reason: 'already-active' });
+    expect(copy.snapshot(3013).nextExpedition?.id).toBe('last-garden-meridian');
+    expect(copy.beginNextExpedition(safe).ok).toBe(true);
     expect(
       copy.update({
         distance: 3020,

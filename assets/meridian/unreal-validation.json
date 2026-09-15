@@ -1,0 +1,26 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "assets": [
+    {
+      "name": "last-garden-meridian",
+      "path": "/Game/Meridian/last_garden_meridian.last_garden_meridian",
+      "size_cm": [
+        1904.5,
+        2009.9999389648438,
+        2922.5
+      ],
+      "materials": 13
+    },
+    {
+      "name": "meridian-horizon",
+      "path": "/Game/Meridian/meridian_horizon.meridian_horizon",
+      "size_cm": [
+        9200.0,
+        3300.0,
+        4310.000252527039
+      ],
+      "materials": 10
+    }
+  ],
+  "status": "success"
+}

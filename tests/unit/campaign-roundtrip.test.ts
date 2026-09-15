@@ -25,12 +25,14 @@ describe('campaign save round trips', () => {
       'active',
       'completed',
       'format',
+      'journalArchive',
       'recoveredUniques',
     ]);
     expect(selection).toEqual({
       format: 2,
       completed: ['wreck-one'],
       recoveredUniques: ['course-gyro'],
+      journalArchive: [],
       active: null,
     });
     director.selectRoute('foundry-detour', routeContext);

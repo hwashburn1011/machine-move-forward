@@ -399,3 +399,12 @@ Editable sources, GLB/FBX exports, a reduced mesh, collider proxies, six review 
 ## Glass Orchard, seed garden and repair depot
 
 `glass-orchard.glb`, `seed-garden.glb` and `route-repair-depot.glb` are original project Blender geometry using the original industrial material palette. Editable packed masters, semantic anchors, budgets, rebuild commands and Blender/Unreal/glTF verification are documented in [the Orchard delivery](assets/glass-orchard/README.md). No external source meshes or paid generation services were used.
+
+## Last Garden at Meridian
+
+`last-garden-meridian.glb` and `meridian-horizon.glb` are original Blender geometry
+using the existing original industrial PBR palette. The explorable transmitter
+platform and the distant arrival facade have packed editable masters, reproducible
+exports, and Blender MCP / Unreal / glTF review evidence in
+[the Meridian art delivery](assets/meridian/README.md). No external source meshes
+or paid generation services were used; existing third-party licences are unchanged.
