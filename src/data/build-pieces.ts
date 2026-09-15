@@ -7,6 +7,7 @@
  */
 
 export type PieceId =
+  | 'caretaker-dock'
   | 'floor'
   | 'wall'
   | 'doorway'
@@ -98,6 +99,19 @@ export interface BuildPieceDefinition {
 }
 
 export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
+  'caretaker-dock': {
+    id: 'caretaker-dock',
+    name: 'L-12 charging dock',
+    category: 'station',
+    anchor: 'cell',
+    cost: { scrap: 40, components: 8 },
+    weight: 30,
+    maxHealth: 160,
+    armor: 2,
+    boundsRoom: false,
+    blocksNavigation: true,
+    rotatable: true,
+  },
   floor: {
     id: 'floor',
     name: 'Deck Plate',
@@ -411,11 +425,16 @@ export const BUILD_PIECES: Record<PieceId, BuildPieceDefinition> = {
 /** Every piece in one category, in selection order. */
 export function piecesInCategory(category: PieceCategory): PieceId[] {
   if (category === 'automation')
-    return BUILD_PIECE_ORDER.filter((id) => id === 'collector-auto' || id === 'turret-auto');
+    return BUILD_PIECE_ORDER.filter(
+      (id) => id === 'collector-auto' || id === 'turret-auto' || id === 'caretaker-dock',
+    );
   if (category === 'station')
     return BUILD_PIECE_ORDER.filter(
       (id) =>
-        BUILD_PIECES[id].category === category && id !== 'collector-auto' && id !== 'turret-auto',
+        BUILD_PIECES[id].category === category &&
+        id !== 'collector-auto' &&
+        id !== 'turret-auto' &&
+        id !== 'caretaker-dock',
     );
   return BUILD_PIECE_ORDER.filter((id) => BUILD_PIECES[id].category === category);
 }
@@ -514,6 +533,7 @@ export const STARTING_STRUCTURES: readonly StartingPiece[] = [
 
 /** Selection order for the number keys and the build HUD row. */
 export const BUILD_PIECE_ORDER: readonly PieceId[] = [
+  'caretaker-dock',
   'floor',
   'wall',
   'doorway',

@@ -46,6 +46,8 @@ export interface SaveGameV1 {
   version: 1;
   savedAt: number;
   seed: string;
+  /** Immutable per campaign; older saves retain the original unlimited ammunition. */
+  profile?: import('@/game/CampaignProfile').CampaignProfile;
   distanceTraveled: number;
 
   player: {
@@ -70,6 +72,7 @@ export interface SaveGameV1 {
         reserveAmmo: number;
         /** Absent in saves written before weapon mods existed. */
         magazineBonus?: number;
+        attachments?: import('@/combat/Weapon').WeaponSave['attachments'];
       }[];
     };
   };
@@ -105,6 +108,7 @@ export interface SaveGameV1 {
     firstRun?: FirstRunSave;
     /** Permanent machine research and the currently installed branch modules. */
     upgrades?: UpgradeSave;
+    caretaker?: import('@/companion/CaretakerDirector').CaretakerSave;
     /** Guaranteed salvage reward ledger. `radioDrop` is retained for old builds. */
     radio?: RadioSave;
     radioDrop?: RadioSave;

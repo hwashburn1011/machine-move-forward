@@ -77,6 +77,7 @@ export const CRITICAL_MODEL_IDS = [
   'home-furnishings',
 ] as const;
 export const CAMPAIGN_MODEL_IDS = [
+  'fieldwork-kit',
   'relay-foundry',
   'quiet-array',
   'route-water-cache',
@@ -137,6 +138,27 @@ export async function ensureAuthoredModels(ids: readonly string[]): Promise<void
           const owned = snapshotOwnedResources(model);
           try {
             prepareAuthoredModel(model);
+            if (id === 'fieldwork-kit') {
+              // Keep the full model in the color pass. Chassis, tracks and head
+              // provide its shadow silhouette; tiny hubs, fasteners and lenses
+              // need not be resubmitted to every shadow map.
+              model.scene.traverse((node) => {
+                const mesh = node as THREE.Mesh;
+                if (!mesh.isMesh) return;
+                const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+                let wheel = false;
+                for (let parent = node.parent; parent; parent = parent.parent)
+                  if (parent.name.startsWith('L12Wheel')) wheel = true;
+                mesh.castShadow =
+                  !wheel &&
+                  materials.some((material) =>
+                    /Field_(IvoryPaint|OxidePaint|CharcoalSteel|Rubber)$/.test(material.name),
+                  );
+                // Meshes are rigid beneath the named animated pivots.
+                mesh.updateMatrix();
+                mesh.matrixAutoUpdate = false;
+              });
+            }
             if (id === 'home-furnishings' || (CAMPAIGN_MODEL_IDS as readonly string[]).includes(id))
               shareArrayPalette(model);
             models.set(id, model);

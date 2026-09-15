@@ -90,6 +90,8 @@ export class PlayerVisual {
   private held: THREE.Object3D | null = null;
   private heldId: string | null = null;
   private muzzle: THREE.Object3D | null = null;
+  private attachment: THREE.Object3D | null = null;
+  private attachmentId: string | null = null;
   private recoilNode: THREE.Group | null = null;
   private recoilRecovery = 18;
   private readonly recoilOffset = new THREE.Vector3();
@@ -327,6 +329,8 @@ export class PlayerVisual {
       this.held = null;
     }
     this.muzzle = null;
+    this.attachment = null;
+    this.attachmentId = null;
     this.recoilNode = null;
     this.recoilOffset.set(0, 0, 0);
     this.recoilRotation.set(0, 0, 0);
@@ -408,6 +412,27 @@ export class PlayerVisual {
       aligned.add(marker);
       this.muzzle = marker;
     }
+  }
+
+  /** Add the authored attachment after fitting the gun, preserving its grip and scale. */
+  setAttachment(id: string | null, source: THREE.Object3D | null): void {
+    if (id === this.attachmentId) return;
+    this.attachment?.removeFromParent();
+    this.attachment = null;
+    this.attachmentId = null;
+    if (!id || !source || !this.recoilNode || !this.muzzle) return;
+    const node = source.clone(true);
+    node.name = 'weapon-attachment';
+    this.held?.updateWorldMatrix(true, true);
+    const at = this.muzzle.getWorldPosition(new THREE.Vector3());
+    this.recoilNode.worldToLocal(at);
+    node.position.copy(at);
+    node.rotation.set(0, Math.PI, 0);
+    if (id === 'rifle-burst-cam') node.position.add(new THREE.Vector3(0.065, 0.045, -0.47));
+    else node.position.z += 0.045;
+    this.recoilNode.add(node);
+    this.attachment = node;
+    this.attachmentId = id;
   }
 
   /** World-space origin for presentation effects; never used for hitscan. */

@@ -45,6 +45,7 @@ export interface InventoryUICallbacks {
   /** Use or fit whatever is in a player slot. */
   useSlot: (slotIndex: number) => void;
   craft: (recipeId: string) => void;
+  openLoadouts?: () => void;
   takeAll?: () => void;
   depositMatching?: () => void;
   sort?: () => void;
@@ -213,7 +214,11 @@ export class InventoryUI {
       .join('');
 
     const note = state.stationNote ? `<div class="inv-note">${state.stationNote}</div>` : '';
-    return `${note}<div class="inv-recipes">${rows}</div>`;
+    const fieldwork =
+      station === 'workbench' && this.callbacks.openLoadouts
+        ? '<button data-action="fieldwork">Weapon attachments · Fieldwork</button>'
+        : '';
+    return `${note}${fieldwork}<div class="inv-recipes">${rows}</div>`;
   }
 
   /**
@@ -263,6 +268,10 @@ export class InventoryUI {
       return;
     }
     const action = target.closest<HTMLElement>('[data-action]')?.dataset.action;
+    if (action === 'fieldwork' && this.context.station === 'workbench') {
+      this.callbacks.openLoadouts?.();
+      return;
+    }
     if (action === 'take-all') {
       this.callbacks.takeAll?.();
       return;

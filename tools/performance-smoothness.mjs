@@ -9,6 +9,7 @@ const seed =
 const distance = Number(process.argv.find((x) => x.startsWith('--distance='))?.split('=')[1] ?? 0);
 const out = process.env.MMF_QA_OUT ?? 'docs/performance-smoothness';
 const homeWeather = process.argv.includes('--home-weather');
+const fieldwork = process.argv.includes('--fieldwork');
 const quality = process.argv.find((x) => x.startsWith('--quality='))?.split('=')[1] ?? 'high';
 if (!['low', 'medium', 'high'].includes(quality)) throw new Error('Invalid quality tier');
 await mkdir(out, { recursive: true });
@@ -51,6 +52,10 @@ try {
     ? await (await import('./campaign/home-weather-performance.mjs')).configureHomeWeather(page)
     : undefined;
   if (homeFixture) console.log(JSON.stringify({ homeFixture }));
+  const fieldworkFixture = fieldwork
+    ? await (await import('./campaign/fieldwork-performance.mjs')).configureFieldwork(page)
+    : undefined;
+  if (fieldworkFixture) console.log(JSON.stringify({ fieldworkFixture }));
   const results = [];
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('Profiler.enable');
@@ -215,10 +220,25 @@ try {
     ? await (await import('./campaign/home-weather-performance.mjs')).soakHomeFurniture(page)
     : undefined;
   if (soak) console.log(JSON.stringify({ soak }));
+  const fieldworkSoak = fieldwork
+    ? await (await import('./campaign/fieldwork-performance.mjs')).soakFieldwork(page)
+    : undefined;
+  if (fieldworkSoak) console.log(JSON.stringify({ fieldworkSoak }));
   await writeFile(
     `${out}/${label}.json`,
     JSON.stringify(
-      { hardware, seconds, seed, distance, homeFixture, results, soak, errors },
+      {
+        hardware,
+        seconds,
+        seed,
+        distance,
+        homeFixture,
+        fieldworkFixture,
+        results,
+        soak,
+        fieldworkSoak,
+        errors,
+      },
       null,
       2,
     ) + '\n',

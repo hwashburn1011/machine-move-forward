@@ -20,6 +20,9 @@ const base = (): RecoverySnapshot => ({
   condenserCount: 1,
   damagedSubsystems: 0,
   repairKits: 0,
+  infiniteAmmo: true,
+  weaponId: 'rifle',
+  ammoReserve: 0,
   safeToSave: true,
 });
 
@@ -106,6 +109,32 @@ describe('projectRecovery', () => {
         (item) => item.topic === 'repair',
       )?.detail,
     ).toContain('scrap and components');
+  });
+
+  it("warns only the finite-ammo profile and names the selected gun's real workbench recipe", () => {
+    const story = projectRecovery({ ...base(), infiniteAmmo: true, ammoReserve: 0 });
+    expect(story.some((hint) => hint.topic === 'ammo')).toBe(false);
+    expect(JSON.stringify(story).toLowerCase()).not.toContain('scavenge ammo');
+
+    const survival = projectRecovery({ ...base(), infiniteAmmo: false, ammoReserve: 0 });
+    const hint = survival.find((item) => item.topic === 'ammo');
+    expect(hint).toMatchObject({ severity: 'warning', metric: '0 reserve' });
+    expect(hint?.detail).toContain('rifle rounds');
+    expect(hint?.detail).toContain('at a workbench');
+    expect(
+      projectRecovery({
+        ...base(),
+        infiniteAmmo: false,
+        weaponId: 'shotgun',
+        ammoReserve: 0,
+      }).find((item) => item.topic === 'ammo')?.detail,
+    ).toContain('shotgun shells');
+    expect(JSON.stringify(survival)).not.toContain('∞');
+    expect(
+      projectRecovery({ ...base(), infiniteAmmo: false, ammoReserve: 1 }).some(
+        (item) => item.topic === 'ammo',
+      ),
+    ).toBe(false);
   });
 
   it('sanitizes malformed numeric input without mutating the caller or throwing', () => {

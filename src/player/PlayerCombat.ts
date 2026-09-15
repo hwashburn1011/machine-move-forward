@@ -80,7 +80,7 @@ export class PlayerCombat {
 
   /** Current cone half-angle in degrees, accounting for aim. */
   currentSpread(aiming: boolean): number {
-    return aiming ? this.current.def.aimSpread : this.current.def.spread;
+    return aiming ? this.current.effectiveDef.aimSpread : this.current.effectiveDef.spread;
   }
 
   equip(id: string): void {
@@ -130,9 +130,29 @@ export class PlayerCombat {
     for (const save of saves) this.weapons.get(save.id)?.restore(save);
   }
 
+  cancelPendingBursts(): void {
+    for (const weapon of this.weapons.values()) weapon.cancelBurst();
+  }
+
+  setInfiniteAmmo(enabled: boolean): void {
+    for (const weapon of this.weapons.values()) weapon.infiniteReserve = enabled;
+  }
+
+  reset(): void {
+    for (const weapon of this.weapons.values())
+      weapon.restore({
+        id: weapon.def.id,
+        ammoInMag: weapon.def.magazineSize,
+        reserveAmmo: weapon.def.startingReserve,
+        magazineBonus: 0,
+      });
+    this.time = 0;
+    this.currentId = DEFAULT_WEAPON_ORDER[0];
+  }
+
   fixedUpdate(dt: number, input: InputManager, camera: PlayerCamera): void {
     this.time += dt;
-    const weapon = this.current;
+    let weapon = this.current;
 
     if (weapon.fixedUpdate(this.time)) {
       this.bus.emit('weapon:reload-finished', {
@@ -143,15 +163,17 @@ export class PlayerCombat {
 
     if (input.consumePressed('slot1')) this.equip('rifle');
     if (input.consumePressed('slot2')) this.equip('shotgun');
+    weapon = this.current;
 
     if (input.consumePressed('reload') && weapon.startReload(this.time)) {
       this.bus.emit('weapon:reload-started', {
         weaponId: weapon.def.id,
-        durationMs: weapon.def.reloadTime * 1000,
+        durationMs: weapon.effectiveDef.reloadTime * 1000,
       });
     }
 
-    if (!input.isDown('fire')) return;
+    const triggerHeld = input.isDown('fire');
+    if (!triggerHeld && !weapon.hasPendingBurst) return;
 
     if (weapon.isEmpty && !weapon.reloading) {
       // Dry fire once, then auto-reload — hunting for R mid-fight is friction
@@ -162,18 +184,18 @@ export class PlayerCombat {
       if (weapon.startReload(this.time)) {
         this.bus.emit('weapon:reload-started', {
           weaponId: weapon.def.id,
-          durationMs: weapon.def.reloadTime * 1000,
+          durationMs: weapon.effectiveDef.reloadTime * 1000,
         });
       }
       return;
     }
 
-    if (!weapon.tryFire(this.time)) return;
+    if (!weapon.tryFire(this.time, triggerHeld)) return;
     this.fireShot(weapon, camera);
   }
 
   private fireShot(weapon: Weapon, camera: PlayerCamera): void {
-    const def = weapon.def;
+    const def = weapon.effectiveDef;
     const shotId = this.nextShotId++;
     const spreadDeg = this.currentSpread(camera.isAiming);
     const spreadRad = THREE.MathUtils.degToRad(spreadDeg);

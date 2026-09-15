@@ -54,6 +54,13 @@ import { buildPieceGeometry, pieceColliders, pieceMaterial } from './BuildPieceG
 import { Producer, type ProducerSave } from './Producer';
 import { SeedGarden, type SeedGardenSave } from './SeedGarden';
 import { producerRoleOf } from '@/data/needs';
+import type {
+  CaretakerCrate,
+  CaretakerGarden,
+  CaretakerJob,
+  CaretakerProducer,
+  CaretakerWorkSnapshot,
+} from '@/companion/CaretakerWork';
 
 export interface BuildPieceInstance {
   instanceId: string;
@@ -601,6 +608,11 @@ export class BuildSystem {
     requestedInstanceId?: string,
   ): BuildPieceInstance | null {
     if (this.buildMutation) return null;
+    if (
+      placement.piece === 'caretaker-dock' &&
+      [...this.instances.values()].some((entry) => entry.data.definitionId === 'caretaker-dock')
+    )
+      return null;
     if (!free && !this.buildAuthorizer(placement.piece)) return null;
     if (!free && this.buildBlocker(placement)) return null;
     const def = BUILD_PIECES[placement.piece];
@@ -1679,6 +1691,7 @@ export class BuildSystem {
       condenser: 4,
       planter: 4,
       'seed-garden': 4,
+      'caretaker-dock': 4,
       'turret-manual': 4,
       'collector-auto': 4,
       'turret-auto': 4,
@@ -1879,5 +1892,136 @@ export class BuildSystem {
       if (count) out.push({ instanceId, itemId: 'greens', count });
     }
     return out;
+  }
+
+  caretakerWorkSnapshot(
+    reachable: (instanceId: string) => boolean = () => true,
+  ): CaretakerWorkSnapshot {
+    const crates: CaretakerCrate[] = [];
+    for (const [id, container] of this.crateContainers) {
+      const live = this.instances.get(id);
+      if (!live) continue;
+      const items = new Map<string, number>();
+      for (const slot of container.slots)
+        if (slot) items.set(slot.itemId, (items.get(slot.itemId) ?? 0) + slot.count);
+      const spaceByItem: Record<string, number> = {};
+      for (const itemId of ['water', 'greens', 'scrap', 'components', 'fuel', 'repair-kit'])
+        spaceByItem[itemId] = container.roomFor(itemId as ItemId);
+      crates.push({
+        id,
+        reachable: reachable(id),
+        items: [...items].map(([itemId, count]) => ({ itemId, count })),
+        spaceByItem,
+      });
+    }
+    const producers: CaretakerProducer[] = [];
+    for (const [id, timer] of this.producerTimers) {
+      const live = this.instances.get(id);
+      const role = live ? producerRoleOf(live.data.definitionId) : null;
+      if (live && role)
+        producers.push({
+          id,
+          reachable: reachable(id),
+          output: { itemId: role.itemId, count: timer.stored },
+        });
+    }
+    for (const [id, container] of this.collectorContainers) {
+      for (const slot of container.slots)
+        if (slot)
+          producers.push({
+            id,
+            reachable: reachable(id),
+            output: { itemId: slot.itemId, count: slot.count },
+          });
+    }
+    const gardens: CaretakerGarden[] = [];
+    for (const id of this.gardenTimers.keys()) {
+      const state = this.gardenTimers.get(id)!.snapshot();
+      gardens.push({ id, reachable: reachable(id), water: state.water });
+      if (state.greens > 0)
+        producers.push({
+          id,
+          reachable: reachable(id),
+          output: { itemId: 'greens', count: state.greens },
+        });
+    }
+    return { crates, producers, gardens };
+  }
+
+  commitCaretakerJob(job: CaretakerJob): boolean {
+    if (this.buildMutation || job.count !== 1) return false;
+    const targetCrate =
+      job.kind === 'store-output' ? this.crateContainers.get(job.targetId) : undefined;
+    const sourceCrate =
+      job.kind === 'water-garden' ? this.crateContainers.get(job.sourceId) : undefined;
+    const garden = this.gardenTimers.get(job.kind === 'water-garden' ? job.targetId : job.sourceId);
+    if (job.kind === 'store-output' && (!targetCrate || !this.instances.has(job.targetId)))
+      return false;
+    if (
+      job.kind === 'water-garden' &&
+      (!sourceCrate || !garden || !this.instances.has(job.targetId))
+    )
+      return false;
+    this.buildMutation = true;
+    try {
+      if (job.kind === 'water-garden') {
+        if (job.itemId !== 'water' || sourceCrate!.count('water') < 1) return false;
+        const beforeCrate = sourceCrate!.serialise();
+        const beforeGarden = garden!.snapshot();
+        if (sourceCrate!.remove('water', 1) !== 1 || garden!.loadWater(1) !== 1) {
+          sourceCrate!.restore(beforeCrate);
+          garden!.restore(beforeGarden);
+          return false;
+        }
+        return true;
+      }
+      const beforeTarget = targetCrate!.serialise();
+      const producer = this.producerTimers.get(job.sourceId);
+      const collector = this.collectorContainers.get(job.sourceId);
+      const sourceGarden = this.gardenTimers.get(job.sourceId);
+      if (sourceGarden) {
+        if (job.itemId !== 'greens') return false;
+        const before = sourceGarden.snapshot();
+        if (sourceGarden.harvest(1) !== 1 || targetCrate!.add('greens', 1) !== 0) {
+          sourceGarden.restore(before);
+          targetCrate!.restore(beforeTarget);
+          return false;
+        }
+        return true;
+      }
+      if (producer) {
+        const live = this.instances.get(job.sourceId);
+        const role = live ? producerRoleOf(live.data.definitionId) : null;
+        const before = producer.toSave();
+        if (
+          !role ||
+          role.itemId !== job.itemId ||
+          producer.claim(1) !== 1 ||
+          targetCrate!.add(job.itemId as ItemId, 1) !== 0
+        ) {
+          producer.restore(before);
+          targetCrate!.restore(beforeTarget);
+          return false;
+        }
+        return true;
+      }
+      if (collector) {
+        const slot = collector.slots.findIndex(
+          (entry) => entry?.itemId === job.itemId && entry.count > 0,
+        );
+        if (slot < 0 || collector.moveTo(targetCrate!, slot, 1) !== 0) {
+          targetCrate!.restore(beforeTarget);
+          return false;
+        }
+        return true;
+      }
+      return false;
+    } finally {
+      this.buildMutation = false;
+    }
+  }
+
+  caretakerEndpoint(instanceId: string): THREE.Vector3 | null {
+    return this.instances.get(instanceId)?.mesh.position.clone() ?? null;
   }
 }

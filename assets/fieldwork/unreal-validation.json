@@ -1,0 +1,66 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "assets": [
+    {
+      "name": "L12",
+      "path": "/Game/NomadFieldwork/L12.L12",
+      "size_cm": [
+        125.60000610351562,
+        100.61316299438477,
+        144.61317014694214
+      ],
+      "materials": 12
+    },
+    {
+      "name": "CaretakerDock",
+      "path": "/Game/NomadFieldwork/CaretakerDock.CaretakerDock",
+      "size_cm": [
+        128.0,
+        132.0,
+        95.50001764901663
+      ],
+      "materials": 8
+    },
+    {
+      "name": "RifleStabilizer",
+      "path": "/Game/NomadFieldwork/RifleStabilizer.RifleStabilizer",
+      "size_cm": [
+        8.51200008392334,
+        16.80000114440918,
+        8.512001991271973
+      ],
+      "materials": 3
+    },
+    {
+      "name": "RifleBurstCam",
+      "path": "/Game/NomadFieldwork/RifleBurstCam.RifleBurstCam",
+      "size_cm": [
+        15.827230453491211,
+        8.0,
+        7.550000429153442
+      ],
+      "materials": 4
+    },
+    {
+      "name": "ShotgunChoke",
+      "path": "/Game/NomadFieldwork/ShotgunChoke.ShotgunChoke",
+      "size_cm": [
+        10.527999877929688,
+        16.80000114440918,
+        10.528002738952637
+      ],
+      "materials": 3
+    },
+    {
+      "name": "ShotgunScatterBrake",
+      "path": "/Game/NomadFieldwork/ShotgunScatterBrake.ShotgunScatterBrake",
+      "size_cm": [
+        15.000000953674316,
+        16.80000114440918,
+        10.528002738952637
+      ],
+      "materials": 3
+    }
+  ],
+  "status": "success"
+}

@@ -1,6 +1,7 @@
 import { DECK_SURFACE_Y } from './constants';
 import nomadProfile from '@/data/iron-nomad.json';
 import { SignalBattleScene } from '@/story/SignalBattleScene';
+import { levelOf } from '@/enemies/NavGraph';
 import { RadioRaids } from '@/story/RadioRaids';
 import * as THREE from 'three';
 import { Renderer } from '@/core/renderer/Renderer';
@@ -40,9 +41,21 @@ import { loadPropModels } from '@/world/PropModels';
 import { duneHeightAt } from '@/world/DuneField';
 import { updateFogColor, setFogParams, DEFAULT_FOG } from '@/art/Fog';
 import { DustFrontDirector } from '@/world/DustFrontDirector';
+import {
+  sanitizeCampaignProfile,
+  profileUsesInfiniteAmmo,
+  type CampaignProfile,
+} from './CampaignProfile';
 import { DustFrontFX } from '@/fx/DustFrontFX';
 import { HomeLife, type HomeLifeRestContext, type HomeLifeCancelReason } from '@/building/HomeLife';
 import { HomeLifeUI } from '@/ui/HomeLifeUI';
+import { FieldworkUI, type FieldworkView } from '@/ui/FieldworkUI';
+import { CaretakerUI, type CaretakerView } from '@/ui/CaretakerUI';
+import { CaretakerDirector } from '@/companion/CaretakerDirector';
+import { CaretakerActor } from '@/companion/CaretakerActor';
+import { CaretakerNavigation } from '@/companion/CaretakerNavigation';
+import { attachmentModel, animateCaretaker } from '@/art/FieldworkModels';
+import type { AttachmentId } from '@/data/weapon-loadouts';
 import { WorldManager, renderedDistance, WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { Machine } from '@/machine/Machine';
 import { installNavigationHelm } from '@/machine/MachineGeometry';
@@ -459,12 +472,35 @@ export class Game implements LoopCallbacks {
   private quality: QualitySettings;
   readonly homeRest = new HomeLife({ rooms: [], byCell: new Map(), links: [] }, []);
   readonly homeUI: HomeLifeUI;
+  readonly fieldworkUI: FieldworkUI;
+  readonly caretakerUI: CaretakerUI;
+  readonly caretaker = new CaretakerDirector();
+  private fieldworkTargetId: string | null = null;
+  private fieldworkWeapon: 'rifle' | 'shotgun' = 'rifle';
+  private readonly fieldworkPowerId = 'fieldwork-tools';
+  private caretakerRecruiting = false;
+  private caretakerPanelTarget: string | null = null;
+  private caretakerActor: CaretakerActor | null = null;
+  private caretakerNavigation: CaretakerNavigation | null = null;
+  private caretakerPlanAt = 0;
+  private caretakerNavVersion = 0;
+  private caretakerNavGraph: object | null = null;
+  private caretakerDockLevel: number | null = null;
+  private caretakerRecoveryModel: THREE.Group | null = null;
+  private readonly caretakerFallbackGeometry = new THREE.BoxGeometry(0.65, 0.6, 0.7);
+  private readonly caretakerClearance = new THREE.Vector3();
+  private caretakerJobAnchor: {
+    token: number;
+    source: THREE.Vector3;
+    target: THREE.Vector3;
+  } | null = null;
   dustFront: DustFrontDirector;
   private readonly dustFrontFX: DustFrontFX;
   private homeShelfId: string | null = null;
   private optionalSalvageEncounterId: string | null = null;
   private optionalSalvageFailed = false;
   private weatherPhase = 'clear';
+  private campaignProfile: CampaignProfile = 'story';
   private readonly weatherFog = new THREE.Color();
   private readonly weatherTint = new THREE.Color(0x998069);
   private readonly freeCamera: THREE.PerspectiveCamera | null = null;
@@ -1003,6 +1039,7 @@ export class Game implements LoopCallbacks {
     this.build.setBuildAuthorization(
       (piece) =>
         canBuildPiece(piece, this.progression) &&
+        (piece !== 'caretaker-dock' || this.caretaker.snapshot().recruited) &&
         (piece !== 'seed-garden' ||
           this.story
             .snapshot(this.world.distanceTraveled)
@@ -1313,6 +1350,7 @@ export class Game implements LoopCallbacks {
       chooseSalvage: (mode) => this.chooseOpportunitySalvage(mode),
     });
     this.inventoryUI = new InventoryUI(options.hudRoot, this.inventory, {
+      openLoadouts: () => this.openFieldwork(this.inventoryTargetId),
       moveToCrate: (slot, all) => this.transfer('player', slot, all),
       moveToPlayer: (slot, all) => this.transfer('crate', slot, all),
       useSlot: (slot) => this.useSlot(slot),
@@ -1324,6 +1362,26 @@ export class Game implements LoopCallbacks {
         if (!this.validInventoryTarget()) return;
         sortContainer(this.inventoryUI.currentCrate ?? this.inventory);
         this.transferFeedback = 'Sorted by category and name';
+      },
+    });
+    this.fieldworkUI = new FieldworkUI(options.hudRoot, {
+      close: () => this.closePanels(),
+      research: (weapon, id) => this.fieldworkAction('research', weapon, id),
+      equip: (weapon, id) => this.fieldworkAction('equip', weapon, id),
+      selectWeapon: (id) => {
+        this.fieldworkWeapon = id;
+        this.refreshFieldwork();
+      },
+    });
+    this.caretakerUI = new CaretakerUI(options.hudRoot, {
+      close: () => this.closePanels(),
+      recruit: () => this.recruitCaretaker(),
+      setMode: (mode) => {
+        if (!this.caretakerUI.isOpen || this.state.paused || !this.isStableForResearch()) return;
+        const dock = this.caretakerPanelDock();
+        if (!dock || !this.machine.power.isPowered(dock.instanceId)) return;
+        if (this.caretaker.setMode(mode)) this.requestAutosave();
+        this.refreshCaretakerPanel();
       },
     });
     this.radioUI = new RadioUI(
@@ -1376,7 +1434,7 @@ export class Game implements LoopCallbacks {
     // nothing measured today can see the difference.
     if (options.titleRoot) {
       this.titleScreen = new TitleScreen(options.titleRoot, {
-        onNewGame: () => this.startNewGame(),
+        onNewGame: (profile) => this.startNewGame(profile),
         onContinue: () => void this.continueGame(),
         onResume: () => this.resume(),
         onQuitToTitle: () => this.enterTitle(),
@@ -1828,8 +1886,10 @@ export class Game implements LoopCallbacks {
         !this.armed ||
         this.defense.mounted
       ) {
+        this.combat.cancelPendingBursts();
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
       } else if (this.buildMode) {
+        this.combat.cancelPendingBursts();
         this.combat.fixedUpdate(dt, this.idleInput, this.playerCamera);
         this.updateBuildMode(dt);
       } else this.combat.fixedUpdate(dt, this.input, this.playerCamera);
@@ -1912,6 +1972,7 @@ export class Game implements LoopCallbacks {
     // with. The same ordering argument `MachinePower.fixedUpdate` makes about
     // burning fuel before settling.
     this.tickProducers(dt);
+    this.tickCaretaker(dt);
     this.announceMachineDamage(dt);
     this.updateOpportunities();
     const courseContext = this.courseContext();
@@ -2894,6 +2955,11 @@ export class Game implements LoopCallbacks {
     if (this.sky.update(now)) this.applySky();
     this.renderDustFront(camera);
     if (this.homeUI.isOpen) this.refreshHomePanel();
+    if (this.fieldworkUI.isOpen) this.refreshFieldwork();
+    const attachment = this.combat.current.installedAttachment;
+    this.player.setWeaponAttachment(attachment, attachmentModel(attachment));
+    this.renderCaretakerRecovery();
+    if (this.caretakerUI.isOpen) this.refreshCaretakerPanel();
 
     this.hud.update({
       health: this.player.stats.health,
@@ -3989,8 +4055,14 @@ export class Game implements LoopCallbacks {
     if (!this.options.bypassPointerLock) this.input.requestPointerLock();
   }
 
-  private startNewGame(): void {
+  private startNewGame(profile: CampaignProfile = 'story'): void {
     if (this.artTransition || this.continuing) return;
+    this.closePanels(false);
+    this.caretaker.reset();
+    this.clearCaretakerActor();
+    this.campaignProfile = sanitizeCampaignProfile(profile);
+    this.combat.reset();
+    this.combat.setInfiniteAmmo(profileUsesInfiniteAmmo(this.campaignProfile));
     this.dismissedRecovery.clear();
     this.endingRecordPhase = '';
     this.stopHomeRest();
@@ -4208,6 +4280,8 @@ export class Game implements LoopCallbacks {
       this.expeditionUI.isOpen ||
       this.helmUI.isOpen ||
       this.homeUI.isOpen ||
+      this.fieldworkUI.isOpen ||
+      this.caretakerUI.isOpen ||
       this.campaignLog.isOpen
     );
   }
@@ -4290,6 +4364,22 @@ export class Game implements LoopCallbacks {
             this.story.canReadJournal(item.id),
         ),
       );
+
+    const recovery = !this.caretaker.snapshot().recruited ? this.caretakerRecoveryPosition() : null;
+    if (recovery)
+      out.push({
+        id: 'l12-recovery',
+        label: 'Restore L-12 · 6 components',
+        position: recovery,
+        kind: 'caretaker-recovery',
+      });
+    if (this.caretakerActor)
+      out.push({
+        id: 'l12',
+        label: 'L-12 · Linekeeper',
+        position: this.caretakerActor.position.clone(),
+        kind: 'caretaker',
+      });
 
     // Subsystems are serviced at their access panel, NOT at their hitbox: four
     // of the five hips are outboard of the deck and below it, so there is
@@ -4545,6 +4635,9 @@ export class Game implements LoopCallbacks {
   }
 
   private closeSpecialPanels(): void {
+    this.closeFieldwork();
+    this.caretakerUI.close();
+    this.caretakerPanelTarget = null;
     this.homeUI.close();
     this.homeShelfId = null;
     this.campaignLog.close();
@@ -4552,6 +4645,408 @@ export class Game implements LoopCallbacks {
     this.researchUI.close();
     this.expeditionUI.close();
     this.helmUI.close();
+  }
+
+  private closeFieldwork(): void {
+    this.fieldworkUI?.close();
+    this.fieldworkTargetId = null;
+    this.machine.power.unregisterConsumer(this.fieldworkPowerId);
+  }
+
+  private fieldworkView(): FieldworkView | null {
+    const station = this.build
+      .stationsNear(this.player.worldPosition, INTERACT_REACH)
+      .find((ref) => ref.instanceId === this.fieldworkTargetId && ref.piece === 'workbench');
+    const weapon = this.combat.weapon(this.fieldworkWeapon);
+    if (!station || !weapon) return null;
+    const foundry = this.story.toSave().completed.includes('relay-foundry');
+    const safe =
+      this.isStableForResearch() &&
+      !this.buildMode &&
+      !this.cinematicCamera &&
+      !this.endingInProgress;
+    const powered = this.machine.power.isPowered(this.fieldworkPowerId);
+    const def = weapon.effectiveDef;
+    return {
+      weaponId: this.fieldworkWeapon,
+      title: def.name,
+      profileLabel: this.campaignProfile === 'survival' ? 'Survival' : 'Story',
+      available: foundry && safe && powered && !this.state.paused && !this.artTransition,
+      refusal: !foundry
+        ? 'Complete Relay Foundry to unlock weapon attachments.'
+        : !safe
+          ? 'Clear the current attack or activity to use the workbench.'
+          : !powered
+            ? 'Fieldwork tools need 1 power. Restore fuel or reduce the load.'
+            : undefined,
+      scrap: this.resources.count('scrap'),
+      components: this.resources.count('components'),
+      researched: weapon.researchedAttachments,
+      active: weapon.installedAttachment,
+      stats: def,
+      ammoInMag: weapon.ammoInMag,
+      reserveAmmo: weapon.reserveAmmo,
+      infiniteReserve: weapon.infiniteReserve,
+    };
+  }
+
+  private openFieldwork(id: string | null): void {
+    if (!id || this.state.paused || this.artTransition || this.buildMode) return;
+    if (
+      !this.build
+        .stationsNear(this.player.worldPosition, INTERACT_REACH)
+        .some((ref) => ref.instanceId === id && ref.piece === 'workbench')
+    )
+      return;
+    this.closePanels(false);
+    this.fieldworkTargetId = id;
+    this.machine.power.registerConsumer({
+      id: this.fieldworkPowerId,
+      draw: 1,
+      priority: 'station',
+    });
+    const view = this.fieldworkView();
+    if (!view) {
+      this.closeFieldwork();
+      return;
+    }
+    this.fieldworkUI.open(view);
+    this.releasePointerLock();
+  }
+
+  private refreshFieldwork(): void {
+    const view = this.fieldworkView();
+    if (!view) {
+      this.closePanels();
+      return;
+    }
+    this.fieldworkUI.setView(view);
+  }
+
+  private fieldworkAction(
+    kind: 'research' | 'equip',
+    weaponId: string,
+    id: AttachmentId | null,
+  ): void {
+    if (
+      !this.fieldworkUI.isOpen ||
+      weaponId !== this.fieldworkWeapon ||
+      !this.fieldworkView()?.available
+    )
+      return;
+    const weapon = this.combat.weapon(weaponId);
+    if (!weapon) return;
+    const result =
+      kind === 'research' && id
+        ? weapon.researchAttachment(id, this.resources)
+        : weapon.setAttachment(id);
+    if (result.ok) {
+      if (kind === 'research' && id) weapon.setAttachment(id);
+      this.requestAutosave();
+    }
+    this.refreshFieldwork();
+  }
+
+  private clearCaretakerActor(): void {
+    this.caretaker.cancel();
+    this.caretakerActor?.dispose();
+    this.caretakerActor = null;
+    this.caretakerNavigation = null;
+    this.caretakerDockLevel = null;
+    this.caretakerPlanAt = 0;
+    this.caretakerJobAnchor = null;
+  }
+
+  private tickCaretaker(dt: number): void {
+    if (!this.caretaker.snapshot().recruited) return;
+    const dock = this.build
+      .stationsNear(this.player.worldPosition, Infinity)
+      .find((ref) => ref.piece === 'caretaker-dock');
+    if (!dock) {
+      this.clearCaretakerActor();
+      return;
+    }
+    const dockLevel = levelOf(dock.position.y);
+    if (this.caretakerDockLevel !== null && this.caretakerDockLevel !== dockLevel)
+      this.clearCaretakerActor();
+    this.caretakerNavigation ??= new CaretakerNavigation(this.machine, this.build, (feet) => {
+      this.caretakerClearance.copy(feet).y += 0.7;
+      return !this.physics.overlapsSphere(
+        this.caretakerClearance,
+        0.32,
+        this.caretakerActor?.collider,
+      );
+    });
+    const nav = this.caretakerNavigation;
+    if (this.caretakerNavGraph !== this.build.navGraph) {
+      this.caretakerNavGraph = this.build.navGraph;
+      this.caretakerNavVersion++;
+    }
+    const home = nav.approach(
+      this.machine.group.localToWorld(dock.position.clone()),
+      this.caretakerActor?.position,
+    );
+    if (!home) {
+      this.caretaker.cancel();
+      this.caretakerActor?.fixedUpdate(dt, null);
+      return;
+    }
+    const powered = this.machine.power.isPowered(dock.instanceId);
+    const safe =
+      this.isStableForResearch() &&
+      !this.cinematicCamera &&
+      !this.endingInProgress &&
+      !this.buildMode &&
+      !this.panelsOpen;
+    if (!this.caretakerActor) {
+      if (!powered || !safe) return;
+      const model = new THREE.Group();
+      const source = authoredModel('fieldwork-kit')?.scene.getObjectByName('L12');
+      if (source) {
+        const clone = source.clone(true);
+        clone.position.set(0, 0, 0);
+        clone.rotation.y = Math.PI;
+        model.add(clone);
+      } else {
+        const body = new THREE.Mesh(this.caretakerFallbackGeometry, this.materials.stationMetal);
+        body.position.y = 0.45;
+        model.add(body);
+      }
+      this.caretakerActor = new CaretakerActor(
+        {
+          physics: this.physics,
+          machine: this.machine,
+          routeFor: (from, target) => nav.routeFor(from, target),
+          routeVersion: () => this.caretakerNavVersion,
+        },
+        model,
+      );
+      this.renderer.scene.add(this.caretakerActor.root);
+      this.caretakerActor.spawn(home);
+      this.caretakerDockLevel = dockLevel;
+    }
+    const actor = this.caretakerActor;
+    const endpoint = (id: string): THREE.Vector3 | null => {
+      const at = this.build.caretakerEndpoint(id);
+      return at ? nav.approach(this.machine.group.localToWorld(at), actor.position) : null;
+    };
+    let state = this.caretaker.snapshot();
+    if (
+      safe &&
+      powered &&
+      state.mode === 'steward' &&
+      !state.job &&
+      this.state.simTime >= this.caretakerPlanAt
+    ) {
+      this.caretakerPlanAt = this.state.simTime + 1;
+      this.caretaker.plan(
+        this.build.caretakerWorkSnapshot((id) => {
+          const at = endpoint(id);
+          return !!at && actor.canReach(at);
+        }),
+      );
+      state = this.caretaker.snapshot();
+      if (state.job && state.token !== null) {
+        const source = this.build.caretakerEndpoint(state.job.sourceId);
+        const target = this.build.caretakerEndpoint(state.job.targetId);
+        this.caretakerJobAnchor = source && target ? { token: state.token, source, target } : null;
+      }
+    }
+    const source = state.job ? endpoint(state.job.sourceId) : null;
+    const target = state.job ? endpoint(state.job.targetId) : null;
+    const anchor = this.caretakerJobAnchor;
+    const sourceLive = state.job ? this.build.caretakerEndpoint(state.job.sourceId) : null;
+    const targetLive = state.job ? this.build.caretakerEndpoint(state.job.targetId) : null;
+    const unchanged =
+      !state.job ||
+      (!!anchor &&
+        anchor.token === state.token &&
+        !!sourceLive &&
+        !!targetLive &&
+        anchor.source.distanceToSquared(sourceLive) < 0.0025 &&
+        anchor.target.distanceToSquared(targetLive) < 0.0025);
+    const pathAvailable =
+      !state.job ||
+      (!!source && !!target && unchanged && actor.canReach(source) && actor.canReach(target));
+    state = this.caretaker.fixedUpdate(dt, {
+      safe,
+      powered,
+      docked: true,
+      pathAvailable,
+      sourceReached: !!source && actor.reached(source),
+      targetReached: !!target && actor.reached(target),
+      homeReached: actor.reached(home),
+    });
+    if (state.phase === 'returning' && state.job && state.token !== null) {
+      const success =
+        safe &&
+        powered &&
+        pathAvailable &&
+        !!target &&
+        actor.reached(target) &&
+        this.build.commitCaretakerJob(state.job);
+      this.caretaker.resolveJob(state.token, success);
+      this.caretakerJobAnchor = null;
+      if (success) this.requestAutosave();
+      state = this.caretaker.snapshot();
+    }
+    let goal: THREE.Vector3 | null = home;
+    if (safe && powered && state.mode === 'companion') {
+      const follow = nav.approach(this.player.worldPosition, actor.position);
+      goal = follow && actor.position.distanceTo(follow) > 2 ? follow : null;
+    } else if (safe && powered && state.job) {
+      goal = ['to-source', 'service-source'].includes(state.phase) ? source : target;
+    }
+    actor.fixedUpdate(dt, goal && actor.canReach(goal) ? goal : null);
+    animateCaretaker(
+      actor.root,
+      this.state.simTime,
+      ['service-source', 'service-target'].includes(state.phase),
+      dt,
+    );
+  }
+
+  private renderCaretakerRecovery(): void {
+    const at = !this.caretaker.snapshot().recruited ? this.caretakerRecoveryPosition() : null;
+    if (!at) {
+      if (this.caretakerRecoveryModel) this.caretakerRecoveryModel.visible = false;
+      return;
+    }
+    if (!this.caretakerRecoveryModel) {
+      const source = authoredModel('fieldwork-kit')?.scene.getObjectByName('L12');
+      if (!source) return;
+      const model = new THREE.Group();
+      const unit = source.clone(true);
+      unit.position.set(0, 0, 0);
+      model.add(unit);
+      model.name = 'L12-recovery';
+      const head = model.getObjectByName('L12Sensor');
+      if (head) head.rotation.x = 0.3;
+      this.caretakerRecoveryModel = model;
+      this.renderer.scene.add(model);
+    }
+    this.caretakerRecoveryModel.visible = true;
+    this.caretakerRecoveryModel.position.copy(at).setY(this.destination.root.position.y + 0.2);
+    this.caretakerRecoveryModel.rotation.y = -0.8;
+  }
+
+  private caretakerRecoveryPosition(): THREE.Vector3 | null {
+    const contact = this.routeChart.contact;
+    if (
+      !this.optionalModelId ||
+      contact?.kind !== 'repair-depot' ||
+      !this.destination.docked ||
+      !['docked', 'visited'].includes(contact.state)
+    )
+      return null;
+    const reward = this.destination.interactables.find((item) => item.id === 'opportunity-reward');
+    return reward ? reward.position.clone().add(new THREE.Vector3(1.5, 0, 0)) : null;
+  }
+
+  private caretakerPanelView(): CaretakerView | null {
+    const state = this.caretaker.snapshot();
+    if (!state.recruited) {
+      const at = this.caretakerRecoveryPosition();
+      if (!at || at.distanceTo(this.player.worldPosition) > INTERACT_REACH) return null;
+      const safe = !this.state.playerDead && this.enemies.activeCount === 0 && !this.artTransition;
+      return {
+        panel: 'recruitment',
+        title: 'L-12 · Linekeeper',
+        description:
+          'A maintenance unit kept this repair bay open. Restore its damaged controller and give it a place aboard the Nomad. Build its charging dock to let it follow you or tend supplies.',
+        cost: 6,
+        canRecruit: safe && !this.state.paused && this.resources.canAfford({ components: 6 }),
+        refusal: !safe
+          ? 'Clear the danger before restoring L-12.'
+          : this.resources.count('components') < 6
+            ? 'Requires 6 components. You can return at a later repair depot.'
+            : undefined,
+      };
+    }
+    const dock = this.caretakerPanelDock();
+    if (!dock && this.caretakerPanelTarget !== 'l12') return null;
+    if (
+      this.caretakerPanelTarget === 'l12' &&
+      (!this.caretakerActor ||
+        this.caretakerActor.position.distanceTo(this.player.worldPosition) > INTERACT_REACH)
+    )
+      return null;
+    return {
+      panel: 'companion',
+      title: 'L-12 · Linekeeper',
+      mode: state.mode,
+      canChangeMode:
+        !!dock &&
+        this.machine.power.isPowered(dock.instanceId) &&
+        this.isStableForResearch() &&
+        !this.state.paused,
+      fact: this.progression.has('depot-linekeeper-record')
+        ? '“I kept the bay open. I can keep a small part of this home in order, too.”'
+        : '“A place for everything. A little room left for whatever we find next.”',
+      status: !dock
+        ? 'Build a charging dock aboard the Nomad. L-12 will wait there.'
+        : !this.machine.power.isPowered(dock.instanceId)
+          ? 'Dock unpowered · needs 3 power.'
+          : state.refusal === 'unsafe'
+            ? 'Waiting for the deck to be safe.'
+            : state.refusal === 'unreachable'
+              ? 'Waiting for a clear route.'
+              : state.mode === 'companion'
+                ? 'Following on the dock’s deck · waits when you change decks.'
+                : state.job
+                  ? 'Tending supplies · one unit at a time.'
+                  : 'Waiting for output or a thirsty garden on the dock’s deck.',
+    };
+  }
+
+  /** The selected dock, or L-12's aboard home while speaking to the actor. */
+  private caretakerPanelDock(): ReturnType<BuildSystem['stationsNear']>[number] | undefined {
+    const docks = this.build.stationsNear(
+      this.player.worldPosition,
+      this.caretakerPanelTarget === 'l12' ? Infinity : INTERACT_REACH,
+    );
+    return docks.find(
+      (ref) =>
+        ref.piece === 'caretaker-dock' &&
+        (this.caretakerPanelTarget === 'l12' || ref.instanceId === this.caretakerPanelTarget),
+    );
+  }
+
+  private openCaretaker(id: string): boolean {
+    if (this.state.paused || this.artTransition || this.buildMode) return false;
+    this.closePanels(false);
+    this.caretakerPanelTarget = id;
+    const view = this.caretakerPanelView();
+    if (!view) {
+      this.caretakerPanelTarget = null;
+      return false;
+    }
+    this.caretakerUI.open(view);
+    this.releasePointerLock();
+    return true;
+  }
+
+  private refreshCaretakerPanel(): void {
+    const view = this.caretakerPanelView();
+    if (!view) this.closePanels();
+    else this.caretakerUI.setView(view);
+  }
+
+  private recruitCaretaker(): void {
+    if (this.caretakerRecruiting || !this.caretakerUI.isOpen || this.caretaker.snapshot().recruited)
+      return;
+    const view = this.caretakerPanelView();
+    if (view?.panel !== 'recruitment' || !view.canRecruit) return;
+    this.caretakerRecruiting = true;
+    try {
+      if (!this.resources.consume({ components: 6 })) return;
+      this.caretaker.recruit();
+    } finally {
+      this.caretakerRecruiting = false;
+    }
+    this.closePanels();
+    this.hud.setWarning('L-12 restored. Build its charging dock aboard the Nomad (3 power).');
+    this.requestAutosave();
   }
 
   private campaignRecord(): CampaignRecord {
@@ -5347,6 +5842,7 @@ export class Game implements LoopCallbacks {
     const model = STORY_EXPEDITIONS.find((chapter) => chapter.id === id)?.modelId;
     return [
       ...(model ? [model] : []),
+      ...(id === 'relay-foundry' ? ['fieldwork-kit'] : []),
       ...(id === 'glass-orchard' ? ['seed-garden'] : []),
       ...(id === 'last-garden-meridian' ? ['meridian-horizon'] : []),
     ];
@@ -5516,6 +6012,12 @@ export class Game implements LoopCallbacks {
     if (this.buildMode) return false;
     if (target.kind === 'rest-chair') return this.startHomeRest(target.id);
     if (target.kind === 'keepsake-shelf') return this.openHomeShelf(target.id);
+    if (
+      target.kind === 'caretaker-dock' ||
+      target.kind === 'caretaker' ||
+      target.kind === 'caretaker-recovery'
+    )
+      return this.openCaretaker(target.id);
     // A repair has no panel. `updateRepair` drives it from the held key.
     if (target.kind === 'repair') return false;
 
@@ -5723,7 +6225,11 @@ export class Game implements LoopCallbacks {
   }
 
   closePanels(reclaimControl = true): void {
-    if (!this.panelsOpen) return;
+    const hadPanel = this.panelsOpen || !!this.fieldworkTargetId || !!this.caretakerPanelTarget;
+    this.closeFieldwork();
+    this.caretakerUI.close();
+    this.caretakerPanelTarget = null;
+    if (!hadPanel) return;
     this.homeUI.close();
     this.homeShelfId = null;
     this.inventoryUI.setMode('closed');
@@ -5749,6 +6255,7 @@ export class Game implements LoopCallbacks {
 
   /** Without this the panels cannot be clicked at all. */
   private releasePointerLock(): void {
+    this.combat.cancelPendingBursts();
     this.syncInputContext();
     if (this.options.bypassPointerLock) return;
     if (document.pointerLockElement) document.exitPointerLock();
@@ -5865,6 +6372,9 @@ export class Game implements LoopCallbacks {
             garden: garden ? { ...garden, cycleS: 180 } : undefined,
             damagedSubsystems: condition.filter((subsystem) => subsystem.fraction < 1).length,
             repairKits: this.inventory.count('repair-kit'),
+            infiniteAmmo: this.combat.current.infiniteReserve,
+            weaponId: this.combat.current.def.id as 'rifle' | 'shotgun',
+            ammoReserve: this.combat.current.reserveAmmo,
             safeToSave: this.isSafeToSave(true),
             saveRefusal:
               this.hook || this.hookedCrate
@@ -6683,6 +7193,7 @@ export class Game implements LoopCallbacks {
       version: CURRENT_SAVE_VERSION as 1,
       savedAt: Date.now(),
       seed: this.state.seed,
+      profile: this.campaignProfile,
       distanceTraveled: this.world.distanceTraveled,
       player: {
         position: { x: p.x, y: p.y, z: p.z },
@@ -6714,6 +7225,7 @@ export class Game implements LoopCallbacks {
       // before the opening existed reads back as `undefined`, and a loader
       // treats that the same way it treats a finished one — see `loadFrom`.
       progression: {
+        caretaker: this.caretaker.toSave(),
         ...this.progression.toSave(),
         radio: this.progression.earlyRadioDrop.toSave(),
         opening: this.opening.toSave(),
@@ -6760,6 +7272,11 @@ export class Game implements LoopCallbacks {
     if (!save) return false;
     const savedStory = save.world.story;
     const assetIds = new Set<string>();
+    if (
+      save.progression?.caretaker?.recruited ||
+      save.machine.structures?.some((p) => p?.definitionId === 'caretaker-dock')
+    )
+      assetIds.add('fieldwork-kit');
     if (savedStory && typeof savedStory === 'object' && 'format' in savedStory) {
       for (const id of this.expeditionAssetIds(savedStory.active?.expeditionId ?? 'relay-foundry'))
         assetIds.add(id);
@@ -6867,6 +7384,8 @@ export class Game implements LoopCallbacks {
         );
     }
     this.progression.restore(save.progression);
+    this.caretaker.restore(save.progression?.caretaker);
+    this.clearCaretakerActor();
     const savedRadio = save.progression.radio ?? save.progression.radioDrop;
     this.progression.earlyRadioDrop.restore(savedRadio);
     this.radioPowered = false;
@@ -7027,6 +7546,9 @@ export class Game implements LoopCallbacks {
     this.announcedNeeds = null;
     this.enemies.despawnAll();
 
+    this.campaignProfile = sanitizeCampaignProfile(save.profile);
+    this.combat.reset();
+    this.combat.setInfiniteAmmo(profileUsesInfiniteAmmo(this.campaignProfile));
     this.combat.equip(save.player.equipment.currentWeapon);
     this.combat.restore(
       save.player.equipment.weapons.map((w) => ({
@@ -7034,6 +7556,7 @@ export class Game implements LoopCallbacks {
         ammoInMag: w.ammoInMag,
         reserveAmmo: w.reserveAmmo,
         magazineBonus: w.magazineBonus ?? 0,
+        attachments: w.attachments,
       })),
     );
 
@@ -7116,6 +7639,12 @@ export class Game implements LoopCallbacks {
     this.expeditionUI.dispose();
     this.helmUI.dispose();
     this.homeUI.dispose();
+    this.closeFieldwork();
+    this.fieldworkUI.dispose();
+    this.caretakerUI.dispose();
+    this.clearCaretakerActor();
+    this.caretakerRecoveryModel?.removeFromParent();
+    this.caretakerFallbackGeometry.dispose();
     this.dustFrontFX.dispose();
     setFogParams(DEFAULT_FOG);
     this.destination.dispose();

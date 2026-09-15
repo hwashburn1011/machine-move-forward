@@ -32,6 +32,9 @@ export interface Interactable {
     | 'objective'
     | 'rest-chair'
     | 'keepsake-shelf'
+    | 'caretaker-dock'
+    | 'caretaker'
+    | 'caretaker-recovery'
     | 'repair';
 }
 

@@ -1,0 +1,103 @@
+{
+  "generatedAt": "2026-09-15T09:17:06.938Z",
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "caretaker truthfully refuses the physically blocked machine stair link both ways",
+      "ok": true,
+      "detail": {
+        "link": [
+          {
+            "x": -1,
+            "y": 0,
+            "z": 2
+          },
+          {
+            "x": -1,
+            "y": -1,
+            "z": -2
+          }
+        ],
+        "lower": {
+          "x": -2.013317317656648,
+          "y": 11.729547455626218,
+          "z": -4.009307844264407
+        },
+        "upper": {
+          "x": -2.0167207089680046,
+          "y": 14.735889322824741,
+          "z": 3.9883103633307075
+        },
+        "routeUp": null,
+        "routeDown": null,
+        "reachedUp": false,
+        "reachedDown": true,
+        "afterUp": {
+          "x": -2.039686670016064,
+          "y": 11.640811527761153,
+          "z": -3.8821872056058764
+        },
+        "afterDown": {
+          "x": -2.039686670016064,
+          "y": 11.640811527761153,
+          "z": -3.8821872056058764
+        },
+        "upTravel": 0.15725558363785058,
+        "downTravel": 0,
+        "upSteps": 120,
+        "downSteps": 0,
+        "verticalGain": -0.08873592786506457,
+        "fallbackDrift": 0.15725477547878025
+      }
+    },
+    {
+      "name": "cross-deck refusal leaves the physical actor safely at its lower landing",
+      "ok": true,
+      "detail": {
+        "link": [
+          {
+            "x": -1,
+            "y": 0,
+            "z": 2
+          },
+          {
+            "x": -1,
+            "y": -1,
+            "z": -2
+          }
+        ],
+        "lower": {
+          "x": -2.013317317656648,
+          "y": 11.729547455626218,
+          "z": -4.009307844264407
+        },
+        "upper": {
+          "x": -2.0167207089680046,
+          "y": 14.735889322824741,
+          "z": 3.9883103633307075
+        },
+        "routeUp": null,
+        "routeDown": null,
+        "reachedUp": false,
+        "reachedDown": true,
+        "afterUp": {
+          "x": -2.039686670016064,
+          "y": 11.640811527761153,
+          "z": -3.8821872056058764
+        },
+        "afterDown": {
+          "x": -2.039686670016064,
+          "y": 11.640811527761153,
+          "z": -3.8821872056058764
+        },
+        "upTravel": 0.15725558363785058,
+        "downTravel": 0,
+        "upSteps": 120,
+        "downSteps": 0,
+        "verticalGain": -0.08873592786506457,
+        "fallbackDrift": 0.15725477547878025
+      }
+    }
+  ],
+  "errors": []
+}

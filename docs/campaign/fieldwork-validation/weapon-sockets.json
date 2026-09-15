@@ -1,0 +1,16 @@
+[
+  {
+    "name": "scrap-rifle",
+    "onlyMuzzleSocketChanged": true,
+    "vertexMaterialBuffersUnchanged": true,
+    "errors": 0,
+    "warnings": 5
+  },
+  {
+    "name": "scrap-shotgun",
+    "onlyMuzzleSocketChanged": true,
+    "vertexMaterialBuffersUnchanged": true,
+    "errors": 0,
+    "warnings": 5
+  }
+]

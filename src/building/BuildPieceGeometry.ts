@@ -572,6 +572,7 @@ function shelfGeometry(): THREE.BufferGeometry {
 }
 
 const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
+  'caretaker-dock': crateGeometry,
   stove: stoveGeometry,
   condenser: condenserGeometry,
   planter: planterGeometry,
@@ -637,6 +638,8 @@ export function pieceMaterial(
       return [materials.stationMetal, materials.emissiveWarn];
     case 'condenser':
       return [materials.stationMetal, materials.emissiveWarn];
+    case 'caretaker-dock':
+      return materials.stationMetal;
     case 'turret-manual':
       return [materials.stationMetal, materials.emissiveWarn];
     case 'collector-auto':
@@ -703,6 +706,8 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
 
     case 'condenser':
       return [{ half: new THREE.Vector3(0.63, 0.95, 0.63), offset: new THREE.Vector3(0, 0.95, 0) }];
+    case 'caretaker-dock':
+      return [{ half: new THREE.Vector3(0.64, 0.5, 0.66), offset: new THREE.Vector3(0, 0.5, 0) }];
 
     case 'turret-manual':
       return [{ half: new THREE.Vector3(0.82, 0.5, 0.82), offset: new THREE.Vector3(0, 0.5, 0) }];
