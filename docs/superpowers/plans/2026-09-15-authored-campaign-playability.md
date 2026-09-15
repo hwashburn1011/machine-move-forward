@@ -150,6 +150,11 @@ weapon's empty reserve and names its matching workbench recipe.
 
 ## Execution and release
 
+AP shipped in PR #18. MID-02/03 and SURV-01/02/03 now have accepted normal-input
+lineages, including the observed idle repair-price fix. See
+[the delivery and exact evidence](../../campaign/midgame-survival-notes.md) for
+boundaries, resource/weapon ledgers, failed tooling attempts and graphics modes.
+
 AP runs first because authored collision affects all later full-detail claims.
 Luna handles bounded tooling and routine implementation; Sol plans and reviews;
 root owns art, camera, shared Game integration and release. One browser/GPU

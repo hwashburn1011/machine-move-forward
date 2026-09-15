@@ -1,0 +1,316 @@
+{
+  "slot": "quicksave",
+  "save": {
+    "version": 1,
+    "savedAt": 1789482243364,
+    "seed": "mmf-dev-seed",
+    "profile": "story",
+    "distanceTraveled": 5646.949303716844,
+    "player": {
+      "position": {
+        "x": -0.7513441727114787,
+        "y": 15.804178025448397,
+        "z": -4.868787181538318
+      },
+      "health": 60,
+      "inventory": [
+        {
+          "itemId": "scrap",
+          "count": 40
+        },
+        {
+          "itemId": "scrap",
+          "count": 34
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "components",
+          "count": 3
+        },
+        {
+          "itemId": "fuel",
+          "count": 4
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "needs": {
+        "hydration": 32.54888888889787,
+        "nourishment": 35.048888888856204
+      },
+      "equipment": {
+        "currentWeapon": "rifle",
+        "weapons": [
+          {
+            "id": "rifle",
+            "ammoInMag": 18,
+            "reserveAmmo": 150,
+            "magazineBonus": 0
+          },
+          {
+            "id": "shotgun",
+            "ammoInMag": 6,
+            "reserveAmmo": 48,
+            "magazineBonus": 0
+          }
+        ]
+      }
+    },
+    "machine": {
+      "layout": "iron-nomad-v1",
+      "structures": [
+        {
+          "instanceId": "bp-2",
+          "definitionId": "floor",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          },
+          "rotation": 0,
+          "health": 120
+        },
+        {
+          "instanceId": "bp-4",
+          "definitionId": "floor",
+          "cell": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0,
+          "health": 40
+        },
+        {
+          "instanceId": "bp-6",
+          "definitionId": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "health": 120
+        },
+        {
+          "instanceId": "bp-8",
+          "definitionId": "floor",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          },
+          "rotation": 0,
+          "health": 120
+        },
+        {
+          "instanceId": "bp-7",
+          "definitionId": "workbench",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "health": 130
+        },
+        {
+          "instanceId": "bp-9",
+          "definitionId": "turret-manual",
+          "cell": {
+            "x": 3,
+            "y": 0,
+            "z": -1
+          },
+          "rotation": 0,
+          "health": 150
+        },
+        {
+          "instanceId": "bp-10",
+          "definitionId": "generator",
+          "cell": {
+            "x": 2,
+            "y": 0,
+            "z": 3
+          },
+          "rotation": 0,
+          "health": 170
+        }
+      ],
+      "devices": [],
+      "fuel": 7.746000000050051,
+      "coreHealth": 100,
+      "navigationTier": 1,
+      "course": {
+        "tier": 1,
+        "bearingDeg": 1.2266666666666655,
+        "desiredDeg": 12,
+        "throttle": 1,
+        "lateralM": 0.06787894537969817
+      },
+      "subsystems": [
+        {
+          "id": "engine",
+          "health": 320
+        },
+        {
+          "id": "leg-front-left",
+          "health": 180
+        },
+        {
+          "id": "leg-front-right",
+          "health": 180
+        },
+        {
+          "id": "leg-rear-left",
+          "health": 180
+        },
+        {
+          "id": "leg-rear-right",
+          "health": 180
+        }
+      ]
+    },
+    "progression": {
+      "caretaker": {
+        "format": 1,
+        "recruited": false,
+        "mode": "companion"
+      },
+      "unlocks": [
+        "manual-turret",
+        "automatic-salvage-collector",
+        "automatic-defense-turret"
+      ],
+      "turretBlueprintProgress": 1,
+      "upgrades": {
+        "researched": [],
+        "active": {}
+      },
+      "radio": {
+        "status": "found",
+        "armedAtSimTime": null,
+        "foundAtSimTime": 10.766666666666781,
+        "foundAtDistance": 59.97686964118998,
+        "eligibleChestsOpened": 1
+      },
+      "opening": {
+        "phase": "done"
+      },
+      "firstRun": {
+        "completed": [
+          "salvage",
+          "build-refinery",
+          "refine-components",
+          "build-workbench",
+          "build-defense",
+          "survive-boarding",
+          "repair"
+        ],
+        "counters": {
+          "salvage": 4,
+          "componentsAvailable": 9,
+          "refineryBuilt": 1,
+          "components": 4,
+          "workbenchBuilt": 1,
+          "defense": 2,
+          "defenseCrewed": 2,
+          "boardingSurvived": 4,
+          "boardingEnded": 1,
+          "repairsAfterBoarding": 1
+        }
+      },
+      "turrets": [
+        {
+          "instanceId": "bp-9",
+          "yaw": -1.572,
+          "pitch": -0.09159877559829879,
+          "filter": "all"
+        }
+      ],
+      "automaticTurrets": []
+    },
+    "world": {
+      "chunkIndex": 88,
+      "threatDirector": {
+        "phase": "recovery",
+        "phaseEndsAt": 5943.643581713787,
+        "wavesSurvived": 2,
+        "pending": [],
+        "nextReleaseAt": 0,
+        "draws": 3,
+        "wavesSinceVehicle": 2,
+        "queuedVehicle": null,
+        "externalEncounterActive": false,
+        "sanctuaryActive": true,
+        "sanctuaryReleaseAt": 5943.643581713787
+      },
+      "story": {
+        "format": 2,
+        "completed": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "journalArchive": [
+          "quiet-array-journal-port",
+          "quiet-array-journal-starboard",
+          "quiet-array-journal-archive"
+        ],
+        "active": null,
+        "radioTraceEligible": true,
+        "chapterComplete": true,
+        "ending": {
+          "format": 1,
+          "phase": "available",
+          "committedAtDistance": null,
+          "arrivalElapsedS": 0
+        }
+      },
+      "radioRaids": {
+        "wave": 1,
+        "remaining": 93.90115766016217
+      },
+      "raidRecovery": {
+        "recovered": []
+      },
+      "routeChart": {
+        "format": 1,
+        "nextSlot": 9,
+        "discovered": [],
+        "visited": [],
+        "missed": []
+      },
+      "dustFront": {
+        "format": 1,
+        "phase": "forecast",
+        "elapsedS": 10.983333333333459,
+        "nextAtM": 3352.429139007102,
+        "sequence": 1
+      }
+    }
+  }
+}

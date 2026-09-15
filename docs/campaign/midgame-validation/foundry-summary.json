@@ -1,0 +1,857 @@
+{
+  "status": "passed",
+  "provenance": {
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-wreck\\run-2026-09-15T13-39-44-061Z\\browser-profile",
+    "site": "http://127.0.0.1:5205/?quality=medium&nosound=1",
+    "fullArt": true,
+    "testedCommit": "4052c73",
+    "bundle": "BReJezW_"
+  },
+  "source": {
+    "phase": "route-selection",
+    "distanceM": 3430.801422197487,
+    "simTime": 0.6666666666666671,
+    "health": 78,
+    "resources": {
+      "scrap": 216,
+      "components": 9,
+      "fuel": 4
+    },
+    "structureIds": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-3",
+        "definitionId": "generator",
+        "health": 170
+      },
+      {
+        "instanceId": "bp-5",
+        "definitionId": "refinery",
+        "health": 160
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "health": 150
+      }
+    ],
+    "story": {
+      "format": 2,
+      "completed": [
+        "wreck-one"
+      ],
+      "recoveredUniques": [
+        "course-gyro"
+      ],
+      "journalArchive": [],
+      "active": null,
+      "radioTraceEligible": true
+    },
+    "destination": {
+      "active": false,
+      "docked": false,
+      "root": [
+        14,
+        14.83,
+        3430.694705147046
+      ],
+      "colliders": 0,
+      "gangwayEnabled": false,
+      "playerOnMachine": true,
+      "interactables": []
+    },
+    "tankFuel": 29.956000000062758
+  },
+  "final": {
+    "phase": "complete",
+    "distanceM": 4606.672525575561,
+    "simTime": 217.98333333339895,
+    "health": 60,
+    "resources": {
+      "scrap": 234,
+      "components": 9,
+      "fuel": 4
+    },
+    "structureIds": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "health": 40
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-8",
+        "definitionId": "floor",
+        "health": 120
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "health": 130
+      },
+      {
+        "instanceId": "bp-9",
+        "definitionId": "turret-manual",
+        "health": 150
+      }
+    ],
+    "story": {
+      "format": 2,
+      "completed": [
+        "wreck-one",
+        "relay-foundry"
+      ],
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo"
+      ],
+      "journalArchive": [],
+      "active": null,
+      "radioTraceEligible": true,
+      "chapterComplete": true
+    },
+    "destination": {
+      "active": false,
+      "docked": false,
+      "root": [
+        15,
+        14.83,
+        12.105726689369476
+      ],
+      "colliders": 0,
+      "gangwayEnabled": false,
+      "playerOnMachine": true,
+      "interactables": []
+    },
+    "tankFuel": 22.44500000005358
+  },
+  "gameplayEvents": [
+    {
+      "type": "threat:phase",
+      "event": {
+        "phase": "calm",
+        "wavesSurvived": 1
+      },
+      "simTime": 43.13333333333217
+    },
+    {
+      "type": "threat:phase",
+      "event": {
+        "phase": "buildup",
+        "wavesSurvived": 1
+      },
+      "simTime": 99.93333333332895
+    },
+    {
+      "type": "threat:phase",
+      "event": {
+        "phase": "contact",
+        "wavesSurvived": 1
+      },
+      "simTime": 119.81666666666115
+    },
+    {
+      "type": "enemy:spawned",
+      "event": {
+        "enemyId": "enemy-8",
+        "defId": "scavenger",
+        "position": {
+          "x": 5.4,
+          "y": 15.94,
+          "z": 6.858663995563985
+        }
+      },
+      "simTime": 119.81666666666115
+    },
+    {
+      "type": "threat:phase",
+      "event": {
+        "phase": "engagement",
+        "wavesSurvived": 1
+      },
+      "simTime": 119.83333333332781
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 1,
+        "weaponId": "rifle",
+        "ammoRemaining": 14,
+        "visualOrigin": {
+          "x": -0.7097350709206689,
+          "y": 16.06875408846424,
+          "z": -3.5524401212898287
+        },
+        "aimEnd": {
+          "x": 1.2500000327437961,
+          "y": 16.289736078356604,
+          "z": 0.05333872306134335
+        }
+      },
+      "simTime": 120.64999999999444
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 2,
+        "weaponId": "rifle",
+        "ammoRemaining": 13,
+        "visualOrigin": {
+          "x": -0.6751720707523434,
+          "y": 16.054445749292018,
+          "z": -3.5808563806676563
+        },
+        "aimEnd": {
+          "x": 1.250000337692406,
+          "y": 16.300866597594005,
+          "z": 0.04834282666002032
+        }
+      },
+      "simTime": 120.7666666666611
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 3,
+        "weaponId": "rifle",
+        "ammoRemaining": 12,
+        "visualOrigin": {
+          "x": -0.68378006647118,
+          "y": 16.0526110183399,
+          "z": -3.602421144894958
+        },
+        "aimEnd": {
+          "x": 1.2499998883520402,
+          "y": 16.30428465511293,
+          "z": 0.05628668106451418
+        }
+      },
+      "simTime": 120.88333333332776
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 4,
+        "weaponId": "rifle",
+        "ammoRemaining": 11,
+        "visualOrigin": {
+          "x": -0.6872423946797064,
+          "y": 16.047514101746284,
+          "z": -3.589541940989082
+        },
+        "aimEnd": {
+          "x": 1.2500000395283513,
+          "y": 16.33789474301688,
+          "z": 0.2537465079662331
+        }
+      },
+      "simTime": 121.9333333333277
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 5,
+        "weaponId": "rifle",
+        "ammoRemaining": 10,
+        "visualOrigin": {
+          "x": -0.687167929811149,
+          "y": 16.05588673097887,
+          "z": -3.570719753518386
+        },
+        "aimEnd": {
+          "x": 1.2500000249820236,
+          "y": 16.306370620210277,
+          "z": 0.08116822554851577
+        }
+      },
+      "simTime": 122.04999999999436
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 6,
+        "weaponId": "rifle",
+        "ammoRemaining": 9,
+        "visualOrigin": {
+          "x": -0.6731954196852666,
+          "y": 16.04895576910825,
+          "z": -3.581954572732588
+        },
+        "aimEnd": {
+          "x": 1.249999672854059,
+          "y": 16.30486535596581,
+          "z": 0.06042511132492567
+        }
+      },
+      "simTime": 122.16666666666102
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 7,
+        "weaponId": "rifle",
+        "ammoRemaining": 8,
+        "visualOrigin": {
+          "x": -0.6478173839861007,
+          "y": 16.05791353471742,
+          "z": -3.602567707708264
+        },
+        "aimEnd": {
+          "x": 1.2500001551042903,
+          "y": 16.3040014050165,
+          "z": 0.024543352242816674
+        }
+      },
+      "simTime": 123.26666666666095
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 8,
+        "weaponId": "rifle",
+        "ammoRemaining": 7,
+        "visualOrigin": {
+          "x": -0.6422141225218154,
+          "y": 16.054188323270054,
+          "z": -3.585777918762428
+        },
+        "aimEnd": {
+          "x": 1.2499996851717605,
+          "y": 16.297877598519815,
+          "z": -0.048365172873015005
+        }
+      },
+      "simTime": 123.38333333332761
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 9,
+        "weaponId": "rifle",
+        "ammoRemaining": 6,
+        "visualOrigin": {
+          "x": -0.6476341158506089,
+          "y": 16.061642451530677,
+          "z": -3.5740415090992004
+        },
+        "aimEnd": {
+          "x": 4.530230809220629,
+          "y": 15.912431864690515,
+          "z": 5.279999905001168
+        }
+      },
+      "simTime": 123.49999999999427
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 10,
+        "weaponId": "rifle",
+        "ammoRemaining": 5,
+        "visualOrigin": {
+          "x": -0.6646957111934382,
+          "y": 16.047743245119925,
+          "z": -3.6006232042314634
+        },
+        "aimEnd": {
+          "x": 4.447414685672552,
+          "y": 15.925963915988929,
+          "z": 5.280000346110166
+        }
+      },
+      "simTime": 124.58333333332754
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 11,
+        "weaponId": "rifle",
+        "ammoRemaining": 4,
+        "visualOrigin": {
+          "x": -0.6767183488550741,
+          "y": 16.045197021961076,
+          "z": -3.6006757294811744
+        },
+        "aimEnd": {
+          "x": 4.529871145911548,
+          "y": 15.908873570132087,
+          "z": 5.279999630624251
+        }
+      },
+      "simTime": 124.6999999999942
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 12,
+        "weaponId": "rifle",
+        "ammoRemaining": 3,
+        "visualOrigin": {
+          "x": -0.6772564390820197,
+          "y": 16.052705983252245,
+          "z": -3.577878920188342
+        },
+        "aimEnd": {
+          "x": 4.539191648140337,
+          "y": 15.912361234661594,
+          "z": 5.279999446648958
+        }
+      },
+      "simTime": 124.81666666666086
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 13,
+        "weaponId": "rifle",
+        "ammoRemaining": 2,
+        "visualOrigin": {
+          "x": -0.6625593599657209,
+          "y": 16.056458674634055,
+          "z": -3.580652120943424
+        },
+        "aimEnd": {
+          "x": 4.415829666725142,
+          "y": 15.942295754302888,
+          "z": 5.28000010009588
+        }
+      },
+      "simTime": 125.8666666666608
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 14,
+        "weaponId": "rifle",
+        "ammoRemaining": 1,
+        "visualOrigin": {
+          "x": -0.6506605210307895,
+          "y": 16.04787740226465,
+          "z": -3.603969893475446
+        },
+        "aimEnd": {
+          "x": 4.522520181798448,
+          "y": 15.91098918780493,
+          "z": 5.279999173772405
+        }
+      },
+      "simTime": 125.98333333332747
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 15,
+        "weaponId": "rifle",
+        "ammoRemaining": 0,
+        "visualOrigin": {
+          "x": -0.6417307268645336,
+          "y": 16.047587116732807,
+          "z": -3.597672163597908
+        },
+        "aimEnd": {
+          "x": 4.532496024169918,
+          "y": 15.9128949641835,
+          "z": 5.279999569447506
+        }
+      },
+      "simTime": 126.09999999999413
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 16,
+        "weaponId": "rifle",
+        "ammoRemaining": 29,
+        "visualOrigin": {
+          "x": -0.8292960448921816,
+          "y": 16.06314375756046,
+          "z": -3.532513220646585
+        },
+        "aimEnd": {
+          "x": 3.0660061815984974,
+          "y": 15.74072517329188,
+          "z": 6.149979943168071
+        }
+      },
+      "simTime": 128.54999999999444
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 17,
+        "weaponId": "rifle",
+        "ammoRemaining": 28,
+        "visualOrigin": {
+          "x": -0.8148671571839754,
+          "y": 16.047087800101153,
+          "z": -3.5536185484384655
+        },
+        "aimEnd": {
+          "x": 3.0498923398237783,
+          "y": 15.767958545022497,
+          "z": 6.122520044089857
+        }
+      },
+      "simTime": 128.6666666666612
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 18,
+        "weaponId": "rifle",
+        "ammoRemaining": 27,
+        "visualOrigin": {
+          "x": -0.8004005277602737,
+          "y": 16.049346744575704,
+          "z": -3.5673903082349083
+        },
+        "aimEnd": {
+          "x": 3.0440079267333746,
+          "y": 15.777659421082069,
+          "z": 6.10607648404247
+        }
+      },
+      "simTime": 128.78333333332796
+    },
+    {
+      "type": "player:damaged",
+      "event": {
+        "amount": 9,
+        "remaining": 69,
+        "source": "Wasteland Scavenger",
+        "from": {
+          "x": -0.2705526359811722,
+          "y": 15.80475370342668,
+          "z": -2.5937086888120477
+        }
+      },
+      "simTime": 130.09999999999567
+    },
+    {
+      "type": "enemy:damaged",
+      "event": {
+        "enemyId": "enemy-8",
+        "amount": 22,
+        "remaining": 88
+      },
+      "simTime": 130.1499999999957
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 19,
+        "weaponId": "rifle",
+        "ammoRemaining": 26,
+        "visualOrigin": {
+          "x": -0.7660737621034375,
+          "y": 16.058092398211727,
+          "z": -3.5792625140007877
+        },
+        "aimEnd": {
+          "x": -0.5993733821512017,
+          "y": 16.120840542022442,
+          "z": -2.7567742804275217
+        }
+      },
+      "simTime": 130.1499999999957
+    },
+    {
+      "type": "enemy:damaged",
+      "event": {
+        "enemyId": "enemy-8",
+        "amount": 22,
+        "remaining": 66
+      },
+      "simTime": 130.26666666666247
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 20,
+        "weaponId": "rifle",
+        "ammoRemaining": 25,
+        "visualOrigin": {
+          "x": -0.7676718287544124,
+          "y": 16.05349977697412,
+          "z": -3.561069131619038
+        },
+        "aimEnd": {
+          "x": -0.5948643010781369,
+          "y": 16.12195754799156,
+          "z": -2.7489515964752718
+        }
+      },
+      "simTime": 130.26666666666247
+    },
+    {
+      "type": "enemy:damaged",
+      "event": {
+        "enemyId": "enemy-8",
+        "amount": 22,
+        "remaining": 44
+      },
+      "simTime": 130.38333333332923
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 21,
+        "weaponId": "rifle",
+        "ammoRemaining": 24,
+        "visualOrigin": {
+          "x": -0.7600161431858059,
+          "y": 16.062226641780377,
+          "z": -3.549410552944266
+        },
+        "aimEnd": {
+          "x": -0.588549455308649,
+          "y": 16.120050446589875,
+          "z": -2.737112253150855
+        }
+      },
+      "simTime": 130.38333333332923
+    },
+    {
+      "type": "player:damaged",
+      "event": {
+        "amount": 9,
+        "remaining": 60,
+        "source": "Wasteland Scavenger",
+        "from": {
+          "x": -0.2791337397207668,
+          "y": 15.805355073900111,
+          "z": -2.57194409582571
+        }
+      },
+      "simTime": 131.19999999999655
+    },
+    {
+      "type": "enemy:damaged",
+      "event": {
+        "enemyId": "enemy-8",
+        "amount": 22,
+        "remaining": 22
+      },
+      "simTime": 131.84999999999707
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 22,
+        "weaponId": "rifle",
+        "ammoRemaining": 23,
+        "visualOrigin": {
+          "x": -0.6477922494011394,
+          "y": 16.052039901051174,
+          "z": -3.5926987037260774
+        },
+        "aimEnd": {
+          "x": -0.4590065874590543,
+          "y": 15.968999895888293,
+          "z": -2.880855949805526
+        }
+      },
+      "simTime": 131.84999999999707
+    },
+    {
+      "type": "enemy:damaged",
+      "event": {
+        "enemyId": "enemy-8",
+        "amount": 22,
+        "remaining": 0
+      },
+      "simTime": 131.96666666666383
+    },
+    {
+      "type": "loot:collected",
+      "event": {
+        "items": [
+          {
+            "id": "scrap",
+            "count": 18
+          }
+        ],
+        "source": "Wasteland Scavenger"
+      },
+      "simTime": 131.96666666666383
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 23,
+        "weaponId": "rifle",
+        "ammoRemaining": 22,
+        "visualOrigin": {
+          "x": -0.6584961910052916,
+          "y": 16.052762935427968,
+          "z": -3.613071751095099
+        },
+        "aimEnd": {
+          "x": -0.4714620639899756,
+          "y": 15.98115043724318,
+          "z": -2.899587385807892
+        }
+      },
+      "simTime": 131.96666666666383
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 24,
+        "weaponId": "rifle",
+        "ammoRemaining": 21,
+        "visualOrigin": {
+          "x": -0.6610621845222,
+          "y": 16.04996443129406,
+          "z": -3.5943692771479037
+        },
+        "aimEnd": {
+          "x": 1.1325607665605375,
+          "y": 14.900000383094921,
+          "z": -0.37959764873728474
+        }
+      },
+      "simTime": 132.0833333333306
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 25,
+        "weaponId": "rifle",
+        "ammoRemaining": 20,
+        "visualOrigin": {
+          "x": -0.6263507919009408,
+          "y": 16.053100053396747,
+          "z": -3.599696459957696
+        },
+        "aimEnd": {
+          "x": 1.0861998310059273,
+          "y": 14.900000247362382,
+          "z": -0.6201013000674118
+        }
+      },
+      "simTime": 133.21666666666482
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 26,
+        "weaponId": "rifle",
+        "ammoRemaining": 19,
+        "visualOrigin": {
+          "x": -0.6013570445871665,
+          "y": 16.053829945380855,
+          "z": -3.6228512346935324
+        },
+        "aimEnd": {
+          "x": 1.1008305396458518,
+          "y": 14.89999951608202,
+          "z": -0.6445574218074315
+        }
+      },
+      "simTime": 133.33333333333158
+    },
+    {
+      "type": "weapon:fired",
+      "event": {
+        "shotId": 27,
+        "weaponId": "rifle",
+        "ammoRemaining": 18,
+        "visualOrigin": {
+          "x": -0.5985735859428276,
+          "y": 16.04896033753075,
+          "z": -3.6043439309766505
+        },
+        "aimEnd": {
+          "x": 1.1087540110994905,
+          "y": 14.89999955906407,
+          "z": -0.6438221625131915
+        }
+      },
+      "simTime": 133.44999999999834
+    },
+    {
+      "type": "story:phase",
+      "event": {
+        "chapterId": "relay-foundry",
+        "phase": "braking"
+      },
+      "simTime": 134.43333333333246
+    },
+    {
+      "type": "threat:phase",
+      "event": {
+        "phase": "recovery",
+        "wavesSurvived": 2
+      },
+      "simTime": 134.46666666666582
+    },
+    {
+      "type": "story:docked",
+      "event": {
+        "chapterId": "relay-foundry"
+      },
+      "simTime": 182.91666666670437
+    },
+    {
+      "type": "story:phase",
+      "event": {
+        "chapterId": "relay-foundry",
+        "phase": "docked"
+      },
+      "simTime": 182.91666666670437
+    },
+    {
+      "type": "story:phase",
+      "event": {
+        "chapterId": "relay-foundry",
+        "phase": "complete"
+      },
+      "simTime": 217.98333333339895
+    }
+  ],
+  "saveColdInvariants": [
+    "committed paused checkpoint matched committed save after savedAt normalization",
+    "seed, health, inventory, resources, story, structures, damage matched cold Continue",
+    "destination inactive, undocked, colliders 0, playerOnMachine true"
+  ],
+  "errors": 0,
+  "notes": [
+    "The run captured combat and outcome events but did not subscribe to build damage events; the cause of the damaged floor is therefore unattributed.",
+    "The final ledger is 234 scrap, 9 components, 4 fuel, 60 health, 22.445 tank fuel, and six surviving structures."
+  ]
+}

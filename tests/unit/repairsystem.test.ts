@@ -37,6 +37,31 @@ describe('holding E to mend something', () => {
     expect(r.progress).toBe(0);
   });
 
+  it('shows the actual idle preview price without spending', () => {
+    const r = new RepairSystem();
+    const purse = rich();
+    const floor: RepairTarget = {
+      id: 'floor-1',
+      kind: 'structure',
+      pieceId: 'floor',
+      missingFraction: 1 / 3,
+    };
+    const preview = r.update(0, floor, false, purse);
+    const held = r.update(0.01, floor, true, purse);
+    expect(preview.cost).toEqual({ scrap: 1 });
+    expect(preview.cost).toEqual(held.cost);
+    expect(preview.blocked).toBeNull();
+    expect(preview.completed).toBe(false);
+    expect(purse.spent).toEqual([]);
+  });
+
+  it('keeps the unaffordable state visible before holding', () => {
+    const r = new RepairSystem();
+    const preview = r.update(0, target({ missingFraction: 0.5 }), false, broke());
+    expect(preview.blocked).toBe('cannot-afford');
+    expect(preview.cost).not.toBeNull();
+  });
+
   it('fills over the hold duration and completes exactly once', () => {
     const r = new RepairSystem();
     const purse = rich();
