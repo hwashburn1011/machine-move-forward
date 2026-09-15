@@ -103,6 +103,6 @@ describe('Quiet Array expedition', () => {
     });
     expect(effects).toContainEqual({ type: 'expedition-complete', expeditionId: 'quiet-array' });
     expect(effects.some((effect) => effect.type === 'chapter-complete')).toBe(false);
-    expect(story.snapshot(120).nextExpedition).toBeNull();
+    expect(story.snapshot(120).nextExpedition?.id).toBe('glass-orchard');
   });
 });

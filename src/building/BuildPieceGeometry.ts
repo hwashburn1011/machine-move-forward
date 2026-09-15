@@ -575,6 +575,7 @@ const BUILDERS: Record<PieceId, () => THREE.BufferGeometry> = {
   stove: stoveGeometry,
   condenser: condenserGeometry,
   planter: planterGeometry,
+  'seed-garden': planterGeometry,
   // The defence factory replaces this placeholder mesh when available. The
   // plate keeps saves and headless build validation usable before that asset
   // is loaded.
@@ -646,6 +647,7 @@ export function pieceMaterial(
     // is alive. `accent` is the warmest thing in the palette; a green would
     // need a material of its own for six small slabs.
     case 'planter':
+    case 'seed-garden':
       return [materials.rustedSteel, materials.accent];
 
     // Furniture is warmer than the hull it stands on, deliberately: the whole
@@ -713,6 +715,8 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
     // over but not step through is exactly what a planter is.
     case 'planter':
       return [{ half: new THREE.Vector3(0.84, 0.3, 0.68), offset: new THREE.Vector3(0, 0.3, 0) }];
+    case 'seed-garden':
+      return [{ half: new THREE.Vector3(0.83, 0.32, 0.83), offset: new THREE.Vector3(0, 0.32, 0) }];
 
     // None, deliberately. A lamp is a fitting on a wall that already has a
     // collider; giving it one of its own would put a shin-catcher in the

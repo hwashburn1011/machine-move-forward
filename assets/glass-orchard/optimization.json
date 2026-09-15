@@ -1,0 +1,23 @@
+[
+  {
+    "name": "glass-orchard",
+    "sourceBytes": 21708740,
+    "optimizedBytes": 15073128,
+    "textureBytes": 7895810,
+    "repairedTangents": 0
+  },
+  {
+    "name": "seed-garden",
+    "sourceBytes": 9860108,
+    "optimizedBytes": 5919804,
+    "textureBytes": 4825786,
+    "repairedTangents": 0
+  },
+  {
+    "name": "route-repair-depot",
+    "sourceBytes": 15872464,
+    "optimizedBytes": 9236832,
+    "textureBytes": 7895810,
+    "repairedTangents": 0
+  }
+]

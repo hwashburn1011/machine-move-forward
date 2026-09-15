@@ -1,6 +1,6 @@
 import type { EventBus } from '@/core/events/EventBus';
 import { ITEMS, type ItemCost, type ItemId } from '@/data/items';
-import type { Container } from './Container';
+import { Container } from './Container';
 
 export interface Vec3Like {
   x: number;
@@ -38,11 +38,7 @@ export class ResourceAccess {
     return this.crates()
       .map((crate) => ({
         crate,
-        d: Math.hypot(
-          crate.position.x - p.x,
-          crate.position.y - p.y,
-          crate.position.z - p.z,
-        ),
+        d: Math.hypot(crate.position.x - p.x, crate.position.y - p.y, crate.position.z - p.z),
       }))
       .filter((entry) => entry.d <= this.reach)
       .sort((a, b) => a.d - b.d)
@@ -107,6 +103,18 @@ export class ResourceAccess {
     return room;
   }
 
+  canDepositAll(items: ItemCost, excluded?: ReadonlySet<Container>): boolean {
+    return this.planDeposit(items, excluded) !== null;
+  }
+
+  depositAll(items: ItemCost, excluded?: ReadonlySet<Container>): boolean {
+    const plan = this.planDeposit(items, excluded);
+    if (!plan) return false;
+    for (const entry of plan) entry.original.restore(entry.clone.serialise());
+    this.emit();
+    return true;
+  }
+
   /** "8 scrap" or "30 scrap, 4 components", for the build HUD. */
   describe(cost: ItemCost): string {
     const parts = (Object.entries(cost) as [ItemId, number][])
@@ -117,5 +125,36 @@ export class ResourceAccess {
 
   private emit(): void {
     this.bus.emit('inventory:changed', { scrap: this.count('scrap') });
+  }
+
+  private planDeposit(
+    items: ItemCost,
+    excluded?: ReadonlySet<Container>,
+  ): { original: Container; clone: Container }[] | null {
+    if (!items || typeof items !== 'object') return null;
+    for (const [id, count] of Object.entries(items)) {
+      if (
+        !Object.prototype.hasOwnProperty.call(ITEMS, id) ||
+        !Number.isSafeInteger(count) ||
+        count < 0
+      ) {
+        return null;
+      }
+    }
+    const unique = [...new Set(this.sources())].filter((source) => !excluded?.has(source));
+    const plan = unique.map((original) => {
+      const clone = new Container(original.capacity);
+      clone.restore(original.serialise());
+      return { original, clone };
+    });
+    for (const [id, count] of Object.entries(items) as [ItemId, number][]) {
+      let remaining = count;
+      for (const entry of plan) {
+        if (remaining <= 0) break;
+        remaining = entry.clone.add(id, remaining);
+      }
+      if (remaining > 0) return null;
+    }
+    return plan;
   }
 }

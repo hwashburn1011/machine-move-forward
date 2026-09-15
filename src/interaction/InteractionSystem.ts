@@ -28,6 +28,8 @@ export interface Interactable {
     // collecting an output is one branch rather than one per machine. What
     // came out is the build system's business, not this file's.
     | 'producer'
+    | 'seed-garden'
+    | 'objective'
     | 'repair';
 }
 

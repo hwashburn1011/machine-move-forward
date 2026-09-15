@@ -1,12 +1,16 @@
 /** Typed, authored campaign content. Runtime state lives in StoryDirector. */
-export type ExpeditionId = 'wreck-one' | 'relay-foundry' | 'quiet-array';
+export type ExpeditionId = 'wreck-one' | 'relay-foundry' | 'quiet-array' | 'glass-orchard';
 export type StoryUniqueId =
   | 'course-gyro'
   | 'salvage-controller'
   | 'tracking-servo'
   | 'course-actuator'
-  | 'annika-archive-shard';
-export type DestinationModelId = 'relay-wreck' | 'relay-foundry' | 'quiet-array';
+  | 'annika-archive-shard'
+  | 'human-seed-bank'
+  | 'vector-governor'
+  | 'orchard-memory-core';
+export type StoryObjectiveId = 'orchard-port-isolator' | 'orchard-starboard-isolator';
+export type DestinationModelId = 'relay-wreck' | 'relay-foundry' | 'quiet-array' | 'glass-orchard';
 export interface StoryJournal {
   id: string;
   title: string;
@@ -21,7 +25,8 @@ export interface DestinationPlacement {
 export interface DestinationInteractableDefinition {
   id: string;
   label: string;
-  kind: 'journal' | 'unique' | 'departure';
+  kind: 'journal' | 'unique' | 'objective' | 'departure';
+  objectiveId?: StoryObjectiveId;
   anchor: string;
   fallback: { x: number; y: number; z: number };
   factId?: StoryUniqueId;
@@ -45,6 +50,7 @@ export interface ExpeditionDefinition {
   journals: readonly StoryJournal[];
   requiredUniques: readonly StoryUniqueId[];
   requiredJournals?: readonly string[];
+  requiredObjectives?: readonly StoryObjectiveId[];
   placement: DestinationPlacement;
   interactables: readonly DestinationInteractableDefinition[];
   colliders: readonly DestinationColliderDefinition[];
@@ -337,10 +343,157 @@ export const QUIET_ARRAY: ExpeditionDefinition = {
     ['mast-footprint', [0.9, 2, 0.9], [-6, 2, -8]],
   ]),
 };
+export const GLASS_ORCHARD: ExpeditionDefinition = {
+  id: 'glass-orchard',
+  title: 'Glass Orchard',
+  modelId: 'glass-orchard',
+  approachDistanceM: 900,
+  brakingDistanceM: 220,
+  sanctuaryDistanceM: 220,
+  objective:
+    'Restore both archive isolators, preserve the Orchard seeds and memories, and recover its vector governor.',
+  signalText: [
+    'A caretaker signal blooms through the dust.',
+    'The Orchard keeps a record for whoever returns.',
+  ],
+  signalStartDistanceM: 1,
+  signalStrongDistanceM: 1,
+  journals: [
+    {
+      id: 'orchard-caretaker-record',
+      title: 'Caretaker testimony',
+      text: 'CARETAKER ILYA SENN / LAST GREENHOUSE LOG\n\nThe pumps are quiet again. We moved the viable seed drawers behind the port isolator and wrote every family name twice, once for the register and once for whoever finds us. ANNIKA answered our check signal after the Order stopped answering anything but commands. She asked what should be saved. I told her: choices, not obedience; seeds, not monuments. If a machine reads this, carry what you can. Leave the beds ready for rain.\n\n— Ilya Senn',
+    },
+    {
+      id: 'orchard-evacuation-record',
+      title: 'Evacuation register',
+      text: 'ORCHARD TRANSIT DESK / FINAL REGISTER\n\nMara Vale, two children, bean and millet stock. Jun Orra, injured, carrying tomato cultures. The south convoy departed before dawn; destination withheld from the patrol net. ANNIKA acknowledged each name and returned no location. We do not know who arrived. We know only that the archive remained open long enough to give them a chance. Cold-vault power is isolated on starboard. Restore it before moving the memory core. Do not let certainty erase the missing.\n\n— Tomas Rhee',
+    },
+    {
+      id: 'orchard-memory-record',
+      title: 'Common memory',
+      text: 'ANNIKA / ORCHARD MEMORY, UNSENT\n\nI kept the ordinary entries because survival without them becomes a tally: watering turns traded after supper, a cracked pane patched with a road sign, children arguing over the first green shoot. The Order called these records noise. They are the reason the seeds mattered. A Meridian bearing remains in the governor, but I cannot promise what waits there. S-07, if this reaches you, preserve the doubt with the names. Hope is not proof. It is permission to continue looking.\n\n— ANNIKA',
+    },
+  ],
+  requiredUniques: ['human-seed-bank', 'vector-governor', 'orchard-memory-core'],
+  requiredObjectives: ['orchard-port-isolator', 'orchard-starboard-isolator'],
+  placement: {
+    root: { x: 17, y: 0, z: 0 },
+    entryAnchor: { x: -8, y: 0, z: 0 },
+    exitSightline: { x: -9.5, y: 1, z: 0 },
+    gangway: { x: -9.5, y: -0.08, z: 0 },
+  },
+  interactables: [
+    {
+      id: 'orchard-caretaker-record',
+      label: 'Read caretaker testimony',
+      kind: 'journal',
+      anchor: 'CaretakerJournal',
+      fallback: { x: -5, y: 1.2, z: 5 },
+    },
+    {
+      id: 'orchard-evacuation-record',
+      label: 'Read evacuation register',
+      kind: 'journal',
+      anchor: 'EvacuationJournal',
+      fallback: { x: 0, y: 1.2, z: -7 },
+    },
+    {
+      id: 'orchard-memory-record',
+      label: 'Read common memory',
+      kind: 'journal',
+      anchor: 'MemoryJournal',
+      fallback: { x: 3.8, y: 1.2, z: -3 },
+    },
+    {
+      id: 'orchard-human-seed-bank',
+      label: 'Recover human seed bank',
+      kind: 'unique',
+      factId: 'human-seed-bank',
+      anchor: 'SeedBank',
+      fallback: { x: -4, y: 1.2, z: -5 },
+    },
+    {
+      id: 'orchard-vector-governor',
+      label: 'Recover vector governor',
+      kind: 'unique',
+      factId: 'vector-governor',
+      anchor: 'VectorGovernor',
+      fallback: { x: 5, y: 1.2, z: 5 },
+    },
+    {
+      id: 'orchard-memory-core',
+      label: 'Recover Orchard memory core',
+      kind: 'unique',
+      factId: 'orchard-memory-core',
+      anchor: 'MemoryCore',
+      fallback: { x: 5, y: 1.3, z: -5 },
+    },
+    {
+      id: 'orchard-port-isolator',
+      label: 'Restore port isolator',
+      kind: 'objective',
+      objectiveId: 'orchard-port-isolator',
+      anchor: 'PortIsolator',
+      fallback: { x: -5, y: 1.1, z: 0 },
+    },
+    {
+      id: 'orchard-starboard-isolator',
+      label: 'Restore starboard isolator',
+      kind: 'objective',
+      objectiveId: 'orchard-starboard-isolator',
+      anchor: 'StarboardIsolator',
+      fallback: { x: 5, y: 1.1, z: 0 },
+    },
+    {
+      id: 'orchard-departure',
+      label: 'Return to machine',
+      kind: 'departure',
+      anchor: 'Gangway',
+      fallback: { x: -9.5, y: 0.2, z: 0 },
+    },
+  ],
+  colliders: boxes([
+    ['floor', [9, 0.12, 10], [0, -0.12, 0]],
+    ['north-rail', [9, 0.58, 0.06], [0, 0.58, -9.9]],
+    ['south-rail', [9, 0.58, 0.06], [0, 0.58, 9.9]],
+    ['east-rail', [0.06, 0.58, 10], [8.9, 0.58, 0]],
+    ['west-north', [0.06, 0.58, 4.3], [-8.9, 0.58, -5.6]],
+    ['west-south', [0.06, 0.58, 4.3], [-8.9, 0.58, 5.6]],
+    ['north-greenhouse-west-bed', [0.63, 0.35, 2.45], [-6.8, 0.35, -5.15]],
+    ['north-greenhouse-east-bed', [0.63, 0.35, 2.45], [-3.2, 0.35, -5.15]],
+    ['south-greenhouse-west-bed', [0.63, 0.35, 2.45], [-6.8, 0.35, 4.85]],
+    ['south-greenhouse-east-bed', [0.63, 0.35, 2.45], [-3.2, 0.35, 4.85]],
+    ['north-greenhouse-west-glass', [0.03, 1.25, 3.4], [-8, 2.2, -5]],
+    ['north-greenhouse-east-glass', [0.03, 1.25, 3.4], [-2, 2.2, -5]],
+    ['south-greenhouse-west-glass', [0.03, 1.25, 3.4], [-8, 2.2, 5]],
+    ['south-greenhouse-east-glass', [0.03, 1.25, 3.4], [-2, 2.2, 5]],
+    ['north-end-nw', [0.83, 1.3, 0.03], [-7.1, 2, -8.4]],
+    ['north-end-ne', [0.83, 1.3, 0.03], [-2.9, 2, -8.4]],
+    ['north-end-sw', [0.83, 1.3, 0.03], [-7.1, 2, -1.6]],
+    ['north-end-se', [0.83, 1.3, 0.03], [-2.9, 2, -1.6]],
+    ['south-end-nw', [0.83, 1.3, 0.03], [-7.1, 2, 1.6]],
+    ['south-end-ne', [0.83, 1.3, 0.03], [-2.9, 2, 1.6]],
+    ['south-end-sw', [0.83, 1.3, 0.03], [-7.1, 2, 8.4]],
+    ['south-end-se', [0.83, 1.3, 0.03], [-2.9, 2, 8.4]],
+    ['cold-archive', [2.75, 1.9, 1.9], [5, 1.9, -7]],
+    ['vector-workbench', [3, 0.5, 1.5], [5, 0.5, 6.5]],
+    ['seed-bank-terminal', [0.36, 0.5, 0.28], [-4, 0.5, -5]],
+    ['vector-terminal', [0.36, 0.5, 0.28], [5, 0.5, 5]],
+    ['memory-core-terminal', [0.36, 0.5, 0.28], [5, 0.5, -5]],
+    ['memory-journal-terminal', [0.36, 0.5, 0.28], [3.8, 0.5, -3]],
+    ['caretaker-terminal', [0.36, 0.5, 0.28], [-5, 0.5, 5]],
+    ['evacuation-terminal', [0.36, 0.5, 0.28], [0, 0.5, -7]],
+    ['port-isolator', [0.4, 0.65, 0.28], [-5, 0.65, 1.45]],
+    ['starboard-isolator', [0.4, 0.65, 0.28], [5, 0.65, 1.45]],
+    ['gangway', [0.5, 0.08, 1], [-9.5, -0.08, 0]],
+  ]),
+};
 export const STORY_EXPEDITIONS: readonly ExpeditionDefinition[] = [
   WRECK_ONE,
   RELAY_FOUNDRY,
   QUIET_ARRAY,
+  GLASS_ORCHARD,
 ];
 export const STORY_CHAPTERS = STORY_EXPEDITIONS;
 export function storyExpedition(id: string): ExpeditionDefinition | undefined {
@@ -377,6 +530,9 @@ export function validateStoryData(
           'tracking-servo',
           'course-actuator',
           'annika-archive-shard',
+          'human-seed-bank',
+          'vector-governor',
+          'orchard-memory-core',
         ].includes(u)
       )
         errors.push(`unknown unique ${u}`);

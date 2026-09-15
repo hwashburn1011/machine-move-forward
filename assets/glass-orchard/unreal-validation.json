@@ -1,0 +1,36 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "assets": [
+    {
+      "name": "glass-orchard",
+      "path": "/Game/GlassOrchard/glass_orchard.glass_orchard",
+      "size_cm": [
+        1904.5,
+        2009.9999389648438,
+        1988.0002136230469
+      ],
+      "materials": 13
+    },
+    {
+      "name": "route-repair-depot",
+      "path": "/Game/GlassOrchard/route_repair_depot.route_repair_depot",
+      "size_cm": [
+        1304.5,
+        1010.0000610351562,
+        2060.0001831054688
+      ],
+      "materials": 9
+    },
+    {
+      "name": "seed-garden",
+      "path": "/Game/GlassOrchard/seed_garden.seed_garden",
+      "size_cm": [
+        165.0,
+        195.50001525878906,
+        96.9910862647821
+      ],
+      "materials": 8
+    }
+  ],
+  "status": "success"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "route-repair-depot",
+  "meshes": 11,
+  "triangles": 34528,
+  "anchors": {
+    "Route_repair-depot": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "Gangway": [
+      -6.5,
+      0.0,
+      -0.07999999821186066
+    ],
+    "Reward": [
+      -2.0,
+      -1.5,
+      1.2000000476837158
+    ]
+  }
+}

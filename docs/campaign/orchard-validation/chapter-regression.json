@@ -1,0 +1,541 @@
+{
+  "checks": [
+    {
+      "name": "No offer before a raid victory",
+      "ok": true
+    },
+    {
+      "name": "Game raid resolution earns optional trace",
+      "ok": true
+    },
+    {
+      "name": "Closing radio keeps endless raid loop",
+      "ok": true
+    },
+    {
+      "name": "Unpowered trace refuses departure",
+      "ok": true
+    },
+    {
+      "name": "Active enemy blocks trace",
+      "ok": true
+    },
+    {
+      "name": "Trace button enabled when safe",
+      "ok": true,
+      "detail": {
+        "traceOffer": true,
+        "traceReady": true,
+        "traceLabel": "Trace Wreck One",
+        "chapterComplete": false,
+        "recoveredSupplies": ""
+      }
+    },
+    {
+      "name": "Actual radio button starts Wreck approach",
+      "ok": true,
+      "detail": {
+        "traceOffer": false,
+        "traceReady": false,
+        "traceLabel": "Trace Wreck One",
+        "chapterComplete": false,
+        "recoveredSupplies": ""
+      }
+    },
+    {
+      "name": "Wreck moors and deploys physical gangway",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "signalStrength": 1,
+        "remainingM": 0,
+        "objective": "Explore the wreck, recover its course gyro, and return to the machine.",
+        "expeditionId": "wreck-one",
+        "routeId": null,
+        "recoveredUniques": [],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": false,
+        "completedExpeditions": [],
+        "completedObjectives": [],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "Actual destination pickup grants Course Gyro",
+      "ok": true,
+      "detail": [
+        {
+          "id": "wreck-one-course-gyro",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "Wreck departure exposes route choice",
+      "ok": true
+    },
+    {
+      "name": "Unpowered helm refuses route commitment",
+      "ok": true
+    },
+    {
+      "name": "foundry-direct commits via powered helm",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "Direct route starts its existing gunboat encounter",
+      "ok": true
+    },
+    {
+      "name": "foundry-direct Foundry docking",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "signalStrength": 1,
+        "remainingM": 0,
+        "objective": "Explore the Relay Foundry, recover both specialist components, and return to the machine.",
+        "expeditionId": "relay-foundry",
+        "routeId": "foundry-direct",
+        "recoveredUniques": [
+          "course-gyro"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": false,
+        "completedExpeditions": [
+          "wreck-one"
+        ],
+        "completedObjectives": [],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "foundry-direct both unique rewards collected",
+      "ok": true,
+      "detail": [
+        {
+          "id": "relay-foundry-salvage-controller",
+          "ok": true
+        },
+        {
+          "id": "relay-foundry-tracking-servo",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "foundry-direct automation blueprints unlocked",
+      "ok": true
+    },
+    {
+      "name": "foundry-direct durable chapter completion resumes raids",
+      "ok": true
+    },
+    {
+      "name": "foundry-direct completion survives actual save/load",
+      "ok": true
+    },
+    {
+      "name": "foundry-direct survival schedules another real boarding ship",
+      "ok": true
+    },
+    {
+      "name": "foundry-detour commits via powered helm",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "Detour avoids scripted gunboat",
+      "ok": true
+    },
+    {
+      "name": "foundry-detour Foundry docking",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "signalStrength": 1,
+        "remainingM": 0,
+        "objective": "Explore the Relay Foundry, recover both specialist components, and return to the machine.",
+        "expeditionId": "relay-foundry",
+        "routeId": "foundry-detour",
+        "recoveredUniques": [
+          "course-gyro"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": false,
+        "completedExpeditions": [
+          "wreck-one"
+        ],
+        "completedObjectives": [],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "foundry-detour both unique rewards collected",
+      "ok": true,
+      "detail": [
+        {
+          "id": "relay-foundry-salvage-controller",
+          "ok": true
+        },
+        {
+          "id": "relay-foundry-tracking-servo",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "foundry-detour automation blueprints unlocked",
+      "ok": true
+    },
+    {
+      "name": "foundry-detour durable chapter completion resumes raids",
+      "ok": true
+    },
+    {
+      "name": "foundry-detour completion survives actual save/load",
+      "ok": true
+    },
+    {
+      "name": "foundry-detour survival schedules another real boarding ship",
+      "ok": true
+    },
+    {
+      "name": "Legacy completed raids backfill trace via loadFrom",
+      "ok": true
+    },
+    {
+      "name": "Place actual supply crate",
+      "ok": true
+    },
+    {
+      "name": "Theft selects live stable crate",
+      "ok": true,
+      "detail": {
+        "objective": "theft",
+        "carrierId": "enemy-1",
+        "targetId": "bp-3",
+        "entry": {
+          "x": 6,
+          "y": 15.96,
+          "z": 4
+        },
+        "state": "intent",
+        "cargo": null
+      }
+    },
+    {
+      "name": "Supply target has a reachable deck approach",
+      "ok": true,
+      "detail": [
+        6,
+        15.7,
+        2
+      ]
+    },
+    {
+      "name": "Carrier walks to storage using live navigation and collision",
+      "ok": true,
+      "detail": [
+        [
+          6,
+          15.953888888973744,
+          3.9516666680574417
+        ],
+        [
+          4.705615337639756,
+          15.809945324935107,
+          1.7731526571260474
+        ],
+        [
+          4.351813794510235,
+          15.809705559732684,
+          0.9623686969534901
+        ]
+      ]
+    },
+    {
+      "name": "Actual pickup takes exactly six scrap",
+      "ok": true,
+      "detail": {
+        "objective": "theft",
+        "carrierId": "enemy-1",
+        "targetId": "bp-3",
+        "entry": {
+          "x": 6,
+          "y": 15.96,
+          "z": 4
+        },
+        "state": "carrying",
+        "cargo": {
+          "itemId": "scrap",
+          "count": 6
+        }
+      }
+    },
+    {
+      "name": "Hook cut blocks escape but retains recoverable cargo",
+      "ok": true
+    },
+    {
+      "name": "Full inventory and source preserve exact recovered ledger",
+      "ok": true,
+      "detail": {
+        "recovered": [
+          {
+            "itemId": "scrap",
+            "count": 6
+          }
+        ]
+      }
+    },
+    {
+      "name": "Duplicate kill cannot duplicate recovery",
+      "ok": true
+    },
+    {
+      "name": "Overflow survives actual save and load",
+      "ok": true
+    },
+    {
+      "name": "Recovery can be collected exactly once",
+      "ok": true
+    },
+    {
+      "name": "Repeated collection does not duplicate",
+      "ok": true
+    },
+    {
+      "name": "Unopposed carrier walks back and escapes via held grapple",
+      "ok": true,
+      "detail": {
+        "objective": "theft",
+        "carrierId": "enemy-1",
+        "targetId": "bp-3",
+        "entry": {
+          "x": 6,
+          "y": 15.96,
+          "z": 4
+        },
+        "state": "escaped",
+        "cargo": null
+      }
+    },
+    {
+      "name": "Successful theft loses only its bounded stack",
+      "ok": true
+    },
+    {
+      "name": "Relocated storage keeps its identity and retargets the carrier",
+      "ok": true,
+      "detail": {
+        "relocation": {
+          "ok": true,
+          "instance": {
+            "instanceId": "bp-3",
+            "definitionId": "crate",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": -2
+            },
+            "rotation": 0,
+            "health": 110
+          },
+          "oldPlacement": {
+            "piece": "crate",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0
+          },
+          "newPlacement": {
+            "piece": "crate",
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": -2
+            },
+            "rotation": 0
+          }
+        },
+        "target": {
+          "x": 6,
+          "y": 15.7,
+          "z": -2
+        }
+      }
+    },
+    {
+      "name": "Destroyed storage cancels intent without taking or duplicating supplies",
+      "ok": true
+    },
+    {
+      "name": "Authored drone is hit by real physics ray",
+      "ok": true,
+      "detail": "enemy-3:drone"
+    },
+    {
+      "name": "Shooting drone removes support for that life",
+      "ok": true
+    },
+    {
+      "name": "Live vent collider preserves armor and routes double damage",
+      "ok": true
+    },
+    {
+      "name": "100 mixed tactical/objective cycles retain physics resources",
+      "ok": true,
+      "detail": {
+        "before": [
+          26,
+          37
+        ],
+        "after": [
+          26,
+          37
+        ]
+      }
+    },
+    {
+      "name": "100 cycles preserve scene objects, containers and all eligible stock",
+      "ok": true,
+      "detail": {
+        "sceneBefore": 1027,
+        "sceneAfter": 1027,
+        "containers": 0,
+        "stockBefore": [
+          21,
+          1,
+          0
+        ],
+        "stockAfter": [
+          21,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "name": "Live sabotage walks to the engine service point and damages only its target",
+      "ok": true,
+      "detail": {
+        "route": [
+          [
+            5.951666668057442,
+            15.953888888973744,
+            4
+          ]
+        ],
+        "damage": [
+          {
+            "id": "engine",
+            "health": 316
+          },
+          {
+            "id": "leg-front-left",
+            "health": 180
+          },
+          {
+            "id": "leg-front-right",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-left",
+            "health": 180
+          },
+          {
+            "id": "leg-rear-right",
+            "health": 180
+          }
+        ],
+        "playerHealth": 100,
+        "target": {
+          "x": 0,
+          "y": 15.7,
+          "z": 4.4
+        }
+      }
+    },
+    {
+      "name": "Live Revenant commits its lane and a lateral dodge avoids damage",
+      "ok": true,
+      "detail": {
+        "before": [
+          6,
+          15.880000151003479,
+          -4
+        ],
+        "after": [
+          6.033244336952566,
+          15.880069930187311,
+          0.43057502748381715
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ],
+        "health": 100,
+        "phase": "recovery"
+      }
+    },
+    {
+      "name": "Live Warden moves around cover during its committed flank without firing",
+      "ok": true,
+      "detail": {
+        "from": [
+          40,
+          21.7,
+          0
+        ],
+        "to": [
+          41.691542131416995,
+          21.70477625064377,
+          0.027888455158860737
+        ],
+        "target": {
+          "x": 44,
+          "y": 20.740000000000002,
+          "z": 4
+        },
+        "health": 100
+      }
+    },
+    {
+      "name": "Warden releases its flank and resumes fire once cover is gone",
+      "ok": true,
+      "detail": {
+        "target": null,
+        "health": 92
+      }
+    }
+  ],
+  "frameSample": {
+    "gpu": "RTX 3070",
+    "viewport": "1600x900",
+    "quality": "high",
+    "scenario": "Four active mechs, actual camera orbit and machine motion; 2s warmup + 10s sample",
+    "frames": 601,
+    "fps": 59.9974044384103,
+    "frameMs": {
+      "mean": 16.667387687188025,
+      "p95": 16.799999999999272,
+      "p99": 16.799999999999272
+    },
+    "workMs": {
+      "mean": 7.780865224744635,
+      "p95": 10.699999988079071,
+      "p99": 12
+    },
+    "activeEnemies": 4,
+    "bodies": 30,
+    "colliders": 43
+  },
+  "errors": []
+}

@@ -2,7 +2,38 @@ import * as THREE from 'three';
 import type { Materials } from './Materials';
 import { authoredModel } from './DefenseModels';
 import { applyHeightFog } from './Fog';
-import { QUIET_ARRAY } from '@/data/story';
+import { QUIET_ARRAY, GLASS_ORCHARD } from '@/data/story';
+
+export function buildOrchardModel(materials: Materials): THREE.Group {
+  const authored = authoredWithAnchors(
+    'glass-orchard',
+    GLASS_ORCHARD.interactables.map((x) => x.anchor),
+  );
+  if (authored) {
+    authored.userData.authored = true;
+    return authored;
+  }
+  const root = new THREE.Group();
+  root.name = 'MMF_Glass_Orchard_Fallback';
+  for (const collider of GLASS_ORCHARD.colliders) {
+    const { at, half } = collider;
+    const mesh = box(
+      root,
+      [half.x * 2, half.y * 2, half.z * 2],
+      [at.x, at.y, at.z],
+      materials.hull,
+    );
+    if (collider.id === 'gangway') mesh.name = 'GangwayFloor';
+  }
+  for (const item of GLASS_ORCHARD.interactables) {
+    const marker = new THREE.Group();
+    marker.name = item.anchor;
+    marker.position.set(item.fallback.x, item.fallback.y, item.fallback.z);
+    root.add(marker);
+    if (item.kind !== 'departure') box(marker, [0.4, 0.1, 0.3], [0, 0, 0], materials.accent);
+  }
+  return root;
+}
 
 /** Uses the same bounds and explicit anchors even when the authored asset is unavailable. */
 export function buildQuietArrayModel(materials: Materials): THREE.Group {

@@ -1,0 +1,615 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "Existing Wreck departure still offers both Foundry routes",
+      "ok": true,
+      "detail": [
+        {
+          "id": "foundry-direct",
+          "distanceM": 750,
+          "estimatedFuel": 7,
+          "hazard": "One scripted gunboat at 500 m remaining"
+        },
+        {
+          "id": "foundry-detour",
+          "distanceM": 1150,
+          "estimatedFuel": 10,
+          "hazard": "No scripted gunboat; ordinary threats may still occur"
+        }
+      ]
+    },
+    {
+      "name": "Passive Orchard offer coexists with detected discovery",
+      "ok": true,
+      "detail": {
+        "id": "route-contact-1",
+        "slot": 1,
+        "kind": "water-cache",
+        "atDistanceM": 700,
+        "worldX": 60.08412135881372,
+        "confidence": 1,
+        "hazard": "calm",
+        "detectedAtM": 250,
+        "expiresAtM": 880,
+        "state": "detected",
+        "rewards": [
+          {
+            "type": "item",
+            "itemId": "water",
+            "remaining": 4
+          }
+        ]
+      }
+    },
+    {
+      "name": "Radio offers Orchard",
+      "ok": true,
+      "detail": "Trace Glass Orchard"
+    },
+    {
+      "name": "Tracing opens Orchard route choice without replacing a committed site",
+      "ok": true,
+      "detail": {
+        "phase": "route-selection",
+        "signalStrength": 0,
+        "remainingM": null,
+        "objective": "Choose an approach to the Glass Orchard.",
+        "expeditionId": "glass-orchard",
+        "routeId": null,
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "completedObjectives": [],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "Route panel contains only two Orchard routes",
+      "ok": true,
+      "detail": [
+        "orchard-caretaker",
+        "orchard-cold-vault"
+      ]
+    },
+    {
+      "name": "Seed garden remains locked before recovery",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Route accepted and authored model loaded",
+      "ok": true,
+      "detail": {
+        "phase": "approach",
+        "signalStrength": 1,
+        "remainingM": 900,
+        "objective": "Follow the signal toward the Glass Orchard.",
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-caretaker",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "completedObjectives": [
+          "orchard-port-isolator"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "orchard-caretaker: Correct patrol actually spawned",
+      "ok": true,
+      "detail": {
+        "skiff": true,
+        "gunboat": false
+      }
+    },
+    {
+      "name": "orchard-caretaker: Patrol outcome resolves story exactly once",
+      "ok": true,
+      "detail": {
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-caretaker",
+        "phase": "approach",
+        "arrivalDistance": 4900,
+        "journalsRead": [],
+        "scriptedEncounter": "resolved",
+        "objectivesCompleted": [
+          "orchard-port-isolator"
+        ]
+      }
+    },
+    {
+      "name": "orchard-caretaker: No duplicate patrol reward",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Story braking deploys gangway",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "signalStrength": 1,
+        "remainingM": 0,
+        "objective": "Restore both archive isolators, preserve the Orchard seeds and memories, and recover its vector governor.",
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-caretaker",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "completedObjectives": [
+          "orchard-port-isolator"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "orchard-caretaker: Intact route isolator already complete and hidden from interactions",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Departure disabled before required recovery",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Cannot collect distant governor",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Governor gated before records and isolators",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Physical isolator interaction completes objective",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Alternate testimony not offered as a usable interaction",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Recover orchard-human-seed-bank",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Recover orchard-memory-core",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Recover orchard-vector-governor",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Recoveries unlock tier two and seed garden",
+      "ok": true,
+      "detail": {
+        "tier": 2,
+        "bearingDeg": 0,
+        "desiredDeg": 0,
+        "throttle": 1,
+        "lateralM": 0
+      }
+    },
+    {
+      "name": "orchard-caretaker: All required records and parts permit departure",
+      "ok": true
+    },
+    {
+      "name": "orchard-caretaker: Actual docked save/load preserves route, objectives, authority",
+      "ok": true,
+      "detail": {
+        "format": 2,
+        "completed": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor"
+        ],
+        "active": {
+          "expeditionId": "glass-orchard",
+          "routeId": "orchard-caretaker",
+          "phase": "docked",
+          "arrivalDistance": 4900,
+          "journalsRead": [
+            "orchard-caretaker-record",
+            "orchard-memory-record"
+          ],
+          "scriptedEncounter": "resolved",
+          "objectivesCompleted": [
+            "orchard-port-isolator",
+            "orchard-starboard-isolator"
+          ]
+        },
+        "chapterComplete": true
+      }
+    },
+    {
+      "name": "Orchard departure resumes open travel",
+      "ok": true,
+      "detail": {
+        "phase": "complete",
+        "signalStrength": 0,
+        "remainingM": null,
+        "objective": "The Orchard is preserved. Keep the Nomad supplied while the Meridian bearing waits.",
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-caretaker",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "completedObjectives": [
+          "orchard-port-isolator",
+          "orchard-starboard-isolator"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "orchard-cold-vault: Route accepted and authored model loaded",
+      "ok": true,
+      "detail": {
+        "phase": "approach",
+        "signalStrength": 1,
+        "remainingM": 1100,
+        "objective": "Follow the signal toward the Glass Orchard.",
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-cold-vault",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "completedObjectives": [
+          "orchard-starboard-isolator"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "orchard-cold-vault: Correct patrol actually spawned",
+      "ok": true,
+      "detail": {
+        "skiff": false,
+        "gunboat": true
+      }
+    },
+    {
+      "name": "orchard-cold-vault: Patrol outcome resolves story exactly once",
+      "ok": true,
+      "detail": {
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-cold-vault",
+        "phase": "approach",
+        "arrivalDistance": 5100,
+        "journalsRead": [],
+        "scriptedEncounter": "resolved",
+        "objectivesCompleted": [
+          "orchard-starboard-isolator"
+        ]
+      }
+    },
+    {
+      "name": "orchard-cold-vault: No duplicate patrol reward",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Story braking deploys gangway",
+      "ok": true,
+      "detail": {
+        "phase": "docked",
+        "signalStrength": 1,
+        "remainingM": 0,
+        "objective": "Restore both archive isolators, preserve the Orchard seeds and memories, and recover its vector governor.",
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-cold-vault",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "completedObjectives": [
+          "orchard-starboard-isolator"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "orchard-cold-vault: Intact route isolator already complete and hidden from interactions",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Departure disabled before required recovery",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Cannot collect distant governor",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Governor gated before records and isolators",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Physical isolator interaction completes objective",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Alternate testimony not offered as a usable interaction",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Recover orchard-human-seed-bank",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Recover orchard-memory-core",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Recover orchard-vector-governor",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Recoveries unlock tier two and seed garden",
+      "ok": true,
+      "detail": {
+        "tier": 2,
+        "bearingDeg": 0,
+        "desiredDeg": 0,
+        "throttle": 1,
+        "lateralM": 0
+      }
+    },
+    {
+      "name": "orchard-cold-vault: All required records and parts permit departure",
+      "ok": true
+    },
+    {
+      "name": "orchard-cold-vault: Actual docked save/load preserves route, objectives, authority",
+      "ok": true,
+      "detail": {
+        "format": 2,
+        "completed": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array"
+        ],
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor"
+        ],
+        "active": {
+          "expeditionId": "glass-orchard",
+          "routeId": "orchard-cold-vault",
+          "phase": "docked",
+          "arrivalDistance": 5100,
+          "journalsRead": [
+            "orchard-evacuation-record",
+            "orchard-memory-record"
+          ],
+          "scriptedEncounter": "resolved",
+          "objectivesCompleted": [
+            "orchard-starboard-isolator",
+            "orchard-port-isolator"
+          ]
+        },
+        "chapterComplete": true
+      }
+    },
+    {
+      "name": "Orchard departure resumes open travel",
+      "ok": true,
+      "detail": {
+        "phase": "complete",
+        "signalStrength": 0,
+        "remainingM": null,
+        "objective": "The Orchard is preserved. Keep the Nomad supplied while the Meridian bearing waits.",
+        "expeditionId": "glass-orchard",
+        "routeId": "orchard-cold-vault",
+        "recoveredUniques": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor"
+        ],
+        "radioTraceOffer": false,
+        "radioTraceReady": false,
+        "chapterComplete": true,
+        "completedExpeditions": [
+          "wreck-one",
+          "relay-foundry",
+          "quiet-array",
+          "glass-orchard"
+        ],
+        "completedObjectives": [
+          "orchard-starboard-isolator",
+          "orchard-port-isolator"
+        ],
+        "nextExpedition": null
+      }
+    },
+    {
+      "name": "Seed garden can be placed on a real available deck cell",
+      "ok": true,
+      "detail": {
+        "instanceId": "bp-3",
+        "definitionId": "seed-garden",
+        "cell": {
+          "x": -3,
+          "y": -2,
+          "z": -4
+        },
+        "rotation": 0,
+        "health": 110
+      }
+    },
+    {
+      "name": "Real E interaction loads two water and renders plants",
+      "ok": true,
+      "detail": {
+        "format": 1,
+        "water": 2,
+        "greens": 0,
+        "progressS": 0
+      }
+    },
+    {
+      "name": "Three greens grow in 180 simulation seconds",
+      "ok": true,
+      "detail": {
+        "format": 1,
+        "water": 1,
+        "greens": 3,
+        "progressS": 3.537176454515567e-11
+      }
+    },
+    {
+      "name": "E harvest deposits only actual output",
+      "ok": true
+    },
+    {
+      "name": "Garden mid-growth survives real save/load",
+      "ok": true,
+      "detail": {
+        "format": 1,
+        "water": 1,
+        "greens": 0,
+        "progressS": 75.0000000000324
+      }
+    },
+    {
+      "name": "Queued skiff save re-arms pending encounter",
+      "ok": true
+    },
+    {
+      "name": "Restored queued skiff eventually spawns without softlock",
+      "ok": true,
+      "detail": {
+        "pending": false,
+        "phase": "engagement",
+        "story": {
+          "format": 2,
+          "completed": [
+            "wreck-one",
+            "relay-foundry",
+            "quiet-array"
+          ],
+          "recoveredUniques": [
+            "course-gyro",
+            "salvage-controller",
+            "tracking-servo",
+            "course-actuator",
+            "annika-archive-shard"
+          ],
+          "active": {
+            "expeditionId": "glass-orchard",
+            "routeId": "orchard-caretaker",
+            "phase": "braking",
+            "arrivalDistance": 5711.085365937825,
+            "journalsRead": [],
+            "scriptedEncounter": "queued",
+            "objectivesCompleted": [
+              "orchard-port-isolator"
+            ]
+          },
+          "chapterComplete": true
+        }
+      }
+    },
+    {
+      "name": "Restored patrol can resolve normally",
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "passed": 50,
+  "total": 50
+}

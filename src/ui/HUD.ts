@@ -302,7 +302,7 @@ export class HUD {
       bus.on('story:phase', (e) => {
         this.el['hud-story']?.classList.toggle('is-active', e.phase !== 'locked');
         this.write(
-          'story-phase-event',
+          'story-phase',
           this.el['hud-story-phase'],
           STORY_PHASE_LABELS[e.phase] ?? e.phase,
         );
@@ -311,7 +311,7 @@ export class HUD {
         const remaining =
           e.remainingM === null ? '' : ` · ${Math.max(0, Math.round(e.remainingM))} m`;
         this.write(
-          'story-detail-event',
+          'story-detail',
           this.el['hud-story-detail'],
           this.formatControls(`${e.text}${remaining}`),
         );

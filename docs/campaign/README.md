@@ -6,11 +6,37 @@ The powered Helm limits actuator steering to ±12 degrees and throttle to 35–1
 
 Approach guidance can be cancelled safely. Expeditions require power and a safe, attack-free commitment; raids pause while the player is docked. The Quiet Array currently resumes the recurring raid loop after departure. Its story presents S-07 as a benevolent AI preserving human records; the fate of humanity remains uncertain.
 
-Glass Orchard and Last Garden are planned future chapters. The full campaign is not complete, and the current Quiet Array implementation has no special ambush sequence or free 360-degree steering feature.
+Glass Orchard follows Quiet Array as an optional radio lead. An unanswered lead
+leaves discovery travel available. Choose the 900m Caretaker Approach (boarding
+skiff) or 1,100m Cold Vault approach (gunboat); each preserves a different
+testimony and one intact isolator. Clear the patrol, restore the other isolator,
+read the selected testimony and common memory record, then recover the human
+seed bank, ANNIKA memory core and vector governor. Return aboard to depart.
+
+The seed bank unlocks a buildable Seed Garden: two water capacity, six greens
+capacity, three greens per 180 simulation seconds. Water is consumed on batch
+completion. Full output pauses growth; full inventory leaves the harvest in
+the bed. Water, output and progress persist through saves and equipment moves.
+Voluntary demolition secures stored contents before removal. Combat destruction
+drops overflow and does not refund building materials.
+
+The vector governor unlocks steering to ±28 degrees. Every third newly detected
+contact at tier two can be a Linekeeper repair depot, 120–150m laterally from
+the current course, with a repair kit and a saved service record. The existing
+700m schedule, 450m approach window and one-contact limit remain intact.
+
+Last Garden at Meridian remains planned. The full campaign is not complete,
+and steering remains bounded rather than allowing a 360-degree turn.
 
 See the [campaign direction](../superpowers/plans/2026-09-14-campaign-direction.md), [refined tasks](../superpowers/plans/2026-09-14-campaign-direction-tasks.md), and [asset pipeline](../../assets/quiet-array/README.md).
 
 ## Verification
+
+Orchard implementation and evidence are recorded in
+[the delivery report](orchard-delivery.md). Source art and rebuild instructions
+are in [the Blender/Unreal delivery](../../assets/glass-orchard/README.md).
+
+The following reports describe the earlier Quiet Array release:
 
 - [Runtime report](validation/runtime-qa.json): 35 checks, including both signed steering approaches through thousands of real fixed steps, committed save/load, exact partial reward conservation, all three contact kinds, legacy migration, and 100 reuse cycles with stable scene/physics counts.
 - [Visual and movement report](validation/visual-review.json): six checks, including 150 real movement steps across the Quiet Array gangway, all authored sites, and the powered Helm with an available contact.

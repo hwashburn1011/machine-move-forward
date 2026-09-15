@@ -75,6 +75,9 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
     'route-water-cache',
     'route-salvage-wreck',
     'route-memorial',
+    'glass-orchard',
+    'seed-garden',
+    'route-repair-depot',
     'navigation-helm',
     'player',
   ];
@@ -90,13 +93,20 @@ export async function loadDefenseModels(enabled = true): Promise<void> {
       models.set(id, model);
     }),
   );
-  // These four original assets deliberately share one material palette. Keep
-  // one GPU texture set instead of uploading the same maps four times.
+  // Campaign assets share the Nomad palette; upload equivalent maps only once.
   const arrayPalette = new Map<string, THREE.Material>();
   const redundantMaterials = new Set<THREE.Material>();
   const retainedTextures = new Set<THREE.Texture>();
   const redundantTextures = new Set<THREE.Texture>();
-  for (const id of ['quiet-array', 'route-water-cache', 'route-salvage-wreck', 'route-memorial']) {
+  for (const id of [
+    'quiet-array',
+    'route-water-cache',
+    'route-salvage-wreck',
+    'route-memorial',
+    'glass-orchard',
+    'seed-garden',
+    'route-repair-depot',
+  ]) {
     models.get(id)?.scene.traverse((object) => {
       const mesh = object as THREE.Mesh;
       if (!mesh.isMesh) return;

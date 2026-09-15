@@ -1,0 +1,202 @@
+{
+  "checks": [
+    {
+      "name": "Capsule crosses Orchard gangway",
+      "ok": true,
+      "detail": {
+        "x": 16.437754319204622,
+        "y": 15.810523102437298,
+        "z": -0.015919100924491923
+      }
+    },
+    {
+      "name": "Greenhouse glass blocks sideways walking",
+      "ok": true,
+      "detail": {
+        "x": 8.609998478083668,
+        "y": 15.810074103507771,
+        "z": -5.000066155792131
+      }
+    },
+    {
+      "name": "Greenhouse entrance admits player along aisle",
+      "ok": true,
+      "detail": {
+        "x": 11.999613844077576,
+        "y": 15.810099264604059,
+        "z": -7.228395679572683
+      }
+    },
+    {
+      "name": "HUD names current chapter after dock event",
+      "ok": true
+    },
+    {
+      "name": "20-second 1080p medium Orchard camera sample",
+      "ok": true,
+      "detail": {
+        "durationMs": 20010.400000035763,
+        "frames": 1202,
+        "fps": 60.068764242486495,
+        "renderP95": 10.400000035762787,
+        "intervalP95": 16.80000001192093,
+        "over33": 0,
+        "memory": {
+          "geometries": 448,
+          "textures": 505
+        },
+        "calls": 773,
+        "triangles": 2112596
+      }
+    },
+    {
+      "name": "100 Orchard/depot replacements keep GPU resource counts stable",
+      "ok": true,
+      "detail": {
+        "before": {
+          "geometries": 459,
+          "textures": 505
+        },
+        "after": {
+          "geometries": 459,
+          "textures": 505
+        }
+      }
+    },
+    {
+      "name": "Far repair depot needs earned wider authority",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-3",
+          "slot": 3,
+          "kind": "repair-depot",
+          "atDistanceM": 2100,
+          "worldX": -140.00078815966845,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 1650,
+          "expiresAtM": 2280,
+          "state": "detected",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "repair-kit",
+              "remaining": 1
+            },
+            {
+              "type": "journal",
+              "factId": "depot-linekeeper-record",
+              "remaining": 1
+            }
+          ]
+        },
+        "limited": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": -154.00078815966845,
+          "bearingDeg": -18.892176130501916,
+          "interceptM": 475.62195360790383,
+          "estimatedFuel": 3.8741055293541056,
+          "expiresInM": 630,
+          "reachable": false
+        },
+        "wider": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": -154.00078815966845,
+          "bearingDeg": -18.892176130501916,
+          "interceptM": 475.62195360790383,
+          "estimatedFuel": 3.8741055293541056,
+          "expiresInM": 630,
+          "reachable": true
+        },
+        "steps": 5030,
+        "docked": true,
+        "state": "docked",
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": -153.8848301907128
+        }
+      }
+    },
+    {
+      "name": "Wider automatic guidance physically docks depot",
+      "ok": true,
+      "detail": {
+        "contact": {
+          "id": "route-contact-3",
+          "slot": 3,
+          "kind": "repair-depot",
+          "atDistanceM": 2100,
+          "worldX": -140.00078815966845,
+          "confidence": 1,
+          "hazard": "calm",
+          "detectedAtM": 1650,
+          "expiresAtM": 2280,
+          "state": "detected",
+          "rewards": [
+            {
+              "type": "item",
+              "itemId": "repair-kit",
+              "remaining": 1
+            },
+            {
+              "type": "journal",
+              "factId": "depot-linekeeper-record",
+              "remaining": 1
+            }
+          ]
+        },
+        "limited": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": -154.00078815966845,
+          "bearingDeg": -18.892176130501916,
+          "interceptM": 475.62195360790383,
+          "estimatedFuel": 3.8741055293541056,
+          "expiresInM": 630,
+          "reachable": false
+        },
+        "wider": {
+          "contactId": "route-contact-3",
+          "remainingM": 450,
+          "lateralM": -154.00078815966845,
+          "bearingDeg": -18.892176130501916,
+          "interceptM": 475.62195360790383,
+          "estimatedFuel": 3.8741055293541056,
+          "expiresInM": 630,
+          "reachable": true
+        },
+        "steps": 5030,
+        "docked": true,
+        "state": "docked",
+        "course": {
+          "tier": 2,
+          "bearingDeg": 0,
+          "desiredDeg": 0,
+          "throttle": 1,
+          "lateralM": -153.8848301907128
+        }
+      }
+    },
+    {
+      "name": "Depot repair kit and readable record persist once through save",
+      "ok": true,
+      "detail": {
+        "accepted": true,
+        "record": true,
+        "kit": 1,
+        "saved": true,
+        "restoredRecord": true,
+        "restoredState": "visited"
+      }
+    }
+  ],
+  "errors": [],
+  "passed": 9,
+  "total": 9
+}

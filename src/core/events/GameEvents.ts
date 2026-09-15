@@ -9,7 +9,7 @@ import type { StoryPhase } from '@/story/StoryDirector';
 import type { ExpeditionId } from '@/data/story';
 import type { Placement } from '@/building/BuildValidation';
 
-export type UnlockId = 'manual-turret' | 'automatic-salvage-collector' | 'automatic-defense-turret';
+export type UnlockId = 'manual-turret' | 'automatic-salvage-collector' | 'automatic-defense-turret' | 'seed-garden';
 export type ImpactSurface = 'flesh' | 'metal' | 'sand';
 
 export interface Vec3Like {

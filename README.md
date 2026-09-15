@@ -35,11 +35,13 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 
 ## Current campaign iteration
 
-The radio progression now continues from Wreck One through Relay Foundry into the optional Quiet Array expedition. Quiet Array asks for two calibration journals before its course actuator can be recovered, while the ANNIKA archive shard is independent. The powered Helm limits actuator steering to ±12 degrees and throttle to 35–100%; route positioning uses the actual global X coordinate across three world bands.
+The radio progression continues from Wreck One through Relay Foundry and Quiet Array to **Glass Orchard**. Quiet Array's two calibration records unlock the course actuator and limited steering (+/-12 degrees). At the Orchard, choose a caretaker approach with a boarding skiff or a cold-vault approach with a gunboat. Each preserves a different testimony. Restore the damaged isolator, recover the human seed bank and ANNIKA memory core, and secure the vector governor to earn wider steering (+/-28 degrees).
 
-The route also supports three optional physical contacts: water caches, salvage wrecks and memorials. Exact partial rewards persist through saves, and unclaimed supplies remain available until explicit departure. Approach guidance can be cancelled, expedition commitment requires power and a safe attack-free state, and raids pause while docked. S-07 is presented as a benevolent AI preserving human records, while humanity’s fate remains uncertain.
+The seed bank unlocks a buildable **Seed Garden**: add up to two water, grow three greens per 180 simulation seconds, and harvest into available storage. Growth, water and uncollected greens survive saves and equipment moves. Existing planters remain unchanged.
 
-Glass Orchard and Last Garden remain planned. The full campaign is not complete. See the [campaign progression notes](docs/campaign/README.md) for current scope and evidence.
+Optional water caches, salvage wrecks and memorials continue appearing while an unanswered story offer waits. Wider steering opens distant **Linekeeper repair depots**, with a repair kit and a persistent service record. Plot or cancel approaches at the powered Helm; leftover supplies stay until explicit departure. Raids pause while docked.
+
+S-07 preserves human names, seeds and memories; the fate of humanity remains uncertain. Last Garden at Meridian is the next planned chapter. The full campaign is not complete. See the [campaign notes](docs/campaign/README.md) and [Orchard Blender/Unreal delivery](assets/glass-orchard/README.md) for current scope and evidence.
 
 ## Run the game
 
