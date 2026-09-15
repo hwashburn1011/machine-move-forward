@@ -20,6 +20,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: node tools/art/galley/validate.mjs
       - run: npm test
       - run: npm run build -- --base=/machine-move-forward/
       - run: node tools/build-media.mjs

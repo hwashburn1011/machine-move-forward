@@ -66,6 +66,7 @@ import { Player } from '@/player/Player';
 import { resolveRestorePlacement } from '@/player/RestorePlacement';
 import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerFade } from '@/player/PlayerFade';
+import { CameraClothFade } from '@/player/CameraClothFade';
 import { PlayerCombat } from '@/player/PlayerCombat';
 import { isDamageable, type Damageable } from '@/combat/Damageable';
 import { EnemyManager } from '@/enemies/EnemyManager';
@@ -80,6 +81,7 @@ import { AudioEngine } from '@/audio/AudioEngine';
 import { connectGameSounds } from '@/audio/GameSounds';
 import { ImpactFX } from '@/fx/ImpactFX';
 import { HUD } from '@/ui/HUD';
+import type { WarningToken } from '@/ui/OwnedWarning';
 import { DefenseHUD } from '@/ui/DefenseHUD';
 import { SaveManager } from '@/save/SaveManager';
 import { Container } from '@/items/Container';
@@ -381,6 +383,10 @@ export class Game implements LoopCallbacks {
   private endingRecognition: readonly string[] = [];
   private readonly interactionHighlight = new InteractionHighlight();
   private readonly playerFade = new PlayerFade();
+  private readonly cameraClothFade = new CameraClothFade();
+  private cameraClothCandidates: readonly THREE.Mesh[] | null = null;
+  private readonly cameraClothFocus = new THREE.Vector3();
+  private boardingWarning: WarningToken | null = null;
   private transferFeedback: string | null = null;
   private inventoryTargetId: string | null = null;
   private demolitionTargetId: string | null = null;
@@ -587,6 +593,8 @@ export class Game implements LoopCallbacks {
       game.machineAuthoredModel = kits.machine;
       game.machineCollisionModel = kits.collision;
       game.machine.applyAuthoredDetailModel(kits.machine, kits.collision);
+      game.cameraClothCandidates = game.machine.cameraClothMeshes;
+      game.cameraClothFade.setCandidates(game.cameraClothCandidates);
       game.build.applyAuthoredStationKit(kits.stations);
       const authoredHelm =
         authoredModel('navigation-helm')?.scene ??
@@ -752,6 +760,7 @@ export class Game implements LoopCallbacks {
         // direction while loading, before a fast mouse turn can expose them.
         const warmView = game.playerCamera.camera.clone();
         warmView.position.set(5.6, CHARACTER_DROP_Y + 1, 1.5);
+        game.cameraClothFade.warmup();
         for (const [x, y, z] of [
           [0, 0, -1],
           [1, 0, 0],
@@ -768,6 +777,7 @@ export class Game implements LoopCallbacks {
           game.post.setCamera(warmView);
           game.post.render(0, game.renderer.scene, warmView);
         }
+        game.cameraClothFade.restore();
         game.post.setCamera(game.activeCamera);
         // The normal-play light count needs its shader variants too, so the
         // first playable frame and the eventual hand-back are both warm.
@@ -897,7 +907,7 @@ export class Game implements LoopCallbacks {
       onHookAttached: (state) => {
         this.bus.emit('boarding:hook-attached', { side: state.side });
         if (this.tutorialStarted)
-          this.hud.setWarning(
+          this.showBoardingWarning(
             `Grapple attached. Shoot the hook, or leave the gun and hold [${this.controlLabel('interact')}] beside the hook to cut it.`,
           );
       },
@@ -1490,7 +1500,10 @@ export class Game implements LoopCallbacks {
     this.bus.on('upgrade:researched', (e) =>
       this.sessionMetrics.mark(`upgrade.researched:${e.id}`),
     );
-    this.bus.on('story:docked', () => this.sessionMetrics.mark('story.docked'));
+    this.bus.on('story:docked', () => {
+      this.clearBoardingWarning();
+      this.sessionMetrics.mark('story.docked');
+    });
     this.bus.on('story:unique-collected', () => this.sessionMetrics.mark('story.gyro'));
     this.bus.on('story:departed', () => this.sessionMetrics.mark('story.departed'));
 
@@ -1559,6 +1572,7 @@ export class Game implements LoopCallbacks {
     this.refreshFirstRunObjective();
 
     this.bus.on('player:died', () => {
+      this.clearBoardingWarning();
       this.stopHomeRest();
       if (this.optionalSalvageEncounterId) this.optionalSalvageFailed = true;
       this.state.playerDead = true;
@@ -2451,7 +2465,7 @@ export class Game implements LoopCallbacks {
     this.threatPhase = 'engagement';
     this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
     this.bus.emit('boarding:started', { encounterId: 'robot-boarding-ship' });
-    this.hud.setWarning(
+    this.showBoardingWarning(
       `Robot boarding ship — ${plan.side}! ${objective === 'theft' ? 'Supply raid: defend storage or cut the grapple.' : objective === 'sabotage' ? 'Saboteurs inbound: protect machine service panels.' : 'Destroy its grapple or hold the deck.'}`,
     );
   }
@@ -3045,6 +3059,19 @@ export class Game implements LoopCallbacks {
       });
     }
 
+    // The hull's final visual pose is now current. Only the measured decorative
+    // canvas can fade; solid camera sweeps, aim rays and movement stay untouched.
+    if (this.cameraClothCandidates !== this.machine.cameraClothMeshes) {
+      this.cameraClothCandidates = this.machine.cameraClothMeshes;
+      this.cameraClothFade.setCandidates(this.cameraClothCandidates);
+    }
+    if (camera !== this.playerCamera.camera || this.state.playerDead || this.defense.mounted)
+      this.cameraClothFade.restore();
+    else {
+      this.cameraClothFocus.copy(this.player.object3D.position);
+      this.cameraClothFocus.y += 0.5;
+      this.cameraClothFade.update(this.playerCamera.camera, this.cameraClothFocus, frameDt);
+    }
     this.post.setCamera(camera);
     this.post.render(frameDt, this.renderer.scene, camera);
 
@@ -3622,7 +3649,20 @@ export class Game implements LoopCallbacks {
     return true;
   }
 
+  private showBoardingWarning(text: string): void {
+    // A hook may attach while the player is waiting to respawn. Its callback
+    // must not replace the death notice after that notice invalidated the token.
+    if (this.state.playerDead) return;
+    this.boardingWarning = this.hud.claimWarning('boarding', text);
+  }
+
+  private clearBoardingWarning(): void {
+    if (this.boardingWarning) this.hud.clearWarning(this.boardingWarning);
+    this.boardingWarning = null;
+  }
+
   private finishBoarding(outcome: 'hull' | 'crew' | 'hook' | 'defended'): void {
+    this.clearBoardingWarning();
     const optionalId = this.optionalSalvageEncounterId;
     this.raidMissions.finish();
     const wasTutorial = this.tutorialStarted;
@@ -3774,8 +3814,8 @@ export class Game implements LoopCallbacks {
     this.threatPhase = 'engagement';
     this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
     this.bus.emit('boarding:started', { encounterId: 'orchard-patrol-skiff' });
-    this.hud.setWarning(
-      'Orchard patrol — starboard grapple! Clear the boarders or cut their hook.',
+    this.showBoardingWarning(
+      `${this.story.chapter.title} patrol — starboard grapple! Clear the boarders or cut their hook.`,
     );
     return true;
   }
@@ -3807,7 +3847,7 @@ export class Game implements LoopCallbacks {
           true,
         );
         this.bus.emit('boarding:started', { encounterId: 'tutorial-skiff' });
-        this.hud.setWarning(
+        this.showBoardingWarning(
           `Skiff approaching ${side === 'starboard' ? 'starboard (right)' : 'port (left)'}. Aim at its grapple and climbing crew, or leave the gun and defend the deck.`,
         );
       }
@@ -4093,6 +4133,9 @@ export class Game implements LoopCallbacks {
     this.caretaker.reset();
     this.clearCaretakerActor();
     this.campaignProfile = sanitizeCampaignProfile(profile);
+    this.cameraClothFade.restore();
+    this.clearBoardingWarning();
+    this.hud.setWarning(null);
     this.combat.reset();
     this.combat.setInfiniteAmmo(profileUsesInfiniteAmmo(this.campaignProfile));
     this.dismissedRecovery.clear();
@@ -5787,7 +5830,7 @@ export class Game implements LoopCallbacks {
     this.closePanels();
     this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
     this.bus.emit('boarding:started', { encounterId: `salvage-${contact.id}` });
-    this.hud.setWarning(
+    this.showBoardingWarning(
       'Broadcast sent. Port-side patrol inbound — cut its hook, disable the skiff, or clear every boarder.',
     );
   }
@@ -7365,6 +7408,9 @@ export class Game implements LoopCallbacks {
       assetIds.add(OPPORTUNITIES[savedContact.kind].model);
     if (!(await this.prepareCampaignArt([...assetIds]))) return false;
     this.adoptCampaignSeed(save.seed, save.distanceTraveled);
+    this.cameraClothFade.restore();
+    this.clearBoardingWarning();
+    this.hud.setWarning(null);
     this.stopHomeRest();
     this.optionalSalvageEncounterId = null;
     this.optionalSalvageFailed = false;
@@ -7717,6 +7763,7 @@ export class Game implements LoopCallbacks {
     document.removeEventListener('visibilitychange', this.onEndingVisibilityChange);
     this.cancelControlRequest?.();
     this.playerFade.dispose();
+    this.cameraClothFade.dispose();
     this.interactionHighlight.dispose();
     this.buildCatalog.dispose();
     this.machineStatus.dispose();

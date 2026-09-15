@@ -6,6 +6,7 @@ import type { FirstRunStep } from '@/game/FirstRunDirector';
 import './hud.css';
 import { formatControlText, type ControlLabelResolver } from './ControlLabels';
 import type { InputContext } from '@/core/input/Bindings';
+import { OwnedWarning, type WarningToken } from './OwnedWarning';
 
 export interface HUDState {
   health: number;
@@ -137,6 +138,7 @@ export class HUD {
   private pickupUntil = 0;
   /** Last deck size seen, so a spawn handler can name a position. */
   private deckHalf = { w: 5, l: 8 };
+  private readonly ownedWarning = new OwnedWarning();
 
   constructor(root: HTMLElement, bus: EventBus) {
     root.innerHTML = `
@@ -361,8 +363,28 @@ export class HUD {
   }
 
   setWarning(text: string | null): void {
+    this.ownedWarning.replace(text);
+    this.renderWarning();
+  }
+
+  /** Claim a warning for a long-running encounter until its terminal event. */
+  claimWarning(owner: string, text: string): WarningToken {
+    const token = this.ownedWarning.claim(owner, text);
+    this.renderWarning();
+    return token;
+  }
+
+  /** Clear only the exact active encounter warning claim. */
+  clearWarning(token: WarningToken): boolean {
+    const cleared = this.ownedWarning.clear(token);
+    if (cleared) this.renderWarning();
+    return cleared;
+  }
+
+  private renderWarning(): void {
     const node = this.el['hud-warning'];
     if (!node) return;
+    const text = this.ownedWarning.state.text;
     node.classList.toggle('is-active', text !== null);
     if (text) this.write('warning', node, text);
   }

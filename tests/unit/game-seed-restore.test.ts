@@ -34,6 +34,8 @@ function harness(seed = 'boot-seed'): Harness {
     requestedSeed: seed,
     state: { seed, simTime: 0, paused: false, godMode: false, playerDead: false },
     saves: { load },
+    cameraClothFade: { restore: vi.fn() },
+    hud: { setWarning: vi.fn() },
     world: {
       reseed: vi.fn((next: string, distance: number) => {
         expect(game.state.seed).toBe(next);
@@ -168,9 +170,7 @@ describe('Game campaign seed adoption', () => {
       throw STOP;
     });
 
-    expect(() =>
-      gameMethods.startNewGame.call(h.game, 'story'),
-    ).toThrow(STOP);
+    expect(() => gameMethods.startNewGame.call(h.game, 'story')).toThrow(STOP);
 
     expect(h.game.state.seed).toBe('requested-new-game-seed');
     expect(h.calls).toEqual([

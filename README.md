@@ -31,6 +31,7 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - Building keeps the world running and closes automatically when combat threatens the Nomad. If the catalog owns the cursor, the whole game pauses until Resume successfully recaptures mouse control.
 - Storage panels provide **Take All**, **Deposit Matching** and **Sort** operations with truthful overflow feedback.
 - Volume-based camera collision, smooth close-player fading, shoulder swap and remappable controls make cramped decks easier to navigate.
+- Decorative machine canvas fades when it obscures the player. Original Blender stove, condenser and planter models give the galley worn enamel, readable controls, copper coils and growing crops. [Interior refinement and validation](docs/interior-galley/README.md).
 - A compact maintenance view combines fuel, emergency crawl, power shortages and service-deck repair needs.
 - After the guided first run, expand **Care & forecasts** in machine status for fuel range, water/food recovery, growing-garden timing, repair materials and save restrictions.
 - Open **Campaign Record** from the Radio or Helm to reread preserved journals, review completed chapters and discoveries, and find optional Keep Walking goals.

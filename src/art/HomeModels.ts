@@ -8,6 +8,9 @@ const NODES: Partial<Record<PieceId, string>> = {
   rug: 'HomeRug',
   shelf: 'HomeShelf',
   'caretaker-dock': 'CaretakerDock',
+  stove: 'GalleyStove',
+  condenser: 'GalleyCondenser',
+  planter: 'GalleyPlanter',
 };
 
 /** Borrow immutable geometry/materials from the kit; each piece owns its transforms. */
@@ -15,7 +18,11 @@ export function homeModel(piece: PieceId): THREE.Object3D | null {
   const name = NODES[piece];
   const source = name
     ? authoredModel(
-        piece === 'caretaker-dock' ? 'fieldwork-kit' : 'home-furnishings',
+        piece === 'caretaker-dock'
+          ? 'fieldwork-kit'
+          : ['stove', 'condenser', 'planter'].includes(piece)
+            ? 'galley-kit'
+            : 'home-furnishings',
       )?.scene.getObjectByName(name)
     : null;
   if (!source) return null;
