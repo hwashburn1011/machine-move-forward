@@ -65,6 +65,13 @@ try {
         const p = attachment.getWorldPosition(g.player.worldPosition.clone());
         const cam = g.playerCamera.camera.clone();
         cam.position.set(p.x + 1.2, p.y + 0.65, p.z + 1.2);
+        if (id === 'rifle-burst-cam') {
+          const right = p
+            .clone()
+            .set(1, 0.65, 0.7)
+            .applyQuaternion(visual.recoilNode.getWorldQuaternion(cam.quaternion.clone()));
+          cam.position.copy(p).add(right);
+        }
         cam.lookAt(p);
         cam.fov = 35;
         cam.updateProjectionMatrix();

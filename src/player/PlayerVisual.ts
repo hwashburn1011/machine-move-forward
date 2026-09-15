@@ -428,7 +428,7 @@ export class PlayerVisual {
     this.recoilNode.worldToLocal(at);
     node.position.copy(at);
     node.rotation.set(0, Math.PI, 0);
-    if (id === 'rifle-burst-cam') node.position.add(new THREE.Vector3(0.065, 0.045, -0.47));
+    if (id === 'rifle-burst-cam') node.position.add(new THREE.Vector3(0.125, 0, -0.57));
     else node.position.z += 0.045;
     this.recoilNode.add(node);
     this.attachment = node;
