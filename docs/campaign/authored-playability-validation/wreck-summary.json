@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-radio\\run-1789475135178\\browser-profile",
+  "evidence": "test-results\\continuity-wreck\\run-2026-09-15T13-39-44-061Z",
+  "url": "http://127.0.0.1:5205/?quality=medium&nosound=1",
+  "events": 41,
+  "checks": {
+    "all_art_present": true,
+    "story_director_projection": true,
+    "structures": true,
+    "damage": true,
+    "inventory": true,
+    "seed": true,
+    "health": true,
+    "gyro_once": true,
+    "destination_cleanup": true,
+    "player_aboard": true
+  },
+  "scope": "StoryDirector projection excludes the separately owned ending model; live position, needs, fuel and clocks can advance after Continue. The paused committed save was compared in full by the runner.",
+  "errors": [],
+  "checkpoint": {
+    "seed": "mmf-dev-seed",
+    "profile": "story",
+    "distanceM": 3429.6669848474353,
+    "tankFuel": 29.96700000006277,
+    "health": 78,
+    "resources": {
+      "scrap": 216,
+      "components": 9,
+      "fuel": 4
+    },
+    "structures": 8,
+    "story": {
+      "format": 2,
+      "completed": [
+        "wreck-one"
+      ],
+      "recoveredUniques": [
+        "course-gyro"
+      ],
+      "journalArchive": [],
+      "active": null,
+      "radioTraceEligible": true
+    }
+  }
+}

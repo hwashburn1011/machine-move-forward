@@ -5,6 +5,7 @@ import type { Cell } from '@/building/BuildGrid';
 import { bevelledBox, type MachineBuild } from './MachineGeometry';
 import profile from '@/data/iron-nomad.json';
 import obstacles from '@/data/iron-nomad-obstacles.json';
+import sharedSolids from '@/data/iron-nomad-shared-solids.json';
 
 export function overNomadStairwell(c: Cell): boolean {
   const w = profile.stairwell;
@@ -109,6 +110,18 @@ export function buildIronNomad(materials: Materials): MachineBuild {
           blocksBuild: false,
         });
       }
+  }
+  // These solid authored housings must also block movement without the optional
+  // artwork. The Blender collision exporter omits their duplicate surfaces and
+  // checks these bounds against the source mesh before exporting.
+  for (const solid of sharedSolids) {
+    box(
+      solid.sourceObject,
+      solid.min.map((low, axis) => (low + solid.max[axis]!) / 2),
+      solid.min.map((low, axis) => solid.max[axis]! - low),
+      materials.hullDark,
+      true,
+    );
   }
   // Interactive stations retain their established names and service locations.
   box('engine', [0, DECK_SURFACE_Y + 0.9, 6], [2.8, 1.8, 2.6], materials.hullDark);

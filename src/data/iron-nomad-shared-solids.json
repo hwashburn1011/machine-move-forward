@@ -1,0 +1,37 @@
+[
+  {
+    "sourceObject": "Command house lower structure",
+    "min": [1.5, 14.83, -6.6],
+    "max": [5.25, 16.6633333333, -2.36]
+  },
+  {
+    "sourceObject": "Command cabin side plate",
+    "min": [5.25, 16.063332, -6.472],
+    "max": [5.295, 17.429998, -5.208]
+  },
+  {
+    "sourceObject": "Command cabin side plate.001",
+    "min": [5.25, 16.063332, -5.112],
+    "max": [5.295, 17.429998, -3.848]
+  },
+  {
+    "sourceObject": "Command cabin side plate.002",
+    "min": [5.25, 16.063332, -3.752],
+    "max": [5.295, 17.429998, -2.488]
+  },
+  {
+    "sourceObject": "Command cabin side plate.003",
+    "min": [1.455, 16.063332, -6.472],
+    "max": [1.5, 17.429998, -5.208]
+  },
+  {
+    "sourceObject": "Command cabin side plate.004",
+    "min": [1.455, 16.063332, -5.112],
+    "max": [1.5, 17.429998, -3.848]
+  },
+  {
+    "sourceObject": "Command cabin side plate.005",
+    "min": [1.455, 16.063332, -3.752],
+    "max": [1.5, 17.429998, -2.488]
+  }
+]

@@ -32,6 +32,35 @@ function modelWith(...roots: string[]): LoadedModel {
 }
 
 describe('authored machine skin replacement', () => {
+  it('restores hull collision to the saved journey without carrying the loaded player', async () => {
+    await initRapier();
+    const physics = new PhysicsWorld();
+    const machine = new Machine(new THREE.Scene(), physics, stubMaterials());
+    machine.setPose({ heave: 0.1, pitch: 0.04, roll: -0.04 });
+    machine.fixedUpdate(0);
+    const speed = machine.speed;
+    machine.restoreJourneyPose(2713.6375924137337);
+    expect(machine.currentPose).toEqual(machine.poseAt(2713.6375924137337));
+    const carry = machine.carryFor({ x: 1, y: 15.8, z: -4 });
+    expect(Math.hypot(carry.x, carry.y, carry.z)).toBeLessThan(1e-10);
+    expect(machine.speed).toBe(speed);
+    const floor = machine.group.getObjectByName('Nomad floor 0')!;
+    const worldFloor = floor.getWorldPosition(new THREE.Vector3());
+    expect(
+      physics.world.bodies
+        .getAll()
+        .some(
+          (body) => new THREE.Vector3().copy(body.translation()).distanceTo(worldFloor) < 0.0001,
+        ),
+    ).toBe(true);
+    const standing = machine.group.localToWorld(new THREE.Vector3(0.8, 14.83, -4.464));
+    standing.y += 0.99;
+    expect(physics.capsuleFits(standing, 0.34, 0.62)).toBe(true);
+    expect(physics.hasCapsuleSupport(standing, 0.34, 0.62)).toBe(true);
+    machine.dispose();
+    physics.dispose();
+  });
+
   it('keeps deck collision aligned with visible floors when a stopped machine leans after damage', async () => {
     await initRapier();
     const physics = new PhysicsWorld();

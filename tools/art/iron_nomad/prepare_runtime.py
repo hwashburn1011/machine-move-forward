@@ -101,37 +101,8 @@ bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'source/IronNomad_Master.blend'))
 shutil.copyfile(BASE/'source/manifest.json', OUT/'source/manifest.json')
 
-# Static collision is evaluated from substantial authored surfaces, with bolts,
-# textiles and moving limbs omitted. No invisible coarse box across an open bay.
-def owner(o):
-    p=o.parent
-    while p and not p.get('module'): p=p.parent
-    return p.name if p else ''
-vertices=[]; faces=[]; obstacles=[]; used=[]
-dg=bpy.context.evaluated_depsgraph_get()
-for o in list(scene.objects):
-    if o.type!='MESH': continue
-    own=owner(o); name=o.name.lower()
-    if own.startswith('Leg_') or own in ['Gameplay_Decks_And_Access','Canvas_and_Rigging','Lamps_and_UtilityTowers','Communications_Masts']: continue
-    if any(s in name for s in ['walking ledge','bolt','rivet','cable','wire','paint chip','decals','label','rope','lamp','light','antenna']): continue
-    lo,hi=bounds(o); size=hi-lo
-    if size.x*size.y*size.z < .035 and 'stair tread' not in name: continue
-    m=bpy.data.meshes.new_from_object(o.evaluated_get(dg),depsgraph=dg); m.calc_loop_triangles()
-    start=len(vertices); vertices.extend(tuple(game(o.matrix_world@v.co)) for v in m.vertices)
-    faces.extend(tuple(start+j for j in t.vertices) for t in m.loop_triangles)
-    bpy.data.meshes.remove(m);used.append(o.name)
-    if size.x>.4 and size.z>.4 and own not in ['Chassis_StructuralFrame','Decks_and_PerimeterCatwalks','External_Stairs_Ladders']:
-        for level in [-2,-1,0]:
-            floor=profile['deckSurface']+3*level
-            if hi.y>floor+.35 and lo.y<floor+1.9:
-                obstacles.append({'level':level,'minX':round(lo.x,3),'maxX':round(hi.x,3),'minZ':round(lo.z,3),'maxZ':round(hi.z,3)})
-collision=bpy.data.scenes.new('Playable collision in game coordinates');bpy.context.window.scene=collision
-m=bpy.data.meshes.new('Nomad static collision');m.from_pydata(vertices,[],faces);m.update()
-o=bpy.data.objects.new('IronNomad_StaticCollision',m);collision.collection.objects.link(o)
-o.select_set(True);bpy.context.view_layer.objects.active=o
-bpy.ops.export_scene.gltf(filepath=str(OUT/'exports/iron-nomad-collision.glb'),export_format='GLB',use_selection=True,use_active_scene=True,export_yup=False,export_materials='NONE',export_animations=False)
-(ROOT/'src/data/iron-nomad-obstacles.json').write_text(json.dumps(obstacles,separators=(',',':')))
-(OUT/'source/gameplay-manifest.json').write_text(json.dumps({'profile':profile,'collisionTriangles':len(faces),'collisionObjects':used},indent=2))
-print('COLLISION COMPLETE',len(faces),len(used),flush=True)
+# One exporter owns the authored/runtime collision boundary.
+from export_collision import export_collision
+export_collision(scene)
 os.environ['MMF_NOMAD_OUT']=str(OUT)
 runpy.run_path(str(HERE/'export.py'),run_name='__main__')
