@@ -408,6 +408,85 @@ export class PhysicsWorld {
     );
   }
 
+  /**
+   * Return whether a character capsule can occupy a pose right now.
+   *
+   * This is an immediate query against Rapier's current collider set; callers
+   * may use it directly after adding or posing colliders without waiting for a
+   * simulation step. Sensors are ignored and the supplied player collider is
+   * excluded, so the query cannot report the capsule against itself.
+   * A tiny upward query epsilon treats a capsule resting on a floor as fitting
+   * while still detecting ceilings and embedded side geometry.
+   */
+  capsuleFits(
+    position: THREE.Vector3,
+    radius: number,
+    halfHeight: number,
+    exclude?: RAPIER.Collider,
+  ): boolean {
+    if (
+      !Number.isFinite(position.x) ||
+      !Number.isFinite(position.y) ||
+      !Number.isFinite(position.z) ||
+      !Number.isFinite(radius) ||
+      !Number.isFinite(halfHeight) ||
+      radius <= 0 ||
+      halfHeight < 0
+    )
+      return false;
+    const capsule = new RAPIER.Capsule(halfHeight, radius);
+    this.world.propagateModifiedBodyPositionsToColliders();
+    let blocked = false;
+    this.world.forEachCollider((collider) => {
+      if (blocked || collider === exclude || !collider.isEnabled() || collider.isSensor()) return;
+      blocked = collider.intersectsShape(
+        capsule,
+        { x: position.x, y: position.y + 1e-4, z: position.z },
+        this.queryRotation,
+      );
+    });
+    return !blocked;
+  }
+
+  /** Find immediate walkable support below a capsule; the nearest hit wins. */
+  hasCapsuleSupport(
+    position: THREE.Vector3,
+    radius: number,
+    halfHeight: number,
+    exclude?: RAPIER.Collider,
+  ): boolean {
+    if (
+      !Number.isFinite(position.x) ||
+      !Number.isFinite(position.y) ||
+      !Number.isFinite(position.z) ||
+      !Number.isFinite(radius) ||
+      !Number.isFinite(halfHeight) ||
+      radius <= 0 ||
+      halfHeight < 0
+    )
+      return false;
+    // The world's broadphase may still describe the previous save. Per-shape
+    // casts see newly rebuilt floors without stepping any actor or simulation.
+    this.world.propagateModifiedBodyPositionsToColliders();
+    const ray = new RAPIER.Ray(position, { x: 0, y: -1, z: 0 });
+    let nearest = halfHeight + radius + 0.12;
+    let supported = false;
+    this.world.forEachCollider((collider) => {
+      if (
+        collider === exclude ||
+        !collider.isEnabled() ||
+        collider.isSensor() ||
+        collider.parent()?.isKinematic()
+      )
+        return;
+      const hit = collider.castRayAndGetNormal(ray, nearest, true);
+      if (!hit) return;
+      nearest = hit.timeOfImpact;
+      supported = hit.normal.y >= 0.65;
+    });
+    return supported;
+  }
+
   removeCollider(collider: RAPIER.Collider): void {
     const body = collider.parent();
     this.userData.delete(collider.handle);

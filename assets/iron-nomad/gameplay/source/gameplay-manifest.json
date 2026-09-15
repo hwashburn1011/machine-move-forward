@@ -19,7 +19,7 @@
     "model": "iron-nomad-playable.glb",
     "collision": "iron-nomad-collision.glb"
   },
-  "collisionTriangles": 110148,
+  "collisionTriangles": 109504,
   "collisionObjects": [
     "Longitudinal box girder",
     "Girder flange",
@@ -364,17 +364,10 @@
     "Turbine drum rim band",
     "Turbine drum rim band.001",
     "Turbine support saddle",
-    "Command house lower structure",
     "Bridge window frame plate",
     "Bridge window frame plate.001",
     "Bridge window frame plate.002",
     "Bridge window frame plate.003",
-    "Command cabin side plate",
-    "Command cabin side plate.001",
-    "Command cabin side plate.002",
-    "Command cabin side plate.003",
-    "Command cabin side plate.004",
-    "Command cabin side plate.005",
     "Command cabin roof",
     "Navigation terminal housing",
     "Blue navigation glass",
@@ -567,5 +560,98 @@
     "Front bay suspended distribution board.001",
     "Starboard service access hatch plate",
     "Starboard service access hatch plate.001"
+  ],
+  "runtimeSolids": [
+    {
+      "sourceObject": "Command house lower structure",
+      "min": [
+        1.5,
+        14.83,
+        -6.6
+      ],
+      "max": [
+        5.25,
+        16.6633333333,
+        -2.36
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate",
+      "min": [
+        5.25,
+        16.063332,
+        -6.472
+      ],
+      "max": [
+        5.295,
+        17.429998,
+        -5.208
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.001",
+      "min": [
+        5.25,
+        16.063332,
+        -5.112
+      ],
+      "max": [
+        5.295,
+        17.429998,
+        -3.848
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.002",
+      "min": [
+        5.25,
+        16.063332,
+        -3.752
+      ],
+      "max": [
+        5.295,
+        17.429998,
+        -2.488
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.003",
+      "min": [
+        1.455,
+        16.063332,
+        -6.472
+      ],
+      "max": [
+        1.5,
+        17.429998,
+        -5.208
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.004",
+      "min": [
+        1.455,
+        16.063332,
+        -5.112
+      ],
+      "max": [
+        1.5,
+        17.429998,
+        -3.848
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.005",
+      "min": [
+        1.455,
+        16.063332,
+        -3.752
+      ],
+      "max": [
+        1.5,
+        17.429998,
+        -2.488
+      ]
+    }
   ]
 }

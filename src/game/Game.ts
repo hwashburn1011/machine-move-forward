@@ -63,6 +63,7 @@ import { conditionLabel } from '@/ui/MachineCondition';
 import { RepairSystem, type RepairTarget } from '@/interaction/RepairSystem';
 import type { BodyPose } from '@/machine/MachineBody';
 import { Player } from '@/player/Player';
+import { resolveRestorePlacement } from '@/player/RestorePlacement';
 import { PlayerCamera } from '@/player/PlayerCamera';
 import { PlayerFade } from '@/player/PlayerFade';
 import { PlayerCombat } from '@/player/PlayerCombat';
@@ -136,6 +137,8 @@ import {
   LEVEL_HEIGHT,
   ON_THE_SAND_Y,
   BASE_MACHINE_SPEED,
+  PLAYER_CAPSULE_RADIUS,
+  PLAYER_CAPSULE_HALF_HEIGHT,
 } from '@/game/constants';
 import { CURRENT_SAVE_VERSION, type SaveGameV1 } from '@/save/SaveSchema';
 import { hashSeed, Rng } from '@/core/math/Random';
@@ -7564,13 +7567,61 @@ export class Game implements LoopCallbacks {
     // Absent in every save written before machine damage, and absent means
     // undamaged — which is what `restore` does with it.
     this.machine.damage.restore(save.machine.subsystems);
+    this.machine.restoreJourneyPose(save.distanceTraveled);
     this.bus.emit('inventory:changed', { scrap: this.inventory.count('scrap') });
 
-    this.player.teleport(
+    // Transient actors do not survive a load and must not displace a valid save.
+    this.enemies.despawnAll();
+    const savedPosition =
       save.machine.layout === nomadProfile.layout
         ? new THREE.Vector3(save.player.position.x, save.player.position.y, save.player.position.z)
-        : this.machine.deckSpawn,
-    );
+        : this.machine.deckSpawn;
+    // Older fallback-art saves could stand inside an authored cabin wall.
+    // Query the restored geometry before admitting the capsule; clear saves,
+    // including jumps, keep their exact position. Recovery stays on this deck.
+    const restoreQuery = new THREE.Vector3();
+    const placementQuery = {
+      position: savedPosition,
+      capsuleFits: (point: THREE.Vector3Like) =>
+        this.physics.capsuleFits(
+          restoreQuery.copy(point),
+          PLAYER_CAPSULE_RADIUS,
+          PLAYER_CAPSULE_HALF_HEIGHT,
+          this.player.collider,
+        ),
+      hasDownwardSupport: (point: THREE.Vector3Like) =>
+        this.physics.hasCapsuleSupport(
+          restoreQuery.copy(point),
+          PLAYER_CAPSULE_RADIUS,
+          PLAYER_CAPSULE_HALF_HEIGHT,
+          this.player.collider,
+        ),
+    };
+    let clearPosition = resolveRestorePlacement(placementQuery);
+    if (!clearPosition) {
+      // Construction can occupy the default spawn too. Every fallback must
+      // fit and have a real floor; never replace one embedded pose with another.
+      const candidates = this.machine.deckCells
+        .map((cell) => {
+          const floor = new THREE.Vector3(
+            cell.x * GRID_TILE,
+            DECK_SURFACE_Y + cell.y * LEVEL_HEIGHT,
+            cell.z * GRID_TILE,
+          ).applyMatrix4(this.machine.group.matrixWorld);
+          floor.y += PLAYER_CAPSULE_RADIUS + PLAYER_CAPSULE_HALF_HEIGHT + 0.04;
+          return floor;
+        })
+        .sort((a, b) => a.distanceToSquared(savedPosition) - b.distanceToSquared(savedPosition));
+      clearPosition =
+        candidates.find(
+          (point) => placementQuery.capsuleFits(point) && placementQuery.hasDownwardSupport(point),
+        ) ?? null;
+    }
+    if (!clearPosition) {
+      this.titleScreen?.showStatus('No clear supported deck position in this save.', true);
+      return false;
+    }
+    this.player.teleport(new THREE.Vector3().copy(clearPosition));
     this.player.stats.reset();
     this.player.stats.restoreHealth(save.player.health);
     this.player.restoreAfterLoad();
@@ -7588,8 +7639,6 @@ export class Game implements LoopCallbacks {
     // game's.
     this.player.needs.restore(save.player.needs);
     this.announcedNeeds = null;
-    this.enemies.despawnAll();
-
     this.campaignProfile = sanitizeCampaignProfile(save.profile);
     this.combat.reset();
     this.combat.setInfiniteAmmo(profileUsesInfiniteAmmo(this.campaignProfile));

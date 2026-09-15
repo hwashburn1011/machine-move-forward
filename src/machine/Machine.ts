@@ -418,6 +418,14 @@ export class Machine {
     this.pose = clampPose(next);
   }
 
+  /** Restore the saved journey's hull transform without advancing gait or carry. */
+  restoreJourneyPose(distance: number): void {
+    this.pose = clampPose(this.poseAt(distance));
+    this.previousPose = this.pose;
+    this.applyPose();
+    this.group.updateMatrixWorld(true);
+  }
+
   get currentPose(): BodyPose {
     return this.pose;
   }

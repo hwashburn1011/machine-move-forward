@@ -2533,8 +2533,8 @@
   },
   {
     "file": "public/models/authored/iron-nomad-collision.glb",
-    "bytes": 7889632,
-    "sha256": "03ed6d0ce6180308698d4b36667a5e33e2e2df1291e28bd1821a47a26896e595",
+    "bytes": 7846480,
+    "sha256": "c7494eeadfb049974d3cb590ea44cfa51fd94fa144d99f6cbaa14aad18bc4db6",
     "errors": 0,
     "warnings": 0,
     "assertions": {
