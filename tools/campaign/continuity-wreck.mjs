@@ -11,6 +11,7 @@ const source = process.env.MMF_CONTINUITY_PROFILE;
 if (!source) throw new Error('MMF_CONTINUITY_PROFILE is required');
 const resumeDocked = process.env.MMF_RESUME_DOCKED === '1';
 const site = process.env.MMF_SITE ?? 'http://127.0.0.1:5205/';
+const fullArt = process.env.MMF_FULL_ART === '1';
 const stamp = new Date().toISOString().replace(/[:.]/g, '-');
 const output = path.resolve('test-results', 'continuity-wreck', `run-${stamp}`);
 const profile = path.join(output, 'browser-profile');
@@ -28,15 +29,19 @@ const record = async (type, detail = {}) => {
 const url = new URL(site);
 if (['seed', 'nospawn', 'nolock', 'nomenu', 'noload'].some((key) => url.searchParams.has(key)))
   throw new Error('Campaign URL contains an authority override');
-url.searchParams.set('nomodel', '1');
-url.searchParams.set('notex', '1');
-url.searchParams.set('quality', 'low');
+if (!fullArt) {
+  url.searchParams.set('nomodel', '1');
+  url.searchParams.set('notex', '1');
+  url.searchParams.set('quality', 'low');
+} else {
+  url.searchParams.set('quality', 'medium');
+}
 url.searchParams.set('nosound', '1');
 
 let context;
 let page;
 const snapshot = () =>
-  page.evaluate(() => {
+  page.evaluate((isFullArt) => {
     const g = globalThis.__game?.game;
     if (!g) return null;
     return {
@@ -59,6 +64,12 @@ const snapshot = () =>
       distanceM: g.world.distanceTraveled,
       simTime: g.state.simTime,
       paused: g.state.paused,
+      assetMode: isFullArt ? 'full-art' : 'procedural',
+      authored: {
+        machine: Boolean(g.machine.group.getObjectByName('authored-machine-details')),
+        playerS07: Boolean(g.player.visual?.isS07),
+        destination: Boolean(g.destination.root.userData.authored),
+      },
       player: g.player.worldPosition.toArray(),
       radio: g.radioWorldPosition.toArray(),
       inventory: g.inventory.serialise(),
@@ -72,7 +83,7 @@ const snapshot = () =>
       damage: g.machine.damage.toSave(),
       events: globalThis.__continuityWreckEvents ?? [],
     };
-  });
+  }, fullArt);
 
 const moveLook = async (target) => {
   for (let i = 0; i < 20; i += 1) {
@@ -129,8 +140,26 @@ const walkTo = async (target, label, radius = 0.35) => {
   } finally {
     await page.keyboard.up('KeyW');
   }
-  const state = await page.evaluate(() => globalThis.__game.game.player.worldPosition.toArray());
-  throw new Error(`waypoint ${label} stuck at ${JSON.stringify(state)}`);
+  const failure = await page.evaluate(() => {
+    const g = globalThis.__game.game;
+    const player = g.player.worldPosition;
+    const contacts = [];
+    g.physics.world.forEachCollider((collider) => {
+      if (collider === g.player.collider || !collider.isValid() || collider.isSensor()) return;
+      const contact = g.player.collider.contactCollider(collider, 0.3);
+      if (!contact || contact.distance > 0.3) return;
+      const position = collider.translation();
+      const data = g.physics.getUserData(collider);
+      contacts.push({
+        handle: collider.handle,
+        separation: contact.distance,
+        position: [position.x, position.y, position.z],
+        userData: data && typeof data === 'object' ? data : null,
+      });
+    });
+    return { position: player.toArray(), contacts };
+  });
+  throw new Error(`waypoint ${label} stuck: ${JSON.stringify(failure)}`);
 };
 
 const openRadio = async () => {
@@ -221,13 +250,15 @@ try {
   const docked = await snapshot();
   if (!docked.destination.docked)
     throw new Error(`destination did not dock: ${JSON.stringify(docked)}`);
+  if (fullArt && !Object.values(docked.authored).every(Boolean))
+    throw new Error(`Full-art assets missing: ${JSON.stringify(docked.authored)}`);
   await record('docked', docked);
 
   const routeOrigin = await page.evaluate(() => {
     const p = globalThis.__game.game.destination.root.position;
     return [p.x, p.y, p.z];
   });
-  const waypoints = [
+  const gateWaypoints = [
     [5.8, routeOrigin[1], routeOrigin[2]],
     [7.5, routeOrigin[1], routeOrigin[2]],
     [routeOrigin[0] - 5.2, routeOrigin[1], routeOrigin[2]],
@@ -236,6 +267,14 @@ try {
     [routeOrigin[0] + 3.4, routeOrigin[1], routeOrigin[2]],
     [routeOrigin[0] + 3.4, routeOrigin[1], routeOrigin[2] + 3],
   ];
+  const waypoints = fullArt
+    ? [
+        [0.7, routeOrigin[1], routeOrigin[2] - 1.5],
+        [4.2, routeOrigin[1], routeOrigin[2] - 1.5],
+        [4.2, routeOrigin[1], routeOrigin[2]],
+        ...gateWaypoints,
+      ]
+    : gateWaypoints;
   if (!resumeDocked) {
     for (let i = 0; i < waypoints.length; i += 1) await walkTo(waypoints[i], `wreck-gate-${i + 1}`);
     const gyro = await page.evaluate(() => {
@@ -351,6 +390,8 @@ try {
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => globalThis.__game.game.state.paused);
   const restored = await snapshot();
+  if (fullArt && !Object.values(restored.authored).every(Boolean))
+    throw new Error(`Full-art assets missing after Continue: ${JSON.stringify(restored.authored)}`);
   for (const [key, value] of Object.entries({
     story: departed.story,
     structures: departed.structures,
