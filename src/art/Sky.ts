@@ -25,7 +25,7 @@ export class Sky {
   // side. Behind lights the machine's visible faces; off to the side keeps
   // shadows in frame, which is what actually describes form. Straight behind
   // hides every shadow and the scene goes flat.
-  private readonly sunDirection = new THREE.Vector3(0.78, 0.50, 0.37).normalize();
+  private readonly sunDirection = new THREE.Vector3(0.78, 0.5, 0.37).normalize();
   private lastBakedDirection = new THREE.Vector3(0, -1, 0);
   private lastBakeTime = -Infinity;
   private bakeCount = 0;
@@ -90,6 +90,14 @@ export class Sky {
     (this.material.uniforms.uSunDirection!.value as THREE.Vector3).copy(this.sunDirection);
   }
 
+  /** Uniform-only weather tint; weather never triggers an expensive environment rebake. */
+  setDustFront(intensity: number): void {
+    const amount = THREE.MathUtils.clamp(intensity, 0, 1);
+    this.material.uniforms.uDustAmount!.value = 0.72 + amount * 0.25;
+    this.material.uniforms.uSunIntensity!.value = 1 - amount * 0.6;
+    this.material.uniforms.uTurbidity!.value = 3.5 + amount * 7;
+  }
+
   /**
    * Set the sun from a 0..1 time of day, where 0.5 is noon. Stays above the
    * horizon at the extremes — a full night cycle is later-milestone work.
@@ -99,11 +107,9 @@ export class Sky {
     const elevation = Math.cos(angle) * 0.44 + 0.06;
     const azimuth = Math.atan2(0.37, 0.78) + angle;
     const horizontal = Math.hypot(0.78, 0.37);
-    this.setSunDirection(new THREE.Vector3(
-      Math.cos(azimuth) * horizontal,
-      elevation,
-      Math.sin(azimuth) * horizontal,
-    ));
+    this.setSunDirection(
+      new THREE.Vector3(Math.cos(azimuth) * horizontal, elevation, Math.sin(azimuth) * horizontal),
+    );
   }
 
   /**

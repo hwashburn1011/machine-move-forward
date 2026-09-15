@@ -78,25 +78,25 @@ Editable Blender masters, textures and optimized game models are versioned along
 
 ## Controls
 
-| Key | Action |
-| --- | --- |
-| `WASD` | Move |
-| Mouse | Look |
-| `Shift` | Sprint |
-| `Ctrl` / `C` | Crouch |
-| `Space` | Jump |
-| LMB | Fire |
-| RMB | Aim |
-| `R` | Reload |
-| `1` / `2` | Rifle / shotgun |
-| `F` | Fire salvage reel |
-| `E` | Use stations, radio, journals, uniques and deck gun |
-| Hold `E` | Repair or cut a boarding hook |
-| `B` | Enter build catalog / exit building |
-| `Tab` | Inventory |
-| `M` | Mute |
-| `V` | Swap camera shoulder |
-| `Esc` | Close panel, leave gun or pause |
+| Key          | Action                                              |
+| ------------ | --------------------------------------------------- |
+| `WASD`       | Move                                                |
+| Mouse        | Look                                                |
+| `Shift`      | Sprint                                              |
+| `Ctrl` / `C` | Crouch                                              |
+| `Space`      | Jump                                                |
+| LMB          | Fire                                                |
+| RMB          | Aim                                                 |
+| `R`          | Reload                                              |
+| `1` / `2`    | Rifle / shotgun                                     |
+| `F`          | Fire salvage reel                                   |
+| `E`          | Use stations, radio, journals, uniques and deck gun |
+| Hold `E`     | Repair or cut a boarding hook                       |
+| `B`          | Enter build catalog / exit building                 |
+| `Tab`        | Inventory                                           |
+| `M`          | Mute                                                |
+| `V`          | Swap camera shoulder                                |
+| `Esc`        | Close panel, leave gun or pause                     |
 
 Build placement uses `G` to reopen the searchable catalog, `Q`/`E` to rotate, `Page Up`/`Page Down` for manual deck selection, `Home` for automatic selection, LMB to place, RMB to cancel, `V` to select equipment for relocation, and hold `X` for demolition and its refund preview. Out-of-range targets remain visible as invalid; valid placement reaches 12 m from the player and supports all three decks.
 
@@ -121,6 +121,16 @@ The Course Gyro unlocks the Navigation Helm. Choose a shorter direct route with 
 Collectors reel in nearby salvage and store it in six slots for later transfer. Automatic turrets consume power, turn toward visible infantry or gunboat components, and fire only with a clear shot. Position and power both matter.
 
 Departing the Foundry completes the first chapter and resumes recurring mech raids. [Chapter and tactical encounter implementation, plans and validation](docs/chapter-tactics/README.md).
+
+## Home life and route risk
+
+Build a chair in an enclosed room with a table or rug, then press **E beside the chair** to start quiet maintenance. Remain still to restore 2 HP/s (1 HP/s while hungry); movement, combat, damage or a broken enclosure interrupts it. There is no sitting animation or time skip. Use **E at a shelf** to display an already recovered campaign record. Moving the shelf preserves its selection; removing it never erases the record.
+
+Docked salvage wrecks offer **Secure** for 24 scrap and 2 components, or **Broadcast** for a defended total of 48 scrap and 6 components. To broadcast, return aboard and open the Radio's wreck salvage choices. Confirming calls one enemy skiff and retracts the gangways until the encounter ends. Rewards stay at the wreck until collected, including anything that did not fit in your inventory. Dying during the defense retains only the original secure cache.
+
+Dust fronts give a 35-second forecast, pass for 70 seconds, then clear over 20 seconds. An enclosed room prevents their extra water use, which reaches 50% outside at peak intensity. The forecast waits during the opening guide, docked stops and story sequences; ordinary battles can overlap the weather. Dust changes atmosphere and water use without damaging the machine or adding a constant sound loop.
+
+The original Home Life Blender source and authored asset notes are documented in [assets/home-life/README.md](assets/home-life/README.md).
 
 ## Developer harnesses
 
@@ -154,17 +164,17 @@ Set `MMF_HARDWARE=1` to use hardware-accelerated Chrome on Windows. The expansio
 
 ### Debug keys
 
-| Key | Action |
-| --- | --- |
-| `F1` / `F2` | Quicksave / quickload |
-| `F3` | Debug overlay |
-| `F4` | Spawn an enemy |
-| `F5` | Give ammo and scrap |
-| `F6` | God mode |
-| `F7` | Jump 500m |
-| `F8` | Cycle quality |
-| `F9` | Bypass post-processing |
-| `F10` | Cycle time of day |
+| Key         | Action                 |
+| ----------- | ---------------------- |
+| `F1` / `F2` | Quicksave / quickload  |
+| `F3`        | Debug overlay          |
+| `F4`        | Spawn an enemy         |
+| `F5`        | Give ammo and scrap    |
+| `F6`        | God mode               |
+| `F7`        | Jump 500m              |
+| `F8`        | Cycle quality          |
+| `F9`        | Bypass post-processing |
+| `F10`       | Cycle time of day      |
 
 ## Architecture
 

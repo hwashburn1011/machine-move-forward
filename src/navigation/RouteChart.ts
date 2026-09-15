@@ -9,6 +9,7 @@ export const ROUTE_HISTORY_LIMIT = 128;
 export type RouteContactKind = 'water-cache' | 'salvage-wreck' | 'memorial' | 'repair-depot';
 export type RouteContactState =
   'detected' | 'committed' | 'docked' | 'visited' | 'missed' | 'suspended';
+export type SalvageMode = 'secure' | 'broadcast' | 'defended';
 
 export type RouteReward =
   | { type: 'item'; itemId: 'water' | 'scrap' | 'components' | 'repair-kit'; remaining: number }
@@ -26,6 +27,7 @@ export interface RouteContact {
   expiresAtM: number;
   state: RouteContactState;
   rewards: RouteReward[];
+  salvageMode?: SalvageMode;
   suspendedFrom?: Exclude<RouteContactState, 'suspended' | 'visited' | 'missed'>;
   suspendedRemainingM?: number;
   suspendedWindowM?: number;
@@ -84,6 +86,9 @@ export interface RewardResolution {
   acceptedCount: number;
   completed: boolean;
 }
+export type SalvageChoiceResult =
+  | { ok: true; mode: 'secure' | 'broadcast' }
+  | { ok: false; reason: 'missing' | 'unavailable' | 'already-chosen' };
 
 const KINDS: readonly RouteContactKind[] = ['water-cache', 'salvage-wreck', 'memorial'];
 const finite = (value: unknown): value is number =>
@@ -238,6 +243,38 @@ export class RouteChart {
     );
   }
 
+  chooseSalvage(id: string, mode: 'secure' | 'broadcast'): SalvageChoiceResult {
+    const contact = this.active;
+    if (!contact || contact.id !== id) return { ok: false, reason: 'missing' };
+    if (contact.kind !== 'salvage-wreck' || contact.state !== 'docked')
+      return { ok: false, reason: 'unavailable' };
+    if (contact.salvageMode) return { ok: false, reason: 'already-chosen' };
+    contact.salvageMode = mode;
+    return { ok: true, mode };
+  }
+
+  resolveSalvage(id: string): boolean {
+    const contact = this.active;
+    if (!contact || contact.id !== id || contact.kind !== 'salvage-wreck') return false;
+    if (contact.salvageMode !== 'broadcast' || contact.state !== 'docked') return false;
+    contact.salvageMode = 'defended';
+    for (const reward of contact.rewards) {
+      if (reward.type === 'item' && reward.itemId === 'scrap')
+        reward.remaining = Math.max(reward.remaining, 48);
+      if (reward.type === 'item' && reward.itemId === 'components')
+        reward.remaining = Math.max(reward.remaining, 6);
+    }
+    return true;
+  }
+
+  /** A failed/abandoned fight releases only the original untouched cache. */
+  abortSalvage(id: string): boolean {
+    const contact = this.active;
+    if (!contact || contact.id !== id || contact.salvageMode !== 'broadcast') return false;
+    contact.salvageMode = 'secure';
+    return true;
+  }
+
   /** Clear a docked opportunity after Game validates that the player is aboard. */
   depart(id: string, abandonUnclaimed = false): boolean {
     if (!this.canDepart(id) || !this.active) return false;
@@ -253,6 +290,10 @@ export class RouteChart {
 
   requestReward(id: string): RewardClaim | null {
     if (!this.active || this.active.id !== id || this.active.state !== 'docked') return null;
+    if (this.active.kind === 'salvage-wreck') {
+      if (this.active.salvageMode === 'broadcast') return null;
+      if (!this.active.salvageMode) this.active.salvageMode = 'secure';
+    }
     if (this.inFlight) return this.inFlight.contactId === id ? { ...this.inFlight } : null;
     const index = this.active.rewards.findIndex((reward) => reward.remaining > 0);
     const reward = this.active.rewards[index];
@@ -414,9 +455,31 @@ function validContact(value: unknown): RouteContact | null {
     !['detected', 'committed', 'docked', 'visited', 'missed', 'suspended'].includes(c.state ?? '')
   )
     return null;
-  if (!Array.isArray(c.rewards) || !validRewards(c.kind!, c.rewards)) return null;
+  if (c.salvageMode !== undefined && !['secure', 'broadcast', 'defended'].includes(c.salvageMode))
+    return null;
+  if (!Array.isArray(c.rewards) || !validRewards(c.kind!, c.rewards, c.salvageMode)) return null;
   if (c.state === 'visited' && c.rewards.some((reward) => reward.remaining !== 0)) return null;
   const contact = cloneContact(c as RouteContact);
+  if (contact.kind === 'salvage-wreck') {
+    if (contact.salvageMode === 'broadcast') contact.salvageMode = 'secure';
+    const partialLegacy = contact.rewards.some(
+      (reward) =>
+        (reward.type === 'item' && reward.itemId === 'scrap' && reward.remaining < 24) ||
+        (reward.type === 'item' && reward.itemId === 'components' && reward.remaining < 2),
+    );
+    if (
+      contact.salvageMode === 'secure' ||
+      (!contact.salvageMode && (contact.state === 'visited' || partialLegacy))
+    ) {
+      contact.salvageMode = 'secure';
+      for (const reward of contact.rewards) {
+        if (reward.type === 'item' && reward.itemId === 'scrap')
+          reward.remaining = Math.min(reward.remaining, 24);
+        if (reward.type === 'item' && reward.itemId === 'components')
+          reward.remaining = Math.min(reward.remaining, 2);
+      }
+    }
+  }
   if (contact.state === 'suspended') {
     if (
       !['detected', 'committed'].includes(contact.suspendedFrom ?? '') ||
@@ -435,6 +498,7 @@ function validContact(value: unknown): RouteContact | null {
 function validRewards(
   kind: RouteContactKind,
   rewards: readonly unknown[],
+  salvageMode?: SalvageMode,
 ): rewards is RouteReward[] {
   const expected: [string, number][] =
     kind === 'repair-depot'
@@ -446,8 +510,8 @@ function validRewards(
         ? [['water', 4]]
         : kind === 'salvage-wreck'
           ? [
-              ['scrap', 24],
-              ['components', 2],
+              ['scrap', salvageMode === 'defended' ? 48 : 24],
+              ['components', salvageMode === 'defended' ? 6 : 2],
             ]
           : [['memorial-transmission', 1]];
   if (rewards.length !== expected.length) return false;

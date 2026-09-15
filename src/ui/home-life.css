@@ -1,0 +1,58 @@
+.home-life {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: rgb(4 10 15 / 78%);
+  color: #d6f2ed;
+  pointer-events: auto;
+}
+.home-life[hidden] {
+  display: none;
+}
+.home-life-content {
+  width: min(44rem, 100%);
+  max-height: min(42rem, 90vh);
+  overflow: auto;
+  padding: 2rem;
+  border: 1px solid #46b7ad;
+  background: #0b1820;
+  box-shadow: 0 0 2rem rgb(0 0 0 / 45%);
+}
+.home-life h2 {
+  color: #f0b45d;
+  margin-top: 0;
+}
+.home-life h3 {
+  color: #73d9cf;
+}
+.home-life button {
+  margin: 0.35rem;
+  padding: 0.7rem 1rem;
+  color: inherit;
+  background: #122832;
+  border: 1px solid #559f9d;
+  cursor: pointer;
+}
+.home-life button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.home-life-choices {
+  display: grid;
+  gap: 0.4rem;
+}
+.home-life-refusal {
+  color: #ef9b79;
+}
+
+.home-life,
+.home-life-content {
+  box-sizing: border-box;
+}
+.home-life button:focus-visible {
+  outline: 2px solid #f0b45d;
+  outline-offset: 2px;
+}

@@ -1,0 +1,46 @@
+{
+  "engine": "5.8.2-56702186+++UE5+Release-5.8",
+  "assets": [
+    {
+      "name": "HomeChair",
+      "path": "/Game/NomadHome/HomeChair.HomeChair",
+      "size_cm": [
+        69.0,
+        70.07535934448242,
+        110.88984408974648
+      ],
+      "materials": 8
+    },
+    {
+      "name": "HomeRug",
+      "path": "/Game/NomadHome/HomeRug.HomeRug",
+      "size_cm": [
+        130.0,
+        178.30833435058594,
+        4.150022506713867
+      ],
+      "materials": 4
+    },
+    {
+      "name": "HomeShelf",
+      "path": "/Game/NomadHome/HomeShelf.HomeShelf",
+      "size_cm": [
+        114.0,
+        43.800025939941406,
+        154.9999932050705
+      ],
+      "materials": 10
+    },
+    {
+      "name": "HomeTable",
+      "path": "/Game/NomadHome/HomeTable.HomeTable",
+      "size_cm": [
+        125.0,
+        79.00000381469727,
+        92.75749921798706
+      ],
+      "materials": 7
+    }
+  ],
+  "status": "success"
+}

@@ -48,9 +48,10 @@ export class Needs {
    * Advance both meters. Negative or zero steps do nothing — a paused frame
    * must not hand back what a running one took.
    */
-  fixedUpdate(dt: number): void {
-    if (!(dt > 0)) return;
-    this.water = Math.max(0, this.water - HYDRATION_DRAIN_PER_S * dt);
+  fixedUpdate(dt: number, hydrationScale = 1): void {
+    if (!Number.isFinite(dt) || !(dt > 0)) return;
+    const scale = Number.isFinite(hydrationScale) ? Math.min(1.5, Math.max(1, hydrationScale)) : 1;
+    this.water = Math.max(0, this.water - HYDRATION_DRAIN_PER_S * dt * scale);
     this.food = Math.max(0, this.food - NOURISHMENT_DRAIN_PER_S * dt);
   }
 

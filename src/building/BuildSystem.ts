@@ -6,6 +6,8 @@ import type { EventBus } from '@/core/events/EventBus';
 import type { Materials } from '@/art/Materials';
 import { authoredModel, buildTurretModel, type TurretVisual } from '@/art/DefenseModels';
 import { buildSeedGardenModel, type SeedGardenVisual } from '@/art/SeedGardenModels';
+import { homeModel } from '@/art/HomeModels';
+import { sanitizeKeepsakeState, type HomeLifePiece } from './HomeLife';
 import {
   buildAutomaticCollectorModel,
   buildAutomaticTurretModel,
@@ -567,6 +569,8 @@ export class BuildSystem {
    * cache for ghost rendering.
    */
   createPreviewVisual(piece: PieceId): THREE.Object3D | null {
+    const furnishing = homeModel(piece);
+    if (furnishing) return furnishing;
     if (piece === 'seed-garden') {
       const root = authoredModel('seed-garden')?.scene.clone(true) ?? null;
       for (const stage of ['Growing', 'Ready']) {
@@ -1228,6 +1232,42 @@ export class BuildSystem {
   }
 
   /** Built stations within `reach` metres, nearest first. */
+  homePieces(): HomeLifePiece[] {
+    return [...this.instances.values()]
+      .filter((live) => isDecor(live.data.definitionId))
+      .map((live) => ({
+        instanceId: live.data.instanceId,
+        definitionId: live.data.definitionId,
+        cell: { ...live.data.cell },
+      }));
+  }
+
+  decorNear(pos: THREE.Vector3, reach: number): StationRef[] {
+    return [...this.instances.values()]
+      .filter(
+        (live) =>
+          ['chair', 'shelf'].includes(live.data.definitionId) &&
+          live.mesh.position.distanceTo(pos) <= reach,
+      )
+      .map((live) => ({
+        instanceId: live.data.instanceId,
+        piece: live.data.definitionId,
+        position: live.mesh.position.clone(),
+      }));
+  }
+
+  /** Only validated, already-known records can be displayed. No inventory or progression mutation. */
+  setKeepsake(instanceId: string, factId: unknown, knownIds: readonly string[]): boolean {
+    const live = this.instances.get(instanceId);
+    if (!live || live.data.definitionId !== 'shelf' || this.buildMutation) return false;
+    const state = sanitizeKeepsakeState({ factId }, knownIds);
+    if (factId != null && !state.factId) return false;
+    live.data.state = { ...state };
+    const display = live.mesh.getObjectByName('KeepsakeLit');
+    if (display) display.visible = !!state.factId;
+    return true;
+  }
+
   stationsNear(pos: THREE.Vector3, reach: number): StationRef[] {
     const found: { ref: StationRef; d: number }[] = [];
     for (const live of this.instances.values()) {
@@ -1339,7 +1379,7 @@ export class BuildSystem {
     );
 
     const stationTemplate = this.authoredStations.get(data.definitionId as AuthoredStationId);
-    const authoredStation = stationTemplate?.clone(true) ?? null;
+    const authoredStation = homeModel(data.definitionId) ?? stationTemplate?.clone(true) ?? null;
     const visual =
       data.definitionId === 'turret-manual'
         ? buildTurretModel(this.materials)
@@ -1374,6 +1414,8 @@ export class BuildSystem {
     }
     if (authoredStation) {
       this.prepareAuthoredStation(authoredStation, data);
+      const display = authoredStation.getObjectByName('KeepsakeLit');
+      if (display) display.visible = !!data.state?.factId;
       mesh.add(authoredStation);
     }
     mesh.position.copy(position);
@@ -1593,7 +1635,9 @@ export class BuildSystem {
             ? timer.toSave()
             : garden
               ? { ...garden.snapshot() }
-              : undefined;
+              : live.data.definitionId === 'shelf'
+                ? { ...live.data.state }
+                : undefined;
       return {
         ...live.data,
         cell: { ...live.data.cell },

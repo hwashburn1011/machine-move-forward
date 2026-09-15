@@ -30,6 +30,8 @@ export interface Interactable {
     | 'producer'
     | 'seed-garden'
     | 'objective'
+    | 'rest-chair'
+    | 'keepsake-shelf'
     | 'repair';
 }
 
