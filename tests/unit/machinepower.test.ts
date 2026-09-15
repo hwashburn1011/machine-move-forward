@@ -135,6 +135,43 @@ describe('MachinePower capacity', () => {
   });
 });
 
+describe('MachinePower forecast metrics', () => {
+  it('reports registered demand and generator count without requiring devices', () => {
+    const power = new MachinePower();
+    expect(power.registeredDemand).toBe(0);
+    expect(power.generatorCount).toBe(0);
+    expect(power.effectiveFuelBurnPerSecond).toBe(0);
+  });
+
+  it('reports live generators, pre-shed demand, and powered burn', () => {
+    const power = poweredMachine(8);
+    power.registerConsumer({ id: 'lamp', draw: 2, priority: 'light' });
+    power.registerConsumer({ id: 'station', draw: 3, priority: 'station' });
+    expect(power.generatorCount).toBe(1);
+    expect(power.registeredDemand).toBe(5);
+    expect(power.effectiveFuelBurnPerSecond).toBe(FUEL_BURN_PER_S);
+  });
+
+  it('keeps registered demand visible when every priority class is shed', () => {
+    const power = poweredMachine(1);
+    power.registerConsumer({ id: 'lamp', draw: 2, priority: 'light' });
+    power.registerConsumer({ id: 'station', draw: 2, priority: 'station' });
+    power.registerConsumer({ id: 'turret', draw: 2, priority: 'defense' });
+    expect(power.registeredDemand).toBe(6);
+    expect(power.draw).toBe(0);
+    expect(power.effectiveFuelBurnPerSecond).toBe(0);
+  });
+
+  it('applies the burn modifier and stops forecasting on an empty tank', () => {
+    const power = poweredMachine(8);
+    power.registerConsumer({ id: 'lamp', draw: 1, priority: 'light' });
+    power.setModifiers({ fuelBurnMultiplier: 1.5 });
+    expect(power.effectiveFuelBurnPerSecond).toBe(FUEL_BURN_PER_S * 1.5);
+    power.restore({ fuel: 0 });
+    expect(power.effectiveFuelBurnPerSecond).toBe(0);
+  });
+});
+
 describe('MachinePower shedding', () => {
   /** A lamp, a refinery, and a turret: one of each priority class. */
   function loaded(capacity: number): MachinePower {

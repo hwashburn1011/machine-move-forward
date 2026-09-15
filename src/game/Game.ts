@@ -25,6 +25,10 @@ import {
   authoredEnemyModel,
   authoredModel,
   prepareAuthoredModel,
+  ensureAuthoredModels,
+  authoredModelsSettled,
+  prefetchCampaignModels,
+  disposeDefenseModels,
 } from '@/art/DefenseModels';
 import { loadSalvageModels } from '@/art/SalvageModels';
 import { disposeAutomationModels, loadAutomationModels } from '@/art/AutomationModels';
@@ -94,7 +98,7 @@ import {
   type PieceCategory,
   type PieceId,
 } from '@/data/build-pieces';
-import { FUEL_BURN_PER_S, FUEL_TANK_CAP, powerRoleOf } from '@/data/power';
+import { FUEL_BURN_PER_S, FUEL_TANK_CAP, powerRoleOf, PRIORITY_ORDER } from '@/data/power';
 import { routeCards, routeDefinition, routeDefinitionsFor, type RouteId } from '@/data/routes';
 import { TURRETS } from '@/data/turrets';
 import { isProducer, producerRoleOf, NEEDS_MAX } from '@/data/needs';
@@ -155,6 +159,9 @@ import { EndingDirector, type EndingEffect } from '@/story/EndingDirector';
 import { MeridianArrivalScene } from '@/story/MeridianArrivalScene';
 import { EndingUI } from '@/ui/EndingUI';
 import { STORY_EXPEDITIONS } from '@/data/story';
+import { projectRecovery, type RecoveryTopic } from './RecoveryGuide';
+import { projectCampaignRecord, type CampaignRecord } from '@/story/CampaignRecord';
+import { CampaignLogUI } from '@/ui/CampaignLogUI';
 import {
   buildRadioModel,
   applyUpgradeVisuals,
@@ -232,6 +239,11 @@ export interface GameOptions {
    * off, and because the fallback is the path that must never rot.
    */
   models?: boolean;
+  /** Production boot defers later expedition visuals to safe menu transitions. */
+  stagedModels?: boolean;
+  onLoadStage?: (label: string) => void;
+  onArtLoading?: (label: string | null) => void;
+  onDispose?: () => void;
   /** Free-fly camera for screenshots, disables the player rig. */
   freeCamera?: THREE.Vector3 | null;
   freeCameraTarget?: THREE.Vector3 | null;
@@ -343,6 +355,10 @@ export class Game implements LoopCallbacks {
   readonly buildSession = new BuildSession();
   readonly buildGuard = new BuildCombatGuard();
   readonly machineStatus: MachineStatusView;
+  readonly campaignLog: CampaignLogUI;
+  private readonly dismissedRecovery = new Set<RecoveryTopic>();
+  private endingRecordPhase = '';
+  private endingRecognition: readonly string[] = [];
   private readonly interactionHighlight = new InteractionHighlight();
   private readonly playerFade = new PlayerFade();
   private transferFeedback: string | null = null;
@@ -469,6 +485,10 @@ export class Game implements LoopCallbacks {
   private tutorialTurretId: string | null = null;
   private tutorialStarted = false;
   private pendingBoardingOutcome: 'hull' | 'crew' | 'hook' | 'defended' | null = null;
+  private artTransition = false;
+  private disposed = false;
+  private continuing = false;
+  private readonly failedArtWarmup = new Set<string>();
   private scriptedGunboatPending = false;
   private scriptedGunboatActive = false;
   private scriptedSkiffPending = false;
@@ -491,15 +511,24 @@ export class Game implements LoopCallbacks {
 
   /** Rapier's wasm must be resolved before any physics object exists. */
   static async create(options: GameOptions): Promise<Game> {
+    options.onLoadStage?.('Loading the machine and crew');
+    const kitsTask = options.models !== false ? loadMachineStationVisualModels() : null;
+    const texturesTask = options.textures !== false ? loadTextureSets() : null;
+    const propsTask = options.models !== false ? loadPropModels() : null;
+    const tacticsTask =
+      options.models !== false ? loadModel('models/authored/tactical-accessories.glb') : null;
+    const weaponIds = options.models !== false ? Object.keys(WEAPON_MODELS) : [];
+    const weaponsTask = Promise.all(weaponIds.map((id) => loadModel(WEAPON_MODELS[id]!.url)));
     await initRapier();
     await Promise.all([
-      loadDefenseModels(options.models !== false),
+      loadDefenseModels(options.models !== false, options.stagedModels === true),
       loadSalvageModels(options.models !== false),
       loadAutomationModels(options.models !== false),
     ]);
     const game = new Game(options);
+    options.onLoadStage?.('Preparing the decks and landscape');
     if (options.models !== false) {
-      const kits = await loadMachineStationVisualModels();
+      const kits = (await kitsTask)!;
       game.machineAuthoredModel = kits.machine;
       game.machineCollisionModel = kits.collision;
       game.machine.applyAuthoredDetailModel(kits.machine, kits.collision);
@@ -520,7 +549,7 @@ export class Game implements LoopCallbacks {
     // usable, and this only swaps their surfaces. A failed fetch costs a
     // nicer-looking hull, never a boot.
     if (options.textures !== false) {
-      const sets = await loadTextureSets();
+      const sets = (await texturesTask)!;
       game.materials.applyTextureSets(sets);
       // The dunes are not a material slot — the terrain shader samples the
       // scan in world space itself — so they are handed it separately.
@@ -534,8 +563,8 @@ export class Game implements LoopCallbacks {
     // The desert's wrecks, on the same bargain: a missing pack costs a wreck
     // on the horizon, never a boot.
     if (options.models !== false) {
-      game.world.applyPropModels(await loadPropModels());
-      game.tacticsModel = await loadModel('models/authored/tactical-accessories.glb');
+      game.world.applyPropModels((await propsTask)!);
+      game.tacticsModel = await tacticsTask;
       if (game.tacticsModel) prepareAuthoredModel(game.tacticsModel);
       game.tacticsVisual.setModel(game.tacticsModel);
     }
@@ -567,9 +596,8 @@ export class Game implements LoopCallbacks {
     // Weapons last, and in parallel: they are the smallest files and the least
     // load-bearing thing on screen, so nothing else should wait on them.
     if (options.models !== false) {
-      const ids = Object.keys(WEAPON_MODELS);
-      const loaded = await Promise.all(ids.map((id) => loadModel(WEAPON_MODELS[id]!.url)));
-      ids.forEach((id, i) => {
+      const loaded = await weaponsTask;
+      weaponIds.forEach((id, i) => {
         const m = loaded[i];
         if (m) {
           prepareAuthoredModel(m);
@@ -580,6 +608,7 @@ export class Game implements LoopCallbacks {
     }
 
     if (options.models !== false) {
+      options.onLoadStage?.('Preparing lighting and combat');
       const battle = game.prepareSignalBattle();
       const warmEnemies = game.enemies.prewarm([
         'bastion',
@@ -690,6 +719,7 @@ export class Game implements LoopCallbacks {
         game.post.render(0, game.renderer.scene, game.activeCamera);
       }
     }
+    options.onLoadStage?.('Ready to walk');
     return game;
   }
 
@@ -1253,7 +1283,13 @@ export class Game implements LoopCallbacks {
       },
       close: () => this.exitBuildMode('user'),
     });
-    this.machineStatus = new MachineStatusView(options.hudRoot);
+    this.machineStatus = new MachineStatusView(options.hudRoot, {
+      dismissRecovery: (topic) => {
+        this.dismissedRecovery.add(topic);
+        this.nextStatusUpdateAt = 0;
+      },
+    });
+    this.campaignLog = new CampaignLogUI(options.hudRoot, { close: () => this.closePanels() });
     this.inventoryUI = new InventoryUI(options.hudRoot, this.inventory, {
       moveToCrate: (slot, all) => this.transfer('player', slot, all),
       moveToPlayer: (slot, all) => this.transfer('crate', slot, all),
@@ -1273,6 +1309,7 @@ export class Game implements LoopCallbacks {
       {
         close: () => this.closePanels(),
         openResearch: () => this.openResearch(),
+        openCampaignLog: () => this.openCampaignLog(),
         depart: () => this.requestExpeditionDeparture(),
         beginTrace: () => this.beginWreckTrace(),
         collectRecovered: () => this.raidMissions.collectRecovered(),
@@ -1296,6 +1333,7 @@ export class Game implements LoopCallbacks {
       setBearing: (degrees) => this.commandCourse('bearing', degrees),
       setThrottle: (value) => this.commandCourse('throttle', value),
       openLog: () => this.openExpedition(),
+      openCampaignLog: () => this.openCampaignLog(),
       plotContact: (id) => this.plotOpportunity(id),
       cancelApproach: () => this.cancelOpportunityApproach(),
       commitEnding: () => void this.commitMeridianEnding(),
@@ -1623,6 +1661,7 @@ export class Game implements LoopCallbacks {
   // -------------------------------------------------------------------------
 
   fixedUpdate(dt: number): void {
+    if (this.artTransition) return;
     if (this.state.paused) return;
     if (!this.titleCamera && this.endingCinematic) {
       this.syncInputContext();
@@ -1950,7 +1989,11 @@ export class Game implements LoopCallbacks {
 
   /** The checkpoint is written before any course, sanctuary or input ownership changes. */
   private async commitMeridianEnding(): Promise<boolean> {
-    if (this.endingCheckpointBusy || !this.helmUI.isOpen) return false;
+    if (this.endingCheckpointBusy || !this.helmUI.isOpen || this.artTransition) return false;
+    if (!this.campaignArtReady(['meridian-horizon'])) {
+      if (!(await this.prepareCampaignArt(['meridian-horizon']))) return false;
+      return this.commitMeridianEnding();
+    }
     const prepared = this.ending.prepareCommit(this.endingContext());
     if (!prepared.ok) {
       this.hud.setWarning(this.endingCommitRefusal ?? 'The final course is unavailable.');
@@ -2090,6 +2133,30 @@ export class Game implements LoopCallbacks {
 
   private refreshEndingView(): void {
     const phase = this.ending.phase;
+    if (phase !== this.endingRecordPhase) {
+      this.endingRecordPhase = phase;
+      if (phase === 'arrival' || phase === 'credits') {
+        const record = this.campaignRecord();
+        this.endingRecognition = [
+          record.recordsRead > 0
+            ? `${record.recordsRead} preserved ${record.recordsRead === 1 ? 'record travels' : 'records travel'} with the Nomad.`
+            : 'The witness archive travels with the Nomad.',
+          ...(this.story
+            .snapshot(this.world.distanceTraveled)
+            .recoveredUniques.includes('human-seed-bank')
+            ? ['The Orchard seed bank carries the possibility of another garden.']
+            : []),
+          ...(record.discoveries.visited > 0
+            ? [
+                `You stopped at ${record.discoveries.visited} recorded ${record.discoveries.visited === 1 ? 'discovery' : 'discoveries'} along the way.`,
+              ]
+            : []),
+          ...(this.build.serialise().some((piece) => piece.definitionId === 'seed-garden')
+            ? ['A garden bed has a place aboard your moving home.']
+            : []),
+        ];
+      }
+    }
     const elapsed = this.ending.snapshot.arrivalElapsedS;
     this.endingUI?.setView({
       phase:
@@ -2109,6 +2176,7 @@ export class Game implements LoopCallbacks {
               ? 'MERIDIAN: ...we have your names. Keep coming.'
               : 'S-07: I cannot verify the voice. I can still answer it.',
       paused: this.state.paused,
+      recognition: this.endingRecognition,
     });
   }
 
@@ -2696,6 +2764,7 @@ export class Game implements LoopCallbacks {
   }
 
   render(alpha: number): void {
+    if (this.artTransition) return;
     this.refreshEndingView();
     this.renderer.beginFrame();
 
@@ -3439,6 +3508,7 @@ export class Game implements LoopCallbacks {
    * exactly one place to read the answer off.
    */
   boot(): void {
+    if (this.options.stagedModels && this.options.models !== false) prefetchCampaignModels();
     if (this.options.forceOpening) {
       this.beginOpening('new-game');
       return;
@@ -3610,6 +3680,9 @@ export class Game implements LoopCallbacks {
   }
 
   private startNewGame(): void {
+    if (this.artTransition || this.continuing) return;
+    this.dismissedRecovery.clear();
+    this.endingRecordPhase = '';
     // Fresh state before the opening, so New Game after a session in progress
     // does not start the chase over a deck the last run built.
     this.state.simTime = 0;
@@ -3688,12 +3761,25 @@ export class Game implements LoopCallbacks {
   }
 
   private async continueGame(): Promise<void> {
-    const slot = await this.newestSave();
-    this.leaveTitle();
-    if (slot) await this.loadFrom(slot);
-    // Straight to `done` either way: a player who asked to continue and had
-    // nothing to continue should land in the game, not in the opening.
-    this.beginOpening('continue');
+    if (this.continuing || this.artTransition) return;
+    this.continuing = true;
+    try {
+      const slot = await this.newestSave();
+      if (!slot || !(await this.loadFrom(slot))) {
+        this.titleScreen?.showStatus(
+          'Unable to continue. Your saved game has been kept; try again.',
+          true,
+        );
+        return;
+      }
+      this.leaveTitle();
+      this.beginOpening('continue');
+      this.restoreEndingPresentation();
+    } catch {
+      this.titleScreen?.showStatus('Unable to read the saved game. Try again.', true);
+    } finally {
+      this.continuing = false;
+    }
   }
 
   private async hasSave(): Promise<boolean> {
@@ -3805,7 +3891,8 @@ export class Game implements LoopCallbacks {
       this.radioUI.isOpen ||
       this.researchUI.isOpen ||
       this.expeditionUI.isOpen ||
-      this.helmUI.isOpen
+      this.helmUI.isOpen ||
+      this.campaignLog.isOpen
     );
   }
 
@@ -4125,10 +4212,55 @@ export class Game implements LoopCallbacks {
   }
 
   private closeSpecialPanels(): void {
+    this.campaignLog.close();
     this.radioUI.close();
     this.researchUI.close();
     this.expeditionUI.close();
     this.helmUI.close();
+  }
+
+  private campaignRecord(): CampaignRecord {
+    const story = this.story.toSave();
+    const chart = this.routeChart.snapshot;
+    const pieces = this.build.serialise();
+    return projectCampaignRecord({
+      completedExpeditions: story.completed,
+      recoveredUniques: story.recoveredUniques,
+      journalArchive: story.journalArchive ?? [],
+      activeRouteId: story.active?.routeId ?? null,
+      endingPhase: this.ending.phase,
+      chart: { contact: chart.active, visitedIds: chart.visited, missedIds: chart.missed },
+      firstRunComplete: this.firstRun.current === 'complete',
+      navigationTier: this.course.snapshot.tier,
+      gardenCount: pieces.filter((piece) => piece.definitionId === 'seed-garden').length,
+      automation: {
+        collectors: pieces.filter((piece) => piece.definitionId === 'collector-auto').length,
+        turrets: pieces.filter(
+          (piece) => piece.definitionId === 'turret-auto' || piece.definitionId === 'turret-manual',
+        ).length,
+      },
+    });
+  }
+
+  private openCampaignLog(): void {
+    if (this.artTransition || this.endingInProgress) return;
+    this.closeSpecialPanels();
+    const archive = this.expeditionView().journalArchive;
+    const contact = this.opportunityView();
+    this.campaignLog.open({
+      record: this.campaignRecord(),
+      archive,
+      contact: contact
+        ? {
+            id: contact.id,
+            label: contact.title,
+            remainingM: contact.remainingM,
+            bearingDeg: contact.bearingDeg,
+            state: contact.state,
+          }
+        : null,
+    });
+    this.releasePointerLock();
   }
 
   private openRadio(): void {
@@ -4192,9 +4324,18 @@ export class Game implements LoopCallbacks {
   }
 
   private beginWreckTrace(): void {
+    if (this.artTransition) return;
     const availability = this.radioTraceView();
     if (!availability.traceReady) {
       this.hud.setWarning(availability.traceDisabledReason ?? 'No new trace is available yet.');
+      return;
+    }
+    const next = this.story.snapshot(this.world.distanceTraveled).nextExpedition;
+    const assets = this.expeditionAssetIds(next?.id ?? 'wreck-one');
+    if (!this.campaignArtReady(assets)) {
+      void this.prepareCampaignArt(assets).then((ready) => {
+        if (ready && this.radioUI.isOpen) this.beginWreckTrace();
+      });
       return;
     }
     const begin = this.story.snapshot(this.world.distanceTraveled).nextExpedition
@@ -4450,6 +4591,15 @@ export class Game implements LoopCallbacks {
   }
 
   private selectStoryRoute(route: RouteId): void {
+    if (this.artTransition) return;
+    const destination = routeDefinition(route)?.destinationId;
+    const assets = this.expeditionAssetIds(destination ?? 'wreck-one');
+    if (!this.campaignArtReady(assets)) {
+      void this.prepareCampaignArt(assets).then((ready) => {
+        if (ready && this.expeditionUI.isOpen) this.selectStoryRoute(route);
+      });
+      return;
+    }
     const result = this.story.selectRoute(route, {
       poweredHelm: this.machine.power.isPowered(this.helmPowerConsumerId),
       playerOnMachine: this.destination.playerOnMachine(this.player.worldPosition),
@@ -4532,7 +4682,16 @@ export class Game implements LoopCallbacks {
   }
 
   private plotOpportunity(id: string): void {
-    if (!this.helmUI.isOpen || this.state.paused) return;
+    if (!this.helmUI.isOpen || this.state.paused || this.artTransition) return;
+    const contact = this.routeChart.contact;
+    if (!contact || contact.id !== id) return;
+    const assets = [OPPORTUNITIES[contact.kind].model];
+    if (!this.campaignArtReady(assets)) {
+      void this.prepareCampaignArt(assets).then((ready) => {
+        if (ready) this.plotOpportunity(id);
+      });
+      return;
+    }
     const result = this.routeChart.commit(id, this.chartContext);
     if (!result.ok) {
       this.hud.setWarning(
@@ -4722,6 +4881,79 @@ export class Game implements LoopCallbacks {
       uniqueIds: view.recoveredUniques,
       completedObjectives: view.completedObjectives,
     });
+  }
+
+  private expeditionAssetIds(id: string): string[] {
+    const model = STORY_EXPEDITIONS.find((chapter) => chapter.id === id)?.modelId;
+    return [
+      ...(model ? [model] : []),
+      ...(id === 'glass-orchard' ? ['seed-garden'] : []),
+      ...(id === 'last-garden-meridian' ? ['meridian-horizon'] : []),
+    ];
+  }
+
+  /** Decode, publish and warm before a synchronous factory can borrow the source. */
+  private campaignArtReady(ids: readonly string[]): boolean {
+    return (
+      this.options.models === false ||
+      (authoredModelsSettled(ids) && ids.every((id) => !this.failedArtWarmup.has(id)))
+    );
+  }
+
+  private async prepareCampaignArt(ids: readonly string[]): Promise<boolean> {
+    if (this.disposed || this.artTransition) return false;
+    if (this.campaignArtReady(ids)) return true;
+    this.artTransition = true;
+    this.syncInputContext();
+    this.releasePointerLock();
+    this.audio.setActive(false);
+    this.options.onArtLoading?.('Preparing the destination');
+    try {
+      // Let the loading surface paint before parsing the prefetched bytes.
+      await new Promise<void>((resolve) => {
+        let frame = 0;
+        const finish = () => {
+          clearTimeout(timer);
+          cancelAnimationFrame(frame);
+          resolve();
+        };
+        const timer = setTimeout(finish, 100);
+        frame = requestAnimationFrame(finish);
+      });
+      await ensureAuthoredModels(ids);
+      if (this.disposed) return false;
+      const sources = ids
+        .map((id) => authoredModel(id)?.scene)
+        .filter((source): source is THREE.Group => !!source);
+      await warmAuthoredGraphics(
+        this.renderer.three,
+        this.renderer.scene,
+        this.activeCamera,
+        sources,
+      );
+      if (sources.length < ids.length && !this.disposed)
+        this.hud.setWarning('Some destination details are unavailable. You can still explore.');
+      for (const id of ids) this.failedArtWarmup.delete(id);
+      return !this.disposed;
+    } catch {
+      for (const id of ids) this.failedArtWarmup.add(id);
+      if (!this.disposed) {
+        this.hud.setWarning('The destination could not be prepared. Try the action again.');
+        this.titleScreen?.showStatus('The destination could not be prepared. Try again.', true);
+      }
+      return false;
+    } finally {
+      this.artTransition = false;
+      if (!this.disposed) {
+        this.options.onArtLoading?.(null);
+        this.clock.getDelta();
+        this.input.consumeLook();
+        this.input.consumePressed('cancel');
+        this.playerCamera.resetHistory();
+        this.syncInputContext();
+        this.input.suppressUntilReleased(['fire', 'aim', 'interact']);
+      }
+    }
   }
 
   private courseContext(): CourseContext {
@@ -5035,6 +5267,7 @@ export class Game implements LoopCallbacks {
     this.researchUI.close();
     this.expeditionUI.close();
     this.helmUI.close();
+    this.campaignLog.close();
     this.inventoryTargetId = null;
     this.transferFeedback = null;
     if (
@@ -5127,8 +5360,8 @@ export class Game implements LoopCallbacks {
       fraction: this.machine.damage.fraction(id),
       failed: this.machine.damage.health(id) <= 0,
     }));
-    const shed = this.build
-      .serialise()
+    const pieces = this.build.serialise();
+    const shed = pieces
       .filter(
         (piece) =>
           powerRoleOf(piece.definitionId)?.kind === 'consumer' &&
@@ -5140,7 +5373,53 @@ export class Game implements LoopCallbacks {
       !this.machine.power.isPowered(this.radioPowerConsumerId)
     )
       shed.push('Recovered Radio');
+    // Forecast the next growing bed, even when an earlier bed is dry or full.
+    const garden = pieces
+      .filter((piece) => piece.definitionId === 'seed-garden')
+      .map((piece) => this.build.gardenSnapshot(piece.instanceId))
+      .filter((state) => state && state.water > 0 && state.greens <= 3)
+      .sort((a, b) => b!.progressS - a!.progressS)[0];
+    const recovery =
+      this.firstRun.current === 'complete'
+        ? projectRecovery({
+            firstRunComplete: true,
+            fuel: this.machine.power.fuel,
+            fuelCapacity: this.machine.power.fuelCapacity,
+            fuelBurnPerSecond: this.machine.power.effectiveFuelBurnPerSecond,
+            machineSpeedMps: this.machine.speed,
+            emergencyCrawl: this.machine.power.fuel <= 0,
+            generatorCount: this.machine.power.generatorCount,
+            powerCapacity: this.machine.power.capacity,
+            registeredDemand: this.machine.power.registeredDemand,
+            poweredDraw: this.machine.power.draw,
+            shedPriorities: PRIORITY_ORDER.filter((priority) => this.shedClasses.has(priority)),
+            hydration: this.player.needs.hydration,
+            nourishment: this.player.needs.nourishment,
+            waterCarried: this.inventory.count('water'),
+            rationsCarried: this.inventory.count('rations'),
+            condenserCount: pieces.filter((piece) => piece.definitionId === 'condenser').length,
+            garden: garden ? { ...garden, cycleS: 180 } : undefined,
+            damagedSubsystems: condition.filter((subsystem) => subsystem.fraction < 1).length,
+            repairKits: this.inventory.count('repair-kit'),
+            safeToSave: this.isSafeToSave(true),
+            saveRefusal:
+              this.hook || this.hookedCrate
+                ? 'Finish reeling or release the salvage hook before saving.'
+                : this.destination.playerOnGangway(this.player.worldPosition)
+                  ? 'Step clear of the gangway before saving.'
+                  : ['approach', 'braking', 'departing'].includes(this.story.currentPhase)
+                    ? 'Wait for the machine to dock or finish departing before saving.'
+                    : 'Clear the current attack before saving.',
+          })
+        : [];
+    for (const hint of recovery)
+      if (hint.severity === 'blocked') this.dismissedRecovery.delete(hint.topic);
     this.machineStatus.update({
+      recovery: recovery.filter((hint) => !this.dismissedRecovery.has(hint.topic)),
+      controlsHint:
+        this.firstRun.current === 'complete'
+          ? `Inventory [${this.controlLabel('inventory')}] · Build [${this.controlLabel('build')}] · Use a service panel [${this.controlLabel('interact')}]`
+          : undefined,
       fuel: {
         current: this.machine.power.fuel,
         capacity: FUEL_TANK_CAP,
@@ -5160,6 +5439,10 @@ export class Game implements LoopCallbacks {
             name: SUBSYSTEMS[id].name + ' · Command deck service panel',
             subsystem: id,
             repairScrap: cost.scrap ?? 0,
+            repairMaterials: Object.entries(cost).map(([itemId, count]) => ({
+              name: ITEMS[itemId as ItemId].name,
+              count,
+            })),
             available: this.resources.canAfford(cost),
           };
         }),
@@ -5250,7 +5533,7 @@ export class Game implements LoopCallbacks {
 
   private syncInputContext(): void {
     this.input.setContext(
-      this.state.paused || this.panelsOpen || this.endingInProgress
+      this.artTransition || this.state.paused || this.panelsOpen || this.endingInProgress
         ? 'menu'
         : this.buildSession.state === 'catalog'
           ? 'catalog'
@@ -6005,8 +6288,38 @@ export class Game implements LoopCallbacks {
   }
 
   async loadFrom(slot: string): Promise<boolean> {
+    if (this.artTransition || this.disposed) return false;
     const save = await this.saves.load(slot);
     if (!save) return false;
+    const savedStory = save.world.story;
+    const assetIds = new Set<string>();
+    if (savedStory && typeof savedStory === 'object' && 'format' in savedStory) {
+      for (const id of this.expeditionAssetIds(savedStory.active?.expeditionId ?? 'relay-foundry'))
+        assetIds.add(id);
+      if (
+        (Array.isArray(savedStory.recoveredUniques) &&
+          savedStory.recoveredUniques.includes('human-seed-bank')) ||
+        (Array.isArray(savedStory.completed) &&
+          savedStory.completed.some(
+            (id) => id === 'glass-orchard' || id === 'last-garden-meridian',
+          )) ||
+        savedStory.active?.expeditionId === 'last-garden-meridian'
+      )
+        assetIds.add('seed-garden');
+      if (savedStory.ending && savedStory.ending.phase !== 'available')
+        assetIds.add('meridian-horizon');
+    }
+    if (
+      Array.isArray(save.machine.structures) &&
+      save.machine.structures.some((piece) => piece?.definitionId === 'seed-garden')
+    )
+      assetIds.add('seed-garden');
+    const savedContact = save.world.routeChart?.active;
+    if (savedContact && Object.hasOwn(OPPORTUNITIES, savedContact.kind))
+      assetIds.add(OPPORTUNITIES[savedContact.kind].model);
+    if (!(await this.prepareCampaignArt([...assetIds]))) return false;
+    this.dismissedRecovery.clear();
+    this.endingRecordPhase = '';
     this.exitBuildMode('load');
     this.playerCamera.resetHistory();
     this.playerFade.restore();
@@ -6099,7 +6412,9 @@ export class Game implements LoopCallbacks {
     this.story.restore(save.world.story);
     this.arrivalScene?.stop();
     this.ending.restore(
-      save.world.story && 'ending' in save.world.story ? save.world.story.ending : undefined,
+      savedStory && typeof savedStory === 'object' && 'ending' in savedStory
+        ? savedStory.ending
+        : undefined,
       this.endingEligible,
     );
     this.endingCheckpointBusy = false;
@@ -6293,6 +6608,9 @@ export class Game implements LoopCallbacks {
   };
 
   dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.options.onDispose?.();
     window.removeEventListener('blur', this.onEndingFocusLost);
     document.removeEventListener('visibilitychange', this.onEndingVisibilityChange);
     this.cancelControlRequest?.();
@@ -6300,6 +6618,7 @@ export class Game implements LoopCallbacks {
     this.interactionHighlight.dispose();
     this.buildCatalog.dispose();
     this.machineStatus.dispose();
+    this.campaignLog.dispose();
     this.signalBattle?.dispose();
     this.arrivalScene?.dispose();
     this.endingUI.dispose();
@@ -6334,6 +6653,7 @@ export class Game implements LoopCallbacks {
     this.tacticsVisual.dispose();
     disposeLoadedModel(this.tacticsModel);
     this.world.dispose();
+    disposeDefenseModels();
     this.sandFX.dispose();
     this.impactFX.dispose();
     this.materials.dispose();

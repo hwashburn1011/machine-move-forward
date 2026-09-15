@@ -1,0 +1,110 @@
+#boot.loading-ui,
+.loading-ui {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  color: #d9f3ef;
+  background: #0b1111f7;
+  letter-spacing: normal;
+  text-transform: none;
+  font:
+    500 0.95rem/1.45 system-ui,
+    sans-serif;
+}
+#boot.loading-ui[hidden],
+.loading-ui[hidden] {
+  display: none;
+}
+.loading-card {
+  width: min(520px, 100%);
+  padding: 2rem 2.2rem;
+  border: 1px solid #c58f4a;
+  background: #101b1cf7;
+  box-shadow: 0 18px 70px #000b;
+}
+.loading-kicker {
+  margin: 0;
+  color: #61d5ce;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+.loading-card h1 {
+  margin: 0.3rem 0 1.4rem;
+  color: #ffc56b;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.loading-card p {
+  margin: 0.55rem 0;
+}
+[data-loading-label] {
+  color: #f0e6cd;
+}
+[data-loading-count] {
+  color: #a8c6b7;
+  font-size: 0.85rem;
+}
+.loading-track {
+  height: 0.45rem;
+  margin: 1.2rem 0;
+  overflow: hidden;
+  background: #263637;
+}
+[data-loading-progress] {
+  height: 100%;
+  background: #61d5ce;
+  transition: width 0.15s ease;
+}
+[data-loading-progress].is-indeterminate {
+  width: 35%;
+  animation: loading-sweep 1.4s ease-in-out infinite;
+}
+[data-loading-detail],
+[data-loading-fallback] {
+  color: #b8c9bd;
+  font-size: 0.82rem;
+}
+[data-loading-fallback] {
+  color: #e2b071;
+}
+.loading-failure {
+  color: #f0a885;
+}
+.loading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.2rem;
+}
+.loading-actions button {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #c58f4a;
+  color: #f6e7c8;
+  background: #162526e8;
+  cursor: pointer;
+}
+.loading-actions button:hover:not(:disabled) {
+  background: #2b4040;
+}
+.loading-actions button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+@keyframes loading-sweep {
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(290%);
+  }
+}
+@media (max-width: 520px) {
+  .loading-card {
+    padding: 1.4rem;
+  }
+}

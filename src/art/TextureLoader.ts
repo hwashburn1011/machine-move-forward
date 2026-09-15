@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ASSET_DEADLINE_MS } from './ModelLoader';
 
 /**
  * Optional PBR texture sets for the machine's materials.
@@ -63,29 +64,12 @@ function configure(texture: THREE.Texture, isColor: boolean): THREE.Texture {
  */
 export async function loadTextureSets(
   slots: readonly TexturedSlot[] = TEXTURED_SLOTS,
+  deadlineMs = ASSET_DEADLINE_MS,
 ): Promise<TextureSets> {
   const loader = new THREE.TextureLoader();
-
-  const load = (url: string, isColor: boolean): Promise<THREE.Texture> =>
-    new Promise((resolve, reject) => {
-      loader.load(url, (texture) => resolve(configure(texture, isColor)), undefined, reject);
-    });
-
+  const boundedDeadline = Math.max(1, Number.isFinite(deadlineMs) ? deadlineMs : ASSET_DEADLINE_MS);
   const results = await Promise.all(
-    slots.map(async (slot): Promise<[TexturedSlot, TextureSet] | null> => {
-      try {
-        const [map, normalMap, armMap] = await Promise.all([
-          load(`${BASE}/${slot}/diffuse.jpg`, true),
-          load(`${BASE}/${slot}/normal.jpg`, false),
-          load(`${BASE}/${slot}/arm.jpg`, false),
-        ]);
-        return [slot, { map, normalMap, armMap }];
-      } catch {
-        // Deliberately swallowed: a missing texture is a cosmetic loss, and
-        // the caller has a working procedural path for exactly this case.
-        return null;
-      }
-    }),
+    [...new Set(slots)].map((slot) => loadSlot(loader, slot, boundedDeadline)),
   );
 
   const sets: TextureSets = {};
@@ -93,6 +77,80 @@ export async function loadTextureSets(
     if (entry) sets[entry[0]] = entry[1];
   }
   return sets;
+}
+
+/** A material slot publishes all three maps or none of them. */
+function loadSlot(
+  loader: THREE.TextureLoader,
+  slot: TexturedSlot,
+  deadlineMs: number,
+): Promise<[TexturedSlot, TextureSet] | null> {
+  return new Promise((resolve) => {
+    const owned: THREE.Texture[] = [];
+    const disposed = new WeakSet<THREE.Texture>();
+    const loaded = new Map<'map' | 'normalMap' | 'armMap', THREE.Texture>();
+    let settled = false;
+
+    const disposeOnce = (texture: THREE.Texture): void => {
+      if (disposed.has(texture)) return;
+      disposed.add(texture);
+      texture.dispose();
+    };
+    const disposeOwned = (): void => {
+      for (const texture of owned) disposeOnce(texture);
+    };
+    const fail = (): void => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      disposeOwned();
+      resolve(null);
+    };
+    const complete = (
+      key: 'map' | 'normalMap' | 'armMap',
+      texture: THREE.Texture,
+      isColor: boolean,
+    ): void => {
+      if (settled) {
+        disposeOnce(texture);
+        return;
+      }
+      loaded.set(key, configure(texture, isColor));
+      if (loaded.size !== 3) return;
+      settled = true;
+      clearTimeout(timer);
+      resolve([
+        slot,
+        {
+          map: loaded.get('map')!,
+          normalMap: loaded.get('normalMap')!,
+          armMap: loaded.get('armMap')!,
+        },
+      ]);
+    };
+    const timer = setTimeout(fail, deadlineMs);
+    const request = (key: 'map' | 'normalMap' | 'armMap', file: string, isColor: boolean): void => {
+      let texture: THREE.Texture | undefined;
+      try {
+        texture = loader.load(
+          `${BASE}/${slot}/${file}`,
+          (value) => complete(key, value, isColor),
+          undefined,
+          fail,
+        );
+        owned.push(texture);
+        // A controlled loader may fail synchronously before returning the
+        // placeholder texture. The slot still owns and must release it.
+        if (settled) disposeOnce(texture);
+      } catch {
+        if (texture) owned.push(texture);
+        fail();
+      }
+    };
+    request('map', 'diffuse.jpg', true);
+    request('normalMap', 'normal.jpg', false);
+    request('armMap', 'arm.jpg', false);
+  });
 }
 
 /** Free every GPU texture in a set collection. */

@@ -224,6 +224,40 @@
   margin-top: 6px;
   color: var(--amber-dim, #9a8569);
 }
+.machine-recovery-details {
+  display: grid;
+  gap: 5px;
+  margin-top: 5px;
+  max-height: 24vh;
+  overflow: auto;
+}
+.machine-recovery-card {
+  border-left: 2px solid var(--amber-dim, #9a8569);
+  padding: 3px 6px;
+  color: var(--text, #e8d5b8);
+}
+.machine-recovery-card.is-blocked {
+  border-color: #d6483b;
+}
+.machine-recovery-card.is-warning {
+  border-color: #d8a05a;
+}
+.machine-recovery-card p {
+  margin: 2px 0;
+  line-height: 1.35;
+}
+.machine-recovery-metric {
+  color: var(--amber, #d8a05a);
+}
+.machine-recovery-card button {
+  padding: 1px 5px;
+  margin-top: 3px;
+  font: inherit;
+}
+.machine-recovery-controls {
+  margin: 3px 0 0;
+  color: var(--amber-dim, #9a8569);
+}
 .machine-status-view ul {
   margin: 4px 0 0 15px;
   padding: 0;
@@ -253,5 +287,8 @@
     left: 10px;
     right: auto;
     max-width: 46vw;
+  }
+  .machine-recovery-details {
+    max-height: 30vh;
   }
 }

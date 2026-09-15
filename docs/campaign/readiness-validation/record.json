@@ -1,0 +1,110 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "checks": [
+    {
+      "name": "Fresh Campaign Record opens",
+      "ok": true
+    },
+    {
+      "name": "Fresh record marks Meridian incomplete",
+      "ok": true
+    },
+    {
+      "name": "Fresh record has no fabricated archive",
+      "ok": true
+    },
+    {
+      "name": "Campaign Record real close button works",
+      "ok": true
+    },
+    {
+      "name": "Radio Campaign Record button opens real log",
+      "ok": true
+    },
+    {
+      "name": "Partial record keeps known archive only",
+      "ok": true
+    },
+    {
+      "name": "Visited and missed counts remain distinct",
+      "ok": true
+    },
+    {
+      "name": "Partial record keeps later chapter incomplete",
+      "ok": true
+    },
+    {
+      "name": "Full fixture places a real Seed Garden",
+      "ok": true
+    },
+    {
+      "name": "Helm Campaign Record button opens real log",
+      "ok": true
+    },
+    {
+      "name": "Completed Meridian record is visible",
+      "ok": true
+    },
+    {
+      "name": "Garden guidance reflects real placed garden",
+      "ok": true
+    },
+    {
+      "name": "Unknown archive is never fabricated",
+      "ok": true
+    },
+    {
+      "name": "Campaign Record panel stays within 1280x720",
+      "ok": true,
+      "detail": {
+        "x": 330,
+        "y": 16,
+        "width": 620,
+        "height": 688
+      }
+    },
+    {
+      "name": "Campaign Record close control fits 1280x720",
+      "ok": true
+    },
+    {
+      "name": "Campaign Record last row is reachable by scrolling",
+      "ok": true,
+      "detail": {
+        "height": 686,
+        "scrollTop": 1814,
+        "bottom": 683.75,
+        "inside": true
+      }
+    },
+    {
+      "name": "Reading and closing record preserves resources",
+      "ok": true
+    },
+    {
+      "name": "Credits overlay appears from completed ending save",
+      "ok": true
+    },
+    {
+      "name": "Credits show conditional campaign recognition",
+      "ok": true
+    },
+    {
+      "name": "Credits survive real save/load",
+      "ok": true
+    },
+    {
+      "name": "Keep Walking real button completes ending",
+      "ok": true
+    },
+    {
+      "name": "Complete phase survives real save/load",
+      "ok": true
+    },
+    {
+      "name": "Ending controls preserve inventory",
+      "ok": true
+    }
+  ],
+  "errors": []
+}

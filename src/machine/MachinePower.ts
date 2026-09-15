@@ -82,6 +82,27 @@ export class MachinePower {
     return { ...this.modifiers };
   }
 
+  /** Demand before shedding, for read-only forecasts and recovery guidance. */
+  get registeredDemand(): number {
+    let total = 0;
+    for (const consumer of this.consumers.values())
+      if (Number.isFinite(consumer.draw)) total += Math.max(0, consumer.draw);
+    return total;
+  }
+
+  /** Number of currently registered generators, including damaged units. */
+  get generatorCount(): number {
+    return this.producers.size;
+  }
+
+  /** The exact burn rate used by fixedUpdate while any load is powered. */
+  get effectiveFuelBurnPerSecond(): number {
+    this.settle();
+    return this.powered.size > 0 && this.tank > 0
+      ? FUEL_BURN_PER_S * this.modifiers.fuelBurnMultiplier
+      : 0;
+  }
+
   /** Set the active power upgrade without changing the default model. */
   setModifiers(next?: Partial<PowerModifiers>): void {
     this.modifiers = {

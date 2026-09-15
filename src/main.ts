@@ -2,6 +2,8 @@ import { CAMERA_PRESETS, Game } from '@/game/Game';
 import type { QualityTier } from '@/core/renderer/QualitySettings';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { canonicalEdge } from '@/building/BuildGrid';
+import { LoadingUI } from '@/ui/LoadingUI';
+import { observeAssetLoads, type AssetLoadStatus } from '@/art/ModelLoader';
 import '@/art/interface.css';
 import '@/ui/storage-ui.css';
 import '@/ui/settings.css';
@@ -13,6 +15,35 @@ if (!canvas) throw new Error('missing #game canvas');
 if (!hudRoot) throw new Error('missing #hud root');
 
 const params = new URLSearchParams(location.search);
+const bootRoot =
+  document.querySelector<HTMLElement>('#boot') ??
+  document.body.appendChild(document.createElement('div'));
+const loading = new LoadingUI(bootRoot, {
+  retry: () => location.reload(),
+  simpler: () => {
+    const next = new URL(location.href);
+    next.searchParams.set('nomodel', '1');
+    next.searchParams.set('notex', '1');
+    location.assign(next.href);
+  },
+});
+loading.show('Starting the Nomad');
+let loadingLabel = 'Loading the machine and crew';
+let booting = true;
+const assetStates = new Map<string, AssetLoadStatus>();
+const updateLoading = () =>
+  loading.update({
+    label: loadingLabel,
+    completed: [...assetStates.values()].filter((status) => status !== 'loading').length,
+    total: assetStates.size,
+    fallbackCount: [...assetStates.values()].filter((status) => status === 'fallback').length,
+    detail: assetStates.size ? 'Visual files prepared' : undefined,
+    allowSimpler: booting,
+  });
+const stopObservingAssets = observeAssetLoads(({ url, status }) => {
+  assetStates.set(url, status);
+  updateLoading();
+});
 
 const camMode = params.get('cam');
 const preset = camMode ? CAMERA_PRESETS[camMode] : undefined;
@@ -37,10 +68,36 @@ const game = await Game.create({
   bypassPointerLock: params.get('nolock') === '1',
   textures: params.get('notex') !== '1',
   models: params.get('nomodel') !== '1',
+  // Keep existing no-menu regression fixtures eager; staged=1 explicitly tests
+  // the production loading path without requiring the opening.
+  stagedModels: params.get('nomenu') !== '1' || params.get('staged') === '1',
+  onLoadStage: (label) => {
+    loadingLabel = label;
+    updateLoading();
+  },
+  onArtLoading: (label) => {
+    if (label === null) {
+      loading.hide();
+      return;
+    }
+    loadingLabel = label;
+    assetStates.clear();
+    loading.show(label, false);
+    updateLoading();
+  },
+  onDispose: () => {
+    stopObservingAssets();
+    loading.dispose();
+  },
   enemySpawns: params.get('nospawn') !== '1',
   sound: params.get('nosound') !== '1',
   freeCamera: preset?.[0] ?? null,
   freeCameraTarget: preset?.[1] ?? null,
+}).catch(() => {
+  loading.fail('The game could not start. Retry, or use simpler visuals on this device.');
+  // Recovery belongs to the already visible buttons. Do not publish a partial
+  // Game or install play listeners after a failed renderer/runtime startup.
+  return new Promise<Game>(() => {});
 });
 
 // Debug keys (handoff section 57). Queued rather than applied inline, so they
@@ -73,7 +130,9 @@ window.addEventListener('keydown', (e) => {
   game.queueDebugAction(action);
 });
 
-document.querySelector('#boot')?.remove();
+booting = false;
+loading.hide();
+bootRoot.id = 'loading';
 // Decides what this boot sees first — the menu, the opening, or gameplay.
 // Before `start`, so the first frame drawn is already the right one.
 game.boot();

@@ -1,0 +1,194 @@
+{
+  "site": "http://127.0.0.1:5201/",
+  "setup": [
+    "fresh game boot; no state mutations",
+    "marked tutorial complete and made player invulnerable"
+  ],
+  "coverageGaps": [],
+  "checks": [
+    {
+      "name": "fresh first run hides recovery guidance",
+      "ok": true,
+      "detail": {
+        "firstRun": "salvage",
+        "recoveryText": "Machine statusFuel60/100 · 60%Power0/16No devices shedAll subsystems soundService decksNo repairs needed"
+      }
+    },
+    {
+      "name": "completed tutorial exposes recovery card",
+      "ok": true
+    },
+    {
+      "name": "informational fuel forecast can be dismissed for the session",
+      "ok": true,
+      "detail": {
+        "infoDismissed": true
+      }
+    },
+    {
+      "name": "real generator refuel recovers empty tank",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "fuel": 2,
+        "carried": 0
+      }
+    },
+    {
+      "name": "real inventory use recovers water and food needs",
+      "ok": true,
+      "detail": {
+        "drank": true,
+        "ate": true,
+        "hydration": 60,
+        "nourishment": 60
+      }
+    },
+    {
+      "name": "removing excess load restores power demand",
+      "ok": true,
+      "detail": {
+        "shed": true,
+        "restored": true,
+        "demand": 0,
+        "draw": 0
+      }
+    },
+    {
+      "name": "real held access-panel repair consumes materials and restores subsystem",
+      "ok": true,
+      "detail": {
+        "before": {
+          "ok": true,
+          "before": 0,
+          "scrap": 360,
+          "components": 100,
+          "target": "engine"
+        },
+        "after": {
+          "health": 1,
+          "scrap": 280,
+          "components": 100
+        }
+      }
+    },
+    {
+      "name": "watered garden grows and harvests through real interaction",
+      "ok": true,
+      "detail": {
+        "garden": {
+          "ok": true,
+          "id": "bp-3",
+          "before": {
+            "format": 1,
+            "water": 1,
+            "greens": 0,
+            "progressS": 0
+          },
+          "grown": {
+            "format": 1,
+            "water": 0,
+            "greens": 3,
+            "progressS": 0
+          }
+        },
+        "harvested": {
+          "opened": true,
+          "gained": 3,
+          "state": {
+            "format": 1,
+            "water": 0,
+            "greens": 0,
+            "progressS": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "garden save/load preserves live controller state",
+      "ok": true,
+      "detail": {
+        "saved": true,
+        "loaded": true
+      }
+    },
+    {
+      "name": "real stove recipe cooks greens and water into a ration",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "opened": true,
+        "crafted": true,
+        "ate": true,
+        "before": {
+          "greens": 4,
+          "water": 1,
+          "rations": 0,
+          "nourishment": 59.851111111111564
+        },
+        "after": {
+          "greens": 3,
+          "water": 0,
+          "rations": 0,
+          "nourishment": 100
+        }
+      }
+    },
+    {
+      "name": "blocked recovery topic is visible and never dismissible",
+      "ok": true,
+      "detail": {
+        "text": "Machine statusFuel0/100 · 0% · CRAWLPowerOFFNo devices shedAll subsystems soundService decksNo repairs neededCare & forecasts · Fuel tank is emptyFuel tank is emptyReel salvage for fuel, then refuel the machine at the generator.0/100Water is exhaustedFind a water cache or condenser before travelling farther.0%Inventory [Tab] · Build [B] · Use a service panel [E]",
+        "buttons": 0,
+        "fuelDismissed": false
+      }
+    },
+    {
+      "name": "recovery card shows resolved control labels",
+      "ok": true,
+      "detail": "Machine statusFuel0/100 · 0% · CRAWLPowerOFFNo devices shedAll subsystems soundService decksNo repairs neededCare & forecasts · Fuel tank is emptyFuel tank is emptyReel salvage for fuel, then refuel the machine at the generator.0/100Water is exhaustedFind a water cache or condenser before travelling farther.0%Inventory [Tab] · Build [B] · Use a service panel [E]"
+    },
+    {
+      "name": "active salvage hook refuses saving with the real recovery reason",
+      "ok": true,
+      "detail": {
+        "active": true,
+        "refusal": "Machine statusFuel0/100 · 0% · CRAWLPowerOFFNo devices shedAll subsystems soundService decksNo repairs neededCare & forecasts · Saving is unavailableSaving is unavailableFinish reeling or release the salvage hook before saving.Fuel tank is emptyReel salvage for fuel, then refuel the machine at the generator.0/100Water is exhaustedFind a water cache or condenser before travelling farther.0%Inventory [Tab] · Build [B] · Use a service panel [E]",
+        "released": true
+      }
+    },
+    {
+      "name": "gangway position refuses saving with the real recovery reason",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "refusal": "Machine statusFuel0/100 · 0% · CRAWLPowerOFFNo devices shedAll subsystems soundService decksNo repairs neededCare & forecasts · Saving is unavailableSaving is unavailableStep clear of the gangway before saving.Fuel tank is emptyReel salvage for fuel, then refuel the machine at the generator.0/100Water is exhaustedFind a water cache or condenser before travelling farther.0%Inventory [Tab] · Build [B] · Use a service panel [E]"
+      }
+    },
+    {
+      "name": "active encounter refuses saving with the real recovery reason",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "refusal": "Machine statusFuel0/100 · 0% · CRAWLPowerOFFNo devices shedAll subsystems soundService decksNo repairs neededCare & forecasts · Saving is unavailableSaving is unavailableClear the current attack before saving.Fuel tank is emptyReel salvage for fuel, then refuel the machine at the generator.0/100Water is exhaustedFind a water cache or condenser before travelling farther.0%Inventory [Tab] · Build [B] · Use a service panel [E]"
+      }
+    },
+    {
+      "name": "campaign record opens/closes without inventory mutation",
+      "ok": true,
+      "detail": {
+        "player": "[{\"itemId\":\"scrap\",\"count\":20},{\"itemId\":\"scrap\",\"count\":100},{\"itemId\":\"scrap\",\"count\":100},{\"itemId\":\"scrap\",\"count\":60},{\"itemId\":\"components\",\"count\":50},{\"itemId\":\"components\",\"count\":50},{\"itemId\":\"greens\",\"count\":3},null,null,null,null,null,null,null,null,null,null,null,null,null]",
+        "paused": false,
+        "route": "radio"
+      }
+    },
+    {
+      "name": "Helm campaign-record button opens the same log",
+      "ok": true,
+      "detail": {
+        "ok": true
+      }
+    }
+  ],
+  "errors": []
+}

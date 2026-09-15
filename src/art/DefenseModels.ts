@@ -1,6 +1,12 @@
 import * as THREE from 'three';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
-import { loadModel, type LoadedModel } from './ModelLoader';
+import {
+  loadModel,
+  prefetchModel,
+  clearModelPrefetch,
+  disposeLoadedModel,
+  type LoadedModel,
+} from './ModelLoader';
 import type { Materials } from './Materials';
 import { applyHeightFog } from './Fog';
 import { TextureFactory } from './TextureFactory';
@@ -54,91 +60,203 @@ export function prepareAuthoredModel(model: LoadedModel): void {
   });
 }
 
-/** Loaded once at boot. A missing asset is a fallback, never a rejected game boot. */
-export async function loadDefenseModels(enabled = true): Promise<void> {
-  models.clear();
+export const CRITICAL_MODEL_IDS = [
+  'manual-turret',
+  'raider-skiff',
+  'raider-gunboat',
+  'scavenger',
+  'raider',
+  'bastion',
+  'revenant',
+  'warden',
+  'sovereign',
+  'salvaged-radio',
+  'expedition-wreck',
+  'navigation-helm',
+  'player',
+] as const;
+export const CAMPAIGN_MODEL_IDS = [
+  'relay-foundry',
+  'quiet-array',
+  'route-water-cache',
+  'route-salvage-wreck',
+  'route-memorial',
+  'glass-orchard',
+  'seed-garden',
+  'route-repair-depot',
+  'last-garden-meridian',
+  'meridian-horizon',
+] as const;
+const pendingModels = new Map<string, Promise<void>>();
+const settledModels = new Set<string>();
+const arrayPalette = new Map<string, THREE.Material>();
+const retainedTextures = new Set<THREE.Texture>();
+let cacheGeneration = 0;
+let cacheEnabled = true;
+
+/** Initial batch only. Later requests never replace an already borrowed source. */
+export async function loadDefenseModels(enabled = true, deferCampaign = false): Promise<void> {
+  cacheEnabled = enabled;
   if (!enabled) return;
-  const ids = [
-    'manual-turret',
-    'raider-skiff',
-    'raider-gunboat',
-    'scavenger',
-    'raider',
-    'bastion',
-    'revenant',
-    'warden',
-    'sovereign',
-    'salvaged-radio',
-    'expedition-wreck',
-    'relay-foundry',
-    'quiet-array',
-    'route-water-cache',
-    'route-salvage-wreck',
-    'route-memorial',
-    'glass-orchard',
-    'seed-garden',
-    'route-repair-depot',
-    'last-garden-meridian',
-    'meridian-horizon',
-    'navigation-helm',
-    'player',
-  ];
+  await ensureAuthoredModels(
+    deferCampaign ? CRITICAL_MODEL_IDS : [...CRITICAL_MODEL_IDS, ...CAMPAIGN_MODEL_IDS],
+  );
+}
+
+export function authoredModelsSettled(ids: readonly string[]): boolean {
+  return !cacheEnabled || ids.every((id) => settledModels.has(id));
+}
+
+export function prefetchCampaignModels(): void {
+  if (!cacheEnabled) return;
+  for (const id of CAMPAIGN_MODEL_IDS)
+    if (!settledModels.has(id) && !pendingModels.has(id))
+      prefetchModel(`models/authored/${id}.glb`);
+}
+
+export async function ensureAuthoredModels(ids: readonly string[]): Promise<void> {
+  if (!cacheEnabled) return;
+  const generation = cacheGeneration;
   await Promise.all(
-    ids.map(async (id) => {
-      const model =
-        id === 'player'
-          ? ((await loadModel('models/authored/s07-player.glb')) ??
-            (await loadModel('models/authored/player.glb')))
-          : await loadModel(`models/authored/${id}.glb`);
-      if (!model) return;
-      prepareAuthoredModel(model);
-      models.set(id, model);
+    ids.map((id) => {
+      if (settledModels.has(id)) return;
+      const existing = pendingModels.get(id);
+      if (existing) return existing;
+      const request = (async () => {
+        const model =
+          id === 'player'
+            ? ((await loadModel('models/authored/s07-player.glb')) ??
+              (await loadModel('models/authored/player.glb')))
+            : await loadModel(`models/authored/${id}.glb`);
+        if (generation !== cacheGeneration) {
+          disposeLoadedModel(model);
+          return;
+        }
+        if (model) {
+          const owned = snapshotOwnedResources(model);
+          try {
+            prepareAuthoredModel(model);
+            if ((CAMPAIGN_MODEL_IDS as readonly string[]).includes(id)) shareArrayPalette(model);
+            models.set(id, model);
+          } catch {
+            // Malformed optional art is a settled procedural fallback. Dispose
+            // only what this unpublished glTF brought with it: preparation may
+            // already have attached the cache's shared procedural wear maps.
+            disposeOwnedResources(owned);
+          }
+        }
+        // Publish the outcome only after either the source or its fallback is
+        // final. Callers can now safely invoke synchronous factories.
+        settledModels.add(id);
+      })().finally(() => {
+        if (generation === cacheGeneration) pendingModels.delete(id);
+      });
+      pendingModels.set(id, request);
+      return request;
     }),
   );
+}
+
+function shareArrayPalette(model: LoadedModel): void {
   // Campaign assets share the Nomad palette; upload equivalent maps only once.
-  const arrayPalette = new Map<string, THREE.Material>();
   const redundantMaterials = new Set<THREE.Material>();
-  const retainedTextures = new Set<THREE.Texture>();
   const redundantTextures = new Set<THREE.Texture>();
-  for (const id of [
-    'quiet-array',
-    'route-water-cache',
-    'route-salvage-wreck',
-    'route-memorial',
-    'glass-orchard',
-    'seed-garden',
-    'route-repair-depot',
-    'last-garden-meridian',
-    'meridian-horizon',
-  ]) {
-    models.get(id)?.scene.traverse((object) => {
-      const mesh = object as THREE.Mesh;
-      if (!mesh.isMesh) return;
-      const share = (material: THREE.Material): THREE.Material => {
-        if (!material.name.startsWith('Array_')) return material;
-        const shared = arrayPalette.get(material.name);
-        if (shared && shared !== material) {
-          redundantMaterials.add(material);
-          for (const value of Object.values(material))
-            if (value instanceof THREE.Texture) redundantTextures.add(value);
-          return shared;
-        }
-        arrayPalette.set(material.name, material);
+  const additions = new Map<string, THREE.Material>();
+  const additionTextures = new Set<THREE.Texture>();
+  model.scene.traverse((object) => {
+    const mesh = object as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    const share = (material: THREE.Material): THREE.Material => {
+      if (!material.name.startsWith('Array_')) return material;
+      const shared = arrayPalette.get(material.name) ?? additions.get(material.name);
+      if (shared && shared !== material) {
+        redundantMaterials.add(material);
         for (const value of Object.values(material))
-          if (value instanceof THREE.Texture) retainedTextures.add(value);
-        return material;
-      };
-      mesh.material = Array.isArray(mesh.material)
-        ? mesh.material.map(share)
-        : share(mesh.material);
-    });
+          if (value instanceof THREE.Texture) redundantTextures.add(value);
+        return shared;
+      }
+      additions.set(material.name, material);
+      for (const value of Object.values(material))
+        if (value instanceof THREE.Texture) additionTextures.add(value);
+      return material;
+    };
+    mesh.material = Array.isArray(mesh.material) ? mesh.material.map(share) : share(mesh.material);
+  });
+  // Commit only after traversal succeeds. A malformed candidate cannot leave
+  // a palette entry pointing at resources that its fallback cleanup owns.
+  for (const [name, material] of additions) arrayPalette.set(name, material);
+  for (const texture of additionTextures) retainedTextures.add(texture);
+  for (const material of redundantMaterials) safeDispose(material);
+  for (const texture of redundantTextures) if (!retainedTextures.has(texture)) safeDispose(texture);
+}
+
+interface OwnedModelResources {
+  geometries: Set<THREE.BufferGeometry>;
+  materials: Set<THREE.Material>;
+  textures: Set<THREE.Texture>;
+}
+
+/** Capture loader-owned resources before preparation can attach shared maps. */
+function snapshotOwnedResources(model: LoadedModel): OwnedModelResources {
+  const owned: OwnedModelResources = {
+    geometries: new Set(),
+    materials: new Set(),
+    textures: new Set(),
+  };
+  model.scene.traverse((object) => {
+    const mesh = object as THREE.Mesh;
+    if (!mesh.isMesh) return;
+    if (mesh.geometry) owned.geometries.add(mesh.geometry);
+    for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+      if (!material) continue;
+      owned.materials.add(material);
+      for (const key of Object.keys(material)) {
+        try {
+          const value = (material as unknown as Record<string, unknown>)[key];
+          if (value instanceof THREE.Texture) owned.textures.add(value);
+        } catch {
+          // A malformed getter is the reason this candidate may become a
+          // fallback. Other owned resources still need cleanup.
+        }
+      }
+    }
+  });
+  return owned;
+}
+
+function disposeOwnedResources(owned: OwnedModelResources): void {
+  const sharedMaterials = new Set(arrayPalette.values());
+  for (const geometry of owned.geometries) safeDispose(geometry);
+  for (const material of owned.materials) if (!sharedMaterials.has(material)) safeDispose(material);
+  for (const texture of owned.textures)
+    if (texture !== wornPaint && texture !== wornNormal && !retainedTextures.has(texture))
+      safeDispose(texture);
+}
+
+function safeDispose(resource: { dispose(): void }): void {
+  try {
+    resource.dispose();
+  } catch {
+    // Optional art cleanup cannot interrupt cache settlement.
   }
-  for (const material of redundantMaterials) material.dispose();
-  for (const texture of redundantTextures) if (!retainedTextures.has(texture)) texture.dispose();
+}
+
+/** Call after all game-owned clones have been retired. */
+export function disposeDefenseModels(): void {
+  clearModelPrefetch();
+  cacheGeneration++;
+  const root = new THREE.Group();
+  for (const model of models.values()) root.add(model.scene);
+  disposeLoadedModel({ scene: root, clips: [] });
+  models.clear();
+  pendingModels.clear();
+  settledModels.clear();
+  arrayPalette.clear();
+  retainedTextures.clear();
 }
 
 export function authoredEnemyModel(id: string): LoadedModel | null {
-  return models.get(id) ?? null;
+  return cacheEnabled ? (models.get(id) ?? null) : null;
 }
 
 /** Original models share one boot cache, including station and player artwork. */

@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "name": "Credits own a visible cursor without pointer-lock bypass",
+      "ok": true
+    },
+    {
+      "name": "Trusted Keep Walking click acquires real pointer lock",
+      "ok": true
+    },
+    {
+      "name": "Completion click does not fire the weapon",
+      "ok": true
+    },
+    {
+      "name": "Focus loss pauses arrival and hides its overlay",
+      "ok": true
+    },
+    {
+      "name": "Resume returns the arrival cursor without locking it",
+      "ok": true
+    },
+    {
+      "name": "Resumed arrival clock advances normally",
+      "ok": true
+    },
+    {
+      "name": "Trusted arrival Skip restores real pointer lock",
+      "ok": true
+    },
+    {
+      "name": "Title hides ending presentation",
+      "ok": true
+    },
+    {
+      "name": "New Game clears ending eligibility and camera",
+      "ok": true
+    }
+  ],
+  "errors": []
+}
