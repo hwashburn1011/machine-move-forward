@@ -1,0 +1,589 @@
+{
+  "run": "run-2026-09-15T17-55-52-445Z",
+  "status": "passed",
+  "parentProvenance": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-meridian\\run-2026-09-15T17-52-36-083Z\\browser-profile",
+  "runtimeBundle": [
+    "http://127.0.0.1:5205/assets/index-C14Vr-ed.js"
+  ],
+  "authority": "full-art normal-input run; no progression, resource, teleport, seed, encounter, or combat-state writes",
+  "scope": "Meridian expedition acceptance evidence; Ending/credits completion is not claimed",
+  "observedDeaths": 0,
+  "deathEvidence": "summary.observedDeaths=[] and observed event stream contained no player:died event",
+  "routeCard": "Quiet Line\n1250 m \u00b7 estimated fuel 6\nEncounter: skiff at 520 m remaining\nSelect",
+  "scriptedSkiff": {
+    "resolved": true,
+    "event": "meridian-scripted-skiff-resolved"
+  },
+  "physicalProgression": {
+    "objectives": [
+      "meridian-transmitter-online",
+      "meridian-archive-installed"
+    ],
+    "uniques": [
+      "meridian-solution"
+    ],
+    "journals": [
+      "meridian-common-record",
+      "meridian-civilian-record"
+    ],
+    "tier": 3,
+    "departureEvent": "meridian-departure",
+    "finalPhase": "complete"
+  },
+  "final": {
+    "seed": "mmf-dev-seed",
+    "profile": "story",
+    "phase": "complete",
+    "simTime": 0.850000000000001,
+    "distanceM": 17214.970396130157,
+    "paused": false,
+    "safe": true,
+    "health": 62,
+    "needs": {
+      "hydration": 67.72305555547166,
+      "nourishment": 76.49222222214338
+    },
+    "player": [
+      0.8050749669923487,
+      15.810351609095472,
+      -4.571188815245318
+    ],
+    "inventory": [
+      {
+        "itemId": "scrap",
+        "count": 20
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 21
+      },
+      {
+        "itemId": "components",
+        "count": 50
+      },
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "components",
+        "count": 37
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "greens",
+        "count": 1
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      {
+        "itemId": "scrap",
+        "count": 100
+      },
+      null
+    ],
+    "equipment": {
+      "currentWeapon": "rifle",
+      "weapons": [
+        {
+          "id": "rifle",
+          "ammoInMag": 2,
+          "reserveAmmo": 150,
+          "magazineBonus": 0
+        },
+        {
+          "id": "shotgun",
+          "ammoInMag": 6,
+          "reserveAmmo": 48,
+          "magazineBonus": 0
+        }
+      ]
+    },
+    "upgrades": {
+      "researched": [
+        "lean-governor"
+      ],
+      "active": {
+        "power": "lean-governor"
+      }
+    },
+    "coreHealth": 100,
+    "resources": {
+      "scrap": 1641,
+      "components": 87,
+      "fuel": 0,
+      "water": 0,
+      "greens": 1,
+      "rations": 0
+    },
+    "power": {
+      "fuel": 22.24025000002776,
+      "burnRate": 0.033,
+      "capacity": 14,
+      "draw": 6
+    },
+    "maxSpeed": 6.946131952857263,
+    "speed": 6.78624351288639,
+    "targetSpeed": 6.946131952857263,
+    "speedLimit": null,
+    "story": {
+      "format": 2,
+      "completed": [
+        "wreck-one",
+        "relay-foundry",
+        "quiet-array",
+        "glass-orchard",
+        "last-garden-meridian"
+      ],
+      "recoveredUniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor",
+        "meridian-solution"
+      ],
+      "journalArchive": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive",
+        "orchard-caretaker-record",
+        "orchard-memory-record",
+        "meridian-common-record",
+        "meridian-civilian-record"
+      ],
+      "active": null,
+      "radioTraceEligible": true,
+      "chapterComplete": true,
+      "ending": {
+        "format": 1,
+        "phase": "available",
+        "committedAtDistance": null,
+        "arrivalElapsedS": 0
+      }
+    },
+    "legacyStory": {
+      "chapterId": "wreck-one",
+      "phase": "complete",
+      "arrivalDistance": null,
+      "journalsRead": [],
+      "uniqueCollected": true,
+      "nextSignal": true
+    },
+    "course": {
+      "tier": 3,
+      "bearingDeg": 0,
+      "desiredDeg": 0,
+      "throttle": 1,
+      "lateralM": 12.878389469606343
+    },
+    "structures": [
+      {
+        "instanceId": "bp-2",
+        "definitionId": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-4",
+        "definitionId": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "health": 40
+      },
+      {
+        "instanceId": "bp-6",
+        "definitionId": "floor",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-12",
+        "definitionId": "floor",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 2
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-15",
+        "definitionId": "floor",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-17",
+        "definitionId": "floor",
+        "cell": {
+          "x": -2,
+          "y": 0,
+          "z": -1
+        },
+        "rotation": 0,
+        "health": 120
+      },
+      {
+        "instanceId": "bp-7",
+        "definitionId": "workbench",
+        "cell": {
+          "x": 3,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "health": 130
+      },
+      {
+        "instanceId": "bp-10",
+        "definitionId": "generator",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 3
+        },
+        "rotation": 0,
+        "health": 170
+      },
+      {
+        "instanceId": "bp-13",
+        "definitionId": "condenser",
+        "cell": {
+          "x": 2,
+          "y": 0,
+          "z": 2
+        },
+        "rotation": 0,
+        "health": 130,
+        "state": {
+          "progress": 0.01666666663990668,
+          "stored": 1
+        }
+      },
+      {
+        "instanceId": "bp-14",
+        "definitionId": "planter",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "health": 90,
+        "state": {
+          "progress": 8.074607649177779e-11,
+          "stored": 3
+        }
+      },
+      {
+        "instanceId": "bp-16",
+        "definitionId": "stove",
+        "cell": {
+          "x": 1,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "health": 95
+      },
+      {
+        "instanceId": "bp-18",
+        "definitionId": "crate",
+        "cell": {
+          "x": -2,
+          "y": 0,
+          "z": -1
+        },
+        "rotation": 0,
+        "health": 110,
+        "state": {
+          "slots": [
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      }
+    ],
+    "damage": [
+      {
+        "id": "engine",
+        "health": 320
+      },
+      {
+        "id": "leg-front-left",
+        "health": 180
+      },
+      {
+        "id": "leg-front-right",
+        "health": 180
+      },
+      {
+        "id": "leg-rear-left",
+        "health": 180
+      },
+      {
+        "id": "leg-rear-right",
+        "health": 180
+      }
+    ],
+    "enemies": [],
+    "skiff": {
+      "active": false,
+      "phase": null,
+      "hook": null
+    },
+    "gunboat": {
+      "active": false,
+      "state": null,
+      "target": null
+    },
+    "destination": {
+      "active": false,
+      "docked": false,
+      "root": [
+        14,
+        14.83,
+        17214.857292071607
+      ],
+      "authored": true,
+      "colliders": 0,
+      "gangwayEnabled": false,
+      "playerOnMachine": true,
+      "interactables": []
+    },
+    "observed": []
+  },
+  "coldRestore": {
+    "comparisons": {
+      "seed": true,
+      "profile": true,
+      "phase": true,
+      "health": true,
+      "inventory": true,
+      "equipment": true,
+      "upgrades": true,
+      "coreHealth": true,
+      "resources": true,
+      "story": true,
+      "damage": true,
+      "structuresByIdWithoutProducerClocks": true,
+      "course": true,
+      "inactiveDestinationState": true,
+      "committedPayload": true,
+      "finalUsesColdResult": true
+    },
+    "boundedDynamicFields": {
+      "elapsedSimS": 0.850000000000001,
+      "elapsedBoundS": 5,
+      "fuelSpent": 0.0038500000000034618,
+      "fuelMax": 0.04805000000000004,
+      "distanceGainM": 0.7882487381684768,
+      "distanceMaxM": 6.00421215992868,
+      "needs": {
+        "hydration": {
+          "spent": 0.011666666666656056,
+          "maximum": 0.10500000000000011
+        },
+        "nourishment": {
+          "spent": 0.007777777777803863,
+          "maximum": 0.10500000000000011
+        }
+      },
+      "producers": {
+        "bp-13": {
+          "piece": "condenser",
+          "elapsedProductionS": 0.0,
+          "maximum": 0.870000000000001
+        },
+        "bp-14": {
+          "piece": "planter",
+          "elapsedProductionS": 0.0,
+          "maximum": 0.870000000000001
+        }
+      }
+    },
+    "source": "checkpoint-precommit.paused, committed-save.save and checkpoint-restored.restored; recomputed from raw evidence by root"
+  },
+  "crateState": {
+    "instanceId": "bp-18",
+    "definitionId": "crate",
+    "state": {
+      "slots": [
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        {
+          "itemId": "scrap",
+          "count": 100
+        },
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "storedScrap": 800,
+    "slotCapacity": 12
+  },
+  "evidenceFiles": [
+    "summary.json",
+    "events.jsonl",
+    "committed-save.json"
+  ],
+  "earlierFailedAttempts": {
+    "count": 8,
+    "runs": [
+      {
+        "run": "run-2026-09-15T16-51-36-911Z",
+        "observedPlayerDeathCount": 0,
+        "deathCapture": true
+      },
+      {
+        "run": "run-2026-09-15T16-57-51-118Z",
+        "observedPlayerDeathCount": 0,
+        "deathCapture": true
+      },
+      {
+        "run": "run-2026-09-15T17-04-13-273Z",
+        "observedPlayerDeathCount": 2,
+        "deathCapture": true
+      },
+      {
+        "run": "run-2026-09-15T17-14-53-535Z",
+        "observedPlayerDeathCount": 0,
+        "deathCapture": true
+      },
+      {
+        "run": "run-2026-09-15T17-23-08-452Z",
+        "observedPlayerDeathCount": 1,
+        "deathCapture": true
+      },
+      {
+        "run": "run-2026-09-15T17-38-12-840Z",
+        "observedPlayerDeathCount": 0,
+        "deathCapture": true
+      },
+      {
+        "run": "run-2026-09-15T17-41-37-658Z",
+        "observedPlayerDeathCount": 0,
+        "deathCapture": true
+      },
+      {
+        "run": "run-2026-09-15T17-52-36-083Z",
+        "observedPlayerDeathCount": 0,
+        "deathCapture": true
+      }
+    ],
+    "note": "Counts come from actual captured player:died events; unavailable remains null. These failures are retained as separate evidence and do not alter this accepted child."
+  }
+}

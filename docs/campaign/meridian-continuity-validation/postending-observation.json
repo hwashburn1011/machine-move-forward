@@ -1,0 +1,111 @@
+{
+  "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-ending\\run-2026-09-15T18-11-26-503Z\\browser-profile",
+  "authority": "Normal Continue followed by read-only observations; no state writes or accelerated simulation.",
+  "before": {
+    "ending": "complete",
+    "story": "complete",
+    "simTime": 0.5166666666666666,
+    "distanceM": 17720.85904349142,
+    "pointerLocked": true,
+    "paused": false,
+    "firstRunComplete": true,
+    "enemySpawnsEnabled": true,
+    "permitsRadioRaids": true,
+    "raid": {
+      "wave": 9,
+      "remaining": 10.430820585295338
+    },
+    "chart": {
+      "distanceM": 17720.85904349142,
+      "lateralM": 293.71685602445564,
+      "maxBearingDeg": 45,
+      "fuelPerM": 0.004771177352953182,
+      "poweredHelm": true,
+      "safe": true,
+      "storyPriority": false
+    },
+    "contact": {
+      "id": "route-contact-23",
+      "slot": 23,
+      "kind": "water-cache",
+      "atDistanceM": 17849.029667751613,
+      "worldX": -50.135571712835215,
+      "confidence": 1,
+      "hazard": "calm",
+      "detectedAtM": 17704.24589698167,
+      "expiresAtM": 18029.029667751613,
+      "state": "detected",
+      "rewards": [
+        {
+          "type": "item",
+          "itemId": "water",
+          "remaining": 4
+        }
+      ]
+    },
+    "enemyCount": 0,
+    "vehicleActive": false,
+    "gunboatActive": false,
+    "runtimeBundle": [
+      "http://127.0.0.1:5205/assets/index-BANlYU6u.js"
+    ]
+  },
+  "after": {
+    "ending": "complete",
+    "story": "complete",
+    "simTime": 5.599999999999985,
+    "distanceM": 17755.735769532726,
+    "pointerLocked": true,
+    "paused": false,
+    "firstRunComplete": true,
+    "enemySpawnsEnabled": true,
+    "permitsRadioRaids": true,
+    "raid": {
+      "wave": 9,
+      "remaining": 5.347487251961894
+    },
+    "chart": {
+      "distanceM": 17755.735769532726,
+      "lateralM": 315.51025322261154,
+      "maxBearingDeg": 45,
+      "fuelPerM": 0.004771177352953182,
+      "poweredHelm": true,
+      "safe": true,
+      "storyPriority": false
+    },
+    "contact": {
+      "id": "route-contact-23",
+      "slot": 23,
+      "kind": "water-cache",
+      "atDistanceM": 17849.029667751613,
+      "worldX": -50.135571712835215,
+      "confidence": 1,
+      "hazard": "calm",
+      "detectedAtM": 17704.24589698167,
+      "expiresAtM": 18029.029667751613,
+      "state": "detected",
+      "rewards": [
+        {
+          "type": "item",
+          "itemId": "water",
+          "remaining": 4
+        }
+      ]
+    },
+    "enemyCount": 0,
+    "vehicleActive": false,
+    "gunboatActive": false,
+    "runtimeBundle": [
+      "http://127.0.0.1:5205/assets/index-BANlYU6u.js"
+    ]
+  },
+  "checks": {
+    "normalControls": true,
+    "raidEligibility": true,
+    "raidClockAdvances": true,
+    "optionalRoutesReleased": true,
+    "normalTravel": true
+  },
+  "errors": [],
+  "status": "passed"
+}

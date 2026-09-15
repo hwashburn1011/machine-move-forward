@@ -3,13 +3,18 @@
 Current status: REC-LATE and caretaker-route ORCH-LATE are accepted with
 normal-input save lineage and cold-restart evidence. See
 [recovery notes](../../campaign/late-campaign-continuity-notes.md) and
-[Orchard notes](../../campaign/orchard-continuity-notes.md). MER-LATE is in
-progress; the ending remains a separate unaccepted slice. The detailed
+[Orchard notes](../../campaign/orchard-continuity-notes.md). MER-LATE is accepted on Quiet Line with physical traversal and a cold
+checkpoint; see [Meridian notes](../../campaign/meridian-continuity-notes.md).
+The ending is also accepted: committed cold Continue, full arrival and credits,
+Keep Walking movement/building, complete cold Continue, and post-ending
+raid-clock/route eligibility observation. See the same Meridian notes for the
+retained failures, fixes and exact evidence boundaries. The detailed
 requirements below remain the acceptance contract.
 
-This is a validation and recovery plan for behavior already implemented in the game. It does not
-claim that Glass Orchard, Last Garden Meridian, or Keep Walking have been completed in one normal
-input lineage. The accepted parent is
+This plan validates behavior already implemented in the game. The accepted
+slices now connect Glass Orchard, Last Garden Meridian and Keep Walking
+through a recorded normal-input save lineage, including retained failed
+attempts and cold restarts. The original accepted parent for this plan was
 `test-results/continuity-quiet-array/run-2026-09-15T14-23-53-655Z/browser-profile`: Quiet Array is
 complete, tier-one steering is earned, the target bearing is +12 degrees, and the save has 174
 scrap, 3 components, 4 carried fuel, 7.746 tank fuel, 60 health, 32.55 hydration, 35.05 nourishment,
