@@ -1,0 +1,74 @@
+[
+  {
+    "run": "run-2026-09-15T15-09-38-696Z",
+    "status": "blocked",
+    "stage": null,
+    "message": "Error: damaged bp-4 support was not repaired for exactly 2 scrap\n    at file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:66:283",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-quiet-array\\run-2026-09-15T14-23-53-655Z\\browser-profile",
+    "observedDeaths": 0
+  },
+  {
+    "run": "run-2026-09-15T15-13-15-354Z",
+    "status": "blocked",
+    "stage": "infrastructure",
+    "message": "page.waitForFunction: Timeout 8000ms exceeded.\n    at place (C:\\Users\\hwash\\Documents\\MachineMoveForward\\tools\\campaign\\continuity-late-recovery.mjs:56:878)\n    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:78:21",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-09-38-696Z\\browser-profile",
+    "observedDeaths": 0
+  },
+  {
+    "run": "run-2026-09-15T15-16-56-128Z",
+    "status": "blocked",
+    "stage": "infrastructure",
+    "message": "Error: recovery-infrastructure cold Continue changed durable recovery state\n    at saveAndContinue (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:64:2481)\n    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:79:323",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-13-15-354Z\\browser-profile",
+    "observedDeaths": 0
+  },
+  {
+    "run": "run-2026-09-15T15-25-39-173Z",
+    "status": "blocked",
+    "stage": "infrastructure",
+    "message": "Error: recovery-infrastructure cold Continue changed durable recovery state\n    at saveAndContinue (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:65:2667)\n    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:79:944",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-16-56-128Z\\browser-profile",
+    "observedDeaths": 0
+  },
+  {
+    "run": "run-2026-09-15T15-28-40-193Z",
+    "status": "passed",
+    "stage": "infrastructure",
+    "message": null,
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-25-39-173Z\\browser-profile",
+    "observedDeaths": 0
+  },
+  {
+    "run": "run-2026-09-15T15-30-01-615Z",
+    "status": "blocked",
+    "stage": "sustain",
+    "message": "Error: walk approach-generator timed out\n    at walkTo (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:210:9)\n    at async targetStation (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:223:3)\n    at async recoveryStep (file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:518:5)\n    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:808:12",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-28-40-193Z\\browser-profile",
+    "observedDeaths": 0
+  },
+  {
+    "run": "run-2026-09-15T15-38-01-923Z",
+    "status": "blocked",
+    "stage": "sustain",
+    "message": "locator.waitFor: Timeout 8000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[data-category=\"station\"]') to be visible\u001b[22m\n\n    at place (C:\\Users\\hwash\\Documents\\MachineMoveForward\\tools\\campaign\\continuity-late-recovery.mjs:368:55)\n    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:891:9",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-30-01-615Z\\browser-profile",
+    "observedDeaths": 0
+  },
+  {
+    "run": "run-2026-09-15T15-46-21-901Z",
+    "status": "blocked",
+    "stage": "sustain",
+    "message": "locator.waitFor: Timeout 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Continue', exact: true }) to be visible\u001b[22m\n\n    at saveAndContinue (C:\\Users\\hwash\\Documents\\MachineMoveForward\\tools\\campaign\\continuity-late-recovery.mjs:609:6)\n    at async file:///C:/Users/hwash/Documents/MachineMoveForward/tools/campaign/continuity-late-recovery.mjs:1014:5",
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-38-01-923Z\\browser-profile",
+    "observedDeaths": 2
+  },
+  {
+    "run": "run-2026-09-15T15-52-49-854Z",
+    "status": "passed",
+    "stage": "sustain",
+    "message": null,
+    "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-late-recovery\\run-2026-09-15T15-46-21-901Z\\browser-profile",
+    "observedDeaths": 1
+  }
+]

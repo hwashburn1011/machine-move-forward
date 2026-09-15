@@ -1,0 +1,43 @@
+{
+  "evidence": "isolated full-art geometry fixture; normal-speed keyboard traversal after explicit fixture setup; not a campaign playthrough",
+  "checks": [
+    {
+      "name": "Rebuilt Orchard uses authored geometry and relocated anchor",
+      "ok": true,
+      "detail": {
+        "authored": true,
+        "root": [
+          17,
+          14.83,
+          0
+        ],
+        "port": [
+          9.900000095367432,
+          15.930000023841858,
+          0
+        ]
+      }
+    },
+    {
+      "name": "Normal forward input clears the former cabinet obstruction",
+      "ok": true,
+      "detail": {
+        "start": [
+          12.010045406322806,
+          15.844306671615426,
+          -0.01485039813953772
+        ],
+        "end": {
+          "player": [
+            12.018029693471657,
+            15.778149702668852,
+            3.1467360903840818
+          ],
+          "phase": "docked",
+          "simTime": 1.3166666666666669
+        }
+      }
+    }
+  ],
+  "errors": []
+}

@@ -26,17 +26,31 @@ fuel is recoverable rather than a hard failure.
 
 Use normal build/catalog controls to replace the refinery for 80 scrap. One `refine-components`
 craft converts 8 scrap to 2 components. This yields the five components needed for a water
-condenser, whose build cost is 40 scrap and 5 components. The exact minimum ledger from the stated
-checkpoint is therefore 128 scrap spent and 46 scrap remaining, before any ordinary loot or other
-player choice. The condenser produces one water every 90 simulated seconds while powered. Collect
+condenser, whose build cost is 40 scrap and 5 components. Only one existing floor is free; the
+refinery uses it, so the condenser also needs an 8-scrap floor. The minimum is 136 scrap spent and
+38 remaining. The continuity runner makes a second 8-scrap component batch for the later stove,
+leaving 30 scrap and 2 components. The existing refinery floor is damaged: if its repair prompt is
+selected, holding E repairs it for 2 additional scrap. A reachable refinery prompt can open
+crafting directly without that repair; preserve whichever action actually occurs.
+The condenser produces one water every 90 simulated seconds while powered. Collect
 it with `E`, then use its inventory slot through the normal inventory UI. A drink restores 60
 hydration, capped at 100.
+
+The first live infrastructure run found that these devices demand 19 power from a 16-capacity
+generator: refinery 10, condenser 4, deck gun 3, radio 1 and helm 1. Station-class shedding leaves
+only the gun powered; the condenser cannot produce water in that configuration. After making the
+components, use normal demolition controls to reclaim the idle refinery for 48 scrap and free its
+floor, preserving the floor's actual condition. That leaves 9 demand and enough room for water
+production. Record the refund and powered state explicitly. A second generator is a valid future
+alternative, but this recovery slice does not grant one or silently disable a consumer.
 
 Food recovery must use what the save actually contains; the plan does not assume an unrecorded
 water, greens, ration, stove, or planter. Existing routes are: a planter costs 20 scrap and produces
 up to three greens at one per 150 simulated seconds without power; a stove costs 25 scrap and 2
 components; `cook-rations` consumes one greens and one water; using the ration restores 60
-nourishment. If the accepted inventory already holds water or rations, use those first and record
+nourishment. The planter and stove each also need an 8-scrap floor if none is free, so an empty
+kitchen requires 61 scrap and 2 components including supports. If the accepted inventory already
+holds water or rations, use those first and record
 the exact slot ledger. Otherwise salvage normally until the additional materials are earned rather
 than seeding them.
 

@@ -4,6 +4,12 @@ Three original project models made in Blender 5.1, using the existing project's
 weathered industrial PBR palette. No paid assets, downloaded geometry, or external
 generation service was used.
 
+The September 15 clearance pass moves the port switch cabinet beside the greenhouse
+entrance. Its Blender anchor, runtime GLB, fallback marker and collision box agree;
+triangle count remains 164,116. The rebuilt GLB validates with zero errors and warnings.
+The [in-game doorway review](../../docs/campaign/orchard-normal-route-map.md) records
+normal-speed movement through the corrected entrance in an isolated full-art fixture.
+
 | Asset | Source | Triangles | Runtime GLB |
 | --- | --- | ---: | ---: |
 | Greenhouse and archive destination | `glass-orchard.blend` | 164,116 | 15.1 MB |
