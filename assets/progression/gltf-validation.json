@@ -1,0 +1,291 @@
+{
+  "name": "nomad-progress",
+  "bytes": 2095380,
+  "totalTriangles": 30704,
+  "geometry": {
+    "HelmActuator": {
+      "min": [
+        -0.4399999976158142,
+        0.22499999403953552,
+        0.2589999921619892
+      ],
+      "max": [
+        -0.12000000476837158,
+        0.8407299957563318,
+        0.37200000137090683
+      ],
+      "triangles": 4108,
+      "meshes": 6
+    },
+    "HelmGovernor": {
+      "min": [
+        -0.4399999976158142,
+        0.75,
+        0.2625000085681677
+      ],
+      "max": [
+        0.4399999976158142,
+        1.0075000151991844,
+        0.3499999847263098
+      ],
+      "triangles": 6408,
+      "meshes": 6
+    },
+    "HelmMeridian": {
+      "min": [
+        -0.19999999552965164,
+        0.19100000336766243,
+        0.27149999514222145
+      ],
+      "max": [
+        0.4399999901652336,
+        0.32600001245737076,
+        0.34199999348310706
+      ],
+      "triangles": 2532,
+      "meshes": 4
+    },
+    "HelmBearingNeedle": {
+      "min": [
+        -0.019999999552965164,
+        0,
+        -0.11700000613927841
+      ],
+      "max": [
+        0.019999999552965164,
+        0.02500000037252903,
+        0.04100000485777855
+      ],
+      "triangles": 156,
+      "meshes": 2
+    },
+    "HelmDialFace": {
+      "min": [
+        -0.1469999998807907,
+        -0.003000000026077032,
+        -0.1469999998807907
+      ],
+      "max": [
+        0.1469999998807907,
+        0.005500001134350896,
+        0.1469999998807907
+      ],
+      "triangles": 1244,
+      "meshes": 2
+    },
+    "PreservationRecord": {
+      "min": [
+        -0.2199999988079071,
+        0,
+        -0.13899999670684338
+      ],
+      "max": [
+        0.2199999988079071,
+        0.2749999985098839,
+        0.125
+      ],
+      "triangles": 3564,
+      "meshes": 7
+    },
+    "PreservationSeeds": {
+      "min": [
+        -0.2199999988079071,
+        0,
+        -0.13899999670684338
+      ],
+      "max": [
+        0.2199999988079071,
+        0.23299998976290226,
+        0.125
+      ],
+      "triangles": 8564,
+      "meshes": 4
+    },
+    "PreservationCore": {
+      "min": [
+        -0.2199999988079071,
+        0,
+        -0.13899999670684338
+      ],
+      "max": [
+        0.2199999988079071,
+        0.2679999992251396,
+        0.125
+      ],
+      "triangles": 4128,
+      "meshes": 7
+    }
+  },
+  "errors": 0,
+  "warnings": 0,
+  "messages": [
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/7/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/7/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/9/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/9/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/11/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/11/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/12/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/12/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/15/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/15/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/19/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/19/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/22/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/22/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/23/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/23/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/25/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/25/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/31/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/31/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/32/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/32/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/36/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/36/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/37/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/37/primitives/0/attributes/TEXCOORD_0"
+    }
+  ]
+}

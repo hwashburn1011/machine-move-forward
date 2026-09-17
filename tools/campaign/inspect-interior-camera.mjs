@@ -102,7 +102,10 @@ const walk = async (x, z) => {
     await page.keyboard.up('KeyW');
     await page.waitForTimeout(55);
   }
-  throw new Error(`Walk to ${x},${z} failed`);
+  const finalPosition = await page.evaluate(() =>
+    globalThis.__game.game.player.worldPosition.toArray(),
+  );
+  throw new Error(`Walk to ${x},${z} failed at ${finalPosition}`);
 };
 const capture = async (label) => {
   const snapshot = await page.evaluate(async () => {
@@ -417,7 +420,79 @@ try {
     () => document.pointerLockElement && !globalThis.__game.game.titleScreen?.isOpen,
   );
   await capture('continued');
-  if (process.env.MMF_GALLEY_COLD_ONLY === '1') {
+  if (process.env.MMF_WORKSHOP_REVIEW === '1') {
+    await walk(0.7, 3.98);
+    await walk(0, 4.1);
+    await turn(Math.PI, -0.25);
+    await capture('workshop-engine-service');
+    report.workshop = await page.evaluate(async () => {
+      const THREE = await import('/__diag/three.module.js');
+      const g = globalThis.__game.game;
+      const root = g.machine.group.getObjectByName('Nomad workshop machinery');
+      const candidates = [];
+      g.machine.group.traverseVisible(node => { if (node.isMesh) candidates.push(node); });
+      const ray = new THREE.Raycaster();
+      return {
+        roots: root?.children.map((node) => ({
+          name: node.name,
+          position: node.position.toArray(),
+          surfaceHits: (() => {
+            const at = node.getWorldPosition(new THREE.Vector3());
+            at.y += 0.6;
+            ray.set(at, new THREE.Vector3(0, -1, 0));
+            return ray.intersectObjects(candidates, false).slice(0, 5).map(hit => ({ name: hit.object.name, y: hit.point.y, distance: hit.distance }));
+          })(),
+        })),
+        fallbackVisible: g.machine.group.getObjectByName('engine')?.visible,
+        damage: g.machine.damage.toSave(),
+        resources: g.renderer.three.info.memory,
+      };
+    });
+    if (report.workshop.roots?.length !== 5 || report.workshop.fallbackVisible !== false)
+      throw new Error('Workshop kit did not install');
+    await page.mouse.down({ button: 'right' });
+    await aimAt([0, 15.45, 6]);
+    const engineBefore = await page.evaluate(() =>
+      globalThis.__game.game.machine.damage.health('engine'),
+    );
+    await page.mouse.click(640, 360);
+    await page.waitForTimeout(180);
+    await page.mouse.up({ button: 'right' });
+    const engineAfter = await page.evaluate(() =>
+      globalThis.__game.game.machine.damage.health('engine'),
+    );
+    report.workshop.normalShot = { engineBefore, engineAfter };
+    if (engineAfter < engineBefore) {
+      await page.waitForFunction(() => globalThis.__game.game.interaction.current?.id === 'engine');
+      const scrapBefore = await page.evaluate(() =>
+        globalThis.__game.game.resources.count('scrap'),
+      );
+      await page.keyboard.down('KeyE');
+      await page.waitForFunction(
+        () => globalThis.__game.game.machine.damage.health('engine') === 320,
+      );
+      await page.keyboard.up('KeyE');
+      report.workshop.repair = await page.evaluate(
+        (scrapBefore) => ({
+          scrapBefore,
+          scrapAfter: globalThis.__game.game.resources.count('scrap'),
+          engineHealth: globalThis.__game.game.machine.damage.health('engine'),
+        }),
+        scrapBefore,
+      );
+      await capture('workshop-engine-repaired');
+    }
+    await walk(0, 2.8);
+    await walk(-2, 2.8);
+    await walk(-2, 2.5);
+    await walk(-5.8, 2.5);
+    await walk(-6.25, 4.0);
+    await page.mouse.down({ button: 'right' });
+    await aimAt([-6.3, 14.85, 4.8]);
+    await capture('workshop-port-service-panel');
+    await page.mouse.up({ button: 'right' });
+    report.status = report.errors.length ? 'failed' : 'passed';
+  } else if (process.env.MMF_GALLEY_COLD_ONLY === '1') {
     await coldReview();
     report.status = report.errors.length ? 'failed' : 'passed';
   } else if (process.env.MMF_CAMERA_MATRIX === '1') {

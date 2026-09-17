@@ -1,0 +1,201 @@
+{
+  "rawReport": "test-results/feel-acceptance/run-2026-09-17T02-17-16-854Z/report.json",
+  "bundle": [
+    "http://127.0.0.1:5205/assets/index-BbYBLMK4.js"
+  ],
+  "status": "completed",
+  "config": {
+    "durationSeconds": 1800,
+    "quality": "high",
+    "port": 5205,
+    "site": "http://127.0.0.1:5205/",
+    "buildRequested": false,
+    "preferences": {},
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "cpu": "Intel i9-11900KF",
+    "driver": "32.0.15.8180"
+  },
+  "startedAt": "2026-09-17T02:17:16.854Z",
+  "finishedAt": "2026-09-17T02:47:40.921Z",
+  "frameSummary": {
+    "count": 106748,
+    "retainedCount": 12000,
+    "p50": 16.7,
+    "p95": 16.8,
+    "p99": 33.3,
+    "max": 266.7000000000007,
+    "quantileMethod": "Entire run histogram, rounded to 0.1ms; retained frames are the last bounded window.",
+    "spikesOver33": 1541,
+    "spikesOver50": 95,
+    "spikesOver100": 18
+  },
+  "simTimeSamples": [
+    3.9166666666666576,
+    1807.7166666653513
+  ],
+  "cyclesStarted": 67,
+  "completedWaypoints": 801,
+  "routeFailuresRaw": [
+    {
+      "label": "route-cycle",
+      "message": "duration reached",
+      "at": "2026-09-17T02:47:36.255Z"
+    }
+  ],
+  "routeFailuresExcludingScheduledDuration": [],
+  "runtimeErrors": [],
+  "rendererMemory": {
+    "geometries": {
+      "first": 530,
+      "min": 530,
+      "max": 574,
+      "final": 573
+    },
+    "textures": {
+      "first": 672,
+      "min": 672,
+      "max": 675,
+      "final": 675
+    }
+  },
+  "threatPhaseEvents": [
+    {
+      "at": 55438.80000001192,
+      "phase": "calm",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 113355,
+      "phase": "buildup",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 133601.89999997616,
+      "phase": "engagement",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 160451.80000001192,
+      "phase": "recovery",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 196579.89999997616,
+      "phase": "calm",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 278677.10000002384,
+      "phase": "buildup",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 298928.39999997616,
+      "phase": "engagement",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 311281.5,
+      "phase": "recovery",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 347408,
+      "phase": "calm",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 408705.39999997616,
+      "phase": "buildup",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 428955.5,
+      "phase": "engagement",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 454387.1999999881,
+      "phase": "recovery",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 490518.39999997616,
+      "phase": "calm",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 598115,
+      "phase": "buildup",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 618378.3999999762,
+      "phase": "engagement",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 630631.5,
+      "phase": "recovery",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 811359.5,
+      "phase": "calm",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 1127443,
+      "phase": "buildup",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 1228656.8999999762,
+      "phase": "engagement",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 1240439.800000012,
+      "phase": "recovery",
+      "wavesSurvived": 2
+    },
+    {
+      "at": 1421149,
+      "phase": "calm",
+      "wavesSurvived": 2
+    }
+  ],
+  "warningToEngagementSeconds": [
+    20.247,
+    20.251,
+    20.25,
+    20.263,
+    101.214
+  ],
+  "recoveryToCalmSeconds": [
+    36.128,
+    36.127,
+    36.131,
+    180.728,
+    180.709
+  ],
+  "healthFirstLast": [
+    62,
+    49
+  ],
+  "buildAttempted": false,
+  "limits": [
+    "Screenshot/audio/report instrumentation is included in measured frames.",
+    "Unit suite overlapped the opening seconds; no other GPU tests ran concurrently.",
+    "No player-framing projection, physics/audio owner census, or exact phase distances in this packet.",
+    "Only later HUD text/stack layout differs from final production runtime; gameplay and art are unchanged.",
+    "No subjective listening review.",
+    "Schedule target reached mid-waypoint was retained as a raw driver exception, not a blocked route."
+  ]
+}

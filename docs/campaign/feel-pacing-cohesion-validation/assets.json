@@ -1,0 +1,10 @@
+{
+  "nomad-progress": {
+    "bytes": 2095380,
+    "sha256": "7c8dea68dadbc92ee19e99a9e1263cb1e61d9bb2fa4de28b51b70153917bfdec"
+  },
+  "nomad-workshop": {
+    "bytes": 4104744,
+    "sha256": "b0711c7717090b6714e86e12cd6ca623dfad9af48f460778653c57e9678e90fc"
+  }
+}

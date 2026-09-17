@@ -115,7 +115,7 @@ describe('random mech ships', () => {
     }
     expect(body.position.distanceTo(feet)).toBeLessThan(1e-9);
   });
-  it('has a 24-second initial breather, pauses when unsafe and never overlaps ships', () => {
+  it('has a 24-second initial legacy gate, pauses when unsafe and never overlaps ships', () => {
     const raids = new RadioRaids();
     expect(raids.update(1000, false, 'seed')).toBeNull();
     expect(raids.update(23, true, 'seed')).toBeNull();
@@ -123,9 +123,37 @@ describe('random mech ships', () => {
     raids.started();
     expect(raids.update(9999, true, 'seed')).toBeNull();
     raids.finished('seed');
-    expect(raids.toSave().remaining).toBeGreaterThanOrEqual(75);
-    expect(raids.toSave().remaining).toBeLessThanOrEqual(115);
-    expect(raids.update(74, true, 'seed')).toBeNull();
+    expect(raids.toSave().remaining).toBe(0);
+    expect(raids.update(0, true, 'seed')).not.toBeNull();
+  });
+
+  it('honours an old post-raid delay once and never rolls a replacement timer', () => {
+    const raids = new RadioRaids();
+    raids.restore({ wave: 7, remaining: 90 });
+    expect(raids.plan('legacy')).toBeNull();
+    expect(raids.consumeLegacyDelay(1000, false)).toBe(false);
+    expect(raids.toSave()).toEqual({ wave: 7, remaining: 90 });
+    expect(raids.consumeLegacyDelay(30, true)).toBe(false);
+
+    const restored = new RadioRaids();
+    restored.restore(raids.toSave());
+    expect(restored.consumeLegacyDelay(59.5, true)).toBe(false);
+    expect(restored.consumeLegacyDelay(0.5, true)).toBe(true);
+    expect(restored.plan('legacy')).not.toBeNull();
+    restored.started();
+    expect(restored.plan('legacy')).toBeNull();
+    restored.finished();
+    expect(restored.toSave()).toEqual({ wave: 8, remaining: 0 });
+  });
+
+  it('can release stale transient ownership without changing the saved wave', () => {
+    const raids = new RadioRaids();
+    raids.restore({ wave: 3, remaining: 0 });
+    raids.started();
+    expect(raids.plan('stale')).toBeNull();
+    raids.abort();
+    expect(raids.toSave()).toEqual({ wave: 3, remaining: 0 });
+    expect(raids.plan('stale')).not.toBeNull();
   });
 
   it('uses all four models across two waves and both arrival sides across the loop', () => {

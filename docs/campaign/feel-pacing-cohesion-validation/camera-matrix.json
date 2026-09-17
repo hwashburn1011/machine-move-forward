@@ -1,0 +1,1386 @@
+{
+  "source": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-ending\\run-2026-09-15T18-11-26-503Z\\browser-profile",
+  "output": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\interior-camera\\2026-09-17T03-06-21-315Z",
+  "authority": "Normal Continue, keyboard walking and mouse look; read-only geometry/collider probes. No state grants, teleport, or accelerated simulation.",
+  "captures": [
+    {
+      "label": "continued",
+      "player": [
+        0.7632137299089065,
+        15.802922274047692,
+        -0.496570234538111
+      ],
+      "camera": [
+        1.4011465762841784,
+        16.960697694064933,
+        2.887528060456108
+      ],
+      "yaw": 0,
+      "pitch": -0.08,
+      "bodyDistance": 3.6361428509532923,
+      "anchor": [
+        0.7811465738116339,
+        16.30908753458843,
+        -0.5015977639295522
+      ],
+      "safeAnchor": [
+        0.7811465762841783,
+        16.308987734569747,
+        -0.5015977409727979
+      ],
+      "goal": [
+        1.4011465762841784,
+        16.960697694064933,
+        2.887528060456108
+      ],
+      "boomFraction": 1,
+      "compactBlend": 0,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-14",
+        "kind": "producer",
+        "label": "Planter Box"
+      },
+      "shoulder": "right",
+      "aiming": false,
+      "warning": "",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 1,
+              "transparent": false
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Workshop_overhead_cable_tray001_1",
+          "distance": 10.647221561394572
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Recessed_soil_bed",
+          "distance": 3.7936354971097592
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 5.808245781080074
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "",
+          "distance": 258.34854516163244
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "",
+          "distance": 212.23503277892087
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Command_house_lower_structure001",
+          "distance": 6.40175754425567
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.9503365315200947
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.5947880046182227
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.6499353910431647
+        }
+      ],
+      "render": {
+        "frame": 1108,
+        "calls": 813,
+        "triangles": 1862994,
+        "points": 513,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 666
+      }
+    },
+    {
+      "label": "galley-right-hip",
+      "player": [
+        0.7062616619798586,
+        15.803017802572088,
+        3.919090189563994
+      ],
+      "camera": [
+        -0.11337895958553479,
+        17.852941353875536,
+        0.7592339417425622
+      ],
+      "yaw": 3.1987999999999994,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 3.8546605760567783,
+      "anchor": [
+        0.6883262335175887,
+        16.312199288002102,
+        3.914285350505245
+      ],
+      "safeAnchor": [
+        0.6883262301540465,
+        16.312200488958748,
+        3.9142853500132793
+      ],
+      "goal": [
+        -0.11337896102336362,
+        17.852941356638798,
+        0.7592339360840934
+      ],
+      "boomFraction": 0.9999999982092486,
+      "compactBlend": 0,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-16",
+        "kind": "stove",
+        "label": "Stove"
+      },
+      "shoulder": "right",
+      "aiming": false,
+      "warning": "",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 0.06,
+              "transparent": true
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.6276566107350925
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.34434102826760604
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.27628553925973975
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 2.3559797874987574
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.4471494410075278
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.7866390172272524
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 1490.2184389581262
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 1488.478022392774
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 2.0151818039028155
+        }
+      ],
+      "render": {
+        "frame": 4228,
+        "calls": 639,
+        "triangles": 1578476,
+        "points": 533,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 666
+      }
+    },
+    {
+      "label": "galley-right-aim",
+      "player": [
+        0.6979959842922617,
+        15.803536639216562,
+        3.928909656931593
+      ],
+      "camera": [
+        0.10162394274783171,
+        17.294995359386085,
+        2.0649660512174837
+      ],
+      "yaw": 3.1987999999999994,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 2.4605684487253328,
+      "anchor": [
+        0.6883231526388957,
+        16.312200954035738,
+        3.914301223162713
+      ],
+      "safeAnchor": [
+        0.6883231525406033,
+        16.31220035403574,
+        3.9143012230924756
+      ],
+      "goal": [
+        0.10162394274736741,
+        17.294995359386863,
+        2.06496605121602
+      ],
+      "boomFraction": 0.9999999999992092,
+      "compactBlend": 0,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-16",
+        "kind": "stove",
+        "label": "Stove"
+      },
+      "shoulder": "right",
+      "aiming": true,
+      "warning": "",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 0.9761866667787239,
+              "transparent": true
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.792658088212309
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "NomadDriveCore_Array_CharcoalSteel",
+          "distance": 3.300315452957931
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.789048466444827
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Perimeter_walking_ledge001",
+          "distance": 8.013071258843478
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "NomadDriveCore_Array_Recess",
+          "distance": 2.9892691966623546
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Perimeter_walking_ledge001_2",
+          "distance": 7.6582830173196985
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 198.1265629941083
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 156.27135519355355
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 1488.9242267577263
+        }
+      ],
+      "render": {
+        "frame": 5220,
+        "calls": 570,
+        "triangles": 1498552,
+        "points": 527,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 666
+      }
+    },
+    {
+      "label": "galley-left-hip",
+      "player": [
+        0.6852659824775428,
+        15.806228954944007,
+        3.9089522167895487
+      ],
+      "camera": [
+        1.1245705567009427,
+        17.852698928376594,
+        0.6883945515883547
+      ],
+      "yaw": 3.1987999999999994,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 3.8409713588192465,
+      "anchor": [
+        0.6883308399468198,
+        16.311968788501225,
+        3.914315965076805
+      ],
+      "safeAnchor": [
+        0.6883308453972361,
+        16.311969450606878,
+        3.914315959973199
+      ],
+      "goal": [
+        1.124570556700943,
+        17.852698928376594,
+        0.6883945515883534
+      ],
+      "boomFraction": 0.9999999999999996,
+      "compactBlend": 0,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-16",
+        "kind": "stove",
+        "label": "Stove"
+      },
+      "shoulder": "left",
+      "aiming": false,
+      "warning": "",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 0.06,
+              "transparent": true
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.1924993337297318
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.8924988869072008
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.8487055517918524
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 2.130823007422503
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.9008041539029379
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.887264984430396
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 1489.488504855193
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 1488.4275415975512
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 1488.831969547836
+        }
+      ],
+      "render": {
+        "frame": 6196,
+        "calls": 644,
+        "triangles": 1592768,
+        "points": 531,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 666
+      }
+    },
+    {
+      "label": "galley-left-aim",
+      "player": [
+        0.6775121230381383,
+        15.813266645621741,
+        3.8990435056713912
+      ],
+      "camera": [
+        1.0600584876032038,
+        17.294958976999432,
+        2.0100841537201535
+      ],
+      "yaw": 3.1987999999999994,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 2.4310461367589578,
+      "anchor": [
+        0.6883244252525024,
+        16.312159233430886,
+        3.9143207792727903
+      ],
+      "safeAnchor": [
+        0.6883244251869709,
+        16.312158833430903,
+        3.9143207792331594
+      ],
+      "goal": [
+        1.060058487603204,
+        17.294958976999432,
+        2.0100841537201526
+      ],
+      "boomFraction": 0.9999999999999996,
+      "compactBlend": 0,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-16",
+        "kind": "stove",
+        "label": "Stove"
+      },
+      "shoulder": "left",
+      "aiming": true,
+      "warning": "The dust front is passing.",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 0.06,
+              "transparent": true
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.22295753273664567
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.18139135696510164
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.17735973147071246
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.3583800941466007
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.27324947176852543
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.25796463046221085
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.7266694956030415
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.5403262011688499
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.476100975449189
+        }
+      ],
+      "render": {
+        "frame": 7108,
+        "calls": 592,
+        "triangles": 1503528,
+        "points": 533,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 666
+      }
+    },
+    {
+      "label": "upper-stair-mouth",
+      "player": [
+        -1.9093796938758338,
+        15.803676712296376,
+        2.8148461023801996
+      ],
+      "camera": [
+        1.2701828455075286,
+        17.85303954043312,
+        3.463447765581421
+      ],
+      "yaw": 7.840800000000001,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 3.8379491897627127,
+      "anchor": [
+        -1.9170944904604748,
+        16.312299236068515,
+        2.8013781658146506
+      ],
+      "safeAnchor": [
+        -1.9170944911136942,
+        16.312299229707836,
+        2.801378164869136
+      ],
+      "goal": [
+        1.2701839976610068,
+        17.853040097387886,
+        3.4634480049097607
+      ],
+      "boomFraction": 0.9999996389705802,
+      "compactBlend": 0,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": null,
+      "shoulder": "left",
+      "aiming": false,
+      "warning": "The dust front is passing.",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 0.06,
+              "transparent": true
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.4130513414198712
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.4774856640497977
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.8387046217923905
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.597041463604923
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 0.8295729697983053
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.709882795411521
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Furnace_lower_skirt001",
+          "distance": 5.650228040253331
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 2.4484153140296763
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 2.837896480325649
+        }
+      ],
+      "render": {
+        "frame": 9428,
+        "calls": 737,
+        "triangles": 1853008,
+        "points": 533,
+        "lines": 0
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 669
+      }
+    },
+    {
+      "label": "middle-stair-mouth-right-hip",
+      "player": [
+        -1.9840294345534892,
+        12.813623440749794,
+        -2.6026594267074348
+      ],
+      "camera": [
+        -2.8043917703953767,
+        14.272058536295859,
+        -5.738291809791335
+      ],
+      "yaw": 3.2009999999999996,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 3.5542002880298917,
+      "anchor": [
+        -1.996595254369195,
+        13.312299196738568,
+        -2.588315882354597
+      ],
+      "safeAnchor": [
+        -1.9965952541874934,
+        13.312297996738671,
+        -2.5883158824343973
+      ],
+      "goal": [
+        -2.805239099481089,
+        14.273065266337607,
+        -5.74159594167231
+      ],
+      "boomFraction": 0.9989537447849717,
+      "compactBlend": 0.9999546000702375,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-18",
+        "kind": "crate",
+        "label": "Storage Crate"
+      },
+      "shoulder": "right",
+      "aiming": false,
+      "warning": "The dust front is passing.",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 1,
+              "transparent": false
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.407642410451658
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 3.704180578133287
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Workshop_overhead_cable_tray001_1",
+          "distance": 3.9339935348760897
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Suspended_undercarriage_reduction_gearbox001_4",
+          "distance": 5.747522417403043
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.947941019037928
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Workshop_overhead_cable_tray001_1",
+          "distance": 3.2353879429353016
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Workshop_overhead_cable_tray001",
+          "distance": 1.403953364463349
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "Longitudinal_box_girder001",
+          "distance": 10.437825566820933
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Workshop_overhead_cable_tray001",
+          "distance": 2.8833659017606585
+        }
+      ],
+      "render": {
+        "frame": 12692,
+        "calls": 821,
+        "triangles": 1740314,
+        "points": 539,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 669
+      }
+    },
+    {
+      "label": "middle-stair-mouth-right-aim",
+      "player": [
+        -1.9843596065467104,
+        12.813715050425518,
+        -2.6027187252053405
+      ],
+      "camera": [
+        -2.587356804090243,
+        14.294132351037208,
+        -4.436368310293795
+      ],
+      "yaw": 3.2009999999999996,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 2.432604247838903,
+      "anchor": [
+        -1.996589180263702,
+        13.312298338298755,
+        -2.588318541392707
+      ],
+      "safeAnchor": [
+        -1.9965891801951645,
+        13.31229793829876,
+        -2.5883185414323315
+      ],
+      "goal": [
+        -2.587357510748608,
+        14.294133525477838,
+        -4.4363705208750375
+      ],
+      "boomFraction": 0.9999988044351907,
+      "compactBlend": 0.0016615567648997063,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-18",
+        "kind": "crate",
+        "label": "Storage Crate"
+      },
+      "shoulder": "right",
+      "aiming": true,
+      "warning": "The dust front is passing.",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 1,
+              "transparent": false
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.765704525202622
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 3.5552421538439622
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.754154855479853
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 7.931276966110553
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 7.199092203713822
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Workshop_overhead_cable_tray001_1",
+          "distance": 4.826430542458054
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Lower_hull_repair_panel_plate001_2",
+          "distance": 14.073403459064622
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "Workshop_overhead_cable_tray001_5",
+          "distance": 12.182527083861677
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Workshop_overhead_cable_tray001_1",
+          "distance": 5.297487815901543
+        }
+      ],
+      "render": {
+        "frame": 13540,
+        "calls": 636,
+        "triangles": 1603410,
+        "points": 531,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 669
+      }
+    },
+    {
+      "label": "middle-stair-mouth-left-hip",
+      "player": [
+        -1.9871150452981075,
+        12.809235891024992,
+        -2.601141809634488
+      ],
+      "camera": [
+        -1.5701805636763773,
+        14.267798634101926,
+        -5.795004219347566
+      ],
+      "yaw": 3.2009999999999996,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 3.5358335387439093,
+      "anchor": [
+        -1.9966157127688584,
+        13.312299762342837,
+        -2.588333593719683
+      ],
+      "safeAnchor": [
+        -1.9966157131109794,
+        13.31229976138393,
+        -2.5883335931783966
+      ],
+      "goal": [
+        -1.5674953592489795,
+        14.273815281197733,
+        -5.815196190328411
+      ],
+      "boomFraction": 0.9937472722519098,
+      "compactBlend": 0.998639654682905,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-18",
+        "kind": "crate",
+        "label": "Storage Crate"
+      },
+      "shoulder": "left",
+      "aiming": false,
+      "warning": "The dust front is passing.",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 1,
+              "transparent": false
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.406253402870646
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 3.6986629460473193
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.4044478622585785
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Suspended_undercarriage_reduction_gearbox001",
+          "distance": 5.94756384368258
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.949143458911272
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Workshop_overhead_cable_tray001_1",
+          "distance": 6.420894201346384
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Longitudinal_box_girder001_1",
+          "distance": 8.918597047134698
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "Longitudinal_box_girder001",
+          "distance": 10.495087376924177
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Workshop_overhead_cable_tray001",
+          "distance": 0.3723645170287418
+        }
+      ],
+      "render": {
+        "frame": 14388,
+        "calls": 833,
+        "triangles": 1758198,
+        "points": 532,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 669
+      }
+    },
+    {
+      "label": "middle-stair-mouth-left-aim",
+      "player": [
+        -1.9854891293523818,
+        12.811899371794556,
+        -2.6020852845620386
+      ],
+      "camera": [
+        -1.6290715222472958,
+        14.29402835429697,
+        -4.493366461455929
+      ],
+      "yaw": 3.2009999999999996,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 2.432675443738288,
+      "anchor": [
+        -1.9966127568810366,
+        13.312298391257404,
+        -2.5883302806600157
+      ],
+      "safeAnchor": [
+        -1.9966127399296492,
+        13.312198591262405,
+        -2.5883302902489844
+      ],
+      "goal": [
+        -1.6290688967183153,
+        14.294035367993319,
+        -4.4933800700729645
+      ],
+      "boomFraction": 0.9999936556104648,
+      "compactBlend": 0.0013603555685033632,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-18",
+        "kind": "crate",
+        "label": "Storage Crate"
+      },
+      "shoulder": "left",
+      "aiming": true,
+      "warning": "The dust front is passing.",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 1,
+              "transparent": false
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 4.768530856952144
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 3.563812327073858
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001_1",
+          "distance": 3.864284448237571
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Suspended_undercarriage_reduction_gearbox001",
+          "distance": 7.1054599641944725
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 7.218516280793034
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 7.915603483769376
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Lower_hull_repair_panel_plate001_2",
+          "distance": 14.138747316142133
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "",
+          "distance": 149.63247191433928
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Workshop_overhead_cable_tray001",
+          "distance": 0.34869958652657956
+        }
+      ],
+      "render": {
+        "frame": 15252,
+        "calls": 638,
+        "triangles": 1598686,
+        "points": 530,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 669
+      }
+    },
+    {
+      "label": "upper-stair-exit",
+      "player": [
+        0.6470541526390894,
+        15.882278213133063,
+        2.771651932442982
+      ],
+      "camera": [
+        -2.568550792017442,
+        17.918408877177633,
+        2.381011568193606
+      ],
+      "yaw": 4.7783999999999995,
+      "pitch": -0.34840000000000004,
+      "bodyDistance": 3.826098523308308,
+      "anchor": [
+        0.6611147307594861,
+        16.377669409499223,
+        2.7888611231927345
+      ],
+      "safeAnchor": [
+        0.6611147294242807,
+        16.37766800950154,
+        2.7888611209130914
+      ],
+      "goal": [
+        -2.5685507920257384,
+        17.91840887718159,
+        2.3810115681925583
+      ],
+      "boomFraction": 0.9999999999974358,
+      "compactBlend": 4.731675879975348e-21,
+      "fadeAmount": 1,
+      "playerVisible": true,
+      "blocker": null,
+      "interaction": {
+        "id": "bp-16",
+        "kind": "stove",
+        "label": "Stove"
+      },
+      "shoulder": "left",
+      "aiming": false,
+      "warning": "The dust front is passing.",
+      "cloth": [
+        {
+          "name": "Tailored_hanging_banner001_2",
+          "materials": [
+            {
+              "opacity": 1,
+              "transparent": false
+            }
+          ]
+        }
+      ],
+      "runtimeBundle": [
+        "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+      ],
+      "rays": [
+        {
+          "x": -0.75,
+          "y": -0.75,
+          "nearest": "Playable_deck_-2_section_0001",
+          "distance": 5.570976389097454
+        },
+        {
+          "x": 0,
+          "y": -0.75,
+          "nearest": "bp-19",
+          "distance": 4.574355188090372
+        },
+        {
+          "x": 0.75,
+          "y": -0.75,
+          "nearest": "Locker_carry_handle001_4",
+          "distance": 0.2825481716325434
+        },
+        {
+          "x": -0.75,
+          "y": 0,
+          "nearest": "Command_house_lower_structure001",
+          "distance": 7.675705510879807
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "nearest": "bp-6",
+          "distance": 8.841413686997084
+        },
+        {
+          "x": 0.75,
+          "y": 0,
+          "nearest": "Cube",
+          "distance": 7.181900967981555
+        },
+        {
+          "x": -0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.8869174409758767
+        },
+        {
+          "x": 0,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.3484570989804332
+        },
+        {
+          "x": 0.75,
+          "y": 0.75,
+          "nearest": "Tailored_hanging_banner001_2",
+          "distance": 1.4798347547239896
+        }
+      ],
+      "render": {
+        "frame": 20260,
+        "calls": 767,
+        "triangles": 1817360,
+        "points": 539,
+        "lines": 12
+      },
+      "memory": {
+        "geometries": 530,
+        "textures": 669
+      }
+    }
+  ],
+  "errors": [],
+  "matrix": {
+    "lowerY": 12.807482516782045,
+    "upperY": 15.87830021845621,
+    "input": "KeyV and right mouse; normal W movement on both stair directions"
+  },
+  "status": "passed",
+  "rawReport": "test-results/interior-camera/2026-09-17T03-06-21-315Z/summary.json"
+}

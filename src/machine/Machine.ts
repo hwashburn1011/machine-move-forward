@@ -14,6 +14,7 @@ import { buildIronNomad, nomadEquipmentCells, overNomadStairwell } from './IronN
 import profile from '@/data/iron-nomad.json';
 import { IronNomadLegs } from './IronNomadLegs';
 import { NomadExhaust } from './NomadExhaust';
+import { WorkshopVisuals } from './WorkshopVisuals';
 import { gaitPose } from './Gait';
 import { AUTOSTEP_HEIGHT, GRID_MAX_X, GRID_MAX_Z, GRID_MIN_X, GRID_MIN_Z } from '@/game/constants';
 import type { Cell } from '@/building/BuildGrid';
@@ -142,6 +143,7 @@ export class Machine {
   private readonly rollQuat = new THREE.Quaternion();
   private readonly legs: IronNomadLegs;
   private readonly exhaust = new NomadExhaust();
+  private readonly workshop: WorkshopVisuals;
   private authoredCollisionBody: RAPIER.RigidBody | null = null;
   private readonly scratchFoot = new THREE.Vector3();
   private authoredDetailRoot: THREE.Object3D | null = null;
@@ -162,6 +164,8 @@ export class Machine {
     const build = buildIronNomad(materials);
     this.group = build.group;
     this.proceduralBodyRoots = [...this.group.children];
+    this.workshop = new WorkshopVisuals(this.group.getObjectByName('engine'));
+    this.group.add(this.workshop.root);
 
     // Set once, then never written again.
     this.group.position.set(0, 0, 0);
@@ -238,6 +242,11 @@ export class Machine {
 
     // Rough starting mass: structure plus the section 49 loadout.
     this.movement.totalWeight = 12000;
+  }
+
+  applyWorkshopModel(model: LoadedModel | null): void {
+    this.workshop.apply(model);
+    this.workshop.update(0, this.damage);
   }
 
   /** Replace the visual hull and static surface collision as one reusable bundle. */
@@ -353,6 +362,7 @@ export class Machine {
     this.applyAuthoredDetailModel(null);
     this.legs.dispose();
     this.exhaust.dispose();
+    this.workshop.dispose();
 
     const geometries = new Set<THREE.BufferGeometry>();
     for (const root of this.proceduralBodyRoots) {
@@ -375,6 +385,7 @@ export class Machine {
    */
   updateVisuals(renderedDistance: number, lateralM = 0): readonly number[] {
     this.exhaust.update(renderedDistance);
+    this.workshop.update(renderedDistance, this.damage);
     return this.legs.setDistance(renderedDistance, lateralM);
   }
 

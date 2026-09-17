@@ -38,7 +38,7 @@ export class MachineStatusView {
     this.root.className = 'machine-status-view';
     this.dismissRecovery = callbacks.dismissRecovery;
     this.root.addEventListener('click', this.onRecoveryClick);
-    parent.appendChild(this.root);
+    (parent.querySelector('.hud-machine-stack') ?? parent).appendChild(this.root);
   }
   update(snapshot: MachineStatusSnapshot): void {
     const display = normalizeSnapshot(snapshot);

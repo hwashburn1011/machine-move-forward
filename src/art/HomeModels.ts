@@ -1,6 +1,7 @@
 import type * as THREE from 'three';
 import { authoredModel } from './DefenseModels';
 import type { PieceId } from '@/data/build-pieces';
+import { attachPreservationExhibits } from './ProgressionVisuals';
 
 const NODES: Partial<Record<PieceId, string>> = {
   chair: 'HomeChair',
@@ -28,6 +29,7 @@ export function homeModel(piece: PieceId): THREE.Object3D | null {
   if (!source) return null;
   const root = source.clone(true);
   root.position.set(0, 0, 0);
+  if (piece === 'shelf') attachPreservationExhibits(root, authoredModel('nomad-progress'));
   const display = root.getObjectByName('KeepsakeLit');
   if (display) display.visible = false;
   return root;

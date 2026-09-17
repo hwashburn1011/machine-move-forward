@@ -1,0 +1,583 @@
+{
+  "status": "completed",
+  "startedAt": "2026-09-17T03:02:10.470Z",
+  "finishedAt": "2026-09-17T03:05:34.004Z",
+  "bundle": [
+    "http://127.0.0.1:5205/assets/index-CiFZX5pH.js"
+  ],
+  "config": {
+    "durationSeconds": 180,
+    "quality": "medium",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "port": 5205,
+    "site": "http://127.0.0.1:5205/",
+    "buildRequested": false,
+    "preferences": {
+      "hipFov": 80,
+      "sensitivity": 3
+    }
+  },
+  "settings": {
+    "stored": {
+      "hipFov": 80,
+      "sensitivity": 3
+    },
+    "effectiveFov": 80,
+    "shoulder": "right",
+    "shoulderBinding": {
+      "code": "KeyV",
+      "before": "right",
+      "after": "left"
+    }
+  },
+  "frameSummary": {
+    "count": 11444,
+    "retainedCount": 11444,
+    "p50": 16.7,
+    "p95": 16.7,
+    "p99": 16.8,
+    "max": 100.09999999999854,
+    "quantileMethod": "Entire run histogram, rounded to 0.1ms; retained frames are the last bounded window.",
+    "spikesOver33": 49,
+    "spikesOver50": 1,
+    "spikesOver100": 1
+  },
+  "runtimeErrors": [],
+  "events": {
+    "damageSources": {},
+    "buildDestruction": [],
+    "buildRemovals": [],
+    "threatPhases": [
+      {
+        "at": 53998.200000047684,
+        "phase": "calm",
+        "wavesSurvived": 2,
+        "distanceM": 18020.601940058652,
+        "lane": "radio-raid",
+        "speed": null,
+        "profile": "story"
+      },
+      {
+        "at": 111874.60000002384,
+        "phase": "buildup",
+        "wavesSurvived": 2,
+        "distanceM": 18420.608030556607,
+        "lane": "radio-raid",
+        "speed": null,
+        "profile": "story"
+      },
+      {
+        "at": 132112.5,
+        "phase": "engagement",
+        "wavesSurvived": 2,
+        "distanceM": 18560.667799996092,
+        "lane": "radio-raid",
+        "speed": null,
+        "profile": "story"
+      },
+      {
+        "at": 144378.90000003576,
+        "phase": "recovery",
+        "wavesSurvived": 2,
+        "distanceM": 18645.3953148422,
+        "lane": "radio-raid",
+        "speed": null,
+        "profile": "story"
+      },
+      {
+        "at": 180509.60000002384,
+        "phase": "calm",
+        "wavesSurvived": 2,
+        "distanceM": 18895.427940286023,
+        "lane": "radio-raid",
+        "speed": null,
+        "profile": "story"
+      }
+    ],
+    "combat": {
+      "starts": [],
+      "ends": [
+        {
+          "at": 144378.90000003576,
+          "phase": "recovery",
+          "durationMs": 12266.400000035763
+        }
+      ],
+      "recovery": [
+        {
+          "at": 144378.90000003576,
+          "durationMs": 12266.400000035763
+        }
+      ]
+    }
+  },
+  "rawReport": "test-results/feel-acceptance/run-2026-09-17T03-02-10-470Z/report.json",
+  "coverage": {
+    "cycles": 7,
+    "completedWaypoints": [
+      {
+        "label": "upper-engine-gap",
+        "x": 0.7,
+        "z": 4.05
+      },
+      {
+        "label": "upper-west-aisle",
+        "x": 0.7,
+        "z": -1.5
+      },
+      {
+        "label": "upper-west-bow",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-bow",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-cabin-view",
+        "x": 6.1,
+        "z": -4.5
+      },
+      {
+        "label": "upper-east-return",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-west-return",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-mouth",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "stair-descent",
+        "x": -2,
+        "z": -2.7
+      },
+      {
+        "label": "stair-ascent-return",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "upper-engine-gap",
+        "x": 0.7,
+        "z": 4.05
+      },
+      {
+        "label": "upper-west-aisle",
+        "x": 0.7,
+        "z": -1.5
+      },
+      {
+        "label": "upper-west-bow",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-bow",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-cabin-view",
+        "x": 6.1,
+        "z": -4.5
+      },
+      {
+        "label": "upper-east-return",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-west-return",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-mouth",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "stair-descent",
+        "x": -2,
+        "z": -2.7
+      },
+      {
+        "label": "stair-ascent-return",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "upper-engine-gap",
+        "x": 0.7,
+        "z": 4.05
+      },
+      {
+        "label": "upper-west-aisle",
+        "x": 0.7,
+        "z": -1.5
+      },
+      {
+        "label": "upper-west-bow",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-bow",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-cabin-view",
+        "x": 6.1,
+        "z": -4.5
+      },
+      {
+        "label": "upper-east-return",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-west-return",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-mouth",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "stair-descent",
+        "x": -2,
+        "z": -2.7
+      },
+      {
+        "label": "stair-ascent-return",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "upper-engine-gap",
+        "x": 0.7,
+        "z": 4.05
+      },
+      {
+        "label": "upper-west-aisle",
+        "x": 0.7,
+        "z": -1.5
+      },
+      {
+        "label": "upper-west-bow",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-bow",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-cabin-view",
+        "x": 6.1,
+        "z": -4.5
+      },
+      {
+        "label": "upper-east-return",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-west-return",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-mouth",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "stair-descent",
+        "x": -2,
+        "z": -2.7
+      },
+      {
+        "label": "stair-ascent-return",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "upper-engine-gap",
+        "x": 0.7,
+        "z": 4.05
+      },
+      {
+        "label": "upper-west-aisle",
+        "x": 0.7,
+        "z": -1.5
+      },
+      {
+        "label": "upper-west-bow",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-bow",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-cabin-view",
+        "x": 6.1,
+        "z": -4.5
+      },
+      {
+        "label": "upper-east-return",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-west-return",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-mouth",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "stair-descent",
+        "x": -2,
+        "z": -2.7
+      },
+      {
+        "label": "stair-ascent-return",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "upper-engine-gap",
+        "x": 0.7,
+        "z": 4.05
+      },
+      {
+        "label": "upper-west-aisle",
+        "x": 0.7,
+        "z": -1.5
+      },
+      {
+        "label": "upper-west-bow",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-bow",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-east-cabin-view",
+        "x": 6.1,
+        "z": -4.5
+      },
+      {
+        "label": "upper-east-return",
+        "x": 6.1,
+        "z": -7.7
+      },
+      {
+        "label": "upper-west-return",
+        "x": 0.8,
+        "z": -7.7
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-approach",
+        "x": 0.8,
+        "z": 2.8
+      },
+      {
+        "label": "upper-stair-mouth",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "stair-descent",
+        "x": -2,
+        "z": -2.7
+      },
+      {
+        "label": "stair-ascent-return",
+        "x": -2,
+        "z": 2.8
+      },
+      {
+        "label": "upper-engine-gap",
+        "x": 0.7,
+        "z": 4.05
+      },
+      {
+        "label": "upper-west-aisle",
+        "x": 0.7,
+        "z": -1.5
+      },
+      {
+        "label": "upper-west-bow",
+        "x": 0.8,
+        "z": -7.7
+      }
+    ],
+    "routeFailures": [],
+    "build": {
+      "attempted": false,
+      "reason": "not requested"
+    },
+    "lastDefense": {
+      "kind": "hook",
+      "target": [
+        -6.975,
+        15.93,
+        -2
+      ],
+      "phase": "engagement"
+    }
+  },
+  "lastSample": {
+    "at": "2026-09-17T03:05:33.489Z",
+    "simTime": 188.35000000004203,
+    "player": [
+      5.06938938151705,
+      15.808797000275227,
+      -7.6725228371943786
+    ],
+    "camera": [
+      1.6522474429297778,
+      16.6724253129998,
+      -8.07286015305158
+    ],
+    "cameraDistance": 3.547250041575759,
+    "desiredCameraPosition": [
+      1.6522474429297764,
+      16.6724253129998,
+      -8.07286015305158
+    ],
+    "playerGroupVisible": true,
+    "hudLayout": {
+      "machineBottom": 161.984375,
+      "statusTop": 177.984375,
+      "gap": 16,
+      "emptyFuelHint": false
+    },
+    "enemyTargets": [],
+    "playerFraming": {
+      "chest": {
+        "x": 0.1193076060165906,
+        "y": -0.1877830779359421,
+        "z": 0.9410013670558752,
+        "visible": true
+      },
+      "head": {
+        "x": 0.11922587595378752,
+        "y": -0.046898300556038934,
+        "z": 0.941041851778954,
+        "visible": true
+      }
+    },
+    "distanceM": 19014.968665313798,
+    "profile": "story",
+    "director": {
+      "phase": "calm",
+      "phaseEndsAt": 19463.16109580293,
+      "wavesSurvived": 2,
+      "pending": [],
+      "nextReleaseAt": 0,
+      "draws": 6,
+      "wavesSinceVehicle": 2,
+      "queuedVehicle": null,
+      "externalEncounterActive": false,
+      "sanctuaryActive": false,
+      "sanctuaryReleaseAt": null,
+      "lane": "radio-raid"
+    },
+    "paused": true,
+    "threatPhase": "calm",
+    "activeThreats": 0,
+    "health": 62,
+    "rendererMemory": {
+      "geometries": 562,
+      "textures": 669
+    },
+    "audioReady": true,
+    "settings": {
+      "hipFov": 80,
+      "sensitivity": 3
+    }
+  }
+}

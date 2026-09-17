@@ -1,0 +1,52 @@
+{
+  "name": "nomad-progress",
+  "meshes": 38,
+  "triangles": 30704,
+  "anchors": {
+    "NomadProgress": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HelmActuator": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HelmGovernor": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HelmMeridian": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HelmBearingNeedle": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "HelmDialFace": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PreservationRecord": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PreservationSeeds": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PreservationCore": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

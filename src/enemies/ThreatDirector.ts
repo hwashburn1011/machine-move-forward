@@ -28,6 +28,17 @@ import { mechWave } from './MechEncounters';
  */
 
 export type ThreatPhase = 'calm' | 'buildup' | 'contact' | 'engagement' | 'recovery';
+export type EncounterLane = 'ordinary' | 'radio-raid';
+export interface ThreatPacing {
+  recoveryM: number;
+  calmMinM: number;
+  calmSpreadM: number;
+  buildupM: number;
+}
+export const THREAT_PACING_BY_PROFILE: Readonly<Record<'story' | 'survival', ThreatPacing>> = {
+  story: { recoveryM: 250, calmMinM: 400, calmSpreadM: 700, buildupM: 140 },
+  survival: { recoveryM: 200, calmMinM: 300, calmSpreadM: 500, buildupM: 140 },
+};
 
 /**
  * Guaranteed quiet after a wave is finished, before the next calm even starts
@@ -93,6 +104,17 @@ const RAMP_EVERY = 2;
  * that walking backwards beats them, and built something worth defending.
  */
 const RAIDERS_FROM = 2;
+const normalizePacing = (value: ThreatPacing): ThreatPacing => ({
+  recoveryM: Number.isFinite(value.recoveryM) ? Math.max(0, value.recoveryM) : RECOVERY_M,
+  calmMinM: Number.isFinite(value.calmMinM) ? Math.max(0, value.calmMinM) : CALM_MIN,
+  calmSpreadM: Number.isFinite(value.calmSpreadM) ? Math.max(0, value.calmSpreadM) : CALM_SPREAD,
+  buildupM: Number.isFinite(value.buildupM) ? Math.max(0, value.buildupM) : BUILDUP_M,
+});
+const samePacing = (a: ThreatPacing, b: ThreatPacing): boolean =>
+  a.recoveryM === b.recoveryM &&
+  a.calmMinM === b.calmMinM &&
+  a.calmSpreadM === b.calmSpreadM &&
+  a.buildupM === b.buildupM;
 
 /** What a wave is made of. Indexes `ENEMIES`. */
 export interface WaveMember {
@@ -101,7 +123,7 @@ export interface WaveMember {
 
 /** A request for an encounter owned by another runtime controller. */
 export interface VehicleEncounterRequest {
-  type: 'skiff' | 'gunboat';
+  type: 'skiff' | 'gunboat' | 'radio-raid';
 }
 
 export interface ThreatDecision {
@@ -111,6 +133,16 @@ export interface ThreatDecision {
   entered: ThreatPhase | null;
   /** A single external encounter to start this tick, or null. */
   vehicle: VehicleEncounterRequest | null;
+}
+
+export interface ThreatEncounterUpdate {
+  distanceM: number;
+  activeCount: number;
+  healthFraction: number;
+  externalEncounterActive?: boolean;
+  lane?: EncounterLane;
+  scheduleAllowed: boolean;
+  pacing?: ThreatPacing;
 }
 
 /** Everything needed to put a director back exactly where it was. */
@@ -128,6 +160,7 @@ export interface ThreatDirectorSave {
   queuedVehicle?: 'skiff' | 'gunboat' | null;
   /** True only when a saved game was inside an externally owned encounter. */
   externalEncounterActive?: boolean;
+  lane?: EncounterLane;
   /** Destination sanctuary state; absent in saves written before expeditions. */
   sanctuaryActive?: boolean;
   /** Distance at which the post-destination quiet window can end. */
@@ -152,6 +185,10 @@ export class ThreatDirector {
   private queuedVehicle: 'skiff' | 'gunboat' | null = null;
   /** The runtime controller owns the active encounter, so the director freezes. */
   private externalEncounterActive = false;
+  private lane: EncounterLane = 'ordinary';
+  /** Latest requested lane while the current encounter still owns the deck. */
+  private pendingLane: EncounterLane | null = null;
+  private pacing: ThreatPacing = THREAT_PACING_BY_PROFILE.story;
   /** Destination sanctuary blocks new schedules without touching live enemies. */
   private sanctuaryActive = false;
   private sanctuaryReleaseAt = Number.POSITIVE_INFINITY;
@@ -199,8 +236,15 @@ export class ThreatDirector {
     return this.externalEncounterActive;
   }
 
-  reset(startDistance = 0): void {
+  reset(
+    startDistance = 0,
+    pacing: ThreatPacing = THREAT_PACING_BY_PROFILE.story,
+    lane: EncounterLane = 'ordinary',
+  ): void {
     this.rng = new Rng(hashSeed(this.seed, 'threat-director'));
+    this.pacing = normalizePacing(pacing);
+    this.lane = lane;
+    this.pendingLane = null;
     this.phase = 'calm';
     this.wavesSurvived = 0;
     this.pending = [];
@@ -246,17 +290,52 @@ export class ThreatDirector {
     healthFraction: number,
     externalEncounterActive = false,
   ): ThreatDecision {
+    return this.updateEncounter({
+      distanceM: distance,
+      activeCount,
+      healthFraction,
+      externalEncounterActive,
+      lane: 'ordinary',
+      scheduleAllowed: true,
+      pacing: THREAT_PACING_BY_PROFILE.story,
+    });
+  }
+
+  updateEncounter(input: ThreatEncounterUpdate): ThreatDecision {
+    const distance = Number.isFinite(input.distanceM) ? Math.max(0, input.distanceM) : 0;
+    const activeCount = Number.isFinite(input.activeCount)
+      ? Math.max(0, Math.floor(input.activeCount))
+      : 0;
+    const requestedLane = input.lane ?? this.lane;
+    if (input.pacing && !samePacing(input.pacing, this.pacing))
+      this.pacing = normalizePacing(input.pacing);
+
     // Preserve an externally owned live encounter even while destination
     // sanctuary suppresses future scheduling.
-    if (externalEncounterActive) this.externalEncounterActive = true;
+    if (input.externalEncounterActive) this.externalEncounterActive = true;
+
+    // A story boundary can change the desired recurring encounter lane while
+    // bodies or an external vehicle still own the deck. Finish that encounter
+    // under the lane that created it, then apply the latest requested lane to
+    // the recovery it earned. Sanctuary similarly keeps its stronger quiet
+    // contract and applies the lane when it releases.
+    if (requestedLane === this.lane) this.pendingLane = null;
+    else if (this.encounterOwnsDeck(activeCount) || this.sanctuaryActive)
+      this.pendingLane = requestedLane;
+    else {
+      this.enterLane(requestedLane, distance);
+      return { spawn: null, entered: 'recovery', vehicle: null };
+    }
+
     if (this.sanctuaryActive) {
       if (distance < this.sanctuaryReleaseAt) {
         return { spawn: null, entered: null, vehicle: null };
       }
       this.sanctuaryActive = false;
       this.sanctuaryReleaseAt = Number.POSITIVE_INFINITY;
+      this.applyPendingLane();
       this.phase = 'calm';
-      this.phaseEndsAt = distance + CALM_MIN;
+      this.phaseEndsAt = distance + this.pacing.calmMinM;
       return { spawn: null, entered: 'calm', vehicle: null };
     }
 
@@ -269,11 +348,23 @@ export class ThreatDirector {
     }
 
     const requestedVehicle = this.queuedVehicle;
-    const entered = this.advance(distance, activeCount, healthFraction);
+    const entered = this.advance(
+      distance,
+      activeCount,
+      input.healthFraction,
+      input.scheduleAllowed,
+    );
+    if (entered === 'recovery') this.applyPendingLane();
     // `advance` enters external engagement only after the vehicle's buildup
     // warning. Turning that edge into a request keeps the decision one-shot.
     if (entered === 'engagement' && this.externalEncounterActive) {
-      return { spawn: null, entered, vehicle: { type: requestedVehicle ?? 'skiff' } };
+      return {
+        spawn: null,
+        entered,
+        vehicle: {
+          type: this.lane === 'radio-raid' ? 'radio-raid' : (requestedVehicle ?? 'skiff'),
+        },
+      };
     }
     return { spawn: this.release(distance, activeCount), entered, vehicle: null };
   }
@@ -288,13 +379,16 @@ export class ThreatDirector {
    * recovery from the latest observed distance, which is the safest behavior
    * for a late terminal callback.
    */
-  finishExternalEncounter(distance: number): void {
+  finishExternalEncounter(distance: number, pacing?: ThreatPacing): void {
+    if (pacing) this.pacing = normalizePacing(pacing);
     this.externalEncounterActive = false;
     this.pending = [];
     this.nextReleaseAt = 0;
-    this.queuedVehicle = null;
+    // Requests remove themselves when claimed. A different scripted request
+    // queued during this encounter must remain available after recovery.
     this.phase = 'recovery';
-    this.phaseEndsAt = distance + RECOVERY_M;
+    this.phaseEndsAt = distance + this.pacing.recoveryM;
+    this.applyPendingLane();
   }
 
   /**
@@ -349,14 +443,15 @@ export class ThreatDirector {
   }
 
   /** Loading never restores external scenes. Clear orphan ownership without a reward. */
-  abortOrphanExternal(distance: number): boolean {
+  abortOrphanExternal(distance: number, pacing?: ThreatPacing): boolean {
     if (!this.externalEncounterActive) return false;
+    if (pacing) this.pacing = normalizePacing(pacing);
     this.externalEncounterActive = false;
-    this.queuedVehicle = null;
     this.pending = [];
     this.nextReleaseAt = 0;
+    this.applyPendingLane();
     this.phase = 'calm';
-    this.phaseEndsAt = Math.max(0, distance) + CALM_MIN;
+    this.phaseEndsAt = Math.max(0, distance) + this.pacing.calmMinM;
     return true;
   }
 
@@ -365,20 +460,26 @@ export class ThreatDirector {
     distance: number,
     activeCount: number,
     healthFraction: number,
+    scheduleAllowed = true,
   ): ThreatPhase | null {
     switch (this.phase) {
       case 'calm':
-        if (distance < this.phaseEndsAt) return null;
-        if (activeCount === 0 && this.wavesSurvived >= 2 && this.wavesSinceVehicle >= 2) {
+        if (distance < this.phaseEndsAt || !scheduleAllowed) return null;
+        if (
+          this.lane === 'ordinary' &&
+          activeCount === 0 &&
+          this.wavesSurvived >= 2 &&
+          this.wavesSinceVehicle >= 2
+        ) {
           this.queuedVehicle ??= 'skiff';
         }
         this.phase = 'buildup';
-        this.phaseEndsAt = distance + BUILDUP_M;
+        this.phaseEndsAt = distance + this.pacing.buildupM;
         return 'buildup';
 
       case 'buildup': {
-        if (distance < this.phaseEndsAt) return null;
-        if (this.queuedVehicle) {
+        if (distance < this.phaseEndsAt || !scheduleAllowed) return null;
+        if (this.lane === 'ordinary' && this.queuedVehicle) {
           if (activeCount > 0) return null;
           // The request and the ownership flag are committed on the same
           // update. Future calls are frozen until finishExternalEncounter.
@@ -389,6 +490,12 @@ export class ThreatDirector {
           this.pending = [];
           this.nextReleaseAt = 0;
           this.wavesSinceVehicle = 0;
+          return 'engagement';
+        }
+        if (this.lane === 'radio-raid') {
+          this.externalEncounterActive = true;
+          this.phase = 'engagement';
+          this.phaseEndsAt = Infinity;
           return 'engagement';
         }
         this.phase = 'contact';
@@ -414,7 +521,7 @@ export class ThreatDirector {
         this.wavesSurvived += 1;
         this.wavesSinceVehicle += 1;
         this.phase = 'recovery';
-        this.phaseEndsAt = distance + RECOVERY_M;
+        this.phaseEndsAt = distance + this.pacing.recoveryM;
         return 'recovery';
 
       case 'recovery':
@@ -457,7 +564,7 @@ export class ThreatDirector {
 
   private rollCalm(): number {
     this.draws += 1;
-    return CALM_MIN + this.rng.next() * CALM_SPREAD;
+    return this.pacing.calmMinM + this.rng.next() * this.pacing.calmSpreadM;
   }
 
   toSave(): ThreatDirectorSave {
@@ -473,6 +580,7 @@ export class ThreatDirector {
       externalEncounterActive: this.externalEncounterActive,
       sanctuaryActive: this.sanctuaryActive,
       sanctuaryReleaseAt: this.sanctuaryReleaseAt,
+      lane: this.lane,
     };
   }
 
@@ -508,6 +616,11 @@ export class ThreatDirector {
           ? 'skiff'
           : null;
     this.externalEncounterActive = save.externalEncounterActive === true;
+    this.lane = save.lane === 'radio-raid' ? 'radio-raid' : 'ordinary';
+    this.pendingLane = null;
+    // The absolute saved phase deadline remains authoritative. Game supplies
+    // the active profile on its first update; applying it must not reroll calm.
+    this.pacing = THREAT_PACING_BY_PROFILE.story;
     this.sanctuaryActive = save.sanctuaryActive === true;
     this.sanctuaryReleaseAt = distance(save.sanctuaryReleaseAt, Number.POSITIVE_INFINITY);
     this.phaseEndsAt =
@@ -519,5 +632,31 @@ export class ThreatDirector {
     this.rng = new Rng(hashSeed(this.seed, 'threat-director'));
     this.draws = count(save.draws);
     for (let i = 0; i < this.draws; i++) this.rng.next();
+  }
+
+  private encounterOwnsDeck(activeCount = 0): boolean {
+    return (
+      activeCount > 0 ||
+      this.externalEncounterActive ||
+      this.phase === 'contact' ||
+      this.phase === 'engagement'
+    );
+  }
+
+  /** A quiescent lane transition always buys a fresh recovery window. */
+  private enterLane(lane: EncounterLane, distance: number): void {
+    this.lane = lane;
+    this.pendingLane = null;
+    this.pending = [];
+    this.nextReleaseAt = 0;
+    this.phase = 'recovery';
+    this.phaseEndsAt = distance + this.pacing.recoveryM;
+  }
+
+  /** Apply a deferred lane to a recovery already started by encounter cleanup. */
+  private applyPendingLane(): void {
+    if (!this.pendingLane) return;
+    this.lane = this.pendingLane;
+    this.pendingLane = null;
   }
 }

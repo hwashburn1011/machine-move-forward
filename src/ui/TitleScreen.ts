@@ -52,13 +52,14 @@ export interface GameSettings {
 }
 
 export interface TitleScreenCallbacks {
-  onNewGame(profile?: CampaignProfile): void;
+  onNewGame(profile?: CampaignProfile, preserve?: boolean): void;
   onContinue(): void;
   onResume(): void;
   onQuitToTitle(): void;
   onSave(): void;
   onSaveAndQuit(): void;
   onSettings(settings: GameSettings): void;
+  onCampaigns?(mode: TitleMode): void;
   /** Whether there is anything to continue. Awaited before the menu is shown. */
   hasSave(): Promise<boolean>;
 }
@@ -109,6 +110,13 @@ export class TitleScreen {
   private renderBindings: (() => void) | null = null;
   private cancelBindingCapture: (() => void) | null = null;
   private profileChooserOpen = false;
+  private campaignDialogOpen = false;
+  private campaignProfile: CampaignProfile | null = null;
+  private campaignCheckPending = false;
+  private campaignActionPending = false;
+  private externallyCampaignBusy = false;
+  private campaignCheckGeneration = 0;
+  private disposed = false;
 
   constructor(
     private readonly root: HTMLElement,
@@ -128,6 +136,7 @@ export class TitleScreen {
           <div id="title-tagline">Keep it walking.</div>
           <nav id="title-menu"></nav>
           <section id="title-profile" hidden><h2>Choose a campaign</h2><p>Story keeps the current infinite reserve. Survival uses finite ammunition with the same enemies and needs.</p><button type="button" data-profile="story">Story</button><button type="button" data-profile="survival">Survival</button><button type="button" data-profile-cancel>Cancel</button></section>
+          <section id="title-campaign-preserve" hidden role="dialog" aria-modal="true" aria-labelledby="title-campaign-preserve-heading"><h2 id="title-campaign-preserve-heading">Current campaign found</h2><p>Keep the current readable run in the campaign library before starting this new campaign?</p><button type="button" data-campaign-preserve>Preserve &amp; Start</button><button type="button" data-campaign-back>Back</button><button type="button" data-campaign-replace>Replace Current Run</button></section>
           <form id="title-settings">
             <label class="title-setting">
               <span>Master volume</span>
@@ -163,6 +172,7 @@ export class TitleScreen {
       'title-name',
       'title-menu',
       'title-profile',
+      'title-campaign-preserve',
       'title-settings',
       'title-settings-back',
       'title-volume',
@@ -188,15 +198,34 @@ export class TitleScreen {
       if (node) this.el[id] = node;
     }
     for (const button of root.querySelectorAll<HTMLButtonElement>('[data-profile]')) {
-      button.addEventListener('click', () => {
-        this.profileChooserOpen = false;
-        this.el['title-profile']?.setAttribute('hidden', '');
-        this.callbacks.onNewGame(button.dataset.profile as CampaignProfile);
-      });
+      const onProfile = (): void => this.beginNewGame(button.dataset.profile as CampaignProfile);
+      button.addEventListener('click', onProfile);
+      this.disposers.push(() => button.removeEventListener('click', onProfile));
     }
-    root
-      .querySelector<HTMLButtonElement>('[data-profile-cancel]')
-      ?.addEventListener('click', () => this.showMenu());
+    const profileCancel = root.querySelector<HTMLButtonElement>('[data-profile-cancel]');
+    if (profileCancel) {
+      const onCancel = (): void => this.showMenu();
+      profileCancel.addEventListener('click', onCancel);
+      this.disposers.push(() => profileCancel.removeEventListener('click', onCancel));
+    }
+    const preserve = root.querySelector<HTMLButtonElement>('[data-campaign-preserve]');
+    const campaignBack = root.querySelector<HTMLButtonElement>('[data-campaign-back]');
+    const replace = root.querySelector<HTMLButtonElement>('[data-campaign-replace]');
+    if (preserve) {
+      const onPreserve = (): void => this.startSelectedCampaign(true);
+      preserve.addEventListener('click', onPreserve);
+      this.disposers.push(() => preserve.removeEventListener('click', onPreserve));
+    }
+    if (campaignBack) {
+      const onBack = (): void => this.backToProfileChooser();
+      campaignBack.addEventListener('click', onBack);
+      this.disposers.push(() => campaignBack.removeEventListener('click', onBack));
+    }
+    if (replace) {
+      const onReplace = (): void => this.startSelectedCampaign(false);
+      replace.addEventListener('click', onReplace);
+      this.disposers.push(() => replace.removeEventListener('click', onReplace));
+    }
 
     const volume = this.el['title-volume'] as HTMLInputElement | undefined;
     const quality = this.el['title-quality'] as HTMLSelectElement | undefined;
@@ -295,6 +324,7 @@ export class TitleScreen {
   }
 
   show(mode: TitleMode): void {
+    if (this.disposed) return;
     this.mode = mode;
     this.open = true;
     if (mode === 'boot') this.showStatus(null);
@@ -308,10 +338,33 @@ export class TitleScreen {
 
     // Asked every time rather than cached: a game saved this session must put
     // Continue back on the boot menu without a reload.
-    void this.callbacks.hasSave().then((has) => {
-      this.hasSaveGame = has;
-      if (this.open && !this.inSettings) this.showMenu();
-    });
+    const generation = ++this.campaignCheckGeneration;
+    void Promise.resolve()
+      .then(() => this.callbacks.hasSave())
+      .then((has) => {
+        if (
+          this.disposed ||
+          generation !== this.campaignCheckGeneration ||
+          !this.open ||
+          this.inSettings ||
+          this.profileChooserOpen ||
+          this.campaignDialogOpen ||
+          this.campaignCheckPending
+        )
+          return;
+        this.hasSaveGame = has;
+        this.showMenu();
+      })
+      .catch(() => {
+        if (
+          !this.disposed &&
+          generation === this.campaignCheckGeneration &&
+          this.open &&
+          !this.profileChooserOpen &&
+          !this.campaignDialogOpen
+        )
+          this.showStatus('Unable to check for a current campaign.', true);
+      });
   }
 
   /** Status for asynchronous save actions. Kept in the pause plate so a
@@ -327,9 +380,17 @@ export class TitleScreen {
   hide(): void {
     this.open = false;
     this.inSettings = false;
+    this.profileChooserOpen = false;
+    this.campaignDialogOpen = false;
+    this.campaignProfile = null;
+    this.campaignCheckPending = false;
+    this.campaignActionPending = false;
+    this.campaignCheckGeneration += 1;
     this.root.classList.remove('is-open');
     this.el['title-screen']?.classList.remove('is-open');
     this.el['title-settings']?.classList.remove('is-open');
+    this.el['title-profile']?.setAttribute('hidden', '');
+    this.el['title-campaign-preserve']?.setAttribute('hidden', '');
   }
 
   /**
@@ -498,8 +559,12 @@ export class TitleScreen {
   }
 
   private showMenu(): void {
+    if (this.disposed) return;
     this.profileChooserOpen = false;
+    this.campaignDialogOpen = false;
+    this.campaignProfile = null;
     if (this.el['title-profile']) this.el['title-profile'].hidden = true;
+    if (this.el['title-campaign-preserve']) this.el['title-campaign-preserve'].hidden = true;
     this.inSettings = false;
     this.el['title-settings']?.classList.remove('is-open');
     this.el['title-menu']?.classList.remove('is-hidden');
@@ -517,6 +582,15 @@ export class TitleScreen {
                   },
                 ]
               : []),
+            ...(this.callbacks.onCampaigns
+              ? [
+                  {
+                    id: 'campaigns',
+                    label: 'Campaigns',
+                    run: () => this.callbacks.onCampaigns?.(this.mode),
+                  },
+                ]
+              : []),
             { id: 'settings', label: 'Settings', run: () => this.showSettings() },
           ]
         : [
@@ -527,6 +601,15 @@ export class TitleScreen {
               label: 'Save & Quit',
               run: () => this.callbacks.onSaveAndQuit(),
             },
+            ...(this.callbacks.onCampaigns
+              ? [
+                  {
+                    id: 'campaigns',
+                    label: 'Campaigns',
+                    run: () => this.callbacks.onCampaigns?.(this.mode),
+                  },
+                ]
+              : []),
             { id: 'settings', label: 'Settings', run: () => this.showSettings() },
             {
               id: 'quit',
@@ -539,13 +622,112 @@ export class TitleScreen {
     this.renderMenu();
   }
 
+  setCampaignBusy(busy: boolean): void {
+    if (this.disposed) return;
+    this.externallyCampaignBusy = busy;
+    this.updateCampaignControls();
+  }
+
   private showProfileChooser(): void {
+    if (this.campaignBusy) return;
     this.profileChooserOpen = true;
+    this.campaignDialogOpen = false;
+    this.campaignProfile = null;
     this.el['title-menu']?.classList.add('is-hidden');
+    this.el['title-campaign-preserve']?.setAttribute('hidden', '');
     const chooser = this.el['title-profile'];
     if (!chooser) return;
     chooser.hidden = false;
     chooser.querySelector<HTMLButtonElement>('[data-profile="story"]')?.focus();
+    this.updateCampaignControls();
+  }
+
+  private get campaignBusy(): boolean {
+    return this.externallyCampaignBusy || this.campaignCheckPending || this.campaignActionPending;
+  }
+
+  private beginNewGame(profile: CampaignProfile): void {
+    if (!this.open || this.campaignBusy) return;
+    this.profileChooserOpen = false;
+    this.campaignProfile = profile;
+    this.el['title-profile']?.setAttribute('hidden', '');
+    this.campaignCheckPending = true;
+    const generation = ++this.campaignCheckGeneration;
+    this.showStatus('Checking for a current campaign…');
+    this.updateCampaignControls();
+    void Promise.resolve()
+      .then(() => this.callbacks.hasSave())
+      .then((hasSave) => {
+        if (
+          this.disposed ||
+          generation !== this.campaignCheckGeneration ||
+          !this.open ||
+          this.campaignProfile !== profile
+        )
+          return;
+        this.campaignCheckPending = false;
+        if (hasSave) this.showCampaignPreserve(profile);
+        else this.startSelectedCampaign(true);
+      })
+      .catch(() => {
+        if (
+          this.disposed ||
+          generation !== this.campaignCheckGeneration ||
+          !this.open ||
+          this.campaignProfile !== profile
+        )
+          return;
+        this.campaignCheckPending = false;
+        this.profileChooserOpen = true;
+        this.el['title-menu']?.classList.add('is-hidden');
+        if (this.el['title-profile']) this.el['title-profile'].hidden = false;
+        this.showStatus('Unable to check for a current campaign.', true);
+        this.updateCampaignControls();
+        this.el['title-profile']
+          ?.querySelector<HTMLButtonElement>('[data-profile="story"]')
+          ?.focus();
+      });
+  }
+
+  private showCampaignPreserve(profile: CampaignProfile): void {
+    this.campaignDialogOpen = true;
+    this.campaignProfile = profile;
+    this.el['title-menu']?.classList.add('is-hidden');
+    this.el['title-profile']?.setAttribute('hidden', '');
+    const dialog = this.el['title-campaign-preserve'];
+    if (!dialog) return;
+    dialog.hidden = false;
+    this.showStatus(null);
+    this.updateCampaignControls();
+    if (!this.campaignBusy)
+      dialog.querySelector<HTMLButtonElement>('[data-campaign-preserve]')?.focus();
+  }
+
+  private backToProfileChooser(): void {
+    if (this.campaignBusy) return;
+    this.campaignCheckGeneration += 1;
+    this.campaignDialogOpen = false;
+    this.campaignProfile = null;
+    this.showStatus(null);
+    this.showProfileChooser();
+  }
+
+  private startSelectedCampaign(preserve: boolean): void {
+    const profile = this.campaignProfile;
+    if (!profile || this.campaignBusy || !this.open) return;
+    this.campaignActionPending = true;
+    this.updateCampaignControls();
+    try {
+      this.callbacks.onNewGame(profile, preserve);
+    } catch {
+      this.showStatus('Unable to start this campaign. Try again.', true);
+    } finally {
+      // Keep the preservation dialog mounted while Game performs the async
+      // preserve/start operation. A failed operation can then be retried from
+      // the same safe default instead of leaving the title with no route back.
+      this.campaignActionPending = false;
+      this.updateCampaignControls();
+    }
   }
 
   private showSettings(): void {
@@ -575,6 +757,22 @@ export class TitleScreen {
         this.paintSelection();
       });
     });
+    this.updateCampaignControls();
+  }
+
+  private updateCampaignControls(): void {
+    const busy = this.campaignBusy;
+    this.el['title-menu']?.querySelectorAll<HTMLButtonElement>('.title-item').forEach((button) => {
+      button.disabled = busy;
+    });
+    this.el['title-profile']?.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+      button.disabled = busy;
+    });
+    this.el['title-campaign-preserve']
+      ?.querySelectorAll<HTMLButtonElement>('button')
+      .forEach((button) => {
+        button.disabled = busy;
+      });
   }
 
   private paintSelection(): void {
@@ -586,7 +784,17 @@ export class TitleScreen {
   private onKeyDown(e: KeyboardEvent): void {
     if (!this.open) return;
 
+    if (this.campaignDialogOpen) {
+      if (e.code === 'Escape' && !this.campaignBusy) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.backToProfileChooser();
+      }
+      return;
+    }
+
     if (this.profileChooserOpen) {
+      if (this.campaignBusy) return;
       if (e.code === 'Escape') {
         e.preventDefault();
         e.stopPropagation();
@@ -594,6 +802,8 @@ export class TitleScreen {
       }
       return;
     }
+
+    if (this.campaignBusy) return;
 
     if (this.inSettings) {
       if (e.code === 'Escape') {
@@ -630,6 +840,8 @@ export class TitleScreen {
   }
 
   dispose(): void {
+    this.disposed = true;
+    this.campaignCheckGeneration += 1;
     this.cancelBindingCapture?.();
     if (this.cardTimer) clearTimeout(this.cardTimer);
     for (const off of this.disposers) off();

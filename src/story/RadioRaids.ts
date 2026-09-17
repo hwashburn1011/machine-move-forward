@@ -11,7 +11,7 @@ export interface RadioRaidPlan {
   crew: readonly [MechBoarder, MechBoarder];
 }
 
-/** One ship at a time, with a real-time breather even when the walker is stopped. */
+/** Deterministic radio-raid roster plus one-time compatibility delay for old saves. */
 export class RadioRaids {
   private wave = 0;
   private remaining = 24;
@@ -19,11 +19,12 @@ export class RadioRaids {
 
   update(dt: number, safe: boolean, seed: number | string): RadioRaidPlan | null {
     if (this.inFlight || !safe) return null;
-    this.remaining = Math.max(0, this.remaining - (Number.isFinite(dt) ? Math.max(0, dt) : 0));
+    this.consumeLegacyDelay(dt, safe);
     return this.remaining === 0 ? this.plan(seed) : null;
   }
 
-  private plan(seed: number | string): RadioRaidPlan {
+  plan(seed: number | string): RadioRaidPlan | null {
+    if (this.inFlight || this.remaining > 0) return null;
     // A shuffled four-model bag per two waves makes every mech appear without
     // repeating the same pair. Reloading cannot reroll an imminent encounter.
     const rng = new Rng(hashSeed(seed, 'radio-raids', Math.floor(this.wave / 2)));
@@ -43,11 +44,22 @@ export class RadioRaids {
   started(): void {
     this.inFlight = true;
   }
-  finished(seed: number | string): void {
+  /** Release transient ownership after a scene-start failure without awarding a wave. */
+  abort(): void {
+    this.inFlight = false;
+  }
+  finished(seed?: number | string): void {
     if (!this.inFlight) return;
     this.inFlight = false;
     this.wave++;
-    this.remaining = new Rng(hashSeed(seed, 'radio-rest', this.wave)).range(75, 115);
+    void seed;
+    this.remaining = 0;
+  }
+  /** Compatibility drain for saves written with the old independent timer. */
+  consumeLegacyDelay(dt: number, safe: boolean): boolean {
+    if (!safe || this.inFlight || !Number.isFinite(dt) || dt <= 0) return this.remaining === 0;
+    this.remaining = Math.max(0, this.remaining - dt);
+    return this.remaining === 0;
   }
   toSave(): RadioRaidSave {
     return { wave: this.wave, remaining: this.remaining };

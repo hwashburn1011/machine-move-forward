@@ -1,0 +1,17 @@
+{
+  "scope": "isolated DOM/CSS fixture using production HUD markup and styles; no gameplay mutation",
+  "results": [
+    {
+      "empty": false,
+      "machineBottom": 159.984375,
+      "statusTop": 175.984375,
+      "gap": 16
+    },
+    {
+      "empty": true,
+      "machineBottom": 217.484375,
+      "statusTop": 233.484375,
+      "gap": 16
+    }
+  ]
+}

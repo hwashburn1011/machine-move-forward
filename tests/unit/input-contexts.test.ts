@@ -4,18 +4,23 @@ import { withBindingOverrides } from '@/core/input/Bindings';
 import { BuildSession } from '@/building/BuildSession';
 
 class FakeInput extends EventTarget {}
+class FakeEditable extends EventTarget {
+  isContentEditable = true;
+}
 function fixture() {
   const win = new EventTarget();
   const doc = new EventTarget() as EventTarget & { pointerLockElement?: unknown };
   vi.stubGlobal('window', win);
   vi.stubGlobal('document', doc);
   vi.stubGlobal('HTMLInputElement', FakeInput);
+  vi.stubGlobal('HTMLTextAreaElement', FakeInput);
+  vi.stubGlobal('HTMLSelectElement', FakeInput);
   const canvas = new EventTarget() as HTMLCanvasElement & { requestPointerLock(): Promise<void> };
   canvas.requestPointerLock = async () => undefined;
   return { input: new InputManager(canvas, { bypassPointerLock: true }), win };
 }
 const key = (type: string, code: string, target?: EventTarget) => {
-  const event = new Event(type, { bubbles: true });
+  const event = new Event(type, { bubbles: true, cancelable: true });
   Object.defineProperty(event, 'code', { value: code });
   if (target) Object.defineProperty(event, 'target', { value: target });
   return event;
@@ -80,6 +85,26 @@ describe('contextual physical input', () => {
     const field = new FakeInput();
     win.dispatchEvent(key('keydown', 'KeyW', field));
     expect(input.isDown('forward')).toBe(false);
+    input.dispose();
+  });
+
+  it('leaves editable menu controls to their own keyboard handling', () => {
+    const { input, win } = fixture();
+    input.setContext('menu');
+    const editableTargets = [new FakeInput(), new FakeEditable()];
+    for (const target of editableTargets) {
+      const event = key('keydown', 'Escape', target);
+      win.dispatchEvent(event);
+      expect(input.consumePressed('cancel')).toBe(false);
+      expect(event.defaultPrevented).toBe(false);
+    }
+
+    const nonEditable = new EventTarget();
+    input.setContext('play');
+    const space = key('keydown', 'Space', nonEditable);
+    win.dispatchEvent(space);
+    expect(space.defaultPrevented).toBe(true);
+    expect(input.consumePressed('jump')).toBe(true);
     input.dispose();
   });
 
