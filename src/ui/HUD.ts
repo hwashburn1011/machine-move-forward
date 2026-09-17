@@ -142,6 +142,7 @@ export class HUD {
 
   constructor(root: HTMLElement, bus: EventBus) {
     root.innerHTML = `
+      <div class="hud-machine-stack">
       <div id="hud-machine" class="hud-panel">
         <div class="hud-label">Machine</div>
         <div class="hud-row"><span>Speed</span><span class="hud-value" id="hud-speed">0.0 m/s</span></div>
@@ -149,7 +150,9 @@ export class HUD {
         <div class="hud-row"><span>Aboard</span><span class="hud-value" id="hud-threats">0</span></div>
         <div class="hud-row"><span>Condition</span><span class="hud-value" id="hud-condition">Sound</span></div>
         <div class="hud-row"><span>Power</span><span class="hud-value" id="hud-power">&#9889; 0/0 &nbsp;&#9670; 0</span></div>
-        <div id="hud-fuel-help" style="display:none;max-width:230px;margin-top:8px;color:#e2b071;font-size:11px;line-height:1.5">Fuel empty · emergency crawl<br>Reel in salvage [F]. Refuel a generator [E].</div>
+        <div id="hud-fuel-help" style="display:none;max-width:230px;margin-top:8px;color:#e2b071;font-size:11px;line-height:1.5">Fuel empty · emergency crawl
+Reel in salvage [F]. Refuel a generator [E].</div>
+      </div>
       </div>
 
       <div id="hud-health" class="hud-panel">

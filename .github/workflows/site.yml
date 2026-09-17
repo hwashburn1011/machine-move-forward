@@ -21,6 +21,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: node tools/art/galley/validate.mjs
+      - run: node tools/art/workshop/validate.mjs
+      - run: node tools/art/progression/validate.mjs
       - run: npm test
       - run: npm run build -- --base=/machine-move-forward/
       - run: node tools/build-media.mjs

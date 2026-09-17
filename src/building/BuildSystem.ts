@@ -7,6 +7,7 @@ import type { Materials } from '@/art/Materials';
 import { authoredModel, buildTurretModel, type TurretVisual } from '@/art/DefenseModels';
 import { buildSeedGardenModel, type SeedGardenVisual } from '@/art/SeedGardenModels';
 import { homeModel } from '@/art/HomeModels';
+import { updatePreservationExhibit } from '@/art/ProgressionVisuals';
 import { sanitizeKeepsakeState, type HomeLifePiece } from './HomeLife';
 import {
   buildAutomaticCollectorModel,
@@ -1275,8 +1276,7 @@ export class BuildSystem {
     const state = sanitizeKeepsakeState({ factId }, knownIds);
     if (factId != null && !state.factId) return false;
     live.data.state = { ...state };
-    const display = live.mesh.getObjectByName('KeepsakeLit');
-    if (display) display.visible = !!state.factId;
+    updatePreservationExhibit(live.mesh, state.factId);
     return true;
   }
 
@@ -1426,8 +1426,8 @@ export class BuildSystem {
     }
     if (authoredStation) {
       this.prepareAuthoredStation(authoredStation, data);
-      const display = authoredStation.getObjectByName('KeepsakeLit');
-      if (display) display.visible = !!data.state?.factId;
+      if (data.definitionId === 'shelf')
+        updatePreservationExhibit(authoredStation, data.state?.factId as string | undefined);
       mesh.add(authoredStation);
     }
     mesh.position.copy(position);

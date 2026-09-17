@@ -244,6 +244,7 @@ const EYE_COLOUR = 0xff4322;
  */
 export class EnemyVisual {
   readonly object3D = new THREE.Group();
+  private disposed = false;
 
   private readonly mixer: THREE.AnimationMixer | null = null;
   private readonly actions = new Map<string, THREE.AnimationAction>();
@@ -686,11 +687,22 @@ export class EnemyVisual {
   }
 
   dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
     this.reset();
     // Authored geometry is shared with the model cache. Only procedural bodies own theirs.
     this.fallback?.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) (o as THREE.Mesh).geometry.dispose();
     });
+    // SkeletonUtils gives each authored clone its own Skeleton and optional
+    // bone texture. The model cache owns source geometry/materials, but this
+    // clone owns its GPU skinning texture and must release it exactly once.
+    const skeletons = new Set<THREE.Skeleton>();
+    this.object3D.traverse((o) => {
+      const mesh = o as THREE.SkinnedMesh;
+      if (mesh.isSkinnedMesh) skeletons.add(mesh.skeleton);
+    });
+    for (const skeleton of skeletons) skeleton.dispose();
     for (const sprite of this.bar.children) {
       (sprite as THREE.Sprite).material.dispose();
     }

@@ -77,12 +77,28 @@ function harness(seed = 'boot-seed'): Harness {
 
 function save(seed: string, distanceTraveled: number) {
   return {
+    version: 1,
+    savedAt: 42,
     seed,
     distanceTraveled,
-    player: {},
-    machine: { structures: [] },
-    progression: {},
-    world: {},
+    player: {
+      position: { x: 0, y: 0, z: 0 },
+      health: 100,
+      inventory: [null],
+      equipment: {
+        currentWeapon: 'rifle',
+        weapons: [{ id: 'rifle', ammoInMag: 4, reserveAmmo: 20 }],
+      },
+    },
+    machine: {
+      structures: [],
+      devices: [],
+      fuel: 9,
+      coreHealth: 100,
+      navigationTier: 0,
+    },
+    progression: { unlocks: [] },
+    world: { chunkIndex: 0, threatDirector: null },
   };
 }
 

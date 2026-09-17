@@ -148,10 +148,12 @@ export class InputManager {
   }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
+    // Text controls own their keyboard input, including Space in a campaign
+    // name. Leave Escape untouched so the open panel can receive and handle it.
+    if (isEditableTarget(event.target)) return;
     const code: PhysicalCode = `key:${event.code}`;
     const binding = this.find(code);
-    if (!binding || (this.context === 'catalog' && event.target instanceof HTMLInputElement))
-      return;
+    if (!binding) return;
     if (['Tab', 'Space', 'PageUp', 'PageDown', 'Home'].includes(event.code)) event.preventDefault();
     this.held.add(code);
     if (!event.repeat && !this.suppressed.has(code)) this.pressed.add(binding.action);
@@ -211,4 +213,29 @@ export class InputManager {
     document.removeEventListener('pointerlockchange', this.onPointerLockChange);
     this.canvas.removeEventListener('click', this.requestPointerLock);
   }
+}
+
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!target) return false;
+  const constructors = [
+    globalThis.HTMLInputElement,
+    globalThis.HTMLTextAreaElement,
+    globalThis.HTMLSelectElement,
+  ];
+  if (
+    constructors.some(
+      (constructor) => typeof constructor === 'function' && target instanceof constructor,
+    )
+  )
+    return true;
+  const element = target as {
+    isContentEditable?: boolean;
+    getAttribute?: (name: string) => string | null;
+    closest?: (selectors: string) => unknown;
+  };
+  if (element.isContentEditable) return true;
+  const contentEditable = element.getAttribute?.('contenteditable');
+  if (contentEditable !== null && contentEditable !== undefined && contentEditable !== 'false')
+    return true;
+  return Boolean(element.closest?.('[contenteditable="true"], [contenteditable=""]'));
 }

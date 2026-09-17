@@ -35,6 +35,8 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - A compact maintenance view combines fuel, emergency crawl, power shortages and service-deck repair needs.
 - After the guided first run, expand **Care & forecasts** in machine status for fuel range, water/food recovery, growing-garden timing, repair materials and save restrictions.
 - Open **Campaign Record** from the Radio or Helm to reread preserved journals, review completed chapters and discoveries, and find optional Keep Walking goals.
+- Earned navigation parts appear on the existing Helm, with a working heading needle. Keepsake shelves display a physical record, seed sample, or memory core for the selected discovery.
+- Ordinary threats and radio boarding raids share a distance-based recovery, calm period and warning. Story gives longer quiet intervals than Survival; combat damage and rewards are unchanged.
 
 ## Current campaign iteration
 
@@ -67,7 +69,13 @@ npm run test:e2e            # Playwright browser suite
 
 The main vehicle is now the **Iron Nomad**: a four-legged industrial walker with three accessible decks, workshop bays, a command cabin, twin furnaces, a cargo crane, lights, and animated exhaust. [Model and gameplay details](docs/art/iron-nomad-playable/README.md).
 
-The title screen offers New Game, Continue and Settings. Click the canvas for pointer lock. `Esc` opens the pause menu; Save & Quit waits for a safe boundary during an encounter.
+The title screen offers New Game, Continue, Campaigns and Settings. Click the canvas for pointer lock. `Esc` opens the pause menu; Save & Quit waits for a safe boundary during an encounter.
+
+**Campaigns** keeps named snapshots alongside the rolling quicksave and Meridian recovery checkpoint. Pause at a safe moment to save a snapshot; use the title menu to load one. Export a campaign as JSON and import it in another browser. Imports create a new snapshot, and starting New Game offers **Preserve & Start** before replacing the current run. Continue still selects the latest readable system recovery save.
+
+The engine now uses an original Blender drive assembly, with a moving fan, pipework, gauges and service indicators. Boarding passengers are prepared during loading and reused between encounters. See the [campaign library and workshop delivery](docs/campaign/library-workshop-delivery.md) for measured results and limitations.
+
+The [feel, pacing and cohesion delivery](docs/campaign/feel-pacing-cohesion-delivery.md) records the sustained gameplay checks, shared encounter timing, and earned Helm/shelf art.
 
 Settings includes **Machine & ambience**, independent of master volume. Set it to zero to silence engine rumble, mechanical footsteps and the calm atmosphere while keeping combat, radio and warning cues. The default mix is deliberately faint, uses smooth fades and quiet musical intervals, and fades out in menus or background tabs.
 
@@ -109,7 +117,7 @@ The [gameplay polish implementation and acceptance record](docs/gameplay-polish/
 
 The first eligible salvage chest after the opening contains the radio. Reception builds as the Nomad travels. At 100%, after the guided defense is complete and the deck is safe, a 17-second cinematic looks off the starboard bow: human and robot ships exchange fire, then the sword-wielding Revenant turns toward the Nomad. Hold **Esc** to skip.
 
-Control returns with a short breather. Random boarding ships approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health on deck. Attacks have a 75–115 second recovery interval. After your first successful defense, the powered radio offers **Trace Wreck One**. You can accept it when safe or keep surviving aboard the machine.
+Control returns with a short breather. Random boarding ships approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health on deck. After resolution, Story provides 250 m of recovery followed by 400–1,100 m of calm; Survival provides 200 m followed by 300–800 m. Both warn 140 m before the next recurring encounter. These distances take longer at low speed and do not advance while stopped. Older saves honor their remaining radio delay once before using the shared schedule. After your first successful defense, the powered radio offers **Trace Wreck One**. You can accept it when safe or keep surviving aboard the machine.
 
 Campaign saves carry their requested seed across terrain, scenery, threats,
 spawning, salvage, loot and radio routes, so continuing a non-default seed does

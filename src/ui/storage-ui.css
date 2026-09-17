@@ -274,6 +274,9 @@
   }
 }
 @media (max-width: 720px) {
+  .hud-machine-stack {
+    left: 10px;
+  }
   #build-panel {
     left: 50%;
     bottom: 112px;

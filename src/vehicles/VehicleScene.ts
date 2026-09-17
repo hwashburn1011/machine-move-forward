@@ -3,13 +3,11 @@ import type RAPIER from '@dimforge/rapier3d-compat';
 import type { Materials } from '@/art/Materials';
 import {
   buildBoardingHookModel,
-  buildSkiffCrewModel,
   buildSkiffModel,
   SKIFF_CREW_SEATS,
   aimSkiffWeapon,
   updateSkiffCrewModel,
   placeSkiffCrewOnCable,
-  authoredEnemyModel,
 } from '@/art/DefenseModels';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { Damageable } from '@/combat/Damageable';
@@ -29,6 +27,11 @@ import { EnemyVisual } from '@/enemies/EnemyVisual';
 import { ENEMIES } from '@/data/enemies';
 import type { MechBoarder } from '@/story/RadioRaids';
 import nomad from '@/data/iron-nomad.json';
+import {
+  BoardingCrewVisualPool,
+  type BoardingCrewSlot,
+  type BoardingMechId,
+} from './BoardingCrewVisualPool';
 
 interface ActorCollider {
   body: RAPIER.RigidBody;
@@ -80,7 +83,9 @@ export class VehicleScene {
   private cleaned = true;
   private roster: readonly MechBoarder[] | null = null;
   private readonly mechVisuals: EnemyVisual[] = [];
-  private readonly gripGeometry: THREE.BufferGeometry[] = [];
+  private readonly crewVisualPool: BoardingCrewVisualPool;
+  private readonly crewSlots: BoardingCrewSlot[] = [];
+  private disposed = false;
 
   constructor(
     scene: THREE.Scene,
@@ -88,6 +93,7 @@ export class VehicleScene {
     materials: Materials,
     private readonly callbacks: VehicleSceneCallbacks,
   ) {
+    this.crewVisualPool = new BoardingCrewVisualPool(materials);
     this.group.name = 'boarding-skiff-encounter';
     scene.add(this.group);
     this.effects = new BoardingEffects(scene);
@@ -209,7 +215,7 @@ export class VehicleScene {
     vehicleId: VehicleId,
     state: BoardingEncounterState,
     profile: VehicleCombatProfile,
-    materials: Materials,
+    _materials: Materials,
   ): void {
     if (vehicleId !== 'skiff') return;
     this.cleaned = false;
@@ -217,36 +223,15 @@ export class VehicleScene {
     this.activeProfile = profile;
     this.skiff.visible = true;
     for (let i = 0; i < state.crewHealth.length; i++) {
-      let model: THREE.Group;
       const mechId = this.roster?.[i];
-      if (mechId) {
-        model = new THREE.Group();
-        model.name = `Boarding-${mechId}`;
-        model.userData.mechId = mechId;
-        const visual = new EnemyVisual(authoredEnemyModel(mechId), materials);
-        visual.setState('idle');
-        visual.setPresentationOnly();
+      const slot = this.crewVisualPool.acquire(mechId as BoardingMechId | null);
+      const model = slot.model;
+      this.crewSlots.push(slot);
+      if (slot.visual) {
+        const visual = slot.visual;
         visual.update(0);
-        visual.object3D.position.y = 0.96;
-        model.add(visual.object3D);
         this.mechVisuals.push(visual);
-        // Powered cable trolley: a visible harness joins the armored passenger
-        // to the grapple instead of pretending a weapon-holding idle is a climb.
-        const grip = new THREE.Group();
-        grip.name = 'BoardingGrip';
-        grip.position.set(0, 2.2, 0.6);
-        const rollerGeo = new THREE.TorusGeometry(0.13, 0.035, 6, 12);
-        const roller = new THREE.Mesh(rollerGeo, materials.bareSteel);
-        roller.rotation.y = Math.PI / 2;
-        grip.add(roller);
-        model.add(grip);
-        const tetherGeo = new THREE.CylinderGeometry(0.024, 0.024, Math.hypot(0.9, 0.6), 6);
-        const tether = new THREE.Mesh(tetherGeo, materials.bareSteel);
-        tether.position.set(0, 1.72, 0.3);
-        tether.rotation.x = Math.atan2(0.6, 0.9);
-        model.add(tether);
-        this.gripGeometry.push(rollerGeo, tetherGeo);
-      } else model = buildSkiffCrewModel(materials);
+      }
       model.position.copy(SKiffSeat(i));
       model.rotation.y = state.side === 'port' ? Math.PI / 2 : -Math.PI / 2;
       this.skiff.add(model);
@@ -499,11 +484,28 @@ export class VehicleScene {
       model.visible = false;
     }
     this.crew.length = 0;
-    for (const visual of this.mechVisuals) visual.dispose();
+    for (const slot of this.crewSlots) this.crewVisualPool.release(slot);
+    this.crewSlots.length = 0;
     this.mechVisuals.length = 0;
-    for (const geometry of this.gripGeometry) geometry.dispose();
-    this.gripGeometry.length = 0;
     this.roster = null;
+  }
+
+  /** Presentation-only warmup seam for Game's loading pass. */
+  prepareCrewForWarmup(): readonly THREE.Group[] {
+    return this.crewVisualPool.prepareForWarmup();
+  }
+
+  finishCrewWarmup(groups: readonly THREE.Group[]): void {
+    this.crewVisualPool.finishWarmup(groups);
+  }
+
+  dispose(): void {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.clear();
+    this.crewVisualPool.dispose();
+    this.effects.dispose();
+    this.group.removeFromParent();
   }
 }
 

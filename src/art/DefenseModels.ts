@@ -23,6 +23,7 @@ const crewAnimations = new WeakMap<
     crossing: boolean;
   }
 >();
+const disposedCrewSkeletons = new WeakSet<THREE.Skeleton>();
 const wornPaint = TextureFactory.paintedMetal(128, 37, [0.94, 0.94, 0.93]);
 const wornNormal = TextureFactory.noiseNormal(128, 37, 7, 0.5);
 
@@ -76,6 +77,8 @@ export const CRITICAL_MODEL_IDS = [
   'player',
   'home-furnishings',
   'galley-kit',
+  'nomad-workshop',
+  'nomad-progress',
 ] as const;
 export const CAMPAIGN_MODEL_IDS = [
   'fieldwork-kit',
@@ -163,6 +166,7 @@ export async function ensureAuthoredModels(ids: readonly string[]): Promise<void
             if (
               id === 'home-furnishings' ||
               id === 'galley-kit' ||
+              id === 'nomad-workshop' ||
               (CAMPAIGN_MODEL_IDS as readonly string[]).includes(id)
             )
               shareArrayPalette(model);
@@ -600,6 +604,39 @@ export function updateSkiffCrewModel(model: THREE.Group, dt: number, crossing: b
     animation.crossing = crossing;
   }
   animation.mixer.update(Math.max(0, dt));
+}
+
+/** Reset a tutorial/fallback crew rig before returning it to a scene pool. */
+export function resetSkiffCrewModel(model: THREE.Group): void {
+  const animation = crewAnimations.get(model);
+  if (!animation) return;
+  animation.mixer.stopAllAction();
+  animation.idle.reset().play();
+  animation.climb.stop();
+  animation.crossing = false;
+  animation.mixer.update(0);
+}
+
+/** Dispose only geometry owned by the procedural crew fallback. */
+export function disposeSkiffCrewModel(model: THREE.Group): void {
+  const animation = crewAnimations.get(model);
+  animation?.mixer.stopAllAction();
+  crewAnimations.delete(model);
+  const skeletons = new Set<THREE.Skeleton>();
+  model.traverse((object) => {
+    const mesh = object as THREE.SkinnedMesh;
+    if (mesh.isSkinnedMesh) skeletons.add(mesh.skeleton);
+  });
+  for (const skeleton of skeletons) {
+    if (disposedCrewSkeletons.has(skeleton)) continue;
+    disposedCrewSkeletons.add(skeleton);
+    skeleton.dispose();
+  }
+  if (model.userData.authored || model.name !== 'MMF_Raider_Fallback') return;
+  model.traverse((object) => {
+    const mesh = object as THREE.Mesh;
+    if (mesh.isMesh) mesh.geometry.dispose();
+  });
 }
 
 /** Match the climbing hands to the cable, then mantle onto the deck at the end. */

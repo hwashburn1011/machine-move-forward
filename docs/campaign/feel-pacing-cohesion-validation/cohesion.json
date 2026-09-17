@@ -1,0 +1,793 @@
+{
+  "rawReport": "test-results/cohesion-acceptance/run-2026-09-17T03-00-42-636Z/qa.json",
+  "status": "passed",
+  "scope": "ordinary earned Helm and shelf presentation, exact recipe, real Save & Quit, and cold Continue",
+  "checks": [
+    {
+      "name": "source is a passed completed-ending profile",
+      "ok": true,
+      "detail": {
+        "summaryPath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\continuity-ending\\run-2026-09-15T18-11-26-503Z\\summary.json",
+        "status": "passed",
+        "phase": "complete"
+      }
+    },
+    {
+      "name": "accepted profile already earned course-gyro",
+      "ok": true,
+      "detail": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor",
+        "meridian-solution"
+      ]
+    },
+    {
+      "name": "accepted profile already earned course-actuator",
+      "ok": true,
+      "detail": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor",
+        "meridian-solution"
+      ]
+    },
+    {
+      "name": "accepted profile already earned vector-governor",
+      "ok": true,
+      "detail": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor",
+        "meridian-solution"
+      ]
+    },
+    {
+      "name": "accepted profile already earned meridian-solution",
+      "ok": true,
+      "detail": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor",
+        "meridian-solution"
+      ]
+    },
+    {
+      "name": "accepted profile already earned human-seed-bank",
+      "ok": true,
+      "detail": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor",
+        "meridian-solution"
+      ]
+    },
+    {
+      "name": "accepted profile already earned orchard-memory-core",
+      "ok": true,
+      "detail": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "orchard-memory-core",
+        "vector-governor",
+        "meridian-solution"
+      ]
+    },
+    {
+      "name": "Helm interaction has an authored world anchor",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "all four earned navigation modules are present and visible at the Helm",
+      "ok": true,
+      "detail": [
+        {
+          "id": "HelmActuator",
+          "fact": "course-actuator",
+          "present": true,
+          "visible": true,
+          "inFrame": true
+        },
+        {
+          "id": "HelmGovernor",
+          "fact": "vector-governor",
+          "present": true,
+          "visible": true,
+          "inFrame": true
+        },
+        {
+          "id": "HelmMeridian",
+          "fact": "meridian-solution",
+          "present": true,
+          "visible": true,
+          "inFrame": true
+        },
+        {
+          "id": "HelmBearingNeedle",
+          "fact": "course-gyro",
+          "present": true,
+          "visible": true,
+          "inFrame": true
+        }
+      ]
+    },
+    {
+      "name": "shelf recipe is affordable in the accepted profile",
+      "ok": true,
+      "detail": {
+        "resources": {
+          "scrap": 1633,
+          "components": 87,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        }
+      }
+    },
+    {
+      "name": "normal shelf preview exposes a camera-visible valid candidate",
+      "ok": true,
+      "detail": {
+        "readonlyCandidates": 5
+      }
+    },
+    {
+      "name": "normal catalog adds exactly one shelf and preserves every existing structure",
+      "ok": true,
+      "detail": {
+        "additions": [
+          {
+            "instanceId": "bp-20",
+            "definitionId": "shelf",
+            "cell": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "rotation": 0,
+            "health": 35,
+            "state": {}
+          }
+        ]
+      }
+    },
+    {
+      "name": "shelf consumes the exact authored 5 scrap recipe",
+      "ok": true,
+      "detail": {
+        "before": {
+          "scrap": 1633,
+          "components": 87,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        },
+        "after": {
+          "scrap": 1628,
+          "components": 87,
+          "fuel": 0,
+          "water": 0,
+          "greens": 1,
+          "rations": 0
+        }
+      }
+    },
+    {
+      "name": "shelf recipe leaves components unchanged",
+      "ok": true,
+      "detail": {
+        "before": 87,
+        "after": 87
+      }
+    },
+    {
+      "name": "shelf recipe leaves fuel unchanged",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "shelf recipe leaves water unchanged",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "shelf recipe leaves greens unchanged",
+      "ok": true,
+      "detail": {
+        "before": 1,
+        "after": 1
+      }
+    },
+    {
+      "name": "shelf recipe leaves rations unchanged",
+      "ok": true,
+      "detail": {
+        "before": 0,
+        "after": 0
+      }
+    },
+    {
+      "name": "placed shelf has a named scene instance",
+      "ok": true,
+      "detail": {
+        "id": "bp-20"
+      }
+    },
+    {
+      "name": "accepted ending exposes a recovered journal record",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "normal shelf UI exposes quiet-array-journal-port",
+      "ok": true,
+      "detail": {
+        "factId": "quiet-array-journal-port"
+      }
+    },
+    {
+      "name": "normal shelf UI exposes human-seed-bank",
+      "ok": true,
+      "detail": {
+        "factId": "human-seed-bank"
+      }
+    },
+    {
+      "name": "normal shelf UI exposes orchard-memory-core",
+      "ok": true,
+      "detail": {
+        "factId": "orchard-memory-core"
+      }
+    },
+    {
+      "name": "journal-record uses exactly one visible PreservationRecord exhibit",
+      "ok": true,
+      "detail": {
+        "selected": "quiet-array-journal-port",
+        "wrapperPresent": true,
+        "exhibitsPresent": true,
+        "visible": [
+          "PreservationRecord"
+        ],
+        "expectedVisible": true,
+        "inFrame": true
+      }
+    },
+    {
+      "name": "placed shelf has a named scene instance",
+      "ok": true,
+      "detail": {
+        "id": "bp-20"
+      }
+    },
+    {
+      "name": "human-seed-bank uses exactly one visible PreservationSeeds exhibit",
+      "ok": true,
+      "detail": {
+        "selected": "human-seed-bank",
+        "wrapperPresent": true,
+        "exhibitsPresent": true,
+        "visible": [
+          "PreservationSeeds"
+        ],
+        "expectedVisible": true,
+        "inFrame": true
+      }
+    },
+    {
+      "name": "placed shelf has a named scene instance",
+      "ok": true,
+      "detail": {
+        "id": "bp-20"
+      }
+    },
+    {
+      "name": "Clear selection removes saved factId and hides all physical keepsakes",
+      "ok": true,
+      "detail": {
+        "selected": null,
+        "serializedState": {},
+        "serializedHasFactId": false,
+        "exhibits": [
+          {
+            "name": "PreservationRecord",
+            "visible": false
+          },
+          {
+            "name": "PreservationSeeds",
+            "visible": false
+          },
+          {
+            "name": "PreservationCore",
+            "visible": false
+          }
+        ],
+        "waveformVisible": false
+      }
+    },
+    {
+      "name": "placed shelf has a named scene instance",
+      "ok": true,
+      "detail": {
+        "id": "bp-20"
+      }
+    },
+    {
+      "name": "orchard-memory-core uses exactly one visible PreservationCore exhibit",
+      "ok": true,
+      "detail": {
+        "selected": "orchard-memory-core",
+        "wrapperPresent": true,
+        "exhibitsPresent": true,
+        "visible": [
+          "PreservationCore"
+        ],
+        "expectedVisible": true,
+        "inFrame": true
+      }
+    },
+    {
+      "name": "exhibit selection does not grant or consume inventory",
+      "ok": true,
+      "detail": {
+        "afterBuild": {
+          "inventory": [
+            {
+              "itemId": "scrap",
+              "count": 7
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 21
+            },
+            {
+              "itemId": "components",
+              "count": 50
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "components",
+              "count": 37
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "greens",
+              "count": 1
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            null
+          ],
+          "resources": {
+            "scrap": 1628,
+            "components": 87,
+            "fuel": 0,
+            "water": 0,
+            "greens": 1,
+            "rations": 0
+          }
+        },
+        "selectedCore": {
+          "inventory": [
+            {
+              "itemId": "scrap",
+              "count": 7
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 21
+            },
+            {
+              "itemId": "components",
+              "count": 50
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "components",
+              "count": 37
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "greens",
+              "count": 1
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            null
+          ],
+          "resources": {
+            "scrap": 1628,
+            "components": 87,
+            "fuel": 0,
+            "water": 0,
+            "greens": 1,
+            "rations": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "exhibit selection does not change recovered facts",
+      "ok": true,
+      "detail": {
+        "initial": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor",
+          "meridian-solution"
+        ],
+        "selected": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor",
+          "meridian-solution"
+        ]
+      }
+    },
+    {
+      "name": "Save & Quit is enabled from the real pause menu",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "Save & Quit commits the exact paused payload to quicksave",
+      "ok": true,
+      "detail": {
+        "latest": "quicksave"
+      }
+    },
+    {
+      "name": "cold boot still resolves Continue to quicksave",
+      "ok": true,
+      "detail": {
+        "coldSlot": "quicksave"
+      }
+    },
+    {
+      "name": "cold Continue restores the committed seed and profile",
+      "ok": true,
+      "detail": {
+        "restored": {
+          "seed": "mmf-dev-seed",
+          "profile": "story"
+        },
+        "committed": {
+          "seed": "mmf-dev-seed",
+          "profile": "story"
+        }
+      }
+    },
+    {
+      "name": "cold Continue preserves the existing inventory ledger exactly",
+      "ok": true,
+      "detail": {
+        "before": {
+          "inventory": [
+            {
+              "itemId": "scrap",
+              "count": 7
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 21
+            },
+            {
+              "itemId": "components",
+              "count": 50
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "components",
+              "count": 37
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "greens",
+              "count": 1
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            null
+          ],
+          "resources": {
+            "scrap": 1628,
+            "components": 87,
+            "fuel": 0,
+            "water": 0,
+            "greens": 1,
+            "rations": 0
+          }
+        },
+        "restored": {
+          "inventory": [
+            {
+              "itemId": "scrap",
+              "count": 7
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 21
+            },
+            {
+              "itemId": "components",
+              "count": 50
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "components",
+              "count": 37
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "greens",
+              "count": 1
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            {
+              "itemId": "scrap",
+              "count": 100
+            },
+            null
+          ],
+          "resources": {
+            "scrap": 1628,
+            "components": 87,
+            "fuel": 0,
+            "water": 0,
+            "greens": 1,
+            "rations": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "cold Continue preserves recovered facts without grants",
+      "ok": true,
+      "detail": {
+        "initial": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor",
+          "meridian-solution"
+        ],
+        "restored": [
+          "course-gyro",
+          "salvage-controller",
+          "tracking-servo",
+          "course-actuator",
+          "annika-archive-shard",
+          "human-seed-bank",
+          "orchard-memory-core",
+          "vector-governor",
+          "meridian-solution"
+        ]
+      }
+    },
+    {
+      "name": "cold Continue restores the exact new shelf slot with the core selected",
+      "ok": true,
+      "detail": {
+        "shelf": {
+          "instanceId": "bp-20",
+          "definitionId": "shelf",
+          "cell": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "health": 35,
+          "state": {
+            "factId": "orchard-memory-core"
+          }
+        }
+      }
+    },
+    {
+      "name": "cold Continue presents exactly one physical core exhibit",
+      "ok": true,
+      "detail": {
+        "selected": "orchard-memory-core",
+        "wrapperPresent": true,
+        "exhibitsPresent": true,
+        "visible": [
+          "PreservationCore"
+        ],
+        "expectedVisible": true,
+        "inFrame": true
+      }
+    },
+    {
+      "name": "acceptance produced no runtime errors",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "errors": []
+}

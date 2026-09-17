@@ -46,6 +46,8 @@ export interface SaveGameV1 {
   version: 1;
   savedAt: number;
   seed: string;
+  /** Optional human label for library snapshots; absent on legacy saves. */
+  saveName?: string;
   /** Immutable per campaign; older saves retain the original unlimited ammunition. */
   profile?: import('@/game/CampaignProfile').CampaignProfile;
   distanceTraveled: number;

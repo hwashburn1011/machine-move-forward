@@ -114,6 +114,12 @@ export class OpeningDirector {
 
   begin(mode: OpeningMode): OpeningEffect[] {
     if (mode === 'new-game') {
+      // A new campaign owns a fresh opening even when this director previously
+      // represented a continued or completed campaign. Clear every per-run
+      // timer and one-shot before arming the new rooftop spawn.
+      this.fired.clear();
+      this.skipFor = 0;
+      this.landedFor = 0;
       this.current = 'rooftop';
       return this.emit('spawn-rooftop');
     }

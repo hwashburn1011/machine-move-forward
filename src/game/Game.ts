@@ -2,6 +2,8 @@ import { DECK_SURFACE_Y } from './constants';
 import nomadProfile from '@/data/iron-nomad.json';
 import { SignalBattleScene } from '@/story/SignalBattleScene';
 import { RadioRaids } from '@/story/RadioRaids';
+import { NavigationProgressVisuals } from '@/art/ProgressionVisuals';
+import { KEEPSAKE_DETAILS } from '@/data/keepsakes';
 import * as THREE from 'three';
 import { Renderer } from '@/core/renderer/Renderer';
 import { PostProcessing } from '@/core/renderer/PostProcessing';
@@ -74,7 +76,12 @@ import type { Enemy } from '@/enemies/Enemy';
 import { RaidMissionSystem } from '@/enemies/RaidMissionSystem';
 import { EnemyTacticsVisual } from '@/enemies/EnemyTacticsVisual';
 import { EnemySpawner, type Bounds, type Vec3Like } from '@/enemies/EnemySpawner';
-import { ThreatDirector, type ThreatPhase } from '@/enemies/ThreatDirector';
+import {
+  ThreatDirector,
+  THREAT_PACING_BY_PROFILE,
+  type ThreatPhase,
+  type WaveMember,
+} from '@/enemies/ThreatDirector';
 import { SandFX } from '@/fx/SandFX';
 import { TrackMarks } from '@/fx/TrackMarks';
 import { AudioEngine } from '@/audio/AudioEngine';
@@ -84,6 +91,8 @@ import { HUD } from '@/ui/HUD';
 import type { WarningToken } from '@/ui/OwnedWarning';
 import { DefenseHUD } from '@/ui/DefenseHUD';
 import { SaveManager } from '@/save/SaveManager';
+import { MAX_EXPORT_BYTES, validateSaveForExport } from '@/save/SaveExportCodec';
+import { SaveLibraryUI } from '@/ui/SaveLibraryUI';
 import { Container } from '@/items/Container';
 import { ResourceAccess } from '@/items/ResourceAccess';
 import { ITEMS, PLAYER_INVENTORY_SLOTS, STARTING_INVENTORY, type ItemId } from '@/data/items';
@@ -446,6 +455,7 @@ export class Game implements LoopCallbacks {
   private helmGyro: THREE.Object3D | null = null;
   private helmLamp: THREE.Object3D | null = null;
   private helmInteract: THREE.Object3D | null = null;
+  private navigationProgress: NavigationProgressVisuals | null = null;
   /** Game owns this one walker source until final teardown; the machine only borrows clones. */
   private machineAuthoredModel: LoadedModel | null = null;
   private machineCollisionModel: LoadedModel | null = null;
@@ -455,6 +465,10 @@ export class Game implements LoopCallbacks {
   private radioPowered = false;
   /** The menu, or null when the game was booted without one (`?nomenu=1`). */
   readonly titleScreen: TitleScreen | null = null;
+  readonly saveLibrary: SaveLibraryUI;
+  private libraryMode: 'boot' | 'pause' | null = null;
+  private libraryBusy = false;
+  private newCampaignBusy = false;
   /** The opening's building. Null outside the opening. */
   rooftop: RooftopSet | null = null;
   /** True once the opening is over and the set is receding with the world. */
@@ -593,6 +607,7 @@ export class Game implements LoopCallbacks {
       game.machineAuthoredModel = kits.machine;
       game.machineCollisionModel = kits.collision;
       game.machine.applyAuthoredDetailModel(kits.machine, kits.collision);
+      game.machine.applyWorkshopModel(authoredModel('nomad-workshop'));
       game.cameraClothCandidates = game.machine.cameraClothMeshes;
       game.cameraClothFade.setCandidates(game.cameraClothCandidates);
       game.build.applyAuthoredStationKit(kits.stations);
@@ -607,6 +622,12 @@ export class Game implements LoopCallbacks {
     game.helmGyro = game.machine.group.getObjectByName('GyroInstalled') ?? null;
     game.helmLamp = game.machine.group.getObjectByName('HelmPowerLamp') ?? null;
     game.helmInteract = game.machine.group.getObjectByName('HelmInteract') ?? null;
+    const helmHost = game.machine.group.getObjectByName('HelmRoot');
+    if (helmHost)
+      game.navigationProgress = new NavigationProgressVisuals(
+        helmHost,
+        authoredModel('nomad-progress'),
+      );
 
     // After construction: the procedural materials are already complete and
     // usable, and this only swaps their surfaces. A failed fetch costs a
@@ -731,6 +752,11 @@ export class Game implements LoopCallbacks {
         warmEnemies.forEach((enemy, i) =>
           enemy.stageForWarmup(new THREE.Vector3(-7 + i * 2, 30, 0)),
         );
+        const boardingCrew = game.vehicleScene.prepareCrewForWarmup();
+        boardingCrew.forEach((crew, i) => {
+          crew.position.set(-7.2 + (i % 5) * 3.6, 30, -3 - Math.floor(i / 5) * 3);
+          game.renderer.scene.add(crew);
+        });
         try {
           game.post.setCamera(warmCrewCamera);
           game.post.render(0, game.renderer.scene, warmCrewCamera);
@@ -755,6 +781,7 @@ export class Game implements LoopCallbacks {
           }
         } finally {
           for (const enemy of warmEnemies) enemy.finishWarmup();
+          game.vehicleScene.finishCrewWarmup(boardingCrew);
         }
         // Exercise the normal scene's shadow/normal/depth variants from every
         // direction while loading, before a fast mouse turn can expose them.
@@ -1456,7 +1483,8 @@ export class Game implements LoopCallbacks {
     // nothing measured today can see the difference.
     if (options.titleRoot) {
       this.titleScreen = new TitleScreen(options.titleRoot, {
-        onNewGame: (profile) => this.startNewGame(profile),
+        onNewGame: (profile, preserve) => void this.startCampaign(profile, preserve),
+        onCampaigns: (mode) => void this.openCampaignLibrary(mode),
         onContinue: () => void this.continueGame(),
         onResume: () => this.resume(),
         onQuitToTitle: () => this.enterTitle(),
@@ -1468,6 +1496,61 @@ export class Game implements LoopCallbacks {
       this.applySettings(this.titleScreen.current);
     }
     if (!this.titleScreen) this.applySettings(loadSettings());
+    this.saveLibrary = new SaveLibraryUI(options.hudRoot.parentElement ?? document.body, {
+      close: () => this.closeCampaignLibrary(),
+      snapshot: (name) =>
+        this.libraryAction(async () => {
+          if (this.libraryMode !== 'pause' || !this.isSafeToSave(true))
+            throw new Error('Reach a safe moment on the machine before saving a snapshot.');
+          await this.saves.createSnapshot(name, this.buildSave());
+          this.saveLibrary.showStatus('Snapshot saved.');
+        }),
+      load: (slot) =>
+        this.libraryAction(async () => {
+          if (this.libraryMode !== 'boot') return;
+          this.continuing = true;
+          try {
+            if (!(await this.loadFrom(slot))) throw new Error('Unable to load this campaign.');
+            this.saveLibrary.hide();
+            this.libraryMode = null;
+            this.leaveTitle();
+            this.beginOpening('continue');
+            this.restoreEndingPresentation();
+          } finally {
+            this.continuing = false;
+          }
+        }),
+      export: (slot) =>
+        this.libraryAction(async () => {
+          const text = await this.saves.exportSlot(slot);
+          const url = URL.createObjectURL(new Blob([text], { type: 'application/json' }));
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `machine-move-forward-${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+          document.body.append(link);
+          link.click();
+          link.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 1000);
+          this.saveLibrary.showStatus('Campaign exported. Keep the JSON file to restore it later.');
+        }),
+      requestImport: () =>
+        this.libraryAction(async () => {
+          const file = await this.chooseCampaignFile();
+          if (!file || this.disposed) return;
+          if (file.size > MAX_EXPORT_BYTES) throw new Error('Save file exceeds the 8 MiB limit.');
+          await this.saves.importNew(await file.text());
+          this.saveLibrary.showStatus(
+            'Campaign imported as a new snapshot. Load it from the title menu.',
+          );
+        }),
+      delete: (slot) =>
+        this.libraryAction(async () => {
+          if (!slot.startsWith('campaign:'))
+            throw new Error('Only named snapshots can be deleted.');
+          await this.saves.delete(slot);
+          this.saveLibrary.showStatus('Snapshot deleted.');
+        }),
+    });
     this.bus.on('build:damaged', () => this.pendingBuildDamage.add('construction-damage'));
 
     // Crafted rounds go straight to the gun that fires them, so the HUD
@@ -1587,6 +1670,7 @@ export class Game implements LoopCallbacks {
 
     window.addEventListener('resize', this.onResize);
     window.addEventListener('blur', this.onEndingFocusLost);
+    document.addEventListener('pointerlockchange', this.onMenuPointerLock);
     document.addEventListener('visibilitychange', this.onEndingVisibilityChange);
     this.loop = new GameLoop(this);
   }
@@ -2329,6 +2413,11 @@ export class Game implements LoopCallbacks {
     if (gyro) gyro.visible = view.recoveredUniques.includes('course-gyro');
     const helmLamp = this.helmLamp;
     if (helmLamp) helmLamp.visible = this.machine.power.isPowered(this.helmPowerConsumerId);
+    this.navigationProgress?.update(
+      view.recoveredUniques,
+      this.course.snapshot.bearingDeg,
+      this.machine.power.isPowered(this.helmPowerConsumerId),
+    );
     const optional = this.routeChart.contact;
     const exploring = optional && ['committed', 'docked', 'visited'].includes(optional.state);
     this.hud.setStoryState({
@@ -2408,7 +2497,10 @@ export class Game implements LoopCallbacks {
     this.defense.exit();
     this.input.clearAll();
     // Retire any unreleased ordinary wave; the radio now owns encounter pacing.
-    this.director.finishExternalEncounter(this.world.distanceTraveled);
+    this.director.finishExternalEncounter(
+      this.world.distanceTraveled,
+      THREAT_PACING_BY_PROFILE[this.campaignProfile],
+    );
     this.prepareSignalBattle().start(this.playerCamera.camera, this.world.distanceTraveled);
     this.normalSunTarget.copy(this.renderer.sun.target.position);
     this.setHudVisible(false);
@@ -2454,16 +2546,44 @@ export class Game implements LoopCallbacks {
       !this.panelsOpen &&
       this.player.stats.health / this.player.stats.maxHealth >= 0.35 &&
       this.destination.playerOnMachine(this.player.worldPosition);
-    const plan = this.radioRaids.update(dt, safe, this.state.seed);
-    if (!plan || !this.vehicleScene.spawn(plan.side, false, plan.crew)) return;
+    const legacyReady = this.radioRaids.consumeLegacyDelay(dt, safe);
+    const decision = this.director.updateEncounter({
+      distanceM: this.world.distanceTraveled,
+      activeCount: this.enemies.activeCount,
+      healthFraction: this.player.stats.health / this.player.stats.maxHealth,
+      externalEncounterActive:
+        this.vehicleManager.active ||
+        this.gunboatScene.active ||
+        this.pendingBoardingOutcome !== null,
+      lane: 'radio-raid',
+      scheduleAllowed: safe && legacyReady,
+      pacing: THREAT_PACING_BY_PROFILE[this.campaignProfile],
+    });
+    // Vehicle engagement is transactional: publish it only after the scene
+    // accepts the spawn. Other phase edges and a deferred ordinary body can be
+    // handled immediately.
+    if (decision.entered && !(decision.entered === 'engagement' && decision.vehicle))
+      this.publishThreatPhase(decision.entered);
+    if (decision.spawn) {
+      this.spawnThreatMember(decision.spawn);
+      return;
+    }
+    if (decision.vehicle?.type !== 'radio-raid') return;
+    const plan = this.radioRaids.plan(this.state.seed);
+    if (!plan || !this.vehicleScene.spawn(plan.side, false, plan.crew)) {
+      this.radioRaids.abort();
+      this.director.finishExternalEncounter(
+        this.world.distanceTraveled,
+        THREAT_PACING_BY_PROFILE[this.campaignProfile],
+      );
+      this.publishThreatPhase('recovery');
+      return;
+    }
     this.radioRaids.started();
+    this.publishThreatPhase('engagement');
     const objective = this.raidMissions.start(this.state.seed, this.radioRaids.toSave().wave + 1);
     this.tutorialStarted = false;
-    // Claim the ordinary director too so save/debug consumers agree about the
-    // encounter owner. Its normal infantry release path is never called here.
-    this.director.update(this.world.distanceTraveled, 0, 1, true);
-    this.threatPhase = 'engagement';
-    this.bus.emit('threat:phase', { phase: 'engagement', wavesSurvived: this.director.waves });
+    // The shared director claimed the encounter before returning this request.
     this.bus.emit('boarding:started', { encounterId: 'robot-boarding-ship' });
     this.showBoardingWarning(
       `Robot boarding ship — ${plan.side}! ${objective === 'theft' ? 'Supply raid: defend storage or cut the grapple.' : objective === 'sabotage' ? 'Saboteurs inbound: protect machine service panels.' : 'Destroy its grapple or hold the deck.'}`,
@@ -2492,7 +2612,12 @@ export class Game implements LoopCallbacks {
       // Route selection itself happens inside a panel. Only the new signal
       // camera takeover needs the player to finish their current interaction.
       (this.story.currentPhase !== 'signal' ||
-        ((!this.panelsOpen || this.radioUI.isOpen) && !this.buildMode && !this.defense.mounted)) &&
+        ((!this.panelsOpen || this.radioUI.isOpen) &&
+          !this.buildMode &&
+          !this.defense.mounted &&
+          this.director.pendingCount === 0 &&
+          ['calm', 'recovery'].includes(this.director.currentPhase) &&
+          !this.director.hasActiveExternalEncounter)) &&
       this.opening.phase === 'done'
     );
   }
@@ -3200,13 +3325,13 @@ export class Game implements LoopCallbacks {
     const known = this.story.toSave().recoveredUniques;
     for (const id of known) {
       if (choices.some((choice) => choice.id === id)) continue;
-      const title = id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+      const details = KEEPSAKE_DETAILS[id];
       const chapter = STORY_EXPEDITIONS.find((entry) => entry.requiredUniques.includes(id));
       if (chapter)
         choices.push({
           id,
-          title,
-          text: `${title}, recovered at ${chapter.title}. A record of what S-07 chose to carry forward.`,
+          title: details.title,
+          text: details.text,
         });
     }
     return choices;
@@ -3405,24 +3530,23 @@ export class Game implements LoopCallbacks {
     // during that tail without reacquiring the encounter just resolved.
     if (this.gunboatResolutionApplied && this.gunboatScene.active) return;
 
-    const decision = this.director.update(
-      this.world.distanceTraveled,
-      this.enemies.activeCount,
-      this.player.stats.health / this.player.stats.maxHealth,
-      this.vehicleManager.active ||
+    const decision = this.director.updateEncounter({
+      distanceM: this.world.distanceTraveled,
+      activeCount: this.enemies.activeCount,
+      healthFraction: this.player.stats.health / this.player.stats.maxHealth,
+      externalEncounterActive:
+        this.vehicleManager.active ||
         this.gunboatScene.active ||
         this.pendingBoardingOutcome !== null,
-    );
+      lane: 'ordinary',
+      scheduleAllowed: true,
+      pacing: THREAT_PACING_BY_PROFILE[this.campaignProfile],
+    });
 
     // Announced once, on the edge, rather than polled: the HUD's alert is a
     // timed banner and re-triggering it every frame would pin it up forever.
-    if (decision.entered && decision.entered !== this.threatPhase) {
-      this.threatPhase = decision.entered;
-      this.bus.emit('threat:phase', {
-        phase: decision.entered,
-        wavesSurvived: this.director.waves,
-      });
-    }
+    if (decision.entered && !(decision.entered === 'engagement' && decision.vehicle))
+      this.publishThreatPhase(decision.entered);
 
     if (
       decision.vehicle &&
@@ -3441,7 +3565,9 @@ export class Game implements LoopCallbacks {
               }
               return spawned;
             })()
-          : this.enemies.activeCount === 0 && this.vehicleScene.spawn('port');
+          : decision.vehicle.type === 'skiff' &&
+            this.enemies.activeCount === 0 &&
+            this.vehicleScene.spawn('port');
       if (started) {
         if (decision.vehicle.type === 'skiff' && this.scriptedSkiffPending) {
           this.scriptedSkiffPending = false;
@@ -3451,18 +3577,32 @@ export class Game implements LoopCallbacks {
         if (decision.vehicle.type === 'skiff')
           this.bus.emit('boarding:started', { encounterId: 'skiff' });
         else this.bus.emit('gunboat:phase', { phase: 'approach', side: 'port' });
+        this.publishThreatPhase('engagement');
       } else if (!this.vehicleManager.active && !this.gunboatScene.active) {
         // ThreatDirector marks the external encounter before handing us the
         // request. Release that ownership if the scene cannot accept it so a
         // failed spawn cannot freeze ordinary threat pacing forever.
-        this.director.abortOrphanExternal(this.world.distanceTraveled);
+        this.director.finishExternalEncounter(
+          this.world.distanceTraveled,
+          THREAT_PACING_BY_PROFILE[this.campaignProfile],
+        );
+        this.publishThreatPhase('recovery');
       }
       return;
     }
 
     if (!decision.spawn) return;
-    const request = decision.spawn;
+    this.spawnThreatMember(decision.spawn);
+  }
 
+  private publishThreatPhase(phase: ThreatPhase): void {
+    if (phase === this.threatPhase) return;
+    this.threatPhase = phase;
+    this.bus.emit('threat:phase', { phase, wavesSurvived: this.director.waves });
+  }
+
+  /** Place a director-released body identically in ordinary and lane-handoff updates. */
+  private spawnThreatMember(request: WaveMember): boolean {
     const bounds: Bounds = {
       halfWidth: this.machine.deckBounds.max.x,
       halfLength: this.machine.deckBounds.max.z,
@@ -3490,6 +3630,7 @@ export class Game implements LoopCallbacks {
       // wave promised is gone rather than merely delayed.
       console.warn('updateSpawns: EnemyManager.spawn returned null despite the cap check passing.');
     }
+    return enemy !== null;
   }
 
   private spawnBoarder(
@@ -3693,7 +3834,10 @@ export class Game implements LoopCallbacks {
     this.vehicleScene.clear();
     this.boardingEnemyIds.clear();
     if (this.director.hasActiveExternalEncounter || wasTutorial) {
-      this.director.finishExternalEncounter(this.world.distanceTraveled);
+      this.director.finishExternalEncounter(
+        this.world.distanceTraveled,
+        THREAT_PACING_BY_PROFILE[this.campaignProfile],
+      );
       this.threatPhase = 'recovery';
       this.bus.emit('threat:phase', {
         phase: 'recovery',
@@ -3750,7 +3894,10 @@ export class Game implements LoopCallbacks {
       this.applyStoryEffects(this.story.resolveScriptedEncounter());
     }
     if (this.director.hasActiveExternalEncounter)
-      this.director.finishExternalEncounter(this.world.distanceTraveled);
+      this.director.finishExternalEncounter(
+        this.world.distanceTraveled,
+        THREAT_PACING_BY_PROFILE[this.campaignProfile],
+      );
     this.threatPhase = 'recovery';
     this.bus.emit('threat:phase', { phase: 'recovery', wavesSurvived: this.director.waves });
     this.requestAutosave();
@@ -4126,6 +4273,99 @@ export class Game implements LoopCallbacks {
     }
   }
 
+  private async startCampaign(profile: CampaignProfile = 'story', preserve = true): Promise<void> {
+    if (this.newCampaignBusy || this.continuing || this.artTransition || this.disposed) return;
+    this.newCampaignBusy = true;
+    this.titleScreen?.setCampaignBusy(true);
+    try {
+      if (preserve) {
+        this.titleScreen?.showStatus('Preserving the previous campaign…');
+        // latestSlot may be the recovery checkpoint rather than quicksave.
+        await this.saves.preserveContinue('Before new campaign');
+      }
+      if (!this.disposed) this.startNewGame(profile);
+    } catch {
+      this.titleScreen?.showStatus(
+        'Unable to preserve the previous campaign. Nothing has been replaced; free storage and try again.',
+        true,
+      );
+    } finally {
+      this.newCampaignBusy = false;
+      this.titleScreen?.setCampaignBusy(false);
+    }
+  }
+
+  private async openCampaignLibrary(mode: 'boot' | 'pause'): Promise<void> {
+    if (this.libraryMode || this.newCampaignBusy || this.continuing || this.artTransition) return;
+    this.libraryMode = mode;
+    this.state.paused = true;
+    this.input.clearAll();
+    this.syncInputContext();
+    this.releasePointerLock();
+    this.titleScreen?.hide();
+    this.saveLibrary.show({
+      entries: [],
+      canLoad: mode === 'boot',
+      canSnapshot: mode === 'pause' && this.isSafeToSave(true),
+      snapshotReason:
+        mode === 'boot'
+          ? 'Continue a campaign and pause to save a new snapshot.'
+          : this.isSafeToSave(true)
+            ? null
+            : 'Finish the encounter and return to a safe deck before saving.',
+    });
+    await this.libraryAction(async () => {});
+  }
+
+  private closeCampaignLibrary(): void {
+    if (!this.libraryMode || this.libraryBusy) return;
+    const mode = this.libraryMode;
+    this.libraryMode = null;
+    this.saveLibrary.hide();
+    this.state.paused = mode === 'pause';
+    this.input.clearAll();
+    this.syncInputContext();
+    this.titleScreen?.show(mode);
+  }
+
+  private async libraryAction(action: () => Promise<void>): Promise<void> {
+    if (!this.libraryMode || this.libraryBusy || this.disposed) return;
+    this.libraryBusy = true;
+    this.saveLibrary.setBusy(true);
+    this.saveLibrary.showStatus('');
+    try {
+      await action();
+      if (this.libraryMode && !this.disposed)
+        this.saveLibrary.updateRows(await this.saves.listEntries());
+    } catch (error) {
+      if (!this.disposed)
+        this.saveLibrary.showStatus(
+          error instanceof Error ? error.message : 'Campaign action failed. Try again.',
+          true,
+        );
+    } finally {
+      this.libraryBusy = false;
+      if (!this.disposed) this.saveLibrary.setBusy(false);
+    }
+  }
+
+  private chooseCampaignFile(): Promise<File | null> {
+    return new Promise((resolve) => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json,application/json';
+      input.hidden = true;
+      const finish = (file: File | null): void => {
+        input.remove();
+        resolve(file);
+      };
+      input.addEventListener('change', () => finish(input.files?.[0] ?? null), { once: true });
+      input.addEventListener('cancel', () => finish(null), { once: true });
+      document.body.append(input);
+      input.click();
+    });
+  }
+
   private startNewGame(profile: CampaignProfile = 'story'): void {
     if (this.artTransition || this.continuing) return;
     this.adoptCampaignSeed(this.requestedSeed, 0);
@@ -4155,7 +4395,7 @@ export class Game implements LoopCallbacks {
     this.course.restore(undefined);
     this.courseDeltaM = 0;
     this.world.setLateralOffset(0);
-    this.director.reset(0);
+    this.director.reset(0, THREAT_PACING_BY_PROFILE[this.campaignProfile]);
     this.threatPhase = 'calm';
     this.vehicleScene.clear();
     this.gunboatScene.clear();
@@ -4254,7 +4494,7 @@ export class Game implements LoopCallbacks {
 
   /** `Esc` in play. The world genuinely stops behind it. */
   pause(): void {
-    if (!this.titleScreen || this.titleScreen.isOpen) return;
+    if (!this.titleScreen || this.titleScreen.isOpen || this.libraryMode) return;
     this.exitBuildMode('pause');
     this.state.paused = true;
     this.syncInputContext();
@@ -6342,11 +6582,22 @@ export class Game implements LoopCallbacks {
 
   /** Without this the panels cannot be clicked at all. */
   private releasePointerLock(): void {
+    this.cancelControlRequest?.();
     this.combat.cancelPendingBursts();
     this.syncInputContext();
     if (this.options.bypassPointerLock) return;
     if (document.pointerLockElement) document.exitPointerLock();
   }
+
+  /** A delayed Continue lock must not capture the pointer after a menu opens. */
+  private readonly onMenuPointerLock = (): void => {
+    if (
+      document.pointerLockElement &&
+      !this.cancelControlRequest &&
+      (this.libraryMode || this.titleScreen?.isOpen || this.state.paused)
+    )
+      document.exitPointerLock();
+  };
 
   /** Move a stack between the player and the open crate. */
   private transfer(from: 'player' | 'crate', slotIndex: number, all: boolean): void {
@@ -7364,10 +7615,29 @@ export class Game implements LoopCallbacks {
     this.dustFront = new DustFrontDirector(seed);
   }
 
+  /** Restore the saved phase exactly, or give pre-director saves a profile calm floor. */
+  private restoreThreatPacing(save: SaveGameV1): void {
+    const pacing = THREAT_PACING_BY_PROFILE[sanitizeCampaignProfile(save.profile)];
+    if (save.world.threatDirector) {
+      this.director.restore(save.world.threatDirector);
+      // External scenes are intentionally never serialized. Clear orphaned
+      // ownership without a reward and with the restored profile's quiet.
+      if (this.director.hasActiveExternalEncounter)
+        this.director.abortOrphanExternal(save.distanceTraveled, pacing);
+    } else this.director.reset(save.distanceTraveled, pacing);
+    this.threatPhase = this.director.currentPhase;
+  }
+
   async loadFrom(slot: string): Promise<boolean> {
     if (this.artTransition || this.disposed) return false;
-    const save = await this.saves.load(slot);
-    if (!save) return false;
+    let save: SaveGameV1;
+    try {
+      const stored = await this.saves.load(slot);
+      if (!stored) return false;
+      save = validateSaveForExport(stored);
+    } catch {
+      return false;
+    }
     if (
       typeof save.seed !== 'string' ||
       save.seed.length === 0 ||
@@ -7441,17 +7711,7 @@ export class Game implements LoopCallbacks {
     this.tutorialStarted = false;
     this.tutorialReadyAt = null;
     this.tutorialTurretId = null;
-    // A save written before the director existed restores as a fresh one from
-    // the same seed, which is the same thing a new game gets.
-    if (save.world.threatDirector) {
-      this.director.restore(save.world.threatDirector);
-      // External scenes are intentionally never serialized. A restored
-      // director flag therefore represents an orphaned encounter and must
-      // return to a calm floor without awarding salvage or recovery credit.
-      if (this.director.hasActiveExternalEncounter)
-        this.director.abortOrphanExternal(save.distanceTraveled);
-    } else this.director.reset(save.distanceTraveled);
-    this.threatPhase = this.director.currentPhase;
+    this.restoreThreatPacing(save);
 
     // Inventory before structures: rebuilding a crate creates an empty
     // container that the piece's own state then fills, and restoring the
@@ -7761,6 +8021,7 @@ export class Game implements LoopCallbacks {
     this.options.onDispose?.();
     window.removeEventListener('blur', this.onEndingFocusLost);
     document.removeEventListener('visibilitychange', this.onEndingVisibilityChange);
+    document.removeEventListener('pointerlockchange', this.onMenuPointerLock);
     this.cancelControlRequest?.();
     this.playerFade.dispose();
     this.cameraClothFade.dispose();
@@ -7769,6 +8030,7 @@ export class Game implements LoopCallbacks {
     this.machineStatus.dispose();
     this.campaignLog.dispose();
     this.signalBattle?.dispose();
+    this.vehicleScene.dispose();
     this.arrivalScene?.dispose();
     this.endingUI.dispose();
     this.disconnectSounds();
@@ -7779,6 +8041,7 @@ export class Game implements LoopCallbacks {
     this.rooftop?.dispose();
     this.rooftop = null;
     this.titleScreen?.dispose();
+    this.saveLibrary.dispose();
     this.hud.dispose();
     this.defenseHUD.dispose();
     this.buildUI.dispose();
@@ -7799,6 +8062,7 @@ export class Game implements LoopCallbacks {
     this.destination.dispose();
     this.buildPreview.dispose();
     this.lampLights.dispose();
+    this.navigationProgress?.dispose();
     this.machine.dispose();
     disposeLoadedModel(this.machineAuthoredModel);
     disposeLoadedModel(this.machineCollisionModel);

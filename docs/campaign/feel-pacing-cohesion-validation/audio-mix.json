@@ -1,0 +1,132 @@
+{
+  "status": "completed",
+  "generatedAt": "2026-09-17T03:06:36.589Z",
+  "runDirectory": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z",
+  "provenance": {
+    "sourceFiles": [
+      "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-engine-deck.webm",
+      "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-indoor.webm",
+      "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-combat.webm",
+      "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-pause.webm"
+    ],
+    "sourceLevelsPreserved": true,
+    "metricTools": {
+      "ffprobe": "ffprobe",
+      "ffmpeg": "ffmpeg"
+    },
+    "reviewCopies": {
+      "directory": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review",
+      "normalized": false,
+      "maxSecondsPerClip": 10
+    }
+  },
+  "metrics": [
+    {
+      "clip": "audio-engine-deck.webm",
+      "sourcePath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-engine-deck.webm",
+      "reviewPath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-engine-deck.wav",
+      "codec": "opus",
+      "channels": 2,
+      "sampleRate": 48000,
+      "durationSeconds": 6.3,
+      "sampleCount": 604800,
+      "frameCount": 302400,
+      "digitalSilence": false,
+      "peakDbfs": -36.56823487156833,
+      "rmsDbfs": -50.43022837332745,
+      "clippedSampleCount": 0,
+      "clipThresholdDbfs": -0.008690235480353834,
+      "silentTail": {
+        "thresholdDbfs": -60,
+        "seconds": 0,
+        "exceedsHalfSecond": false
+      },
+      "reviewCopy": {
+        "path": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-engine-deck.wav",
+        "normalized": false
+      }
+    },
+    {
+      "clip": "audio-indoor.webm",
+      "sourcePath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-indoor.webm",
+      "reviewPath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-indoor.wav",
+      "codec": "opus",
+      "channels": 2,
+      "sampleRate": 48000,
+      "durationSeconds": 45.3,
+      "sampleCount": 4348800,
+      "frameCount": 2174400,
+      "digitalSilence": false,
+      "peakDbfs": -31.712064123833635,
+      "rmsDbfs": -50.6206088135164,
+      "clippedSampleCount": 0,
+      "clipThresholdDbfs": -0.008690235480353834,
+      "silentTail": {
+        "thresholdDbfs": -60,
+        "seconds": 0,
+        "exceedsHalfSecond": false
+      },
+      "reviewCopy": {
+        "path": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-indoor.wav",
+        "normalized": false
+      }
+    },
+    {
+      "clip": "audio-combat.webm",
+      "sourcePath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-combat.webm",
+      "reviewPath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-combat.wav",
+      "codec": "opus",
+      "channels": 2,
+      "sampleRate": 48000,
+      "durationSeconds": 5.76,
+      "sampleCount": 552960,
+      "frameCount": 276480,
+      "digitalSilence": false,
+      "peakDbfs": -8.094255910118049,
+      "rmsDbfs": -33.46409742946523,
+      "clippedSampleCount": 0,
+      "clipThresholdDbfs": -0.008690235480353834,
+      "silentTail": {
+        "thresholdDbfs": -60,
+        "seconds": 0.0026250000000000995,
+        "exceedsHalfSecond": false
+      },
+      "reviewCopy": {
+        "path": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-combat.wav",
+        "normalized": false
+      }
+    },
+    {
+      "clip": "audio-pause.webm",
+      "sourcePath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-pause.webm",
+      "reviewPath": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-pause.wav",
+      "codec": "opus",
+      "channels": 2,
+      "sampleRate": 48000,
+      "durationSeconds": 3.48,
+      "sampleCount": 334080,
+      "frameCount": 167040,
+      "digitalSilence": true,
+      "peakDbfs": null,
+      "rmsDbfs": null,
+      "clippedSampleCount": 0,
+      "clipThresholdDbfs": -0.008690235480353834,
+      "silentTail": {
+        "thresholdDbfs": -60,
+        "seconds": 3.48,
+        "exceedsHalfSecond": true
+      },
+      "reviewCopy": {
+        "path": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\feel-acceptance\\run-2026-09-17T02-17-16-854Z\\audio-review\\audio-pause.wav",
+        "normalized": false
+      }
+    }
+  ],
+  "objectiveMetricsOnly": {
+    "humanListeningReview": {
+      "status": "not performed",
+      "reason": "This automation cannot listen to audio input; WAV copies are provided for human review."
+    }
+  },
+  "errors": []
+}

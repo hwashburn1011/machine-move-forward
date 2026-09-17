@@ -74,6 +74,27 @@ describe('OpeningDirector', () => {
     expect(d.phase).toBe('rooftop');
   });
 
+  it('resets a continued run before starting a fresh opening', () => {
+    const d = new OpeningDirector();
+    expect(d.begin('continue')).toEqual([]);
+    expect(d.begin('new-game')).toEqual(['spawn-rooftop']);
+    expect(d.update(onDeck)).toEqual(['grant-weapons', 'throttle-up', 'show-title-card']);
+    expect(d.phase).toBe('landed');
+  });
+
+  it('resets all one-shot effects after a completed opening', () => {
+    const d = new OpeningDirector();
+    d.begin('new-game');
+    d.update(onDeck);
+    run(d, TITLE_CARD_DELAY_S * 2);
+    expect(d.phase).toBe('done');
+
+    expect(d.begin('new-game')).toEqual(['spawn-rooftop']);
+    expect(d.update(onDeck)).toEqual(['grant-weapons', 'throttle-up', 'show-title-card']);
+    expect(run(d, TITLE_CARD_DELAY_S * 2)).toEqual(['teardown-rooftop']);
+    expect(d.phase).toBe('done');
+  });
+
   it('lands only on the deck, not on the roof it jumped from', () => {
     const d = new OpeningDirector();
     d.begin('new-game');

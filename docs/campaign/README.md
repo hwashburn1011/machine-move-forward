@@ -1,5 +1,11 @@
 # Campaign progression
 
+The [feel, pacing and cohesion delivery](feel-pacing-cohesion-delivery.md) adds a
+shared ordinary/radio recovery schedule, earned physical Helm parts and keepsake
+exhibits, with sustained-play and save-continuity evidence. The included
+[campaign library and workshop update](library-workshop-delivery.md) adds named
+snapshots, export/import, prepared boarding crews and the authored engine.
+
 The current campaign begins with the Wreck One radio signal, continues through the Relay Foundry, and offers the optional Quiet Array expedition after the Foundry is complete. Quiet Array contains two calibration journals and an independent ANNIKA archive shard; the course actuator is gated by the two calibration readings, while the archive can be recovered on its own.
 
 The powered Helm limits actuator steering to ±12 degrees and throttle to 35–100%. The route uses the actual global X coordinate across three reusable world bands. Three optional physical contacts can appear along the route: water caches, salvage wrecks, and memorials. Rewards use exact partial transfer counts and save their remainder. Unclaimed supplies remain available until an explicit departure.

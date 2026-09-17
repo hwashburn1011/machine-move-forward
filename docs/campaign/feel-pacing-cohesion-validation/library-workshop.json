@@ -1,0 +1,713 @@
+{
+  "scope": "Earlier pending work included in this iteration; no player save payloads included.",
+  "library": {
+    "rawReport": "test-results/save-library/2026-09-15T21-56-21-638Z/report.json",
+    "checks": [
+      "Existing published campaign appears and exports completely.",
+      "Pause snapshot writes a distinct Unicode-named record while the simulation stays frozen.",
+      "Save & Quit and cold Continue preserve structures, contents and campaign seed.",
+      "Preserve & Start snapshots the exact Continue authority before beginning a new rooftop opening.",
+      "Downloaded JSON imports into a clean browser with the complete saved state intact.",
+      "Duplicate imports create separate names/slots; malformed JSON writes nothing and leaves the menu usable.",
+      "Delete requires confirmation; exact selected imported snapshot loads with its campaign, structures and inventory."
+    ],
+    "errors": []
+  },
+  "boarding": [
+    {
+      "name": "medium-baseline",
+      "rawReport": "test-results/boarding-spawn-profile/run-2026-09-15T20-05-39-621Z/summary.json",
+      "firstSpawn": {
+        "name": "spawnActors",
+        "phase": "call",
+        "ms": 44.90000003576279,
+        "before": {
+          "now": 21122.399999976158,
+          "heap": {
+            "used": 239000000,
+            "total": 322000000
+          },
+          "renderer": {
+            "calls": 744,
+            "triangles": 2081998,
+            "geometries": 481,
+            "textures": 533,
+            "programs": 169
+          }
+        },
+        "after": {
+          "now": 21167.30000001192,
+          "heap": {
+            "used": 239000000,
+            "total": 322000000
+          },
+          "renderer": {
+            "calls": 744,
+            "triangles": 2081998,
+            "geometries": 481,
+            "textures": 533,
+            "programs": 169
+          }
+        },
+        "roster": [
+          "bastion",
+          "sovereign"
+        ],
+        "crewCount": 2,
+        "statePhase": "approach"
+      },
+      "postSpawnFrames": [
+        {
+          "name": "post-spawn-frame",
+          "frame": 1,
+          "sinceSpawnMs": 46.299999952316284,
+          "intervalMs": null,
+          "resources": {
+            "now": 21213.599999964237,
+            "heap": {
+              "used": 239000000,
+              "total": 322000000
+            },
+            "renderer": {
+              "calls": 744,
+              "triangles": 2081998,
+              "geometries": 481,
+              "textures": 533,
+              "programs": 169
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 2,
+          "sinceSpawnMs": 61.5,
+          "intervalMs": 15.200000047683716,
+          "resources": {
+            "now": 21228.899999976158,
+            "heap": {
+              "used": 239000000,
+              "total": 322000000
+            },
+            "renderer": {
+              "calls": 744,
+              "triangles": 2081998,
+              "geometries": 481,
+              "textures": 533,
+              "programs": 169
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 3,
+          "sinceSpawnMs": 70.19999998807907,
+          "intervalMs": 8.699999988079071,
+          "resources": {
+            "now": 21237.5,
+            "heap": {
+              "used": 239000000,
+              "total": 322000000
+            },
+            "renderer": {
+              "calls": 744,
+              "triangles": 2081998,
+              "geometries": 481,
+              "textures": 533,
+              "programs": 169
+            }
+          }
+        }
+      ],
+      "finalResources": {
+        "now": 24215.69999998808,
+        "heap": {
+          "used": 239000000,
+          "total": 322000000
+        },
+        "renderer": {
+          "calls": 779,
+          "triangles": 2300665,
+          "geometries": 505,
+          "textures": 556,
+          "programs": 169
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "medium-candidate",
+      "rawReport": "test-results/boarding-spawn-profile/run-2026-09-15T21-49-12-592Z/summary.json",
+      "firstSpawn": {
+        "name": "spawnActors",
+        "phase": "call",
+        "ms": 1.100000023841858,
+        "before": {
+          "now": 18568.799999952316,
+          "heap": {
+            "used": 286000000,
+            "total": 342000000
+          },
+          "renderer": {
+            "calls": 803,
+            "triangles": 2124710,
+            "geometries": 510,
+            "textures": 651,
+            "programs": 175
+          }
+        },
+        "after": {
+          "now": 18569.899999976158,
+          "heap": {
+            "used": 286000000,
+            "total": 342000000
+          },
+          "renderer": {
+            "calls": 803,
+            "triangles": 2124710,
+            "geometries": 510,
+            "textures": 651,
+            "programs": 175
+          }
+        },
+        "roster": [
+          "bastion",
+          "sovereign"
+        ],
+        "crewCount": 2,
+        "statePhase": "approach"
+      },
+      "postSpawnFrames": [
+        {
+          "name": "post-spawn-frame",
+          "frame": 1,
+          "sinceSpawnMs": 14.800000011920929,
+          "intervalMs": null,
+          "resources": {
+            "now": 18584.69999998808,
+            "heap": {
+              "used": 286000000,
+              "total": 342000000
+            },
+            "renderer": {
+              "calls": 803,
+              "triangles": 2124710,
+              "geometries": 510,
+              "textures": 651,
+              "programs": 175
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 2,
+          "sinceSpawnMs": 32.69999998807907,
+          "intervalMs": 17.899999976158142,
+          "resources": {
+            "now": 18602.69999998808,
+            "heap": {
+              "used": 286000000,
+              "total": 342000000
+            },
+            "renderer": {
+              "calls": 803,
+              "triangles": 2124710,
+              "geometries": 510,
+              "textures": 651,
+              "programs": 175
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 3,
+          "sinceSpawnMs": 49.19999998807907,
+          "intervalMs": 16.5,
+          "resources": {
+            "now": 18619.099999964237,
+            "heap": {
+              "used": 286000000,
+              "total": 342000000
+            },
+            "renderer": {
+              "calls": 803,
+              "triangles": 2124710,
+              "geometries": 510,
+              "textures": 651,
+              "programs": 175
+            }
+          }
+        }
+      ],
+      "finalResources": {
+        "now": 21591.399999976158,
+        "heap": {
+          "used": 286000000,
+          "total": 342000000
+        },
+        "renderer": {
+          "calls": 838,
+          "triangles": 2343377,
+          "geometries": 534,
+          "textures": 651,
+          "programs": 175
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "high-candidate",
+      "rawReport": "test-results/boarding-spawn-profile/run-2026-09-15T21-50-48-975Z/summary.json",
+      "firstSpawn": {
+        "name": "spawnActors",
+        "phase": "call",
+        "ms": 1.2000000476837158,
+        "before": {
+          "now": 18872.899999976158,
+          "heap": {
+            "used": 254000000,
+            "total": 322000000
+          },
+          "renderer": {
+            "calls": 1047,
+            "triangles": 3365030,
+            "geometries": 510,
+            "textures": 657,
+            "programs": 189
+          }
+        },
+        "after": {
+          "now": 18874.100000023842,
+          "heap": {
+            "used": 254000000,
+            "total": 322000000
+          },
+          "renderer": {
+            "calls": 1047,
+            "triangles": 3365030,
+            "geometries": 510,
+            "textures": 657,
+            "programs": 189
+          }
+        },
+        "roster": [
+          "bastion",
+          "sovereign"
+        ],
+        "crewCount": 2,
+        "statePhase": "approach"
+      },
+      "postSpawnFrames": [
+        {
+          "name": "post-spawn-frame",
+          "frame": 1,
+          "sinceSpawnMs": 15.199999988079071,
+          "intervalMs": null,
+          "resources": {
+            "now": 18889.30000001192,
+            "heap": {
+              "used": 254000000,
+              "total": 322000000
+            },
+            "renderer": {
+              "calls": 1047,
+              "triangles": 3365030,
+              "geometries": 510,
+              "textures": 657,
+              "programs": 189
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 2,
+          "sinceSpawnMs": 31.099999964237213,
+          "intervalMs": 15.899999976158142,
+          "resources": {
+            "now": 18905.19999998808,
+            "heap": {
+              "used": 254000000,
+              "total": 322000000
+            },
+            "renderer": {
+              "calls": 1047,
+              "triangles": 3365030,
+              "geometries": 510,
+              "textures": 657,
+              "programs": 189
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 3,
+          "sinceSpawnMs": 49.19999998807907,
+          "intervalMs": 18.100000023841858,
+          "resources": {
+            "now": 18923.30000001192,
+            "heap": {
+              "used": 254000000,
+              "total": 322000000
+            },
+            "renderer": {
+              "calls": 1047,
+              "triangles": 3365030,
+              "geometries": 510,
+              "textures": 657,
+              "programs": 189
+            }
+          }
+        }
+      ],
+      "finalResources": {
+        "now": 21896.100000023842,
+        "heap": {
+          "used": 254000000,
+          "total": 322000000
+        },
+        "renderer": {
+          "calls": 1076,
+          "triangles": 3593827,
+          "geometries": 534,
+          "textures": 657,
+          "programs": 189
+        }
+      },
+      "errors": []
+    },
+    {
+      "name": "high-baseline",
+      "rawReport": "test-results/boarding-spawn-profile/run-2026-09-15T21-53-20-987Z/summary.json",
+      "firstSpawn": {
+        "name": "spawnActors",
+        "phase": "call",
+        "ms": 43,
+        "before": {
+          "now": 18782.599999964237,
+          "heap": {
+            "used": 225000000,
+            "total": 304000000
+          },
+          "renderer": {
+            "calls": 977,
+            "triangles": 3318438,
+            "geometries": 481,
+            "textures": 539,
+            "programs": 183
+          }
+        },
+        "after": {
+          "now": 18825.599999964237,
+          "heap": {
+            "used": 225000000,
+            "total": 304000000
+          },
+          "renderer": {
+            "calls": 977,
+            "triangles": 3318438,
+            "geometries": 481,
+            "textures": 539,
+            "programs": 183
+          }
+        },
+        "roster": [
+          "bastion",
+          "sovereign"
+        ],
+        "crewCount": 2,
+        "statePhase": "approach"
+      },
+      "postSpawnFrames": [
+        {
+          "name": "post-spawn-frame",
+          "frame": 1,
+          "sinceSpawnMs": 43.90000003576279,
+          "intervalMs": null,
+          "resources": {
+            "now": 18869.599999964237,
+            "heap": {
+              "used": 225000000,
+              "total": 304000000
+            },
+            "renderer": {
+              "calls": 977,
+              "triangles": 3318438,
+              "geometries": 481,
+              "textures": 539,
+              "programs": 183
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 2,
+          "sinceSpawnMs": 57.30000001192093,
+          "intervalMs": 13.399999976158142,
+          "resources": {
+            "now": 18882.899999976158,
+            "heap": {
+              "used": 225000000,
+              "total": 304000000
+            },
+            "renderer": {
+              "calls": 977,
+              "triangles": 3318438,
+              "geometries": 481,
+              "textures": 539,
+              "programs": 183
+            }
+          }
+        },
+        {
+          "name": "post-spawn-frame",
+          "frame": 3,
+          "sinceSpawnMs": 72.80000001192093,
+          "intervalMs": 15.5,
+          "resources": {
+            "now": 18898.399999976158,
+            "heap": {
+              "used": 225000000,
+              "total": 304000000
+            },
+            "renderer": {
+              "calls": 977,
+              "triangles": 3318438,
+              "geometries": 481,
+              "textures": 539,
+              "programs": 183
+            }
+          }
+        }
+      ],
+      "finalResources": {
+        "now": 21873.19999998808,
+        "heap": {
+          "used": 225000000,
+          "total": 304000000
+        },
+        "renderer": {
+          "calls": 1003,
+          "triangles": 3536675,
+          "geometries": 505,
+          "textures": 562,
+          "programs": 183
+        }
+      },
+      "errors": []
+    }
+  ],
+  "workshop": {
+    "rawReport": "test-results/interior-camera/2026-09-15T21-55-11-256Z/summary.json",
+    "status": "passed",
+    "workshop": {
+      "roots": [
+        {
+          "name": "Workshop-engine",
+          "position": [
+            0,
+            14.83,
+            6
+          ],
+          "surfaceHits": [
+            {
+              "name": "NomadDriveCore_Array_OxidePaint",
+              "y": 15.288969598144693,
+              "distance": 0.14999946640569028
+            },
+            {
+              "name": "NomadDriveCore_Array_CharcoalSteel",
+              "y": 15.1239693985198,
+              "distance": 0.3149996660305838
+            },
+            {
+              "name": "NomadDriveCore_Array_OxidePaint",
+              "y": 15.068969331978167,
+              "distance": 0.3699997325722162
+            },
+            {
+              "name": "NomadDriveCore_Array_CharcoalSteel",
+              "y": 15.048969299653296,
+              "distance": 0.38999976489708743
+            },
+            {
+              "name": "NomadDriveCore_Array_CharcoalSteel",
+              "y": 14.848969065811643,
+              "distance": 0.5899999987387403
+            }
+          ]
+        },
+        {
+          "name": "Workshop-leg-front-left",
+          "position": [
+            -6.3,
+            14.790000000000001,
+            -4.8
+          ],
+          "surfaceHits": [
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.840827868602483,
+              "distance": 0.5529999489960229
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.825827853672065,
+              "distance": 0.5679999639264413
+            },
+            {
+              "name": "Perimeter_walking_ledge001",
+              "y": 14.825495281399155,
+              "distance": 0.5683325361993514
+            },
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.816827842478638,
+              "distance": 0.5769999751198682
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.793827817598507,
+              "distance": 0.5999999999999996
+            }
+          ]
+        },
+        {
+          "name": "Workshop-leg-front-right",
+          "position": [
+            6.3,
+            14.790000000000001,
+            -4.8
+          ],
+          "surfaceHits": [
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.82808325764014,
+              "distance": 0.5529999489960229
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.813083242709721,
+              "distance": 0.5679999639264413
+            },
+            {
+              "name": "Perimeter_walking_ledge001",
+              "y": 14.81275067043681,
+              "distance": 0.5683325361993532
+            },
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.804083231516294,
+              "distance": 0.5769999751198682
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.781083206636163,
+              "distance": 0.5999999999999996
+            }
+          ]
+        },
+        {
+          "name": "Workshop-leg-rear-left",
+          "position": [
+            -6.3,
+            14.790000000000001,
+            4.8
+          ],
+          "surfaceHits": [
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.851062175824753,
+              "distance": 0.5529999489960229
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.836062160894334,
+              "distance": 0.5679999639264413
+            },
+            {
+              "name": "Perimeter_walking_ledge001",
+              "y": 14.835729588621424,
+              "distance": 0.5683325361993514
+            },
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.827062149700907,
+              "distance": 0.5769999751198682
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.804062124820776,
+              "distance": 0.5999999999999996
+            }
+          ]
+        },
+        {
+          "name": "Workshop-leg-rear-right",
+          "position": [
+            6.3,
+            14.790000000000001,
+            4.8
+          ],
+          "surfaceHits": [
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.83831756486241,
+              "distance": 0.5529999489960229
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.823317549931991,
+              "distance": 0.5679999639264413
+            },
+            {
+              "name": "Perimeter_walking_ledge001",
+              "y": 14.822984977659079,
+              "distance": 0.5683325361993532
+            },
+            {
+              "name": "Worn_hatch_lid",
+              "y": 14.814317538738564,
+              "distance": 0.5769999751198682
+            },
+            {
+              "name": "Inset_service_hatch",
+              "y": 14.791317513858433,
+              "distance": 0.5999999999999996
+            }
+          ]
+        }
+      ],
+      "fallbackVisible": false,
+      "damage": [
+        {
+          "id": "engine",
+          "health": 320
+        },
+        {
+          "id": "leg-front-left",
+          "health": 180
+        },
+        {
+          "id": "leg-front-right",
+          "health": 180
+        },
+        {
+          "id": "leg-rear-left",
+          "health": 180
+        },
+        {
+          "id": "leg-rear-right",
+          "health": 180
+        }
+      ],
+      "resources": {
+        "geometries": 510,
+        "textures": 651
+      },
+      "normalShot": {
+        "engineBefore": 320,
+        "engineAfter": 320
+      }
+    },
+    "errors": []
+  }
+}

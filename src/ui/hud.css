@@ -163,10 +163,29 @@
 }
 
 /* --- Machine status, top left ----------------------------------------- */
+.hud-machine-stack {
+  position: absolute;
+  left: 26px;
+  top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+.hud-machine-stack #hud-machine,
+.hud-machine-stack .machine-status-view {
+  position: relative;
+  left: 0;
+  top: 0;
+}
 #hud-machine {
   left: 26px;
   top: 26px;
   min-width: 172px;
+}
+
+#hud-fuel-help {
+  white-space: pre-line;
 }
 
 .hud-row {

@@ -1,0 +1,146 @@
+{
+  "name": "nomad-workshop",
+  "bytes": 4104744,
+  "errors": 0,
+  "warnings": 0,
+  "infos": 12,
+  "geometry": {
+    "roots": {
+      "NomadDriveCore": {
+        "min": [
+          -1.350000023841858,
+          0.002499997615814209,
+          -1.2629090771079063
+        ],
+        "max": [
+          1.350000023841858,
+          1.7859999537467957,
+          1.2299999967217445
+        ],
+        "triangles": 22788,
+        "width": 2.700000047683716,
+        "depth": 2.492909073829651,
+        "reference": {
+          "min": [
+            -1.350000023841858,
+            0.002499997615814209,
+            -1.2629090547561646
+          ],
+          "max": [
+            1.350000023841858,
+            1.7860000133514404,
+            1.2300000190734863
+          ],
+          "triangles": 22788,
+          "meshes": 10
+        },
+        "errors": []
+      },
+      "NomadLegServiceHatch": {
+        "min": [
+          -0.36500000953674316,
+          0,
+          -0.41999998688697815
+        ],
+        "max": [
+          0.36500000953674316,
+          0.06700000166893005,
+          0.41999998688697815
+        ],
+        "triangles": 3048,
+        "width": 0.7300000190734863,
+        "depth": 0.8399999737739563,
+        "reference": {
+          "min": [
+            -0.36500000953674316,
+            0,
+            -0.41999998688697815
+          ],
+          "max": [
+            0.36500000953674316,
+            0.06700000166893005,
+            0.41999998688697815
+          ],
+          "triangles": 3048,
+          "meshes": 7
+        },
+        "errors": []
+      }
+    },
+    "totalTriangles": 25836
+  },
+  "messages": [
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/6/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/6/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/9/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/9/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/11/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/11/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/12/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/12/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "code": "UNUSED_MESH_TANGENT",
+      "message": "Tangents are not used because the material has no normal texture.",
+      "severity": 2,
+      "pointer": "/meshes/15/primitives/0/attributes/TANGENT"
+    },
+    {
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/15/primitives/0/attributes/TEXCOORD_0"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "nomad-workshop",
+  "meshes": 17,
+  "triangles": 25836,
+  "anchors": {
+    "NomadWorkshop": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "NomadDriveCore": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "NomadLegServiceHatch": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "DriveRotor": [
+      0.0,
+      1.2480000257492065,
+      0.9599999785423279
+    ]
+  }
+}
