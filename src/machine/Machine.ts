@@ -244,6 +244,46 @@ export class Machine {
     this.movement.totalWeight = 12000;
   }
 
+  /**
+   * Add a fixed machine-local obstacle before systems that consume
+   * `equipmentCells` are constructed. The returned collider may be toggled
+   * without replacing its body; it continues to follow the hull pose while
+   * disabled.
+   */
+  addFixtureBox(half: THREE.Vector3, center: THREE.Vector3): RAPIER.Collider {
+    if (this.disposed) throw new Error('Cannot add a fixture to a disposed machine');
+    if (
+      ![half.x, half.y, half.z, center.x, center.y, center.z].every(Number.isFinite) ||
+      half.x <= 0 ||
+      half.y <= 0 ||
+      half.z <= 0
+    )
+      throw new RangeError('Fixture box requires finite coordinates and positive half extents');
+
+    const rest = center.clone();
+    const body = this.physics.createDrivenBody(rest);
+    let collider: RAPIER.Collider;
+    try {
+      collider = this.physics.addBoxTo(body, half, ZERO, undefined, { kind: 'machine' });
+    } catch (error) {
+      this.physics.removeBody(body);
+      throw error;
+    }
+    this.bodies.push(body);
+    this.restPositions.push(rest);
+    this.restRotations.push(new THREE.Quaternion());
+
+    const occupied = new Set(this.equipmentCells.map((cell) => `${cell.x},${cell.y},${cell.z}`));
+    for (const cell of projectEquipmentCells([{ half, center: rest }])) {
+      const key = `${cell.x},${cell.y},${cell.z}`;
+      if (!occupied.has(key)) {
+        occupied.add(key);
+        this.equipmentCells.push(cell);
+      }
+    }
+    return collider;
+  }
+
   applyWorkshopModel(model: LoadedModel | null): void {
     this.workshop.apply(model);
     this.workshop.update(0, this.damage);

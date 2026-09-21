@@ -402,7 +402,7 @@ export class VehicleScene {
   ): { feet: THREE.Vector3; spawn: THREE.Vector3; anchor: THREE.Vector3 } {
     const spawn =
       this.callbacks.boardingLanding?.(state.side, index) ??
-      new THREE.Vector3(state.side === 'port' ? -4 : 4, CHARACTER_DROP_Y, -2);
+      new THREE.Vector3(state.side === 'port' ? -10 : 10, CHARACTER_DROP_Y, -2);
     return {
       spawn: spawn.clone(),
       feet: new THREE.Vector3(spawn.x, DECK_SURFACE_Y + 0.05, spawn.z),

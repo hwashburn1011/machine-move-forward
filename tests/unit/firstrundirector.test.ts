@@ -5,7 +5,7 @@ describe('FirstRunDirector', () => {
   it('counts facts taken out of order and derives the next action', () => {
     const d = new FirstRunDirector();
     d.observe({ type: 'build-placed', definitionId: 'workbench' });
-    for (let i = 0; i < 8; i++)
+    for (let i = 0; i < 12; i++)
       d.observe({ type: 'craft-completed', recipeId: 'refine-components' });
     d.observe({ type: 'build-placed', definitionId: 'refinery' });
     d.observe({ type: 'salvage-collected', count: 1, source: 'Salvage crate' });
@@ -37,7 +37,7 @@ describe('FirstRunDirector', () => {
       snapshot: {
         salvageCollected: 1,
         refineryBuilt: true,
-        componentsRefined: 8,
+        componentsRefined: 12,
         workbenchBuilt: true,
         defenseBuilt: 1,
         defenseCrewed: 1,
@@ -66,7 +66,7 @@ describe('FirstRunDirector', () => {
       snapshot: {
         salvageCollected: 1,
         refineryBuilt: true,
-        componentsRefined: 8,
+        componentsRefined: 12,
         workbenchBuilt: true,
         defenseBuilt: 1,
         defenseCrewed: 1,
@@ -84,7 +84,7 @@ describe('FirstRunDirector', () => {
 
   it('counts component output units when a recipe emits more than one', () => {
     const d = new FirstRunDirector();
-    for (let i = 0; i < 4; i++)
+    for (let i = 0; i < 6; i++)
       d.observe({ type: 'craft-completed', recipeId: 'refine-components', outputCount: 2 });
     expect(d.completedSteps).toContain('refine-components');
   });
@@ -93,7 +93,7 @@ describe('FirstRunDirector', () => {
     const d = new FirstRunDirector();
     d.observe({ type: 'salvage-collected', count: 1, source: 'Salvage crate' });
     d.observe({ type: 'build-placed', definitionId: 'refinery' });
-    d.observe({ type: 'snapshot', snapshot: { componentsAvailable: 8 } });
+    d.observe({ type: 'snapshot', snapshot: { componentsAvailable: 12 } });
     d.observe({ type: 'build-placed', definitionId: 'workbench' });
     d.observe({ type: 'build-placed', definitionId: 'turret-manual' });
     d.observe({ type: 'defense-crewed' });

@@ -11,6 +11,7 @@ import {
 import type { PieceId } from '@/data/build-pieces';
 import { buildNavGraph } from '@/enemies/NavGraph';
 import { CaretakerNavigation } from '@/companion/CaretakerNavigation';
+import { DECK_SURFACE_Y, LEVEL_HEIGHT } from '@/game/constants';
 
 const c = (x: number, y: number, z: number): Cell => ({ x, y, z });
 const floor = (grid: BuildGrid<PieceId>, cells: readonly Cell[]) => {
@@ -148,7 +149,9 @@ describe('CaretakerNavigation', () => {
     expect(portal.length).toBeGreaterThanOrEqual(6);
     expect(new Set(portal.map((point) => point.portalId)).size).toBe(1);
     expect(portal.filter((point) => point.portalExit)).toHaveLength(1);
-    expect(route?.[0]?.distanceTo(world(group, upper))).toBeLessThan(0.7);
+    const portalLocal = portal.map((point) => group.worldToLocal(point.clone()));
+    expect(portalLocal[0]!.z).toBeCloseTo(2, 6);
+    expect(portalLocal.at(-1)!.z).toBeCloseTo(-2, 6);
     expect(route?.at(-1)?.distanceTo(world(group, lower))).toBeLessThan(1e-7);
     const local = route!.map((point) => group.worldToLocal(point.clone()));
     expect(local[2]!.y).toBeGreaterThan(local[3]!.y);
@@ -178,7 +181,7 @@ describe('CaretakerNavigation', () => {
     const blocked = new CaretakerNavigation(
       { group, fixedLinks: [[upper, lower]] } as never,
       buildView(grid, graph) as never,
-      (point) => Math.abs(point.x + 2) > 0.1 || point.z < 3,
+      (point) => Math.abs(point.x + 2) > 0.1 || point.z < 2.3,
     );
     expect(blocked.routeFor(world(group, upper), world(group, lower))).toBeNull();
   });
@@ -195,7 +198,7 @@ describe('CaretakerNavigation', () => {
       { group, fixedLinks: [[upper, lower]] } as never,
       buildView(grid, graph) as never,
     );
-    const belowRamp = new THREE.Vector3(-2, 14.74 + -2 * 3 - 0.25, 0);
+    const belowRamp = new THREE.Vector3(-2, DECK_SURFACE_Y - 2 * LEVEL_HEIGHT - 0.25, 0);
     expect(nav.routeFor(belowRamp, world(group, upper))).toBeNull();
   });
 

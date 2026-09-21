@@ -11,6 +11,11 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 ## Playable features
 
 - Salvage reel, inventory, storage, crafting, refinery, workbench, power and fuel.
+- A skippable cinematic opening: two robots chase S-07 from a rooftop, S-07 jumps onto the Nomad and destroys the pursuers, then normal play begins.
+- Three expanded decks with spread-out machinery, lower/middle wraparound platforms, usable exterior stairs and an open lower prow for cargo fishing. [Machine detail and explosion refinement](docs/campaign/nomad-detail-refinement.md) covers the maintenance ladders, furnace platforms and corrected mountings.
+- A calm scanner opening: recover cargo, build a refinery and workbench, assemble/install a replacement module, and start a three-minute powered scan before the ship battle.
+- A wrist terminal opened with **Tab** aboard the Nomad: inventory, character, workshop, machine, signal/records and build catalog. Simulation pauses while it is open; installed equipment, power and material costs still apply.
+- Refined Blender cargo, fuel can, generator, scanner, wrist device, workbench, refinery and storage models with readable labels and state indicators. [Art and layout details](docs/art/nomad-foundations/README.md).
 - Empty fuel tanks engage a smooth 20% emergency crawl so salvage remains reachable. Reel crates with **F**, then take their fuel to a generator and press **E** to refuel.
 - Seeded desert districts with 14 original ruin and wreck models: buried houses, exposed apartment towers, factories, broken overpasses, hollow cars and buses, ruptured tankers, torn billboards, pylons and water towers.
 - Buildable floors, walls, doorways, rails, roofs, stairs, stations and equipment on a 2m grid.
@@ -32,11 +37,13 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - Storage panels provide **Take All**, **Deposit Matching** and **Sort** operations with truthful overflow feedback.
 - Volume-based camera collision, smooth close-player fading, shoulder swap and remappable controls make cramped decks easier to navigate.
 - Decorative machine canvas fades when it obscures the player. Original Blender stove, condenser and planter models give the galley worn enamel, readable controls, copper coils and growing crops. [Interior refinement and validation](docs/interior-galley/README.md).
-- A compact maintenance view combines fuel, emergency crawl, power shortages and service-deck repair needs.
+- A compact HUD strip shows essentials; faults expose maintenance detail, and the wrist's Machine page groups equipment, production, fuel, power and repair needs.
 - After the guided first run, expand **Care & forecasts** in machine status for fuel range, water/food recovery, growing-garden timing, repair materials and save restrictions.
 - Open **Campaign Record** from the Radio or Helm to reread preserved journals, review completed chapters and discoveries, and find optional Keep Walking goals.
 - Earned navigation parts appear on the existing Helm, with a working heading needle. Keepsake shelves display a physical record, seed sample, or memory core for the selected discovery.
-- Ordinary threats and radio boarding raids share a distance-based recovery, calm period and warning. Story gives longer quiet intervals than Survival; combat damage and rewards are unchanged.
+- Ordinary threats and radio boarding raids share a distance-based recovery, calm period and warning. The campaign uses generous quiet intervals between encounters; combat damage and rewards are unchanged.
+
+See the [21 September Nomad release notes](docs/campaign/nomad-release-2026-09-21.md) for the combined update and validation.
 
 ## Current campaign iteration
 
@@ -67,9 +74,9 @@ npm run lint
 npm run test:e2e            # Playwright browser suite
 ```
 
-The main vehicle is now the **Iron Nomad**: a four-legged industrial walker with three accessible decks, workshop bays, a command cabin, twin furnaces, a cargo crane, lights, and animated exhaust. [Model and gameplay details](docs/art/iron-nomad-playable/README.md).
+The main vehicle is the **Iron Nomad**: a four-legged industrial walker with three accessible decks, workshop bays, a command cabin, twin furnaces, a cargo crane, lights and animated exhaust. Its v3 layout has a 22 × 26 m core on all three decks, 26 × 30 m lower/middle platforms, a 24 × 28 m upper rim and 3.6 m deck spacing. Exterior stairs and a supported bypass connect the decks. Older layouts migrate their structures and contents when loaded. [Expanded layout and cinematic delivery](docs/campaign/expanded-nomad-cinematic-delivery.md).
 
-The title screen offers New Game, Continue, Campaigns and Settings. Click the canvas for pointer lock. `Esc` opens the pause menu; Save & Quit waits for a safe boundary during an encounter.
+The title screen offers New Game, Continue, Campaigns and Settings. New Game starts the standard campaign directly with a 10-second cinematic; hold Escape for one second to skip. Continue resumes the saved campaign without replaying it. Click the canvas for pointer lock. `Esc` opens the pause menu; Save & Quit waits for a safe boundary during an encounter.
 
 **Campaigns** keeps named snapshots alongside the rolling quicksave and Meridian recovery checkpoint. Pause at a safe moment to save a snapshot; use the title menu to load one. Export a campaign as JSON and import it in another browser. Imports create a new snapshot, and starting New Game offers **Preserve & Start** before replacing the current run. Continue still selects the latest readable system recovery save.
 
@@ -102,22 +109,22 @@ Editable Blender masters, textures and optimized game models are versioned along
 | `E`          | Use stations, radio, journals, uniques and deck gun |
 | Hold `E`     | Repair or cut a boarding hook                       |
 | `B`          | Enter build catalog / exit building                 |
-| `Tab`        | Inventory                                           |
+| `Tab`        | Wrist terminal aboard / inventory away from the Nomad |
 | `M`          | Mute                                                |
 | `V`          | Swap camera shoulder                                |
 | `Esc`        | Close panel, leave gun or pause                     |
 
 Build placement uses `G` to reopen the searchable catalog, `Q`/`E` to rotate, `Page Up`/`Page Down` for manual deck selection, `Home` for automatic selection, LMB to place, RMB to cancel, `V` to select equipment for relocation, and hold `X` for demolition and its refund preview. Out-of-range targets remain visible as invalid; valid placement reaches 12 m from the player and supports all three decks.
 
-Settings preserve existing audio and quality preferences and add look sensitivity, hip FOV (50–80 degrees, default 55 with the original 38-degree aim ratio), shoulder preference, and context-aware keyboard/mouse remapping. Conflicting bindings require an explicit replacement choice; Escape remains available for recovery.
+Settings include wrist text scaling up to 140% and reduced motion, preserve existing audio and quality preferences, and add look sensitivity, hip FOV (50–80 degrees, default 55 with the original 38-degree aim ratio), shoulder preference, and context-aware keyboard/mouse remapping. Conflicting bindings require an explicit replacement choice; Escape remains available for recovery.
 
 The [gameplay polish implementation and acceptance record](docs/gameplay-polish/README.md) covers these controls, preserved combat rules, Blender animation sources and validation evidence.
 
 ## Radio encounter loop
 
-The first eligible salvage chest after the opening contains the radio. Reception builds as the Nomad travels. At 100%, after the guided defense is complete and the deck is safe, a 17-second cinematic looks off the starboard bow: human and robot ships exchange fire, then the sword-wielding Revenant turns toward the Nomad. Hold **Esc** to skip.
+The first eligible salvage chest after the opening contains the radio. The opening guide now asks you to build a refinery, refine 12 components, build a workbench, then craft and physically install a scanner replacement module. Choose **Start scan** at the receiver or in the wrist terminal. Scanning takes 180 active, powered seconds aboard; menus and loss of power suspend it without losing progress. At 100%, three safe simulation seconds lead into the existing 17-second starboard battle: human and robot ships exchange fire, then the sword-wielding Revenant turns toward the Nomad. Hold **Esc** to skip. The guided defense follows the reveal.
 
-Control returns with a short breather. Random boarding ships approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health on deck. After resolution, Story provides 250 m of recovery followed by 400–1,100 m of calm; Survival provides 200 m followed by 300–800 m. Both warn 140 m before the next recurring encounter. These distances take longer at low speed and do not advance while stopped. Older saves honor their remaining radio delay once before using the shared schedule. After your first successful defense, the powered radio offers **Trace Wreck One**. You can accept it when safe or keep surviving aboard the machine.
+Control returns with a short breather and time to prepare the guided defense. Random boarding ships approach from either side, launch a grapple, and hoist two different mechs over the rail. Shoot the hull, crew or hook, or hold **E** near the attached hook to cut it. Survivors retain their health on deck. After resolution, the campaign provides 250 m of recovery followed by 400–1,100 m of calm, with a 140 m warning before the next recurring encounter. These distances take longer at low speed and do not advance while stopped. Older saves honor their remaining radio delay once before using the shared schedule. After your first successful defense, the powered radio offers **Trace Wreck One**. You can accept it when safe or keep surviving aboard the machine.
 
 Campaign saves carry their requested seed across terrain, scenery, threats,
 spawning, salvage, loot and radio routes, so continuing a non-default seed does
@@ -141,7 +148,7 @@ Departing the Foundry completes the first chapter and resumes recurring mech rai
 
 ## Home life and route risk
 
-New campaigns offer **Story** (the existing infinite reserve ammunition) or **Survival** (finite rifle and shotgun reserves, replenished with existing ammunition and workbench recipes). The choice stays with that campaign; older saves remain Story.
+There is one campaign, with infinite reserve ammunition and normal magazine reloads. The separate Survival preset has been removed. Existing Survival saves and imported snapshots retain their progress, equipment and inventory, and resume with standard campaign ammunition and future encounter pacing.
 
 After Relay Foundry, open a **workbench → Weapon attachments**. Research a rifle stabilizer or three-round burst cam, or a shotgun choke or scatter brake. Each costs 12 scrap and 8 components once; swapping or removing researched attachments is free. Fieldwork tools draw 1 power while open. Attachments trade handling, range, reload time or firing cadence without changing base damage, and coexist with the extended magazine.
 

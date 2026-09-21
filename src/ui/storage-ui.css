@@ -76,6 +76,7 @@
   border-radius: 3px;
   pointer-events: auto;
 }
+.machine-status-view:not(.is-attention) { display: none; }
 #inv-panel .inv-actions-plain {
   justify-content: flex-start;
 }

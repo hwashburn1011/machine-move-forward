@@ -71,6 +71,7 @@ export class PlayerVisual {
    * ever looks held.
    */
   private hand: THREE.Object3D | null = null;
+  private leftHand: THREE.Object3D | null = null;
   /**
    * Where a weapon sits in this rig's fist, in the hand bone's OWN frame.
    *
@@ -89,6 +90,16 @@ export class PlayerVisual {
   /** What is currently in that hand, so swapping weapons can take it out. */
   private held: THREE.Object3D | null = null;
   private heldId: string | null = null;
+  private forearm: THREE.Object3D | null = null;
+  private terminalMount: THREE.Group | null = null;
+  private terminalOpen = false;
+  private terminalPose = 0;
+  private appliedTerminalPose = 0;
+  private reducedMotion = false;
+  private refuelMount: THREE.Group | null = null;
+  private refuelActive = false;
+  private refuelElapsed = 0;
+  private static readonly REFUEL_DURATION = 0.9;
   private muzzle: THREE.Object3D | null = null;
   private attachment: THREE.Object3D | null = null;
   private attachmentId: string | null = null;
@@ -190,6 +201,9 @@ export class PlayerVisual {
     const handName = findHandBone(boneNames);
     this.hand =
       scene.getObjectByName('WeaponSocket') ?? (handName ? (bones.get(handName) ?? null) : null);
+    const leftHandName = this.findHandName(boneNames, false);
+    this.leftHand = leftHandName ? (bones.get(leftHandName) ?? null) : null;
+    this.forearm = this.resolveForearm(scene, this.hand);
 
     // Rest offsets, which are pose-independent — so unlike the world-rotation
     // measurement this replaced, it does not matter that the mixer has not run.
@@ -227,6 +241,7 @@ export class PlayerVisual {
 
   setCombatPresentation(clock: PlayerCombatClock): void {
     const state = playerCombatSnapshot(clock);
+    if (state.aiming || state.reloading) this.cancelRefuel();
     this.aimPitch = Math.max(-1.1, Math.min(1.1, state.aimPitch));
     this.aimYaw = Math.max(-0.8, Math.min(0.8, state.aimYaw));
     this.reloadLayer?.setState(state.weaponId, state.reloading, state.reloadProgress);
@@ -243,6 +258,7 @@ export class PlayerVisual {
     grounded: boolean,
     crouching = false,
     selfVelocity?: THREE.Vector3,
+    cinematicGait?: 'walk' | 'run',
   ): void {
     this.grounded = grounded;
     if (!this.mixer) return;
@@ -264,9 +280,8 @@ export class PlayerVisual {
       const blend = directionalBlend(local.x, local.z);
       const gait = crouching
         ? 'crouch_walk'
-        : speed >= (PLAYER_WALK_SPEED + PLAYER_SPRINT_SPEED) / 2
-          ? 'run'
-          : 'walk';
+        : (cinematicGait ??
+          (speed >= (PLAYER_WALK_SPEED + PLAYER_SPRINT_SPEED) / 2 ? 'run' : 'walk'));
       const primary = this.actions.get(`armed_${gait}_${blend.primary}`);
       if (primary) {
         if (this.directionalGait !== gait) this.enterDirectionalGait(gait);
@@ -414,6 +429,85 @@ export class PlayerVisual {
     }
   }
 
+  /** Mount the authored terminal to the resolved forearm, if this rig exposes one. */
+  setWristTerminal(model: LoadedModel | null): void {
+    this.terminalMount?.removeFromParent();
+    this.terminalMount = null;
+    if (!model || !this.forearm) return;
+    const terminal = cloneSkinned(model.scene);
+    terminal.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(terminal, true);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const width = Math.max(size.x, size.z, 1e-4);
+    const scale = Math.min(0.15 / width, 0.22 / Math.max(size.y, 1e-4));
+    terminal.scale.setScalar(scale);
+    terminal.position.set(0, -0.01, 0);
+    terminal.traverse((object) => {
+      if ((object as THREE.Mesh).isMesh) {
+        object.castShadow = true;
+        object.receiveShadow = true;
+      }
+    });
+    const mount = new THREE.Group();
+    mount.name = 'wrist-terminal';
+    mount.position.set(0, -0.015, 0.035);
+    mount.rotation.set(0, 0, 0);
+    mount.visible = this.terminalOpen;
+    mount.add(terminal);
+    this.forearm.add(mount);
+    this.terminalMount = mount;
+  }
+
+  /** Render-time presentation state; simulation and input remain Game-owned. */
+  setTerminalOpen(open: boolean): void {
+    this.terminalOpen = open;
+    if (this.terminalMount) this.terminalMount.visible = open;
+    if (this.held) this.held.visible = !open && !this.refuelActive;
+  }
+
+  setReducedMotion(reduced: boolean): void {
+    this.reducedMotion = reduced;
+  }
+
+  /** Presentation-only refuel gesture. Gameplay fuel transfer remains immediate. */
+  playRefuel(model: LoadedModel | null): void {
+    this.cancelRefuel();
+    const mountPoint = this.leftHand ?? this.hand;
+    if (!model || !mountPoint) return;
+    const canister = cloneSkinned(model.scene);
+    canister.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(canister, true);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const longest = Math.max(size.x, size.y, size.z, 1e-4);
+    canister.scale.setScalar(0.28 / longest);
+    canister.position.set(0, -0.04, 0.035);
+    canister.traverse((object) => {
+      if ((object as THREE.Mesh).isMesh) {
+        object.castShadow = true;
+        object.receiveShadow = true;
+      }
+    });
+    const mount = new THREE.Group();
+    mount.name = 'refuel-canister';
+    mount.position.set(0, -0.02, 0.03);
+    mount.add(canister);
+    mountPoint.add(mount);
+    this.refuelMount = mount;
+    this.refuelActive = true;
+    this.refuelElapsed = 0;
+    if (this.held) this.held.visible = false;
+  }
+
+  cancelRefuel(): void {
+    this.refuelMount?.removeFromParent();
+    this.refuelMount = null;
+    this.refuelActive = false;
+    this.refuelElapsed = 0;
+    if (this.held) this.held.visible = !this.terminalOpen;
+  }
+
   /** Add the authored attachment after fitting the gun, preserving its grip and scale. */
   setAttachment(id: string | null, source: THREE.Object3D | null): void {
     if (id === this.attachmentId) return;
@@ -453,7 +547,15 @@ export class PlayerVisual {
   }
 
   /** Advance the animation. Render step: `dt` is a frame delta, not a tick. */
-  update(dt: number): void {
+  update(dt: number, uiDt = dt): void {
+    // Remove only the pose this presentation layer applied last frame. The
+    // mixer (when present) then owns the base animation, so paused UI frames
+    // cannot accumulate an arm rotation.
+    if (this.forearm && this.appliedTerminalPose > 0) {
+      this.forearm.rotation.x += 0.72 * this.appliedTerminalPose;
+      this.forearm.rotation.y -= 0.18 * this.appliedTerminalPose;
+      this.appliedTerminalPose = 0;
+    }
     if (this.appliedAim.pitch !== 0 || this.appliedAim.yaw !== 0)
       for (const bone of this.aimBones) {
         bone.rotation.x -= this.appliedAim.pitch / this.aimBones.length;
@@ -467,6 +569,26 @@ export class PlayerVisual {
         THREE.MathUtils.lerp(action.getEffectiveWeight(), target, weightBlend),
       );
     this.mixer?.update(dt);
+    if (this.refuelActive && this.refuelMount) {
+      this.refuelElapsed += Math.max(0, dt);
+      const progress = Math.min(1, this.refuelElapsed / PlayerVisual.REFUEL_DURATION);
+      const gesture = Math.sin(progress * Math.PI);
+      this.refuelMount.rotation.z = -0.85 * gesture;
+      this.refuelMount.position.y = -0.02 + 0.025 * gesture;
+      if (progress >= 1) this.cancelRefuel();
+    }
+    const terminalTarget = this.terminalOpen ? 1 : 0;
+    const terminalBlend = 1 - Math.exp(-Math.max(0, uiDt) * 12);
+    this.terminalPose = this.reducedMotion
+      ? terminalTarget
+      : this.terminalPose + (terminalTarget - this.terminalPose) * terminalBlend;
+    if (this.forearm && this.terminalPose > 1e-4) {
+      // Additive after the mixer: the authored gait remains the base pose and
+      // closing the panel naturally restores it as the blend reaches zero.
+      this.forearm.rotation.x -= 0.72 * this.terminalPose;
+      this.forearm.rotation.y += 0.18 * this.terminalPose;
+      this.appliedTerminalPose = this.terminalPose;
+    }
     this.reloadLayer?.apply();
     if (this.aimBones.length) {
       const pitch = Math.max(-0.32, Math.min(0.32, this.aimPitch * 0.3));
@@ -497,7 +619,55 @@ export class PlayerVisual {
 
   dispose(): void {
     this.mixer?.stopAllAction();
+    this.cancelRefuel();
+    this.terminalMount?.removeFromParent();
+    this.terminalMount = null;
+    this.terminalOpen = false;
+    this.terminalPose = 0;
+    this.appliedTerminalPose = 0;
+    if (this.held) this.held.visible = true;
     this.actions.clear();
+  }
+
+  private resolveForearm(
+    scene: THREE.Object3D,
+    hand: THREE.Object3D | null,
+  ): THREE.Object3D | null {
+    const candidates = [
+      'LeftForeArm',
+      'ForeArm.L',
+      'forearm_l',
+      'forearm.L',
+      'arm_l',
+      'RightForeArm',
+      'ForeArm.R',
+      'forearm_r',
+      'forearm.R',
+      'arm_r',
+    ];
+    for (const name of candidates) {
+      const found = scene.getObjectByName(name);
+      if (found) return found;
+    }
+    const parent = hand?.parent;
+    return parent && ((parent as THREE.Bone).isBone || /forearm|arm/i.test(parent.name))
+      ? parent
+      : null;
+  }
+
+  private findHandName(names: readonly string[], right: boolean): string | null {
+    const wants = right
+      ? ['righthand', 'hand.r', 'hand_r', 'r_hand']
+      : ['lefthand', 'hand.l', 'hand_l', 'l_hand'];
+    const strip = (value: string) => value.toLowerCase().replace(/[:_\s.-]/g, '');
+    for (const wanted of wants) {
+      const key = strip(wanted);
+      const match = names
+        .filter((name) => strip(name).includes(key))
+        .sort((a, b) => a.length - b.length)[0];
+      if (match) return match;
+    }
+    return null;
   }
 
   private enterDirectionalGait(gait: 'walk' | 'run' | 'crouch_walk'): void {

@@ -4,7 +4,13 @@ import type { Materials } from '@/art/Materials';
 import type { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { bevelledBox } from '@/machine/MachineGeometry';
-import { CHARACTER_DROP_Y, DECK_SURFACE_Y, DESERT_FLOOR_Y } from '@/game/constants';
+import {
+  CHARACTER_DROP_Y,
+  DECK_SURFACE_Y,
+  DESERT_FLOOR_Y,
+  LEVEL_HEIGHT,
+  NOMAD_WALKABLE_HALF_WIDTH,
+} from '@/game/constants';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 
 /**
@@ -30,12 +36,12 @@ import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
  */
 
 /** Footprint, in world X. The near face is the ledge. */
-export const ROOFTOP_MIN_X = 9.5;
-export const ROOFTOP_MAX_X = 19.5;
+export const ROOFTOP_MIN_X = NOMAD_WALKABLE_HALF_WIDTH + 2.5;
+export const ROOFTOP_MAX_X = ROOFTOP_MIN_X + 10;
 
 /** Footprint, in world Z, before the set starts scrolling astern. */
 export const ROOFTOP_MIN_Z = -5;
-export const ROOFTOP_MAX_Z = 5;
+export const ROOFTOP_MAX_Z = ROOFTOP_MIN_Z + 10;
 
 /**
  * The roof surface, in metres.
@@ -44,7 +50,7 @@ export const ROOFTOP_MAX_Z = 5;
  * and the landing starts hurting; level with the deck and it is a step across
  * rather than a leap of faith.
  */
-export const ROOFTOP_ROOF_Y = DECK_SURFACE_Y + 2.91;
+export const ROOFTOP_ROOF_Y = DECK_SURFACE_Y + LEVEL_HEIGHT * 0.97;
 
 /** Parapet height above the roof. Chest-high: a barrier, not a kerb. */
 const PARAPET_H = 1.0;
@@ -73,7 +79,7 @@ export const ROOFTOP_LEDGE = { x: ROOFTOP_MIN_X, y: ROOFTOP_ROOF_Y, z: 0 } as co
 export const ROOFTOP_DROP_Y = ROOFTOP_ROOF_Y + (CHARACTER_DROP_Y - DECK_SURFACE_Y);
 
 /** Mid-roof, between the stair stub they came through and the ledge. */
-export const ROOFTOP_PLAYER_SPAWN = { x: 15.5, y: ROOFTOP_DROP_Y, z: 0 } as const;
+export const ROOFTOP_PLAYER_SPAWN = { x: ROOFTOP_MIN_X + 6, y: ROOFTOP_DROP_Y, z: 0 } as const;
 
 /**
  * Where the scavengers come up.
@@ -82,8 +88,8 @@ export const ROOFTOP_PLAYER_SPAWN = { x: 15.5, y: ROOFTOP_DROP_Y, z: 0 } as cons
  * behind them and the only way out is forward, over the ledge.
  */
 export const ROOFTOP_ENEMY_SPAWNS = [
-  { x: 18, y: ROOFTOP_DROP_Y, z: 3 },
-  { x: 18, y: ROOFTOP_DROP_Y, z: -3 },
+  { x: ROOFTOP_MIN_X + 8.5, y: ROOFTOP_DROP_Y, z: 3 },
+  { x: ROOFTOP_MIN_X + 8.5, y: ROOFTOP_DROP_Y, z: -3 },
 ] as const;
 
 /**
@@ -268,16 +274,16 @@ export class RooftopSet {
    */
   private buildDressing(): void {
     const vent = bevelledBox(1.1, 0.42, 0.72, 0.08);
-    vent.translate(0, ROOFTOP_ROOF_Y + 0.21, -3.15);
+    vent.translate(0, ROOFTOP_ROOF_Y + 0.21, ROOFTOP_MIN_Z + 1.85);
     const ventMesh = new THREE.Mesh(vent, this.materials.rustedSteel);
-    ventMesh.position.set(13.9, 0, 0);
+    ventMesh.position.set(ROOFTOP_MIN_X + 4.4, 0, 0);
     ventMesh.castShadow = false;
     ventMesh.receiveShadow = true;
     this.geometries.push(vent);
     this.group.add(ventMesh);
 
     const tank = new THREE.CylinderGeometry(0.58, 0.64, 1.15, 12, 2);
-    tank.translate(15.7, ROOFTOP_ROOF_Y + 0.58, 2.8);
+    tank.translate(ROOFTOP_MIN_X + 6.2, ROOFTOP_ROOF_Y + 0.58, ROOFTOP_MAX_Z - 2.2);
     const tankMesh = new THREE.Mesh(tank, this.materials.hullDark);
     tankMesh.castShadow = true;
     tankMesh.receiveShadow = true;
@@ -287,7 +293,7 @@ export class RooftopSet {
     // A short antenna and its foot give the skyline a useful silhouette while
     // staying clear of the ledge gap and the player spawn.
     const mast = new THREE.CylinderGeometry(0.045, 0.07, 1.65, 8);
-    mast.translate(12.1, ROOFTOP_ROOF_Y + 0.83, 2.9);
+    mast.translate(ROOFTOP_MIN_X + 2.6, ROOFTOP_ROOF_Y + 0.83, ROOFTOP_MAX_Z - 2.1);
     const mastMesh = new THREE.Mesh(mast, this.materials.bareSteel);
     mastMesh.castShadow = false;
     mastMesh.receiveShadow = false;

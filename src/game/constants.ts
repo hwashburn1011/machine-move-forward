@@ -28,9 +28,16 @@ export const GRAVITY = -22;
 /** Build grid: 1 tile = 2m x 2m (handoff section 10). */
 export const GRID_TILE = 2;
 
-/** Core Iron Nomad footprint in tiles: 12m x 16m, plus perimeter walks. */
-export const MACHINE_TILES_X = 6;
-export const MACHINE_TILES_Z = 8;
+/** Core Iron Nomad footprint in tiles: 22m x 26m, plus perimeter walks. */
+export const MACHINE_TILES_X = 11;
+export const MACHINE_TILES_Z = 13;
+
+/** Upper deck rim: one metre beyond the 22x26m core. */
+export const NOMAD_WALKABLE_HALF_WIDTH = 12;
+export const NOMAD_WALKABLE_HALF_LENGTH = 14;
+/** Lower/middle wraparound: two metres beyond the 22x26m core. */
+export const NOMAD_WRAPAROUND_HALF_WIDTH = 13;
+export const NOMAD_WRAPAROUND_HALF_LENGTH = 15;
 
 /**
  * Deck plate centre height above world origin, in metres.
@@ -39,10 +46,10 @@ export const MACHINE_TILES_Z = 8;
  * stands on is `DECK_SURFACE_Y`. Placing anything by this value alone puts it
  * half a plate too low.
  *
- * Iron Nomad has decks at 8.83, 11.83 and 14.83 metres.
- * All three use the same three-metre building grid.
+ * Iron Nomad has decks at 8.83, 12.43 and 16.03 metres.
+ * All three use the same two-metre horizontal building grid.
  */
-export const DECK_HEIGHT = 14.74;
+export const DECK_HEIGHT = 15.94;
 
 /** Half the deck plate's thickness. The collider is built to match. */
 export const DECK_PLATE_HALF = 0.09;
@@ -118,7 +125,9 @@ export const GRID_LEVELS = 3;
 export const GRID_MIN_LEVEL = -2;
 
 /** Vertical spacing between build levels, in metres. */
-export const LEVEL_HEIGHT = 3;
+export const LEVEL_HEIGHT = 3.6;
+export const NOMAD_STAIR_RUN = 4.8;
+export const NOMAD_STAIR_WIDTH = 1.92;
 
 // ---------------------------------------------------------------------------
 // World streaming

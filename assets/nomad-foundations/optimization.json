@@ -1,0 +1,58 @@
+[
+  {
+    "name": "salvage-chest",
+    "sourceBytes": 9521160,
+    "optimizedBytes": 2339312,
+    "textureBytes": 1900350,
+    "repairedTangents": 6
+  },
+  {
+    "name": "fuel-canister",
+    "sourceBytes": 6873848,
+    "optimizedBytes": 1550484,
+    "textureBytes": 1344656,
+    "repairedTangents": 0
+  },
+  {
+    "name": "generator-refined",
+    "sourceBytes": 9528420,
+    "optimizedBytes": 2346576,
+    "textureBytes": 1900350,
+    "repairedTangents": 1
+  },
+  {
+    "name": "salvaged-radio",
+    "sourceBytes": 9439920,
+    "optimizedBytes": 2258072,
+    "textureBytes": 1900350,
+    "repairedTangents": 0
+  },
+  {
+    "name": "wrist-terminal",
+    "sourceBytes": 5580976,
+    "optimizedBytes": 1407100,
+    "textureBytes": 1321906,
+    "repairedTangents": 8
+  },
+  {
+    "name": "workbench-refined",
+    "sourceBytes": 9209288,
+    "optimizedBytes": 2312940,
+    "textureBytes": 1807794,
+    "repairedTangents": 1
+  },
+  {
+    "name": "refinery-refined",
+    "sourceBytes": 9267456,
+    "optimizedBytes": 2371112,
+    "textureBytes": 1807794,
+    "repairedTangents": 0
+  },
+  {
+    "name": "storage-refined",
+    "sourceBytes": 9096812,
+    "optimizedBytes": 2200464,
+    "textureBytes": 1807794,
+    "repairedTangents": 4
+  }
+]

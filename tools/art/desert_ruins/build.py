@@ -94,6 +94,48 @@ def jagged_slab(name,at,w,d,h=.22,tile=0):
     faces=[tuple(reversed(range(n))),tuple(range(n,n*2))]+[(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
     o=mesh(name,verts,faces,tile);o.location=at;return o
 
+def fracture_wall(name,at,w,h,tile=1,rotation=0):
+    """A volumetric broken wall, with a stepped fracture rather than a flat cap."""
+    outline=[(-w/2,0),(w/2,0),(w/2,h*.19),(w*.32,h*.33),
+             (w*.35,h*.55),(w*.12,h*.51),(w*.08,h*.81),
+             (-w*.13,h*.74),(-w*.22,h),(-w*.42,h*.93),(-w/2,h*.97)]
+    n=len(outline)
+    verts=[(x,y,z) for y in [-.15,.15] for x,z in outline]
+    faces=[tuple(reversed(range(n))),tuple(range(n,n*2))]
+    faces += [(i,(i+1)%n,(i+1)%n+n,i+n) for i in range(n)]
+    o=mesh(name,verts,faces,tile);o.location=at;o.rotation_euler.z=rotation
+    return o
+
+def bowed_panel(name,at,w,length,rise,tile=3):
+    """Rolled sheet with real curvature, small dents and turned-down lips."""
+    nx=18;ny=6;verts=[];faces=[]
+    for j in range(ny+1):
+        y=(j/ny-.5)*length
+        for i in range(nx+1):
+            u=i/nx
+            dent=-.07*math.exp(-((u-.65)*7)**2-((j/ny-.35)*5)**2)
+            verts.append(((u-.5)*w,y,math.sin(math.pi*u)*rise+dent))
+    for j in range(ny):
+        for i in range(nx):
+            a=j*(nx+1)+i;faces.append((a,a+1,a+nx+2,a+nx+1))
+    o=mesh(name,verts,faces,tile,True);o.location=at
+    solid=o.modifiers.new('Rolled sheet gauge','SOLIDIFY');solid.thickness=.035
+    return o
+
+def fender_arch(side,y,r,tile=3):
+    n=20;verts=[];faces=[]
+    for i in range(n+1):
+        a=math.pi*i/n
+        for rr in [r+.035,r+.19]:
+            verts.append((side,y+math.cos(a)*rr,.5+math.sin(a)*rr))
+    for i in range(n):faces.append((i*2,i*2+1,i*2+3,i*2+2))
+    o=mesh('rolled wheel arch with torn lip',verts,faces,tile,True)
+    solid=o.modifiers.new('Wheel arch sheet gauge','SOLIDIFY');solid.thickness=.045
+
+def drainpipe(x,y,h):
+    rod('rainwater pipe',(x,y,.3),(x,y,h),.07,2,12)
+    for z in [1.2,h-.25]:ring('pipe clamp',(x,y,z),.086,.018,5,(0,0,0))
+
 def wall(name,origin,w,h,tile=1,along_y=False,broken=False):
     # Bays leave true window voids and expose the room behind each opening.
     origin=Vector(origin);bays=max(1,round(w/2.7));bay=w/bays
@@ -108,8 +150,11 @@ def wall(name,origin,w,h,tile=1,along_y=False,broken=False):
             continue
         piece('sill',x,.45,bay,.9)
         piece('lintel',x,h-.27,bay,.54)
-        piece('pier',x-bay*.5+.18,h*.5,.36,h)
-        piece('jamb',x+bay*.5-.10,h*.5,.20,h)
+        # Meet the sill/lintel without coplanar overlapping faces. The old
+        # full-height posts produced black seams in both offline and game views.
+        opening_h=max(.1,h-1.44);opening_z=.9+opening_h*.5
+        piece('pier',x-bay*.5+.18,opening_z,.36,opening_h)
+        piece('jamb',x+bay*.5-.10,opening_z,.20,opening_h)
         piece('inner stone sill',x,.97,bay-.35,.12)
         # Shattered wooden/steel window rails, with no solid glass filler.
         at=origin+Vector((0,x,0) if along_y else (x,0,0))
@@ -134,17 +179,26 @@ def house():
         rod('roof tie',(-4,y,3.6),(2.6,y,3.6),.07,9)
     rod('ridge beam',(0,-3.3,5.4),(0,3.3,5.4),.11,9)
     for i in range(9):box('remaining corrugated roof',(-2.2,-2.9+i*.42,4.42),(3.9,.37,.07),7,.015,(0,-.423,0))
+    fracture_wall('surviving plaster return',(3.87,1.4,0),2.8,3.3,1,math.pi/2)
+    fracture_wall('exposed brick core',(-1.8,2.88,0),3.5,2.65,6)
+    drainpipe(-4.16,-2.8,3.7)
+    for x in [-2.8,-.1]:
+        box('recessed wooden window header',(x,-3.17,2.99),(1.68,.10,.10),9,.012)
+        box('fallen shutter',(x+.2,-4.05,.24),(.73,1.9,.065),8,.025,(.09,.12,.38))
+    for i in range(7):
+        box('broken roof lath',(1.4+i*.35,1,.34),(.1,3.3-i*.19,.08),9,.014,(.1,.07,-.36))
     rubble(w,d,22)
 
 def frame_building(floors=4,w=11,d=9):
     for f in range(floors):
         z=f*3.3
         # Fractured edge changes with height; the top floors are partially collapsed.
-        sw=w*(1 if f<floors-2 else .75);sd=d*(1 if f<floors-1 else .7)
+        sw=w*(1 if f<floors-2 else .87);sd=d*(1 if f<floors-1 else .82)
         jagged_slab('fractured floor slab',(0,0,z+.15),sw,sd,.3)
         for x in [-w*.43,0,w*.43]:
             for y in [-d*.42,d*.42]:
-                if f==floors-1 and x>0:continue
+                if f>=floors-2 and x>0 and y>0:continue
+                if f==floors-1 and x>=0:continue
                 h=3.3 if f<floors-1 else random.uniform(1,3)
                 box('structural column',(x,y,z+h/2),(.42,.42,h),0,.04)
                 if f==floors-1:
@@ -152,6 +206,20 @@ def frame_building(floors=4,w=11,d=9):
         if f<floors-1:
             wall('fragmented facade',(0,-d*.46,z),w,3.2,1 if f%2==0 else 0,broken=True)
             if f%2==0:wall('exposed brick partition',(-w*.44,0,z),d*.67,3,6,True,True)
+        # A surviving stairwell and patches of actual exterior wall provide mass
+        # and shadow. Fully open grids alone read as construction scaffolding.
+        if f<floors-1:
+            fracture_wall('stairwell surviving wall',(-w*.39,d*.22,z),d*.49,3.27,0,math.pi/2)
+            fracture_wall('blast broken side facade',(w*.43,-d*.19,z),d*.48,2.65 if f%2 else 3.18,6 if f%3==0 else 1,math.pi/2)
+            box('interior partition',(-w*.17,d*.32,z+1.52),(.18,d*.30,3.04),8,.018)
+        if f==0 or (f%3==1 and f<floors-1):
+            fracture_wall('peeled facade panel',(w*.12,d*.44,z),w*.43,3.2,1,math.pi)
+        if f in [1,3]:
+            slab=jagged_slab('pancaked floor fragment',(w*.24,d*.15,z+.6),w*.41,d*.46,.26,0)
+            slab.rotation_euler=(.12,-.23,.09)
+        if f%2==0:
+            box('abandoned air conditioner',(-w*.36,-d*.51,z+1.38),(.9,.46,.55),8,.045)
+            for k in range(5):box('cooler grille',(-w*.36,-d*.51-.24,z+1.20+k*.075),(.67,.035,.018),5,.003)
         # Fallen floor edge and surviving balcony make each storey legible.
         if f>0:
             for j in range(4):rod('dangling slab reinforcement',(-w*.3+j*.7,-d*.49,z),( -w*.3+j*.7,-d*.61,z-.5-random.random()),.025,2,6)
@@ -160,6 +228,10 @@ def frame_building(floors=4,w=11,d=9):
             rod('balcony handrail',(-w*.4,-d*.66,z+.95),(0,-d*.66,z+.95),.035,5,8)
     # Fallen stair flight beneath the open side.
     for i in range(8):box('remaining stair tread',(w*.34,i*.30-d*.25,.25+i*.28),(2,.34,.18),0,.018)
+    drainpipe(-w*.46,-d*.44,min(floors*3.3-1,9))
+    for k in range(5):
+        panel=jagged_slab('collapsed facade rubble',(w*.42+random.uniform(-1,1),random.uniform(-d*.3,d*.4),.3+k*.09),2.6,1.1,.23,1)
+        panel.rotation_euler=(random.uniform(-.3,.3),random.uniform(-.2,.2),random.random()*2)
     rubble(w,d,28)
 
 def factory():
@@ -208,7 +280,12 @@ def car(bus=False):
         for y in ([-1.15,.45,1.75] if not bus else [-3.9,-2.6,-1.3,0,1.3,2.6,3.9]):
             rod('open window pillar',(x,y,1.32),(x*.86,y+.15,roof),.045,3,10)
         rod('window upper frame',(x*.86,-length*.28,roof),(x*.86,length*.39,roof),.055,3,10)
-    box('rounded surviving roof',(0,length*.06,roof+.025),(w*.89,length*.70,.11),2,.12)
+    bowed_panel('curved surviving roof',(0,0 if bus else length*.06,roof-.05),w*.94,length*(.97 if bus else .70),.22 if bus else .18,3)
+    for side in [-w/2,w/2]:
+        for wy in [-length*.32,length*.32]:fender_arch(side,wy,.48 if not bus else .57)
+        for height in [.91,1.28]:rod('faded body belt trim',(side*1.015,-length*.36,height),(side*1.015,length*.46,height),.018,5,8)
+        for yy in [-length*.2,length*.15]:
+            box('door handle',(side*1.04,yy,1.27),(.055,.21,.05),5,.012)
     for y in [-length*.32,length*.32]:rod('bare axle',(-w*.54,y,.5),(w*.54,y,.5),.08,5)
     for y in ([-.6,.6] if not bus else [-3,-1.8,-.6,.6,1.8,3]):
         for x in [-.6,.6]:
@@ -228,10 +305,20 @@ def car(bus=False):
         rod('bare steering shaft',(-.43,-.62,.92),(-.43,-.8,1.35),.038,5)
         ring('steering wheel',(-.43,-.83,1.38),.22,.025,5,(.4,0,0))
     else:
-        box('bus brow',(0,front+.03,2.91),(w,.15,.2),3,.08)
-        for x in [-w/2,0,w/2]:rod('empty windscreen divider',(x,front,1.4),(x*.85,front+.3,3),.05,3)
+        box('bus brow',(0,front+.17,3.18),(w*.94,.18,.25),3,.08)
+        for x in [-w/2,0,w/2]:rod('empty windscreen divider',(x,front,1.4),(x*.92,front+.3,3.28),.05,3)
+        for side in [-1,1]:
+            box('remaining front body panel',(side*w*.33,front+.035,1.22),(w*.27,.085,.55),3,.065)
+            rod('windscreen base',(side*w*.03,front,1.51),(side*w*.47,front,1.51),.045,3,12)
+            rod('roof gutter',(side*w*.47,front+.17,roof),(side*w*.47,length*.47,roof),.028,5,10)
         # Door panel ripped out and hanging on a hinge.
         box('hanging bus door',(w*.7,-2.9,1.17),(.07,1,1.82),2,.035,(.13,-.15,-.65))
+        for y in [-2.5,0,2.5]:
+            rod('roof luggage rail upright',(-w*.3,y,roof+.2),(-w*.3,y,roof+.53),.025,5,8)
+            rod('roof luggage rail upright',(w*.3,y,roof+.2),(w*.3,y,roof+.53),.025,5,8)
+        for x in [-w*.3,w*.3]:rod('bent luggage rail',(x,-2.8,roof+.53),(x,3.1,roof+.48),.03,2,10)
+        box('empty destination sign',(0,front+.04,3.23),(w*.58,.05,.16),4,.05)
+        for j in range(7):box('rear engine ventilation',(w*.508,length*.35,1.45+j*.07),(.025,1.18,.026),5,.006)
     box('rear body shell',(0,length*.49,1.07),(w,.13,.82),3,.06)
     for i in range(8):
         box('body fragment',(random.uniform(-w,w),random.uniform(-length*.6,length*.6),.12),(.25,.45,.04),2,.015,(.2,.1,random.uniform(0,6.28)))
@@ -261,7 +348,8 @@ def sign(w=9,h=4,z=6,tile=12):
         for j in range(rows):
             if (i,j) in [(7,0),(6,0),(7,1),(0,3)]:continue
             x0=-w/2+i*w/cols;x1=x0+w/cols*.98;z0=z+j*h/rows;z1=z0+h/rows*.985
-            verts=[(x0,-.12,z0),(x1,-.12,z0+(random.uniform(0,.15) if j==0 else 0)),(x1,-.12,z1),(x0,-.12,z1)]
+            curl=.34 if (i,j) in [(6,1),(5,0),(0,2)] else .045
+            verts=[(x0,-.12,z0),(x1,-.12-curl,z0+(random.uniform(0,.15) if j==0 else 0)),(x1,-.12-curl*.5,z1),(x0,-.12,z1)]
             o=mesh('torn advertising skin',verts,[(0,1,2,3)],tile)
             uv=o.data.uv_layers.active
             for loop in o.data.loops:

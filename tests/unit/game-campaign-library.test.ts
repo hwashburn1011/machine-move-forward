@@ -8,7 +8,7 @@ import type { SaveGameV1 } from '@/save/SaveSchema';
 type Harness = Record<string, any>;
 
 const gameMethods = Game.prototype as unknown as {
-  startCampaign(this: Harness, profile?: 'story' | 'survival', preserve?: boolean): Promise<void>;
+  startCampaign(this: Harness, profile?: 'story', preserve?: boolean): Promise<void>;
   openCampaignLibrary(this: Harness, mode: 'boot' | 'pause'): Promise<void>;
   closeCampaignLibrary(this: Harness): void;
   loadFrom(this: Harness, slot: string): Promise<boolean>;
@@ -105,12 +105,12 @@ describe('Game campaign library integration seams', () => {
     const h = campaignStartHarness(
       () => new Promise<void>((resolve) => (resolvePreserve = resolve)),
     );
-    const pending = gameMethods.startCampaign.call(h, 'survival', true);
+    const pending = gameMethods.startCampaign.call(h, 'story', true);
     expect(h.saves.preserveContinue).toHaveBeenCalledWith('Before new campaign');
     expect(h.startNewGame).not.toHaveBeenCalled();
     resolvePreserve();
     await pending;
-    expect(h.startNewGame).toHaveBeenCalledWith('survival');
+    expect(h.startNewGame).toHaveBeenCalledWith('story');
     expect(h.titleScreen.setCampaignBusy).toHaveBeenLastCalledWith(false);
   });
 
@@ -134,7 +134,7 @@ describe('Game campaign library integration seams', () => {
       () => new Promise<void>((resolve) => (resolvePreserve = resolve)),
     );
     const first = gameMethods.startCampaign.call(h, 'story', true);
-    await gameMethods.startCampaign.call(h, 'survival', true);
+    await gameMethods.startCampaign.call(h, 'story', true);
     expect(h.saves.preserveContinue).toHaveBeenCalledOnce();
     expect(h.startNewGame).not.toHaveBeenCalled();
     resolvePreserve();

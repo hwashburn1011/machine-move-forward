@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { Materials } from '@/art/Materials';
 import { DUTY, FOOT_SPLAY, LEGS, STRIDE_LENGTH } from '@/data/gait';
+import { nomadLegGameHip, nomadLegSourceRig } from '@/data/nomad-leg-contract';
 import { footAt, isPlanted, legCycle, planted } from './Gait';
 import { duneHeightAt } from '@/world/DuneField';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
@@ -8,7 +9,7 @@ import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 const SOURCE_NAMES = ['FrontRight', 'FrontLeft', 'RearRight', 'RearLeft'];
 const DEFINITIONS = LEGS.map((l) => ({
   ...l,
-  hip: { x: l.side * 4.875, y: 7.9966666667, z: l.end * 4.8 },
+  hip: nomadLegGameHip(l.side, l.end),
 }));
 const AXIS_X = new THREE.Vector3(1, 0, 0);
 const FOOT_ROTATION = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI);
@@ -141,11 +142,12 @@ export class IronNomadLegs {
       const heightDifference =
         duneHeightAt(renderX + lateralM, renderZ) - duneHeightAt(renderX, renderZ);
       const target = this.feet[i]!.set(renderX, p.y + 0.04 + heightDifference, p.z);
-      const sx = -leg.side,
+      const sx = -leg.side as -1 | 1,
         sy = leg.end;
-      const h = new THREE.Vector3(sx * 6.5, sy * 6, 9.6);
-      const k = new THREE.Vector3(sx * 8.7, sy * 5.1, 5.05);
-      const f = new THREE.Vector3(sx * 9.35, sy * 8, 1);
+      const rig = nomadLegSourceRig(sx, sy);
+      const h = new THREE.Vector3(rig.hip.x, rig.hip.y, rig.hip.z);
+      const k = new THREE.Vector3(rig.knee.x, rig.knee.y, rig.knee.z);
+      const f = new THREE.Vector3(rig.foot.x, rig.foot.y, rig.foot.z);
       if (this.root) {
         const joint = this.joints[i];
         if (!joint) continue;

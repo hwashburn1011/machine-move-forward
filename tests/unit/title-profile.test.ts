@@ -2,8 +2,8 @@
 import { describe, expect, it, vi } from 'vitest';
 import { TitleScreen } from '@/ui/TitleScreen';
 
-describe('TitleScreen campaign profiles', () => {
-  it('requires an explicit profile and supports cancellation', async () => {
+describe('TitleScreen single campaign', () => {
+  it('starts the standard campaign directly without offering Survival', async () => {
     const root = document.createElement('div');
     document.body.append(root);
     const onNewGame = vi.fn();
@@ -20,13 +20,11 @@ describe('TitleScreen campaign profiles', () => {
     ui.show('boot');
     await new Promise((resolve) => setTimeout(resolve, 0));
     (root.querySelector('[data-id="new-game"]') as HTMLButtonElement).click();
-    expect(root.querySelector('[data-profile="story"]')).not.toBeNull();
-    (root.querySelector('[data-profile-cancel]') as HTMLButtonElement).click();
+    expect(root.querySelector('[data-profile]')).toBeNull();
+    expect(root.textContent).not.toContain('Survival');
     expect(onNewGame).not.toHaveBeenCalled();
-    (root.querySelector('[data-id="new-game"]') as HTMLButtonElement).click();
-    (root.querySelector('[data-profile="survival"]') as HTMLButtonElement).click();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(onNewGame).toHaveBeenCalledWith('survival', true);
+    expect(onNewGame).toHaveBeenCalledExactlyOnceWith('story', true);
     ui.dispose();
   });
 
@@ -48,7 +46,6 @@ describe('TitleScreen campaign profiles', () => {
     ui.show('boot');
     await new Promise((resolve) => setTimeout(resolve, 0));
     (root.querySelector('[data-id="new-game"]') as HTMLButtonElement).click();
-    (root.querySelector('[data-profile="story"]') as HTMLButtonElement).click();
     expect((root.querySelector('#title-campaign-preserve') as HTMLElement).hidden).toBe(true);
     await new Promise((resolve) => setTimeout(resolve, 0));
     const preserve = root.querySelector('[data-campaign-preserve]') as HTMLButtonElement;
@@ -78,15 +75,14 @@ describe('TitleScreen campaign profiles', () => {
     ui.show('boot');
     await new Promise((resolve) => setTimeout(resolve, 0));
     (root.querySelector('[data-id="new-game"]') as HTMLButtonElement).click();
-    (root.querySelector('[data-profile="story"]') as HTMLButtonElement).click();
     await new Promise((resolve) => setTimeout(resolve, 0));
     window.dispatchEvent(new KeyboardEvent('keydown', { code: 'Escape', bubbles: true }));
     expect((root.querySelector('#title-campaign-preserve') as HTMLElement).hidden).toBe(true);
-    expect((root.querySelector('#title-profile') as HTMLElement).hidden).toBe(false);
-    (root.querySelector('[data-profile="survival"]') as HTMLButtonElement).click();
+    expect(root.querySelector('#title-menu')?.classList.contains('is-hidden')).toBe(false);
+    (root.querySelector('[data-id="new-game"]') as HTMLButtonElement).click();
     await new Promise((resolve) => setTimeout(resolve, 0));
     (root.querySelector('[data-campaign-replace]') as HTMLButtonElement).click();
-    expect(onNewGame).toHaveBeenCalledWith('survival', false);
+    expect(onNewGame).toHaveBeenCalledWith('story', false);
     ui.dispose();
   });
 
@@ -110,7 +106,6 @@ describe('TitleScreen campaign profiles', () => {
     ui.show('boot');
     await new Promise((resolve) => setTimeout(resolve, 0));
     (root.querySelector('[data-id="new-game"]') as HTMLButtonElement).click();
-    (root.querySelector('[data-profile="story"]') as HTMLButtonElement).click();
     await new Promise((resolve) => setTimeout(resolve, 0));
     const preserve = root.querySelector('[data-campaign-preserve]') as HTMLButtonElement;
     preserve.click();

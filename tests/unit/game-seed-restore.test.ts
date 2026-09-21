@@ -19,7 +19,7 @@ interface SeedHarnessGame {
 
 const gameMethods = Game.prototype as unknown as {
   loadFrom(this: SeedHarnessGame, slot: string): Promise<boolean>;
-  startNewGame(this: SeedHarnessGame, profile?: 'story' | 'survival'): void;
+  startNewGame(this: SeedHarnessGame, profile?: 'story'): void;
 };
 
 function harness(seed = 'boot-seed'): Harness {

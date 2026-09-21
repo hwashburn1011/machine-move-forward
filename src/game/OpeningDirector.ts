@@ -1,6 +1,7 @@
 import nomad from '@/data/iron-nomad.json';
 import type { Vec3Like } from '@/core/events/GameEvents';
 import { DECK_SURFACE_Y, GRID_TILE, MACHINE_TILES_Z } from '@/game/constants';
+import { OPENING_CINEMATIC_EVENTS } from './OpeningCinematicTimeline';
 
 /**
  * Where the opening has got to.
@@ -55,6 +56,13 @@ export const TITLE_CARD_DELAY_S = 2;
 /** Seconds the skip must be held. A hold, not a tap: Esc is also 'cancel'. */
 export const SKIP_HOLD_S = 1;
 
+export const CINEMATIC_LAND_TIME_S = OPENING_CINEMATIC_EVENTS.find(
+  (event) => event.name === 'land',
+)!.time;
+export const CINEMATIC_DONE_TIME_S = OPENING_CINEMATIC_EVENTS.find(
+  (event) => event.name === 'done',
+)!.time;
+
 /**
  * Half-extents of the box a landing counts inside.
  *
@@ -83,7 +91,7 @@ export const LANDING_Y_TOLERANCE = 1;
 export function isDeckLanding(p: Vec3Like): boolean {
   return (
     Math.abs(p.x) <= LANDING_HALF_X &&
-    Math.abs(p.z) <= LANDING_HALF_Z &&
+    Math.abs(p.z) < LANDING_HALF_Z &&
     Math.abs(p.y - DECK_SURFACE_Y) <= LANDING_Y_TOLERANCE
   );
 }
@@ -102,6 +110,10 @@ export class OpeningDirector {
   private skipFor = 0;
   /** Seconds since the landing, for the title card's exit. */
   private landedFor = 0;
+  /** Skip hold for the presentation-only cinematic timeline. */
+  private cinematicSkipFor = 0;
+  private cinematicLastTime = 0;
+  private cinematicLanded = false;
 
   get phase(): OpeningPhase {
     return this.current;
@@ -109,7 +121,7 @@ export class OpeningDirector {
 
   /** 0..1, for the hold-to-skip meter. Zero whenever the key is not down. */
   get skipProgress(): number {
-    return Math.min(1, this.skipFor / SKIP_HOLD_S);
+    return Math.min(1, Math.max(this.skipFor, this.cinematicSkipFor) / SKIP_HOLD_S);
   }
 
   begin(mode: OpeningMode): OpeningEffect[] {
@@ -120,12 +132,18 @@ export class OpeningDirector {
       this.fired.clear();
       this.skipFor = 0;
       this.landedFor = 0;
+      this.cinematicSkipFor = 0;
+      this.cinematicLastTime = 0;
+      this.cinematicLanded = false;
       this.current = 'rooftop';
       return this.emit('spawn-rooftop');
     }
     // Continue and skipped both mean "there is no opening", and a game that
     // has already been played must never be handed one.
     this.current = 'done';
+    this.cinematicSkipFor = 0;
+    this.cinematicLastTime = 0;
+    this.cinematicLanded = false;
     this.markAllFired();
     return [];
   }
@@ -134,6 +152,43 @@ export class OpeningDirector {
     if (this.current === 'rooftop') return this.updateRooftop(input);
     if (this.current === 'landed') return this.updateLanded(input);
     return [];
+  }
+
+  /**
+   * Advance the authored presentation opening by absolute timeline time.
+   *
+   * The legacy grounded landing update remains available for old callers. The
+   * cinematic path owns its own landing/completion clock and only emits the
+   * gameplay handoff effects once, so a fixed-step scene cannot double-fire a
+   * shot-adjacent transition.
+   */
+  updateCinematic(input: {
+    readonly time: number;
+    readonly skipHeld: boolean;
+    readonly dt: number;
+  }): OpeningEffect[] {
+    if (this.current !== 'rooftop' && this.current !== 'landed') return [];
+    const time = Number.isFinite(input.time) ? Math.max(0, input.time) : this.cinematicLastTime;
+    const dt = Number.isFinite(input.dt) ? Math.max(0, input.dt) : 0;
+    if (time < this.cinematicLastTime) return [];
+    this.cinematicLastTime = time;
+    this.cinematicSkipFor = input.skipHeld ? this.cinematicSkipFor + dt : 0;
+    if (this.cinematicSkipFor >= SKIP_HOLD_S) {
+      this.current = 'done';
+      return this.emit('grant-weapons', 'throttle-up', 'teardown-rooftop');
+    }
+
+    const effects: OpeningEffect[] = [];
+    if (!this.cinematicLanded && time >= CINEMATIC_LAND_TIME_S) {
+      this.cinematicLanded = true;
+      this.current = 'landed';
+      effects.push(...this.emit('grant-weapons'));
+    }
+    if (time >= CINEMATIC_DONE_TIME_S) {
+      this.current = 'done';
+      effects.push(...this.emit('throttle-up', 'show-title-card', 'teardown-rooftop'));
+    }
+    return effects;
   }
 
   private updateRooftop(input: OpeningInput): OpeningEffect[] {
@@ -190,6 +245,9 @@ export class OpeningDirector {
     this.current = save.phase;
     this.skipFor = 0;
     this.landedFor = 0;
+    this.cinematicSkipFor = 0;
+    this.cinematicLastTime = 0;
+    this.cinematicLanded = save.phase === 'landed' || save.phase === 'done';
     this.fired.clear();
     // Anything the restored phase is already past must not fire again. A save
     // taken mid-opening is not a case the game can produce today (saving is a

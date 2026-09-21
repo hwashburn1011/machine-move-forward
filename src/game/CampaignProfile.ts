@@ -1,7 +1,7 @@
-export type CampaignProfile = 'story' | 'survival';
-export const profileUsesInfiniteAmmo = (profile: CampaignProfile): boolean => profile === 'story';
-export const campaignProfileLabel = (profile: CampaignProfile): string =>
-  profile === 'survival' ? 'Survival' : 'Story';
-export function sanitizeCampaignProfile(value: unknown): CampaignProfile {
-  return value === 'survival' ? 'survival' : 'story';
+/** One supported campaign. The legacy Survival tag is normalized on load. */
+export type CampaignProfile = 'story';
+export const profileUsesInfiniteAmmo = (_profile: CampaignProfile): boolean => true;
+export const campaignProfileLabel = (_profile: CampaignProfile): string => 'Story';
+export function sanitizeCampaignProfile(_value: unknown): CampaignProfile {
+  return 'story';
 }

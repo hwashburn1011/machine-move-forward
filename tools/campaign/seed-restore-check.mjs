@@ -113,7 +113,7 @@ try {
   });
   check('Committed save retains source seed under different URL', savedSeed === parent.save.seed);
   await page.getByRole('button', { name: 'New Game', exact: true }).click();
-  await page.locator('[data-profile="story"]').click();
+  await page.locator('[data-campaign-preserve]').click();
   await page.waitForFunction(() => globalThis.__game.game.opening.phase === 'rooftop');
   const fresh = await read();
   for (const key of ['stateSeed', 'worldSeed', 'directorSeed', 'weatherSeed'])

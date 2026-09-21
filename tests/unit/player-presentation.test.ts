@@ -47,6 +47,7 @@ describe('player presentation', () => {
     const names = [
       'armed_idle',
       ...['fwd', 'back', 'left', 'right'].map((direction) => `armed_walk_${direction}`),
+      ...['fwd', 'back', 'left', 'right'].map((direction) => `armed_run_${direction}`),
     ];
     const clips = names.map(
       (name) =>
@@ -69,6 +70,19 @@ describe('player presentation', () => {
     visual.setMotion(2, true, false, new THREE.Vector3(-1, 0, 1));
     expect(internals.actions.get('armed_walk_fwd')!.time).toBe(phase);
     expect(internals.actions.get('armed_walk_right')!.time).toBeCloseTo(phase, 7);
+    // The opening uses a running pose at its actual travel speed. Ordinary
+    // movement still selects walking when no cinematic gait is supplied.
+    visual.setMotion(4.45, true, false, new THREE.Vector3(0, 0, 4.45), 'run');
+    visual.update(0.25);
+    const run = internals.actions.get('armed_run_fwd')!;
+    expect(run.getEffectiveTimeScale()).toBeCloseTo(
+      4.45 / authoredLocomotionSpeed('run', 'fwd'),
+      6,
+    );
+    expect(run.getEffectiveWeight()).toBeGreaterThan(0.7);
+    visual.setMotion(4.45, true, false, new THREE.Vector3(0, 0, 4.45));
+    visual.update(0.25);
+    expect(internals.actions.get('armed_walk_fwd')!.getEffectiveWeight()).toBeGreaterThan(0.7);
     visual.dispose();
   });
   it('adjusts bones only, ignores player in both probes, and restores airborne pose', () => {

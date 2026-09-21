@@ -10,6 +10,13 @@ export type RouteContactKind = 'water-cache' | 'salvage-wreck' | 'memorial' | 'r
 export type RouteContactState =
   'detected' | 'committed' | 'docked' | 'visited' | 'missed' | 'suspended';
 export type SalvageMode = 'secure' | 'broadcast' | 'defended';
+export interface RouteContactExpedition {
+  format: 1;
+  step: 'task-ready' | 'service-done' | 'task-complete';
+}
+export type ExpeditionTaskResult =
+  | { ok: true; contact: RouteContact }
+  | { ok: false; reason: 'missing' | 'unavailable' | 'already-complete' };
 
 export type RouteReward =
   | { type: 'item'; itemId: 'water' | 'scrap' | 'components' | 'repair-kit'; remaining: number }
@@ -27,6 +34,8 @@ export interface RouteContact {
   expiresAtM: number;
   state: RouteContactState;
   rewards: RouteReward[];
+  /** Optional desert task state. Missing is the legacy contact shape. */
+  expedition?: RouteContactExpedition;
   salvageMode?: SalvageMode;
   suspendedFrom?: Exclude<RouteContactState, 'suspended' | 'visited' | 'missed'>;
   suspendedRemainingM?: number;
@@ -97,6 +106,7 @@ const cloneReward = (reward: RouteReward): RouteReward => ({ ...reward });
 const cloneContact = (contact: RouteContact): RouteContact => ({
   ...contact,
   rewards: contact.rewards.map(cloneReward),
+  ...(contact.expedition ? { expedition: { ...contact.expedition } } : {}),
 });
 
 /** Pure deterministic side-contact chart. Scene, inventory and story remain external. */
@@ -243,6 +253,42 @@ export class RouteChart {
     );
   }
 
+  /** Complete the optional physical task; reward ownership remains here. */
+  completeExpeditionTask(
+    id: string,
+    stepOrChoice: 'service' | 'retrieval' | 'safe' | 'deep' = 'retrieval',
+  ): ExpeditionTaskResult {
+    if (!this.active || this.active.id !== id) return { ok: false, reason: 'missing' };
+    if (this.active.state !== 'docked') return { ok: false, reason: 'unavailable' };
+    if (!['water-cache', 'salvage-wreck', 'memorial'].includes(this.active.kind))
+      return { ok: false, reason: 'unavailable' };
+    if (this.active.expedition?.step === 'task-complete')
+      return { ok: false, reason: 'already-complete' };
+    const step =
+      stepOrChoice === 'service' || stepOrChoice === 'retrieval' ? stepOrChoice : 'retrieval';
+    // The field is intentionally additive: old saves and old contacts keep
+    // their original reward behavior until the caller opts into this task.
+    if (step === 'service') {
+      if (this.active.expedition?.step && this.active.expedition.step !== 'task-ready')
+        return { ok: false, reason: 'already-complete' };
+      this.active.expedition = { format: 1, step: 'service-done' };
+    } else {
+      if (stepOrChoice === 'retrieval' && this.active.expedition?.step !== 'service-done')
+        return { ok: false, reason: 'unavailable' };
+      this.active.expedition = { format: 1, step: 'task-complete' };
+    }
+    return { ok: true, contact: cloneContact(this.active) };
+  }
+
+  /** Opts a newly docked contact into the additive two-step task state. */
+  ensureExpeditionTask(id: string): boolean {
+    if (!this.active || this.active.id !== id || this.active.state !== 'docked') return false;
+    if (!['water-cache', 'salvage-wreck', 'memorial'].includes(this.active.kind)) return false;
+    if (this.active.expedition) return true;
+    this.active.expedition = { format: 1, step: 'task-ready' };
+    return true;
+  }
+
   chooseSalvage(id: string, mode: 'secure' | 'broadcast'): SalvageChoiceResult {
     const contact = this.active;
     if (!contact || contact.id !== id) return { ok: false, reason: 'missing' };
@@ -290,6 +336,7 @@ export class RouteChart {
 
   requestReward(id: string): RewardClaim | null {
     if (!this.active || this.active.id !== id || this.active.state !== 'docked') return null;
+    if (this.active.expedition && this.active.expedition.step !== 'task-complete') return null;
     if (this.active.kind === 'salvage-wreck') {
       if (this.active.salvageMode === 'broadcast') return null;
       if (!this.active.salvageMode) this.active.salvageMode = 'secure';
@@ -457,9 +504,20 @@ function validContact(value: unknown): RouteContact | null {
     return null;
   if (c.salvageMode !== undefined && !['secure', 'broadcast', 'defended'].includes(c.salvageMode))
     return null;
+  if (c.expedition !== undefined) {
+    const expedition = c.expedition as Partial<RouteContactExpedition>;
+    const keys = Object.keys(expedition);
+    if (
+      keys.some((key) => key !== 'format' && key !== 'step') ||
+      expedition.format !== 1 ||
+      !['task-ready', 'service-done', 'task-complete'].includes(expedition.step ?? '')
+    )
+      return null;
+  }
   if (!Array.isArray(c.rewards) || !validRewards(c.kind!, c.rewards, c.salvageMode)) return null;
   if (c.state === 'visited' && c.rewards.some((reward) => reward.remaining !== 0)) return null;
   const contact = cloneContact(c as RouteContact);
+  if (contact.kind === 'repair-depot' && contact.expedition) return null;
   if (contact.kind === 'salvage-wreck') {
     if (contact.salvageMode === 'broadcast') contact.salvageMode = 'secure';
     const partialLegacy = contact.rewards.some(

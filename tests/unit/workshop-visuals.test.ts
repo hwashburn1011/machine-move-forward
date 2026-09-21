@@ -36,8 +36,15 @@ describe('workshop art ownership and service anchors', () => {
     for (const id of Object.keys(SUBSYSTEMS) as SubsystemId[]) {
       const object = view.root.getObjectByName(`Workshop-${id}`)!;
       const at = SUBSYSTEMS[id].repairAt;
+      const engineHitbox = SUBSYSTEMS.engine.hitbox;
       expect(object.position.toArray()).toEqual(
-        id === 'engine' ? [0, DECK_SURFACE_Y, 6] : [at.x, DECK_SURFACE_Y - 0.04, at.z],
+        id === 'engine'
+          ? [
+              engineHitbox.center.x,
+              engineHitbox.center.y - engineHitbox.half.y,
+              engineHitbox.center.z,
+            ]
+          : [at.x, DECK_SURFACE_Y - 0.04, at.z],
       );
       const mesh = object.children[0] as THREE.Mesh;
       expect(mesh.geometry).toBe(geometry);

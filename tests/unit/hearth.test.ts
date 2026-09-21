@@ -26,7 +26,7 @@ describe('the three new items', () => {
     expect(ITEM_IDS).toContain('water');
     expect(ITEM_IDS).toContain('greens');
     expect(ITEM_IDS).toContain('rations');
-    expect(ITEM_IDS).toHaveLength(10);
+    expect(ITEM_IDS).toHaveLength(11);
   });
 
   it('makes water and rations consumable and greens an ingredient', () => {

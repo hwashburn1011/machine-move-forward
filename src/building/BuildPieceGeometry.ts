@@ -7,6 +7,7 @@ import {
   CHARACTER_SKIN,
   GRID_TILE,
   LEVEL_HEIGHT,
+  NOMAD_STAIR_RUN,
   PLAYER_CAPSULE_HALF_HEIGHT,
   PLAYER_CAPSULE_RADIUS,
 } from '@/game/constants';
@@ -792,7 +793,7 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
       ];
 
     case 'stairs': {
-      const run = T * 2;
+      const run = NOMAD_STAIR_RUN;
       const rise = LEVEL_HEIGHT;
       const slope = Math.atan2(rise, run);
       const length = Math.hypot(run, rise);

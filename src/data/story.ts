@@ -1,3 +1,5 @@
+import { nomadDockRoot } from './nomad-docking';
+
 /** Typed, authored campaign content. Runtime state lives in StoryDirector. */
 export type ExpeditionId =
   'wreck-one' | 'relay-foundry' | 'quiet-array' | 'glass-orchard' | 'last-garden-meridian';
@@ -64,7 +66,7 @@ export interface ExpeditionDefinition {
 }
 export const WRECK_CHAPTER_ID = 'wreck-one' as const;
 const wreckPlacement: DestinationPlacement = {
-  root: { x: 14, y: 0, z: 0 },
+  root: { x: nomadDockRoot(-6.5), y: 0, z: 0 },
   entryAnchor: { x: -6.5, y: -0.08, z: 0 },
   exitSightline: { x: -6.5, y: 1, z: 0 },
   gangway: { x: -6.5, y: -0.08, z: 0 },
@@ -158,7 +160,7 @@ export const WRECK_ONE: ExpeditionDefinition = {
   colliders: wreckColliders,
 };
 const foundryPlacement: DestinationPlacement = {
-  root: { x: 15, y: 0, z: 0 },
+  root: { x: nomadDockRoot(-7.5), y: 0, z: 0 },
   entryAnchor: { x: -7, y: 0, z: 0 },
   exitSightline: { x: -5.8, y: 1.6, z: 0 },
   gangway: { x: -7.5, y: -0.08, z: 0 },
@@ -246,7 +248,7 @@ export const RELAY_FOUNDRY: ExpeditionDefinition = {
   ]),
 };
 const quietPlacement: DestinationPlacement = {
-  root: { x: 17, y: 0, z: 0 },
+  root: { x: nomadDockRoot(-9.5), y: 0, z: 0 },
   entryAnchor: { x: -9.5, y: -0.08, z: 0 },
   exitSightline: { x: -9.5, y: 1, z: 0 },
   gangway: { x: -9.5, y: -0.08, z: 0 },
@@ -385,7 +387,7 @@ export const GLASS_ORCHARD: ExpeditionDefinition = {
   requiredUniques: ['human-seed-bank', 'vector-governor', 'orchard-memory-core'],
   requiredObjectives: ['orchard-port-isolator', 'orchard-starboard-isolator'],
   placement: {
-    root: { x: 17, y: 0, z: 0 },
+    root: { x: nomadDockRoot(-9.5), y: 0, z: 0 },
     entryAnchor: { x: -8, y: 0, z: 0 },
     exitSightline: { x: -9.5, y: 1, z: 0 },
     gangway: { x: -9.5, y: -0.08, z: 0 },
@@ -533,7 +535,7 @@ export const LAST_GARDEN_MERIDIAN: ExpeditionDefinition = {
   requiredUniques: ['meridian-solution'],
   requiredObjectives: ['meridian-transmitter-online', 'meridian-archive-installed'],
   placement: {
-    root: { x: 17, y: 0, z: 0 },
+    root: { x: nomadDockRoot(-9.5), y: 0, z: 0 },
     entryAnchor: { x: -8, y: 0, z: 0 },
     exitSightline: { x: -9.5, y: 1, z: 0 },
     gangway: { x: -9.5, y: -0.08, z: 0 },

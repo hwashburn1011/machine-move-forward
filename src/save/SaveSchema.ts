@@ -10,6 +10,7 @@ import type { UpgradeSave } from '@/progression/UpgradeSystem';
 import type { EarlyRadioDropSave } from '@/progression/EarlyRadioDrop';
 import type { StorySave } from '@/story/StoryDirector';
 import type { CourseSnapshot } from '@/navigation/CourseController';
+import type { ScannerSave } from '@/progression/ScannerSetup';
 export type {
   CampaignSave,
   ActiveExpeditionSave,
@@ -48,8 +49,8 @@ export interface SaveGameV1 {
   seed: string;
   /** Optional human label for library snapshots; absent on legacy saves. */
   saveName?: string;
-  /** Immutable per campaign; older saves retain the original unlimited ammunition. */
-  profile?: import('@/game/CampaignProfile').CampaignProfile;
+  /** Legacy Survival is accepted on disk and migrated to the single Story campaign. */
+  profile?: import('@/game/CampaignProfile').CampaignProfile | 'survival';
   distanceTraveled: number;
 
   player: {
@@ -83,6 +84,8 @@ export interface SaveGameV1 {
     /** Determines whether saved positions use the taller three-deck hull. */
     layout?: string;
     structures: BuildPieceInstance[];
+    /** Pieces retained verbatim when a hull migration cannot place them safely. */
+    recoveryPieces?: BuildPieceInstance[];
     /** Empty until the machine-device milestone. */
     devices: unknown[];
     fuel: number;
@@ -122,6 +125,8 @@ export interface SaveGameV1 {
      * and no migration for the same reason `magazineBonus` needed none.
      */
     opening?: OpeningSave;
+    /** Additive opening scanner state; absent saves are reconciled from Story. */
+    scanner?: ScannerSave;
   };
 
   world: {

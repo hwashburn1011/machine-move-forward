@@ -62,6 +62,7 @@ import type {
   CaretakerProducer,
   CaretakerWorkSnapshot,
 } from '@/companion/CaretakerWork';
+import type { OnboardMutationResult } from '@/game/OnboardTransactions';
 
 export interface BuildPieceInstance {
   instanceId: string;
@@ -245,8 +246,8 @@ export class BuildSystem {
    * collider, room, and build-grid code continues to use the runtime piece
    * definitions below this seam.
    */
-  applyAuthoredStationKit(model: LoadedModel | null): void {
-    this.authoredStations.clear();
+  applyAuthoredStationKit(model: LoadedModel | null, append = false): void {
+    if (!append) this.authoredStations.clear();
     if (model) {
       model.scene.traverse((object) => {
         const node = object as THREE.Object3D & { userData: { pieceId?: unknown } };
@@ -1123,6 +1124,35 @@ export class BuildSystem {
     return { instanceId, itemId: role.itemId, count };
   }
 
+  /** Atomically claim a live producer into one explicitly selected onboard container. */
+  collectProducerOnboard(
+    instanceId: string,
+    destination: Container,
+    amount = 1,
+  ): OnboardMutationResult {
+    if (!Number.isSafeInteger(amount) || amount <= 0)
+      return { ok: false, moved: 0, leftovers: 0, reason: 'invalid-item' };
+    const timer = this.producerTimers.get(instanceId);
+    const live = this.instances.get(instanceId);
+    const role = live ? producerRoleOf(live.data.definitionId) : null;
+    if (!timer || !live || !role || live.data.health <= 0)
+      return { ok: false, moved: 0, leftovers: 0, reason: 'missing-endpoint' };
+    const available = Math.min(amount, timer.stored);
+    if (available <= 0) return { ok: true, moved: 0, leftovers: 0 };
+    const destinationClone = new Container(destination.capacity);
+    destinationClone.restore(destination.serialise());
+    const leftovers = destinationClone.add(role.itemId, available);
+    if (leftovers > 0) return { ok: false, moved: 0, leftovers, reason: 'capacity' };
+    const before = timer.toSave();
+    const moved = timer.claim(available);
+    if (moved !== available) {
+      timer.restore(before);
+      return { ok: false, moved: 0, leftovers: available, reason: 'capacity' };
+    }
+    destination.restore(destinationClone.serialise());
+    return { ok: true, moved, leftovers: 0 };
+  }
+
   /** Which instance a placement would target for demolition. */
   private idAt(placement: Placement): string | undefined {
     // Fixture before the edge piece it hangs on, for the same reason a station
@@ -1859,6 +1889,62 @@ export class BuildSystem {
     } finally {
       this.buildMutation = false;
     }
+  }
+
+  /** Atomically load water from one selected onboard container into a live garden. */
+  waterGardenOnboard(instanceId: string, source: Container, amount = 1): OnboardMutationResult {
+    if (!Number.isSafeInteger(amount) || amount <= 0)
+      return { ok: false, moved: 0, leftovers: 0, reason: 'invalid-item' };
+    const live = this.instances.get(instanceId);
+    const garden = this.gardenTimers.get(instanceId);
+    if (!live || live.data.definitionId !== 'seed-garden' || live.data.health <= 0 || !garden)
+      return { ok: false, moved: 0, leftovers: 0, reason: 'missing-endpoint' };
+    const sourceClone = new Container(source.capacity);
+    sourceClone.restore(source.serialise());
+    const before = garden.snapshot();
+    const moved = Math.min(amount, sourceClone.count('water'), Math.max(0, 2 - before.water));
+    if (moved <= 0)
+      return {
+        ok: false,
+        moved: 0,
+        leftovers: 0,
+        reason: sourceClone.count('water') > 0 ? 'capacity' : 'cannot-afford',
+      };
+    if (sourceClone.remove('water', moved) !== moved || garden.loadWater(moved) !== moved) {
+      garden.restore(before);
+      return { ok: false, moved: 0, leftovers: moved, reason: 'capacity' };
+    }
+    source.restore(sourceClone.serialise());
+    this.gardenVisuals.get(instanceId)?.update(garden.snapshot());
+    return { ok: true, moved, leftovers: 0 };
+  }
+
+  /** Atomically harvest a live garden into one selected onboard container. */
+  harvestGardenOnboard(
+    instanceId: string,
+    destination: Container,
+    amount = 1,
+  ): OnboardMutationResult {
+    if (!Number.isSafeInteger(amount) || amount <= 0)
+      return { ok: false, moved: 0, leftovers: 0, reason: 'invalid-item' };
+    const live = this.instances.get(instanceId);
+    const garden = this.gardenTimers.get(instanceId);
+    if (!live || live.data.definitionId !== 'seed-garden' || live.data.health <= 0 || !garden)
+      return { ok: false, moved: 0, leftovers: 0, reason: 'missing-endpoint' };
+    const before = garden.snapshot();
+    const moved = Math.min(amount, before.greens);
+    if (moved <= 0) return { ok: true, moved: 0, leftovers: 0 };
+    const destinationClone = new Container(destination.capacity);
+    destinationClone.restore(destination.serialise());
+    const leftovers = destinationClone.add('greens', moved);
+    if (leftovers > 0) return { ok: false, moved: 0, leftovers, reason: 'capacity' };
+    if (garden.harvest(moved) !== moved) {
+      garden.restore(before);
+      return { ok: false, moved: 0, leftovers: moved, reason: 'capacity' };
+    }
+    destination.restore(destinationClone.serialise());
+    this.gardenVisuals.get(instanceId)?.update(garden.snapshot());
+    return { ok: true, moved, leftovers: 0 };
   }
 
   harvestGarden(instanceId: string): number {

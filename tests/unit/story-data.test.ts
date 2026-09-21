@@ -80,7 +80,7 @@ describe('campaign data and route contracts', () => {
       'meridian-defense-record',
     ]);
     expect(LAST_GARDEN_MERIDIAN.placement).toEqual({
-      root: { x: 17, y: 0, z: 0 },
+      root: { x: 22, y: 0, z: 0 },
       entryAnchor: { x: -8, y: 0, z: 0 },
       exitSightline: { x: -9.5, y: 1, z: 0 },
       gangway: { x: -9.5, y: -0.08, z: 0 },
@@ -218,7 +218,7 @@ describe('Foundry destination contract', () => {
     });
     destination.setActive(true);
     destination.setDocked(true);
-    expect(destination.root.position.x).toBe(15);
+    expect(destination.root.position.x).toBe(20);
     expect(destination.interactables.map((item) => item.id)).toEqual(
       expect.arrayContaining([
         'relay-foundry-salvage-controller',

@@ -17,7 +17,7 @@ import {
   type CaretakerPortal,
   type CaretakerWaypoint,
 } from '@/companion/CaretakerPortals';
-import { DECK_SURFACE_Y, LEVEL_HEIGHT } from '@/game/constants';
+import { DECK_SURFACE_Y, LEVEL_HEIGHT, NOMAD_STAIR_RUN } from '@/game/constants';
 
 type MachineFrame = Pick<Machine, 'group'> & { fixedLinks?: readonly FixedLink[] };
 type NavigationBuild = Pick<BuildSystem, 'navGraph' | 'stationsNear'>;
@@ -58,8 +58,10 @@ export class CaretakerNavigation {
     // Select it by its measured surface height, not the cell's floor label.
     const link = (this.machine.fixedLinks ?? []).find((pair) => {
       const lower = Math.min(pair[0].y, pair[1].y);
-      const z = Math.max(-2, Math.min(2, from.z));
-      const rampY = DECK_SURFACE_Y + lower * LEVEL_HEIGHT + (z + 2) * 0.75;
+      const halfRun = NOMAD_STAIR_RUN / 2;
+      const z = Math.max(-halfRun, Math.min(halfRun, from.z));
+      const rampY =
+        DECK_SURFACE_Y + lower * LEVEL_HEIGHT + ((z + halfRun) / NOMAD_STAIR_RUN) * LEVEL_HEIGHT;
       return (
         Math.abs(from.x + 2) < 0.5 &&
         Math.abs(from.z) < 3.1 &&
@@ -274,7 +276,7 @@ export class CaretakerNavigation {
       const remainder = portal.samples
         .filter((point) => {
           const z = this.toLocal(point, new THREE.Vector3()).z;
-          return ascending ? z > localZ + 0.04 : z < localZ - 0.04;
+          return ascending ? z > localZ - 0.04 : z < localZ + 0.04;
         })
         .map(cloneCaretakerWaypoint);
       if (!remainder.length) continue;

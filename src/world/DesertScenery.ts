@@ -64,7 +64,8 @@ export function desertLayout(
 ): DesertPlacement[] {
   const rng = new Rng(chunkAspectSeed(seed, chunk, 'desert-district'));
   const districtRng = new Rng(chunkAspectSeed(seed, Math.floor(chunk / 3), 'desert-neighborhood'));
-  const district = districtRng.int(0, 2);
+  const district = districtRng.int(0, 3);
+  const landmarkBlock = ((chunk % 3) + 3) % 3 === 1;
   const side = districtRng.next() < 0.5 ? -1 : 1;
   const result: DesertPlacement[] = [];
   const add = (
@@ -91,10 +92,12 @@ export function desertLayout(
   // One large, set-back silhouette, then the remains of its street or yard.
   const landmark: DesertKind =
     district === 0
-      ? 'ruin-tower'
+      ? landmarkBlock ? 'ruin-tower' : rng.pick(['ruin-house', 'ruin-apartment'])
       : district === 1
-        ? rng.pick(['ruin-factory', 'water-tower'])
-        : rng.pick(['overpass', 'pylon']);
+        ? landmarkBlock ? 'ruin-factory' : rng.pick(['water-tower', 'ruin-shop'])
+        : district === 2
+          ? landmarkBlock ? 'overpass' : rng.pick(['pylon', 'billboard'])
+          : rng.pick(['wreck-bus', 'wreck-tanker', 'road-sign']);
   add(
     landmark,
     side * rng.range(95, 115),
@@ -105,11 +108,11 @@ export function desertLayout(
         ? 30
         : landmark === 'ruin-factory'
           ? 25
-          : 10,
+          : landmark === 'ruin-apartment' ? rng.range(17, 22) : 10,
     rng.signed(0.3),
   );
   add(
-    district === 0 ? 'ruin-apartment' : rng.pick(['ruin-house', 'ruin-shop']),
+    district === 0 ? 'ruin-apartment' : district === 3 ? 'wreck-tanker' : rng.pick(['ruin-house', 'ruin-shop']),
     side * rng.range(57, 75),
     -20,
     district === 0 ? rng.range(17, 22) : rng.range(10, 14),
@@ -133,16 +136,16 @@ export function desertLayout(
     0.02,
   );
   add(
-    rng.pick(['ruin-house', 'ruin-apartment']),
+    district === 3 ? rng.pick(['wreck-bus', 'billboard']) : rng.pick(['ruin-house', 'ruin-apartment']),
     -side * rng.range(83, 105),
     -17,
-    rng.range(12, 18),
+    district === 3 ? rng.range(5, 10) : rng.range(12, 18),
     rng.signed(0.2),
     0.1,
   );
   add('wreck-car', side * 58, 18, rng.range(5, 6.5), rng.signed(1), 0.14);
   add(
-    district === 0 ? 'ruin-apartment' : district === 1 ? 'pylon' : 'water-tower',
+    district === 0 ? 'ruin-apartment' : district === 1 ? 'pylon' : district === 3 ? 'wreck-car' : 'water-tower',
     side * 142,
     22,
     district === 0 ? rng.range(18, 23) : rng.range(6, 9),

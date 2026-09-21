@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { cellKey, type Cell } from '@/building/BuildGrid';
 import type { FixedLink } from '@/enemies/NavGraph';
-import { DECK_SURFACE_Y, LEVEL_HEIGHT } from '@/game/constants';
+import { DECK_SURFACE_Y, LEVEL_HEIGHT, NOMAD_STAIR_RUN } from '@/game/constants';
 
 export type CaretakerWaypoint = THREE.Vector3 & {
   portalId?: string;
@@ -46,14 +46,15 @@ export function caretakerPortalFor(
   const y = DECK_SURFACE_Y + low.y * LEVEL_HEIGHT;
   // The -4m landing cell centre grazes an authored workstation's clearance
   // margin. These 3.4m landing points stay in the same cells and clear its lip.
+  const halfRun = NOMAD_STAIR_RUN / 2;
   const samples = [
-    new THREE.Vector3(-2, y, -3.4),
     new THREE.Vector3(-2, y, -2),
-    new THREE.Vector3(-2, y + 0.75, -1),
-    new THREE.Vector3(-2, y + 1.5, 0),
-    new THREE.Vector3(-2, y + 2.25, 1),
-    new THREE.Vector3(-2, y + 3, 2),
-    new THREE.Vector3(-2, y + 3, 3.4),
+    new THREE.Vector3(-2, y, -halfRun),
+    new THREE.Vector3(-2, y + LEVEL_HEIGHT * 0.3, -halfRun * 0.5),
+    new THREE.Vector3(-2, y + LEVEL_HEIGHT * 0.5, 0),
+    new THREE.Vector3(-2, y + LEVEL_HEIGHT * 0.7, halfRun * 0.5),
+    new THREE.Vector3(-2, y + LEVEL_HEIGHT, halfRun),
+    new THREE.Vector3(-2, y + LEVEL_HEIGHT, 2),
   ];
   if (descending) samples.reverse();
   const id = `nomad:${low.y}:${ascending ? 'up' : 'down'}`;
