@@ -15,6 +15,8 @@ describe('ambience preferences', () => {
       volume: 0.35,
       quality: 'high',
       ambienceVolume: DEFAULT_AMBIENCE_VOLUME,
+      terminalTextScale: 1,
+      reducedMotion: false,
     });
   });
 

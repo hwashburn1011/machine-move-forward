@@ -488,6 +488,6 @@ function formatDistance(distance: number): string {
   return Number.isFinite(distance) ? Math.max(0, Math.round(distance)).toLocaleString() : '—';
 }
 
-function formatProfile(profile: CampaignProfile): string {
-  return profile === 'survival' ? 'Survival' : 'Story';
+function formatProfile(_profile: CampaignProfile): string {
+  return 'Story';
 }

@@ -9,8 +9,23 @@ import {
   type BoardingEncounterState,
 } from '@/vehicles/BoardingEncounter';
 import { VehicleManager } from '@/vehicles/VehicleManager';
+import { VEHICLES } from '@/data/vehicles';
 
 describe('boarding encounter choreography', () => {
+  it('uses the configured expanded-core skiff lane', () => {
+    expect(VEHICLES.skiff.laneOffset).toBe(17);
+    let port = createBoardingEncounter('port');
+    let starboard = createBoardingEncounter('starboard');
+    for (let i = 0; i < 80 && port.phase === 'approach'; i++)
+      port = stepBoardingEncounter(port, { dt: 0.25, hookRange: 10, laneOffset: VEHICLES.skiff.laneOffset });
+    for (let i = 0; i < 80 && starboard.phase === 'approach'; i++)
+      starboard = stepBoardingEncounter(starboard, { dt: 0.25, hookRange: 10, laneOffset: VEHICLES.skiff.laneOffset });
+    expect(port.phase).toBe('firing-pass');
+    expect(starboard.phase).toBe('firing-pass');
+    expect(port.lateral).toBeCloseTo(-17, 1);
+    expect(starboard.lateral).toBeCloseTo(17, 1);
+  });
+
   it('keeps the complete telegraphed sequence and saves live counters', () => {
     let s = createBoardingEncounter('port', 2);
     for (let i = 0; i < 30 && s.phase === 'approach'; i++)

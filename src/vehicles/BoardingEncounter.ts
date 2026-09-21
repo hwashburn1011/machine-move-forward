@@ -35,6 +35,8 @@ export type BoardingEncounterSave = BoardingEncounterState;
 export interface BoardingEncounterInput {
   dt: number;
   hookRange: number;
+  /** Configured lateral lane; port is negative and starboard positive. */
+  laneOffset?: number;
   destroyHull?: boolean;
   cutHook?: boolean;
   hookAttached?: boolean;
@@ -117,7 +119,8 @@ export function stepBoardingEncounter(
       crewStatus: state.crewStatus.map((status) => (status === 'crossing' ? 'dead' : status)),
     });
   if (state.phase === 'approach') {
-    const wanted = state.side === 'port' ? -13 : 13;
+    const lane = Number.isFinite(input.laneOffset) ? Math.max(0, input.laneOffset!) : 17;
+    const wanted = state.side === 'port' ? -lane : lane;
     const lateral = state.lateral + (wanted - state.lateral) * Math.min(1, dt * 2.5);
     const forward = state.forward + (0 - state.forward) * Math.min(1, dt * 1.8);
     const next = { ...state, lateral, forward, elapsed, phaseElapsed: state.phaseElapsed + dt };

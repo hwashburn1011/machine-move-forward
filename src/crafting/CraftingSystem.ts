@@ -11,7 +11,7 @@ import { powerRoleOf } from '@/data/power';
  * "Craft is greyed out" with no reason is the worst possible way to learn that
  * the generator has shed.
  */
-export type CraftBlock = 'no-power' | 'cannot-afford' | 'no-room' | null;
+export type CraftBlock = 'no-power' | 'cannot-afford' | 'no-room' | 'unavailable' | null;
 
 /**
  * Recipe evaluation and execution (spec section 9).
@@ -33,6 +33,7 @@ export class CraftingSystem {
      * stations `powerRoleOf` registers as consumers can ever answer no.
      */
     private readonly stationPowered: (station: StationId) => boolean = () => true,
+    private readonly recipeAllowed: (recipe: Recipe) => boolean = () => true,
   ) {}
 
   /** Inputs available, somewhere to put the output, AND the lights on. */
@@ -48,6 +49,7 @@ export class CraftingSystem {
    * see in their own inventory, and the dead generator is not.
    */
   craftBlock(recipe: Recipe): CraftBlock {
+    if (!this.recipeAllowed(recipe)) return 'unavailable';
     // Asked only of stations that actually draw. The workbench is a bench with
     // hand tools on it and is never gated, however dark the machine — one
     // powered station proves the chain from fuel to components without leaving

@@ -11,6 +11,7 @@ import {
 import { edgeCenter } from '@/building/BuildGrid';
 import { BuildPreview } from '@/building/BuildPreview';
 import type { BuildSystem } from '@/building/BuildSystem';
+import { DECK_HEIGHT } from '@/game/constants';
 
 describe('building polish targeting', () => {
   it('lets relocation supply validation and poses the ghost through the build group', () => {
@@ -28,7 +29,7 @@ describe('building polish targeting', () => {
     let validated = false;
     preview.updateTargeted(
       {
-        chestWorld: new THREE.Vector3(7, 16.74, -3),
+        chestWorld: new THREE.Vector3(7, DECK_HEIGHT + 0.8, -3),
         viewOrigin: new THREE.Vector3(7, 20, -3),
         viewDirection: new THREE.Vector3(0, -1, 0),
         machineTransform: group.matrixWorld,
@@ -46,7 +47,7 @@ describe('building polish targeting', () => {
     expect(validated).toBe(true);
     expect(preview.validation).toEqual({ ok: false, reason: 'occupied' });
     expect(preview.mesh.position.x).toBeCloseTo(7);
-    expect(preview.mesh.position.y).toBeCloseTo(16.74);
+    expect(preview.mesh.position.y).toBeCloseTo(DECK_HEIGHT + 2);
     preview.dispose();
   });
   it('uses chest reach and supports negative deck levels without a fallback target', () => {
@@ -91,7 +92,7 @@ describe('building polish targeting', () => {
         'floor',
       ),
     ).toBe(true);
-    expect(selectAutoLevel(14.74 - 6, -2)).toBe(-2);
+    expect(selectAutoLevel(DECK_HEIGHT - 6, -2)).toBe(-2);
   });
 
   it('checks edge reach and LOS against the snapped edge center', () => {
@@ -157,7 +158,7 @@ describe('building polish targeting', () => {
   });
 
   it('keeps the current negative deck only around its actual adjacent boundary', () => {
-    const boundary = 14.74 + -1.5 * 3;
+    const boundary = DECK_HEIGHT + -1.5 * 3.6;
     expect(selectAutoLevel(boundary - 0.29, -2)).toBe(-2);
     expect(selectAutoLevel(boundary + 0.29, -2)).toBe(-2);
     expect(selectAutoLevel(boundary + 0.31, -2)).toBe(-1);

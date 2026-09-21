@@ -72,6 +72,7 @@ describe('HUD story state cache', () => {
     const helper = root.querySelector('#hud-fuel-help') as HTMLElement;
     expect(machine.parentElement?.classList.contains('hud-machine-stack')).toBe(true);
     expect(status.root.parentElement).toBe(machine.parentElement);
+    expect(machine.classList.contains('has-fuel-help')).toBe(true);
     expect(helper.style.display).toBe('block');
     expect(helper.textContent).toBe(
       'Fuel empty · emergency crawl\nReel in salvage [Use]. Refuel a generator [Interact].',
@@ -79,6 +80,7 @@ describe('HUD story state cache', () => {
 
     hud.update({ ...state, fuel: 8, machineStopped: false });
     expect(helper.style.display).toBe('none');
+    expect(machine.classList.contains('has-fuel-help')).toBe(false);
     status.dispose();
     hud.dispose();
   });
@@ -94,5 +96,37 @@ describe('HUD story state cache', () => {
 
     expect(root.querySelector('#hud-story-detail')?.textContent).toBe('Dock safely.');
     hud.dispose();
+  });
+
+  it('renders one finite projected cargo cue and hides invalid or cleared positions', () => {
+    const root = document.createElement('section');
+    const hud = new HUD(root, new EventBus());
+    const hint = root.querySelector('#hud-cargo-hint') as HTMLElement;
+    hud.setCargoHint({ x: 0.25, y: 0.4, distance: 12.7, key: 'F' });
+    expect(hint.style.display).toBe('block');
+    expect(hint.style.left).toBe('25%');
+    expect(hint.style.top).toBe('40%');
+    expect(hint.textContent).toBe('REEL CARGO · 13 m / [F]');
+    hud.setCargoHint({ x: Number.NaN, y: 0.4, distance: 12, key: 'F' });
+    expect(hint.style.display).toBe('none');
+    hud.setCargoHint(null);
+    expect(hint.style.display).toBe('none');
+    hud.dispose();
+  });
+  it('keeps routine machine status quiet and reveals only attention detail', () => {
+    const root = document.createElement('section');
+    const status = new MachineStatusView(root);
+    const clean = {
+      fuel: { current: 8, capacity: 20 },
+      power: { capacity: 10, demand: 4, shed: [] as string[] },
+      condition: [{ id: 'engine' as const, fraction: 1 }],
+      serviceDecks: [],
+    };
+    status.update(clean);
+    expect(status.root.classList.contains('is-attention')).toBe(false);
+    status.update({ ...clean, condition: [{ id: 'engine' as const, fraction: 0.5 }] });
+    expect(status.root.classList.contains('is-attention')).toBe(true);
+    expect(status.root.textContent).toContain('Engine:50%');
+    status.dispose();
   });
 });

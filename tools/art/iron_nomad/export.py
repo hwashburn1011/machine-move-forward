@@ -90,12 +90,18 @@ collider_scene=bpy.data.scenes.new('Iron Nomad - collision proxies');bpy.context
 proxy_root=bpy.data.objects.new('IronNomad_Collision',None);collider_scene.collection.objects.link(proxy_root)
 proxy_root['collisionOnly']=True
 contract=json.loads((OUT/'source/manifest.json').read_text(encoding='utf-8'))
-for i,desc in enumerate(contract['proxies']):
-    bpy.ops.mesh.primitive_cube_add(size=1,location=desc['center']);o=bpy.context.object;o.name='UCX_'+desc['name']+'_'+str(i)
-    o.scale=desc['size'];o.parent=proxy_root;o['collisionOnly']=True
-    bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
-bpy.ops.object.select_all(action='SELECT')
-bpy.ops.export_scene.gltf(filepath=str(OUT/'exports/iron-nomad-colliders.glb'),export_format='GLB',use_selection=True,use_active_scene=True,export_yup=True,export_extras=True,export_animations=False)
+if contract.get('runtimeCollisionAsset'):
+    # Playable derivatives use the measured triangle shell plus runtime floors.
+    # The reference master's coarse proxies would be stale after expansion.
+    (OUT/'exports/iron-nomad-colliders.glb').unlink(missing_ok=True)
+    manifest['runtimeCollisionAsset']=contract['runtimeCollisionAsset']
+else:
+    for i,desc in enumerate(contract['proxies']):
+        bpy.ops.mesh.primitive_cube_add(size=1,location=desc['center']);o=bpy.context.object;o.name='UCX_'+desc['name']+'_'+str(i)
+        o.scale=desc['size'];o.parent=proxy_root;o['collisionOnly']=True
+        bpy.ops.object.transform_apply(location=False,rotation=False,scale=True)
+    bpy.ops.object.select_all(action='SELECT')
+    bpy.ops.export_scene.gltf(filepath=str(OUT/'exports/iron-nomad-colliders.glb'),export_format='GLB',use_selection=True,use_active_scene=True,export_yup=True,export_extras=True,export_animations=False)
 manifest['colliders']=len(contract['proxies']);manifest['lightAnchors']=sum(1 for a in contract['anchors'] if a['role'] in ['light','area-light'])
 (OUT/'source/export-manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
 print('IRON NOMAD EXPORT COMPLETE',manifest,flush=True)

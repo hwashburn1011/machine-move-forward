@@ -30,7 +30,12 @@ export class WorkshopVisuals {
     )
       return;
     const drive = this.borrow(engine, 'engine');
-    drive.position.set(0, DECK_SURFACE_Y, 6);
+    const engineHitbox = SUBSYSTEMS.engine.hitbox;
+    drive.position.set(
+      engineHitbox.center.x,
+      engineHitbox.center.y - engineHitbox.half.y,
+      engineHitbox.center.z,
+    );
     this.root.add(drive);
     this.rotor = drive.getObjectByName('DriveRotor') ?? null;
     for (const id of Object.keys(SUBSYSTEMS) as SubsystemId[]) {

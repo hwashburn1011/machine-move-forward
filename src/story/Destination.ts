@@ -1,7 +1,13 @@
 import * as THREE from 'three';
 import type { Materials } from '@/art/Materials';
-import { DECK_SURFACE_Y, LEVEL_HEIGHT } from '@/game/constants';
-import nomad from '@/data/iron-nomad.json';
+import {
+  DECK_SURFACE_Y,
+  LEVEL_HEIGHT,
+  NOMAD_WALKABLE_HALF_LENGTH,
+  NOMAD_WALKABLE_HALF_WIDTH,
+  NOMAD_WRAPAROUND_HALF_LENGTH,
+  NOMAD_WRAPAROUND_HALF_WIDTH,
+} from '@/game/constants';
 import { WORLD_Z_PER_METRE } from '@/world/WorldManager';
 import { PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import type { Interactable } from '@/interaction/InteractionSystem';
@@ -17,10 +23,52 @@ import {
   type StoryUniqueId,
   type StoryObjectiveId,
 } from '@/data/story';
+import sideStairs from '@/data/iron-nomad-side-stairs.json';
 export type DestinationDefinition = Omit<
   Pick<ExpeditionDefinition, 'title' | 'modelId' | 'placement' | 'interactables' | 'colliders'>,
   'modelId'
 > & { id: string; modelId: string };
+
+export interface NomadDeckBounds {
+  readonly level: -2 | -1 | 0;
+  readonly halfWidth: number;
+  readonly halfLength: number;
+}
+
+/** Runtime machine presence envelope, including the wider lower/middle wraps. */
+export function nomadDeckBoundsAtY(y: number): NomadDeckBounds {
+  const level = Math.max(-2, Math.min(0, Math.round((y - DECK_SURFACE_Y) / LEVEL_HEIGHT))) as
+    -2 | -1 | 0;
+  return level === 0
+    ? { level, halfWidth: NOMAD_WALKABLE_HALF_WIDTH, halfLength: NOMAD_WALKABLE_HALF_LENGTH }
+    : { level, halfWidth: NOMAD_WRAPAROUND_HALF_WIDTH, halfLength: NOMAD_WRAPAROUND_HALF_LENGTH };
+}
+
+export function nomadUpperStairExtension(p: Vec3Like): boolean {
+  return (
+    p.y >= DECK_SURFACE_Y - 0.3 &&
+    p.y <= DECK_SURFACE_Y + 1.8 &&
+    p.x >= sideStairs.upperExtension.xMin &&
+    p.x <= sideStairs.upperExtension.xMax &&
+    p.z >= sideStairs.upperExtension.zMin &&
+    p.z <= sideStairs.upperExtension.zMax
+  );
+}
+
+/** The lower and middle port bypass is a real supported machine deck. */
+export function nomadFlatBypass(p: Vec3Like): boolean {
+  const level = Math.round((p.y - DECK_SURFACE_Y) / LEVEL_HEIGHT);
+  if (level !== -2 && level !== -1) return false;
+  const yMin = DECK_SURFACE_Y + LEVEL_HEIGHT * level - 0.5;
+  const yMax = DECK_SURFACE_Y + LEVEL_HEIGHT * level + 1.25;
+  if (p.y < yMin || p.y > yMax) return false;
+  return (
+    p.x >= sideStairs.flatBypass.xMin &&
+    p.x <= sideStairs.flatBypass.xMax &&
+    p.z >= sideStairs.flatBypass.zMin &&
+    p.z <= sideStairs.flatBypass.zMax
+  );
+}
 
 export interface Vec3Like {
   x: number;
@@ -285,11 +333,14 @@ export class Destination {
     return Math.abs(l.x - g.x) <= 0.6 && Math.abs(l.z - g.z) <= 1.4 && l.y >= -0.5 && l.y <= 2;
   }
   playerOnMachine(p: Vec3Like) {
+    const bounds = nomadDeckBoundsAtY(p.y);
     return (
-      Math.abs(p.x) <= nomad.deckHalfWidth &&
-      Math.abs(p.z) <= nomad.deckHalfLength &&
-      p.y >= DECK_SURFACE_Y - LEVEL_HEIGHT * 2 - 0.5 &&
-      p.y <= DECK_SURFACE_Y + 4.5
+      (Math.abs(p.x) <= bounds.halfWidth &&
+        Math.abs(p.z) <= bounds.halfLength &&
+        p.y >= DECK_SURFACE_Y - LEVEL_HEIGHT * 2 - 0.5 &&
+        p.y <= DECK_SURFACE_Y + LEVEL_HEIGHT * 1.25) ||
+      nomadUpperStairExtension(p) ||
+      nomadFlatBypass(p)
     );
   }
   dispose() {

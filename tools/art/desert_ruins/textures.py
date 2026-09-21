@@ -12,7 +12,7 @@ atlas = Image.new('RGB', (N * 4, N * 4))
 normal_atlas = Image.new('RGB', atlas.size)
 orm_atlas = Image.new('RGB', atlas.size)
 rng = np.random.default_rng(42118)
-PALETTES = [(134,128,112),(174,149,111),(100,52,29),(66,98,94),(30,29,26),(61,63,58),(118,69,43),(153,141,110),(53,76,78),(82,65,44),(57,53,45),(120,105,80),(105,39,27),(44,79,88),(171,132,55),(57,87,65)]
+PALETTES = [(111,109,101),(175,166,144),(81,43,27),(104,141,139),(29,28,25),(64,68,67),(122,71,48),(137,147,142),(67,98,100),(88,73,54),(61,59,53),(155,134,99),(116,47,30),(45,91,107),(173,139,65),(71,101,87)]
 
 def noise(size, amplitude=1):
     small = Image.fromarray(rng.integers(0, 256, (size, size), dtype=np.uint8))
@@ -25,22 +25,42 @@ for tile, color in enumerate(PALETTES):
     height = coarse*.1+fine*.1
     values = np.asarray(color)[None,None,:] + coarse[:,:,None]*39+fine[:,:,None]*37+dust[:,:,None]*25
     metal = tile in [2,3,5,7,8,12,13,14,15]
-    chipped = (coarse+fine > (.02 if tile in [2,3,7] else .30)) if metal else coarse < -.35
+    chipped = (coarse+fine > (.04 if tile in [2,3,7] else .30)) if metal else coarse < -.35
     rust = np.array([95,48,25]) if metal else np.array([92,83,66])
     values[chipped] = rust + fine[chipped,None]*70
     height[chipped] -= .12
+    # Old enamel survives in broad islands; oxide and ground dust have different
+    # roughness. Wide colour boundaries still read from the moving deck.
+    if tile in [3,7,8]:
+        yy=np.arange(N)[:,None]
+        faded_band=((yy>N*.19)&(yy<N*.39)) | ((yy>N*.68)&(yy<N*.75))
+        paint=np.broadcast_to(faded_band,(N,N)) & ~chipped
+        values[paint]=np.array([190,185,157])+fine[paint,None]*22
+    dust_weight=np.clip((np.linspace(0,1,N)[:,None]-.62)*1.3+noise(11,.14),0,.32)
+    values=values*(1-dust_weight[:,:,None])+np.array([173,150,110])*dust_weight[:,:,None]
     image = Image.fromarray(np.uint8(np.clip(values,0,255)))
     draw = ImageDraw.Draw(image)
     # Pitted paint, oxidised fastener streaks and branching plaster cracks.
-    for i in range(1250):
+    for i in range(580):
         x,y = rng.integers(0,N,2); radius = int(rng.integers(1,4))
         shade = tuple(int(v) for v in (np.array(color)*rng.uniform(.4,1.35)).clip(0,255))
         draw.ellipse((x,y,x+radius,y+radius*.5),fill=shade)
-    for i in range(25 if metal else 14):
+    for i in range(45 if metal else 14):
         x,y = rng.integers(0,N,2); points=[(int(x),int(y))]
         for j in range(int(rng.integers(2,9))):
             x+=int(rng.integers(-12,13)); y+=int(rng.integers(5,23));points.append((int(x),int(y)))
         draw.line(points,fill=(61,40,26) if metal else (71,67,57),width=1)
+        if metal:
+            # Thin oxide runs below pits/rivets, with a pale sun-scoured rim.
+            start=points[0];draw.line((start[0]+2,start[1],start[0]+4,min(N,start[1]+int(rng.integers(18,80)))),fill=(132,83,48),width=2)
+    if tile in [0,1]:
+        for _ in range(8):
+            cx,cy=rng.integers(0,N,2);rw=int(rng.integers(12,65));rh=int(rng.integers(10,42))
+            edge=[(int(cx+math.cos(a)*rw*rng.uniform(.65,1)),int(cy+math.sin(a)*rh*rng.uniform(.65,1))) for a in np.linspace(0,math.tau,13)]
+            draw.polygon(edge,fill=(123,103,82) if tile==1 else (86,85,80))
+    if tile==9:
+        for x in range(0,N,9):
+            drift=int(rng.integers(-3,4));draw.line((x,0,x+drift,N),fill=(67,55,43),width=1)
     if tile == 6:
         for y in range(0,N,40):
             draw.line((0,y,N,y),fill=(108,101,84),width=4)
@@ -65,13 +85,17 @@ for tile, color in enumerate(PALETTES):
         # Wear crosses the painted lettering too, so text belongs to the panel.
         for i in range(1700):
             x,y=rng.integers(0,N,2); r=int(rng.integers(1,7));draw.line((int(x),int(y),int(x+r),int(y+1)),fill=(99,56,31),width=1)
+    # Include masonry joints and chipped paint edges in relief, not only noise.
+    luminance=np.asarray(image,dtype=float).mean(axis=2)/255
+    height+=luminance*.075
     gradient_y, gradient_x = np.gradient(height)
     normals = np.dstack((-gradient_x*4,gradient_y*4,np.ones_like(height)))
     normals /= np.linalg.norm(normals,axis=2,keepdims=True)
     rough = np.clip(.84+coarse*.18+fine*.15,.58,.99)
-    metallic = np.full((N,N), .7 if metal else 0.0)
-    metallic[chipped] = .35 if metal else 0
-    orm=np.uint8(np.clip(np.dstack((np.full((N,N),.94),rough,metallic))*255,0,255))
+    metallic = np.full((N,N), .4 if tile==5 else .13 if metal else 0.0)
+    metallic[chipped] = .04 if metal else 0
+    occlusion=np.clip(.98-np.maximum(0,-coarse)*.14-chipped*.045,.78,1)
+    orm=np.uint8(np.clip(np.dstack((occlusion,rough,metallic))*255,0,255))
     at=((tile%4)*N,(tile//4)*N)
     atlas.paste(image,at)
     normal_atlas.paste(Image.fromarray(np.uint8((normals*.5+.5)*255)),at)

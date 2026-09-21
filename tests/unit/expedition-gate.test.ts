@@ -2,7 +2,12 @@ import { expect, it } from 'vitest';
 import * as THREE from 'three';
 import type { Materials } from '@/art/Materials';
 import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
-import { DECK_SURFACE_Y, PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
+import {
+  DECK_SURFACE_Y,
+  NOMAD_WALKABLE_HALF_WIDTH,
+  PLAYER_CAPSULE_HALF_HEIGHT,
+  PLAYER_CAPSULE_RADIUS,
+} from '@/game/constants';
 import { Machine } from '@/machine/Machine';
 import { Destination } from '@/story/Destination';
 
@@ -31,7 +36,9 @@ it('opens a real machine railing for walking across the dock, then restores the 
   };
   try {
     walk(0.06, 60);
-    expect(position.x).toBeLessThan(6.7);
+    expect(position.x).toBeLessThan(
+      NOMAD_WALKABLE_HALF_WIDTH - PLAYER_CAPSULE_RADIUS + 0.05,
+    );
     machine.setExpeditionGangwayOpen(true);
     walk(0.06, 230);
     expect(position.x).toBeGreaterThan(17);
@@ -39,8 +46,10 @@ it('opens a real machine railing for walking across the dock, then restores the 
     expect(position.y).toBeGreaterThan(DECK_SURFACE_Y);
     machine.setExpeditionGangwayOpen(false);
     walk(-0.06, 250);
-    expect(position.x).toBeGreaterThan(7);
-    expect(position.x).toBeLessThan(7.6);
+    expect(position.x).toBeGreaterThan(
+      NOMAD_WALKABLE_HALF_WIDTH + PLAYER_CAPSULE_RADIUS - 0.05,
+    );
+    expect(position.x).toBeLessThan(NOMAD_WALKABLE_HALF_WIDTH + 0.5);
   } finally {
     destination.dispose();
     physics.dispose();

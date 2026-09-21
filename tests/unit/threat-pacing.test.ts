@@ -177,7 +177,7 @@ describe('lane-aware threat pacing', () => {
       healthFraction: 1,
       lane: 'ordinary',
       scheduleAllowed: true,
-      pacing: THREAT_PACING_BY_PROFILE.survival,
+      pacing: THREAT_PACING_BY_PROFILE.story,
     });
     expect(before.entered).toBeNull();
     expect(restored.phaseEnds).toBe(1_234);
@@ -189,10 +189,10 @@ describe('lane-aware threat pacing', () => {
       healthFraction: 1,
       lane: 'ordinary',
       scheduleAllowed: true,
-      pacing: THREAT_PACING_BY_PROFILE.survival,
+      pacing: THREAT_PACING_BY_PROFILE.story,
     });
     expect(warning.entered).toBe('buildup');
-    expect(restored.phaseEnds).toBe(1_234 + THREAT_PACING_BY_PROFILE.survival.buildupM);
+    expect(restored.phaseEnds).toBe(1_234 + THREAT_PACING_BY_PROFILE.story.buildupM);
   });
 
   it('restores a radio buildup to the same one-shot request', () => {
@@ -217,7 +217,7 @@ describe('lane-aware threat pacing', () => {
     director.restore(old);
     expect(director.toSave().lane).toBe('ordinary');
 
-    tick(director, 0, { lane: 'radio-raid', pacing: THREAT_PACING_BY_PROFILE.survival });
+    tick(director, 0, { lane: 'radio-raid', pacing: THREAT_PACING_BY_PROFILE.story });
     director.reset(50);
     const reset = director.toSave();
     expect(reset.lane).toBe('ordinary');
@@ -226,11 +226,11 @@ describe('lane-aware threat pacing', () => {
     expect(reset.phaseEndsAt).toBeLessThanOrEqual(50 + 400 + 700);
   });
 
-  it('initializes a new survival director with survival quiet without changing combat rules', () => {
-    const director = new ThreatDirector('survival-new');
-    director.reset(75, THREAT_PACING_BY_PROFILE.survival);
-    expect(director.phaseEnds).toBeGreaterThanOrEqual(75 + 300);
-    expect(director.phaseEnds).toBeLessThanOrEqual(75 + 300 + 500);
+  it('initializes a new campaign with standard quiet without changing combat rules', () => {
+    const director = new ThreatDirector('story-new');
+    director.reset(75, THREAT_PACING_BY_PROFILE.story);
+    expect(director.phaseEnds).toBeGreaterThanOrEqual(75 + 400);
+    expect(director.phaseEnds).toBeLessThanOrEqual(75 + 400 + 700);
     expect(director.toSave().lane).toBe('ordinary');
   });
 });

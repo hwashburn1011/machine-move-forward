@@ -1,4 +1,10 @@
-import { chooseCaretakerJob, type CaretakerJob, type CaretakerWorkSnapshot } from './CaretakerWork';
+import {
+  CARETAKER_PRIORITIES,
+  chooseCaretakerJob,
+  type CaretakerJob,
+  type CaretakerPriority,
+  type CaretakerWorkSnapshot,
+} from './CaretakerWork';
 
 export type CaretakerMode = 'companion' | 'steward';
 export type CaretakerJobPhase =
@@ -21,11 +27,13 @@ export interface CaretakerSnapshot {
   token: number | null;
   serviceRemainingS: number;
   refusal: string | null;
+  priority: CaretakerPriority;
 }
 export interface CaretakerSave {
   format: 1;
   recruited: boolean;
   mode: CaretakerMode;
+  priority?: CaretakerPriority;
 }
 
 export class CaretakerDirector {
@@ -37,6 +45,7 @@ export class CaretakerDirector {
   private nextToken = 1;
   private serviceRemainingS = 0;
   private refusal: string | null = null;
+  private priority: CaretakerPriority = 'auto';
   private waitS = 0;
   recruit(): boolean {
     if (this.recruited) return false;
@@ -49,10 +58,16 @@ export class CaretakerDirector {
     if (mode === 'companion') this.cancel();
     return true;
   }
+  /** Changes the next-job preference; an in-flight job is deliberately untouched. */
+  setPriority(priority: CaretakerPriority): boolean {
+    if (!this.recruited || !CARETAKER_PRIORITIES.includes(priority)) return false;
+    this.priority = priority;
+    return true;
+  }
   plan(snapshot: CaretakerWorkSnapshot): CaretakerJob | null {
     if (!this.recruited || this.mode !== 'steward' || this.phase !== 'idle' || this.waitS > 0)
       return null;
-    const proposed = chooseCaretakerJob(snapshot);
+    const proposed = chooseCaretakerJob(snapshot, this.priority);
     this.job = proposed ? Object.freeze({ ...proposed }) : null;
     if (this.job) {
       this.phase = 'to-source';
@@ -108,6 +123,7 @@ export class CaretakerDirector {
     this.recruited = false;
     this.mode = 'companion';
     this.refusal = null;
+    this.priority = 'auto';
   }
   snapshot(): CaretakerSnapshot {
     return {
@@ -118,10 +134,11 @@ export class CaretakerDirector {
       token: this.token,
       serviceRemainingS: this.serviceRemainingS,
       refusal: this.refusal,
+      priority: this.priority,
     };
   }
   toSave(): CaretakerSave {
-    return { format: 1, recruited: this.recruited, mode: this.mode };
+    return { format: 1, recruited: this.recruited, mode: this.mode, priority: this.priority };
   }
   restore(raw: unknown): void {
     this.reset();
@@ -135,5 +152,8 @@ export class CaretakerDirector {
       return;
     this.recruited = save.recruited;
     this.mode = save.recruited ? (save.mode as CaretakerMode) : 'companion';
+    this.priority = CARETAKER_PRIORITIES.includes(save.priority as CaretakerPriority)
+      ? (save.priority as CaretakerPriority)
+      : 'auto';
   }
 }

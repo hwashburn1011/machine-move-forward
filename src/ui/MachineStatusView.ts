@@ -55,6 +55,12 @@ export class MachineStatusView {
     const issues = snapshot.condition
       .filter((s) => s.fraction < 1)
       .map((s) => `${subsystemName(s.id)}:${Math.floor(s.fraction * 100)}%`);
+    const attention =
+      issues.length > 0 ||
+      snapshot.fuel.crawling === true ||
+      snapshot.power.shed.length > 0 ||
+      (snapshot.recovery ?? []).some((hint) => hint.severity !== 'info');
+    this.root.classList.toggle('is-attention', attention);
     const shed = snapshot.power.shed.length
       ? `Shed: ${snapshot.power.shed.join(', ')}`
       : 'No devices shed';

@@ -3,7 +3,7 @@ import { DEFAULT_AMBIENCE_VOLUME } from '@/audio/SoundBank';
 import { DEFAULT_BINDINGS } from '@/core/input/Bindings';
 
 export const SETTINGS_KEY = 'mmf-settings';
-export const SETTINGS_VERSION = 2;
+export const SETTINGS_VERSION = 3;
 export type Shoulder = 'left' | 'right';
 export interface Settings {
   version: number;
@@ -13,7 +13,16 @@ export interface Settings {
   sensitivity: number;
   hipFov: number;
   shoulder: Shoulder;
+  terminalTextScale: number;
+  reducedMotion: boolean;
   bindings: Record<string, string>;
+}
+
+function prefersReducedMotion(): boolean {
+  return (
+    typeof globalThis.matchMedia === 'function' &&
+    globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -24,6 +33,8 @@ export const DEFAULT_SETTINGS: Settings = {
   sensitivity: 1,
   hipFov: 55,
   shoulder: 'right',
+  terminalTextScale: 1,
+  reducedMotion: prefersReducedMotion(),
   bindings: {},
 };
 
@@ -65,6 +76,9 @@ export function validateSettings(value: unknown): Settings {
     sensitivity: numberIn(raw.sensitivity, 0.25, 3, 1),
     hipFov: numberIn(raw.hipFov, 50, 80, 55),
     shoulder: raw.shoulder === 'left' ? 'left' : 'right',
+    terminalTextScale: numberIn(raw.terminalTextScale, 1, 1.4, DEFAULT_SETTINGS.terminalTextScale),
+    reducedMotion:
+      typeof raw.reducedMotion === 'boolean' ? raw.reducedMotion : DEFAULT_SETTINGS.reducedMotion,
     bindings,
   };
 }

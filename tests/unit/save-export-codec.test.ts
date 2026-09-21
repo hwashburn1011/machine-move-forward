@@ -25,6 +25,23 @@ const fixture = (): SaveGameV1 => ({
 });
 
 describe('SaveExportCodec', () => {
+  it('imports legacy Survival as Story without changing progress or mutating the source', () => {
+    const legacy = { ...fixture(), profile: 'survival' as const };
+    const before = structuredClone(legacy);
+    const decoded = SaveExportCodec.decode(
+      JSON.stringify({
+        format: 'machine-move-forward-save',
+        formatVersion: 1,
+        name: 'Legacy run',
+        save: legacy,
+      }),
+    );
+    expect(decoded.save).toEqual({ ...before, profile: 'story' });
+    expect(legacy).toEqual(before);
+    expect(validateSaveForExport(legacy)).toEqual({ ...before, profile: 'story' });
+    expect(() => validateSaveForExport({ ...legacy, profile: 'future-mode' })).toThrow(/profile/);
+  });
+
   it('round trips Unicode names and complete nested saves without aliasing', () => {
     const text = SaveExportCodec.encode('  日本語 expedition  ', fixture());
     const decoded = SaveExportCodec.decode(text);
@@ -184,7 +201,7 @@ describe('SaveExportCodec', () => {
 
   it('accepts every populated schema branch consumed during restore', () => {
     const save = fixture();
-    save.profile = 'survival';
+    save.profile = 'story';
     save.player.needs = { hydration: 50, nourishment: 60 };
     save.player.equipment.weapons[0] = {
       id: 'rifle',

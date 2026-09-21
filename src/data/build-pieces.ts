@@ -527,8 +527,8 @@ export interface StartingPiece {
  * hull deck is not one.
  */
 export const STARTING_STRUCTURES: readonly StartingPiece[] = [
-  { piece: 'floor', cell: { x: 2, y: 0, z: 3 }, rotation: 0 },
-  { piece: 'generator', cell: { x: 2, y: 0, z: 3 }, rotation: 0 },
+  { piece: 'floor', cell: { x: 4, y: 0, z: 5 }, rotation: 0 },
+  { piece: 'generator', cell: { x: 4, y: 0, z: 5 }, rotation: 0 },
 ];
 
 /** Selection order for the number keys and the build HUD row. */

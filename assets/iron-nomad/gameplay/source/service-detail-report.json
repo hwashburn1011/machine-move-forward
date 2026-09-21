@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Bridge maintenance ladder",
+    "x": 3.652499809265137,
+    "z": -6.24,
+    "bottom": 16.03,
+    "landing": 18.750831604003906,
+    "wallX": 4.3125,
+    "clearance": 0.6600001907348632
+  },
+  {
+    "name": "Furnace_A maintenance ladder",
+    "x": -6.124999904632568,
+    "z": 5.849999904632568,
+    "bottom": 16.03,
+    "landing": 20.659998779296874,
+    "wallX": -6.964999904632569,
+    "clearance": 0.8400000000000007
+  },
+  {
+    "name": "Furnace_B maintenance ladder",
+    "x": -6.124999904632568,
+    "z": 11.180000305175781,
+    "bottom": 16.03,
+    "landing": 19.909998779296874,
+    "wallX": -6.964999904632569,
+    "clearance": 0.8400000000000007
+  }
+]

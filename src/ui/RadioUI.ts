@@ -17,6 +17,8 @@ export interface RadioView {
   chapterComplete?: boolean;
   recoveredSupplies?: string;
   salvageAvailable?: boolean;
+  scannerAction?: 'install' | 'start';
+  scannerRefusal?: string;
 }
 
 export interface RadioUICallbacks {
@@ -27,6 +29,8 @@ export interface RadioUICallbacks {
   collectRecovered?: () => void;
   openCampaignLog?: () => void;
   openSalvage?: () => void;
+  installScanner?: () => void;
+  startScanner?: () => void;
 }
 
 /** Functional radio panel. Appearance belongs to the application stylesheet. */
@@ -69,6 +73,14 @@ export class RadioUI {
     salvageButton.textContent = 'Wreck salvage choices';
     salvageButton.hidden = true;
     this.root.querySelector('.radio-panel-actions')!.append(salvageButton);
+    const scannerButton = document.createElement('button');
+    scannerButton.type = 'button';
+    scannerButton.dataset.scannerAction = '';
+    scannerButton.hidden = true;
+    this.root.querySelector('.radio-panel-actions')!.prepend(scannerButton);
+    const scannerReason = document.createElement('p');
+    scannerReason.dataset.scannerReason = '';
+    this.root.firstElementChild!.append(scannerReason);
     this.content = this.root.firstElementChild as HTMLDivElement;
     this.status = this.content.querySelector('[data-radio-status]') as HTMLDivElement;
     this.strength = this.content.querySelector('[data-radio-strength]') as HTMLDivElement;
@@ -113,6 +125,11 @@ export class RadioUI {
 
   private render(): void {
     const v = this.view;
+    const scannerButton = this.root.querySelector<HTMLButtonElement>('[data-scanner-action]')!;
+    scannerButton.hidden = !v.scannerAction;
+    scannerButton.disabled = !!v.scannerRefusal;
+    scannerButton.textContent = v.scannerAction === 'install' ? 'Install replacement module' : 'Start scan';
+    this.root.querySelector<HTMLElement>('[data-scanner-reason]')!.textContent = v.scannerRefusal ?? '';
     (this.root.querySelector('[data-radio-salvage]') as HTMLButtonElement).hidden =
       !v.salvageAvailable;
     const status = !v.found
@@ -156,6 +173,10 @@ export class RadioUI {
     const target = event.target as HTMLElement | null;
     if (!target) return;
     if (target.closest('[data-radio-close]')) this.callbacks.close();
+    else if (target.closest('[data-scanner-action]') && !this.view.scannerRefusal) {
+      if (this.view.scannerAction === 'install') this.callbacks.installScanner?.();
+      if (this.view.scannerAction === 'start') this.callbacks.startScanner?.();
+    }
     else if (target.closest('[data-radio-salvage]') && this.view.salvageAvailable)
       this.callbacks.openSalvage?.();
     else if (target.closest('[data-radio-research]')) this.callbacks.openResearch?.();

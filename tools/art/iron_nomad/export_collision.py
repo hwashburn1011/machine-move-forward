@@ -6,11 +6,22 @@ This does not rebuild or modify the visible model or the user's open scene.
 import bpy
 import json
 import shutil
+import time
 from pathlib import Path
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / 'assets/iron-nomad/gameplay'
+
+
+def write_text_retry(path, text):
+    for attempt in range(40):
+        try:
+            path.write_text(text,encoding='utf8')
+            return
+        except OSError:
+            if attempt==39:raise
+            time.sleep(.25)
 
 
 def export_collision(scene):
@@ -78,7 +89,7 @@ def export_collision(scene):
             'Chassis_StructuralFrame', 'Decks_and_PerimeterCatwalks', 'External_Stairs_Ladders',
         ]:
             for level in [-2, -1, 0]:
-                floor = profile['deckSurface'] + 3 * level
+                floor = profile['deckSurface'] + 3.6 * level
                 if hi.y > floor + .35 and lo.y < floor + 1.9:
                     obstacles.append({'level': level, 'minX': round(lo.x, 3),
                                       'maxX': round(hi.x, 3), 'minZ': round(lo.z, 3),
@@ -97,10 +108,17 @@ def export_collision(scene):
     bpy.ops.export_scene.gltf(filepath=str(target), export_format='GLB',
                              use_selection=True, use_active_scene=True, export_yup=False,
                              export_materials='NONE', export_animations=False)
-    shutil.copyfile(target, ROOT / 'public/models/authored/iron-nomad-collision.glb')
-    (ROOT / 'src/data/iron-nomad-obstacles.json').write_text(
+    runtime=ROOT/'public/models/authored/iron-nomad-collision.glb'
+    for attempt in range(20):
+        try:
+            shutil.copyfile(target,runtime)
+            break
+        except OSError:
+            if attempt==19: raise
+            time.sleep(.25)
+    write_text_retry(ROOT / 'src/data/iron-nomad-obstacles.json',
         json.dumps(obstacles, separators=(',', ':')))
-    (OUT / 'source/gameplay-manifest.json').write_text(json.dumps({
+    write_text_retry(OUT / 'source/gameplay-manifest.json',json.dumps({
         'profile': profile, 'collisionTriangles': len(faces), 'collisionObjects': used,
         'runtimeSolids': shared,
     }, indent=2))

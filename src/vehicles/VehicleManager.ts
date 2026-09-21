@@ -118,6 +118,7 @@ export class VehicleManager {
     this.state = stepBoardingEncounter(this.state, {
       dt,
       hookRange: 10,
+      laneOffset: VEHICLES.skiff.laneOffset,
       hookAttached,
       cutHook,
       crossingSeconds: this.profile.crewStaggerSeconds,

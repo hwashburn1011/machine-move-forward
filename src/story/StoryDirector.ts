@@ -66,6 +66,8 @@ export interface StoryInput {
   encounterActive?: boolean;
   /** New-game radio path. Existing expeditions continue on their committed route. */
   signalBattleMode?: boolean;
+  /** Opening scanner has reached its safe, one-shot contact boundary. */
+  scannerContactReady?: boolean;
 }
 export type StoryEffect =
   | { type: 'begin-signal' }
@@ -269,7 +271,20 @@ export class StoryDirector {
       // every snapshot (which would leave those saves permanently at 8%).
       this.signalStartedAt ??= distance;
       if (this.expedition.id === 'wreck-one') {
-        if (!input.firstRunComplete || !input.stable) return effects;
+        if (!input.stable) return effects;
+        if (input.scannerContactReady) {
+          const reveal = this.consumeScannerContact({
+            ready: true,
+            stable: input.stable,
+            playerOnMachine: input.playerOnMachine,
+            encounterActive: input.encounterActive === true,
+          });
+          if (reveal.length > 0) return reveal;
+        }
+        // A supplied scanner state is authoritative for the modern opening;
+        // do not silently fall back to the distance-driven legacy approach.
+        if (input.scannerContactReady !== undefined) return effects;
+        if (!input.firstRunComplete) return effects;
         if (input.signalBattleMode) {
           if (
             this.snapshot(distance).signalStrength < 1 ||
@@ -356,6 +371,26 @@ export class StoryDirector {
     if (this.phase !== 'crossfire') return false;
     this.phase = 'raids';
     return true;
+  }
+
+  /** Consume the scanner's one-shot contact only after presentation is ready. */
+  consumeScannerContact(context: {
+    ready: boolean;
+    stable: boolean;
+    playerOnMachine: boolean;
+    encounterActive: boolean;
+  }): StoryEffect[] {
+    if (
+      !context.ready ||
+      !context.stable ||
+      !context.playerOnMachine ||
+      context.encounterActive ||
+      this.phase !== 'signal' ||
+      this.expedition.id !== 'wreck-one'
+    )
+      return [];
+    this.phase = 'crossfire';
+    return [{ type: 'begin-signal-battle' }];
   }
 
   private advanceBraking(

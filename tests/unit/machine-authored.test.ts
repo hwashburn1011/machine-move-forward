@@ -4,6 +4,7 @@ import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import { Machine } from '@/machine/Machine';
+import { DECK_SURFACE_Y, LEVEL_HEIGHT } from '@/game/constants';
 
 function stubMaterials(): Materials {
   const material = new THREE.MeshStandardMaterial();
@@ -53,7 +54,7 @@ describe('authored machine skin replacement', () => {
           (body) => new THREE.Vector3().copy(body.translation()).distanceTo(worldFloor) < 0.0001,
         ),
     ).toBe(true);
-    const standing = machine.group.localToWorld(new THREE.Vector3(0.8, 14.83, -4.464));
+    const standing = machine.group.localToWorld(new THREE.Vector3(0.8, DECK_SURFACE_Y, -4.464));
     standing.y += 0.99;
     expect(physics.capsuleFits(standing, 0.34, 0.62)).toBe(true);
     expect(physics.hasCapsuleSupport(standing, 0.34, 0.62)).toBe(true);
@@ -79,6 +80,141 @@ describe('authored machine skin replacement', () => {
         .copy(body.translation())
         .distanceTo(floor.getWorldPosition(new THREE.Vector3())),
     ).toBeLessThan(0.0001);
+    machine.dispose();
+    physics.dispose();
+  });
+
+  it('physically supports the v3 perimeter and both port side stair flights', async () => {
+    await initRapier();
+    const physics = new PhysicsWorld();
+    const machine = new Machine(new THREE.Scene(), physics, stubMaterials());
+    const assertPerimeterSupport = () => {
+      for (const level of [-2, -1, 0]) {
+        for (const at of [
+          new THREE.Vector3(
+            level === 0 ? 11.5 : 12.5,
+            DECK_SURFACE_Y + level * LEVEL_HEIGHT + 0.99,
+            0,
+          ),
+          new THREE.Vector3(
+            0,
+            DECK_SURFACE_Y + level * LEVEL_HEIGHT + 0.99,
+            level === 0 ? 13.5 : 14.5,
+          ),
+        ]) {
+          const label = `level ${level} at ${at.x},${at.z}`;
+          expect(physics.capsuleFits(at, 0.34, 0.62), label).toBe(true);
+          expect(physics.hasCapsuleSupport(at, 0.34, 0.62), label).toBe(true);
+        }
+      }
+    };
+
+    assertPerimeterSupport();
+    for (const level of [-2, -1] as const) {
+      for (const z of [0]) {
+        const progress = level === -2 ? (z + 3) / 6 : (3 - z) / 6;
+        const y = DECK_SURFACE_Y + LEVEL_HEIGHT * level + 1.1 + LEVEL_HEIGHT * progress;
+        const at = new THREE.Vector3(-12, y, z);
+        expect(physics.capsuleFits(at, 0.34, 0.62), `side stair ${level} fit at ${z}`).toBe(true);
+      }
+    }
+    expect(machine.group.getObjectByName('Nomad side stair lower-middle')).toBeDefined();
+    expect(machine.group.getObjectByName('Nomad side stair middle-upper')).toBeDefined();
+    expect(machine.group.getObjectByName('Nomad side stair rail lower-middle')).toBeDefined();
+    expect(machine.group.getObjectByName('Nomad side stair rail middle-upper')).toBeDefined();
+    machine.applyAuthoredDetailModel(
+      modelWith('IronNomad_FourLegWalker'),
+      modelWith('IronNomad_StaticCollision'),
+    );
+    expect(machine.group.getObjectByName('Nomad perimeter floor 0 starboard')?.visible).toBe(false);
+    assertPerimeterSupport();
+    machine.dispose();
+    physics.dispose();
+  });
+
+  it('walks a capsule up and back down the runtime side flight', async () => {
+    await initRapier();
+    const physics = new PhysicsWorld();
+    const machine = new Machine(new THREE.Scene(), physics, stubMaterials());
+    const position = new THREE.Vector3(-12, DECK_SURFACE_Y - LEVEL_HEIGHT * 2 + 1.1, -3.6);
+    const character = physics.addCharacter(0.34, 0.62, position);
+    for (let i = 0; i < 70; i++) {
+      physics.moveCharacter(character, position, new THREE.Vector3(0, -0.02, 0.1), {
+        x: 0,
+        y: 0,
+        z: 0,
+      });
+      physics.step();
+    }
+    expect(position.z).toBeGreaterThan(0.8);
+    expect(position.y).toBeGreaterThan(DECK_SURFACE_Y - LEVEL_HEIGHT * 2 + 3.2);
+    for (let i = 0; i < 70; i++) {
+      physics.moveCharacter(character, position, new THREE.Vector3(0, -0.02, -0.1), {
+        x: 0,
+        y: 0,
+        z: 0,
+      });
+      physics.step();
+    }
+    expect(position.z).toBeLessThan(-1.8);
+    expect(position.y).toBeLessThan(DECK_SURFACE_Y - LEVEL_HEIGHT * 2 + 1.6);
+    physics.removeCharacter(character);
+
+    const upperPosition = new THREE.Vector3(-12, DECK_SURFACE_Y - LEVEL_HEIGHT + 1.1 + 0.2, -3.6);
+    const upperCharacter = physics.addCharacter(0.34, 0.62, upperPosition);
+    for (let i = 0; i < 70; i++) {
+      physics.moveCharacter(upperCharacter, upperPosition, new THREE.Vector3(0, -0.02, 0.1), {
+        x: 0,
+        y: 0,
+        z: 0,
+      });
+      physics.step();
+    }
+    expect(upperPosition.z).toBeGreaterThan(0.8);
+    expect(upperPosition.y).toBeGreaterThan(DECK_SURFACE_Y - LEVEL_HEIGHT + 1.5);
+    for (let i = 0; i < 70; i++) {
+      physics.moveCharacter(upperCharacter, upperPosition, new THREE.Vector3(0, -0.02, -0.1), {
+        x: 0,
+        y: 0,
+        z: 0,
+      });
+      physics.step();
+    }
+    expect(upperPosition.z).toBeLessThan(-1.8);
+    physics.removeCharacter(upperCharacter);
+
+    const bypassPosition = new THREE.Vector3(-14, DECK_SURFACE_Y - LEVEL_HEIGHT * 2 + 1.1, -4.0);
+    const bypassCharacter = physics.addCharacter(0.34, 0.62, bypassPosition);
+    for (let i = 0; i < 110; i++) {
+      physics.moveCharacter(bypassCharacter, bypassPosition, new THREE.Vector3(0, -0.02, 0.1), {
+        x: 0,
+        y: 0,
+        z: 0,
+      });
+      physics.step();
+    }
+    expect(bypassPosition.z).toBeGreaterThan(4.0);
+    expect(bypassPosition.y).toBeGreaterThan(DECK_SURFACE_Y - LEVEL_HEIGHT * 2 + 0.6);
+    physics.removeCharacter(bypassCharacter);
+    machine.dispose();
+    physics.dispose();
+  });
+
+  it('keeps the upper gate closed until the gangway is opened', async () => {
+    await initRapier();
+    const physics = new PhysicsWorld();
+    const machine = new Machine(new THREE.Scene(), physics, stubMaterials());
+    const crossing = new THREE.Vector3(12, DECK_SURFACE_Y + 1.1, 0);
+    expect(physics.capsuleFits(crossing, 0.34, 0.62)).toBe(false);
+    machine.setExpeditionGangwayOpen(true);
+    expect(physics.capsuleFits(crossing, 0.34, 0.62)).toBe(true);
+    const lowerSurface = DECK_SURFACE_Y - LEVEL_HEIGHT * 2;
+    expect(physics.capsuleFits(new THREE.Vector3(-15.4, lowerSurface + 1.1, 0), 0.34, 0.62)).toBe(
+      false,
+    );
+    expect(physics.capsuleFits(new THREE.Vector3(0, lowerSurface + 1.1, -15.4), 0.34, 0.62)).toBe(
+      false,
+    );
     machine.dispose();
     physics.dispose();
   });

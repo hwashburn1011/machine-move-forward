@@ -20,6 +20,13 @@ export interface Recipe {
 
 export const RECIPES: readonly Recipe[] = [
   {
+    id: 'craft-scanner-replacement-module',
+    name: 'Scanner Replacement Module',
+    station: 'workbench',
+    inputs: { scrap: 4, components: 4 },
+    output: { itemId: 'scanner-replacement-module', count: 1 },
+  },
+  {
     id: 'refine-components',
     name: 'Refine Components',
     station: 'refinery',

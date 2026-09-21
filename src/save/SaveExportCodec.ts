@@ -14,6 +14,8 @@ import { producerRoleOf } from '@/data/needs';
 import { ROUTE_HISTORY_LIMIT } from '@/navigation/RouteChart';
 import { TURRETS } from '@/data/turrets';
 import { FUEL_TANK_CAP } from '@/data/power';
+import { SCANNER_ACTIVE_SECONDS, SCANNER_SAFE_DELAY_SECONDS } from '@/progression/ScannerSetup';
+import { NOMAD_LAYOUT_V1, NOMAD_LAYOUT_V2, NOMAD_LAYOUT_V3 } from './NomadFoundationMigration';
 
 export const MAX_EXPORT_BYTES = 8 * 1024 * 1024;
 const MAX_DEPTH = 40;
@@ -270,11 +272,8 @@ function validateStructureState(piece: Record<string, unknown>, definitionId: Pi
     throw new SaveExportError('Save has invalid keepsake state');
 }
 
-function validateMachine(value: unknown): void {
-  const machine = record(value, 'machine state');
-  if (machine.layout !== undefined) nonemptyText(machine.layout, 'machine layout');
-  const structures = array(machine.structures, 'structures');
-  const instanceIds = new Set<string>();
+function validateStructures(value: unknown, label: string, instanceIds: Set<string>): void {
+  const structures = array(value, label);
   for (const raw of structures) {
     const piece = record(raw, 'structure state');
     if (
@@ -307,6 +306,21 @@ function validateMachine(value: unknown): void {
       throw new SaveExportError('Save has unexpected structure edge');
     validateStructureState(piece, definitionId);
   }
+}
+
+function validateMachine(value: unknown): void {
+  const machine = record(value, 'machine state');
+  if (
+    machine.layout !== undefined &&
+    machine.layout !== NOMAD_LAYOUT_V1 &&
+    machine.layout !== NOMAD_LAYOUT_V2 &&
+    machine.layout !== NOMAD_LAYOUT_V3
+  )
+    throw new SaveExportError('Save has unknown machine layout');
+  const instanceIds = new Set<string>();
+  validateStructures(machine.structures, 'structures', instanceIds);
+  if (machine.recoveryPieces !== undefined)
+    validateStructures(machine.recoveryPieces, 'recovery pieces', instanceIds);
   array(machine.devices, 'machine devices');
   finite(machine.fuel, 'machine fuel', 0, FUEL_TANK_CAP);
   finite(machine.coreHealth, 'machine core health', 0, 100);
@@ -371,6 +385,38 @@ function validateRadio(value: unknown, label: string): void {
     throw new SaveExportError(`Save has invalid ${label}`);
 }
 
+function validateScanner(value: unknown): void {
+  const scanner = record(value, 'scanner state');
+  if (scanner.format !== 1) throw new SaveExportError('Save has unsupported scanner state');
+  const phase = String(scanner.phase);
+  if (
+    ![
+      'awaiting-receiver',
+      'awaiting-module',
+      'installed',
+      'scanning',
+      'contact-ready',
+      'consumed',
+    ].includes(phase)
+  )
+    throw new SaveExportError('Save has invalid scanner phase');
+  const elapsed = finite(scanner.elapsedS, 'scanner elapsed time', 0, SCANNER_ACTIVE_SECONDS);
+  const delay = finite(
+    scanner.pendingDelayS,
+    'scanner pending delay',
+    0,
+    SCANNER_SAFE_DELAY_SECONDS,
+  );
+  const valid =
+    (['awaiting-receiver', 'awaiting-module', 'installed'].includes(phase) &&
+      elapsed === 0 &&
+      delay === 0) ||
+    (phase === 'scanning' && elapsed < SCANNER_ACTIVE_SECONDS && delay === 0) ||
+    (phase === 'contact-ready' && elapsed === SCANNER_ACTIVE_SECONDS) ||
+    (phase === 'consumed' && elapsed === SCANNER_ACTIVE_SECONDS && delay === 0);
+  if (!valid) throw new SaveExportError('Save has contradictory scanner state');
+}
+
 function validateProgression(value: unknown): void {
   const progression = record(value, 'progression');
   uniqueStrings(progression.unlocks, 'unlocks', UNLOCK_IDS);
@@ -423,6 +469,53 @@ function validateProgression(value: unknown): void {
     if (!OPENING_PHASES.has(String(opening.phase)))
       throw new SaveExportError('Save has invalid opening');
   }
+  if (progression.scanner !== undefined) validateScanner(progression.scanner);
+}
+
+type OpeningStoryAuthority = 'locked' | 'signal' | 'crossfire' | 'later';
+
+function openingStoryAuthority(value: unknown): OpeningStoryAuthority {
+  if (value === undefined) return 'locked';
+  const story = record(value, 'story');
+  if (story.format === 2) {
+    const active = story.active as Record<string, unknown> | null;
+    const completed = story.completed as unknown[];
+    if (active?.expeditionId === 'wreck-one') {
+      if (active.phase === 'signal' || active.phase === 'crossfire') return active.phase;
+      return 'later';
+    }
+    return completed.includes('wreck-one') || active !== null ? 'later' : 'locked';
+  }
+  if (story.phase === 'locked' || story.phase === 'signal' || story.phase === 'crossfire')
+    return story.phase;
+  return 'later';
+}
+
+function validateScannerStoryConsistency(save: SaveGameV1): void {
+  const raw = save.progression.scanner;
+  if (!raw) return;
+  const authority = openingStoryAuthority(save.world.story);
+  const phase = raw.phase;
+  const radioFound = (save.progression.radio ?? save.progression.radioDrop)?.status === 'found';
+  if ((phase === 'awaiting-receiver') !== !radioFound)
+    throw new SaveExportError('Save has scanner state inconsistent with receiver');
+  if (authority === 'locked') {
+    if (!['awaiting-receiver', 'awaiting-module'].includes(phase))
+      throw new SaveExportError('Save has scanner state inconsistent with story');
+    return;
+  }
+  if (authority === 'signal') {
+    if (!['awaiting-module', 'installed', 'scanning', 'contact-ready'].includes(phase))
+      throw new SaveExportError('Save has scanner state inconsistent with story');
+    return;
+  }
+  if (authority === 'crossfire') {
+    if (phase !== 'contact-ready' || raw.pendingDelayS !== 0)
+      throw new SaveExportError('Save has scanner state inconsistent with story');
+    return;
+  }
+  if (phase !== 'consumed')
+    throw new SaveExportError('Save has scanner state inconsistent with story');
 }
 
 function validateThreat(value: unknown): void {
@@ -769,6 +862,7 @@ function validateSave(raw: unknown): SaveGameV1 {
   validateMachine(save.machine);
   validateProgression(save.progression);
   validateWorld(save.world);
+  validateScannerStoryConsistency(save);
   return structuredClone(save);
 }
 

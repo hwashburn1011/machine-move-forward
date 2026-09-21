@@ -124,6 +124,9 @@ export class Player {
     // The rig changed under it, so whatever was in the old hand is gone with
     // the old skeleton. Put it back on the new one.
     this.visual.setHeldWeapon(this.heldWeaponId, this.heldWeaponModel);
+    this.visual.setWristTerminal(this.wristTerminalModel);
+    this.visual.setTerminalOpen(this.terminalOpen);
+    this.visual.setReducedMotion(this.reducedMotion);
     this.visual.setGroundSampler(this.groundSampler);
   }
 
@@ -136,11 +139,43 @@ export class Player {
    */
   private heldWeaponId: string | null = null;
   private heldWeaponModel: THREE.Object3D | null = null;
+  private wristTerminalModel: LoadedModel | null = null;
+  private terminalOpen = false;
+  private reducedMotion = false;
 
   setHeldWeapon(id: string | null, model: THREE.Object3D | null): void {
+    // A weapon swap is a combat presentation change. Never leave a refill
+    // canister in the hand after the authoritative weapon state changed.
+    this.visual.cancelRefuel();
     this.heldWeaponId = id;
     this.heldWeaponModel = model;
     this.visual.setHeldWeapon(id, model);
+  }
+
+  /** Play the physical refill gesture after Game has accepted the transfer. */
+  playRefuel(model: LoadedModel | null): void {
+    this.visual.playRefuel(model);
+  }
+
+  /** Cancel transient refill presentation (death, combat, rig changes). */
+  cancelRefuel(): void {
+    this.visual.cancelRefuel();
+  }
+
+  setWristTerminal(model: LoadedModel | null): void {
+    this.wristTerminalModel = model;
+    this.visual.setWristTerminal(model);
+    this.visual.setTerminalOpen(this.terminalOpen);
+  }
+
+  setTerminalOpen(open: boolean): void {
+    this.terminalOpen = open;
+    this.visual.setTerminalOpen(open);
+  }
+
+  setReducedMotion(reduced: boolean): void {
+    this.reducedMotion = reduced;
+    this.visual.setReducedMotion(reduced);
   }
 
   getMuzzleWorldPosition(out = new THREE.Vector3()): THREE.Vector3 {
@@ -206,6 +241,7 @@ export class Player {
     this.aimYaw = state.yaw ?? this.aimYaw;
     this.reloading = state.reloading ?? this.reloading;
     this.reloadProgress = Math.max(0, Math.min(1, state.reloadProgress ?? this.reloadProgress));
+    if (this.aiming || this.reloading) this.visual.cancelRefuel();
     this.visual.setCombatPresentation({
       weaponId: this.heldWeaponId,
       aiming: this.aiming,
@@ -236,11 +272,16 @@ export class Player {
   fixedUpdate(dt: number, input: InputManager, cameraYaw: number): void {
     this.stats.tick(dt);
 
+    // Refilling is presentation only. The instant the player aims or fires,
+    // combat owns the hand again; do not wait for the next render frame.
+    if (input.isDown('aim') || input.isDown('fire')) this.visual.cancelRefuel();
+
     // --- Death ------------------------------------------------------------
     // Lie where you fell, then get put back on the deck. Returning early is
     // what makes death a state rather than a costume: without it a corpse
     // walks and shoots, because `damage` already refuses to hurt the dead.
     if (!this.stats.alive) {
+      this.visual.cancelRefuel();
       this.resolvedSelfVelocity.set(0, 0, 0);
       this.deathTimer += dt;
       if (this.deathTimer >= RESPAWN_DELAY_S) this.respawn();
@@ -328,7 +369,7 @@ export class Player {
    * this the player visibly stutters whenever frame rate and tick rate
    * disagree, which is most of the time.
    */
-  update(alpha: number, dt = 0): void {
+  update(alpha: number, dt = 0, uiDt = dt): void {
     this.renderPosition.lerpVectors(this.previousPosition, this.position, alpha);
     this.object3D.position.copy(this.renderPosition);
 
@@ -346,7 +387,7 @@ export class Player {
       this.crouching,
       this.presentationVelocity,
     );
-    this.visual.update(dt);
+    this.visual.update(dt, uiDt);
   }
 
   private setPresentationVelocity(yaw: number): void {
@@ -388,7 +429,11 @@ export class Player {
     this.spawn.copy(to);
   }
 
-  teleport(to: THREE.Vector3): void {
+  teleport(to: THREE.Vector3, facing?: number): void {
+    if (facing !== undefined && Number.isFinite(facing)) {
+      this.facing = facing;
+      this.object3D.rotation.y = facing;
+    }
     this.resolvedSelfVelocity.set(0, 0, 0);
     this.position.copy(to);
     this.previousPosition.copy(to);
@@ -406,6 +451,11 @@ export class Player {
   }
 
   dispose(): void {
+    // Tear down render-only props as well as the physics handles. This also
+    // removes an in-flight refill canister when a scene/rig is discarded.
+    this.visual.dispose();
+    this.wristTerminalModel = null;
+    this.terminalOpen = false;
     this.physics.removeCollider(this.handle.collider);
     this.physics.removeBody(this.handle.body);
   }

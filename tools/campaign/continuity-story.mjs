@@ -18,8 +18,11 @@ if (!fresh)
 const fullArt = process.argv.includes('--full-art');
 const headed = process.argv.includes('--headed');
 const campaignProfile = process.env.MMF_CAMPAIGN_PROFILE ?? 'story';
-if (!['story', 'survival'].includes(campaignProfile))
+if (campaignProfile !== 'story')
   throw new Error(`Unknown MMF_CAMPAIGN_PROFILE: ${campaignProfile}`);
+const requestedSeed = process.env.MMF_CAMPAIGN_SEED?.trim();
+if (process.env.MMF_CAMPAIGN_SEED !== undefined && !requestedSeed)
+  throw new Error('MMF_CAMPAIGN_SEED must be a non-empty deterministic seed');
 const requestedOut = path.resolve(
   process.env.MMF_CONTINUITY_OUT ?? 'test-results/continuity-story',
 );
@@ -46,8 +49,9 @@ const append = async (type, detail = {}) => {
 const url = new URL(site);
 url.searchParams.set('quality', 'low');
 url.searchParams.set('nosound', '1');
-if (campaignProfile === 'story') url.searchParams.set('seed', 'continuity-story-v1');
-else url.searchParams.delete('seed');
+// The seed chooses a fresh campaign at the title screen; it never rewrites a
+// running game. Use the reproducible standard-campaign seed unless requested.
+url.searchParams.set('seed', requestedSeed || 'continuity-story-v1');
 // This first logical run is intentionally cheap and is not visual evidence.
 // Full-art continuity uses the identical path with --full-art.
 if (!fullArt) {
@@ -256,33 +260,6 @@ const openPauseMenu = async () => {
   });
 };
 
-const playOpening = async () => {
-  const yaw = await page.evaluate(() => globalThis.__game.game.playerCamera.yawAngle);
-  const keys = [];
-  // Desired world direction is -X, from spawn x=15.5 through the ledge at
-  // x=9.5. Invert Player's camera-yaw transform into ordinary WASD keys.
-  const ix = -Math.cos(yaw);
-  const iz = -Math.sin(yaw);
-  if (Math.abs(ix) > 0.2) keys.push(ix < 0 ? 'KeyA' : 'KeyD');
-  if (Math.abs(iz) > 0.2) keys.push(iz < 0 ? 'KeyW' : 'KeyS');
-  await page.keyboard.down('ShiftLeft');
-  for (const key of keys) await page.keyboard.down(key);
-  await page.waitForFunction(() => globalThis.__game.game.player.worldPosition.x <= 10.2, null, {
-    timeout: 8_000,
-  });
-  await page.keyboard.down('Space');
-  await page.waitForTimeout(350);
-  await page.keyboard.up('Space');
-  await page.waitForFunction(
-    () => ['landed', 'done'].includes(globalThis.__game.game.opening.phase),
-    null,
-    { timeout: 8_000 },
-  );
-  for (const key of keys) await page.keyboard.up(key);
-  await page.keyboard.up('ShiftLeft');
-  return { yaw, keys };
-};
-
 try {
   await append('launch', { url: url.toString(), fullArt, fresh });
   await page.goto(url.toString(), { waitUntil: 'domcontentloaded', timeout: 60_000 });
@@ -291,13 +268,6 @@ try {
   await append('boot-ready', { snapshot: await snapshot() });
 
   await page.getByRole('button', { name: 'New Game', exact: true }).click();
-  await page.locator('#title-profile').waitFor({ state: 'visible' });
-  await page
-    .getByRole('button', {
-      name: campaignProfile === 'survival' ? 'Survival' : 'Story',
-      exact: true,
-    })
-    .click();
   await page.waitForFunction(
     (profile) =>
       globalThis.__game.game.campaignProfile === profile &&
@@ -306,26 +276,9 @@ try {
     { timeout: 30_000 },
   );
   const selected = await snapshot();
-  if (campaignProfile === 'survival') {
-    const ledger = Object.fromEntries(selected.weaponLedger.map((weapon) => [weapon.id, weapon]));
-    const ammoInInventory = selected.inventory
-      .filter(Boolean)
-      .filter((slot) => slot.itemId === 'ammo-rifle' || slot.itemId === 'ammo-shotgun');
-    if (
-      ledger.rifle?.magazine !== 30 ||
-      ledger.rifle?.reserve !== 150 ||
-      ledger.shotgun?.magazine !== 6 ||
-      ledger.shotgun?.reserve !== 48 ||
-      ledger.rifle?.infinite !== false ||
-      ledger.shotgun?.infinite !== false ||
-      selected.resources.scrap !== 260 ||
-      ammoInInventory.length !== 0
-    )
-      throw new Error(`Fresh Survival starter ledger mismatch: ${JSON.stringify(selected)}`);
-  }
   await append('profile-selected', { campaignProfile, snapshot: selected });
 
-  // Play the authored opening through ordinary movement and jump controls.
+  // Watch the authored cinematic and let it hand back control naturally.
   if (
     !(await page.evaluate(() => document.pointerLockElement === document.querySelector('canvas')))
   ) {
@@ -339,15 +292,13 @@ try {
       { timeout: 5_000 },
     );
   }
-  const openingInput = await playOpening();
   await page.waitForFunction(
     () => globalThis.__game.game.opening.phase === 'done' && globalThis.__game.game.playerArmed,
     null,
     { timeout: 45_000 },
   );
   await append('opening-complete', {
-    method: 'WASD sprint and jump',
-    openingInput,
+    method: 'natural cinematic handoff',
     snapshot: await snapshot(),
   });
 
@@ -418,12 +369,17 @@ try {
   // Continue the same lineage into the first ordinary salvage catch. The
   // target position only informs mouse input; the throw, catch, payout and
   // radio grant all remain production Game behavior.
-  await page.waitForFunction(() => globalThis.__game.game.salvage.targets.length > 0, null, {
-    timeout: 30_000,
-  });
+  await page.waitForFunction(
+    () => (globalThis.__game?.game.salvage.targets.length ?? 0) > 0,
+    null,
+    {
+      timeout: 30_000,
+    },
+  );
   await page.waitForFunction(
     () => {
-      const g = globalThis.__game.game;
+      const g = globalThis.__game?.game;
+      if (!g) return false;
       const p = g.player.worldPosition;
       return g.salvage.targets.some(
         (t) => Math.hypot(t.x - p.x, t.y - (p.y + 0.35), t.z - p.z) <= 33.5,

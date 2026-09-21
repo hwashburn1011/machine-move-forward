@@ -1,12 +1,31 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { DECK_SURFACE_Y } from '@/game/constants';
-import { Destination } from '@/story/Destination';
+import { Destination, nomadDeckBoundsAtY, nomadFlatBypass } from '@/story/Destination';
 import { RELAY_FOUNDRY, WRECK_ONE } from '@/data/story';
 import { initRapier, PhysicsWorld } from '@/core/physics/PhysicsWorld';
 import { PLAYER_CAPSULE_HALF_HEIGHT, PLAYER_CAPSULE_RADIUS } from '@/game/constants';
 
 describe('Destination', () => {
+  it('uses upper rim bounds on the command deck and wraparound bounds below it', () => {
+    expect(nomadDeckBoundsAtY(DECK_SURFACE_Y)).toEqual({ level: 0, halfWidth: 12, halfLength: 14 });
+    expect(nomadDeckBoundsAtY(DECK_SURFACE_Y - 3.6)).toEqual({
+      level: -1,
+      halfWidth: 13,
+      halfLength: 15,
+    });
+    expect(nomadDeckBoundsAtY(DECK_SURFACE_Y - 7.2)).toEqual({
+      level: -2,
+      halfWidth: 13,
+      halfLength: 15,
+    });
+  });
+  it('classifies only the supported lower and middle port bypass as aboard', () => {
+    expect(nomadFlatBypass({ x: -14, y: DECK_SURFACE_Y - 7.2 + 1, z: 0 })).toBe(true);
+    expect(nomadFlatBypass({ x: -14, y: DECK_SURFACE_Y - 3.6 + 1, z: 4.4 })).toBe(true);
+    expect(nomadFlatBypass({ x: -14, y: DECK_SURFACE_Y + 1, z: 0 })).toBe(false);
+    expect(nomadFlatBypass({ x: -15.4, y: DECK_SURFACE_Y - 7.2 + 1, z: 0 })).toBe(false);
+  });
   it('reconfigures definition and Rapier body without leaving old colliders or pickup visuals', async () => {
     await initRapier();
     const physics = new PhysicsWorld();
@@ -28,7 +47,7 @@ describe('Destination', () => {
     expect(oldGyro.visible).toBe(false);
     destination.setActive(false);
     expect(destination.configure(RELAY_FOUNDRY)).toBe(true);
-    expect(destination.root.position.x).toBe(15);
+    expect(destination.root.position.x).toBe(20);
     destination.setActive(true);
     destination.setDocked(true);
     expect(
@@ -52,7 +71,7 @@ describe('Destination', () => {
     destination.setActive(true);
     destination.setDocked(true);
     destination.fixedUpdate(702);
-    expect(destination.root.position.x).toBe(14);
+    expect(destination.root.position.x).toBe(19);
     expect(destination.root.position.y).toBe(DECK_SURFACE_Y);
     expect(destination.root.position.z).toBe(0);
     destination.dispose();
@@ -72,7 +91,9 @@ describe('Destination', () => {
     destination.setDocked(true);
     expect(destination.gangwayEnabled).toBe(true);
     expect(destination.containsPlayer(new THREE.Vector3(12, DECK_SURFACE_Y + 1, 0))).toBe(true);
-    expect(destination.containsPlayer(new THREE.Vector3(7.7, DECK_SURFACE_Y + 0.5, 0))).toBe(true);
+    expect(destination.containsPlayer(new THREE.Vector3(13.2, DECK_SURFACE_Y + 0.5, 0))).toBe(
+      true,
+    );
     destination.dispose();
   });
 
@@ -142,10 +163,10 @@ describe('Destination', () => {
     await initRapier();
     const physics = new PhysicsWorld();
     // The destination owns the gangway and wreck floor; this box represents
-    // the fixed machine deck ending at x=5, leaving the one metre approach gap.
+    // the fixed upper rim ending at x=12, where the one metre gangway begins.
     physics.addFixedBox(
-      new THREE.Vector3(7, 0.1, 8),
-      new THREE.Vector3(0, DECK_SURFACE_Y - 0.1, 0),
+      new THREE.Vector3(6, 0.1, 8),
+      new THREE.Vector3(6, DECK_SURFACE_Y - 0.1, 0),
     );
     const destination = new Destination({
       scene: new THREE.Scene(),
@@ -153,7 +174,7 @@ describe('Destination', () => {
       arrivalDistance: 700,
     });
     destination.fixedUpdate(700);
-    const probeOrigin = new THREE.Vector3(14, DECK_SURFACE_Y + 5, 0);
+    const probeOrigin = new THREE.Vector3(19, DECK_SURFACE_Y + 5, 0);
     const down = new THREE.Vector3(0, -1, 0);
     expect(physics.raycast(probeOrigin, down, 10)).toBeNull();
     destination.setActive(true);
@@ -162,7 +183,7 @@ describe('Destination', () => {
     physics.step();
     expect(physics.raycast(probeOrigin, down, 10)).not.toBeNull();
     const position = new THREE.Vector3(
-      5.5,
+      12.5,
       DECK_SURFACE_Y + PLAYER_CAPSULE_HALF_HEIGHT + PLAYER_CAPSULE_RADIUS + 0.05,
       0,
     );
@@ -179,9 +200,9 @@ describe('Destination', () => {
       });
       physics.step();
     }
-    // Crossing the internal bulkhead at world x=14 is part of the same clear
-    // z=0 route; the outer wall at x=18 is the expected final stop.
-    expect(position.x).toBeGreaterThan(17);
+    // Crossing the internal bulkhead at world x=19 is part of the same clear
+    // z=0 route; the outer wall at x=24.9 is the expected final stop.
+    expect(position.x).toBeGreaterThan(23);
     expect(destination.containsPlayer({ x: position.x, y: position.y, z: position.z })).toBe(true);
     destination.setActive(false);
     physics.step();

@@ -144,13 +144,16 @@ export class HUD {
     root.innerHTML = `
       <div class="hud-machine-stack">
       <div id="hud-machine" class="hud-panel">
-        <div class="hud-label">Machine</div>
-        <div class="hud-row"><span>Speed</span><span class="hud-value" id="hud-speed">0.0 m/s</span></div>
-        <div class="hud-row"><span>Distance</span><span class="hud-value" id="hud-distance">0 m</span></div>
-        <div class="hud-row"><span>Aboard</span><span class="hud-value" id="hud-threats">0</span></div>
-        <div class="hud-row"><span>Condition</span><span class="hud-value" id="hud-condition">Sound</span></div>
-        <div class="hud-row"><span>Power</span><span class="hud-value" id="hud-power">&#9889; 0/0 &nbsp;&#9670; 0</span></div>
-        <div id="hud-fuel-help" style="display:none;max-width:230px;margin-top:8px;color:#e2b071;font-size:11px;line-height:1.5">Fuel empty · emergency crawl
+        <div class="hud-machine-head"><div class="hud-label">Machine</div><span id="hud-terminal">Terminal [Tab]</span></div>
+        <div class="hud-machine-strip">
+          <span class="hud-machine-readout"><span>Speed</span><b class="hud-value" id="hud-speed">0.0 m/s</b></span>
+          <span class="hud-machine-readout"><span>Distance</span><b class="hud-value" id="hud-distance">0 m</b></span>
+          <span class="hud-machine-readout"><span>Aboard</span><b class="hud-value" id="hud-threats">0</b></span>
+          <span class="hud-machine-readout"><span>Power</span><b class="hud-value" id="hud-power">&#9889; 0/0 &nbsp;&#9670; 0</b></span>
+          <span class="hud-machine-readout"><span>Signal</span><b class="hud-value" id="hud-signal">—</b></span>
+        </div>
+        <div id="hud-machine-attention" class="hud-machine-attention"><span>Condition</span><b class="hud-value" id="hud-condition">Sound</b></div>
+        <div id="hud-fuel-help">Fuel empty · emergency crawl
 Reel in salvage [F]. Refuel a generator [E].</div>
       </div>
       </div>
@@ -174,6 +177,7 @@ Reel in salvage [F]. Refuel a generator [E].</div>
 
       <div id="hud-boarding"></div>
       <div id="hud-pickup"></div>
+      <div id="hud-cargo-hint" aria-live="polite"></div>
       <div id="hud-damage"><div id="hud-damage-arc"></div></div>
       <div id="hud-crosshair"><i></i><i></i><i></i><i></i></div>
       <div id="hud-prompt"></div>
@@ -184,14 +188,19 @@ Reel in salvage [F]. Refuel a generator [E].</div>
     `;
 
     for (const id of [
+      'hud-machine',
       'hud-speed',
       'hud-distance',
       'hud-threats',
       'hud-condition',
       'hud-power',
+      'hud-terminal',
+      'hud-signal',
+      'hud-machine-attention',
       'hud-fuel-help',
       'hud-boarding',
       'hud-pickup',
+      'hud-cargo-hint',
       'hud-health',
       'hud-health-value',
       'hud-health-fill',
@@ -327,7 +336,13 @@ Reel in salvage [F]. Refuel a generator [E].</div>
   setControlLabels(resolve: ControlLabelResolver, context: InputContext = 'play'): void {
     this.controlResolver = resolve;
     this.controlContext = context;
-    for (const id of ['hud-fuel-help', 'hud-prompt', 'hud-objective-control', 'hud-story-detail']) {
+    for (const id of [
+      'hud-fuel-help',
+      'hud-terminal',
+      'hud-prompt',
+      'hud-objective-control',
+      'hud-story-detail',
+    ]) {
       const node = this.el[id];
       if (!node) continue;
       if (node.dataset.controlSource === undefined)
@@ -363,6 +378,27 @@ Reel in salvage [F]. Refuel a generator [E].</div>
     if (!node) return;
     node.style.display = text ? 'block' : 'none';
     if (text) this.write('prompt', node, this.formatControls(text));
+  }
+
+  /** Show one projected, nearby cargo cue. x/y are normalized viewport coordinates. */
+  setCargoHint(hint: { x: number; y: number; distance: number; key: string } | null): void {
+    const node = this.el['hud-cargo-hint'];
+    if (!node) return;
+    if (
+      !hint ||
+      !Number.isFinite(hint.x) ||
+      !Number.isFinite(hint.y) ||
+      !Number.isFinite(hint.distance)
+    ) {
+      node.style.display = 'none';
+      return;
+    }
+    const percent = (value: number) =>
+      Math.max(0, Math.min(100, Math.abs(value) <= 1 ? value * 100 : value));
+    node.style.left = `${percent(hint.x).toFixed(2)}%`;
+    node.style.top = `${percent(hint.y).toFixed(2)}%`;
+    node.textContent = `REEL CARGO · ${Math.max(0, Math.round(hint.distance))} m / [${hint.key}]`;
+    node.style.display = 'block';
   }
 
   setWarning(text: string | null): void {
@@ -415,9 +451,15 @@ Reel in salvage [F]. Refuel a generator [E].</div>
     this.el['hud-story']?.classList.toggle('is-active', state.phase !== 'locked');
   }
 
-  setRadioState(found: boolean, powered: boolean): void {
+  setRadioState(found: boolean, powered: boolean, signalLabel?: string): void {
     const node = this.el['hud-story'];
     if (node) node.dataset.radio = found ? (powered ? 'powered' : 'unpowered') : 'missing';
+    this.write(
+      'signal',
+      this.el['hud-signal'],
+      signalLabel ?? (found ? (powered ? 'Online' : 'Unpowered') : 'None'),
+    );
+    this.el['hud-signal']?.classList.toggle('is-hot', found && !powered);
   }
 
   update(state: HUDState): void {
@@ -447,6 +489,10 @@ Reel in salvage [F]. Refuel a generator [E].</div>
     // restraint the panel is built on. `is-hot` already exists in hud.css.
     this.write('condition', this.el['hud-condition'], state.machineCondition);
     this.el['hud-condition']?.classList.toggle('is-hot', state.machineCondition !== 'Sound');
+    this.el['hud-machine-attention']?.classList.toggle(
+      'is-hot',
+      state.machineCondition !== 'Sound',
+    );
 
     // --- Power -------------------------------------------------------------
     // Drawn over generated, then the tank. Rounded because the tank drains by
@@ -458,6 +504,7 @@ Reel in salvage [F]. Refuel a generator [E].</div>
       `⚡ ${Math.round(state.powerDraw)}/${Math.round(state.powerCapacity)}  ◆ ${Math.floor(state.fuel)}`,
     );
     this.el['hud-power']?.classList.toggle('is-hot', state.powerShed);
+    this.el['hud-machine']?.classList.toggle('has-fuel-help', state.fuel <= 0);
     this.style(
       'fuel-help',
       this.el['hud-fuel-help'],

@@ -5,8 +5,8 @@ import { GRID_TILE } from '@/game/constants';
 
 /** World-space XZ area reserved by the docked wreck and its gangway. */
 export const EXPEDITION_RESERVED_AREA = {
-  minX: 7,
-  maxX: 20,
+  minX: 12,
+  maxX: 25,
   minZ: -9,
   maxZ: 9,
 } as const;
@@ -108,8 +108,10 @@ export function buildFootprint(input: BuildFootprintInput): XZFootprint {
 /** Use strict overlap so touching the machine-side boundary at x=5 is legal. */
 export function footprintOverlapsExpedition(input: BuildFootprintInput): boolean {
   const footprint = buildFootprint(input);
-  return footprint.minX < EXPEDITION_RESERVED_AREA.maxX &&
+  return (
+    footprint.minX < EXPEDITION_RESERVED_AREA.maxX &&
     footprint.maxX > EXPEDITION_RESERVED_AREA.minX &&
     footprint.minZ < EXPEDITION_RESERVED_AREA.maxZ &&
-    footprint.maxZ > EXPEDITION_RESERVED_AREA.minZ;
+    footprint.maxZ > EXPEDITION_RESERVED_AREA.minZ
+  );
 }

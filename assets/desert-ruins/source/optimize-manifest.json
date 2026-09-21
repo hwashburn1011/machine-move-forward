@@ -1,19 +1,19 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-12T16:38:03.442Z",
+  "generatedAt": "2026-09-17T07:36:39.608Z",
   "encoder": "meshoptimizer 1.1.1",
   "texturePolicy": "optimized GLBs require EXT_texture_webp and select baseColor WebP q92 at 2K and normal/ORM lossless WebP at 1K; original 2K texture masters remain in assets/desert-ruins/textures; WebP does not reduce GPU residency",
   "geometryPolicy": "EXT_meshopt parents use a placeholder fallback buffer sized for decoded accessors; compressed payloads remain in GLB BIN",
   "assets": [
     {
       "asset": "desert-ruins",
-      "sourceBytes": 19160752,
-      "optimizedBytes": 8615952,
-      "sourceGeometryBytes": 9791192,
-      "compressedGeometryBytes": 5856532,
-      "meshoptFallbackBufferBytes": 9791192,
-      "sourceTextureBytes": 9343777,
-      "webpTextureBytes": 2715914,
+      "sourceBytes": 21149368,
+      "optimizedBytes": 9508916,
+      "sourceGeometryBytes": 10948044,
+      "compressedGeometryBytes": 6560471,
+      "meshoptFallbackBufferBytes": 10948044,
+      "sourceTextureBytes": 10175369,
+      "webpTextureBytes": 2904574,
       "selectedTextureGpuBytesWithMips": 33554432,
       "images": [
         {
@@ -25,8 +25,8 @@
           "height": 1024,
           "sourceWidth": 2048,
           "sourceHeight": 2048,
-          "pngBytes": 5119050,
-          "webpBytes": 1017976,
+          "pngBytes": 5383930,
+          "webpBytes": 1072842,
           "format": "webp",
           "lossless": true
         },
@@ -39,8 +39,8 @@
           "height": 2048,
           "sourceWidth": 2048,
           "sourceHeight": 2048,
-          "pngBytes": 1491763,
-          "webpBytes": 999996,
+          "pngBytes": 1539228,
+          "webpBytes": 1012816,
           "format": "webp",
           "lossless": false
         },
@@ -53,8 +53,8 @@
           "height": 1024,
           "sourceWidth": 2048,
           "sourceHeight": 2048,
-          "pngBytes": 2732964,
-          "webpBytes": 697942,
+          "pngBytes": 3252211,
+          "webpBytes": 818916,
           "format": "webp",
           "lossless": true
         }

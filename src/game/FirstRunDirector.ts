@@ -30,6 +30,9 @@ export interface FirstRunSnapshot {
   repairsCompleted?: number;
   /** A perfect defense can skip the repair step after the encounter ends. */
   machineNeedsRepair?: boolean;
+  scannerModuleOwned?: boolean;
+  scannerInstalled?: boolean;
+  scannerStarted?: boolean;
 }
 
 export type FirstRunFact =
@@ -41,6 +44,9 @@ export type FirstRunFact =
   | { type: 'boarding-survived' }
   | { type: 'boarding-ended'; needsRepair: boolean }
   | { type: 'repair-completed' }
+  | { type: 'scanner-module-crafted' }
+  | { type: 'scanner-installed' }
+  | { type: 'scanner-started' }
   | { type: 'snapshot'; snapshot: FirstRunSnapshot };
 
 export interface FirstRunChange {
@@ -72,7 +78,7 @@ const INSTRUCTIONS: Record<FirstRunStep | 'complete', FirstRunInstruction> = {
   'refine-components': {
     step: 'refine-components',
     title: 'Refine components',
-    detail: 'Refine 8 components: 4 for the workbench and 4 for the deck gun.',
+    detail: 'Refine 12 components: 4 for the workbench, 4 for the scanner, and 4 for the deck gun.',
     control: '[E] Open refinery · Refine Components',
   },
   'build-workbench': {
@@ -143,7 +149,54 @@ export class FirstRunDirector {
    * up, avoiding a permanent survive-boarding objective deadlock.
    */
   get needsTutorialEncounter(): boolean {
-    return this.current === 'survive-boarding' && this.defenseHasBeenCrewed && this.value('boardingSurvived') <= 0;
+    return (
+      this.current === 'survive-boarding' &&
+      this.defenseHasBeenCrewed &&
+      this.value('boardingSurvived') <= 0
+    );
+  }
+
+  /** A workbench is enough to expose scanner assembly; it does not replace the durable guide. */
+  get workshopReady(): boolean {
+    return this.value('workbenchBuilt') > 0;
+  }
+
+  /** Additive objective projection for the opening scanner flow. */
+  scannerInstruction(phase: string): FirstRunInstruction | null {
+    // Restored installed/scanning state is authoritative even when a legacy
+    // save lacks the workshop tutorial counters.
+    if (!this.workshopReady && phase === 'awaiting-module') return null;
+    if (phase === 'awaiting-module')
+      return {
+        step: 'build-workbench',
+        title: 'Make a scanner module',
+        detail:
+          'Use the workbench to assemble a replacement scanner module: 4 scrap · 4 components.',
+        control: '[E] Open workbench · Make Scanner Module',
+      };
+    if (phase === 'installed')
+      return {
+        step: 'build-workbench',
+        title: 'Start the scanner',
+        detail:
+          'The replacement module is fitted. Choose Start Scan; it advances while you stay aboard and powered.',
+        control: '[E] Scanner service socket · Start Scan',
+      };
+    if (phase === 'scanning')
+      return {
+        step: 'build-workbench',
+        title: 'Let the scanner run',
+        detail: 'Scanner tuning is active. Stay aboard, powered, and clear of encounters.',
+        control: 'Build, salvage, and get settled while it runs',
+      };
+    if (phase === 'contact-ready')
+      return {
+        step: 'build-workbench',
+        title: 'Contact acquired',
+        detail: 'The scanner is ready. Hold position for the starboard contact.',
+        control: 'Remain aboard and clear for 3 seconds',
+      };
+    return null;
   }
 
   /** Observe one event or a current state snapshot. Returns null if unchanged. */
@@ -191,6 +244,9 @@ export class FirstRunDirector {
       this.max('defenseCrewed', s.defenseCrewed ?? 0);
       this.max('boardingSurvived', s.boardingSurvived ?? 0);
       this.max('repairs', s.repairsCompleted ?? 0);
+      if (s.scannerModuleOwned) this.max('scannerModule', 1);
+      if (s.scannerInstalled) this.max('scannerInstalled', 1);
+      if (s.scannerStarted) this.max('scannerStarted', 1);
       return;
     }
 
@@ -206,7 +262,8 @@ export class FirstRunDirector {
         if (fact.definitionId === 'turret-manual') this.max('defense', 1);
         break;
       case 'craft-completed':
-        if (fact.recipeId === 'refine-components') this.add('components', Math.max(1, fact.outputCount ?? 1));
+        if (fact.recipeId === 'refine-components')
+          this.add('components', Math.max(1, fact.outputCount ?? 1));
         break;
       case 'defense-built':
         this.add('defense', Math.max(1, fact.count ?? 1));
@@ -226,16 +283,25 @@ export class FirstRunDirector {
         this.add('repairs', 1);
         if (this.value('boardingEnded') > 0) this.add('repairsAfterBoarding', 1);
         break;
+      case 'scanner-module-crafted':
+        this.max('scannerModule', 1);
+        break;
+      case 'scanner-installed':
+        this.max('scannerInstalled', 1);
+        break;
+      case 'scanner-started':
+        this.max('scannerStarted', 1);
+        break;
     }
   }
 
   private evaluate(): void {
     if (this.value('salvage') > 0) this.completed.add('salvage');
     if (this.value('refineryBuilt') > 0) this.completed.add('build-refinery');
-    // The workbench and manual deck gun each consume four components. Keep
-    // this objective at the amount needed to complete both builds so the
-    // guided loop cannot advance into a resource shortfall.
-    if (this.value('components') >= 8 || this.value('componentsAvailable') >= 8) {
+    // Reserve four components each for the workbench, scanner, and manual
+    // deck gun. Existing saves retain the completed fact in their completed
+    // list, so raising the fresh-run target does not revoke old credit.
+    if (this.value('components') >= 12 || this.value('componentsAvailable') >= 12) {
       this.completed.add('refine-components');
     }
     if (this.value('workbenchBuilt') > 0) this.completed.add('build-workbench');

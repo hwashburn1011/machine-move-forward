@@ -71,7 +71,7 @@ export const SKIFF: VehicleDefinition = {
   armor: 5,
   crewCount: 2,
   crewEnemyId: 'raider',
-  laneOffset: 13,
+  laneOffset: 17,
   approachSpeed: 8,
   weaveAmplitude: 1.2,
   weavePeriod: 5.5,

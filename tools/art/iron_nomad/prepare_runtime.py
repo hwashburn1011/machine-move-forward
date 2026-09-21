@@ -4,7 +4,7 @@ Opens two internal stairwells, reserves the starter equipment, and exports an
 exact static collision shell in game coordinates. Runtime owns deck/ramp floors.
 Run with Blender --background --python tools/art/iron_nomad/prepare_runtime.py.
 """
-import bpy, json, sys, os, runpy, shutil
+import bpy, json, sys, os, runpy
 from pathlib import Path
 from mathutils import Vector
 
@@ -24,6 +24,8 @@ def source(v): return (-v[0]/sx, v[2]/sy, (v[1]-oy)/sz)
 bpy.ops.wm.open_mainfile(filepath=str(BASE / 'source/IronNomad_Master.blend'))
 scene = bpy.context.scene
 root = bpy.data.objects['IronNomad_FourLegWalker']
+if root.get('gameplayLayout'):
+    raise RuntimeError('Playable derivation requires the untouched reference master')
 root['gameplayLayout'] = profile['layout']
 def remove(o): bpy.data.objects.remove(o, do_unlink=True)
 for o in list(scene.objects):
@@ -35,47 +37,14 @@ scene.view_layers[0].update()
 def bounds(o):
     pts = [game(o.matrix_world @ Vector(v)) for v in o.bound_box]
     return Vector(tuple(min(v[i] for v in pts) for i in range(3))), Vector(tuple(max(v[i] for v in pts) for i in range(3)))
-# Move an entire workbench assembly according to its tabletop, not according
-# to each child's centre. The inner pedestal of the neighbouring left bench
-# otherwise falls inside this relocation band and lands in the service aisle.
-bench_centers = [(bounds(o)[0] + bounds(o)[1]) * .5 for o in scene.objects
-                 if 'workshop bench top' in o.name.lower()]
-for o in list(scene.objects):
-    if o.type not in ['MESH', 'CURVE']: continue
-    lo, hi = bounds(o); c=(lo+hi)*.5
-    bench_piece = any(s in o.name.lower() for s in ['bench', 'service tool case'])
-    if bench_piece:
-        table = min(bench_centers, key=lambda at: (at.x-c.x)**2 + (at.z-c.z)**2)
-        if 11.7 < c.y < 14.2 and 2.7 < table.z < 3.9 and -3.1 < table.x < .1:
-            o.location.x -= 2.6/sx
-    elif 11.7 < c.y < 14.2 and 2.7 < c.z < 3.9 and -3.1 < c.x < .1:
-        if any(s in o.name.lower() for s in ['pressure', 'tank crown', 'instrument gauge', 'gauge needle']):
-            o.location.x -= 2.6/sx
-    if 11.7 < c.y < 14.2 and .2 < c.z < 2.7 and -3.1 < c.x < -.2:
-        if any(s in o.name.lower() for s in ['pump', 'discharge', 'service hose']):
-            o.location.x -= 3.5/sx
-    if c.y > 14.7 and c.y < 17 and c.z > 4.6 and (abs(c.x-4)<1.5 or abs(c.x)<1.65):
-        if any(s in o.name.lower() for s in ['cargo locker', 'cargo box', 'locker', 'cargo restraint']): remove(o)
-
-module = kit.group('Gameplay_Decks_And_Access', parent=root); module['module']=True
-def mat(part):
-    return next(m for m in bpy.data.materials if part in m.name)
-steel=mat('Charcoal_Steel'); brass=mat('Worn_HandrailBrass')
-def box(name, at, size, material=steel, parent=module, bevel=.012):
-    return kit.box(name, source(at), (size[0]/sx,size[2]/sy,size[1]/sz), material, parent, bevel=bevel)
-for level in [-2,-1,0]:
-    y=profile['deckSurface']+level*3
-    rects=[(-6,6,-8,8)] if level==-2 else [(-6,-3,-8,8),(-1,6,-8,8),(-3,-1,-8,-2),(-3,-1,2,8)]
-    for n,(x0,x1,z0,z1) in enumerate(rects):
-        box(f'Playable deck {level} section {n}',((x0+x1)/2,y-.09,(z0+z1)/2),(x1-x0,.18,z1-z0))
-    if level < 0:
-        for i in range(20):
-            top=y+(i+1)*.15
-            box(f'Internal stair {level} tread {i}',(-2,top-.04,-2+(i+.5)*.2),(1.92,.08,.21))
-    if level > -2:
-        for x in [-3.05,-.95]:
-            for h in [.45,.98]: box('Stairwell guardrail',(x,y+h,0),(.045,.045,4.15),brass)
-            for z in [-2,0,2]: box('Stairwell guard post',(x,y+.5,z),(.06,1,.06),brass)
+# Rebuild every deck at the v3 dimensions, keeping machinery assemblies intact.
+from expand_decks import expand_reference
+from build_deck_access import build_access
+expand_reference(scene, root, profile, game, source)
+module, box = build_access(scene, root, profile, kit, game, source)
+from refine_service_details import refine_services
+service_report = refine_services(scene, root, profile, kit, game, source)
+(OUT / "source/service-detail-report.json").write_text(json.dumps(service_report, indent=2))
 
 def cut(name, at, size, candidates):
     cutter=box(name,at,size,bevel=0); bpy.context.view_layer.update()
@@ -91,15 +60,32 @@ def cut(name, at, size, candidates):
         bpy.ops.object.modifier_apply(modifier=mod.name); count+=1
     remove(cutter); print(name,count,flush=True)
 
-for y in [11.83,14.83]:
+for y in [12.43,16.03]:
     candidates=[o for o in scene.objects if any(s in o.name.lower() for s in ['beam','girder','flange','partition'])]
-    cut('Internal stair structural clearance',(-2,y-.35,0),(2.22,1.15,4.3),candidates)
+    cut('Internal stair structural clearance',(-2,y-.35,0),(2.22,1.15,5.1),candidates)
 rails=[o for o in scene.objects if any(s in o.name.lower() for s in ['guardrail','toe guard']) and o.parent!=module]
-cut('Starboard expedition gate',(6.975,15.4,0),(.7,1.5,2.3),rails)
+cut('Starboard expedition gate',(profile['walkable']['upper']['halfWidth'],16.6,0),(.7,1.5,2.3),rails)
+# Side stairs open into each floor through full-height doorways.
+for y in [8.83,12.43,16.03]:
+    for z in [-3.7,3.7]:
+        candidates=[o for o in scene.objects if o.parent!=module and any(s in o.name.lower() for s in ['plate','panel','hull','beam','girder','bulkhead'])]
+        cut('Port walkway doorway',(-11,y+1.15,z),(1.5,2.3,2.6),candidates)
 scene.view_layers[0].update()
+# The finite runtime housings and triangle export share these exact evaluated
+# bounds; regenerate alongside geometry instead of retaining v1 obstructions.
+shared_path=ROOT/'src/data/iron-nomad-shared-solids.json'
+shared=json.loads(shared_path.read_text())
+for solid in shared:
+    lo,hi=bounds(scene.objects[solid['sourceObject']]);solid['min']=list(lo);solid['max']=list(hi)
+shared_path.write_text(json.dumps(shared,indent=2))
 bpy.context.preferences.filepaths.save_version=0
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'source/IronNomad_Master.blend'))
-shutil.copyfile(BASE/'source/manifest.json', OUT/'source/manifest.json')
+contract=json.loads((BASE/'source/manifest.json').read_text())
+contract['layout']=profile['layout']
+contract['proxies']=[]
+contract['runtimeCollisionAsset']='iron-nomad-collision.glb'
+contract['collisionCoordinates']='Game Y-up metres; deck/ramp/rail support comes from iron-nomad-side-stairs.json and runtime Machine geometry'
+(OUT/'source/manifest.json').write_text(json.dumps(contract,indent=2))
 
 # One exporter owns the authored/runtime collision boundary.
 from export_collision import export_collision

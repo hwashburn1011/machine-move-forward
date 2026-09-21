@@ -146,7 +146,6 @@ try {
     return { slot, save: await saves.load(slot) };
   });
   await page.getByRole('button', { name: 'New Game', exact: true }).click();
-  await page.locator('[data-profile="story"]').click();
   await page.locator('[data-campaign-preserve]').waitFor({ state: 'visible' });
   assert(
     await page.locator('[data-campaign-preserve]').evaluate((el) => el === document.activeElement),

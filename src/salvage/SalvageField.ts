@@ -42,8 +42,8 @@ const DRIFT = 0.42;
 const BEHIND = -26;
 
 /** Lateral band the crates sit in, either side of the deck. */
-const SIDE_MIN = 7;
-const SIDE_MAX = 17;
+export const SIDE_MIN = 14.5;
+export const SIDE_MAX = 22;
 
 /** What a crate is worth. Richer than a scavenger: it has to be worth aiming at. */
 const CONTENTS: readonly DropEntry[] = [
@@ -84,6 +84,7 @@ export class SalvageField {
     private readonly bus: EventBus,
     materials: Materials,
     seed: string,
+    private readonly terrainHeight?: (x: number, z: number) => number,
   ) {
     this.seed = hashSeed(seed, 'salvage');
     this.rng = new Rng(this.seed);
@@ -324,6 +325,11 @@ export class SalvageField {
       // them the wrong way down their own corridor.
       if (crate.claimedBy === null) {
         crate.object3D.position.z += WORLD_Z_PER_METRE * machineSpeed * DRIFT * dt;
+        if (this.terrainHeight)
+          crate.object3D.position.y =
+            this.terrainHeight(crate.object3D.position.x, crate.object3D.position.z) +
+            0.95 +
+            Math.sin(crate.bob * 0.7) * 0.08;
       }
 
       // A slow list and bob, so they read as adrift rather than as props
@@ -348,6 +354,8 @@ export class SalvageField {
     // wreck and footprint travelled the opposite way past them, which read
     // exactly as the loot floating backwards that it was.
     crate.object3D.position.set(lateral, this.rng.range(1.6, 2.6), -WORLD_Z_PER_METRE * AHEAD);
+    if (this.terrainHeight)
+      crate.object3D.position.y = this.terrainHeight(lateral, crate.object3D.position.z) + 0.95;
     crate.object3D.rotation.set(0, this.rng.range(0, Math.PI * 2), 0);
     crate.object3D.visible = true;
     crate.active = true;

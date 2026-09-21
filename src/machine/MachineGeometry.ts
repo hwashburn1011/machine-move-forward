@@ -6,11 +6,13 @@ import {
   DECK_HEIGHT,
   DECK_PLATE_HALF,
   LEVEL_HEIGHT,
+  NOMAD_STAIR_WIDTH,
   GRID_TILE,
   MACHINE_TILES_X,
   MACHINE_TILES_Z,
   DECK_SURFACE_Y,
 } from '@/game/constants';
+import profile from '@/data/iron-nomad.json';
 
 /**
  * The machine, built entirely in code.
@@ -216,10 +218,10 @@ export function buildMachine(materials: Materials): MachineBuild {
   // One plate column in from the port edge. Hard against the edge, the ramp
   // overlapped the engine room's own port wall and there was nothing to land
   // on below the outboard half of the opening.
-  const WELL_MIN_X = -DECK_W / 2 + GRID_TILE;
-  const WELL_MAX_X = WELL_MIN_X + GRID_TILE;
-  const WELL_MIN_Z = -2.0;
-  const WELL_MAX_Z = 2.0;
+  const WELL_MIN_X = profile.stairwell.minX;
+  const WELL_MAX_X = profile.stairwell.maxX;
+  const WELL_MIN_Z = profile.stairwell.minZ;
+  const WELL_MAX_Z = profile.stairwell.maxZ;
   const WELL_MID_X = (WELL_MIN_X + WELL_MAX_X) / 2;
   const WELL_MID_Z = (WELL_MIN_Z + WELL_MAX_Z) / 2;
   const inWell = (x: number, z: number) =>
@@ -423,7 +425,7 @@ export function buildMachine(materials: Materials): MachineBuild {
 
   // Narrower than the well by the coaming inset, so the ramp fits between
   // the rails rather than poking through them.
-  const stairWidth = WELL_MAX_X - WELL_MIN_X - 0.55;
+  const stairWidth = NOMAD_STAIR_WIDTH;
   const stair = bevelledBox(stairWidth, 0.24, stairLength, 0.04);
   stair.rotateX(-stairSlope);
   stair.translate(WELL_MID_X, (STAIR_TOP_Y + STAIR_BOTTOM_Y) / 2, WELL_MID_Z);

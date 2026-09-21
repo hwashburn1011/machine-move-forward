@@ -6,7 +6,12 @@ import { VehicleManager } from '@/vehicles/VehicleManager';
 import * as THREE from 'three';
 import { Destination } from '@/story/Destination';
 import { placeSkiffCrewOnCable } from '@/art/DefenseModels';
-import { DECK_SURFACE_Y, LEVEL_HEIGHT } from '@/game/constants';
+import {
+  DECK_SURFACE_Y,
+  LEVEL_HEIGHT,
+  NOMAD_WALKABLE_HALF_LENGTH,
+  NOMAD_WALKABLE_HALF_WIDTH,
+} from '@/game/constants';
 import nomad from '@/data/iron-nomad.json';
 
 const input = (overrides: Partial<StoryInput> = {}): StoryInput => ({
@@ -27,14 +32,27 @@ describe('radio crossfire progression', () => {
     for (const level of [0, 1, 2]) {
       expect(
         destination.playerOnMachine({
-          x: 6.8,
+          x: NOMAD_WALKABLE_HALF_WIDTH - 0.2,
           y: DECK_SURFACE_Y - LEVEL_HEIGHT * level + 0.96,
-          z: 8.5,
+          z: NOMAD_WALKABLE_HALF_LENGTH - 0.5,
         }),
       ).toBe(true);
     }
     expect(destination.playerOnMachine({ x: 0, y: 2, z: 0 })).toBe(false);
-    expect(destination.playerOnMachine({ x: 9, y: DECK_SURFACE_Y + 0.96, z: 0 })).toBe(false);
+    expect(
+      destination.playerOnMachine({
+        x: NOMAD_WALKABLE_HALF_WIDTH + 0.01,
+        y: DECK_SURFACE_Y + 0.96,
+        z: 0,
+      }),
+    ).toBe(false);
+    expect(
+      destination.playerOnMachine({
+        x: 0,
+        y: DECK_SURFACE_Y + 0.96,
+        z: NOMAD_WALKABLE_HALF_LENGTH + 0.01,
+      }),
+    ).toBe(false);
     destination.dispose();
   });
   it('waits for genuine 100% reception, then reveals once at a safe boundary', () => {

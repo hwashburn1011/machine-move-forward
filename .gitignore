@@ -62,3 +62,8 @@ __pycache__/
 /assets/workshop/*Review.blend
 /assets/progression/exports/
 /assets/progression/*Review.blend
+# Original Nomad foundation source; transient rebuild files stay local.
+/assets/nomad-foundations/exports/
+/assets/nomad-foundations/*.log
+/assets/nomad-foundations/review-next.py
+/assets/nomad-foundations-build.log

@@ -1,3 +1,4 @@
+import type { CampaignProfile } from '@/game/CampaignProfile';
 import { isSupportedBindingCode } from '@/core/settings/SettingsStore';
 import { QUALITY_TIERS, type QualityTier } from '@/core/renderer/QualitySettings';
 import {
@@ -29,7 +30,6 @@ import './settings.css';
  */
 
 export const GAME_TITLE = 'Machine Move Forward';
-export type CampaignProfile = 'story' | 'survival';
 
 /** What the settings panel can change. Small on purpose; Phase 15 grows it. */
 export interface GameSettings {
@@ -48,6 +48,8 @@ export interface GameSettings {
   sensitivity?: number;
   hipFov?: number;
   shoulder?: 'left' | 'right';
+  terminalTextScale?: number;
+  reducedMotion?: boolean;
   bindings?: Record<string, string>;
 }
 
@@ -82,6 +84,8 @@ export function loadSettings(): GameSettings {
     volume: settings.volume,
     ambienceVolume: settings.ambienceVolume,
     quality: settings.quality,
+    terminalTextScale: settings.terminalTextScale,
+    reducedMotion: settings.reducedMotion,
   };
 }
 
@@ -109,7 +113,6 @@ export class TitleScreen {
   private cardTimer: ReturnType<typeof setTimeout> | null = null;
   private renderBindings: (() => void) | null = null;
   private cancelBindingCapture: (() => void) | null = null;
-  private profileChooserOpen = false;
   private campaignDialogOpen = false;
   private campaignProfile: CampaignProfile | null = null;
   private campaignCheckPending = false;
@@ -135,7 +138,6 @@ export class TitleScreen {
           <h1 id="title-name">${GAME_TITLE}</h1>
           <div id="title-tagline">Keep it walking.</div>
           <nav id="title-menu"></nav>
-          <section id="title-profile" hidden><h2>Choose a campaign</h2><p>Story keeps the current infinite reserve. Survival uses finite ammunition with the same enemies and needs.</p><button type="button" data-profile="story">Story</button><button type="button" data-profile="survival">Survival</button><button type="button" data-profile-cancel>Cancel</button></section>
           <section id="title-campaign-preserve" hidden role="dialog" aria-modal="true" aria-labelledby="title-campaign-preserve-heading"><h2 id="title-campaign-preserve-heading">Current campaign found</h2><p>Keep the current readable run in the campaign library before starting this new campaign?</p><button type="button" data-campaign-preserve>Preserve &amp; Start</button><button type="button" data-campaign-back>Back</button><button type="button" data-campaign-replace>Replace Current Run</button></section>
           <form id="title-settings">
             <label class="title-setting">
@@ -158,6 +160,8 @@ export class TitleScreen {
             <label class="title-setting"><span>Look sensitivity</span><input id="title-sensitivity" type="range" min="0.25" max="3" step="0.05" /><output id="title-sensitivity-value"></output></label>
             <label class="title-setting"><span>Hip FOV</span><input id="title-fov" type="range" min="50" max="80" step="1" /><output id="title-fov-value"></output></label>
             <label class="title-setting"><span>Shoulder</span><select id="title-shoulder"><option value="right">Right</option><option value="left">Left</option></select></label>
+            <label class="title-setting"><span>Terminal text size</span><input id="title-terminal-scale" type="range" min="1" max="1.4" step="0.05" /><output id="title-terminal-scale-value"></output></label>
+            <label class="title-setting title-setting-check"><span>Reduced motion</span><input id="title-reduced-motion" type="checkbox" /><small>Skip terminal arm interpolation and UI motion.</small></label>
             <fieldset id="title-bindings"><legend>Controls</legend><label>Context <select id="title-binding-context"><option value="play">Play</option><option value="build-placement">Build placement</option><option value="catalog">Catalog</option><option value="mounted">Mounted gun</option><option value="menu">Menu</option></select></label><div id="title-binding-list"></div><button type="button" id="title-bindings-reset">Reset controls</button></fieldset>
             <button type="button" id="title-settings-back" class="title-item">Back</button>
           </form>
@@ -171,7 +175,6 @@ export class TitleScreen {
       'title-plate',
       'title-name',
       'title-menu',
-      'title-profile',
       'title-campaign-preserve',
       'title-settings',
       'title-settings-back',
@@ -190,23 +193,15 @@ export class TitleScreen {
       'title-fov',
       'title-fov-value',
       'title-shoulder',
+      'title-terminal-scale',
+      'title-terminal-scale-value',
+      'title-reduced-motion',
       'title-binding-context',
       'title-binding-list',
       'title-bindings-reset',
     ]) {
       const node = root.querySelector<HTMLElement>(`#${id}`);
       if (node) this.el[id] = node;
-    }
-    for (const button of root.querySelectorAll<HTMLButtonElement>('[data-profile]')) {
-      const onProfile = (): void => this.beginNewGame(button.dataset.profile as CampaignProfile);
-      button.addEventListener('click', onProfile);
-      this.disposers.push(() => button.removeEventListener('click', onProfile));
-    }
-    const profileCancel = root.querySelector<HTMLButtonElement>('[data-profile-cancel]');
-    if (profileCancel) {
-      const onCancel = (): void => this.showMenu();
-      profileCancel.addEventListener('click', onCancel);
-      this.disposers.push(() => profileCancel.removeEventListener('click', onCancel));
     }
     const preserve = root.querySelector<HTMLButtonElement>('[data-campaign-preserve]');
     const campaignBack = root.querySelector<HTMLButtonElement>('[data-campaign-back]');
@@ -217,7 +212,7 @@ export class TitleScreen {
       this.disposers.push(() => preserve.removeEventListener('click', onPreserve));
     }
     if (campaignBack) {
-      const onBack = (): void => this.backToProfileChooser();
+      const onBack = (): void => this.backToCampaignMenu();
       campaignBack.addEventListener('click', onBack);
       this.disposers.push(() => campaignBack.removeEventListener('click', onBack));
     }
@@ -233,6 +228,8 @@ export class TitleScreen {
     const sensitivity = this.el['title-sensitivity'] as HTMLInputElement | undefined;
     const fov = this.el['title-fov'] as HTMLInputElement | undefined;
     const shoulder = this.el['title-shoulder'] as HTMLSelectElement | undefined;
+    const terminalScale = this.el['title-terminal-scale'] as HTMLInputElement | undefined;
+    const reducedMotion = this.el['title-reduced-motion'] as HTMLInputElement | undefined;
     if (sensitivity) {
       sensitivity.value = String(this.settings.sensitivity);
       const onInput = () => {
@@ -262,6 +259,24 @@ export class TitleScreen {
       };
       shoulder.addEventListener('change', onChange);
       this.disposers.push(() => shoulder.removeEventListener('change', onChange));
+    }
+    if (terminalScale) {
+      terminalScale.value = String(this.settings.terminalTextScale);
+      const onInput = (): void => {
+        this.settings = { ...this.settings, terminalTextScale: Number(terminalScale.value) };
+        this.applySettings();
+      };
+      terminalScale.addEventListener('input', onInput);
+      this.disposers.push(() => terminalScale.removeEventListener('input', onInput));
+    }
+    if (reducedMotion) {
+      reducedMotion.checked = this.settings.reducedMotion;
+      const onChange = (): void => {
+        this.settings = { ...this.settings, reducedMotion: reducedMotion.checked };
+        this.applySettings();
+      };
+      reducedMotion.addEventListener('change', onChange);
+      this.disposers.push(() => reducedMotion.removeEventListener('change', onChange));
     }
     this.setupBindings();
     if (ambience) {
@@ -347,7 +362,6 @@ export class TitleScreen {
           generation !== this.campaignCheckGeneration ||
           !this.open ||
           this.inSettings ||
-          this.profileChooserOpen ||
           this.campaignDialogOpen ||
           this.campaignCheckPending
         )
@@ -360,7 +374,6 @@ export class TitleScreen {
           !this.disposed &&
           generation === this.campaignCheckGeneration &&
           this.open &&
-          !this.profileChooserOpen &&
           !this.campaignDialogOpen
         )
           this.showStatus('Unable to check for a current campaign.', true);
@@ -380,7 +393,6 @@ export class TitleScreen {
   hide(): void {
     this.open = false;
     this.inSettings = false;
-    this.profileChooserOpen = false;
     this.campaignDialogOpen = false;
     this.campaignProfile = null;
     this.campaignCheckPending = false;
@@ -389,7 +401,6 @@ export class TitleScreen {
     this.root.classList.remove('is-open');
     this.el['title-screen']?.classList.remove('is-open');
     this.el['title-settings']?.classList.remove('is-open');
-    this.el['title-profile']?.setAttribute('hidden', '');
     this.el['title-campaign-preserve']?.setAttribute('hidden', '');
   }
 
@@ -556,14 +567,15 @@ export class TitleScreen {
     if (sensitivity) sensitivity.textContent = `${this.settings.sensitivity.toFixed(2)}×`;
     const fov = this.el['title-fov-value'];
     if (fov) fov.textContent = `${this.settings.hipFov}°`;
+    const terminalScale = this.el['title-terminal-scale-value'];
+    if (terminalScale)
+      terminalScale.textContent = `${Math.round(this.settings.terminalTextScale * 100)}%`;
   }
 
   private showMenu(): void {
     if (this.disposed) return;
-    this.profileChooserOpen = false;
     this.campaignDialogOpen = false;
     this.campaignProfile = null;
-    if (this.el['title-profile']) this.el['title-profile'].hidden = true;
     if (this.el['title-campaign-preserve']) this.el['title-campaign-preserve'].hidden = true;
     this.inSettings = false;
     this.el['title-settings']?.classList.remove('is-open');
@@ -572,7 +584,7 @@ export class TitleScreen {
     this.items =
       this.mode === 'boot'
         ? [
-            { id: 'new-game', label: 'New Game', run: () => this.showProfileChooser() },
+            { id: 'new-game', label: 'New Game', run: () => this.beginNewGame('story') },
             ...(this.hasSaveGame
               ? [
                   {
@@ -628,29 +640,13 @@ export class TitleScreen {
     this.updateCampaignControls();
   }
 
-  private showProfileChooser(): void {
-    if (this.campaignBusy) return;
-    this.profileChooserOpen = true;
-    this.campaignDialogOpen = false;
-    this.campaignProfile = null;
-    this.el['title-menu']?.classList.add('is-hidden');
-    this.el['title-campaign-preserve']?.setAttribute('hidden', '');
-    const chooser = this.el['title-profile'];
-    if (!chooser) return;
-    chooser.hidden = false;
-    chooser.querySelector<HTMLButtonElement>('[data-profile="story"]')?.focus();
-    this.updateCampaignControls();
-  }
-
   private get campaignBusy(): boolean {
     return this.externallyCampaignBusy || this.campaignCheckPending || this.campaignActionPending;
   }
 
   private beginNewGame(profile: CampaignProfile): void {
     if (!this.open || this.campaignBusy) return;
-    this.profileChooserOpen = false;
     this.campaignProfile = profile;
-    this.el['title-profile']?.setAttribute('hidden', '');
     this.campaignCheckPending = true;
     const generation = ++this.campaignCheckGeneration;
     this.showStatus('Checking for a current campaign…');
@@ -678,14 +674,10 @@ export class TitleScreen {
         )
           return;
         this.campaignCheckPending = false;
-        this.profileChooserOpen = true;
-        this.el['title-menu']?.classList.add('is-hidden');
-        if (this.el['title-profile']) this.el['title-profile'].hidden = false;
+        this.showMenu();
         this.showStatus('Unable to check for a current campaign.', true);
         this.updateCampaignControls();
-        this.el['title-profile']
-          ?.querySelector<HTMLButtonElement>('[data-profile="story"]')
-          ?.focus();
+        this.el['title-menu']?.querySelector<HTMLButtonElement>('[data-id="new-game"]')?.focus();
       });
   }
 
@@ -693,7 +685,6 @@ export class TitleScreen {
     this.campaignDialogOpen = true;
     this.campaignProfile = profile;
     this.el['title-menu']?.classList.add('is-hidden');
-    this.el['title-profile']?.setAttribute('hidden', '');
     const dialog = this.el['title-campaign-preserve'];
     if (!dialog) return;
     dialog.hidden = false;
@@ -703,13 +694,14 @@ export class TitleScreen {
       dialog.querySelector<HTMLButtonElement>('[data-campaign-preserve]')?.focus();
   }
 
-  private backToProfileChooser(): void {
+  private backToCampaignMenu(): void {
     if (this.campaignBusy) return;
     this.campaignCheckGeneration += 1;
     this.campaignDialogOpen = false;
     this.campaignProfile = null;
     this.showStatus(null);
-    this.showProfileChooser();
+    this.showMenu();
+    this.el['title-menu']?.querySelector<HTMLButtonElement>('[data-id="new-game"]')?.focus();
   }
 
   private startSelectedCampaign(preserve: boolean): void {
@@ -765,9 +757,6 @@ export class TitleScreen {
     this.el['title-menu']?.querySelectorAll<HTMLButtonElement>('.title-item').forEach((button) => {
       button.disabled = busy;
     });
-    this.el['title-profile']?.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
-      button.disabled = busy;
-    });
     this.el['title-campaign-preserve']
       ?.querySelectorAll<HTMLButtonElement>('button')
       .forEach((button) => {
@@ -788,17 +777,7 @@ export class TitleScreen {
       if (e.code === 'Escape' && !this.campaignBusy) {
         e.preventDefault();
         e.stopPropagation();
-        this.backToProfileChooser();
-      }
-      return;
-    }
-
-    if (this.profileChooserOpen) {
-      if (this.campaignBusy) return;
-      if (e.code === 'Escape') {
-        e.preventDefault();
-        e.stopPropagation();
-        this.showMenu();
+        this.backToCampaignMenu();
       }
       return;
     }

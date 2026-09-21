@@ -35,9 +35,8 @@ export interface ThreatPacing {
   calmSpreadM: number;
   buildupM: number;
 }
-export const THREAT_PACING_BY_PROFILE: Readonly<Record<'story' | 'survival', ThreatPacing>> = {
+export const THREAT_PACING_BY_PROFILE: Readonly<Record<'story', ThreatPacing>> = {
   story: { recoveryM: 250, calmMinM: 400, calmSpreadM: 700, buildupM: 140 },
-  survival: { recoveryM: 200, calmMinM: 300, calmSpreadM: 500, buildupM: 140 },
 };
 
 /**
@@ -232,6 +231,10 @@ export class ThreatDirector {
   }
 
   /** Whether the vehicle controller currently owns an encounter. */
+  get hasQueuedExternalEncounter(): boolean {
+    return this.queuedVehicle !== null;
+  }
+
   get hasActiveExternalEncounter(): boolean {
     return this.externalEncounterActive;
   }

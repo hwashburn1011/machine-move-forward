@@ -1,0 +1,22 @@
+{
+  "format": 1,
+  "x": -12,
+  "width": 2,
+  "run": 6,
+  "rise": 3.6,
+  "lowerToMiddle": { "fromLevel": -2, "toLevel": -1, "zStart": -3, "zEnd": 3 },
+  "middleToUpper": { "fromLevel": -1, "toLevel": 0, "zStart": -3, "zEnd": 3 },
+  "landingHalfLength": 1.2,
+  "openingHalfLength": 3.1,
+  "upperExtension": { "xMin": -13, "xMax": -11, "zMin": 3.1, "zMax": 4.3 },
+  "flatBypass": {
+    "xMin": -15,
+    "xMax": -13,
+    "zMin": -4.5,
+    "zMax": 4.5,
+    "connectors": [
+      { "xMin": -13, "xMax": -11, "zMin": -5, "zMax": -3.1 },
+      { "xMin": -13, "xMax": -11, "zMin": 3.1, "zMax": 5 }
+    ]
+  }
+}

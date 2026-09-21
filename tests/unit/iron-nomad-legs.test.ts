@@ -5,6 +5,13 @@ import type { Materials } from '@/art/Materials';
 import { LEGS, STRIDE_LENGTH } from '@/data/gait';
 import { isPlanted } from '@/machine/Gait';
 import profile from '@/data/iron-nomad.json';
+import {
+  NOMAD_LEG_GAME_ANCHORS,
+  NOMAD_LEG_SOURCE_RIG,
+  nomadLegGameHip,
+  nomadLegSourceRig,
+} from '@/data/nomad-leg-contract';
+import { solveNomadKnee } from '@/machine/IronNomadLegs';
 
 it('drives glTF Y-up pivots to planted world-space feet, and stops with travel', () => {
   const material = new THREE.MeshBasicMaterial();
@@ -18,21 +25,28 @@ it('drives glTF Y-up pivots to planted world-space feet, and stops with travel',
   wrapper.scale.fromArray(profile.scale);
   wrapper.rotation.y = Math.PI;
   wrapper.position.y = profile.offsetY;
-  for (const [id, sx, sy] of [
-    ['FrontRight', 1, -1],
-    ['FrontLeft', -1, -1],
-    ['RearRight', 1, 1],
-    ['RearLeft', -1, 1],
+  for (const [id, sx, sy, side, end] of [
+    ['FrontRight', 1, -1, -1, -1],
+    ['FrontLeft', -1, -1, 1, -1],
+    ['RearRight', 1, 1, -1, 1],
+    ['RearLeft', -1, 1, 1, 1],
   ] as const) {
+    const rig = nomadLegSourceRig(sx, sy);
     const hip = new THREE.Group();
     hip.name = `Leg_${id}_Hip`;
-    hip.position.set(sx * 6.5, 9.6, -sy * 6);
+    hip.position.set(rig.hip.x, rig.hip.z, -rig.hip.y);
     root.add(hip);
     for (const part of ['Upper', 'Lower', 'Foot']) {
       const node = new THREE.Group();
       node.name = `Leg_${id}_${part}`;
       (part === 'Upper' ? hip : root).add(node);
     }
+    body.updateMatrixWorld(true);
+    const expected = nomadLegGameHip(side, end);
+    const actual = hip.getWorldPosition(new THREE.Vector3());
+    expect(actual.x).toBeCloseTo(expected.x, 6);
+    expect(actual.y).toBeCloseTo(expected.y, 6);
+    expect(actual.z).toBeCloseTo(expected.z, 6);
   }
   legs.apply(wrapper);
   const foot = root.getObjectByName('Leg_FrontRight_Foot')!;
@@ -54,6 +68,22 @@ it('drives glTF Y-up pivots to planted world-space feet, and stops with travel',
       expect(Number.isFinite(root.getObjectByName('Leg_FrontRight_Upper')!.quaternion.w)).toBe(
         true,
       );
+
+      // The authored upper's local +Y is source-rig +Z after Blender-to-glTF
+      // conversion. Its rotation must aim that axis from the measured v3 hip
+      // toward the knee solved from the same translated rest rig.
+      const rig = nomadLegSourceRig(1, -1);
+      const h = new THREE.Vector3(rig.hip.x, rig.hip.y, rig.hip.z);
+      const k = new THREE.Vector3(rig.knee.x, rig.knee.y, rig.knee.z);
+      const f = new THREE.Vector3(rig.foot.x, rig.foot.y, rig.foot.z);
+      const localGltf = root.worldToLocal(target.clone().add(new THREE.Vector3(0, 0.8166667, 0)));
+      const localSource = new THREE.Vector3(localGltf.x, -localGltf.z, localGltf.y);
+      const knee = solveNomadKnee(h, k, f, localSource);
+      const expectedAxis = knee.sub(h).normalize();
+      const upper = root.getObjectByName('Leg_FrontRight_Upper')!;
+      const gltfAxis = new THREE.Vector3(0, 1, 0).applyQuaternion(upper.quaternion);
+      const actualAxis = new THREE.Vector3(gltfAxis.x, -gltfAxis.z, gltfAxis.y).normalize();
+      expect(actualAxis.dot(expectedAxis)).toBeGreaterThan(0.999999);
     }
   }
   legs.setDistance(3);
@@ -62,6 +92,25 @@ it('drives glTF Y-up pivots to planted world-space feet, and stops with travel',
   expect(foot.position.distanceTo(before)).toBeLessThan(0.00001);
   legs.dispose();
   material.dispose();
+});
+
+it('derives the measured v3 hip and translated source rig from the layout profile', () => {
+  expect(NOMAD_LEG_GAME_ANCHORS.hipAbs).toEqual({ x: 8.9375, y: 7.9966666667, z: 7.8 });
+  expect(NOMAD_LEG_GAME_ANCHORS.repairAbs).toEqual({ x: 10.3625, z: 7.8 });
+  expect(NOMAD_LEG_SOURCE_RIG.hipAbs).toEqual({
+    x: 11.916666666666668,
+    y: 9.75,
+    z: 9.6,
+  });
+  const hip = NOMAD_LEG_SOURCE_RIG.hipAbs;
+  const knee = NOMAD_LEG_SOURCE_RIG.kneeAbs;
+  const foot = NOMAD_LEG_SOURCE_RIG.footAbs;
+  expect(knee.x - hip.x).toBeCloseTo(2.2, 12);
+  expect(knee.y - hip.y).toBeCloseTo(-0.9, 12);
+  expect(knee.z - hip.z).toBeCloseTo(-4.55, 12);
+  expect(foot.x - knee.x).toBeCloseTo(0.65, 12);
+  expect(foot.y - knee.y).toBeCloseTo(2.9, 12);
+  expect(foot.z - knee.z).toBeCloseTo(-4.05, 12);
 });
 
 it('holds planted feet at one permanent world X while the course moves laterally', () => {

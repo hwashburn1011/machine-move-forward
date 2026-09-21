@@ -7,11 +7,11 @@ import {
 
 describe('campaign profile', () => {
   it('sanitizes unknown saves to story and keeps profile labels pure', () => {
-    expect(sanitizeCampaignProfile('survival')).toBe('survival');
+    expect(sanitizeCampaignProfile('survival')).toBe('story');
     expect(sanitizeCampaignProfile('future')).toBe('story');
     expect(sanitizeCampaignProfile(null)).toBe('story');
     expect(profileUsesInfiniteAmmo('story')).toBe(true);
-    expect(profileUsesInfiniteAmmo('survival')).toBe(false);
-    expect(campaignProfileLabel('survival')).toBe('Survival');
+    expect(profileUsesInfiniteAmmo(sanitizeCampaignProfile('survival'))).toBe(true);
+    expect(campaignProfileLabel(sanitizeCampaignProfile('survival'))).toBe('Story');
   });
 });

@@ -8,7 +8,7 @@ const entries: readonly SaveLibraryEntry[] = [
     name: 'Dawn <watch> & keep walking',
     savedAt: Date.UTC(2026, 8, 15, 12, 30),
     seed: 'seed-one',
-    profile: 'survival',
+    profile: 'story',
     distanceTraveled: 1234,
     chapterLabel: 'The Long Road',
     system: false,
@@ -46,7 +46,7 @@ describe('SaveLibraryUI', () => {
     expect(parent.textContent).toContain('Dawn <watch> & keep walking');
     expect(parent.querySelector('[data-save-slot="campaign:one"]')?.innerHTML).toContain('&lt;');
     expect(parent.textContent).toContain('The Long Road');
-    expect(parent.textContent).toContain('Survival');
+    expect(parent.textContent).toContain('Story');
     (parent.querySelector('[data-save-load="campaign:one"]') as HTMLButtonElement).click();
     expect(callbacks.load).toHaveBeenCalledWith('campaign:one');
     ui.setBusy(false);

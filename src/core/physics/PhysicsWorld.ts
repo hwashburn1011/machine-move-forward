@@ -300,8 +300,58 @@ export class PhysicsWorld {
       y: own.y,
       z: own.z,
     });
-    const moved = handle.controller.computedMovement();
-    const grounded = handle.controller.computedGrounded();
+    let moved = handle.controller.computedMovement();
+    let grounded = handle.controller.computedGrounded();
+    // Rapier can stop a grounded capsule at the foot of a climbable ramp when
+    // gravity is included in the same downward movement vector. Give it one
+    // bounded uphill retry only when the first solve is substantially blocked;
+    // flat walls still win because the retry cannot improve their horizontal
+    // movement. This keeps normal gravity and movement speeds unchanged while
+    // making smooth ramps traversable from a grounded approach.
+    const wantedHorizontal = Math.hypot(own.x, own.z);
+    const firstHorizontal = Math.hypot(moved.x, moved.z);
+    const retryCandidate =
+      own.y < 0 && wantedHorizontal > 1e-5 && firstHorizontal < wantedHorizontal * 0.5 && grounded;
+    let climbableUphillContact = false;
+    const minimumClimbNormalY = Math.cos(handle.controller.maxSlopeClimbAngle());
+    for (
+      let index = 0;
+      retryCandidate && index < handle.controller.numComputedCollisions();
+      index++
+    ) {
+      const collision = handle.controller.computedCollision(index);
+      if (!collision) continue;
+      const normal = collision.normal1;
+      // The retry exists only for a ramp that the controller already classifies
+      // as climbable and that faces against this movement. A wall, the flat
+      // floor, a ceiling, or a slope above the configured limit cannot opt in.
+      if (normal.y >= minimumClimbNormalY - 1e-6 && normal.x * own.x + normal.z * own.z < -1e-6) {
+        climbableUphillContact = true;
+        break;
+      }
+    }
+    if (retryCandidate && climbableUphillContact) {
+      handle.controller.computeColliderMovement(handle.collider, {
+        x: own.x,
+        y: Math.max(0.03, Math.min(0.12, -own.y)),
+        z: own.z,
+      });
+      const retry = handle.controller.computedMovement();
+      if (Math.hypot(retry.x, retry.z) > firstHorizontal + 1e-5) {
+        moved = retry;
+        grounded = handle.controller.computedGrounded();
+      } else {
+        // Restore the original solve if the speculative uphill pass did not
+        // improve horizontal travel, including its grounded result.
+        handle.controller.computeColliderMovement(handle.collider, {
+          x: own.x,
+          y: own.y,
+          z: own.z,
+        });
+        moved = handle.controller.computedMovement();
+        grounded = handle.controller.computedGrounded();
+      }
+    }
 
     position.set(
       position.x + moved.x + carry.x,

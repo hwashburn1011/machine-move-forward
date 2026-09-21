@@ -13,6 +13,7 @@ export type ItemId =
   | 'ammo-shotgun'
   | 'repair-kit'
   | 'extended-mag'
+  | 'scanner-replacement-module'
   // The whole of the survival economy, and deliberately three lines rather
   // than a food tree: water is drunk or cooked with, greens are cooked, and
   // rations are the meal. Anything more and the calm loop becomes admin.
@@ -104,6 +105,15 @@ export const ITEMS: Record<ItemId, ItemDefinition> = {
     weight: 0.5,
     glyph: '⌸',
     description: 'Raises the fitted weapon magazine by 50%.',
+  },
+  'scanner-replacement-module': {
+    id: 'scanner-replacement-module',
+    name: 'Scanner Replacement Module',
+    category: 'resource',
+    stackSize: 1,
+    weight: 0.4,
+    glyph: '◈',
+    description: 'A shielded cartridge for the damaged scanner assembly.',
   },
   water: {
     id: 'water',

@@ -100,11 +100,7 @@ function harness(): Harness {
   return game as unknown as Harness;
 }
 
-function restoreBuildup(
-  game: Harness,
-  lane: 'ordinary' | 'radio-raid',
-  queued = false,
-): void {
+function restoreBuildup(game: Harness, lane: 'ordinary' | 'radio-raid', queued = false): void {
   game.director.restore({
     ...game.director.toSave(),
     phase: 'buildup',
@@ -227,7 +223,7 @@ describe('Game shared threat pacing integration', () => {
     expect(game.director.hasActiveExternalEncounter).toBe(true);
   });
 
-  it('gives a pre-director Survival save its profile calm without skipping into a threat', () => {
+  it('gives a legacy Survival save standard campaign calm without skipping into a threat', () => {
     const game = harness();
     const save = {
       distanceTraveled: 5_000,
@@ -237,8 +233,8 @@ describe('Game shared threat pacing integration', () => {
 
     methods.restoreThreatPacing.call(game, save);
     expect(game.director.currentPhase).toBe('calm');
-    expect(game.director.phaseEnds).toBeGreaterThanOrEqual(5_300);
-    expect(game.director.phaseEnds).toBeLessThanOrEqual(5_800);
+    expect(game.director.phaseEnds).toBeGreaterThanOrEqual(5_400);
+    expect(game.director.phaseEnds).toBeLessThanOrEqual(6_100);
     expect(game.threatPhase).toBe('calm');
   });
 
@@ -250,33 +246,27 @@ describe('Game shared threat pacing integration', () => {
       phaseEndsAt: 5_123,
     };
     delete oldDirector.lane;
-    methods.restoreThreatPacing.call(
-      game,
-      {
-        distanceTraveled: 5_000,
-        profile: 'survival',
-        world: { threatDirector: oldDirector },
-      } as unknown as SaveGameV1,
-    );
+    methods.restoreThreatPacing.call(game, {
+      distanceTraveled: 5_000,
+      profile: 'survival',
+      world: { threatDirector: oldDirector },
+    } as unknown as SaveGameV1);
     expect(game.director.phaseEnds).toBe(5_123);
     expect(game.director.toSave().lane).toBe('ordinary');
 
-    methods.restoreThreatPacing.call(
-      game,
-      {
-        distanceTraveled: 8_000,
-        profile: 'survival',
-        world: {
-          threatDirector: {
-            ...oldDirector,
-            phase: 'engagement',
-            externalEncounterActive: true,
-          },
+    methods.restoreThreatPacing.call(game, {
+      distanceTraveled: 8_000,
+      profile: 'survival',
+      world: {
+        threatDirector: {
+          ...oldDirector,
+          phase: 'engagement',
+          externalEncounterActive: true,
         },
-      } as unknown as SaveGameV1,
-    );
+      },
+    } as unknown as SaveGameV1);
     expect(game.director.currentPhase).toBe('calm');
-    expect(game.director.phaseEnds).toBe(8_300);
+    expect(game.director.phaseEnds).toBe(8_400);
     expect(game.director.hasActiveExternalEncounter).toBe(false);
   });
 });

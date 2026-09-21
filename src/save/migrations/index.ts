@@ -10,7 +10,7 @@ export class SaveMigrationError extends Error {
 /**
  * Bring any stored save up to the current schema.
  *
- * Only one version exists today, so this chain does nothing yet. It exists
+ * Only one version exists today; optional legacy fields are normalized here. It exists
  * anyway because adding it after saves are in the wild means writing the same
  * code with no way to test it against the format it has to read.
  */
@@ -37,6 +37,9 @@ export function migrate(raw: unknown): SaveGameV1 {
 
   // Never mutate the caller's object: it may be the live in-memory save.
   const save = structuredClone(record) as unknown as SaveGameV1;
+
+  // Preserve all progression and inventory while retiring the old preset.
+  if (save.profile === 'survival') save.profile = 'story';
 
   // Defaults for optional fields, so an older save missing a field still loads.
   save.progression ??= { unlocks: [] };

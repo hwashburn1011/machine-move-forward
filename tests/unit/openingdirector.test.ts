@@ -2,10 +2,14 @@ import { describe, expect, it } from 'vitest';
 import {
   isDeckLanding,
   LANDING_HALF_X,
+  LANDING_HALF_Z,
   OpeningDirector,
+  CINEMATIC_DONE_TIME_S,
+  CINEMATIC_LAND_TIME_S,
   SKIP_HOLD_S,
   TITLE_CARD_DELAY_S,
   type OpeningInput,
+  type OpeningEffect,
 } from '@/game/OpeningDirector';
 import {
   ROOFTOP_ENEMY_SPAWNS,
@@ -187,6 +191,45 @@ describe('OpeningDirector', () => {
     expect(b.phase).toBe('done');
     expect(run(b, 5)).toEqual([]);
   });
+
+  it('runs the authored cinematic to landing and one-shot handoff', () => {
+    const d = new OpeningDirector();
+    expect(d.begin('new-game')).toEqual(['spawn-rooftop']);
+    expect(d.updateCinematic({ time: CINEMATIC_LAND_TIME_S - 0.01, skipHeld: false, dt: STEP })).toEqual([]);
+    expect(d.phase).toBe('rooftop');
+    expect(d.updateCinematic({ time: CINEMATIC_LAND_TIME_S, skipHeld: false, dt: STEP })).toEqual(['grant-weapons']);
+    expect(d.phase).toBe('landed');
+    expect(d.updateCinematic({ time: CINEMATIC_DONE_TIME_S - 0.01, skipHeld: false, dt: STEP })).toEqual([]);
+    expect(d.updateCinematic({ time: CINEMATIC_DONE_TIME_S, skipHeld: false, dt: STEP })).toEqual(['throttle-up', 'show-title-card', 'teardown-rooftop']);
+    expect(d.updateCinematic({ time: CINEMATIC_DONE_TIME_S, skipHeld: false, dt: STEP })).toEqual([]);
+    expect(d.phase).toBe('done');
+  });
+
+  it('skips from either cinematic half after a full one-second hold', () => {
+    const d = new OpeningDirector();
+    d.begin('new-game');
+    let effects: OpeningEffect[] = [];
+    for (let i = 0; i < 60; i++) effects = d.updateCinematic({ time: i / 60, skipHeld: true, dt: STEP });
+    expect(effects).toEqual(['grant-weapons', 'throttle-up', 'teardown-rooftop']);
+    expect(d.phase).toBe('done');
+
+    d.begin('new-game');
+    expect(d.updateCinematic({ time: CINEMATIC_LAND_TIME_S, skipHeld: false, dt: STEP })).toEqual(['grant-weapons']);
+    effects = [];
+    for (let i = 0; i < 60; i++) effects = d.updateCinematic({ time: CINEMATIC_LAND_TIME_S + i / 60, skipHeld: true, dt: STEP });
+    expect(effects).toEqual(['throttle-up', 'teardown-rooftop']);
+    expect(d.phase).toBe('done');
+  });
+
+  it('resets cinematic one-shots for a new game and never replays continue', () => {
+    const d = new OpeningDirector();
+    d.begin('new-game');
+    d.updateCinematic({ time: CINEMATIC_DONE_TIME_S, skipHeld: false, dt: STEP });
+    expect(d.begin('continue')).toEqual([]);
+    expect(d.updateCinematic({ time: CINEMATIC_DONE_TIME_S, skipHeld: false, dt: STEP })).toEqual([]);
+    expect(d.begin('new-game')).toEqual(['spawn-rooftop']);
+    expect(d.updateCinematic({ time: CINEMATIC_LAND_TIME_S, skipHeld: false, dt: STEP })).toEqual(['grant-weapons']);
+  });
 });
 
 describe('isDeckLanding', () => {
@@ -197,8 +240,8 @@ describe('isDeckLanding', () => {
   });
 
   it('rejects anything outside the deck footprint or off its height', () => {
-    expect(isDeckLanding({ x: 7.5, y: DECK_SURFACE_Y, z: 0 })).toBe(false);
-    expect(isDeckLanding({ x: 0, y: DECK_SURFACE_Y, z: 9 })).toBe(false);
+    expect(isDeckLanding({ x: LANDING_HALF_X + 0.5, y: DECK_SURFACE_Y, z: 0 })).toBe(false);
+    expect(isDeckLanding({ x: 0, y: DECK_SURFACE_Y, z: LANDING_HALF_Z + 0.5 })).toBe(false);
     expect(isDeckLanding({ x: 0, y: 6.6, z: 0 })).toBe(false);
     expect(isDeckLanding({ x: 0, y: -0.35, z: 0 })).toBe(false);
   });
@@ -225,7 +268,8 @@ describe('the rooftop set', () => {
     expect(ROOFTOP_LEDGE.y).toBe(ROOFTOP_ROOF_Y);
     const gap = ROOFTOP_LEDGE.x - LANDING_HALF_X;
     expect(gap).toBeGreaterThan(2);
-    expect(gap).toBeLessThan(3);
+    expect(gap).toBeGreaterThan(3);
+    expect(gap).toBeLessThan(4);
   });
 
   it('is a leap a walking player actually clears', () => {
@@ -247,6 +291,9 @@ describe('the rooftop set', () => {
   });
 
   it('starts the player on the roof, well back from the ledge', () => {
+    expect(ROOFTOP_MIN_X).toBe(14.5);
+    expect(ROOFTOP_MAX_X - ROOFTOP_MIN_X).toBe(10);
+    expect(ROOFTOP_PLAYER_SPAWN.x).toBe(ROOFTOP_MIN_X + 6);
     expect(ROOFTOP_PLAYER_SPAWN.x).toBeGreaterThan(ROOFTOP_MIN_X + 3);
     expect(ROOFTOP_PLAYER_SPAWN.x).toBeLessThan(ROOFTOP_MAX_X);
     // Dropped from above the slab, the same way an arrival is dropped onto
@@ -265,6 +312,8 @@ describe('the rooftop set', () => {
     }
     // Spread apart, so they cannot both be dodged with one sidestep.
     const [a, b] = ROOFTOP_ENEMY_SPAWNS;
+    expect(a?.x).toBe(ROOFTOP_MIN_X + 8.5);
+    expect(b?.x).toBe(ROOFTOP_MIN_X + 8.5);
     expect(Math.abs((a?.z ?? 0) - (b?.z ?? 0))).toBeGreaterThan(3);
   });
 
