@@ -3,7 +3,7 @@
 Z is up, metres. Each finished archetype is one mesh and one shared PBR atlas.
 Openings are geometry, not black window decals. Keep the editable parts in .blend.
 """
-import bpy, math, random, json, sys
+import bpy, math, random, json, sys, os
 from pathlib import Path
 from mathutils import Vector
 
@@ -63,7 +63,7 @@ def box(name,at,size,tile=0,bevel=.04,rot=None):
     o.location=at
     if rot:o.rotation_euler=rot
     if bevel:
-        mod=o.modifiers.new('Worn rounded edges','BEVEL');mod.width=min(bevel,min(size)*.24);mod.segments=2
+        mod=o.modifiers.new('Worn rounded edges','BEVEL');mod.width=min(bevel,min(size)*.24);mod.segments=3
         mod=o.modifiers.new('Weighted corner normals','WEIGHTED_NORMAL');mod.keep_sharp=True
     return o
 
@@ -75,6 +75,8 @@ def rod(name,a,b,r=.055,tile=5,segments=10):
     faces=[tuple(reversed(range(segments))),tuple(range(segments,segments*2))]
     faces += [(i,(i+1)%segments,(i+1)%segments+segments,i+segments) for i in range(segments)]
     o=mesh(name,verts,faces,tile,True);o.location=(Vector(a)+Vector(b))*.5
+    # Caps stay flat; smoothing them into the cylinder produces swollen shading.
+    o.data.polygons[0].use_smooth=False;o.data.polygons[1].use_smooth=False
     o.rotation_euler=d.to_track_quat('Z','Y').to_euler();return o
 
 def ring(name,at,radius,tube=.07,tile=2,rotation=(math.pi/2,0,0)):
@@ -391,8 +393,17 @@ def water_tower():
 
 BUILDERS=[('ruin-house',house),('ruin-shop',lambda:frame_building(2,9,7)),('ruin-apartment',lambda:frame_building(4,12,10)),('ruin-tower',lambda:frame_building(8,13,11)),('ruin-factory',factory),('overpass',overpass),('wreck-car',lambda:car(False)),('wreck-bus',lambda:car(True)),('wreck-tanker',tanker),('billboard',lambda:sign()),('water-sign',lambda:sign(7,3.6,4.5,13)),('road-sign',lambda:sign(3.5,2.2,2.8,15)),('pylon',pylon),('water-tower',water_tower)]
 
+sys.path.insert(0,str(Path(__file__).parent))
+import refined_artifacts as refinement
+ORIGINALS={name for name,_ in BUILDERS}
+BUILDERS.extend(refinement.install(globals()))
+assert len(BUILDERS)==50 and len(set(name for name,_ in BUILDERS))==50
+for directory in [OUT/'source',OUT/'exports',ROOT/'docs/art/refinement-50/renders']:
+    directory.mkdir(parents=True,exist_ok=True)
+
 for idx,(name,builder) in enumerate(BUILDERS):
     parts=[];builder()
+    if name in ORIGINALS:refinement.refine_original(name)
     coll=bpy.data.collections.new(name+' editable components');scene.collection.children.link(coll)
     # Keep the non-destructive source, hidden during renders/exports.
     for o in parts:
@@ -416,7 +427,9 @@ for idx,(name,builder) in enumerate(BUILDERS):
     bpy.ops.object.transform_apply(location=False,rotation=True,scale=True)
     joined.data.calc_loop_triangles()
     triangles=len(joined.data.loop_triangles)
-    report.append({'name':name,'triangles':triangles,'vertices':len(joined.data.vertices),'size_m':list(joined.dimensions)})
+    report.append({'name':name,'status':'refined' if name in ORIGINALS else 'new',
+                   'detail':refinement.DETAILS.get(name,'Model-specific structural, service and attachment refinement; see refine_original().'),
+                   'editable_parts':len(originals),'triangles':triangles,'vertices':len(joined.data.vertices),'size_m':list(joined.dimensions)})
     bpy.ops.export_scene.fbx(filepath=str(OUT/'exports'/(name+'.fbx')),use_selection=True,object_types={'MESH'},add_leaf_bones=False,axis_forward='-Y',axis_up='Z',use_mesh_modifiers=True)
     library.append(joined)
     print('BUILT',name,triangles,flush=True)
@@ -443,17 +456,36 @@ for o in lods:bpy.data.objects.remove(o,do_unlink=True)
 (OUT/'source'/'model-report.json').write_text(json.dumps(report,indent=2))
 
 # Stage the .blend as a readable contact sheet; original modelling collections stay intact.
-for i,o in enumerate(library):o.location=((i%4)*31,(i//4)*30,0)
+for i,o in enumerate(library):o.location=((i%10)*31,(i//10)*30,0)
 floor_mat=bpy.data.materials.new('Review sand');floor_mat.diffuse_color=(.36,.25,.13,1)
-bpy.ops.mesh.primitive_plane_add(size=240,location=(45,40,-.17));bpy.context.object.data.materials.append(floor_mat)
+bpy.ops.mesh.primitive_plane_add(size=700,location=(135,60,-.17));floor=bpy.context.object;floor.data.materials.append(floor_mat)
 bpy.ops.object.light_add(type='SUN',location=(0,0,35));sun=bpy.context.object;sun.rotation_euler=(.65,-.5,-.6);sun.data.energy=3;sun.data.angle=.06
-bpy.ops.object.camera_add(location=(155,-147,139));camera=bpy.context.object
-camera.rotation_euler=(Vector((43,43,6))-camera.location).to_track_quat('-Z','Y').to_euler();camera.data.type='ORTHO';camera.data.ortho_scale=177;scene.camera=camera
-scene.render.resolution_x=1800;scene.render.resolution_y=1400;scene.render.resolution_percentage=100
+bpy.ops.object.camera_add(location=(360,-330,290));camera=bpy.context.object
+camera.rotation_euler=(Vector((135,60,4))-camera.location).to_track_quat('-Z','Y').to_euler();camera.data.type='ORTHO';camera.data.ortho_scale=370;scene.camera=camera
+scene.render.resolution_x=2200;scene.render.resolution_y=1300;scene.render.resolution_percentage=100
 scene.view_settings.view_transform='AgX'
 for image in bpy.data.images:
     if image.source=='FILE':image.pack()
 bpy.ops.wm.save_as_mainfile(filepath=str(OUT/'source'/'DesertRuins.blend'))
 scene.render.filepath=str(ROOT/'docs/art/desert-ruins/blender-library.png')
 bpy.ops.render.render(write_still=True)
+# Individual 3/4 reviews, full resolution, consistent neutral lighting.
+scene.render.resolution_x=960;scene.render.resolution_y=960;scene.cycles.samples=16
+review_names=set(filter(None,os.environ.get('MMF_REVIEW_MODELS','').split(',')))
+for index,o in enumerate(library):
+    if review_names and o.name not in review_names:continue
+    for other in library:other.hide_render=other!=o
+    bpy.context.view_layer.update()
+    corners=[o.matrix_world@Vector(c) for c in o.bound_box]
+    lo=Vector(tuple(min(v[k] for v in corners) for k in range(3)))
+    hi=Vector(tuple(max(v[k] for v in corners) for k in range(3)))
+    center=(lo+hi)*.5;size=hi-lo;span=max(size.x,size.y,size.z)
+    camera.location=center+Vector((1.1,-1.55,.90))*span
+    camera.rotation_euler=(center-camera.location).to_track_quat('-Z','Y').to_euler()
+    camera.data.ortho_scale=max(1.4,span*1.5)
+    floor.location.z=lo.z-.025
+    scene.render.filepath=str(ROOT/'docs/art/refinement-50/renders'/f'{index+1:02d}-{o.name}.png')
+    bpy.ops.render.render(write_still=True)
+    print('REVIEWED',index+1,o.name,flush=True)
+for o in library:o.hide_render=False
 print('DESERT_LIBRARY_COMPLETE',json.dumps(report),flush=True)

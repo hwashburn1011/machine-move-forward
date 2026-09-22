@@ -35,7 +35,7 @@ try {
     g.state.paused = false;
     g.opening.restore({ phase: 'done' });
     g.player.stats.invulnerable = true;
-    g.player.teleport(g.player.worldPosition.clone().set(5.6, 15.8, 1.5));
+    g.player.teleport(g.player.worldPosition.clone().set(5.6, 17.05, 1.5));
     const gl = g.renderer.three.getContext();
     const ext = gl.getExtension('WEBGL_debug_renderer_info');
     return {
@@ -66,7 +66,7 @@ try {
         for (let i = 0; i < 8; i++)
           g.enemies.spawn(
             ['bastion', 'warden', 'revenant', 'sovereign'][i % 4],
-            g.player.worldPosition.clone().set(i < 4 ? -6 : 6, 15.94, -6 + (i % 4) * 4),
+            g.player.worldPosition.clone().set(i < 4 ? -6 : 6, 17.05, -6 + (i % 4) * 4),
           );
       });
     }

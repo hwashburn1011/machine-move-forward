@@ -225,7 +225,7 @@ export class BuildSystem {
   private buildBlocker: (placement: Placement) => Validation | null = () => null;
 
   constructor(
-    scene: THREE.Scene,
+    _scene: THREE.Scene,
     private readonly physics: PhysicsWorld,
     private readonly bus: EventBus,
     private readonly materials: Materials,
@@ -233,7 +233,7 @@ export class BuildSystem {
     private readonly resources: ResourceAccess,
   ) {
     this.group.name = 'built-structures';
-    scene.add(this.group);
+    machine.group.add(this.group);
 
     for (const cell of machine.equipmentCells) this.grid.blockCell(cell);
     for (const cell of machine.deckCells) this.grid.supportCell(cell);
@@ -910,9 +910,14 @@ export class BuildSystem {
     for (const [instanceId, container] of this.collectorContainers) {
       const live = this.instances.get(instanceId);
       if (!live) continue;
-      const distance = live.mesh.position.distanceTo(pos);
+      const distance = live.mesh.getWorldPosition(new THREE.Vector3()).distanceTo(pos);
       if (distance <= reach)
-        out.push({ instanceId, container, position: live.mesh.position.clone(), distance });
+        out.push({
+          instanceId,
+          container,
+          position: live.mesh.getWorldPosition(new THREE.Vector3()),
+          distance,
+        });
     }
     return out.sort((a, b) => a.distance - b.distance || a.instanceId.localeCompare(b.instanceId));
   }
@@ -1088,13 +1093,13 @@ export class BuildSystem {
       if (!live) continue;
       const role = producerRoleOf(live.data.definitionId);
       if (!role) continue;
-      const d = live.mesh.position.distanceTo(pos);
+      const d = live.mesh.getWorldPosition(new THREE.Vector3()).distanceTo(pos);
       if (d > reach) continue;
       found.push({
         ref: {
           instanceId: id,
           piece: live.data.definitionId,
-          position: live.mesh.position.clone(),
+          position: live.mesh.getWorldPosition(new THREE.Vector3()),
           itemId: role.itemId,
           stored: timer.stored,
           capacity: role.capacity,
@@ -1265,7 +1270,7 @@ export class BuildSystem {
     for (const [id, container] of this.crateContainers) {
       const live = this.instances.get(id);
       if (!live) continue;
-      out.push({ container, position: live.mesh.position });
+      out.push({ container, position: live.mesh.getWorldPosition(new THREE.Vector3()) });
     }
     return out;
   }
@@ -1290,12 +1295,12 @@ export class BuildSystem {
       .filter(
         (live) =>
           ['chair', 'shelf'].includes(live.data.definitionId) &&
-          live.mesh.position.distanceTo(pos) <= reach,
+          live.mesh.getWorldPosition(new THREE.Vector3()).distanceTo(pos) <= reach,
       )
       .map((live) => ({
         instanceId: live.data.instanceId,
         piece: live.data.definitionId,
-        position: live.mesh.position.clone(),
+        position: live.mesh.getWorldPosition(new THREE.Vector3()),
       }));
   }
 
@@ -1314,13 +1319,13 @@ export class BuildSystem {
     const found: { ref: StationRef; d: number }[] = [];
     for (const live of this.instances.values()) {
       if (!isStation(live.data.definitionId)) continue;
-      const d = live.mesh.position.distanceTo(pos);
+      const d = live.mesh.getWorldPosition(new THREE.Vector3()).distanceTo(pos);
       if (d > reach) continue;
       found.push({
         ref: {
           instanceId: live.data.instanceId,
           piece: live.data.definitionId,
-          position: live.mesh.position.clone(),
+          position: live.mesh.getWorldPosition(new THREE.Vector3()),
         },
         d,
       });
@@ -1343,13 +1348,13 @@ export class BuildSystem {
     for (const live of this.instances.values()) {
       const max = BUILD_PIECES[live.data.definitionId].maxHealth;
       if (live.data.health >= max) continue;
-      const d = live.mesh.position.distanceTo(pos);
+      const d = live.mesh.getWorldPosition(new THREE.Vector3()).distanceTo(pos);
       if (d > reach) continue;
       found.push({
         ref: {
           instanceId: live.data.instanceId,
           piece: live.data.definitionId,
-          position: live.mesh.position.clone(),
+          position: live.mesh.getWorldPosition(new THREE.Vector3()),
           missingFraction: 1 - live.data.health / max,
         },
         d,
@@ -1527,7 +1532,10 @@ export class BuildSystem {
     const out: { instanceId: string; position: THREE.Vector3 }[] = [];
     for (const live of this.instances.values()) {
       if (live.data.definitionId !== 'lamp') continue;
-      out.push({ instanceId: live.data.instanceId, position: live.mesh.position });
+      out.push({
+        instanceId: live.data.instanceId,
+        position: live.mesh.getWorldPosition(new THREE.Vector3()),
+      });
     }
     return out;
   }
@@ -1585,20 +1593,15 @@ export class BuildSystem {
 
         // Rotated shapes (the stair ramp) need a quaternion, so they take the
         // general path; everything else is an axis-aligned box.
-        const collider =
-          spec.rotX !== undefined
-            ? this.physics.addFixedBoxRotated(
-                spec.half,
-                center,
-                // Pitch in the piece's local frame, then turn the whole ramp.
-                // XYZ pitches around world X after yaw, flattening a quarter-
-                // turned flight in its direction of travel.
-                new THREE.Quaternion().setFromEuler(
-                  new THREE.Euler(spec.rotX, rotationY, 0, 'YXZ'),
-                ),
-                target,
-              )
-            : this.physics.addFixedBox(spec.half, center, rotationY, target);
+        const collider = this.physics.addBoxTo(
+          this.machine.constructionBody,
+          spec.half,
+          center,
+          // The body supplies the hull pose; only the piece's local pitch/yaw
+          // belongs here. This also works when placing during a stride.
+          new THREE.Quaternion().setFromEuler(new THREE.Euler(spec.rotX ?? 0, rotationY, 0, 'YXZ')),
+          target,
+        );
 
         out.push(collider);
       }
@@ -2108,6 +2111,6 @@ export class BuildSystem {
   }
 
   caretakerEndpoint(instanceId: string): THREE.Vector3 | null {
-    return this.instances.get(instanceId)?.mesh.position.clone() ?? null;
+    return this.instances.get(instanceId)?.mesh.getWorldPosition(new THREE.Vector3()) ?? null;
   }
 }

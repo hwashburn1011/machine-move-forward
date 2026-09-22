@@ -45,6 +45,9 @@ module, box = build_access(scene, root, profile, kit, game, source)
 from refine_service_details import refine_services
 service_report = refine_services(scene, root, profile, kit, game, source)
 (OUT / "source/service-detail-report.json").write_text(json.dumps(service_report, indent=2))
+from ground_workshop import ground_workshop
+grounding_report = ground_workshop(scene, root, profile, kit, game, source)
+(OUT / 'source/grounding-report.json').write_text(json.dumps(grounding_report, indent=2))
 
 def cut(name, at, size, candidates):
     cutter=box(name,at,size,bevel=0); bpy.context.view_layer.update()

@@ -11,7 +11,7 @@ import {
 import { edgeCenter } from '@/building/BuildGrid';
 import { BuildPreview } from '@/building/BuildPreview';
 import type { BuildSystem } from '@/building/BuildSystem';
-import { DECK_HEIGHT } from '@/game/constants';
+import { DECK_SURFACE_Y } from '@/game/constants';
 
 describe('building polish targeting', () => {
   it('lets relocation supply validation and poses the ghost through the build group', () => {
@@ -29,7 +29,7 @@ describe('building polish targeting', () => {
     let validated = false;
     preview.updateTargeted(
       {
-        chestWorld: new THREE.Vector3(7, DECK_HEIGHT + 0.8, -3),
+        chestWorld: new THREE.Vector3(7, DECK_SURFACE_Y + 0.8, -3),
         viewOrigin: new THREE.Vector3(7, 20, -3),
         viewDirection: new THREE.Vector3(0, -1, 0),
         machineTransform: group.matrixWorld,
@@ -47,7 +47,7 @@ describe('building polish targeting', () => {
     expect(validated).toBe(true);
     expect(preview.validation).toEqual({ ok: false, reason: 'occupied' });
     expect(preview.mesh.position.x).toBeCloseTo(7);
-    expect(preview.mesh.position.y).toBeCloseTo(DECK_HEIGHT + 2);
+    expect(preview.mesh.position.y).toBeCloseTo(DECK_SURFACE_Y + 2);
     preview.dispose();
   });
   it('uses chest reach and supports negative deck levels without a fallback target', () => {
@@ -92,7 +92,7 @@ describe('building polish targeting', () => {
         'floor',
       ),
     ).toBe(true);
-    expect(selectAutoLevel(DECK_HEIGHT - 6, -2)).toBe(-2);
+    expect(selectAutoLevel(DECK_SURFACE_Y - 6, -2)).toBe(-2);
   });
 
   it('checks edge reach and LOS against the snapped edge center', () => {
@@ -120,7 +120,7 @@ describe('building polish targeting', () => {
   it('uses a compatible wall hit before requiring a deck-plane intersection', () => {
     const wall = new THREE.Vector3(4, 15.5, 0.2);
     const result = resolveBuildTarget({
-      chestWorld: new THREE.Vector3(0, 15, 0),
+      chestWorld: new THREE.Vector3(0, DECK_SURFACE_Y + 1, 0),
       viewOrigin: new THREE.Vector3(0, 15.5, 0),
       viewDirection: new THREE.Vector3(1, 0, 0),
       piece: 'lamp',
@@ -136,8 +136,8 @@ describe('building polish targeting', () => {
   it('uses the runtime endpoint height and support identity for both LOS checks', () => {
     const endpoints: THREE.Vector3[] = [];
     const result = resolveBuildTarget({
-      chestWorld: new THREE.Vector3(0, 15, 0),
-      viewOrigin: new THREE.Vector3(-2, 16, 0),
+      chestWorld: new THREE.Vector3(0, DECK_SURFACE_Y + 1, 0),
+      viewOrigin: new THREE.Vector3(-2, DECK_SURFACE_Y + 2, 0),
       viewDirection: new THREE.Vector3(1, -0.2, 0),
       piece: 'floor',
       rotation: 0,
@@ -158,7 +158,7 @@ describe('building polish targeting', () => {
   });
 
   it('keeps the current negative deck only around its actual adjacent boundary', () => {
-    const boundary = DECK_HEIGHT + -1.5 * 3.6;
+    const boundary = DECK_SURFACE_Y + -1.5 * 3.6;
     expect(selectAutoLevel(boundary - 0.29, -2)).toBe(-2);
     expect(selectAutoLevel(boundary + 0.29, -2)).toBe(-2);
     expect(selectAutoLevel(boundary + 0.31, -2)).toBe(-1);

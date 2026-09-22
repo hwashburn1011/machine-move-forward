@@ -789,6 +789,16 @@ export class Game implements LoopCallbacks {
           game.renderer.scene.add(crew);
         });
         try {
+          // The battle preview adds its own lights. Compile detached tactical
+          // accessories again under normal gameplay lighting, or their first
+          // appearance during boarding compiles a new full PBR program.
+          await warmAuthoredGraphics(
+            game.renderer.three,
+            game.renderer.scene,
+            warmCrewCamera,
+            encounterAssets,
+            warmCrewCamera,
+          );
           game.post.setCamera(warmCrewCamera);
           game.post.render(0, game.renderer.scene, warmCrewCamera);
           // A close camera can first occur amid eight boarding enemies. Compile
@@ -7498,7 +7508,8 @@ export class Game implements LoopCallbacks {
     if (this.machineStatus.root.hidden) return;
     if (this.state.simTime < this.nextStatusUpdateAt) return;
     this.nextStatusUpdateAt = this.state.simTime + 0.25;
-    for (const piece of this.build.serialise())
+    const pieces = this.build.serialise();
+    for (const piece of pieces)
       if (piece.definitionId === 'generator') {
         const visual = this.build.visual(piece.instanceId);
         const gauge = visual?.getObjectByName('FuelGauge');
@@ -7516,7 +7527,6 @@ export class Game implements LoopCallbacks {
       fraction: this.machine.damage.fraction(id),
       failed: this.machine.damage.health(id) <= 0,
     }));
-    const pieces = this.build.serialise();
     const shed = pieces
       .filter(
         (piece) =>

@@ -11,7 +11,7 @@ import {
   type Cell,
 } from '@/building/BuildGrid';
 import {
-  DECK_HEIGHT,
+  DECK_SURFACE_Y,
   GRID_LEVELS,
   GRID_MAX_X,
   GRID_MAX_Z,
@@ -155,7 +155,7 @@ describe('inEnvelope', () => {
 
 describe('cellCenter', () => {
   it('places level 0 on the deck plane', () => {
-    expect(cellCenter(c(0, 0, 0)).y).toBeCloseTo(DECK_HEIGHT, 6);
+    expect(cellCenter(c(0, 0, 0)).y).toBeCloseTo(DECK_SURFACE_Y, 6);
   });
 
   it('steps by LEVEL_HEIGHT per level', () => {

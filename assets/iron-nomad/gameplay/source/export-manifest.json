@@ -1,13 +1,13 @@
 {
   "full": {
-    "triangles": 606816,
-    "meshObjects": 33,
-    "materialPrimitives": 190
+    "triangles": 619228,
+    "meshObjects": 35,
+    "materialPrimitives": 196
   },
   "game": {
-    "triangles": 254828,
-    "meshObjects": 33,
-    "materialPrimitives": 190
+    "triangles": 260042,
+    "meshObjects": 35,
+    "materialPrimitives": 196
   },
   "runtimeCollisionAsset": "iron-nomad-collision.glb",
   "colliders": 0,

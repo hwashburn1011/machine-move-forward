@@ -55,8 +55,7 @@ const ENEMY_HEIGHT = bodyHeight(CAPSULE_HALF_HEIGHT, CAPSULE_RADIUS);
 const TALLEST = Math.max(PLAYER_HEIGHT, ENEMY_HEIGHT);
 
 /** Width a body needs to pass, including skin on both sides. */
-const WIDEST =
-  2 * Math.max(PLAYER_CAPSULE_RADIUS, CAPSULE_RADIUS) + 2 * CHARACTER_SKIN;
+const WIDEST = 2 * Math.max(PLAYER_CAPSULE_RADIUS, CAPSULE_RADIUS) + 2 * CHARACTER_SKIN;
 
 /**
  * Clearance we insist on beyond the bare minimum.
@@ -84,12 +83,12 @@ describe('doorway clearance', () => {
     expect(lintel.half.y * 2).toBeGreaterThan(0.2);
   });
 
-  it('measures headroom from the plate, not the floor plane', () => {
+  it('keeps the flush walking surface at the level plane', () => {
     // Guards the actual mistake: measuring from the plane looks fine while the
     // real clearance is short by exactly the plate's thickness.
     const fromPlane = lintelUnderside();
     const fromPlate = lintelUnderside() - floorPlateTop();
     expect(fromPlane - fromPlate).toBeCloseTo(floorPlateTop(), 6);
-    expect(floorPlateTop()).toBeGreaterThan(0);
+    expect(floorPlateTop()).toBeCloseTo(0, 6);
   });
 });

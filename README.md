@@ -17,7 +17,7 @@ The trailer opens in a browser player with playback controls. [Download the MP4]
 - A wrist terminal opened with **Tab** aboard the Nomad: inventory, character, workshop, machine, signal/records and build catalog. Simulation pauses while it is open; installed equipment, power and material costs still apply.
 - Refined Blender cargo, fuel can, generator, scanner, wrist device, workbench, refinery and storage models with readable labels and state indicators. [Art and layout details](docs/art/nomad-foundations/README.md).
 - Empty fuel tanks engage a smooth 20% emergency crawl so salvage remains reachable. Reel crates with **F**, then take their fuel to a generator and press **E** to refuel.
-- Seeded desert districts with 14 original ruin and wreck models: buried houses, exposed apartment towers, factories, broken overpasses, hollow cars and buses, ruptured tankers, torn billboards, pylons and water towers.
+- Seeded desert districts with 50 original Blender models: refined ruins and wrecks, industrial equipment, utility cabinets, abandoned vehicles, railway remains and roadside infrastructure. [Model gallery and performance results](docs/art/refinement-50/README.md).
 - Buildable floors, walls, doorways, rails, roofs, stairs, stations and equipment on a 2m grid.
 - Localized engine and leg damage, repair, weight, gait, rooms and enemy pathfinding over player construction.
 - Play as the detailed S-07 gunner with directional armed walking, running and crouching, visible rifle/shotgun reloads, upper-body aiming and bounded foot contact on stairs.

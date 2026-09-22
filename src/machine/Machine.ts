@@ -131,6 +131,8 @@ export class Machine {
   private writtenPose: BodyPose = REST_POSE;
   private writtenLean = 0;
   private readonly bodies: RAPIER.RigidBody[] = [];
+  /** Shared hull-local body for removable player construction. */
+  readonly constructionBody: RAPIER.RigidBody;
   private expeditionGateCollider: RAPIER.Collider | null = null;
   private expeditionGateOpen = false;
   private readonly restPositions: THREE.Vector3[] = [];
@@ -182,6 +184,10 @@ export class Machine {
     // kinematic player. Experiment 1 proved the blocker is the body TYPE:
     // one kinematic body per collider failed exactly as one shared body did.
     this.bodies = [];
+    this.constructionBody = physics.createDrivenBody();
+    this.bodies.push(this.constructionBody);
+    this.restPositions.push(new THREE.Vector3());
+    this.restRotations.push(new THREE.Quaternion());
     for (const c of build.colliders) {
       const rot =
         c.rotX === undefined

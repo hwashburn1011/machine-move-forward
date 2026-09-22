@@ -1,156 +1,702 @@
 [
   {
     "name": "ruin-house",
-    "triangles": 9604,
-    "vertices": 5036,
+    "status": "refined",
+    "detail": "Hollow roof and window bays refined with curved broken gutter, hinge fittings, exposed split bricks and smoother edge bevels.",
+    "editable_parts": 133,
+    "triangles": 17956,
+    "vertices": 9240,
     "size_m": [
       11.300697326660156,
-      9.457000732421875,
+      9.45793342590332,
       5.669192790985107
     ],
-    "lod_triangles": 3072
+    "lod_triangles": 5744
   },
   {
     "name": "ruin-shop",
-    "triangles": 7328,
-    "vertices": 3874,
+    "status": "refined",
+    "detail": "Ruined storefront with half-dropped shutter, guide channels, fascia, balcony balusters and exposed structural layers.",
+    "editable_parts": 127,
+    "triangles": 13864,
+    "vertices": 7182,
     "size_m": [
       12.171536445617676,
       10.14834976196289,
       7.3959808349609375
     ],
-    "lod_triangles": 2344
+    "lod_triangles": 4436
   },
   {
     "name": "ruin-apartment",
-    "triangles": 16536,
-    "vertices": 8696,
+    "status": "refined",
+    "detail": "Four-storey collapsed apartments with narrow balcony balusters, connected service riser and pipe clamps.",
+    "editable_parts": 249,
+    "triangles": 30976,
+    "vertices": 15960,
     "size_m": [
       16.204837799072266,
       14.07897663116455,
       13.826794624328613
     ],
-    "lod_triangles": 5290
+    "lod_triangles": 9912
   },
   {
     "name": "ruin-tower",
-    "triangles": 39968,
-    "vertices": 20950,
+    "status": "refined",
+    "detail": "Eight-storey concrete skeleton with broken masonry, reinforced balconies, continuous riser and smoother slab/column edges.",
+    "editable_parts": 558,
+    "triangles": 74792,
+    "vertices": 38462,
     "size_m": [
       18.653274536132812,
       15.030821800231934,
-      26.60749053955078
+      27.714391708374023
     ],
-    "lod_triangles": 12788
+    "lod_triangles": 23932
   },
   {
     "name": "ruin-factory",
-    "triangles": 8500,
-    "vertices": 4464,
+    "status": "refined",
+    "detail": "Open industrial hall with footed columns, anchor bolts, continuous steam return, valve and ventilation louvres.",
+    "editable_parts": 162,
+    "triangles": 19128,
+    "vertices": 9876,
     "size_m": [
       23.0067138671875,
       15.629833221435547,
       12.312044143676758
     ],
-    "lod_triangles": 2720
+    "lod_triangles": 6120
   },
   {
     "name": "overpass",
-    "triangles": 2132,
-    "vertices": 1192,
+    "status": "refined",
+    "detail": "Broken road sections with load-bearing pier footings, concrete parapet curbs and dangling reinforcement.",
+    "editable_parts": 97,
+    "triangles": 4364,
+    "vertices": 2376,
     "size_m": [
       26.875749588012695,
       9.90377426147461,
       10.116450309753418
     ],
-    "lod_triangles": 682
+    "lod_triangles": 1396
   },
   {
     "name": "wreck-car",
-    "triangles": 8780,
-    "vertices": 4546,
+    "status": "refined",
+    "detail": "Hollow rusted car with smoother body edges, curved exhaust, full axles, leaf springs and bent mirror arms.",
+    "editable_parts": 108,
+    "triangles": 15072,
+    "vertices": 7730,
     "size_m": [
-      4.133068084716797,
-      5.919029235839844,
+      4.133731842041016,
+      5.919131278991699,
       2.179999351501465
     ],
-    "lod_triangles": 2808
+    "lod_triangles": 4822
   },
   {
     "name": "wreck-bus",
-    "triangles": 12060,
-    "vertices": 6282,
+    "status": "refined",
+    "detail": "Hollow bus with seats, detailed undercarriage, mirrors, exhaust and interior overhead grab rails.",
+    "editable_parts": 161,
+    "triangles": 22280,
+    "vertices": 11442,
     "size_m": [
-      4.901123046875,
-      10.686416625976562,
+      4.901240348815918,
+      10.836944580078125,
       3.9985311031341553
     ],
-    "lod_triangles": 3858
+    "lod_triangles": 7128
   },
   {
     "name": "wreck-tanker",
-    "triangles": 13296,
-    "vertices": 6866,
+    "status": "refined",
+    "detail": "Ruptured tanker shell with open bore, ribs, service valve, analog gauge and manway.",
+    "editable_parts": 156,
+    "triangles": 20712,
+    "vertices": 10666,
     "size_m": [
-      6.645149230957031,
+      6.644961357116699,
       8.300000190734863,
-      2.990000009536743
+      3.0899999141693115
     ],
-    "lod_triangles": 4254
+    "lod_triangles": 6627
   },
   {
     "name": "billboard",
-    "triangles": 1372,
-    "vertices": 796,
+    "status": "refined",
+    "detail": "Torn continuous-UV advertising sheets with bolted anchor flanges, face fixings and supported floodlights.",
+    "editable_parts": 87,
+    "triangles": 3876,
+    "vertices": 2112,
     "size_m": [
       9.359999656677246,
-      1.8658599853515625,
+      2.130859851837158,
       10.128000259399414
     ],
-    "lod_triangles": 438
+    "lod_triangles": 1240
   },
   {
     "name": "water-sign",
-    "triangles": 1372,
-    "vertices": 796,
+    "status": "refined",
+    "detail": "Weathered civil-reserve sign with real torn sheets, anchor flanges, bolts and mounting hardware.",
+    "editable_parts": 81,
+    "triangles": 2388,
+    "vertices": 1356,
     "size_m": [
       7.28000020980835,
       1.8654605150222778,
       8.227999687194824
     ],
-    "lod_triangles": 438
+    "lod_triangles": 764
   },
   {
     "name": "road-sign",
-    "triangles": 1372,
-    "vertices": 796,
+    "status": "refined",
+    "detail": "Damaged wayfinding panel with reinforced footing mounts, fasteners and smooth round support pipes.",
+    "editable_parts": 81,
+    "triangles": 2388,
+    "vertices": 1356,
     "size_m": [
       3.640000104904175,
       1.8637745380401611,
       5.127999782562256
     ],
-    "lod_triangles": 438
+    "lod_triangles": 764
   },
   {
     "name": "pylon",
-    "triangles": 7096,
-    "vertices": 3640,
+    "status": "refined",
+    "detail": "Lattice power pylon with concrete foundations, steel anchoring plates, aligned splice plates and porcelain insulators.",
+    "editable_parts": 98,
+    "triangles": 10424,
+    "vertices": 5368,
     "size_m": [
       7.507547378540039,
-      4.016724109649658,
+      4.670001029968262,
       18.051298141479492
     ],
-    "lod_triangles": 2270
+    "lod_triangles": 3334
   },
   {
     "name": "water-tower",
-    "triangles": 1320,
-    "vertices": 680,
+    "status": "refined",
+    "detail": "Elevated water tank with smooth dished roof, exterior ladder, properly attached stand-offs, footings and overflow pipe.",
+    "editable_parts": 78,
+    "triangles": 6452,
+    "vertices": 3436,
     "size_m": [
-      5.800000190734863,
-      5.800000190734863,
-      13.509011268615723
+      6.587146759033203,
+      5.977781295776367,
+      14.379011154174805
     ],
-    "lod_triangles": 422
+    "lod_triangles": 2064
+  },
+  {
+    "name": "wreck-pickup",
+    "status": "new",
+    "detail": "Open cargo bed, dropped tailgate, curved cab, seats, dashboard, lugs, leaf springs and exhaust.",
+    "editable_parts": 228,
+    "triangles": 39604,
+    "vertices": 20436,
+    "size_m": [
+      2.4049997329711914,
+      5.656681060791016,
+      2.103999376296997
+    ],
+    "lod_triangles": 12672
+  },
+  {
+    "name": "wreck-ambulance",
+    "status": "new",
+    "detail": "Hollow medical van, open rear doors, stretcher, raised medical emblems and rounded emergency beacons.",
+    "editable_parts": 199,
+    "triangles": 34416,
+    "vertices": 17808,
+    "size_m": [
+      3.19370698928833,
+      6.076678276062012,
+      2.9539999961853027
+    ],
+    "lod_triangles": 11013
+  },
+  {
+    "name": "wreck-forklift",
+    "status": "new",
+    "detail": "Counterweight, guarded operator station, twin-channel lifting mast, hydraulic ram, hoses and grounded forks.",
+    "editable_parts": 177,
+    "triangles": 29640,
+    "vertices": 15316,
+    "size_m": [
+      2.1449999809265137,
+      4.605000019073486,
+      3.123999834060669
+    ],
+    "lod_triangles": 9484
+  },
+  {
+    "name": "survey-rover",
+    "status": "new",
+    "detail": "Six wheel survey platform, paired optics, lidar, solar wings, sampling arm and suspension.",
+    "editable_parts": 259,
+    "triangles": 42320,
+    "vertices": 21932,
+    "size_m": [
+      2.740598201751709,
+      3.9091310501098633,
+      3.1740000247955322
+    ],
+    "lod_triangles": 13541
+  },
+  {
+    "name": "rail-bogie",
+    "status": "new",
+    "detail": "Flanged steel wheels, leaf/cast frame, coil springs, brake rods and wagon swivel.",
+    "editable_parts": 32,
+    "triangles": 8356,
+    "vertices": 4392,
+    "size_m": [
+      2.200000047683716,
+      2.799999952316284,
+      1.1800000667572021
+    ],
+    "lod_triangles": 2673
+  },
+  {
+    "name": "container-wagon",
+    "status": "new",
+    "detail": "Two bogies, corrugated open freight container, locking bars, cast corners and knuckle couplers.",
+    "editable_parts": 127,
+    "triangles": 28268,
+    "vertices": 14688,
+    "size_m": [
+      4.279874801635742,
+      9.399999618530273,
+      3.740000009536743
+    ],
+    "lod_triangles": 9044
+  },
+  {
+    "name": "fuel-trailer",
+    "status": "new",
+    "detail": "Dished strapped tank, tow eye, jack, metering gauge, dispensing hose and chassis.",
+    "editable_parts": 98,
+    "triangles": 17048,
+    "vertices": 8860,
+    "size_m": [
+      2.197000026702881,
+      4.6479997634887695,
+      2.373999834060669
+    ],
+    "lod_triangles": 5454
+  },
+  {
+    "name": "culvert",
+    "status": "new",
+    "detail": "Thick open concrete bore, expansion collars, wing walls, broken inlet grate and rubble.",
+    "editable_parts": 20,
+    "triangles": 2136,
+    "vertices": 1156,
+    "size_m": [
+      4.514934539794922,
+      5.756938934326172,
+      2.7135813236236572
+    ],
+    "lod_triangles": 682
+  },
+  {
+    "name": "transformer",
+    "status": "new",
+    "detail": "Oil housing, radiator fins, porcelain bushings, conservator, valves and earth braid.",
+    "editable_parts": 78,
+    "triangles": 13024,
+    "vertices": 6708,
+    "size_m": [
+      2.9000000953674316,
+      2.75,
+      2.680000066757202
+    ],
+    "lod_triangles": 4167
+  },
+  {
+    "name": "fuel-pump",
+    "status": "new",
+    "detail": "Rounded enamel pump, mechanical counter, analog gauge, hanging hose and metal nozzle.",
+    "editable_parts": 35,
+    "triangles": 4324,
+    "vertices": 2232,
+    "size_m": [
+      1.7629708051681519,
+      1.0700000524520874,
+      2.1399998664855957
+    ],
+    "lod_triangles": 1382
+  },
+  {
+    "name": "utility-cabinet",
+    "status": "new",
+    "detail": "Double service doors, hinges, recessed handles, switchgear, vent louvres and buried conduits.",
+    "editable_parts": 64,
+    "triangles": 7320,
+    "vertices": 3788,
+    "size_m": [
+      1.7000000476837158,
+      1.2618513107299805,
+      2.325000047683716
+    ],
+    "lod_triangles": 2342
+  },
+  {
+    "name": "telecom-cabinet",
+    "status": "new",
+    "detail": "Vented telecom doors, radio receiver, roof aerials, coax and service footings.",
+    "editable_parts": 64,
+    "triangles": 7656,
+    "vertices": 3956,
+    "size_m": [
+      1.7639164924621582,
+      1.2618513107299805,
+      4.100797653198242
+    ],
+    "lod_triangles": 2448
+  },
+  {
+    "name": "condenser",
+    "status": "new",
+    "detail": "Twin curved fan impellers, protective grilles, exchanger fins, skid and refrigerant lines.",
+    "editable_parts": 46,
+    "triangles": 7032,
+    "vertices": 3592,
+    "size_m": [
+      3.1033644676208496,
+      1.440000057220459,
+      1.5100001096725464
+    ],
+    "lod_triangles": 2250
+  },
+  {
+    "name": "satellite-dish",
+    "status": "new",
+    "detail": "Concave rolled paraboloid, focal receiver, three support struts, yoke and coax.",
+    "editable_parts": 31,
+    "triangles": 3732,
+    "vertices": 1980,
+    "size_m": [
+      2.753999948501587,
+      2.190000057220459,
+      3.5769999027252197
+    ],
+    "lod_triangles": 1194
+  },
+  {
+    "name": "light-tower",
+    "status": "new",
+    "detail": "Towed generator, telescopic mast, four floodlights, stabilizer jacks and cable.",
+    "editable_parts": 104,
+    "triangles": 17392,
+    "vertices": 8976,
+    "size_m": [
+      2.9800000190734863,
+      1.899999976158142,
+      6.434000015258789
+    ],
+    "lod_triangles": 5564
+  },
+  {
+    "name": "diesel-generator",
+    "status": "new",
+    "detail": "Bevelled enclosure, service panels, gauges, cooling louvres, muffler and bolted skid.",
+    "editable_parts": 44,
+    "triangles": 6092,
+    "vertices": 3164,
+    "size_m": [
+      2.059999942779541,
+      3.0,
+      2.4262125492095947
+    ],
+    "lod_triangles": 1949
+  },
+  {
+    "name": "air-compressor",
+    "status": "new",
+    "detail": "Dished receiver tank, motor, finned twin cylinders, copper lines, regulator and hose.",
+    "editable_parts": 35,
+    "triangles": 8040,
+    "vertices": 4144,
+    "size_m": [
+      1.793274164199829,
+      2.9000000953674316,
+      2.140850782394409
+    ],
+    "lod_triangles": 2572
+  },
+  {
+    "name": "fire-hydrant",
+    "status": "new",
+    "detail": "Smooth cast barrel, domed crown, hex caps, retaining chains and anchor flange.",
+    "editable_parts": 33,
+    "triangles": 2824,
+    "vertices": 1524,
+    "size_m": [
+      0.9099999666213989,
+      0.9099999666213989,
+      1.2400000095367432
+    ],
+    "lod_triangles": 902
+  },
+  {
+    "name": "bulk-fuel-tank",
+    "status": "new",
+    "detail": "Large dished vessel, straps, saddles, ladder, delivery riser, gauge and rail.",
+    "editable_parts": 55,
+    "triangles": 5976,
+    "vertices": 3168,
+    "size_m": [
+      3.8450000286102295,
+      6.599999904632568,
+      3.559999942779541
+    ],
+    "lod_triangles": 1912
+  },
+  {
+    "name": "cargo-pallet",
+    "status": "new",
+    "detail": "Runner-supported wood pallet, individual boards, banded cases, lifting pockets and top crate.",
+    "editable_parts": 29,
+    "triangles": 4108,
+    "vertices": 2112,
+    "size_m": [
+      1.65500009059906,
+      1.4500000476837158,
+      1.4249999523162842
+    ],
+    "lod_triangles": 1314
+  },
+  {
+    "name": "cable-spool",
+    "status": "new",
+    "detail": "Wood flanges, steel rims, nineteen cable turns, fasteners and loose grounded tail.",
+    "editable_parts": 34,
+    "triangles": 7460,
+    "vertices": 3756,
+    "size_m": [
+      2.8079726696014404,
+      1.8300000429153442,
+      1.3323333263397217
+    ],
+    "lod_triangles": 2386
+  },
+  {
+    "name": "road-barrier",
+    "status": "new",
+    "detail": "Concrete Jersey profile, lifting eyes, reflectors and exposed coupling pins.",
+    "editable_parts": 7,
+    "triangles": 1068,
+    "vertices": 544,
+    "size_m": [
+      0.8600000143051147,
+      3.2320001125335693,
+      1.0730000734329224
+    ],
+    "lod_triangles": 340
+  },
+  {
+    "name": "signal-gantry",
+    "status": "new",
+    "detail": "Footed lattice gantry, twin direction panels, mounting tubes and maintenance ladder.",
+    "editable_parts": 68,
+    "triangles": 3392,
+    "vertices": 1832,
+    "size_m": [
+      9.0,
+      1.2999999523162842,
+      6.565000057220459
+    ],
+    "lod_triangles": 1084
+  },
+  {
+    "name": "bus-shelter",
+    "status": "new",
+    "detail": "Curved roof, tubular frame, slatted bench, faded route map and jagged retained glazing.",
+    "editable_parts": 44,
+    "triangles": 3600,
+    "vertices": 1890,
+    "size_m": [
+      4.699999809265137,
+      2.0,
+      2.979999303817749
+    ],
+    "lod_triangles": 1152
+  },
+  {
+    "name": "crane-pedestal",
+    "status": "new",
+    "detail": "Bolted slew bearing, lattice boom, ram, counterweight, hanging cable and forged hook.",
+    "editable_parts": 55,
+    "triangles": 3872,
+    "vertices": 2100,
+    "size_m": [
+      3.5,
+      5.505000114440918,
+      4.6410088539123535
+    ],
+    "lod_triangles": 1238
+  },
+  {
+    "name": "wreck-motorcycle",
+    "status": "new",
+    "detail": "Tubular frame, smooth tank, finned engine, forks, headlight, bent bars, exhaust and kickstand.",
+    "editable_parts": 82,
+    "triangles": 14892,
+    "vertices": 7712,
+    "size_m": [
+      0.869255542755127,
+      2.6680002212524414,
+      1.3257497549057007
+    ],
+    "lod_triangles": 4765
+  },
+  {
+    "name": "ventilation-turbine",
+    "status": "new",
+    "detail": "Twenty-four rolled curved vanes, hollow ventilator, hub cap and roof curb.",
+    "editable_parts": 47,
+    "triangles": 2556,
+    "vertices": 1440,
+    "size_m": [
+      1.4599663019180298,
+      1.4599663019180298,
+      1.649999976158142
+    ],
+    "lod_triangles": 816
+  },
+  {
+    "name": "pump-skid",
+    "status": "new",
+    "detail": "Finned motor, centrifugal volute, elbowed suction pipe, flanges, valve and gauge.",
+    "editable_parts": 32,
+    "triangles": 4352,
+    "vertices": 2272,
+    "size_m": [
+      2.055000066757202,
+      3.0416507720947266,
+      1.415000081062317
+    ],
+    "lod_triangles": 1392
+  },
+  {
+    "name": "scrapyard-magnet",
+    "status": "new",
+    "detail": "Profiled steel electromagnet, radial cooling ribs, lifting lugs, chain sling and power lead.",
+    "editable_parts": 42,
+    "triangles": 5900,
+    "vertices": 3080,
+    "size_m": [
+      2.3650152683258057,
+      2.431650400161743,
+      1.6775550842285156
+    ],
+    "lod_triangles": 1888
+  },
+  {
+    "name": "radar-tower",
+    "status": "new",
+    "detail": "Braced lattice mast, azimuth bearing, slotted waveguide array, access ladder and control box.",
+    "editable_parts": 70,
+    "triangles": 4008,
+    "vertices": 2144,
+    "size_m": [
+      3.4000000953674316,
+      2.799999952316284,
+      6.470000267028809
+    ],
+    "lod_triangles": 1282
+  },
+  {
+    "name": "fallen-antenna",
+    "status": "new",
+    "detail": "Collapsed lattice mast, bent Yagi elements, torn mounting flange and trailing coax.",
+    "editable_parts": 38,
+    "triangles": 2064,
+    "vertices": 1108,
+    "size_m": [
+      3.4097259044647217,
+      6.494982719421387,
+      1.326775074005127
+    ],
+    "lod_triangles": 660
+  },
+  {
+    "name": "bunker-entrance",
+    "status": "new",
+    "detail": "Thick concrete portal, stiffened vault door, hinges, locking wheel, steps and vent.",
+    "editable_parts": 45,
+    "triangles": 5144,
+    "vertices": 2660,
+    "size_m": [
+      4.400000095367432,
+      3.309999942779541,
+      3.86711049079895
+    ],
+    "lod_triangles": 1646
+  },
+  {
+    "name": "grain-silo",
+    "status": "new",
+    "detail": "Smooth conical cap, rolled shell corrugations, safety ladder, grain auger and roof breather.",
+    "editable_parts": 78,
+    "triangles": 13216,
+    "vertices": 6760,
+    "size_m": [
+      5.952152729034424,
+      5.23900032043457,
+      7.650000095367432
+    ],
+    "lod_triangles": 4228
+  },
+  {
+    "name": "storm-drain",
+    "status": "new",
+    "detail": "Concrete kerb, open metal grate with missing and bent bars, recessed well and broken rubble.",
+    "editable_parts": 25,
+    "triangles": 4164,
+    "vertices": 2132,
+    "size_m": [
+      2.5404014587402344,
+      3.288283348083496,
+      0.8023331165313721
+    ],
+    "lod_triangles": 1332
+  },
+  {
+    "name": "street-lamp",
+    "status": "new",
+    "detail": "Tapered standard, curved swan neck, rounded luminaire, diffuser, service hatch and anchors.",
+    "editable_parts": 30,
+    "triangles": 2916,
+    "vertices": 1548,
+    "size_m": [
+      0.9500000476837158,
+      2.380000114440918,
+      6.185213088989258
+    ],
+    "lod_triangles": 932
+  },
+  {
+    "name": "rail-crossing",
+    "status": "new",
+    "detail": "Crossbuck, hooded dual signal lamps, broken striped gate, actuator and junction box.",
+    "editable_parts": 38,
+    "triangles": 4208,
+    "vertices": 2248,
+    "size_m": [
+      3.7797188758850098,
+      1.2699999809265137,
+      4.137370586395264
+    ],
+    "lod_triangles": 1345
   }
 ]

@@ -100,10 +100,13 @@ describe('desert scenery', () => {
     expect(dispose).toHaveBeenCalledTimes(1);
   });
 
-  it('ships all original archetypes and aligned LODs with a valid base-color image', () => {
+  it('ships all 50 complete archetypes and aligned LODs with a single shared atlas', () => {
     const bytes = readFileSync('public/models/props/ruins/desert-ruins.glb');
     const gltf = JSON.parse(bytes.toString('utf8', 20, 20 + bytes.readUInt32LE(12)));
-    expect(bytes.byteLength).toBeLessThan(10_000_000);
+    expect(DESERT_ARCHETYPES).toHaveLength(50);
+    // Expanded from 14 to 50 detailed assemblies; a bounded shared download,
+    // with no new per-instance materials or textures.
+    expect(bytes.byteLength).toBeLessThan(36_000_000);
     expect(gltf.materials).toHaveLength(1);
     const names = new Set(gltf.nodes.map((node: { name: string }) => node.name));
     for (const name of DESERT_ARCHETYPES) {
