@@ -1,0 +1,30 @@
+; Native Machine Move Forward. Asset preparation: node tools/godot/prepare.mjs
+config_version=5
+
+[application]
+config/name="Machine Move Forward — Native"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+config/description="Native Godot port of Machine Move Forward"
+
+[display]
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1440
+window/size/window_height_override=810
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="forward_plus"
+renderer/rendering_method.mobile="mobile"
+textures/default_filters/use_nearest_mipmap_filter=false
+anti_aliasing/quality/msaa_3d=2
+environment/defaults/default_clear_color=Color(0.35, 0.26, 0.17, 1)
+
+[physics]
+common/physics_ticks_per_second=60
+common/physics_interpolation=true
+3d/default_gravity=22.0
+
+[debug]
+gdscript/warnings/inference_on_variant=0
