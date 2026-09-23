@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
+import { cloneRig as cloneSkinned } from './CloneRig';
 import {
   loadModel,
   prefetchModel,

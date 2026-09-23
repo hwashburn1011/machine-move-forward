@@ -1,0 +1,221 @@
+{
+  "parity": {
+    "primitives": 110,
+    "sharedPalettes": 9,
+    "views": [
+      {
+        "name": "combat-deck",
+        "changedChannels": 0,
+        "maximumError": 0,
+        "before": {
+          "calls": 1678,
+          "triangles": 6362792
+        },
+        "after": {
+          "calls": 1678,
+          "triangles": 6362792
+        }
+      },
+      {
+        "name": "gunner-close",
+        "changedChannels": 0,
+        "maximumError": 0,
+        "before": {
+          "calls": 1303,
+          "triangles": 5579105
+        },
+        "after": {
+          "calls": 1303,
+          "triangles": 5579105
+        }
+      },
+      {
+        "name": "mech-lineup",
+        "changedChannels": 0,
+        "maximumError": 0,
+        "before": {
+          "calls": 986,
+          "triangles": 3960272
+        },
+        "after": {
+          "calls": 986,
+          "triangles": 3960272
+        }
+      },
+      {
+        "name": "workshop",
+        "changedChannels": 0,
+        "maximumError": 0,
+        "before": {
+          "calls": 998,
+          "triangles": 3807206
+        },
+        "after": {
+          "calls": 998,
+          "triangles": 3807206
+        }
+      }
+    ]
+  },
+  "timings": [
+    {
+      "enabled": false,
+      "cpuMs": {
+        "mean": 7.731666666455567,
+        "p95": 10.400000005960464,
+        "samples": 120
+      },
+      "gpuMs": {
+        "mean": 9.784009866666663,
+        "p95": 11.191296,
+        "samples": 120
+      },
+      "paletteUpdatesPerFrame": 220
+    },
+    {
+      "enabled": true,
+      "cpuMs": {
+        "mean": 6.398333333370586,
+        "p95": 7.199999995529652,
+        "samples": 120
+      },
+      "gpuMs": {
+        "mean": 8.786133333333334,
+        "p95": 9.003008,
+        "samples": 120
+      },
+      "paletteUpdatesPerFrame": 18
+    },
+    {
+      "enabled": true,
+      "cpuMs": {
+        "mean": 6.371666666865349,
+        "p95": 7.100000001490116,
+        "samples": 120
+      },
+      "gpuMs": {
+        "mean": 8.784238933333336,
+        "p95": 9.033728,
+        "samples": 120
+      },
+      "paletteUpdatesPerFrame": 18
+    },
+    {
+      "enabled": false,
+      "cpuMs": {
+        "mean": 7.02583333303531,
+        "p95": 7.700000002980232,
+        "samples": 120
+      },
+      "gpuMs": {
+        "mean": 9.48727466666667,
+        "p95": 9.759744,
+        "samples": 120
+      },
+      "paletteUpdatesPerFrame": 220
+    }
+  ],
+  "recycling": [
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    },
+    {
+      "live": {
+        "geometries": 470,
+        "textures": 379
+      },
+      "retired": {
+        "geometries": 470,
+        "textures": 377
+      }
+    }
+  ],
+  "errors": []
+}
