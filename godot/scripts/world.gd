@@ -47,6 +47,7 @@ func sync_progress():
 var machine: Node3D
 var native_access: Node3D
 var native_dressing: Node3D
+var canopy=MMFMachineCanopy.new()
 var parts = []
 var rotor: Node3D
 var seed_value = 0
@@ -60,6 +61,7 @@ func setup(owner_game):
 	add_child(machine)
 	native_access=MMFMachineAccess.install(self)
 	native_dressing=MMFMachineDressing.install(machine)
+	canopy.install(machine)
 	gait.setup(game,machine)
 	for raw in game.runtime.colliders:
 		var body=MMFAssets.collider(self,raw)
@@ -168,6 +170,7 @@ func refresh_chunks(force: bool=false):
 func update(dt: float):
 	sync_progress()
 	atmosphere.update(dt)
+	canopy.update(dt,game.session.weather.intensity)
 	var scanner=game.session.scanner
 	receiver.visible=game.session.facts.salvage
 	var receiver_layer=1 if receiver.visible else 0

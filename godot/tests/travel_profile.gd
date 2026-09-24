@@ -105,4 +105,6 @@ func run():
 	var file=FileAccess.open(output,FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("TRAVEL_PROFILE ",report.frameMs," slow frame count=",slow_frames.size()," slow main tick count=",slow_ticks.size())
 	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.05).timeout
-	game.queue_free();await create_timer(.1).timeout;MMFAssets.cache.clear();call_deferred("quit")
+	var drain=load("res://tests/audio_drain.gd");var refs=drain.capture(game.audio)
+	game.queue_free();while is_instance_valid(game):await process_frame
+	await drain.finish(self,refs);MMFAssets.cache.clear();call_deferred("quit")

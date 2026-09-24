@@ -110,7 +110,7 @@ func setup(owner_game):
 	arm = SpringArm3D.new()
 	arm.spring_length = 4.0
 	arm.margin = 0.18
-	arm.collision_mask = 1
+	arm.collision_mask = 1 | MMFMachineCanopy.CAMERA_LAYER
 	var sphere = SphereShape3D.new()
 	sphere.radius = 0.22
 	arm.shape = sphere

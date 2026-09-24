@@ -62,5 +62,7 @@ func run():
 	check(game.combat.crew.size()==2 and game.combat.crew[0].kind=="raider","Guided skiff carries original raiders")
 	check(game.combat.crew[0].mission=="sabotage" and game.combat.crew[0].mission_subsystem=="engine","Legacy raiders prioritize the engine")
 	var f=FileAccess.open(output+"traversal.json",FileAccess.WRITE);f.store_string(JSON.stringify({"failures":failures,"passed":failures.is_empty()},"\t"));f.close()
-	game.queue_free();await create_timer(.1).timeout
-	MMFAssets.cache.clear();quit(0 if failures.is_empty() else 1)
+	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.02).timeout
+	var drain=load("res://tests/audio_drain.gd");var refs=drain.capture(game.audio)
+	game.queue_free();while is_instance_valid(game):await process_frame
+	await drain.finish(self,refs);MMFAssets.cache.clear();quit(0 if failures.is_empty() else 1)

@@ -218,3 +218,15 @@ Starting state: `d2408ee`. The preceding turn made verified progress on opening 
 4. Check actual rendered triangle clearance, original chase corridors, full-body framing, final skeleton aim, camera handoff and gameplay regressions. Compare native GPU cost and real opening timing without screenshot interference.
 
 Iteration review: [opening polish](opening-polish-review.md). All 474 selected assertions pass. The three asset comparison views change median GPU time by −0.015, −0.014 and +0.051 ms; the real-time opening still starts in 2.112 ms with an 18.460 ms maximum frame in the clean 60 FPS sample. This is verified progress within the existing story. The overall goal remains active, including adjacent pressure fittings, canopy fabric, full-campaign feel and older intermittent stalls that have not yet been reproduced reliably.
+
+## Completed iteration: repaired canvas and camera clearance
+
+Starting state: `67d01a1`. The preceding turn made verified progress on opening presentation. Native views show the main canopy as a plain sheet; inspect its actual support and refine its existing fabric assembly.
+
+1. Audit the Blender master and frozen batches, preserving all four grounded posts and unrelated banner/service hardware.
+2. Author sewn canvas panels, restrained wrinkles/weathering, folded hems, reinforced corners, repairs and fitted tensioners in Blender. Retain editable source and batch the runtime art.
+3. Add subtle shader billow that keeps corners/seams attached and pauses with the game. Correct exported vertex-color channel selection using actual imported data.
+4. Reproduce 14 camera penetrations across 64 views beneath the canopy. Add a coarse camera-only surface, exclude it from walking/shooting/navigation, and verify all views against neutral/extreme fabric heights.
+5. Inspect native and MCP output, compare GPU cost, run gameplay/control regressions, and trace final real-time travel. Use the established audio-drain helper for test shutdowns.
+
+Iteration review: [canopy](canopy-review.md). All 494 selected assertions pass; no tested camera paths cross the fabric. Detailed canvas adds 0.066–0.197 ms median GPU in matched fixed views. The separate final travel trace has a 9.885 ms maximum after its initial three seconds, while still showing an initial 267.265 ms render frame. This is verified model/control progress, not a claim that the broader performance investigation is complete. The overall goal remains active: nearby pressure fittings, full-campaign feel and independently observed intermittent stalls remain open.

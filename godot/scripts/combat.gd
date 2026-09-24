@@ -43,6 +43,8 @@ func setup(owner_game):
 	NavigationServer3D.map_set_cell_size(game.get_world_3d().navigation_map,0.2)
 	NavigationServer3D.map_set_cell_height(game.get_world_3d().navigation_map,0.05)
 	mesh.geometry_parsed_geometry_type=NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
+	# Fabric has camera-only obstruction, not a walkable rooftop or enemy cover.
+	mesh.geometry_collision_mask &= ~MMFMachineCanopy.CAMERA_LAYER
 	mesh.geometry_source_geometry_mode=NavigationMesh.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
 	mesh.geometry_source_group_name="navigation_source"
 	mesh.filter_baking_aabb=AABB(Vector3(-20,7,-20),Vector3(40,16,40))
