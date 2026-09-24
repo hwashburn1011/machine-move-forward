@@ -56,8 +56,13 @@ func run():
 	check(active_coverage(),"Unexpected large relocation synchronously fills the complete visible scene")
 	await prepare_all()
 	check(stream.ready.size()==3,"Away from a side boundary only one forward row stays cached")
-	game.world.refresh_chunks(true);stream.prepare(1)
-	check(stream.pending!=null,"A tiny preparation slice can stop between authored pieces")
+	game.world.refresh_chunks(true)
+	# Seed one real builder step deterministically. A one-microsecond wall-clock
+	# slice can expire before doing any work on a busy host, testing scheduling
+	# noise instead of resumability and cancellation.
+	stream.pending=MMFSceneryChunk.new(game.world,stream.requests.pop_front())
+	var incomplete=not stream.pending.step()
+	check(incomplete and stream.pending!=null,"Preparation can stop between authored pieces")
 	var cancelled=weakref(stream.pending.root) if stream.pending else null
 	game.session.distance+=6400;game.world.update(1.0/60)
 	check(cancelled!=null and cancelled.get_ref()==null,"An obsolete unfinished chunk is freed on relocation")

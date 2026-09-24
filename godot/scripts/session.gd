@@ -305,7 +305,8 @@ func tick(dt: float, stable: bool = true, aboard: bool = true):
 	course = move_toward(course, target_course, dt*1.5)
 	lateral += sin(deg_to_rad(course))*speed*dt
 	if opening_done:
-		hydration = maxf(0, hydration - dt*float(data.HYDRATION_DRAIN_PER_S)*(1+(0 if sheltered else weather.intensity*0.5)))
+		# Weather changes visibility and ambience, not resource consumption.
+		hydration = maxf(0, hydration - dt*float(data.HYDRATION_DRAIN_PER_S))
 		nourishment = maxf(0, nourishment - dt*float(data.NOURISHMENT_DRAIN_PER_S))
 	if scanner.phase == "scanning" and stable and aboard and health>0 and attack_recent <= 0 and powered.get("fixed-radio",false):
 		scanner.elapsedS = minf(180, scanner.elapsedS+dt)

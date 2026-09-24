@@ -1,4 +1,4 @@
-param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$DriveProfile, [switch]$TravelProfile, [switch]$AutosaveTest, [switch]$AutosaveProfile, [switch]$MotionAudit, [switch]$LocomotionTest, [switch]$LocomotionProfile, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
+param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$DesertTest, [switch]$DesertProfile, [switch]$DesertReview, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$DriveProfile, [switch]$TravelProfile, [switch]$AutosaveTest, [switch]$AutosaveProfile, [switch]$MotionAudit, [switch]$LocomotionTest, [switch]$LocomotionProfile, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
 $ErrorActionPreference = 'Stop'
 $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $Godot) {
@@ -22,6 +22,9 @@ elseif ($AuditTest) { $arguments += @('--script', 'tests/audit_parity.gd') }
 elseif ($StoryTest) { $arguments += @('--script', 'tests/story_polish.gd') }
 elseif ($PacingTest) { $arguments += @('--script', 'tests/journey_pacing.gd') }
 elseif ($AtmosphereTest) { $arguments += @('--script', 'tests/atmosphere_effects.gd') }
+elseif ($DesertTest) { $arguments += @('--script', 'tests/desert_life.gd') }
+elseif ($DesertProfile) { $arguments += @('--script', 'tests/desert_review.gd') }
+elseif ($DesertReview) { $arguments += @('--script', 'tests/desert_close_review.gd') }
 elseif ($TerrainTest) { $arguments += @('--script', 'tests/dune_parity.gd') }
 elseif ($CameraTest) { $arguments += @('--script', 'tests/camera_clearance.gd') }
 elseif ($AccessTest) { $arguments += @('--script', 'tests/machine_access.gd') }

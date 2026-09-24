@@ -416,3 +416,7 @@ or paid generation services were used; existing third-party licences are unchang
 ## Native grounded character movement
 
 `godot/art/s07-locomotion.res` contains 24 original Blender-authored skeletal clips, covering eight directions in three gaits. The detailed character geometry, textures and original browser animations remain unchanged. The [native motion source](assets/native-motion/README.md) includes an editable packed Blender file, neutral-light renders, source hash and reproducible import scripts. No external assets or paid generation services were used.
+
+## Native desert ground detail
+
+`godot/art/desert-ground-life.glb` contains seven original Blender assemblies: two dry shrubs, a bent root snag, a wind-shaped tuft, two scoured stones and a gravel fan. The [source kit](assets/native-desert/README.md) retains the editable source, render, manifest and generator. Native instancing, vertex-colour materials and pinned-root wind shaders place them sparsely against the actual dune surface. No downloaded models or new third-party textures were used.

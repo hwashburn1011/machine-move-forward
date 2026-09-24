@@ -1,0 +1,43 @@
+{
+  "weatherAndPlacement": {
+    "checks": 27,
+    "failures": [],
+    "passed": true,
+    "sampledProps": 136,
+    "triangles": 26660
+  },
+  "integration": {
+    "checks": 108,
+    "failures": [],
+    "passed": true,
+    "renderer": ""
+  },
+  "streaming": {
+    "checks": 18,
+    "failures": [],
+    "passed": true
+  },
+  "atmosphere": {
+    "checks": 26,
+    "enqueue1500EffectsUsec": 2216,
+    "failures": [],
+    "passed": true,
+    "renderer": "NVIDIA GeForce RTX 3070"
+  },
+  "sceneryContract": {
+    "checks": 54,
+    "failures": [],
+    "passed": true
+  },
+  "terrainGPU": {
+    "maxErrorByDistanceMeters": {
+      "0": 2.94076960173362E-05,
+      "1000": 4.51171282107588E-05,
+      "10000": 0.000503368640177637,
+      "50000": 0.00260883032369641
+    },
+    "maxErrorMeters": 0.00260883032369641,
+    "meanErrorMeters": 7.22292664510371E-05,
+    "samples": 4096
+  }
+}

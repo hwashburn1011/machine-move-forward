@@ -1,0 +1,62 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"quality": "high / Forward+ / Vulkan / 4x MSAA / VSync off",
+	"resolution": "(1920, 1080)",
+	"seed": "mmf-default-seed",
+	"views": {
+		"lower": {
+			"drawCalls": {
+				"max": 1127.0,
+				"median": 1127.0,
+				"p95": 1127.0
+			},
+			"frameMs": {
+				"max": 30.32,
+				"median": 3.317,
+				"p95": 4.141
+			},
+			"gpuMs": {
+				"max": 3.81500005722046,
+				"median": 2.84599995613098,
+				"p95": 3.31699991226196
+			},
+			"samples": 1418
+		},
+		"storm": {
+			"drawCalls": {
+				"max": 1127.0,
+				"median": 1127.0,
+				"p95": 1127.0
+			},
+			"frameMs": {
+				"max": 30.066,
+				"median": 3.31,
+				"p95": 4.112
+			},
+			"gpuMs": {
+				"max": 3.6489999294281,
+				"median": 2.84299993515015,
+				"p95": 3.29999995231628
+			},
+			"samples": 1428
+		},
+		"upper": {
+			"drawCalls": {
+				"max": 941.0,
+				"median": 941.0,
+				"p95": 941.0
+			},
+			"frameMs": {
+				"max": 29.813,
+				"median": 3.885,
+				"p95": 4.976
+			},
+			"gpuMs": {
+				"max": 4.4210000038147,
+				"median": 3.37199997901917,
+				"p95": 3.91599988937378
+			},
+			"samples": 1207
+		}
+	}
+}

@@ -108,3 +108,14 @@ Starting state: `30df021`. Reconnected Blender MCP and inspected the original S-
 4. Verify all directions, sprint/crouch/analogue movement, wall blocking, transitions and actual gameplay regressions. Compare the old presentation controller and new one in the native GPU scene and inspect the resulting views.
 
 Iteration review: [native locomotion](locomotion-review.md). All 394 relevant assertions pass, and measured interior stance sliding is much lower. Rendering cost is essentially unchanged in the controlled comparison. The native held rifle's simple surfaces/grip fit are a concrete next visual target. The overall goal remains active; wider visual cohesion, long-session/native campaign feel and intermittent stalls remain open, without adding story content.
+
+## Completed iteration: restrained desert life and weather clarity
+
+Starting state: `83304e4`. User steering prioritizes a more believable, quietly active desert and retaining dust storms without a shelter/water penalty.
+
+1. Remove storm-dependent water consumption and reword the forecast around visibility. Verify clear/exposed/sheltered consumption, the weather cycle and old storm saves.
+2. Inspect native deck views and soften orange saturation, grain and glint while preserving terrain displacement and original scenery layout.
+3. Author seven sparse natural ground details in Blender; ground them on actual dunes, preserve clear routes and use shared batches/materials with gentle pinned-root wind and low sand drift.
+4. Inspect source/MCP and native views, verify placement/import contracts, compare GPU cost and check streaming/gameplay regressions.
+
+Iteration review: [desert life](desert-life-review.md). The full storm atmosphere remains, while the extra water drain and shelter warning are removed. Sparse scenery and quieter sand add about 0.03 ms median GPU cost in the measured deck views. The broader enhancement goal remains active; this does not resolve the existing intermittent frame-stall investigation or conclude the full-game review.

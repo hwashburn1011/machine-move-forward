@@ -176,6 +176,10 @@ void fragment() {
   sand *= 1.0 + macro * uMacroStrength + macroPatch * uMacroStrength * 0.35;
   // Wind scours crests lighter and more desaturated than the troughs.
   sand = mix(sand, uSandCrest, crest * 0.35);
+  // Broad wind-scoured mineral patches reuse the existing stable noise field.
+  // No extra terrain displacement: collider/prop height stays unchanged.
+  float mineral = smoothstep(0.05, 0.65, macroPatch + macro * 0.3);
+  sand = mix(sand, sand * vec3(0.78, 0.81, 0.85), mineral * 0.8);
 
   // --- Photographed sand --------------------------------------------------
   // A real scan (Poly Haven's aerial_sand, CC0), sampled in WORLD space at
@@ -234,7 +238,7 @@ void fragment() {
   // and pow() with a negative base is undefined in GLSL — it returns NaN,
   // which paints the whole surface white.
   float glint = pow(max(1.0 - alongHalf, 0.0), 26.0) * crest * detailFade;
-  diffuseColor.rgb += uSandCrest * glint * 0.42;
+  diffuseColor.rgb += uSandCrest * glint * 0.12;
 }
 
   NORMAL=normal;

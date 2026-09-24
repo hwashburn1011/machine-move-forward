@@ -133,7 +133,7 @@ func update_weather(dt: float):
 		if s.distance<w.next: return
 		w.phase="forecast"
 		w.elapsed=0.0
-		s.notify("Dust front approaching. Shelter prevents extra water use.")
+		s.notify("Dust front approaching. Visibility will be reduced as it passes.")
 	w.elapsed+=dt
 	var duration={"forecast":35.0,"front":70.0,"clearing":20.0}.get(w.phase,0)
 	if w.elapsed>=duration:

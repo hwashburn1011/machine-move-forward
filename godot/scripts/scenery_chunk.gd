@@ -24,8 +24,10 @@ func step() -> bool:
 		landmark(placements[phase])
 	elif phase<placements.size()+SCATTER.size():
 		scatter(SCATTER[phase-placements.size()])
+	elif phase==placements.size()+SCATTER.size():
+		world.atmosphere.place(root,seed_name,key.x,key.y,clearance_bounds)
 	else:
-		world.atmosphere.place(root,seed_name,key.x,key.y,clearance_bounds);complete=true
+		world.atmosphere.desert_life.place(root,seed_name,key.x,key.y,clearance_bounds);complete=true
 	phase+=1
 	return complete
 

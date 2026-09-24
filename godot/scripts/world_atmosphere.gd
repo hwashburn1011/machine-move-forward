@@ -10,10 +10,12 @@ var clean_clock=0.0
 var worn_materials={}
 var profile_placements=false
 var placement_profiles: Array=[]
+var desert_life=MMFDesertLife.new()
 const NAMES=["WindMast","WindVent","RoadBeacon"]
 
 func setup(owner_game):
 	game=owner_game
+	desert_life.setup()
 	kit=MMFAssets.scene("res://art/wind-worn-props.glb")
 	cloth_material=ShaderMaterial.new();cloth_material.shader=load("res://shaders/wind_canvas.gdshader")
 	# Retain the shader through stretches with no beacon instances. Otherwise
@@ -55,6 +57,8 @@ func place(chunk: Node3D,seed_name: String,index: int,band: int,precomputed_boun
 	model.position=site
 	model.rotate_y(rng.randf_range(-.35,.35))
 	model.set_meta("ambient_kind",id)
+	# Later natural details also respect this machinery's footprint.
+	obstacles.append(model.transform*AABB(Vector3(-.7,0,-.4),Vector3(2.2,3.4,.9)))
 	var material_start=Time.get_ticks_usec() if profile_placements else 0
 	for mesh in MMFAssets.of_type(model,"MeshInstance3D"):
 		mesh.visibility_range_end=240
@@ -82,6 +86,7 @@ func place(chunk: Node3D,seed_name: String,index: int,band: int,precomputed_boun
 
 func update(dt: float):
 	var wind=1+game.session.weather.intensity*.8
+	desert_life.update(wind)
 	cloth_material.set_shader_parameter("wind_strength",wind)
 	for rotor in rotors:
 		if is_instance_valid(rotor.node): rotor.node.rotate_z(rotor.speed*wind*dt)
@@ -91,4 +96,5 @@ func update(dt: float):
 		rotors=rotors.filter(func(r):return is_instance_valid(r.node))
 
 func clear():
+	desert_life.clear()
 	if is_instance_valid(kit): kit.free()
