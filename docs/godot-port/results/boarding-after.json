@@ -1,0 +1,95 @@
+{
+  "adapter": "NVIDIA GeForce RTX 3070",
+  "scope": "1920x1080 high Vulkan/4xMSAA, VSync off, same real machine and camera; frozen ship timeline with native animation/effects active; two second warmup/four second samples. Captures after timing.",
+  "shipBounds": "[P: (-1.632, 0.0825, -3.08), S: (3.264, 2.3975, 5.6)]",
+  "views": {
+    "0-0": {
+      "crew": [
+        {
+          "clip": "idle",
+          "inactive": true,
+          "kind": "warden",
+          "position": "(16.41, 7.224, 0.35)"
+        },
+        {
+          "clip": "idle",
+          "inactive": true,
+          "kind": "revenant",
+          "position": "(17.59, 7.224, 0.35)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1463,
+        "medianFrameMs": 4.752,
+        "medianGpuMs": 4.13100004196167,
+        "samples": 808
+      }
+    },
+    "3-75": {
+      "crew": [
+        {
+          "clip": "idle",
+          "inactive": true,
+          "kind": "warden",
+          "position": "(14.36117, 15.14937, -0.732362)"
+        },
+        {
+          "clip": "idle",
+          "inactive": true,
+          "kind": "revenant",
+          "position": "(17.49586, 7.972054, 0.368923)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1484,
+        "medianFrameMs": 4.674,
+        "medianGpuMs": 4.10599994659424,
+        "samples": 825
+      }
+    },
+    "4-8": {
+      "crew": [
+        {
+          "clip": "idle",
+          "inactive": true,
+          "kind": "warden",
+          "position": "(12.1418, 17.53492, -1.0)"
+        },
+        {
+          "clip": "idle",
+          "inactive": true,
+          "kind": "revenant",
+          "position": "(15.66943, 12.9153, 0.70481)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1473,
+        "medianFrameMs": 4.659,
+        "medianGpuMs": 4.08099985122681,
+        "samples": 839
+      }
+    },
+    "7-0": {
+      "crew": [
+        {
+          "clip": "idle",
+          "inactive": false,
+          "kind": "warden",
+          "position": "(10.0, 16.1, -1.0)"
+        },
+        {
+          "clip": "idle",
+          "inactive": false,
+          "kind": "revenant",
+          "position": "(10.0, 16.1, 1.0)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1453,
+        "medianFrameMs": 4.638,
+        "medianGpuMs": 4.07000017166138,
+        "samples": 829
+      }
+    }
+  }
+}

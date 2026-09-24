@@ -1,0 +1,95 @@
+{
+  "adapter": "NVIDIA GeForce RTX 3070",
+  "scope": "1920x1080 high Vulkan/4xMSAA, VSync off, same real machine and camera; frozen ship timeline with native animation/effects active; two second warmup/four second samples. Captures after timing.",
+  "shipBounds": "[P: (-1.632, 0.0825, -3.08), S: (3.264, 2.3975, 5.6)]",
+  "views": {
+    "0-0": {
+      "crew": [
+        {
+          "clip": "walk",
+          "inactive": true,
+          "kind": "warden",
+          "position": "(17.0, 7.6, -1.0)"
+        },
+        {
+          "clip": "walk",
+          "inactive": true,
+          "kind": "revenant",
+          "position": "(17.0, 7.6, 1.0)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1424,
+        "medianFrameMs": 4.839,
+        "medianGpuMs": 4.11499977111816,
+        "samples": 815
+      }
+    },
+    "3-75": {
+      "crew": [
+        {
+          "clip": "walk",
+          "inactive": true,
+          "kind": "warden",
+          "position": "(13.5, 11.85, -1.0)"
+        },
+        {
+          "clip": "walk",
+          "inactive": true,
+          "kind": "revenant",
+          "position": "(16.5, 8.207143, 1.0)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1424,
+        "medianFrameMs": 4.709,
+        "medianGpuMs": 4.12099981307983,
+        "samples": 827
+      }
+    },
+    "4-8": {
+      "crew": [
+        {
+          "clip": "walk",
+          "inactive": true,
+          "kind": "warden",
+          "position": "(11.4, 14.4, -1.0)"
+        },
+        {
+          "clip": "walk",
+          "inactive": true,
+          "kind": "revenant",
+          "position": "(14.4, 10.75714, 1.0)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1424,
+        "medianFrameMs": 4.615,
+        "medianGpuMs": 4.08599996566772,
+        "samples": 837
+      }
+    },
+    "7-0": {
+      "crew": [
+        {
+          "clip": "walk",
+          "inactive": false,
+          "kind": "warden",
+          "position": "(10.0, 16.1, -1.0)"
+        },
+        {
+          "clip": "walk",
+          "inactive": false,
+          "kind": "revenant",
+          "position": "(10.0, 16.1, 1.0)"
+        }
+      ],
+      "render": {
+        "drawCalls": 1414,
+        "medianFrameMs": 4.592,
+        "medianGpuMs": 4.06899976730347,
+        "samples": 839
+      }
+    }
+  }
+}

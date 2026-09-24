@@ -118,7 +118,7 @@ func run():
 	await capture("signal-close")
 	game.cinematics.finish()
 	game.combat.begin_ship()
-	game.combat.ship.position=Vector3(20,6,0)
+	game.combat.ship.position=Vector3(game.combat.ship_side*17,6,0)
 	game.combat.update_ship(0.01)
 	check(game.combat.ship_state=="grapple","Boarding ship attaches grapple")
 	game.combat.update_ship(6)

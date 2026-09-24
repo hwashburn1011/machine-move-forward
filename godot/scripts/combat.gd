@@ -18,6 +18,7 @@ var crew: Array = []
 var shells: Array = []
 var loot: Array = []
 var loot_view=MMFLootView.new()
+var boarding=MMFBoarding.new()
 var shot_clocks = {}
 var encounter_had_enemies = false
 var nav: NavigationRegion3D
@@ -33,6 +34,7 @@ var disabled_time=0.0
 func setup(owner_game):
 	game=owner_game
 	loot_view.setup(game)
+	boarding.setup(game)
 	mission.setup(game)
 	nav=NavigationRegion3D.new()
 	var mesh=NavigationMesh.new()
@@ -115,7 +117,8 @@ func begin_ship(kind: String="skiff",tutorial: bool=false,radio: bool=false):
 			var held=bag[i];bag[i]=bag[j];bag[j]=held
 		for i in 2:
 			var kind_id="raider" if tutorial else bag[(raid_wave%2)*2+i]
-			var enemy=spawn(kind_id,ship.position+Vector3(0,1.6,i*2-1),true)
+			var enemy=spawn(kind_id,boarding.start_position(i),true)
+			boarding.prepare(enemy)
 			crew.append(enemy)
 	game.session.notify("%s APPROACHING — %s SIDE" % [kind.to_upper(),"STARBOARD" if ship_side==1 else "PORT"])
 
@@ -204,7 +207,7 @@ func update_ship(dt: float):
 	if ship_state=="approach":
 		ship.position=ship.position.move_toward(Vector3(ship_side*(18 if ship_kind=="gunboat" else 17),6,0),8*dt)
 		for i in crew.size():
-			if is_instance_valid(crew[i]) and not crew[i].dead: crew[i].position=ship.position+Vector3(0,1.6,i*2-1)
+			if is_instance_valid(crew[i]) and not crew[i].dead: crew[i].position=boarding.start_position(i)
 		if ship.position.z>=-0.1:
 			ship_state="attack" if ship_kind=="gunboat" else "grapple"
 			ship_timer=0
@@ -214,25 +217,26 @@ func update_ship(dt: float):
 				hook.setup(self,Vector3(ship_side*11.6,16.25,0),Vector3(0.5,0.5,0.5),func(amount,point):
 					hook_health-=amount
 					if hook_health<=0: cut_hook(point))
-				var hook_model=MMFAssets.scene("models/authored/forged-hook.glb")
-				hook.add_child(hook_model)
+				boarding.attach_hook(hook)
 				game.audio.play_at("hook-catch",hook.global_position,.3)
 	elif ship_state=="grapple":
-		if hook and is_instance_valid(hook):
-			game.effects.tracer(ship.position+Vector3.UP*2,hook.position,Color(0.15,0.13,0.1))
 		for i in crew.size():
 			var enemy=crew[i]
 			if not is_instance_valid(enemy) or enemy.dead or not enemy.inactive: continue
 			var t=clampf((ship_timer-(1 if tutorial_ship else 2)-i*(2.25 if tutorial_ship else 1.5))/3.5,0,1)
-			enemy.position=(ship.position+Vector3(0,1.6,i*2-1)).lerp(Vector3(ship_side*10,16.1,i*2-1),t)
-			enemy.play("walk")
-			if t>=1:
+			var can_board=boarding.pose(enemy,i,t)
+			if t>=1 and can_board:
 				enemy.inactive=false
 				if i==0 and not tutorial_ship: mission.assign(enemy,raid_wave+1)
+		boarding.update_lines()
 		if ship_timer>10 and not mission.extraction_active(): retreat_ship(false)
 	elif ship_state=="retreat":
 		ship.position.z+=dt*18
+		for i in crew.size():
+			if is_instance_valid(crew[i]) and crew[i].inactive and not crew[i].dead:crew[i].position=boarding.start_position(i)
 		if ship.position.z>90:
+			for enemy in crew:
+				if is_instance_valid(enemy) and enemy.inactive and not enemy.dead:enemy.queue_free()
 			ship.queue_free()
 			ship=null
 			ship_state="none"
@@ -271,6 +275,8 @@ func destroy_ship(point: Vector3):
 func retreat_ship(destroyed: bool):
 	if ship_state=="retreat": return
 	ship_state="retreat"
+	boarding.clear()
+	if is_instance_valid(hook):hook.collision_layer=0
 	game.session.add_resource("scrap",45 if destroyed and ship_kind=="gunboat" else 30)
 	game.session.add_resource("components",3 if destroyed and ship_kind=="gunboat" else 2)
 	for zone in MMFAssets.of_type(ship,"StaticBody3D"): zone.collision_layer=0

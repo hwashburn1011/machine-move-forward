@@ -483,6 +483,7 @@ func load_payload(payload: Dictionary):
 	for drop in combat.loot: drop.node.queue_free()
 	combat.loot.clear()
 	combat.loot_view.clear();ui.loot_readout.clear()
+	combat.boarding.clear()
 	if combat.hook: combat.hook.queue_free();combat.hook=null
 	world.set_dock_open(false)
 	session.notice.connect(ui.notify)

@@ -1,0 +1,116 @@
+{
+  "assertions": 1159,
+  "passed": true,
+  "suites": [
+    {
+      "suite": "boarding",
+      "exit": 0,
+      "issues": [],
+      "assertions": 69
+    },
+    {
+      "suite": "boarding_contract",
+      "exit": 0,
+      "issues": [],
+      "assertions": 18
+    },
+    {
+      "suite": "enemy_combat_contract",
+      "exit": 0,
+      "issues": [],
+      "assertions": 42
+    },
+    {
+      "suite": "enemy_equipment",
+      "exit": 0,
+      "issues": [],
+      "assertions": 137
+    },
+    {
+      "suite": "enemy_animation",
+      "exit": 0,
+      "issues": [],
+      "assertions": 113
+    },
+    {
+      "suite": "integration",
+      "exit": 0,
+      "issues": [],
+      "assertions": 108
+    },
+    {
+      "suite": "audit_parity",
+      "exit": 0,
+      "issues": [],
+      "assertions": 132
+    },
+    {
+      "suite": "controls_interactions",
+      "exit": 0,
+      "issues": [],
+      "assertions": 66
+    },
+    {
+      "suite": "play_parity",
+      "exit": 0,
+      "issues": [],
+      "assertions": 58
+    },
+    {
+      "suite": "story_polish",
+      "exit": 0,
+      "issues": [],
+      "assertions": 59
+    },
+    {
+      "suite": "crossfire_handoff",
+      "exit": 0,
+      "issues": [],
+      "assertions": 66
+    },
+    {
+      "suite": "traversal",
+      "exit": 0,
+      "issues": [],
+      "assertions": 13
+    },
+    {
+      "suite": "audio_lifecycle",
+      "exit": 0,
+      "issues": [],
+      "assertions": 50
+    },
+    {
+      "suite": "desert_life",
+      "exit": 0,
+      "issues": [],
+      "assertions": 28
+    },
+    {
+      "suite": "opening_handoff",
+      "exit": 0,
+      "issues": [],
+      "assertions": 32
+    },
+    {
+      "suite": "autosave_worker",
+      "exit": 0,
+      "issues": [],
+      "assertions": 31
+    },
+    {
+      "suite": "salvage_feedback",
+      "exit": 0,
+      "issues": [],
+      "assertions": 75
+    },
+    {
+      "suite": "loot_feedback",
+      "exit": 0,
+      "issues": [],
+      "assertions": 62
+    }
+  ],
+  "nativeFocusedChecks": 69,
+  "nativeFocusedLog": "boarding-final-gpu.log"
+}

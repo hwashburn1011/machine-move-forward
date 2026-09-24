@@ -1,0 +1,18 @@
+{
+  "models": [
+    {
+      "name": "BoardingClamp",
+      "editableParts": 80,
+      "triangles": 26262
+    },
+    {
+      "name": "BoardingAscender",
+      "editableParts": 53,
+      "triangles": 18809
+    }
+  ],
+  "source": "Original fictional boarding hardware; no external assets",
+  "up": "+Y",
+  "units": "metres",
+  "bytes": 3774076
+}

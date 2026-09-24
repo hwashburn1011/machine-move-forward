@@ -37,6 +37,8 @@ var flank_left=0.0
 var flank_point=Vector3.ZERO
 var cue_phase=""
 var step_clock=0.0
+var boarding_pose: MMFBoardingPose
+var boarding_fall=false
 
 func find_flank(player_target: Vector3):
 	var nearest=INF
@@ -113,10 +115,15 @@ func play(wanted: String,force: bool=false):
 	animation=presentation.play(wanted,force)
 
 func _physics_process(dt):
-	if not game or game.cinematic!="" or inactive: return
+	if not game or game.cinematic!="": return
+	if inactive and not dead:return
 	presentation.tick(dt)
 	timer+=dt
 	if dead:
+		if boarding_fall:
+			if not is_on_floor():velocity.y-=22*dt
+			else:velocity.y=0
+			move_and_slide()
 		if timer>5: queue_free()
 		return
 	hp_label.text="━".repeat(maxi(1,int(health/definition.maxHealth*7)))
@@ -275,6 +282,9 @@ func take_damage(amount: float,point: Vector3):
 	flash_left=0.12
 	play("polish_hit",true)
 	if health<=0:
+		boarding_fall=inactive and boarding_pose!=null
+		if boarding_pose:boarding_pose.finish()
+		if boarding_fall:velocity=Vector3(game.combat.ship_side*1.5,-1,0)
 		dead=true
 		timer=0
 		collision_layer=0
