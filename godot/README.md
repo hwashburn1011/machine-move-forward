@@ -35,6 +35,7 @@ The conversion copies **all 55 source GLBs**, losslessly expands meshopt-compres
 - `scripts/building.gd`, `home.gd`, `caretaker.gd`: construction, preservation of contents, support cascades, shelter, producers, keepsakes, and L-12.
 - `scripts/combat.gd`, `enemy.gd`, `raid_mission.gd`: six enemy types, navigation, turrets, skiff/boarding, gunboat subsystems, raid objectives, and loot.
 - `scripts/campaign.gd`, `opportunities.gd`, `cinematics.gd`: all five original destinations, routes, optional stops, journals, scanner battle, opening, and ending.
+- `scripts/crossfire_stage.gd`: prepares the existing battle set during scanning and releases it on completion/cancellation; cinematic entry and return blend the player's camera pose and FOV. See the [crossfire review](../docs/godot-port/crossfire-review.md) for timings and save-resume checks.
 - `scripts/world.gd`, `desert_layout.gd`, `gait.gd`: original machine and desert models, deterministic districts/scatter, dune/sky shaders, four-leg gait, streaming, and weather presentation.
 - `scripts/journey.gd`, `destination_activity.gd`: prioritised radio captions, load recap, optional idle guidance and persistent local machinery activities at the five existing destinations.
 - `scripts/terminal_pages.gd`, `deck_map.gd`, `instrument_display.gd`: three-deck equipment selection/repair/location, build categories and favourites, upgrade comparisons and live console traces.
@@ -81,6 +82,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Weap
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SalvageTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SalvageReview
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SalvageProfile -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireReview
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark

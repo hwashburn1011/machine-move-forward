@@ -141,3 +141,14 @@ Starting state: `26d46e4`. A native opening/first-cargo review reproduced floati
 4. Inspect native opening, off-axis, aligned and pickup captures; check terrain/flight/storage contracts; measure fitting cost and run gameplay/story regressions.
 
 Iteration review: [salvage](salvage-review.md). All 430 relevant assertions pass, including 36,000 terrain-corner observations. Caching roughly halves the new fitting work's measured mean CPU cost, while the original hook mechanics remain unchanged. This visual/readability pass does not add story or resolve the separate intermittent rendering stalls. The overall goal remains active; full-campaign feel and control-hint cohesion remain open.
+
+## Completed iteration: crossfire preparation and camera continuity
+
+Starting state: `dbd3aef`. The preceding turn made verified progress on salvage. A real-time scanner review found an 840 ms entry frame, an immediate 60-degree turn and a 42-degree FOV jump when returning to the player's chosen view.
+
+1. Measure the existing scene with native rendering and repeat without image capture to separate real camera discontinuities from screenshot-induced physics catch-up.
+2. Load the existing resources in the background during scanning, assemble one part per tick and activate one hidden prepared set at the original signal. Retain a complete fallback for direct mid-cutscene save restores.
+3. Blend entry and return transforms/FOV while keeping the 17-second timeline, original ships, actors, close-up, captions and subsequent raid interval.
+4. Verify resource lifetime, cancellation, outstanding requests/shutdown, scanner timing, multiple camera settings and gameplay/camera regressions. Retain native views and matched timing data.
+
+Iteration review: [crossfire](crossfire-review.md). The measured entry frame fell from 839.947 to 20.267 ms; preparation produced no frames above 25 ms in the clean sample. All 341 relevant assertions pass. The full goal remains active, including the visibly simpler battle-ship hulls, full-campaign feel, control hints and unrelated intermittent rendering stalls.

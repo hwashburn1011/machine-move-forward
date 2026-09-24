@@ -1,0 +1,32 @@
+{
+  "baseRevision": "dbd3aef",
+  "totalPassed": 341.0,
+  "suites": [
+    {
+      "suite": "crossfire-tests",
+      "passed": 64,
+      "issues": 0
+    },
+    {
+      "suite": "crossfire-integration",
+      "passed": 108,
+      "issues": 0
+    },
+    {
+      "suite": "crossfire-story",
+      "passed": 58,
+      "issues": 0
+    },
+    {
+      "suite": "crossfire-camera",
+      "passed": 54,
+      "issues": 0
+    },
+    {
+      "suite": "crossfire-play-parity",
+      "passed": 57,
+      "issues": 0
+    }
+  ],
+  "scope": "Crossfire preparation, camera handoffs, scanner timing, lifetime/save/skip checks and existing gameplay/camera regressions. Not a full campaign playthrough."
+}
