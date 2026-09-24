@@ -1,0 +1,124 @@
+{
+	"checks": 39,
+	"failures": [],
+	"passed": true,
+	"scenarios": {
+		"back": {
+			"actualSpeedMps": 4.4999885559082,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.00744277163959,
+			"stanceFootDriftMps": 0.0314631883520633,
+			"stanceSamples": 19
+		},
+		"backLeft": {
+			"actualSpeedMps": 4.50011014938354,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.38964418854025,
+			"stanceFootDriftMps": 0.0164477719226852,
+			"stanceSamples": 20
+		},
+		"backRight": {
+			"actualSpeedMps": 4.50011014938354,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.38964418854025,
+			"stanceFootDriftMps": 0.0127769584651105,
+			"stanceSamples": 18
+		},
+		"blocked": {
+			"actualSpeedMps": 0.0,
+			"clips": [
+				"armed_idle"
+			],
+			"cyclesPerSecond": 0.0,
+			"stanceFootDriftMps": 0.0,
+			"stanceSamples": 0
+		},
+		"crouch": {
+			"actualSpeedMps": 2.1999979019165,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.63139471930776,
+			"stanceFootDriftMps": 0.00190209611901082,
+			"stanceSamples": 39
+		},
+		"crouchBack": {
+			"actualSpeedMps": 2.20001220703125,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 3.20903888645065,
+			"stanceFootDriftMps": 0.00169066850503441,
+			"stanceSamples": 38
+		},
+		"forward": {
+			"actualSpeedMps": 4.49999570846558,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 1.64610565326555,
+			"stanceFootDriftMps": 0.0429589720442891,
+			"stanceSamples": 21
+		},
+		"forwardLeft": {
+			"actualSpeedMps": 4.50011014938354,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.01699141271936,
+			"stanceFootDriftMps": 0.0310761015862226,
+			"stanceSamples": 19
+		},
+		"forwardRight": {
+			"actualSpeedMps": 4.50011014938354,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.01699156002506,
+			"stanceFootDriftMps": 0.0276869017397985,
+			"stanceSamples": 18
+		},
+		"left": {
+			"actualSpeedMps": 4.50004577636719,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.22449168763958,
+			"stanceFootDriftMps": 0.00882977881701663,
+			"stanceSamples": 24
+		},
+		"right": {
+			"actualSpeedMps": 4.50004577636719,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.22449186681532,
+			"stanceFootDriftMps": 0.00961320736678317,
+			"stanceSamples": 20
+		},
+		"sprint": {
+			"actualSpeedMps": 7.49999809265137,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 2.74351116638723,
+			"stanceFootDriftMps": 0.0558945466764271,
+			"stanceSamples": 19
+		},
+		"sprintDiagonal": {
+			"actualSpeedMps": 7.5000786781311,
+			"clips": [
+				"grounded_locomotion"
+			],
+			"cyclesPerSecond": 3.36157798152413,
+			"stanceFootDriftMps": 0.0252243963768706,
+			"stanceSamples": 18
+		}
+	}
+}

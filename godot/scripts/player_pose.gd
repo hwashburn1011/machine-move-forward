@@ -57,6 +57,7 @@ func _process_modification_with_delta(dt: float):
 		var correction=clampf(hit.position.y+0.10-world_ankle.y,-0.18,0.18)
 		# Airborne feet keep the authored gait; only support contacts get IK.
 		var weight=1-smoothstep(0.12,0.25,world_ankle.y-player.position.y)
+		if player.locomotion:weight*=player.locomotion.contact_weight(side)
 		if weight<=0 or absf(correction)<0.001: continue
 		var target=skeleton.to_local(world_ankle+Vector3.UP*correction*weight)
 		var solved=MMFGait.knee(hip_pose.origin,knee_pose.origin,ankle_pose.origin,target)

@@ -30,6 +30,7 @@ var animation_speed = 1.0
 var burst_left=0
 var burst_recovery=0.0
 var pose_modifier: MMFPlayerPose
+var locomotion: MMFPlayerLocomotion
 var recoil=0.0
 var equipment: MMFEquipment
 var capsule_shape: CapsuleShape3D
@@ -69,6 +70,7 @@ func setup(owner_game):
 		for key in animator.get_animation_list():
 			if "reload" not in key and "jump" not in key:
 				animator.get_animation(key).loop_mode = Animation.LOOP_LINEAR
+	locomotion=MMFPlayerLocomotion.new();locomotion.setup(self)
 	play("armed_idle")
 	var skeletons = MMFAssets.of_type(visual, "Skeleton3D")
 	if not skeletons.is_empty():
@@ -153,6 +155,7 @@ func cancel_reload():
 
 func play(wanted: String, one_shot: bool = false):
 	if not animator: return
+	if locomotion:locomotion.release()
 	var found = ""
 	for key in animator.get_animation_list():
 		if String(key).get_file() == wanted or String(key) == wanted:
@@ -163,8 +166,15 @@ func play(wanted: String, one_shot: bool = false):
 	animation = found
 	animator.play(found, 0.14)
 
+func _process(dt):
+	if locomotion:
+		locomotion.render(Engine.get_physics_interpolation_fraction() if is_physics_interpolated_and_enabled() else 1.0,dt)
+
 func _physics_process(dt):
-	if game == null or game.cinematic != "" or forced_motion: return
+	if game == null:return
+	if game.cinematic != "" or forced_motion:
+		if locomotion and locomotion.active:play("armed_idle")
+		return
 	# Wait for rebuilt colliders and queued old bodies to reach the physics world.
 	if restore_placement_frames>0:
 		restore_placement_frames-=1
@@ -192,6 +202,7 @@ func _physics_process(dt):
 		move_and_slide();boundary.observe();update_camera(dt)
 		return
 	if game.manual_turret!="":
+		if locomotion and locomotion.active:play("armed_idle")
 		game.update_manual_turret(dt)
 		return
 	if reload_left > 0:
@@ -207,6 +218,7 @@ func _physics_process(dt):
 	var run = Input.is_action_pressed("sprint") and not crouched and input.y<0 and state.hydration>0
 	var move_speed = 2.2 if crouched else (7.5 if run else 4.5)
 	var direction = Basis(Vector3.UP, yaw) * Vector3(input.x, 0, input.y)
+	var before_motion=position
 	velocity.x = direction.x * move_speed
 	velocity.z = direction.z * move_speed
 	if not is_on_floor(): velocity.y -= 22*dt
@@ -226,13 +238,13 @@ func _physics_process(dt):
 	boundary.observe()
 	if input.length() > 0.05 or aiming:
 		visual.rotation.y = lerp_angle(visual.rotation.y, yaw+PI, 1-exp(-14*dt))
-	var pose = "armed_"
-	if not is_on_floor(): pose += "jump"
-	elif input.length() < 0.05: pose += "crouch_idle" if crouched else "idle"
+	if not is_on_floor():play("armed_jump")
 	else:
-		pose += "crouch_walk" if crouched else ("run" if run else "walk")
-		pose += "_left" if input.x < -0.5 else ("_right" if input.x > 0.5 else ("_back" if input.y > 0 else "_fwd"))
-	play(pose)
+		var actual_motion=(position-before_motion)/maxf(dt,.001)
+		actual_motion.y=0
+		# Recovery/relocation cannot be mistaken for a giant footstep.
+		if actual_motion.length()>move_speed*2:actual_motion=Vector3.ZERO
+		locomotion.update(dt,actual_motion)
 	if not Input.is_action_pressed("fire"): suppress_fire=false
 	if not suppress_fire and (Input.is_action_pressed("fire") or burst_left>0) and game.building.selected == "" and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED: fire()
 	update_camera(dt)
@@ -326,6 +338,7 @@ func take_damage(amount: float, _point: Vector3 = Vector3.ZERO):
 
 func die():
 	dead=true;death_left=0;velocity=Vector3.ZERO
+	if locomotion and locomotion.active:play("armed_idle")
 	reload_left=0;burst_left=0;fire_left=0
 	game.building.cancel();game.salvage.cancel();game.dismount_turret()
 	game.home.chair_id=""
@@ -334,6 +347,7 @@ func die():
 
 func teleport(at: Vector3):
 	position=at;velocity=Vector3.ZERO
+	if locomotion:locomotion.reset_interpolation()
 	reset_physics_interpolation()
 	update_camera(1)
 	pivot.reset_physics_interpolation()

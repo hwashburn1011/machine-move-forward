@@ -97,3 +97,14 @@ Iteration review: [articulated drive and travel tracing](caretaker-drive-review.
 Starting state: `83a7631`. Longer native tracing reproduced a 26.1 ms main-thread autosave tick. Move verified file work into a bounded worker queue with detached data, orderly draining and preserved manual/checkpoint semantics. Protect healthy recovery backups from corrupt primaries. Compare actual save frames and larger synthetic campaigns, and run the gameplay/save/campaign regressions.
 
 Iteration review: [autosave latency and motion audit](autosave-motion-review.md). The matching save frame fell from 30.75 ms to 7.60 ms on the final code, with 386 assertions passing. Separate rendering stalls remain unresolved. A real-controller audit now proves foot sliding and walking against walls; Blender/native locomotion refinement is the next concrete task. The overall goal remains active.
+
+## Completed iteration: grounded native character movement
+
+Starting state: `30df021`. Reconnected Blender MCP and inspected the original S-07 rig. The former stride exceeded the leg chain's reach, while native playback ignored actual displacement.
+
+1. Author 24 feasible eight-direction gait cycles in Blender, preserving character geometry/textures and the original source/browser clips. Retain editable actions, metadata, studio renders and a live review scene.
+2. Load only a small native skeletal library. Derive cadence and directional blending from capsule displacement, retain phase and rest when blocked. Keep original controller speeds and combat/jump/cinematic timing.
+3. Sample skeletal poses at render rate between physics states, and limit stair IK to support contacts. Keep weapon aiming, moving reload and wrist-terminal poses compatible.
+4. Verify all directions, sprint/crouch/analogue movement, wall blocking, transitions and actual gameplay regressions. Compare the old presentation controller and new one in the native GPU scene and inspect the resulting views.
+
+Iteration review: [native locomotion](locomotion-review.md). All 394 relevant assertions pass, and measured interior stance sliding is much lower. Rendering cost is essentially unchanged in the controlled comparison. The native held rifle's simple surfaces/grip fit are a concrete next visual target. The overall goal remains active; wider visual cohesion, long-session/native campaign feel and intermittent stalls remain open, without adding story content.

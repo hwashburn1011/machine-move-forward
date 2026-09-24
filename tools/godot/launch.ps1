@@ -1,4 +1,4 @@
-param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$DriveProfile, [switch]$TravelProfile, [switch]$AutosaveTest, [switch]$AutosaveProfile, [switch]$MotionAudit, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
+param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$DriveProfile, [switch]$TravelProfile, [switch]$AutosaveTest, [switch]$AutosaveProfile, [switch]$MotionAudit, [switch]$LocomotionTest, [switch]$LocomotionProfile, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
 $ErrorActionPreference = 'Stop'
 $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $Godot) {
@@ -33,6 +33,8 @@ elseif ($TravelProfile) { $arguments += @('--script', 'tests/travel_profile.gd')
 elseif ($AutosaveTest) { $arguments += @('--script', 'tests/autosave_worker.gd') }
 elseif ($AutosaveProfile) { $arguments += @('--script', 'tests/autosave_profile.gd') }
 elseif ($MotionAudit) { $arguments += @('--script', 'tests/player_motion_audit.gd') }
+elseif ($LocomotionTest) { $arguments += @('--script', 'tests/player_locomotion.gd') }
+elseif ($LocomotionProfile) { $arguments += @('--script', 'tests/locomotion_profile.gd') }
 elseif ($WorkloadTest) { $arguments += @('--script', 'tests/session_workload.gd') }
 elseif ($SessionBenchmark) { $arguments += @('--script', 'tests/session_benchmark.gd') }
 elseif ($EffectBenchmark) { $arguments += @('--script', 'tests/effect_benchmark.gd') }

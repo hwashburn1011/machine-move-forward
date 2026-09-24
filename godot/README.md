@@ -73,6 +73,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Trav
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AutosaveTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AutosaveProfile -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -MotionAudit -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -LocomotionTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -LocomotionProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
@@ -97,3 +99,5 @@ The [construction and caretaker review](../docs/godot-port/caretaker-workload-re
 The [articulated drive review](../docs/godot-port/caretaker-drive-review.md) covers Blender-authored L-12 track shoes, instanced belts, independent turning/reversing motion, grounding and measured visual cost. Source and renders live in `../assets/native-fieldwork/`; the original fieldwork master remains unchanged. `-DriveProfile` compares both assemblies in a fixed native view at 60 Hz physics. `-TravelProfile` instruments test-owned copies of the current main/player/world/UI/audio callbacks to trace intermittent frame stalls without adding profiling overhead to the shipping scripts. Both profiles require GPU rendering and isolated test saves.
 
 The [autosave and motion audit](../docs/godot-port/autosave-motion-review.md) records the bounded background save queue, corrupt-primary recovery and measured save-frame improvement. Manual saves remain synchronous verified commits; autosaves finish asynchronously and drain before load or orderly exit. Focused save tests and the synthetic profile use their own isolated directories. The motion audit quantifies stance-foot drift using the real controller.
+
+The [native locomotion review](../docs/godot-port/locomotion-review.md) covers 24 Blender-authored directional clips, displacement-matched cadence, blocked movement, phase-preserving blends and render-rate skeletal interpolation. The native library reuses the original character geometry/textures and original jump/reload/cinematic clips. `-LocomotionTest -Headless` exercises the actual controller on a supported fixture; `-LocomotionProfile` compares the old presentation logic and the new controller with real GPU rendering on an unobstructed diagnostic platform in the native world. Saves/settings stay isolated.

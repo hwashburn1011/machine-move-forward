@@ -412,3 +412,7 @@ or paid generation services were used; existing third-party licences are unchang
 ## Native wind-worn scenery
 
 `godot/art/wind-worn-props.glb` contains three original Blender assemblies: a torn canvas mast, caged ventilation rotor and solar warning beacon. Their source geometry, procedural materials, animation partitions, manifest and rebuild/MCP review scripts are retained in [the native atmosphere kit](assets/native-atmosphere/README.md). No downloaded models, image textures or paid generation services were used for this kit. Godot supplies the native wind, oxidation and beacon shaders.
+
+## Native grounded character movement
+
+`godot/art/s07-locomotion.res` contains 24 original Blender-authored skeletal clips, covering eight directions in three gaits. The detailed character geometry, textures and original browser animations remain unchanged. The [native motion source](assets/native-motion/README.md) includes an editable packed Blender file, neutral-light renders, source hash and reproducible import scripts. No external assets or paid generation services were used.
