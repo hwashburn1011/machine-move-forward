@@ -54,7 +54,7 @@ func update(dt: float):
 		if id not in last_uniques:
 			last_uniques.append(id)
 			enqueue("reward/"+id,"RECOVERY LOG",reward_text(id))
-			if s.caretaker.recovered and id in ["annika-archive-shard","human-seed-bank","orchard-memory-core"]: enqueue("l12/"+id,"Lâ€“12", "Archive transfer verified. The names are safe aboard." if id!="human-seed-bank" else "Seed enclosure stable. I will keep watch over it.")
+			if s.caretaker.recovered and id in ["annika-archive-shard","human-seed-bank","orchard-memory-core"]: enqueue("l12/"+id,"L–12", "Archive transfer verified. The names are safe aboard." if id!="human-seed-bank" else "Seed enclosure stable. I will keep watch over it.")
 	# Progress keys exclude changing percentages/metres: they must not reset idle guidance.
 	var next_key="%s/%s/%s/%s/%s"%[phase,s.scanner.phase,s.facts,s.story.uniques,s.story.objectives]
 	if next_key!=objective_key: objective_key=next_key;idle=0;reminded=false
@@ -65,7 +65,7 @@ func update(dt: float):
 	elif not queue.is_empty():
 		var pending=queue.pop_front()
 		if pending.chapter!=s.story.index and not pending.id.begins_with("reward/") and not pending.id.begins_with("l12/"): return
-		current=pending;remaining=clampf(pending.text.length()/14.0,7,16)
+		current=pending;remaining=clampf(game.hint(pending.text).length()/14.0,7,16)
 		if not pending.transient:
 			s.polish.seen.append(pending.id)
 			s.polish.log.append({"speaker":pending.speaker,"text":pending.text})
@@ -78,5 +78,5 @@ func update(dt: float):
 		enqueue("hint","SERVICE NOTE",s.objective(),true)
 
 func reward_text(id: String) -> String:
-	var descriptions={"course-gyro":"Course gyro secured. A bearing dial is now fitted at the helm.","salvage-controller":"Salvage controller secured. The Automatic Salvage Collector is now available in Build.","tracking-servo":"Tracking servo secured. The Automatic Defense Turret is now available in Build.","course-actuator":"Course actuator secured. Helm steering is available to Â±12 degrees.","annika-archive-shard":"Annika's archive is preserved. Its readout is now beside the receiver.","human-seed-bank":"The Orchard seeds are aboard. A preservation tray is mounted beside the receiver; seed gardens can now be built.","orchard-memory-core":"Orchard memory core secured. Keep it for the Meridian archive cradle.","vector-governor":"Vector governor fitted at the helm. Steering range increased to Â±28 degrees.","meridian-solution":"Meridian solution preserved. Review the final bearing at the helm when ready."}
+	var descriptions={"course-gyro":"Course gyro secured. A bearing dial is now fitted at the helm.","salvage-controller":"Salvage controller secured. The Automatic Salvage Collector is now available in Build.","tracking-servo":"Tracking servo secured. The Automatic Defense Turret is now available in Build.","course-actuator":"Course actuator secured. Helm steering is available to ±12 degrees.","annika-archive-shard":"Annika's archive is preserved. Its readout is now beside the receiver.","human-seed-bank":"The Orchard seeds are aboard. A preservation tray is mounted beside the receiver; seed gardens can now be built.","orchard-memory-core":"Orchard memory core secured. Keep it for the Meridian archive cradle.","vector-governor":"Vector governor fitted at the helm. Steering range increased to ±28 degrees.","meridian-solution":"Meridian solution preserved. Review the final bearing at the helm when ready."}
 	return descriptions.get(id,id.replace("-"," ")+" secured.")

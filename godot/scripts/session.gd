@@ -344,17 +344,17 @@ func tick(dt: float, stable: bool = true, aboard: bool = true):
 		if st.stored >= cap: st.elapsedS = minf(st.elapsedS,period)
 
 func objective() -> String:
-	if not facts.salvage: return "RECOVER SALVAGE\nReel in a drifting cargo crate with [F]."
+	if not facts.salvage: return "RECOVER SALVAGE\nReel in a drifting cargo crate with [{key:reel}]."
 	if has_station("refinery"): facts.refineryBuilt=true
 	if has_station("workbench"): facts.workbenchBuilt=true
-	if not facts.get("refineryBuilt",false): return "BUILD A REFINERY\nOpen [B] and place a refinery aboard."
+	if not facts.get("refineryBuilt",false): return "BUILD A REFINERY\nOpen [{key:build}] and place a refinery aboard."
 	if facts.refined < 12 and scanner.phase in ["awaiting-module", "installed"]: return "REFINE COMPONENTS\nUse the wrist Workshop to refine 12 components."
 	if not facts.get("workbenchBuilt",false): return "BUILD A WORKBENCH\nBuild the station needed for scanner repairs."
 	if scanner.phase == "awaiting-module": return "REPAIR THE SCANNER\nCraft a replacement module, then install it at the receiver."
 	if scanner.phase == "installed": return "START THE SCAN\nOpen Signal in the wrist terminal."
 	if scanner.phase == "scanning": return "SCAN IN PROGRESS  %d%%\nKeep the receiver powered. Explore and improve your machine." % (scanner.elapsedS/1.8)
 	if scanner.phase == "contact-ready": return "CONTACT ACQUIRED\nTransmission stabilizing…"
-	if scanner.phase=="consumed" and (not has_station("turret-manual") or not facts.get("defenseCrewed",false)): return "PREPARE A DEFENSE\nBuild and crew the Manual Deck Gun. [E] to mount."
+	if scanner.phase=="consumed" and (not has_station("turret-manual") or not facts.get("defenseCrewed",false)): return "PREPARE A DEFENSE\nBuild and crew the Manual Deck Gun. [{key:use}] to mount."
 	if story.phase == "raids": return "DEFEND THE NOMAD\nWatch both sides for grappling mechs."
 	if story.phase == "docked": return data.STORY_EXPEDITIONS[int(story.index)].objective
 	if story.phase in ["approach", "braking"]: return "FOLLOW THE SIGNAL\nDestination in %d m" % maxf(0, story.arrival-distance)

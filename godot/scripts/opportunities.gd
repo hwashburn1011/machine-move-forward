@@ -7,6 +7,7 @@ var site_id=""
 var definition={}
 var points=[]
 var service_timer=0.0
+var service_hold_site=""
 var leaving_at=0.0
 var schedule_armed=false
 
@@ -73,15 +74,22 @@ func update(dt: float):
 			chart.visited.append(c.id)
 			chart.nextSlot=int(c.slot)+1
 			chart.active={}
-	if c.get("state","")=="docked":
-		var near=nearest()
-		if near.get("id","")=="service" and Input.is_action_pressed("use") and not game.menu_open:
-			service_timer+=dt
-			if service_timer>=1.2:
-				c.step="service-done"
-				service_timer=0
-				s.notify("Service complete. Reach the deeper retrieval point.")
-		else: service_timer=0
+
+func reset_service_hold():
+	service_timer=0
+	service_hold_site=""
+
+func update_service_hold(dt: float,active: bool):
+	var c=game.session.contacts.active
+	if not active or story_priority() or game.session.navigation_limit()<=0 or c.get("state","")!="docked" or c.get("step","")!="task-ready":
+		reset_service_hold()
+		return
+	if service_hold_site!=c.id: service_timer=0;service_hold_site=c.id
+	service_timer+=dt
+	if service_timer>=1.2:
+		c.step="service-done"
+		reset_service_hold()
+		game.session.notify("Service complete. Reach the deeper retrieval point.")
 
 func preview() -> Dictionary:
 	var c=game.session.contacts.active
@@ -116,7 +124,7 @@ func create_site():
 	site.add_child(MMFAssets.scene("models/authored/"+model_id+".glb"))
 	if not definition.is_empty():
 		for spec in definition.colliders: MMFAssets.collider(site,{"position":spec.at,"half":spec.half})
-		add_point("service",definition.interactions.service.label+" [HOLD E]",MMFAssets.v(definition.interactions.service.fallback))
+		add_point("service",definition.interactions.service.label,MMFAssets.v(definition.interactions.service.fallback))
 		add_point("retrieval",definition.interactions.retrieval.label,MMFAssets.v(definition.interactions.retrieval.fallback))
 	else:
 		MMFAssets.collider(site,{"position":{"y":-0.1},"half":{"x":6,"y":0.1,"z":5}})
@@ -127,11 +135,15 @@ func create_site():
 
 func add_point(id: String,label_text: String,at: Vector3):
 	var label=Label3D.new()
-	label.text=label_text;label.position=at+Vector3.UP*0.25
+	label.text=game.hint(label_text+(" [HOLD {key:use}]" if id=="service" else ""));label.position=at+Vector3.UP*0.25
 	label.billboard=BaseMaterial3D.BILLBOARD_ENABLED
 	label.pixel_size=0.007;label.font_size=26;label.visibility_range_end=7
 	site.add_child(label)
 	points.append({"id":id,"at":at,"label":label,"text":label_text})
+
+func refresh_labels():
+	for point in points:
+		point.label.text=game.hint(point.text+(" [HOLD {key:use}]" if point.id=="service" else ""))
 
 func nearest() -> Dictionary:
 	if not site or game.session.contacts.active.get("state","") not in ["docked","visited"]: return {}
@@ -147,7 +159,7 @@ func interact(point: Dictionary):
 	var c=s.contacts.active
 	if c.is_empty(): return
 	match point.id:
-		"service": s.notify("Hold E for 1.2 seconds to service this control.")
+		"service": s.notify("Hold {key:use} for 1.2 seconds to service this control.")
 		"retrieval":
 			if c.step=="service-done": c.step="task-complete";s.notify("Retrieval complete. The site's supplies are now accessible.")
 			else: s.notify("Service the first control before opening the deep reserve.")

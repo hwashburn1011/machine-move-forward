@@ -21,10 +21,12 @@ var cinematic=""
 var invulnerable=false
 var interaction_prompt=""
 var settings={"sensitivity":1.0,"fov":55.0,"volume":0.7,"ambient":0.10,"vsync":true,"quality":"high","bindings":{}}
-var key_defaults={"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"jump":KEY_SPACE,"sprint":KEY_SHIFT,"crouch":KEY_CTRL,"use":KEY_E,"reload":KEY_R,"rifle":KEY_1,"shotgun":KEY_2,"reel":KEY_F,"build":KEY_B,"catalog":KEY_G,"rotate_left":KEY_Q,"shoulder":KEY_V,"deck_up":KEY_PAGEUP,"deck_down":KEY_PAGEDOWN,"deck_auto":KEY_HOME,"demolish":KEY_X,"terminal":KEY_TAB,"pause":KEY_ESCAPE}
+var key_defaults=MMFControls.DEFAULTS
+var hint_cache={}
 var autosave_clock=0.0
 var autosaver=MMFAutosaver.new()
 var hook_cut=0.0
+var hook_cut_target=0
 var started=false
 var manual_turret=""
 var manual_fire_clock=0.0
@@ -80,8 +82,12 @@ func _ready():
 	print("MMF_NATIVE_READY ",RenderingServer.get_video_adapter_name())
 
 func configure_input():
+	settings.bindings=MMFControls.normalize(settings.get("bindings",{}))
+	hint_cache.clear()
+	reset_interaction_hold()
 	for action in key_defaults:
 		if not InputMap.has_action(action): InputMap.add_action(action)
+		Input.action_release(action)
 		InputMap.action_erase_events(action)
 		var event=InputEventKey.new()
 		event.physical_keycode=int(settings.bindings.get(action,key_defaults[action]))
@@ -96,6 +102,9 @@ func configure_input():
 		var event=InputEventMouseButton.new()
 		event.button_index=spec[1]
 		InputMap.action_add_event(spec[0],event)
+	if opportunities: opportunities.refresh_labels()
+	if combat and is_instance_valid(combat.hook): combat.hook.label=hint("Hold {key:use} to cut grapple")
+	if ui: ui.refresh_control_labels()
 
 func save_settings():
 	var file=null if get_tree().has_meta("test_mode") else FileAccess.open("user://settings.json",FileAccess.WRITE)
@@ -107,7 +116,16 @@ func save_settings():
 	apply_quality()
 
 func key_label(action: String) -> String:
-	return OS.get_keycode_string(int(settings.bindings.get(action,key_defaults[action])))
+	return MMFControls.label(settings.bindings,action)
+
+func hint(message: String) -> String:
+	if not "{key:" in message: return message
+	if hint_cache.has(message): return hint_cache[message]
+	var result=message
+	for action in key_defaults: result=result.replace("{key:"+action+"}",key_label(action))
+	for action in ["fire","aim"]: result=result.replace("{key:"+action+"}",key_label(action))
+	hint_cache[message]=result
+	return result
 
 func _input(event):
 	if ui==null or ui.binding_action!="": return
@@ -126,6 +144,7 @@ func _input(event):
 
 func open_menu(page: String):
 	if started and session.health<=0 and page not in ["Pause","Title","Settings","Library"]: return
+	reset_interaction_hold()
 	menu_open=true
 	# The browser wrist terminal pauses the whole simulation while aboard.
 	get_tree().paused=page in ["Title","Pause","Library","Settings"] or (page!="Build" and started and aboard())
@@ -138,6 +157,7 @@ func open_menu(page: String):
 
 func close_menu():
 	if not started: return
+	ui.cancel_binding()
 	menu_open=false
 	refresh_fieldwork_power()
 	get_tree().paused=false
@@ -274,49 +294,53 @@ func near_receiver() -> bool:
 	var distance=player.position.distance_to(Vector3(1,16.03,-9.8))
 	return session.facts.salvage and distance<2.4 and distance<player.position.distance_to(Vector3(0,16.03,-10))
 
-func update_interaction(dt: float):
-	interaction_prompt=""
-	if menu_open or session.health<=0: hook_cut=0;return
-	if manual_turret!="": interaction_prompt="CREWING DECK GUN · [E] Dismount";return
-	if near_receiver():
-		interaction_prompt="[E] SCANNER / RECEIVER";return
+func interaction_target() -> Dictionary:
+	if menu_open or session.health<=0 or cinematic!="" or building.selected!="": return {}
+	if manual_turret!="": return {"kind":"turret","text":"CREWING DECK GUN · [{key:use}] Dismount"}
+	if combat.ship_state=="grapple" and combat.hook_health>0 and is_instance_valid(combat.hook) and player.position.distance_to(combat.hook.position)<2.6:
+		return {"kind":"hook","target":combat.hook,"text":"HOLD [{key:use}] CUT GRAPPLE"}
+	if near_receiver(): return {"kind":"receiver","text":"[{key:use}] SCANNER / RECEIVER"}
 	var optional=opportunities.nearest()
-	if not optional.is_empty(): interaction_prompt="[E] "+optional.text;return
+	if not optional.is_empty():
+		return {"kind":"optional","target":optional,"text":("HOLD [{key:use}] " if optional.id=="service" else "[{key:use}] ")+optional.text}
 	var nearby=campaign.nearest()
-	if not nearby.is_empty():
-		interaction_prompt="[E] "+nearby.label
-		return
-	if combat.hook and is_instance_valid(combat.hook) and player.position.distance_to(combat.hook.position)<2.6:
-		interaction_prompt="HOLD [E] CUT GRAPPLE"
-		if Input.is_action_pressed("use"):
-			hook_cut+=dt
-			if hook_cut>=1.2:
-				combat.cut_hook(combat.hook.position)
-				hook_cut=0
-		else: hook_cut=0
-		return
+	if not nearby.is_empty(): return {"kind":"campaign","target":nearby,"text":"[{key:use}] "+nearby.label}
 	var p=nearest_piece()
-	if not p.is_empty(): interaction_prompt="[E] "+data.BUILD_PIECES[p.definitionId].name
-	elif player.position.distance_to(Vector3(0,16.03,-10))<3: interaction_prompt="[E] NAVIGATION HELM"
+	if not p.is_empty(): return {"kind":"piece","target":p,"text":"[{key:use}] "+data.BUILD_PIECES[p.definitionId].name}
+	if player.position.distance_to(Vector3(0,16.03,-10))<3: return {"kind":"helm","text":"[{key:use}] NAVIGATION HELM"}
+	return {}
+
+func reset_interaction_hold():
+	hook_cut=0
+	hook_cut_target=0
+	if opportunities: opportunities.reset_service_hold()
+
+func update_interaction(dt: float):
+	var selected=interaction_target()
+	interaction_prompt=hint(selected.get("text",""))
+	var kind=selected.get("kind","")
+	var held=Input.is_action_pressed("use")
+	opportunities.update_service_hold(dt,kind=="optional" and selected.target.id=="service" and held)
+	if kind!="hook" or not held:
+		hook_cut=0;hook_cut_target=0
+		return
+	var target=selected.target
+	if hook_cut_target!=target.get_instance_id(): hook_cut=0;hook_cut_target=target.get_instance_id()
+	hook_cut+=dt
+	if hook_cut>=1.2:
+		combat.cut_hook(target.position)
+		reset_interaction_hold()
+		interaction_prompt=""
 
 func interact():
-	if manual_turret!="":
-		dismount_turret()
-		return
-	if session.health<=0: return
-	if combat.hook and is_instance_valid(combat.hook) and player.position.distance_to(combat.hook.position)<2.6: return
-	if near_receiver(): open_menu("Signal");return
-	var optional=opportunities.nearest()
-	if not optional.is_empty(): opportunities.interact(optional);return
-	var nearby=campaign.nearest()
-	if not nearby.is_empty():
-		campaign.interact(nearby)
-		return
-	var p=nearest_piece()
-	if not p.is_empty():
-		service_piece(p)
-		return
-	if player.position.distance_to(Vector3(0,16.03,-10))<3: open_menu("Helm")
+	var selected=interaction_target()
+	match selected.get("kind",""):
+		"turret": dismount_turret()
+		"receiver": open_menu("Signal")
+		"optional": opportunities.interact(selected.target)
+		"campaign": campaign.interact(selected.target)
+		"piece": service_piece(selected.target)
+		"helm": open_menu("Helm")
 
 func service_piece(p: Dictionary):
 	if session.health<=0: return
@@ -365,7 +389,7 @@ func dismount_turret():
 func update_manual_turret(dt: float):
 	var p=session.find_piece(manual_turret)
 	if p.is_empty() or p.health<=0 or not session.powered.get(manual_turret,false):
-		interact()
+		dismount_turret()
 		return
 	var def=data.TURRETS["manual-turret"]
 	var base=-int(p.rotation)*PI/2
@@ -381,7 +405,7 @@ func update_manual_turret(dt: float):
 	if yaw_node: yaw_node.rotation.y=player.yaw-base
 	if pitch_node: pitch_node.rotation.x=player.pitch
 	manual_fire_clock=maxf(0,manual_fire_clock-dt)
-	interaction_prompt="CREWING DECK GUN · [E] Dismount"
+	interaction_prompt=hint("CREWING DECK GUN · [{key:use}] Dismount")
 	if Input.is_action_pressed("fire") and manual_fire_clock<=0:
 		var mods=session.modifiers()
 		manual_fire_clock=1.0/(def.fireRate*mods.turretRateMultiplier)

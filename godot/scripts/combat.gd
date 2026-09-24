@@ -201,7 +201,7 @@ func update_ship(dt: float):
 			ship_timer=0
 			if ship_state=="grapple":
 				hook=MMFHitZone.new()
-				hook.label="Hold E to cut grapple"
+				hook.label=game.hint("Hold {key:use} to cut grapple")
 				hook.setup(self,Vector3(ship_side*11.6,16.25,0),Vector3(0.5,0.5,0.5),func(amount,point):
 					hook_health-=amount
 					if hook_health<=0: cut_hook(point))

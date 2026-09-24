@@ -56,6 +56,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Test
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ParityTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AuditTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -StoryTest
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ControlsTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -PacingTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AtmosphereTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -TerrainTest
@@ -94,6 +95,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benc
 ```
 
 Test/benchmark reports and screenshots are written under `test-results/godot-native/`. The benchmark uses the actual GPU, 1080p, full assets, and eight active enemies; it refuses headless rendering. It disables VSync for headroom measurement. These results are developer measurements, not a guarantee on every PC. A Windows export can be made from Godot after installing matching export templates; the current launcher runs the native project directly.
+
+The [controls and interaction review](../docs/godot-port/controls-interaction-review.md) covers remapped hints, safe key capture, default restoration and shared interaction priority. `-ControlsTest` sends real keyboard events through the native game, checks uninterrupted grapple/service holds, and captures Settings and placement hints with GPU rendering. It also supports `-Headless` and uses isolated `native-controls-tests/` saves without writing personal settings.
 
 The broader [parity audit](../docs/godot-port/PARITY-AUDIT.md) covers production, research, attachments, construction transactions, save recovery, defenses and navigation. Regenerate its controller expectations from the retained browser code with `node tools/godot/audit-fixtures.mjs`. Machine research now unlocks instantly at a powered receiver, with separate free fitting/removal. Weapon attachments require Relay Foundry, a functional workbench and powered terminal tools. Already-paid research from earlier native saves is preserved.
 

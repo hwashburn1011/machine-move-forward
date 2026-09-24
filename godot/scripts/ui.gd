@@ -19,6 +19,10 @@ var storage_id=""
 var record_title=""
 var record_text=""
 var binding_action=""
+var binding_buttons={}
+var binding_status: Label
+var return_button: Button
+var toast_source=""
 var damage_overlay: ColorRect
 var live_status: Label
 var transmission: Label
@@ -109,10 +113,15 @@ func setup(owner_game):
 	content.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation",12)
 	scroller.add_child(content)
-	var close=Button.new()
-	close.text="RETURN TO DECK     [TAB / ESC]"
-	close.pressed.connect(game.close_menu)
-	outer.add_child(close)
+	binding_status=Label.new();binding_status.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	binding_status.add_theme_color_override("font_color",Color(.98,.66,.27))
+	outer.add_child(binding_status)
+	return_button=Button.new()
+	return_button.pressed.connect(func():
+		if game.started: game.close_menu()
+		else: game.open_menu("Title"))
+	outer.add_child(return_button)
+	refresh_control_labels()
 	panel.hide()
 	root.resized.connect(reflow)
 	reflow.call_deferred()
@@ -142,7 +151,8 @@ func overlay(at: Vector2,dimensions: Vector2,font_size: int) -> Label:
 	return label
 
 func notify(message: String):
-	toast.text=message
+	toast_source=message
+	toast.text=game.hint(message)
 	toast_time=6
 
 func combat_hit(kind: String):
@@ -152,7 +162,7 @@ func combat_hit(kind: String):
 
 func text_line(message: String,big: bool=false):
 	var label=Label.new()
-	label.text=message
+	label.text=game.hint(message)
 	label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	if big:
 		label.add_theme_font_size_override("font_size",25)
@@ -176,11 +186,16 @@ func costs(cost: Dictionary) -> String:
 	return ", ".join(items)
 
 func open(which: String):
+	cancel_binding()
 	page=which
 	panel.show()
 	refresh()
 
 func refresh():
+	cancel_binding()
+	binding_buttons.clear()
+	binding_status.visible=page=="Settings"
+	refresh_control_labels()
 	live_status=null
 	for child in content.get_children():
 		content.remove_child(child)
@@ -365,22 +380,62 @@ func settings_page():
 	content.add_child(vsync)
 	text_line("GRAPHICS / Full-resolution assets at every preset")
 	for tier in ["low","medium","high"]: button(tier.to_upper()+(" ✓" if game.settings.get("quality","high")==tier else ""),func():game.settings.quality=tier;game.save_settings();refresh())
-	text_line("KEY BINDINGS — select an action, then press a key")
+	text_line("KEY BINDINGS",true)
+	text_line("Select a control to change it. Keys already in use swap places.\nMouse: LMB fires / places · RMB aims / cancels placement.")
+	button("RESTORE ALL DEFAULT KEYS",func():
+		cancel_binding();game.settings.bindings={};game.configure_input();game.save_settings()
+		binding_status.text="All keyboard controls restored to defaults.")
 	for action in game.key_defaults:
-		var events=InputMap.action_get_events(action)
-		button(action+"    "+(events[0].as_text() if not events.is_empty() else "unbound"),func():binding_action=action;notify("Press a key for "+action))
+		var row=HBoxContainer.new();row.add_theme_constant_override("separation",12);content.add_child(row)
+		var name_label=Label.new();name_label.text=MMFControls.NAMES[action];name_label.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		row.add_child(name_label)
+		var key_button=Button.new();key_button.custom_minimum_size.x=240
+		key_button.pressed.connect(func():begin_binding(action));row.add_child(key_button)
+		var reset=Button.new();reset.text="Default";reset.pressed.connect(func():apply_binding(action,game.key_defaults[action]))
+		row.add_child(reset)
+		binding_buttons[action]={"key":key_button,"reset":reset}
+	refresh_control_labels()
+
+func refresh_control_labels():
+	if is_instance_valid(return_button):
+		return_button.text=game.hint("RETURN TO DECK     [{key:terminal} / {key:pause}]") if game.started else "RETURN TO TITLE"
+	if is_instance_valid(toast): toast.text=game.hint(toast_source)
+	for action in binding_buttons:
+		var row=binding_buttons[action]
+		if not is_instance_valid(row.key): continue
+		row.key.text="PRESS KEY…" if binding_action==action else game.key_label(action)
+		if action=="crouch" and not game.settings.bindings.has("crouch") and KEY_C not in game.settings.bindings.values(): row.key.text+=" / C"
+		row.reset.disabled=not game.settings.bindings.has(action)
+	if is_instance_valid(binding_status):
+		binding_status.text=("Press a key for "+MMFControls.NAMES[binding_action]+". Escape cancels without changing controls.") if binding_action!="" else "Select a control, then press its new key. Escape cancels a pending change."
+
+func begin_binding(action: String):
+	if page!="Settings" or not game.menu_open or not game.key_defaults.has(action): return
+	binding_action=action
+	refresh_control_labels()
+
+func cancel_binding():
+	binding_action=""
+	refresh_control_labels()
+
+func apply_binding(action: String,code: int):
+	var swapped=""
+	for other in game.key_defaults:
+		if other!=action and int(game.settings.bindings.get(other,game.key_defaults[other]))==code: swapped=other
+	binding_action=""
+	game.settings.bindings=MMFControls.rebind(game.settings.bindings,action,code)
+	game.configure_input()
+	game.save_settings()
+	binding_status.text=MMFControls.NAMES[action]+" → "+game.key_label(action)
+	if swapped!="": binding_status.text+="   /   "+MMFControls.NAMES[swapped]+" → "+game.key_label(swapped)
 
 func _input(event):
-	if binding_action!="" and event is InputEventKey and event.pressed:
-		var previous=game.settings.bindings.get(binding_action,game.key_defaults[binding_action])
-		for action in game.key_defaults:
-			if action!=binding_action and game.settings.bindings.get(action,game.key_defaults[action])==event.physical_keycode: game.settings.bindings[action]=previous
-		game.settings.bindings[binding_action]=event.physical_keycode
-		binding_action=""
-		game.configure_input()
-		game.save_settings()
-		refresh()
-		get_viewport().set_input_as_handled()
+	if binding_action=="" or not event is InputEventKey: return
+	get_viewport().set_input_as_handled()
+	if not event.pressed or event.echo: return
+	if event.physical_keycode==KEY_ESCAPE or event.keycode==KEY_ESCAPE:
+		cancel_binding();binding_status.text="Key change cancelled. Your controls are unchanged."
+	elif MMFControls.valid_key(event.physical_keycode): apply_binding(binding_action,event.physical_keycode)
 
 func show_record(title_text: String,message: String):
 	record_title=title_text
@@ -406,7 +461,7 @@ func _process(dt):
 	var readable=game.started and not game.menu_open and game.cinematic=="" and game.session.health>0
 	salvage_readout.update()
 	transmission.visible=readable and not game.combat.active_threat() and not game.journey.current.is_empty()
-	if transmission.visible: transmission.text=game.journey.current.speaker+"  //  "+game.journey.current.text
+	if transmission.visible: transmission.text=game.journey.current.speaker+"  //  "+game.hint(game.journey.current.text)
 	boarding.visible=readable and game.combat.ship_state=="grapple" and is_instance_valid(game.combat.hook) and game.combat.hook_health>0
 	if boarding.visible:
 		var right=game.player.camera.global_basis.x.dot(game.combat.hook.global_position-game.player.camera.global_position)>0
@@ -418,7 +473,7 @@ func _process(dt):
 	toast.visible=toast_time>0 and game.cinematic==""
 	var s=game.session
 	if is_instance_valid(live_status):
-		if page in ["Signal","Helm"]: live_status.text=s.objective()
+		if page in ["Signal","Helm"]: live_status.text=game.hint(s.objective())
 		elif page=="Machine": live_status.text="Fuel %d%%   Power %d / %d   Speed %.1f m/s" %[s.fuel,s.demand,s.capacity,s.speed]
 	hud.visible=game.cinematic=="" and not game.menu_open
 	objective.visible=hud.visible
@@ -426,9 +481,10 @@ func _process(dt):
 	prompt.visible=hud.visible
 	if not hud.visible: return
 	hud.text="IRON NOMAD\n%.1f m/s · %dm\nFuel %d%% · Power %d/%d\nHealth %d · Water %d · Food %d\n%s %d / ∞" %[s.speed,s.distance,s.fuel,s.demand,s.capacity,s.health,s.hydration,s.nourishment,game.data.WEAPONS[s.current_weapon].name,s.weapons[s.current_weapon].ammoInMag]
-	objective.text=s.objective()
-	if game.building.selected!="": prompt.text="BUILD "+game.building.selected+"  ·  "+game.building.failure
+	objective.text=game.hint(s.objective())
+	if game.building.selected!="":
+		prompt.text="BUILD "+game.data.BUILD_PIECES[game.building.selected].name+"  ·  "+game.building.failure+game.hint("\n[{key:fire}] Place   [{key:rotate_left} / {key:use}] Rotate   [{key:catalog}] Catalogue\n[{key:deck_up} / {key:deck_down}] Deck   [{key:deck_auto}] Auto   [{key:aim}] Cancel")
 	else:
 		var reel="CARGO ALIGNED · [%s] Throw hook"%game.key_label("reel") if salvage_readout.aligned>=0 else "[%s] Throw salvage hook"%game.key_label("reel")
 		if game.salvage.busy(): reel="REELING CARGO" if game.salvage.reel_index>=0 else "HOOK RETURNING" if game.salvage.hook_phase=="back" else "HOOK OUT"
-		prompt.text=game.interaction_prompt+"\n[TAB] Wrist terminal   [B] Build   "+reel
+		prompt.text=game.interaction_prompt+game.hint("\n[{key:terminal}] Wrist terminal   [{key:build}] Build   ")+reel

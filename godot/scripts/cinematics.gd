@@ -195,7 +195,7 @@ func finish():
 		game.player.yaw=0
 		game.player.velocity=Vector3.ZERO
 		rooftop_departure=game.session.distance
-		game.session.notify("The Nomad is moving. Recover drifting cargo with [F].")
+		game.session.notify("The Nomad is moving. Recover drifting cargo with [{key:reel}].")
 	elif kind=="signal":
 		game.session.story.phase="raids"
 		game.session.threat.phase="recovery"
