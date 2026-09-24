@@ -9,6 +9,7 @@ var previous_lateral=0.0
 var plants=[0.0,0.0,0.0,0.0]
 var swing_offsets=[0.0,0.0,0.0,0.0]
 var planted=[false,false,false,false]
+var contact_points=[Vector3.ZERO,Vector3.ZERO,Vector3.ZERO,Vector3.ZERO]
 
 func setup(owner_game,machine: Node3D):
 	game=owner_game
@@ -58,8 +59,10 @@ func update(distance: float,lateral: float):
 			x=base_x+swing_offsets[i]*(1-ease)
 		planted[i]=stance
 		var z=leg.end*anchors.z+reach*(2*phase/d.DUTY-1 if stance else 1-2*ease)
-		var y=d.GROUND_Y+(0 if stance else d.FOOT_LIFT*sin(PI*u))+0.04
-		y+=MMFDunes.height_at(x+lateral,z-distance)-MMFDunes.height_at(x,z-distance)
+		# Place the foot on the same sand surface used by scenery and recovery.
+		# Subtracting the centre-course height left planted feet hovering at Y=0.
+		var y=MMFDunes.height_at(x+lateral,z-distance)+(0 if stance else d.FOOT_LIFT*sin(PI*u))+0.04
+		contact_points[i]=Vector3(x,y,z)
 		var target=rig.to_local(Vector3(x,y+0.8166667,z))
 		target=Vector3(target.x,-target.z,target.y)
 		var source=d.NOMAD_LEG_SOURCE_RIG

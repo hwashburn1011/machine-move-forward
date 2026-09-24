@@ -39,6 +39,8 @@ The conversion copies **all 55 source GLBs**, losslessly expands meshopt-compres
 - `scripts/journey.gd`, `destination_activity.gd`: prioritised radio captions, load recap, optional idle guidance and persistent local machinery activities at the five existing destinations.
 - `scripts/terminal_pages.gd`, `deck_map.gd`, `instrument_display.gd`: three-deck equipment selection/repair/location, build categories and favourites, upgrade comparisons and live console traces.
 - `scripts/story_art.gd`, `art/story-instruments.glb`: seven original Blender instrument assemblies, including physical wrist hardware and earned archive/seed displays on the receiver. Editable source and the contact sheet live in `../assets/native-story/`; rebuild with `../tools/art/native_story/build.py` in Blender.
+- `scripts/world_atmosphere.gd`, `art/wind-worn-props.glb`: three original Blender assemblies with torn wind-driven canvas, a bearing-mounted ventilation rotor and a pulsing solar beacon. Sparse placements avoid the machine corridor and existing wreckage; source and renders are in `../assets/native-atmosphere/`.
+- `scripts/effects.gd`: shared spark/tracer render batches preserve effect geometry and fade, with explicit per-particle interpolation. Exhaust and dust respond to speed; four contact bursts follow the machine's feet.
 
 The UI is rebuilt as native Control nodes. The original browser CSS is not used. Rendering, physical contacts, navigation, particles, and camera interpolation are engine-specific implementations and may differ from the browser version. See the port review and measured results in `../docs/godot-port/` for the acceptance status and remaining differences.
 
@@ -53,6 +55,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Pari
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AuditTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -StoryTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -PacingTest
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AtmosphereTest
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -TerrainTest
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -EffectBenchmark
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
 ```
 
@@ -61,3 +66,5 @@ Test/benchmark reports and screenshots are written under `test-results/godot-nat
 The broader [parity audit](../docs/godot-port/PARITY-AUDIT.md) covers production, research, attachments, construction transactions, save recovery, defenses and navigation. Regenerate its controller expectations from the retained browser code with `node tools/godot/audit-fixtures.mjs`. Machine research now unlocks instantly at a powered receiver, with separate free fitting/removal. Weapon attachments require Relay Foundry, a functional workbench and powered terminal tools. Already-paid research from earlier native saves is preserved.
 
 The [campaign polish plan](../docs/godot-port/story-polish-plan.md) and [delivery review](../docs/godot-port/story-polish-review.md) describe the native enhancements. Console progress, transmission history and build favourites are saved in an optional `polish` section; native saves from before this update remain supported, and earned story objectives remain earned. Radio lines are captioned with a quiet cue, not recorded voice acting. Story tests use `native-story-polish-tests/`; the 65-second pacing sample uses `native-journey-pacing-tests/`.
+
+The [atmosphere/effect review](../docs/godot-port/atmosphere-review.md) records current measurements and the terrain grounding fix. CPU and GPU dune calculations now agree, removing a several-metre placement mismatch. This corrects the native dune contours without moving saved machinery or changing campaign objectives. Terrain parity and effect benchmarks require GPU rendering; atmosphere tests use `native-atmosphere-tests/`.

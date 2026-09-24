@@ -15,7 +15,7 @@ func clear():
 
 func terrain_edge(at: Vector3) -> float:
 	var s=player.game.session
-	return maxf(-0.35,MMFDunes.height_at(at.x+s.lateral,at.z-s.distance)-0.4)+0.25
+	return maxf(-0.35,MMFDunes.height_at(at.x+s.lateral,at.z-s.distance))+0.25
 
 func support_root(body: Node) -> Node3D:
 	var game=player.game

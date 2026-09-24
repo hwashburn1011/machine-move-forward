@@ -128,7 +128,15 @@ func run():
 	game.player.teleport(Vector3(-20,-0.15,3));await frames(3)
 	check(game.player.boundary.recoveries==rescues+1,"Flat radioactive ground triggers precontact recovery")
 	check(game.player.position.distance_to(safe)<0.5 and game.session.health==hp,"Recovery preserves health and returns to the last supported platform")
-	var dune=Vector3(54,0,-30);dune.y=game.player.boundary.terrain_edge(dune)-0.02
+	# Find an actual raised dune at the current travel distance. A fixed point
+	# can be a trough, and a 2 cm margin races the moving terrain between ticks.
+	var dune=Vector3.ZERO;var dune_edge=-INF
+	for x in [40,60,80,100]:
+		for z in [-100,-60,-20,20,60]:
+			var candidate=Vector3(x,0,z);var edge=game.player.boundary.terrain_edge(candidate)
+			if edge>dune_edge: dune=candidate;dune_edge=edge
+	check(dune_edge>0.75,"Radiation fixture samples an actual raised dune")
+	dune.y=dune_edge-.3
 	game.player.teleport(dune);await frames(3)
 	check(game.player.boundary.recoveries==rescues+2,"Raised dunes use the rendered terrain height")
 	game.player.teleport(Vector3(-12,8.95,-4));await frames(10)

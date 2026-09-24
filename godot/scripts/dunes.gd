@@ -2,9 +2,11 @@ class_name MMFDunes
 extends RefCounted
 
 static func hash2(p: Vector2) -> float:
-	p=Vector2(fposmod(p.x*123.34,1),fposmod(p.y*345.45,1))
-	p+=Vector2.ONE*p.dot(p+Vector2.ONE*34.345)
-	return fposmod(p.x*p.y,1)
+	# Integer mixing is identical in GDScript and GPU shaders. Floating-point
+	# fract/multiply hashes diverged enough to bury props several metres deep.
+	var bits=(int(p.x)*374761393+int(p.y)*668265263)&0xffffffff
+	bits=((bits^(bits>>13))*1274126177)&0xffffffff
+	return float(bits^(bits>>16))/4294967295.0
 
 static func noise(p: Vector2) -> float:
 	var i=p.floor()

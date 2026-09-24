@@ -408,3 +408,7 @@ platform and the distant arrival facade have packed editable masters, reproducib
 exports, and Blender MCP / Unreal / glTF review evidence in
 [the Meridian art delivery](assets/meridian/README.md). No external source meshes
 or paid generation services were used; existing third-party licences are unchanged.
+
+## Native wind-worn scenery
+
+`godot/art/wind-worn-props.glb` contains three original Blender assemblies: a torn canvas mast, caged ventilation rotor and solar warning beacon. Their source geometry, procedural materials, animation partitions, manifest and rebuild/MCP review scripts are retained in [the native atmosphere kit](assets/native-atmosphere/README.md). No downloaded models, image textures or paid generation services were used for this kit. Godot supplies the native wind, oxidation and beacon shaders.

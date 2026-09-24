@@ -10,8 +10,19 @@ var smoke_material: StandardMaterial3D
 var fire_material: StandardMaterial3D
 var exhausts=[]
 var dust_emitters=[]
+var tracers: Array=[]
+var tracer_mesh=ImmediateMesh.new()
+var tracer_batch: MeshInstance3D
+var spark_batch: MultiMeshInstance3D
+var spark_capacity=128
+var spark_buffer=PackedFloat32Array()
+var spark_previous=PackedFloat32Array()
+var atmosphere_game
+var contact_dust: Array=[]
+var last_contacts=[false,false,false,false]
 
 func machine_atmosphere(game):
+	atmosphere_game=game
 	for name in ["Exhaust_A","Exhaust_B"]:
 		var anchor=MMFAssets.find_named(game.world.machine,name)
 		if not anchor: continue
@@ -29,6 +40,14 @@ func machine_atmosphere(game):
 		var gradient=Gradient.new();gradient.offsets=PackedFloat32Array([0,0.2,1]);gradient.colors=PackedColorArray([Color(0.65,0.43,0.24,0),Color(0.65,0.43,0.24,0.35),Color(0.68,0.48,0.3,0)])
 		var texture=GradientTexture1D.new();texture.gradient=gradient;dust.process_material.color_ramp=texture
 		dust.emitting=true;dust_emitters.append(dust)
+	for i in 4:
+		var dust=emitter(self,22,1.8,smoke_material,false)
+		dust.one_shot=true;dust.explosiveness=.8;dust.local_coords=false
+		dust.process_material.gravity=Vector3(0,.05,1.1)
+		dust.process_material.initial_velocity_min=.5;dust.process_material.initial_velocity_max=1.8
+		dust.process_material.scale_min=.5;dust.process_material.scale_max=1.7
+		dust.process_material.color_ramp=dust_emitters[0].process_material.color_ramp
+		contact_dust.append(dust)
 
 func burning(parent: Node3D,at: Vector3):
 	var fire=emitter(parent,22,1.6,fire_material,true)
@@ -37,6 +56,14 @@ func burning(parent: Node3D,at: Vector3):
 	smoke.position=at;smoke.one_shot=false;smoke.explosiveness=0;smoke.emitting=true
 
 func _ready():
+	var spark_material=ShaderMaterial.new();spark_material.shader=load("res://shaders/transient_effect.gdshader")
+	var line_material=spark_material.duplicate();line_material.set_shader_parameter("glow_energy",3.0)
+	tracer_batch=MeshInstance3D.new();tracer_batch.mesh=tracer_mesh;tracer_batch.material_override=line_material;add_child(tracer_batch)
+	spark_batch=MultiMeshInstance3D.new()
+	var instances=MultiMesh.new();instances.transform_format=MultiMesh.TRANSFORM_3D;instances.use_colors=true;instances.mesh=spark_mesh
+	instances.instance_count=spark_capacity;instances.visible_instance_count=0
+	spark_buffer.resize(spark_capacity*16);spark_previous.resize(spark_capacity*16)
+	spark_batch.multimesh=instances;spark_batch.material_override=spark_material;add_child(spark_batch)
 	fire_material=billboard_material(true)
 	smoke_material=billboard_material(false)
 	for i in 8:
@@ -100,29 +127,15 @@ func _init():
 	spark_mesh.height = 0.1
 
 func tracer(a: Vector3,b: Vector3,color: Color):
-	var mesh = ImmediateMesh.new()
-	mesh.surface_begin(Mesh.PRIMITIVE_LINES)
-	mesh.surface_add_vertex(a)
-	mesh.surface_add_vertex(b)
-	mesh.surface_end()
-	var node = MeshInstance3D.new()
-	node.mesh = mesh
-	node.material_override = MMFAssets.material(color,3)
-	add_child(node)
-	objects.append({"node":node,"remaining":0.075,"life":0.075,"velocity":Vector3.ZERO,"grow":0.0})
+	# Unlike StandardMaterial colour uniforms, vertex/instance colours are raw.
+	tracers.append({"a":a,"b":b,"color":color.srgb_to_linear(),"remaining":.075})
 
 func impact(at: Vector3,normal: Vector3):
 	for i in 4:
 		particle(at,normal*randf_range(1,3)+Vector3(randf_range(-1,1),randf(),randf_range(-1,1)),Color(1,0.6,0.15),0.04,0.25)
 
 func particle(at: Vector3,velocity: Vector3,color: Color,size: float,life: float,grow: float=0):
-	var node = MeshInstance3D.new()
-	node.mesh = spark_mesh
-	node.scale = Vector3.ONE*size/0.05
-	node.material_override = MMFAssets.material(color,2)
-	node.position = at
-	add_child(node)
-	objects.append({"node":node,"remaining":life,"life":life,"velocity":velocity,"grow":grow})
+	objects.append({"at":at,"remaining":life,"life":life,"velocity":velocity,"grow":grow,"scale":size/.05,"color":color.srgb_to_linear()})
 
 func explosion(at: Vector3,size: float=1):
 	if explosion_pool.is_empty(): return
@@ -144,6 +157,7 @@ func warning_ring(at: Vector3) -> MeshInstance3D:
 
 func update(dt: float):
 	flash=maxf(0,flash-dt)
+	update_atmosphere(dt)
 	for entry in explosion_pool:
 		if entry.time<0: continue
 		entry.time+=dt
@@ -151,12 +165,58 @@ func update(dt: float):
 		if entry.time>5: entry.time=-1
 	for i in range(objects.size()-1,-1,-1):
 		var p=objects[i]
+		p.previous_at=p.at;p.previous_scale=p.scale;p.previous_remaining=p.remaining
 		p.remaining-=dt
 		if p.remaining<=0:
-			p.node.queue_free()
 			objects.remove_at(i)
 			continue
-		p.node.position+=p.velocity*dt
-		if p.node is MeshInstance3D:
-			p.node.transparency=1-p.remaining/p.life
-			p.node.scale+=Vector3.ONE*p.grow*dt
+		p.at+=p.velocity*dt
+		p.scale+=p.grow*dt
+	if objects.size()>spark_capacity:
+		while spark_capacity<objects.size(): spark_capacity*=2
+		spark_batch.multimesh.instance_count=spark_capacity
+		spark_buffer.resize(spark_capacity*16);spark_previous.resize(spark_capacity*16)
+	spark_batch.multimesh.visible_instance_count=objects.size()
+	for i in objects.size():
+		var p=objects[i]
+		write_spark(spark_buffer,i,p.at,p.scale,p.color,p.remaining/p.life)
+		write_spark(spark_previous,i,p.previous_at,p.previous_scale,p.color,p.previous_remaining/p.life)
+	if not objects.is_empty():
+		# Explicit previous transforms follow each surviving particle when slots compact.
+		spark_batch.multimesh.set_buffer_interpolated(spark_buffer,spark_previous)
+	for i in range(tracers.size()-1,-1,-1):
+		tracers[i].remaining-=dt
+		if tracers[i].remaining<=0: tracers.remove_at(i)
+	tracer_mesh.clear_surfaces()
+	if not tracers.is_empty():
+		tracer_mesh.surface_begin(Mesh.PRIMITIVE_LINES)
+		for line in tracers:
+			var tint: Color=line.color;tint.a*=clampf(line.remaining/.075,0,1)
+			tracer_mesh.surface_set_color(tint)
+			tracer_mesh.surface_add_vertex(line.a);tracer_mesh.surface_add_vertex(line.b)
+		tracer_mesh.surface_end()
+
+func write_spark(buffer: PackedFloat32Array,index: int,at: Vector3,scale_value: float,tint: Color,alpha: float):
+	var start=index*16
+	buffer[start]=scale_value;buffer[start+5]=scale_value;buffer[start+10]=scale_value
+	buffer[start+3]=at.x;buffer[start+7]=at.y;buffer[start+11]=at.z
+	buffer[start+12]=tint.r;buffer[start+13]=tint.g;buffer[start+14]=tint.b;buffer[start+15]=tint.a*clampf(alpha,0,1)
+
+func update_atmosphere(_dt: float):
+	if not atmosphere_game: return
+	var s=atmosphere_game.session
+	var moving=clampf(s.speed/7.5,0,1)
+	var running=s.fuel>0 and s.subsystems.get("engine",0)>0
+	for smoke in exhausts:
+		smoke.amount_ratio=.18+moving*.82 if running else .03
+		smoke.process_material.initial_velocity_min=.35+moving*.65
+		smoke.process_material.initial_velocity_max=.6+moving*1.4
+	for dust in dust_emitters:
+		dust.amount_ratio=maxf(.001,moving*.65)
+		dust.emitting=moving>.025
+	var gait=atmosphere_game.world.gait
+	for i in mini(4,contact_dust.size()):
+		if gait.planted[i] and not last_contacts[i] and moving>.05 and gait.contact_points.size()==4:
+			contact_dust[i].position=gait.contact_points[i]
+			contact_dust[i].restart()
+		last_contacts[i]=gait.planted[i]

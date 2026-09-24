@@ -16,6 +16,7 @@ var receiver_body: StaticBody3D
 var receiver_module: Node3D
 var receiver_progress: Node3D
 var receiver_lamp: Node3D
+var atmosphere=MMFWorldAtmosphere.new()
 
 func sync_progress():
 	var signature=",".join(game.session.story.uniques)
@@ -77,7 +78,7 @@ func setup(owner_game):
 	plane.subdivide_width = 288
 	plane.subdivide_depth = 288
 	terrain.mesh = plane
-	terrain.position = Vector3(0,-0.4,-200)
+	terrain.position = Vector3(0,0,-200)
 	terrain.custom_aabb = AABB(Vector3(-500,-30,-700),Vector3(1000,70,1400))
 	terrain_material = ShaderMaterial.new()
 	terrain_material.shader = load("res://shaders/desert.gdshader")
@@ -101,6 +102,7 @@ func setup(owner_game):
 		if "__lod" in node.name: continue
 		prototypes[String(node.name)] = node
 	scatter_library=MMFAssets.scene("runtime/scatter.glb")
+	atmosphere.setup(game)
 	refresh_chunks()
 
 func lighting():
@@ -159,7 +161,11 @@ func refresh_chunks(force: bool=false):
 		for band_index in range(band-1,band+2):
 			var key=Vector2i(chunk_index,band_index)
 			if chunks.has(key): continue
-			var chunk=Node3D.new();add_child(chunk);chunks[key]=chunk
+			# Set the initial transform before entering the tree: title/load frames
+			# must not pile all scenery at the origin or interpolate it outward.
+			var chunk=Node3D.new()
+			chunk.position=Vector3(band_index*256-game.session.lateral,0,game.session.distance+chunk_index*64)
+			add_child(chunk);chunks[key]=chunk
 			var seed_name=game.session.seed_name if band_index==0 else game.session.seed_name+":x-band:"+str(band_index)
 			for p in layout.generate(seed_name,chunk_index):
 				if not prototypes.has(p.kind): continue
@@ -185,9 +191,11 @@ func refresh_chunks(force: bool=false):
 				batch.multimesh=multimesh;batch.visibility_range_end=620
 				if spec[0] not in ["rocks","slabs","wreck-wreck"]: batch.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 				chunk.add_child(batch)
+			atmosphere.place(chunk,seed_name,chunk_index,band_index)
 
 func update(dt: float):
 	sync_progress()
+	atmosphere.update(dt)
 	var scanner=game.session.scanner
 	receiver.visible=game.session.facts.salvage
 	var receiver_layer=1 if receiver.visible else 0
@@ -210,6 +218,7 @@ func update(dt: float):
 	world_environment.environment.fog_density = 0.0018+game.session.weather.intensity*0.018
 
 func _exit_tree():
+	atmosphere.clear()
 	if is_instance_valid(library): library.free()
 	if is_instance_valid(scatter_library): scatter_library.free()
 

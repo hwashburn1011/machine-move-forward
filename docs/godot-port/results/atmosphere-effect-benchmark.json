@@ -1,0 +1,21 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"baseline": "a124e43 tracer/particle/update path",
+	"batched": {
+		"drawCallsMedian": 2.0,
+		"enqueueMedianMs": 1.627,
+		"firstUpdateMedianMs": 2.776,
+		"newSceneNodes": 0,
+		"renderFrameMedianMs": 0.824
+	},
+	"effects": 1500,
+	"legacy": {
+		"drawCallsMedian": 1500.0,
+		"enqueueMedianMs": 50.896,
+		"firstUpdateMedianMs": 2.279,
+		"newSceneNodes": 1500,
+		"renderFrameMedianMs": 1.936
+	},
+	"resolution": "(1920, 1080)",
+	"trials": 5
+}

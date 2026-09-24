@@ -6,9 +6,11 @@ varying vec2 ground_xz;
 uniform float uTerrainSeed;
 
 float t_hash(vec2 p) {
-  p = fract(p * vec2(123.34, 345.45));
-  p += dot(p, p + 34.345);
-  return fract(p.x * p.y);
+  // Keep the lattice hash bit-exact with MMFDunes.hash2 on the CPU.
+  uvec2 cell = uvec2(ivec2(p));
+  uint bits = cell.x * 374761393u + cell.y * 668265263u;
+  bits = (bits ^ (bits >> 13u)) * 1274126177u;
+  return float(bits ^ (bits >> 16u)) / 4294967295.0;
 }
 
 float t_valueNoise(vec2 p) {

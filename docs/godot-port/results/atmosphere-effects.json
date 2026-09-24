@@ -1,0 +1,7 @@
+{
+	"checks": 26,
+	"enqueue1500EffectsUsec": 1813,
+	"failures": [],
+	"passed": true,
+	"renderer": "NVIDIA GeForce RTX 3070"
+}
