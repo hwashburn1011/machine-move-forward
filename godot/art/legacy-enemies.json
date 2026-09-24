@@ -1,0 +1,59 @@
+{
+	"engine": "4.7.2-stable (official)",
+	"models": {
+		"raider": {
+			"bytes": 1541919,
+			"compiledSha256": "3e0d303c702b171b2f913c031cff227fba1acbb71ed4ccb7dec37e48cfc9e63b",
+			"dependencies": [
+				"res://art/legacy-raider_Dust faded charcoal canvas_Base.png",
+				"res://art/legacy-raider_Dust faded charcoal canvas_ORM.png",
+				"res://art/legacy-raider_Dust faded charcoal canvas_Normal.png",
+				"res://art/legacy-raider_Dust worn sand fabric_Base.png",
+				"res://art/legacy-raider_Dust worn sand fabric_ORM.png",
+				"res://art/legacy-raider_Dust protective face cloth_Base.png",
+				"res://art/legacy-raider_Dust protective face cloth_ORM.png",
+				"res://art/legacy-raider_Dust chipped oxide coating_Base.png",
+				"res://art/legacy-raider_Dust chipped oxide coating_ORM.png",
+				"res://art/legacy-raider_Dust chipped oxide coating_Normal.png",
+				"res://art/legacy-raider_Dust machined worn alloy_Base.png",
+				"res://art/legacy-raider_Dust machined worn alloy_ORM.png",
+				"res://art/legacy-raider_Dust machined worn alloy_Normal.png",
+				"res://art/legacy-raider_Dust scuffed leather_Base.png",
+				"res://art/legacy-raider_Dust scuffed leather_ORM.png",
+				"res://art/legacy-raider_Dust scuffed leather_Normal.png",
+				"res://art/legacy-raider_Dust faded ochre coating_Base.png",
+				"res://art/legacy-raider_Dust faded ochre coating_ORM.png",
+				"res://art/legacy-raider_Dust faded ochre coating_Normal.png",
+				"res://art/legacy-raider_Dust woven harness_Base.png",
+				"res://art/legacy-raider_Dust woven harness_ORM.png",
+				"res://art/legacy-raider_Dust cast graphite_Base.png",
+				"res://art/legacy-raider_Dust cast graphite_ORM.png",
+				"res://art/legacy-raider_Dust cast graphite_Normal.png"
+			],
+			"originalFitHeight": 1.87199997901917,
+			"originalSha256": "81bf0129c9437633f0d5a870a7d4f196afa8f057c44a4006229b1df32c509172",
+			"refinedSha256": "7941cf7638d7dd25cb25b0e37c5b9a365505f2f537154f95a1254cb5564f8353"
+		},
+		"scavenger": {
+			"bytes": 1162764,
+			"compiledSha256": "9643704218e85643753de95f5d140ccf5ca1110b7bbbe7bfee5ece5b3fd77b03",
+			"dependencies": [
+				"res://art/legacy-scavenger_Scavenger aged olive enamel_Base.png",
+				"res://art/legacy-scavenger_Scavenger aged olive enamel_ORM.png",
+				"res://art/legacy-scavenger_Scavenger aged olive enamel_Normal.png",
+				"res://art/legacy-raider_Dust machined worn alloy_Base.png",
+				"res://art/legacy-raider_Dust machined worn alloy_ORM.png",
+				"res://art/legacy-raider_Dust machined worn alloy_Normal.png",
+				"res://art/legacy-raider_Dust cast graphite_Base.png",
+				"res://art/legacy-raider_Dust cast graphite_ORM.png",
+				"res://art/legacy-raider_Dust cast graphite_Normal.png",
+				"res://art/legacy-raider_Dust faded ochre coating_Base.png",
+				"res://art/legacy-raider_Dust faded ochre coating_ORM.png",
+				"res://art/legacy-raider_Dust faded ochre coating_Normal.png"
+			],
+			"originalFitHeight": 1.86165630817413,
+			"originalSha256": "97bb9d9ef83c9efc28b70b511decbd06f74763ffea726a614fc3d0577404122d",
+			"refinedSha256": "70989efa5ac65dbe080c60b9553280f5d7d5887023237129cd7bc3999fbe1fd9"
+		}
+	}
+}

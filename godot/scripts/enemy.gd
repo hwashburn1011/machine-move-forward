@@ -81,9 +81,9 @@ func setup(owner_game,id: String):
 	collision.shape=shape
 	collision.position.y=0.96
 	add_child(collision)
-	visual=MMFAssets.scene("models/authored/"+id+".glb")
+	visual=MMFAssets.scene(MMFEnemyModels.path(id))
 	var bounds=MMFAssets.bounds(visual)
-	var fit=1.92/maxf(0.01,bounds.size.y)
+	var fit=1.92/maxf(0.01,float(visual.get_meta("original_fit_height",bounds.size.y)))
 	visual.scale*=fit
 	visual.position.y=-bounds.position.y*fit
 	add_child(visual)

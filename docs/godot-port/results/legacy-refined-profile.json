@@ -1,0 +1,46 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"scope": "1500x1200 high Vulkan/4xMSAA, VSync off, 60 FPS cap, frozen simulation; matching original/native rigs, both art sets resident. Fixed cameras with idle/walk animation active; 2 second warmup and 4 second samples. Captures outside timing.",
+	"spawnMs": {
+		"raider": 0.71,
+		"scavenger": 0.408
+	},
+	"views": {
+		"pair-idle": {
+			"drawCalls": 188,
+			"medianFrameMs": 16.666,
+			"medianGpuMs": 4.34899997711182,
+			"samples": 241
+		},
+		"pair-walk": {
+			"drawCalls": 188,
+			"medianFrameMs": 16.666,
+			"medianGpuMs": 5.41400003433228,
+			"samples": 241
+		},
+		"raider-idle": {
+			"drawCalls": 154,
+			"medianFrameMs": 16.666,
+			"medianGpuMs": 4.7020001411438,
+			"samples": 241
+		},
+		"raider-walk": {
+			"drawCalls": 154,
+			"medianFrameMs": 16.666,
+			"medianGpuMs": 5.27699995040894,
+			"samples": 241
+		},
+		"scavenger-idle": {
+			"drawCalls": 164,
+			"medianFrameMs": 16.666,
+			"medianGpuMs": 4.95599985122681,
+			"samples": 241
+		},
+		"scavenger-walk": {
+			"drawCalls": 164,
+			"medianFrameMs": 16.666,
+			"medianGpuMs": 5.3289999961853,
+			"samples": 241
+		}
+	}
+}

@@ -16,6 +16,7 @@ func measured_enemy() -> GDScript:
 	if original:body=MMFAssets.json("res://tests/fixtures/enemy-spawn-before-prefetch.json").setup
 	body=body.replace("\n\tgame = owner_game","\n\tprevious=Time.get_ticks_usec()\n\tgame = owner_game")
 	body=body.replace('visual=MMFAssets.scene("models/authored/"+id+".glb")','mark("body_and_collision");visual=measured_model("models/authored/"+id+".glb")')
+	body=body.replace('visual=MMFAssets.scene(MMFEnemyModels.path(id))','mark("body_and_collision");visual=measured_model(MMFEnemyModels.path(id))')
 	for spec in [['presentation.setup(animator,visual)','mark("bounds_fit");presentation.setup(animator,visual)'],['agent=NavigationAgent3D.new()','mark("animation");agent=NavigationAgent3D.new()'],['equipment.setup(self)','mark("navigation_and_label");equipment.setup(self);mark("equipment")']]:body=body.replace(spec[0],spec[1])
 	for statement in ['tactical_marker=MeshInstance3D.new()','tactical_marker.mesh=TACTICAL_RING','tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)','tactical_marker.material_override=WARNING_READY','add_child(tactical_marker)']:
 		body=body.replace(statement,statement+';mark('+JSON.stringify(statement)+')')
@@ -24,7 +25,7 @@ func measured_enemy() -> GDScript:
 func mark(label):
 	var now=Time.get_ticks_usec();stages[label]=(now-previous)/1000.;previous=now
 func measured_model(path):
-	path="res://assets/"+path
+	if not path.begins_with("res://"):path="res://assets/"+path
 	if not MMFAssets.cache.has(path):MMFAssets.cache[path]=load(path)
 	mark("resource_load")
 	var result=MMFAssets.cache[path].instantiate();mark("instantiate");return result

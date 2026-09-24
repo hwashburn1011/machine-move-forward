@@ -3,7 +3,7 @@ extends Node
 
 # Seven existing resources, one outstanding engine request. Preparation creates
 # no actors, consumes no gameplay RNG and never waits on an unfinished load.
-const PATHS=["res://assets/models/authored/sovereign.glb","res://art/sovereign-drone.glb","res://assets/models/authored/bastion.glb","res://assets/models/authored/raider.glb","res://assets/models/authored/scavenger.glb","res://assets/models/authored/warden.glb","res://assets/models/authored/revenant.glb"]
+const PATHS=["res://assets/models/authored/sovereign.glb","res://art/sovereign-drone.glb","res://assets/models/authored/bastion.glb","res://art/legacy-raider.scn","res://art/legacy-scavenger.scn","res://assets/models/authored/warden.glb","res://assets/models/authored/revenant.glb"]
 const MATERIALS=[MMFEnemy.WARNING_READY,MMFEnemy.WARNING_DANGER,MMFEnemy.WARNING_VULNERABLE,MMFEffects.SHELL_WARNING]
 var material_index=0
 var paths=PATHS.duplicate()

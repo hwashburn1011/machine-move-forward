@@ -112,7 +112,7 @@ func footing():
 	observations.footing={}
 	MMFEnemyAnimation.footing.clear()
 	for kind in game.data.ENEMIES:
-		check(MMFAssets.json("res://data/enemy-footing.json").models[kind].sourceSha256==FileAccess.get_sha256("res://assets/models/authored/"+kind+".glb"),kind+": offline footing matches the current authored model")
+		check(MMFAssets.json("res://data/enemy-footing.json").models[kind].sourceSha256==FileAccess.get_sha256(MMFEnemyModels.path(kind)),kind+": offline footing matches the current authored model")
 		var start=Time.get_ticks_usec();var enemy=game.combat.spawn(kind,Vector3(50,16,0),true);enemy.set_physics_process(false)
 		var first=(Time.get_ticks_usec()-start)/1000.;enemy.animator.callback_mode_process=AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
 		var min_height=INF;var max_height=-INF

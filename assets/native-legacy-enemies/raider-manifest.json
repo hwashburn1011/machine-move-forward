@@ -1,0 +1,26 @@
+{
+  "kind": "raider",
+  "editableParts": 315,
+  "triangles": 74200,
+  "materials": 13,
+  "bytes": 10674932,
+  "repairedTangents": 14,
+  "bones": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Head",
+    "UpperArm.L",
+    "Forearm.L",
+    "Hand.L",
+    "UpperArm.R",
+    "Forearm.R",
+    "Hand.R",
+    "Thigh.L",
+    "Shin.L",
+    "Foot.L",
+    "Thigh.R",
+    "Shin.R",
+    "Foot.R"
+  ]
+}

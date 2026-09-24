@@ -5,24 +5,24 @@
 			"visualY": -0.00457269418984652
 		},
 		"raider": {
-			"sourceSha256": "81bf0129c9437633f0d5a870a7d4f196afa8f057c44a4006229b1df32c509172",
-			"visualY": -0.0184614965692163
+			"sourceSha256": "3e0d303c702b171b2f913c031cff227fba1acbb71ed4ccb7dec37e48cfc9e63b",
+			"visualY": -0.018461505882442
 		},
 		"revenant": {
 			"sourceSha256": "ea0f176b6159e2d5151e7e08269070019662b9f7e068724b6f26eb9fd5342ecf",
-			"visualY": 0.0114211700856686
+			"visualY": 0.0114211784675717
 		},
 		"scavenger": {
-			"sourceSha256": "97bb9d9ef83c9efc28b70b511decbd06f74763ffea726a614fc3d0577404122d",
-			"visualY": -0.0185640673153102
+			"sourceSha256": "9643704218e85643753de95f5d140ccf5ca1110b7bbbe7bfee5ece5b3fd77b03",
+			"visualY": -0.0185640635900199
 		},
 		"sovereign": {
 			"sourceSha256": "91cfc2458e7d5037f4d8d13f95d621b4479c46d8f95162cb7a431802eeb4fd9e",
-			"visualY": 0.00968424789607525
+			"visualY": 0.00968424882739782
 		},
 		"warden": {
 			"sourceSha256": "935334346ae2447604eb5dd45b171cf75a79477e183af72a0f2d1438e6d91e87",
-			"visualY": 0.0102019039914012
+			"visualY": 0.0102018974721432
 		}
 	}
 }

@@ -1,0 +1,142 @@
+{
+  "startingRevision": "b5a0a51",
+  "totalAssertions": 1105,
+  "suites": [
+    {
+      "suite": "enemy_combat_contract",
+      "assertions": 42,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "boarding_contract",
+      "assertions": 18,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "enemy_animation",
+      "assertions": 113,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "enemy_equipment",
+      "assertions": 137,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "boarding",
+      "assertions": 69,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "raider_craft",
+      "assertions": 87,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "encounter_loading",
+      "assertions": 36,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "opening_handoff",
+      "assertions": 32,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "crossfire_handoff",
+      "assertions": 66,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "integration",
+      "assertions": 108,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "play_parity",
+      "assertions": 58,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "controls_interactions",
+      "assertions": 66,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "story_polish",
+      "assertions": 59,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "desert_life",
+      "assertions": 28,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "autosave_worker",
+      "assertions": 31,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "loot_feedback",
+      "assertions": 62,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "audio_lifecycle",
+      "assertions": 50,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    },
+    {
+      "suite": "legacy_enemies",
+      "assertions": 43,
+      "exitCode": 0,
+      "failures": [],
+      "reportedErrors": []
+    }
+  ],
+  "nativeBoardingContract": {
+    "assertions": 18,
+    "exitCode": 0,
+    "reportedErrors": []
+  },
+  "notes": [
+    "Final headless suites and native review/profile runs are clean. An earlier headless boarding run emitted the previously observed DummyTexture initialization warning; this is not an engine-fix claim.",
+    "The focused fixture uses approximate comparisons for native float values. Manual pose captures explicitly finish their animation blend before inspection.",
+    "Audio lifecycle runs at real elapsed time with --max-fps 60; other headless suites use --fixed-fps 60."
+  ]
+}

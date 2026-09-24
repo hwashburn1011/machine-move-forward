@@ -29,6 +29,8 @@ try {
     if ($LASTEXITCODE) { throw 'Sound bake failed.' }
     & $Godot --headless --path (Join-Path $taskRoot 'godot') --editor --import
     if ($LASTEXITCODE) { throw 'Godot import failed.' }
+    & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_legacy_enemies.gd
+    if ($LASTEXITCODE) { throw 'Legacy enemy compilation failed.' }
     & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_sovereign_body.gd
     if ($LASTEXITCODE) { throw 'Sovereign body compilation failed.' }
     & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_enemy_warning.gd

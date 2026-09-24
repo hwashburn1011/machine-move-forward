@@ -12,7 +12,7 @@ func run():
 		await physics_frame;await physics_frame
 		var heights=preload("res://tests/enemy_sole_geometry.gd").foot_heights(enemy)
 		assert(not heights.is_empty(),"No evaluated boot geometry: "+kind)
-		models[kind]={"visualY":enemy.visual.position.y-float(heights.min()),"sourceSha256":FileAccess.get_sha256("res://assets/models/authored/"+kind+".glb")}
+		models[kind]={"visualY":enemy.visual.position.y-float(heights.min()),"sourceSha256":FileAccess.get_sha256(MMFEnemyModels.path(kind))}
 		enemy.queue_free();await process_frame
 	var file=FileAccess.open("res://data/enemy-footing.json",FileAccess.WRITE);assert(file!=null)
 	file.store_string(JSON.stringify({"models":models},"\t")+"\n");file.close();print("ENEMY_FOOTING_BAKED ",models.size())
