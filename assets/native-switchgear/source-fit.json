@@ -1,0 +1,227 @@
+{
+  "support": {
+    "deckContactY": 0.0,
+    "plinthToBodyGap": -4.470348358154297e-08,
+    "bodyToLidGap": 0.0,
+    "lidTopY": 1.7079999446868896
+  },
+  "neighbourTests": [
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "CargoLocker1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "CargoLocker2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "CargoLocker3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "CargoLocker4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "PressureReceiver1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "PressureReceiver2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "PressureReceiver3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "PressureReceiver4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet1",
+      "neighbour": "PressureReceiver5",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "CargoLocker1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "CargoLocker2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "CargoLocker3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "CargoLocker4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "PressureReceiver1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "PressureReceiver2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "PressureReceiver3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "PressureReceiver4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet2",
+      "neighbour": "PressureReceiver5",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "CargoLocker1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "CargoLocker2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "CargoLocker3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "CargoLocker4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "PressureReceiver1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "PressureReceiver2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "PressureReceiver3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "PressureReceiver4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet3",
+      "neighbour": "PressureReceiver5",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "CargoLocker1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "CargoLocker2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "CargoLocker3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "CargoLocker4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "PressureReceiver1",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "PressureReceiver2",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "PressureReceiver3",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "PressureReceiver4",
+      "candidatePairs": 0,
+      "intersections": 0
+    },
+    {
+      "cabinet": "ServiceCabinet4",
+      "neighbour": "PressureReceiver5",
+      "candidatePairs": 0,
+      "intersections": 0
+    }
+  ],
+  "passed": true
+}

@@ -4,6 +4,7 @@ var game
 var checks=0
 var failures=[]
 var report={"retained":[],"models":[],"collision":[]}
+var switchgear_boxes=[]
 const SITES=[Vector3(8,12.43,10.4),Vector3(4,12.43,10.4),Vector3(0,12.43,10.4),Vector3(-4,12.43,10.4),Vector3(-8,12.43,10.4)]
 
 func _initialize():
@@ -15,6 +16,14 @@ func check(ok: bool,label: String):
 
 func removed(p: Vector3) -> bool:
 	return p.y>12.425 and p.y<14.59 and p.z>9.91 and p.z<10.85 and SITES.any(func(at):return p.x-at.x>-.40 and p.x-at.x<.32)
+
+func replaced_cabinet(p: Vector3,original_name: String) -> bool:
+	# The following cabinet pass trims two of these shared batches again. Verify
+	# the exact remainder of both replacements, rather than weakening tolerance.
+	if original_name not in ["Brace_welded_receiver001","Brace_welded_receiver001_5"]:return false
+	for box in switchgear_boxes:
+		if p.x>box.min[0]-.003 and p.x<box.max[0]+.003 and p.y>box.min[1]-.003 and p.y<box.max[1]+.003 and p.z>box.min[2]-.003 and p.z<box.max[2]+.003:return true
+	return false
 
 func vertices(mesh: MeshInstance3D) -> Array:
 	var result=[]
@@ -48,11 +57,12 @@ func run():
 	check(bank!=null and bank.get_child_count()==5,"Five complete receivers replace the original middle-deck tank bank")
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var manifest=MMFAssets.json("res://art/nomad-vessels.json")
+	switchgear_boxes=MMFAssets.json("res://art/nomad-switchgear.json").originalBoxes
 	for entry in manifest.trim:
 		check(MMFAssets.find_named(machine,entry.original)==null,"Old vessel components removed: "+entry.original)
 		if entry.replacement=="":continue
 		var old=MMFAssets.find_named(original,entry.original);var replacement=MMFAssets.find_named(machine,entry.replacement)
-		var expected=vertices(old).filter(func(p):return not removed(p));var actual=vertices(replacement)
+		var expected=vertices(old).filter(func(p):return not removed(p) and not replaced_cabinet(p,entry.original));var actual=vertices(replacement)
 		var difference=maxf(retained_distance(expected,actual),retained_distance(actual,expected))
 		check(difference<.001,"Unrelated workshop fittings retain their coordinates within 1 mm: "+entry.replacement)
 		check(replacement.get_active_material(0)==old.get_active_material(0),"Original shared material preserved: "+entry.replacement)

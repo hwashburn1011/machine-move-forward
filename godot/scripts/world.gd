@@ -48,6 +48,7 @@ var machine: Node3D
 var native_access: Node3D
 var native_dressing: Node3D
 var canopy=MMFMachineCanopy.new()
+var switchgear=MMFMachineSwitchgear.new()
 var parts = []
 var rotor: Node3D
 var seed_value = 0
@@ -62,6 +63,7 @@ func setup(owner_game):
 	native_access=MMFMachineAccess.install(self)
 	native_dressing=MMFMachineDressing.install(machine)
 	MMFMachineVessels.install(machine)
+	switchgear.install(machine)
 	canopy.install(machine)
 	gait.setup(game,machine)
 	for raw in game.runtime.colliders:
@@ -172,6 +174,7 @@ func update(dt: float):
 	sync_progress()
 	atmosphere.update(dt)
 	canopy.update(dt,game.session.weather.intensity)
+	switchgear.update(dt,game.session)
 	var scanner=game.session.scanner
 	receiver.visible=game.session.facts.salvage
 	var receiver_layer=1 if receiver.visible else 0

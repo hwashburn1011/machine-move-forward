@@ -1,0 +1,150 @@
+{
+	"checks": 76,
+	"collision": [
+		{
+			"playerStopM": 0.625018119812012,
+			"site": "(-6.0, 12.43, -11.0)"
+		},
+		{
+			"playerStopM": 0.62502384185791,
+			"site": "(1.0, 12.43, -11.0)"
+		},
+		{
+			"playerStopM": 0.62502384185791,
+			"site": "(9.6, 12.43, -9.8)"
+		},
+		{
+			"playerStopM": 0.62502384185791,
+			"site": "(9.6, 12.43, 9.0)"
+		}
+	],
+	"failures": [],
+	"indicators": [
+		{
+			"actual": "(1.0, 0.0, 0.0)",
+			"capacity": 16.0,
+			"case": "Healthy supplied bus lights only SUPPLY",
+			"demand": 0,
+			"expected": "(1.0, 0.0, 0.0)"
+		},
+		{
+			"actual": "(1.0, 1.0, 0.0)",
+			"capacity": 16.0,
+			"case": "Real overloaded station tier lights LOAD SHED",
+			"demand": 20,
+			"expected": "(1.0, 1.0, 0.0)"
+		},
+		{
+			"actual": "(1.0, 1.0, 1.0)",
+			"capacity": 16.0,
+			"case": "Existing engine damage lights ENGINE DAMAGE",
+			"demand": 20,
+			"expected": "(1.0, 1.0, 1.0)"
+		},
+		{
+			"actual": "(0.0, 0.0, 0.0)",
+			"capacity": 0,
+			"case": "Fuel exhaustion makes all cabinet lamps dark",
+			"demand": 20,
+			"expected": "(0.0, 0.0, 0.0)"
+		},
+		{
+			"actual": "(1.0, 1.0, 1.0)",
+			"capacity": 16.0,
+			"case": "Supply and existing warnings return after refuelling",
+			"demand": 20,
+			"expected": "(1.0, 1.0, 1.0)"
+		},
+		{
+			"actual": "(1.0, 1.0, 0.0)",
+			"capacity": 16.0,
+			"case": "Repair clears only ENGINE DAMAGE",
+			"demand": 20,
+			"expected": "(1.0, 1.0, 0.0)"
+		},
+		{
+			"actual": "(1.0, 0.0, 0.0)",
+			"capacity": 16.0,
+			"case": "Removing excess demand clears LOAD SHED",
+			"demand": 0,
+			"expected": "(1.0, 0.0, 0.0)"
+		}
+	],
+	"models": [
+		{
+			"bounds": "[P: (-0.45, -0.0, -0.376287), S: (0.9, 1.708, 0.790787)]",
+			"degenerate": 0,
+			"degenerateMeshes": {},
+			"lensVertices": [
+				427,
+				427,
+				427
+			],
+			"site": "(-6.0, 12.43, -11.0)",
+			"triangles": 54220
+		},
+		{
+			"bounds": "[P: (-0.45, -0.0, -0.376287), S: (0.9, 1.708, 0.790787)]",
+			"degenerate": 0,
+			"degenerateMeshes": {},
+			"lensVertices": [
+				427,
+				427,
+				427
+			],
+			"site": "(1.0, 12.43, -11.0)",
+			"triangles": 54220
+		},
+		{
+			"bounds": "[P: (-0.45, -0.0, -0.376287), S: (0.9, 1.708, 0.790787)]",
+			"degenerate": 0,
+			"degenerateMeshes": {},
+			"lensVertices": [
+				427,
+				427,
+				427
+			],
+			"site": "(9.6, 12.43, -9.8)",
+			"triangles": 54220
+		},
+		{
+			"bounds": "[P: (-0.45, -0.0, -0.376287), S: (0.9, 1.708, 0.790787)]",
+			"degenerate": 0,
+			"degenerateMeshes": {},
+			"lensVertices": [
+				427,
+				427,
+				427
+			],
+			"site": "(9.6, 12.43, 9.0)",
+			"triangles": 54220
+		}
+	],
+	"passed": true,
+	"retained": [
+		{
+			"maxDistanceM": 0.000500923779327422,
+			"name": "VesselRetained1",
+			"originalVertices": 16091,
+			"retainedVertices": 16203
+		},
+		{
+			"maxDistanceM": 0.000474953732918948,
+			"name": "Brace_welded_receiver001_1",
+			"originalVertices": 4508,
+			"retainedVertices": 4518
+		},
+		{
+			"maxDistanceM": 0.000435857858974487,
+			"name": "Brace_welded_receiver001_3",
+			"originalVertices": 308,
+			"retainedVertices": 308
+		},
+		{
+			"maxDistanceM": 0.000476579589303583,
+			"name": "VesselRetained2",
+			"originalVertices": 3793,
+			"retainedVertices": 3860
+		}
+	]
+}

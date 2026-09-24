@@ -241,3 +241,14 @@ Starting state: `9e84cbd`. The preceding turn made verified progress on the cano
 4. Verify original collision with real movement/rays, shared resources, native text facing, source support contact, complete adjacent mesh clearance and regressions. Measure sequential matched GPU runs and preserve final native captures.
 
 Iteration review: [pressure vessels](pressure-vessel-review.md). All 537 selected assertions pass, both exported GLBs validate cleanly, and final receiver/case geometry has no intersections. The added detail costs 0.032–0.094 ms median GPU in four fixed native views. This is verified progress within the existing game. The broad goal remains active: nearby switchgear and workshop equipment still expose simple fittings, and full-campaign feel plus independently observed frame stalls need further work.
+
+## Completed iteration: fitted electrical cabinets and live indicators
+
+Starting state: `2a0fa07`. The preceding turn made verified progress on pressure vessels. Refine the four adjacent plain electrical cabinets and let their lamps convey existing machine state.
+
+1. Author one detailed Blender master with formed enclosure edges, a sealing gasket, knuckled hinges, locks, a folded handle, readable legends, louvers, grounded anchors and connected cable glands. Preserve all four existing sites, aisle orientations and collision footprints.
+2. Inspect studio, MCP and native captures; correct coincident roof faces, gland alignment and compressed bevel slivers. Preserve unrelated vertices/materials in six shared batches, including the previous pressure-vessel remainders and stable node names.
+3. Share five runtime mesh/material batches and one opaque indicator shader. Read existing supply, excess demand and engine damage at four Hz of simulation time; leave power, repair, interaction and save rules intact.
+4. Verify actual player/raycast clearance, all 36 adjacent cargo/vessel mesh comparisons, real refuelling/repair/load transitions, pause/resume, shared resources, native vertex colors and zero imported degenerate triangles. Run selected gameplay/control regressions and sequential fixed-view GPU measurements.
+
+Iteration review: [electrical cabinets](switchgear-review.md). All 613 selected assertions pass and both GLBs validate with zero errors/warnings. The four detailed cabinets add 0.067–0.154 ms median GPU in matching native views. This is verified art and feedback progress, not a claim of improved gameplay FPS or complete campaign validation. The broad goal remains active: adjacent workbenches and pumps remain visually simple, and full-campaign feel plus independently observed intermittent frame stalls still need further work.
