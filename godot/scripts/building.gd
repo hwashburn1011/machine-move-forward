@@ -53,6 +53,8 @@ func add_visual(p: Dictionary):
 		body.set("game",game);body.set("piece_id",p.instanceId)
 
 func choose(id: String):
+	target = {}
+	failure = "Aim at a deck"
 	selected = id
 	rotation_index = 0
 	moving = ""
@@ -64,6 +66,8 @@ func choose(id: String):
 	add_child(preview)
 
 func cancel():
+	target = {}
+	failure = "Aim at a deck"
 	selected = ""
 	moving = ""
 	demolish_time = 0
@@ -92,20 +96,30 @@ func _unhandled_input(event):
 				choose(p.definitionId)
 				moving = p.instanceId
 				rotation_index = int(p.rotation)
-	if event.is_action_pressed("fire") and failure == "" and not target.is_empty():
-		if moving != "":
-			var p = game.session.find_piece(moving)
-			p.cell = target.cell.duplicate()
-			p.rotation = rotation_index
-			p.erase("edge")
-			if target.has("edge"): p.edge = target.edge.duplicate()
-			bodies[moving].transform = piece_transform(p)
-			cancel()
-		else:
-			var p = game.session.create_piece(selected,target.cell,rotation_index,target.get("edge",{}))
-			if not p.is_empty(): add_visual(p)
-		game.session.changed.emit()
-		game.combat.layout_changed()
+	if event.is_action_pressed("fire"): commit_placement()
+
+func commit_placement() -> bool:
+	if selected=="" or game.menu_open or game.cinematic!="" or game.session.health<=0 or game.manual_turret!="": return false
+	# Input events can rotate/switch pieces before the next physics preview tick.
+	# Recompute the aim, footprint, support, reach and cost at the actual click.
+	update(0)
+	if selected=="" or failure!="" or target.is_empty(): return false
+	if moving != "":
+		var p = game.session.find_piece(moving)
+		if p.is_empty() or not bodies.has(moving): cancel();return false
+		p.cell = target.cell.duplicate()
+		p.rotation = rotation_index
+		p.erase("edge")
+		if target.has("edge"): p.edge = target.edge.duplicate()
+		bodies[moving].transform = piece_transform(p)
+		cancel()
+	else:
+		var p = game.session.create_piece(selected,target.cell,rotation_index,target.get("edge",{}))
+		if p.is_empty(): return false
+		add_visual(p)
+	game.session.changed.emit()
+	game.combat.layout_changed()
+	return true
 
 func current_level() -> int:
 	return int(round((game.player.position.y-16.03)/3.6)) if manual_level==99 else manual_level
@@ -122,6 +136,7 @@ func update(dt: float):
 	var plane = Plane(Vector3.UP,16.03+level*3.6)
 	var intersection = plane.intersects_ray(camera.global_position,direction)
 	if intersection == null:
+		target = {}
 		preview.visible = false
 		failure = "Aim at a deck"
 		return

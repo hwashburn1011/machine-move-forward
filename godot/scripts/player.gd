@@ -33,6 +33,7 @@ var capsule_shape: CapsuleShape3D
 var boundary: MMFGroundBoundary
 var dead=false
 var suppress_fire=false
+var restore_placement_frames=0
 
 func setup(owner_game):
 	game = owner_game
@@ -136,10 +137,15 @@ func _unhandled_input(event):
 
 func switch_weapon(id: String):
 	game.session.current_weapon = id
-	reload_left = 0
-	burst_left=0
+	cancel_reload()
 	rifle_mesh.visible = id == "rifle"
 	shotgun_mesh.visible = id == "shotgun"
+	animation = ""
+
+func cancel_reload():
+	reload_left = 0
+	burst_left=0
+	burst_recovery=0
 	animation = ""
 
 func play(wanted: String, one_shot: bool = false):
@@ -156,6 +162,12 @@ func play(wanted: String, one_shot: bool = false):
 
 func _physics_process(dt):
 	if game == null or game.cinematic != "" or forced_motion: return
+	# Wait for rebuilt colliders and queued old bodies to reach the physics world.
+	if restore_placement_frames>0:
+		restore_placement_frames-=1
+		if restore_placement_frames==0 and not boundary.fits(position):
+			teleport(boundary.safe_position())
+		return
 	var state = game.session
 	hit_grace = maxf(0, hit_grace-dt)
 	fire_left = maxf(0, fire_left-dt)

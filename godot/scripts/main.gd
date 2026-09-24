@@ -121,11 +121,13 @@ func open_menu(page: String):
 	if page not in ["Build","Pause","Settings"]: building.cancel()
 	if started: player.play("armed_idle")
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
+	refresh_fieldwork_power(page)
 	ui.open(page)
 
 func close_menu():
 	if not started: return
 	menu_open=false
+	refresh_fieldwork_power()
 	get_tree().paused=false
 	Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	ui.panel.hide()
@@ -150,7 +152,6 @@ func _physics_process(dt):
 		building.update(dt)
 		campaign.update(dt)
 		home.update(dt)
-		caretaker.update(dt)
 		opportunities.update(dt)
 		update_interaction(dt)
 		autosave_clock+=dt
@@ -187,16 +188,61 @@ func weapon_definition() -> Dictionary:
 			def.spread*=1.2;def.aimSpread*=1.2;def.range*=0.75;def.falloffStart*=0.8;def.fireRate*=1.25
 	return def
 
-func fit_attachment(id: String):
-	if not session.has_station("workbench") or not data.WEAPON_ATTACHMENTS.has(id): return
+func stable_for_research() -> bool:
+	return started and session.opening_done and session.health>0 and aboard() and cinematic=="" and not combat.active_threat() and combat.ship_state=="none" and not combat.encounter_had_enemies and session.story.phase in ["locked","signal","raids","route-selection","docked","complete"]
+
+func research_refusal(removing: bool=false) -> String:
+	if not session.facts.salvage: return "Recover the radio receiver first."
+	if not stable_for_research(): return "Return aboard and finish the current encounter or journey first."
+	session.update_power()
+	if not removing and not session.powered.get("fixed-radio",false): return "The receiver needs power."
+	return ""
+
+func research_action(action: String,id: String) -> bool:
+	var refusal=research_refusal(action=="remove")
+	if refusal!="": session.notify(refusal);return false
+	match action:
+		"research": return session.begin_research(id)
+		"fit": return session.activate_upgrade(id)
+		"remove": return session.deactivate_upgrade(id)
+	return false
+
+func refresh_fieldwork_power(page: String=""):
+	var terminal_page=ui.page if page=="" else page
+	session.fieldwork_active=menu_open and terminal_page in ["Inventory","Storage","Workshop","Machine","Signal","Helm","Records","Record","Shelf"] and started and aboard() and session.has_station("workbench") and "relay-foundry" in session.story.completed
+	session.update_power()
+
+func attachment_refusal() -> String:
+	if "relay-foundry" not in session.story.completed: return "Complete Relay Foundry to unlock attachments."
+	if not session.has_station("workbench"): return "Build a functional workbench."
+	if not menu_open or not stable_for_research(): return "Use the wrist terminal aboard after the encounter."
+	refresh_fieldwork_power()
+	if not session.powered.get("fixed-fieldwork",false): return "Fieldwork tools require 1 power."
+	return ""
+
+func fit_attachment(id: String) -> bool:
+	var refusal=attachment_refusal()
+	if refusal!="": session.notify(refusal);return false
+	if not data.WEAPON_ATTACHMENTS.has(id): return false
 	var def=data.WEAPON_ATTACHMENTS[id]
 	if id not in session.attachment_research:
 		if not session.pay(def.cost):
 			session.notify("Not enough materials.")
-			return
+			return false
 		session.attachment_research.append(id)
 	session.weapons[def.weaponId].attachment=id
+	if def.weaponId==session.current_weapon: player.cancel_reload()
 	session.notify(def.name+" fitted.")
+	return true
+
+func remove_attachment(weapon_id: String) -> bool:
+	var refusal=attachment_refusal()
+	if refusal!="": session.notify(refusal);return false
+	if not session.weapons.has(weapon_id): return false
+	session.weapons[weapon_id].attachment=""
+	if weapon_id==session.current_weapon: player.cancel_reload()
+	session.notify("Attachment removed.")
+	return true
 
 func nearest_piece() -> Dictionary:
 	var best={}
@@ -409,6 +455,7 @@ func load_payload(payload: Dictionary):
 	player.death_left=0
 	player.dead=false;player.hit_grace=0;player.reload_left=0;player.burst_left=0
 	player.boundary.clear()
+	player.restore_placement_frames=2
 	player.reset_physics_interpolation()
 	started=true
 	close_menu()

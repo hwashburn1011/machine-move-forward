@@ -1,28 +1,11 @@
 /** Export canonical TS data and losslessly expand meshopt GLBs for native import. */
 import fs from 'node:fs/promises';
-import sync from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import ts from 'typescript';
-import { createRequire } from 'node:module';
+import { moduleData } from './ts-data.mjs';
 import { MeshoptDecoder } from 'meshoptimizer';
 const root = path.resolve(import.meta.dirname, '../..');
 const dest = path.join(root, 'godot');
-const cache = new Map();
-const packageRequire = createRequire(import.meta.url);
-function moduleData(file) {
-  if (!path.extname(file)) file += '.ts';
-  if (cache.has(file)) return cache.get(file);
-  if (file.endsWith('.json')) return JSON.parse(sync.readFileSync(file, 'utf8'));
-  const module = { exports: {} };
-  cache.set(file, module.exports);
-  const code = ts.transpileModule(sync.readFileSync(file, 'utf8'), {
-    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, esModuleInterop: true },
-  }).outputText;
-  const require = name => name.startsWith('@/') ? moduleData(path.join(root, 'src', name.slice(2))) : name.startsWith('.') ? moduleData(path.resolve(path.dirname(file), name)) : packageRequire(name);
-  new Function('require', 'module', 'exports', code)(require, module, module.exports);
-  return module.exports;
-}
 await fs.mkdir(path.join(dest, 'data'), { recursive: true });
 const definitions = {};
 for (const name of (await fs.readdir(path.join(root, 'src/data'))).filter(n => n.endsWith('.ts'))) {

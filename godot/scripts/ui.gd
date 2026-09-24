@@ -210,14 +210,26 @@ func refresh():
 			for recipe in game.data.RECIPES:
 				button("%s   ← %s   [%s]" %[recipe.name,costs(recipe.inputs),recipe.station],func():s.craft(recipe.id);refresh(),s.has_station(recipe.station))
 			text_line("MACHINE RESEARCH",true)
-			if s.research.job!="": text_line("Researching %s · %ds" %[s.research.job,s.research.elapsed])
+			var refusal=game.research_refusal()
+			if refusal!="": text_line(refusal)
 			for id in game.data.UPGRADES:
 				var def=game.data.UPGRADES[id]
-				button(("FIT " if id in s.research.completed else "RESEARCH ")+def.name+"  "+costs(def.researchCost),func():s.begin_research(id);refresh())
+				if s.research.active.get(def.branch,"")==id:
+					button("REMOVE "+def.name,func():game.research_action("remove",def.branch);refresh(),game.research_refusal(true)=="")
+				elif id in s.research.completed:
+					button("FIT "+def.name,func():game.research_action("fit",id);refresh(),refusal=="")
+				else:
+					button("RESEARCH "+def.name+"  "+costs(def.researchCost),func():game.research_action("research",id);refresh(),refusal=="" and s.can_pay(def.researchCost))
 			text_line("WEAPON WORKBENCH",true)
+			var attachment_refusal=game.attachment_refusal()
+			if attachment_refusal!="": text_line(attachment_refusal)
 			for id in game.data.WEAPON_ATTACHMENTS:
 				var def=game.data.WEAPON_ATTACHMENTS[id]
-				button(def.name+"  "+costs(def.cost),func():game.fit_attachment(id);refresh(),s.has_station("workbench"))
+				if s.weapons[def.weaponId].attachment==id:
+					button("REMOVE "+def.name,func():game.remove_attachment(def.weaponId);refresh(),attachment_refusal=="")
+				else:
+					var known=id in s.attachment_research
+					button(("FIT " if known else "RESEARCH & FIT ")+def.name+("" if known else "  "+costs(def.cost)),func():game.fit_attachment(id);refresh(),attachment_refusal=="" and (known or s.can_pay(def.cost)))
 		"Machine": machine_page()
 		"Signal","Helm": navigation_page()
 		"Records":

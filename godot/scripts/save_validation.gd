@@ -36,6 +36,7 @@ static func session(raw: Dictionary,data: Dictionary,defaults: Dictionary) -> bo
 	for field in ["health","fuel","hydration","nourishment"]:
 		if not number(raw.get(field),0,100): return false
 	if not number(raw.get("distance"),0,1e12) or not number(raw.get("clock"),0,1e12): return false
+	if raw.has("nextPieceId") and not number(raw.nextPieceId,0,1e12,true): return false
 	if not raw.get("inventory") is Array or not raw.get("structures") is Array or not raw.get("stores") is Dictionary: return false
 	var ids={}
 	for p in raw.structures:
@@ -76,6 +77,12 @@ static func session(raw: Dictionary,data: Dictionary,defaults: Dictionary) -> bo
 	if raw.research.get("job","")!="" and not data.UPGRADES.has(raw.research.job): return false
 	for id in raw.research.get("completed",[]):
 		if not data.UPGRADES.has(id): return false
+	for branch in raw.research.get("active",{}):
+		var id=raw.research.active[branch]
+		if not id is String or not data.UPGRADES.has(id) or data.UPGRADES[id].branch!=branch or id not in raw.research.get("completed",[]): return false
+	if not strings(raw.get("attachmentResearch",[])): return false
+	for id in raw.get("attachmentResearch",[]):
+		if not data.WEAPON_ATTACHMENTS.has(id): return false
 	if raw.has("contacts"):
 		var chart=raw.contacts
 		if not chart.get("active") is Dictionary or not number(chart.get("nextSlot"),1,1e9,true) or not strings(chart.get("visited")) or not strings(chart.get("missed")): return false
@@ -84,6 +91,9 @@ static func session(raw: Dictionary,data: Dictionary,defaults: Dictionary) -> bo
 			for key in ["id","kind","state","step","salvageMode"]:
 				if not c.get(key) is String: return false
 			if not data.OPPORTUNITIES.has(c.kind) or not c.get("rewards") is Dictionary: return false
+			if c.state not in ["detected","committed","docked","visited","departing"]: return false
+			if c.has("record") and not c.record is bool: return false
+			if not number(c.get("slot"),1,1e9,true): return false
 			for key in ["atDistanceM","worldX","expiresAtM","slot"]:
 				if not number(c.get(key),-1e12,1e12): return false
 			for id in c.rewards:

@@ -17,6 +17,8 @@ func setup(owner_game):
 	collision_layer=8
 	collision_mask=1
 	floor_snap_length=0.4
+	floor_max_angle=deg_to_rad(50)
+	safe_margin=0.02
 	var shape=CapsuleShape3D.new()
 	shape.radius=0.28;shape.height=1.0
 	var collision=CollisionShape3D.new()
@@ -30,7 +32,7 @@ func setup(owner_game):
 	visual.position=Vector3.ZERO
 	add_child(visual)
 	agent=NavigationAgent3D.new()
-	agent.path_desired_distance=0.25;agent.target_desired_distance=0.5
+	agent.path_desired_distance=0.08;agent.target_desired_distance=0.5
 	add_child(agent)
 	visible=false
 
@@ -74,6 +76,9 @@ func choose_job() -> Dictionary:
 	for list in lists:
 		if not list.is_empty(): return list[0]
 	return {}
+
+func _physics_process(dt: float):
+	if game and game.cinematic=="": update(dt)
 
 func update(dt: float):
 	if not game.session.caretaker.recovered: visible=false;return
@@ -128,14 +133,22 @@ func update(dt: float):
 							game.session.stores[target.instanceId].add(job.item,1)
 						job={};phase="idle";wait_time=2
 	if phase.begins_with("service-"): destination=position
+	velocity.x=0;velocity.z=0
 	if position.distance_to(destination)>0.6:
 		agent.target_position=destination
-		var next=agent.get_next_path_position() if not agent.is_navigation_finished() else position
+		# Refresh the path after assigning a target before consuming its state.
+		var next=agent.get_next_path_position() if NavigationServer3D.map_get_iteration_id(get_world_3d().navigation_map)>0 else position
 		var direction=(next-position)*Vector3(1,0,1)
 		if direction.length()>0.05:
 			direction=direction.normalized()
 			velocity.x=direction.x*1.35;velocity.z=direction.z*1.35
 			visual.rotation.y=lerp_angle(visual.rotation.y,atan2(direction.x,direction.z),1-exp(-5*dt))
-	else: velocity.x=0;velocity.z=0
-	velocity.y=-0.1 if is_on_floor() else velocity.y-22*dt
-	move_and_slide()
+	velocity.y=0 if is_on_floor() else velocity.y-22*dt
+	if is_on_floor() and Vector2(velocity.x,velocity.z).length_squared()>0.01:
+		var motion=Vector3(velocity.x,0,velocity.z)*dt
+		if test_move(global_transform,motion):
+			var raised=global_transform;raised.origin.y+=0.44
+			if not test_move(raised,motion):
+				var floor_hit=game.raycast(raised.origin+motion,raised.origin+motion-Vector3.UP*0.52,[get_rid()])
+				if not floor_hit.is_empty() and floor_hit.normal.y>0.65: position.y=floor_hit.position.y+0.025
+	MMFDeckMotion.slide(self,dt)

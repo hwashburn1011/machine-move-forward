@@ -84,7 +84,7 @@ func setup(owner_game,id: String):
 			if String(key).get_file() in ["idle","walk","run","Idle","Walk","Run"]: animator.get_animation(key).loop_mode=Animation.LOOP_LINEAR
 	play("idle")
 	agent=NavigationAgent3D.new()
-	agent.path_desired_distance=0.3
+	agent.path_desired_distance=0.08
 	agent.target_desired_distance=1.0
 	agent.radius=shape.radius
 	add_child(agent)
@@ -211,19 +211,19 @@ func _physics_process(dt):
 			agent.target_position=target
 			next_path=0.35
 		var waypoint=target
-		if NavigationServer3D.map_get_iteration_id(get_world_3d().navigation_map)>0 and not agent.is_navigation_finished(): waypoint=agent.get_next_path_position()
+		if NavigationServer3D.map_get_iteration_id(get_world_3d().navigation_map)>0: waypoint=agent.get_next_path_position()
 		elif absf(delta.y)>2:
 			waypoint=Vector3(-12,position.y,-3 if delta.y>0 else 3)
 			if position.distance_to(waypoint)<1.0: waypoint=Vector3(-12,target.y,3 if delta.y>0 else -3)
 		movement=(waypoint-position)*Vector3(1,0,1)
-		movement=movement.normalized()*definition.moveSpeed
+		movement=movement.limit_length(definition.moveSpeed*dt)/maxf(dt,0.000001)
 		# Separation keeps melee groups from collapsing into a single capsule.
 		for other in game.combat.enemies:
 			if not is_instance_valid(other) or other==self or other.dead: continue
 			var away=position-other.position
 			away.y=0
 			if away.length_squared()<0.7 and away.length_squared()>0.001: movement+=away.normalized()*1.2
-		play("run" if definition.moveSpeed>4 else "walk")
+		play("idle" if movement.length()<0.1 else ("run" if definition.moveSpeed>4 else "walk"))
 	elif windup<=0 and phase=="idle" and cooldown<definition.attackCooldown-0.6: play("idle")
 	velocity.x=movement.x
 	velocity.z=movement.z
@@ -235,7 +235,7 @@ func _physics_process(dt):
 		if not test_move(raised,movement*dt):
 			var floor_hit=game.raycast(raised.origin+movement*dt,raised.origin+movement*dt-Vector3.UP*0.52,[get_rid()])
 			if not floor_hit.is_empty() and floor_hit.normal.y>0.65: position.y=floor_hit.position.y+0.025
-	move_and_slide()
+	MMFDeckMotion.slide(self,dt)
 	if delta.length_squared()>0.01: visual.rotation.y=lerp_angle(visual.rotation.y,atan2(delta.x,delta.z),1-exp(-8*dt))
 	if position.y<0: take_damage(10000,position)
 

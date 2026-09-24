@@ -42,6 +42,7 @@ var demand = 0.0
 var powered: Dictionary = {}
 var opening_done = false
 var save_extras: Dictionary = {}
+var fieldwork_active = false
 
 func _init(definitions: Dictionary):
 	data = definitions
@@ -143,8 +144,12 @@ func craft(id: String, times: int = 1) -> bool:
 func use_item(id: String) -> bool:
 	if inventory.count_item(id) == 0: return false
 	match id:
-		"water": hydration = minf(100, hydration + 60)
-		"rations": nourishment = minf(100, nourishment + 60)
+		"water":
+			if hydration >= 100: return false
+			hydration = minf(100, hydration + 60)
+		"rations":
+			if nourishment >= 100: return false
+			nourishment = minf(100, nourishment + 60)
 		"repair-kit":
 			if health<=0 or health>=100: return false
 			health = minf(100, health + 40*(0.5 if nourishment<=0 else 1))
@@ -201,14 +206,25 @@ func modifiers() -> Dictionary:
 	return result
 
 func begin_research(id: String) -> bool:
-	if not data.UPGRADES.has(id) or not has_station("workbench"): return false
-	if id in research.completed:
-		research.active[data.UPGRADES[id].branch] = id
-		changed.emit()
-		return true
-	if research.job != "" or not pay(data.UPGRADES[id].researchCost): return false
-	research.job = id
-	research.elapsed = 0.0
+	# UpgradeSystem.research is an instant unlock; fitting is a separate choice.
+	if not data.UPGRADES.has(id) or id in research.completed: return false
+	if not pay(data.UPGRADES[id].researchCost): return false
+	research.completed.append(id)
+	changed.emit()
+	return true
+
+func activate_upgrade(id: String) -> bool:
+	if not data.UPGRADES.has(id) or id not in research.completed: return false
+	research.active[data.UPGRADES[id].branch] = id
+	update_power()
+	changed.emit()
+	return true
+
+func deactivate_upgrade(branch: String) -> bool:
+	if not research.active.has(branch): return false
+	research.active.erase(branch)
+	update_power()
+	changed.emit()
 	return true
 
 func repair(id: String) -> bool:
@@ -247,6 +263,7 @@ func update_power():
 			consumers.append({"id": p.instanceId, "draw": draw, "priority": priority})
 			demand += draw
 	if facts.salvage: consumers.append({"id":"fixed-radio","draw":1,"priority":1});demand+=1
+	if fieldwork_active: consumers.append({"id":"fixed-fieldwork","draw":1,"priority":1});demand+=1
 	if "course-gyro" in story.uniques: consumers.append({"id":"fixed-helm","draw":1,"priority":1});demand+=1
 	var total=demand;var enabled=[0,1,2]
 	for priority in [0,1,2]:
@@ -271,7 +288,7 @@ func tick(dt: float, stable: bool = true, aboard: bool = true):
 	var legs = 0.0
 	for id in subsystems:
 		if id.begins_with("leg-"): legs += subsystems[id] / data.SUBSYSTEMS[id].maxHealth
-	var target = 7.5 * engine * (0.3 + 0.7*legs/4) * mods.speedMultiplier / sqrt((12000+(weight-12000)*mods.effectiveWeightMultiplier)/12000)
+	var target = 7.5 * engine * (0.4 + 0.6*legs/4) * mods.speedMultiplier / sqrt((12000+(weight-12000)*mods.effectiveWeightMultiplier)/12000)
 	if fuel <= 0: target *= 0.2
 	if story.phase in ["docked", "crossfire", "arrival"] or contacts.active.get("state","") in ["docked","visited"] or not opening_done: target = 0
 	if contacts.active.get("state","")=="committed":
@@ -296,28 +313,30 @@ func tick(dt: float, stable: bool = true, aboard: bool = true):
 		if scanner.pendingDelayS == 0:
 			scanner.phase = "consumed"
 			contact_ready.emit()
-	if research.job != "" and station_powered("workbench"):
-		research.elapsed += dt
-		var def = data.UPGRADES[research.job]
-		if research.elapsed >= def.researchSeconds:
-			research.completed.append(research.job)
-			research.active[def.branch] = research.job
-			research.job = ""
-			notify("Research complete: " + def.name)
 	for p in structures:
 		var kind = p.definitionId
 		if kind not in ["planter", "condenser", "seed-garden"] or p.health <= 0: continue
 		var st = p.state
 		if kind == "condenser" and not powered.get(p.instanceId, false): continue
-		var cap = 1 if kind == "condenser" else 3
+		var cap = 1 if kind == "condenser" else (6 if kind == "seed-garden" else 3)
 		if st.get("stored", 0) >= cap: continue
-		if kind == "seed-garden" and st.get("water", 0) <= 0: continue
 		var period = 90 if kind == "condenser" else (180 if kind == "seed-garden" else 150)
+		if kind == "seed-garden":
+			var remaining = dt
+			while remaining > 0 and st.get("water",0) > 0 and st.get("stored",0) <= cap-3:
+				var step = minf(remaining, period-st.get("elapsedS",0.0))
+				st.elapsedS = st.get("elapsedS",0.0)+step
+				remaining -= step
+				if st.elapsedS+1e-9 < period: break
+				st.elapsedS = 0.0
+				st.water -= 1
+				st.stored = st.get("stored",0)+3
+			continue
 		st.elapsedS = st.get("elapsedS", 0.0)+dt
 		while st.elapsedS >= period and st.get("stored",0)<cap:
 			st.elapsedS -= period
-			st.stored = st.get("stored", 0)+ (3 if kind == "seed-garden" else 1)
-			if kind == "seed-garden": st.water -= 1
+			st.stored = st.get("stored", 0)+1
+		if st.stored >= cap: st.elapsedS = minf(st.elapsedS,period)
 
 func objective() -> String:
 	if not facts.salvage: return "RECOVER SALVAGE\nReel in a drifting cargo crate with [F]."
@@ -373,6 +392,12 @@ func restore_native(raw: Dictionary) -> bool:
 	structures = raw.get("structures", []).duplicate(true)
 	stores.clear()
 	for p in structures:
+		if p.definitionId in ["condenser","planter","seed-garden"]:
+			var period=90 if p.definitionId=="condenser" else (180 if p.definitionId=="seed-garden" else 150)
+			var cap=1 if p.definitionId=="condenser" else (6 if p.definitionId=="seed-garden" else 3)
+			p.state.elapsedS=clampf(p.state.get("elapsedS",0),0,period)
+			p.state.stored=clampi(int(p.state.get("stored",0)),0,cap)
+			p.state.water=clampi(int(p.state.get("water",0)),0,2)
 		if p.definitionId in ["crate", "collector-auto"]:
 			var bag = MMFInventory.new(data.ITEMS, 12 if p.definitionId == "crate" else 6)
 			if not bag.restore(raw.get("stores", {}).get(p.instanceId, [])): return false
@@ -389,9 +414,20 @@ func restore_native(raw: Dictionary) -> bool:
 	target_course = float(raw.get("targetCourse", course))
 	lateral = float(raw.get("lateral", 0))
 	next_piece_id = int(raw.get("nextPieceId", structures.size()))
+	# Older saves can contain a stale counter; never reuse an existing store ID.
+	for p in structures:
+		if p.instanceId.begins_with("bp-") and p.instanceId.substr(3).is_valid_int():
+			next_piece_id = maxi(next_piece_id,int(p.instanceId.substr(3))+1)
+	# Honour already-paid jobs from the early port without charging again.
+	if research.job != "" and research.job not in research.completed:
+		research.completed.append(research.job)
+	research.job = ""
+	research.elapsed = 0.0
+	fieldwork_active = false
 	opening_done = raw.get("openingDone", true)
 	clock = float(raw.get("clock", 0))
 	contacts=raw.get("contacts",{"nextSlot":1,"active":{},"visited":[],"missed":[]}).duplicate(true)
+	if not contacts.active.is_empty() and not contacts.active.has("record"): contacts.active.record=false
 	rng.seed = MMFRandom.hash_seed([seed_name])
 	if raw.has("rngState"): rng.state = int(raw.rngState)
 	update_power()
