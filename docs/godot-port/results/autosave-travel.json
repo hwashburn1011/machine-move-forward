@@ -1,0 +1,181 @@
+{
+  "scope": "65-second matched native travel traces, RTX 3070, 1920x1080, high Forward+/Vulkan, 4x MSAA, no VSync. Main loop is instrumented in test-owned script copies only.",
+  "baseline": {
+    "source": "travel-stages.json",
+    "allFramesMs": {
+      "max": 280.097,
+      "median": 3.536,
+      "p95": 5.359,
+      "p99": 5.775
+    },
+    "afterThreeSecondsFrameMs": {
+      "median": 3.533,
+      "p95": 5.365,
+      "p99": 5.762,
+      "maximum": 30.75,
+      "samples": 16580
+    },
+    "afterThreeSecondsMaxMainMs": 26.138,
+    "autosaveTick": {
+      "distance": 439.921577070464,
+      "frame": 15922,
+      "ms": 26.138,
+      "stages": {
+        "autosave_clock+=dt": 0.001,
+        "building.update(dt)": 0.003,
+        "campaign.update(dt)": 0.003,
+        "cinematics.update(dt)": 0.004,
+        "combat.update(dt)": 0.013,
+        "effects.update(dt)": 0.033,
+        "home.update(dt)": 0.019,
+        "journey.update(dt)": 0.034,
+        "opportunities.update(dt)": 0.004,
+        "salvage.update(dt)": 0.016,
+        "session.tick(dt,not combat.active_threat() and (not menu_open or ui.page==\"Signal\"),aboard())": 0.042,
+        "story_art.update(dt)": 0.016,
+        "terminal_pages.update(dt)": 0.003,
+        "update_interaction(dt)": 0.01,
+        "world.update(dt)": 25.935
+      },
+      "time": 60.0166666666645
+    },
+    "autosaveFrame": {
+      "distance": 439.921577070464,
+      "focused": true,
+      "frame": 15922,
+      "gpuMs": 3.47399997711182,
+      "ms": 30.75,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 51,
+        "SURFACE": 48
+      },
+      "renderCpuMs": 0.642000019550323,
+      "setupCpuMs": 0.282,
+      "time": 60.0166666666645
+    },
+    "finalDistance": 476.015806641955
+  },
+  "background": {
+    "source": "travel-autosave-after.json",
+    "allFramesMs": {
+      "max": 175.594,
+      "median": 3.529,
+      "p95": 5.295,
+      "p99": 5.683
+    },
+    "afterThreeSecondsFrameMs": {
+      "median": 3.524,
+      "p95": 5.295,
+      "p99": 5.671,
+      "maximum": 7.576,
+      "samples": 16667
+    },
+    "afterThreeSecondsMaxMainMs": 2.659,
+    "autosaveTick": {
+      "distance": 439.921577070464,
+      "frame": 15977,
+      "ms": 2.659,
+      "stages": {
+        "autosave_clock+=dt": 0.0,
+        "building.update(dt)": 0.003,
+        "campaign.update(dt)": 0.003,
+        "cinematics.update(dt)": 0.003,
+        "combat.update(dt)": 0.013,
+        "effects.update(dt)": 0.032,
+        "home.update(dt)": 0.021,
+        "journey.update(dt)": 0.034,
+        "opportunities.update(dt)": 0.004,
+        "salvage.update(dt)": 0.018,
+        "save_game(\"autosave\")": 2.173,
+        "session.tick(dt,not combat.active_threat() and (not menu_open or ui.page==\"Signal\"),aboard())": 0.046,
+        "story_art.update(dt)": 0.017,
+        "terminal_pages.update(dt)": 0.003,
+        "update_interaction(dt)": 0.011,
+        "world.update(dt)": 0.276
+      },
+      "time": 60.0166666666645
+    },
+    "autosaveFrame": {
+      "distance": 439.921577070464,
+      "focused": true,
+      "frame": 15977,
+      "gpuMs": 3.0239999294281,
+      "ms": 7.153,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 51,
+        "SURFACE": 48
+      },
+      "renderCpuMs": 0.617999970912933,
+      "setupCpuMs": 0.217,
+      "time": 60.0166666666645
+    },
+    "finalDistance": 476.752423571986
+  },
+  "final": {
+    "source": "travel-autosave-final.json",
+    "allFramesMs": {
+      "max": 283.184,
+      "median": 3.775,
+      "p95": 4.685,
+      "p99": 5.148
+    },
+    "afterThreeSecondsFrameMs": {
+      "median": 3.774,
+      "p95": 4.677,
+      "p99": 4.991,
+      "maximum": 190.33,
+      "samples": 16180
+    },
+    "afterThreeSecondsMaxMainMs": 72.072,
+    "autosaveTick": {
+      "distance": 439.921577070464,
+      "frame": 15511,
+      "ms": 3.717,
+      "stages": {
+        "autosave_clock+=dt": 0.001,
+        "building.update(dt)": 0.003,
+        "campaign.update(dt)": 0.003,
+        "cinematics.update(dt)": 0.003,
+        "combat.update(dt)": 0.013,
+        "effects.update(dt)": 0.029,
+        "home.update(dt)": 0.02,
+        "journey.update(dt)": 0.027,
+        "opportunities.update(dt)": 0.004,
+        "salvage.update(dt)": 0.015,
+        "save_game(\"autosave\")": 3.272,
+        "session.tick(dt,not combat.active_threat() and (not menu_open or ui.page==\"Signal\"),aboard())": 0.039,
+        "story_art.update(dt)": 0.015,
+        "terminal_pages.update(dt)": 0.003,
+        "update_interaction(dt)": 0.009,
+        "world.update(dt)": 0.26
+      },
+      "time": 60.0166666666645
+    },
+    "autosaveFrame": {
+      "distance": 439.921577070464,
+      "focused": true,
+      "frame": 15511,
+      "gpuMs": 3.00399994850159,
+      "ms": 7.602,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 51,
+        "SURFACE": 48
+      },
+      "renderCpuMs": 0.676999986171722,
+      "setupCpuMs": 0.204,
+      "time": 60.0166666666645
+    },
+    "finalDistance": 474.542572781894
+  },
+  "baselineAttribution": "The old inline save branch was not separately stamped in the baseline. Its time falls in the following world.update stage. The full main-tick and frame intervals remain valid; a separate world wrapper rules out world update as the source.",
+  "finalCode": "The first background trace preceded an additional backup-validation check in the worker. The final trace includes that check. Other code is unchanged between these after runs."
+}

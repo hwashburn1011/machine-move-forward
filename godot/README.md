@@ -70,6 +70,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Care
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ConstructionProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -DriveProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -TravelProfile
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AutosaveTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AutosaveProfile -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -MotionAudit -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
@@ -92,3 +95,5 @@ The [native machine access review](../docs/godot-port/machine-access-review.md) 
 The [construction and caretaker review](../docs/godot-port/caretaker-workload-review.md) covers a rendered 369-piece workload, reduced L-12 job-search stalls, body clearance at service positions, and grounded companion motion. The caretaker suite compares 512 layouts with the original selector and drives real service visits and transfers. It supports `-Headless`; the rendered version also captures service poses. The construction profile requires native GPU rendering and uses isolated `native-construction-tests/` saves.
 
 The [articulated drive review](../docs/godot-port/caretaker-drive-review.md) covers Blender-authored L-12 track shoes, instanced belts, independent turning/reversing motion, grounding and measured visual cost. Source and renders live in `../assets/native-fieldwork/`; the original fieldwork master remains unchanged. `-DriveProfile` compares both assemblies in a fixed native view at 60 Hz physics. `-TravelProfile` instruments test-owned copies of the current main/player/world/UI/audio callbacks to trace intermittent frame stalls without adding profiling overhead to the shipping scripts. Both profiles require GPU rendering and isolated test saves.
+
+The [autosave and motion audit](../docs/godot-port/autosave-motion-review.md) records the bounded background save queue, corrupt-primary recovery and measured save-frame improvement. Manual saves remain synchronous verified commits; autosaves finish asynchronously and drain before load or orderly exit. Focused save tests and the synthetic profile use their own isolated directories. The motion audit quantifies stance-foot drift using the real controller.

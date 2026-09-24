@@ -1,0 +1,68 @@
+{
+	"scenarios": {
+		"2": {
+			"asyncHarvestMainMs": {
+				"max": 0.217,
+				"median": 0.021
+			},
+			"asyncRequestMainMs": {
+				"max": 0.585,
+				"median": 0.102
+			},
+			"asyncWallToDurableMs": {
+				"max": 13.837,
+				"median": 13.806
+			},
+			"bytes": 3579,
+			"pieces": 2,
+			"syncMainMs": {
+				"max": 15.397,
+				"median": 4.908
+			},
+			"validCampaign": true
+		},
+		"300": {
+			"asyncHarvestMainMs": {
+				"max": 0.455,
+				"median": 0.395
+			},
+			"asyncRequestMainMs": {
+				"max": 1.364,
+				"median": 1.244
+			},
+			"asyncWallToDurableMs": {
+				"max": 28.043,
+				"median": 27.824
+			},
+			"bytes": 99470,
+			"pieces": 300,
+			"syncMainMs": {
+				"max": 17.485,
+				"median": 16.037
+			},
+			"validCampaign": true
+		},
+		"900": {
+			"asyncHarvestMainMs": {
+				"max": 1.18,
+				"median": 0.959
+			},
+			"asyncRequestMainMs": {
+				"max": 4.66,
+				"median": 4.367
+			},
+			"asyncWallToDurableMs": {
+				"max": 62.461,
+				"median": 55.451
+			},
+			"bytes": 293710,
+			"pieces": 900,
+			"syncMainMs": {
+				"max": 40.986,
+				"median": 39.166
+			},
+			"validCampaign": true
+		}
+	},
+	"scope": "Synthetic native campaign serialization/I/O timings, not rendering FPS. Same verified writer compares main-thread execution with worker queueing; eight writes per case."
+}

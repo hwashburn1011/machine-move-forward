@@ -1,0 +1,61 @@
+{
+	"revision": "83a7631 player code (unchanged during autosave pass)",
+	"scenarios": {
+		"blocked": {
+			"actualSpeedMps": 0.0,
+			"clipPlaybackRate": 1.0,
+			"clips": [
+				"armed_walk_fwd"
+			],
+			"stanceFootDriftMps": 2.62834511697292,
+			"stanceSamples": 21
+		},
+		"crouch": {
+			"actualSpeedMps": 2.1999979019165,
+			"clipPlaybackRate": 1.0,
+			"clips": [
+				"armed_crouch_walk_fwd"
+			],
+			"stanceFootDriftMps": 0.763889886438847,
+			"stanceSamples": 21
+		},
+		"diagonal": {
+			"actualSpeedMps": 4.50011014938354,
+			"clipPlaybackRate": 1.0,
+			"clips": [
+				"armed_walk_right"
+			],
+			"stanceFootDriftMps": 3.4627977758646,
+			"stanceSamples": 21
+		},
+		"forward": {
+			"actualSpeedMps": 4.49999570846558,
+			"clipPlaybackRate": 1.0,
+			"clips": [
+				"armed_walk_fwd"
+			],
+			"stanceFootDriftMps": 1.86073768883944,
+			"stanceSamples": 20
+		},
+		"sprint": {
+			"actualSpeedMps": 7.49999809265137,
+			"clipPlaybackRate": 1.0,
+			"clips": [
+				"armed_run_fwd"
+			],
+			"stanceFootDriftMps": 3.5023444890976,
+			"stanceSamples": 22
+		},
+		"strafe": {
+			"actualSpeedMps": 4.50004577636719,
+			"clipPlaybackRate": 1.0,
+			"clips": [
+				"armed_walk_right"
+			],
+			"stanceFootDriftMps": 2.60417796671391,
+			"stanceSamples": 21
+		}
+	},
+	"scope": "Flat-deck, real-input observation of authored animation cadence. Stance-foot drift is sampled from native skeleton poses, not a perceptual whole-body score.",
+	"visualScale": "(0.893717, 0.893717, 0.893717)"
+}

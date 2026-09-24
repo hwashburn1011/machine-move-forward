@@ -7,11 +7,16 @@ static func valid_name(id: String) -> bool:
 	return id!="" and id.length()<80 and id.is_valid_filename() and not id.begins_with(".")
 
 static func write(id: String,payload: Dictionary) -> bool:
+	return write_at(DIRECTORY,id,payload)
+
+# The background autosaver captures an absolute directory on the main thread.
+# A running write never consults mutable global configuration or live nodes.
+static func write_at(directory: String,id: String,payload: Dictionary) -> bool:
 	if not valid_name(id): return false
-	DirAccess.make_dir_recursive_absolute(DIRECTORY)
+	DirAccess.make_dir_recursive_absolute(directory)
 	var text=JSON.stringify(payload,"\t")
 	var envelope={"schema":"mmf-godot-campaign","version":1,"savedAt":Time.get_datetime_string_from_system(true),"checksum":text.sha256_text(),"payload":text}
-	var path=DIRECTORY+id+".json"
+	var path=directory.path_join(id+".json")
 	var pending=path+".tmp"
 	var file=FileAccess.open(pending,FileAccess.WRITE)
 	if not file: return false
@@ -22,17 +27,26 @@ static func write(id: String,payload: Dictionary) -> bool:
 	# Keep the previous verified save until its replacement has been verified.
 	if FileAccess.file_exists(path):
 		var backup=path+".bak"
-		if FileAccess.file_exists(backup): DirAccess.remove_absolute(backup)
-		if DirAccess.rename_absolute(path,backup)!=OK: return false
+		if not decode(path).is_empty():
+			if FileAccess.file_exists(backup) and DirAccess.remove_absolute(backup)!=OK:return false
+			if DirAccess.rename_absolute(path,backup)!=OK:return false
+		elif DirAccess.remove_absolute(path)!=OK:return false
+		# A corrupt primary must never displace a healthy recovery backup.
 	return DirAccess.rename_absolute(pending,path)==OK
 
 static func decode(path: String) -> Dictionary:
-	if not FileAccess.file_exists(path) or FileAccess.get_file_as_bytes(path).size()>16000000: return {}
-	var envelope=JSON.parse_string(FileAccess.get_file_as_string(path))
+	var file=FileAccess.open(path,FileAccess.READ)
+	if not file:return {}
+	if file.get_length()>16000000:file.close();return {}
+	var text=file.get_as_text();file.close()
+	var parser=JSON.new()
+	if parser.parse(text)!=OK:return {}
+	var envelope=parser.data
 	if not envelope is Dictionary or envelope.get("schema")!="mmf-godot-campaign" or envelope.get("version")!=1: return {}
 	if not envelope.get("payload") is String: return {}
 	if envelope.payload.sha256_text()!=envelope.get("checksum",""): return {}
-	var payload=JSON.parse_string(envelope.payload)
+	if parser.parse(envelope.payload)!=OK:return {}
+	var payload=parser.data
 	return payload if payload is Dictionary else {}
 
 static func read(id: String) -> Dictionary:

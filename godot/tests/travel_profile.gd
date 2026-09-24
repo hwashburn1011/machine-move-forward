@@ -4,6 +4,21 @@ extends SceneTree
 # and order intact. No timers/allocations are added to shipping game scripts.
 var game
 var output="res://../test-results/godot-native/travel-profile.json"
+var frame_events=[]
+var duration_seconds=24.0
+
+class LateFrameProbe extends Node:
+	var owner_test
+	func _physics_process(_dt):owner_test.stamp("physics_callbacks_end")
+	func _process(_dt):owner_test.stamp("process_callbacks_end")
+
+func stamp(label: String):frame_events.append([label,Engine.get_process_frames(),Time.get_ticks_usec()])
+
+func pipelines() -> Dictionary:
+	var result={}
+	for key in ["CANVAS","MESH","SURFACE","DRAW","SPECIALIZATION"]:
+		result[key]=RenderingServer.get_rendering_info(ClassDB.class_get_integer_constant("RenderingServer","RENDERING_INFO_PIPELINE_COMPILATIONS_"+key))
+	return result
 
 func measured_script(path: String,method: String) -> GDScript:
 	var script=GDScript.new()
@@ -26,6 +41,9 @@ func instrumented_main() -> GDScript:
 		var statement=line.strip_edges()
 		if statement=="if session==null or get_tree().paused: return":
 			rewritten.append("\ttrace_start=Time.get_ticks_usec();trace_previous=trace_start;trace_stages={}")
+		elif statement.begins_with("if save_game("):
+			var indent=line.substr(0,line.length()-line.lstrip("\t").length())
+			rewritten.append(indent+'trace_mark("autosave")')
 		elif statement.begins_with("if ") or statement.begins_with("func ") or statement=="":continue
 		else:
 			var indent=line.substr(0,line.length()-line.lstrip("\t").length())
@@ -46,12 +64,19 @@ func stats(values: Array) -> Dictionary:
 
 func run():
 	if DisplayServer.get_name()=="headless":push_error("Travel profiling requires native rendering.");quit(1);return
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--seconds="):duration_seconds=float(arg.trim_prefix("--seconds="))
+	physics_frame.connect(func():stamp("physics_callbacks_begin"))
+	process_frame.connect(func():stamp("process_callbacks_begin"))
+	RenderingServer.frame_pre_draw.connect(func():stamp("render_begin"))
+	RenderingServer.frame_post_draw.connect(func():stamp("render_end"))
 	DisplayServer.window_set_size(Vector2i(1920,1080));Engine.max_fps=0
 	var script=instrumented_main()
 	if script==null:quit(1);return
 	game=script.new()
 	for spec in [["player","_physics_process"],["ui","_process"],["world","update"],["audio","_process"],["caretaker","_physics_process"]]:game.set("trace_"+spec[0]+"_script",measured_script(spec[0],spec[1]))
 	root.add_child(game);current_scene=game
+	var probe=LateFrameProbe.new();probe.owner_test=self;probe.process_priority=100000;probe.process_physics_priority=100000;root.add_child(probe)
 	game.settings.vsync=false;game.settings.quality="high";game.save_settings()
 	game.started=true;game.session.opening_done=true;game.session.facts.tutorialStarted=true;game.invulnerable=true;game.close_menu()
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
@@ -60,22 +85,24 @@ func run():
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
 	var frames=[];var intervals=[];var slow_ticks=[];var slow_frames=[]
 	var start=Time.get_ticks_usec();var previous=start
-	while Time.get_ticks_usec()-start<24000000:
+	while Time.get_ticks_usec()-start<int(duration_seconds*1000000):
 		var now=Time.get_ticks_usec();var elapsed=(now-start)/1000000.0
 		if elapsed>3:game.player.yaw=-TAU*(elapsed-3)/8
 		await process_frame
 		now=Time.get_ticks_usec()
 		var ms=(now-previous)/1000.0;previous=now;intervals.append(ms)
 		var frame={"frame":Engine.get_process_frames(),"ms":ms,"time":game.session.clock,"distance":game.session.distance,"gpuMs":RenderingServer.viewport_get_measured_render_time_gpu(root.get_viewport_rid()),"renderCpuMs":RenderingServer.viewport_get_measured_render_time_cpu(root.get_viewport_rid())}
+		frame.setupCpuMs=RenderingServer.get_frame_setup_time_cpu();frame.pipelines=pipelines();frame.focused=DisplayServer.window_is_focused()
 		frames.append(frame)
 		if ms>16.67:slow_frames.append(frame)
 	for tick in game.trace_ticks:
 		if tick.ms>4:slow_ticks.append(tick)
 	var report={"adapter":RenderingServer.get_video_adapter_name(),"resolution":str(root.size),"quality":"high / Forward+ / Vulkan / 4x MSAA","vsync":false,"frameMs":stats(intervals),"slowFrames":slow_frames,"slowMainTicks":slow_ticks,"streamSteps":game.world.streamer.slow_steps,"placementProfiles":game.world.atmosphere.placement_profiles,"frames":frames,"ticks":game.trace_ticks}
+	report.frameEvents=frame_events
 	for field in ["player","ui","world","audio","caretaker"]:report[field+"SlowSamples"]=game.get(field).trace_samples
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--output="):output=arg.trim_prefix("--output=")
 	var file=FileAccess.open(output,FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
-	print("TRAVEL_PROFILE ",report.frameMs," slow frames=",slow_frames," slow main ticks=",slow_ticks)
+	print("TRAVEL_PROFILE ",report.frameMs," slow frame count=",slow_frames.size()," slow main tick count=",slow_ticks.size())
 	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.05).timeout
 	game.queue_free();await create_timer(.1).timeout;MMFAssets.cache.clear();call_deferred("quit")

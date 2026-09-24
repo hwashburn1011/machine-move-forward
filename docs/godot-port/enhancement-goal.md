@@ -91,3 +91,9 @@ Starting state: `668b91d`. Blender MCP reconnection was verified against the pre
 5. Run integration, parity and story regressions, record the visual cost, and retain the open hitch investigation instead of claiming it fixed.
 
 Iteration review: [articulated drive and travel tracing](caretaker-drive-review.md). The model refinement adds about 0.09–0.10 ms GPU and 0.07 ms moving-drive CPU in its close native view; it is a visual improvement, not an FPS optimization. All 335 relevant assertions pass. An isolated frame stall also appeared with the main game/world update disabled; its cause still needs engine/render/host-level tracing. Character animation/material coherence, normal-speed campaign pacing and environmental refinement remain open. The overall goal remains active.
+
+## Completed iteration: autosave latency and player-motion audit
+
+Starting state: `83a7631`. Longer native tracing reproduced a 26.1 ms main-thread autosave tick. Move verified file work into a bounded worker queue with detached data, orderly draining and preserved manual/checkpoint semantics. Protect healthy recovery backups from corrupt primaries. Compare actual save frames and larger synthetic campaigns, and run the gameplay/save/campaign regressions.
+
+Iteration review: [autosave latency and motion audit](autosave-motion-review.md). The matching save frame fell from 30.75 ms to 7.60 ms on the final code, with 386 assertions passing. Separate rendering stalls remain unresolved. A real-controller audit now proves foot sliding and walking against walls; Blender/native locomotion refinement is the next concrete task. The overall goal remains active.

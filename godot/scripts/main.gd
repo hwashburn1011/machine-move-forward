@@ -23,6 +23,7 @@ var interaction_prompt=""
 var settings={"sensitivity":1.0,"fov":55.0,"volume":0.7,"ambient":0.10,"vsync":true,"quality":"high","bindings":{}}
 var key_defaults={"forward":KEY_W,"back":KEY_S,"left":KEY_A,"right":KEY_D,"jump":KEY_SPACE,"sprint":KEY_SHIFT,"crouch":KEY_CTRL,"use":KEY_E,"reload":KEY_R,"rifle":KEY_1,"shotgun":KEY_2,"reel":KEY_F,"build":KEY_B,"catalog":KEY_G,"rotate_left":KEY_Q,"shoulder":KEY_V,"deck_up":KEY_PAGEUP,"deck_down":KEY_PAGEDOWN,"deck_auto":KEY_HOME,"demolish":KEY_X,"terminal":KEY_TAB,"pause":KEY_ESCAPE}
 var autosave_clock=0.0
+var autosaver=MMFAutosaver.new()
 var hook_cut=0.0
 var started=false
 var manual_turret=""
@@ -42,6 +43,9 @@ func _ready():
 		if saved is Dictionary: settings.merge(saved,true)
 	configure_input()
 	session=MMFSession.new(data)
+	add_child(autosaver)
+	autosaver.completed.connect(func(success):
+		if not success:session.notify("Save failed. Your previous checkpoint was kept."))
 	journey.game=self;activity.game=self;story_art.game=self;terminal_pages.game=self
 	world=MMFWorld.new();add_child(world);world.setup(self)
 	building=MMFBuilding.new();add_child(building);building.setup(self)
@@ -125,6 +129,7 @@ func open_menu(page: String):
 	menu_open=true
 	# The browser wrist terminal pauses the whole simulation while aboard.
 	get_tree().paused=page in ["Title","Pause","Library","Settings"] or (page!="Build" and started and aboard())
+	if page in ["Title","Library"]:autosaver.flush()
 	if page not in ["Build","Pause","Settings"]: building.cancel()
 	if started: player.play("armed_idle")
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
@@ -166,7 +171,7 @@ func _physics_process(dt):
 		update_interaction(dt)
 		autosave_clock+=dt
 		if autosave_clock>=60 and safe_to_save():
-			if save_game("autosave"): autosave_clock=0
+			save_game("autosave")
 	world.update(dt)
 	cinematics.update(dt)
 	effects.update(dt)
@@ -393,12 +398,21 @@ func save_game(id: String) -> bool:
 	if not safe_to_save():
 		if id!="autosave": session.notify("Finish the salvage throw before saving." if salvage.busy() else ("Leave the deck gun before saving." if manual_turret!="" else "Return aboard and secure the deck before saving."))
 		return false
-	var result=MMFSaves.write(id,{"session":session.native_snapshot(),"player":{"position":MMFAssets.dict_v(player.position),"yaw":player.yaw,"pitch":player.pitch},"salvageDistance":salvage.next_distance,"cargo":salvage.snapshot()})
+	var payload={"session":session.native_snapshot(),"player":{"position":MMFAssets.dict_v(player.position),"yaw":player.yaw,"pitch":player.pitch},"salvageDistance":salvage.next_distance,"cargo":salvage.snapshot()}
+	if id=="autosave":
+		# An accepted autosave means queued, not durable yet. Success/failure is
+		# harvested by the always-processing helper. Bound failure retries too.
+		autosave_clock=0
+		return autosaver.request(payload,MMFSaves.DIRECTORY)
+	autosaver.flush()
+	var result=MMFSaves.write(id,payload)
 	if not result: session.notify("Save failed. Your previous checkpoint was kept.")
 	elif id!="autosave": session.notify("Campaign saved: "+id)
 	return result
 
-func load_game(id: String): load_payload(MMFSaves.read(id))
+func load_game(id: String):
+	autosaver.flush()
+	load_payload(MMFSaves.read(id))
 
 func load_payload(payload: Dictionary):
 	if not payload.get("session") is Dictionary:
@@ -414,7 +428,9 @@ func load_payload(payload: Dictionary):
 	if not trial.restore_native(payload.session):
 		session.notify("Campaign validation failed.")
 		return
+	autosaver.flush()
 	session=trial
+	autosave_clock=0
 	dismount_turret()
 	salvage.cancel()
 	cinematics.clear_scene()
