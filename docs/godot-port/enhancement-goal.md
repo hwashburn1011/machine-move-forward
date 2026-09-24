@@ -55,3 +55,15 @@ Starting state: `d0a6bcb`. Blender MCP reconnection was verified against the pre
 5. Inspect native captures and run camera, integration, input, campaign, combat, construction, save and traversal regressions. Record timings and their limits.
 
 Iteration review: [camera and machine simulation](camera-workload-review.md). The full goal remains active. Follow up on decorative stair struts and collision coverage, model/material coherence, representative rendered dense construction and normal-speed play pacing.
+
+## Completed iteration: native machine access refinement
+
+Starting state: `432abe4`. The preceding turn made verified progress on camera framing and simulation cost. Reconnection to Blender MCP remained live. Native captures and triangle-based probes identified braces/corbels crossing the side stairs and four cables protruding into the inner route.
+
+1. Inspect native geometry and the original Blender objects; reproduce body-space interference rather than guessing from a screenshot.
+2. Derive a native access module with end-bay outriggers, longitudinal supports, bolted gussets and physical collision. Retain the original deck layout and walking contracts.
+3. Refine all 96 stair treads and their rail mounts. Reroute four complete cable components, preserving unrelated geometry, and secure them to the chassis.
+4. Reuse original material/texture resources, batch the new detail, and measure its actual GPU cost against the old model.
+5. Inspect Blender and native captures; verify all 366 torso/head samples, 400 deck-height samples, collision, materials, camera and gameplay/traversal regressions.
+
+Iteration review: [native machine access](machine-access-review.md). Original story and browser assets remain intact. The full enhancement goal remains active; station readability, animation coherence, rendered dense-construction workloads and longer play pacing remain open priorities.

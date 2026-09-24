@@ -1,0 +1,45 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"bothVariantsResident": true,
+	"renderer": "Forward+ / Vulkan / 4x MSAA",
+	"resolution": "(1920, 1080)",
+	"runs": [
+		{
+			"drawsMedian": 623.0,
+			"frameMedianMs": 3.447,
+			"frameP95Ms": 4.254,
+			"gpuMedianMs": 2.8840000629425,
+			"gpuP95Ms": 3.39100003242493,
+			"primitivesMedian": 2682447.0,
+			"variant": "baseline"
+		},
+		{
+			"drawsMedian": 626.0,
+			"frameMedianMs": 3.678,
+			"frameP95Ms": 4.622,
+			"gpuMedianMs": 3.18499994277954,
+			"gpuP95Ms": 3.66400003433228,
+			"primitivesMedian": 3062151.0,
+			"variant": "refined"
+		},
+		{
+			"drawsMedian": 626.0,
+			"frameMedianMs": 3.675,
+			"frameP95Ms": 4.637,
+			"gpuMedianMs": 3.18600010871887,
+			"gpuP95Ms": 3.65499997138977,
+			"primitivesMedian": 3062151.0,
+			"variant": "refined"
+		},
+		{
+			"drawsMedian": 623.0,
+			"frameMedianMs": 3.36,
+			"frameP95Ms": 4.083,
+			"gpuMedianMs": 2.89499998092651,
+			"gpuP95Ms": 3.34400010108948,
+			"primitivesMedian": 2682447.0,
+			"variant": "baseline"
+		}
+	],
+	"sampleSeconds": 5
+}

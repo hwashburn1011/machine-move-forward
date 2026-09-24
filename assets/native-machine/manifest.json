@@ -1,0 +1,28 @@
+{
+  "source": "assets\\iron-nomad\\gameplay\\source\\IronNomad_Master.blend",
+  "sourceModule": "Gameplay_Decks_And_Access",
+  "removedCrossFlightBraces": [
+    "Bypass knee support",
+    "Bypass knee support.001",
+    "Bypass knee support.002",
+    "Bypass knee support.003",
+    "Bypass knee support.004",
+    "Bypass knee support.005"
+  ],
+  "removedOpeningCorbels": [
+    "Supported catwalk corbel.017",
+    "Supported catwalk corbel.031"
+  ],
+  "retainedObjects": 1148,
+  "refinedTreads": 96,
+  "triangles": 136416,
+  "editableMeshes": 2048,
+  "collisionSupports": 16,
+  "runtimeBatches": 5,
+  "sharedRuntimeMaterials": [
+    "Nomad_Worn_HandrailBrass",
+    "Nomad_Aged_BareMetal",
+    "Nomad_Charcoal_Steel",
+    "Nomad_amber"
+  ]
+}

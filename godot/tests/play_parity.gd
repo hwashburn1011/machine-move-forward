@@ -200,5 +200,7 @@ func run():
 	var file=FileAccess.open(output+"play-parity.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	game.open_menu("Pause")
 	while game.combat.nav.is_baking(): await create_timer(0.02).timeout
-	game.queue_free();await frames(4)
-	MMFAssets.cache.clear();quit(0 if failures.is_empty() else 1)
+	game.queue_free();await create_timer(.1).timeout
+	MMFAssets.cache.clear()
+	# Let the suspended run() stack release its locals before engine shutdown.
+	call_deferred("quit",0 if failures.is_empty() else 1)

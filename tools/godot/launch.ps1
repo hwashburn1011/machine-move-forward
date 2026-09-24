@@ -1,4 +1,4 @@
-param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
+param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
 $ErrorActionPreference = 'Stop'
 $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $Godot) {
@@ -24,6 +24,8 @@ elseif ($PacingTest) { $arguments += @('--script', 'tests/journey_pacing.gd') }
 elseif ($AtmosphereTest) { $arguments += @('--script', 'tests/atmosphere_effects.gd') }
 elseif ($TerrainTest) { $arguments += @('--script', 'tests/dune_parity.gd') }
 elseif ($CameraTest) { $arguments += @('--script', 'tests/camera_clearance.gd') }
+elseif ($AccessTest) { $arguments += @('--script', 'tests/machine_access.gd') }
+elseif ($AccessBenchmark) { $arguments += @('--script', 'tests/access_benchmark.gd') }
 elseif ($WorkloadTest) { $arguments += @('--script', 'tests/session_workload.gd') }
 elseif ($SessionBenchmark) { $arguments += @('--script', 'tests/session_benchmark.gd') }
 elseif ($EffectBenchmark) { $arguments += @('--script', 'tests/effect_benchmark.gd') }

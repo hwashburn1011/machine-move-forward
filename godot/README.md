@@ -64,6 +64,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Scen
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -StreamBenchmark
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -StreamBenchmark -Stress
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CameraTest
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AccessTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AccessBenchmark
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
@@ -80,3 +82,5 @@ The [atmosphere/effect review](../docs/godot-port/atmosphere-review.md) records 
 The [scenery streaming review](../docs/godot-port/streaming-review.md) records boundary-specific timing and resource measurements. Scenery contract checks and streaming benchmarks need the real GPU; the headless renderer does not retain the same MultiMesh buffers. Streaming samples use isolated `native-streaming-tests/` saves and accelerated travel, so their timings are streaming costs rather than normal gameplay FPS.
 
 The [camera and machine simulation review](../docs/godot-port/camera-workload-review.md) covers close-wall framing, complete character/equipment fading, and reduced power/room bookkeeping. Camera tests capture native views and use isolated `native-camera-tests/` saves. The session benchmark measures synthetic 30/300/900-piece CPU workloads without rendering; its timings are not gameplay FPS.
+
+The [native machine access review](../docs/godot-port/machine-access-review.md) covers rebuilt stair-bay supports, 96 detailed treads, grounded cable routes and exact reuse of the machine's materials. The geometry test checks real mesh clearance and deck heights; the GPU benchmark measures the visual-detail cost in one fixed view with both old/new variants resident. Native code installs the replacement module from `art/` while preserving the frozen machine bake and browser assets.

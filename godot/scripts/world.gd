@@ -45,6 +45,7 @@ func sync_progress():
 				if name=="HelmBearingNeedle": bearing_needle=part
 	kit.free()
 var machine: Node3D
+var native_access: Node3D
 var parts = []
 var rotor: Node3D
 var seed_value = 0
@@ -56,6 +57,7 @@ func setup(owner_game):
 	seed_value = game.session.seed_name.hash()
 	machine = MMFAssets.scene("runtime/machine.glb")
 	add_child(machine)
+	native_access=MMFMachineAccess.install(self)
 	gait.setup(game,machine)
 	for raw in game.runtime.colliders: MMFAssets.collider(self, raw)
 	# The receiver is hidden in the initial browser scene and is therefore absent
