@@ -362,6 +362,8 @@ func navigation_limit() -> float:
 	if "course-actuator" in story.uniques: return 12
 	return 0
 
+var polish={"seen":[],"log":[],"activities":{},"favorites":[]}
+
 func native_snapshot() -> Dictionary:
 	var storage = {}
 	for id in stores: storage[id] = stores[id].slots.duplicate(true)
@@ -371,7 +373,7 @@ func native_snapshot() -> Dictionary:
 		"currentWeapon": current_weapon, "scanner": scanner, "facts": facts, "unlocks": unlocks,
 		"research": research, "attachmentResearch": attachment_research, "story": story, "caretaker": caretaker,
 		"weather": weather, "threat": threat, "course": course, "targetCourse": target_course, "lateral": lateral,
-		"contacts":contacts,
+		"contacts":contacts,"polish":polish,
 		"nextPieceId": next_piece_id, "openingDone": opening_done, "clock": clock, "rngState": str(rng.state)}.duplicate(true)
 
 func restore_native(raw: Dictionary) -> bool:
@@ -427,6 +429,8 @@ func restore_native(raw: Dictionary) -> bool:
 	opening_done = raw.get("openingDone", true)
 	clock = float(raw.get("clock", 0))
 	contacts=raw.get("contacts",{"nextSlot":1,"active":{},"visited":[],"missed":[]}).duplicate(true)
+	polish={"seen":[],"log":[],"activities":{},"favorites":[]}
+	polish.merge(raw.get("polish",{}).duplicate(true),true)
 	if not contacts.active.is_empty() and not contacts.active.has("record"): contacts.active.record=false
 	rng.seed = MMFRandom.hash_seed([seed_name])
 	if raw.has("rngState"): rng.state = int(raw.rngState)

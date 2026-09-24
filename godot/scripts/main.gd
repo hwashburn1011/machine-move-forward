@@ -28,6 +28,10 @@ var started=false
 var manual_turret=""
 var manual_fire_clock=0.0
 var benchmark
+var journey=MMFJourney.new()
+var activity=MMFDestinationActivity.new()
+var story_art=MMFStoryArt.new()
+var terminal_pages=MMFTerminalPages.new()
 
 func _ready():
 	process_mode=Node.PROCESS_MODE_ALWAYS
@@ -38,6 +42,7 @@ func _ready():
 		if saved is Dictionary: settings.merge(saved,true)
 	configure_input()
 	session=MMFSession.new(data)
+	journey.game=self;activity.game=self;story_art.game=self;terminal_pages.game=self
 	world=MMFWorld.new();add_child(world);world.setup(self)
 	building=MMFBuilding.new();add_child(building);building.setup(self)
 	effects=MMFEffects.new();add_child(effects)
@@ -53,6 +58,8 @@ func _ready():
 	effects.machine_atmosphere(self)
 	audio.setup(self)
 	ui=MMFUI.new();add_child(ui);ui.setup(self)
+	journey.reset()
+	story_art.setup()
 	session.contact_ready.connect(func():cinematics.begin_signal())
 	save_settings()
 	player.update_camera(1)
@@ -144,6 +151,9 @@ func new_game():
 
 func _physics_process(dt):
 	if session==null or get_tree().paused: return
+	journey.update(dt)
+	story_art.update(dt)
+	terminal_pages.update(dt)
 	if cinematic=="":
 		session.tick(dt,not combat.active_threat() and (not menu_open or ui.page=="Signal"),aboard())
 		combat.update(dt)
@@ -460,6 +470,9 @@ func load_payload(payload: Dictionary):
 	started=true
 	close_menu()
 	player.update_camera(1)
+	journey.reset(true)
+	activity.entry={};terminal_pages.locate_left=0;terminal_pages.selected="";ui.hit_left=0
+	story_art.update(0)
 	if session.story.phase=="arrival": cinematics.begin_arrival()
 	elif session.story.phase=="crossfire": cinematics.begin_signal()
 	elif not session.opening_done: cinematics.begin_opening()

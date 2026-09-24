@@ -1,4 +1,4 @@
-param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$Benchmark, [switch]$Headless)
+param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$Benchmark, [switch]$Headless)
 $ErrorActionPreference = 'Stop'
 $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $Godot) {
@@ -19,6 +19,8 @@ if ($Editor) { $arguments += '--editor' }
 elseif ($Test) { $arguments += @('--script', 'tests/integration.gd') }
 elseif ($ParityTest) { $arguments += @('--script', 'tests/play_parity.gd') }
 elseif ($AuditTest) { $arguments += @('--script', 'tests/audit_parity.gd') }
+elseif ($StoryTest) { $arguments += @('--script', 'tests/story_polish.gd') }
+elseif ($PacingTest) { $arguments += @('--script', 'tests/journey_pacing.gd') }
 elseif ($Benchmark) { $arguments += @('--script', 'tests/benchmark.gd') }
 & $Godot @arguments
 exit $LASTEXITCODE

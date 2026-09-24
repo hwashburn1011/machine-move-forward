@@ -19,6 +19,22 @@ func check(condition: bool,label: String):
 func frames(count: int):
 	for i in count: await process_frame
 
+func operate(item: Dictionary) -> bool:
+	for point in game.campaign.points:
+		if point.entry.id==item.id: game.player.position=game.campaign.destination.to_global(point.at)-Vector3.UP*.6
+	if game.activity.completed(item): return game.campaign.interact(item)
+	game.campaign.interact(item)
+	var id=game.activity.key(item)
+	if game.activity.refusal()!="": return false
+	if id in ["power","array"]:
+		var values=[2,1,0] if id=="power" else [25,60,85]
+		for i in 3: game.activity.adjust(i,values[i])
+		game.activity.act()
+	else:
+		for i in range(int(game.activity.state(id).step),3): game.activity.act(i)
+	game.close_menu()
+	return game.activity.completed(item)
+
 func capture(name: String):
 	if not rendered: return
 	await RenderingServer.frame_post_draw
@@ -124,7 +140,8 @@ func run():
 	game.campaign.update(0.1)
 	check(game.session.story.phase=="docked","Elevated destination docks")
 	var target=game.campaign.expedition().interactables[3]
-	check(game.campaign.interact(target),"Recover expedition unique")
+	check(operate(target),"Recover expedition unique through gyro interlocks")
+	game.player.position=Vector3(0,16.1,0)
 	await capture("destination")
 	game.player.position=Vector3(0,16.1,0)
 	game.session.attack_recent=0
@@ -152,10 +169,10 @@ func run():
 		for item in game.campaign.expedition().interactables:
 			if item.kind=="journal" and game.campaign.can_show(item): check(game.campaign.interact(item),"Read "+item.id)
 		for item in game.campaign.expedition().interactables:
-			if item.kind=="objective" and game.campaign.can_show(item): check(game.campaign.interact(item),"Activate "+item.id)
+			if item.kind=="objective" and game.campaign.can_show(item): check(operate(item),"Activate "+item.id)
 		for pass_index in 2:
 			for item in game.campaign.expedition().interactables:
-				if item.kind=="unique" and game.campaign.can_show(item): game.campaign.interact(item)
+				if item.kind=="unique" and game.campaign.can_show(item): operate(item)
 		for id in game.campaign.expedition().requiredUniques: check(id in game.session.story.uniques,"Preserve "+id)
 		game.player.position=Vector3(0,16.1,0)
 		check(game.campaign.depart(),"Depart chapter %d"%index)

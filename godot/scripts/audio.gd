@@ -10,9 +10,16 @@ var voices=[]
 var drone_player: AudioStreamPlayer
 var pad_player: AudioStreamPlayer
 var footfall_clock=0.0
+var spatial_voices: Array=[]
 
 func setup(owner_game):
 	game=owner_game
+	for i in 12:
+		var voice=AudioStreamPlayer3D.new();voice.max_distance=35;voice.unit_size=5;voice.max_db=-6;voice.attenuation_filter_cutoff_hz=9000
+		add_child(voice);spatial_voices.append(voice)
+	for id in ["footfall","rifle","hook-catch","warning","enemy-hurt","hit-metal","radio-signal"]:
+		var path="res://assets/audio/"+id+".wav"
+		if ResourceLoader.exists(path): bank[path]=load(path)
 	for i in 24:
 		var voice=AudioStreamPlayer.new();add_child(voice);voices.append(voice)
 	for id in ["machine-loop","calm-loop"]:
@@ -39,8 +46,22 @@ func play_sound(id: String,gain: float=1):
 		voice.play()
 		return
 
+func play_at(id: String,at: Vector3,gain: float=.2):
+	if muted or volume<=0 or not game or game.menu_open: return
+	if game.player.global_position.distance_to(at)>35: return
+	var path="res://assets/audio/"+id+".wav"
+	if not bank.has(path): return
+	for voice in spatial_voices:
+		if voice.playing: continue
+		voice.stream=bank[path];voice.global_position=at
+		voice.volume_db=linear_to_db(maxf(.00001,clampf(gain,0,.6)*volume))
+		voice.play();return
+
 func _process(dt: float):
 	if not game: return
+	for voice in spatial_voices:
+		if muted or volume<=0: voice.stop()
+		voice.stream_paused=game.menu_open or game.get_tree().paused
 	var active=game.started and not game.menu_open and not muted
 	var speed=clampf(game.session.speed/7.5,0,1)
 	var duck=(0.5 if game.session.sheltered else 1.0)*(0.45 if game.combat.active_threat() else 1.0)

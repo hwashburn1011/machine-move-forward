@@ -174,7 +174,7 @@ func update_director(dt: float):
 	if t.get("sanctuary",false):
 		t.sanctuary=false;t.phase="sanctuary-release";t.remaining=300
 	if active_threat() or ship_state!="none": return
-	var safe=s.health>=35 and game.aboard() and not game.menu_open
+	var safe=s.health>=35 and game.aboard() and not game.menu_open and s.clock>=game.journey.quiet_until
 	if safe: t.legacy=maxf(0,t.get("legacy",24.0)-dt)
 	t.remaining=maxf(0,t.remaining-s.speed*dt)
 	if t.remaining>0: return
@@ -207,6 +207,7 @@ func update_ship(dt: float):
 					if hook_health<=0: cut_hook(point))
 				var hook_model=MMFAssets.scene("models/authored/forged-hook.glb")
 				hook.add_child(hook_model)
+				game.audio.play_at("hook-catch",hook.global_position,.3)
 	elif ship_state=="grapple":
 		if hook and is_instance_valid(hook):
 			game.effects.tracer(ship.position+Vector3.UP*2,hook.position,Color(0.15,0.13,0.1))

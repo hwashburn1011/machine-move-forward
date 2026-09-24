@@ -21,6 +21,10 @@ var record_text=""
 var binding_action=""
 var damage_overlay: ColorRect
 var live_status: Label
+var transmission: Label
+var boarding: Label
+var hit_readout: Label
+var hit_left=0.0
 
 func setup(owner_game):
 	game=owner_game
@@ -61,20 +65,29 @@ func setup(owner_game):
 	crosshair.text="+"
 	caption=overlay(Vector2(320,945),Vector2(1280,75),24)
 	caption.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	transmission=overlay(Vector2(400,655),Vector2(1120,100),21)
+	transmission.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	transmission.add_theme_color_override("font_color",Color(.45,.95,.88))
+	var radio_plate=StyleBoxFlat.new();radio_plate.bg_color=Color(.015,.035,.035,.9);radio_plate.set_content_margin_all(12)
+	transmission.add_theme_stylebox_override("normal",radio_plate)
+	boarding=overlay(Vector2(500,170),Vector2(920,60),21);boarding.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	boarding.add_theme_color_override("font_color",Color(1,.57,.23))
+	hit_readout=overlay(Vector2(815,575),Vector2(290,40),18);hit_readout.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	panel=PanelContainer.new()
-	panel.position=Vector2(170,85)
-	panel.size=Vector2(1580,910)
 	var background=normal.duplicate()
 	background.bg_color=Color(0.014,0.03,0.031,0.985)
 	background.set_content_margin_all(26)
 	background.border_color=Color(0.56,0.41,0.2)
 	panel.add_theme_stylebox_override("panel",background)
 	root.add_child(panel)
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	panel.offset_left=90;panel.offset_right=-90;panel.offset_top=70;panel.offset_bottom=-70
 	var outer=VBoxContainer.new()
 	outer.add_theme_constant_override("separation",18)
 	panel.add_child(outer)
 	var title=Label.new()
-	title.text="S–07   /   LINEKEEPER TERMINAL                         NOMAD // SYSTEM LINK"
+	title.text="S–07   /   LINEKEEPER TERMINAL\nNOMAD // ENCRYPTED SYSTEM LINK   ━━━━━━━━━━━━━━━━━━━━"
+	title.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	title.add_theme_color_override("font_color",Color(0.98,0.66,0.27))
 	title.add_theme_font_size_override("font_size",24)
 	outer.add_child(title)
@@ -86,6 +99,7 @@ func setup(owner_game):
 		button.pressed.connect(func():game.open_menu(title_text))
 		tabs.add_child(button)
 	var scroller=ScrollContainer.new()
+	scroller.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
 	scroller.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	scroller.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	outer.add_child(scroller)
@@ -98,7 +112,20 @@ func setup(owner_game):
 	close.pressed.connect(game.close_menu)
 	outer.add_child(close)
 	panel.hide()
+	root.resized.connect(reflow)
+	reflow.call_deferred()
 	game.session.notice.connect(notify)
+
+func reflow():
+	var s=root.size
+	objective.position=Vector2(s.x-450,30)
+	crosshair.position=s*.5-Vector2(10,14)
+	prompt.position=Vector2((s.x-820)*.5,s.y-160)
+	toast.position=Vector2((s.x-1120)*.5,s.y-310)
+	caption.position=Vector2((s.x-1280)*.5,s.y-135)
+	transmission.position=Vector2((s.x-1120)*.5,s.y-425)
+	boarding.position=Vector2((s.x-920)*.5,170)
+	hit_readout.position=s*.5+Vector2(-145,40)
 
 func overlay(at: Vector2,dimensions: Vector2,font_size: int) -> Label:
 	var label=Label.new()
@@ -116,6 +143,11 @@ func notify(message: String):
 	toast.text=message
 	toast_time=6
 
+func combat_hit(kind: String):
+	hit_left=.55
+	hit_readout.text=kind
+	hit_readout.modulate=Color(.4,1,.75) if kind=="EXPOSED HIT" else Color(1,.72,.38)
+
 func text_line(message: String,big: bool=false):
 	var label=Label.new()
 	label.text=message
@@ -130,6 +162,7 @@ func button(label: String,action: Callable,enabled: bool=true):
 	var b=Button.new()
 	b.text=label
 	b.alignment=HORIZONTAL_ALIGNMENT_LEFT
+	b.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	b.disabled=not enabled
 	b.pressed.connect(action)
 	content.add_child(b)
@@ -195,16 +228,12 @@ func refresh():
 				for id in s.story.uniques:
 					if game.data.KEEPSAKE_DETAILS.has(id):
 						var details=game.data.KEEPSAKE_DETAILS[id]
-						button(details.title,func():game.home.set_keepsake(shelf,id);show_record(details.title,details.text))
+						button(details.title,func():game.home.set_keepsake(shelf,id,true);show_record(details.title,details.text))
 				for expedition in game.data.STORY_EXPEDITIONS:
 					for journal in expedition.journals:
-						if journal.id in s.story.journals: button(journal.title,func():game.home.set_keepsake(shelf,journal.id);show_record(journal.title,journal.text))
-		"Build":
-			text_line("CONSTRUCTION / DECK %d" % (game.building.current_level()+3),true)
-			text_line("Aim anywhere within 12 m. Q/E rotate · Page Up/Down change deck · Home follow deck · V relocate · Hold X dismantle. Incoming attacks close build mode.")
-			for id in game.data.BUILD_PIECE_ORDER:
-				var def=game.data.BUILD_PIECES[id]
-				button("%s   |   %s   |   %s" %[def.name,costs(def.cost),def.get("description","")],func():game.close_menu();game.building.choose(id),game.building.unlocked(id))
+						if journal.id in s.story.journals: button(journal.title,func():game.home.set_keepsake(shelf,journal.id,true);show_record(journal.title,journal.text))
+		"Build": game.terminal_pages.catalog(self)
+		"Console": game.activity.render(self)
 		"Workshop":
 			text_line("FABRICATION",true)
 			for recipe in game.data.RECIPES:
@@ -214,6 +243,7 @@ func refresh():
 			if refusal!="": text_line(refusal)
 			for id in game.data.UPGRADES:
 				var def=game.data.UPGRADES[id]
+				game.terminal_pages.comparisons(self,def)
 				if s.research.active.get(def.branch,"")==id:
 					button("REMOVE "+def.name,func():game.research_action("remove",def.branch);refresh(),game.research_refusal(true)=="")
 				elif id in s.research.completed:
@@ -225,6 +255,7 @@ func refresh():
 			if attachment_refusal!="": text_line(attachment_refusal)
 			for id in game.data.WEAPON_ATTACHMENTS:
 				var def=game.data.WEAPON_ATTACHMENTS[id]
+				game.terminal_pages.attachment_comparison(self,id)
 				if s.weapons[def.weaponId].attachment==id:
 					button("REMOVE "+def.name,func():game.remove_attachment(def.weaponId);refresh(),attachment_refusal=="")
 				else:
@@ -233,6 +264,7 @@ func refresh():
 		"Machine": machine_page()
 		"Signal","Helm": navigation_page()
 		"Records":
+			game.terminal_pages.records(self)
 			text_line("RECOVERED RECORDS",true)
 			for expedition in game.data.STORY_EXPEDITIONS:
 				for journal in expedition.journals:
@@ -266,10 +298,8 @@ func machine_page():
 	text_line("IRON NOMAD / SERVICE LINK",true)
 	live_status=text_line("Fuel %d%%   Power %d / %d   Speed %.1f m/s" %[s.fuel,s.demand,s.capacity,s.speed])
 	text_line("Refuel physically at the generator. Use the helm for course changes.")
+	game.terminal_pages.schematic(self)
 	for id in s.subsystems: button("REPAIR %s    %d%%" %[id,100*s.subsystems[id]/game.data.SUBSYSTEMS[id].maxHealth],func():s.repair(id);refresh())
-	for p in s.structures:
-		var def=game.data.BUILD_PIECES[p.definitionId]
-		button("%s · %d%% · %s" %[def.name,100*p.health/def.maxHealth,"POWERED" if s.powered.get(p.instanceId,true) else "POWER SHORTAGE"],func():game.service_piece(p);refresh())
 	if s.caretaker.recovered:
 		text_line("L–12 / "+game.caretaker.status,true)
 		for mode in ["companion","steward"]: button("L–12: "+mode,func():s.caretaker.mode=mode;refresh())
@@ -278,6 +308,7 @@ func machine_page():
 func navigation_page():
 	var s=game.session
 	text_line("SIGNAL / NAVIGATION",true)
+	text_line(game.journey.brief())
 	live_status=text_line(s.objective())
 	var contact=s.contacts.active
 	if not contact.is_empty():
@@ -314,6 +345,8 @@ func navigation_page():
 
 func settings_page():
 	text_line("SYSTEM PREFERENCES",true)
+	var reminders=CheckButton.new();reminders.text="Optional objective reminders during quiet travel";reminders.button_pressed=game.settings.get("objective_reminders",true)
+	reminders.toggled.connect(func(value):game.settings.objective_reminders=value;game.save_settings());content.add_child(reminders)
 	for entry in [["sensitivity",0.2,3,0.1],["fov",40,90,1],["volume",0,1,0.05],["ambient",0,0.5,0.025]]:
 		text_line(entry[0].to_upper())
 		var slider=HSlider.new()
@@ -368,6 +401,15 @@ func file_dialog(importing: bool):
 
 func _process(dt):
 	if game==null: return
+	var readable=game.started and not game.menu_open and game.cinematic=="" and game.session.health>0
+	transmission.visible=readable and not game.combat.active_threat() and not game.journey.current.is_empty()
+	if transmission.visible: transmission.text=game.journey.current.speaker+"  //  "+game.journey.current.text
+	boarding.visible=readable and game.combat.ship_state=="grapple" and is_instance_valid(game.combat.hook) and game.combat.hook_health>0
+	if boarding.visible:
+		var right=game.player.camera.global_basis.x.dot(game.combat.hook.global_position-game.player.camera.global_position)>0
+		boarding.text=("▶ " if right else "◀ ")+("PORT SIDE" if game.combat.ship_side<0 else "STARBOARD SIDE")+"   —   TOP DECK GRAPPLE   /   Hold "+game.key_label("use")+" at hook to cut"
+	if not game.menu_open: hit_left=maxf(0,hit_left-dt)
+	hit_readout.visible=readable and hit_left>0
 	damage_overlay.color=Color(0.8,0.02,0.0,game.effects.flash*0.8)
 	toast_time=maxf(0,toast_time-dt)
 	toast.visible=toast_time>0 and game.cinematic==""

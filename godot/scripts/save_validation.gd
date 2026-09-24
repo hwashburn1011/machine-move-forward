@@ -25,6 +25,7 @@ static func bounded_json(value,depth: int=0) -> bool:
 
 static func session(raw: Dictionary,data: Dictionary,defaults: Dictionary) -> bool:
 	if raw.get("format")!=1 or not bounded_json(raw): return false
+	if raw.has("polish") and not polish_state(raw.polish,data): return false
 	for key in defaults:
 		if not raw.has(key): continue
 		var expected=defaults[key]
@@ -98,4 +99,28 @@ static func session(raw: Dictionary,data: Dictionary,defaults: Dictionary) -> bo
 				if not number(c.get(key),-1e12,1e12): return false
 			for id in c.rewards:
 				if not data.ITEMS.has(id) or not number(c.rewards[id],0,1000,true): return false
+	return true
+
+static func polish_state(value,data: Dictionary) -> bool:
+	if not value is Dictionary: return false
+	if not strings(value.get("seen",[])) or not strings(value.get("favorites",[])): return false
+	for id in value.get("favorites",[]):
+		if not data.BUILD_PIECES.has(id): return false
+	if not value.get("log",[]) is Array or value.get("log",[]).size()>64: return false
+	for line in value.get("log",[]):
+		if not line is Dictionary or not line.get("speaker") is String or not line.get("text") is String: return false
+	if not value.get("activities",{}) is Dictionary: return false
+	for id in value.get("activities",{}):
+		if not MMFDestinationActivity.TITLES.has(id): return false
+		var st=value.activities[id]
+		if not st is Dictionary or not st.get("done") is bool or not number(st.get("step"),0,3,true): return false
+		if not st.get("values") is Array or st.values.size()!=3: return false
+		for v in st.values:
+			if not number(v,0,4 if id=="power" else 100,true): return false
+		if st.done:
+			if id=="power" and st.values!=[2,1,0]: return false
+			if id=="array":
+				for i in 3:
+					if absf(st.values[i]-[25,60,85][i])>2: return false
+			if MMFDestinationActivity.STEPS.has(id) and st.step!=3: return false
 	return true

@@ -21,7 +21,7 @@ func setup(owner_player):
 	player=owner_player;process_mode=Node.PROCESS_MODE_ALWAYS
 	var skeletons=MMFAssets.of_type(player.visual,"Skeleton3D")
 	if skeletons.is_empty(): return
-	var terminal=MMFAssets.scene("models/authored/wrist-terminal.glb")
+	var terminal=part("res://art/story-instruments.glb","WristHousing")
 	var b=MMFAssets.bounds(terminal)
 	terminal.scale*=minf(0.15/maxf(b.size.x,b.size.z),0.22/b.size.y)
 	wrist=mount(skeletons[0],"lowerarm_l",terminal,Vector3(0,-0.015,0.035))

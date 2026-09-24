@@ -33,6 +33,8 @@ var tactical_marker: MeshInstance3D
 var blocked_los=0.0
 var flank_left=0.0
 var flank_point=Vector3.ZERO
+var cue_phase=""
+var step_clock=0.0
 
 func find_flank(player_target: Vector3):
 	var nearest=INF
@@ -236,6 +238,20 @@ func _physics_process(dt):
 			var floor_hit=game.raycast(raised.origin+movement*dt,raised.origin+movement*dt-Vector3.UP*0.52,[get_rid()])
 			if not floor_hit.is_empty() and floor_hit.normal.y>0.65: position.y=floor_hit.position.y+0.025
 	MMFDeckMotion.slide(self,dt)
+	step_clock-=dt
+	if movement.length()>1 and is_on_floor() and step_clock<=0:
+		step_clock=.5 if kind=="bastion" else .38
+		game.audio.play_at("footfall",global_position,.28 if kind=="bastion" else .14)
+	var next_cue=phase if phase in ["telegraph","vent"] else ""
+	if next_cue!=cue_phase:
+		cue_phase=next_cue
+		if cue_phase!="": game.audio.play_at("warning",global_position,.12)
+	if phase=="telegraph" and kind=="revenant": hp_label.text="SWORD WINDUP";hp_label.modulate=Color(1,.53,.16)
+	elif phase=="vent" and kind=="bastion": hp_label.text="VENT OPEN / AIM HIGH";hp_label.modulate=Color(.35,1,.65)
+	else: hp_label.modulate=Color(1,.25,.1)
+	if tactical_marker.material_override:
+		var color=Color(.25,1,.55) if phase=="vent" else Color(1,.24,.06)
+		tactical_marker.material_override.albedo_color=color;tactical_marker.material_override.emission=color
 	if delta.length_squared()>0.01: visual.rotation.y=lerp_angle(visual.rotation.y,atan2(delta.x,delta.z),1-exp(-8*dt))
 	if position.y<0: take_damage(10000,position)
 
@@ -252,7 +268,7 @@ func shoot_committed():
 	game.effects.tracer(start,committed,Color(1,0.1,0.04))
 	if not hit.is_empty() and hit.collider==game.player: hit_target(definition.damage)
 	elif not hit.is_empty() and hit.collider.has_method("take_damage"): hit.collider.take_damage(definition.damage,hit.position)
-	game.audio.cue(110,0.08,-25,true)
+	game.audio.play_at("rifle",start,.15)
 
 func take_weapon_damage(amount: float,point: Vector3,distance: float,range_m: float,falloff_start: float):
 	take_damage(MMFDamage.compute(amount,distance,range_m,falloff_start,definition.armor)+definition.armor,point)
@@ -267,6 +283,9 @@ func take_damage(amount: float,point: Vector3):
 			amount*=0.8
 			break
 	health=maxf(0,health-amount)
+	if not inactive and game.ui:
+		game.ui.combat_hit("ELIMINATED" if health<=0 else "EXPOSED HIT" if kind=="bastion" and phase=="vent" and point.y>position.y+1.1 else "ARMOUR HIT" if armor>0 else "HIT")
+		game.audio.play_at("hit-metal",point,.15)
 	game.session.attack_recent=5
 	flash_left=0.12
 	play("polish_hit",true)

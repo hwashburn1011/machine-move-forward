@@ -64,14 +64,15 @@ func create_destination(def: Dictionary):
 		var label=Label3D.new()
 		label.text=entry.label
 		label.position=at+Vector3.UP*0.3
-		label.font_size=28
-		label.pixel_size=0.007
+		label.font_size=24
+		label.pixel_size=0.003
 		label.billboard=BaseMaterial3D.BILLBOARD_ENABLED
 		label.modulate=Color(0.35,0.9,0.85)
 		label.visibility_range_end=8
 		destination.add_child(label)
 		points.append({"entry":entry,"at":at,"label":label})
 	update_position()
+	game.story_art.decorate_destination()
 
 func restore_destination():
 	if game.session.story.phase in ["approach","braking","docked"]:
@@ -166,6 +167,9 @@ func requirement(id: String) -> String:
 
 func interact(entry: Dictionary) -> bool:
 	if game.session.story.phase!="docked" or not can_show(entry): return false
+	if not game.activity.completed(entry):
+		game.activity.open(entry)
+		return false
 	var st=game.session.story
 	match entry.kind:
 		"journal":

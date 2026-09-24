@@ -1,0 +1,31 @@
+{
+	"events": [
+		{
+			"atSeconds": 0.0,
+			"event": "calm"
+		},
+		{
+			"atSeconds": 0.133333333333333,
+			"event": "departure transmission",
+			"quietUntil": 15.0
+		},
+		{
+			"atSeconds": 15.0000000000003,
+			"event": "buildup"
+		},
+		{
+			"atSeconds": 34.016666666666,
+			"event": "engagement"
+		},
+		{
+			"atSeconds": 34.016666666666,
+			"event": "boarding craft"
+		}
+	],
+	"failures": [],
+	"passed": true,
+	"renderer": "NVIDIA GeForce RTX 3070",
+	"scope": "65 second real-time automated route/boarding pacing sample; not a whole campaign playthrough",
+	"simulationSeconds": 64.5166666666643,
+	"wallSeconds": 65.012
+}

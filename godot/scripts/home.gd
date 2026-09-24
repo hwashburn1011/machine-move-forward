@@ -9,7 +9,7 @@ var chair_id=""
 
 func setup(owner_game): game=owner_game
 
-func set_keepsake(shelf: Dictionary,id: String):
+func set_keepsake(shelf: Dictionary,id: String,announce: bool=false):
 	shelf.state.keepsakeId=id
 	var model=game.building.bodies.get(shelf.instanceId)
 	if not model: return
@@ -18,6 +18,9 @@ func set_keepsake(shelf: Dictionary,id: String):
 	var lit=MMFAssets.find_named(model,"KeepsakeLit")
 	if lit: lit.visible=id!=""
 	if id=="": return
+	if announce:
+		var title=game.data.KEEPSAKE_DETAILS.get(id,{}).get("title",id.replace("-"," "))
+		game.journey.enqueue("keepsake/"+id,"PRESERVATION",title+" is on display aboard the Nomad. A record carried forward, not left in the sand.")
 	var exhibit=Node3D.new();exhibit.name="NativeKeepsake";model.add_child(exhibit)
 	var part_name="PreservationSeeds" if id=="human-seed-bank" else "PreservationCore" if id in ["annika-archive-shard","orchard-memory-core"] else "PreservationRecord"
 	var kit=MMFAssets.scene("models/authored/nomad-progress.glb");var source=MMFAssets.find_named(kit,part_name)
