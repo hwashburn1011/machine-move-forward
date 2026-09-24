@@ -10,6 +10,7 @@ var target = {}
 var preview: Node3D
 var preview_material = StandardMaterial3D.new()
 var bodies = {}
+var generator_visuals = {}
 var failure = ""
 var demolish_time = 0.0
 
@@ -36,15 +37,23 @@ func piece_transform(p: Dictionary) -> Transform3D:
 func rebuild():
 	for body in bodies.values(): body.queue_free()
 	bodies.clear()
+	generator_visuals.clear()
 	for p in game.session.structures: add_visual(p)
 
+func model_for(id: String) -> Node3D:
+	return MMFAssets.scene("res://art/native-generator.glb" if id=="generator" else "runtime/"+id+".glb")
+
 func add_visual(p: Dictionary):
-	var root = MMFAssets.scene("runtime/"+p.definitionId+".glb")
+	var root = model_for(p.definitionId)
 	root.name = p.instanceId
 	root.transform = piece_transform(p)
 	add_child(root)
 	root.set_meta("piece_id",p.instanceId)
 	bodies[p.instanceId] = root
+	if p.definitionId=="generator":
+		var visual=MMFGeneratorVisual.new(root,p,game.data.BUILD_PIECES.generator.maxHealth)
+		generator_visuals[p.instanceId]=visual
+		visual.update(game.session.fuel)
 	for spec in game.runtime.pieceColliders[p.definitionId]:
 		var body = MMFAssets.collider(root,{"position":spec.offset,"half":spec.half})
 		body.rotation.x = spec.get("rotX",0)
@@ -60,7 +69,7 @@ func choose(id: String):
 	rotation_index = 0
 	moving = ""
 	if preview: preview.queue_free()
-	preview = MMFAssets.scene("runtime/"+id+".glb")
+	preview = model_for(id)
 	for mesh in MMFAssets.of_type(preview,"MeshInstance3D"):
 		mesh.material_override = preview_material
 		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -126,6 +135,9 @@ func current_level() -> int:
 	return int(round((game.player.position.y-16.03)/3.6)) if manual_level==99 else manual_level
 
 func update(dt: float):
+	# References are cached at placement/load and removed on demolition. This
+	# does not search the scene tree or scan every built tile during gameplay.
+	for id in generator_visuals:generator_visuals[id].update(game.session.fuel)
 	if selected == "" or game.menu_open: return
 	if game.session.attack_recent > 0 or game.combat.active_threat():
 		cancel()
@@ -306,6 +318,7 @@ func demolish(id: String,destroyed: bool=false) -> bool:
 		if p.is_empty(): continue
 		game.session.structures.erase(p);game.session.stores.erase(piece)
 		if bodies.has(piece): bodies[piece].queue_free();bodies.erase(piece)
+		generator_visuals.erase(piece)
 	for item in refund:
 		var left=game.session.add_resource(item,int(refund[item]))
 		if left>0: overflow[item]=overflow.get(item,0)+left

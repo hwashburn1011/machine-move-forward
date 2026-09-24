@@ -1,0 +1,13 @@
+{
+  "editableParts": 194,
+  "triangles": 45508,
+  "meshBatches": 13,
+  "bytes": 4927548,
+  "semanticParts": [
+    "FuelPort",
+    "FuelNeedle",
+    "RunLamp",
+    "ReserveLamp",
+    "ServiceLamp"
+  ]
+}

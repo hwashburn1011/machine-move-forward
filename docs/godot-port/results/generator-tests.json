@@ -1,0 +1,10 @@
+{
+	"checks": 40,
+	"failures": [],
+	"geometry": {
+		"bounds": "[P: (-0.813804, 0.0, -0.67), S: (1.614804, 1.284277, 1.353115)]",
+		"surfaces": 13,
+		"triangles": 45508
+	},
+	"passed": true
+}
