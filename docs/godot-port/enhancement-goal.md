@@ -196,3 +196,14 @@ Starting state: `9d2672d`. The preceding turn made verified progress on service 
 4. Verify physical walking and ray contact, measured vessel clearance, grounding, resource sharing, camera and gameplay regressions. Retain matching GPU samples and review artifacts.
 
 Iteration review: [fixed cargo cases](cargo-locker-review.md). All 513 selected assertions pass. The broader goal remains active; adjacent pressure-vessel/switchgear detail, full-campaign feel and independent frame stalls remain open.
+
+## Completed iteration: responsive opening preparation
+
+Starting state: `f1df64a`. The preceding turn made verified progress on cargo cases. A fresh 65-second travel trace did not reproduce a late stall, but the actual title-to-New Campaign path blocked for 589 ms while loading its opening set.
+
+1. Measure real title entry, both robot explosions and the existing handoff without screenshot readbacks. Retain the independent travel trace and its limits.
+2. Load the same rooftop and pursuers on an engine worker during the title; assemble hidden parts incrementally and reuse them at launch. Keep immediate clicks cancellable and simulation paused until ready.
+3. Verify cancelled requests, Continue/library restores, unfinished-opening fallback, repeated clicks, scene reload, shutdown, unchanged campaign state and original timeline events.
+4. Inspect native opening captures, run gameplay/camera/crossfire regressions, and retain matched frame evidence.
+
+Iteration review: [opening preparation](opening-preparation-review.md). Entry CPU fell from 589.359 to 2.903 ms and the measured maximum opening run frame fell from 616.471 to 18.834 ms. All 449 selected assertions pass. The broad goal remains active: the captures expose poor rooftop-wall framing after the jump and simple rooftop fixtures, alongside the already identified machine fittings and older unreproduced intermittent stalls. No story or gameplay timing was added or changed.

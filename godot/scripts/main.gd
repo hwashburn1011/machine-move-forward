@@ -129,6 +129,10 @@ func hint(message: String) -> String:
 
 func _input(event):
 	if ui==null or ui.binding_action!="": return
+	if cinematics.opening_stage.requested:
+		if event.is_action_pressed("pause"):
+			open_menu("Title");get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed("pause"):
 		if cinematic!="": cinematics.finish()
 		elif manual_turret!="": dismount_turret()
@@ -144,10 +148,11 @@ func _input(event):
 
 func open_menu(page: String):
 	if started and session.health<=0 and page not in ["Pause","Title","Settings","Library"]: return
+	if page!="Departure":cinematics.opening_stage.cancel()
 	reset_interaction_hold()
 	menu_open=true
 	# The browser wrist terminal pauses the whole simulation while aboard.
-	get_tree().paused=page in ["Title","Pause","Library","Settings"] or (page!="Build" and started and aboard())
+	get_tree().paused=page in ["Title","Pause","Library","Settings","Departure"] or (page!="Build" and started and aboard())
 	if page in ["Title","Library"]:autosaver.flush()
 	if page not in ["Build","Pause","Settings"]: building.cancel()
 	if started: player.play("armed_idle")
@@ -166,13 +171,16 @@ func close_menu():
 	player.suppress_fire=true
 
 func new_game():
-	started=true
-	close_menu()
-	if session.clock>0:
+	if cinematics.opening_stage.requested:return
+	if started or session.clock>0:
 		get_tree().set_meta("new_native_campaign",true)
 		get_tree().reload_current_scene()
 		return
-	cinematics.begin_opening()
+	if cinematics.opening_stage.prepared():
+		started=true;close_menu();cinematics.begin_opening()
+	else:
+		open_menu("Departure")
+		cinematics.opening_stage.request()
 
 func _physics_process(dt):
 	if session==null or get_tree().paused: return
@@ -454,6 +462,7 @@ func load_payload(payload: Dictionary):
 		return
 	autosaver.flush()
 	session=trial
+	cinematics.opening_stage.cancel(true)
 	autosave_clock=0
 	dismount_turret()
 	salvage.cancel()

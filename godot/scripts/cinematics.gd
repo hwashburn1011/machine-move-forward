@@ -11,6 +11,7 @@ var event_cursor=0
 var initial_camera=Transform3D.IDENTITY
 var initial_fov=55.0
 var signal_stage=MMFCrossfireStage.new()
+var opening_stage=MMFOpeningStage.new()
 var signal_route=MMFCrossfireRoute.new()
 var transition: ColorRect
 var human_ship: Node3D
@@ -22,6 +23,7 @@ var rooftop_departure=0.0
 
 func setup(owner_game):
 	game=owner_game
+	opening_stage.owner_cinema=self;add_child(opening_stage)
 	signal_stage.owner_cinema=self
 	camera=Camera3D.new()
 	camera.near=0.08
@@ -62,11 +64,10 @@ func begin_opening():
 	time=0
 	event_cursor=0
 	game.session.opening_done=false
-	rooftop=MMFAssets.scene("runtime/rooftop.glb")
-	add_child(rooftop)
-	scenery=Node3D.new()
-	add_child(scenery)
-	for id in ["warden","revenant"]: actors.append(actor(id,Vector3.ZERO,scenery))
+	scenery=opening_stage.take()
+	if rooftop:rooftop.queue_free()
+	rooftop=scenery.get_node("Rooftop");rooftop.reparent(self)
+	for id in ["warden","revenant"]:actors.append(scenery.get_node(id))
 	game.player.visual.show()
 	camera.current=true
 

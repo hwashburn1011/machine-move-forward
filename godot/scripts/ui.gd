@@ -200,9 +200,12 @@ func refresh():
 	for child in content.get_children():
 		content.remove_child(child)
 		child.queue_free()
-	tabs.visible=page not in ["Title","Pause","Library","Record"]
+	tabs.visible=page not in ["Title","Pause","Library","Record","Departure"]
 	var s=game.session
 	match page:
+		"Departure":
+			text_line("PREPARING DEPARTURE",true)
+			text_line("Loading the opening scene…")
 		"Title":
 			text_line("MACHINE MOVE FORWARD",true)
 			text_line("Carry the names. Keep the machine moving.\nNative Godot development build")

@@ -34,7 +34,7 @@ func run():
 	game=load("res://scenes/main.tscn").instantiate();root.add_child(game);current_scene=game
 	game.settings.bindings={};game.configure_input();game.new_game()
 	var wall_start=Time.get_ticks_msec();var samples={};var next_capture=3.0
-	while game.cinematic!="":
+	while game.cinematics.opening_stage.requested or game.cinematic!="":
 		await physics_frame
 		if game.cinematics.time>=next_capture:
 			await capture("opening-"+str(int(next_capture)));next_capture+=3
