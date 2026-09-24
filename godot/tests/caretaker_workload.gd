@@ -93,6 +93,34 @@ func step(count: int):
 		game.session.clock+=1.0/60
 		game.caretaker.update(1.0/60)
 
+func drive_checks():
+	var bot=game.caretaker;var drive=bot.drive
+	check(drive.belts.size()==2 and drive.belts[0].multimesh.instance_count==48 and drive.belts[1].multimesh.instance_count==48,"96 articulated shoes use two instanced belts")
+	check(drive.belts[0].multimesh.mesh==drive.belts[1].multimesh.mesh,"Both belts share the same authored mesh and materials")
+	var circumference=MMFCaretakerDrive.LENGTH
+	var closure=MMFCaretakerDrive.shoe_frame(0,.44).is_equal_approx(MMFCaretakerDrive.shoe_frame(circumference,.44))
+	var continuous=true
+	for boundary in [2*.29,2*.29+PI*.17,4*.29+PI*.17,circumference]:
+		var a=MMFCaretakerDrive.shoe_frame(boundary-.00001,.44);var b=MMFCaretakerDrive.shoe_frame(boundary+.00001,.44)
+		if a.origin.distance_to(b.origin)>.00003 or a.basis.z.distance_to(b.basis.z)>.0002:continuous=false
+	check(closure and continuous,"Shoe position and tangent remain continuous around both drive arcs and the loop seam")
+	drive.positioned=false;drive.update(Transform3D.IDENTITY,true)
+	drive.update(Transform3D(Basis.IDENTITY,Vector3(0,0,-.3)),true)
+	check(absf(drive.travel[0]-.3)<.00001 and absf(drive.travel[1]-.3)<.00001,"Straight travel advances both belts by actual ground distance")
+	drive.update(Transform3D.IDENTITY,true)
+	check(absf(drive.travel[0])<.00001 and absf(drive.travel[1])<.00001,"Reverse travel reverses the belts without accumulating false forward movement")
+	drive.update(Transform3D(Basis(Vector3.UP,.2),Vector3.ZERO),true)
+	check(drive.travel[0]<-.08 and drive.travel[1]>.08 and absf(drive.travel[0]+drive.travel[1])<.00001,"Turning in place drives the inner and outer tracks in opposite directions")
+	var before=drive.travel.duplicate();var phases=drive.phases.duplicate()
+	drive.update(Transform3D(Basis(Vector3.UP,.2),Vector3.ZERO),true)
+	check(drive.travel==before and drive.phases==phases,"Stationary frames leave the complete drive unchanged")
+	drive.update(Transform3D(Basis.IDENTITY,Vector3(0,0,20)),true)
+	drive.update(Transform3D(Basis.IDENTITY,Vector3(0,0,20.3)),false)
+	check(drive.travel==before,"Recovery teleports and airborne travel do not spin the drive")
+	drive.positioned=false;drive.travel=[0.0,0.0];drive.phases=[0.0,0.0]
+	for index in 2:drive.pose_belt(index)
+	for wheel in bot.wheels:wheel.rotation.x=0
+
 func capture_service(label: String):
 	if DisplayServer.get_name()=="headless":return
 	game.player.camera.reparent(game);game.player.camera.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
@@ -106,6 +134,7 @@ func live_checks():
 	game=load("res://scenes/main.tscn").instantiate();root.add_child(game);current_scene=game
 	game.started=true;game.session.opening_done=true;game.close_menu();game.set_physics_process(false);game.player.set_physics_process(false);game.caretaker.set_physics_process(false)
 	game.player.teleport(Vector3(-1,16.1,8));game.session.caretaker.recovered=true;game.session.caretaker.mode="automation"
+	drive_checks()
 	game.session.caretaker.priority="outputs"
 	var pieces={}
 	for entry in [["condenser",2],["crate",4],["caretaker-dock",5]]:
@@ -153,7 +182,11 @@ func live_checks():
 	check(is_equal_approx(stopped_wheel,game.caretaker.wheels[0].rotation.x),"Drive wheels stop when the companion parks")
 	var parked=game.caretaker.position;await step(120)
 	check(game.caretaker.position.distance_to(parked)<.02,"An idle companion parks instead of walking toward the world origin")
-	var contact_y=game.caretaker.position.y+game.caretaker.visual.position.y+MMFAssets.bounds(game.caretaker.visual).position.y
+	var sole=INF
+	for belt in game.caretaker.drive.belts:
+		var batch=belt.multimesh
+		for link in batch.instance_count:sole=minf(sole,(batch.get_instance_transform(link)*batch.mesh.get_aabb()).position.y)
+	var contact_y=game.caretaker.position.y+game.caretaker.visual.position.y+sole
 	check(absf(contact_y-16.03)<.02,"Authored track contact plane rests on the actual deck within 2 cm")
 	check(bag.count_item("water")==1 and pieces.condenser.state.stored==0,"Idle updates cannot duplicate delivered output")
 	pieces.condenser.state.stored=1;game.caretaker.wait_time=0;await step(1)

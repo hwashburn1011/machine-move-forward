@@ -1,4 +1,4 @@
-param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
+param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$DriveProfile, [switch]$TravelProfile, [switch]$Stress, [switch]$Benchmark, [switch]$Headless)
 $ErrorActionPreference = 'Stop'
 $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $Godot) {
@@ -28,6 +28,8 @@ elseif ($AccessTest) { $arguments += @('--script', 'tests/machine_access.gd') }
 elseif ($AccessBenchmark) { $arguments += @('--script', 'tests/access_benchmark.gd') }
 elseif ($CaretakerTest) { $arguments += @('--script', 'tests/caretaker_workload.gd') }
 elseif ($ConstructionProfile) { $arguments += @('--script', 'tests/construction_profile.gd') }
+elseif ($DriveProfile) { $arguments += @('--script', 'tests/caretaker_drive_profile.gd') }
+elseif ($TravelProfile) { $arguments += @('--script', 'tests/travel_profile.gd') }
 elseif ($WorkloadTest) { $arguments += @('--script', 'tests/session_workload.gd') }
 elseif ($SessionBenchmark) { $arguments += @('--script', 'tests/session_benchmark.gd') }
 elseif ($EffectBenchmark) { $arguments += @('--script', 'tests/effect_benchmark.gd') }

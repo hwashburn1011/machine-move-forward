@@ -68,6 +68,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Acce
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -AccessBenchmark
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CaretakerTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ConstructionProfile
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -DriveProfile
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -TravelProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
@@ -88,3 +90,5 @@ The [camera and machine simulation review](../docs/godot-port/camera-workload-re
 The [native machine access review](../docs/godot-port/machine-access-review.md) covers rebuilt stair-bay supports, 96 detailed treads, grounded cable routes and exact reuse of the machine's materials. The geometry test checks real mesh clearance and deck heights; the GPU benchmark measures the visual-detail cost in one fixed view with both old/new variants resident. Native code installs the replacement module from `art/` while preserving the frozen machine bake and browser assets.
 
 The [construction and caretaker review](../docs/godot-port/caretaker-workload-review.md) covers a rendered 369-piece workload, reduced L-12 job-search stalls, body clearance at service positions, and grounded companion motion. The caretaker suite compares 512 layouts with the original selector and drives real service visits and transfers. It supports `-Headless`; the rendered version also captures service poses. The construction profile requires native GPU rendering and uses isolated `native-construction-tests/` saves.
+
+The [articulated drive review](../docs/godot-port/caretaker-drive-review.md) covers Blender-authored L-12 track shoes, instanced belts, independent turning/reversing motion, grounding and measured visual cost. Source and renders live in `../assets/native-fieldwork/`; the original fieldwork master remains unchanged. `-DriveProfile` compares both assemblies in a fixed native view at 60 Hz physics. `-TravelProfile` instruments test-owned copies of the current main/player/world/UI/audio callbacks to trace intermittent frame stalls without adding profiling overhead to the shipping scripts. Both profiles require GPU rendering and isolated test saves.

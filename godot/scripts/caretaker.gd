@@ -15,6 +15,7 @@ var sensor: Node3D
 var arms: Array=[]
 var wheels: Array=[]
 var service_query=PhysicsShapeQueryParameters3D.new()
+var drive=MMFCaretakerDrive.new()
 
 func setup(owner_game):
 	game=owner_game
@@ -46,6 +47,8 @@ func setup(owner_game):
 		if arm:arms.append(arm)
 	for wheel in MMFAssets.of_type(visual,"Node3D"):
 		if wheel.get_parent()==visual and String(wheel.name).begins_with("L12Wheel"):wheels.append(wheel)
+	drive.setup(visual,wheels)
+	if not drive.belts.is_empty():visual.position.y=-drive.contact_y-safe_margin
 	agent=NavigationAgent3D.new()
 	agent.path_desired_distance=0.08;agent.target_desired_distance=0.5
 	add_child(agent)
@@ -196,9 +199,11 @@ func update(dt: float):
 	MMFDeckMotion.slide(self,dt)
 	# Roll the authored wheel pivots from actual travel, so a blocked or parked
 	# companion cannot keep spinning its drive. The model's front faces local -Z.
-	var travelled=Vector2(position.x-before.x,position.z-before.z).length()
-	if is_on_floor() and travelled>.00001:
-		for wheel in wheels:wheel.rotation.x-=travelled/.143
+	if not drive.belts.is_empty():drive.update(visual.global_transform,is_on_floor())
+	else:
+		var travelled=Vector2(position.x-before.x,position.z-before.z).length()
+		if is_on_floor() and travelled>.00001:
+			for wheel in wheels:wheel.rotation.x-=travelled/.143
 
 func face_direction(direction: Vector3,dt: float):
 	if Vector2(direction.x,direction.z).length_squared()<.0001:return

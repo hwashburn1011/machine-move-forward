@@ -79,3 +79,15 @@ Starting state: `127df8c`. The previous iteration refined access geometry and ve
 5. Inspect native captures, repeat the rendered workload, run relevant game/campaign regressions, and save measured evidence with remaining limitations.
 
 Iteration review: [construction and L-12](caretaker-workload-review.md). Idle search dropped from 33–39 ms to about 0.19 ms while preserving job selection. Real service visits, inventory conservation, obstruction handling and model motion are verified. An intermittent starter/travel spike remains a specific next profiling target. The original scope remains active; this pass does not conclude the model, gameplay or performance review.
+
+## Completed iteration: articulated companion drive and travel tracing
+
+Starting state: `668b91d`. Blender MCP reconnection was verified against the preserved access scene. Three instrumented 24-second travel runs did not reproduce the prior post-startup spike, so it remains explicitly unresolved.
+
+1. Add a reusable diagnostic around test-owned copies of the actual main/player/world/UI/audio callbacks, with streaming/placement timings and frame/GPU samples. Retain both startup and post-warmup results.
+2. Inspect the L-12 source and native service captures. Replace its static belts with a Blender-authored shoe containing rounded pads, grip ribs, steel backing and hinge details; preserve the original body/master.
+3. Animate 96 shoes through two shared MultiMesh belts and reuse existing materials. Couple each side and its wheels to signed ground displacement, including turns, reverse travel, parking and recovery.
+4. Verify closed-path continuity, physical grounding, real service trips and inventory behavior. Inspect Blender/MCP and native views, then compare rendering and animation cost at 60 Hz.
+5. Run integration, parity and story regressions, record the visual cost, and retain the open hitch investigation instead of claiming it fixed.
+
+Iteration review: [articulated drive and travel tracing](caretaker-drive-review.md). The model refinement adds about 0.09–0.10 ms GPU and 0.07 ms moving-drive CPU in its close native view; it is a visual improvement, not an FPS optimization. All 335 relevant assertions pass. An isolated frame stall also appeared with the main game/world update disabled; its cause still needs engine/render/host-level tracing. Character animation/material coherence, normal-speed campaign pacing and environmental refinement remain open. The overall goal remains active.
