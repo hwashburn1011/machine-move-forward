@@ -1,0 +1,70 @@
+{
+	"cameraHandoffs": [
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 45,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": -2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 45,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": 0.5
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 45,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": 2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 72,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": -2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 72,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": 0.5
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 72,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": 2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 100,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": -2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 100,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": 0.5
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 100,
+			"fovGap": 0.0,
+			"positionGapM": 0.0,
+			"yaw": 2.8
+		}
+	],
+	"checks": 66,
+	"failures": [],
+	"scope": "Asset preparation/lifetime, scanner timing, nine full camera/FOV transitions, existing close-up/raid timing and saved-crossfire fallback."
+}

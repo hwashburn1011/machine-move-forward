@@ -145,7 +145,7 @@ func run():
 	game.session.facts.salvage=true;game.world.update(0);game.story_art.update(0)
 	game.player.visual.hide()
 	var review_camera=Camera3D.new();game.add_child(review_camera);review_camera.make_current();review_camera.fov=45
-	review_camera.global_position=game.world.receiver.global_position+Vector3(.7,1.9,-2.8)
+	review_camera.global_position=game.world.receiver.global_position+Vector3(.7,1.9,2.8)
 	review_camera.look_at(game.world.receiver.global_position+Vector3(0,1.2,0))
 	review_camera.reset_physics_interpolation()
 	await frames(4);await capture("story-receiver-hardware")

@@ -40,6 +40,8 @@ Run these commands from the repository root with Godot 4.7.2. The full setup scr
 
 The [helm review](../docs/godot-port/helm-review.md) covers its detailed Blender model, interaction at the actual console and hardware that reflects existing rewards. Its gyro lens is dark when unfitted, green when powered and amber during a supply shortage. Physical E still opens the existing Helm menu; nearby receiver prompts use the real station positions. The model retains the original collision and earned upgrade coordinates.
 
+The [receiver review](../docs/godot-port/receiver-review.md) covers the aisle-facing Blender receiver, grounded pedestal, fitted service hardware and physical scanner readout. It displays actual coherence, power loss and scan pauses while preserving the original discovery, replacement module, scan duration and battle trigger. Earned archive/seed instruments retain their original sites and face the same aisle. Run its focused check with Godot `--headless --path godot --script res://tests/receiver.gd`; editable sources are in `../assets/native-receiver/`.
+
 ## Native implementation
 
 - `scripts/session.gd`: resources, recipes, power, fuel/crawl, progression, research, and save state.
@@ -51,7 +53,7 @@ The [helm review](../docs/godot-port/helm-review.md) covers its detailed Blender
 - `scripts/world.gd`, `desert_layout.gd`, `gait.gd`: original machine and desert models, deterministic districts/scatter, dune/sky shaders, four-leg gait, streaming, and weather presentation.
 - `scripts/journey.gd`, `destination_activity.gd`: prioritised radio captions, load recap, optional idle guidance and persistent local machinery activities at the five existing destinations.
 - `scripts/terminal_pages.gd`, `deck_map.gd`, `instrument_display.gd`: three-deck equipment selection/repair/location, build categories and favourites, upgrade comparisons and live console traces.
-- `scripts/story_art.gd`, `art/story-instruments.glb`: seven original Blender instrument assemblies, including physical wrist hardware and earned archive/seed displays on the receiver. Editable source and the contact sheet live in `../assets/native-story/`; rebuild with `../tools/art/native_story/build.py` in Blender.
+- `scripts/story_art.gd`, `art/story-instruments.glb`: seven original Blender instrument assemblies, including physical wrist hardware. Editable source and the contact sheet live in `../assets/native-story/`; rebuild with `../tools/art/native_story/build.py` in Blender. The archive/seed assemblies now load from the cleaned `art/nomad-receiver-rewards.glb`; its reproducible cleanup and assembled source are documented in `../assets/native-receiver/README.md`.
 - `scripts/world_atmosphere.gd`, `art/wind-worn-props.glb`: three original Blender assemblies with torn wind-driven canvas, a bearing-mounted ventilation rotor and a pulsing solar beacon. Sparse placements avoid the machine corridor and existing wreckage; source and renders are in `../assets/native-atmosphere/`.
 - `scripts/effects.gd`: shared spark/tracer render batches preserve effect geometry and fade, with explicit per-particle interpolation. Exhaust and dust respond to speed; four contact bursts follow the machine's feet.
 - `scripts/scenery_chunk.gd`, `scenery_stream.gd`: prepare unchanged scenery before travel boundaries in small time slices. At most 13 ready/unfinished chunks supplement the 27 visible chunks; prepared nodes remain outside the rendered scene. Reversals reuse retired chunks, and abrupt relocations/loads fill the full visible range immediately.

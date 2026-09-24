@@ -89,9 +89,11 @@ func run():
 	game.session.scanner.phase="installed";helper.update()
 	check(helper.pending!="","Shutdown fixture has a live background request")
 	while game.combat.nav.is_baking():await create_timer(.02).timeout
+	var audio_refs=preload("res://tests/audio_drain.gd").capture(game.audio)
 	game.queue_free();while is_instance_valid(game):await process_frame
 	check(helper.pending=="" and helper.stage==null and helper.owner_cinema==null,"Shutdown drains the outstanding request and releases stage ownership")
-	c=null;p=null;s=null;prepared=null;discarded=null;helper=null;await create_timer(.1).timeout;MMFAssets.cache.clear()
+	c=null;p=null;s=null;prepared=null;discarded=null;helper=null;MMFAssets.cache.clear()
+	check(await preload("res://tests/audio_drain.gd").finish(self,audio_refs),"Crossfire test drains mixer-owned streams before shutdown")
 	report={"checks":checks,"failures":failures,"cameraHandoffs":handoffs,"scope":"Asset preparation/lifetime, scanner timing, nine full camera/FOV transitions, existing close-up/raid timing and saved-crossfire fallback."}
 	var file=FileAccess.open("res://../test-results/godot-native/crossfire-tests.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("CROSSFIRE_RESULT ",checks," checks, ",failures.size()," failures")

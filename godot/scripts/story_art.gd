@@ -9,7 +9,7 @@ var refresh_left=0.0
 const PARTS={"gyro":"GyroPanel","power":"PowerRouter","array":"ArrayTuner","port":"Isolator","starboard":"Isolator","transmitter":"ArchiveConsole","archive":"ArchiveConsole"}
 
 func part(name: String) -> Node3D:
-	var kit=MMFAssets.scene("res://art/story-instruments.glb")
+	var kit=MMFAssets.scene("res://art/nomad-receiver-rewards.glb" if name in ["ArchiveConsole","SeedTerrarium"] else "res://art/story-instruments.glb")
 	var original=MMFAssets.find_named(kit,name)
 	var copy=original.duplicate() if original else Node3D.new()
 	kit.free()
@@ -19,8 +19,10 @@ func setup():
 	# Both instruments bolt to the existing receiver assembly, not the walkway.
 	archive=part("ArchiveConsole");game.world.receiver.add_child(archive)
 	archive.position=Vector3(.22,1.447,0);archive.scale=Vector3.ONE*.65
+	archive.rotation.y=PI
 	seeds=part("SeedTerrarium");game.world.receiver.add_child(seeds)
 	seeds.position=Vector3(-.22,1.447,0);seeds.scale=Vector3.ONE*.65
+	seeds.rotation.y=PI
 	update(0)
 
 func update(dt: float):

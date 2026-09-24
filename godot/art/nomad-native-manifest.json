@@ -91,7 +91,7 @@
 	],
 	"nodes": 865,
 	"runtimePlaySha256": "49e06d0f6959fb5f3fd622cfac4207c1cf53105dfec7510f9ef95a68437dd2e0",
-	"sha256": "98abb4694667911e130f131ddf6b5bb8d63a4cffa2e3a19cbaf45f320d8054f2",
+	"sha256": "526c6c6d2641e01c30eb8c4d2645298256e316ffc5ef77fcd0a3331583bd7288",
 	"sources": {
 		"res://art/nomad-access-collision.json": "d31e64a0cef408e5f217f9c976d71d4258c89e8a64c656323c77f6c0d9632509",
 		"res://art/nomad-access.glb": "2d5b26183cc2c02bd9b46367c6e83e4677c7d49f33640efdf10fb24aead30f97",
@@ -131,6 +131,7 @@
 		"res://art/nomad-pumps-retained.glb": "b84a0f30e07e6fc2c25d902905b8506dfc1ccf5f660491c3caf3cbd936e7ff6b",
 		"res://art/nomad-pumps-retained.glb.import": "75226d5d28e1b616a5bd5b8915181879f39eb1f82a352f9e6f9027d4721666e8",
 		"res://art/nomad-pumps.json": "5a55fa1c384752645a94e6957654e180a6ea7803e8ab091c0efe9e72f8c65086",
+		"res://art/nomad-receiver.json": "fb7c1cd598b4573737bda89f8ccc4548d8167236d710b4dd4d58d2eed6ce0cfd",
 		"res://art/nomad-service-bench.glb": "c89cf141d4794ea48ad4c82d836888102cb4952921cbae853ded3ada0c494708",
 		"res://art/nomad-service-bench.glb.import": "a67e7a93cd0a058b479daad177efb01afdaa190fdf4e5166983151b7d255efdf",
 		"res://art/nomad-service-cables.glb": "daca1094dcd851f6898787126b46c7ddc39ab0bb3663ad1f1f6c5091b4ff43d5",
@@ -158,9 +159,10 @@
 		"res://scripts/machine_helm.gd": "6e879f0f6203b5f180453146b3f8df311fd04c4963566274cc8dab1d743d53ac",
 		"res://scripts/machine_intake.gd": "db0945e334b15e41b6dd4c77a59fffa5630ed106bb4a0ec2588d6284c65a535f",
 		"res://scripts/machine_pumps.gd": "01b8cba6797519217d569b7f3cff04ff607473b1a03f26493fe767649b5dcb8c",
+		"res://scripts/machine_receiver.gd": "6386ba5261fd3ebceee479a97380a070b2b78a661315735c491257d3496ee97f",
 		"res://scripts/machine_switchgear.gd": "d68e9f3ff21ffba2e1e2a5f466e62cd26042f0b8edfbef69a570f59c2867c87e",
 		"res://scripts/machine_vessels.gd": "517a768adca98f9df2ea3d449496e1c2de964979899a8b6303099deaf7adde5c",
-		"res://scripts/world.gd": "fd5882ad9f06751586c0e03482a9a2e671246257566b6847c144044ef4d9392b",
+		"res://scripts/world.gd": "343563e0c1a1dd49b2050aa4e7db77e6d62930cd66feb4c708ab6e0b9b92206d",
 		"res://tools/bake_machine.gd": "0d2fbc58891e4ab3d37659c86606b43e327be2bf8838f8bd9b7cf133f485dcb2"
 	}
 }
