@@ -230,3 +230,14 @@ Starting state: `67d01a1`. The preceding turn made verified progress on opening 
 5. Inspect native and MCP output, compare GPU cost, run gameplay/control regressions, and trace final real-time travel. Use the established audio-drain helper for test shutdowns.
 
 Iteration review: [canopy](canopy-review.md). All 494 selected assertions pass; no tested camera paths cross the fabric. Detailed canvas adds 0.066–0.197 ms median GPU in matched fixed views. The separate final travel trace has a 9.885 ms maximum after its initial three seconds, while still showing an initial 267.265 ms render frame. This is verified model/control progress, not a claim that the broader performance investigation is complete. The overall goal remains active: nearby pressure fittings, full-campaign feel and independently observed intermittent stalls remain open.
+
+## Completed iteration: grounded receivers and readable instruments
+
+Starting state: `9e84cbd`. The preceding turn made verified progress on the canopy. Inspect the five existing middle-deck pressure vessels, their frozen shared batches and their proximity to the refined cargo case.
+
+1. Author one detailed Blender receiver with formed heads, grounded anchors, welded seams, a connected drain, readable recessed gauge, spoked valve wheel and relief fittings. Preserve its existing sites, main shell envelope and aisle orientation.
+2. Review studio, native and MCP views. Correct mirrored printing, connect the legs to the curved shell, and fix a 23 mm overlap between one foot and the cargo restraint found by full exported triangle checks.
+3. Install five shared instances with five material batches, preserving unrelated workshop vertices and original materials. Leave frozen assets, physics, gameplay and story intact.
+4. Verify original collision with real movement/rays, shared resources, native text facing, source support contact, complete adjacent mesh clearance and regressions. Measure sequential matched GPU runs and preserve final native captures.
+
+Iteration review: [pressure vessels](pressure-vessel-review.md). All 537 selected assertions pass, both exported GLBs validate cleanly, and final receiver/case geometry has no intersections. The added detail costs 0.032–0.094 ms median GPU in four fixed native views. This is verified progress within the existing game. The broad goal remains active: nearby switchgear and workshop equipment still expose simple fittings, and full-campaign feel plus independently observed frame stalls need further work.

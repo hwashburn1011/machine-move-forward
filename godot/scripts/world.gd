@@ -61,6 +61,7 @@ func setup(owner_game):
 	add_child(machine)
 	native_access=MMFMachineAccess.install(self)
 	native_dressing=MMFMachineDressing.install(machine)
+	MMFMachineVessels.install(machine)
 	canopy.install(machine)
 	gait.setup(game,machine)
 	for raw in game.runtime.colliders:

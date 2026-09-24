@@ -1,0 +1,41 @@
+{
+  "supports": [
+    {
+      "leg": "Welded support leg",
+      "shellContactY": 0.2721574902534485,
+      "supportTopY": 0.37599998712539673,
+      "overlapM": 0.10384249687194824,
+      "deckContactY": 0.0
+    },
+    {
+      "leg": "Welded support leg.001",
+      "shellContactY": 0.2721574902534485,
+      "supportTopY": 0.37599998712539673,
+      "overlapM": 0.10384249687194824,
+      "deckContactY": 0.0
+    },
+    {
+      "leg": "Welded support leg.002",
+      "shellContactY": 0.2721574902534485,
+      "supportTopY": 0.37599998712539673,
+      "overlapM": 0.10384249687194824,
+      "deckContactY": 0.0
+    },
+    {
+      "leg": "Welded support leg.003",
+      "shellContactY": 0.2721574902534485,
+      "supportTopY": 0.37599998712539673,
+      "overlapM": 0.10384249687194824,
+      "deckContactY": 0.0
+    }
+  ],
+  "shellEnvelope": {
+    "xRadius": 0.28299999237060547,
+    "zRadius": 0.30186668038368225
+  },
+  "adjacentCargo": {
+    "candidatePairs": 0,
+    "triangleIntersectionPoints": []
+  },
+  "passed": true
+}

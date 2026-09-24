@@ -1,0 +1,59 @@
+{
+  "checks": 537,
+  "suites": [
+    {
+      "suite": "tests",
+      "passed": 77,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "cargo_lockers",
+      "passed": 56,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "machine_access",
+      "passed": 13,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "traversal",
+      "passed": 13,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "integration",
+      "passed": 108,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "audit_parity",
+      "passed": 132,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "play_parity",
+      "passed": 58,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "canopy",
+      "passed": 26,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    },
+    {
+      "suite": "camera_clearance",
+      "passed": 54,
+      "failed": 0,
+      "errorsOrWarnings": 0
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+	"checks": 77,
+	"collision": [
+		{
+			"playerStopM": 0.652697563171387,
+			"radialHitsM": [
+				0.284999847412109,
+				0.284999847412109,
+				0.303999900817871,
+				0.304000854492188
+			],
+			"site": "(8.0, 12.43, 10.4)"
+		},
+		{
+			"playerStopM": 0.65001392364502,
+			"radialHitsM": [
+				0.285000324249268,
+				0.284999847412109,
+				0.303999900817871,
+				0.304000854492188
+			],
+			"site": "(4.0, 12.43, 10.4)"
+		},
+		{
+			"playerStopM": 0.65001392364502,
+			"radialHitsM": [
+				0.285000026226044,
+				0.285000026226044,
+				0.303999900817871,
+				0.304000854492188
+			],
+			"site": "(0.0, 12.43, 10.4)"
+		},
+		{
+			"playerStopM": 0.650015830993652,
+			"radialHitsM": [
+				0.284999847412109,
+				0.285000324249268,
+				0.303999900817871,
+				0.304000854492188
+			],
+			"site": "(-4.0, 12.43, 10.4)"
+		},
+		{
+			"playerStopM": 0.65001392364502,
+			"radialHitsM": [
+				0.284999847412109,
+				0.284999847412109,
+				0.303999900817871,
+				0.304000854492188
+			],
+			"site": "(-8.0, 12.43, 10.4)"
+		}
+	],
+	"failures": [],
+	"instancedTriangles": 139295,
+	"models": [
+		{
+			"bounds": "[P: (-0.313595, 0.0, -0.416), S: (0.598595, 2.125222, 0.836)]",
+			"degenerate": 0,
+			"frontDialTriangles": 481,
+			"site": "(8.0, 12.43, 10.4)",
+			"surfaces": 5,
+			"triangles": 27859
+		},
+		{
+			"bounds": "[P: (-0.313595, 0.0, -0.416), S: (0.598595, 2.125222, 0.836)]",
+			"degenerate": 0,
+			"frontDialTriangles": 481,
+			"site": "(4.0, 12.43, 10.4)",
+			"surfaces": 5,
+			"triangles": 27859
+		},
+		{
+			"bounds": "[P: (-0.313595, 0.0, -0.416), S: (0.598595, 2.125222, 0.836)]",
+			"degenerate": 0,
+			"frontDialTriangles": 481,
+			"site": "(0.0, 12.43, 10.4)",
+			"surfaces": 5,
+			"triangles": 27859
+		},
+		{
+			"bounds": "[P: (-0.313595, 0.0, -0.416), S: (0.598595, 2.125222, 0.836)]",
+			"degenerate": 0,
+			"frontDialTriangles": 481,
+			"site": "(-4.0, 12.43, 10.4)",
+			"surfaces": 5,
+			"triangles": 27859
+		},
+		{
+			"bounds": "[P: (-0.313595, 0.0, -0.416), S: (0.598595, 2.125222, 0.836)]",
+			"degenerate": 0,
+			"frontDialTriangles": 481,
+			"site": "(-8.0, 12.43, 10.4)",
+			"surfaces": 5,
+			"triangles": 27859
+		}
+	],
+	"passed": true,
+	"retained": [
+		{
+			"maxDistanceM": 0.000500923779327422,
+			"name": "VesselRetained1",
+			"originalVertices": 17587,
+			"replacementVertices": 17699
+		},
+		{
+			"maxDistanceM": 0.000476579589303583,
+			"name": "VesselRetained2",
+			"originalVertices": 5567,
+			"replacementVertices": 5664
+		},
+		{
+			"maxDistanceM": 0.000429850129876286,
+			"name": "VesselRetained3",
+			"originalVertices": 1636,
+			"replacementVertices": 1658
+		},
+		{
+			"maxDistanceM": 0.000427492021117359,
+			"name": "VesselRetained4",
+			"originalVertices": 5896,
+			"replacementVertices": 5970
+		},
+		{
+			"maxDistanceM": 0.000292833923595026,
+			"name": "VesselRetained5",
+			"originalVertices": 1152,
+			"replacementVertices": 1224
+		}
+	],
+	"uniqueMaterials": 5,
+	"uniqueMeshes": 5
+}
