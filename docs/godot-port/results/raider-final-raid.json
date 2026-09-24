@@ -1,0 +1,19 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"models": {
+		"bastion": {
+			"feet": [
+				7.22393989562988
+			],
+			"root": "(16.41, 7.224, 0.35)"
+		},
+		"warden": {
+			"feet": [
+				7.22394990921021
+			],
+			"root": "(17.59, 7.224, 0.35)"
+		}
+	},
+	"scope": "1920x1080 high Vulkan, 4xMSAA, VSync off. Same frozen world and cameras, two-second warmup/four-second samples; captures after measurement. Isolated hull cost, not gameplay FPS.",
+	"views": {}
+}

@@ -1,0 +1,65 @@
+{
+	"checks": 87,
+	"failures": [],
+	"observations": {
+		"footing": {
+			"bastion": {
+				"cachedSpawnMs": 1.113,
+				"firstSpawnMs": 71.102,
+				"maxSoleY": 16.0,
+				"minSoleY": 15.9995527267456,
+				"visualY": -0.00457269418984652
+			},
+			"raider": {
+				"cachedSpawnMs": 0.925,
+				"firstSpawnMs": 33.466,
+				"maxSoleY": 16.0,
+				"minSoleY": 16.0,
+				"visualY": -0.0184614937752485
+			},
+			"revenant": {
+				"cachedSpawnMs": 1.104,
+				"firstSpawnMs": 1.227,
+				"maxSoleY": 16.0000038146973,
+				"minSoleY": 15.9996786117554,
+				"visualY": 0.011421182192862
+			},
+			"scavenger": {
+				"cachedSpawnMs": 0.924,
+				"firstSpawnMs": 23.137,
+				"maxSoleY": 16.0,
+				"minSoleY": 16.0,
+				"visualY": -0.0185640640556812
+			},
+			"sovereign": {
+				"cachedSpawnMs": 1.308,
+				"firstSpawnMs": 169.123,
+				"maxSoleY": 15.9999990463257,
+				"minSoleY": 15.9993839263916,
+				"visualY": 0.00968425255268812
+			},
+			"warden": {
+				"cachedSpawnMs": 1.116,
+				"firstSpawnMs": 1.217,
+				"maxSoleY": 15.9999990463257,
+				"minSoleY": 15.9993343353271,
+				"visualY": 0.0102019011974335
+			}
+		},
+		"gunboat": {
+			"bounds": "[P: (-1.704, 0.062, -4.48), S: (3.408, 3.913, 8.82)]",
+			"collapsed": 0,
+			"meshes": 4,
+			"surfaces": 17,
+			"triangles": 49519
+		},
+		"skiff": {
+			"bounds": "[P: (-1.525, 0.052, -3.05), S: (3.05, 2.283, 6.037499)]",
+			"collapsed": 0,
+			"meshes": 3,
+			"surfaces": 16,
+			"triangles": 45728
+		}
+	},
+	"passed": true
+}

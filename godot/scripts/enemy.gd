@@ -88,6 +88,7 @@ func setup(owner_game,id: String):
 		animator=players[0]
 	presentation.setup(animator,visual)
 	play("idle")
+	presentation.ground_idle(visual,kind)
 	agent=NavigationAgent3D.new()
 	agent.path_desired_distance=0.08
 	agent.target_desired_distance=1.0

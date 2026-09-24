@@ -19,6 +19,7 @@ var shells: Array = []
 var loot: Array = []
 var loot_view=MMFLootView.new()
 var boarding=MMFBoarding.new()
+var craft=MMFRaiderCraft.new()
 var shot_clocks = {}
 var encounter_had_enemies = false
 var nav: NavigationRegion3D
@@ -79,7 +80,7 @@ func begin_ship(kind: String="skiff",tutorial: bool=false,radio: bool=false):
 	game.building.cancel()
 	ship_kind=kind
 	tutorial_ship=tutorial;disabled_time=0.0
-	ship=MMFAssets.scene("models/authored/raider-"+("gunboat" if kind=="gunboat" else "skiff")+".glb")
+	ship=MMFRaiderCraft.model(kind)
 	add_child(ship)
 	var roster=MMFRandom.new()
 	raid_wave=int(game.session.threat.get("radioWave",0))
@@ -94,6 +95,7 @@ func begin_ship(kind: String="skiff",tutorial: bool=false,radio: bool=false):
 	hook_health=45 if tutorial else 60
 	ship_timer=0
 	volley_timer=3
+	craft.setup(self)
 	crew.clear()
 	var hull=MMFHitZone.new();hull.armor=6 if kind=="gunboat" else 5
 	hull.setup(ship,Vector3(0,1.2,0),Vector3(3.4,2.8,9) if kind=="gunboat" else Vector3(3,2,6),func(amount,point):
@@ -242,15 +244,17 @@ func update_ship(dt: float):
 			ship_state="none"
 			if hook and is_instance_valid(hook): hook.queue_free()
 			hook=null
+	craft.update(dt)
 	if ship_kind=="gunboat" and ship_state=="attack" and weapon_health<=0:
 		disabled_time+=dt
 		if disabled_time>=(5 if engine_health<=0 else 3): retreat_ship(false)
 	if ship_state in ["attack","grapple"] and weapon_health>0:
 		volley_timer-=dt
 		if ship_kind=="gunboat" and volley_timer<1.2:
-			game.effects.tracer(ship.position+Vector3(0,3.6,-3.5),game.player.position+Vector3.UP,Color(0.8,0.35,0.08))
+			game.effects.tracer(craft.shot_origin(),game.player.position+Vector3.UP,Color(0.8,0.35,0.08))
 		if volley_timer<=0:
 			volley_timer=4 if ship_kind=="gunboat" else 3.5
+			craft.fire()
 			var shot_count=2 if ship_kind=="gunboat" or tutorial_ship else 3
 			for i in shot_count:
 				var target=game.player.position+Vector3((i-1)*0.7,0,0)
@@ -276,6 +280,7 @@ func retreat_ship(destroyed: bool):
 	if ship_state=="retreat": return
 	ship_state="retreat"
 	boarding.clear()
+	craft.refresh_state()
 	if is_instance_valid(hook):hook.collision_layer=0
 	game.session.add_resource("scrap",45 if destroyed and ship_kind=="gunboat" else 30)
 	game.session.add_resource("components",3 if destroyed and ship_kind=="gunboat" else 2)

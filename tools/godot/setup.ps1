@@ -33,6 +33,8 @@ try {
     if ($LASTEXITCODE) { throw 'Sovereign body compilation failed.' }
     & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_machine.gd
     if ($LASTEXITCODE) { throw 'Native machine compilation failed.' }
+    & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_enemy_footing.gd --fixed-fps 60
+    if ($LASTEXITCODE) { throw 'Enemy footing compilation failed.' }
     Write-Host 'Native assets ready. Double-click godot\Play Godot.cmd, or run tools/godot/launch.ps1.'
 } finally {
     if ($ownedServer -and -not $ownedServer.HasExited) { Stop-Process -Id $ownedServer.Id -ErrorAction SilentlyContinue }

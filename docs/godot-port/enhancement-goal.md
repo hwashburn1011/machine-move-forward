@@ -372,3 +372,15 @@ Starting state: `9865934`. The preceding turn made verified recovered-supply pro
 5. Run 18 suites, inspect both machine sides and actual player-camera hold-to-cut interaction, validate imported art, and compare matching native GPU views. Preserve measurements and limitations.
 
 Iteration review: [boarding](boarding-review.md). All **1,159 assertions pass**, including 18 ship comparisons over 4,320 ticks and the earlier 42 enemy combat comparisons. The 45,071-triangle GLB validates with no errors/warnings or collapsed native faces. Matched median GPU differences are −0.015 to +0.016 ms, effectively unchanged within host variation. One-time route preparation remains below 1.1 ms in the selected clear/blocked CPU samples; stable cables avoid repeated uploads. Desert/weather checks still verify restrained scenery and no shelter-dependent water drain. This is verified model, presentation and correctness progress. The broader goal remains active: legacy robot and plain skiff/gate surfaces, full-campaign human play feel and older startup/intermittent stalls remain open.
+
+
+## Completed iteration: refined hover craft and supported enemy feet
+
+Starting state: `4da5a52`. The preceding boarding turn made verified progress. Original skiff/gunboat views expose plain hulls and wheeled hovering hardware; real crew inspection exposes foot offsets left by rest-pose/equipment bounds.
+
+1. Build original Blender skiff/gunboat hulls with recessed lift ducts, supported service equipment, open exhausts, connected gun brackets, bolted panels and portable worn materials. Preserve 798 editable parts and exact crew/pivot/muzzle semantics; batch to three/four native meshes.
+2. Present the existing volleys with real gun tracking/recoil, a moving muzzle origin and independent damage-state lenses. Keep original collision targets, shell timing/counts, armor, damage, missions and rewards.
+3. Bake evaluated idle sole heights for all six rigs and apply only visual vertical offsets. Preserve original scale, collision and combat; verify source hashes and regenerate in native setup. Keep expensive skin-vertex reads out of spawning.
+4. Fix source/import microgeometry and tangent defects, test real contact and hit rays, inspect native crew/player-camera views and connected Blender MCP, and run broad regressions and matched GPU samples.
+
+Iteration review: [raider craft](raider-craft-review.md). All **1,246 assertions pass across 19 suites**, including the 18 prior ship comparisons and 42 earlier enemy combat comparisons. The 95,247-triangle shared kit validates with no errors/warnings or collapsed native faces. Grounded idle soles stay within 0.7 mm of support. Desert/weather checks still confirm sparse natural details, restrained wind and no shelter-dependent water penalty. This is verified model, presentation and grounding progress within the existing story. Measured hull GPU changes range from -0.034 to +0.060 ms; these fixed views do not establish a whole-game FPS improvement. The goal remains active: legacy robot/gate surfaces, broader gait/human play feel and independently observed first-load/intermittent stalls remain open.

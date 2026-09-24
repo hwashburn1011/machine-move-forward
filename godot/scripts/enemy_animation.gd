@@ -13,6 +13,15 @@ var current=""
 var action_left=0.0
 var dead=false
 var hit_pose: MMFEnemyHitPose
+static var footing={}
+
+func ground_idle(visual: Node3D,kind: String):
+	if not player:return
+	player.advance(0)
+	# Offline evaluated boot soles avoid equipment/rest-pose bounds and any
+	# vertex scanning hitch when this rig first joins an encounter.
+	if footing.is_empty():footing=MMFAssets.json("res://data/enemy-footing.json").models
+	if footing.has(kind):visual.position.y=float(footing[kind].visualY)
 
 func setup(animator: AnimationPlayer,visual: Node3D):
 	player=animator

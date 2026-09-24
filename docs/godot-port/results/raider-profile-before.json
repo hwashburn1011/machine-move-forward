@@ -1,0 +1,56 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"models": {
+		"gunboat": {
+			"anchors": {
+				"EngineDamageAnchor": "(0.0, 3.2, 2.8)",
+				"EngineExhaust": "(0.0, 3.18, 3.8)",
+				"GunboatGunPitch": "(0.0, 3.6, -1.7)",
+				"GunboatGunYaw": "(0.0, 3.2, -1.7)",
+				"GunboatMuzzle": "(0.0, 3.6, -3.5)",
+				"WeaponDamageAnchor": "(0.0, 3.4, -1.7)"
+			},
+			"bounds": "[P: (-1.682233, 0.280221, -4.5), S: (3.364466, 3.582279, 9.0)]",
+			"meshes": 5
+		},
+		"skiff": {
+			"anchors": {
+				"CrewSeatLeft": "(-0.59, 1.2, 0.35)",
+				"CrewSeatRight": "(0.59, 1.2, 0.35)",
+				"PilotSeat": "(0.0, 1.2, -1.45)",
+				"SkiffGunPitch": "(0.0, 2.04, -1.95)",
+				"SkiffGunYaw": "(0.0, 2.04, -1.95)",
+				"SkiffMuzzle": "(0.0, 2.04, -3.05)"
+			},
+			"bounds": "[P: (-1.632, 0.0825, -3.08), S: (3.264, 2.3975, 5.6)]",
+			"meshes": 5
+		}
+	},
+	"scope": "1920x1080 high Vulkan, 4xMSAA, VSync off. Same frozen world and cameras, two-second warmup/four-second samples; captures after measurement. Isolated hull cost, not gameplay FPS.",
+	"views": {
+		"gunboat-front": {
+			"drawCalls": 617,
+			"medianFrameMs": 3.774,
+			"medianGpuMs": 3.2739999294281,
+			"samples": 1025
+		},
+		"gunboat-rear": {
+			"drawCalls": 173,
+			"medianFrameMs": 3.364,
+			"medianGpuMs": 2.87899994850159,
+			"samples": 1144
+		},
+		"skiff-front": {
+			"drawCalls": 474,
+			"medianFrameMs": 3.717,
+			"medianGpuMs": 3.19000005722046,
+			"samples": 1044
+		},
+		"skiff-rear": {
+			"drawCalls": 216,
+			"medianFrameMs": 3.467,
+			"medianGpuMs": 2.88800001144409,
+			"samples": 1128
+		}
+	}
+}
