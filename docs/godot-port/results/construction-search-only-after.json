@@ -1,0 +1,445 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"assets": [
+		{
+			"bounds": "[P: (-0.64, 0.0, -0.66), S: (1.28, 0.955, 1.32)]",
+			"id": "caretaker-dock",
+			"meshes": 8,
+			"surfaces": 8,
+			"triangles": 4052
+		},
+		{
+			"bounds": "[P: (-0.998, -0.16, -0.998), S: (1.996, 0.16, 1.996)]",
+			"id": "floor",
+			"meshes": 1,
+			"surfaces": 1,
+			"triangles": 28
+		},
+		{
+			"bounds": "[P: (-1.0, -0.0, -0.108), S: (2.0, 3.42, 0.216)]",
+			"id": "wall",
+			"meshes": 1,
+			"surfaces": 1,
+			"triangles": 56
+		},
+		{
+			"bounds": "[P: (-1.0, -0.0, -0.08), S: (2.0, 3.42, 0.16)]",
+			"id": "doorway",
+			"meshes": 1,
+			"surfaces": 1,
+			"triangles": 84
+		},
+		{
+			"bounds": "[P: (-1.0, 0.0, -0.04), S: (2.0, 1.09, 0.08)]",
+			"id": "railing",
+			"meshes": 1,
+			"surfaces": 1,
+			"triangles": 168
+		},
+		{
+			"bounds": "[P: (-0.99, 3.36, -0.99), S: (1.98, 0.24, 1.98)]",
+			"id": "roof",
+			"meshes": 1,
+			"surfaces": 1,
+			"triangles": 84
+		},
+		{
+			"bounds": "[P: (-0.98, -0.02, -2.003333), S: (1.96, 3.64, 4.006667)]",
+			"id": "stairs",
+			"meshes": 1,
+			"surfaces": 1,
+			"triangles": 392
+		},
+		{
+			"bounds": "[P: (-0.714, 0.0, -0.708), S: (1.428, 1.0925, 1.403)]",
+			"id": "crate",
+			"meshes": 5,
+			"surfaces": 5,
+			"triangles": 8064
+		},
+		{
+			"bounds": "[P: (-0.89, 0.0, -0.453), S: (1.78, 1.0185, 0.893)]",
+			"id": "workbench",
+			"meshes": 5,
+			"surfaces": 5,
+			"triangles": 10420
+		},
+		{
+			"bounds": "[P: (-0.73, 0.0, -0.7225), S: (1.46, 1.899, 1.4425)]",
+			"id": "refinery",
+			"meshes": 5,
+			"surfaces": 5,
+			"triangles": 12464
+		},
+		{
+			"bounds": "[P: (-0.82, 0.0, -0.69), S: (1.64, 1.255, 1.38)]",
+			"id": "generator",
+			"meshes": 9,
+			"surfaces": 9,
+			"triangles": 9820
+		},
+		{
+			"bounds": "[P: (-0.775, 0.0, -0.633), S: (1.55, 1.49, 1.223)]",
+			"id": "stove",
+			"meshes": 8,
+			"surfaces": 8,
+			"triangles": 12848
+		},
+		{
+			"bounds": "[P: (-0.607853, 0.0, -0.61), S: (1.215707, 1.87, 1.205)]",
+			"id": "condenser",
+			"meshes": 8,
+			"surfaces": 8,
+			"triangles": 14152
+		},
+		{
+			"bounds": "[P: (-0.82, 0.025, -0.6575), S: (1.64, 0.745411, 1.3025)]",
+			"id": "planter",
+			"meshes": 9,
+			"surfaces": 9,
+			"triangles": 11740
+		},
+		{
+			"bounds": "[P: (-0.825, 0.0, -0.875), S: (1.65, 0.969911, 1.955)]",
+			"id": "seed-garden",
+			"meshes": 10,
+			"surfaces": 10,
+			"triangles": 24996
+		},
+		{
+			"bounds": "[P: (-0.77, 0.005, -1.479), S: (1.54, 1.675, 2.239)]",
+			"id": "turret-manual",
+			"meshes": 11,
+			"surfaces": 11,
+			"triangles": 23992
+		},
+		{
+			"bounds": "[P: (-0.78, 0.0, -0.78), S: (1.56, 1.345978, 1.56)]",
+			"id": "collector-auto",
+			"meshes": 11,
+			"surfaces": 11,
+			"triangles": 19048
+		},
+		{
+			"bounds": "[P: (-0.67, 0.0, -0.67), S: (1.34, 1.36, 1.34)]",
+			"id": "turret-auto",
+			"meshes": 13,
+			"surfaces": 13,
+			"triangles": 10832
+		},
+		{
+			"bounds": "[P: (-0.22, 0.32, -0.195), S: (0.44, 0.24, 0.39)]",
+			"id": "lamp",
+			"meshes": 3,
+			"surfaces": 3,
+			"triangles": 984
+		},
+		{
+			"bounds": "[P: (-0.345, 0.005, -0.32), S: (0.69, 1.108898, 0.700754)]",
+			"id": "chair",
+			"meshes": 8,
+			"surfaces": 8,
+			"triangles": 3180
+		},
+		{
+			"bounds": "[P: (-0.625, 0.025, -0.395), S: (1.25, 0.927575, 0.79)]",
+			"id": "table",
+			"meshes": 7,
+			"surfaces": 7,
+			"triangles": 2448
+		},
+		{
+			"bounds": "[P: (-0.65, 0.009, -0.891542), S: (1.3, 0.0415, 1.783083)]",
+			"id": "rug",
+			"meshes": 4,
+			"surfaces": 4,
+			"triangles": 15724
+		},
+		{
+			"bounds": "[P: (-0.57, 0.015, -0.22), S: (1.14, 1.55, 0.438)]",
+			"id": "shelf",
+			"meshes": 9,
+			"surfaces": 9,
+			"triangles": 6876
+		}
+	],
+	"physicsHz": 60,
+	"quality": "high / Forward+ / Vulkan / 4x MSAA",
+	"resolution": "(1920, 1080)",
+	"sampleSeconds": 8,
+	"scenarios": {
+		"caretaker-idle": {
+			"caretakerQueries": 0,
+			"caretakerSearchMs": {
+				"max": 0.18,
+				"median": 0.179,
+				"p95": 0.18,
+				"p99": 0.18
+			},
+			"caretakerSearchQueries": [
+				0,
+				0,
+				0,
+				0
+			],
+			"caretakerUpdateMs": {
+				"max": 0.474,
+				"median": 0.225,
+				"p95": 0.316,
+				"p99": 0.395
+			},
+			"distance": 206.901019866622,
+			"draws": {
+				"max": 2196.0,
+				"median": 969.0,
+				"p95": 2158.0,
+				"p99": 2190.0
+			},
+			"frameMs": {
+				"max": 7.097,
+				"median": 3.532,
+				"p95": 5.968,
+				"p99": 6.309
+			},
+			"gpuMs": {
+				"max": 4.35599994659424,
+				"median": 3.17199993133545,
+				"p95": 3.80999994277954,
+				"p99": 4.09000015258789
+			},
+			"nodes": 3786.0,
+			"objects": 8487.0,
+			"physicsMs": {
+				"max": 3.649,
+				"median": 2.496,
+				"p95": 3.649,
+				"p99": 3.649
+			},
+			"pieces": 369,
+			"primitives": {
+				"max": 5496069.0,
+				"median": 3490678.0,
+				"p95": 5438019.0,
+				"p99": 5480613.0
+			},
+			"processMs": {
+				"max": 4.621,
+				"median": 4.202,
+				"p95": 4.621,
+				"p99": 4.621
+			},
+			"renderCpuMs": {
+				"max": 1.97899997234344,
+				"median": 0.83899998664856,
+				"p95": 1.42799997329712,
+				"p99": 1.64699995517731
+			},
+			"samples": 2090
+		},
+		"caretaker-work": {
+			"caretakerQueries": 962,
+			"caretakerUpdateMs": {
+				"max": 0.633,
+				"median": 0.37,
+				"p95": 0.507,
+				"p99": 0.558
+			},
+			"distance": 244.287642536811,
+			"draws": {
+				"max": 2173.0,
+				"median": 981.0,
+				"p95": 2141.0,
+				"p99": 2164.0
+			},
+			"frameMs": {
+				"max": 6.971,
+				"median": 3.541,
+				"p95": 6.082,
+				"p99": 6.396
+			},
+			"gpuMs": {
+				"max": 4.36499977111816,
+				"median": 3.17600011825562,
+				"p95": 3.75300002098084,
+				"p99": 4.05999994277954
+			},
+			"nodes": 3786.0,
+			"objects": 8487.0,
+			"physicsMs": {
+				"max": 2.815,
+				"median": 2.567,
+				"p95": 2.815,
+				"p99": 2.815
+			},
+			"pieces": 369,
+			"primitives": {
+				"max": 5519971.0,
+				"median": 3485931.0,
+				"p95": 5430637.0,
+				"p99": 5493861.0
+			},
+			"processMs": {
+				"max": 4.585,
+				"median": 4.228,
+				"p95": 4.585,
+				"p99": 4.585
+			},
+			"renderCpuMs": {
+				"max": 2.20000004768372,
+				"median": 0.871999979019165,
+				"p95": 1.47200000286102,
+				"p99": 1.76699995994568
+			},
+			"samples": 2061
+		},
+		"expanded": {
+			"distance": 162.782391339746,
+			"draws": {
+				"max": 1867.0,
+				"median": 911.0,
+				"p95": 1835.0,
+				"p99": 1858.0
+			},
+			"frameMs": {
+				"max": 6.666,
+				"median": 3.578,
+				"p95": 5.752,
+				"p99": 6.064
+			},
+			"gpuMs": {
+				"max": 4.46299982070923,
+				"median": 3.1470000743866,
+				"p95": 3.77900004386902,
+				"p99": 4.03900003433228
+			},
+			"nodes": 3768.0,
+			"objects": 8424.0,
+			"physicsMs": {
+				"max": 3.262,
+				"median": 2.256,
+				"p95": 3.262,
+				"p99": 3.262
+			},
+			"pieces": 367,
+			"primitives": {
+				"max": 5197891.0,
+				"median": 3464757.0,
+				"p95": 5087603.0,
+				"p99": 5177893.0
+			},
+			"processMs": {
+				"max": 4.76,
+				"median": 4.357,
+				"p95": 4.76,
+				"p99": 4.76
+			},
+			"renderCpuMs": {
+				"max": 2.08999991416931,
+				"median": 0.802999973297119,
+				"p95": 1.35899996757507,
+				"p99": 1.58599996566772
+			},
+			"samples": 2115
+		},
+		"furnished": {
+			"distance": 125.186789111345,
+			"draws": {
+				"max": 1870.0,
+				"median": 896.0,
+				"p95": 1827.0,
+				"p99": 1855.0
+			},
+			"frameMs": {
+				"max": 7.942,
+				"median": 3.644,
+				"p95": 5.378,
+				"p99": 5.647
+			},
+			"gpuMs": {
+				"max": 4.37099981307983,
+				"median": 3.17199993133545,
+				"p95": 3.7960000038147,
+				"p99": 4.13500022888184
+			},
+			"nodes": 3054.0,
+			"objects": 7523.0,
+			"physicsMs": {
+				"max": 2.858,
+				"median": 2.065,
+				"p95": 2.173,
+				"p99": 2.173
+			},
+			"pieces": 188,
+			"primitives": {
+				"max": 5011563.0,
+				"median": 3487439.0,
+				"p95": 4937969.0,
+				"p99": 4994611.0
+			},
+			"processMs": {
+				"max": 4.918,
+				"median": 4.292,
+				"p95": 4.576,
+				"p99": 4.576
+			},
+			"renderCpuMs": {
+				"max": 2.3529999256134,
+				"median": 0.816999971866608,
+				"p95": 1.30900001525879,
+				"p99": 1.74500000476837
+			},
+			"samples": 2105
+		},
+		"starter": {
+			"distance": 78.7337423788322,
+			"draws": {
+				"max": 1076.0,
+				"median": 564.0,
+				"p95": 1056.0,
+				"p99": 1072.0
+			},
+			"frameMs": {
+				"max": 32.711,
+				"median": 3.633,
+				"p95": 4.945,
+				"p99": 5.537
+			},
+			"gpuMs": {
+				"max": 4.08699989318848,
+				"median": 3.08800005912781,
+				"p95": 3.60899996757507,
+				"p99": 3.98000001907349
+			},
+			"nodes": 1539.0,
+			"objects": 5560.0,
+			"physicsMs": {
+				"max": 28.912,
+				"median": 1.95,
+				"p95": 28.912,
+				"p99": 28.912
+			},
+			"pieces": 2,
+			"primitives": {
+				"max": 3965061.0,
+				"median": 3336806.0,
+				"p95": 3918743.0,
+				"p99": 3941499.0
+			},
+			"processMs": {
+				"max": 5.914,
+				"median": 4.964,
+				"p95": 5.914,
+				"p99": 5.914
+			},
+			"renderCpuMs": {
+				"max": 2.64199995994568,
+				"median": 0.629999995231628,
+				"p95": 1.12999999523163,
+				"p99": 1.432000041008
+			},
+			"samples": 2106
+		}
+	},
+	"seed": "mmf-default-seed",
+	"vsync": false
+}

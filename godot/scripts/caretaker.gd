@@ -11,6 +11,10 @@ var destination=Vector3.ZERO
 var agent: NavigationAgent3D
 var status="Companion"
 var spawned=false
+var sensor: Node3D
+var arms: Array=[]
+var wheels: Array=[]
+var service_query=PhysicsShapeQueryParameters3D.new()
 
 func setup(owner_game):
 	game=owner_game
@@ -21,6 +25,8 @@ func setup(owner_game):
 	safe_margin=0.02
 	var shape=CapsuleShape3D.new()
 	shape.radius=0.28;shape.height=1.0
+	var clearance_shape=CapsuleShape3D.new();clearance_shape.radius=.28;clearance_shape.height=.96
+	service_query.shape=clearance_shape;service_query.collision_mask=1
 	var collision=CollisionShape3D.new()
 	collision.shape=shape;collision.position.y=0.5
 	add_child(collision)
@@ -31,6 +37,15 @@ func setup(owner_game):
 	kit.free()
 	visual.position=Vector3.ZERO
 	add_child(visual)
+	# The authored cleats sit above their scene origin. Seat their actual contact
+	# plane at the physics feet, accounting for the body's floor safety margin.
+	visual.position.y=-MMFAssets.bounds(visual).position.y-safe_margin
+	sensor=MMFAssets.find_named(visual,"L12Sensor")
+	for part_name in ["L12ArmLeft","L12ArmRight"]:
+		var arm=MMFAssets.find_named(visual,part_name)
+		if arm:arms.append(arm)
+	for wheel in MMFAssets.of_type(visual,"Node3D"):
+		if wheel.get_parent()==visual and String(wheel.name).begins_with("L12Wheel"):wheels.append(wheel)
 	agent=NavigationAgent3D.new()
 	agent.path_desired_distance=0.08;agent.target_desired_distance=0.5
 	add_child(agent)
@@ -43,38 +58,62 @@ func dock() -> Dictionary:
 
 func service_point(p: Dictionary) -> Vector3:
 	var center=game.building.center(p.cell)
+	var map=get_world_3d().navigation_map
+	var navigation_ready=NavigationServer3D.map_get_iteration_id(map)>0
+	var space=get_world_3d().direct_space_state
 	for offset in [Vector3(0,0,1.3),Vector3(1.3,0,0),Vector3(-1.3,0,0),Vector3(0,0,-1.3)]:
 		var at=center+offset
-		if game.raycast(at+Vector3.UP*0.4,at+Vector3.UP*1.0).is_empty(): return at
-	return center
+		# Check the body volume, including the case where a new wall encloses the
+		# point before navigation finishes baking. Leave a small deck-contact gap.
+		service_query.transform=Transform3D(Basis.IDENTITY,at+Vector3.UP*.54)
+		if not space.intersect_shape(service_query,1).is_empty():continue
+		# Retain side preference, but reject points above equipment or in its margin.
+		if navigation_ready and NavigationServer3D.map_get_closest_point(map,at).distance_to(at)>.2:continue
+		return at
+	return Vector3.INF
 
 func reachable(p: Dictionary) -> bool:
 	var map=get_world_3d().navigation_map
 	if NavigationServer3D.map_get_iteration_id(map)==0: return false
 	var at=service_point(p)
+	if not at.is_finite():return false
 	var path=NavigationServer3D.map_get_path(map,position,at,true)
 	return not path.is_empty() and path[path.size()-1].distance_to(at)<0.75
 
 func choose_job() -> Dictionary:
 	var water=[]
 	var outputs=[]
-	var pieces=game.session.structures.duplicate()
-	pieces.sort_custom(func(a,b):return a.instanceId<b.instanceId)
-	for p in pieces:
-		if p.health<=0 or not reachable(p): continue
+	for p in game.session.structures:
+		if p.health<=0: continue
 		if p.definitionId=="seed-garden" and p.state.get("water",0)<2:
-			for id in game.session.stores:
-				var source=game.session.find_piece(id)
-				if not source.is_empty() and game.session.stores[id].count_item("water")>0 and reachable(source):
-					water.append({"kind":"water-garden","source":id,"target":p.instanceId,"item":"water"})
+			water.append(p)
 		if p.definitionId in ["condenser","planter","seed-garden"] and p.state.get("stored",0)>0:
-			var item="water" if p.definitionId=="condenser" else "greens"
-			for id in game.session.stores:
-				var target=game.session.find_piece(id)
-				if not target.is_empty() and game.session.stores[id].room_for(item)>0 and reachable(target): outputs.append({"kind":"store-output","source":p.instanceId,"target":id,"item":item})
-	var lists=[outputs,water] if game.session.caretaker.priority=="outputs" else [water,outputs]
-	for list in lists:
-		if not list.is_empty(): return list[0]
+			outputs.append(p)
+	if water.is_empty() and outputs.is_empty(): return {}
+	# Preserve the original piece-ID and storage insertion ordering. Only complete
+	# a route search for an eligible job; floors/decor never need one. Results live
+	# for this one search so construction, movement and inventory changes stay fresh.
+	water.sort_custom(func(a,b):return a.instanceId<b.instanceId)
+	outputs.sort_custom(func(a,b):return a.instanceId<b.instanceId)
+	var by_id={}
+	for p in game.session.structures:by_id[p.instanceId]=p
+	var stores=[]
+	for id in game.session.stores:
+		if not by_id.has(id):continue
+		var bag=game.session.stores[id]
+		stores.append({"id":id,"piece":by_id[id],"water":bag.count_item("water"),"water_room":bag.room_for("water"),"greens_room":bag.room_for("greens")})
+	var routes={}
+	var priorities=["outputs","water"] if game.session.caretaker.priority=="outputs" else ["water","outputs"]
+	for priority in priorities:
+		for p in (water if priority=="water" else outputs):
+			var item="water" if priority=="water" or p.definitionId=="condenser" else "greens"
+			for store in stores:
+				if (store.water<=0 if priority=="water" else store[item+"_room"]<=0):continue
+				if not routes.has(p.instanceId):routes[p.instanceId]=reachable(p)
+				if not routes[p.instanceId]:break
+				if not routes.has(store.id):routes[store.id]=reachable(store.piece)
+				if not routes[store.id]:continue
+				return {"kind":"water-garden","source":store.id,"target":p.instanceId,"item":item} if priority=="water" else {"kind":"store-output","source":p.instanceId,"target":store.id,"item":item}
 	return {}
 
 func _physics_process(dt: float):
@@ -87,11 +126,9 @@ func update(dt: float):
 		spawned=true
 	visible=true
 	var blend=1-exp(-6*dt)
-	var head=MMFAssets.find_named(visual,"L12Sensor")
-	if head: head.rotation.y=lerpf(head.rotation.y,sin(game.session.clock*0.65)*0.16,blend);head.rotation.x=lerpf(head.rotation.x,0.2 if phase=="service" else 0.02,blend)
-	for name in ["L12ArmLeft","L12ArmRight"]:
-		var arm=MMFAssets.find_named(visual,name)
-		if arm: arm.rotation.x=lerpf(arm.rotation.x,-0.35 if phase=="service" else 0,blend)
+	var servicing=phase.begins_with("service-")
+	if sensor: sensor.rotation.y=lerpf(sensor.rotation.y,sin(game.session.clock*0.65)*0.16,blend);sensor.rotation.x=lerpf(sensor.rotation.x,0.2 if servicing else 0.02,blend)
+	for arm in arms:arm.rotation.x=lerpf(arm.rotation.x,-0.35 if servicing else 0,blend)
 	var home=dock()
 	var safe=not game.combat.active_threat() and game.session.attack_recent<=0
 	var can_work=not home.is_empty() and game.session.powered.get(home.instanceId,false) and safe
@@ -104,6 +141,7 @@ func update(dt: float):
 		status="Deck unsafe" if not safe else ("Build a caretaker dock" if home.is_empty() else "Dock unpowered")
 		destination=position
 	else:
+		destination=position
 		wait_time=maxf(0,wait_time-dt)
 		if phase=="idle" and wait_time<=0:
 			job=choose_job()
@@ -116,6 +154,9 @@ func update(dt: float):
 				job={};phase="idle";status="Route blocked";return
 			status=job.kind+" / "+phase
 			destination=service_point(source if phase in ["to-source","service-source"] else target)
+			if servicing:
+				var station=source if phase=="service-source" else target
+				face_direction(game.building.center(station.cell)-position,dt)
 			if phase.begins_with("to-") and position.distance_to(destination)<0.6:
 				phase="service-source" if phase=="to-source" else "service-target"
 				service_time=2
@@ -142,7 +183,7 @@ func update(dt: float):
 		if direction.length()>0.05:
 			direction=direction.normalized()
 			velocity.x=direction.x*1.35;velocity.z=direction.z*1.35
-			visual.rotation.y=lerp_angle(visual.rotation.y,atan2(direction.x,direction.z),1-exp(-5*dt))
+			face_direction(direction,dt)
 	velocity.y=0 if is_on_floor() else velocity.y-22*dt
 	if is_on_floor() and Vector2(velocity.x,velocity.z).length_squared()>0.01:
 		var motion=Vector3(velocity.x,0,velocity.z)*dt
@@ -151,4 +192,14 @@ func update(dt: float):
 			if not test_move(raised,motion):
 				var floor_hit=game.raycast(raised.origin+motion,raised.origin+motion-Vector3.UP*0.52,[get_rid()])
 				if not floor_hit.is_empty() and floor_hit.normal.y>0.65: position.y=floor_hit.position.y+0.025
+	var before=position
 	MMFDeckMotion.slide(self,dt)
+	# Roll the authored wheel pivots from actual travel, so a blocked or parked
+	# companion cannot keep spinning its drive. The model's front faces local -Z.
+	var travelled=Vector2(position.x-before.x,position.z-before.z).length()
+	if is_on_floor() and travelled>.00001:
+		for wheel in wheels:wheel.rotation.x-=travelled/.143
+
+func face_direction(direction: Vector3,dt: float):
+	if Vector2(direction.x,direction.z).length_squared()<.0001:return
+	visual.rotation.y=lerp_angle(visual.rotation.y,atan2(-direction.x,-direction.z),1-exp(-5*dt))

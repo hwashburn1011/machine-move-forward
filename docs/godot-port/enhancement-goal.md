@@ -67,3 +67,15 @@ Starting state: `432abe4`. The preceding turn made verified progress on camera f
 5. Inspect Blender and native captures; verify all 366 torso/head samples, 400 deck-height samples, collision, materials, camera and gameplay/traversal regressions.
 
 Iteration review: [native machine access](machine-access-review.md). Original story and browser assets remain intact. The full enhancement goal remains active; station readability, animation coherence, rendered dense-construction workloads and longer play pacing remain open priorities.
+
+## Completed iteration: construction load and companion behavior
+
+Starting state: `127df8c`. The previous iteration refined access geometry and verified traversal. A furnished-deck audit exposed periodic L-12 job searches taking over 30 ms on a 369-piece machine.
+
+1. Profile starter, furnished and extended layouts with actual assets, then enable the recovered companion in idle and working states. Inspect station placement at playing distance.
+2. Filter serviceable producers before route queries, preserve job and storage ordering, and stop at the first eligible job. Keep route results local to each search.
+3. Compare 512 mixed layouts with the old selector and drive complete producer-to-storage trips on the real navigation mesh. Verify stock conservation, blocked stations, loss of power and combat interruption.
+4. Correct idle drift, service approach clearance and the unused service-pose state. Cache model pivots, restore drive-wheel movement and ground the authored track contact plane.
+5. Inspect native captures, repeat the rendered workload, run relevant game/campaign regressions, and save measured evidence with remaining limitations.
+
+Iteration review: [construction and L-12](caretaker-workload-review.md). Idle search dropped from 33–39 ms to about 0.19 ms while preserving job selection. Real service visits, inventory conservation, obstruction handling and model motion are verified. An intermittent starter/travel spike remains a specific next profiling target. The original scope remains active; this pass does not conclude the model, gameplay or performance review.
