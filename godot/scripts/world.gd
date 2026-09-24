@@ -65,13 +65,15 @@ func setup(owner_game):
 	MMFMachineVessels.install(machine)
 	switchgear.install(machine)
 	MMFMachinePumps.install(machine)
+	MMFMachineBenches.install(machine)
 	canopy.install(machine)
 	gait.setup(game,machine)
-	var pump_collision=MMFAssets.json("res://art/nomad-pumps-collision.json")
+	# This bake composes both pump and bench removals from the frozen mesh.
+	var workshop_collision=MMFAssets.json("res://art/nomad-benches-collision.json")
 	for index in game.runtime.colliders.size():
 		var raw=game.runtime.colliders[index]
-		var ranges=pump_collision.retainedIndexRanges if index==int(pump_collision.sourceCollider) else []
-		if not ranges.is_empty():assert(raw.indices.size()==int(pump_collision.sourceIndexCount),"Pump collision bake changed; regenerate retained ranges")
+		var ranges=workshop_collision.retainedIndexRanges if index==int(workshop_collision.sourceCollider) else []
+		if not ranges.is_empty():assert(raw.indices.size()==int(workshop_collision.sourceIndexCount),"Workshop collision bake changed; regenerate retained ranges")
 		var body=MMFAssets.collider(self,raw,ranges)
 		if not ranges.is_empty():body.name="NativeWorkshopCollision"
 		# The frozen bake represents open rails with solid 1.04 m-high boxes.
@@ -80,6 +82,7 @@ func setup(owner_game):
 			var half=MMFAssets.v(raw.half)
 			if is_equal_approx(half.y,.52) and minf(half.x,half.z)<=.04:body.set_meta("open_railing",true)
 	MMFMachinePumps.install_collision(self)
+	MMFMachineBenches.install_collision(self)
 	# The receiver is hidden in the initial browser scene and is therefore absent
 	# from the visible-only machine bake. Restore its authored model and lifecycle.
 	receiver=MMFAssets.scene("models/authored/salvaged-radio.glb")

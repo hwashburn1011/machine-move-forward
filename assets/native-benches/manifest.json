@@ -1,0 +1,203 @@
+{
+  "sourceRevision": "d4f74bc",
+  "trim": [
+    {
+      "frozen": "Brace_welded_receiver001",
+      "original": "VesselRetained1",
+      "replacement": "VesselRetained1",
+      "removedBenchVertices": 1856,
+      "priorRemovedVertices": 4174,
+      "unchangedVertices": 12319,
+      "keptTriangles": 4784,
+      "unchangedCoordinatesSha256": "7075dd22c61ebef2d5ff3ba4161060a8e254491643706b50bbfea731360b63f1"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_5",
+      "original": "VesselRetained2",
+      "replacement": "VesselRetained2",
+      "removedBenchVertices": 1530,
+      "priorRemovedVertices": 3104,
+      "unchangedVertices": 1187,
+      "keptTriangles": 1744,
+      "unchangedCoordinatesSha256": "2539f1fee991e01a0cffec767e6f255365b81eafba25cbd3b00bfd823567f8e6"
+    },
+    {
+      "frozen": "Workshop_overhead_cable_tray004_1",
+      "original": "Workshop_overhead_cable_tray004_1",
+      "replacement": "Workshop_overhead_cable_tray004_1",
+      "removedBenchVertices": 4348,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 4086,
+      "keptTriangles": 1584,
+      "unchangedCoordinatesSha256": "eec21c28d4cfec225c04324041f7bdc282b3510b38e57bce30c6f48e89d81c38"
+    },
+    {
+      "frozen": "Workshop_overhead_cable_tray004_3",
+      "original": "VesselRetained4",
+      "replacement": "VesselRetained4",
+      "removedBenchVertices": 1156,
+      "priorRemovedVertices": 1761,
+      "unchangedVertices": 4740,
+      "keptTriangles": 1580,
+      "unchangedCoordinatesSha256": "f1a6b75436b76ff3e22019a42b221c10285bebef38e53a37f3572333ba70c4b7"
+    },
+    {
+      "frozen": "Workshop_overhead_cable_tray004_4",
+      "original": "VesselRetained5",
+      "replacement": "",
+      "removedBenchVertices": 1152,
+      "priorRemovedVertices": 922,
+      "unchangedVertices": 0,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "originalBoxes": [
+    {
+      "min": [
+        -8.17501,
+        12.40499,
+        -7.34001
+      ],
+      "max": [
+        -6.22499,
+        13.48001,
+        -6.65999
+      ]
+    },
+    {
+      "min": [
+        -8.17501,
+        12.40499,
+        6.85999
+      ],
+      "max": [
+        -6.22499,
+        13.48001,
+        7.5400100000000005
+      ]
+    },
+    {
+      "min": [
+        0.52499,
+        12.40499,
+        -7.34001
+      ],
+      "max": [
+        2.47501,
+        13.48001,
+        -6.65999
+      ]
+    },
+    {
+      "min": [
+        0.52499,
+        12.40499,
+        6.85999
+      ],
+      "max": [
+        2.47501,
+        13.48001,
+        7.5400100000000005
+      ]
+    },
+    {
+      "min": [
+        5.52499,
+        12.40499,
+        -7.34001
+      ],
+      "max": [
+        7.47501,
+        13.48001,
+        -6.65999
+      ]
+    },
+    {
+      "min": [
+        5.52499,
+        12.40499,
+        6.85999
+      ],
+      "max": [
+        7.47501,
+        13.48001,
+        7.5400100000000005
+      ]
+    }
+  ],
+  "sites": [
+    {
+      "name": "ServiceBench1",
+      "position": [
+        -7.2,
+        12.43,
+        -7
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "ServiceBench2",
+      "position": [
+        -7.2,
+        12.43,
+        7.2
+      ],
+      "yaw": 0
+    },
+    {
+      "name": "ServiceBench3",
+      "position": [
+        1.5,
+        12.43,
+        -7
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "ServiceBench4",
+      "position": [
+        1.5,
+        12.43,
+        7.2
+      ],
+      "yaw": 0
+    },
+    {
+      "name": "ServiceBench5",
+      "position": [
+        6.5,
+        12.43,
+        -7
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "ServiceBench6",
+      "position": [
+        6.5,
+        12.43,
+        7.2
+      ],
+      "yaw": 0
+    }
+  ],
+  "editableParts": 212,
+  "masterTriangles": 46741,
+  "materialBatches": 5,
+  "bytes": 4687252,
+  "bounds": {
+    "min": [
+      -0.9649999737739563,
+      0.0,
+      -0.33949998021125793
+    ],
+    "max": [
+      0.9649999737739563,
+      1.048300862312317,
+      0.32999998331069946
+    ]
+  },
+  "workSurface": 0.7583333333,
+  "reference": "https://webcat.bottltd.co.uk/41401009-16v-cubio-height-adjustable-workbench-leg.html"
+}

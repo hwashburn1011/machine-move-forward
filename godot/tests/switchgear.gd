@@ -57,11 +57,12 @@ func run():
 	check(kit!=null and kit.get_child_count()==4,"Four complete electrical cabinets replace the old controls")
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var pump_manifest=MMFAssets.json("res://art/nomad-pumps.json")
+	var bench_manifest=MMFAssets.json("res://art/nomad-benches.json")
 	for entry in manifest.trim:
 		if entry.replacement=="":
 			check(MMFAssets.find_named(machine,entry.original)==null,"Old floating indicator geometry is removed: "+entry.original);continue
 		var old=MMFAssets.find_named(original,entry.frozen);var retained=MMFAssets.find_named(machine,entry.replacement)
-		var expected=vertices(old).filter(func(p):return not removed(p,entry,manifest.originalBoxes) and not preload("res://tests/pump_trim.gd").removed(p,entry.frozen,pump_manifest))
+		var expected=vertices(old).filter(func(p):return not removed(p,entry,manifest.originalBoxes) and not preload("res://tests/pump_trim.gd").removed(p,entry.frozen,pump_manifest) and not preload("res://tests/bench_trim.gd").removed(p,entry.frozen,bench_manifest))
 		if expected.is_empty():
 			check(retained==null,"Batch emptied by subsequent pump refinement is removed: "+entry.replacement);continue
 		check(retained!=null,"Shared batch keeps its stable identity: "+entry.replacement)

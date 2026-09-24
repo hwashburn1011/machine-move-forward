@@ -191,6 +191,8 @@ func run():
 	game.player.teleport(Vector3(-9,16.1,-5))
 	game.caretaker.spawned=true;game.caretaker.position=Vector3(-9,16.1,6)
 	await frames(660)
+	var companion_route={"player":str(game.player.position),"companion":str(game.caretaker.position),"destination":str(game.caretaker.destination),"remainingDistanceM":game.caretaker.position.distance_to(game.player.position),"velocity":str(game.caretaker.velocity),"pathAvailable":not game.caretaker.agent.get_current_navigation_path().is_empty()}
+	print("AUDIT_COMPANION_ROUTE ",JSON.stringify(companion_route))
 	check(game.caretaker.position.distance_to(game.player.position)<3,"L12 companion completes a real baked navigation route")
 	game.caretaker.position=Vector3(-9,16.1,6)
 	var barrier=MMFAssets.box(game,Vector3(6,2,0.5),Vector3(-9,17.03,4.5))
@@ -215,7 +217,7 @@ func run():
 		game.player.camera.look_at(Vector3(-9,17,0))
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(output+"audit-navigation.png")
-	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"renderer":RenderingServer.get_video_adapter_name()}
+	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"renderer":RenderingServer.get_video_adapter_name(),"companionRoute":companion_route}
 	var file=FileAccess.open(output+"audit-parity.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	while game.combat.nav.is_baking(): await create_timer(0.02).timeout
 	game.queue_free();await frames(4);MMFAssets.cache.clear()

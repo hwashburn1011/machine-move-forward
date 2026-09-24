@@ -264,3 +264,15 @@ Starting state: `bad213b`. The preceding turn made verified progress on electric
 5. Verify real movement, skid contact, cleared hose space, complete retained physics, zero intersections with neighbouring machine geometry, grounded support/connection bounds, shared resources and gameplay/camera regressions. Measure matching sequential GPU runs and preserve final evidence.
 
 Iteration review: [service pumps](pumps-review.md). All 656 selected assertions pass and all three GLBs validate cleanly. Matching fixed native views show 0.043–0.183 ms added median GPU cost; collision complexity falls by 1,602 triangles overall. This is verified model and collision progress, not a measured full-game FPS improvement. The goal remains active: nearby workbenches and other simple equipment still need refinement, alongside full-campaign feel and the older intermittent stalls that have not been reproduced reliably.
+
+## Completed iteration: fitted service benches and companion path recovery
+
+Starting state: `d4f74bc`. The preceding turn made verified progress on pumps. Inspect the six existing service benches, whose plain cases float above simple slab tops and pedestals.
+
+1. Author one original Blender master with anchored frames, drawers, fitted shelf, complete vise, gasketed cases, closure hardware and hand tools. Preserve all sites, complete footprints and worktop heights, and face each bench toward its usable aisle.
+2. Inspect studio, MCP and native views. Close small support gaps, terminate crossmembers at their leg joints, and apply restrained PBR wear with consistent metre-based texture scale. Batch 212 editable parts into five shared render resources.
+3. Preserve all unrelated vertices/materials in the five measured shared batches and compose previous vessel/cabinet/pump refinements. Remove precisely 1,656 old bench collision triangles while preserving the prior pump removal and every other frozen triangle; share one 252-triangle shape across six benches.
+4. Verify actual walking, worktop/leg contact, cleared pedestal/case space, rigid gait attachment, source support contact and 72 complete neighbour triangle comparisons. Measure four matching native GPU views.
+5. Investigate the broader audit's reproducible L12 navigation failure. Fix its horizontal movement cutoff trapping it just outside the 3D waypoint radius; cap final-step travel without changing its speed limit. Verify the original route, blocking walls, lost routes, automation inventory and real rendered track contact. Correct the visual test's handling of headless placeholder MultiMesh data.
+
+Iteration review: [service benches](benches-review.md). All 779 selected assertions pass, the three GLBs validate cleanly, and the original L12 route succeeds without relaxing its test. Added median GPU cost is 0.036–0.265 ms across fixed native views; bench collision loses a net 144 triangles. This is verified model, collision and navigation progress within the existing story. The broad goal remains active: other simple machine fixtures, full-campaign feel and older intermittent frame stalls still need further investigation.

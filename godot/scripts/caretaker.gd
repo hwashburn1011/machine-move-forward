@@ -183,9 +183,15 @@ func update(dt: float):
 		# Refresh the path after assigning a target before consuming its state.
 		var next=agent.get_next_path_position() if NavigationServer3D.map_get_iteration_id(get_world_3d().navigation_map)>0 else position
 		var direction=(next-position)*Vector3(1,0,1)
-		if direction.length()>0.05:
+		var distance=direction.length()
+		# Baked deck paths sit a few centimetres above physical feet. A 5 cm
+		# horizontal dead zone can stop just outside the agent's 8 cm 3D waypoint
+		# radius forever. Approach closer, capping travel at the waypoint so the
+		# smaller threshold cannot cause overshoot at low physics rates.
+		if distance>0.005:
 			direction=direction.normalized()
-			velocity.x=direction.x*1.35;velocity.z=direction.z*1.35
+			var speed=minf(1.35,distance/maxf(dt,.0001))
+			velocity.x=direction.x*speed;velocity.z=direction.z*speed
 			face_direction(direction,dt)
 	velocity.y=0 if is_on_floor() else velocity.y-22*dt
 	if is_on_floor() and Vector2(velocity.x,velocity.z).length_squared()>0.01:

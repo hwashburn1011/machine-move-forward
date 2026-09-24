@@ -1,0 +1,19 @@
+{
+	"checks": 37,
+	"failures": [],
+	"passed": true,
+	"selector": {
+		"cases": 512,
+		"legacyQueries": 72998,
+		"mismatches": [],
+		"refinedQueries": 1356
+	},
+	"trackContact": {
+		"contactY": 16.0254521593452,
+		"feet": "(-4.765537, 16.04654, 7.413183)",
+		"floor": "(-4.765537, 16.03, 7.413183)",
+		"onFloor": true,
+		"soleY": 0.0359147600829601,
+		"visualY": -0.0570000000298023
+	}
+}

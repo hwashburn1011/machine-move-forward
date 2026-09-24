@@ -1,0 +1,101 @@
+{
+	"checks": 87,
+	"collision": [
+		{
+			"playerStopM": 0.675017833709717,
+			"playerY": 12.4307527542114,
+			"site": "ServiceBench1"
+		},
+		{
+			"playerStopM": 0.675024509429932,
+			"playerY": 12.4307518005371,
+			"site": "ServiceBench2"
+		},
+		{
+			"playerStopM": 0.675024509429932,
+			"playerY": 12.4307518005371,
+			"site": "ServiceBench3"
+		},
+		{
+			"playerStopM": 0.675024509429932,
+			"playerY": 12.4307518005371,
+			"site": "ServiceBench4"
+		},
+		{
+			"playerStopM": 0.675024509429932,
+			"playerY": 12.4307518005371,
+			"site": "ServiceBench5"
+		},
+		{
+			"playerStopM": 0.675024509429932,
+			"playerY": 12.4307518005371,
+			"site": "ServiceBench6"
+		}
+	],
+	"failures": [],
+	"models": [
+		{
+			"bounds": "[P: (-0.965, 0.0, -0.3395), S: (1.93, 1.048301, 0.6695)]",
+			"collapsed": 0,
+			"triangles": 46741
+		},
+		{
+			"bounds": "[P: (-0.965, 0.0, -0.3395), S: (1.93, 1.048301, 0.6695)]",
+			"collapsed": 0,
+			"triangles": 46741
+		},
+		{
+			"bounds": "[P: (-0.965, 0.0, -0.3395), S: (1.93, 1.048301, 0.6695)]",
+			"collapsed": 0,
+			"triangles": 46741
+		},
+		{
+			"bounds": "[P: (-0.965, 0.0, -0.3395), S: (1.93, 1.048301, 0.6695)]",
+			"collapsed": 0,
+			"triangles": 46741
+		},
+		{
+			"bounds": "[P: (-0.965, 0.0, -0.3395), S: (1.93, 1.048301, 0.6695)]",
+			"collapsed": 0,
+			"triangles": 46741
+		},
+		{
+			"bounds": "[P: (-0.965, 0.0, -0.3395), S: (1.93, 1.048301, 0.6695)]",
+			"collapsed": 0,
+			"triangles": 46741
+		}
+	],
+	"passed": true,
+	"physics": {
+		"changedVertices": 0,
+		"priorPumpRemoved": 4000,
+		"removedBenchTriangles": 1656,
+		"retainedTriangles": 129396
+	},
+	"retained": [
+		{
+			"actualVertices": 12423,
+			"expectedVertices": 12319,
+			"maxDistanceM": 0.000491284416057169,
+			"name": "VesselRetained1"
+		},
+		{
+			"actualVertices": 1194,
+			"expectedVertices": 1187,
+			"maxDistanceM": 0.000476579589303583,
+			"name": "VesselRetained2"
+		},
+		{
+			"actualVertices": 4102,
+			"expectedVertices": 4086,
+			"maxDistanceM": 0.000442200835095719,
+			"name": "Workshop_overhead_cable_tray004_1"
+		},
+		{
+			"actualVertices": 4740,
+			"expectedVertices": 4740,
+			"maxDistanceM": 0.00042767176637426,
+			"name": "VesselRetained4"
+		}
+	]
+}

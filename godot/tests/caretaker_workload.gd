@@ -182,12 +182,21 @@ func live_checks():
 	check(is_equal_approx(stopped_wheel,game.caretaker.wheels[0].rotation.x),"Drive wheels stop when the companion parks")
 	var parked=game.caretaker.position;await step(120)
 	check(game.caretaker.position.distance_to(parked)<.02,"An idle companion parks instead of walking toward the world origin")
-	var sole=INF
-	for belt in game.caretaker.drive.belts:
-		var batch=belt.multimesh
-		for link in batch.instance_count:sole=minf(sole,(batch.get_instance_transform(link)*batch.mesh.get_aabb()).position.y)
-	var contact_y=game.caretaker.position.y+game.caretaker.visual.position.y+sole
-	check(absf(contact_y-16.03)<.02,"Authored track contact plane rests on the actual deck within 2 cm")
+	if DisplayServer.get_name()=="headless":
+		# Dummy rendering returns identity MultiMesh transforms, not the posed
+		# track shoes. This visual assertion must run with the native renderer.
+		report.trackContact={"available":false,"reason":"Headless MultiMesh readback is a placeholder"}
+		print("SKIP Rendered track contact requires a native renderer")
+	else:
+		var sole=INF
+		for belt in game.caretaker.drive.belts:
+			var batch=belt.multimesh
+			for link in batch.instance_count:sole=minf(sole,(batch.get_instance_transform(link)*batch.mesh.get_aabb()).position.y)
+		var contact_y=game.caretaker.position.y+game.caretaker.visual.position.y+sole
+		var floor_hit=game.raycast(game.caretaker.position+Vector3.UP*.05,game.caretaker.position-Vector3.UP*.5,[game.caretaker.get_rid()],1)
+		report.trackContact={"available":true,"feet":str(game.caretaker.position),"visualY":game.caretaker.visual.position.y,"soleY":sole,"contactY":contact_y,"floor":str(floor_hit.get("position",Vector3.INF)),"onFloor":game.caretaker.is_on_floor()}
+		print("CARETAKER_CONTACT ",JSON.stringify(report.trackContact))
+		check(absf(contact_y-16.03)<.02,"Authored track contact plane rests on the actual deck within 2 cm")
 	check(bag.count_item("water")==1 and pieces.condenser.state.stored==0,"Idle updates cannot duplicate delivered output")
 	pieces.condenser.state.stored=1;game.caretaker.wait_time=0;await step(1)
 	check(not game.caretaker.job.is_empty(),"Another available output can schedule the next job")

@@ -6,6 +6,7 @@ var failures=[]
 var report={"retained":[],"models":[],"collision":[]}
 var pump_manifest={}
 var switchgear_manifest={}
+var bench_manifest={}
 
 func _initialize():
 	set_meta("test_mode",true);MMFSaves.DIRECTORY="user://native-pump-tests/";call_deferred("run")
@@ -50,23 +51,25 @@ func run():
 	await process_frame
 	var machine=game.world.machine;var bank=MMFAssets.find_named(machine,"NativeServicePumps")
 	pump_manifest=MMFAssets.json("res://art/nomad-pumps.json");switchgear_manifest=MMFAssets.json("res://art/nomad-switchgear.json")
+	bench_manifest=MMFAssets.json("res://art/nomad-benches.json")
 	check(bank!=null and bank.get_child_count()==2,"Two complete pump skids replace the old disconnected assemblies")
 	if bank==null:quit(1);return
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var physical_manifest=MMFAssets.json("res://art/nomad-pumps-collision.json")
 	var raw=game.runtime.colliders[int(physical_manifest.sourceCollider)]
 	var body=MMFAssets.find_named(game.world,"NativeWorkshopCollision")
-	var faces=body.get_child(0).shape.get_faces();var cursor=0;var removed_count=0;var changed=0
+	var faces=body.get_child(0).shape.get_faces();var cursor=0;var removed_count=0;var changed=0;var bench_count=0
 	for j in range(0,raw.indices.size(),3):
 		var tri=[]
 		for k in [0,2,1]:
 			var index=int(raw.indices[j+k])*3;tri.append(Vector3(raw.vertices[index],raw.vertices[index+1],raw.vertices[index+2]))
 		var omitted=tri.all(func(p):return preload("res://tests/pump_trim.gd").removed(p,"Brace_welded_receiver001",pump_manifest))
 		if omitted:removed_count+=1;continue
+		if tri.all(func(p):return preload("res://tests/bench_trim.gd").removed(p,"Brace_welded_receiver001",bench_manifest)):bench_count+=1;continue
 		for p in tri:
 			if cursor>=faces.size() or not faces[cursor].is_equal_approx(p):changed+=1
 			cursor+=1
-	check(removed_count==4000 and cursor==faces.size() and changed==0,"All non-pump collision triangles and winding are retained exactly; 4000 obsolete pump triangles removed")
+	check(removed_count==4000 and bench_count==int(MMFAssets.json("res://art/nomad-benches-collision.json").removedBenchTriangles) and cursor==faces.size() and changed==0,"Composed pump/bench collision retains every unrelated triangle and winding; 4000 obsolete pump triangles removed")
 	report.physics={"removedTriangles":removed_count,"retainedTriangles":cursor/3,"changedRetainedVertices":changed}
 	var shape_a=MMFAssets.find_named(game.world,"ServicePump1Collision").get_child(0).shape
 	var shape_b=MMFAssets.find_named(game.world,"ServicePump2Collision").get_child(0).shape
@@ -76,7 +79,7 @@ func run():
 		if entry.replacement=="":
 			check(retained==null,"Fully replaced old pump batch is removed: "+entry.original);continue
 		var old=MMFAssets.find_named(original,entry.frozen)
-		var expected=vertices(old).filter(func(p):return not prior_removed(p,entry) and not preload("res://tests/pump_trim.gd").removed(p,entry.frozen,pump_manifest))
+		var expected=vertices(old).filter(func(p):return not prior_removed(p,entry) and not preload("res://tests/pump_trim.gd").removed(p,entry.frozen,pump_manifest) and not preload("res://tests/bench_trim.gd").removed(p,entry.frozen,bench_manifest))
 		if entry.priorCableVertices>0:
 			for j in expected.size():
 				var p=expected[j]
