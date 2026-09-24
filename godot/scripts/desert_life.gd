@@ -70,6 +70,9 @@ func place(chunk: Node3D,seed_name: String,index: int,band: int,obstacles: Array
 		# adding cascaded shadow passes over a wide desert view.
 		batch.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		batch.set_meta("ground_sites",entries);group.add_child(batch)
+	# Include the real small-prop extents in later cinematic route clearance.
+	for kind in batches:
+		for entry in batches[kind]:obstacles.append((entry[0]*sources[kind].get_aabb()).grow(.15))
 	if band==0 and not sites.is_empty():add_drift(group,sites[0],index)
 
 func add_drift(parent: Node3D,site: Vector3,index: int):

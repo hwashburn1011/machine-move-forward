@@ -85,6 +85,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Salv
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireReview
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireProfile
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireClearance
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ShipTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ShipProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
@@ -119,3 +120,5 @@ The [desert refinement review](../docs/godot-port/desert-life-review.md) covers 
 The [weapon presentation review](../docs/godot-port/weapon-presentation-review.md) covers two detailed Blender weapon models, reachable support-hand placement, pitch/recoil alignment and real muzzle/attachment origins. Gameplay weapon definitions and camera hitscan remain unchanged. `-WeaponTest -Headless` exercises the final skeletal pose and shot behavior, `-WeaponReview` captures native close-ups and `-WeaponProfile` compares the old/new presentation in the real rendered scene. Saves/settings remain isolated.
 
 The [opposing ship review](../docs/godot-port/ship-refinement-review.md) covers two detailed Blender hulls integrated into the existing scanner scene. `-ShipTest -Headless` checks imported material/geometry budgets and actual triangle support/crew clearance; `-ShipProfile` compares original/refined models in matching native GPU views. `-CrossfireTest -Headless` verifies background preparation and story handoffs, while `-CrossfireReview` captures the scene with its original cast/effects. The source ships and materials remain editable under `../assets/native-ships/`.
+
+The [battle clearance review](../docs/godot-port/crossfire-clearance-review.md) covers a background-planned route around existing ruins, hull clearance above dunes and short concealed cuts between the player and battle cameras. `-CrossfireClearance` requires GPU rendering to compare against real MultiMesh transforms; it exercises multiple landscapes, all three decks and preparation/cancellation. The original 17-second scene and subsequent raid timing remain unchanged. No desert objects are removed for the encounter.

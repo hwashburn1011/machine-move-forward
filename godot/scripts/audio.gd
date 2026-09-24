@@ -101,3 +101,11 @@ func cue(frequency: float,seconds: float,gain: float=-24,noise: bool=false):
 	player.play()
 
 func shot(shotgun: bool): play_sound("shotgun" if shotgun else "rifle")
+
+func _exit_tree():
+	# Explicitly detach active playback before the graph is destroyed. In fast
+	# headless runs the audio mixer may not tick between queue_free and shutdown.
+	for voice in get_children():
+		if voice is AudioStreamPlayer or voice is AudioStreamPlayer3D:
+			voice.stop();voice.stream=null
+	bank.clear()

@@ -30,6 +30,7 @@ func update():
 		if ResourceLoader.load_threaded_request(path,"PackedScene")==OK:pending=path
 		return
 	if part_index<7:build_part()
+	elif game.session.scanner.phase=="contact-ready":owner_cinema.signal_route.prepare(game,stage)
 
 func create_root():
 	if stage:return

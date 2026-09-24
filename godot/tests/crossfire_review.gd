@@ -49,13 +49,14 @@ func run():
 	game.session.scanner.phase="installed";game.session.update_power();game.session.start_scan()
 	game.session.scanner.elapsedS=172
 	var start=Time.get_ticks_usec();var previous=start;var entered=false;var finished=false;var return_at=0.0
-	var captures=[0.1,3.0,7.0,11.0,13.5,16.7] if captures_enabled else []
+	var captures=[0.1,3.0,7.0,11.0,13.5,16.7,16.95] if captures_enabled else []
 	var last_transform=game.player.camera.global_transform;var last_fov=game.player.camera.fov
-	var previous_kind="";var max_jump={"degrees":0.0};var handoff={};var observed_entry={}
+	var previous_kind="";var max_jump={"degrees":0.0};var visible_jump={"degrees":0.0};var last_fade=0.0;var handoff={};var observed_entry={}
 	while Time.get_ticks_usec()-start<35000000:
 		await process_frame
 		var now=Time.get_ticks_usec();var ms=(now-previous)/1000.0;previous=now
 		var camera=root.get_camera_3d();var kind=game.cinematic
+		var fade=game.cinematics.transition.color.a if not legacy else 0.0
 		var angle=rad_to_deg(last_transform.basis.get_rotation_quaternion().angle_to(camera.global_basis.get_rotation_quaternion()))
 		if kind!=previous_kind:
 			var change={"from":previous_kind,"to":kind,"positionJumpM":camera.global_position.distance_to(last_transform.origin),"angleJumpDegrees":angle,"fovBefore":last_fov,"fovAfter":camera.fov,"frameMs":ms}
@@ -63,7 +64,9 @@ func run():
 			elif entered:handoff=change;finished=true;return_at=(now-start)/1000000.0
 		if kind=="signal":
 			if angle>max_jump.degrees:max_jump={"degrees":angle,"time":game.cinematics.time,"fov":camera.fov}
-		measurements.append({"time":game.cinematics.time,"kind":kind,"frameMs":ms,"fov":camera.fov,"angleDegrees":angle})
+			if fade<.99 and last_fade<.99 and angle>visible_jump.degrees:visible_jump={"degrees":angle,"time":game.cinematics.time,"fov":camera.fov}
+		measurements.append({"time":game.cinematics.time,"kind":kind,"frameMs":ms,"fov":camera.fov,"angleDegrees":angle,"transitionOpacity":fade})
+		last_fade=fade
 		last_transform=camera.global_transform;last_fov=camera.fov;previous_kind=kind
 		if kind=="signal" and not captures.is_empty() and game.cinematics.time>=captures[0]:
 			await capture(str(captures.pop_front()));previous=Time.get_ticks_usec()
@@ -71,6 +74,9 @@ func run():
 	await capture("returned")
 	report={"scope":"Native real-time scanner completion and existing 17-second crossfire. Three-second startup warmup, seeded repaired scanner, final eight seconds of scanning; 1080p high/Vulkan, 60 FPS cap, 72-degree player FOV. Use --no-captures for timing: image capture excludes its readback time but can still cause physics catch-up. No campaign playthrough claim.","adapter":RenderingServer.get_video_adapter_name(),"entryCpuMs":game.cinematics.entry_ms,"entry":observed_entry,"handoff":handoff,"largestAngularFrame":max_jump,"finished":finished,"storyPhase":game.session.story.phase,"scannerPhase":game.session.scanner.phase,"frames":measurements}
 	report.preparedAtEntry=game.cinematics.prepared_at_entry;report.preparation=game.cinematics.preparation
+	report.largestVisibleAngularFrame=visible_jump
+	if not legacy:
+		report.route={"origin":MMFAssets.dict_v(game.cinematics.signal_route.origin),"candidates":game.cinematics.signal_route.candidates,"planningMs":game.cinematics.signal_route.elapsed_ms,"raisedFallback":game.cinematics.signal_route.raised_fallback,"reusedPreparation":game.cinematics.signal_route.reused}
 	report.capturesEnabled=captures_enabled;report.legacy=legacy
 	var file=FileAccess.open(output+"crossfire-"+label+".json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("CROSSFIRE_REVIEW ",{"entryCpuMs":report.entryCpuMs,"entry":observed_entry,"handoff":handoff,"largestAngularFrame":max_jump,"finished":finished})

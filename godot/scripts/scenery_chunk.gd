@@ -27,7 +27,12 @@ func step() -> bool:
 	elif phase==placements.size()+SCATTER.size():
 		world.atmosphere.place(root,seed_name,key.x,key.y,clearance_bounds)
 	else:
-		world.atmosphere.desert_life.place(root,seed_name,key.x,key.y,clearance_bounds);complete=true
+		world.atmosphere.desert_life.place(root,seed_name,key.x,key.y,clearance_bounds)
+		for node in root.get_children():
+			if node.has_meta("ambient_kind"):clearance_bounds.append((node.transform*MMFAssets.bounds(node)).grow(.3))
+		# CPU bounds are already known here. Cinematic routing must not read back
+		# thousands of MultiMesh transforms from the render server at scene entry.
+		root.set_meta("scenery_bounds",clearance_bounds.duplicate());complete=true
 	phase+=1
 	return complete
 

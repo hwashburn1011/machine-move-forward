@@ -11,6 +11,8 @@ var event_cursor=0
 var initial_camera=Transform3D.IDENTITY
 var initial_fov=55.0
 var signal_stage=MMFCrossfireStage.new()
+var signal_route=MMFCrossfireRoute.new()
+var transition: ColorRect
 var human_ship: Node3D
 var robot_ship: Node3D
 var hero: Node3D
@@ -26,6 +28,11 @@ func setup(owner_game):
 	camera.far=1800
 	camera.physics_interpolation_mode=Node.PHYSICS_INTERPOLATION_MODE_OFF
 	add_child(camera)
+	# Below the UI so subtitles and a paused menu remain readable during a dip.
+	var transition_layer=CanvasLayer.new();transition_layer.layer=0;add_child(transition_layer)
+	transition=ColorRect.new();transition.color=Color(0,0,0,0)
+	transition.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	transition.mouse_filter=Control.MOUSE_FILTER_IGNORE;transition.hide();transition_layer.add_child(transition)
 	timeline=MMFAssets.json("res://data/opening.json")
 
 func actor(kind: String,at: Vector3,parent: Node3D) -> Node3D:
@@ -76,6 +83,8 @@ func begin_signal():
 	scenery=signal_stage.take()
 	human_ship=scenery.get_node("HumanShip");robot_ship=scenery.get_node("RobotShip")
 	hero=robot_ship.get_node("ContactRevenant")
+	signal_route.choose(game,scenery);scenery.position=signal_route.origin
+	scenery.reset_physics_interpolation()
 	camera.global_transform=initial_camera;camera.fov=initial_fov
 	camera.current=true
 
@@ -126,20 +135,26 @@ func update(dt: float):
 					game.audio.cue(45,0.65,-20,true)
 			if time>=10.2: finish()
 		"signal":
-			scenery.position.z=-76+time*2.6
+			scenery.position=signal_route.origin+Vector3.BACK*time*2.6
 			var face=hero.global_position+Vector3.UP*1.65
 			hero.rotation.y=lerp_angle(-PI/2,-PI*0.79,smoothstep(8,10,time))
-			var wide_eye=Vector3(9,21,-16)
+			var wide_eye=signal_route.origin+Vector3(-28,21,60)
 			var wide_target=scenery.to_global(Vector3(0,7,0))
 			var medium_eye=robot_ship.to_global(Vector3(-14,12.5,-21))
 			var eye=wide_eye.lerp(medium_eye,smoothstep(5.5,8,time))
 			eye=eye.lerp(face+Vector3(-0.82,0.08,-1.04),smoothstep(10,12.8,time))
 			var look=wide_target.lerp(face-Vector3.UP*0.6,smoothstep(5.5,8,time)).lerp(face,smoothstep(10,12.8,time))
-			var entry=smoothstep(0,2.3,time);var returning=smoothstep(15.3,17,time)
 			var pose=Transform3D(Basis.looking_at(look-eye),eye)
-			if returning>0:game.player.update_camera(dt)
-			camera.global_transform=initial_camera.interpolate_with(pose,entry).interpolate_with(game.player.camera.global_transform,returning)
-			camera.fov=lerpf(lerpf(initial_fov,lerpf(56,30,smoothstep(10,12.8,time)),entry),game.player.camera.fov,returning)
+			# A brief black plateau conceals each cut. There is no physical flight
+			# through ceilings, masts or player-built equipment on any deck.
+			set_transition(signal_fade(time))
+			if time<.26:
+				camera.global_transform=initial_camera;camera.fov=initial_fov
+			elif time>=16.6:
+				game.player.update_camera(dt)
+				camera.global_transform=game.player.camera.global_transform;camera.fov=game.player.camera.fov
+			else:
+				camera.global_transform=pose;camera.fov=lerpf(56,30,smoothstep(10,12.8,time))
 			effects_clock-=dt
 			if effects_clock<=0:
 				effects_clock=0.16
@@ -159,6 +174,15 @@ func update(dt: float):
 			camera.fov=lerpf(52,43,forward)
 			game.ui.caption.text="THE CHANNEL REMAINS OPEN.\nNAMES. SEEDS. A PLACE FOR DOUBT."
 			if time>=12: finish()
+
+static func signal_fade(at: float) -> float:
+	if at<.26:return smoothstep(0,.20,at)
+	if at<.6:return 1-smoothstep(.32,.6,at)
+	if at<16.6:return smoothstep(16.3,16.5,at)
+	return 1-smoothstep(16.7,17,at)
+
+func set_transition(alpha: float):
+	transition.color.a=alpha;transition.visible=alpha>0
 
 func finish():
 	var kind=game.cinematic
@@ -186,12 +210,15 @@ func finish():
 	game.save_game("autosave")
 
 func clear_scene(keep_prepared: bool=false):
+	set_transition(0)
 	if scenery: scenery.queue_free()
 	scenery=null
 	human_ship=null;robot_ship=null;hero=null
 	actors.clear()
 	if not keep_prepared:signal_stage.reset()
+	if not keep_prepared:signal_route.reset()
 
 func _exit_tree():
+	signal_route.reset()
 	signal_stage.close()
 	signal_stage.owner_cinema=null

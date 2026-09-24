@@ -163,3 +163,14 @@ Starting state: `7a6711a`. The preceding turn made verified progress on scene lo
 4. Verify exported triangle support, body clearance, semantic anchors, asset budgets, scanner/save/skip timing and actual gameplay regressions.
 
 Iteration review: [opposing ships](ship-refinement-review.md). All 366 selected assertions pass. GPU cost is approximately +0.03 ms in the wide view and −0.07 ms close; the clean scene-entry frame remains about 20 ms. The full goal remains active. A mast near the return camera path and desert scenery intersecting the scripted ship route are the next concrete clearance targets, alongside broader campaign feel, control hints and unrelated intermittent stalls.
+
+## Completed iteration: battle landscape and camera clearance
+
+Starting state: `5152574`. The preceding turn made verified progress on both Blender ship models. Fix their route through ruins and the return camera's machine flythrough without extending the story.
+
+1. Retain CPU scenery bounds and search a clear forward-right route with dune clearance for the existing formation and visible camera path.
+2. Prepare the route on a worker during the original scanner delay, account for later travel/steering and validate it again before activation. Handle invalidation, dense scenery, cancellation and saved-cutscene fallback.
+3. Use short concealed cuts between the actual deck camera and battle view, preserving the close-up, 17-second duration, captions and raid timing. Keep pause UI available and clear transitions on skip/reset.
+4. Verify against rendered MultiMesh geometry and finer dune samples, inspect native views, measure clean activation timing and run scenery/gameplay regressions. Trace and clean up active audio playback at shutdown.
+
+Iteration review: [battle clearance](crossfire-clearance-review.md). All 503 assertions pass. The six sampled routes avoid actual scenery, and the real-time prepared entry takes 21.684 ms versus the preceding 20.379 ms sample. The full goal remains active; full-campaign feel, control hints, remaining visual coherence and unrelated intermittent rendering stalls still require work.

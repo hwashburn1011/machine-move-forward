@@ -1,0 +1,48 @@
+{
+  "checks": 503,
+  "suites": [
+    {
+      "suite": "clearance",
+      "checks": 107,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "crossfire handoff",
+      "checks": 65,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "scenery contract",
+      "checks": 54,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "integration",
+      "checks": 108,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "story",
+      "checks": 58,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "camera",
+      "checks": 54,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "physical input parity",
+      "checks": 57,
+      "failures": [],
+      "logProblems": []
+    }
+  ],
+  "scope": "Rendered clearance against actual scenery, scanner lifecycle, original scenery contract and native gameplay regressions. All selected logs checked for warnings/errors."
+}
