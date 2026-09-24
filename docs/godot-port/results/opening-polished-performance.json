@@ -1,0 +1,137 @@
+{
+  "adapter": "NVIDIA GeForce RTX 3070",
+  "beforePipelines": {
+    "CANVAS": 2,
+    "DRAW": 0,
+    "MESH": 38,
+    "SPECIALIZATION": 43,
+    "SURFACE": 66
+  },
+  "captures": false,
+  "completed": true,
+  "entryCpuMs": 2.112,
+  "events": [
+    {
+      "cinematic": "opening",
+      "cinematicS": 1.35,
+      "frame": 252,
+      "gpuMs": 5.52500009536743,
+      "ms": 16.735,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 43,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 0.524999976158142,
+      "wallS": 1.350696
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 2.36666666666666,
+      "frame": 313,
+      "gpuMs": 5.34299993515015,
+      "ms": 16.843,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 45,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 0.624000012874603,
+      "wallS": 2.367479
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 3.66666666666666,
+      "frame": 391,
+      "gpuMs": 4.2979998588562,
+      "ms": 16.782,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 45,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 0.639999985694885,
+      "wallS": 3.667365
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 3.73333333333333,
+      "frame": 395,
+      "gpuMs": 4.31099987030029,
+      "ms": 16.76,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 46,
+        "SURFACE": 67
+      },
+      "renderCpuMs": 0.646000027656555,
+      "wallS": 3.734038
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 5.01666666666665,
+      "frame": 472,
+      "gpuMs": 4.30499982833862,
+      "ms": 16.784,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 48,
+        "SURFACE": 67
+      },
+      "renderCpuMs": 0.601999998092651,
+      "wallS": 5.017301
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 5.08333333333332,
+      "frame": 476,
+      "gpuMs": 4.32100009918213,
+      "ms": 16.835,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 48,
+        "SURFACE": 67
+      },
+      "renderCpuMs": 0.619000017642975,
+      "wallS": 5.084071
+    },
+    {
+      "cinematic": "",
+      "cinematicS": 10.2000000000001,
+      "frame": 783,
+      "gpuMs": 3.48900008201599,
+      "ms": 17.2,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 53,
+        "SURFACE": 67
+      },
+      "renderCpuMs": 0.634999990463257,
+      "wallS": 10.200883
+    }
+  ],
+  "firstOpeningMs": 18.46,
+  "frameMs": {
+    "max": 18.46,
+    "median": 16.665,
+    "p95": 16.76,
+    "p99": 16.993
+  },
+  "scope": "Actual paused title, New Game, original opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off, 60 FPS cap. No input or story timing changes.",
+  "slowFrames": [],
+  "titleSeconds": 3.0
+}

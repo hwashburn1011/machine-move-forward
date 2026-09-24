@@ -10,6 +10,9 @@ var anchors={}
 var socket_local: Transform3D
 var last_targets={}
 var valid=false
+var scripted_aim=false
+var scripted_target=Vector3.ZERO
+var scripted_recoil=0.0
 
 func setup(owner_player):
 	player=owner_player
@@ -52,7 +55,8 @@ func apply():
 	last_targets.clear()
 	if not valid:return
 	var game=player.game
-	if not game.started or game.menu_open or game.cinematic!="" or player.forced_motion or game.manual_turret!="" or game.session.health<=0:return
+	var opening=scripted_aim and game.cinematic=="opening"
+	if not game.started or game.menu_open or (game.cinematic!="" and not opening) or player.forced_motion or game.manual_turret!="" or game.session.health<=0:return
 	if player.equipment and player.equipment.refuel_left>0:return
 	var weight=1.0
 	if player.reload_left>0:
@@ -63,9 +67,13 @@ func apply():
 	if not set.SupportGrip:return
 	var scale=maxf(player.visual.scale.x,.01)
 	var gun_basis=Basis(Vector3.RIGHT,-player.pitch)
+	if opening:
+		var direction=skeleton.global_basis.orthonormalized().inverse()*(scripted_target-player.global_position-Vector3.UP*1.4).normalized()
+		gun_basis=Basis(Vector3.UP,atan2(direction.x,direction.z))*Basis(Vector3.RIGHT,-asin(clampf(direction.y,-1,1)))
 	var hand_basis=gun_basis*socket_local.basis.inverse()
 	var spine=skeleton.get_bone_global_pose(bones.spine_02)
-	var right=spine.origin+Vector3.UP*.17+gun_basis*Vector3(.04,-.10,.23-player.recoil/scale)
+	var recoil=scripted_recoil if opening else player.recoil
+	var right=spine.origin+Vector3.UP*.17+gun_basis*Vector3(.04,-.10,.23-recoil/scale)
 	var gun_transform=Transform3D(hand_basis,right)*socket_local*model.transform
 	var support_offset=(gun_transform*set.SupportGrip.position)-right
 	# Both hands must be reachable, including steep aim and crouch. Translate

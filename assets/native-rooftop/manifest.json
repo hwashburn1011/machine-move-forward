@@ -1,0 +1,32 @@
+{
+  "roofY": 19.522,
+  "footprint": {
+    "minX": 14.5,
+    "maxX": 24.5,
+    "minZ": -5,
+    "maxZ": 5
+  },
+  "gapHalfWidth": 2,
+  "editableParts": 877,
+  "triangles": 120304,
+  "batches": 6,
+  "bytes": 13260108,
+  "equipment": {
+    "tank": [
+      20.7,
+      19.522,
+      3.8
+    ],
+    "vent": [
+      18.9,
+      19.522,
+      -3.5
+    ],
+    "mast": [
+      17.1,
+      19.522,
+      3.2
+    ]
+  },
+  "provenance": "Original Blender geometry and procedurally authored 1024 PBR maps. No downloaded meshes or imagery. Original rooftop dimensions and launch anchors preserved."
+}

@@ -1,0 +1,126 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"samples": [
+		{
+			"at": 0.5,
+			"drawCalls": 301,
+			"frames": {
+				"max": 4.951,
+				"median": 3.926,
+				"p95": 4.681
+			},
+			"gpu": {
+				"max": 4.08099985122681,
+				"median": 3.43899989128113,
+				"p95": 3.93300008773804
+			},
+			"mode": "legacy",
+			"renderCpu": {
+				"max": 1.19099998474121,
+				"median": 0.425000011920929,
+				"p95": 0.580999970436096
+			}
+		},
+		{
+			"at": 0.5,
+			"drawCalls": 292,
+			"frames": {
+				"max": 5.073,
+				"median": 3.891,
+				"p95": 4.874
+			},
+			"gpu": {
+				"max": 4.36499977111816,
+				"median": 3.42400002479553,
+				"p95": 4.13000011444092
+			},
+			"mode": "refined",
+			"renderCpu": {
+				"max": 0.842000007629395,
+				"median": 0.365000009536743,
+				"p95": 0.529999971389771
+			}
+		},
+		{
+			"at": 3.5,
+			"drawCalls": 498,
+			"frames": {
+				"max": 5.624,
+				"median": 4.298,
+				"p95": 5.295
+			},
+			"gpu": {
+				"max": 4.92799997329712,
+				"median": 3.78900003433228,
+				"p95": 4.51800012588501
+			},
+			"mode": "legacy",
+			"renderCpu": {
+				"max": 1.15799999237061,
+				"median": 0.564000010490417,
+				"p95": 0.721000015735626
+			}
+		},
+		{
+			"at": 3.5,
+			"drawCalls": 488,
+			"frames": {
+				"max": 5.602,
+				"median": 4.248,
+				"p95": 5.187
+			},
+			"gpu": {
+				"max": 4.69799995422363,
+				"median": 3.77500009536743,
+				"p95": 4.48400020599365
+			},
+			"mode": "refined",
+			"renderCpu": {
+				"max": 0.966000020503998,
+				"median": 0.493000000715256,
+				"p95": 0.642000019550323
+			}
+		},
+		{
+			"at": 8.5,
+			"drawCalls": 1207,
+			"frames": {
+				"max": 5.814,
+				"median": 4.695,
+				"p95": 5.605
+			},
+			"gpu": {
+				"max": 5.16800022125244,
+				"median": 4.20699977874756,
+				"p95": 4.92500019073486
+			},
+			"mode": "legacy",
+			"renderCpu": {
+				"max": 1.35599994659424,
+				"median": 0.819000005722046,
+				"p95": 1.02799999713898
+			}
+		},
+		{
+			"at": 8.5,
+			"drawCalls": 1191,
+			"frames": {
+				"max": 5.997,
+				"median": 4.753,
+				"p95": 5.658
+			},
+			"gpu": {
+				"max": 5.05900001525879,
+				"median": 4.25799989700317,
+				"p95": 4.96700000762939
+			},
+			"mode": "refined",
+			"renderCpu": {
+				"max": 1.25499999523163,
+				"median": 0.822000026702881,
+				"p95": 1.02400004863739
+			}
+		}
+	],
+	"scope": "1080p high/Vulkan/4xMSAA, uncapped, vsync off. Actual opening models with fixed camera/animation and game/world physics disabled; both variants resident, only one visible. Two seconds settling and three seconds sampled per view; capture occurs after sampling."
+}

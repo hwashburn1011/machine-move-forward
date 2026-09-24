@@ -40,8 +40,11 @@ func run():
 	var entry_ms=(Time.get_ticks_usec()-start)/1000.0
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	var frames=[];var intervals=[];var slow=[];var events=[];var previous_cursor=0;var first_opening_ms=-1.0
-	var captures=[.5,2.7,4.3,6.5,9.5] if capture_views else []
-	while Time.get_ticks_usec()-start<13500000:
+	var captures=[.5,1.8,2.7,3.8,5.15,6.5,8.5,9.5,10.15] if capture_views else []
+	# GPU readback and PNG encoding pause the capture run. Budget that time
+	# separately so a visual review still reaches the playable handoff.
+	var capture_usec=0
+	while Time.get_ticks_usec()-start-capture_usec<13500000:
 		await process_frame
 		var now=Time.get_ticks_usec();var ms=(now-previous)/1000.0;previous=now
 		var frame={"frame":Engine.get_process_frames(),"wallS":(now-start)/1000000.0,"cinematic":game.cinematic,"cinematicS":game.cinematics.time,"ms":ms,"gpuMs":RenderingServer.viewport_get_measured_render_time_gpu(root.get_viewport_rid()),"renderCpuMs":RenderingServer.viewport_get_measured_render_time_cpu(root.get_viewport_rid()),"pipelines":pipelines()}
@@ -51,8 +54,10 @@ func run():
 		if game.cinematics.event_cursor!=previous_cursor:
 			events.append(frame);previous_cursor=game.cinematics.event_cursor
 		if not captures.is_empty() and game.cinematics.time>=captures[0]:
+			var capture_start=Time.get_ticks_usec()
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png(ProjectSettings.globalize_path(output+"opening-"+label+"-"+str(captures.pop_front())+".png"))
+			capture_usec+=Time.get_ticks_usec()-capture_start
 			previous=Time.get_ticks_usec()
 	var complete=game.session.opening_done and game.cinematic==""
 	var report={"scope":"Actual paused title, New Game, original opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off, 60 FPS cap. No input or story timing changes.","titleSeconds":title_seconds,"firstOpeningMs":first_opening_ms,"adapter":RenderingServer.get_video_adapter_name(),"entryCpuMs":entry_ms,"beforePipelines":before_pipelines,"frameMs":stats(intervals),"slowFrames":slow,"events":events,"frames":frames,"completed":complete,"captures":capture_views}

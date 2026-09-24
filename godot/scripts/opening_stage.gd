@@ -3,7 +3,7 @@ extends Node
 
 # The title remains responsive while disk resources load on an engine worker.
 # Assemble one hidden part per frame on the main thread for render preparation.
-const PATHS=["res://assets/runtime/rooftop.glb","res://assets/models/authored/warden.glb","res://assets/models/authored/revenant.glb"]
+const PATHS=["res://art/opening-rooftop.glb","res://assets/models/authored/warden.glb","res://assets/models/authored/revenant.glb"]
 var owner_cinema
 var pending=""
 var path_index=0

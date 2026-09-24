@@ -207,3 +207,14 @@ Starting state: `f1df64a`. The preceding turn made verified progress on cargo ca
 4. Inspect native opening captures, run gameplay/camera/crossfire regressions, and retain matched frame evidence.
 
 Iteration review: [opening preparation](opening-preparation-review.md). Entry CPU fell from 589.359 to 2.903 ms and the measured maximum opening run frame fell from 616.471 to 18.834 ms. All 449 selected assertions pass. The broad goal remains active: the captures expose poor rooftop-wall framing after the jump and simple rooftop fixtures, alongside the already identified machine fittings and older unreproduced intermittent stalls. No story or gameplay timing was added or changed.
+
+## Completed iteration: visible opening action and refined rooftop
+
+Starting state: `d2408ee`. The preceding turn made verified progress on opening preparation. Address the actual obstructed camera and plain building exposed by its native captures.
+
+1. Frame the existing chase, jump and return fire from clear views, then reveal the Nomad and conceal the final camera cut. Preserve every actor trajectory, original event and duration.
+2. Reuse the real two-handed weapon solver for elevated cinematic aim, smooth turning, target changes, recoil and lowering. Release overrides outside the opening.
+3. Build the existing rooftop in Blender with fitted windows, weathered concrete, supported pressure/vent/antenna assemblies and detailed door hardware. Inspect studio/MCP/native output, correct intersections and retain editable source with six runtime material batches.
+4. Check actual rendered triangle clearance, original chase corridors, full-body framing, final skeleton aim, camera handoff and gameplay regressions. Compare native GPU cost and real opening timing without screenshot interference.
+
+Iteration review: [opening polish](opening-polish-review.md). All 474 selected assertions pass. The three asset comparison views change median GPU time by −0.015, −0.014 and +0.051 ms; the real-time opening still starts in 2.112 ms with an 18.460 ms maximum frame in the clean 60 FPS sample. This is verified progress within the existing story. The overall goal remains active, including adjacent pressure fittings, canopy fabric, full-campaign feel and older intermittent stalls that have not yet been reproduced reliably.

@@ -69,6 +69,7 @@ func begin_opening():
 	rooftop=scenery.get_node("Rooftop");rooftop.reparent(self)
 	for id in ["warden","revenant"]:actors.append(scenery.get_node(id))
 	game.player.visual.show()
+	update_opening(0)
 	camera.current=true
 
 func begin_signal():
@@ -112,29 +113,7 @@ func update(dt: float):
 	time+=dt
 	match game.cinematic:
 		"opening":
-			var sample=timeline.samples[mini(int(time*60),timeline.samples.size()-1)]
-			game.player.position=MMFAssets.v(sample.player.position)-Vector3.UP*0.96
-			game.player.visual.rotation.y=-PI/2 if time<2.48 else PI/2
-			game.player.play("armed_run_fwd" if sample.stance=="running" else ("armed_jump" if sample.stance=="airborne" else "armed_idle"))
-			for i in actors.size():
-				actors[i].position=MMFAssets.v(sample.pursuers[i].position)-Vector3.UP*0.96
-				actors[i].rotation.y=-PI/2
-				actors[i].visible=sample.pursuers[i].alive
-				animate(actors[i],"run" if sample.pursuers[i].speed>0.2 else "idle")
-			var position_camera=MMFAssets.v(sample.camera.position)
-			var focus=MMFAssets.v(sample.camera.target)
-			camera.position=camera.position.lerp(position_camera,1-exp(-10*dt)) if time>dt else position_camera
-			camera.look_at(focus)
-			while event_cursor<timeline.events.size() and time>=timeline.events[event_cursor].time:
-				var event=timeline.events[event_cursor]
-				event_cursor+=1
-				if event.name in ["shot1","shot2"]:
-					game.audio.shot(false)
-					game.effects.tracer(game.player.position+Vector3.UP*1.4,MMFAssets.v(sample.weaponAim),Color(1,0.7,0.2))
-				if event.name in ["kill1","kill2"]:
-					game.effects.explosion(actors[0 if event.name=="kill1" else 1].position+Vector3.UP,0.85)
-					game.audio.cue(45,0.65,-20,true)
-			if time>=10.2: finish()
+			update_opening(dt)
 		"signal":
 			scenery.position=signal_route.origin+Vector3.BACK*time*2.6
 			var face=hero.global_position+Vector3.UP*1.65
@@ -176,6 +155,39 @@ func update(dt: float):
 			game.ui.caption.text="THE CHANNEL REMAINS OPEN.\nNAMES. SEEDS. A PLACE FOR DOUBT."
 			if time>=12: finish()
 
+func update_opening(dt: float):
+	var sample=timeline.samples[mini(int(time*60),timeline.samples.size()-1)]
+	var player=game.player
+	player.position=MMFAssets.v(sample.player.position)-Vector3.UP*.96
+	var aim=MMFOpeningPresentation.aim(time,sample)
+	var direction=aim-player.position
+	player.visual.rotation.y=lerp_angle(-PI/2,atan2(direction.x,direction.z),smoothstep(2.48,3.05,time))
+	player.play("armed_run_fwd" if sample.stance=="running" else ("armed_jump" if sample.stance=="airborne" else "armed_idle"))
+	player.weapon_pose.scripted_aim=time>=2.48
+	player.weapon_pose.scripted_target=aim
+	player.weapon_pose.scripted_recoil=sample.recoil*.035
+	for i in actors.size():
+		actors[i].position=MMFAssets.v(sample.pursuers[i].position)-Vector3.UP*.96
+		actors[i].rotation.y=-PI/2;actors[i].visible=sample.pursuers[i].alive
+		animate(actors[i],"run" if sample.pursuers[i].speed>0.2 else "idle")
+	var pose=MMFOpeningPresentation.view(time,MMFAssets.v(sample.player.position))
+	set_transition(MMFOpeningPresentation.handoff_fade(time))
+	if time<9.98:
+		camera.position=pose.eye;camera.look_at(pose.target);camera.fov=pose.fov
+	else:
+		# Cut only on the opaque plateau; do not fly through the machine's masts.
+		player.yaw=0;player.update_camera(1 if time-dt<9.98 else dt)
+		camera.global_transform=player.camera.global_transform;camera.fov=player.camera.fov
+	while event_cursor<timeline.events.size() and time>=timeline.events[event_cursor].time:
+		var event=timeline.events[event_cursor];event_cursor+=1
+		if event.name in ["shot1","shot2"]:
+			game.audio.shot(false)
+			game.effects.tracer(player.weapon_pose.muzzle_position(),MMFAssets.v(sample.weaponAim),Color(1,.7,.2))
+		if event.name in ["kill1","kill2"]:
+			game.effects.explosion(actors[0 if event.name=="kill1" else 1].position+Vector3.UP,.85)
+			game.audio.cue(45,.65,-20,true)
+	if time>=10.2:finish()
+
 static func signal_fade(at: float) -> float:
 	if at<.26:return smoothstep(0,.20,at)
 	if at<.6:return 1-smoothstep(.32,.6,at)
@@ -212,6 +224,8 @@ func finish():
 
 func clear_scene(keep_prepared: bool=false):
 	set_transition(0)
+	game.player.weapon_pose.scripted_aim=false
+	game.player.weapon_pose.scripted_recoil=0
 	if scenery: scenery.queue_free()
 	scenery=null
 	human_ship=null;robot_ship=null;hero=null
