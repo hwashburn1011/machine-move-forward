@@ -72,7 +72,7 @@ func cancel():
 		preview = null
 
 func _unhandled_input(event):
-	if game == null or game.menu_open or game.cinematic != "": return
+	if game == null or game.menu_open or game.cinematic != "" or game.session.health<=0 or game.manual_turret!="": return
 	if event.is_action_pressed("build"):
 		if selected != "": cancel()
 		else: game.open_menu("Build")

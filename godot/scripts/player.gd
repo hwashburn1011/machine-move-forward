@@ -29,6 +29,10 @@ var burst_recovery=0.0
 var pose_modifier: MMFPlayerPose
 var recoil=0.0
 var equipment: MMFEquipment
+var capsule_shape: CapsuleShape3D
+var boundary: MMFGroundBoundary
+var dead=false
+var suppress_fire=false
 
 func setup(owner_game):
 	game = owner_game
@@ -42,6 +46,8 @@ func setup(owner_game):
 	var shape = CapsuleShape3D.new()
 	shape.radius = 0.34
 	shape.height = 1.92
+	capsule_shape=shape
+	boundary=MMFGroundBoundary.new(self)
 	capsule.shape = shape
 	capsule.position.y = 0.96
 	add_child(capsule)
@@ -119,7 +125,7 @@ func setup(owner_game):
 	position = Vector3(0, 16.1, -1)
 
 func _unhandled_input(event):
-	if game == null or game.menu_open or game.cinematic != "": return
+	if game == null or game.menu_open or game.cinematic != "" or game.session.health<=0: return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		yaw -= event.relative.x * 0.0022 * game.settings.sensitivity
 		pitch = clampf(pitch - event.relative.y * 0.0022 * game.settings.sensitivity, deg_to_rad(-70), deg_to_rad(75))
@@ -149,22 +155,29 @@ func play(wanted: String, one_shot: bool = false):
 	animator.play(found, 0.14)
 
 func _physics_process(dt):
-	if game == null or game.menu_open or game.cinematic != "" or forced_motion: return
-	if game.manual_turret!="":
-		game.update_manual_turret(dt)
-		return
+	if game == null or game.cinematic != "" or forced_motion: return
 	var state = game.session
 	hit_grace = maxf(0, hit_grace-dt)
 	fire_left = maxf(0, fire_left-dt)
 	burst_recovery=maxf(0,burst_recovery-dt)
 	if state.health <= 0:
+		if not dead: die()
 		death_left += dt
 		if death_left >= 3:
 			state.health = 100
 			death_left = 0
+			dead=false
 			hit_grace = 2
-			position = Vector3(0, 16.1, -1)
-			velocity = Vector3.ZERO
+			teleport(boundary.safe_position())
+			game.session.notify("Back aboard. Keep the Nomad moving.")
+		return
+	if game.menu_open:
+		# An unpaused panel away from the machine must not suspend gravity.
+		velocity.x=0;velocity.z=0;velocity.y-=22*dt
+		move_and_slide();boundary.observe();update_camera(dt)
+		return
+	if game.manual_turret!="":
+		game.update_manual_turret(dt)
 		return
 	if reload_left > 0:
 		reload_left = maxf(0, reload_left-dt)
@@ -195,10 +208,7 @@ func _physics_process(dt):
 				var ray = game.raycast(raised.origin + motion, raised.origin + motion - Vector3.UP*0.52, [get_rid()])
 				if not ray.is_empty() and ray.normal.y > 0.65: position.y = ray.position.y + 0.025
 	move_and_slide()
-	if position.y < 1.0:
-		state.health -= 25*dt
-		position.z += state.speed*dt
-	if position.y < -20: state.health = 0
+	boundary.observe()
 	if input.length() > 0.05 or aiming:
 		visual.rotation.y = lerp_angle(visual.rotation.y, yaw+PI, 1-exp(-14*dt))
 	var pose = "armed_"
@@ -208,7 +218,8 @@ func _physics_process(dt):
 		pose += "crouch_walk" if crouched else ("run" if run else "walk")
 		pose += "_left" if input.x < -0.5 else ("_right" if input.x > 0.5 else ("_back" if input.y > 0 else "_fwd"))
 	play(pose)
-	if (Input.is_action_pressed("fire") or burst_left>0) and game.building.selected == "" and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED: fire()
+	if not Input.is_action_pressed("fire"): suppress_fire=false
+	if not suppress_fire and (Input.is_action_pressed("fire") or burst_left>0) and game.building.selected == "" and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED: fire()
 	update_camera(dt)
 	if pose_modifier: pose_modifier.sample_feet()
 	recoil=lerpf(recoil,0,1-exp(-12*dt))
@@ -269,9 +280,26 @@ func reload_weapon():
 	game.audio.play_sound("reload-start")
 
 func take_damage(amount: float, _point: Vector3 = Vector3.ZERO):
-	if hit_grace > 0 or game.invulnerable or game.cinematic != "": return
+	if hit_grace > 0 or game.invulnerable or game.cinematic != "" or game.session.health<=0: return
 	game.session.health = maxf(0, game.session.health-amount)
 	game.session.attack_recent = 5
 	if game.menu_open: game.close_menu()
 	game.building.cancel()
 	game.effects.hit_flash()
+	if game.session.health<=0: die()
+
+func die():
+	dead=true;death_left=0;velocity=Vector3.ZERO
+	reload_left=0;burst_left=0;fire_left=0
+	game.building.cancel();game.salvage.cancel();game.dismount_turret()
+	game.home.chair_id=""
+	if game.menu_open: game.close_menu()
+	game.session.notify("S-07 down. Recovering aboard in 3 seconds…")
+
+func teleport(at: Vector3):
+	position=at;velocity=Vector3.ZERO
+	reset_physics_interpolation()
+	update_camera(1)
+	pivot.reset_physics_interpolation()
+	arm.reset_physics_interpolation()
+	camera.reset_physics_interpolation()

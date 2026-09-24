@@ -34,6 +34,7 @@ func refuel(): refuel_left=1.8
 func _process(dt: float):
 	if not player or not player.game.ui: return
 	var game=player.game
+	if game.session.health<=0 or (not game.menu_open and (Input.is_action_pressed("aim") or Input.is_action_pressed("fire"))): refuel_left=0
 	var terminal_open=game.menu_open and game.ui.page not in ["Title","Pause","Settings","Library"]
 	if wrist: wrist.visible=terminal_open
 	refuel_left=maxf(0,refuel_left-dt)

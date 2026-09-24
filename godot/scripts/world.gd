@@ -11,6 +11,11 @@ var layout=MMFDesertLayout.new()
 var last_chunk=Vector2i(999999,999999)
 var progress_signature=""
 var bearing_needle: Node3D
+var receiver: Node3D
+var receiver_body: StaticBody3D
+var receiver_module: Node3D
+var receiver_progress: Node3D
+var receiver_lamp: Node3D
 
 func sync_progress():
 	var signature=",".join(game.session.story.uniques)
@@ -50,6 +55,15 @@ func setup(owner_game):
 	add_child(machine)
 	gait.setup(game,machine)
 	for raw in game.runtime.colliders: MMFAssets.collider(self, raw)
+	# The receiver is hidden in the initial browser scene and is therefore absent
+	# from the visible-only machine bake. Restore its authored model and lifecycle.
+	receiver=MMFAssets.scene("models/authored/salvaged-radio.glb")
+	machine.add_child(receiver);receiver.position=Vector3(1,16.03,-9.8);receiver.hide()
+	receiver_module=MMFAssets.find_named(receiver,"ScannerModule")
+	receiver_progress=MMFAssets.find_named(receiver,"ScanProgress")
+	receiver_lamp=MMFAssets.find_named(receiver,"SignalLamp")
+	receiver_body=MMFAssets.collider(self,{"position":{"x":1,"y":16.75,"z":-9.8},"half":{"x":0.45,"y":0.72,"z":0.28}})
+	receiver_body.collision_layer=0
 	rotor = MMFAssets.find_named(machine, "Turbine_Rotor")
 	for source in ["FrontRight", "FrontLeft", "RearRight", "RearLeft"]:
 		var upper = MMFAssets.find_named(machine, "Leg_"+source+"_Upper")
@@ -174,6 +188,15 @@ func refresh_chunks(force: bool=false):
 
 func update(dt: float):
 	sync_progress()
+	var scanner=game.session.scanner
+	receiver.visible=game.session.facts.salvage
+	var receiver_layer=1 if receiver.visible else 0
+	if receiver_body.collision_layer!=receiver_layer:
+		receiver_body.collision_layer=receiver_layer
+		game.combat.layout_changed()
+	if receiver_module: receiver_module.visible=scanner.phase not in ["awaiting-receiver","awaiting-module"]
+	if receiver_progress: receiver_progress.scale.x=maxf(0.001,scanner.elapsedS/180)
+	if receiver_lamp: receiver_lamp.visible=game.session.powered.get("fixed-radio",false)
 	if bearing_needle: bearing_needle.rotation.y=-deg_to_rad(game.session.course)
 	var distance = game.session.distance
 	terrain_material.set_shader_parameter("distance_m", distance)

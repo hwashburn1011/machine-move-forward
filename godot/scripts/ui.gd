@@ -279,7 +279,9 @@ func navigation_page():
 				button("SECURE CACHE · 24 scrap / 2 components",func():game.opportunities.choose_salvage("secure"))
 				button("BROADCAST OVERRIDE · defend against a skiff for 48 scrap / 6 components",func():game.opportunities.choose_salvage("broadcast"),game.aboard())
 	if s.scanner.phase=="awaiting-module": button("INSTALL REPLACEMENT MODULE",func():s.install_scanner();refresh())
-	if s.scanner.phase=="installed": button("START RECEIVER SCAN",func():s.start_scan(game.aboard());refresh())
+	if s.scanner.phase=="installed": button("START RECEIVER SCAN",func():
+		if s.start_scan(game.aboard()): game.close_menu()
+		else: refresh())
 	if s.scanner.phase=="scanning": text_line("Signal coherence: %d%%" % (s.scanner.elapsedS/1.8))
 	if s.story.phase=="route-selection":
 		text_line(game.campaign.expedition().title,true)
@@ -369,4 +371,7 @@ func _process(dt):
 	hud.text="IRON NOMAD\n%.1f m/s · %dm\nFuel %d%% · Power %d/%d\nHealth %d · Water %d · Food %d\n%s %d / ∞" %[s.speed,s.distance,s.fuel,s.demand,s.capacity,s.health,s.hydration,s.nourishment,game.data.WEAPONS[s.current_weapon].name,s.weapons[s.current_weapon].ammoInMag]
 	objective.text=s.objective()
 	if game.building.selected!="": prompt.text="BUILD "+game.building.selected+"  ·  "+game.building.failure
-	else: prompt.text=game.interaction_prompt+"\n[TAB] Wrist terminal   [B] Build   [F] Salvage reel"
+	else:
+		var reel="CARGO IN SIGHTS · [%s] Throw hook"%game.key_label("reel") if game.salvage.aimed_crate()>=0 else "[%s] Throw salvage hook"%game.key_label("reel")
+		if game.salvage.busy(): reel="REELING CARGO" if game.salvage.reel_index>=0 else "HOOK OUT"
+		prompt.text=game.interaction_prompt+"\n[TAB] Wrist terminal   [B] Build   "+reel

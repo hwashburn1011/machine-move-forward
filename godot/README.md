@@ -14,6 +14,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Edit
 
 Controls: WASD move; mouse look; Shift sprint; Ctrl crouch; Space jump; left/right mouse fire/aim; R reload; 1/2 weapons; E interact/refuel/mount/cut grapple; F salvage reel; Tab terminal; Esc pause. V swaps shoulders outside construction. B opens construction, G the catalog, Q/E rotate, Page Up/Down choose a deck, Home follows the current deck, V relocates equipment, and hold X to dismantle. Rebind keys and adjust FOV, sensitivity, ambient volume, and VSync in Settings.
 
+F throws a visible hook and cable even when it misses, with the browser game's 34 m reach. Aim toward a cargo chest and reel it back to recover supplies and the receiver. C is also a crouch shortcut. The wrist terminal pauses the simulation while aboard; starting the scanner closes it so scanning can proceed. Falling toward radioactive sand returns the player to the last valid elevated platform, matching the current browser build. Combat death retains the three-second recovery and two-second protection.
+
 ## Rebuild native assets from a fresh checkout
 
 Use Node 22+ with the repository dependencies (`npm ci`), Chrome, and Godot 4.7.2. Set `MMF_GODOT` to its executable or pass `-Godot` below. Chrome defaults to the normal Windows installation; `MMF_CHROME` overrides its executable.
@@ -44,6 +46,7 @@ Native saves live under Godot's user data directory in `campaigns/`, with checks
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Test -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Test
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ParityTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
 ```
 

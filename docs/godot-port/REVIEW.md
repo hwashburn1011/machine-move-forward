@@ -2,6 +2,8 @@
 
 This is a playable native Godot port candidate beside the retained Three.js game, on branch `codex/godot-native-port`. It is not an embedded browser and does not replace the browser build. Original source baseline: `5d9f596`.
 
+Follow-up: [the gameplay defect pass](DEFECT-PASS.md) fixes grapple throwing, radioactive-ground recovery, death/mounted controls, terminal pausing and missing receiver presentation, with 56 additional input/physics checks.
+
 ## Implemented scope
 
 | Area | Native implementation and evidence |

@@ -99,7 +99,7 @@ func update(dt: float):
 	game.session.sheltered=room.get("enclosed",false) or (game.player.position.y<15.7 and game.aboard())
 	if chair_id!="":
 		var chair=game.session.find_piece(chair_id)
-		if chair.is_empty() or not room.get("enclosed",false) or not room.get("comfort",false) or game.combat.active_threat() or game.player.velocity.length()>0.2 or Input.is_action_pressed("fire") or game.session.health>=100 or game.building.center(chair.cell).distance_to(game.player.position)>2.8:
+		if chair.is_empty() or not room.get("enclosed",false) or not room.get("comfort",false) or game.combat.active_threat() or game.player.velocity.length()>0.2 or Input.is_action_pressed("fire") or game.session.health<=0 or game.session.health>=100 or game.building.center(chair.cell).distance_to(game.player.position)>2.8:
 			chair_id=""
 		else: game.session.health=minf(100,game.session.health+dt*2*(0.5 if game.session.nourishment<=0 else 1))
 	update_weather(dt)

@@ -7,6 +7,29 @@ var next_distance=90.0
 var reel_index=-1
 var hook_visual: Node3D
 var early=false
+const REEL_RANGE=34.0
+const HOOK_SPEED=42.0
+const REEL_CONE_COS=0.927
+var hook_phase=""
+var hook_distance=0.0
+var hook_origin=Vector3.ZERO
+var hook_direction=Vector3.FORWARD
+var return_from=Vector3.ZERO
+var return_distance=0.0
+var cable: MeshInstance3D
+
+func busy() -> bool:
+	return hook_phase!=""
+
+func hand_position() -> Vector3:
+	return game.player.position+Vector3.UP*1.31
+
+func cancel():
+	if reel_index>=0 and crates[reel_index].claimed=="manual": crates[reel_index].claimed=""
+	reel_index=-1
+	hook_phase=""
+	hook_visual.hide()
+	cable.hide()
 
 func snapshot() -> Array:
 	var result=[]
@@ -36,30 +59,79 @@ func setup(owner_game):
 	hook_visual=MMFAssets.scene("models/authored/forged-hook.glb")
 	add_child(hook_visual)
 	hook_visual.visible=false
+	cable=MeshInstance3D.new()
+	var cylinder=CylinderMesh.new()
+	cylinder.top_radius=0.012;cylinder.bottom_radius=0.012;cylinder.height=1;cylinder.radial_segments=6
+	cable.mesh=cylinder
+	var line_material=MMFAssets.material(Color.html("ffc27a"))
+	line_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED
+	cable.material_override=line_material
+	cable.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(cable);cable.hide()
 
 func _unhandled_input(event):
-	if game==null or game.menu_open or game.cinematic!="": return
-	if event.is_action_pressed("reel"):
-		if reel_index>=0: return
-		var best=-1
-		var score=1e20
-		var camera=game.player.camera
+	if event.is_action_pressed("reel") and not event.is_echo(): throw_hook()
+
+func throw_hook():
+	if game==null or game.menu_open or game.cinematic!="" or game.session.health<=0 or game.manual_turret!="" or game.building.selected!="" or busy(): return
+	hook_origin=hand_position();hook_direction=-game.player.camera.global_basis.z.normalized()
+	hook_distance=0;hook_phase="out";reel_index=-1
+	hook_visual.position=hook_origin;hook_visual.show();cable.show()
+	game.audio.play_sound("hook-throw")
+
+func aimed_crate() -> int:
+	var best=-1;var distance=REEL_RANGE+0.001
+	for i in crates.size():
+		var c=crates[i]
+		if not c.active or c.claimed not in ["","parked"]: continue
+		var delta=c.node.position-hand_position()
+		if delta.length()>0.001 and delta.length()<distance and (-game.player.camera.global_basis.z).dot(delta.normalized())>=REEL_CONE_COS:
+			best=i;distance=delta.length()
+	return best
+
+func update_hook(dt: float):
+	if not busy(): return
+	if game.session.health<=0: cancel();return
+	if hook_phase=="out":
+		var previous=hook_visual.position
+		hook_distance=minf(REEL_RANGE,hook_distance+HOOK_SPEED*dt)
+		hook_visual.position=hook_origin+hook_direction*hook_distance
+		var nearest=INF
 		for i in crates.size():
 			var c=crates[i]
 			if not c.active or c.claimed not in ["","parked"]: continue
-			var delta=c.node.position-game.player.position
-			if delta.length()>48: continue
-			var dot=(-camera.global_basis.z).dot(delta.normalized())
-			var cost=delta.length()*(2-dot)
-			if dot>0.35 and cost<score:
-				best=i
-				score=cost
-		if best>=0:
-			reel_index=best
-			crates[best].claimed="manual"
-			hook_visual.visible=true
-			game.audio.cue(230,0.1,-22)
-		else: game.session.notify("Aim toward a cargo crate within 48 m.")
+			var point=Geometry3D.get_closest_point_to_segment(c.node.position,previous,hook_visual.position)
+			if point.distance_to(c.node.position)<2.4 and point.distance_to(previous)<nearest:
+				nearest=point.distance_to(previous);reel_index=i
+		if reel_index>=0:
+			crates[reel_index].claimed="manual"
+			game.audio.play_sound("hook-catch")
+		if reel_index>=0 or hook_distance>=REEL_RANGE:
+			hook_phase="back";return_from=hook_visual.position;return_distance=hook_distance
+	else:
+		hook_distance=maxf(0,hook_distance-HOOK_SPEED*dt)
+		hook_visual.position=hand_position().lerp(return_from,hook_distance/maxf(return_distance,0.001))
+	if reel_index>=0: crates[reel_index].node.position=hook_visual.position
+	var span=hook_visual.position-hand_position()
+	cable.position=(hand_position()+hook_visual.position)*0.5
+	cable.quaternion=Quaternion(Vector3.UP,span.normalized()) if span.length()>0.001 else Quaternion.IDENTITY
+	cable.scale=Vector3(1,maxf(0.001,span.length()),1)
+	hook_visual.look_at(hook_visual.position+hook_direction,Vector3.UP)
+	if hook_phase=="out": hook_visual.rotate_object_local(Vector3.FORWARD,hook_distance*0.4)
+	if hook_phase=="back" and hook_distance<=0:
+		if reel_index>=0: receive(crates[reel_index])
+		reel_index=-1;hook_phase="";hook_visual.hide();cable.hide()
+
+func receive(c: Dictionary):
+	if not c.opened:
+		c.contents=game.session.salvage_reward();c.opened=true
+	for id in c.contents.keys():
+		c.contents[id]=game.session.add_resource(id,int(c.contents[id]))
+		if c.contents[id]<=0: c.contents.erase(id)
+	c.active=not c.contents.is_empty();c.node.visible=c.active
+	c.claimed="parked" if c.active else ""
+	if c.active: c.node.position=game.player.position+Vector3.UP*0.05+Vector3.RIGHT
+	game.session.notify("Storage full; remaining supplies stay in this crate." if c.active else "Cargo secured. Supplies transferred.")
 
 func update(dt: float):
 	if not game.session.opening_done: return
@@ -75,27 +147,7 @@ func update(dt: float):
 			if c.node.position.z>30:
 				c.active=false
 				c.node.visible=false
-		elif c.claimed=="manual":
-			var to=game.player.position+Vector3.UP*0.8
-			c.node.position=c.node.position.move_toward(to,12*dt)
-			hook_visual.position=c.node.position+Vector3.UP*0.4
-			game.effects.tracer(game.player.position+Vector3.UP*1.1,hook_visual.position,Color(0.2,0.18,0.13))
-			if c.node.position.distance_to(to)<0.2:
-				if not c.opened:
-					c.contents=game.session.salvage_reward()
-					c.opened=true
-				for id in c.contents.keys():
-					c.contents[id]=game.session.add_resource(id,int(c.contents[id]))
-					if c.contents[id]<=0: c.contents.erase(id)
-				if c.contents.is_empty():
-					c.active=false
-					c.node.visible=false
-					game.session.notify("Cargo secured. Supplies transferred.")
-				else: game.session.notify("Storage full; remaining supplies stay in this crate.")
-				c.claimed="parked" if c.active else ""
-				if c.active: c.node.position=game.player.position+Vector3.UP*0.05+Vector3.RIGHT
-				reel_index=-1
-				hook_visual.visible=false
+	update_hook(dt)
 	for p in game.session.structures:
 		if p.definitionId!="collector-auto" or not game.session.powered.get(p.instanceId,false): continue
 		var at=game.building.center(p.cell)

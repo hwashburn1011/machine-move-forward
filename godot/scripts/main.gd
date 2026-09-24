@@ -75,6 +75,10 @@ func configure_input():
 		var event=InputEventKey.new()
 		event.physical_keycode=int(settings.bindings.get(action,key_defaults[action]))
 		InputMap.action_add_event(action,event)
+	# Keep the browser's secondary crouch key unless the player remapped it.
+	if not settings.bindings.has("crouch") and KEY_C not in settings.bindings.values():
+		var alternate=InputEventKey.new();alternate.physical_keycode=KEY_C
+		InputMap.action_add_event("crouch",alternate)
 	for spec in [["fire",MOUSE_BUTTON_LEFT],["aim",MOUSE_BUTTON_RIGHT]]:
 		if not InputMap.has_action(spec[0]): InputMap.add_action(spec[0])
 		InputMap.action_erase_events(spec[0])
@@ -91,22 +95,30 @@ func save_settings():
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if settings.vsync else DisplayServer.VSYNC_DISABLED)
 	apply_quality()
 
+func key_label(action: String) -> String:
+	return OS.get_keycode_string(int(settings.bindings.get(action,key_defaults[action])))
+
 func _input(event):
 	if ui==null or ui.binding_action!="": return
 	if event.is_action_pressed("pause"):
 		if cinematic!="": cinematics.finish()
+		elif manual_turret!="": dismount_turret()
+		elif not menu_open and building.selected!="": building.cancel()
 		elif menu_open and started: close_menu()
 		else: open_menu("Pause" if started else "Title")
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("terminal") and cinematic=="" and started:
+	elif event.is_action_pressed("terminal") and cinematic=="" and started and session.health>0 and manual_turret=="":
 		if menu_open: close_menu()
 		else: open_menu("Inventory")
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("use") and not menu_open and cinematic=="" and building.selected=="": interact()
+	elif event.is_action_pressed("use") and not menu_open and cinematic=="" and building.selected=="" and session.health>0: interact()
 
 func open_menu(page: String):
+	if started and session.health<=0 and page not in ["Pause","Title","Settings","Library"]: return
 	menu_open=true
-	get_tree().paused=page in ["Title","Pause","Library","Settings"]
+	# The browser wrist terminal pauses the whole simulation while aboard.
+	get_tree().paused=page in ["Title","Pause","Library","Settings"] or (page!="Build" and started and aboard())
+	if page not in ["Build","Pause","Settings"]: building.cancel()
 	if started: player.play("armed_idle")
 	Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
 	ui.open(page)
@@ -117,6 +129,7 @@ func close_menu():
 	get_tree().paused=false
 	Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	ui.panel.hide()
+	player.suppress_fire=true
 
 func new_game():
 	started=true
@@ -157,7 +170,10 @@ func crosshair_hit(length: float=4) -> Dictionary:
 	return raycast(player.camera.global_position,player.camera.global_position-player.camera.global_basis.z*length,[player.get_rid()],5)
 
 func aboard() -> bool:
-	return (absf(player.position.x)<13.5 and absf(player.position.z)<15.5 or player.position.x>=-15 and player.position.x<=-11 and absf(player.position.z)<5) and player.position.y>8
+	if (absf(player.position.x)<13.5 and absf(player.position.z)<15.5 or player.position.x>=-15 and player.position.x<=-11 and absf(player.position.z)<5) and player.position.y>8: return true
+	# User-built deck extensions are part of the Nomad too.
+	var support=player.boundary.support_at(player.position)
+	return not support.is_empty() and player.boundary.support_root(support.collider)==self
 
 func weapon_definition() -> Dictionary:
 	var def=data.WEAPONS[session.current_weapon].duplicate(true)
@@ -193,8 +209,16 @@ func nearest_piece() -> Dictionary:
 			nearest=length
 	return best
 
+func near_receiver() -> bool:
+	var distance=player.position.distance_to(Vector3(1,16.03,-9.8))
+	return session.facts.salvage and distance<2.4 and distance<player.position.distance_to(Vector3(0,16.03,-10))
+
 func update_interaction(dt: float):
 	interaction_prompt=""
+	if menu_open or session.health<=0: hook_cut=0;return
+	if manual_turret!="": interaction_prompt="CREWING DECK GUN · [E] Dismount";return
+	if near_receiver():
+		interaction_prompt="[E] SCANNER / RECEIVER";return
 	var optional=opportunities.nearest()
 	if not optional.is_empty(): interaction_prompt="[E] "+optional.text;return
 	var nearby=campaign.nearest()
@@ -216,11 +240,11 @@ func update_interaction(dt: float):
 
 func interact():
 	if manual_turret!="":
-		manual_turret=""
-		player.camera.reparent(player.arm,false)
-		player.camera.position=Vector3.ZERO
-		player.camera.rotation=Vector3.ZERO
+		dismount_turret()
 		return
+	if session.health<=0: return
+	if combat.hook and is_instance_valid(combat.hook) and player.position.distance_to(combat.hook.position)<2.6: return
+	if near_receiver(): open_menu("Signal");return
 	var optional=opportunities.nearest()
 	if not optional.is_empty(): opportunities.interact(optional);return
 	var nearby=campaign.nearest()
@@ -234,6 +258,7 @@ func interact():
 	if player.position.distance_to(Vector3(0,16.03,-10))<3: open_menu("Helm")
 
 func service_piece(p: Dictionary):
+	if session.health<=0: return
 	if p.definitionId in ["generator","turret-manual","chair"] and building.center(p.cell).distance_to(player.position)>2.6:
 		session.notify("Approach this equipment on the deck to use it.")
 		return
@@ -248,7 +273,10 @@ func service_piece(p: Dictionary):
 		"shelf": ui.storage_id=p.instanceId;open_menu("Shelf")
 		"caretaker-dock": open_menu("Machine")
 		"turret-manual":
+			if p.health<=0: session.notify("Repair the deck gun first.");return
 			if not session.powered.get(p.instanceId,false): session.notify("Deck gun needs 3 power.");return
+			close_menu()
+			salvage.cancel();building.cancel()
 			manual_turret=p.instanceId
 			session.facts.defenseCrewed=true
 			player.camera.reparent(self)
@@ -261,6 +289,16 @@ func service_piece(p: Dictionary):
 			if p.definitionId=="seed-garden" and p.state.get("water",0)<2 and session.pay({"water":1}): p.state.water=p.state.get("water",0)+1
 			session.notify("Harvest transferred. Stored: %d" % p.state.stored)
 		_: session.repair(p.instanceId)
+
+func dismount_turret():
+	if manual_turret=="": return
+	manual_turret=""
+	player.camera.reparent(player.arm,false)
+	player.camera.position=Vector3.ZERO
+	player.camera.rotation=Vector3.ZERO
+	player.suppress_fire=true
+	player.update_camera(1)
+	player.camera.reset_physics_interpolation()
 
 func update_manual_turret(dt: float):
 	var p=session.find_piece(manual_turret)
@@ -292,11 +330,11 @@ func update_manual_turret(dt: float):
 		audio.cue(65,0.25,-14,true)
 
 func safe_to_save() -> bool:
-	return started and session.opening_done and cinematic=="" and session.health>0 and session.attack_recent<=0 and not combat.active_threat() and aboard()
+	return started and session.opening_done and cinematic=="" and session.health>0 and session.attack_recent<=0 and not combat.active_threat() and aboard() and not salvage.busy() and manual_turret==""
 
 func save_game(id: String) -> bool:
 	if not safe_to_save():
-		if id!="autosave": session.notify("Return aboard and secure the deck before saving.")
+		if id!="autosave": session.notify("Finish the salvage throw before saving." if salvage.busy() else ("Leave the deck gun before saving." if manual_turret!="" else "Return aboard and secure the deck before saving."))
 		return false
 	var result=MMFSaves.write(id,{"session":session.native_snapshot(),"player":{"position":MMFAssets.dict_v(player.position),"yaw":player.yaw,"pitch":player.pitch},"salvageDistance":salvage.next_distance,"cargo":salvage.snapshot()})
 	if not result: session.notify("Save failed. Your previous checkpoint was kept.")
@@ -320,7 +358,8 @@ func load_payload(payload: Dictionary):
 		session.notify("Campaign validation failed.")
 		return
 	session=trial
-	if manual_turret!="": interact()
+	dismount_turret()
+	salvage.cancel()
 	cinematics.clear_scene()
 	cinematic=""
 	if cinematics.rooftop: cinematics.rooftop.queue_free();cinematics.rooftop=null
@@ -367,9 +406,9 @@ func load_payload(payload: Dictionary):
 	if session.contacts.active.get("state","") in ["committed","docked","visited"]:
 		opportunities.create_site()
 		world.set_dock_open(session.contacts.active.state in ["docked","visited"])
-	salvage.reel_index=-1
-	salvage.hook_visual.hide()
 	player.death_left=0
+	player.dead=false;player.hit_grace=0;player.reload_left=0;player.burst_left=0
+	player.boundary.clear()
 	player.reset_physics_interpolation()
 	started=true
 	close_menu()
