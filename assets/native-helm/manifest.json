@@ -1,0 +1,44 @@
+{
+  "sourceRevision": "d78eb84",
+  "position": [
+    -3,
+    16.03,
+    -9
+  ],
+  "collisionIndex": 73,
+  "originalBox": {
+    "min": [
+      -0.6,
+      0,
+      -0.375
+    ],
+    "max": [
+      0.6,
+      1.35,
+      0.375
+    ]
+  },
+  "editableParts": 259,
+  "materialBatches": 17,
+  "masterTriangles": 63110,
+  "bytes": 4788196,
+  "bounds": {
+    "min": [
+      -0.5799999833106995,
+      0.0,
+      -0.36000001430511475
+    ],
+    "max": [
+      0.5799999237060547,
+      1.34904146194458,
+      0.3610000014305115
+    ]
+  },
+  "dialPivot": [
+    -0.17,
+    1.276,
+    0.01
+  ],
+  "dialPitch": 0.41,
+  "reference": "https://www.jrc.co.jp/hubfs/jrc-corp/assets/pdf/product/j_sbj-9200.pdf"
+}

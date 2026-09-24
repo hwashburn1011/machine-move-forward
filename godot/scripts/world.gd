@@ -11,7 +11,7 @@ var scatter_prototypes={}
 var streamer=MMFSceneryStream.new()
 var layout=MMFDesertLayout.new()
 var last_chunk=Vector2i(999999,999999)
-var progress_signature=""
+var progress_signature="uninitialized"
 var bearing_needle: Node3D
 var receiver: Node3D
 var receiver_body: StaticBody3D
@@ -24,18 +24,20 @@ func sync_progress():
 	var signature=",".join(game.session.story.uniques)
 	if signature==progress_signature: return
 	progress_signature=signature
+	helm_model.refresh(game.session)
 	var helm=MMFAssets.find_named(machine,"HelmRoot")
 	if not helm: return
 	var old=MMFAssets.find_named(helm,"NativeProgressHardware")
-	if old: old.queue_free()
+	if old: old.free()
+	bearing_needle=null
 	var hardware=Node3D.new();hardware.name="NativeProgressHardware";helm.add_child(hardware)
+	if not ["course-gyro","course-actuator","vector-governor","meridian-solution"].any(func(id):return id in game.session.story.uniques):return
 	var kit=MMFAssets.scene("models/authored/nomad-progress.glb")
 	for entry in [["course-actuator","HelmActuator"],["vector-governor","HelmGovernor"],["meridian-solution","HelmMeridian"]]:
 		if entry[0] not in game.session.story.uniques: continue
 		var original=MMFAssets.find_named(kit,entry[1])
 		if original:
 			var part=original.duplicate();hardware.add_child(part);part.position=Vector3.ZERO
-	bearing_needle=null
 	if "course-gyro" in game.session.story.uniques:
 		var pivot=Node3D.new();hardware.add_child(pivot);pivot.position=Vector3(-0.17,1.276,0.01);pivot.rotation.x=0.41
 		for name in ["HelmDialFace","HelmBearingNeedle"]:
@@ -49,6 +51,7 @@ var native_access: Node3D
 var native_dressing: Node3D
 var canopy=MMFMachineCanopy.new()
 var switchgear=MMFMachineSwitchgear.new()
+var helm_model=MMFMachineHelm.new()
 var parts = []
 var rotor: Node3D
 var native_intake: Node3D
@@ -71,6 +74,7 @@ func setup(owner_game):
 		native_dressing=MMFAssets.find_named(machine,"NativeDeckDressing")
 		native_intake=MMFAssets.find_named(machine,"NativeMainIntake")
 		canopy.bind(machine);switchgear.bind(machine)
+	helm_model.bind(machine)
 	gait.setup(game,machine)
 	setup_environment()
 
@@ -88,6 +92,7 @@ func assemble_machine(colliders: Array):
 	MMFMachineBenches.install(machine)
 	native_intake=MMFMachineIntake.install(machine)
 	canopy.install(machine)
+	MMFMachineHelm.install(machine)
 	# Compose the pump, bench and main-intake removals from the frozen mesh.
 	var workshop_collision=MMFAssets.json("res://art/nomad-intake-collision.json")
 	for index in colliders.size():
@@ -205,6 +210,7 @@ func refresh_chunks(force: bool=false):
 
 func update(dt: float):
 	sync_progress()
+	helm_model.update(dt,game.session)
 	atmosphere.update(dt)
 	canopy.update(dt,game.session.weather.intensity)
 	switchgear.update(dt,game.session)

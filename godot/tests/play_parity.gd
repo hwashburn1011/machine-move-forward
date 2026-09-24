@@ -86,7 +86,8 @@ func run():
 	check(press_button("START RECEIVER SCAN") and not game.menu_open and not paused,"Start-scan UI returns to gameplay rather than freezing the scan")
 	await frames(10)
 	check(game.session.scanner.elapsedS>0 and game.world.receiver_module.visible,"Powered scanner progresses and shows the installed module")
-	game.player.teleport(Vector3(0,16.1,-8.3));await frames(10);await tap(KEY_E)
+	# Exercise the actual visible helm, not its obsolete pre-layout trigger.
+	game.player.teleport(game.world.helm_model.root.global_position+Vector3(0,.07,1));await frames(10);await tap(KEY_E)
 	check(game.ui.page=="Helm" and game.menu_open,"Nearby receiver does not steal the helm interaction")
 	game.close_menu()
 	await key(KEY_C,true);await frames(3)

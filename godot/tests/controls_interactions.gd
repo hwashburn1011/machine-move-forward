@@ -204,8 +204,11 @@ func run():
 	check(game.settings.bindings.is_empty() and InputMap.action_get_events("crouch").size()==2,"Restore All reinstates default keys and secondary crouch")
 	game.started=false;game.open_menu("Settings");ui.return_button.pressed.emit()
 	check(ui.page=="Title","Settings opened before a campaign can return to the title")
+	while game.combat.nav.is_baking(): await create_timer(.1).timeout
+	var audio_refs=preload("res://tests/audio_drain.gd").capture(game.audio)
+	game.queue_free();while is_instance_valid(game):await process_frame
+	MMFAssets.cache.clear()
+	check(await preload("res://tests/audio_drain.gd").finish(self,audio_refs),"Control-test shutdown releases all mixer-owned audio streams")
 	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"renderer":RenderingServer.get_video_adapter_name()}
 	var file=FileAccess.open(output+"controls-interactions.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
-	while game.combat.nav.is_baking(): await create_timer(.1).timeout
-	game.queue_free();await frames(4);MMFAssets.cache.clear()
 	call_deferred("quit",0 if failures.is_empty() else 1)

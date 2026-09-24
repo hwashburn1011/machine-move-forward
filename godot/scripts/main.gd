@@ -301,8 +301,11 @@ func nearest_piece() -> Dictionary:
 	return best
 
 func near_receiver() -> bool:
-	var distance=player.position.distance_to(Vector3(1,16.03,-9.8))
-	return session.facts.salvage and distance<2.4 and distance<player.position.distance_to(Vector3(0,16.03,-10))
+	var distance=player.position.distance_to(world.receiver.global_position)
+	return session.facts.salvage and distance<2.4 and distance<helm_distance()
+
+func helm_distance() -> float:
+	return player.position.distance_to(world.helm_model.root.global_position)
 
 func interaction_target() -> Dictionary:
 	if menu_open or session.health<=0 or cinematic!="" or building.selected!="": return {}
@@ -317,7 +320,7 @@ func interaction_target() -> Dictionary:
 	if not nearby.is_empty(): return {"kind":"campaign","target":nearby,"text":"[{key:use}] "+nearby.label}
 	var p=nearest_piece()
 	if not p.is_empty(): return {"kind":"piece","target":p,"text":"[{key:use}] "+data.BUILD_PIECES[p.definitionId].name}
-	if player.position.distance_to(Vector3(0,16.03,-10))<3: return {"kind":"helm","text":"[{key:use}] NAVIGATION HELM"}
+	if helm_distance()<3: return {"kind":"helm","text":"[{key:use}] NAVIGATION HELM"}
 	return {}
 
 func reset_interaction_hold():

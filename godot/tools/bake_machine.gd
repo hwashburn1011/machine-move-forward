@@ -68,7 +68,12 @@ func run():
 		if name.begins_with("nomad-") and name.ends_with(".json") and name!="nomad-native-manifest.json":remember("res://art/"+name)
 	own(assembly,assembly)
 	var packed=PackedScene.new();assert(packed.pack(assembly)==OK)
-	assert(ResourceSaver.save(packed,OUTPUT,ResourceSaver.FLAG_COMPRESS)==OK)
+	var saved=ResourceSaver.save(packed,OUTPUT,ResourceSaver.FLAG_COMPRESS)
+	if saved!=OK:
+		# A Windows sharing violation must fail the setup command, not leave a
+		# headless engine waiting forever after a script assertion.
+		push_error("Native machine could not be saved: "+error_string(saved))
+		assembly.free();world.free();copies.clear();MMFAssets.cache.clear();call_deferred("quit",1);return
 	var dependencies=ResourceLoader.get_dependencies(OUTPUT)
 	assert(Array(dependencies).all(func(p):return not p.contains(".glb")),"Compiled machine must not pull obsolete GLB containers into memory")
 	var compact=full.duplicate();compact.erase("colliders")

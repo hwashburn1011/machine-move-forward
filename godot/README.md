@@ -38,6 +38,8 @@ The final machine is compiled into `art/nomad-native.scn` so normal launches do 
 
 Run these commands from the repository root with Godot 4.7.2. The full setup script also performs the bake. Commit the generated scene, its source/hash manifest and `data/runtime-play.json` together with the changed sources. The focused test rejects stale sources and compares the complete finished render/physics assembly, including resource sharing and animation bindings. The [compiled machine review](../docs/godot-port/compiled-machine-review.md) records memory measurements, native image comparisons and startup limits.
 
+The [helm review](../docs/godot-port/helm-review.md) covers its detailed Blender model, interaction at the actual console and hardware that reflects existing rewards. Its gyro lens is dark when unfitted, green when powered and amber during a supply shortage. Physical E still opens the existing Helm menu; nearby receiver prompts use the real station positions. The model retains the original collision and earned upgrade coordinates.
+
 ## Native implementation
 
 - `scripts/session.gd`: resources, recipes, power, fuel/crawl, progression, research, and save state.
