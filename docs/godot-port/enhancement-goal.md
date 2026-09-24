@@ -12,7 +12,7 @@ Requirements for eventual completion review:
 - Validate saves, campaign progression, interactions, construction, combat and traversal after relevant changes. Keep personal saves/settings and the Three.js implementation safe.
 - Before calling the entire goal complete, revisit all these requirements with current evidence and inspect remaining high-value gaps. A green narrow test or a completed iteration is not whole-goal completion.
 
-## Current iteration: atmosphere and effect allocation
+## Completed iteration: atmosphere and effect allocation
 
 Starting state: `a124e43`, previous campaign-polish work committed and verified. Initial inspection confirms that transient tracers/sparks allocate nodes, mesh resources and materials on each shot, while machine dust currently emits at a fixed rate regardless of movement.
 
@@ -28,3 +28,18 @@ Tasks:
 Later priorities remain open: streaming boundary spikes, dense construction workloads, material/animation coherence, camera readability at stations, long-session memory and full human campaign pacing. They must be inspected rather than assumed solved.
 
 Iteration review: [atmosphere, grounding and effect allocation](atmosphere-review.md). Art review also uncovered and fixed a several-metre CPU/GPU dune-height discrepancy. The full goal remains active; this is a completed, measured iteration rather than a claim that no further improvements are possible.
+
+## Completed iteration: scenery streaming and resource lifetime
+
+Starting state: `e8fea34`. The preceding turn made verified progress and committed its code, authored art and evidence. Fresh accelerated GPU travel found 19–25 ms lateral-boundary construction spikes while live resource counts remained broadly stable over 15 km.
+
+1. Capture boundary-specific timings and resource counts, including lateral reversals and ordinary updates between boundaries. Distinguish accelerated stress from normal gameplay frame rate.
+2. Save the pre-change rendered geometry/transform contract for two complete scenery windows. Preserve all original models, seed layouts, density, visibility distances and instancing/shadow settings.
+3. Split chunk creation into resumable steps. Prepare an upcoming row and a nearby side band using roughly 0.8 ms per update, with a strict bounded set of at most 13 ready/unfinished chunks. Keep prepared nodes outside the visible scene.
+4. Activate complete cached chunks at the original boundaries. Retain useful retired chunks for immediate reversals; synchronously fill the full visible range on unexpected relocation or save load. Discard obsolete work and old-seed caches safely.
+5. Reuse already-calculated CPU bounds for ambient-prop clearance rather than reading transforms back from the render server.
+6. Validate contract parity, cache bounds, cancellation, both travel directions, seed changes and shutdown. Repeat identical GPU boundary samples, an accelerated resource soak, and relevant gameplay regressions; record costs and limitations.
+
+Follow-up review still includes dense player construction, station-camera readability, visual coherence and normal-speed campaign feel. This iteration does not narrow or complete the overall objective.
+
+Iteration review: [scenery streaming](streaming-review.md). Prepared crossings retain the original rendered layout; bounded-cache and gameplay regressions pass. Profiling also found and removed repeated beacon shader loading. The full goal remains active.

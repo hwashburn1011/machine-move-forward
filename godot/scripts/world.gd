@@ -7,6 +7,8 @@ var chunks = {}
 var library: Node3D
 var prototypes = {}
 var scatter_library: Node3D
+var scatter_prototypes={}
+var streamer=MMFSceneryStream.new()
 var layout=MMFDesertLayout.new()
 var last_chunk=Vector2i(999999,999999)
 var progress_signature=""
@@ -102,7 +104,11 @@ func setup(owner_game):
 		if "__lod" in node.name: continue
 		prototypes[String(node.name)] = node
 	scatter_library=MMFAssets.scene("runtime/scatter.glb")
+	for spec in MMFSceneryChunk.SCATTER:
+		var source=MMFAssets.find_named(scatter_library,spec[0])
+		if source is MeshInstance3D:scatter_prototypes[spec[0]]=source
 	atmosphere.setup(game)
+	streamer.setup(self)
 	refresh_chunks()
 
 func lighting():
@@ -147,51 +153,7 @@ func lighting():
 		add_child(light)
 
 func refresh_chunks(force: bool=false):
-	var current=int(floor(game.session.distance/64))
-	var band=int(floor(game.session.lateral/256))
-	if not force and last_chunk==Vector2i(current,band): return
-	last_chunk=Vector2i(current,band)
-	if force:
-		for node in chunks.values(): node.queue_free()
-		chunks.clear()
-	for key in chunks.keys():
-		if key.x < -current-6 or key.x > -current+2 or absi(key.y-band)>1:
-			chunks[key].queue_free();chunks.erase(key)
-	for chunk_index in range(-current-6,-current+3):
-		for band_index in range(band-1,band+2):
-			var key=Vector2i(chunk_index,band_index)
-			if chunks.has(key): continue
-			# Set the initial transform before entering the tree: title/load frames
-			# must not pile all scenery at the origin or interpolate it outward.
-			var chunk=Node3D.new()
-			chunk.position=Vector3(band_index*256-game.session.lateral,0,game.session.distance+chunk_index*64)
-			add_child(chunk);chunks[key]=chunk
-			var seed_name=game.session.seed_name if band_index==0 else game.session.seed_name+":x-band:"+str(band_index)
-			for p in layout.generate(seed_name,chunk_index):
-				if not prototypes.has(p.kind): continue
-				var original: MeshInstance3D=prototypes[p.kind]
-				var part=original.duplicate();var b=original.get_aabb()
-				var size=p.width/maxf(maxf(b.size.x,b.size.z),0.01)
-				part.scale=Vector3.ONE*size;part.rotation_order=EULER_ORDER_XYZ
-				part.rotation=Vector3(0,p.yaw,p.tilt)
-				var site_x=band_index*256+p.x;var site_z=chunk_index*64+p.z
-				var ground=MMFDunes.height_at(site_x,site_z);var half=p.width*0.32
-				for dx in [-half,half]:
-					for dz in [-half,half]: ground=minf(ground,MMFDunes.height_at(site_x+dx,site_z+dz))
-				part.position=Vector3(p.x,ground-b.size.y*size*p.burial,p.z)-part.basis*Vector3(b.get_center().x,b.position.y,b.get_center().z)
-				part.visibility_range_end=620
-				chunk.add_child(part)
-			for spec in [["rocks","rock",11,0.8,3.4,-1,0.25],["slabs","slab",4,1.2,3.0,-1,0.25],["debris","debris",3,0.5,1.4,-1,0.25],["scrap","scrap",2,0.7,1.8,-1,0.25],["scrub","scrub",1,0.55,1.35,-1,0.25],["nearField","near",22,0.35,1.1,-1,0.25],["wreck-wreck","wreck-wreck",1,9,17,0.34,0.26],["wreck-containers","wreck-containers",3,4,7.5,0.26,0.16],["wreck-debris","wreck-debris",5,1.6,3.4,0.2,0.3]]:
-				var source=MMFAssets.find_named(scatter_library,spec[0])
-				if not source or not source is MeshInstance3D: continue
-				var transforms=MMFDesertLayout.scatter(seed_name,chunk_index,band_index,spec[1],spec[2],spec[3],spec[4],spec[5],spec[6])
-				var batch=MultiMeshInstance3D.new();var multimesh=MultiMesh.new()
-				multimesh.transform_format=MultiMesh.TRANSFORM_3D;multimesh.mesh=source.mesh;multimesh.instance_count=transforms.size()
-				for i in transforms.size(): multimesh.set_instance_transform(i,transforms[i])
-				batch.multimesh=multimesh;batch.visibility_range_end=620
-				if spec[0] not in ["rocks","slabs","wreck-wreck"]: batch.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-				chunk.add_child(batch)
-			atmosphere.place(chunk,seed_name,chunk_index,band_index)
+	streamer.refresh(force)
 
 func update(dt: float):
 	sync_progress()
@@ -213,11 +175,13 @@ func update(dt: float):
 	for key in chunks:
 		chunks[key].position.z = distance+key.x*64
 		chunks[key].position.x = key.y*256-game.session.lateral
+	streamer.prepare()
 	if rotor: rotor.rotation.y = distance*0.8
 	gait.update(distance,game.session.lateral)
 	world_environment.environment.fog_density = 0.0018+game.session.weather.intensity*0.018
 
 func _exit_tree():
+	streamer.clear()
 	atmosphere.clear()
 	if is_instance_valid(library): library.free()
 	if is_instance_valid(scatter_library): scatter_library.free()
