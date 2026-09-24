@@ -46,6 +46,7 @@ func sync_progress():
 	kit.free()
 var machine: Node3D
 var native_access: Node3D
+var native_dressing: Node3D
 var parts = []
 var rotor: Node3D
 var seed_value = 0
@@ -58,6 +59,7 @@ func setup(owner_game):
 	machine = MMFAssets.scene("runtime/machine.glb")
 	add_child(machine)
 	native_access=MMFMachineAccess.install(self)
+	native_dressing=MMFMachineDressing.install(machine)
 	gait.setup(game,machine)
 	for raw in game.runtime.colliders:
 		var body=MMFAssets.collider(self,raw)

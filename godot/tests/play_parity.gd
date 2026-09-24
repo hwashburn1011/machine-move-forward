@@ -198,11 +198,13 @@ func run():
 	await tap(KEY_F)
 	game.load_game("native-parity");await frames(3)
 	check(not game.salvage.busy() and not game.salvage.cable.visible,"Loading clears an in-flight hook and cable")
-	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"renderer":RenderingServer.get_video_adapter_name()}
-	var file=FileAccess.open(output+"play-parity.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	game.open_menu("Pause")
 	while game.combat.nav.is_baking(): await create_timer(0.02).timeout
-	game.queue_free();await create_timer(.1).timeout
+	var audio_refs=preload("res://tests/audio_drain.gd").capture(game.audio)
+	game.queue_free();while is_instance_valid(game):await process_frame
 	MMFAssets.cache.clear()
+	check(await preload("res://tests/audio_drain.gd").finish(self,audio_refs),"Shutdown releases in-flight hook and synthetic audio streams")
+	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"renderer":RenderingServer.get_video_adapter_name()}
+	var file=FileAccess.open(output+"play-parity.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	# Let the suspended run() stack release its locals before engine shutdown.
 	call_deferred("quit",0 if failures.is_empty() else 1)

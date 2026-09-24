@@ -174,3 +174,14 @@ Starting state: `5152574`. The preceding turn made verified progress on both Ble
 4. Verify against rendered MultiMesh geometry and finer dune samples, inspect native views, measure clean activation timing and run scenery/gameplay regressions. Trace and clean up active audio playback at shutdown.
 
 Iteration review: [battle clearance](crossfire-clearance-review.md). All 503 assertions pass. The six sampled routes avoid actual scenery, and the real-time prepared entry takes 21.684 ms versus the preceding 20.379 ms sample. The full goal remains active; full-campaign feel, control hints, remaining visual coherence and unrelated intermittent rendering stalls still require work.
+
+## Completed iteration: secured service drums and imported collision
+
+Starting state: `09244a9`. Inspect the native deck/source before refining the three service drums. They already reach the deck, but lack convincing securing hardware and surface definition.
+
+1. Author three detailed Blender assemblies with rolled steel profiles, capped lids, continuous cylindrical UVs, curved labels, bolted cradles and restraining hoops. Keep original sites and footprint; face the port drum toward its open aisle.
+2. Remove only complete drum components from two frozen batches, preserve unrelated coordinates/materials and retain existing access refinements. Export static material batches and inspect studio/MCP/native views.
+3. Reproduce and fix the missing triangle-winding conversion in the native frozen-collider import. Verify near-face rays, swept-body contact and actual player walking without adding collision geometry.
+4. Run access, camera and gameplay regressions; measure matching native views and retain reproducible evidence. Drain pending audio in the play-parity test's shutdown using the existing helper.
+
+Iteration review: [deck fittings and collision](deck-dressing-review.md). All 457 selected assertions pass. The three detailed props add 0.053–0.064 ms median GPU cost in the measured close views. The full goal remains active; nearby cargo surface coherence, full-campaign feel and the independent intermittent-stall investigation remain open.

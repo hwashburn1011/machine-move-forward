@@ -93,9 +93,16 @@ static func collider(parent: Node3D, raw: Dictionary) -> StaticBody3D:
 		var shape = ConcavePolygonShape3D.new()
 		var faces = PackedVector3Array()
 		var vertices = raw.vertices
-		for idx in raw.get("indices", []):
-			var i = int(idx) * 3
-			faces.append(Vector3(vertices[i], vertices[i+1], vertices[i+2]))
+		var indices = raw.get("indices", [])
+		faces.resize(indices.size())
+		# This input is the frozen Three.js/Rapier bake, whose front faces use
+		# counterclockwise winding. Godot needs clockwise triangles; retaining
+		# the old order makes exterior surfaces collide from the inside.
+		var order = [0,2,1]
+		for triangle in range(0,indices.size(),3):
+			for corner in 3:
+				var i = int(indices[triangle+order[corner]]) * 3
+				faces[triangle+corner] = Vector3(vertices[i], vertices[i+1], vertices[i+2])
 		shape.set_faces(faces)
 		col.shape = shape
 	else:
