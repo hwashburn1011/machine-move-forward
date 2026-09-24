@@ -2,6 +2,8 @@
 
 Three original Blender refinements for the native Godot machine. These replace the existing upper-deck service drums at their original positions. They are static scenery, with no new interaction or resource rules.
 
+The later [cargo-case refinement](../native-cargo-lockers/README.md) consolidates runtime batch replacement. The drum asset below is unchanged; `RetainedCargoFittings.blend` and `nomad-cargo-fittings.glb` now retain the preceding handle geometry for historical comparison, while the current machine uses the refined cases and retained pressure fittings.
+
 - `NomadServiceDrums.blend`: editable studio with 60 named mesh parts per drum, packed PBR textures, camera and lighting.
 - `RetainedCargoFittings.blend`: the unchanged non-drum geometry from the affected frozen cargo batch, with its original materials.
 - `service-drums.png`: inspected Cycles studio render.

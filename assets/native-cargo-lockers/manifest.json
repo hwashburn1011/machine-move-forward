@@ -1,0 +1,83 @@
+{
+  "sourceRevision": "9d2672d",
+  "trim": [
+    {
+      "original": "Secured_weatherproof_cargo_locker001",
+      "replacement": "",
+      "removedVertices": 776,
+      "unchangedVertices": 0,
+      "originalTriangles": 368,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "original": "Secured_weatherproof_cargo_locker001_1",
+      "replacement": "NativePressureAccumulators",
+      "removedVertices": 288,
+      "unchangedVertices": 387,
+      "originalTriangles": 316,
+      "keptTriangles": 220,
+      "unchangedCoordinatesSha256": "4688996a0d2f7f152d97ab005d890772e11964159114912120ea734275809246"
+    },
+    {
+      "original": "Secured_weatherproof_cargo_locker001_2",
+      "replacement": "",
+      "removedVertices": 1943,
+      "unchangedVertices": 0,
+      "originalTriangles": 1772,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "original": "Secured_weatherproof_cargo_locker001_5",
+      "replacement": "",
+      "removedVertices": 266,
+      "unchangedVertices": 0,
+      "originalTriangles": 140,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "sites": [
+    {
+      "name": "CargoLocker1",
+      "position": [
+        8.525,
+        16.03,
+        7.54
+      ],
+      "yaw": 0
+    },
+    {
+      "name": "CargoLocker2",
+      "position": [
+        -8.9375,
+        16.03,
+        -8.19
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "CargoLocker3",
+      "position": [
+        8.8,
+        12.43,
+        9.88
+      ],
+      "yaw": 0
+    },
+    {
+      "name": "CargoLocker4",
+      "position": [
+        6.875,
+        8.83,
+        -6.5
+      ],
+      "yaw": 3.141592653589793
+    }
+  ],
+  "editableParts": 157,
+  "masterTriangles": 24790,
+  "materialBatches": 4,
+  "bytes": 3560408
+}

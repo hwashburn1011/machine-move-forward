@@ -185,3 +185,14 @@ Starting state: `09244a9`. Inspect the native deck/source before refining the th
 4. Run access, camera and gameplay regressions; measure matching native views and retain reproducible evidence. Drain pending audio in the play-parity test's shutdown using the existing helper.
 
 Iteration review: [deck fittings and collision](deck-dressing-review.md). All 457 selected assertions pass. The three detailed props add 0.053–0.064 ms median GPU cost in the measured close views. The full goal remains active; nearby cargo surface coherence, full-campaign feel and the independent intermittent-stall investigation remain open.
+
+## Completed iteration: shared detailed cargo cases
+
+Starting state: `9d2672d`. The preceding turn made verified progress on service drums and imported collision. Review all four neighbouring fixed cargo cases before replacing their plain surfaces and sparse hardware.
+
+1. Audit native/source bounds, placements and nearby pressure-vessel clearance. Author an editable Blender master with real closure hardware, rounded/clipped corners, pressed panels, original PBR wear and deck restraints.
+2. Inspect studio, MCP and native views, then correct the corner guards, lid recess, numerical bevel slivers and dark stencil readability. Preserve original sites and make opening faces point toward the aisles.
+3. Install one shared four-batch model at four sites. Consolidate batch removal while preserving original pressure fittings/materials and the previous drum/access/cable refinements. Keep collision and gameplay intact.
+4. Verify physical walking and ray contact, measured vessel clearance, grounding, resource sharing, camera and gameplay regressions. Retain matching GPU samples and review artifacts.
+
+Iteration review: [fixed cargo cases](cargo-locker-review.md). All 513 selected assertions pass. The broader goal remains active; adjacent pressure-vessel/switchgear detail, full-campaign feel and independent frame stalls remain open.

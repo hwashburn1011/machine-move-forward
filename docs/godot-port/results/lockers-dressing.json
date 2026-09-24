@@ -1,0 +1,36 @@
+{
+	"checks": 37,
+	"failures": [],
+	"models": [
+		{
+			"bounds": "[P: (-0.286, -0.000001, -0.306), S: (0.572001, 0.862001, 0.607866)]",
+			"degenerateTriangles": 0,
+			"name": "ServiceDrum1",
+			"physicsHit": "{ \"position\": (9.625, 16.53, 7.52), \"normal\": (0.083672, 0.0, -0.996493), \"face_index\": 98162, \"collider_id\": 95797906360, \"collider\": @StaticBody3D@183:<StaticBody3D#95797906360>, \"shape\": 0, \"rid\": RID(4814658338908) }",
+			"surfaces": 5,
+			"triangles": 16288
+		},
+		{
+			"bounds": "[P: (-0.286, -0.000001, -0.306), S: (0.572001, 0.862001, 0.607866)]",
+			"degenerateTriangles": 0,
+			"name": "ServiceDrum2",
+			"physicsHit": "{ \"position\": (-9.625, 16.53, -6.78), \"normal\": (-0.08366, 0.0, -0.996494), \"face_index\": 98321, \"collider_id\": 95797906360, \"collider\": @StaticBody3D@183:<StaticBody3D#95797906360>, \"shape\": 0, \"rid\": RID(4814658338908) }",
+			"surfaces": 5,
+			"triangles": 16628
+		},
+		{
+			"bounds": "[P: (-0.286, -0.000001, -0.306), S: (0.572, 0.862001, 0.607866)]",
+			"degenerateTriangles": 0,
+			"name": "ServiceDrum3",
+			"physicsHit": "{ \"position\": (5.5, 16.53, 10.12), \"normal\": (-0.08366, 0.0, -0.996494), \"face_index\": 98477, \"collider_id\": 95797906360, \"collider\": @StaticBody3D@183:<StaticBody3D#95797906360>, \"shape\": 0, \"rid\": RID(4814658338908) }",
+			"surfaces": 5,
+			"triangles": 16860
+		}
+	],
+	"passed": true,
+	"retained": {
+		"maximumCoordinateErrorM": 0.000397025287384167,
+		"newPoints": 120,
+		"oldUnselectedPoints": 120
+	}
+}

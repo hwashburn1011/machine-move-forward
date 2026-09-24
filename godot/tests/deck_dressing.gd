@@ -13,20 +13,20 @@ func check(ok: bool,label: String):
 	checks+=1;print("PASS " if ok else "FAIL ",label)
 	if not ok:failures.append(label)
 
-func in_drum(at: Vector3) -> bool:
-	for site in SITES:
-		if absf(at.x-site.x)<.31 and at.y>site.y-.015 and at.y<site.y+.895 and absf(at.z-site.z)<.33:return true
+func in_locker(at: Vector3) -> bool:
+	for site in [Vector3(8.525,16.03,7.54),Vector3(-8.9375,16.03,-8.19),Vector3(8.8,12.43,9.88),Vector3(6.875,8.83,-6.5)]:
+		if absf(at.x-site.x)<.565 and at.y>site.y-.03 and at.y<site.y+.90 and absf(at.z-site.z)<.54:return true
 	return false
 
 func vertex_key(at: Vector3) -> String:
 	return "%d/%d/%d" % [roundi(at.x*1000),roundi(at.y*1000),roundi(at.z*1000)]
 
-func vertices(mesh: MeshInstance3D,exclude_drums=false) -> Dictionary:
+func vertices(mesh: MeshInstance3D,exclude_lockers=false) -> Dictionary:
 	var result={}
 	for s in mesh.mesh.get_surface_count():
 		for point in mesh.mesh.surface_get_arrays(s)[Mesh.ARRAY_VERTEX]:
 			var at=mesh.global_transform*point
-			if not exclude_drums or not in_drum(at):result[vertex_key(at)]=at
+			if not exclude_lockers or not in_locker(at):result[vertex_key(at)]=at
 	return result
 
 func run():
@@ -37,8 +37,8 @@ func run():
 	var machine=game.world.machine;var dressing=game.world.native_dressing
 	check(dressing!=null and dressing.get_parent()==machine,"Detailed dressing is installed on the actual machine")
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
-	var old_fittings=MMFAssets.find_named(original,"Secured_weatherproof_cargo_locker001_2")
-	var new_fittings=MMFAssets.find_named(machine,"NativeCargoFittings")
+	var old_fittings=MMFAssets.find_named(original,"Secured_weatherproof_cargo_locker001_1")
+	var new_fittings=MMFAssets.find_named(machine,"NativePressureAccumulators")
 	var expected=vertices(old_fittings,true);var actual=vertices(new_fittings)
 	var maximum_error=0.0
 	for point in expected.values():
@@ -47,16 +47,16 @@ func run():
 		maximum_error=maxf(maximum_error,nearest)
 	# Godot quantizes imported vertices relative to each batch's new AABB. Source
 	# coordinates are exact; allow less than one millimetre of GPU import error.
-	check(expected.size()==actual.size() and maximum_error<.001,"Every unrelated cargo fitting retains its world coordinates within GPU import precision")
+	check(expected.size()==actual.size() and maximum_error<.001,"Every retained pressure fitting keeps its world coordinates within GPU import precision")
 	check(new_fittings.get_active_material(0)==old_fittings.get_active_material(0),"Retained fittings reuse the original texture/material resource")
 	check(MMFAssets.find_named(machine,"Secured_weatherproof_cargo_locker001_2")==null and MMFAssets.find_named(machine,"Secured_weatherproof_cargo_locker001_5")==null,"Coincident old drums and bead geometry are removed")
 	# Existing access cable derivative still owns the affected stair-side bundle.
 	check(MMFAssets.find_named(machine,"NativeCargoCables")!=null and MMFAssets.find_named(machine,"NativeSideWiring")!=null,"Stair-side cable clearance refinements remain installed")
 	var untouched=true
-	for name in ["Secured_weatherproof_cargo_locker001","Secured_weatherproof_cargo_locker001_1","Secured_weatherproof_cargo_locker001_3"]:
+	for name in ["Secured_weatherproof_cargo_locker001_3"]:
 		var old=MMFAssets.find_named(original,name);var current=MMFAssets.find_named(machine,name)
 		untouched=untouched and current!=null and current.mesh==old.mesh and current.global_transform.is_equal_approx(old.global_transform)
-	check(untouched,"Cargo lockers and other unselected batches stay identical by mesh and transform")
+	check(untouched,"Unselected cargo hose batch stays identical by mesh and transform")
 	report.retained={"oldUnselectedPoints":expected.size(),"newPoints":actual.size(),"maximumCoordinateErrorM":maximum_error}
 	var total_triangles=0;var total_surfaces=0
 	for i in SITES.size():
