@@ -1,6 +1,8 @@
 class_name MMFPlayerLocomotion
 extends RefCounted
 
+signal foot_planted(side: String)
+
 # Presentation follows displacement from the character controller. One shared
 # phase drives all directions/gaits; no animation track moves the capsule.
 const DIRECTIONS=["fwd","fwd_right","right","back_right","back","back_left","left","fwd_left"]
@@ -111,6 +113,12 @@ func update(dt: float,world_motion: Vector3):
 	phase_step=cycles_per_second*dt;phase=fposmod(phase+phase_step,1)
 	player.animation="grounded_locomotion" if move_weight>0 else ("armed_crouch_idle" if player.crouched else "armed_idle")
 	player.animation_speed=cycles_per_second
+	# The authored right/left contacts begin at phase 0 / .5. Drive sound from
+	# this same displacement-derived phase, including strafing and crouching.
+	# A discontinuous diagnostic/relocation step must not create a sound burst.
+	if phase_step>0 and phase_step<=.5:
+		var contact=int(floor((previous_phase+phase_step)*2))
+		if contact>int(floor(previous_phase*2)): foot_planted.emit("r" if contact%2==0 else "l")
 
 func render(fraction: float,dt: float=0.0):
 	if not active:return

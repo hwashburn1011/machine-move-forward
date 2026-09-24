@@ -30,6 +30,8 @@ The focused suite uses `native-controls-tests/`; personal campaigns/settings are
 
 One headless story run executed concurrently with the rendered controls suite completed all 58 assertions but reported 11 leaked ObjectDB instances / 3 resources at shutdown. The original serialized run and four subsequent serialized verbose runs exited cleanly. The failing run did not include resource identities, so this remains an unresolved intermittent shutdown diagnostic; it is not evidence of a clean leak fix. No new audio/resource workaround was added here. The focused rendered, physical parity, integration and import logs contained no errors or warnings.
 
+Follow-up: the [audio review](audio-contact-review.md) isolates this class of diagnostic with an engine-only reproduction and verifies actual stream release during teardown. The paragraph above records the evidence available when this controls pass was committed.
+
 This iteration is a controls/usability correction, not an FPS claim. The retained Three.js game is unchanged. Native keyboard/mouse controls remain the supported input surface; gamepad remapping is outside this pass.
 
 ```powershell

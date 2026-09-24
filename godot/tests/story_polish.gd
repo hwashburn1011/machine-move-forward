@@ -178,9 +178,11 @@ func run():
 	game.combat.cut_hook(game.combat.hook.position);game.ui._process(0)
 	check(not game.ui.boarding.visible,"Cutting grapple clears boarding indicator")
 	game.open_menu("Pause")
+	while game.combat.nav.is_baking(): await create_timer(.1).timeout
+	var audio_refs=preload("res://tests/audio_drain.gd").capture(game.audio)
+	game.queue_free();await frames(4);MMFAssets.cache.clear()
+	check(await preload("res://tests/audio_drain.gd").finish(self,audio_refs),"Shutdown releases all mixer-owned audio streams")
 	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"renderer":RenderingServer.get_video_adapter_name()}
 	var file=FileAccess.open(output+"story-polish.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
-	while game.combat.nav.is_baking(): await create_timer(.1).timeout
-	game.queue_free();await frames(4);MMFAssets.cache.clear()
 	# Match the physical-parity harness: release suspended locals before exit.
 	call_deferred("quit",0 if failures.is_empty() else 1)
