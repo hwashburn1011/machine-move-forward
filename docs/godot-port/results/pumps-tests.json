@@ -1,0 +1,122 @@
+{
+	"checks": 45,
+	"collision": [
+		{
+			"playerStopM": 0.925018310546875,
+			"playerY": 12.4303970336914,
+			"rays": [
+				{
+					"body": "ServicePump1Collision:<StaticBody3D#114185735409>",
+					"height": 0.1,
+					"hit": "(4.5, 12.53, -3.39)"
+				},
+				{
+					"body": "ServicePump1Collision:<StaticBody3D#114185735409>",
+					"height": 0.45,
+					"hit": "(4.5, 12.88, -3.024736)"
+				},
+				{
+					"body": "ServicePump1Collision:<StaticBody3D#114185735409>",
+					"height": 0.65,
+					"hit": "(4.5, 13.08, -3.102)"
+				},
+				{
+					"body": "ServicePump1Collision:<StaticBody3D#114185735409>",
+					"height": 0.9,
+					"hit": "(4.5, 13.33, -2.96914)"
+				}
+			],
+			"site": "(4.5, 12.43, -2.8)"
+		},
+		{
+			"playerStopM": 0.925024151802063,
+			"playerY": 12.4303970336914,
+			"rays": [
+				{
+					"body": "ServicePump2Collision:<StaticBody3D#114219289843>",
+					"height": 0.1,
+					"hit": "(4.5, 12.53, 2.21)"
+				},
+				{
+					"body": "ServicePump2Collision:<StaticBody3D#114219289843>",
+					"height": 0.45,
+					"hit": "(4.5, 12.88, 2.575264)"
+				},
+				{
+					"body": "ServicePump2Collision:<StaticBody3D#114219289843>",
+					"height": 0.65,
+					"hit": "(4.5, 13.08, 2.498)"
+				},
+				{
+					"body": "ServicePump2Collision:<StaticBody3D#114219289843>",
+					"height": 0.9,
+					"hit": "(4.5, 13.33, 2.63086)"
+				}
+			],
+			"site": "(4.5, 12.43, 2.8)"
+		}
+	],
+	"failures": [],
+	"models": [
+		{
+			"bounds": "[P: (-0.989, 0.0, -0.6095), S: (1.944, 1.481192, 1.4885)]",
+			"collapsed": 0,
+			"triangles": 77981
+		},
+		{
+			"bounds": "[P: (-0.989, 0.0, -0.6095), S: (1.944, 1.481192, 1.4885)]",
+			"collapsed": 0,
+			"triangles": 77981
+		}
+	],
+	"passed": true,
+	"physics": {
+		"changedRetainedVertices": 0,
+		"removedTriangles": 4000,
+		"retainedTriangles": 131052
+	},
+	"retained": [
+		{
+			"actualVertices": 14279,
+			"expectedVertices": 14175,
+			"maxDistanceM": 0.000500923779327422,
+			"name": "VesselRetained1"
+		},
+		{
+			"actualVertices": 3282,
+			"expectedVertices": 3282,
+			"maxDistanceM": 0.000474953732918948,
+			"name": "Brace_welded_receiver001_1"
+		},
+		{
+			"actualVertices": 2770,
+			"expectedVertices": 2717,
+			"maxDistanceM": 0.000476579589303583,
+			"name": "VesselRetained2"
+		},
+		{
+			"actualVertices": 15730,
+			"expectedVertices": 15726,
+			"maxDistanceM": 0.000451768923085183,
+			"name": "Suspended_undercarriage_reduction_gearbox001"
+		},
+		{
+			"actualVertices": 10251,
+			"expectedVertices": 10233,
+			"maxDistanceM": 0.000448299222625792,
+			"name": "Suspended_undercarriage_reduction_gearbox001_1"
+		},
+		{
+			"actualVertices": 1128,
+			"expectedVertices": 1128,
+			"maxDistanceM": 0.000353371084202081,
+			"name": "Suspended_undercarriage_reduction_gearbox001_2"
+		},
+		{
+			"actualVertices": 1578,
+			"expectedVertices": 1578,
+			"maxDistanceM": 0.000663037761114538,
+			"name": "NativeSideWiring"
+		}
+	]
+}

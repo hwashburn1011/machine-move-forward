@@ -252,3 +252,15 @@ Starting state: `2a0fa07`. The preceding turn made verified progress on pressure
 4. Verify actual player/raycast clearance, all 36 adjacent cargo/vessel mesh comparisons, real refuelling/repair/load transitions, pause/resume, shared resources, native vertex colors and zero imported degenerate triangles. Run selected gameplay/control regressions and sequential fixed-view GPU measurements.
 
 Iteration review: [electrical cabinets](switchgear-review.md). All 613 selected assertions pass and both GLBs validate with zero errors/warnings. The four detailed cabinets add 0.067–0.154 ms median GPU in matching native views. This is verified art and feedback progress, not a claim of improved gameplay FPS or complete campaign validation. The broad goal remains active: adjacent workbenches and pumps remain visually simple, and full-campaign feel plus independently observed intermittent frame stalls still need further work.
+
+## Completed iteration: complete service pumps and matching physics
+
+Starting state: `bad213b`. The preceding turn made verified progress on electrical cabinets. Native inspection exposes simple motors, loosely mounted valves and unfinished pipe ends on both existing service pumps.
+
+1. Build an original Blender master with a finned motor, open fan guard, sealed terminal, cast casing, bolted flanges, connected handwheel, fitted supports and fully terminated service routes. Keep both original sites and the complete assembly footprint.
+2. Review studio, native and MCP views. Correct misoriented fins, align motor feet to their rails, soften overly polished fittings with worn PBR metal and improve the motor label contrast.
+3. Preserve nine shared render batches, previous cabinet/vessel removals and the access pass's side-cable reroute. Share five render resources between the two new instances.
+4. Reproduce obsolete hose collision in cleared floor space. Remove precisely 4,000 old pump triangles, retain every unrelated frozen triangle and winding, and install two shared 1,199-triangle collision shapes matching the new skids, bodies and pipework.
+5. Verify real movement, skid contact, cleared hose space, complete retained physics, zero intersections with neighbouring machine geometry, grounded support/connection bounds, shared resources and gameplay/camera regressions. Measure matching sequential GPU runs and preserve final evidence.
+
+Iteration review: [service pumps](pumps-review.md). All 656 selected assertions pass and all three GLBs validate cleanly. Matching fixed native views show 0.043–0.183 ms added median GPU cost; collision complexity falls by 1,602 triangles overall. This is verified model and collision progress, not a measured full-game FPS improvement. The goal remains active: nearby workbenches and other simple equipment still need refinement, alongside full-campaign feel and the older intermittent stalls that have not been reproduced reliably.

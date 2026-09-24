@@ -56,12 +56,16 @@ func run():
 	var kit=game.world.switchgear.root;var machine=game.world.machine;var manifest=MMFAssets.json("res://art/nomad-switchgear.json")
 	check(kit!=null and kit.get_child_count()==4,"Four complete electrical cabinets replace the old controls")
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
+	var pump_manifest=MMFAssets.json("res://art/nomad-pumps.json")
 	for entry in manifest.trim:
 		if entry.replacement=="":
 			check(MMFAssets.find_named(machine,entry.original)==null,"Old floating indicator geometry is removed: "+entry.original);continue
 		var old=MMFAssets.find_named(original,entry.frozen);var retained=MMFAssets.find_named(machine,entry.replacement)
+		var expected=vertices(old).filter(func(p):return not removed(p,entry,manifest.originalBoxes) and not preload("res://tests/pump_trim.gd").removed(p,entry.frozen,pump_manifest))
+		if expected.is_empty():
+			check(retained==null,"Batch emptied by subsequent pump refinement is removed: "+entry.replacement);continue
 		check(retained!=null,"Shared batch keeps its stable identity: "+entry.replacement)
-		var expected=vertices(old).filter(func(p):return not removed(p,entry,manifest.originalBoxes));var actual=vertices(retained)
+		var actual=vertices(retained)
 		var distance=maxf(retained_distance(expected,actual),retained_distance(actual,expected))
 		check(distance<.001,"All unrelated structure/fittings remain within 1 mm: "+entry.replacement)
 		check(retained.get_active_material(0)==old.get_active_material(0),"Retained geometry uses the original material: "+entry.replacement)

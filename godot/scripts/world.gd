@@ -64,15 +64,22 @@ func setup(owner_game):
 	native_dressing=MMFMachineDressing.install(machine)
 	MMFMachineVessels.install(machine)
 	switchgear.install(machine)
+	MMFMachinePumps.install(machine)
 	canopy.install(machine)
 	gait.setup(game,machine)
-	for raw in game.runtime.colliders:
-		var body=MMFAssets.collider(self,raw)
+	var pump_collision=MMFAssets.json("res://art/nomad-pumps-collision.json")
+	for index in game.runtime.colliders.size():
+		var raw=game.runtime.colliders[index]
+		var ranges=pump_collision.retainedIndexRanges if index==int(pump_collision.sourceCollider) else []
+		if not ranges.is_empty():assert(raw.indices.size()==int(pump_collision.sourceIndexCount),"Pump collision bake changed; regenerate retained ranges")
+		var body=MMFAssets.collider(self,raw,ranges)
+		if not ranges.is_empty():body.name="NativeWorkshopCollision"
 		# The frozen bake represents open rails with solid 1.04 m-high boxes.
 		# Keep their safety collision, but identify them for HUD sight checks.
 		if raw.has("half"):
 			var half=MMFAssets.v(raw.half)
 			if is_equal_approx(half.y,.52) and minf(half.x,half.z)<=.04:body.set_meta("open_railing",true)
+	MMFMachinePumps.install_collision(self)
 	# The receiver is hidden in the initial browser scene and is therefore absent
 	# from the visible-only machine bake. Restore its authored model and lifecycle.
 	receiver=MMFAssets.scene("models/authored/salvaged-radio.glb")

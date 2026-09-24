@@ -78,7 +78,7 @@ static func box(parent: Node3D, size: Vector3, at: Vector3, mat: Material = null
 		body.add_child(collider)
 	return mesh
 
-static func collider(parent: Node3D, raw: Dictionary) -> StaticBody3D:
+static func collider(parent: Node3D, raw: Dictionary, index_ranges: Array = []) -> StaticBody3D:
 	var body = StaticBody3D.new()
 	parent.add_child(body)
 	body.position = v(raw.get("position", {}))
@@ -94,15 +94,23 @@ static func collider(parent: Node3D, raw: Dictionary) -> StaticBody3D:
 		var faces = PackedVector3Array()
 		var vertices = raw.vertices
 		var indices = raw.get("indices", [])
-		faces.resize(indices.size())
+		# Optional authored ranges remove complete obsolete components from a
+		# shared frozen mesh. Other callers retain the original contiguous path.
+		var ranges=index_ranges if not index_ranges.is_empty() else [[0,indices.size()]]
+		var count=0
+		for span in ranges:count+=int(span[1])-int(span[0])
+		faces.resize(count)
 		# This input is the frozen Three.js/Rapier bake, whose front faces use
 		# counterclockwise winding. Godot needs clockwise triangles; retaining
 		# the old order makes exterior surfaces collide from the inside.
 		var order = [0,2,1]
-		for triangle in range(0,indices.size(),3):
-			for corner in 3:
-				var i = int(indices[triangle+order[corner]]) * 3
-				faces[triangle+corner] = Vector3(vertices[i], vertices[i+1], vertices[i+2])
+		var cursor=0
+		for span in ranges:
+			for triangle in range(int(span[0]),int(span[1]),3):
+				for corner in 3:
+					var i = int(indices[triangle+order[corner]]) * 3
+					faces[cursor+corner] = Vector3(vertices[i], vertices[i+1], vertices[i+2])
+				cursor+=3
 		shape.set_faces(faces)
 		col.shape = shape
 	else:

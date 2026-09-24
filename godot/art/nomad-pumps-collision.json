@@ -1,0 +1,21 @@
+{
+  "sourceCollider": 75,
+  "sourceIndexCount": 405156,
+  "removedTriangles": 4000,
+  "retainedIndexRanges": [
+    [
+      0,
+      329688
+    ],
+    [
+      341136,
+      403692
+    ],
+    [
+      404244,
+      405156
+    ]
+  ],
+  "replacementTrianglesPerPump": 1199,
+  "sourceSha256": "7616601728e371e023834cae5866c935ed7a86cd39d1fc2fcac6934ee33739f7"
+}

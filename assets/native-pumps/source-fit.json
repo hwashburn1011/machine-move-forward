@@ -1,0 +1,245 @@
+{
+  "supports": [
+    {
+      "part": "Welded skid tray",
+      "contactGapM": 0.0
+    },
+    {
+      "part": "Machined mounting crossrail",
+      "contactGapM": 0.0
+    },
+    {
+      "part": "Machined mounting crossrail.001",
+      "contactGapM": 0.0
+    },
+    {
+      "part": "Machined mounting crossrail.002",
+      "contactGapM": 0.0
+    },
+    {
+      "part": "Cast motor mounting foot",
+      "contactGapM": -0.000500023365020752
+    },
+    {
+      "part": "Cast motor mounting foot.001",
+      "contactGapM": -0.000500023365020752
+    },
+    {
+      "part": "Cast motor mounting foot.002",
+      "contactGapM": -0.000500023365020752
+    },
+    {
+      "part": "Cast motor mounting foot.003",
+      "contactGapM": -0.000500023365020752
+    },
+    {
+      "part": "Cast volute support",
+      "contactGapM": -0.003000020980834961
+    },
+    {
+      "part": "Cast motor barrel",
+      "contactGapM": -0.04249998927116394
+    },
+    {
+      "part": "Formed volute casing",
+      "contactGapM": -0.041999995708465576
+    },
+    {
+      "part": "Terminal box neck",
+      "contactGapM": -0.050999999046325684
+    },
+    {
+      "part": "Sealed motor terminal box",
+      "contactGapM": -0.015999972820281982
+    },
+    {
+      "part": "Terminal lid gasket",
+      "contactGapM": 0.0
+    },
+    {
+      "part": "Terminal box cap",
+      "contactGapM": -0.001000046730041504
+    }
+  ],
+  "fins": [
+    {
+      "name": "Longitudinal cooling fin",
+      "size": [
+        0.5799999982118607,
+        0.010999999940395355,
+        0.05200004577636719
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.001",
+      "size": [
+        0.5799999982118607,
+        0.023589104413986206,
+        0.051377296447753906
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.002",
+      "size": [
+        0.5799999982118607,
+        0.03506872057914734,
+        0.047393798828125
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.003",
+      "size": [
+        0.5799999982118607,
+        0.043929487466812134,
+        0.03979301452636719
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.004",
+      "size": [
+        0.5799999982118607,
+        0.04989342391490936,
+        0.029630541801452637
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.005",
+      "size": [
+        0.5799999982118607,
+        0.05218231678009033,
+        0.01743447780609131
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.006",
+      "size": [
+        0.5799999982118607,
+        0.05218231678009033,
+        0.01743447780609131
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.007",
+      "size": [
+        0.5799999982118607,
+        0.049893394112586975,
+        0.029630541801452637
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.008",
+      "size": [
+        0.5799999982118607,
+        0.043929487466812134,
+        0.03979307413101196
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.009",
+      "size": [
+        0.5799999982118607,
+        0.043929487466812134,
+        0.03979307413101196
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.010",
+      "size": [
+        0.5799999982118607,
+        0.04989342391490936,
+        0.029630541801452637
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.011",
+      "size": [
+        0.5799999982118607,
+        0.05218231678009033,
+        0.01743447780609131
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.012",
+      "size": [
+        0.5799999982118607,
+        0.05218231678009033,
+        0.01743447780609131
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.013",
+      "size": [
+        0.5799999982118607,
+        0.04989342391490936,
+        0.029630541801452637
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.014",
+      "size": [
+        0.5799999982118607,
+        0.043929487466812134,
+        0.03979301452636719
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.015",
+      "size": [
+        0.5799999982118607,
+        0.03506875038146973,
+        0.047393798828125
+      ]
+    },
+    {
+      "name": "Longitudinal cooling fin.016",
+      "size": [
+        0.5799999982118607,
+        0.023589104413986206,
+        0.051377296447753906
+      ]
+    }
+  ],
+  "terminations": [
+    {
+      "pipe": "Suction elbow",
+      "fitting": "Axial suction collar",
+      "boundsOverlap": true
+    },
+    {
+      "pipe": "Suction elbow",
+      "fitting": "Inlet deck union",
+      "boundsOverlap": true
+    },
+    {
+      "pipe": "Discharge return riser",
+      "fitting": "Formed volute casing",
+      "boundsOverlap": true
+    },
+    {
+      "pipe": "Discharge return riser",
+      "fitting": "Outlet sealed deck union",
+      "boundsOverlap": true
+    },
+    {
+      "pipe": "Motor supply conduit",
+      "fitting": "Motor electrical gland",
+      "boundsOverlap": true
+    },
+    {
+      "pipe": "Motor supply conduit",
+      "fitting": "Electrical deck gland",
+      "boundsOverlap": true
+    }
+  ],
+  "neighbourClearance": [
+    {
+      "site": "ServicePump1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "site": "ServicePump2",
+      "overlappingTrianglePairs": 0
+    }
+  ],
+  "passed": true
+}

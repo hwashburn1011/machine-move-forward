@@ -5,6 +5,7 @@ var checks=0
 var failures=[]
 var report={"retained":[],"models":[],"collision":[]}
 var switchgear_boxes=[]
+var pump_manifest={}
 const SITES=[Vector3(8,12.43,10.4),Vector3(4,12.43,10.4),Vector3(0,12.43,10.4),Vector3(-4,12.43,10.4),Vector3(-8,12.43,10.4)]
 
 func _initialize():
@@ -58,11 +59,12 @@ func run():
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var manifest=MMFAssets.json("res://art/nomad-vessels.json")
 	switchgear_boxes=MMFAssets.json("res://art/nomad-switchgear.json").originalBoxes
+	pump_manifest=MMFAssets.json("res://art/nomad-pumps.json")
 	for entry in manifest.trim:
 		check(MMFAssets.find_named(machine,entry.original)==null,"Old vessel components removed: "+entry.original)
 		if entry.replacement=="":continue
 		var old=MMFAssets.find_named(original,entry.original);var replacement=MMFAssets.find_named(machine,entry.replacement)
-		var expected=vertices(old).filter(func(p):return not removed(p) and not replaced_cabinet(p,entry.original));var actual=vertices(replacement)
+		var expected=vertices(old).filter(func(p):return not removed(p) and not replaced_cabinet(p,entry.original) and not preload("res://tests/pump_trim.gd").removed(p,entry.original,pump_manifest));var actual=vertices(replacement)
 		var difference=maxf(retained_distance(expected,actual),retained_distance(actual,expected))
 		check(difference<.001,"Unrelated workshop fittings retain their coordinates within 1 mm: "+entry.replacement)
 		check(replacement.get_active_material(0)==old.get_active_material(0),"Original shared material preserved: "+entry.replacement)

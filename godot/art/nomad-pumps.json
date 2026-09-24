@@ -1,0 +1,174 @@
+{
+  "sourceRevision": "bad213b",
+  "trim": [
+    {
+      "frozen": "Brace_welded_receiver001",
+      "original": "VesselRetained1",
+      "replacement": "VesselRetained1",
+      "priorWorkshopRemoval": true,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 1916,
+      "priorRemovedVertices": 2258,
+      "unchangedVertices": 14175,
+      "keptTriangles": 5424,
+      "unchangedCoordinatesSha256": "5f1809f712241af0b6c47cef4bb993b3b654a92252452ec979890f8948a335b1"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_1",
+      "original": "Brace_welded_receiver001_1",
+      "replacement": "Brace_welded_receiver001_1",
+      "priorWorkshopRemoval": true,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 1226,
+      "priorRemovedVertices": 2662,
+      "unchangedVertices": 3282,
+      "keptTriangles": 1112,
+      "unchangedCoordinatesSha256": "6bb85c0d2f5205458ec6faf4838d8fb58138e93ddc748c49e7303edf339509b5"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_3",
+      "original": "Brace_welded_receiver001_3",
+      "replacement": "",
+      "priorWorkshopRemoval": true,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 308,
+      "priorRemovedVertices": 1678,
+      "unchangedVertices": 0,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_5",
+      "original": "VesselRetained2",
+      "replacement": "VesselRetained2",
+      "priorWorkshopRemoval": true,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 1076,
+      "priorRemovedVertices": 2028,
+      "unchangedVertices": 2717,
+      "keptTriangles": 2444,
+      "unchangedCoordinatesSha256": "356297c25f033eb5211061219bee9a2691850783a22b127da02de9ec1945b6a5"
+    },
+    {
+      "frozen": "Suspended_undercarriage_reduction_gearbox001",
+      "original": "Suspended_undercarriage_reduction_gearbox001",
+      "replacement": "Suspended_undercarriage_reduction_gearbox001",
+      "priorWorkshopRemoval": false,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 696,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 15726,
+      "keptTriangles": 15464,
+      "unchangedCoordinatesSha256": "a6e4e14a456ca5f4b8600f338aa866559f4a06a843d9328f48bd1dd53f7da178"
+    },
+    {
+      "frozen": "Suspended_undercarriage_reduction_gearbox001_1",
+      "original": "Suspended_undercarriage_reduction_gearbox001_1",
+      "replacement": "Suspended_undercarriage_reduction_gearbox001_1",
+      "priorWorkshopRemoval": false,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 5784,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 10233,
+      "keptTriangles": 8542,
+      "unchangedCoordinatesSha256": "fc6ad374f832e4041ef2bba50bf33d41fdcd51cee65ecd89e5bbca2c1881b3ce"
+    },
+    {
+      "frozen": "Suspended_undercarriage_reduction_gearbox001_2",
+      "original": "Suspended_undercarriage_reduction_gearbox001_2",
+      "replacement": "Suspended_undercarriage_reduction_gearbox001_2",
+      "priorWorkshopRemoval": false,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 248,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 1128,
+      "keptTriangles": 1852,
+      "unchangedCoordinatesSha256": "7d2f4c9787a5c39fa763fe6556f6f0b01db9e83cce4457f158b0b5a13e3f5661"
+    },
+    {
+      "frozen": "Suspended_undercarriage_reduction_gearbox001_4",
+      "original": "Suspended_undercarriage_reduction_gearbox001_4",
+      "replacement": "",
+      "priorWorkshopRemoval": false,
+      "priorCableVertices": 0,
+      "removedPumpVertices": 608,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 0,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "frozen": "Suspended_undercarriage_reduction_gearbox001_5",
+      "original": "NativeSideWiring",
+      "replacement": "NativeSideWiring",
+      "priorWorkshopRemoval": false,
+      "priorCableVertices": 159,
+      "removedPumpVertices": 329,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 1578,
+      "keptTriangles": 2336,
+      "unchangedCoordinatesSha256": "3614288ea7c20265ba2a9cd116c1dee910aadb384026e71b6628945b11dc03b2"
+    }
+  ],
+  "originalBoxes": [
+    {
+      "min": [
+        3.49654,
+        12.43,
+        -3.8752299999999997
+      ],
+      "max": [
+        5.47501,
+        14.0886,
+        -1.8399899999999998
+      ]
+    },
+    {
+      "min": [
+        3.49654,
+        12.43,
+        1.72477
+      ],
+      "max": [
+        5.47501,
+        14.0886,
+        3.76001
+      ]
+    }
+  ],
+  "sites": [
+    {
+      "name": "ServicePump1",
+      "position": [
+        4.5,
+        12.43,
+        -2.8
+      ]
+    },
+    {
+      "name": "ServicePump2",
+      "position": [
+        4.5,
+        12.43,
+        2.8
+      ]
+    }
+  ],
+  "editableParts": 257,
+  "masterTriangles": 77981,
+  "materialBatches": 5,
+  "bytes": 5860704,
+  "bounds": {
+    "min": [
+      -0.9889999628067017,
+      0.0,
+      -0.609499990940094
+    ],
+    "max": [
+      0.9549999833106995,
+      1.4811924695968628,
+      0.8790000081062317
+    ]
+  },
+  "reference": "https://www.grundfos.com/content/dam/local/en-gb/page-assets/end-suction-fast-track/documents/grundfos-end-suction-pumps-brochure.pdf"
+}
