@@ -130,3 +130,14 @@ Starting state: `265f4c5`. Native close-ups showed plain firearm surfaces, a lef
 4. Inspect source/MCP and native views, check final skeletal poses and real controller movement, measure the rendering/pose cost, and run gameplay/movement/camera regressions.
 
 Iteration review: [weapon presentation](weapon-presentation-review.md). The detailed models keep essentially the same measured GPU cost in a fixed native close view; the new hand solver costs about 0.033 ms median CPU. Existing story and combat rules remain unchanged. The overall goal remains active: this pass does not resolve the intermittent engine/render stalls or conclude the wider visual and long-session gameplay review.
+
+## Completed iteration: grounded salvage and truthful pickup feedback
+
+Starting state: `26d46e4`. A native opening/first-cargo review reproduced floating cargo, an aiming cue for physically impossible throws, and the first receiver message being overwritten.
+
+1. Fit each existing chest's full footprint to the dunes, compensate for lateral travel and cache nearby terrain fits. Preserve pool size, drift, loot cadence and gameplay RNG.
+2. Add a restrained cargo bracket and lead diamond based on the existing straight hook flight. Check actual lower-deck visibility through open rails while preserving opaque-wall occlusion.
+3. Retain the receiver-repair message and actual item receipt. Park overflow at its mesh-bottom height on real support and preserve its contents through reclaim/save/load.
+4. Inspect native opening, off-axis, aligned and pickup captures; check terrain/flight/storage contracts; measure fitting cost and run gameplay/story regressions.
+
+Iteration review: [salvage](salvage-review.md). All 430 relevant assertions pass, including 36,000 terrain-corner observations. Caching roughly halves the new fitting work's measured mean CPU cost, while the original hook mechanics remain unchanged. This visual/readability pass does not add story or resolve the separate intermittent rendering stalls. The overall goal remains active; full-campaign feel and control-hint cohesion remain open.

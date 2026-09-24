@@ -1,4 +1,4 @@
-param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$DesertTest, [switch]$DesertProfile, [switch]$DesertReview, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$DriveProfile, [switch]$TravelProfile, [switch]$AutosaveTest, [switch]$AutosaveProfile, [switch]$MotionAudit, [switch]$LocomotionTest, [switch]$LocomotionProfile, [switch]$Stress, [switch]$Benchmark, [switch]$WeaponTest, [switch]$WeaponReview, [switch]$WeaponProfile, [switch]$Headless)
+param([string]$Godot = $env:MMF_GODOT, [switch]$Editor, [switch]$Test, [switch]$ParityTest, [switch]$AuditTest, [switch]$StoryTest, [switch]$PacingTest, [switch]$AtmosphereTest, [switch]$DesertTest, [switch]$DesertProfile, [switch]$DesertReview, [switch]$TerrainTest, [switch]$EffectBenchmark, [switch]$StreamTest, [switch]$SceneryTest, [switch]$StreamBenchmark, [switch]$CameraTest, [switch]$WorkloadTest, [switch]$SessionBenchmark, [switch]$AccessTest, [switch]$AccessBenchmark, [switch]$CaretakerTest, [switch]$ConstructionProfile, [switch]$DriveProfile, [switch]$TravelProfile, [switch]$AutosaveTest, [switch]$AutosaveProfile, [switch]$MotionAudit, [switch]$LocomotionTest, [switch]$LocomotionProfile, [switch]$Stress, [switch]$Benchmark, [switch]$WeaponTest, [switch]$WeaponReview, [switch]$WeaponProfile, [switch]$SalvageTest, [switch]$SalvageReview, [switch]$SalvageProfile, [switch]$Headless)
 $ErrorActionPreference = 'Stop'
 $taskRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
 if (-not $Godot) {
@@ -39,6 +39,9 @@ elseif ($MotionAudit) { $arguments += @('--script', 'tests/player_motion_audit.g
 elseif ($WeaponTest) { $arguments += @('--script', 'tests/weapon_presentation.gd') }
 elseif ($WeaponReview) { $arguments += @('--script', 'tests/weapon_review.gd') }
 elseif ($WeaponProfile) { $arguments += @('--script', 'tests/weapon_profile.gd') }
+elseif ($SalvageTest) { $arguments += @('--script', 'tests/salvage_feedback.gd') }
+elseif ($SalvageReview) { $arguments += @('--script', 'tests/salvage_review.gd') }
+elseif ($SalvageProfile) { $arguments += @('--script', 'tests/salvage_profile.gd') }
 elseif ($LocomotionTest) { $arguments += @('--script', 'tests/player_locomotion.gd') }
 elseif ($LocomotionProfile) { $arguments += @('--script', 'tests/locomotion_profile.gd') }
 elseif ($WorkloadTest) { $arguments += @('--script', 'tests/session_workload.gd') }

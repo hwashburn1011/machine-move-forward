@@ -59,7 +59,13 @@ func setup(owner_game):
 	add_child(machine)
 	native_access=MMFMachineAccess.install(self)
 	gait.setup(game,machine)
-	for raw in game.runtime.colliders: MMFAssets.collider(self, raw)
+	for raw in game.runtime.colliders:
+		var body=MMFAssets.collider(self,raw)
+		# The frozen bake represents open rails with solid 1.04 m-high boxes.
+		# Keep their safety collision, but identify them for HUD sight checks.
+		if raw.has("half"):
+			var half=MMFAssets.v(raw.half)
+			if is_equal_approx(half.y,.52) and minf(half.x,half.z)<=.04:body.set_meta("open_railing",true)
 	# The receiver is hidden in the initial browser scene and is therefore absent
 	# from the visible-only machine bake. Restore its authored model and lifecycle.
 	receiver=MMFAssets.scene("models/authored/salvaged-radio.glb")

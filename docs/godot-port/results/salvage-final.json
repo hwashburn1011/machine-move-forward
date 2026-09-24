@@ -1,0 +1,24 @@
+{
+	"aligned": {
+		"markerVisible": true,
+		"readout": "CARGO · 25m\nREADY"
+	},
+	"firstSpawnSeconds": 23.337,
+	"groundClearanceM": {
+		"max": 0.153592944605928,
+		"median": 0.0803442207728874,
+		"min": 0.0619437707073927,
+		"samples": 600
+	},
+	"offAxis": {
+		"aimedIndex": -1,
+		"caught": false,
+		"flightSeconds": 1.49999999999991,
+		"prompt": "\n[TAB] Wrist terminal   [B] Build   [F] Throw salvage hook",
+		"range": 28.8395004272461
+	},
+	"openingWallSeconds": 10.804,
+	"receipt": "Receiver recovered — build a refinery and workbench to repair it.\nCargo secured: +58 Scrap Metal · +8 Fuel",
+	"scannerPhase": "awaiting-module",
+	"scope": "Real-time existing opening, first spawned cargo and physical F input; diagnostic relocation to the lower fishing deck. Separate 600-distance terrain-clearance observation. No story progression added."
+}

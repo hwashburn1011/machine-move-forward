@@ -25,6 +25,7 @@ var transmission: Label
 var boarding: Label
 var hit_readout: Label
 var hit_left=0.0
+var salvage_readout: MMFSalvageReadout
 
 func setup(owner_game):
 	game=owner_game
@@ -73,6 +74,7 @@ func setup(owner_game):
 	boarding=overlay(Vector2(500,170),Vector2(920,60),21);boarding.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	boarding.add_theme_color_override("font_color",Color(1,.57,.23))
 	hit_readout=overlay(Vector2(815,575),Vector2(290,40),18);hit_readout.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	salvage_readout=MMFSalvageReadout.new();root.add_child(salvage_readout);salvage_readout.setup(game)
 	panel=PanelContainer.new()
 	var background=normal.duplicate()
 	background.bg_color=Color(0.014,0.03,0.031,0.985)
@@ -402,6 +404,7 @@ func file_dialog(importing: bool):
 func _process(dt):
 	if game==null: return
 	var readable=game.started and not game.menu_open and game.cinematic=="" and game.session.health>0
+	salvage_readout.update()
 	transmission.visible=readable and not game.combat.active_threat() and not game.journey.current.is_empty()
 	if transmission.visible: transmission.text=game.journey.current.speaker+"  //  "+game.journey.current.text
 	boarding.visible=readable and game.combat.ship_state=="grapple" and is_instance_valid(game.combat.hook) and game.combat.hook_health>0
@@ -426,6 +429,6 @@ func _process(dt):
 	objective.text=s.objective()
 	if game.building.selected!="": prompt.text="BUILD "+game.building.selected+"  ·  "+game.building.failure
 	else:
-		var reel="CARGO IN SIGHTS · [%s] Throw hook"%game.key_label("reel") if game.salvage.aimed_crate()>=0 else "[%s] Throw salvage hook"%game.key_label("reel")
-		if game.salvage.busy(): reel="REELING CARGO" if game.salvage.reel_index>=0 else "HOOK OUT"
+		var reel="CARGO ALIGNED · [%s] Throw hook"%game.key_label("reel") if salvage_readout.aligned>=0 else "[%s] Throw salvage hook"%game.key_label("reel")
+		if game.salvage.busy(): reel="REELING CARGO" if game.salvage.reel_index>=0 else "HOOK RETURNING" if game.salvage.hook_phase=="back" else "HOOK OUT"
 		prompt.text=game.interaction_prompt+"\n[TAB] Wrist terminal   [B] Build   "+reel

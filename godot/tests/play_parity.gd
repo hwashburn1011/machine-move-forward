@@ -64,6 +64,8 @@ func run():
 	var crate=game.salvage.crates[0]
 	crate.active=true;crate.node.show();crate.claimed="";crate.opened=false
 	crate.node.position=Vector3(-19,2,-16)
+	# Real spawns are fitted to the rendered dune before the player can aim.
+	game.salvage.ground_crate(crate,0);crate.node.reset_physics_interpolation()
 	var aim=(crate.node.position-game.salvage.hand_position()).normalized()
 	game.player.yaw=atan2(-aim.x,-aim.z);game.player.pitch=asin(aim.y);game.player.update_camera(1)
 	check(game.salvage.aimed_crate()==0,"Cargo in the crosshair is identified")

@@ -49,6 +49,7 @@ func add_visual(p: Dictionary):
 		var body = MMFAssets.collider(root,{"position":spec.offset,"half":spec.half})
 		body.rotation.x = spec.get("rotX",0)
 		body.set_meta("piece_id",p.instanceId)
+		if p.definitionId=="railing":body.set_meta("open_railing",true)
 		body.set_script(load("res://scripts/structure_body.gd"))
 		body.set("game",game);body.set("piece_id",p.instanceId)
 

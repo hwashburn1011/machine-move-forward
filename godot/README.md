@@ -14,7 +14,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Edit
 
 Controls: WASD move; mouse look; Shift sprint; Ctrl crouch; Space jump; left/right mouse fire/aim; R reload; 1/2 weapons; E interact/refuel/mount/cut grapple; F salvage reel; Tab terminal; Esc pause. V swaps shoulders outside construction. B opens construction, G the catalog, Q/E rotate, Page Up/Down choose a deck, Home follows the current deck, V relocates equipment, and hold X to dismantle. Rebind keys and adjust FOV, sensitivity, ambient volume, and VSync in Settings.
 
-F throws a visible hook and cable even when it misses, with the browser game's 34 m reach. Aim toward a cargo chest and reel it back to recover supplies and the receiver. C is also a crouch shortcut. The wrist terminal pauses the simulation while aboard; starting the scanner closes it so scanning can proceed. Falling toward radioactive sand returns the player to the last valid elevated platform, matching the current browser build. Combat death retains the three-second recovery and two-second protection.
+F throws a visible hook and cable even when it misses, with the browser game's 34 m reach. Aim toward a cargo chest and reel it back to recover supplies and the receiver. Nearby cargo has a bracket and lead diamond; cyan READY predicts a physical catch. Crates follow the dunes, and overflow remains in a supported crate aboard. See the [salvage review](../docs/godot-port/salvage-review.md) for checks and measured costs. C is also a crouch shortcut. The wrist terminal pauses the simulation while aboard; starting the scanner closes it so scanning can proceed. Falling toward radioactive sand returns the player to the last valid elevated platform, matching the current browser build. Combat death retains the three-second recovery and two-second protection.
 
 ## Rebuild native assets from a fresh checkout
 
@@ -78,6 +78,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Loco
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WeaponTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WeaponReview
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WeaponProfile
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SalvageTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SalvageReview
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SalvageProfile -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
