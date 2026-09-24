@@ -324,3 +324,15 @@ Starting state: `77c4798`. The preceding turn made verified progress on the helm
 5. Rebuild the compiled manifest, run broader regressions, inspect the final Blender and native assemblies and compare four matched native GPU views. Use the established audio-drain helper to remove a crossfire test shutdown race.
 
 Iteration review: [receiver](receiver-review.md). All **662 assertions pass** across 11 selected suites, both GLBs validate with no errors or warnings, and the combined receiver/rewards have no collapsed imported triangles. Added median GPU cost is 0.072–0.114 ms across fixed native views. Desert/weather checks still confirm sparse natural scenery and visibility-only storms with no shelter/water penalty. This is verified model and feedback progress within the existing story. The broad goal remains active: other fixtures, full-campaign human play feel and independently observed startup/intermittent stalls remain open.
+
+## Completed iteration: correct enemy animation and visible combat reactions
+
+Starting state: `6a30597`. The preceding receiver turn made verified progress. Actual imported-clip observations reproduce both legacy robots staying in Idle when asked to move, punch or die, while detailed-mech hit reactions are overwritten on the next movement tick.
+
+1. Cache aliases for the two existing rig conventions, set movement loops and one-shot strikes/deaths, and retain the original authored assets. Protect strikes from routine movement updates and make death terminal until the existing removal time.
+2. Apply the existing Blender hit clip as chest/neck/head rotation deltas through the native skeleton pipeline. Preserve leg/root motion and current attacks; handle pause, expiry and death without a persistent active modifier.
+3. Trigger recoil at each actual ranged shot instead of during its warning. Base movement presentation, facing and footfall eligibility on swept body displacement so blocked enemies rest.
+4. Record the original controller from the starting revision and compare 1,680 ticks, shot/hit events, damage, navigation results, phases and seeded loot. Verify actual evaluated bones, all six controllers moving into a wall, corpse lifetime and real warning/shot boundaries.
+5. Inspect matched native roster views and an actual top-deck encounter. Run broader gameplay regressions; distinguish the accelerated audio-fixture failure from real mixer behavior by rerunning its normal timing. Preserve final measurements and evidence.
+
+Iteration review: [enemy animation](enemy-animation-review.md). All **767 assertions pass** across 12 suites, including all 42 comparisons against the prior controller's combat contract. Native views confirm both legacy robots now fall on death; measured roster rendering is effectively unchanged within host variation. This is verified animation and gameplay-readability progress using existing source art. The broad goal remains active: the images expose a free-floating commander orb after death and simple legacy robot surfaces; weapon/tracer fit, richer enemy gait/boarding motion, full-campaign human play feel and older startup/intermittent stalls remain open.

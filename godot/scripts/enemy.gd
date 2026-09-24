@@ -7,6 +7,7 @@ var definition: Dictionary
 var health = 100.0
 var visual: Node3D
 var animator: AnimationPlayer
+var presentation=MMFEnemyAnimation.new()
 var agent: NavigationAgent3D
 var cooldown = 1.0
 var windup = 0.0
@@ -82,8 +83,7 @@ func setup(owner_game,id: String):
 	var players=MMFAssets.of_type(visual,"AnimationPlayer")
 	if not players.is_empty():
 		animator=players[0]
-		for key in animator.get_animation_list():
-			if String(key).get_file() in ["idle","walk","run","Idle","Walk","Run"]: animator.get_animation(key).loop_mode=Animation.LOOP_LINEAR
+	presentation.setup(animator,visual)
 	play("idle")
 	agent=NavigationAgent3D.new()
 	agent.path_desired_distance=0.08
@@ -127,16 +127,11 @@ func setup(owner_game,id: String):
 	add_child(tactical_marker)
 
 func play(wanted: String,force: bool=false):
-	if not animator: return
-	for key in animator.get_animation_list():
-		if String(key).get_file().to_lower()==wanted.to_lower():
-			if animation!=key or force:
-				animation=key
-				animator.play(key,0.12)
-			return
+	animation=presentation.play(wanted,force)
 
 func _physics_process(dt):
 	if not game or game.cinematic!="" or inactive: return
+	presentation.tick(dt)
 	timer+=dt
 	if dead:
 		if timer>5: queue_free()
@@ -158,6 +153,7 @@ func _physics_process(dt):
 	var same_level=absf(delta.y)<1.8
 	cooldown=maxf(0,cooldown-dt)
 	var movement=Vector3.ZERO
+	var walking=false
 	var can_attack=range<=definition.attackRange and same_level and mission!="travel" and flank_left<=0
 	if mission=="sabotage": can_attack=range<=2.5 and same_level
 	if kind=="revenant" and mission=="assault":
@@ -199,7 +195,7 @@ func _physics_process(dt):
 			if hit.is_empty():
 				committed=target+Vector3.UP
 				windup=definition.ranged.windup
-				play("polish_attack",true)
+				play("idle")
 			else: can_attack=false
 		if kind=="bastion" and phase=="vent" and timer>1.8: phase="idle"
 		tactical_marker.visible=windup>0 or phase=="vent"
@@ -225,7 +221,7 @@ func _physics_process(dt):
 			var away=position-other.position
 			away.y=0
 			if away.length_squared()<0.7 and away.length_squared()>0.001: movement+=away.normalized()*1.2
-		play("idle" if movement.length()<0.1 else ("run" if definition.moveSpeed>4 else "walk"))
+		walking=true
 	elif windup<=0 and phase=="idle" and cooldown<definition.attackCooldown-0.6: play("idle")
 	velocity.x=movement.x
 	velocity.z=movement.z
@@ -237,9 +233,13 @@ func _physics_process(dt):
 		if not test_move(raised,movement*dt):
 			var floor_hit=game.raycast(raised.origin+movement*dt,raised.origin+movement*dt-Vector3.UP*0.52,[get_rid()])
 			if not floor_hit.is_empty() and floor_hit.normal.y>0.65: position.y=floor_hit.position.y+0.025
+	var before_slide=position
 	MMFDeckMotion.slide(self,dt)
+	var travelled=(position-before_slide)*Vector3(1,0,1)
+	var actual_speed=travelled.length()/maxf(dt,.000001)
+	if walking:animation=presentation.motion(actual_speed,definition.moveSpeed)
 	step_clock-=dt
-	if movement.length()>1 and is_on_floor() and step_clock<=0:
+	if actual_speed>1 and is_on_floor() and step_clock<=0:
 		step_clock=.5 if kind=="bastion" else .38
 		game.audio.play_at("footfall",global_position,.28 if kind=="bastion" else .14)
 	var next_cue=phase if phase in ["telegraph","vent"] else ""
@@ -252,7 +252,8 @@ func _physics_process(dt):
 	if tactical_marker.material_override:
 		var color=Color(.25,1,.55) if phase=="vent" else Color(1,.24,.06)
 		tactical_marker.material_override.albedo_color=color;tactical_marker.material_override.emission=color
-	if delta.length_squared()>0.01: visual.rotation.y=lerp_angle(visual.rotation.y,atan2(delta.x,delta.z),1-exp(-8*dt))
+	var facing=travelled if walking and actual_speed>.08 and presentation.action_left<=0 else delta
+	if facing.length_squared()>0.000001: visual.rotation.y=lerp_angle(visual.rotation.y,atan2(facing.x,facing.z),1-exp(-8*dt))
 	if position.y<0: take_damage(10000,position)
 
 func hit_target(amount: float):
@@ -262,6 +263,7 @@ func hit_target(amount: float):
 	else: game.player.take_damage(amount,position)
 
 func shoot_committed():
+	play("polish_attack",true)
 	var start=position+Vector3.UP*1.4
 	var dir=(committed-start).normalized()
 	var hit=game.raycast(start,start+dir*definition.attackRange*1.4,[get_rid()],3)

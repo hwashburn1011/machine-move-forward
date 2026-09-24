@@ -1,0 +1,137 @@
+{
+	"enemies": {
+		"bastion": {
+			"clips": [
+				"attack",
+				"death",
+				"idle",
+				"polish_attack",
+				"polish_death",
+				"polish_hit",
+				"run",
+				"walk"
+			],
+			"death": "polish_death",
+			"hitAfterTick": "polish_attack",
+			"hitBeforeTick": "polish_attack",
+			"requests": {
+				"attack": "polish_attack",
+				"idle": "idle",
+				"polish_attack": "polish_attack",
+				"run": "run",
+				"walk": "walk"
+			}
+		},
+		"raider": {
+			"clips": [
+				"Climb",
+				"Death",
+				"Idle",
+				"Punch",
+				"Running",
+				"Walking"
+			],
+			"death": "Death",
+			"hitAfterTick": "Punch",
+			"hitBeforeTick": "Punch",
+			"requests": {
+				"attack": "Punch",
+				"idle": "Idle",
+				"polish_attack": "Punch",
+				"run": "Running",
+				"walk": "Walking"
+			}
+		},
+		"revenant": {
+			"clips": [
+				"attack",
+				"death",
+				"idle",
+				"polish_attack",
+				"polish_death",
+				"polish_hit",
+				"run",
+				"walk"
+			],
+			"death": "polish_death",
+			"hitAfterTick": "polish_attack",
+			"hitBeforeTick": "polish_attack",
+			"requests": {
+				"attack": "polish_attack",
+				"idle": "idle",
+				"polish_attack": "polish_attack",
+				"run": "run",
+				"walk": "walk"
+			}
+		},
+		"scavenger": {
+			"clips": [
+				"Climb",
+				"Death",
+				"Idle",
+				"Punch",
+				"Running",
+				"Walking"
+			],
+			"death": "Death",
+			"hitAfterTick": "Punch",
+			"hitBeforeTick": "Punch",
+			"requests": {
+				"attack": "Punch",
+				"idle": "Idle",
+				"polish_attack": "Punch",
+				"run": "Running",
+				"walk": "Walking"
+			}
+		},
+		"sovereign": {
+			"clips": [
+				"attack",
+				"death",
+				"idle",
+				"polish_attack",
+				"polish_death",
+				"polish_hit",
+				"run",
+				"walk"
+			],
+			"death": "polish_death",
+			"hitAfterTick": "polish_attack",
+			"hitBeforeTick": "polish_attack",
+			"requests": {
+				"attack": "polish_attack",
+				"idle": "idle",
+				"polish_attack": "polish_attack",
+				"run": "run",
+				"walk": "walk"
+			}
+		},
+		"warden": {
+			"clips": [
+				"attack",
+				"death",
+				"idle",
+				"polish_attack",
+				"polish_death",
+				"polish_hit",
+				"run",
+				"walk"
+			],
+			"death": "polish_death",
+			"hitAfterTick": "polish_attack",
+			"hitBeforeTick": "polish_attack",
+			"requests": {
+				"attack": "polish_attack",
+				"idle": "idle",
+				"polish_attack": "polish_attack",
+				"run": "run",
+				"walk": "walk"
+			}
+		}
+	},
+	"rangedWindup": {
+		"animation": "idle",
+		"seconds": 0.85
+	},
+	"scope": "Actual imported clips, live damage and one real controller tick; presentation only."
+}

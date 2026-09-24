@@ -1,0 +1,18 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"scope": "Six actual native enemies on an isolated review deck; fixed camera, 1920x1080 high/Vulkan/4x MSAA, VSync off; 2s warmup/4s sample, screenshots after timing. Simulation frozen; authored animation continues. Not a live combat FPS test.",
+	"views": {
+		"fallen": {
+			"drawCalls": 643,
+			"frames": 1013,
+			"medianFrameMs": 3.839,
+			"medianGpuMs": 3.32599997520447
+		},
+		"walking": {
+			"drawCalls": 603,
+			"frames": 993,
+			"medianFrameMs": 3.943,
+			"medianGpuMs": 3.36700010299683
+		}
+	}
+}
