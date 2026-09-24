@@ -51,6 +51,7 @@ var canopy=MMFMachineCanopy.new()
 var switchgear=MMFMachineSwitchgear.new()
 var parts = []
 var rotor: Node3D
+var native_intake: Node3D
 var seed_value = 0
 var world_environment: WorldEnvironment
 var gait=MMFGait.new()
@@ -66,10 +67,11 @@ func setup(owner_game):
 	switchgear.install(machine)
 	MMFMachinePumps.install(machine)
 	MMFMachineBenches.install(machine)
+	native_intake=MMFMachineIntake.install(machine)
 	canopy.install(machine)
 	gait.setup(game,machine)
-	# This bake composes both pump and bench removals from the frozen mesh.
-	var workshop_collision=MMFAssets.json("res://art/nomad-benches-collision.json")
+	# Compose the pump, bench and main-intake removals from the frozen mesh.
+	var workshop_collision=MMFAssets.json("res://art/nomad-intake-collision.json")
 	for index in game.runtime.colliders.size():
 		var raw=game.runtime.colliders[index]
 		var ranges=workshop_collision.retainedIndexRanges if index==int(workshop_collision.sourceCollider) else []
@@ -83,6 +85,7 @@ func setup(owner_game):
 			if is_equal_approx(half.y,.52) and minf(half.x,half.z)<=.04:body.set_meta("open_railing",true)
 	MMFMachinePumps.install_collision(self)
 	MMFMachineBenches.install_collision(self)
+	MMFMachineIntake.install_collision(self)
 	# The receiver is hidden in the initial browser scene and is therefore absent
 	# from the visible-only machine bake. Restore its authored model and lifecycle.
 	receiver=MMFAssets.scene("models/authored/salvaged-radio.glb")
@@ -203,7 +206,11 @@ func update(dt: float):
 		chunks[key].position.z = distance+key.x*64
 		chunks[key].position.x = key.y*256-game.session.lateral
 	streamer.prepare()
-	if rotor: rotor.rotation.y = distance*0.8
+	if rotor:
+		# The replacement is authored in game metres. Its shaft is local -Z;
+		# the original nested Blender transform used local Y for this same axis.
+		if native_intake:rotor.rotation.z=-fposmod(distance*.8,TAU)
+		else:rotor.rotation.y=distance*.8
 	gait.update(distance,game.session.lateral)
 	world_environment.environment.fog_density = 0.0018+game.session.weather.intensity*0.018
 

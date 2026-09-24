@@ -1,0 +1,162 @@
+{
+  "before": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": true,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native turbine views, high Forward+/Vulkan, 4x MSAA, VSync off. 2s warmup/4s samples. Physics frozen. Screenshots after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 813.0,
+          "median": 813.0,
+          "p95": 813.0
+        },
+        "frameMs": {
+          "max": 4.469,
+          "median": 3.379,
+          "p95": 4.067
+        },
+        "gpuMs": {
+          "max": 3.7279999256134,
+          "median": 2.88499999046326,
+          "p95": 3.33699989318848
+        },
+        "samples": 1141
+      },
+      "2": {
+        "drawCalls": {
+          "max": 511.0,
+          "median": 511.0,
+          "p95": 511.0
+        },
+        "frameMs": {
+          "max": 4.298,
+          "median": 3.191,
+          "p95": 3.954
+        },
+        "gpuMs": {
+          "max": 3.42300009727478,
+          "median": 2.70700001716614,
+          "p95": 3.17499995231628
+        },
+        "samples": 1204
+      },
+      "3": {
+        "drawCalls": {
+          "max": 1186.0,
+          "median": 1186.0,
+          "p95": 1186.0
+        },
+        "frameMs": {
+          "max": 4.882,
+          "median": 3.699,
+          "p95": 4.664
+        },
+        "gpuMs": {
+          "max": 4.0019998550415,
+          "median": 3.21600008010864,
+          "p95": 3.90599989891052
+        },
+        "samples": 1034
+      },
+      "4": {
+        "drawCalls": {
+          "max": 1041.0,
+          "median": 1041.0,
+          "p95": 1041.0
+        },
+        "frameMs": {
+          "max": 5.129,
+          "median": 3.749,
+          "p95": 4.8
+        },
+        "gpuMs": {
+          "max": 4.18200016021729,
+          "median": 3.27699995040894,
+          "p95": 3.96300005912781
+        },
+        "samples": 1017
+      }
+    }
+  },
+  "after": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": false,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native turbine views, high Forward+/Vulkan, 4x MSAA, VSync off. 2s warmup/4s samples. Physics frozen. Screenshots after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 815.0,
+          "median": 815.0,
+          "p95": 815.0
+        },
+        "frameMs": {
+          "max": 4.568,
+          "median": 3.658,
+          "p95": 4.157
+        },
+        "gpuMs": {
+          "max": 3.8050000667572,
+          "median": 3.08299994468689,
+          "p95": 3.53800010681152
+        },
+        "samples": 1076
+      },
+      "2": {
+        "drawCalls": {
+          "max": 515.0,
+          "median": 515.0,
+          "p95": 515.0
+        },
+        "frameMs": {
+          "max": 4.687,
+          "median": 3.677,
+          "p95": 4.292
+        },
+        "gpuMs": {
+          "max": 3.8970000743866,
+          "median": 3.14000010490417,
+          "p95": 3.61700010299683
+        },
+        "samples": 1058
+      },
+      "3": {
+        "drawCalls": {
+          "max": 1191.0,
+          "median": 1191.0,
+          "p95": 1191.0
+        },
+        "frameMs": {
+          "max": 5.018,
+          "median": 3.935,
+          "p95": 4.731
+        },
+        "gpuMs": {
+          "max": 4.30999994277954,
+          "median": 3.40799999237061,
+          "p95": 4.10799980163574
+        },
+        "samples": 981
+      },
+      "4": {
+        "drawCalls": {
+          "max": 1044.0,
+          "median": 1044.0,
+          "p95": 1044.0
+        },
+        "frameMs": {
+          "max": 4.925,
+          "median": 3.861,
+          "p95": 4.621
+        },
+        "gpuMs": {
+          "max": 4.27099990844727,
+          "median": 3.31500005722046,
+          "p95": 3.9909999370575
+        },
+        "samples": 1006
+      }
+    }
+  }
+}

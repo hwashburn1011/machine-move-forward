@@ -123,8 +123,10 @@ func run():
 	game.player.teleport(Vector3(0,16.1,-1));game.player.set_camera_fade(1)
 	game.cinematics.begin_opening();check(all_faded_to(0),"Opening restores the character after a close camera")
 	game.cinematics.finish();game.set_physics_process(false);game.player.set_physics_process(false)
+	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.1).timeout
+	var refs=preload("res://tests/audio_drain.gd").capture(game.audio)
+	game.queue_free();while is_instance_valid(game):await process_frame
+	MMFAssets.cache.clear();check(await preload("res://tests/audio_drain.gd").finish(self,refs),"Camera test drains pending audio resources before shutdown")
 	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"samples":samples,"rapidTurnBlockedFrames":blocked_frames}
 	var file=FileAccess.open(output+"camera-clearance.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
-	print("CAMERA_RESULT ",checks," checks, ",failures.size()," failures")
-	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.1).timeout
-	game.queue_free();await create_timer(.1).timeout;MMFAssets.cache.clear();quit(0 if failures.is_empty() else 1)
+	print("CAMERA_RESULT ",checks," checks, ",failures.size()," failures");call_deferred("quit",0 if failures.is_empty() else 1)

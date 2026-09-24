@@ -1,0 +1,223 @@
+{
+  "scope": "Sequential 65-second native travel/continuous camera-turn samples, 1920x1080 high Forward+/Vulkan/4x MSAA, VSync off. Initial three simulation seconds also reported separately. Instrumented existing main loop; not a full campaign or sustained-combat benchmark.",
+  "before": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "resolution": "(1920, 1080)",
+    "frameMs": {
+      "max": 152.142,
+      "median": 3.714,
+      "p95": 4.822,
+      "p99": 5.508
+    },
+    "afterFirst3sMs": {
+      "samples": 16233,
+      "median": 3.723,
+      "p95": 4.82,
+      "p99": 5.395,
+      "max": 7.749
+    },
+    "slowFrames": [
+      {
+        "distance": 0.209234234356403,
+        "focused": true,
+        "frame": 1,
+        "gpuMs": 0.0,
+        "ms": 152.142,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 0.0,
+        "setupCpuMs": 1.266,
+        "time": 0.133333333333333
+      },
+      {
+        "distance": 0.424148794462164,
+        "focused": true,
+        "frame": 3,
+        "gpuMs": 35.6769981384277,
+        "ms": 40.935,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 1.28600001335144,
+        "setupCpuMs": 0.27,
+        "time": 0.2
+      },
+      {
+        "distance": 0.621753630925536,
+        "focused": true,
+        "frame": 4,
+        "gpuMs": 35.5779991149902,
+        "ms": 40.978,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 0.845000028610229,
+        "setupCpuMs": 0.256,
+        "time": 0.25
+      },
+      {
+        "distance": 0.768172355923525,
+        "focused": true,
+        "frame": 5,
+        "gpuMs": 31.1319999694824,
+        "ms": 32.752,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 0.815999984741211,
+        "setupCpuMs": 0.256,
+        "time": 0.283333333333333
+      },
+      {
+        "distance": 0.924916027647271,
+        "focused": true,
+        "frame": 6,
+        "gpuMs": 31.7660007476807,
+        "ms": 33.308,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 0.908999979496002,
+        "setupCpuMs": 0.246,
+        "time": 0.316666666666667
+      }
+    ],
+    "slowFramesAfterFirst3s": 0,
+    "mainTicksAbove4ms": 0,
+    "slowStreamSteps": [],
+    "maxMainTickMs": 3.796,
+    "endDistanceM": 476.629654083647,
+    "endSimulationTimeS": 64.9999999999976
+  },
+  "after": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "resolution": "(1920, 1080)",
+    "frameMs": {
+      "max": 162.332,
+      "median": 3.638,
+      "p95": 5.632,
+      "p99": 6.315
+    },
+    "afterFirst3sMs": {
+      "samples": 16018,
+      "median": 3.63,
+      "p95": 5.608,
+      "p99": 6.091,
+      "max": 10.438
+    },
+    "slowFrames": [
+      {
+        "distance": 0.209234234356403,
+        "focused": true,
+        "frame": 1,
+        "gpuMs": 0.0,
+        "ms": 162.332,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 0.0,
+        "setupCpuMs": 0.846,
+        "time": 0.133333333333333
+      },
+      {
+        "distance": 0.364832880006313,
+        "focused": true,
+        "frame": 3,
+        "gpuMs": 34.765998840332,
+        "ms": 41.809,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 1.23399996757507,
+        "setupCpuMs": 0.245,
+        "time": 0.183333333333333
+      },
+      {
+        "distance": 0.552786028384021,
+        "focused": true,
+        "frame": 4,
+        "gpuMs": 32.3019981384277,
+        "ms": 41.432,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 0.783999979496002,
+        "setupCpuMs": 0.276,
+        "time": 0.233333333333333
+      },
+      {
+        "distance": 0.768172355923525,
+        "focused": true,
+        "frame": 5,
+        "gpuMs": 39.2089996337891,
+        "ms": 48.373,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 0.887000024318695,
+        "setupCpuMs": 0.436,
+        "time": 0.283333333333333
+      },
+      {
+        "distance": 0.924916027647271,
+        "focused": true,
+        "frame": 8,
+        "gpuMs": 4.81099987030029,
+        "ms": 17.722,
+        "pipelines": {
+          "CANVAS": 1,
+          "DRAW": 0,
+          "MESH": 44,
+          "SPECIALIZATION": 47,
+          "SURFACE": 73
+        },
+        "renderCpuMs": 1.77799999713898,
+        "setupCpuMs": 0.304,
+        "time": 0.316666666666667
+      }
+    ],
+    "slowFramesAfterFirst3s": 0,
+    "mainTicksAbove4ms": 1,
+    "slowStreamSteps": [],
+    "maxMainTickMs": 4.673,
+    "endDistanceM": 476.506884595309,
+    "endSimulationTimeS": 64.9833333333309
+  }
+}

@@ -88,8 +88,11 @@ func run():
 	blocked.free()
 	life.update(1.8)
 	check(is_equal_approx(life.brush_material.get_shader_parameter("wind_strength"),1.8) and is_equal_approx(life.drift_material.get_shader_parameter("wind_strength"),1.8),"Storm wind reaches both brush and sand without per-instance processing")
+	while game.combat.nav.is_baking():await create_timer(.02).timeout
+	var refs=preload("res://tests/audio_drain.gd").capture(game.audio)
+	game.queue_free();while is_instance_valid(game):await process_frame
+	life=null;s=null;restored=null;MMFAssets.cache.clear()
+	check(await preload("res://tests/audio_drain.gd").finish(self,refs),"Desert test drains pending audio resources before shutdown")
 	var report={"checks":checks,"failures":failures,"passed":failures.is_empty(),"triangles":triangle_count,"sampledProps":count}
 	var file=FileAccess.open("res://../test-results/godot-native/desert-life-tests.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
-	while game.combat.nav.is_baking():await create_timer(.02).timeout
-	game.queue_free();while is_instance_valid(game):await process_frame
-	life=null;s=null;restored=null;await create_timer(.1).timeout;MMFAssets.cache.clear();quit(0 if failures.is_empty() else 1)
+	call_deferred("quit",0 if failures.is_empty() else 1)

@@ -68,17 +68,18 @@ func run():
 		report.retained.append({"name":entry.original,"maxDistanceM":distance,"expectedVertices":expected.size(),"actualVertices":actual.size()})
 	var collision_manifest=MMFAssets.json("res://art/nomad-benches-collision.json")
 	var raw=game.runtime.colliders[int(collision_manifest.sourceCollider)];var body=MMFAssets.find_named(game.world,"NativeWorkshopCollision")
-	var faces=body.get_child(0).shape.get_faces();var cursor=0;var changed=0;var removed=0;var pump_removed=0
+	var faces=body.get_child(0).shape.get_faces();var cursor=0;var changed=0;var removed=0;var pump_removed=0;var intake_removed=0
 	for j in range(0,raw.indices.size(),3):
 		var tri=[]
 		for k in [0,2,1]:
 			var index=int(raw.indices[j+k])*3;tri.append(Vector3(raw.vertices[index],raw.vertices[index+1],raw.vertices[index+2]))
 		if tri.all(func(p):return preload("res://tests/bench_trim.gd").removed(p,"Brace_welded_receiver001",manifest)):removed+=1;continue
 		if tri.all(func(p):return preload("res://tests/pump_trim.gd").removed(p,"Brace_welded_receiver001",pump_manifest)):pump_removed+=1;continue
+		if tri.all(func(p):return preload("res://tests/intake_trim.gd").removed(p)):intake_removed+=1;continue
 		for p in tri:
 			if cursor>=faces.size() or not faces[cursor].is_equal_approx(p):changed+=1
 			cursor+=1
-	check(removed==int(collision_manifest.removedBenchTriangles) and pump_removed==4000 and changed==0 and cursor==faces.size(),"Only old benches and pumps leave the frozen collision; every other triangle and winding is exact")
+	check(removed==int(collision_manifest.removedBenchTriangles) and pump_removed==4000 and intake_removed==12724 and changed==0 and cursor==faces.size(),"Only old benches, pumps and intake leave the frozen collision; every other triangle and winding is exact")
 	report.physics={"removedBenchTriangles":removed,"priorPumpRemoved":pump_removed,"retainedTriangles":cursor/3,"changedVertices":changed}
 	var meshes={};var materials={};var shapes={};var transforms={}
 	for i in bank.get_child_count():

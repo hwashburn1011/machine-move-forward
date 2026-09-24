@@ -1,0 +1,122 @@
+{
+  "supports": [
+    {
+      "part": "Bolted steel mounting shoe",
+      "gapM": 0.0
+    },
+    {
+      "part": "Bolted steel mounting shoe.001",
+      "gapM": 0.0
+    },
+    {
+      "part": "Fitted cast saddle",
+      "gapM": 0.0
+    },
+    {
+      "part": "Fitted cast saddle.001",
+      "gapM": 0.0
+    },
+    {
+      "part": "Saddle connecting bed",
+      "gapM": -0.00950002670288086
+    },
+    {
+      "part": "Rear maintenance plate",
+      "gapM": -0.0028500035405158997
+    },
+    {
+      "part": "Drive data plate",
+      "gapM": -0.0009500384330749512
+    }
+  ],
+  "deckContact": [
+    0.0,
+    0.0
+  ],
+  "bladeClearance": [
+    {
+      "degrees": 0.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 0.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 1.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 1.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 2.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 2.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 3.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 3.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 4.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 4.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 5.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 5.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 6.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 6.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 7.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 7.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 8.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 8.5,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 9.0,
+      "intersectingTrianglePairs": 0
+    },
+    {
+      "degrees": 9.5,
+      "intersectingTrianglePairs": 0
+    }
+  ],
+  "bladeMaximumRadiusM": 1.326425035816448,
+  "radialBoreClearanceM": 0.024474964183551773,
+  "neighbourIntersectingTrianglePairs": 0,
+  "passed": true
+}

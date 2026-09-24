@@ -1,0 +1,50 @@
+[
+  {
+    "suite": "benches",
+    "exitCode": 0,
+    "checks": 87,
+    "problems": []
+  },
+  {
+    "suite": "pumps",
+    "exitCode": 0,
+    "checks": 45,
+    "problems": []
+  },
+  {
+    "suite": "machine_access",
+    "exitCode": 0,
+    "checks": 13,
+    "problems": []
+  },
+  {
+    "suite": "traversal",
+    "exitCode": 0,
+    "checks": 13,
+    "problems": []
+  },
+  {
+    "suite": "integration",
+    "exitCode": 0,
+    "checks": 108,
+    "problems": []
+  },
+  {
+    "suite": "audit_parity",
+    "exitCode": 0,
+    "checks": 132,
+    "problems": []
+  },
+  {
+    "suite": "desert_life",
+    "exitCode": 0,
+    "checks": 28,
+    "problems": []
+  },
+  {
+    "suite": "camera_clearance",
+    "exitCode": 0,
+    "checks": 55,
+    "problems": []
+  }
+]
