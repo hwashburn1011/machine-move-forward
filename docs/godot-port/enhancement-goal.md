@@ -119,3 +119,14 @@ Starting state: `83304e4`. User steering prioritizes a more believable, quietly 
 4. Inspect source/MCP and native views, verify placement/import contracts, compare GPU cost and check streaming/gameplay regressions.
 
 Iteration review: [desert life](desert-life-review.md). The full storm atmosphere remains, while the extra water drain and shelter warning are removed. Sparse scenery and quieter sand add about 0.03 ms median GPU cost in the measured deck views. The broader enhancement goal remains active; this does not resolve the existing intermittent frame-stall investigation or conclude the full-game review.
+
+## Completed iteration: held weapon detail and coherent grips
+
+Starting state: `265f4c5`. Native close-ups showed plain firearm surfaces, a left hand away from the fore-end, and a tracer origin well behind the barrel.
+
+1. Author two compact replacement guns in Blender with worn PBR surfaces, open bores/vents, layered receivers, connected sights and semantic hand/effect/attachment anchors. Preserve original browser assets and weapon definitions.
+2. Solve both arms around a reachable shared hold, following aim and visual recoil. Release to existing reload, terminal, refuel, scripted, turret and death presentation.
+3. Mount all four existing accessories at their physical locations, update them immediately on weapon switches, and start tracers at the actual active outlet. Preserve camera hitscan, deterministic spread, ammunition and timing.
+4. Inspect source/MCP and native views, check final skeletal poses and real controller movement, measure the rendering/pose cost, and run gameplay/movement/camera regressions.
+
+Iteration review: [weapon presentation](weapon-presentation-review.md). The detailed models keep essentially the same measured GPU cost in a fixed native close view; the new hand solver costs about 0.033 ms median CPU. Existing story and combat rules remain unchanged. The overall goal remains active: this pass does not resolve the intermittent engine/render stalls or conclude the wider visual and long-session gameplay review.

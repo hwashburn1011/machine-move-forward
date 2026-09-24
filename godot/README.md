@@ -75,6 +75,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Auto
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -MotionAudit -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -LocomotionTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -LocomotionProfile
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WeaponTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WeaponReview
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WeaponProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
@@ -103,3 +106,5 @@ The [autosave and motion audit](../docs/godot-port/autosave-motion-review.md) re
 The [native locomotion review](../docs/godot-port/locomotion-review.md) covers 24 Blender-authored directional clips, displacement-matched cadence, blocked movement, phase-preserving blends and render-rate skeletal interpolation. The native library reuses the original character geometry/textures and original jump/reload/cinematic clips. `-LocomotionTest -Headless` exercises the actual controller on a supported fixture; `-LocomotionProfile` compares the old presentation logic and the new controller with real GPU rendering on an unobstructed diagnostic platform in the native world. Saves/settings stay isolated.
 
 The [desert refinement review](../docs/godot-port/desert-life-review.md) covers seven original Blender ground details, sparse wind movement, quieter sand colours and removal of the storm's extra water drain. Storm visibility, room comfort and ordinary consumption remain. `-DesertTest -Headless` verifies weather, saved storms and placement; `-DesertProfile` compares native deck views on the GPU; `-DesertReview` captures the models, actual placement and full storm. Each uses isolated test saves/settings.
+
+The [weapon presentation review](../docs/godot-port/weapon-presentation-review.md) covers two detailed Blender weapon models, reachable support-hand placement, pitch/recoil alignment and real muzzle/attachment origins. Gameplay weapon definitions and camera hitscan remain unchanged. `-WeaponTest -Headless` exercises the final skeletal pose and shot behavior, `-WeaponReview` captures native close-ups and `-WeaponProfile` compares the old/new presentation in the real rendered scene. Saves/settings remain isolated.

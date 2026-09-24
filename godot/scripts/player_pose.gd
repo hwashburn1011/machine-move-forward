@@ -46,6 +46,7 @@ func _process_modification_with_delta(dt: float):
 	for name in ["spine_01","spine_02"]:
 		var index=skeleton.find_bone(name)
 		if index>=0: skeleton.set_bone_pose_rotation(index,skeleton.get_bone_pose_rotation(index)*Quaternion(Vector3.RIGHT,clampf(-player.pitch*0.3,-0.32,0.32)*0.5))
+	if player.weapon_pose:player.weapon_pose.apply()
 	if not player.is_on_floor() or player.game.cinematic!="": return
 	for side in ["l","r"]:
 		var hit=foot_hits.get(side,{})

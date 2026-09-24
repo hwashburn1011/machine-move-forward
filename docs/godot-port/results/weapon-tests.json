@@ -1,0 +1,66 @@
+{
+	"checks": 68,
+	"failures": [],
+	"poses": {
+		"rifle-30": {
+			"aimAngleDegrees": 0.00000406754247858707,
+			"chainErrorM": 0.000000115664114730407,
+			"rightPalmOffsetM": 0.0547645054757595,
+			"supportErrorM": 0.0000000596046447753906
+		},
+		"rifle-70": {
+			"aimAngleDegrees": 0.0000112435598220025,
+			"chainErrorM": 0.0000000640110684457795,
+			"rightPalmOffsetM": 0.0547642037272453,
+			"supportErrorM": 0.000000044703483581543
+		},
+		"rifle0": {
+			"aimAngleDegrees": 0.0000179102084325156,
+			"chainErrorM": 0.000000188633634934376,
+			"rightPalmOffsetM": 0.0547642149031162,
+			"supportErrorM": 0.0000000596046447753906
+		},
+		"rifle40": {
+			"aimAngleDegrees": 0.0000088195370677371,
+			"chainErrorM": 0.000000124894484088145,
+			"rightPalmOffsetM": 0.0547645948827267,
+			"supportErrorM": 0.00000190944297173701
+		},
+		"rifle75": {
+			"aimAngleDegrees": 0.0000163955731296623,
+			"chainErrorM": 0.000000136977263309745,
+			"rightPalmOffsetM": 0.0547643601894379,
+			"supportErrorM": 0.000000134110450744629
+		},
+		"shotgun-30": {
+			"aimAngleDegrees": 0.00000406754247858707,
+			"chainErrorM": 0.000000115664114730407,
+			"rightPalmOffsetM": 0.0547645054757595,
+			"supportErrorM": 0.00000190827972801344
+		},
+		"shotgun-70": {
+			"aimAngleDegrees": 0.000016414699204406,
+			"chainErrorM": 0.0000000635759818123915,
+			"rightPalmOffsetM": 0.0547642037272453,
+			"supportErrorM": 0.00000190827972801344
+		},
+		"shotgun0": {
+			"aimAngleDegrees": 0.0000179102084325156,
+			"chainErrorM": 0.000000188633634934376,
+			"rightPalmOffsetM": 0.0547642149031162,
+			"supportErrorM": 0.0000000596046447753906
+		},
+		"shotgun40": {
+			"aimAngleDegrees": 0.0000101654973271686,
+			"chainErrorM": 0.00000011944189282076,
+			"rightPalmOffsetM": 0.0547645948827267,
+			"supportErrorM": 0.0000000298023223876953
+		},
+		"shotgun75": {
+			"aimAngleDegrees": 0.0000163955731296623,
+			"chainErrorM": 0.000000136977263309745,
+			"rightPalmOffsetM": 0.0547643601894379,
+			"supportErrorM": 0.000000134110450744629
+		}
+	}
+}

@@ -5,6 +5,7 @@ var player
 var wrist: Node3D
 var canister: Node3D
 var attachment: Node3D
+var muzzle: Marker3D
 var attachment_id=""
 var refuel_left=0.0
 
@@ -44,18 +45,27 @@ func _process(dt: float):
 		canister.rotation.z=-0.85*gesture;canister.position.y=-0.02+0.025*gesture
 	player.rifle_mesh.visible=not terminal_open and refuel_left<=0 and game.session.current_weapon=="rifle"
 	player.shotgun_mesh.visible=not terminal_open and refuel_left<=0 and game.session.current_weapon=="shotgun"
-	var id=game.session.weapons[game.session.current_weapon].get("attachment","")
+	refresh_attachment()
+
+func refresh_attachment():
+	var id=player.game.session.weapons[player.game.session.current_weapon].get("attachment","")
 	if id==attachment_id: return
 	attachment_id=id
 	if attachment:
 		player.unregister_camera_visual(attachment)
-		attachment.queue_free();attachment=null
+		attachment.queue_free();attachment=null;muzzle=null
 	if id=="": return
 	var names={"rifle-stabilizer":"RifleStabilizer","rifle-burst-cam":"RifleBurstCam","shotgun-choke":"ShotgunChoke","shotgun-scatter-brake":"ShotgunScatterBrake"}
 	if not names.has(id): return
 	attachment=part("models/authored/fieldwork-kit.glb",names[id])
-	player.weapon_socket.add_child(attachment)
-	attachment.position=Vector3(0.125,0,0.12) if id=="rifle-burst-cam" else Vector3(0,0,0.735)
-	attachment.rotation.y=PI
-	attachment.scale/=maxf(player.visual.scale.x,0.01)
+	var anchor=player.weapon_pose.attachment_mount(id=="rifle-burst-cam")
+	anchor.add_child(attachment)
+	attachment.position=Vector3.ZERO
+	if id=="rifle-burst-cam":
+		# The selector face sits outboard on the receiver cheek.
+		attachment.rotation.z=-PI/2
+	else:
+		attachment.rotation.y=PI
+		# The original fieldwork model's recessed outlet is at local -0.118 m.
+		muzzle=Marker3D.new();attachment.add_child(muzzle);muzzle.position=Vector3(0,0,-.119)
 	player.register_camera_visual(attachment)

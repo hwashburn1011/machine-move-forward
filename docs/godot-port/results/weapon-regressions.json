@@ -1,0 +1,32 @@
+[
+  {
+    "suite": "tests",
+    "passCount": 68,
+    "errorsOrWarnings": 0
+  },
+  {
+    "suite": "integration",
+    "passCount": 108,
+    "errorsOrWarnings": 0
+  },
+  {
+    "suite": "audit",
+    "passCount": 132,
+    "errorsOrWarnings": 0
+  },
+  {
+    "suite": "locomotion",
+    "passCount": 39,
+    "errorsOrWarnings": 0
+  },
+  {
+    "suite": "camera",
+    "passCount": 54,
+    "errorsOrWarnings": 0
+  },
+  {
+    "suite": "play-parity",
+    "passCount": 57,
+    "errorsOrWarnings": 0
+  }
+]

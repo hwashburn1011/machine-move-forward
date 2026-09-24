@@ -1,0 +1,176 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"quality": "High / Vulkan Forward+ / 4x MSAA / VSync off",
+	"resolution": "(1920, 1080)",
+	"scenarios": {
+		"rifle-original-1": {
+			"drawCalls": {
+				"max": 306.0,
+				"median": 306.0,
+				"p95": 306.0
+			},
+			"frameMs": {
+				"max": 3.781,
+				"median": 2.566,
+				"p95": 3.211
+			},
+			"gpuMs": {
+				"max": 2.79699993133545,
+				"median": 2.08899998664856,
+				"p95": 2.34699988365173
+			},
+			"holdCpuMs": {},
+			"samples": 1869
+		},
+		"rifle-original-2": {
+			"drawCalls": {
+				"max": 306.0,
+				"median": 306.0,
+				"p95": 306.0
+			},
+			"frameMs": {
+				"max": 3.583,
+				"median": 2.579,
+				"p95": 3.071
+			},
+			"gpuMs": {
+				"max": 2.51200008392334,
+				"median": 2.09899997711182,
+				"p95": 2.3510000705719
+			},
+			"holdCpuMs": {},
+			"samples": 1881
+		},
+		"rifle-refined-1": {
+			"drawCalls": {
+				"max": 315.0,
+				"median": 315.0,
+				"p95": 315.0
+			},
+			"frameMs": {
+				"max": 3.824,
+				"median": 2.568,
+				"p95": 3.121
+			},
+			"gpuMs": {
+				"max": 2.79200005531311,
+				"median": 2.09100008010864,
+				"p95": 2.34800004959106
+			},
+			"holdCpuMs": {
+				"max": 0.079,
+				"median": 0.033,
+				"p95": 0.046
+			},
+			"samples": 1879
+		},
+		"rifle-refined-2": {
+			"drawCalls": {
+				"max": 315.0,
+				"median": 315.0,
+				"p95": 315.0
+			},
+			"frameMs": {
+				"max": 3.505,
+				"median": 2.572,
+				"p95": 3.046
+			},
+			"gpuMs": {
+				"max": 2.41300010681152,
+				"median": 2.09699988365173,
+				"p95": 2.34899997711182
+			},
+			"holdCpuMs": {
+				"max": 0.082,
+				"median": 0.033,
+				"p95": 0.046
+			},
+			"samples": 1887
+		},
+		"shotgun-original-1": {
+			"drawCalls": {
+				"max": 306.0,
+				"median": 306.0,
+				"p95": 306.0
+			},
+			"frameMs": {
+				"max": 3.43,
+				"median": 2.58,
+				"p95": 3.058
+			},
+			"gpuMs": {
+				"max": 2.52099990844727,
+				"median": 2.09999990463257,
+				"p95": 2.3529999256134
+			},
+			"holdCpuMs": {},
+			"samples": 1883
+		},
+		"shotgun-original-2": {
+			"drawCalls": {
+				"max": 306.0,
+				"median": 306.0,
+				"p95": 306.0
+			},
+			"frameMs": {
+				"max": 3.478,
+				"median": 2.573,
+				"p95": 3.05
+			},
+			"gpuMs": {
+				"max": 2.40599989891052,
+				"median": 2.10400009155273,
+				"p95": 2.35700011253357
+			},
+			"holdCpuMs": {},
+			"samples": 1883
+		},
+		"shotgun-refined-1": {
+			"drawCalls": {
+				"max": 313.0,
+				"median": 313.0,
+				"p95": 313.0
+			},
+			"frameMs": {
+				"max": 3.261,
+				"median": 2.56,
+				"p95": 3.038
+			},
+			"gpuMs": {
+				"max": 2.38000011444092,
+				"median": 2.08800005912781,
+				"p95": 2.33999991416931
+			},
+			"holdCpuMs": {
+				"max": 0.077,
+				"median": 0.033,
+				"p95": 0.046
+			},
+			"samples": 1895
+		},
+		"shotgun-refined-2": {
+			"drawCalls": {
+				"max": 313.0,
+				"median": 313.0,
+				"p95": 313.0
+			},
+			"frameMs": {
+				"max": 3.468,
+				"median": 2.553,
+				"p95": 3.068
+			},
+			"gpuMs": {
+				"max": 2.52099990844727,
+				"median": 2.09100008010864,
+				"p95": 2.34299993515015
+			},
+			"holdCpuMs": {
+				"max": 0.078,
+				"median": 0.033,
+				"p95": 0.046
+			},
+			"samples": 1893
+		}
+	},
+	"scope": "Real native world and idle character close view. Original/refined meshes and pose alternate, all assets resident. Two 5s samples each per weapon after 2s warmup. Hold CPU is timed inside the actual SkeletonModifier callback. No combat, travel or streaming; not a gameplay FPS claim."
+}

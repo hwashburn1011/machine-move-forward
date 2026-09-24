@@ -420,3 +420,7 @@ or paid generation services were used; existing third-party licences are unchang
 ## Native desert ground detail
 
 `godot/art/desert-ground-life.glb` contains seven original Blender assemblies: two dry shrubs, a bent root snag, a wind-shaped tuft, two scoured stones and a gravel fan. The [source kit](assets/native-desert/README.md) retains the editable source, render, manifest and generator. Native instancing, vertex-colour materials and pinned-root wind shaders place them sparsely against the actual dune surface. No downloaded models or new third-party textures were used.
+
+## Native rifle and shotgun
+
+`godot/art/native-rifle.glb` and `native-shotgun.glb` refine the two existing held weapons with original Blender geometry and packed procedural PBR maps. The [source kit](assets/native-weapons/README.md) retains editable meshes, semantic grip/muzzle/attachment anchors, materials, manifest and rebuild/MCP review scripts. Native presentation aligns both hands and firing effects with those anchors. Original browser weapon assets and gameplay definitions remain unchanged. No downloaded source meshes, third-party texture images or paid generation services were used.

@@ -30,6 +30,7 @@ var animation_speed = 1.0
 var burst_left=0
 var burst_recovery=0.0
 var pose_modifier: MMFPlayerPose
+var weapon_pose: MMFWeaponPose
 var locomotion: MMFPlayerLocomotion
 var recoil=0.0
 var equipment: MMFEquipment
@@ -88,19 +89,11 @@ func setup(owner_game):
 		weapon_socket = Node3D.new()
 		visual.add_child(weapon_socket)
 		weapon_socket.position = Vector3(0.32, 1.2, 0.4) / fit
-	rifle_mesh = MMFAssets.scene("models/authored/scrap-rifle.glb")
-	shotgun_mesh = MMFAssets.scene("models/authored/scrap-shotgun.glb")
-	for pair in [[rifle_mesh, 0.88], [shotgun_mesh, 0.95]]:
-		var model: Node3D = pair[0]
-		var b = MMFAssets.bounds(model)
-		var long_axis=b.size.max_axis_index()
-		var thin_axis=0 if long_axis!=0 else 1
-		for axis in 3:
-			if axis!=long_axis and b.size[axis]<b.size[thin_axis]: thin_axis=axis
-		var barrel=Vector3.ZERO;barrel[long_axis]=1 if absf(b.end[long_axis])>=absf(b.position[long_axis]) else -1
-		var lateral=Vector3.ZERO;lateral[thin_axis]=1
-		model.basis=Basis(lateral,barrel.cross(lateral),barrel).transposed()
-		model.scale *= float(pair[1]) / maxf(b.size[long_axis], 0.01) / fit
+	rifle_mesh = MMFAssets.scene("res://art/native-rifle.glb")
+	shotgun_mesh = MMFAssets.scene("res://art/native-shotgun.glb")
+	for model in [rifle_mesh,shotgun_mesh]:
+		# Native Blender exports are already metres, +Z bore, with a grip origin.
+		model.scale /= fit
 		model.position.x = -0.05 / fit
 		weapon_socket.add_child(model)
 	shotgun_mesh.visible = false
@@ -110,6 +103,7 @@ func setup(owner_game):
 		shotgun_mesh.reparent(authored_socket,false)
 		weapon_socket=authored_socket
 	equipment=MMFEquipment.new();add_child(equipment);equipment.setup(self)
+	weapon_pose=MMFWeaponPose.new();weapon_pose.setup(self)
 	register_camera_visual(visual)
 	pivot = Node3D.new()
 	game.add_child(pivot)
@@ -145,6 +139,7 @@ func switch_weapon(id: String):
 	cancel_reload()
 	rifle_mesh.visible = id == "rifle"
 	shotgun_mesh.visible = id == "shotgun"
+	if equipment:equipment.refresh_attachment()
 	animation = ""
 
 func cancel_reload():
@@ -250,7 +245,7 @@ func _physics_process(dt):
 	update_camera(dt)
 	if pose_modifier: pose_modifier.sample_feet()
 	recoil=lerpf(recoil,0,1-exp(-12*dt))
-	for model in [rifle_mesh,shotgun_mesh]: model.position.z=-recoil/maxf(visual.scale.x,0.01)
+	# The hold solver moves both arms with presentation recoil, preserving grip.
 
 func update_camera(dt: float):
 	var desired = position + Vector3(0, 1.5 if not crouched else 1.1, 0)
@@ -298,7 +293,8 @@ func fire():
 		if burst_left==0: burst_recovery=0.5
 	fire_left = 1.0 / def.fireRate
 	var forward = -camera.global_basis.z
-	var muzzle = position + Vector3.UP*1.35 + forward*0.6
+	equipment.refresh_attachment()
+	var muzzle = weapon_pose.muzzle_position()
 	for i in int(def.pellets):
 		var spread = deg_to_rad(def.aimSpread if aiming else def.spread)
 		var angle = game.session.rng.randf()*TAU
