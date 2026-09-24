@@ -1,0 +1,23 @@
+{
+  "models": [
+    {
+      "name": "ScrapDrop",
+      "editableParts": 44,
+      "triangles": 11625
+    },
+    {
+      "name": "ComponentDrop",
+      "editableParts": 100,
+      "triangles": 18645
+    },
+    {
+      "name": "FuelDrop",
+      "editableParts": 51,
+      "triangles": 11925
+    }
+  ],
+  "reference": "Original fictional salvage assemblies consistent with existing Nomad equipment; no external assets",
+  "units": "metres",
+  "up": "+Y",
+  "bytes": 3750528
+}

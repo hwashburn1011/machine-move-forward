@@ -44,6 +44,8 @@ The [receiver review](../docs/godot-port/receiver-review.md) covers the aisle-fa
 
 ## Native implementation
 
+Enemy rewards now use grounded Blender scrap, electronics and fuel models. Approach to recover them; nearby labels show the remaining contents and full storage, while a brief receipt reports actual transfers. Uncollected rewards survive manual saves and autosaves, including partial stacks. Older native saves remain valid. The [recovered supplies review](../docs/godot-port/loot-review.md) documents checks, editable models and measured rendering cost.
+
 - `scripts/session.gd`: resources, recipes, power, fuel/crawl, progression, research, and save state.
 - `scripts/player*.gd`, `equipment.gd`: movement, swept camera obstruction, aiming, reload/feet/terminal poses, weapons, and attachments.
 - `scripts/building.gd`, `home.gd`, `caretaker.gd`: construction, preservation of contents, support cascades, shelter, producers, keepsakes, and L-12.

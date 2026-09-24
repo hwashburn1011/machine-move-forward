@@ -17,6 +17,7 @@ var volley_timer = 0.0
 var crew: Array = []
 var shells: Array = []
 var loot: Array = []
+var loot_view=MMFLootView.new()
 var shot_clocks = {}
 var encounter_had_enemies = false
 var nav: NavigationRegion3D
@@ -31,6 +32,7 @@ var disabled_time=0.0
 
 func setup(owner_game):
 	game=owner_game
+	loot_view.setup(game)
 	mission.setup(game)
 	nav=NavigationRegion3D.new()
 	var mesh=NavigationMesh.new()
@@ -137,13 +139,18 @@ func update(dt: float):
 				if game.building.center(p.cell).distance_to(shell.target)<2.0: game.building.damage(p.instanceId,shell.damage,shell.target)
 			shell.marker.queue_free()
 			shells.remove_at(i)
+	loot_view.update()
 	for i in range(loot.size()-1,-1,-1):
 		var item=loot[i]
 		if item.node.position.distance_to(game.player.position)<1.7:
+			var before=int(item.count)
 			item.count=state.add_resource(item.id,item.count)
+			if game.ui:game.ui.loot_readout.record(item.id,before-int(item.count))
 			if item.count==0:
 				item.node.queue_free()
 				loot.remove_at(i)
+	# Hide collected instances in the same update that transfers their resources.
+	if loot_view.previous_count!=loot.size():loot_view.update()
 	update_turrets(dt)
 	if encounter_had_enemies and not active_threat() and ship_state=="none":
 		encounter_had_enemies=false
@@ -270,12 +277,15 @@ func retreat_ship(destroyed: bool):
 	encounter_had_enemies=true
 
 func drop_loot(at: Vector3,id: String,count: int):
-	var node=MMFAssets.box(self,Vector3(0.16,0.16,0.16),at+Vector3.UP*0.2,MMFAssets.material(Color(0.3,0.8,0.8),1),false)
-	loot.append({"node":node,"id":id,"count":count})
+	if count<=0 or not game.data.ITEMS.has(id):return
+	var node=Node3D.new();node.name="Recovered_"+id;add_child(node);node.position=at+Vector3.UP*.2
+	var item={"node":node,"id":id,"count":count}
+	loot_view.place(item);loot.append(item)
 
 func killed(enemy): mission.recover(enemy)
 
 func layout_changed():
+	loot_view.invalidate()
 	nav_dirty=true;nav_delay=0.3
 	var bounds=AABB(Vector3(-20,7,-20),Vector3(40,20,40))
 	for p in game.session.structures:

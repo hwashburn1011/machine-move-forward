@@ -1,0 +1,24 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"scope": "1920x1080 high Forward+/Vulkan 4x MSAA, VSync off, 2s warmup/4s sample; 3 drops then 27 accumulated drops; frozen simulation, identical pad/environment/cameras.",
+	"views": {
+		"accumulated": {
+			"drawCalls": 354,
+			"medianFrameMs": 2.815,
+			"medianGpuMs": 2.38000011444092,
+			"samples": 1359
+		},
+		"close": {
+			"drawCalls": 259,
+			"medianFrameMs": 2.556,
+			"medianGpuMs": 2.04900002479553,
+			"samples": 1522
+		},
+		"play-distance": {
+			"drawCalls": 114,
+			"medianFrameMs": 2.278,
+			"medianGpuMs": 1.85000002384186,
+			"samples": 1681
+		}
+	}
+}

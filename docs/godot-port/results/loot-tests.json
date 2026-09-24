@@ -1,0 +1,22 @@
+{
+	"checks": 62,
+	"failures": [],
+	"models": {
+		"components": {
+			"collapsed": 0,
+			"surfaces": 7,
+			"triangles": 18645
+		},
+		"fuel": {
+			"collapsed": 0,
+			"surfaces": 6,
+			"triangles": 11925
+		},
+		"scrap": {
+			"collapsed": 0,
+			"surfaces": 6,
+			"triangles": 11625
+		}
+	},
+	"passed": true
+}

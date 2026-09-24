@@ -30,6 +30,7 @@ var boarding: Label
 var hit_readout: Label
 var hit_left=0.0
 var salvage_readout: MMFSalvageReadout
+var loot_readout: MMFLootReadout
 
 func setup(owner_game):
 	game=owner_game
@@ -79,6 +80,7 @@ func setup(owner_game):
 	boarding.add_theme_color_override("font_color",Color(1,.57,.23))
 	hit_readout=overlay(Vector2(815,575),Vector2(290,40),18);hit_readout.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	salvage_readout=MMFSalvageReadout.new();root.add_child(salvage_readout);salvage_readout.setup(game)
+	loot_readout=MMFLootReadout.new();root.add_child(loot_readout);loot_readout.setup(game)
 	panel=PanelContainer.new()
 	var background=normal.duplicate()
 	background.bg_color=Color(0.014,0.03,0.031,0.985)
@@ -463,6 +465,7 @@ func _process(dt):
 	if game==null: return
 	var readable=game.started and not game.menu_open and game.cinematic=="" and game.session.health>0
 	salvage_readout.update()
+	loot_readout.update(dt)
 	transmission.visible=readable and not game.combat.active_threat() and not game.journey.current.is_empty()
 	if transmission.visible: transmission.text=game.journey.current.speaker+"  //  "+game.hint(game.journey.current.text)
 	boarding.visible=readable and game.combat.ship_state=="grapple" and is_instance_valid(game.combat.hook) and game.combat.hook_health>0

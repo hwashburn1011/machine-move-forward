@@ -435,7 +435,7 @@ func save_game(id: String) -> bool:
 	if not safe_to_save():
 		if id!="autosave": session.notify("Finish the salvage throw before saving." if salvage.busy() else ("Leave the deck gun before saving." if manual_turret!="" else "Return aboard and secure the deck before saving."))
 		return false
-	var payload={"session":session.native_snapshot(),"player":{"position":MMFAssets.dict_v(player.position),"yaw":player.yaw,"pitch":player.pitch},"salvageDistance":salvage.next_distance,"cargo":salvage.snapshot()}
+	var payload={"session":session.native_snapshot(),"player":{"position":MMFAssets.dict_v(player.position),"yaw":player.yaw,"pitch":player.pitch},"salvageDistance":salvage.next_distance,"cargo":salvage.snapshot(),"loot":combat.loot_view.snapshot()}
 	if id=="autosave":
 		# An accepted autosave means queued, not durable yet. Success/failure is
 		# harvested by the always-processing helper. Bound failure retries too.
@@ -455,6 +455,8 @@ func load_payload(payload: Dictionary):
 	if not payload.get("session") is Dictionary:
 		session.notify("Invalid or incompatible native campaign.")
 		return
+	if not MMFLootView.valid_snapshot(payload.get("loot",[]),data.ITEMS):
+		session.notify("Invalid recovered supplies in campaign save.");return
 	var trial=MMFSession.new(data)
 	var position_data=payload.get("player",{}).get("position",{"x":0,"y":16.1,"z":-1}) if payload.get("player",{}) is Dictionary else null
 	if not position_data is Dictionary: session.notify("Invalid player position.");return
@@ -480,6 +482,7 @@ func load_payload(payload: Dictionary):
 	combat.shells.clear()
 	for drop in combat.loot: drop.node.queue_free()
 	combat.loot.clear()
+	combat.loot_view.clear();ui.loot_readout.clear()
 	if combat.hook: combat.hook.queue_free();combat.hook=null
 	world.set_dock_open(false)
 	session.notice.connect(ui.notify)
@@ -517,6 +520,7 @@ func load_payload(payload: Dictionary):
 	if session.contacts.active.get("state","") in ["committed","docked","visited"]:
 		opportunities.create_site()
 		world.set_dock_open(session.contacts.active.state in ["docked","visited"])
+	combat.loot_view.restore(payload.get("loot",[]))
 	player.death_left=0
 	player.dead=false;player.hit_grace=0;player.reload_left=0;player.burst_left=0
 	player.boundary.clear()

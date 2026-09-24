@@ -118,6 +118,8 @@ func run():
 	report.receipt=receipt;report.checks=checks;report.failures=failures
 	var file=FileAccess.open("res://../test-results/godot-native/salvage-tests.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	while game.combat.nav.is_baking():await create_timer(.02).timeout
+	var audio_refs=preload("res://tests/audio_drain.gd").capture(game.audio)
 	game.queue_free();while is_instance_valid(game):await process_frame
-	p=null;c=null;plane=null;await create_timer(.1).timeout;MMFAssets.cache.clear()
-	print("SALVAGE_RESULT ",checks," checks, ",failures.size()," failures");quit(0 if failures.is_empty() else 1)
+	p=null;c=null;plane=null;MMFAssets.cache.clear()
+	await preload("res://tests/audio_drain.gd").finish(self,audio_refs)
+	print("SALVAGE_RESULT ",checks," checks, ",failures.size()," failures");call_deferred("quit",0 if failures.is_empty() else 1)
