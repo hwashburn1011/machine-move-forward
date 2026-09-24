@@ -56,7 +56,7 @@ func run():
 	if bank==null:quit(1);return
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var physical_manifest=MMFAssets.json("res://art/nomad-pumps-collision.json")
-	var raw=game.runtime.colliders[int(physical_manifest.sourceCollider)]
+	var raw=MMFAssets.json("res://data/runtime.json").colliders[int(physical_manifest.sourceCollider)]
 	var body=MMFAssets.find_named(game.world,"NativeWorkshopCollision")
 	var faces=body.get_child(0).shape.get_faces();var cursor=0;var removed_count=0;var changed=0;var bench_count=0;var intake_count=0
 	for j in range(0,raw.indices.size(),3):
@@ -88,7 +88,7 @@ func run():
 		var actual=vertices(retained)
 		var distance=maxf(retained_distance(expected,actual),retained_distance(actual,expected))
 		check(distance<.001,"Unrelated workshop and undercarriage coordinates retain 1 mm accuracy: "+entry.original)
-		check(retained.get_active_material(0)==old.get_active_material(0),"Original retained material is preserved: "+entry.original)
+		check(preload("res://tests/material_equivalence.gd").same(retained.get_active_material(0),old.get_active_material(0)),"Original retained material properties and textures are preserved: "+entry.original)
 		report.retained.append({"name":entry.original,"maxDistanceM":distance,"expectedVertices":expected.size(),"actualVertices":actual.size()})
 	var meshes={};var materials={};var transforms={}
 	for i in bank.get_child_count():

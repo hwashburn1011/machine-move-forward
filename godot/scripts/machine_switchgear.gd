@@ -37,6 +37,11 @@ func install(machine: Node3D):
 		MMFAssets.find_named(instance,"SwitchgearIndicators").material_override=indicators
 	cabinet.free()
 
+func bind(machine: Node3D):
+	root=MMFAssets.find_named(machine,"NativeSwitchgear")
+	indicators=MMFAssets.find_named(root,"SwitchgearIndicators").material_override
+	remaining=0.0;displayed=-1
+
 func update(dt: float,session):
 	if indicators==null:return
 	remaining-=dt

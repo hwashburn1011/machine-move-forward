@@ -1,0 +1,114 @@
+{
+  "passed": true,
+  "checks": 909,
+  "suites": [
+    {
+      "test": "turbine",
+      "exit": 0,
+      "passes": 27,
+      "problems": []
+    },
+    {
+      "test": "benches",
+      "exit": 0,
+      "passes": 87,
+      "problems": []
+    },
+    {
+      "test": "pumps",
+      "exit": 0,
+      "passes": 45,
+      "problems": []
+    },
+    {
+      "test": "compiled_machine",
+      "exit": 0,
+      "passes": 20,
+      "problems": []
+    },
+    {
+      "test": "canopy",
+      "exit": 0,
+      "passes": 26,
+      "problems": []
+    },
+    {
+      "test": "switchgear",
+      "exit": 0,
+      "passes": 74,
+      "problems": []
+    },
+    {
+      "test": "pressure_vessels",
+      "exit": 0,
+      "passes": 76,
+      "problems": []
+    },
+    {
+      "test": "cargo_lockers",
+      "exit": 0,
+      "passes": 56,
+      "problems": []
+    },
+    {
+      "test": "deck_dressing",
+      "exit": 0,
+      "passes": 37,
+      "problems": []
+    },
+    {
+      "test": "machine_access",
+      "exit": 0,
+      "passes": 13,
+      "problems": []
+    },
+    {
+      "test": "traversal",
+      "exit": 0,
+      "passes": 13,
+      "problems": []
+    },
+    {
+      "test": "integration",
+      "exit": 0,
+      "passes": 108,
+      "problems": []
+    },
+    {
+      "test": "audit_parity",
+      "exit": 0,
+      "passes": 132,
+      "problems": []
+    },
+    {
+      "test": "play_parity",
+      "exit": 0,
+      "passes": 58,
+      "problems": []
+    },
+    {
+      "test": "camera_clearance",
+      "exit": 0,
+      "passes": 55,
+      "problems": []
+    },
+    {
+      "test": "desert_life",
+      "exit": 0,
+      "passes": 28,
+      "problems": []
+    },
+    {
+      "test": "opening_handoff",
+      "exit": 0,
+      "passes": 32,
+      "problems": []
+    },
+    {
+      "test": "opening_framing",
+      "exit": 0,
+      "passes": 22,
+      "problems": []
+    }
+  ]
+}

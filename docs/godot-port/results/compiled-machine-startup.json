@@ -1,0 +1,592 @@
+{
+  "note": "Two pairs in opposite order. Warm-cache developer measurements; startup timing varies. Static memory is Godot-tracked CPU allocation, not total process RSS.",
+  "samples": [
+    {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "compiled": false,
+      "completed": true,
+      "firstTitleMs": 3471.926,
+      "memoryAtTitle": {
+        "bufferBytes": 185819730.0,
+        "resources": 1949.0,
+        "staticBytes": 208347492,
+        "textureBytes": 886420992.0,
+        "videoBytes": 1115347312.0
+      },
+      "newGameCpuMs": 2.18,
+      "openingAndPlayMs": {
+        "max": 17.471,
+        "median": 16.666,
+        "p95": 16.814,
+        "p99": 17.108
+      },
+      "readyCpuMs": 3266.836,
+      "readyStages": [
+        {
+          "ms": 3.48,
+          "stage": "data=MMFAssets.json(\"res://data/definitions.json\")"
+        },
+        {
+          "ms": 104.207,
+          "stage": "runtime=MMFAssets.json(\"res://data/runtime.json\")"
+        },
+        {
+          "ms": 2111.059,
+          "stage": "world=trace_world_script.new();add_child(world);world.setup(self)"
+        },
+        {
+          "ms": 178.062,
+          "stage": "building=MMFBuilding.new();add_child(building);building.setup(self)"
+        },
+        {
+          "ms": 549.686,
+          "stage": "player=MMFPlayer.new();add_child(player);player.setup(self)"
+        },
+        {
+          "ms": 11.405,
+          "stage": "combat=MMFCombat.new();add_child(combat);combat.setup(self)"
+        },
+        {
+          "ms": 128.804,
+          "stage": "salvage=MMFSalvage.new();add_child(salvage);salvage.setup(self)"
+        },
+        {
+          "ms": 0.026,
+          "stage": "campaign=MMFCampaign.new();add_child(campaign);campaign.setup(self)"
+        },
+        {
+          "ms": 15.596,
+          "stage": "cinematics=MMFCinematics.new();add_child(cinematics);cinematics.setup(self)"
+        },
+        {
+          "ms": 0.036,
+          "stage": "home=MMFHome.new();add_child(home);home.setup(self)"
+        },
+        {
+          "ms": 131.252,
+          "stage": "caretaker=MMFCaretaker.new();add_child(caretaker);caretaker.setup(self)"
+        },
+        {
+          "ms": 0.017,
+          "stage": "opportunities=MMFOpportunities.new();add_child(opportunities);opportunities.setup(self)"
+        },
+        {
+          "ms": 17.476,
+          "stage": "audio.setup(self)"
+        },
+        {
+          "ms": 10.615,
+          "stage": "ui=MMFUI.new();add_child(ui);ui.setup(self)"
+        },
+        {
+          "ms": 1.262,
+          "stage": "story_art.setup()"
+        },
+        {
+          "ms": 0.074,
+          "stage": "save_settings()"
+        },
+        {
+          "ms": 3.692,
+          "stage": "open_menu(\"Title\")"
+        },
+        {
+          "ms": 0.045,
+          "stage": "print(\"MMF_NATIVE_READY \",RenderingServer.get_video_adapter_name())"
+        }
+      ],
+      "scope": "Actual paused title, New Game and existing opening at 1080p high/Vulkan/4x MSAA, VSync off, 60 FPS cap. Ready stages instrumented in test-only copies. First title time begins immediately before main ready, excluding test script parsing and engine bootstrap.",
+      "slowFrames": [
+        {
+          "gpuMs": 38.5579986572266,
+          "ms": 40.241,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 33.6030006408691,
+          "ms": 36.241,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 36.5769996643066,
+          "ms": 39.159,
+          "openingPrepared": false,
+          "phase": "title"
+        }
+      ],
+      "worldStages": [
+        {
+          "ms": 459.256,
+          "stage": "add_child(machine)"
+        },
+        {
+          "ms": 347.307,
+          "stage": "MMFMachineBenches.install(machine)"
+        },
+        {
+          "ms": 354.057,
+          "stage": "MMFMachinePumps.install_collision(self)"
+        },
+        {
+          "ms": 4.79,
+          "stage": "MMFMachineIntake.install_collision(self)"
+        },
+        {
+          "ms": 0.009,
+          "stage": "machine assembled"
+        },
+        {
+          "ms": 1.813,
+          "stage": "gait.setup(game,machine)"
+        },
+        {
+          "ms": 93.119,
+          "stage": "lighting()"
+        },
+        {
+          "ms": 651.119,
+          "stage": "streamer.setup(self)"
+        },
+        {
+          "ms": 198.992,
+          "stage": "end"
+        }
+      ],
+      "sample": "author-final"
+    },
+    {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "compiled": true,
+      "completed": true,
+      "firstTitleMs": 2742.492,
+      "memoryAtTitle": {
+        "bufferBytes": 174051006.0,
+        "resources": 1912.0,
+        "staticBytes": 157710612,
+        "textureBytes": 886420992.0,
+        "videoBytes": 1103575760.0
+      },
+      "newGameCpuMs": 2.203,
+      "openingAndPlayMs": {
+        "max": 17.86,
+        "median": 16.663,
+        "p95": 16.856,
+        "p99": 17.182
+      },
+      "readyCpuMs": 2616.32,
+      "readyStages": [
+        {
+          "ms": 3.483,
+          "stage": "data=MMFAssets.json(\"res://data/definitions.json\")"
+        },
+        {
+          "ms": 0.264,
+          "stage": "runtime=MMFAssets.json(\"res://data/runtime-play.json\")"
+        },
+        {
+          "ms": 1779.289,
+          "stage": "world=trace_world_script.new();add_child(world);world.setup(self)"
+        },
+        {
+          "ms": 136.915,
+          "stage": "building=MMFBuilding.new();add_child(building);building.setup(self)"
+        },
+        {
+          "ms": 433.376,
+          "stage": "player=MMFPlayer.new();add_child(player);player.setup(self)"
+        },
+        {
+          "ms": 9.211,
+          "stage": "combat=MMFCombat.new();add_child(combat);combat.setup(self)"
+        },
+        {
+          "ms": 96.729,
+          "stage": "salvage=MMFSalvage.new();add_child(salvage);salvage.setup(self)"
+        },
+        {
+          "ms": 0.022,
+          "stage": "campaign=MMFCampaign.new();add_child(campaign);campaign.setup(self)"
+        },
+        {
+          "ms": 12.189,
+          "stage": "cinematics=MMFCinematics.new();add_child(cinematics);cinematics.setup(self)"
+        },
+        {
+          "ms": 0.024,
+          "stage": "home=MMFHome.new();add_child(home);home.setup(self)"
+        },
+        {
+          "ms": 112.667,
+          "stage": "caretaker=MMFCaretaker.new();add_child(caretaker);caretaker.setup(self)"
+        },
+        {
+          "ms": 0.015,
+          "stage": "opportunities=MMFOpportunities.new();add_child(opportunities);opportunities.setup(self)"
+        },
+        {
+          "ms": 17.364,
+          "stage": "audio.setup(self)"
+        },
+        {
+          "ms": 10.021,
+          "stage": "ui=MMFUI.new();add_child(ui);ui.setup(self)"
+        },
+        {
+          "ms": 1.097,
+          "stage": "story_art.setup()"
+        },
+        {
+          "ms": 0.066,
+          "stage": "save_settings()"
+        },
+        {
+          "ms": 3.503,
+          "stage": "open_menu(\"Title\")"
+        },
+        {
+          "ms": 0.042,
+          "stage": "print(\"MMF_NATIVE_READY \",RenderingServer.get_video_adapter_name())"
+        }
+      ],
+      "scope": "Actual paused title, New Game and existing opening at 1080p high/Vulkan/4x MSAA, VSync off, 60 FPS cap. Ready stages instrumented in test-only copies. First title time begins immediately before main ready, excluding test script parsing and engine bootstrap.",
+      "slowFrames": [
+        {
+          "gpuMs": 39.2910003662109,
+          "ms": 39.899,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 31.9740009307861,
+          "ms": 33.714,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 33.7919998168945,
+          "ms": 38.369,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 26.7430000305176,
+          "ms": 29.266,
+          "openingPrepared": false,
+          "phase": "title"
+        }
+      ],
+      "worldStages": [
+        {
+          "ms": 1026.616,
+          "stage": "machine assembled"
+        },
+        {
+          "ms": 1.679,
+          "stage": "gait.setup(game,machine)"
+        },
+        {
+          "ms": 97.148,
+          "stage": "lighting()"
+        },
+        {
+          "ms": 537.84,
+          "stage": "streamer.setup(self)"
+        },
+        {
+          "ms": 115.574,
+          "stage": "end"
+        }
+      ],
+      "sample": "compiled-final"
+    },
+    {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "compiled": true,
+      "completed": true,
+      "firstTitleMs": 3259.637,
+      "memoryAtTitle": {
+        "bufferBytes": 174051006.0,
+        "resources": 1912.0,
+        "staticBytes": 159037291,
+        "textureBytes": 886420992.0,
+        "videoBytes": 1103575760.0
+      },
+      "newGameCpuMs": 2.159,
+      "openingAndPlayMs": {
+        "max": 17.362,
+        "median": 16.666,
+        "p95": 16.746,
+        "p99": 16.943
+      },
+      "readyCpuMs": 3040.98,
+      "readyStages": [
+        {
+          "ms": 3.528,
+          "stage": "data=MMFAssets.json(\"res://data/definitions.json\")"
+        },
+        {
+          "ms": 0.266,
+          "stage": "runtime=MMFAssets.json(\"res://data/runtime-play.json\")"
+        },
+        {
+          "ms": 2189.194,
+          "stage": "world=trace_world_script.new();add_child(world);world.setup(self)"
+        },
+        {
+          "ms": 138.443,
+          "stage": "building=MMFBuilding.new();add_child(building);building.setup(self)"
+        },
+        {
+          "ms": 433.22,
+          "stage": "player=MMFPlayer.new();add_child(player);player.setup(self)"
+        },
+        {
+          "ms": 9.264,
+          "stage": "combat=MMFCombat.new();add_child(combat);combat.setup(self)"
+        },
+        {
+          "ms": 102.055,
+          "stage": "salvage=MMFSalvage.new();add_child(salvage);salvage.setup(self)"
+        },
+        {
+          "ms": 0.017,
+          "stage": "campaign=MMFCampaign.new();add_child(campaign);campaign.setup(self)"
+        },
+        {
+          "ms": 12.182,
+          "stage": "cinematics=MMFCinematics.new();add_child(cinematics);cinematics.setup(self)"
+        },
+        {
+          "ms": 0.023,
+          "stage": "home=MMFHome.new();add_child(home);home.setup(self)"
+        },
+        {
+          "ms": 118.487,
+          "stage": "caretaker=MMFCaretaker.new();add_child(caretaker);caretaker.setup(self)"
+        },
+        {
+          "ms": 0.016,
+          "stage": "opportunities=MMFOpportunities.new();add_child(opportunities);opportunities.setup(self)"
+        },
+        {
+          "ms": 17.248,
+          "stage": "audio.setup(self)"
+        },
+        {
+          "ms": 12.467,
+          "stage": "ui=MMFUI.new();add_child(ui);ui.setup(self)"
+        },
+        {
+          "ms": 0.998,
+          "stage": "story_art.setup()"
+        },
+        {
+          "ms": 0.068,
+          "stage": "save_settings()"
+        },
+        {
+          "ms": 3.417,
+          "stage": "open_menu(\"Title\")"
+        },
+        {
+          "ms": 0.042,
+          "stage": "print(\"MMF_NATIVE_READY \",RenderingServer.get_video_adapter_name())"
+        }
+      ],
+      "scope": "Actual paused title, New Game and existing opening at 1080p high/Vulkan/4x MSAA, VSync off, 60 FPS cap. Ready stages instrumented in test-only copies. First title time begins immediately before main ready, excluding test script parsing and engine bootstrap.",
+      "slowFrames": [],
+      "worldStages": [
+        {
+          "ms": 1298.543,
+          "stage": "machine assembled"
+        },
+        {
+          "ms": 3.217,
+          "stage": "gait.setup(game,machine)"
+        },
+        {
+          "ms": 103.117,
+          "stage": "lighting()"
+        },
+        {
+          "ms": 667.996,
+          "stage": "streamer.setup(self)"
+        },
+        {
+          "ms": 115.883,
+          "stage": "end"
+        }
+      ],
+      "sample": "compiled-repeat"
+    },
+    {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "compiled": false,
+      "completed": true,
+      "firstTitleMs": 2983.794,
+      "memoryAtTitle": {
+        "bufferBytes": 185819730.0,
+        "resources": 1949.0,
+        "staticBytes": 209670871,
+        "textureBytes": 886420992.0,
+        "videoBytes": 1115347312.0
+      },
+      "newGameCpuMs": 2.196,
+      "openingAndPlayMs": {
+        "max": 17.277,
+        "median": 16.666,
+        "p95": 16.763,
+        "p99": 16.972
+      },
+      "readyCpuMs": 2854.761,
+      "readyStages": [
+        {
+          "ms": 3.558,
+          "stage": "data=MMFAssets.json(\"res://data/definitions.json\")"
+        },
+        {
+          "ms": 103.769,
+          "stage": "runtime=MMFAssets.json(\"res://data/runtime.json\")"
+        },
+        {
+          "ms": 1907.359,
+          "stage": "world=trace_world_script.new();add_child(world);world.setup(self)"
+        },
+        {
+          "ms": 138.143,
+          "stage": "building=MMFBuilding.new();add_child(building);building.setup(self)"
+        },
+        {
+          "ms": 437.922,
+          "stage": "player=MMFPlayer.new();add_child(player);player.setup(self)"
+        },
+        {
+          "ms": 8.855,
+          "stage": "combat=MMFCombat.new();add_child(combat);combat.setup(self)"
+        },
+        {
+          "ms": 95.643,
+          "stage": "salvage=MMFSalvage.new();add_child(salvage);salvage.setup(self)"
+        },
+        {
+          "ms": 0.019,
+          "stage": "campaign=MMFCampaign.new();add_child(campaign);campaign.setup(self)"
+        },
+        {
+          "ms": 12.731,
+          "stage": "cinematics=MMFCinematics.new();add_child(cinematics);cinematics.setup(self)"
+        },
+        {
+          "ms": 0.024,
+          "stage": "home=MMFHome.new();add_child(home);home.setup(self)"
+        },
+        {
+          "ms": 114.609,
+          "stage": "caretaker=MMFCaretaker.new();add_child(caretaker);caretaker.setup(self)"
+        },
+        {
+          "ms": 0.015,
+          "stage": "opportunities=MMFOpportunities.new();add_child(opportunities);opportunities.setup(self)"
+        },
+        {
+          "ms": 17.321,
+          "stage": "audio.setup(self)"
+        },
+        {
+          "ms": 10.206,
+          "stage": "ui=MMFUI.new();add_child(ui);ui.setup(self)"
+        },
+        {
+          "ms": 1.001,
+          "stage": "story_art.setup()"
+        },
+        {
+          "ms": 0.067,
+          "stage": "save_settings()"
+        },
+        {
+          "ms": 3.432,
+          "stage": "open_menu(\"Title\")"
+        },
+        {
+          "ms": 0.043,
+          "stage": "print(\"MMF_NATIVE_READY \",RenderingServer.get_video_adapter_name())"
+        }
+      ],
+      "scope": "Actual paused title, New Game and existing opening at 1080p high/Vulkan/4x MSAA, VSync off, 60 FPS cap. Ready stages instrumented in test-only copies. First title time begins immediately before main ready, excluding test script parsing and engine bootstrap.",
+      "slowFrames": [
+        {
+          "gpuMs": 39.8950004577637,
+          "ms": 40.583,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 33.6279983520508,
+          "ms": 38.942,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 35.6440010070801,
+          "ms": 39.493,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 29.4209995269775,
+          "ms": 31.691,
+          "openingPrepared": false,
+          "phase": "title"
+        },
+        {
+          "gpuMs": 28.6189994812012,
+          "ms": 30.37,
+          "openingPrepared": false,
+          "phase": "title"
+        }
+      ],
+      "worldStages": [
+        {
+          "ms": 467.447,
+          "stage": "add_child(machine)"
+        },
+        {
+          "ms": 333.246,
+          "stage": "MMFMachineBenches.install(machine)"
+        },
+        {
+          "ms": 350.658,
+          "stage": "MMFMachinePumps.install_collision(self)"
+        },
+        {
+          "ms": 4.98,
+          "stage": "MMFMachineIntake.install_collision(self)"
+        },
+        {
+          "ms": 0.006,
+          "stage": "machine assembled"
+        },
+        {
+          "ms": 1.806,
+          "stage": "gait.setup(game,machine)"
+        },
+        {
+          "ms": 95.504,
+          "stage": "lighting()"
+        },
+        {
+          "ms": 539.997,
+          "stage": "streamer.setup(self)"
+        },
+        {
+          "ms": 113.131,
+          "stage": "end"
+        }
+      ],
+      "sample": "author-repeat"
+    }
+  ]
+}

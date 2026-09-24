@@ -59,7 +59,26 @@ var gait=MMFGait.new()
 func setup(owner_game):
 	game = owner_game
 	seed_value = game.session.seed_name.hash()
+	if get_tree().has_meta("author_machine") or not ResourceLoader.exists("res://art/nomad-native.scn"):
+		var source=game.runtime.colliders if game.runtime.has("colliders") else MMFAssets.json("res://data/runtime.json").colliders
+		assemble_machine(source)
+	else:
+		var assembled=MMFAssets.scene("res://art/nomad-native.scn");add_child(assembled)
+		machine=assembled.get_node("Machine");machine.reparent(self,false)
+		for child in assembled.get_node("Physics").get_children():child.reparent(self,false)
+		assembled.free()
+		native_access=MMFAssets.find_named(machine,"NativeDeckAccess")
+		native_dressing=MMFAssets.find_named(machine,"NativeDeckDressing")
+		native_intake=MMFAssets.find_named(machine,"NativeMainIntake")
+		canopy.bind(machine);switchgear.bind(machine)
+	gait.setup(game,machine)
+	setup_environment()
+
+func assemble_machine(colliders: Array):
+	# Authoring recipe retained for rebuilding the compiled native scene and
+	# verifying it against every original transform, mesh, material and shape.
 	machine = MMFAssets.scene("runtime/machine.glb")
+	machine.name="Machine"
 	add_child(machine)
 	native_access=MMFMachineAccess.install(self)
 	native_dressing=MMFMachineDressing.install(machine)
@@ -69,11 +88,10 @@ func setup(owner_game):
 	MMFMachineBenches.install(machine)
 	native_intake=MMFMachineIntake.install(machine)
 	canopy.install(machine)
-	gait.setup(game,machine)
 	# Compose the pump, bench and main-intake removals from the frozen mesh.
 	var workshop_collision=MMFAssets.json("res://art/nomad-intake-collision.json")
-	for index in game.runtime.colliders.size():
-		var raw=game.runtime.colliders[index]
+	for index in colliders.size():
+		var raw=colliders[index]
 		var ranges=workshop_collision.retainedIndexRanges if index==int(workshop_collision.sourceCollider) else []
 		if not ranges.is_empty():assert(raw.indices.size()==int(workshop_collision.sourceIndexCount),"Workshop collision bake changed; regenerate retained ranges")
 		var body=MMFAssets.collider(self,raw,ranges)
@@ -86,6 +104,8 @@ func setup(owner_game):
 	MMFMachinePumps.install_collision(self)
 	MMFMachineBenches.install_collision(self)
 	MMFMachineIntake.install_collision(self)
+
+func setup_environment():
 	# The receiver is hidden in the initial browser scene and is therefore absent
 	# from the visible-only machine bake. Restore its authored model and lifecycle.
 	receiver=MMFAssets.scene("models/authored/salvaged-radio.glb")

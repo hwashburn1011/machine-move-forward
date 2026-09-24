@@ -43,6 +43,11 @@ func install(machine: Node3D):
 	var shape=ConcavePolygonShape3D.new();shape.backface_collision=true;shape.set_faces(faces)
 	var collision=CollisionShape3D.new();collision.shape=shape;body.add_child(collision)
 
+func bind(machine: Node3D):
+	root=MMFAssets.find_named(machine,"NativeCanvasCanopy")
+	fabric=MMFAssets.find_named(root,"CanopyCanvas").material_override
+	clock=0.0
+
 func update(dt: float,storm: float):
 	if not fabric:return
 	# Simulation time keeps the canvas still while the game is paused. Only two

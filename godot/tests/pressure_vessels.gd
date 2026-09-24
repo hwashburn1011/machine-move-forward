@@ -72,7 +72,7 @@ func run():
 		var actual=vertices(replacement)
 		var difference=maxf(retained_distance(expected,actual),retained_distance(actual,expected))
 		check(difference<.001,"Unrelated workshop fittings retain their coordinates within 1 mm: "+entry.replacement)
-		check(replacement.get_active_material(0)==old.get_active_material(0),"Original shared material preserved: "+entry.replacement)
+		check(preload("res://tests/material_equivalence.gd").same(replacement.get_active_material(0),old.get_active_material(0)),"Original shared material properties and textures preserved: "+entry.replacement)
 		report.retained.append({"name":entry.replacement,"maxDistanceM":difference,"originalVertices":expected.size(),"replacementVertices":actual.size()})
 	var resources={};var materials={};var transforms={};var all_triangles=0
 	for i in SITES.size():

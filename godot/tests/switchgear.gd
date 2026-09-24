@@ -69,7 +69,7 @@ func run():
 		var actual=vertices(retained)
 		var distance=maxf(retained_distance(expected,actual),retained_distance(actual,expected))
 		check(distance<.001,"All unrelated structure/fittings remain within 1 mm: "+entry.replacement)
-		check(retained.get_active_material(0)==old.get_active_material(0),"Retained geometry uses the original material: "+entry.replacement)
+		check(preload("res://tests/material_equivalence.gd").same(retained.get_active_material(0),old.get_active_material(0)),"Retained geometry keeps the original material properties and textures: "+entry.replacement)
 		report.retained.append({"name":entry.replacement,"maxDistanceM":distance,"originalVertices":expected.size(),"retainedVertices":actual.size()})
 	var meshes={};var materials={};var transforms={}
 	for i in 4:

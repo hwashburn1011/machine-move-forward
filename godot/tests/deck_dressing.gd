@@ -48,15 +48,17 @@ func run():
 	# Godot quantizes imported vertices relative to each batch's new AABB. Source
 	# coordinates are exact; allow less than one millimetre of GPU import error.
 	check(expected.size()==actual.size() and maximum_error<.001,"Every retained pressure fitting keeps its world coordinates within GPU import precision")
-	check(new_fittings.get_active_material(0)==old_fittings.get_active_material(0),"Retained fittings reuse the original texture/material resource")
+	check(preload("res://tests/material_equivalence.gd").same(new_fittings.get_active_material(0),old_fittings.get_active_material(0)),"Retained fittings keep the original material properties and texture resources")
 	check(MMFAssets.find_named(machine,"Secured_weatherproof_cargo_locker001_2")==null and MMFAssets.find_named(machine,"Secured_weatherproof_cargo_locker001_5")==null,"Coincident old drums and bead geometry are removed")
 	# Existing access cable derivative still owns the affected stair-side bundle.
 	check(MMFAssets.find_named(machine,"NativeCargoCables")!=null and MMFAssets.find_named(machine,"NativeSideWiring")!=null,"Stair-side cable clearance refinements remain installed")
 	var untouched=true
+	var resource_check=preload("res://tests/machine_resource_contract.gd").new()
 	for name in ["Secured_weatherproof_cargo_locker001_3"]:
 		var old=MMFAssets.find_named(original,name);var current=MMFAssets.find_named(machine,name)
-		untouched=untouched and current!=null and current.mesh==old.mesh and current.global_transform.is_equal_approx(old.global_transform)
-	check(untouched,"Unselected cargo hose batch stays identical by mesh and transform")
+		untouched=untouched and current!=null and resource_check.equal_value(current.mesh,old.mesh) and current.global_transform.is_equal_approx(old.global_transform)
+	check(untouched,"Unselected cargo hose batch retains identical mesh data and transform")
+	resource_check.clear()
 	report.retained={"oldUnselectedPoints":expected.size(),"newPoints":actual.size(),"maximumCoordinateErrorM":maximum_error}
 	var total_triangles=0;var total_surfaces=0
 	for i in SITES.size():

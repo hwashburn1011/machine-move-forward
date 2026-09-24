@@ -47,7 +47,7 @@ func run():
 		var foot=ray(bank,Vector3(x,.3,-.32)*.95,Vector3(x,0,-.32)*.95)
 		check(not foot.is_empty() and foot.collider==collision and absf(foot.position.y-bank.position.y-.064*.95)<.002,"Mounting shoe has fitted contact collision: "+str(x))
 	check(ray(bank,Vector3(0,.028,-.65),Vector3(0,.028,.6)).is_empty(),"Raised casing removes obsolete disk collision at floor level")
-	var raw=game.runtime.colliders[int(collision_manifest.sourceCollider)];var retained=MMFAssets.find_named(game.world,"NativeWorkshopCollision").get_child(0).shape.get_faces()
+	var raw=MMFAssets.json("res://data/runtime.json").colliders[int(collision_manifest.sourceCollider)];var retained=MMFAssets.find_named(game.world,"NativeWorkshopCollision").get_child(0).shape.get_faces()
 	var prior=MMFAssets.json("res://art/nomad-benches-collision.json");var removed=0;var earlier=0;var cursor=0;var changed=0
 	for j in range(0,raw.indices.size(),3):
 		var tri=[]

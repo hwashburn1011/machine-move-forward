@@ -39,7 +39,9 @@ var terminal_pages=MMFTerminalPages.new()
 func _ready():
 	process_mode=Node.PROCESS_MODE_ALWAYS
 	data=MMFAssets.json("res://data/definitions.json")
-	runtime=MMFAssets.json("res://data/runtime.json")
+	# Static machine physics lives in the compiled scene. Only the small build
+	# piece contracts are needed during play; retain the full bake for authoring.
+	runtime=MMFAssets.json("res://data/runtime-play.json")
 	if FileAccess.file_exists("user://settings.json"):
 		var saved=MMFAssets.json("user://settings.json")
 		if saved is Dictionary: settings.merge(saved,true)

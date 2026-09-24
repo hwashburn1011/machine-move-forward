@@ -64,10 +64,10 @@ func run():
 			check(retained==null and entry.replacement=="","Fully replaced old case batch is removed");continue
 		var actual=vertices(retained);var distance=maxf(retained_distance(expected,actual),retained_distance(actual,expected))
 		check(distance<.001,"All unrelated frozen workshop vertices retain 1 mm accuracy: "+entry.original)
-		check(retained.get_active_material(0)==old.get_active_material(0),"Retained batch preserves its original material: "+entry.original)
+		check(preload("res://tests/material_equivalence.gd").same(retained.get_active_material(0),old.get_active_material(0)),"Retained batch preserves its original material properties and textures: "+entry.original)
 		report.retained.append({"name":entry.original,"maxDistanceM":distance,"expectedVertices":expected.size(),"actualVertices":actual.size()})
 	var collision_manifest=MMFAssets.json("res://art/nomad-benches-collision.json")
-	var raw=game.runtime.colliders[int(collision_manifest.sourceCollider)];var body=MMFAssets.find_named(game.world,"NativeWorkshopCollision")
+	var raw=MMFAssets.json("res://data/runtime.json").colliders[int(collision_manifest.sourceCollider)];var body=MMFAssets.find_named(game.world,"NativeWorkshopCollision")
 	var faces=body.get_child(0).shape.get_faces();var cursor=0;var changed=0;var removed=0;var pump_removed=0;var intake_removed=0
 	for j in range(0,raw.indices.size(),3):
 		var tri=[]

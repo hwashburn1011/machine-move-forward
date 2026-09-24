@@ -28,6 +28,16 @@ The setup temporarily runs the original game locally to bake its procedural geom
 
 The conversion copies **all 55 source GLBs**, losslessly expands meshopt-compressed geometry for Godot, and copies original textures. Source hashes and asset inventory are in `data/assets.json`. It exports all gameplay definitions, campaign text, animation/collision data, the opening timeline, the complete machine, 24 construction pieces, both battle ships, rooftop, and desert scatter. All 27 sound files are baked from the original synthesizer recipes. Generated `assets/` and `.godot/` caches are intentionally ignored by Git; rebuild them from the retained source assets. Original asset attribution and licenses are documented in [ASSETS.md](../ASSETS.md) and apply to this edition too.
 
+The final machine is compiled into `art/nomad-native.scn` so normal launches do not load obsolete model containers, repeat geometry trimming or parse the full static collision JSON. The editable Blender sources and `world.gd` assembly recipe remain authoritative. After changing any machine art, import settings, assembly script or collision manifest, import and rebuild the compiled scene before testing:
+
+```powershell
+& test-results/godot-tools/Godot_v4.7.2-stable_win64_console.exe --headless --path godot --editor --import
+& test-results/godot-tools/Godot_v4.7.2-stable_win64_console.exe --headless --path godot --script res://tools/bake_machine.gd
+& test-results/godot-tools/Godot_v4.7.2-stable_win64_console.exe --headless --path godot --script res://tests/compiled_machine.gd
+```
+
+Run these commands from the repository root with Godot 4.7.2. The full setup script also performs the bake. Commit the generated scene, its source/hash manifest and `data/runtime-play.json` together with the changed sources. The focused test rejects stale sources and compares the complete finished render/physics assembly, including resource sharing and animation bindings. The [compiled machine review](../docs/godot-port/compiled-machine-review.md) records memory measurements, native image comparisons and startup limits.
+
 ## Native implementation
 
 - `scripts/session.gd`: resources, recipes, power, fuel/crawl, progression, research, and save state.
