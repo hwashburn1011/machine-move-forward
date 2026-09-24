@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "Enemy warning vulnerable"
+albedo_color = Color(0.25, 1, 0.55, 1)
+roughness = 0.8
+emission_enabled = true
+emission = Color(0.25, 1, 0.55, 1)
+emission_energy_multiplier = 2.0

@@ -12,6 +12,7 @@ var stage: Node3D
 var requested=false
 var failure=""
 var assembled_frame=-1
+var encounter_assets: MMFEncounterAssets
 
 func _init():
 	process_mode=Node.PROCESS_MODE_ALWAYS
@@ -27,7 +28,9 @@ func poll():
 
 func prepared() -> bool:
 	# Leave a render opportunity after instancing before handing off the camera.
-	return part_index==3 and Engine.get_process_frames()>assembled_frame
+	# Immediate New Game also waits for bounded encounter preparation, keeping
+	# its first resource uploads out of the running opening cinematic.
+	return part_index==3 and Engine.get_process_frames()>assembled_frame and (not is_instance_valid(encounter_assets) or encounter_assets.finished)
 
 func _process(_dt):
 	poll()

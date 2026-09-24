@@ -1,6 +1,11 @@
 class_name MMFEnemy
 extends CharacterBody3D
 
+const TACTICAL_RING=preload("res://art/enemy-warning-ring.res")
+const WARNING_READY=preload("res://art/enemy-warning-ready.tres")
+const WARNING_DANGER=preload("res://art/enemy-warning-danger.tres")
+const WARNING_VULNERABLE=preload("res://art/enemy-warning-vulnerable.tres")
+
 var game
 var kind = "warden"
 var definition: Dictionary
@@ -102,12 +107,9 @@ func setup(owner_game,id: String):
 	hp_label.billboard=BaseMaterial3D.BILLBOARD_ENABLED
 	add_child(hp_label)
 	equipment.setup(self)
-	var ring=TorusMesh.new()
-	ring.inner_radius=0.6
-	ring.outer_radius=0.64
 	tactical_marker=MeshInstance3D.new()
-	tactical_marker.mesh=ring
-	tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)
+	tactical_marker.mesh=TACTICAL_RING
+	tactical_marker.material_override=WARNING_READY
 	tactical_marker.position.y=0.025
 	tactical_marker.visible=false
 	add_child(tactical_marker)
@@ -240,9 +242,8 @@ func _physics_process(dt):
 	if phase=="telegraph" and kind=="revenant": hp_label.text="SWORD WINDUP";hp_label.modulate=Color(1,.53,.16)
 	elif phase=="vent" and kind=="bastion": hp_label.text="VENT OPEN / AIM HIGH";hp_label.modulate=Color(.35,1,.65)
 	else: hp_label.modulate=Color(1,.25,.1)
-	if tactical_marker.material_override:
-		var color=Color(.25,1,.55) if phase=="vent" else Color(1,.24,.06)
-		tactical_marker.material_override.albedo_color=color;tactical_marker.material_override.emission=color
+	var warning=WARNING_VULNERABLE if phase=="vent" else WARNING_DANGER
+	if tactical_marker.material_override!=warning:tactical_marker.material_override=warning
 	var facing=travelled if walking and actual_speed>.08 and presentation.action_left<=0 else delta
 	if facing.length_squared()>0.000001: visual.rotation.y=lerp_angle(visual.rotation.y,atan2(facing.x,facing.z),1-exp(-8*dt))
 	if position.y<0: take_damage(10000,position)

@@ -384,3 +384,15 @@ Starting state: `4da5a52`. The preceding boarding turn made verified progress. O
 4. Fix source/import microgeometry and tangent defects, test real contact and hit rays, inspect native crew/player-camera views and connected Blender MCP, and run broad regressions and matched GPU samples.
 
 Iteration review: [raider craft](raider-craft-review.md). All **1,246 assertions pass across 19 suites**, including the 18 prior ship comparisons and 42 earlier enemy combat comparisons. The 95,247-triangle shared kit validates with no errors/warnings or collapsed native faces. Grounded idle soles stay within 0.7 mm of support. Desert/weather checks still confirm sparse natural details, restrained wind and no shelter-dependent water penalty. This is verified model, presentation and grounding progress within the existing story. Measured hull GPU changes range from -0.034 to +0.060 ms; these fixed views do not establish a whole-game FPS improvement. The goal remains active: legacy robot/gate surfaces, broader gait/human play feel and independently observed first-load/intermittent stalls remain open.
+
+
+## Completed iteration: encounter loading and shared warning resources
+
+Starting state: `69f07b2`. The previous hover-craft pass made verified model/grounding progress and exposed uncached enemy-spawn stalls.
+
+1. Trace actual native first-use setup, separate loading from actor/material creation, and retain revision-labelled original functions for repeatable comparisons.
+2. Prepare seven existing resources with bounded engine requests and four immutable warning materials. Preserve independent request ownership, early synchronous fallback, cancellation, clean teardown and session/RNG state.
+3. Share the original baked warning geometry and matching materials while retaining independent enemy states and shell nodes. Keep original combat, visibility, timings and visuals.
+4. Finish preparation before immediate New Game hands off to the opening; measure the added title wait and confirm the original scene completes without overlapping asset work. Verify native rendering and broad regressions.
+
+Iteration review: [encounter loading](encounter-loading-review.md). **1,000 assertions pass across 16 suites**, including the earlier 42 enemy and 18 ship contract comparisons. Native first-use enemy setup falls from 15–228 ms to 0.43–1.26 ms; a three-shell warning burst falls from 14.636 to 0.044 ms median CPU creation time in the stated diagnostic. Immediate New Game waits approximately 0.99 rather than 0.67 seconds before the opening, keeping resource work out of the chase. Headless texture warnings and their clean native cross-checks are recorded; title/intermittent stalls are not claimed fixed. Desert/weather checks still confirm restrained details and no extra shelter-dependent water drain. This is verified encounter-performance progress within the existing story; the overall goal remains active.

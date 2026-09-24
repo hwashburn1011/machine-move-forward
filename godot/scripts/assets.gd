@@ -12,7 +12,13 @@ static func scene(path: String) -> Node3D:
 		if not ResourceLoader.exists(path):
 			push_error("Missing native asset: " + path)
 			return Node3D.new()
-		cache[path] = load(path)
+		# Immediate save restores/tests can need an asset before preparation
+		# finishes. Own a matching request and join it instead of racing a
+		# synchronous load against the existing worker. Its original owner still
+		# consumes its own result; this rare fallback remains synchronous.
+		if ResourceLoader.load_threaded_get_status(path)!=ResourceLoader.THREAD_LOAD_INVALID_RESOURCE and ResourceLoader.load_threaded_request(path,"PackedScene")==OK:
+			cache[path]=ResourceLoader.load_threaded_get(path)
+		else:cache[path]=load(path)
 	return cache[path].instantiate()
 
 static func find_named(root: Node, wanted: String) -> Node:

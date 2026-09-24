@@ -1,6 +1,9 @@
 class_name MMFEffects
 extends Node3D
 
+const SHELL_RING=preload("res://art/shell-warning-ring.res")
+const SHELL_WARNING=preload("res://art/shell-warning.tres")
+
 var objects: Array = []
 var flash = 0.0
 var spark_mesh = SphereMesh.new()
@@ -148,10 +151,9 @@ func explosion(at: Vector3,size: float=1):
 func hit_flash(): flash=0.22
 
 func warning_ring(at: Vector3) -> MeshInstance3D:
-	var marker=MeshInstance3D.new();var ring=TorusMesh.new()
-	ring.inner_radius=0.65;ring.outer_radius=0.72;ring.rings=32;ring.ring_segments=6
-	marker.mesh=ring;marker.position=at+Vector3.UP*0.05
-	marker.material_override=MMFAssets.material(Color(1,0.12,0.02),1.0)
+	var marker=MeshInstance3D.new()
+	marker.mesh=SHELL_RING;marker.position=at+Vector3.UP*0.05
+	marker.material_override=SHELL_WARNING
 	marker.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(marker);return marker
 

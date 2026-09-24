@@ -31,6 +31,8 @@ try {
     if ($LASTEXITCODE) { throw 'Godot import failed.' }
     & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_sovereign_body.gd
     if ($LASTEXITCODE) { throw 'Sovereign body compilation failed.' }
+    & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_enemy_warning.gd
+    if ($LASTEXITCODE) { throw 'Enemy warning geometry compilation failed.' }
     & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_machine.gd
     if ($LASTEXITCODE) { throw 'Native machine compilation failed.' }
     & $Godot --headless --path (Join-Path $taskRoot 'godot') --script res://tools/bake_enemy_footing.gd --fixed-fps 60

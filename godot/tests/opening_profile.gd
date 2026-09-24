@@ -5,6 +5,7 @@ extends SceneTree
 var game
 var label="current"
 var capture_views=false
+var without_encounter_preparation=false
 var title_seconds=3.0
 var output="res://../test-results/godot-native/"
 
@@ -13,6 +14,7 @@ func _initialize():
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--label="):label=arg.trim_prefix("--label=")
 		if arg=="--captures":capture_views=true
+		if arg=="--without-encounter-preparation":without_encounter_preparation=true
 		if arg.begins_with("--title-seconds="):title_seconds=float(arg.trim_prefix("--title-seconds="))
 	call_deferred("run")
 
@@ -31,6 +33,8 @@ func run():
 	if DisplayServer.get_name()=="headless":push_error("Opening profiling requires native rendering.");quit(1);return
 	DisplayServer.window_set_size(Vector2i(1920,1080));Engine.max_fps=60
 	game=load("res://scenes/main.tscn").instantiate();root.add_child(game);current_scene=game
+	if without_encounter_preparation:
+		game.get_node("EncounterAssets").set_process(false);game.cinematics.opening_stage.encounter_assets=null
 	game.settings.vsync=false;game.settings.quality="high";game.save_settings()
 	RenderingServer.viewport_set_measure_render_time(root.get_viewport_rid(),true)
 	if title_seconds>0:await create_timer(title_seconds).timeout
@@ -60,7 +64,7 @@ func run():
 			capture_usec+=Time.get_ticks_usec()-capture_start
 			previous=Time.get_ticks_usec()
 	var complete=game.session.opening_done and game.cinematic==""
-	var report={"scope":"Actual paused title, New Game, original opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off, 60 FPS cap. No input or story timing changes.","titleSeconds":title_seconds,"firstOpeningMs":first_opening_ms,"adapter":RenderingServer.get_video_adapter_name(),"entryCpuMs":entry_ms,"beforePipelines":before_pipelines,"frameMs":stats(intervals),"slowFrames":slow,"events":events,"frames":frames,"completed":complete,"captures":capture_views}
+	var report={"scope":"Actual paused title, New Game, original opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off, 60 FPS cap. No input or story timing changes.","encounterPreparation":not without_encounter_preparation,"titleSeconds":title_seconds,"firstOpeningMs":first_opening_ms,"adapter":RenderingServer.get_video_adapter_name(),"entryCpuMs":entry_ms,"beforePipelines":before_pipelines,"frameMs":stats(intervals),"slowFrames":slow,"events":events,"frames":frames,"completed":complete,"captures":capture_views}
 	var file=FileAccess.open(output+"opening-"+label+".json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("OPENING_PROFILE ",{"entryCpuMs":entry_ms,"frameMs":report.frameMs,"slowFrames":slow.size(),"complete":complete})
 	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.02).timeout

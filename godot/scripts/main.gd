@@ -68,6 +68,8 @@ func _ready():
 	ui=MMFUI.new();add_child(ui);ui.setup(self)
 	journey.reset()
 	story_art.setup()
+	var encounter_assets=MMFEncounterAssets.new();add_child(encounter_assets)
+	cinematics.opening_stage.encounter_assets=encounter_assets
 	session.contact_ready.connect(func():cinematics.begin_signal())
 	save_settings()
 	player.update_camera(1)
