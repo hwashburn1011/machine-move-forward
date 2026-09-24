@@ -1,0 +1,12 @@
+{
+	"checks": 137,
+	"failures": [],
+	"observed": {
+		"drone": {
+			"collapsed": 0,
+			"meshes": 7,
+			"triangles": 49763
+		}
+	},
+	"passed": true
+}

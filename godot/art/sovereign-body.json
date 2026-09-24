@@ -1,0 +1,8 @@
+{
+	"godot": "4.7.2-stable (official)",
+	"removedLodTriangles": 1884,
+	"removedTriangles": 3856,
+	"sourceSha256": "91cfc2458e7d5037f4d8d13f95d621b4479c46d8f95162cb7a431802eeb4fd9e",
+	"surfaces": 13,
+	"unchangedVertexBuffers": true
+}

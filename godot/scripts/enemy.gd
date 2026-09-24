@@ -8,6 +8,7 @@ var health = 100.0
 var visual: Node3D
 var animator: AnimationPlayer
 var presentation=MMFEnemyAnimation.new()
+var equipment=MMFEnemyEquipment.new()
 var agent: NavigationAgent3D
 var cooldown = 1.0
 var windup = 0.0
@@ -97,25 +98,7 @@ func setup(owner_game,id: String):
 	hp_label.modulate=Color(1,0.25,0.1)
 	hp_label.billboard=BaseMaterial3D.BILLBOARD_ENABLED
 	add_child(hp_label)
-	if kind=="sovereign":
-		drone_visual=MMFAssets.find_named(visual,"SupportOrb")
-		if not drone_visual:
-			drone_visual=MMFAssets.find_named(visual,"Sovereign_Orb")
-		if not drone_visual:
-			var kit=MMFAssets.scene("models/authored/tactical-accessories.glb")
-			var source=MMFAssets.find_named(kit,"SupportDrone")
-			if source:
-				drone_visual=source.duplicate();add_child(drone_visual)
-				var orb_bounds=MMFAssets.bounds(drone_visual);var orb_fit=0.48/maxf(orb_bounds.size.length(),0.01)
-				drone_visual.scale=Vector3.ONE*orb_fit;drone_visual.position=Vector3(0.65,1.85,0)-orb_bounds.get_center()*orb_fit
-			kit.free()
-		drone=MMFHitZone.new()
-		drone.setup(self,Vector3(0.65,1.85,0),Vector3.ONE*0.55,func(amount,_point):
-			drone_health=maxf(0,drone_health-amount)
-			if drone_health<=0:
-				drone.collision_layer=0
-				if drone_visual: drone_visual.visible=false
-				game.effects.explosion(drone.global_position,0.3))
+	equipment.setup(self)
 	var ring=TorusMesh.new()
 	ring.inner_radius=0.6
 	ring.outer_radius=0.64
@@ -267,10 +250,10 @@ func shoot_committed():
 	var start=position+Vector3.UP*1.4
 	var dir=(committed-start).normalized()
 	var hit=game.raycast(start,start+dir*definition.attackRange*1.4,[get_rid()],3)
-	game.effects.tracer(start,committed,Color(1,0.1,0.04))
+	var visible_origin=equipment.show_shot(self,hit,dir)
 	if not hit.is_empty() and hit.collider==game.player: hit_target(definition.damage)
 	elif not hit.is_empty() and hit.collider.has_method("take_damage"): hit.collider.take_damage(definition.damage,hit.position)
-	game.audio.play_at("rifle",start,.15)
+	game.audio.play_at("rifle",visible_origin,.15)
 
 func take_weapon_damage(amount: float,point: Vector3,distance: float,range_m: float,falloff_start: float):
 	take_damage(MMFDamage.compute(amount,distance,range_m,falloff_start,definition.armor)+definition.armor,point)
@@ -297,7 +280,7 @@ func take_damage(amount: float,point: Vector3):
 		collision_layer=0
 		hp_label.visible=false
 		tactical_marker.visible=false
-		if drone: drone.collision_layer=0
+		equipment.disable_drone(self)
 		play("polish_death",true)
 		for drop in definition.drops:
 			if game.session.rng.randf()<=drop.get("chance",1): game.combat.drop_loot(position,drop.id,game.session.rng.randi_range(int(drop.min),int(drop.max)))
