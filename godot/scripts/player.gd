@@ -23,6 +23,9 @@ var rifle_mesh: Node3D
 var shotgun_mesh: Node3D
 var forced_motion = false
 var meshes: Array = []
+var camera_shoulder = 0.0
+var camera_distance = 4.0
+var camera_fade = 0.0
 var animation_speed = 1.0
 var burst_left=0
 var burst_recovery=0.0
@@ -62,7 +65,6 @@ func setup(owner_game):
 	visual.rotation.y=PI
 	var animations = MMFAssets.of_type(visual, "AnimationPlayer")
 	if not animations.is_empty(): animator = animations[0]
-	meshes = MMFAssets.of_type(visual, "MeshInstance3D")
 	if animator:
 		for key in animator.get_animation_list():
 			if "reload" not in key and "jump" not in key:
@@ -106,6 +108,7 @@ func setup(owner_game):
 		shotgun_mesh.reparent(authored_socket,false)
 		weapon_socket=authored_socket
 	equipment=MMFEquipment.new();add_child(equipment);equipment.setup(self)
+	register_camera_visual(visual)
 	pivot = Node3D.new()
 	game.add_child(pivot)
 	arm = SpringArm3D.new()
@@ -241,11 +244,32 @@ func update_camera(dt: float):
 	var desired = position + Vector3(0, 1.5 if not crouched else 1.1, 0)
 	pivot.position = desired
 	pivot.rotation = Vector3(pitch, yaw, 0)
-	arm.position.x = lerpf(arm.position.x, shoulder*(0.45 if aiming else 0.55), 1-exp(-12*dt))
-	arm.spring_length = lerpf(arm.spring_length, 2.3 if aiming else 4.0, 1-exp(-10*dt))
+	camera_shoulder = lerpf(camera_shoulder, shoulder*(0.45 if aiming else 0.55), 1-exp(-12*dt))
+	camera_distance = lerpf(camera_distance, 2.3 if aiming else 4.0, 1-exp(-10*dt))
+	# Sweep from the player's eye, not from an offset that may be inside a wall.
+	# A shortened diagonal boom retracts its shoulder offset too. Counter-rotate
+	# the camera so aiming and the unobstructed view retain their original basis.
+	arm.rotation.y = atan2(camera_shoulder, camera_distance)
+	arm.spring_length = Vector2(camera_shoulder, camera_distance).length()
+	camera.rotation.y = -arm.rotation.y
 	camera.fov = lerpf(camera.fov, game.settings.fov*38.0/55 if aiming else game.settings.fov, 1-exp(-12*dt))
-	var close = camera.global_position.distance_to(position+Vector3.UP)
-	for mesh in meshes: mesh.transparency = clampf((1.1-close)/0.55, 0, 0.95)
+	var close = camera.global_position.distance_to(pivot.global_position)
+	set_camera_fade(clampf((1.35-close)/0.75, 0, 1))
+
+func register_camera_visual(model: Node):
+	for mesh in MMFAssets.of_type(model, "MeshInstance3D"):
+		if mesh not in meshes:
+			meshes.append(mesh)
+			mesh.transparency = camera_fade
+
+func unregister_camera_visual(model: Node):
+	for mesh in MMFAssets.of_type(model, "MeshInstance3D"): meshes.erase(mesh)
+
+func set_camera_fade(value: float):
+	# Most frames are fully opaque: avoid redundant render-server property writes.
+	if is_equal_approx(camera_fade, value): return
+	camera_fade = value
+	for mesh in meshes: mesh.transparency = value
 
 func fire():
 	if fire_left > 0 or reload_left > 0 or burst_recovery>0 or game.session.health <= 0: return

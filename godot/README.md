@@ -63,6 +63,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Stre
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SceneryTest
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -StreamBenchmark
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -StreamBenchmark -Stress
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CameraTest
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
 ```
 
@@ -75,3 +78,5 @@ The [campaign polish plan](../docs/godot-port/story-polish-plan.md) and [deliver
 The [atmosphere/effect review](../docs/godot-port/atmosphere-review.md) records current measurements and the terrain grounding fix. CPU and GPU dune calculations now agree, removing a several-metre placement mismatch. This corrects the native dune contours without moving saved machinery or changing campaign objectives. Terrain parity and effect benchmarks require GPU rendering; atmosphere tests use `native-atmosphere-tests/`.
 
 The [scenery streaming review](../docs/godot-port/streaming-review.md) records boundary-specific timing and resource measurements. Scenery contract checks and streaming benchmarks need the real GPU; the headless renderer does not retain the same MultiMesh buffers. Streaming samples use isolated `native-streaming-tests/` saves and accelerated travel, so their timings are streaming costs rather than normal gameplay FPS.
+
+The [camera and machine simulation review](../docs/godot-port/camera-workload-review.md) covers close-wall framing, complete character/equipment fading, and reduced power/room bookkeeping. Camera tests capture native views and use isolated `native-camera-tests/` saves. The session benchmark measures synthetic 30/300/900-piece CPU workloads without rendering; its timings are not gameplay FPS.

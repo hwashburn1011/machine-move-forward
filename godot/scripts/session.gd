@@ -5,6 +5,8 @@ signal notice(text: String)
 signal changed
 signal contact_ready
 
+const POWER_DRAWS = {"lamp": 1, "refinery": 10, "condenser": 4, "turret-manual": 3, "collector-auto": 4, "turret-auto": 6, "caretaker-dock": 3}
+
 var data: Dictionary
 var inventory: MMFInventory
 var structures: Array = []
@@ -250,28 +252,30 @@ func update_power():
 	capacity = 0
 	demand = 0
 	powered.clear()
-	var consumers = []
-	var draws = {"lamp": 1, "refinery": 10, "condenser": 4, "turret-manual": 3, "collector-auto": 4, "turret-auto": 6, "caretaker-dock": 3}
+	var priority_draws = [0.0, 0.0, 0.0]
 	var mods = modifiers()
 	for p in structures:
 		var id = p.definitionId
 		if id == "generator" and fuel > 0:
 			capacity += maxf(0, 16+mods.generationBonus) * p.health / data.BUILD_PIECES[id].maxHealth
-		if draws.has(id) and p.health > 0:
+		if POWER_DRAWS.has(id) and p.health > 0:
 			var priority = 2 if id.begins_with("turret") else (0 if id == "lamp" else 1)
-			var draw=draws[id]+(mods.turretPowerBonus if id.begins_with("turret") else 0)
-			consumers.append({"id": p.instanceId, "draw": draw, "priority": priority})
+			var draw=POWER_DRAWS[id]+(mods.turretPowerBonus if priority==2 else 0)
+			priority_draws[priority]+=draw
+			powered[p.instanceId]=priority
 			demand += draw
-	if facts.salvage: consumers.append({"id":"fixed-radio","draw":1,"priority":1});demand+=1
-	if fieldwork_active: consumers.append({"id":"fixed-fieldwork","draw":1,"priority":1});demand+=1
-	if "course-gyro" in story.uniques: consumers.append({"id":"fixed-helm","draw":1,"priority":1});demand+=1
-	var total=demand;var enabled=[0,1,2]
+	if facts.salvage: powered["fixed-radio"]=1;priority_draws[1]+=1;demand+=1
+	if fieldwork_active: powered["fixed-fieldwork"]=1;priority_draws[1]+=1;demand+=1
+	if "course-gyro" in story.uniques: powered["fixed-helm"]=1;priority_draws[1]+=1;demand+=1
+	# Temporarily store priorities in the output map, then resolve them in place.
+	# This keeps the same whole-tier shedding without allocating a consumer record
+	# for every powered station on every simulation tick.
+	var total=demand;var first_enabled=0
 	for priority in [0,1,2]:
 		if total<=capacity: break
-		enabled.erase(priority)
-		for consumer in consumers:
-			if consumer.priority==priority: total-=consumer.draw
-	for consumer in consumers: powered[consumer.id]=consumer.priority in enabled
+		first_enabled=priority+1
+		total-=priority_draws[priority]
+	for id in powered: powered[id]=int(powered[id])>=first_enabled
 
 func tick(dt: float, stable: bool = true, aboard: bool = true):
 	clock += dt

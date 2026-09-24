@@ -4,7 +4,8 @@ extends Node
 var game
 var rooms: Array=[]
 var by_cell={}
-var layout_signature=""
+var layout_snapshot: Array=[]
+var layout_valid=false
 var chair_id=""
 
 func setup(owner_game): game=owner_game
@@ -90,11 +91,28 @@ func rest(p: Dictionary):
 	chair_id=p.instanceId
 	game.session.notify("Resting. Movement or combat ends rest.")
 
+func invalidate_layout(): layout_valid=false
+
+func layout_matches() -> bool:
+	var structures=game.session.structures
+	if not layout_valid or structures.size()!=layout_snapshot.size(): return false
+	for i in structures.size():
+		var p=structures[i];var previous=layout_snapshot[i]
+		if p.instanceId!=previous[0] or p.definitionId!=previous[1] or p.cell!=previous[2] or p.get("edge")!=previous[3]: return false
+	return true
+
+func remember_layout():
+	layout_snapshot.clear()
+	for p in game.session.structures:
+		var edge=p.get("edge")
+		layout_snapshot.append([p.instanceId,p.definitionId,p.cell.duplicate(),edge.duplicate() if edge is Dictionary else null])
+	layout_valid=true
+
 func update(dt: float):
-	var signature=""
-	for p in game.session.structures: signature+=p.instanceId+key(p.cell)+str(p.get("edge",{}))
-	if signature!=layout_signature:
-		layout_signature=signature
+	# Compare a compact snapshot instead of formatting/concatenating the entire
+	# machine each tick. Deep copies also detect in-place edits and same-size loads.
+	if not layout_matches():
+		remember_layout()
 		rebuild()
 		for p in game.session.structures:
 			if p.definitionId=="shelf": set_keepsake(p,p.state.get("keepsakeId",""))

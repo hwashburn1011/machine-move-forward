@@ -47,7 +47,9 @@ func _process(dt: float):
 	var id=game.session.weapons[game.session.current_weapon].get("attachment","")
 	if id==attachment_id: return
 	attachment_id=id
-	if attachment: attachment.queue_free();attachment=null
+	if attachment:
+		player.unregister_camera_visual(attachment)
+		attachment.queue_free();attachment=null
 	if id=="": return
 	var names={"rifle-stabilizer":"RifleStabilizer","rifle-burst-cam":"RifleBurstCam","shotgun-choke":"ShotgunChoke","shotgun-scatter-brake":"ShotgunScatterBrake"}
 	if not names.has(id): return
@@ -56,3 +58,4 @@ func _process(dt: float):
 	attachment.position=Vector3(0.125,0,0.12) if id=="rifle-burst-cam" else Vector3(0,0,0.735)
 	attachment.rotation.y=PI
 	attachment.scale/=maxf(player.visual.scale.x,0.01)
+	player.register_camera_visual(attachment)

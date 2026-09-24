@@ -46,6 +46,7 @@ func animate(node: Node3D,clip: String):
 				if clip in ["walk","run","idle","armed_run_fwd","armed_idle"]: animator.get_animation(key).loop_mode=Animation.LOOP_LINEAR
 
 func begin_opening():
+	game.player.set_camera_fade(0)
 	clear_scene()
 	game.cinematic="opening"
 	time=0
@@ -60,6 +61,7 @@ func begin_opening():
 	camera.current=true
 
 func begin_signal():
+	game.player.set_camera_fade(0)
 	game.close_menu()
 	clear_scene()
 	time=0
@@ -92,6 +94,7 @@ func begin_signal():
 	camera.current=true
 
 func begin_arrival():
+	game.player.set_camera_fade(0)
 	clear_scene()
 	time=0
 	game.cinematic="arrival"

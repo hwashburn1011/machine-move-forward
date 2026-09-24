@@ -43,3 +43,15 @@ Starting state: `e8fea34`. The preceding turn made verified progress and committ
 Follow-up review still includes dense player construction, station-camera readability, visual coherence and normal-speed campaign feel. This iteration does not narrow or complete the overall objective.
 
 Iteration review: [scenery streaming](streaming-review.md). Prepared crossings retain the original rendered layout; bounded-cache and gameplay regressions pass. Profiling also found and removed repeated beacon shader loading. The full goal remains active.
+
+## Completed iteration: camera clearance and machine bookkeeping
+
+Starting state: `d0a6bcb`. Blender MCP reconnection was verified against the preserved wind-worn prop scene. A native corner fixture reproduced the character moving nearly off-screen and weapons remaining opaque during close-body fading.
+
+1. Reproduce camera framing at wall corners, then move the spring-arm sweep origin to the player's eye. Retract shoulder offset with distance while retaining open-space position and aim direction.
+2. Include weapons and mounted equipment in the fade cache; register/unregister changing attachments. Restore opacity for cinematic and deck-gun cameras. Avoid repeated writes for unchanged opacity.
+3. Measure synthetic 30/300/900-piece CPU workloads before optimization. Remove per-consumer record allocation from power calculation and per-tick string construction from room monitoring.
+4. Verify original power allocation over 700 seeded layouts; exercise damage, fuel loss, tier boundaries, demolition, moving equipment, deep cell/edge changes and same-size restores.
+5. Inspect native captures and run camera, integration, input, campaign, combat, construction, save and traversal regressions. Record timings and their limits.
+
+Iteration review: [camera and machine simulation](camera-workload-review.md). The full goal remains active. Follow up on decorative stair struts and collision coverage, model/material coherence, representative rendered dense construction and normal-speed play pacing.

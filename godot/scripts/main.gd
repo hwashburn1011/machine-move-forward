@@ -334,6 +334,7 @@ func service_piece(p: Dictionary):
 			close_menu()
 			salvage.cancel();building.cancel()
 			manual_turret=p.instanceId
+			player.set_camera_fade(0)
 			session.facts.defenseCrewed=true
 			player.camera.reparent(self)
 			player.yaw=-int(p.rotation)*PI/2
@@ -441,7 +442,7 @@ func load_payload(payload: Dictionary):
 	combat.layout_changed()
 	combat.mission.cancel()
 	caretaker.spawned=false;caretaker.job={};caretaker.phase="idle"
-	home.layout_signature="";home.chair_id=""
+	home.invalidate_layout();home.chair_id=""
 	opportunities.schedule_armed=false
 	world.refresh_chunks(true)
 	player.position=MMFAssets.v(payload.get("player",{}).get("position",{"x":0,"y":16.1,"z":-1}))

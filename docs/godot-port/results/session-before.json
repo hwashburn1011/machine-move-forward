@@ -1,0 +1,62 @@
+{
+	"30": {
+		"capacity": 40.0,
+		"demand": 80.0,
+		"home": {
+			"maxMs": 0.06567,
+			"medianMs": 0.06261,
+			"p95Ms": 0.06565
+		},
+		"power": {
+			"maxMs": 0.0366,
+			"medianMs": 0.03505,
+			"p95Ms": 0.03599
+		},
+		"poweredCount": 4,
+		"tick": {
+			"maxMs": 0.07136,
+			"medianMs": 0.06676,
+			"p95Ms": 0.07059
+		}
+	},
+	"300": {
+		"capacity": 360.0,
+		"demand": 778.0,
+		"home": {
+			"maxMs": 1.08884,
+			"medianMs": 0.62411,
+			"p95Ms": 1.0844
+		},
+		"power": {
+			"maxMs": 0.5814,
+			"medianMs": 0.29897,
+			"p95Ms": 0.56803
+		},
+		"poweredCount": 50,
+		"tick": {
+			"maxMs": 1.01539,
+			"medianMs": 0.53991,
+			"p95Ms": 0.97643
+		}
+	},
+	"900": {
+		"capacity": 1080.0,
+		"demand": 2328.0,
+		"home": {
+			"maxMs": 2.69206,
+			"medianMs": 2.34336,
+			"p95Ms": 2.58367
+		},
+		"power": {
+			"maxMs": 1.00453,
+			"medianMs": 0.92312,
+			"p95Ms": 0.98497
+		},
+		"poweredCount": 150,
+		"tick": {
+			"maxMs": 1.78468,
+			"medianMs": 1.64576,
+			"p95Ms": 1.78304
+		}
+	}
+}
