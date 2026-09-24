@@ -32,6 +32,7 @@ func run():
 	var prepared=c.signal_stage.stage
 	check(not prepared.visible and prepared.process_mode==Node.PROCESS_MODE_DISABLED,"Prepared set is hidden and does not run its actors")
 	check(prepared.get_child_count()==2 and MMFAssets.of_type(prepared,"AnimationPlayer").size()==5,"Prepared set has exactly two ships and five original animated actors")
+	check(prepared.get_node("HumanShip").find_child("DeckOrigin",true,false)!=null and prepared.get_node("RobotShip").find_child("DeckOrigin",true,false)!=null,"Background preparation uses both refined native Blender vessels")
 	check(MMFAssets.of_type(prepared,"GPUParticles3D").size()==4,"Both ships retain their fire and smoke emitters")
 	var stage_id=prepared.get_instance_id()
 	check(prepared.get_node("RobotShip").position==Vector3(13,1.3,5) and prepared.get_node("HumanShip").position==Vector3(-17,1.3,-6),"The original opposing ship layout is preserved")
@@ -70,7 +71,7 @@ func run():
 	c.clear_scene();s.scanner.phase="awaiting-receiver";await settle();c.signal_stage.update()
 	check(not is_instance_valid(discarded) and c.signal_stage.stage==null and c.signal_stage.part_index==0,"Clearing a prepared campaign releases the hidden set without starting crossfire")
 	# Test cleanup of a real outstanding engine request, even with no remaining need.
-	MMFAssets.cache.erase("res://assets/runtime/battle-human.glb")
+	MMFAssets.cache.erase(MMFCrossfireStage.PATHS[0])
 	s.scanner.phase="installed";c.signal_stage.update();var requested=c.signal_stage.pending!=""
 	c.clear_scene();s.scanner.phase="consumed"
 	var start=Time.get_ticks_msec()
@@ -84,7 +85,7 @@ func run():
 	c.time=6;c.update(0);c.finish();await settle()
 	check(game.cinematic=="" and p.camera.current and game.session.story.phase=="raids" and c.signal_stage.stage==null,"Skipping still advances only to the existing raid phase and releases its set")
 	var helper=c.signal_stage
-	MMFAssets.cache.erase("res://assets/runtime/battle-human.glb")
+	MMFAssets.cache.erase(MMFCrossfireStage.PATHS[0])
 	game.session.scanner.phase="installed";helper.update()
 	check(helper.pending!="","Shutdown fixture has a live background request")
 	while game.combat.nav.is_baking():await create_timer(.02).timeout
@@ -93,4 +94,6 @@ func run():
 	c=null;p=null;s=null;prepared=null;discarded=null;helper=null;await create_timer(.1).timeout;MMFAssets.cache.clear()
 	report={"checks":checks,"failures":failures,"cameraHandoffs":handoffs,"scope":"Asset preparation/lifetime, scanner timing, nine full camera/FOV transitions, existing close-up/raid timing and saved-crossfire fallback."}
 	var file=FileAccess.open("res://../test-results/godot-native/crossfire-tests.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
-	print("CROSSFIRE_RESULT ",checks," checks, ",failures.size()," failures");quit(0 if failures.is_empty() else 1)
+	print("CROSSFIRE_RESULT ",checks," checks, ",failures.size()," failures")
+	# Let this suspended test's resource references unwind before shutdown.
+	call_deferred("quit",0 if failures.is_empty() else 1)

@@ -424,3 +424,7 @@ or paid generation services were used; existing third-party licences are unchang
 ## Native rifle and shotgun
 
 `godot/art/native-rifle.glb` and `native-shotgun.glb` refine the two existing held weapons with original Blender geometry and packed procedural PBR maps. The [source kit](assets/native-weapons/README.md) retains editable meshes, semantic grip/muzzle/attachment anchors, materials, manifest and rebuild/MCP review scripts. Native presentation aligns both hands and firing effects with those anchors. Original browser weapon assets and gameplay definitions remain unchanged. No downloaded source meshes, third-party texture images or paid generation services were used.
+
+## Native opposing ships
+
+`godot/art/crossfire-human.glb` and `crossfire-robot.glb` refine the two existing scanner-battle vessels. The [editable Blender kit](assets/native-ships/README.md) contains original plated hulls, open exhausts and gun bores, supported rails, service fittings, bridge/sensor hardware and packed procedural PBR surfaces. Each keeps its original project-owned faction flag and native crew/effect anchors. Exports batch static geometry by material; source parts remain separate. No downloaded mesh or texture assets, paid generation services, new story roles or changes to the preserved browser models are included.

@@ -152,3 +152,14 @@ Starting state: `dbd3aef`. The preceding turn made verified progress on salvage.
 4. Verify resource lifetime, cancellation, outstanding requests/shutdown, scanner timing, multiple camera settings and gameplay/camera regressions. Retain native views and matched timing data.
 
 Iteration review: [crossfire](crossfire-review.md). The measured entry frame fell from 839.947 to 20.267 ms; preparation produced no frames above 25 ms in the clean sample. All 341 relevant assertions pass. The full goal remains active, including the visibly simpler battle-ship hulls, full-campaign feel, control hints and unrelated intermittent rendering stalls.
+
+## Completed iteration: detailed opposing ships
+
+Starting state: `7a6711a`. The preceding turn made verified progress on scene loading and camera continuity. Refine the visibly plain existing battle vessels without extending the story.
+
+1. Author two layered, weathered hulls in Blender with fitted armor, recessed vents, supported rails, bridge/service fittings, rounded open exhausts and hollow gun barrels. Preserve crew surfaces and original faction flags.
+2. Inspect studio and live MCP views; correct overlapping deck surfaces and armor fit. Preserve editable source parts, export material batches and portable PBR maps.
+3. Compare original/refined assets in matching native GPU views, integrate them into the existing background preparation, and inspect the real scanner battle/close-up.
+4. Verify exported triangle support, body clearance, semantic anchors, asset budgets, scanner/save/skip timing and actual gameplay regressions.
+
+Iteration review: [opposing ships](ship-refinement-review.md). All 366 selected assertions pass. GPU cost is approximately +0.03 ms in the wide view and −0.07 ms close; the clean scene-entry frame remains about 20 ms. The full goal remains active. A mast near the return camera path and desert scenery intersecting the scripted ship route are the next concrete clearance targets, alongside broader campaign feel, control hints and unrelated intermittent stalls.

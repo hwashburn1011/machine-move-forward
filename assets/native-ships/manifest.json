@@ -1,0 +1,22 @@
+{
+  "sourceParts": [
+    555,
+    549
+  ],
+  "assemblies": [
+    {
+      "name": "HumanConvoy",
+      "triangles": 106624,
+      "meshes": 13,
+      "bytes": 9306556
+    },
+    {
+      "name": "RobotWarship",
+      "triangles": 106600,
+      "meshes": 13,
+      "bytes": 9283316
+    }
+  ],
+  "deckHeightM": 8.08,
+  "provenance": "Original authored geometry and project-owned PBR recipe; inherited original faction flag textures. No downloaded meshes or textures."
+}

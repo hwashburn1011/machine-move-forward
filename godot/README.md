@@ -85,6 +85,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Salv
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireReview
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -CrossfireProfile
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ShipTest -Headless
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -ShipProfile
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -WorkloadTest -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -SessionBenchmark -Headless
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/godot/launch.ps1 -Benchmark
@@ -115,3 +117,5 @@ The [native locomotion review](../docs/godot-port/locomotion-review.md) covers 2
 The [desert refinement review](../docs/godot-port/desert-life-review.md) covers seven original Blender ground details, sparse wind movement, quieter sand colours and removal of the storm's extra water drain. Storm visibility, room comfort and ordinary consumption remain. `-DesertTest -Headless` verifies weather, saved storms and placement; `-DesertProfile` compares native deck views on the GPU; `-DesertReview` captures the models, actual placement and full storm. Each uses isolated test saves/settings.
 
 The [weapon presentation review](../docs/godot-port/weapon-presentation-review.md) covers two detailed Blender weapon models, reachable support-hand placement, pitch/recoil alignment and real muzzle/attachment origins. Gameplay weapon definitions and camera hitscan remain unchanged. `-WeaponTest -Headless` exercises the final skeletal pose and shot behavior, `-WeaponReview` captures native close-ups and `-WeaponProfile` compares the old/new presentation in the real rendered scene. Saves/settings remain isolated.
+
+The [opposing ship review](../docs/godot-port/ship-refinement-review.md) covers two detailed Blender hulls integrated into the existing scanner scene. `-ShipTest -Headless` checks imported material/geometry budgets and actual triangle support/crew clearance; `-ShipProfile` compares original/refined models in matching native GPU views. `-CrossfireTest -Headless` verifies background preparation and story handoffs, while `-CrossfireReview` captures the scene with its original cast/effects. The source ships and materials remain editable under `../assets/native-ships/`.

@@ -1,0 +1,43 @@
+{
+  "checks": 366,
+  "suites": [
+    {
+      "suite": "asset support/clearance",
+      "checks": 24,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "crossfire",
+      "checks": 65,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "integration",
+      "checks": 108,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "story",
+      "checks": 58,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "camera",
+      "checks": 54,
+      "failures": [],
+      "logProblems": []
+    },
+    {
+      "suite": "physical input parity",
+      "checks": 57,
+      "failures": [],
+      "logProblems": []
+    }
+  ],
+  "scope": "Final selected headless asset/crossfire/integration/story suites plus rendered camera and physical-input parity. Separate native model profile and full-scene visual/timing runs.",
+  "testCleanup": "Initial concurrent headless tests reported shutdown reference leaks. Deferred harness quit now releases suspended locals; the same concurrent final runs have no warnings/errors. Earlier isolated verbose reruns also did not reproduce the leak."
+}

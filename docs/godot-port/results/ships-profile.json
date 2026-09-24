@@ -1,0 +1,151 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"resolution": "(1920, 1080)",
+	"scope": "1080p high / Vulkan Forward+ / 4x MSAA / VSync off. Identical frozen native world, original actors and two ship presentations resident. Two 4s samples per view/presentation after 2s warmup; captures after sampling. No travel/combat FPS claim.",
+	"views": {
+		"close-original-1": {
+			"drawCalls": {
+				"max": 394.0,
+				"median": 394.0,
+				"p95": 394.0
+			},
+			"frameMs": {
+				"max": 4.444,
+				"median": 3.329,
+				"p95": 3.933
+			},
+			"gpuMs": {
+				"max": 3.37400007247925,
+				"median": 2.74699997901917,
+				"p95": 3.21700000762939
+			},
+			"samples": 1176
+		},
+		"close-original-2": {
+			"drawCalls": {
+				"max": 394.0,
+				"median": 394.0,
+				"p95": 394.0
+			},
+			"frameMs": {
+				"max": 4.325,
+				"median": 3.278,
+				"p95": 3.92
+			},
+			"gpuMs": {
+				"max": 3.42400002479553,
+				"median": 2.75300002098084,
+				"p95": 3.21099996566772
+			},
+			"samples": 1186
+		},
+		"close-refined-1": {
+			"drawCalls": {
+				"max": 289.0,
+				"median": 289.0,
+				"p95": 289.0
+			},
+			"frameMs": {
+				"max": 4.13,
+				"median": 3.175,
+				"p95": 3.884
+			},
+			"gpuMs": {
+				"max": 3.31699991226196,
+				"median": 2.67600011825562,
+				"p95": 3.14800000190735
+			},
+			"samples": 1217
+		},
+		"close-refined-2": {
+			"drawCalls": {
+				"max": 289.0,
+				"median": 289.0,
+				"p95": 289.0
+			},
+			"frameMs": {
+				"max": 4.19,
+				"median": 3.182,
+				"p95": 3.886
+			},
+			"gpuMs": {
+				"max": 3.32100009918213,
+				"median": 2.67899990081787,
+				"p95": 3.15400004386902
+			},
+			"samples": 1219
+		},
+		"wide-original-1": {
+			"drawCalls": {
+				"max": 588.0,
+				"median": 588.0,
+				"p95": 588.0
+			},
+			"frameMs": {
+				"max": 5.002,
+				"median": 4.009,
+				"p95": 4.702
+			},
+			"gpuMs": {
+				"max": 4.04099988937378,
+				"median": 3.40599989891052,
+				"p95": 3.88800001144409
+			},
+			"samples": 974
+		},
+		"wide-original-2": {
+			"drawCalls": {
+				"max": 588.0,
+				"median": 588.0,
+				"p95": 588.0
+			},
+			"frameMs": {
+				"max": 4.955,
+				"median": 3.937,
+				"p95": 4.643
+			},
+			"gpuMs": {
+				"max": 4.04300022125244,
+				"median": 3.41899991035461,
+				"p95": 3.89400005340576
+			},
+			"samples": 984
+		},
+		"wide-refined-1": {
+			"drawCalls": {
+				"max": 383.0,
+				"median": 383.0,
+				"p95": 383.0
+			},
+			"frameMs": {
+				"max": 5.292,
+				"median": 3.977,
+				"p95": 4.672
+			},
+			"gpuMs": {
+				"max": 4.1230001449585,
+				"median": 3.43799996376038,
+				"p95": 3.91799998283386
+			},
+			"samples": 975
+		},
+		"wide-refined-2": {
+			"drawCalls": {
+				"max": 383.0,
+				"median": 383.0,
+				"p95": 383.0
+			},
+			"frameMs": {
+				"max": 5.039,
+				"median": 3.961,
+				"p95": 4.69
+			},
+			"gpuMs": {
+				"max": 4.11999988555908,
+				"median": 3.44600009918213,
+				"p95": 3.93099999427795
+			},
+			"samples": 977
+		}
+	}
+}

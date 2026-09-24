@@ -3,7 +3,7 @@ extends RefCounted
 
 # Prepare the existing set during scanning. One resource request at a time and
 # one scene part per tick keep the entry frame free of disk loads/assembly.
-const PATHS=["runtime/battle-human.glb","runtime/battle-robot.glb","models/authored/warden.glb","models/authored/bastion.glb","models/authored/revenant.glb","models/authored/s07-player.glb"]
+const PATHS=["res://art/crossfire-human.glb","res://art/crossfire-robot.glb","models/authored/warden.glb","models/authored/bastion.glb","models/authored/revenant.glb","models/authored/s07-player.glb"]
 var owner_cinema
 var pending=""
 var path_index=0
@@ -24,7 +24,8 @@ func update():
 	var game=owner_cinema.game
 	if game.cinematic!="" or game.session.scanner.phase not in ["installed","scanning","contact-ready"]:return
 	while path_index<PATHS.size():
-		var path="res://assets/"+PATHS[path_index];path_index+=1
+		var path=PATHS[path_index];path_index+=1
+		if not path.begins_with("res://"):path="res://assets/"+path
 		if MMFAssets.cache.has(path):continue
 		if ResourceLoader.load_threaded_request(path,"PackedScene")==OK:pending=path
 		return
