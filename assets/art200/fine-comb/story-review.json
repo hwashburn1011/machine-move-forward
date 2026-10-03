@@ -1,0 +1,1118 @@
+{
+  "reviewer": "Root independent review of story-agent output",
+  "models_reviewed": 50,
+  "method": "Viewed all44 prop entries across five contact sheets and all12 front/rear complete-character images. Evaluated every editable prop component in Blender; bounds adjacency is screening evidence, not an exact intersection proof. Four prop gaps confirmed against source by the author. Original rig widgets excluded from character geometry. Native interaction/collision and performance are separate final checks.",
+  "sources": {
+    "godot/art/art100-story-robots.glb": "f7e3a65f706f4ba4a566798e69cb2de8bd6215a01bad040266bd50f266a194ec",
+    "godot/art/art200-story.glb": "4a57a307776ab1b92a0f89405bcaaa1484dba31d7ad89e6ceee1223d4bc780fb"
+  },
+  "models": [
+    {
+      "id": "BerthReferenceDesk",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/BerthReferenceDesk.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 39,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "BerthReceivingCoupler",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/BerthReceivingCoupler.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 79,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "BerthSeedEnclosure",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/BerthSeedEnclosure.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Title and seed numbering repositioned to sit visibly on enclosure surfaces.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 63,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "BerthArchiveReceiver",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/BerthArchiveReceiver.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 51,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "BerthAccessTransmitter",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/BerthAccessTransmitter.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 101,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "SeedPropagationBench",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/SeedPropagationBench.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 61,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "PreservationReservoir",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/PreservationReservoir.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 35,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "OpenChannelMast",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/OpenChannelMast.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 30,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "RelayChallengeMast",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/RelayChallengeMast.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 34,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "IsolatorCabinet",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/IsolatorCabinet.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Header spacing corrected to avoid crowding the display.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 61,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "ArchiveTransitCore",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/ArchiveTransitCore.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 27,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "MemoryReader",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/MemoryReader.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 31,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "SeedVault",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/SeedVault.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Meter seated on the cabinet door.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 49,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "EmergencyFuelPump",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/EmergencyFuelPump.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 66,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "CourierChargeCradle",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/CourierChargeCradle.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [
+        {
+          "description": "Three terminal groups lacked35mm feed-through connections.",
+          "status": "corrected_and_independently_verified",
+          "resolution": "Added three real feed-through mounts; individually rerendered and inspected."
+        }
+      ],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 27,
+        "unsupported_candidates": 0
+      },
+      "status": "corrected_and_independently_verified"
+    },
+    {
+      "id": "RecoveryToolCart",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/RecoveryToolCart.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 27,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "NavGyroCradle",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/NavGyroCradle.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 30,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "FoundryPowerBus",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/FoundryPowerBus.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [
+        {
+          "description": "Three circuit digits needed physically seated number plates.",
+          "status": "corrected_and_independently_verified",
+          "resolution": "Added seated circuit number plates; individually rerendered and inspected."
+        }
+      ],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 96,
+        "unsupported_candidates": 0
+      },
+      "status": "corrected_and_independently_verified"
+    },
+    {
+      "id": "ArrayPhaseRack",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/ArrayPhaseRack.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 98,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "WardenRangefinder",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-warden-front.png",
+        "assets/art100/story-robots/review/blender-complete-warden-rear.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Complete weapon, sight, rangefinder and field clothing retain readable contrasting substrates.",
+      "issues": [],
+      "status": "reviewed"
+    },
+    {
+      "id": "RevenantPulseRack",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-revenant-front.png",
+        "assets/art100/story-robots/review/blender-complete-revenant-rear.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Complete articulated body and weapons retained; rear paired reservoir attachment follows the back silhouette.",
+      "issues": [],
+      "status": "reviewed"
+    },
+    {
+      "id": "BastionSiegeRadiator",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-bastion-front.png",
+        "assets/art100/story-robots/review/blender-complete-bastion-rear.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [
+        {
+          "description": "Two thin slivers adjacent to the original head require source confirmation.",
+          "status": "corrected_and_independently_verified",
+          "resolution": "Original cranial antennae had a14.6mm gap. Added two head-bound sockets, baked their local transforms, then recompiled with unchanged gameplay rig. New native checks cover absolute body bounds in idle/walk/attack; final front/rear images inspected."
+        }
+      ],
+      "status": "corrected_and_independently_verified"
+    },
+    {
+      "id": "SovereignComms",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-sovereign-front.png",
+        "assets/art100/story-robots/review/blender-complete-sovereign-rear.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Complete rig, crown, cape and separate drone retained; radio finish is subdued. Original functional eye/halo emission retained.",
+      "issues": [],
+      "status": "reviewed"
+    },
+    {
+      "id": "RaiderRecoveryPack",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-raider-front.png",
+        "assets/art100/story-robots/review/blender-complete-raider-rear.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Retained body/clothing contrasts with muted clay recovery pack; brackets and straps visible.",
+      "issues": [],
+      "status": "reviewed"
+    },
+    {
+      "id": "ScavengerSurveyPack",
+      "complete_assembly": true,
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-scavenger-front.png",
+        "assets/art100/story-robots/review/blender-complete-scavenger-rear.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Retained articulated survey robot has restrained petrol service equipment and visible hose routing.",
+      "issues": [],
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2ScoutRepairStand",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2ScoutRepairStand.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 47,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2CargoManifestLectern",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2CargoManifestLectern.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 27,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2SplitDriveAxle",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2SplitDriveAxle.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 60,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2EmergencyShadeStation",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2EmergencyShadeStation.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 29,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2ServoPress",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2ServoPress.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [
+        {
+          "description": "The gauge assembly was229mm away from its vessel and needed a pressure tap.",
+          "status": "corrected_and_independently_verified",
+          "resolution": "Moved gauge onto the vessel with an actual pressure tap; individually rerendered and inspected."
+        }
+      ],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 58,
+        "unsupported_candidates": 0
+      },
+      "status": "corrected_and_independently_verified"
+    },
+    {
+      "id": "Story2LimbAssemblyJig",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2LimbAssemblyJig.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 58,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2QuenchManifold",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2QuenchManifold.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 94,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2MagneticSortingDrum",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2MagneticSortingDrum.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 52,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2AzimuthTrackingDish",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2AzimuthTrackingDish.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 22,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2FerriteTuningBench",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2FerriteTuningBench.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Coils and instruments have their own support structure; rounded coil silhouette remains readable.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 75,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2ReceiverRepairBot",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2ReceiverRepairBot.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 45,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2CableRoutingArch",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2CableRoutingArch.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 40,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2PneumaticSeedSorter",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2PneumaticSeedSorter.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 49,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2ClimateBellChamber",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2ClimateBellChamber.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Faceted transparent cover retains visible internal supports and a sealed base rim.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 45,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2FamilyMemorialTableau",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2FamilyMemorialTableau.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 41,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2RootIrrigationCart",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2RootIrrigationCart.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 75,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2ArchiveReelLibrary",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2ArchiveReelLibrary.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 112,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2PassengerBaggageTrolley",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2PassengerBaggageTrolley.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Two large axle-mounted wheels and two square standing toes are intentional; confirmed with source names and owner, not missing casters.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 29,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2DeadPatrolTorso",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2DeadPatrolTorso.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [
+        {
+          "description": "The retained head needed a25mm neck spindle.",
+          "status": "corrected_and_independently_verified",
+          "resolution": "Added neck spindle under the retained head; individually rerendered and inspected."
+        }
+      ],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 34,
+        "unsupported_candidates": 0
+      },
+      "status": "corrected_and_independently_verified"
+    },
+    {
+      "id": "Story2SignalVerificationGate",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2SignalVerificationGate.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 49,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2JourneyCartographyTable",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2JourneyCartographyTable.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 46,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2DormantStewardCradle",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2DormantStewardCradle.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 35,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2CommunalGalleyModule",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2CommunalGalleyModule.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 55,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2MissionPlaqueRack",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2MissionPlaqueRack.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 53,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    },
+    {
+      "id": "Story2WaterReclamationStill",
+      "complete_assembly": true,
+      "views": [
+        "assets/art200/story/review/Story2WaterReclamationStill.png"
+      ],
+      "inspected": [
+        "silhouette and manufactured edges",
+        "muted material separation",
+        "graphics placement and meaning",
+        "grounding and visible component attachment"
+      ],
+      "observation": "Reviewed the whole assembly in the final collection sheet; no additional visual issue identified beyond the support evidence below.",
+      "issues": [],
+      "source_geometry": {
+        "finite": true,
+        "degenerate_faces": 0,
+        "parts": 50,
+        "unsupported_candidates": 0
+      },
+      "status": "reviewed"
+    }
+  ],
+  "summary": {
+    "models_reviewed": 50,
+    "corrected_and_independently_verified": 5,
+    "outstanding_findings": 0
+  },
+  "final_prop_geometry": "story-geometry.json",
+  "retained_character_validator_warning": "Bastion original identity-parent skin hierarchy: NODE_SKINNED_MESH_NON_ROOT;0 errors. Native pose/position checks are the relevant integration evidence."
+}

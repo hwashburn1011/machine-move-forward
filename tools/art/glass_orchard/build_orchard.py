@@ -44,7 +44,8 @@ for x in [2.35,3.7,5,6.3,7.65]:
     c.box('Memory rack dark inset',(x,2.2,-5.06),(.7,2.7,.055),c.dark,r,.015)
     for y in [.95,1.45,1.95,2.45,2.95,3.45]:
         c.box('Cold archive status lamp',(x,y,-5.015),(.32,.035,.026),c.cyan,r,.004)
-c.label('Memory vault title','ANNIKA // WITNESS ARCHIVE',(5,3.87,-5.04),.21,r)
+vault_title=c.label('Memory vault title','ANNIKA // WITNESS ARCHIVE',(5,3.87,-5.04),.21,r)
+vault_title.rotation_euler.z=0 # The archive front faces +game Z.
 for x in [2.1,7.9]:
     c.tube('Archive cooling trunk',(x,.2,-8.5),(x,4,-8.5),.17,c.bare,r,24)
     c.cable('Archive feed',[(x,.4,-8.5),(x,.3,-4),(x,1.2,-2)],.08,c.dark,r)
@@ -79,8 +80,10 @@ for name,x in [('PortIsolator',-7.1),('StarboardIsolator',5)]:
     c.label(name+' marking','ARCHIVE BUS',(x,.73,1.1),.115,r)
 
 c.box('Orchard entrance sign',(-5,3.4,-1.52),(5.3,.65,.13),c.steel,r)
-c.label('Orchard identity','GLASS ORCHARD',(-5,3.24,-1.6),.4,r)
-c.label('Orchard promise','EVERY SEED IS A PROMISE',(-5,2.98,-1.6),.15,r)
+orchard_title=c.label('Orchard identity','GLASS ORCHARD',(-5,3.38,-1.449),.4,r)
+orchard_title.rotation_euler.z=0
+orchard_promise=c.label('Orchard promise','EVERY SEED IS A PROMISE',(-5,3.16,-1.449),.15,r)
+orchard_promise.rotation_euler.z=0
 for x,z in [(-8,-9),(-8,9),(8,-9),(8,9),(0,9)]:
     c.tube('Walkway lamp',(x,0,z),(x,3.1,z),.07,c.steel,r)
     c.box('Lamp housing',(x,3.1,z),(.42,.28,.3),c.steel,r)

@@ -84,39 +84,6 @@ func reachable(p: Dictionary) -> bool:
 	return not path.is_empty() and path[path.size()-1].distance_to(at)<0.75
 
 func choose_job() -> Dictionary:
-	var water=[]
-	var outputs=[]
-	for p in game.session.structures:
-		if p.health<=0: continue
-		if p.definitionId=="seed-garden" and p.state.get("water",0)<2:
-			water.append(p)
-		if p.definitionId in ["condenser","planter","seed-garden"] and p.state.get("stored",0)>0:
-			outputs.append(p)
-	if water.is_empty() and outputs.is_empty(): return {}
-	# Preserve the original piece-ID and storage insertion ordering. Only complete
-	# a route search for an eligible job; floors/decor never need one. Results live
-	# for this one search so construction, movement and inventory changes stay fresh.
-	water.sort_custom(func(a,b):return a.instanceId<b.instanceId)
-	outputs.sort_custom(func(a,b):return a.instanceId<b.instanceId)
-	var by_id={}
-	for p in game.session.structures:by_id[p.instanceId]=p
-	var stores=[]
-	for id in game.session.stores:
-		if not by_id.has(id):continue
-		var bag=game.session.stores[id]
-		stores.append({"id":id,"piece":by_id[id],"water":bag.count_item("water"),"water_room":bag.room_for("water"),"greens_room":bag.room_for("greens")})
-	var routes={}
-	var priorities=["outputs","water"] if game.session.caretaker.priority=="outputs" else ["water","outputs"]
-	for priority in priorities:
-		for p in (water if priority=="water" else outputs):
-			var item="water" if priority=="water" or p.definitionId=="condenser" else "greens"
-			for store in stores:
-				if (store.water<=0 if priority=="water" else store[item+"_room"]<=0):continue
-				if not routes.has(p.instanceId):routes[p.instanceId]=reachable(p)
-				if not routes[p.instanceId]:break
-				if not routes.has(store.id):routes[store.id]=reachable(store.piece)
-				if not routes[store.id]:continue
-				return {"kind":"water-garden","source":store.id,"target":p.instanceId,"item":item} if priority=="water" else {"kind":"store-output","source":p.instanceId,"target":store.id,"item":item}
 	return {}
 
 func _physics_process(dt: float):
@@ -132,51 +99,8 @@ func update(dt: float):
 	var servicing=phase.begins_with("service-")
 	if sensor: sensor.rotation.y=lerpf(sensor.rotation.y,sin(game.session.clock*0.65)*0.16,blend);sensor.rotation.x=lerpf(sensor.rotation.x,0.2 if servicing else 0.02,blend)
 	for arm in arms:arm.rotation.x=lerpf(arm.rotation.x,-0.35 if servicing else 0,blend)
-	var home=dock()
-	var safe=not game.combat.active_threat() and game.session.attack_recent<=0
-	var can_work=not home.is_empty() and game.session.powered.get(home.instanceId,false) and safe
-	if game.session.caretaker.mode=="companion":
-		job={};phase="idle"
-		status="Following"
-		destination=game.player.position+game.player.visual.global_basis.z*1.5
-	elif not can_work:
-		job={};phase="idle"
-		status="Deck unsafe" if not safe else ("Build a caretaker dock" if home.is_empty() else "Dock unpowered")
-		destination=position
-	else:
-		destination=position
-		wait_time=maxf(0,wait_time-dt)
-		if phase=="idle" and wait_time<=0:
-			job=choose_job()
-			if not job.is_empty(): phase="to-source"
-			else: status="No reachable work";wait_time=2
-		if not job.is_empty():
-			var source=game.session.find_piece(job.source)
-			var target=game.session.find_piece(job.target)
-			if source.is_empty() or target.is_empty() or not reachable(source) or not reachable(target):
-				job={};phase="idle";status="Route blocked";return
-			status=job.kind+" / "+phase
-			destination=service_point(source if phase in ["to-source","service-source"] else target)
-			if servicing:
-				var station=source if phase=="service-source" else target
-				face_direction(game.building.center(station.cell)-position,dt)
-			if phase.begins_with("to-") and position.distance_to(destination)<0.6:
-				phase="service-source" if phase=="to-source" else "service-target"
-				service_time=2
-			elif phase.begins_with("service-"):
-				service_time-=dt
-				if service_time<=0:
-					if phase=="service-source": phase="to-target"
-					else:
-						# Commit once after both visits; cancellation cannot strand or duplicate stock.
-						if job.kind=="water-garden" and target.state.get("water",0)<2 and game.session.stores[source.instanceId].count_item("water")>0:
-							game.session.stores[source.instanceId].remove("water",1)
-							target.state.water+=1
-						elif job.kind=="store-output" and source.state.get("stored",0)>0 and game.session.stores[target.instanceId].room_for(job.item)>0:
-							source.state.stored-=1
-							game.session.stores[target.instanceId].add(job.item,1)
-						job={};phase="idle";wait_time=2
-	if phase.begins_with("service-"): destination=position
+	job={};phase="idle";status="Following"
+	destination=game.player.position+game.player.visual.global_basis.z*1.5
 	velocity.x=0;velocity.z=0
 	if position.distance_to(destination)>0.6:
 		agent.target_position=destination

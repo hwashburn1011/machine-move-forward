@@ -13,7 +13,7 @@ func stats(values: Array) -> Dictionary:
 
 func run():
 	var data=MMFAssets.json("res://data/definitions.json")
-	var report={"scope":"Synthetic native campaign serialization/I/O timings, not rendering FPS. Same verified writer compares main-thread execution with worker queueing; eight writes per case.","scenarios":{}}
+	var report={"scope":"Synthetic native campaign serialization/I/O timings, not rendering FPS. Same verified writer compares main-thread execution with worker queueing; eight writes per case.","source_hash":MMFPlaytestRecorder.source_fingerprint(),"cpu":OS.get_processor_name(),"scenarios":{}}
 	for count in [2,300,900]:
 		var session=MMFSession.new(data)
 		while session.structures.size()<count:

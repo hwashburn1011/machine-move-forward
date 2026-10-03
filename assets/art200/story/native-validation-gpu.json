@@ -1,0 +1,409 @@
+{
+	"checks": 347,
+	"failures": [],
+	"native_captures": true,
+	"passed": true,
+	"placements": [
+		{
+			"dimensions_m": {
+				"x": 1.20000004768372,
+				"y": 1.56500005722046,
+				"z": 0.833000004291534
+			},
+			"id": "Story2ScoutRepairStand",
+			"position": {
+				"x": -4.65000009536743,
+				"y": 0.0,
+				"z": 5.5
+			},
+			"rotation_y": 0.0,
+			"shapes": 8,
+			"site": "wreck-one"
+		},
+		{
+			"dimensions_m": {
+				"x": 0.889999985694885,
+				"y": 1.52999997138977,
+				"z": 0.637000024318695
+			},
+			"id": "Story2CargoManifestLectern",
+			"position": {
+				"x": -3.65000009536743,
+				"y": 0.0,
+				"z": -7.5
+			},
+			"rotation_y": 0.0,
+			"shapes": 4,
+			"site": "wreck-one"
+		},
+		{
+			"dimensions_m": {
+				"x": 2.64999985694885,
+				"y": 0.790000021457672,
+				"z": 0.782010018825531
+			},
+			"id": "Story2SplitDriveAxle",
+			"position": {
+				"x": -1.0,
+				"y": 0.0,
+				"z": 8.0
+			},
+			"rotation_y": 0.0,
+			"shapes": 7,
+			"site": "wreck-one"
+		},
+		{
+			"dimensions_m": {
+				"x": 2.57000017166138,
+				"y": 2.40699982643127,
+				"z": 1.71000003814697
+			},
+			"id": "Story2EmergencyShadeStation",
+			"position": {
+				"x": -3.84999990463257,
+				"y": 0.0,
+				"z": -4.69999980926514
+			},
+			"rotation_y": 0.0,
+			"shapes": 14,
+			"site": "wreck-one"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.99699997901917,
+				"y": 2.50999975204468,
+				"z": 1.22000002861023
+			},
+			"id": "Story2ServoPress",
+			"position": {
+				"x": 5.80000019073486,
+				"y": 0.0,
+				"z": 2.70000004768372
+			},
+			"rotation_y": -1.57079637050629,
+			"shapes": 10,
+			"site": "relay-foundry"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.48358726501465,
+				"y": 1.36999976634979,
+				"z": 0.980000019073486
+			},
+			"id": "Story2LimbAssemblyJig",
+			"position": {
+				"x": -4.90000009536743,
+				"y": 0.0,
+				"z": 3.59999990463257
+			},
+			"rotation_y": 3.14159274101257,
+			"shapes": 11,
+			"site": "relay-foundry"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.89999997615814,
+				"y": 2.07099986076355,
+				"z": 0.921000003814697
+			},
+			"id": "Story2QuenchManifold",
+			"position": {
+				"x": 5.55000019073486,
+				"y": 0.0,
+				"z": -4.0
+			},
+			"rotation_y": 0.0,
+			"shapes": 11,
+			"site": "relay-foundry"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.56500005722046,
+				"y": 1.74500000476837,
+				"z": 1.21500015258789
+			},
+			"id": "Story2MagneticSortingDrum",
+			"position": {
+				"x": -1.20000004768372,
+				"y": 0.0,
+				"z": -4.05000019073486
+			},
+			"rotation_y": 0.0,
+			"shapes": 14,
+			"site": "relay-foundry"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.48000001907349,
+				"y": 1.82299995422363,
+				"z": 0.830999970436096
+			},
+			"id": "Story2WaterReclamationStill",
+			"position": {
+				"x": -1.79999995231628,
+				"y": 0.0,
+				"z": 3.79999995231628
+			},
+			"rotation_y": 3.14159274101257,
+			"shapes": 9,
+			"site": "relay-foundry"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.78824627399445,
+				"y": 2.93831872940063,
+				"z": 1.44500005245209
+			},
+			"id": "Story2AzimuthTrackingDish",
+			"position": {
+				"x": -6.80000019073486,
+				"y": 0.0,
+				"z": 6.59999990463257
+			},
+			"rotation_y": 0.0,
+			"shapes": 7,
+			"site": "quiet-array"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.58999991416931,
+				"y": 1.45199990272522,
+				"z": 0.791999995708466
+			},
+			"id": "Story2FerriteTuningBench",
+			"position": {
+				"x": 5.90000009536743,
+				"y": 0.0,
+				"z": 8.80000019073486
+			},
+			"rotation_y": 3.14159274101257,
+			"shapes": 14,
+			"site": "quiet-array"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.1599999666214,
+				"y": 1.41999995708466,
+				"z": 1.08999991416931
+			},
+			"id": "Story2ReceiverRepairBot",
+			"position": {
+				"x": -6.80000019073486,
+				"y": 0.0,
+				"z": 3.5
+			},
+			"rotation_y": 0.0,
+			"shapes": 11,
+			"site": "quiet-array"
+		},
+		{
+			"dimensions_m": {
+				"x": 3.00999975204468,
+				"y": 2.9449999332428,
+				"z": 0.735000014305115
+			},
+			"id": "Story2CableRoutingArch",
+			"position": {
+				"x": -3.5,
+				"y": 0.0,
+				"z": 6.59999990463257
+			},
+			"rotation_y": 0.0,
+			"shapes": 5,
+			"site": "quiet-array"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.25444006919861,
+				"y": 1.61000001430511,
+				"z": 0.861000001430511
+			},
+			"id": "Story2PneumaticSeedSorter",
+			"position": {
+				"x": 0.200000002980232,
+				"y": 0.0,
+				"z": 3.25
+			},
+			"rotation_y": 0.0,
+			"shapes": 16,
+			"site": "glass-orchard"
+		},
+		{
+			"dimensions_m": {
+				"x": 0.939999997615814,
+				"y": 1.79999995231628,
+				"z": 0.939999997615814
+			},
+			"id": "Story2ClimateBellChamber",
+			"position": {
+				"x": 7.5,
+				"y": 0.0,
+				"z": -3.40000009536743
+			},
+			"rotation_y": 0.0,
+			"shapes": 4,
+			"site": "glass-orchard"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.64999997615814,
+				"y": 0.980000019073486,
+				"z": 0.546500027179718
+			},
+			"id": "Story2FamilyMemorialTableau",
+			"position": {
+				"x": -5.0,
+				"y": 0.0,
+				"z": 7.5
+			},
+			"rotation_y": 3.14159274101257,
+			"shapes": 12,
+			"site": "glass-orchard"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.04100000858307,
+				"y": 1.15600001811981,
+				"z": 1.14600002765656
+			},
+			"id": "Story2RootIrrigationCart",
+			"position": {
+				"x": 0.100000001490116,
+				"y": 0.0,
+				"z": -3.59999990463257
+			},
+			"rotation_y": 0.0,
+			"shapes": 10,
+			"site": "glass-orchard"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.6599999666214,
+				"y": 1.85000002384186,
+				"z": 0.699999928474426
+			},
+			"id": "Story2CommunalGalleyModule",
+			"position": {
+				"x": -5.0,
+				"y": 0.0,
+				"z": -7.59999990463257
+			},
+			"rotation_y": 0.0,
+			"shapes": 8,
+			"site": "glass-orchard"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.29999995231628,
+				"y": 2.18499994277954,
+				"z": 0.70100998878479
+			},
+			"id": "Story2ArchiveReelLibrary",
+			"position": {
+				"x": -7.09999990463257,
+				"y": 0.0,
+				"z": 3.54999995231628
+			},
+			"rotation_y": 0.0,
+			"shapes": 19,
+			"site": "last-garden-meridian"
+		},
+		{
+			"dimensions_m": {
+				"x": 0.993099927902222,
+				"y": 1.47199988365173,
+				"z": 0.854999959468842
+			},
+			"id": "Story2PassengerBaggageTrolley",
+			"position": {
+				"x": 0.0,
+				"y": 0.0,
+				"z": 8.30000019073486
+			},
+			"rotation_y": 3.14159274101257,
+			"shapes": 12,
+			"site": "last-garden-meridian"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.41999995708466,
+				"y": 0.677000045776367,
+				"z": 1.61000990867615
+			},
+			"id": "Story2DeadPatrolTorso",
+			"position": {
+				"x": 6.90000009536743,
+				"y": 0.0,
+				"z": 3.0
+			},
+			"rotation_y": 0.0,
+			"shapes": 16,
+			"site": "last-garden-meridian"
+		},
+		{
+			"dimensions_m": {
+				"x": 3.29999971389771,
+				"y": 2.83999991416931,
+				"z": 0.689999997615814
+			},
+			"id": "Story2SignalVerificationGate",
+			"position": {
+				"x": -1.0,
+				"y": 0.0,
+				"z": 0.0
+			},
+			"rotation_y": 1.57079637050629,
+			"shapes": 5,
+			"site": "last-garden-meridian"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.48000001907349,
+				"y": 1.01999998092651,
+				"z": 1.48000001907349
+			},
+			"id": "Story2JourneyCartographyTable",
+			"position": {
+				"x": -2.09999990463257,
+				"y": 0.0,
+				"z": 2.25
+			},
+			"rotation_y": 0.0,
+			"shapes": 3,
+			"site": "meridian-berth"
+		},
+		{
+			"dimensions_m": {
+				"x": 0.899999976158142,
+				"y": 1.42499995231628,
+				"z": 0.823000073432922
+			},
+			"id": "Story2DormantStewardCradle",
+			"position": {
+				"x": -4.65000009536743,
+				"y": 0.0,
+				"z": 1.60000002384186
+			},
+			"rotation_y": 0.0,
+			"shapes": 12,
+			"site": "meridian-berth"
+		},
+		{
+			"dimensions_m": {
+				"x": 1.16999983787537,
+				"y": 1.75999999046326,
+				"z": 0.660000026226044
+			},
+			"id": "Story2MissionPlaqueRack",
+			"position": {
+				"x": 4.65000009536743,
+				"y": 0.0,
+				"z": 5.65000009536743
+			},
+			"rotation_y": 3.14159274101257,
+			"shapes": 5,
+			"site": "meridian-berth"
+		}
+	],
+	"source_hash": "0f7ec2212cea6ce4c593ea968c9fce90ec175d10ac2bf57642b6faa312ab0eac"
+}

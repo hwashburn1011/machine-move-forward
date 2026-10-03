@@ -48,6 +48,7 @@ func run():
 		check(not foot.is_empty() and foot.collider==collision and absf(foot.position.y-bank.position.y-.064*.95)<.002,"Mounting shoe has fitted contact collision: "+str(x))
 	check(ray(bank,Vector3(0,.028,-.65),Vector3(0,.028,.6)).is_empty(),"Raised casing removes obsolete disk collision at floor level")
 	var raw=MMFAssets.json("res://data/runtime.json").colliders[int(collision_manifest.sourceCollider)];var retained=MMFAssets.find_named(game.world,"NativeWorkshopCollision").get_child(0).shape.get_faces()
+	var static_removed=preload("res://tests/machine_spaces_collision_contract.gd").removed_offsets()
 	var prior=MMFAssets.json("res://art/nomad-benches-collision.json");var removed=0;var earlier=0;var cursor=0;var changed=0
 	for j in range(0,raw.indices.size(),3):
 		var tri=[]
@@ -55,6 +56,7 @@ func run():
 			var i=int(raw.indices[j+k])*3;tri.append(Vector3(raw.vertices[i],raw.vertices[i+1],raw.vertices[i+2]))
 		if tri.all(func(p):return preload("res://tests/intake_trim.gd").removed(p)):removed+=1;continue
 		if not prior.retainedIndexRanges.any(func(pair):return pair[0]<=j and j<pair[1]):earlier+=1;continue
+		if static_removed.has(j):continue
 		for p in tri:
 			if cursor>=retained.size() or not retained[cursor].is_equal_approx(p):changed+=1
 			cursor+=1

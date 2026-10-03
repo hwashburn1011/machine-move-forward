@@ -11,6 +11,8 @@ var gear: Node3D
 var mount: BoneAttachment3D
 var eye: Node3D
 var grip_errors=[]
+var leap_mode=false
+var leap_preparing=false
 
 func setup(owner_enemy,model: Node3D):
 	enemy=owner_enemy;gear=model
@@ -61,13 +63,18 @@ func position_gear(weight: float) -> Transform3D:
 	gear.transform=hip.affine_inverse()*desired
 	return desired
 
-func set_phase(value: float):progress=value;active=value>0 and value<1
+func set_phase(value: float):leap_mode=false;progress=value;active=value>0 and value<1
+
+func set_leap(value: float,preparing: bool):
+	leap_mode=true;leap_preparing=preparing;progress=value;active=true
 
 func finish():
-	progress=0;position_gear(0);active=false
+	progress=0;position_gear(0);active=false;leap_mode=false
 
 func _process_modification_with_delta(_dt: float):
 	if not is_instance_valid(enemy) or enemy.dead or not enemy.inactive:finish();return
+	if leap_mode:
+		modify_leap();return
 	var weight=smoothstep(0,.12,progress)*(1-smoothstep(.84,1,progress))
 	var sk=get_skeleton();var tuck=smoothstep(.60,.76,progress)*(1-smoothstep(.83,.98,progress))
 	var crouch=(.055+.12*tuck)*weight
@@ -96,3 +103,16 @@ func _process_modification_with_delta(_dt: float):
 		var target=Vector3(leg.sign*width,.155+lift,.18+.19*tuck)
 		solve(leg.bones,target,hip+Vector3(leg.sign*width,-.35,.75),weight)
 		rotate_global(leg.bones[2],foot.basis,weight)
+
+func modify_leap():
+	var sk=get_skeleton();position_gear(0)
+	var tuck=.34 if leap_preparing else .12+.34*sin(PI*progress)
+	sk.set_bone_pose_position(pelvis,sk.get_bone_pose_position(pelvis)-Vector3.UP*(.2 if leap_preparing else .06))
+	var hip=sk.get_bone_global_pose(pelvis).origin
+	for leg in limbs:
+		var foot=sk.get_bone_global_pose(leg.bones[2])
+		solve(leg.bones,Vector3(leg.sign*.20,.15+tuck,.13+tuck*.6),hip+Vector3(leg.sign*.2,-.3,.8),.9)
+		rotate_global(leg.bones[2],foot.basis,.8)
+	for arm in arms:
+		var target=hip+Vector3(arm.sign*.55,.25 if leap_preparing else .6,-.18 if leap_preparing else .28)
+		solve(arm.bones,target,hip+Vector3(arm.sign*.9,.4,-.1),.75)

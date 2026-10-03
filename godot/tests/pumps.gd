@@ -52,12 +52,13 @@ func run():
 	var machine=game.world.machine;var bank=MMFAssets.find_named(machine,"NativeServicePumps")
 	pump_manifest=MMFAssets.json("res://art/nomad-pumps.json");switchgear_manifest=MMFAssets.json("res://art/nomad-switchgear.json")
 	bench_manifest=MMFAssets.json("res://art/nomad-benches.json")
-	check(bank!=null and bank.get_child_count()==2,"Two complete pump skids replace the old disconnected assemblies")
+	check(bank!=null and bank.get_child_count()==1,"One complete pump skid serves the retained drive cluster")
 	if bank==null:quit(1);return
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var physical_manifest=MMFAssets.json("res://art/nomad-pumps-collision.json")
 	var raw=MMFAssets.json("res://data/runtime.json").colliders[int(physical_manifest.sourceCollider)]
 	var body=MMFAssets.find_named(game.world,"NativeWorkshopCollision")
+	var static_removed=preload("res://tests/machine_spaces_collision_contract.gd").removed_offsets()
 	var faces=body.get_child(0).shape.get_faces();var cursor=0;var removed_count=0;var changed=0;var bench_count=0;var intake_count=0
 	for j in range(0,raw.indices.size(),3):
 		var tri=[]
@@ -67,14 +68,15 @@ func run():
 		if omitted:removed_count+=1;continue
 		if tri.all(func(p):return preload("res://tests/bench_trim.gd").removed(p,"Brace_welded_receiver001",bench_manifest)):bench_count+=1;continue
 		if tri.all(func(p):return preload("res://tests/intake_trim.gd").removed(p)):intake_count+=1;continue
+		if static_removed.has(j):continue
 		for p in tri:
 			if cursor>=faces.size() or not faces[cursor].is_equal_approx(p):changed+=1
 			cursor+=1
-	check(removed_count==4000 and bench_count==int(MMFAssets.json("res://art/nomad-benches-collision.json").removedBenchTriangles) and intake_count==12724 and cursor==faces.size() and changed==0,"Composed pump/bench/intake collision retains every unrelated triangle and winding; 4000 obsolete pump triangles removed")
+	check(removed_count==4000 and bench_count==int(MMFAssets.json("res://art/nomad-benches-collision.json").removedBenchTriangles) and intake_count==12724 and cursor==faces.size() and changed==0,"Composed pump/bench/intake/sparse dressing collision retains every unrelated triangle and winding; 4000 obsolete pump triangles removed")
 	report.physics={"removedTriangles":removed_count,"retainedTriangles":cursor/3,"changedRetainedVertices":changed}
 	var shape_a=MMFAssets.find_named(game.world,"ServicePump1Collision").get_child(0).shape
-	var shape_b=MMFAssets.find_named(game.world,"ServicePump2Collision").get_child(0).shape
-	check(shape_a==shape_b and shape_a.get_faces().size()/3==int(physical_manifest.replacementTrianglesPerPump),"Both pumps share the authored simplified collision shape")
+	var removed_body=MMFAssets.find_named(game.world,"ServicePump2Collision")
+	check(removed_body==null and shape_a.get_faces().size()/3==int(physical_manifest.replacementTrianglesPerPump),"Retained pump uses authored collision and removed pump leaves no body")
 	for entry in pump_manifest.trim:
 		var retained=MMFAssets.find_named(machine,entry.original)
 		if entry.replacement=="":

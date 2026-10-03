@@ -1,0 +1,185 @@
+{
+  "models_reviewed": 25,
+  "models_changed": [
+    "nomad2-instrument-bench",
+    "nomad2-book-cabinet",
+    "nomad2-folding-lounge",
+    "nomad2-microscope-bench",
+    "nomad2-paint-trolley",
+    "nomad2-air-return-duct",
+    "nomad2-sewing-station",
+    "nomad2-record-console",
+    "nomad2-clock-rack",
+    "nomad2-tile-mural",
+    "nomad2-observation-seat",
+    "nomad2-chess-pedestal",
+    "nomad2-exercise-rack",
+    "nomad2-botanical-belljar",
+    "nomad2-map-roll-rack"
+  ],
+  "records": [
+    {
+      "id": "nomad2-card-table",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-instrument-bench",
+      "attachment_corrections": [
+        "Attached Instrument bezel to Parked test lead.001",
+        "Attached Oscilloscope cast housing to Rounded work surface.001",
+        "Attached Oscilloscope control knob to Oscilloscope cast housing",
+        "Attached Oscilloscope control knob.001 to Oscilloscope cast housing"
+      ],
+      "zero_area_faces_removed": 24
+    },
+    {
+      "id": "nomad2-privacy-screen",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-book-cabinet",
+      "attachment_corrections": [
+        "Attached Lower cupboard door to Folded steel carcass"
+      ],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-ration-pantry",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-folding-lounge",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 48
+    },
+    {
+      "id": "nomad2-microscope-bench",
+      "attachment_corrections": [
+        "Attached Slide drawer case to Rounded work surface.002"
+      ],
+      "zero_area_faces_removed": 72
+    },
+    {
+      "id": "nomad2-paint-trolley",
+      "attachment_corrections": [
+        "Attached Brush cleaning cup to Painter trolley upright.001",
+        "Attached Brush cleaning cup.001 to Painter work shelf",
+        "Seated graphic Captive hex screw.018"
+      ],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-air-return-duct",
+      "attachment_corrections": [
+        "Attached Countersunk washer.020 to Duct removable service cover",
+        "Attached Countersunk washer.021 to Duct removable service cover",
+        "Attached Countersunk washer.022 to Duct removable service cover",
+        "Attached Countersunk washer.023 to Duct removable service cover",
+        "Seated graphic Captive hex screw.024"
+      ],
+      "zero_area_faces_removed": 104
+    },
+    {
+      "id": "nomad2-sewing-station",
+      "attachment_corrections": [
+        "Seated graphic Captive hex screw.026",
+        "Attached Treadle pedal to Treadle crank shaft"
+      ],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-record-console",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 224
+    },
+    {
+      "id": "nomad2-typewriter-desk",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-clock-rack",
+      "attachment_corrections": [
+        "Individual display backing mounts"
+      ],
+      "zero_area_faces_removed": 144
+    },
+    {
+      "id": "nomad2-tile-mural",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 56
+    },
+    {
+      "id": "nomad2-observation-seat",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 136
+    },
+    {
+      "id": "nomad2-chess-pedestal",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 48
+    },
+    {
+      "id": "nomad2-exercise-rack",
+      "attachment_corrections": [
+        "Attached Round retained weight.008 to Weight rack shelf.002",
+        "Attached Round retained weight.010 to Weight rack shelf.002"
+      ],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-boot-care-stand",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-botanical-belljar",
+      "attachment_corrections": [
+        "Seated graphic Captive hex screw.054"
+      ],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-map-roll-rack",
+      "attachment_corrections": [
+        "Seated graphic Stamped 01",
+        "Seated graphic Stamped 02",
+        "Seated graphic Stamped 03",
+        "Seated graphic Stamped 04",
+        "Seated graphic Stamped 05",
+        "Seated graphic Stamped 06",
+        "Seated graphic Stamped 07",
+        "Seated graphic Stamped 08"
+      ],
+      "zero_area_faces_removed": 192
+    },
+    {
+      "id": "nomad2-shade-awning",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-bagatelle-table",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-laundry-drum",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-rotary-fan",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad2-arrival-bell",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    }
+  ]
+}

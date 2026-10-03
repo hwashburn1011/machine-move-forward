@@ -1,0 +1,153 @@
+{
+  "generator": "tools/art/wasteland_industry/build.py",
+  "source": "original procedural mesh construction; no third-party assets",
+  "unit": "metres",
+  "up": "Godot +Y",
+  "topLevelMeshCount": 5,
+  "sharedMaterialCount": 4,
+  "triangles": 14830,
+  "exportBytes": 904592,
+  "validation": "Five identity root meshes, exact IDs, four materials, vertex colors on every primitive, exported triangle counts match source",
+  "models": [
+    {
+      "id": "wasteland-excavator",
+      "vertices": 1842,
+      "triangles": 3102,
+      "boundsGodot": {
+        "min": [
+          -2.9000000953674316,
+          0.005696125328540802,
+          -2.0
+        ],
+        "max": [
+          7.359487533569336,
+          3.634999990463257,
+          2.0
+        ],
+        "size": [
+          10.259487628936768,
+          3.629303865134716,
+          4.0
+        ]
+      },
+      "rootOrigin": [
+        0,
+        0,
+        0
+      ],
+      "materials": 2
+    },
+    {
+      "id": "wasteland-wind-turbine",
+      "vertices": 1236,
+      "triangles": 2248,
+      "boundsGodot": {
+        "min": [
+          -7.600656509399414,
+          -0.08604556322097778,
+          -7.46504545211792
+        ],
+        "max": [
+          8.769545555114746,
+          5.689319133758545,
+          5.046632289886475
+        ],
+        "size": [
+          16.37020206451416,
+          5.775364696979523,
+          12.511677742004395
+        ]
+      },
+      "rootOrigin": [
+        0,
+        0,
+        0
+      ],
+      "materials": 3
+    },
+    {
+      "id": "wasteland-cooling-tower",
+      "vertices": 1924,
+      "triangles": 3268,
+      "boundsGodot": {
+        "min": [
+          -8.18378734588623,
+          -0.047143109142780304,
+          -10.359796524047852
+        ],
+        "max": [
+          10.078917503356934,
+          11.417964935302734,
+          8.76735782623291
+        ],
+        "size": [
+          18.262704849243164,
+          11.465108044445515,
+          19.12715435028076
+        ]
+      },
+      "rootOrigin": [
+        0,
+        0,
+        0
+      ],
+      "materials": 2
+    },
+    {
+      "id": "wasteland-tunnel",
+      "vertices": 1252,
+      "triangles": 2120,
+      "boundsGodot": {
+        "min": [
+          -7.210000038146973,
+          -0.04000000283122063,
+          -5.14961576461792
+        ],
+        "max": [
+          7.210000038146973,
+          8.210000038146973,
+          5.974129676818848
+        ],
+        "size": [
+          14.420000076293945,
+          8.250000040978193,
+          11.123745441436768
+        ]
+      },
+      "rootOrigin": [
+        0,
+        0,
+        0
+      ],
+      "materials": 3
+    },
+    {
+      "id": "wasteland-solar-farm",
+      "vertices": 3620,
+      "triangles": 4092,
+      "boundsGodot": {
+        "min": [
+          -7.24500036239624,
+          -0.18584738671779633,
+          -6.022774696350098
+        ],
+        "max": [
+          7.199999809265137,
+          1.8278979063034058,
+          5.62930154800415
+        ],
+        "size": [
+          14.445000171661377,
+          2.013745293021202,
+          11.652076244354248
+        ]
+      },
+      "rootOrigin": [
+        0,
+        0,
+        0
+      ],
+      "materials": 3
+    }
+  ]
+}

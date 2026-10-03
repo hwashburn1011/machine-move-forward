@@ -374,7 +374,7 @@
   {
     "path": "models/authored/glass-orchard.glb",
     "sourceSha256": "8766252ee36acd2d81fec10f2723673cfe6b285410a3b42668ebe028c3390377",
-    "bytes": 15073144,
+    "bytes": 15073140,
     "expandedViews": 0,
     "nodes": [
       "CaretakerJournal",
@@ -407,7 +407,9 @@
     "animations": [],
     "extensions": [
       "EXT_texture_webp"
-    ]
+    ],
+    "nativeSha256": "5efee5e6915286f36742f32a42150404a09349eb416f9aab19f0d88790237827",
+    "nativePostprocess": "tools/art/native_site_roofs/fix_site_lettering.py"
   },
   {
     "path": "models/authored/home-furnishings.glb",
@@ -659,7 +661,9 @@
     "animations": [],
     "extensions": [
       "EXT_texture_webp"
-    ]
+    ],
+    "nativeSha256": "be37d3b274d7edf86c9599feff4a6d429173cd471340323be930120c800217ed",
+    "nativePostprocess": "tools/art/native_site_roofs/fix_site_lettering.py"
   },
   {
     "path": "models/authored/machine-kit.glb",
@@ -1111,12 +1115,14 @@
   },
   {
     "path": "models/authored/relay-foundry.glb",
-    "sourceSha256": "ba678364bcbbe4dd39deebc5228f411733fa3e323c0f355428a5a0b41920e31e",
-    "bytes": 2970200,
-    "expandedViews": 44,
+    "sourceSha256": "49e8ea98281d37efe72ef99a9535a56066870647ee8d08d82ae4cb1eb3c2f29a",
+    "bytes": 4845520,
+    "expandedViews": 0,
     "nodes": [
       "EntryAnchor",
       "ExitSightline",
+      "FoundryRoof_Geometry",
+      "FoundryRoof",
       "FoundryRoot_Geometry",
       "Gangway_Geometry",
       "Gangway",
@@ -1131,7 +1137,9 @@
     "animations": [],
     "extensions": [
       "EXT_texture_webp"
-    ]
+    ],
+    "source": "assets/expansion-v1/staging/relay-foundry.glb",
+    "nativeSha256": "b9fad493b0ced29e6bb505333e333b075ed5aba7a9b46574608c64034bb76984"
   },
   {
     "path": "models/authored/revenant.glb",

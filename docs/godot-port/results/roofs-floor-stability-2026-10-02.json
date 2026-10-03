@@ -1,0 +1,551 @@
+{
+  "passed": true,
+  "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+  "runtime_assets_sha256": "4a6f39383592ca2faa5b2d6786564fa87a40356d58939cbf5427fa6dc873ac41",
+  "compiled_machine_sha256": "4b6ef92227993644f6bbd20aa210e313ee32c07dd21294c86486a97f0e736333",
+  "scope": "Native machine floors, constructed floor presentation/physics, boardable-site floor audit, supported roofs and damaged-sheet collision.",
+  "regressions": [
+    {
+      "suite": "floor_surfaces",
+      "exit_code": 0,
+      "checks": 55,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "site_roofs",
+      "exit_code": 0,
+      "checks": 121,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "compiled_machine",
+      "exit_code": 0,
+      "checks": 26,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "traversal",
+      "exit_code": 0,
+      "checks": 15,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "physical_expeditions",
+      "exit_code": 0,
+      "checks": 304,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "workshop_first_visit",
+      "exit_code": 0,
+      "checks": 23,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "construction_spaces",
+      "exit_code": 0,
+      "checks": 41,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "construction_usability",
+      "exit_code": 0,
+      "checks": 99,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "nomad_personalization",
+      "exit_code": 0,
+      "checks": 7472,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "beta_crane_collision",
+      "exit_code": 0,
+      "checks": 48,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "construction_crane_delivery",
+      "exit_code": 0,
+      "checks": 0,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "encounter_loading",
+      "exit_code": 0,
+      "checks": 45,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "checks": 455,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "campaign_flow",
+      "exit_code": 0,
+      "checks": 26,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "survivor_content",
+      "exit_code": 0,
+      "checks": 40,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "machine_composition",
+      "exit_code": 0,
+      "checks": 122,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "checks": 115,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    }
+  ],
+  "compiled_regressions": [
+    {
+      "suite": "floor_surfaces",
+      "exit_code": 0,
+      "checks": 55,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    },
+    {
+      "suite": "construction_spaces",
+      "exit_code": 0,
+      "checks": 41,
+      "failures": [],
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "source_hash_end": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c"
+    }
+  ],
+  "duplicate_machine_floor_area_removed_m2": 26.200000000000045,
+  "machine_geometry_audit": {
+    "path": "godot\\art\\nomad-access.glb",
+    "sha256": "c51baf243ce81b2ae40aeeb350da2033ddef6e313650124cf11f395f043be130",
+    "triangles": 136048,
+    "degenerate_triangles": 0,
+    "decks": {
+      "-2": {
+        "horizontal_top_triangles": 296,
+        "top_area_m2": 785.1381493910328,
+        "sum_triangle_area_m2": 785.1381493910324,
+        "coincident_upward_area_m2": -4.547473508864641e-13
+      },
+      "-1": {
+        "horizontal_top_triangles": 304,
+        "top_area_m2": 764.4570758959555,
+        "sum_triangle_area_m2": 764.4570758959553,
+        "coincident_upward_area_m2": -2.2737367544323206e-13
+      },
+      "0": {
+        "horizontal_top_triangles": 304,
+        "top_area_m2": 646.0184981429741,
+        "sum_triangle_area_m2": 646.0184981429741,
+        "coincident_upward_area_m2": 0.0
+      }
+    }
+  },
+  "roof_checks": 121,
+  "paired_floor_clips": 10,
+  "actual_player_walk_clips": 4,
+  "new_roof_views": 17,
+  "visual_review": {
+    "passed": true,
+    "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+    "images": [
+      {
+        "path": "test-results/roof-floor/after/contact.jpg",
+        "sha256": "904aee56e23d161b3d9c63a6616161a7d0a75abc517114ac4bff872c35ff7884",
+        "notes": "Reviewed all fourteen stills: deck and landing surfaces remain seated; real capsule walks cross the plate and external transition."
+      },
+      {
+        "path": "test-results/roof-floor/constructed-floor-temporal-comparison.jpg",
+        "sha256": "f7503192958d69d2142f501ae52a07748f8d3ed47b0e4c1c83d8a3876dd3ef1a",
+        "notes": "Corresponding frames show before plate disappearing/triangulating, after plate intact; all48 frame inspection is additionally recorded by the floor agent in floor-handoff.json."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/foundry-high-roof.png",
+        "sha256": "eeff8f14f8a762240aa65bd4fbcdc6e6df54242794303ed7443705a4eddc80e7",
+        "notes": "High shelter framed on existing gantry; open loading apron and retained rear roof damage."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/foundry-player-interior.png",
+        "sha256": "8f341ff69b88b8d0f28f84297cb4cb5415d48b61eec3a1e328e8bddb108462bc",
+        "notes": "Player-height framing and usable headroom; panel thickness, supports and torn opening are visible."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/foundry-roof-review.png",
+        "sha256": "52857ca50df1bb28f9791fd85c3224287faa7298089e0a2e00875ed7ab4fa546",
+        "notes": "Six native Foundry views inspected: supports, folds, openings, floor seating."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/workshop-player-aisle.png",
+        "sha256": "bf3915420dadb1592051034cacbe8f9ab20fccbbccd51b3ffde483d7757a8b48",
+        "notes": "Clear work aisle below supported rear canopy, correctly facing motto."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/workshop-roof-review.png",
+        "sha256": "e26da5d8c4c75b5bea2841f51536aa01c7cb71ec1d06bf73bdbc120b09433b9c",
+        "notes": "Four Workshop angles inspected: bridge and central aisle retain clearance."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/array-vault-bearing-detail.png",
+        "sha256": "2932ccc10e99d4e45dfe1ffce6c71c22e8694a20889c210f81967c78e65b451a",
+        "notes": "Vault cap now sits on bearing detail rather than floating."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/archive-roof-review.png",
+        "sha256": "b3957e24d2a33027334b4f2e2ffa8dc5f004daf5391928e93f9a2083317b7167",
+        "notes": "Array and Orchard cap geometry inspected; final lettering is also checked in dedicated final images."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/orchard-archive-title.png",
+        "sha256": "c240652bff291e1a3303fb3e0622845911b544442adfddced7c5318102a74f22",
+        "notes": "Archive title reads correctly above the doors."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/orchard-entry-lettering.png",
+        "sha256": "7b63dfe9eb038eeb472a99c07a9d9c9f194e4454f28a7d095f3e6e8ef2dfb71d",
+        "notes": "Both entry lines face the approach and sit within their existing opaque signboard."
+      },
+      {
+        "path": "test-results/roof-floor/native-roofs/meridian-garden-lettering.png",
+        "sha256": "996eb542d29e566423220cc82b24b40827f1aab74d41ec675392844633611c79",
+        "notes": "Garden title/subtitle on a board visibly fastened to both posts; route below remains clear."
+      },
+      {
+        "path": "test-results/roof-floor/wake/roof-after/shallow-top.png",
+        "sha256": "3433ea62e1f10fde9d1a2bd037e14ecab0e35dec74e5db84f8b379f28a33523f",
+        "notes": "Raised short sheet is visibly supported by ribs above the lower sheet."
+      },
+      {
+        "path": "test-results/roof-floor/wake/roof-after/lap-underside.png",
+        "sha256": "06316c756b14d8dc3585eb15bd7e6983b0df4fc3b991c7c642d1880a75fb9a96",
+        "notes": "Underside shows rib contact and no coincident roof sheets."
+      },
+      {
+        "path": "test-results/roof-floor/wake/roof-after/roof-context.png",
+        "sha256": "5fc1c58fe3667942ac234a5b21ef1fac083c6b44c205159fafd72a0d774425b3",
+        "notes": "Isolated complete roof context retains original broken coverage; this is a geometry review, not a gameplay camera."
+      }
+    ],
+    "floor_agent_evidence": "test-results/roof-floor/floor-handoff.json",
+    "architecture_agent_evidence": "assets/native-site-roofs/review-closure.json",
+    "limits": "Agent inspection of finite native views and paired motion frames, supported by geometry/physics checks. Not human aesthetic acceptance or proof for every possible camera/hardware combination."
+  },
+  "performance_workloads": [
+    {
+      "scenario": "travel",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 8.657,
+        "median": 3.581,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.456,
+        "p99": 6.996,
+        "samples": 4634
+      },
+      "gpu_ms": {
+        "max": 4.96199989318848,
+        "median": 3.17700004577637,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.37899994850159,
+        "p99": 3.8659999370575,
+        "samples": 4634
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 858.0,
+      "passed": true
+    },
+    {
+      "scenario": "construction",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 37.738,
+        "median": 4.023,
+        "over33ms": 1,
+        "over50ms": 0,
+        "p95": 6.424,
+        "p99": 7.335,
+        "samples": 4214
+      },
+      "gpu_ms": {
+        "max": 5.50500011444092,
+        "median": 3.75300002098084,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.84699988365173,
+        "p99": 4.77600002288818,
+        "samples": 4214
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 1191.0,
+      "passed": true
+    },
+    {
+      "scenario": "furnished",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 8.672,
+        "median": 3.596,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.36,
+        "p99": 6.238,
+        "samples": 4668
+      },
+      "gpu_ms": {
+        "max": 4.60799980163574,
+        "median": 3.18199992179871,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.43499994277954,
+        "p99": 3.47300004959106,
+        "samples": 4668
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 931.0,
+      "passed": true
+    },
+    {
+      "scenario": "combat",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 10.454,
+        "median": 3.792,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 7.175,
+        "p99": 8.295,
+        "samples": 3995
+      },
+      "gpu_ms": {
+        "max": 5.13899993896484,
+        "median": 3.35199999809265,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.84899997711182,
+        "p99": 4.4229998588562,
+        "samples": 3995
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 1009.0,
+      "passed": true
+    },
+    {
+      "scenario": "wake",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 8.913,
+        "median": 4.6,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 6.204,
+        "p99": 6.986,
+        "samples": 3750
+      },
+      "gpu_ms": {
+        "max": 6.16800022125244,
+        "median": 4.23799991607666,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 4.48799991607666,
+        "p99": 5.41300010681152,
+        "samples": 3750
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 2018.0,
+      "passed": true
+    },
+    {
+      "scenario": "foundry",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 9.321,
+        "median": 4.747,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 6.409,
+        "p99": 6.891,
+        "samples": 3635
+      },
+      "gpu_ms": {
+        "max": 6.16599988937378,
+        "median": 4.38500022888184,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 4.69500017166138,
+        "p99": 5.39300012588501,
+        "samples": 3635
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 2048.0,
+      "passed": true
+    },
+    {
+      "scenario": "array",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 9.27,
+        "median": 4.707,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 6.26,
+        "p99": 6.745,
+        "samples": 3702
+      },
+      "gpu_ms": {
+        "max": 6.10400009155273,
+        "median": 4.29400014877319,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 4.44899988174438,
+        "p99": 5.64499998092651,
+        "samples": 3702
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 1946.0,
+      "passed": true
+    },
+    {
+      "scenario": "orchard",
+      "label": "roof-floor",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 10.161,
+        "median": 4.721,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 6.436,
+        "p99": 7.371,
+        "samples": 3649
+      },
+      "gpu_ms": {
+        "max": 6.26700019836426,
+        "median": 4.31899976730347,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 4.66400003433228,
+        "p99": 5.47599983215332,
+        "samples": 3649
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 2109.0,
+      "passed": true
+    },
+    {
+      "scenario": "furnished",
+      "label": "connected-freight",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 11.471,
+        "median": 4.556,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.916,
+        "p99": 7.789,
+        "samples": 9603
+      },
+      "gpu_ms": {
+        "max": 5.68599987030029,
+        "median": 4.10400009155273,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 4.16400003433228,
+        "p99": 4.68300008773804,
+        "samples": 9603
+      },
+      "source_hash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+      "draw_calls": 1884.0,
+      "passed": true
+    }
+  ],
+  "worst_p95_frame_ms": 7.175,
+  "worst_frame_ms": 37.738,
+  "frames_over_50ms": 0,
+  "prior_reports_unchanged": {
+    "test-results/deck-audio/completion.json": "32ec379d87495985c4be4142d9f334ef276a2c6f6a4edfa360e0197ab87ab125",
+    "docs/godot-port/results/machine-spaces-audio-2026-10-02.json": "32ec379d87495985c4be4142d9f334ef276a2c6f6a4edfa360e0197ab87ab125",
+    "test-results/beta-next/completion.json": "f9328c42c4a34203bc30574ac22b5af3bd2209438677a112c5b612ddd7fd9881",
+    "docs/godot-port/results/beta-next-2026-10-02.json": "f9328c42c4a34203bc30574ac22b5af3bd2209438677a112c5b612ddd7fd9881"
+  },
+  "limits": "Scripted native views and real controller/physics fixtures on this computer. No human visual acceptance, full earned campaign run or low-spec hardware claim. Initial failed/incomplete diagnostics remain separate."
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Art 200 — aged industrial color families",
+  "color_space": "sRGB hex; convert to scene-linear for untextured Blender BSDF colors",
+  "direction": "Muted, sun-faded pigment with coherent per-model color stories. No neon, saturated primary colors, bright white panels, rainbow patchwork or blanket orange rust. Exposed steel, mineral dust and restrained rust support the painted areas. Preserve functional low-intensity status lights.",
+  "families": [
+    {"id":"petrol","name":"Aged petrol blue","paint":"#405C62","secondary":"#778581","letter":"#B7B09F"},
+    {"id":"oxblood","name":"Faded oxblood enamel","paint":"#704B50","secondary":"#A08379","letter":"#BDB09B"},
+    {"id":"denim","name":"Dust blue industrial enamel","paint":"#596C80","secondary":"#879095","letter":"#BBB7A9"},
+    {"id":"plum","name":"Smoke plum enamel","paint":"#6D5C70","secondary":"#998A91","letter":"#BDB5A8"},
+    {"id":"celadon","name":"Weathered celadon","paint":"#708174","secondary":"#A4AA91","letter":"#C0B8A2"},
+    {"id":"clay","name":"Mineral clay paint","paint":"#936E5C","secondary":"#B09A84","letter":"#C2B7A4"},
+    {"id":"olive","name":"Grey olive lacquer","paint":"#797E58","secondary":"#AAA58B","letter":"#C0B9A5"},
+    {"id":"umber","name":"Cocoa brown enamel","paint":"#726252","secondary":"#9C8974","letter":"#BCB5A5"},
+    {"id":"slate","name":"Blue slate enamel","paint":"#616E76","secondary":"#909895","letter":"#C0BBAE"},
+    {"id":"verdigris","name":"Dusty copper green","paint":"#578078","secondary":"#8F9E92","letter":"#BABBA9"},
+    {"id":"heather","name":"Ash violet paint","paint":"#807384","secondary":"#A4989D","letter":"#C1B7AA"},
+    {"id":"ochre","name":"Faded straw ochre","paint":"#94815C","secondary":"#AE9E83","letter":"#C1B8A5"},
+    {"id":"rose","name":"Dust rose mineral enamel","paint":"#94787A","secondary":"#B2A19B","letter":"#C3B7A8"},
+    {"id":"stone","name":"Warm stone paint","paint":"#928D7D","secondary":"#ADA895","letter":"#484B49"}
+  ],
+  "substrates": {"steel":"#404749","rubber":"#272B2B","rust":"#765442","dark_rust":"#503F36","concrete":"#898273","dust":"#AA9D86","aged_aluminium":"#898C84"},
+  "surface_notes": ["Favor broad calm color fields with localized seam rust and edge wear.","Different collections must visibly use at least eight paint families; colors are not separate counted models.","Material images must be portable to GLB. Geometry needs supported details and eased manufactured edges.","Fictional advertising uses original brands and wording; no copied Fallout brands, mascots or logos."]
+}

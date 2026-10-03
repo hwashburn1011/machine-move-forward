@@ -1,0 +1,35 @@
+{
+  "sources": "Original harmonic/noise foley; pursuer-source.wav synthesized locally with Microsoft David Desktop via System.Speech, rate -1. Filtered and mixed by this script.",
+  "dialogue": "There. On the roof.",
+  "dialogue_at_seconds": 12.9,
+  "files": [
+    {
+      "path": "godot\\assets\\audio\\opening\\paper-fire.wav",
+      "seconds": 6.0,
+      "peak_dbfs": -19.94651163603679,
+      "rms_dbfs": -35.06559544287297,
+      "sha256": "76fa2baacf2b578813b97da89be433046fc67986e7f6d74c685c36ea4937c40a"
+    },
+    {
+      "path": "godot\\assets\\audio\\opening\\memory-and-escape.wav",
+      "seconds": 36.2,
+      "peak_dbfs": -13.840828477416123,
+      "rms_dbfs": -39.198462877557986,
+      "sha256": "d234544b98697552d836a051d471178e375546d02504172ab50141e00a8f719d"
+    },
+    {
+      "path": "godot\\assets\\audio\\opening\\memory-score.wav",
+      "seconds": 13.0,
+      "peak_dbfs": -37.62453905247846,
+      "rms_dbfs": -44.8712801230939,
+      "sha256": "8d3be35a206472fc07ecd244bd524a56935baefb6f9902d22c13b55b4503b527"
+    },
+    {
+      "path": "godot\\assets\\audio\\opening\\pursuer-roof.wav",
+      "seconds": 4.0,
+      "peak_dbfs": -12.570421084453908,
+      "rms_dbfs": -36.777354447501274,
+      "sha256": "428f88cb734003d866431353bfbfb437bba72f4f96ee2ad28e1524e3ada4eaf7"
+    }
+  ]
+}

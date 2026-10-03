@@ -28,6 +28,19 @@ func fingerprint(resource: Resource) -> String:
 	var context=HashingContext.new();context.start(HashingContext.HASH_SHA256);context.update(var_to_bytes(props));hashes[resource]=context.finish().hex_encode();return hashes[resource]
 
 func equal_value(a,b) -> bool:
+	# Node metadata may retain original materials inside surface-index maps.
+	# Compare those values by the same property fingerprint and bijective
+	# resource-sharing contract used for direct material properties.
+	if a is Dictionary or b is Dictionary:
+		if not a is Dictionary or not b is Dictionary or a.size()!=b.size():return false
+		for key in a:
+			if not b.has(key) or not equal_value(a[key],b[key]):return false
+		return true
+	if a is Array or b is Array:
+		if not a is Array or not b is Array or a.size()!=b.size():return false
+		for index in a.size():
+			if not equal_value(a[index],b[index]):return false
+		return true
 	if a is Resource and b is Resource:
 		if fingerprint(a)!=fingerprint(b):return false
 		if links.has(a) and links[a]!=b:return false

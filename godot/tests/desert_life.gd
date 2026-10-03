@@ -21,19 +21,16 @@ func run():
 	game.set_physics_process(false);game.player.set_physics_process(false)
 	var s=game.session
 	s.opening_done=true;s.scanner.phase="consumed";s.story.phase="locked"
-	var levels=[]
 	for intensity in [0.0,.5,1.0]:
 		for indoors in [false,true]:
-			s.weather.intensity=intensity;s.sheltered=indoors;s.hydration=100
-			s.tick(10);levels.append(s.hydration)
-	check(levels.all(func(n):return is_equal_approx(n,100-10*float(game.data.HYDRATION_DRAIN_PER_S))),"Clear, storm and sheltered weather all consume exactly the base water rate")
-	s.hydration=.001;s.weather.intensity=1;s.tick(10)
-	check(s.hydration==0,"Base water consumption remains clamped at zero")
-	s.weather={"phase":"front","elapsed":23.0,"next":600.0,"intensity":1.0,"sequence":2};s.hydration=77
-	var snapshot=s.native_snapshot();var restored=MMFSession.new(game.data)
-	check(restored.restore_native(snapshot) and restored.weather==s.weather and restored.hydration==77,"Existing mid-storm saves retain weather and hydration without migration")
-	restored.tick(10)
-	check(is_equal_approx(restored.hydration,77-10*float(game.data.HYDRATION_DRAIN_PER_S)),"Restored exposed storm save also uses the normal water rate")
+			s.weather.intensity=intensity;s.sheltered=indoors
+			var inventory=s.inventory.slots.duplicate(true);s.tick(10)
+			check(s.inventory.slots==inventory and s.health==100,"Weather leaves robot supplies and health unchanged")
+	s.weather={"phase":"front","elapsed":23.0,"next":600.0,"intensity":1.0,"sequence":2}
+	var snapshot=s.native_snapshot();snapshot["hydration"]=77;snapshot["nourishment"]=55
+	var restored=MMFSession.new(game.data)
+	check(restored.restore_native(snapshot) and restored.weather==s.weather,"Legacy mid-storm saves retain weather")
+	check(not restored.native_snapshot().has("hydration") and not restored.native_snapshot().has("nourishment"),"Robot saves retire biological meters")
 	s.notice.connect(func(message):notices.append(message))
 	s.weather={"phase":"clear","elapsed":0.0,"next":0.0,"intensity":0.0,"sequence":0}
 	game.home.update_weather(.1)

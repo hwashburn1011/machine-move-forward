@@ -1,0 +1,98 @@
+{
+  "date": "2026-09-28",
+  "scope": "Final affected correctness after stairs preparation and resource refinements; synthetic tests, not human or timing evidence",
+  "source_hash_start": "0f69a800743efd9d270a4871b0372a5b5b3e6820e14c0ddb8d5ede93a5271967",
+  "suites": [
+    {
+      "suite": "construction_usability",
+      "exit_code": 0,
+      "passing_assertions": 79,
+      "errors": [],
+      "seconds": 10.09,
+      "log": "test-results/final-frozen-construction_usability.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/construction_usability.gd"
+      ]
+    },
+    {
+      "suite": "objective_guidance",
+      "exit_code": 0,
+      "passing_assertions": 66,
+      "errors": [],
+      "seconds": 6.17,
+      "log": "test-results/final-frozen-objective_guidance.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/objective_guidance.gd"
+      ]
+    },
+    {
+      "suite": "pacing_contracts",
+      "exit_code": 0,
+      "passing_assertions": 25,
+      "errors": [],
+      "seconds": 5.2,
+      "log": "test-results/final-frozen-pacing_contracts.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/pacing_contracts.gd"
+      ]
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "passing_assertions": 109,
+      "errors": [
+        "ERROR: Initializing already initialized RID",
+        "ERROR: Parameter \"mem\" is null.",
+        "ERROR: Parameter \"t\" is null.",
+        "ERROR: 1 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit."
+      ],
+      "seconds": 21.47,
+      "log": "test-results/final-frozen-integration.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/integration.gd"
+      ]
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "passing_assertions": 290,
+      "errors": [
+        "ERROR: Parameter \"t\" is null."
+      ],
+      "seconds": 25.42,
+      "log": "test-results/final-frozen-playtest_checkpoints.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/playtest_checkpoints.gd"
+      ]
+    }
+  ],
+  "human_test": false,
+  "source_hash_end": "0f69a800743efd9d270a4871b0372a5b5b3e6820e14c0ddb8d5ede93a5271967",
+  "source_stable": true,
+  "passed": false
+}

@@ -1,0 +1,88 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MMF_NATIVE_READY 
+PASS New campaign grants no radar or expedition hardware
+PASS New campaign offers no equipment recovery
+PASS Workshop contains no food recipes
+PASS Construction excludes retired producers
+PASS Robot save has no hunger or thirst meters
+PASS Recovery required before paid installation: salvage-crane
+PASS Recovery required before paid installation: battery-bank
+PASS Recovery required before paid installation: quiet-drive
+PASS Legacy full inventory, storage, producer and optional reward load successfully
+PASS Migration conserves full stacks without requiring an empty slot
+PASS Retired output and stored water remain recoverable
+PASS Unclaimed legacy exchange converts water to fuel without adding a new reward
+PASS Legacy optional signal and pending rewards migrate
+PASS Legacy gardener resumes as companion
+PASS Saving and reloading migrated supplies is idempotent
+PASS Legacy starvation does not reduce robot repair
+PASS Malformed equipment state rejected atomically
+PASS Malformed equipment state rejected atomically
+PASS Malformed legacy reward section rejects without a script error
+PASS Converted stack fits its original slot: water
+PASS Converted stack fits its original slot: rations
+PASS Converted stack fits its original slot: greens
+PASS Spare generation charges the bank and crane consumes four power
+PASS Battery stops charging at capacity
+PASS Installed battery charge survives a JSON save
+PASS Battery backs up fixed equipment without powering a crane
+PASS Read-only power refresh never consumes battery charge
+PASS Exhausted bank cleanly removes receiver backup
+PASS Quiet assembly reduces speed and generator output
+PASS Overcharged imported batteries are rejected
+PASS Destroyed quiet assembly cannot suppress detection
+PASS Actuator alone cannot skip the Quiet Array milestone
+PASS Array unlocks radar while crane still requires workshop recovery
+PASS Workshop unlocks crane discovery before later hardware
+PASS Unpowered receiver cannot generate a sweep
+PASS Powered Array receiver separates three signals including eligible recovery
+PASS First sweep provides reachable bearings and nonzero fuel estimates
+PASS All candidates and selected signal survive a native save
+PASS Restored selection shares its candidate state
+PASS Malformed unselected signal is rejected
+PASS Duplicate radar identities are rejected
+PASS Conflicting saved candidate and selection are rejected
+PASS No-power selection and interception are blocked
+PASS Selecting an equipment signal updates the active route
+PASS Selected equipment route commits from aboard
+PASS Committed route cannot be replaced by another dot
+PASS Real travel steers to the selected bearing and docks
+PASS Normal movement crosses the recovery gangway
+PASS Normal movement reaches the isolated feed from the platform
+PASS Retaining sequence cannot be skipped
+PASS Physical feed isolation advances recovery
+PASS Partially completed equipment recovery saves
+PASS Normal movement reaches retaining locks
+PASS Normal movement reaches the released assembly
+PASS Recovery grants one blueprint; installation remains separate
+PASS Crane recovery leaves a real heavy trial load
+PASS Normal movement returns from the recovered assembly to the Nomad
+PASS Normal construction accepts the supported onboard crane placement
+PASS Recovered crane installs with its fitting materials
+PASS Handheld hook does not advertise heavy cargo
+PASS Unpowered crane cannot capture a load
+PASS Powered nearby crane secures the platform load through a clear cable path
+PASS Crane hoists and transfers the complete trial cargo
+PASS Full storage leaves every supply suspended in the hoist
+PASS Saved suspended cargo retains its crane and full contents
+PASS Freeing storage finishes the waiting cargo transfer
+PASS Orchard unlocks bank while quiet hardware waits for further travel
+PASS Quiet hardware becomes discoverable after another 600 metres
+PASS Patrol risk produces a real scout encounter
+PASS One patrol signal cannot spawn duplicate scouts
+PASS Quiet assembly opens its own equipment interface
+PASS Quiet mode toggles through the physical assembly's control
+PASS Quiet running halves actual visible scout detection buildup
+PASS Quiet switch does not cancel an existing lock
+PASS Pending legacy cargo converts without loss
+PASS Uncollected legacy combat rewards become fuel
+PASS Physical optional site recovers battery-bank
+PASS JSON round trip preserves recovered battery-bank
+PASS Physical optional site recovers quiet-drive
+PASS JSON round trip preserves recovered quiet-drive
+PASS Completed assemblies are not offered again
+PASS Passing a selected dot preserves the other two choices
+PASS Signals expire by travel distance even when receiver power is lost
+PASS An expired sweep is replaced when power returns
+PASS Continuing a departure clears its remaining sweep

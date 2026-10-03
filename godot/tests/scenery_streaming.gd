@@ -4,7 +4,10 @@ var game
 var output="res://../test-results/godot-native/"
 
 func _initialize():
-	set_meta("test_mode",true);MMFSaves.DIRECTORY="user://native-streaming-tests/";call_deferred("run")
+	set_meta("test_mode",true);MMFSaves.DIRECTORY="user://native-streaming-tests/"
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--output="):output=arg.trim_prefix("--output=")
+	call_deferred("run")
 
 func frames(n: int):
 	for i in n:await process_frame
@@ -19,12 +22,14 @@ func memory():
 	var values={"staticBytes":Performance.get_monitor(Performance.MEMORY_STATIC),"objects":Performance.get_monitor(Performance.OBJECT_COUNT),"nodes":Performance.get_monitor(Performance.OBJECT_NODE_COUNT),"resources":Performance.get_monitor(Performance.OBJECT_RESOURCE_COUNT),"videoBytes":Performance.get_monitor(Performance.RENDER_VIDEO_MEM_USED),"chunks":game.world.chunks.size(),"rotorEntries":game.world.atmosphere.rotors.size()}
 	var stream=game.world.get("streamer")
 	if stream:values.merge({"readyChunks":stream.ready.size(),"unfinishedChunks":1 if stream.pending else 0,"synchronousBuilds":stream.synchronous_builds,"preparedActivations":stream.prepared_activations})
+	values.sceneryCollisionCache=game.world.scenery_collision.shapes.size()
 	return values
 
 func run():
 	if DisplayServer.get_name()=="headless":push_error("Streaming benchmark needs GPU rendering");quit(1);return
 	DisplayServer.window_set_size(Vector2i(1920,1080))
 	game=load("res://scenes/main.tscn").instantiate();root.add_child(game);current_scene=game
+	game.settings.vsync=false;game.settings.quality="high";game.save_settings();Engine.max_fps=0
 	game.started=true;game.session.opening_done=true;game.invulnerable=true;game.close_menu()
 	game.set_physics_process(false);game.player.set_physics_process(false);game.ui.root.hide()
 	game.session.speed=7.5;game.session.fuel=100
@@ -35,7 +40,7 @@ func run():
 	if stream:
 		stream.profile_steps="--profile" in OS.get_cmdline_user_args()
 		game.world.atmosphere.profile_placements=stream.profile_steps
-	var report={"adapter":RenderingServer.get_video_adapter_name(),"resolution":str(root.size),"baselineRevision":"e8fea34","prepared":prepared,"description":"Accelerated boundary crossings; main gameplay paused, world/gait/atmosphere fully updated, GPU renders original full assets. Prepared mode allows 60 normal update ticks before each crossing. Measures streaming work, not normal travel FPS.","initial":memory(),"checkpoints":[]}
+	var report={"adapter":RenderingServer.get_video_adapter_name(),"cpu":OS.get_processor_name(),"resolution":str(root.size),"source_hash":MMFPlaytestRecorder.source_fingerprint(),"quality":"high Forward+ Vulkan / 4x MSAA","frame_cap":0,"prepared":prepared,"description":"Accelerated boundary crossings; main gameplay paused, world/gait/atmosphere fully updated, GPU renders current full assets. Prepared mode allows 60 normal update ticks before each crossing. Measures streaming work, not normal travel FPS.","initial":memory(),"checkpoints":[]}
 	var setup_steps=[];var forward=[];var lateral=[];var frames_after=[];var regular=[];var slow_updates=[]
 	for step in steps:
 		# One boundary per step; reverse the lateral course every eight crossings.
@@ -70,4 +75,6 @@ func run():
 	var file=FileAccess.open(output+"scenery-streaming.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("STREAMING_COMPLETE ",report.forwardBoundary," lateral ",report.lateralBoundary)
 	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.1).timeout
-	game.queue_free();await frames(4);MMFAssets.cache.clear();quit()
+	var drain=load("res://tests/audio_drain.gd");var audio_refs=drain.capture(game.audio)
+	game.queue_free();await frames(4);MMFAssets.cache.clear();MMFArt100Decor.clear_cache();MMFArt200Decor.clear_cache()
+	await drain.finish(self,audio_refs);quit()

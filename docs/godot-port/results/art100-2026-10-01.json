@@ -1,0 +1,366 @@
+{
+  "iteration": "Art 100",
+  "generated_utc": "2026-10-02T02:30:33.655306+00:00",
+  "passed": true,
+  "models": {
+    "total": 100,
+    "new": 59,
+    "refined": 41,
+    "collections": {
+      "legacy": 25,
+      "wasteland": 25,
+      "machine": 25,
+      "story-robots": 25
+    },
+    "counting": "100 complete assemblies. Six refined existing enemies count as six complete characters, with their added hardware included; neither individual parts nor texture variants count separately.",
+    "catalog": "assets/art100/catalog.json"
+  },
+  "runtime_source_sha256": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+  "suites_passed": 20,
+  "checks_passed": 3067,
+  "failures": [],
+  "suites": [
+    {
+      "suite": "art100_decor",
+      "exit_code": 0,
+      "checks": 668,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/art100_decor-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "art100_legacy",
+      "exit_code": 0,
+      "checks": 205,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/art100_legacy-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "wasteland_assets",
+      "exit_code": 0,
+      "checks": 181,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/wasteland_assets-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "wasteland_variety",
+      "exit_code": 0,
+      "checks": 167,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/wasteland_variety-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "art100_story_robots",
+      "exit_code": 0,
+      "checks": 223,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/art100_story_robots-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "beta_salvage",
+      "exit_code": 0,
+      "checks": 32,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/beta_salvage-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "beta_salvage_edges",
+      "exit_code": 0,
+      "checks": 8,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/beta_salvage_edges-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "beta_physical_quality",
+      "exit_code": 0,
+      "checks": 76,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/beta_physical_quality-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "beta_crane_collision",
+      "exit_code": 0,
+      "checks": 48,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/beta_crane_collision-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "cordon_guardian",
+      "exit_code": 0,
+      "checks": 42,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/cordon_guardian-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "construction_usability",
+      "exit_code": 0,
+      "checks": 98,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/construction_usability-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "later_expeditions",
+      "exit_code": 0,
+      "checks": 88,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/later_expeditions-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "recovery_operations",
+      "exit_code": 0,
+      "checks": 97,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/recovery_operations-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "narrative_delivery",
+      "exit_code": 0,
+      "checks": 181,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/narrative_delivery-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "narrative_edge_cases",
+      "exit_code": 0,
+      "checks": 47,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/narrative_edge_cases-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "checks": 113,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/integration-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "checks": 455,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/playtest_checkpoints-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "character_refinement",
+      "exit_code": 0,
+      "checks": 167,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/character_refinement-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "enemy_equipment",
+      "exit_code": 0,
+      "checks": 151,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/enemy_equipment-output.txt",
+      "diagnostics": []
+    },
+    {
+      "suite": "compiled_machine",
+      "exit_code": 0,
+      "checks": 20,
+      "failures": [],
+      "source_hash": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "source_hash_end": "8f5a018058eb96f65432be2691b3652e240ec93dbe893f1cf8f81176dfee134a",
+      "output": "test-results/narrative-regressions/compiled_machine-output.txt",
+      "diagnostics": []
+    }
+  ],
+  "runtime_packages": [
+    {
+      "path": "godot/art/art100-legacy.glb",
+      "sha256": "2a37a3da44f9d67024a531dbdac8a930fb1d84485c8aa2711dc9c5261860920f",
+      "bytes": 30540932,
+      "exported_triangles": 378036,
+      "gltf_errors": 0,
+      "gltf_warnings": 0,
+      "validation": "assets/art100/legacy/validation.json"
+    },
+    {
+      "path": "godot/art/art100-wasteland.glb",
+      "sha256": "d8e136cd5aea95a42d413a2f36f2d64884b9b9cb85956de8ce13fc7857776cdd",
+      "bytes": 12827676,
+      "exported_triangles": 234457,
+      "gltf_errors": 0,
+      "gltf_warnings": 0,
+      "validation": "assets/art100/wasteland/validation.json"
+    },
+    {
+      "path": "godot/art/art100-machine.glb",
+      "sha256": "b2a74f632502d6252005d529aa3c6e9561dec1013ddd4a4b9b9661b8e5bc9cf1",
+      "bytes": 9563564,
+      "exported_triangles": 118619,
+      "gltf_errors": 0,
+      "gltf_warnings": 0,
+      "validation": "assets/art100/machine/validation.json"
+    },
+    {
+      "path": "godot/art/art100-story-robots.glb",
+      "sha256": "43660d8a7bd69ecdd121a78739392f47c30335a7491716ba2e4b5078a65ebbf7",
+      "bytes": 12697724,
+      "exported_triangles": 248288,
+      "gltf_errors": 0,
+      "gltf_warnings": 0,
+      "validation": "assets/art100/story-robots/validation.json"
+    }
+  ],
+  "total_package_bytes": 65629896,
+  "total_exported_package_triangles": 979400,
+  "geometry_accounting": "Package geometry includes six authored robot attachments; their pre-existing complete body geometry is retained separately and included in the complete-character review gallery.",
+  "native_render_review": {
+    "device": "NVIDIA GeForce RTX 3070",
+    "furnishingCells": [
+      {
+        "x": -3,
+        "y": 0,
+        "z": 5
+      },
+      {
+        "x": -2,
+        "y": 0,
+        "z": 5
+      },
+      {
+        "x": -1,
+        "y": 0,
+        "z": 5
+      },
+      {
+        "x": 1,
+        "y": 0,
+        "z": 5
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "z": 5
+      },
+      {
+        "x": -3,
+        "y": 0,
+        "z": 6
+      }
+    ],
+    "furnishingIds": [
+      "nomad-field-chair",
+      "nomad-chart-desk",
+      "nomad-tool-drawers",
+      "nomad-expedition-trunk",
+      "nomad-memory-board",
+      "nomad-machinist-lamp"
+    ],
+    "furnishingsPlaced": 6,
+    "resolution": [
+      1600,
+      1000
+    ],
+    "routes": [
+      {
+        "chunks": 27,
+        "distance": 0.0,
+        "drawCallsMedian": 869.0,
+        "frameMedianMs": 16.673,
+        "frameP95Ms": 16.982,
+        "renderedPrimitivesMedian": 2796172.0
+      },
+      {
+        "chunks": 27,
+        "distance": 896.0,
+        "drawCallsMedian": 914.0,
+        "frameMedianMs": 16.657,
+        "frameP95Ms": 17.038,
+        "renderedPrimitivesMedian": 2851989.0
+      },
+      {
+        "chunks": 27,
+        "distance": 1856.0,
+        "drawCallsMedian": 833.0,
+        "frameMedianMs": 16.658,
+        "frameP95Ms": 16.935,
+        "renderedPrimitivesMedian": 2790648.0
+      }
+    ],
+    "scope": "Static staged camera; wall time frame intervals after route rebuild warmup, not a full gameplay performance benchmark."
+  },
+  "character_pose_review": "assets/art100/story-robots/native-validation-gpu.json",
+  "gallery": {
+    "path": "assets/art100/Art100Review.blend",
+    "audit": "assets/art100/gallery-audit.json",
+    "opened_in_connected_blender": true,
+    "previous_session_copy": "assets/art100/MCP-session-before-Art100.blend"
+  },
+  "catalog_validation": {
+    "models": 100,
+    "new": 59,
+    "refined": 41,
+    "complete_characters": 6,
+    "sources_images_and_static_links_exist": true,
+    "gallery_matches_four_runtime_hashes": true,
+    "catalog_javascript_syntax": true,
+    "interactive_browser_review": "not performed: local file URL blocked by tool browser policy"
+  },
+  "scope": [
+    "Native Godot art and physical-quality iteration.",
+    "25 furnishings are cosmetic build pieces.",
+    "Six existing characters are art refinements with preserved AI and animation roles.",
+    "Story fixtures preserve the existing campaign and finale state.",
+    "Desert scenery remains outside supported radioactive-ground traversal.",
+    "Static-camera performance samples are not a complete gameplay benchmark.",
+    "Full V1 beta acceptance remains a separate milestone."
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "date": "2026-09-28",
+  "scope": "Final six affected correctness suites on matching start/end source after resource, stairs preparation and loading-ownership refinements. Headless synthetic correctness; no human or timing claim.",
+  "source_hash_start": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+  "source_hash_end": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+  "source_stable": true,
+  "passed": true,
+  "checks": 609,
+  "suites": [
+    {
+      "suite": "construction_usability",
+      "exit_code": 0,
+      "passing_assertions": 79,
+      "errors": [],
+      "log": "test-results/final-frozen-construction_usability.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/construction_usability.gd"
+      ]
+    },
+    {
+      "suite": "objective_guidance",
+      "exit_code": 0,
+      "passing_assertions": 66,
+      "errors": [],
+      "log": "test-results/final-frozen-objective_guidance.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/objective_guidance.gd"
+      ]
+    },
+    {
+      "suite": "pacing_contracts",
+      "exit_code": 0,
+      "passing_assertions": 25,
+      "errors": [],
+      "log": "test-results/final-frozen-pacing_contracts.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/pacing_contracts.gd"
+      ]
+    },
+    {
+      "suite": "encounter_loading",
+      "checks": 40,
+      "passed_lines": 40,
+      "exit_code": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test-results/godot-native/final-loader-encounter_loading.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/encounter_loading.gd",
+        "--fixed-fps",
+        "60"
+      ],
+      "passing_assertions": 40
+    },
+    {
+      "suite": "integration",
+      "checks": 109,
+      "passed_lines": 109,
+      "exit_code": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test-results/godot-native/final-loader-integration.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/integration.gd",
+        "--fixed-fps",
+        "60"
+      ],
+      "passing_assertions": 109
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "checks": 290,
+      "passed_lines": 290,
+      "exit_code": 0,
+      "passed": true,
+      "errors": [],
+      "log": "test-results/godot-native/final-loader-playtest_checkpoints.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/playtest_checkpoints.gd",
+        "--fixed-fps",
+        "60"
+      ],
+      "passing_assertions": 290
+    }
+  ],
+  "human_test": false,
+  "previous_loading_errors": "Observed in loader-overlap-observation-2026-09-28.json and resolved by final loading-ownership regression; old failing logs retained."
+}

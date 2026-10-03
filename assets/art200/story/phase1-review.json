@@ -1,0 +1,20 @@
+{
+  "phase": "new25 initial Blender assembly review",
+  "models": 25,
+  "paint_families": 13,
+  "source": "Story200-editable.blend",
+  "runtime_source": "Story200-runtime.blend",
+  "runtime_batching": "One static mesh and surface per material under each complete named root; 163 total batches, 5-9 per model.",
+  "fixes": [
+    "Added physical cross stays or relocated unsupported identification plates to load-bearing surfaces.",
+    "Clamped cable Bezier tangents to prevent hoses bowing beyond supported routing brackets.",
+    "Connected quench return to its vessel, added sorting-hopper retaining stays and restored trolley foot supports.",
+    "Raised archive roof above reel envelopes and separated coincident press and portal surfaces.",
+    "Replaced isolated ring stacks with continuous ferrite windings, irrigation hose and condenser coil; added coil seat and continuous inlet/outlet connections.",
+    "Connected press instrument bracket and tripod lower legs; added visible mechanical knee joints.",
+    "Welded duplicate apex vertices and dissolved degenerate faces before glTF export.",
+    "Packed portable PBR maps, reloaded saved palette images, retained restrained texture variation and shared maps."
+  ],
+  "deployment": "22 assemblies distributed across all five existing destination floors; 3 civic assemblies at receiving berth. No new AI, story gates or save data.",
+  "native_validation": "Pending coordinated import and placement suite."
+}

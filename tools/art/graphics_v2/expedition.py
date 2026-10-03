@@ -14,6 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import hardsurface as exp_hs
+from wake_floor import create_seams
 
 bpy = exp_hs.bpy
 Vector = exp_hs.Vector
@@ -118,13 +119,10 @@ def expedition_wreck():
     gangway = exp_hs.empty("Gangway", (-6.5, 0, 0), root)
     gangway["visualOnly"] = True
 
-    # Floor top is exactly Y=0; small seam geometry stays below the walking
-    # plane so floor ray and capsule tests see one continuous surface.
+    # The structural floor stays at Y=0. Connected 8 mm formed seams are seated
+    # on it, with shared crossings and no flush competing faces.
     exp_hs.box("WalkableFloor", (0, -.10, 0), (12, .20, 18), mats["Hull"], hull, 0)
-    for x in (-5.0, -2.5, 0, 2.5, 5.0):
-        exp_hs.box(f"Deck longitudinal seam {x}", (x, -.003, 0), (.018, .006, 17.6), mats["Dark"], hull, 0)
-    for z in (-6, -3, 3, 6):
-        exp_hs.box(f"Deck cross seam {z}", (0, -.003, z), (11.6, .006, .018), mats["Dark"], hull, 0)
+    create_seams(mats["Dark"], hull)
     for z in (-.79, .79):
         exp_hs.box(f"Central lane marking {z}", (-.2, .006, z), (10.4, .008, .055), mats["Ochre"], hull, 0)
 
@@ -163,9 +161,12 @@ def expedition_wreck():
     # The roof is broken into a few overhead panels and ribs; it leaves the
     # central interior visually open and never adds floor blockers.
     for z, length in ((-7.5, 2.8), (-6.1, 1.7), (7.9, 3.0)):
-        exp_hs.box(f"Broken roof sheet {z}", (1.4, 3.55, z), (6.8, .075, length), mats["Rust"], roof, .025)
+        # The short sheet forms a supported lap: its five rib soles land on
+        # the retained long sheet at Y3.5875 instead of sharing its top faces.
+        lap = .1525 if z == -6.1 else 0.0
+        exp_hs.box(f"Broken roof sheet {z}", (1.4, 3.55 + lap, z), (6.8, .075, length), mats["Rust"], roof, .025)
         for x in (-1.2, .2, 1.6, 3.0, 4.4):
-            exp_hs.box(f"Roof corrugation {z}_{x}", (x, 3.50, z), (.055, .13, length + .08), mats["Steel"], roof, .012)
+            exp_hs.box(f"Roof corrugation {z}_{x}", (x, 3.50 + lap, z), (.055, .13, length + .08), mats["Steel"], roof, .012)
     for z in (-7.6, -3.8, 3.8, 7.6):
         exp_hs.cyl(f"Roof rib {z}", (-5.0, 3.02, z), (5.0, 3.02, z), .065, mats["Dark"], roof, 24, .006)
     for x, z in ((-4.8, -7.7), (4.8, -7.7), (4.8, 7.8)):

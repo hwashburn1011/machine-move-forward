@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-02",
+  "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+  "checks": 6616,
+  "failures": [],
+  "bake": {
+    "chunks": 723,
+    "compressed_bytes": 11077675,
+    "manifest_sha256": "1fb2eb42def73b22cd4dc17a156802d2fec0adac7e56822563121514f67ac4dc",
+    "models": 125,
+    "sources_sha256": {
+      "res://art/art100-legacy.glb": "d37dfc08bf885197abf1afe8473a68611174ba282dbd15ea371b29898509652f",
+      "res://art/art100-wasteland.glb": "682f13a9cc007f84727ddb0f32a0e1f1cab7a76a3df362d48860442023ef989a",
+      "res://art/art200-signs.glb": "77ba53a1ee04aead66eb709a1f7c96d16926e70f6bf4693066850250f8065d0e",
+      "res://art/art200-wasteland.glb": "6036e900cfe1b56031f188413924cbdd571012040af353035bdfa17871770017",
+      "res://assets/models/props/ruins/desert-ruins.glb": "af5979cbeaad6e44e1a0ab9d7b8a26a5a131d9766b57e318073ed462b94d963a"
+    },
+    "triangles": 1350540,
+    "triangles_per_chunk": 2048
+  },
+  "runtime_sha256": "1ae1e91493c6382649b578328f6f785d18d0fd43eafc717586643475db67a0ac",
+  "bake_script_sha256": "fc29c8d8e9e39dd46399ab5a10712873532577e7273d00253c3a48c23be4f03b",
+  "native_test_log": "test-results/art200/scenery-collision-tests.log",
+  "bake_log": "test-results/art200/scenery-collision-bake.log",
+  "exactness": "All 723 native resources reloaded and their ordered concatenated float32 face bytes matched all 125 imported source meshes exactly. All source GLB and resource SHA256 checks passed. No visual edits, collision simplification, reordered faces or winding changes.",
+  "runtime": "One owned chunk load at a time; normal tick requests or collects/activates at most one 2048-triangle chunk. Complete kind cache stays bounded to 32 arrays; one separate partial assembly. Nearby candidates are sorted by distance. Staged shapes share one StaticBody3D root per landmark. Explicit immediate callers and teleports within 3m synchronously finish collision for safety. Teardown consumes owned request exactly once.",
+  "archive": {
+    "path": "test-results/art200/collision-monolithic-baseline.zip",
+    "sha256": "f9c775b9db433c544d30591603ee5a16b968c40d7186e36fdfbf608e8ca9329a",
+    "resources": 125,
+    "deletion_scope": "Removed only manifest-listed original .res files after SHA verification, resolved containment under godot/data/scenery-collision, archive integrity check and archived bytes match. No root-level original .res files remain; 723 current chunk resources ship."
+  },
+  "lifecycle": [
+    "all original 409 assertions retained",
+    "cached near/far compound shapes, repeated attachment and rotated/scaled transforms",
+    "32 COMPLETE kind eviction and reuse, with no partial kinds in cache",
+    "single real owned request with deterministically held IN_PROGRESS status; never joined by normal update",
+    "consecutive one-chunk request/collect/activation per ordinary tick",
+    "far source drops partial body and pending result safely",
+    "near-first ordering and eventual full assembly completion",
+    "dead pending node and teardown after requesting landmark disappears",
+    "repeated clear never double-consumes accepted request",
+    "explicit immediate caller and within-3m teleport finish every chunk",
+    "exact future-model fallback and final resource release"
+  ],
+  "performance_status": "Dedicated correctness checks passed. Final quiet GPU/physics profiling is performed separately by integration owner; no frame-time improvement claim based solely on these tests."
+}

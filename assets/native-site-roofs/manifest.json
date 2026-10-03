@@ -1,0 +1,79 @@
+{
+  "sha256": "bdf5ea1781f91e2a634ebc7a53f19941917eba5816017f89ce1a2118b42c3791",
+  "bytes": 1607976,
+  "models": [
+    {
+      "id": "rooftop-workshop",
+      "visualRoot": "WorkshopCanopy",
+      "triangles": 9188,
+      "collisionTriangles": 5732,
+      "bounds": {
+        "min": [
+          -2.874000072479248,
+          3.490000009536743,
+          -4.984999656677246
+        ],
+        "max": [
+          5.953999996185303,
+          4.714909553527832,
+          -1.284999966621399
+        ]
+      }
+    },
+    {
+      "id": "quiet-array",
+      "visualRoot": "ArrayVaultRoof",
+      "triangles": 2024,
+      "collisionTriangles": 1512,
+      "bounds": {
+        "min": [
+          0.4974999725818634,
+          3.4749999046325684,
+          0.4974999725818634
+        ],
+        "max": [
+          5.502499580383301,
+          3.869999885559082,
+          5.502499580383301
+        ]
+      }
+    },
+    {
+      "id": "glass-orchard",
+      "visualRoot": "OrchardArchiveRoof",
+      "triangles": 2260,
+      "collisionTriangles": 1620,
+      "bounds": {
+        "min": [
+          1.897499918937683,
+          3.9749999046325684,
+          -9.252500534057617
+        ],
+        "max": [
+          8.102499961853027,
+          4.329999923706055,
+          -4.747500419616699
+        ]
+      }
+    },
+    {
+      "id": "last-garden-meridian",
+      "visualRoot": "MeridianGardenSign",
+      "triangles": 796,
+      "collisionTriangles": 540,
+      "bounds": {
+        "min": [
+          -7.610000133514404,
+          2.444999933242798,
+          -3.5999999046325684
+        ],
+        "max": [
+          -2.390000104904175,
+          3.1449999809265137,
+          -3.381999969482422
+        ]
+      }
+    }
+  ],
+  "source": "assets/native-site-roofs/SiteRoofs.blend"
+}

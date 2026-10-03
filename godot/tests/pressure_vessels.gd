@@ -56,7 +56,7 @@ func run():
 	for i in 2:await physics_frame
 	await process_frame
 	var machine=game.world.machine;var bank=MMFAssets.find_named(machine,"NativePressureVessels")
-	check(bank!=null and bank.get_child_count()==5,"Five complete receivers replace the original middle-deck tank bank")
+	check(bank!=null and bank.get_child_count()==2,"Two complete receivers form the aft port pressure manifold")
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var manifest=MMFAssets.json("res://art/nomad-vessels.json")
 	switchgear_boxes=MMFAssets.json("res://art/nomad-switchgear.json").originalBoxes
@@ -74,10 +74,11 @@ func run():
 		check(difference<.001,"Unrelated workshop fittings retain their coordinates within 1 mm: "+entry.replacement)
 		check(preload("res://tests/material_equivalence.gd").same(replacement.get_active_material(0),old.get_active_material(0)),"Original shared material properties and textures preserved: "+entry.replacement)
 		report.retained.append({"name":entry.replacement,"maxDistanceM":difference,"originalVertices":expected.size(),"replacementVertices":actual.size()})
+	var sites=MMFMachineComposition.sites(manifest).map(func(site):return MMFAssets.v(site.position))
 	var resources={};var materials={};var transforms={};var all_triangles=0
-	for i in SITES.size():
+	for i in sites.size():
 		var node=bank.get_child(i);var bounds=MMFAssets.bounds(node)
-		check(node.position.is_equal_approx(SITES[i]) and node.basis.is_equal_approx(Basis.IDENTITY),"Receiver remains at the original site with its instruments facing the aisle: "+str(i+1))
+		check(node.position.is_equal_approx(sites[i]) and node.basis.is_equal_approx(Basis.IDENTITY),"Receiver remains at the original site with its instruments facing the aisle: "+str(i+1))
 		check(absf(bounds.position.y)<.001 and bounds.end.y<2.15,"Feet contact the deck; upper fittings stay below their previous height: "+str(i+1))
 		check(bounds.position.x>=-.40 and bounds.end.x<=.32 and bounds.position.z>=-.49 and bounds.end.z<=.45,"All fittings remain inside the previous complete assembly footprint: "+str(i+1))
 		var triangles=0;var degenerate=0;var surfaces=0;var painted=false;var front_letters=0
@@ -102,20 +103,20 @@ func run():
 		check(front_letters>100,"Gauge printing faces the aisle after native glTF import: "+str(i+1))
 		all_triangles+=triangles;report.models.append({"site":str(node.position),"bounds":str(bounds),"triangles":triangles,"surfaces":surfaces,"degenerate":degenerate,"frontDialTriangles":front_letters})
 		# The real frozen concave collider is retained, including its winding.
-		var at=SITES[i]+Vector3.UP*.75;var offsets=[]
+		var at=sites[i]+Vector3.UP*.75;var offsets=[]
 		for axis in [Vector3.RIGHT,Vector3.LEFT,Vector3.FORWARD,Vector3.BACK]:
 			var hit=game.raycast(at+axis*.75,at-axis*.75,[],1)
 			var distance=hit.position.distance_to(at) if not hit.is_empty() else INF;offsets.append(distance)
 			check(distance>.26 and distance<.33,"Existing tank collision is still solid from "+str(axis)+" at "+str(i+1))
-		game.player.teleport(SITES[i]+Vector3(0,.05,-1.25));game.player.yaw=PI
+		game.player.teleport(sites[i]+Vector3(0,.05,-1.25));game.player.yaw=PI
 		check(game.player.boundary.fits(game.player.position),"Player can still stand in the receiver service aisle: "+str(i+1))
 		game.player.set_physics_process(true);Input.action_press("forward")
 		for frame in 35:await physics_frame
 		Input.action_release("forward");game.player.set_physics_process(false)
-		var stop=SITES[i].z-game.player.position.z
-		check(stop>.56 and stop<.83 and absf(game.player.position.y-SITES[i].y)<.1,"Real player cannot walk through the pressure vessel: "+str(i+1))
-		report.collision.append({"site":str(SITES[i]),"radialHitsM":offsets,"playerStopM":stop})
-	check(resources.size()==5 and materials.size()==5,"All five instances share five mesh and material resources")
+		var stop=sites[i].z-game.player.position.z
+		check(stop>.56 and stop<.83 and absf(game.player.position.y-sites[i].y)<.1,"Real player cannot walk through the pressure vessel: "+str(i+1))
+		report.collision.append({"site":str(sites[i]),"radialHitsM":offsets,"playerStopM":stop})
+	check(resources.size()==5 and materials.size()==5,"Both retained instances share five mesh and material resources")
 	check(MMFAssets.of_type(bank,"CollisionObject3D").is_empty() and MMFAssets.of_type(bank,"Light3D").is_empty() and bank.find_children("*","GPUParticles3D",true,false).is_empty(),"Refinement adds no physics bodies, lights or particles")
 	game.session.story.phase="locked";game.session.scanner.phase="consumed"
 	for frame in 30:game.world.update(1.0/60)

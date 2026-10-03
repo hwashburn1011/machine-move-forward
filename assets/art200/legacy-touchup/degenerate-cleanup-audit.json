@@ -1,0 +1,72 @@
+{
+  "changes": [
+    {
+      "id": "wreck-ambulance",
+      "removed_faces": 64,
+      "remaining_triangles": 38632,
+      "useful_uv_pigment_and_named_attributes_bit_exact": true,
+      "vertex_positions_bit_exact": true,
+      "maximum_custom_normal_delta": 7.146596908569336e-05,
+      "zero_area_faces_after": 0
+    },
+    {
+      "id": "fuel-trailer",
+      "removed_faces": 96,
+      "remaining_triangles": 19124,
+      "useful_uv_pigment_and_named_attributes_bit_exact": true,
+      "vertex_positions_bit_exact": true,
+      "maximum_custom_normal_delta": 0.0019333321833983064,
+      "zero_area_faces_after": 0
+    },
+    {
+      "id": "transformer",
+      "removed_faces": 96,
+      "remaining_triangles": 14912,
+      "useful_uv_pigment_and_named_attributes_bit_exact": true,
+      "vertex_positions_bit_exact": true,
+      "maximum_custom_normal_delta": 0.00019250810146331787,
+      "zero_area_faces_after": 0
+    },
+    {
+      "id": "air-compressor",
+      "removed_faces": 96,
+      "remaining_triangles": 9564,
+      "useful_uv_pigment_and_named_attributes_bit_exact": true,
+      "vertex_positions_bit_exact": true,
+      "maximum_custom_normal_delta": 0.0003828108310699463,
+      "zero_area_faces_after": 0
+    },
+    {
+      "id": "fire-hydrant",
+      "removed_faces": 48,
+      "remaining_triangles": 3328,
+      "useful_uv_pigment_and_named_attributes_bit_exact": true,
+      "vertex_positions_bit_exact": true,
+      "maximum_custom_normal_delta": 7.125921547412872e-05,
+      "zero_area_faces_after": 0
+    },
+    {
+      "id": "bulk-fuel-tank",
+      "removed_faces": 96,
+      "remaining_triangles": 8384,
+      "useful_uv_pigment_and_named_attributes_bit_exact": true,
+      "vertex_positions_bit_exact": true,
+      "maximum_custom_normal_delta": 0.0006035825936123729,
+      "zero_area_faces_after": 0
+    }
+  ],
+  "removed_faces": 496,
+  "total_triangles": 381644,
+  "editable_source_geometry_sha256": "375e5bcbe2dd0f3400f615b1c01f8517d48a86b65ca65da4fbd1828c53b661e0",
+  "editable_components_and_images_unchanged": true,
+  "glb_sha256": "d37dfc08bf885197abf1afe8473a68611174ba282dbd15ea371b29898509652f",
+  "master_sha256": "0232f0949ae846d30745132c284a338f0ba0bff66dc79fcaa00847576ff2000a",
+  "undefined_export_tangent_fallbacks": [
+    {
+      "id": "fuel-trailer",
+      "export_vertex": 12625,
+      "reason": "Undefined tangent at collapsed cap UV; unit normal-orthogonal fallback only."
+    }
+  ],
+  "render_policy": "No new raster renders: removed faces had precisely zero raster area; all useful position/UV/pigment data remain bit exact and custom normal differences are bounded by the recorded quantization tolerance."
+}

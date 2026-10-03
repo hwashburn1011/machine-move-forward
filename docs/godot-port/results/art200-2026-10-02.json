@@ -1,0 +1,2078 @@
+{
+  "iteration": "Art200",
+  "generated_utc": "2026-10-02T05:24:33.281853+00:00",
+  "passed": true,
+  "models": {
+    "total_reviewed": 200,
+    "new": 100,
+    "existing_refined": 100,
+    "cohorts": {
+      "legacy": 25,
+      "wasteland": 25,
+      "machine": 25,
+      "story-robots": 25,
+      "art200-signs": 25,
+      "art200-wasteland": 25,
+      "art200-machine": 25,
+      "art200-story": 25
+    },
+    "counting": "Complete assemblies only. Six existing characters include their complete bodies, rigs and fitted equipment; no separate counts for attachment parts or color variants.",
+    "palette_families": 14
+  },
+  "runtime_source_sha256": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+  "runtime_packages": [
+    {
+      "path": "godot/art/art100-legacy.glb",
+      "sha256": "d37dfc08bf885197abf1afe8473a68611174ba282dbd15ea371b29898509652f",
+      "bytes": 31091792,
+      "roots": 25,
+      "triangles": 381644,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art100-wasteland.glb",
+      "sha256": "682f13a9cc007f84727ddb0f32a0e1f1cab7a76a3df362d48860442023ef989a",
+      "bytes": 21007428,
+      "roots": 25,
+      "triangles": 243204,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 143,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art100-machine.glb",
+      "sha256": "feff00deb7ba935ead516d71805d290125662bc87f7529de245e96f36419617f",
+      "bytes": 6400988,
+      "roots": 25,
+      "triangles": 98811,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art100-story-robots.glb",
+      "sha256": "f7e3a65f706f4ba4a566798e69cb2de8bd6215a01bad040266bd50f266a194ec",
+      "bytes": 16320796,
+      "roots": 25,
+      "triangles": 307140,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 265,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-signs.glb",
+      "sha256": "77ba53a1ee04aead66eb709a1f7c96d16926e70f6bf4693066850250f8065d0e",
+      "bytes": 32312112,
+      "roots": 25,
+      "triangles": 303300,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 517,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-wasteland.glb",
+      "sha256": "6036e900cfe1b56031f188413924cbdd571012040af353035bdfa17871770017",
+      "bytes": 8680980,
+      "roots": 25,
+      "triangles": 125320,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 226,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-machine.glb",
+      "sha256": "5fd1afadc67a07686e6d5cd0ab5fcd3f3b9b5c3ae05819d644df74cad0655e64",
+      "bytes": 7797712,
+      "roots": 25,
+      "triangles": 150363,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-story.glb",
+      "sha256": "4a57a307776ab1b92a0f89405bcaaa1484dba31d7ad89e6ceee1223d4bc780fb",
+      "bytes": 19683288,
+      "roots": 25,
+      "triangles": 400495,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 302,
+      "diagnostics": []
+    }
+  ],
+  "total_package_bytes": 143295096,
+  "scenery_collision_bake": {
+    "manifest": "godot/data/scenery-collision.json",
+    "sha256": "1fb2eb42def73b22cd4dc17a156802d2fec0adac7e56822563121514f67ac4dc",
+    "models": 125,
+    "method": "Exact imported Mesh.get_faces() order and float32 values, partitioned into contiguous triangle chunks; no simplification"
+  },
+  "geometry_accounting": "The eight packages contain200 roots including six fitted robot equipment kits. The complete-character gallery counts each equipment kit with its retained body and rig as one assembly, never as two models.",
+  "additional_refined_character": {
+    "path": "godot/art/refined-bastion.glb",
+    "sha256": "e695883dd04eaccfaa583879837e3f0bedc80da5a1de60dbcb2a747a59931f0b",
+    "compiled_sha256": "171b31f4360aeed54c8944f48b6d50c0b90df4b1ecfc7abf961d7b84fe6a1ce3",
+    "change": "Two head-bound antenna sockets; original rigs, skins and weapon bindings retained.",
+    "validator": "assets/art100/story-robots/bastion-socket-gltf-validation.json",
+    "retained_validator_warning": "NODE_SKINNED_MESH_NON_ROOT: original identity-parent skin hierarchy retained; native absolute-position and animation checks verify the compiled character."
+  },
+  "fine_comb_reviews": {
+    "legacy-signs": {
+      "path": "assets/art200/fine-comb/legacy-signs-review.json",
+      "sha256": "e1723c077f7829fd15ac86f215154c816b3f2a2b1a6e1da7e0c5e776d07f5728",
+      "models_reviewed": 50
+    },
+    "wasteland": {
+      "path": "assets/art200/fine-comb/wasteland-review.json",
+      "sha256": "802a8b16b946b0ebe840ab9e76f262f5a1dc6d827afab272f9faad5b5f69e335",
+      "models_reviewed": 50
+    },
+    "machine": {
+      "path": "assets/art200/fine-comb/machine-review.json",
+      "sha256": "3e0bc5889fd4630471eb344f4430cef8ce714bb79a201f2bc35ba93ba5183e85",
+      "models_reviewed": 50
+    },
+    "story": {
+      "path": "assets/art200/fine-comb/story-review.json",
+      "sha256": "1e4f01ed51f4139a02eed7e549ac5b5777fde1986f2b77ebbfbb6761e8f61907",
+      "models_reviewed": 50
+    }
+  },
+  "suites_passed": 26,
+  "checks_passed": 10931,
+  "suites": [
+    {
+      "suite": "art200_scenery",
+      "exit_code": 0,
+      "checks": 6616,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/art200_scenery-output.txt"
+    },
+    {
+      "suite": "character_refinement",
+      "exit_code": 0,
+      "checks": 167,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/character_refinement-output.txt"
+    },
+    {
+      "suite": "art100_decor",
+      "exit_code": 0,
+      "checks": 678,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/art100_decor-output.txt"
+    },
+    {
+      "suite": "art200_decor",
+      "exit_code": 0,
+      "checks": 757,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/art200_decor-output.txt"
+    },
+    {
+      "suite": "art100_legacy",
+      "exit_code": 0,
+      "checks": 230,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/art100_legacy-output.txt"
+    },
+    {
+      "suite": "wasteland_assets",
+      "exit_code": 0,
+      "checks": 181,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/wasteland_assets-output.txt"
+    },
+    {
+      "suite": "wasteland_variety",
+      "exit_code": 0,
+      "checks": 167,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/wasteland_variety-output.txt"
+    },
+    {
+      "suite": "art100_story_robots",
+      "exit_code": 0,
+      "checks": 241,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/art100_story_robots-output.txt"
+    },
+    {
+      "suite": "art200_story",
+      "exit_code": 0,
+      "checks": 347,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/art200_story-output.txt"
+    },
+    {
+      "suite": "beta_salvage",
+      "exit_code": 0,
+      "checks": 32,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/beta_salvage-output.txt"
+    },
+    {
+      "suite": "beta_salvage_edges",
+      "exit_code": 0,
+      "checks": 8,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/beta_salvage_edges-output.txt"
+    },
+    {
+      "suite": "beta_physical_quality",
+      "exit_code": 0,
+      "checks": 76,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/beta_physical_quality-output.txt"
+    },
+    {
+      "suite": "beta_crane_collision",
+      "exit_code": 0,
+      "checks": 48,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/beta_crane_collision-output.txt"
+    },
+    {
+      "suite": "cordon_guardian",
+      "exit_code": 0,
+      "checks": 42,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/cordon_guardian-output.txt"
+    },
+    {
+      "suite": "construction_usability",
+      "exit_code": 0,
+      "checks": 98,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/construction_usability-output.txt"
+    },
+    {
+      "suite": "later_expeditions",
+      "exit_code": 0,
+      "checks": 88,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/later_expeditions-output.txt"
+    },
+    {
+      "suite": "recovery_operations",
+      "exit_code": 0,
+      "checks": 97,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/recovery_operations-output.txt"
+    },
+    {
+      "suite": "narrative_delivery",
+      "exit_code": 0,
+      "checks": 181,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/narrative_delivery-output.txt"
+    },
+    {
+      "suite": "narrative_edge_cases",
+      "exit_code": 0,
+      "checks": 47,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/narrative_edge_cases-output.txt"
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "checks": 113,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/integration-output.txt"
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "checks": 455,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/playtest_checkpoints-output.txt"
+    },
+    {
+      "suite": "enemy_equipment",
+      "exit_code": 0,
+      "checks": 151,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/enemy_equipment-output.txt"
+    },
+    {
+      "suite": "compiled_machine",
+      "exit_code": 0,
+      "checks": 20,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/compiled_machine-output.txt"
+    },
+    {
+      "suite": "scenery_streaming_checks",
+      "exit_code": 0,
+      "checks": 18,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/scenery_streaming_checks-output.txt"
+    },
+    {
+      "suite": "autosave_worker",
+      "exit_code": 0,
+      "checks": 31,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/autosave_worker-output.txt"
+    },
+    {
+      "suite": "encounter_loading",
+      "exit_code": 0,
+      "checks": 42,
+      "failures": [],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "source_hash_end": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+      "diagnostics": [],
+      "output": "test-results/narrative-regressions/encounter_loading-output.txt"
+    }
+  ],
+  "performance": {
+    "scope": "Thirteen fresh-process scripted native workloads, real simulation, invulnerable player; 3s warmup and18s sample each. Site cameras orbit actual campaign locations. Renderer frame timings, streaming and autosave are distinct measurements.",
+    "hardware": {
+      "gpu": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan / 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0
+    },
+    "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba",
+    "baseline_source_hash": "f14ef66e65a46edc6c0ebff72449fbb0f6265db1582c4f1a90f5dafdcce70b7a",
+    "scenarios": [
+      {
+        "scenario": "travel",
+        "before_frame_ms": {
+          "max": 8.224,
+          "median": 3.633,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.264,
+          "p99": 5.815,
+          "samples": 4681
+        },
+        "after_frame_ms": {
+          "max": 9.587,
+          "median": 3.73,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.365,
+          "p99": 6.992,
+          "samples": 4589
+        },
+        "p95_delta_ms": 0.101,
+        "median_frame_rate_equivalent": 268.1,
+        "after_gpu_ms": {
+          "max": 5.13899993896484,
+          "median": 3.25600004196167,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.76600003242493,
+          "p99": 3.97099995613098,
+          "samples": 4589
+        },
+        "after_draw_calls": {
+          "max": 1732.0,
+          "median": 899.0,
+          "p95": 1679.0,
+          "p99": 1711.0,
+          "samples": 4589
+        },
+        "after_primitives": {
+          "max": 4915494.0,
+          "median": 2901567.0,
+          "p95": 4836203.0,
+          "p99": 4896442.0,
+          "samples": 4589
+        },
+        "after_video_memory_bytes": {
+          "max": 2126942864.0,
+          "median": 2126942528.0,
+          "p95": 2126942784.0,
+          "p99": 2126942784.0,
+          "samples": 4589
+        },
+        "after_static_memory_bytes": {
+          "max": 265565762.0,
+          "median": 260322914.0,
+          "p95": 263733730.0,
+          "p99": 265549362.0,
+          "samples": 4589
+        },
+        "startup_ms": 5827.642,
+        "checkpoint_launch_ms": 358.853,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 126.763598203379,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-travel.png"
+      },
+      {
+        "scenario": "construction",
+        "before_frame_ms": {
+          "max": 117.877,
+          "median": 4.188,
+          "over33ms": 1,
+          "over50ms": 1,
+          "p95": 6.538,
+          "p99": 7.333,
+          "samples": 4156
+        },
+        "after_frame_ms": {
+          "max": 38.045,
+          "median": 3.992,
+          "over33ms": 1,
+          "over50ms": 0,
+          "p95": 6.696,
+          "p99": 7.914,
+          "samples": 4140
+        },
+        "p95_delta_ms": 0.158,
+        "median_frame_rate_equivalent": 250.5,
+        "after_gpu_ms": {
+          "max": 5.6230001449585,
+          "median": 3.81500005722046,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.32200002670288,
+          "p99": 4.94500017166138,
+          "samples": 4140
+        },
+        "after_draw_calls": {
+          "max": 1333.0,
+          "median": 1252.0,
+          "p95": 1303.0,
+          "p99": 1311.0,
+          "samples": 4140
+        },
+        "after_primitives": {
+          "max": 3950862.0,
+          "median": 3874260.0,
+          "p95": 3943832.0,
+          "p99": 3948134.0,
+          "samples": 4140
+        },
+        "after_video_memory_bytes": {
+          "max": 2211317056.0,
+          "median": 2202902992.0,
+          "p95": 2211314368.0,
+          "p99": 2211314368.0,
+          "samples": 4140
+        },
+        "after_static_memory_bytes": {
+          "max": 248809093.0,
+          "median": 243645847.0,
+          "p95": 246757065.0,
+          "p99": 248804285.0,
+          "samples": 4140
+        },
+        "startup_ms": 5623.138,
+        "checkpoint_launch_ms": 233.165,
+        "action_times": [
+          {
+            "ms": 19.939,
+            "step": 0
+          },
+          {
+            "ms": 1.99,
+            "step": 1
+          },
+          {
+            "ms": 0.001,
+            "step": 2
+          },
+          {
+            "ms": 0.134,
+            "step": 3
+          },
+          {
+            "ms": 23.535,
+            "step": 4
+          },
+          {
+            "ms": 1.921,
+            "step": 5
+          }
+        ],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 128.32894518209,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-construction.png"
+      },
+      {
+        "scenario": "furnished",
+        "before_frame_ms": {
+          "max": 7.85,
+          "median": 3.599,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.785,
+          "p99": 6.447,
+          "samples": 4619
+        },
+        "after_frame_ms": {
+          "max": 8.992,
+          "median": 3.773,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.449,
+          "p99": 6.037,
+          "samples": 4531
+        },
+        "p95_delta_ms": -0.336,
+        "median_frame_rate_equivalent": 265.0,
+        "after_gpu_ms": {
+          "max": 4.89200019836426,
+          "median": 3.26200008392334,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.77800011634827,
+          "p99": 3.94799995422363,
+          "samples": 4531
+        },
+        "after_draw_calls": {
+          "max": 2259.0,
+          "median": 1088.0,
+          "p95": 2225.0,
+          "p99": 2255.0,
+          "samples": 4531
+        },
+        "after_primitives": {
+          "max": 5259493.0,
+          "median": 2991003.0,
+          "p95": 5172822.0,
+          "p99": 5247688.0,
+          "samples": 4531
+        },
+        "after_video_memory_bytes": {
+          "max": 2211002400.0,
+          "median": 2210996928.0,
+          "p95": 2210997120.0,
+          "p99": 2211002208.0,
+          "samples": 4531
+        },
+        "after_static_memory_bytes": {
+          "max": 251601461.0,
+          "median": 247589137.0,
+          "p95": 250879137.0,
+          "p99": 250897509.0,
+          "samples": 4531
+        },
+        "startup_ms": 5689.092,
+        "checkpoint_launch_ms": 235.697,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 96.6713778990915,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 25,
+          "after_furnishings": 50
+        },
+        "capture": "test-results/art200/performance/final-furnished.png"
+      },
+      {
+        "scenario": "combat",
+        "before_frame_ms": {
+          "max": 10.069,
+          "median": 3.815,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.692,
+          "p99": 8.559,
+          "samples": 3915
+        },
+        "after_frame_ms": {
+          "max": 10.415,
+          "median": 3.821,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.159,
+          "p99": 7.815,
+          "samples": 3963
+        },
+        "p95_delta_ms": -0.533,
+        "median_frame_rate_equivalent": 261.7,
+        "after_gpu_ms": {
+          "max": 5.0789999961853,
+          "median": 3.42799997329712,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.02099990844727,
+          "p99": 4.37200021743774,
+          "samples": 3963
+        },
+        "after_draw_calls": {
+          "max": 2198.0,
+          "median": 1034.0,
+          "p95": 2148.0,
+          "p99": 2189.0,
+          "samples": 3963
+        },
+        "after_primitives": {
+          "max": 7293734.0,
+          "median": 3592398.0,
+          "p95": 7208225.0,
+          "p99": 7268276.0,
+          "samples": 3963
+        },
+        "after_video_memory_bytes": {
+          "max": 2030378864.0,
+          "median": 2030368080.0,
+          "p95": 2030374384.0,
+          "p99": 2030378672.0,
+          "samples": 3963
+        },
+        "after_static_memory_bytes": {
+          "max": 250839005.0,
+          "median": 248750151.0,
+          "p95": 250809337.0,
+          "p99": 250836821.0,
+          "samples": 3963
+        },
+        "startup_ms": 5556.875,
+        "checkpoint_launch_ms": 343.641,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 126.763652289598,
+          "max_enemies": 6,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-combat.png"
+      },
+      {
+        "scenario": "guardian",
+        "before_frame_ms": {
+          "max": 7.344,
+          "median": 3.605,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.011,
+          "p99": 5.718,
+          "samples": 4797
+        },
+        "after_frame_ms": {
+          "max": 8.455,
+          "median": 3.508,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.718,
+          "p99": 7.2,
+          "samples": 4692
+        },
+        "p95_delta_ms": 0.707,
+        "median_frame_rate_equivalent": 285.1,
+        "after_gpu_ms": {
+          "max": 4.53200006484985,
+          "median": 3.1010000705719,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.59699988365173,
+          "p99": 3.97499990463257,
+          "samples": 4692
+        },
+        "after_draw_calls": {
+          "max": 1795.0,
+          "median": 851.0,
+          "p95": 1744.0,
+          "p99": 1779.0,
+          "samples": 4692
+        },
+        "after_primitives": {
+          "max": 4961570.0,
+          "median": 2842976.0,
+          "p95": 4879627.0,
+          "p99": 4946992.0,
+          "samples": 4692
+        },
+        "after_video_memory_bytes": {
+          "max": 2182649344.0,
+          "median": 2182643840.0,
+          "p95": 2182644032.0,
+          "p99": 2182644032.0,
+          "samples": 4692
+        },
+        "after_static_memory_bytes": {
+          "max": 270325914.0,
+          "median": 256180230.0,
+          "p95": 268944390.0,
+          "p99": 270323646.0,
+          "samples": 4692
+        },
+        "startup_ms": 5576.803,
+        "checkpoint_launch_ms": 1018.718,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 125.254126977578,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-guardian.png"
+      },
+      {
+        "scenario": "crane",
+        "before_frame_ms": {
+          "max": 7.6,
+          "median": 3.367,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.802,
+          "p99": 5.691,
+          "samples": 5158
+        },
+        "after_frame_ms": {
+          "max": 8.298,
+          "median": 3.343,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.777,
+          "p99": 6.148,
+          "samples": 5096
+        },
+        "p95_delta_ms": -0.025,
+        "median_frame_rate_equivalent": 299.1,
+        "after_gpu_ms": {
+          "max": 4.33500003814697,
+          "median": 2.89599990844727,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.34500002861023,
+          "p99": 3.4909999370575,
+          "samples": 5096
+        },
+        "after_draw_calls": {
+          "max": 945.0,
+          "median": 929.0,
+          "p95": 942.0,
+          "p99": 943.0,
+          "samples": 5096
+        },
+        "after_primitives": {
+          "max": 3507758.0,
+          "median": 3438124.0,
+          "p95": 3504628.0,
+          "p99": 3505766.0,
+          "samples": 5096
+        },
+        "after_video_memory_bytes": {
+          "max": 2203656144.0,
+          "median": 2203650384.0,
+          "p95": 2203650576.0,
+          "p99": 2203655568.0,
+          "samples": 5096
+        },
+        "after_static_memory_bytes": {
+          "max": 253956074.0,
+          "median": 243251146.0,
+          "p95": 253932550.0,
+          "p99": 253952386.0,
+          "samples": 5096
+        },
+        "startup_ms": 5553.048,
+        "checkpoint_launch_ms": 232.194,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 128.328967634951,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-crane.png"
+      },
+      {
+        "scenario": "drone",
+        "before_frame_ms": {
+          "max": 8.164,
+          "median": 3.529,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.389,
+          "p99": 6.127,
+          "samples": 4851
+        },
+        "after_frame_ms": {
+          "max": 9.614,
+          "median": 3.504,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.512,
+          "p99": 6.58,
+          "samples": 4829
+        },
+        "p95_delta_ms": 0.123,
+        "median_frame_rate_equivalent": 285.4,
+        "after_gpu_ms": {
+          "max": 4.67600011825562,
+          "median": 3.08899998664856,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.54900002479553,
+          "p99": 4.15199995040894,
+          "samples": 4829
+        },
+        "after_draw_calls": {
+          "max": 830.0,
+          "median": 749.0,
+          "p95": 817.0,
+          "p99": 829.0,
+          "samples": 4829
+        },
+        "after_primitives": {
+          "max": 2565065.0,
+          "median": 2477781.0,
+          "p95": 2536117.0,
+          "p99": 2539595.0,
+          "samples": 4829
+        },
+        "after_video_memory_bytes": {
+          "max": 2026021008.0,
+          "median": 2026014032.0,
+          "p95": 2026014032.0,
+          "p99": 2026020624.0,
+          "samples": 4829
+        },
+        "after_static_memory_bytes": {
+          "max": 244896239.0,
+          "median": 243016767.0,
+          "p95": 244892539.0,
+          "p99": 244892551.0,
+          "samples": 4829
+        },
+        "startup_ms": 5632.447,
+        "checkpoint_launch_ms": 380.557,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 123.023946213676,
+          "max_enemies": 0,
+          "max_drones": 1,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-drone.png"
+      },
+      {
+        "scenario": "wake",
+        "before_frame_ms": {
+          "max": 8.352,
+          "median": 4.971,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.256,
+          "p99": 6.807,
+          "samples": 3632
+        },
+        "after_frame_ms": {
+          "max": 8.729,
+          "median": 5.02,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.632,
+          "p99": 7.936,
+          "samples": 3586
+        },
+        "p95_delta_ms": 0.376,
+        "median_frame_rate_equivalent": 199.2,
+        "after_gpu_ms": {
+          "max": 6.16800022125244,
+          "median": 4.38199996948242,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.96199989318848,
+          "p99": 5.48400020599365,
+          "samples": 3586
+        },
+        "after_draw_calls": {
+          "max": 2127.0,
+          "median": 2054.0,
+          "p95": 2113.0,
+          "p99": 2122.0,
+          "samples": 3586
+        },
+        "after_primitives": {
+          "max": 3502360.0,
+          "median": 3265310.0,
+          "p95": 3486353.0,
+          "p99": 3495555.0,
+          "samples": 3586
+        },
+        "after_video_memory_bytes": {
+          "max": 2147571392.0,
+          "median": 2147563584.0,
+          "p95": 2147563584.0,
+          "p99": 2147571392.0,
+          "samples": 3586
+        },
+        "after_static_memory_bytes": {
+          "max": 263007783.0,
+          "median": 262695379.0,
+          "p95": 263004083.0,
+          "p99": 263004095.0,
+          "samples": 3586
+        },
+        "startup_ms": 5615.491,
+        "checkpoint_launch_ms": 819.537,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 0.0,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-wake.png"
+      },
+      {
+        "scenario": "foundry",
+        "before_frame_ms": {
+          "max": 8.768,
+          "median": 4.808,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.985,
+          "p99": 7.703,
+          "samples": 3575
+        },
+        "after_frame_ms": {
+          "max": 9.306,
+          "median": 4.849,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.008,
+          "p99": 8.087,
+          "samples": 3540
+        },
+        "p95_delta_ms": 0.023,
+        "median_frame_rate_equivalent": 206.2,
+        "after_gpu_ms": {
+          "max": 6.48699998855591,
+          "median": 4.44299983978271,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.9850001335144,
+          "p99": 5.84700012207031,
+          "samples": 3540
+        },
+        "after_draw_calls": {
+          "max": 2186.0,
+          "median": 2078.0,
+          "p95": 2171.0,
+          "p99": 2181.0,
+          "samples": 3540
+        },
+        "after_primitives": {
+          "max": 3465297.0,
+          "median": 3239365.0,
+          "p95": 3433168.0,
+          "p99": 3458849.0,
+          "samples": 3540
+        },
+        "after_video_memory_bytes": {
+          "max": 2131121440.0,
+          "median": 2131110816.0,
+          "p95": 2131110816.0,
+          "p99": 2131121440.0,
+          "samples": 3540
+        },
+        "after_static_memory_bytes": {
+          "max": 257556844.0,
+          "median": 257308032.0,
+          "p95": 257540052.0,
+          "p99": 257553156.0,
+          "samples": 3540
+        },
+        "startup_ms": 5704.519,
+        "checkpoint_launch_ms": 734.898,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 0.0,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-foundry.png"
+      },
+      {
+        "scenario": "array",
+        "before_frame_ms": {
+          "max": 8.271,
+          "median": 4.873,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.287,
+          "p99": 6.953,
+          "samples": 3583
+        },
+        "after_frame_ms": {
+          "max": 8.664,
+          "median": 5.098,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.493,
+          "p99": 7.152,
+          "samples": 3577
+        },
+        "p95_delta_ms": 0.206,
+        "median_frame_rate_equivalent": 196.2,
+        "after_gpu_ms": {
+          "max": 6.21299982070923,
+          "median": 4.36999988555908,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.89799976348877,
+          "p99": 5.52400016784668,
+          "samples": 3577
+        },
+        "after_draw_calls": {
+          "max": 2087.0,
+          "median": 1992.0,
+          "p95": 2075.0,
+          "p99": 2082.0,
+          "samples": 3577
+        },
+        "after_primitives": {
+          "max": 3697740.0,
+          "median": 3402155.0,
+          "p95": 3673359.0,
+          "p99": 3692411.0,
+          "samples": 3577
+        },
+        "after_video_memory_bytes": {
+          "max": 2184462832.0,
+          "median": 2184452784.0,
+          "p95": 2184452784.0,
+          "p99": 2184462832.0,
+          "samples": 3577
+        },
+        "after_static_memory_bytes": {
+          "max": 258947956.0,
+          "median": 258666824.0,
+          "p95": 258944268.0,
+          "p99": 258944268.0,
+          "samples": 3577
+        },
+        "startup_ms": 5755.481,
+        "checkpoint_launch_ms": 1007.079,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 0.0,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-array.png"
+      },
+      {
+        "scenario": "orchard",
+        "before_frame_ms": {
+          "max": 9.25,
+          "median": 5.08,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.875,
+          "p99": 7.963,
+          "samples": 3544
+        },
+        "after_frame_ms": {
+          "max": 8.657,
+          "median": 4.73,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.881,
+          "p99": 7.462,
+          "samples": 3509
+        },
+        "p95_delta_ms": 0.006,
+        "median_frame_rate_equivalent": 211.4,
+        "after_gpu_ms": {
+          "max": 6.39300012588501,
+          "median": 4.49399995803833,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.04199981689453,
+          "p99": 5.85699987411499,
+          "samples": 3509
+        },
+        "after_draw_calls": {
+          "max": 2206.0,
+          "median": 2144.0,
+          "p95": 2190.0,
+          "p99": 2198.0,
+          "samples": 3509
+        },
+        "after_primitives": {
+          "max": 3632543.0,
+          "median": 3315993.0,
+          "p95": 3597884.0,
+          "p99": 3625407.0,
+          "samples": 3509
+        },
+        "after_video_memory_bytes": {
+          "max": 2187975776.0,
+          "median": 2187964032.0,
+          "p95": 2187964032.0,
+          "p99": 2187975776.0,
+          "samples": 3509
+        },
+        "after_static_memory_bytes": {
+          "max": 252717573.0,
+          "median": 252396969.0,
+          "p95": 252713885.0,
+          "p99": 252713885.0,
+          "samples": 3509
+        },
+        "startup_ms": 5630.551,
+        "checkpoint_launch_ms": 1006.473,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 0.0,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-orchard.png"
+      },
+      {
+        "scenario": "meridian",
+        "before_frame_ms": {
+          "max": 9.014,
+          "median": 4.71,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.925,
+          "p99": 7.996,
+          "samples": 3640
+        },
+        "after_frame_ms": {
+          "max": 11.489,
+          "median": 4.706,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.559,
+          "p99": 7.309,
+          "samples": 3589
+        },
+        "p95_delta_ms": -0.366,
+        "median_frame_rate_equivalent": 212.5,
+        "after_gpu_ms": {
+          "max": 6.43400001525879,
+          "median": 4.34100008010864,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.86700010299683,
+          "p99": 5.45800018310547,
+          "samples": 3589
+        },
+        "after_draw_calls": {
+          "max": 2182.0,
+          "median": 2122.0,
+          "p95": 2172.0,
+          "p99": 2180.0,
+          "samples": 3589
+        },
+        "after_primitives": {
+          "max": 3753009.0,
+          "median": 3447478.0,
+          "p95": 3704264.0,
+          "p99": 3750537.0,
+          "samples": 3589
+        },
+        "after_video_memory_bytes": {
+          "max": 2183670432.0,
+          "median": 2183658976.0,
+          "p95": 2183658976.0,
+          "p99": 2183670432.0,
+          "samples": 3589
+        },
+        "after_static_memory_bytes": {
+          "max": 258367763.0,
+          "median": 258074963.0,
+          "p95": 258364075.0,
+          "p99": 258364075.0,
+          "samples": 3589
+        },
+        "startup_ms": 5728.317,
+        "checkpoint_launch_ms": 1001.264,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 0.0,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-meridian.png"
+      },
+      {
+        "scenario": "berth",
+        "before_frame_ms": {
+          "max": 10.892,
+          "median": 4.16,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.484,
+          "p99": 7.347,
+          "samples": 3865
+        },
+        "after_frame_ms": {
+          "max": 8.886,
+          "median": 4.229,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.492,
+          "p99": 7.158,
+          "samples": 3795
+        },
+        "p95_delta_ms": 0.008,
+        "median_frame_rate_equivalent": 236.5,
+        "after_gpu_ms": {
+          "max": 5.61899995803833,
+          "median": 3.95099997520447,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.46400022506714,
+          "p99": 5.07399988174438,
+          "samples": 3795
+        },
+        "after_draw_calls": {
+          "max": 2428.0,
+          "median": 2324.0,
+          "p95": 2416.0,
+          "p99": 2425.0,
+          "samples": 3795
+        },
+        "after_primitives": {
+          "max": 3669227.0,
+          "median": 3445204.0,
+          "p95": 3563222.0,
+          "p99": 3652729.0,
+          "samples": 3795
+        },
+        "after_video_memory_bytes": {
+          "max": 2085710736.0,
+          "median": 2085702928.0,
+          "p95": 2085702928.0,
+          "p99": 2085710736.0,
+          "samples": 3795
+        },
+        "after_static_memory_bytes": {
+          "max": 259385089.0,
+          "median": 258789057.0,
+          "p95": 259381389.0,
+          "p99": 259381401.0,
+          "samples": 3795
+        },
+        "startup_ms": 5739.469,
+        "checkpoint_launch_ms": 664.889,
+        "action_times": [],
+        "slow_frames_over50ms": [],
+        "workload": {
+          "distance_travelled": 0.0,
+          "max_enemies": 0,
+          "max_drones": 0,
+          "before_furnishings": 0,
+          "after_furnishings": 0
+        },
+        "capture": "test-results/art200/performance/final-berth.png"
+      }
+    ],
+    "comparison_limits": [
+      "The final scene contains the expanded125-kind scenery library and final200-model art.",
+      "Furnished baseline uses25 available furnishings; the final fixture extends its side deck to place all50 legally. This is a larger workload, not identical content.",
+      "OS and driver caches are uncontrolled. Timings are samples on this computer, not a guarantee for all hardware or every long play session."
+    ],
+    "summary": {
+      "worst_p95_ms": 7.159,
+      "worst_frame_ms": 38.045,
+      "frames_over50ms": 0,
+      "construction_worst_before_ms": 117.877,
+      "construction_worst_after_ms": 38.045
+    },
+    "streaming": {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "checkpoints": [
+        {
+          "chunks": 27,
+          "nodes": 2142.0,
+          "objects": 8959.0,
+          "preparedActivations": 795,
+          "readyChunks": 13,
+          "resources": 3758.0,
+          "rotorEntries": 2,
+          "sceneryCollisionCache": 32,
+          "staticBytes": 293003552.0,
+          "step": 40,
+          "synchronousBuilds": 27,
+          "unfinishedChunks": 0,
+          "videoBytes": 1892027152.0
+        }
+      ],
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "description": "Accelerated boundary crossings; main gameplay paused, world/gait/atmosphere fully updated, GPU renders current full assets. Prepared mode allows 60 normal update ticks before each crossing. Measures streaming work, not normal travel FPS.",
+      "final": {
+        "chunks": 27,
+        "nodes": 2142.0,
+        "objects": 8959.0,
+        "preparedActivations": 795,
+        "readyChunks": 13,
+        "resources": 3758.0,
+        "rotorEntries": 2,
+        "sceneryCollisionCache": 32,
+        "staticBytes": 293008488.0,
+        "synchronousBuilds": 27,
+        "unfinishedChunks": 0,
+        "videoBytes": 1892027152.0
+      },
+      "forwardBoundary": {
+        "maxMs": 5.162,
+        "p50Ms": 2.859,
+        "p95Ms": 3.452,
+        "p99Ms": 5.162
+      },
+      "frame_cap": 0,
+      "initial": {
+        "chunks": 27,
+        "nodes": 2063.0,
+        "objects": 8260.0,
+        "preparedActivations": 0,
+        "readyChunks": 0,
+        "resources": 3547.0,
+        "rotorEntries": 2,
+        "sceneryCollisionCache": 0,
+        "staticBytes": 222382452.0,
+        "synchronousBuilds": 27,
+        "unfinishedChunks": 1,
+        "videoBytes": 1891992592.0
+      },
+      "lateralBoundary": {
+        "maxMs": 1.033,
+        "p50Ms": 0.573,
+        "p95Ms": 0.744,
+        "p99Ms": 1.033
+      },
+      "nextRenderFrame": {
+        "maxMs": 4.589,
+        "p50Ms": 3.223,
+        "p95Ms": 3.626,
+        "p99Ms": 4.589
+      },
+      "prepared": true,
+      "quality": "high Forward+ Vulkan / 4x MSAA",
+      "resolution": "(1920, 1080)",
+      "sameCell": {
+        "maxMs": 7.831,
+        "p50Ms": 0.26,
+        "p95Ms": 2.511,
+        "p99Ms": 3.061
+      },
+      "setupUpdate": {
+        "maxMs": 1.262,
+        "p50Ms": 0.608,
+        "p95Ms": 1.122,
+        "p99Ms": 1.262
+      },
+      "slowPlacements": [],
+      "slowPreparationUpdates": [
+        {
+          "ms": 7.831,
+          "stage": "beforeForward",
+          "step": 0,
+          "tick": 21
+        },
+        {
+          "ms": 5.453,
+          "stage": "beforeForward",
+          "step": 0,
+          "tick": 27
+        },
+        {
+          "ms": 4.285,
+          "stage": "beforeForward",
+          "step": 0,
+          "tick": 29
+        },
+        {
+          "ms": 4.462,
+          "stage": "beforeLateral",
+          "step": 0,
+          "tick": 6
+        },
+        {
+          "ms": 4.753,
+          "stage": "beforeLateral",
+          "step": 9,
+          "tick": 7
+        },
+        {
+          "ms": 5.251,
+          "stage": "beforeLateral",
+          "step": 37,
+          "tick": 3
+        },
+        {
+          "ms": 4.728,
+          "stage": "beforeLateral",
+          "step": 39,
+          "tick": 3
+        },
+        {
+          "ms": 5.004,
+          "stage": "beforeLateral",
+          "step": 39,
+          "tick": 7
+        }
+      ],
+      "slowSteps": [
+        {
+          "key": "(-2, 2)",
+          "ms": 4.171,
+          "part": "art200-brasswell-teller-bank",
+          "phase": 0
+        }
+      ],
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba"
+    },
+    "autosave": {
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "scenarios": {
+        "2": {
+          "asyncHarvestMainMs": {
+            "max": 0.034,
+            "median": 0.027
+          },
+          "asyncRequestMainMs": {
+            "max": 0.165,
+            "median": 0.142
+          },
+          "asyncWallToDurableMs": {
+            "max": 20.698,
+            "median": 13.811
+          },
+          "bytes": 6688,
+          "pieces": 2,
+          "syncMainMs": {
+            "max": 14.35,
+            "median": 3.57
+          },
+          "validCampaign": true
+        },
+        "300": {
+          "asyncHarvestMainMs": {
+            "max": 0.28,
+            "median": 0.223
+          },
+          "asyncRequestMainMs": {
+            "max": 1.194,
+            "median": 1.097
+          },
+          "asyncWallToDurableMs": {
+            "max": 27.637,
+            "median": 27.607
+          },
+          "bytes": 102579,
+          "pieces": 300,
+          "syncMainMs": {
+            "max": 21.265,
+            "median": 15.837
+          },
+          "validCampaign": true
+        },
+        "900": {
+          "asyncHarvestMainMs": {
+            "max": 1.067,
+            "median": 0.943
+          },
+          "asyncRequestMainMs": {
+            "max": 3.487,
+            "median": 3.217
+          },
+          "asyncWallToDurableMs": {
+            "max": 48.326,
+            "median": 48.309
+          },
+          "bytes": 296819,
+          "pieces": 900,
+          "syncMainMs": {
+            "max": 43.508,
+            "median": 33.716
+          },
+          "validCampaign": true
+        }
+      },
+      "scope": "Synthetic native campaign serialization/I/O timings, not rendering FPS. Same verified writer compares main-thread execution with worker queueing; eight writes per case.",
+      "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba"
+    },
+    "initial_expanded_run": {
+      "path": "test-results/art200/performance/initial-expanded-run/final-summary.json",
+      "results": [
+        {
+          "scenario": "travel",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 48.257,
+            "median": 3.733,
+            "over33ms": 2,
+            "over50ms": 0,
+            "p95": 5.155,
+            "p99": 5.723,
+            "samples": 4598
+          },
+          "gpu_ms": {
+            "max": 5.0310001373291,
+            "median": 3.25500011444092,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 3.78999996185303,
+            "p99": 4.12799978256226,
+            "samples": 4598
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 902.0
+        },
+        {
+          "scenario": "construction",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 182.985,
+            "median": 4.008,
+            "over33ms": 2,
+            "over50ms": 1,
+            "p95": 6.714,
+            "p99": 7.856,
+            "samples": 4068
+          },
+          "gpu_ms": {
+            "max": 5.5939998626709,
+            "median": 3.81900000572205,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 4.33900022506714,
+            "p99": 4.92000007629395,
+            "samples": 4068
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 1252.0
+        },
+        {
+          "scenario": "furnished",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 26.525,
+            "median": 3.82,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 5.557,
+            "p99": 6.386,
+            "samples": 4495
+          },
+          "gpu_ms": {
+            "max": 5.01000022888184,
+            "median": 3.25500011444092,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 3.78399991989136,
+            "p99": 4.00699996948242,
+            "samples": 4495
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 1066.0
+        },
+        {
+          "scenario": "combat",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 27.568,
+            "median": 4.064,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 7.45,
+            "p99": 8.39,
+            "samples": 3835
+          },
+          "gpu_ms": {
+            "max": 5.2960000038147,
+            "median": 3.4539999961853,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 4.125,
+            "p99": 4.68900012969971,
+            "samples": 3835
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 1035.0
+        },
+        {
+          "scenario": "guardian",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 93.347,
+            "median": 3.571,
+            "over33ms": 3,
+            "over50ms": 1,
+            "p95": 5.137,
+            "p99": 6.042,
+            "samples": 4650
+          },
+          "gpu_ms": {
+            "max": 4.5149998664856,
+            "median": 3.08500003814697,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 3.53800010681152,
+            "p99": 3.76999998092651,
+            "samples": 4650
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 849.0
+        },
+        {
+          "scenario": "crane",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 46.269,
+            "median": 3.412,
+            "over33ms": 2,
+            "over50ms": 0,
+            "p95": 4.822,
+            "p99": 5.783,
+            "samples": 5009
+          },
+          "gpu_ms": {
+            "max": 4.33900022506714,
+            "median": 2.89299988746643,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 3.3510000705719,
+            "p99": 3.65000009536743,
+            "samples": 5009
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 929.0
+        },
+        {
+          "scenario": "drone",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 44.365,
+            "median": 3.494,
+            "over33ms": 1,
+            "over50ms": 0,
+            "p95": 5.508,
+            "p99": 6.234,
+            "samples": 4804
+          },
+          "gpu_ms": {
+            "max": 4.53299999237061,
+            "median": 3.08899998664856,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 3.5460000038147,
+            "p99": 4.11700010299683,
+            "samples": 4804
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 749.0
+        },
+        {
+          "scenario": "wake",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 11.332,
+            "median": 4.741,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 6.966,
+            "p99": 7.944,
+            "samples": 3570
+          },
+          "gpu_ms": {
+            "max": 6.31099987030029,
+            "median": 4.35799980163574,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 4.91599988937378,
+            "p99": 5.54099988937378,
+            "samples": 3570
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 2064.0
+        },
+        {
+          "scenario": "foundry",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 9.236,
+            "median": 4.744,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 6.707,
+            "p99": 7.335,
+            "samples": 3548
+          },
+          "gpu_ms": {
+            "max": 6.30000019073486,
+            "median": 4.41900014877319,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 4.99499988555908,
+            "p99": 5.60500001907349,
+            "samples": 3548
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 2077.0
+        },
+        {
+          "scenario": "array",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 12.222,
+            "median": 5.099,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 6.507,
+            "p99": 7.466,
+            "samples": 3568
+          },
+          "gpu_ms": {
+            "max": 6.37099981307983,
+            "median": 4.36100006103516,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 4.88899993896484,
+            "p99": 5.53800010681152,
+            "samples": 3568
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 1992.0
+        },
+        {
+          "scenario": "orchard",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 10.102,
+            "median": 4.935,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 6.592,
+            "p99": 7.167,
+            "samples": 3492
+          },
+          "gpu_ms": {
+            "max": 6.48400020599365,
+            "median": 4.48600006103516,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 5.03000020980835,
+            "p99": 5.62200021743774,
+            "samples": 3492
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 2144.0
+        },
+        {
+          "scenario": "meridian",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 10.086,
+            "median": 4.877,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 6.464,
+            "p99": 6.951,
+            "samples": 3580
+          },
+          "gpu_ms": {
+            "max": 6.14699983596802,
+            "median": 4.33799982070923,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 4.85500001907349,
+            "p99": 5.58199977874756,
+            "samples": 3580
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 2122.0
+        },
+        {
+          "scenario": "berth",
+          "exit_code": 0,
+          "diagnostics": [],
+          "frame_ms": {
+            "max": 10.198,
+            "median": 4.507,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 6.12,
+            "p99": 6.848,
+            "samples": 3818
+          },
+          "gpu_ms": {
+            "max": 5.68900012969971,
+            "median": 3.95300006866455,
+            "over33ms": 0,
+            "over50ms": 0,
+            "p95": 4.46400022506714,
+            "p99": 5.15000009536743,
+            "samples": 3818
+          },
+          "source_hash": "c5294dcb2702d08ccfa8df576a1d02e4b6ed45fc475dd9d534c91d3c0e8eeee6",
+          "draw_calls": 2324.0
+        }
+      ],
+      "findings": [
+        "Direct diagnostic timing attributed the repeated guardian-route stall to scenery collision: ambulance attachment82.282ms, including triangle extraction and shape creation.",
+        "Loading saved exact shapes reduced ambulance attachment to64.008ms;44.110ms of that was resource loading. This motivated background proximity preparation.",
+        "The initial new lounge display had one182.985ms frame despite a7.017ms choose call. An unchanged-code repeat did not reproduce that spike; its cause was not conclusively established. Furniture collection material setup and packing were subsequently moved into the existing preparation pass.",
+        "Background loading of whole collision shapes still produced a66.209ms frame during native physics initialization. The final implementation partitions exact triangles into chunks of at most2048 and prepares one chunk per normal tick,72m ahead; an explicit immediate completion path protects contact within3m after relocation."
+      ]
+    },
+    "collision_preparation": {
+      "models": 125,
+      "chunks": 723,
+      "max_triangles_per_chunk": 2048,
+      "total_triangles": 1350540,
+      "bytes": 11077675,
+      "validation": "docs/godot-port/results/art200-scenery-collision-2026-10-02.json",
+      "targeted_guardian_worst_ms": 10.005
+    }
+  },
+  "native_render_review": {
+    "captures": [
+      {
+        "eye": "(-5.0, 18.1, 3.0)",
+        "id": "route-0",
+        "target": "(-58.0, 13.0, -64.0)"
+      },
+      {
+        "eye": "(-5.0, 18.1, 3.0)",
+        "id": "deck-sign-0",
+        "target": "(-29.76366, 11.81813, 45.48565)"
+      },
+      {
+        "eye": "(-5.0, 18.1, 3.0)",
+        "id": "route-896",
+        "target": "(-58.0, 13.0, -64.0)"
+      },
+      {
+        "eye": "(-5.0, 18.1, 3.0)",
+        "id": "deck-sign-896",
+        "target": "(-45.6288, 16.90001, 10.6528)"
+      },
+      {
+        "eye": "(-5.0, 18.1, 3.0)",
+        "id": "route-1856",
+        "target": "(-58.0, 13.0, -64.0)"
+      },
+      {
+        "eye": "(-5.0, 18.1, 3.0)",
+        "id": "deck-sign-1856",
+        "target": "(-45.23151, 12.3336, -339.4962)"
+      },
+      {
+        "eye": "(-60.19182, 1.414785, -11.79781)",
+        "id": "wreck-pickup",
+        "target": "(-65.0, -1.130721, -20.0)"
+      },
+      {
+        "eye": "(-62.535, 0.607999, -15.795)",
+        "id": "transformer",
+        "target": "(-65.0, -0.697001, -20.0)"
+      },
+      {
+        "eye": "(-59.305, 2.490615, -10.285)",
+        "id": "art200-dustmile-motel-office",
+        "target": "(-65.0, -0.524384, -20.0)"
+      },
+      {
+        "eye": "(-60.24, 2.262676, -11.88)",
+        "id": "art200-ceramic-kiln",
+        "target": "(-65.0, -0.257324, -20.0)"
+      },
+      {
+        "eye": "(-49.64475, 14.73301, 6.194252)",
+        "id": "art200-billboard-morrow-motors",
+        "target": "(-65.0, 6.603765, -20.0)"
+      },
+      {
+        "eye": "(-48.40218, 16.11493, 8.313938)",
+        "id": "art200-billboard-open-road-retreads",
+        "target": "(-65.0, 7.327851, -20.0)"
+      }
+    ],
+    "scope": "First six captures show actual streamed routes and deck-height views. Last six are staged close views using native terrain placement and shipped lighting/materials; simulation is paused.",
+    "source_hash": "d246dd9164590ee875e565cb47eeddfa97b301db8afd445cc9bc2c909f603dba"
+  },
+  "catalog_validation": {
+    "models": 200,
+    "new": 100,
+    "refined": 100,
+    "complete_characters": 6,
+    "sources_images_and_static_links_exist": true,
+    "gallery_matches_eight_runtime_hashes": true,
+    "catalog_javascript_syntax": true,
+    "embedded_inventory_matches": true,
+    "catalog_sha256": "015f1abe763489e231bde8d28e90cbcc13ec64549ac05a22c5319cbcf417cb2a",
+    "html_sha256": "f52407e86278f7c61f24bbf73c131411307ff9bfc90d62e714a9d0f0f37ca50e",
+    "gallery_sha256": "1a0506231b2ed30b014b64a349ea55e95639e3a761a72d80be0ebe7b80f8fcc7",
+    "interactive_browser_review": "Not performed: local file URL blocked by browser tool policy. Actual model images were reviewed directly and the gallery is available in Blender."
+  },
+  "gallery": {
+    "path": "assets/art200/Art200Review.blend",
+    "audit": "assets/art200/gallery-audit.json",
+    "live_blender_result": {
+      "status": "success",
+      "result": {
+        "executed": true,
+        "result": "Info: Saved copy as \"MCP-session-before-Art200-20261002-012403.blend\"\n{\"file\": \"C:\\\\Users\\\\hwash\\\\Documents\\\\MachineMoveForward\\\\assets\\\\art200\\\\Art200Review.blend\", \"whole_assemblies\": 200, \"preserved_session\": \"C:\\\\Users\\\\hwash\\\\Documents\\\\MachineMoveForward\\\\assets\\\\art200\\\\MCP-session-before-Art200-20261002-012403.blend\", \"camera\": \"Camera / art200-signs\"}\n"
+      }
+    }
+  },
+  "baseline_archive": {
+    "archive": "assets\\art200\\Art100-before-Art200.zip",
+    "files": 225,
+    "bytes": 370929816,
+    "sha256": "ff780bb5f54d1f5d0e8a529c5f8daccd01eaef0f5feb7e9fbee87f6dedf05072"
+  },
+  "scope": [
+    "Native Godot art iteration;100 additional complete assemblies plus a refinement and independent fine-comb pass across all200.",
+    "Fifty buildable furnishings are cosmetic; story fixtures add environmental context to existing campaign progression.",
+    "The six active enemy characters retain existing AI/animation roles; new dormant robots are story props.",
+    "Nearby scenery collision follows visible geometry and keeps open gaps; terrain traversal rules remain unchanged.",
+    "Performance evidence is limited to the recorded hardware, workloads, durations and stress fixtures.",
+    "Full V1 beta acceptance remains a separate milestone."
+  ]
+}

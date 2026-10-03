@@ -24,7 +24,7 @@ func routes() -> Array:
 
 func begin_route(id: String="") -> bool:
 	var s=game.session
-	if game.combat.active_threat() or not game.aboard() or s.capacity<=0:
+	if game.combat.active_threat() or not game.aboard() or MMFMachineOperations.departure_reason(s)!="":
 		s.notify("Secure the deck and power the helm before committing a route.")
 		return false
 	if s.story.phase!="route-selection": return false
@@ -35,6 +35,9 @@ func begin_route(id: String="") -> bool:
 		if candidate.id==id: route=candidate
 	if not routes().is_empty() and route.is_empty(): return false
 	if not route.is_empty(): length=route.distanceM
+	MMFMissionContracts.close_window(s)
+	s.contacts.candidates=s.contacts.get("candidates",[]).filter(func(c):return MMFMissions.contact_mission(c)=="")
+	if MMFMissions.contact_mission(s.contacts.active)!="" and s.contacts.active.state=="detected":s.contacts.active={} if s.contacts.candidates.is_empty() else s.contacts.candidates[0]
 	s.story.routeId=id
 	s.story.arrival=s.distance+length
 	s.story.phase="approach"
@@ -44,6 +47,7 @@ func begin_route(id: String="") -> bool:
 	create_destination(expedition())
 	s.notify("Course committed: "+expedition().title)
 	game.close_menu()
+	if id==MMFCordonGuardian.ROUTE:game.combat.guardian.brief()
 	return true
 
 func create_destination(def: Dictionary):
@@ -56,6 +60,7 @@ func create_destination(def: Dictionary):
 	if def.modelId=="relay-wreck": model_path="models/authored/expedition-wreck.glb"
 	var visual=MMFAssets.scene(model_path)
 	destination.add_child(visual)
+	MMFSiteRoofs.attach(destination,def.id)
 	for spec in def.colliders: MMFAssets.collider(destination,{"position":spec.at,"half":spec.half})
 	for entry in def.interactables:
 		var at=MMFAssets.v(entry.fallback)
@@ -72,7 +77,11 @@ func create_destination(def: Dictionary):
 		destination.add_child(label)
 		points.append({"entry":entry,"at":at,"label":label})
 	update_position()
+	MMFSiteGrounding.attach(destination,def.id,game)
 	game.story_art.decorate_destination()
+	game.activity.rebuild()
+	MMFArt100Story.decorate_destination(game)
+	MMFArt200Story.decorate_destination(game)
 
 func restore_destination():
 	if game.session.story.phase in ["approach","braking","docked"]:
@@ -93,8 +102,8 @@ func update(dt: float):
 			if route.id!=st.routeId or route.scriptedVehicle==null: continue
 			if remaining<=route.scriptedVehicleRemainingM and st.get("scripted","")=="not-due":
 				if not game.combat.active_threat():
-					game.combat.begin_ship(route.scriptedVehicle)
-					st.scripted="queued"
+					var launched=game.combat.guardian.begin() if route.id==MMFCordonGuardian.ROUTE else game.combat.begin_ship(route.scriptedVehicle)
+					if launched:st.scripted="queued"
 		if st.get("scripted","")=="queued" and not game.combat.active_threat(): st.scripted="resolved"
 		if remaining<expedition().brakingDistanceM: st.phase="braking"
 		if remaining<0.75 and s.speed<0.16 and not game.combat.active_threat():
@@ -108,6 +117,7 @@ func update(dt: float):
 		update_position()
 		for point in points:
 			point.label.visible=st.phase=="docked" and can_show(point.entry)
+			if point.entry.kind=="departure" and not game.engineering.bay().is_empty():point.label.text="SERVICE BAY / DEPARTURE"
 	if st.phase=="departing" and s.distance-departing_distance>40:
 		if destination: destination.queue_free()
 		destination=null
@@ -119,13 +129,15 @@ func update(dt: float):
 			st.index+=1
 			st.phase="route-selection"
 			st.routeId=""
-			if routes().is_empty(): begin_route()
+			if routes().is_empty() and st.index!=2: begin_route()
 	if st.phase=="ending-journey" and s.distance>=st.get("endingDistance",INF):
 		st.phase="arrival"
 		ending_time=0
 		game.cinematics.begin_arrival()
 
 func can_show(entry: Dictionary) -> bool:
+	if entry.kind=="narrative":return entry.beat in game.session.narrative.known
+	if entry.kind=="mechanism":return game.activity.control_visible(entry)
 	var st=game.session.story
 	if entry.kind=="journal":
 		if entry.id=="orchard-caretaker-record": return st.routeId=="orchard-caretaker"
@@ -166,7 +178,10 @@ func requirement(id: String) -> String:
 	return ""
 
 func interact(entry: Dictionary) -> bool:
+	var local_refusal=game.activity.interaction_refusal(entry)
+	if local_refusal!="":game.session.notify(local_refusal);return false
 	if game.session.story.phase!="docked" or not can_show(entry): return false
+	if entry.kind=="narrative":game.narrative.open(entry);return true
 	if not game.activity.completed(entry):
 		game.activity.open(entry)
 		return false
@@ -206,6 +221,10 @@ func depart() -> bool:
 	if reason!="":
 		game.session.notify(reason)
 		return false
+	var config=MMFMachineOperations.resume_config(game.session)
+	var blocked=MMFMachineOperations.departure_reason(game.session,config)
+	if blocked!="":game.session.notify(blocked);return false
+	game.session.operations=config;game.session.update_power()
 	departing_distance=game.session.distance
 	game.session.story.phase="departing"
 	game.world.set_dock_open(false)
@@ -213,13 +232,4 @@ func depart() -> bool:
 	return true
 
 func begin_ending() -> bool:
-	var s=game.session
-	if s.story.phase!="ending-ready" or not game.aboard() or game.combat.active_threat(): return false
-	# The durable checkpoint precedes the point of no return.
-	if not game.save_game("meridian-checkpoint"): return false
-	s.story.phase="ending-journey"
-	s.story.ending="committed"
-	s.story.endingDistance=s.distance+400
-	s.target_course=32
-	game.close_menu()
-	return true
+	return game.finale.commit()

@@ -1,0 +1,213 @@
+{
+  "baseline": "test-results\\roof-floor\\source-before\\relay-foundry-runtime.glb",
+  "new": "godot\\assets\\models\\authored\\relay-foundry.glb",
+  "baselineSha256": "33794e40c2095bd7b88136e24222f32444936985d8f7b76a700427f8591b7a7d",
+  "newSha256": "b9fad493b0ced29e6bb505333e333b075ed5aba7a9b46574608c64034bb76984",
+  "nonFloorTrianglesBefore": 23690,
+  "nonFloorTrianglesAfter": 23690,
+  "missingUnchangedTriangles": 0,
+  "addedUnchangedTriangles": 0,
+  "missingUnchangedUVTriangles": 0,
+  "floorTrianglesBefore": 16834,
+  "floorTrianglesAfter": 16834,
+  "anchorsBefore": {
+    "FoundryRoot": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "EntryAnchor": [
+      -7.0,
+      0.0,
+      0.0
+    ],
+    "ExitSightline": [
+      -5.800000190734863,
+      1.600000023841858,
+      0.0
+    ],
+    "Gangway": [
+      -7.5,
+      -0.07999999821186066,
+      0.0
+    ],
+    "JournalBlueprint": [
+      1.0,
+      1.2300000190734863,
+      2.0
+    ],
+    "JournalLog": [
+      -2.0,
+      1.0,
+      -2.0
+    ],
+    "SalvageController": [
+      -1.0,
+      1.0,
+      1.5
+    ],
+    "TrackingServo": [
+      3.0,
+      1.0,
+      -1.5
+    ]
+  },
+  "anchorsAfter": {
+    "FoundryRoot": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "EntryAnchor": [
+      -7.0,
+      0.0,
+      0.0
+    ],
+    "ExitSightline": [
+      -5.800000190734863,
+      1.600000023841858,
+      0.0
+    ],
+    "FoundryRoof": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "Gangway": [
+      -7.5,
+      -0.07999999821186066,
+      0.0
+    ],
+    "JournalBlueprint": [
+      1.0,
+      1.2300000190734863,
+      2.0
+    ],
+    "JournalLog": [
+      -2.0,
+      1.0,
+      -2.0
+    ],
+    "SalvageController": [
+      -1.0,
+      1.0,
+      1.5
+    ],
+    "TrackingServo": [
+      3.0,
+      1.0,
+      -1.5
+    ]
+  },
+  "boundsBefore": {
+    "FoundryRoot_Geometry": {
+      "min": [
+        -7.014999866485596,
+        -0.2800000011920929,
+        -5.039999961853027
+      ],
+      "max": [
+        7.0,
+        4.830000266432762,
+        5.039999961853027
+      ]
+    },
+    "Gangway_Geometry": {
+      "min": [
+        -8.0,
+        -0.1599999964237213,
+        -1.0
+      ],
+      "max": [
+        -7.0,
+        0.020999997854232788,
+        1.0
+      ]
+    },
+    "SalvageController_Geometry": {
+      "min": [
+        -1.209999993443489,
+        0.9149999991059303,
+        1.334999993443489
+      ],
+      "max": [
+        -0.7900000065565109,
+        1.1200000196695328,
+        1.665000006556511
+      ]
+    },
+    "TrackingServo_Geometry": {
+      "min": [
+        2.8030000030994384,
+        0.8899999856948853,
+        -1.6969999969005614
+      ],
+      "max": [
+        3.19699999690056,
+        1.059999942779541,
+        -1.3030000030994413
+      ]
+    }
+  },
+  "boundsAfter": {
+    "FoundryRoot_Geometry": {
+      "min": [
+        -7.014999866485596,
+        -0.2800000011920929,
+        -5.039999961853027
+      ],
+      "max": [
+        7.0,
+        4.830000266432762,
+        5.039999961853027
+      ]
+    },
+    "Gangway_Geometry": {
+      "min": [
+        -8.0,
+        -0.1599999964237213,
+        -1.0
+      ],
+      "max": [
+        -7.0,
+        0.020999997854232788,
+        1.0
+      ]
+    },
+    "SalvageController_Geometry": {
+      "min": [
+        -1.209999993443489,
+        0.9149999991059303,
+        1.334999993443489
+      ],
+      "max": [
+        -0.7900000065565109,
+        1.1200000196695328,
+        1.665000006556511
+      ]
+    },
+    "TrackingServo_Geometry": {
+      "min": [
+        2.8030000030994384,
+        0.8899999856948853,
+        -1.6969999969005614
+      ],
+      "max": [
+        3.19699999690056,
+        1.059999942779541,
+        -1.3030000030994413
+      ]
+    }
+  },
+  "missingExamples": [],
+  "newExamples": [],
+  "preservedMaterialImages": {
+    "Expansion_Dark": true,
+    "Expansion_Paint": true,
+    "Expansion_Steel": true,
+    "Expansion_Ochre": true
+  },
+  "anchorsPreserved": true,
+  "meshBoundsPreserved": true,
+  "passed": true
+}

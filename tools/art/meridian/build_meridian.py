@@ -63,8 +63,10 @@ rm=bpy.data.meshes.new('Garden curved glazing');rm.from_pydata(roofverts,[],roof
 ro=bpy.data.objects.new('Garden curved glazing',rm);bpy.context.collection.objects.link(ro);c.finish(ro,ro.name,c.glass,r)
 for x in [-6.65,-3.35]:c.bed((x,0,-6),(1.15,3.8),r)
 for x in [-6.6,-3.4]:c.tube('Garden light',(x,2.8,-7.7),(x,2.8,-4.3),.035,c.amber,r)
-c.label('Refuge garden sign','THE LAST GARDEN',(-5,2.8,-3.43),.32,r)
-c.label('Refuge promise','KEEP A PLACE FOR THOSE STILL COMING',(-5,2.5,-3.43),.10,r)
+garden_title=c.label('Refuge garden sign','THE LAST GARDEN',(-5,2.8,-3.43),.32,r)
+garden_title.rotation_euler.z=0 # The garden entry faces +game Z.
+garden_promise=c.label('Refuge promise','KEEP A PLACE FOR THOSE STILL COMING',(-5,2.5,-3.43),.10,r)
+garden_promise.rotation_euler.z=0
 # Twin service stations: an archive cradle and a navigation solution module.
 for x,word in [(-4,'WITNESS ARCHIVE'),(4,'MERIDIAN BEARING')]:
     c.box('Service bench',(x,.5,6.5),(4.6,1,2),c.steel,r,.09)

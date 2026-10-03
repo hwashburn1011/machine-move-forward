@@ -60,21 +60,29 @@ func compare_mesh(original: ArrayMesh,changed: ArrayMesh,joint: int,label: Strin
 	return counts
 
 func test_body():
-	var original=MMFAssets.scene("models/authored/sovereign.glb");var body=MMFAssets.find_named(original,"sovereign_CombatBody")
+	var original=MMFAssets.scene(MMFEnemyModels.path("sovereign"));var body=MMFAssets.find_named(original,"sovereign_CombatBody")
 	var joint=-1
 	for i in body.skin.get_bind_count():
 		if body.skin.get_bind_name(i)==&"equipment_0":joint=i
 	check(joint>=0,"Source has dedicated equipment skin binding")
 	var counts=compare_mesh(body.mesh,MMFEnemyEquipment.SOVEREIGN_BODY,joint,"body")
-	check(counts==[3856,1884],"Exactly 3856 original drone triangles and 1884 LOD triangles are removed")
+	var art=MMFAssets.json("res://../assets/native-character-refinement/sovereign-manifest.json")
+	check(counts[0]==art.equipmentTriangles and counts[1]>0,"Exactly the Blender-authored drone triangles are removed, including their generated LODs")
 	var manifest=MMFAssets.json("res://art/sovereign-body.json")
-	check(manifest.sourceSha256==FileAccess.get_sha256("res://assets/models/authored/sovereign.glb"),"Separation manifest matches current authored source")
+	check(manifest.sourceSha256==FileAccess.get_sha256(MMFEnemyModels.path("sovereign")),"Separation manifest matches current refined source")
 	var enemy=spawn("sovereign");await frames()
 	var replacement=MMFAssets.find_named(enemy.visual,"sovereign_CombatBody")
 	check(replacement.mesh==MMFEnemyEquipment.SOVEREIGN_BODY and replacement.skin==body.skin,"Actual commander uses trimmed body and exact original Skin resource")
+	var originals=replacement.get_meta("art100_original_materials",[])
+	check(originals.size()==body.mesh.get_surface_count(),"Refined commander retains its original body override for every surface")
 	for i in body.mesh.get_surface_count():
-		check(replacement.mesh.surface_get_material(i)==null and replacement.get_active_material(i)==body.get_active_material(i),"Actual body surface "+str(i)+" reuses exact original material/textures without embedded duplicates")
-	check(enemy.visual.scale.is_equal_approx(Vector3.ONE*1.92/MMFAssets.bounds(original).size.y),"Grounded character fit uses unchanged original bounds")
+		var original_material=body.get_active_material(i);var finish=replacement.get_active_material(i)
+		var identical_textures=original_material is StandardMaterial3D and finish is StandardMaterial3D
+		if identical_textures:
+			for texture in ["albedo_texture","normal_texture","roughness_texture","metallic_texture","emission_texture","ao_texture"]:
+				identical_textures=identical_textures and finish.get(texture)==original_material.get(texture)
+		check(replacement.mesh.surface_get_material(i)==null and i<originals.size() and originals[i]==original_material and identical_textures,"Actual body surface "+str(i)+" preserves original override and exact texture resources without embedded duplicates")
+	check(enemy.visual.scale.is_equal_approx(Vector3.ONE*1.92/float(original.get_meta("original_fit_height"))),"Grounded character fit uses unchanged original bounds")
 	var triangles=0;var collapsed=0
 	var meshes=MMFAssets.of_type(enemy.drone_visual,"MeshInstance3D")
 	for mesh in meshes:
@@ -87,7 +95,10 @@ func test_body():
 	check(MMFAssets.of_type(enemy.drone_visual,"Light3D").is_empty(),"Drone uses materials without adding realtime lights")
 	observed.drone={"triangles":triangles,"meshes":meshes.size(),"collapsed":collapsed}
 	var another=spawn("sovereign")
-	check(MMFAssets.find_named(another.visual,"sovereign_CombatBody").mesh==replacement.mesh and MMFAssets.of_type(another.drone_visual,"MeshInstance3D")[0].mesh==meshes[0].mesh,"Multiple commanders share body and drone mesh resources")
+	var another_body=MMFAssets.find_named(another.visual,"sovereign_CombatBody")
+	check(another_body.mesh==replacement.mesh and MMFAssets.of_type(another.drone_visual,"MeshInstance3D")[0].mesh==meshes[0].mesh,"Multiple commanders share body and drone mesh resources")
+	for i in body.mesh.get_surface_count():
+		check(another_body.get_active_material(i)==replacement.get_active_material(i) and another_body.get_meta("art100_original_materials")[i]==body.get_active_material(i),"Repeated commander surface "+str(i)+" shares cached finish material and original override")
 	await remove(another);await remove(enemy);original.free()
 
 func test_drone():
@@ -150,7 +161,16 @@ func test_shots(kind: String):
 	wall.position.z=enemy.position.z+.12;await frames();game.effects.tracers.clear();enemy.shoot_committed()
 	check(game.session.health==100 and game.effects.tracers.is_empty(),kind+" barrel through close cover does not draw a backwards tracer or damage player")
 	wall.queue_free();await frames();game.effects.tracers.clear();enemy.shoot_committed()
-	check(is_equal_approx(game.session.health,100-enemy.definition.damage),kind+" clear shot retains original damage")
+	# A clear line now permits a physical miss. Require both outcomes across a
+	# seeded exposure, while every actual hit retains the exact authored damage.
+	enemy.aim_rng=MMFEnemyBallistics.rng_for(["equipment-clear-shot",kind])
+	var hits=0;var misses=0;var exact=true
+	for i in 96:
+		game.session.health=100;enemy.shoot_committed()
+		var amount=100-game.session.health
+		if amount==0:misses+=1
+		else:hits+=1;exact=exact and is_equal_approx(amount,enemy.definition.damage)
+	check(exact and hits>20 and misses>5,kind+" clear seeded shots include real misses and preserve original damage per hit")
 	await remove(enemy)
 
 func run():

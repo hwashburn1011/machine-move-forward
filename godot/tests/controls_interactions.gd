@@ -39,6 +39,11 @@ func mapping_unique(mapping: Dictionary) -> bool:
 		seen.append(code)
 	return true
 
+func button_named(prefix: String) -> Button:
+	for child in game.ui.content.find_children("*","Button",true,false):
+		if child.text.begins_with(prefix):return child
+	return null
+
 func run():
 	output=ProjectSettings.globalize_path("res://../test-results/godot-native/")
 	check(MMFControls.normalize(null).is_empty(),"Missing or malformed bindings restore usable defaults")
@@ -130,12 +135,15 @@ func run():
 	check("[Q / K]" in ui.prompt.text and "[G]" in ui.prompt.text and "[RMB]" in ui.prompt.text,"Placement explains active rotation, catalogue and cancel controls")
 	await capture("controls-build")
 	await tap(KEY_P);check(game.building.selected=="" and not game.menu_open,"Remapped pause cancels construction first")
+	# Closing the physical arm display briefly retains input ownership until
+	# its camera/weapon handoff completes; test reload after that real motion.
+	await create_timer(.26).timeout
 	game.player.reload_left=0;game.session.weapons.rifle.ammoInMag=1
 	await tap(KEY_J);check(game.player.reload_left>0,"Remapped reload key starts the existing reload")
 	game.player.cancel_reload()
 	# A real boarding hook beside the receiver must own BOTH prompt and input.
 	game.session.facts.salvage=true;game.player.position=Vector3(2,16.03,-8.3)
-	game.combat.begin_ship();game.combat.ship.position=Vector3(17,6,0);game.combat.update_ship(.01)
+	game.combat.begin_ship();game.combat.update_ship(game.combat.approach_duration);game.combat.update_ship(1.1)
 	game.combat.hook.position=game.player.position+Vector3.RIGHT*.3
 	game.update_interaction(0)
 	check(game.near_receiver() and game.interaction_target().get("kind")=="hook" and "HOLD [K] CUT" in game.interaction_prompt,"Hook beside receiver has matching priority in the visible prompt")
@@ -162,11 +170,14 @@ func run():
 	await key(KEY_K,false);game.update_interaction(0)
 	check(game.interaction_target().get("kind")=="receiver" and "[K] SCANNER" in game.interaction_prompt,"Retreating hook no longer steals the receiver prompt or interaction")
 	await tap(KEY_K);check(game.menu_open and ui.page=="Signal","Displayed receiver prompt executes through the remapped physical key")
-	check(not "{key:" in ui.live_status.text,"Live receiver objective never exposes hint tokens")
+	var current_task=button_named("CURRENT TASK")
+	if current_task:current_task.pressed.emit()
+	var task_labels=ui.content.find_children("*","Label",true,false)
+	check(ui.page=="Record" and task_labels.any(func(label):return label.text.begins_with(game.hint(game.session.objective()))) and task_labels.all(func(label):return not "{key:" in label.text),"Receiver task detail resolves objective controls without exposing hint tokens")
 	game.close_menu()
 	# Service controls use the same arbitration, including a nearby boarding hook.
 	game.session.story.phase="route-selection"
-	var contact=game.opportunities.make_contact(1);contact.kind="water-cache";contact.state="docked"
+	var contact=game.opportunities.make_contact(1);contact.kind="fuel-cache";contact.state="docked"
 	game.session.contacts.active=contact;game.opportunities.create_site()
 	var service=game.opportunities.points.filter(func(p):return p.id=="service")[0]
 	game.player.position=game.opportunities.site.to_global(service.at)-Vector3.UP*.7
@@ -179,7 +190,7 @@ func run():
 	check(contact.step=="task-ready" and game.opportunities.service_timer==0,"Story travel retains priority over optional service")
 	game.session.story.phase="route-selection";game.update_interaction(.7)
 	check(is_equal_approx(game.opportunities.service_timer,.7),"Service hold accumulates at the original rate")
-	game.combat.ship_state="grapple";game.combat.hook.position=game.player.position
+	game.combat.ship_state="grapple";game.combat.hook_health=60;game.combat.hook=MMFHitZone.new();game.combat.hook.setup(game.combat,game.player.position,Vector3.ONE,func(_a,_p):pass)
 	game.update_interaction(.6)
 	check(game.opportunities.service_timer==0 and contact.step=="task-ready" and game.hook_cut>.5,"A hook preempts service completely instead of advancing two holds")
 	game.combat.ship_state="retreat";game.update_interaction(.7)
@@ -199,8 +210,8 @@ func run():
 	await tap(KEY_ESCAPE)
 	ui.binding_buttons.reel.reset.pressed.emit()
 	check(not game.settings.bindings.has("reel"),"Per-action Default restores a changed control")
-	for child in ui.content.get_children():
-		if child is Button and child.text=="RESTORE ALL DEFAULT KEYS": child.pressed.emit();break
+	var restore_defaults=button_named("RESTORE ALL DEFAULT KEYS")
+	if restore_defaults:restore_defaults.pressed.emit()
 	check(game.settings.bindings.is_empty() and InputMap.action_get_events("crouch").size()==2,"Restore All reinstates default keys and secondary crouch")
 	game.started=false;game.open_menu("Settings");ui.return_button.pressed.emit()
 	check(ui.page=="Title","Settings opened before a campaign can return to the title")

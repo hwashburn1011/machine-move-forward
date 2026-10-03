@@ -1,8 +1,8 @@
 class_name MMFWeaponPose
 extends RefCounted
 
-# Presentation only: camera hitscan, damage, spread and reload timers stay in
-# MMFPlayer. Authored anchors provide the hand, tracer and attachment locations.
+# The final solved grip is also the shot's launch pose. Damage, spread and
+# timers remain in MMFPlayer; the camera supplies only the intended target.
 var player
 var skeleton: Skeleton3D
 var bones={}
@@ -13,6 +13,11 @@ var valid=false
 var scripted_aim=false
 var scripted_target=Vector3.ZERO
 var scripted_recoil=0.0
+var resolved_muzzle=Vector3.ZERO
+var resolved_bore=Vector3.FORWARD
+var resolved_origin=Vector3.ZERO
+var resolved_body_yaw=0.0
+var pose_ready=false
 
 func setup(owner_player):
 	player=owner_player
@@ -53,6 +58,7 @@ func solve_arm(side: String,target: Vector3,hand_basis: Basis,weight: float):
 
 func apply():
 	last_targets.clear()
+	pose_ready=false
 	if not valid:return
 	var game=player.game
 	var opening=scripted_aim and game.cinematic=="opening"
@@ -66,10 +72,15 @@ func apply():
 	var set=anchors[game.session.current_weapon];var model=set.model
 	if not set.SupportGrip:return
 	var scale=maxf(player.visual.scale.x,.01)
-	var gun_basis=Basis(Vector3.RIGHT,-player.pitch)
+	var gun_basis=Basis(Vector3.UP,player.aim_yaw)*Basis(Vector3.RIGHT,-player.pitch)
 	if opening:
 		var direction=skeleton.global_basis.orthonormalized().inverse()*(scripted_target-player.global_position-Vector3.UP*1.4).normalized()
-		gun_basis=Basis(Vector3.UP,atan2(direction.x,direction.z))*Basis(Vector3.RIGHT,-asin(clampf(direction.y,-1,1)))
+		# The hands can lead a turn only within a natural forward cone. The
+		# previous full 162-degree override put the rifle through S-07's torso.
+		var yaw_limit=deg_to_rad(30)
+		var lead=clampf(atan2(direction.x,direction.z),-yaw_limit,yaw_limit)
+		var lift=smoothstep(2.48,3.05,game.cinematics.time)
+		gun_basis=Basis(Vector3.UP,lead*lift)*Basis(Vector3.RIGHT,-asin(clampf(direction.y,-1,1))*lift)
 	var hand_basis=gun_basis*socket_local.basis.inverse()
 	var spine=skeleton.get_bone_global_pose(bones.spine_02)
 	var recoil=scripted_recoil if opening else player.recoil
@@ -93,3 +104,20 @@ func apply():
 	var left_basis=gun_basis*previous_frame.orthonormalized().inverse()*old_left
 	solve_arm("r",right,hand_basis,weight);solve_arm("l",left,left_basis,weight)
 	last_targets={"right":right,"left":left,"weight":weight}
+	if weight>.99:
+		# Read the solved bone in the modifier, before Godot restores authored
+		# poses. Bone attachments may update after this callback, so derive the
+		# exact gun transform rather than reading a previous frame's muzzle.
+		var solved=skeleton.global_transform*skeleton.get_bone_global_pose(bones.hand_r)*socket_local*model.transform
+		var marker=player.equipment.muzzle if player.equipment and is_instance_valid(player.equipment.muzzle) else set.Muzzle
+		resolved_muzzle=solved*model.to_local(marker.global_position)
+		resolved_bore=solved.basis.z.normalized()
+		resolved_origin=player.global_position+Vector3.UP*(1.05 if player.crouched else 1.4)
+		resolved_body_yaw=player.visual.rotation.y
+		pose_ready=true
+
+func can_fire() -> bool:
+	if not pose_ready:return false
+	if absf(wrapf(resolved_body_yaw-player.visual.rotation.y,-PI,PI))>deg_to_rad(3):return false
+	if resolved_origin.distance_to(player.global_position+Vector3.UP*(1.05 if player.crouched else 1.4))>.2:return false
+	return resolved_bore.angle_to(-player.camera.global_basis.z)<deg_to_rad(4)

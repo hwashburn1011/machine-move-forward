@@ -1,0 +1,3653 @@
+{
+  "title": "Machine Move Forward / Art200",
+  "count": 200,
+  "new_this_iteration": 100,
+  "existing_refined": 100,
+  "native_only": true,
+  "counting": "Complete assemblies only. Six existing characters include their complete bodies, rigs and fitted equipment; no separate counts for attachment parts or color variants.",
+  "models": [
+    {
+      "id": "wreck-pickup",
+      "title": "Wreck Pickup",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.404999852180481,
+        2.103999376296997,
+        5.656681060791016
+      ],
+      "triangles": 42924,
+      "detail": "Cargo rail weldments, tethered dropped tailgate, rain-lipped toolbox and inset cooling grille; smoother enamel and convincing exposed steel.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/wreck-pickup.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 1
+    },
+    {
+      "id": "wreck-ambulance",
+      "title": "Wreck Ambulance",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        3.2699689865112305,
+        2.9539999961853027,
+        6.1180219650268555
+      ],
+      "triangles": 38632,
+      "detail": "Supported stretcher loading step, strapped oxygen bottles and wall cradles; softened ceramic and medical enamel instead of corrugated surfaces.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/wreck-ambulance.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 2
+    },
+    {
+      "id": "wreck-forklift",
+      "title": "Wreck Forklift",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.1449999809265137,
+        3.123999834060669,
+        4.625
+      ],
+      "triangles": 39664,
+      "detail": "Mast sheaves and roller chains, operator pedal and fitted restraint; matte rubber, forged fork steel and clean rounded counterweight.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/wreck-forklift.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 3
+    },
+    {
+      "id": "survey-rover",
+      "title": "Survey Rover",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.7405980825424194,
+        3.1740000247955322,
+        3.9091310501098633
+      ],
+      "triangles": 45044,
+      "detail": "Six suspension dampers, weather-sealed junction enclosure and protected sampling-arm loom; subtle solar and optical housing wear.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/survey-rover.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 4
+    },
+    {
+      "id": "rail-bogie",
+      "title": "Rail Bogie",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.200000047683716,
+        1.1800000667572021,
+        2.799999952316284
+      ],
+      "triangles": 10132,
+      "detail": "Physically linked pneumatic brakes, shoe hangers and protected feed pipes; machined wheel flanges and cast frame material separation.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/rail-bogie.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 5
+    },
+    {
+      "id": "container-wagon",
+      "title": "Container Wagon",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        4.224247694015503,
+        3.740000009536743,
+        9.399999618530273
+      ],
+      "triangles": 34488,
+      "detail": "Physically linked pneumatic brakes, shoe hangers and protected feed pipes; freight access stirrups and identification plaque.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/container-wagon.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 6
+    },
+    {
+      "id": "fuel-trailer",
+      "title": "Fuel Trailer",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.197000026702881,
+        2.373999834060669,
+        4.807999968528748
+      ],
+      "triangles": 19124,
+      "detail": "Supported rear safety beam, inset warning lenses and hanging tow tethers; longitudinal tank coating without false corrugation.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/fuel-trailer.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 7
+    },
+    {
+      "id": "wreck-motorcycle",
+      "title": "Wreck Motorcycle",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        0.8692555129528046,
+        1.3257497549057007,
+        2.668000102043152
+      ],
+      "triangles": 16308,
+      "detail": "Vented brake discs, calipers and curved brake line; supported luggage rack and restrained tank enamel.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/wreck-motorcycle.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 8
+    },
+    {
+      "id": "culvert",
+      "title": "Culvert",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        4.675487995147705,
+        2.901156187057495,
+        5.8372156620025635
+      ],
+      "triangles": 4092,
+      "detail": "Drainage weep outlets, bent exposed reinforcement and a cast inlet apron; fine mineral aggregate instead of large mottled blobs.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/culvert.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 9
+    },
+    {
+      "id": "transformer",
+      "title": "Transformer",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.9000000953674316,
+        2.680000066757202,
+        2.75
+      ],
+      "triangles": 14912,
+      "detail": "Lifting eyes, connected conservator return and sealed inspection cover; porcelain, steel fins and enamel read as distinct materials.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/transformer.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 10
+    },
+    {
+      "id": "fuel-pump",
+      "title": "Fuel Pump",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        1.7629708051681519,
+        2.1399998664855957,
+        1.0700000524520874
+      ],
+      "triangles": 5940,
+      "detail": "Readable mechanical meter numerals, hinged maintenance hatch and nozzle parking escutcheon; cast rounded housing with light coating wear.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/fuel-pump.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 11
+    },
+    {
+      "id": "utility-cabinet",
+      "title": "Utility Cabinet",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        1.7000000476837158,
+        2.369999885559082,
+        1.2780000567436218
+      ],
+      "triangles": 9332,
+      "detail": "Rain-shedding roof channel, compression fittings and recessed isolator surround. Smooth steel doors replace painted-on corrugation.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/utility-cabinet.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 12
+    },
+    {
+      "id": "telecom-cabinet",
+      "title": "Telecom Cabinet",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        1.7639164924621582,
+        4.100797653198242,
+        1.2780000567436218
+      ],
+      "triangles": 9872,
+      "detail": "Rain-shedding roof channel, compression fittings and external earth conductor and radio identity plate. Smooth steel doors replace painted-on corrugation.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/telecom-cabinet.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 13
+    },
+    {
+      "id": "condenser",
+      "title": "Condenser",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        3.103364586830139,
+        1.5100001096725464,
+        1.4596999883651733
+      ],
+      "triangles": 8312,
+      "detail": "Supported fan grille spokes, separate contactor box and connected conduit; fine fin contrast and flat enclosure coating.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/condenser.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 14
+    },
+    {
+      "id": "satellite-dish",
+      "title": "Satellite Dish",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.753999948501587,
+        3.5769999027252197,
+        2.190000057220459
+      ],
+      "triangles": 4852,
+      "detail": "Azimuth gear housing, elevation linkage and pivot pins give the reflector an understandable mount; smooth reflector coating.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/satellite-dish.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 15
+    },
+    {
+      "id": "light-tower",
+      "title": "Light Tower",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.9800000190734863,
+        6.434000015258789,
+        1.899999976158142
+      ],
+      "triangles": 19804,
+      "detail": "Visible hand winch, continuous lift cable and individual lamp yokes; quieter lens material and scoured mast sections.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/light-tower.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 16
+    },
+    {
+      "id": "diesel-generator",
+      "title": "Diesel Generator",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.059999942779541,
+        2.4262125492095947,
+        3.0
+      ],
+      "triangles": 8184,
+      "detail": "Forged lifting eyes and recessed breaker/output assembly; satin enamel, oily steel skid and properly recessed readable panel.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/diesel-generator.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 17
+    },
+    {
+      "id": "air-compressor",
+      "title": "Air Compressor",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        1.7932742238044739,
+        2.140850782394409,
+        2.9000000953674316
+      ],
+      "triangles": 9564,
+      "detail": "Pressure-switch housing and capillary sensing line, motor cooling details and receiver identity; brushed motor and painted tank separation.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/air-compressor.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 18
+    },
+    {
+      "id": "fire-hydrant",
+      "title": "Fire Hydrant",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        0.9099999666213989,
+        1.2400000095367432,
+        0.9099999666213989
+      ],
+      "triangles": 3328,
+      "detail": "Six-stud bonnet flange with a gasket and front service outlet; controlled cast-iron oxidation and machined cap edges.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/fire-hydrant.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 19
+    },
+    {
+      "id": "bulk-fuel-tank",
+      "title": "Bulk Fuel Tank",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        3.8450000286102295,
+        3.9551148414611816,
+        6.599999904632568
+      ],
+      "triangles": 8384,
+      "detail": "Supported maintenance walkway, pressure breather and vessel ID; believable large smooth tank skin with fine roughness variation.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/bulk-fuel-tank.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 20
+    },
+    {
+      "id": "cargo-pallet",
+      "title": "Cargo Pallet",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        1.65500009059906,
+        1.4249999523162842,
+        1.4500001072883606
+      ],
+      "triangles": 6264,
+      "detail": "Tensioned band ratchets, handling plaques and timber fork bearing blocks; restrained wood grain and separate metal shipping cases.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/cargo-pallet.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 21
+    },
+    {
+      "id": "cable-spool",
+      "title": "Cable Spool",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        2.8079726099967957,
+        1.3323333263397217,
+        1.8300000429153442
+      ],
+      "triangles": 8012,
+      "detail": "Full-depth flange tie rods and a supported cable-end connector with strain relief; fine wood and rubber surface detail.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/cable-spool.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 22
+    },
+    {
+      "id": "road-barrier",
+      "title": "Road Barrier",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        0.8600000143051147,
+        1.0730000734329224,
+        3.2320001125335693
+      ],
+      "triangles": 2324,
+      "detail": "Chamfered concrete arrises, coupling load spreaders and backed reflectors on both faces; granular mineral finish.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/road-barrier.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 23
+    },
+    {
+      "id": "signal-gantry",
+      "title": "Signal Gantry",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        9.0,
+        6.565000057220459,
+        1.6200000047683716
+      ],
+      "triangles": 6448,
+      "detail": "Bracket-mounted sign lights, continuous electrical conduit and junction housing; original wayfinding graphics preserved.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/signal-gantry.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 24
+    },
+    {
+      "id": "bus-shelter",
+      "title": "Bus Shelter",
+      "group": "Desert refinements",
+      "status": "refined",
+      "dimensions": [
+        4.931903600692749,
+        2.979999303817749,
+        2.0
+      ],
+      "triangles": 5704,
+      "detail": "Bench armrests, connected roof gutter and downpipe, readable route plaque; weathered slats and satin roof enamel.",
+      "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+      "image": "assets/art100/legacy/renders/bus-shelter.png",
+      "source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "original_status": "refined",
+      "number": 25
+    },
+    {
+      "id": "wasteland-diner",
+      "title": "Diner",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        12.4866,
+        6.13,
+        8.4084
+      ],
+      "triangles": 11842,
+      "detail": "Radiused seams; deep window sills; bolted sign inset; service vent; grounded entry steps",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/01-wasteland-diner.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 26
+    },
+    {
+      "id": "wasteland-greenhouse",
+      "title": "Greenhouse",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        14.8852,
+        5.9632,
+        10.3131
+      ],
+      "triangles": 18701,
+      "detail": "Bolted frame shoes; header tank and connected irrigation pipe; threshold paving; softened frame edges",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/02-wasteland-greenhouse.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 27
+    },
+    {
+      "id": "wasteland-observatory",
+      "title": "Observatory",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        16.2004,
+        8.7,
+        14.2433
+      ],
+      "triangles": 12781,
+      "detail": "Receiver electronics; attached cable; service door; roof seam caps; practical stair handrails",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/03-wasteland-observatory.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 28
+    },
+    {
+      "id": "wasteland-passenger-coach",
+      "title": "Passenger Coach",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        13.4391,
+        4.0696,
+        6.2475
+      ],
+      "triangles": 20252,
+      "detail": "Wheel rim flanges; visible coil packs; destination panel; boarding steps; rounded ribs",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/04-wasteland-passenger-coach.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 29
+    },
+    {
+      "id": "wasteland-service-station",
+      "title": "Service Station",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        13.9571,
+        6.2084,
+        10.3383
+      ],
+      "triangles": 8505,
+      "detail": "Fuel hose sweeps; pump access covers; grounded kiosk; ventilated service cabinet; radiused roof and frame",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/05-wasteland-service-station.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 30
+    },
+    {
+      "id": "wasteland-cooling-tower",
+      "title": "Cooling Tower",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        18.2623,
+        11.465,
+        19.1271
+      ],
+      "triangles": 11526,
+      "detail": "Basin flange joints; pump control pier; fixed conduit; shell edge radii and weighted concrete normals",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/06-wasteland-cooling-tower.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 31
+    },
+    {
+      "id": "wasteland-excavator",
+      "title": "Excavator",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        10.2587,
+        3.629,
+        4.0
+      ],
+      "triangles": 11134,
+      "detail": "Catwalk and handrails; headlamp bezels; radiator louvers; connected boom hose; track bevels",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/07-wasteland-excavator.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 32
+    },
+    {
+      "id": "wasteland-solar-farm",
+      "title": "Solar Farm",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        14.4925,
+        1.8357,
+        11.7067
+      ],
+      "triangles": 17416,
+      "detail": "Array actuator boxes; connected shaft housings; pump control panel; ground cable and refined cell edges",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/08-wasteland-solar-farm.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 33
+    },
+    {
+      "id": "wasteland-tunnel",
+      "title": "Tunnel",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        14.4239,
+        8.25,
+        11.1161
+      ],
+      "triangles": 7162,
+      "detail": "Continuous handrail caps; attached inspection lamps; clearance plates; rounded fractured concrete",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/09-wasteland-tunnel.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 34
+    },
+    {
+      "id": "wasteland-wind-turbine",
+      "title": "Wind Turbine",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        16.3691,
+        5.7731,
+        12.5076
+      ],
+      "triangles": 8805,
+      "detail": "Machined mast flange with anchor bolts; inspection panel; nacelle cooling louvers; grounded power cable",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/10-wasteland-wind-turbine.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "refined",
+      "number": 35
+    },
+    {
+      "id": "wasteland-cistern",
+      "title": "Cistern",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        4.54,
+        3.88,
+        4.0
+      ],
+      "triangles": 8708,
+      "detail": "Open rolled rim, continuous welded bands, anchored ladder, outflow and level scale",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/11-wasteland-cistern.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 36
+    },
+    {
+      "id": "wasteland-rail-switch",
+      "title": "Rail Switch",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        7.1,
+        1.8677,
+        3.7
+      ],
+      "triangles": 1960,
+      "detail": "Rail profiles, turnout blade, sleepers, tie plates and connected manual switch",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/12-wasteland-rail-switch.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 37
+    },
+    {
+      "id": "wasteland-container-shelter",
+      "title": "Container Shelter",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        6.2,
+        2.96,
+        3.8575
+      ],
+      "triangles": 2948,
+      "detail": "Open side portal, structural corner posts, corrugation, interior bunk, cabinet and threshold",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/13-wasteland-container-shelter.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 38
+    },
+    {
+      "id": "wasteland-survey-rover",
+      "title": "Survey Rover",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        3.875,
+        3.15,
+        2.37
+      ],
+      "triangles": 10720,
+      "detail": "Six bolted wheels, elevated science gantry, suspended coring head, open cabin and beacon mast",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/14-wasteland-survey-rover.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 39
+    },
+    {
+      "id": "wasteland-signal-gantry",
+      "title": "Signal Gantry",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        9.0,
+        7.2672,
+        1.3
+      ],
+      "triangles": 5432,
+      "detail": "Peaked arch truss, braced piers, three pendant dual signals and inspection ladder",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/15-wasteland-signal-gantry.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 40
+    },
+    {
+      "id": "wasteland-buried-transformer",
+      "title": "Buried Transformer",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        3.9,
+        2.75,
+        3.1
+      ],
+      "triangles": 5824,
+      "detail": "Dense separate cooling fins, ribbed insulators, oil gauge, gasketed access cover",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/16-wasteland-buried-transformer.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 41
+    },
+    {
+      "id": "wasteland-pipeline-valve",
+      "title": "Pipeline Valve",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        4.6,
+        2.8175,
+        1.64
+      ],
+      "triangles": 6428,
+      "detail": "Open pipe bore, bolted flange rings, valve bonnet, handwheel spokes and grounded saddles",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/17-wasteland-pipeline-valve.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 42
+    },
+    {
+      "id": "wasteland-scrap-press",
+      "title": "Scrap Press",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        4.25,
+        4.0,
+        2.8
+      ],
+      "triangles": 2712,
+      "detail": "Open press throat, hydraulic ram, chromed guide rods, attached reservoir and compacted scrap",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/18-wasteland-scrap-press.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 43
+    },
+    {
+      "id": "wasteland-sensor-mast",
+      "title": "Sensor Mast",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        3.75,
+        5.27,
+        3.15
+      ],
+      "triangles": 3020,
+      "detail": "Three tension anchors, paired antenna, sealed optic hood, wired field controller",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/19-wasteland-sensor-mast.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 44
+    },
+    {
+      "id": "wasteland-cable-drum",
+      "title": "Cable Drum",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        4.0906,
+        3.2,
+        2.9306
+      ],
+      "triangles": 15728,
+      "detail": "Shop lifting frame, suspended chain loop, reinforced reel plates, cable layering and chocks",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/20-wasteland-cable-drum.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 45
+    },
+    {
+      "id": "wasteland-crawler-wreck",
+      "title": "Crawler Wreck",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        5.0198,
+        2.725,
+        3.02
+      ],
+      "triangles": 18856,
+      "detail": "Twin exposed tracked undercarriages, radiator body, broken supported tray and optical command head",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/21-wasteland-crawler-wreck.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 46
+    },
+    {
+      "id": "wasteland-water-condenser",
+      "title": "Water Condenser",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        3.6,
+        3.0419,
+        2.45
+      ],
+      "triangles": 8148,
+      "detail": "Twin guarded fan rings, condenser tubes, three receiver vessels and connected drain",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/22-wasteland-water-condenser.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 47
+    },
+    {
+      "id": "wasteland-freight-bogie",
+      "title": "Freight Bogie",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        4.62,
+        2.18,
+        2.56
+      ],
+      "triangles": 19788,
+      "detail": "Six locomotive wheels, exposed connecting rods, traction casing, spring packs and kingpin socket",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/23-wasteland-freight-bogie.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 48
+    },
+    {
+      "id": "wasteland-checkpoint-gate",
+      "title": "Checkpoint Gate",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        7.435,
+        2.8,
+        1.4
+      ],
+      "triangles": 2540,
+      "detail": "Arm pivot, visible counterweight, striped enamel, mechanical rest and warning sign",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/24-wasteland-checkpoint-gate.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 49
+    },
+    {
+      "id": "wasteland-relay-vault",
+      "title": "Relay Vault",
+      "group": "Wasteland landmarks",
+      "status": "refined",
+      "dimensions": [
+        4.9,
+        3.22,
+        5.35
+      ],
+      "triangles": 2268,
+      "detail": "Recessed sealed hatch, rotary lock, concrete lintel, grounded threshold and roof breather",
+      "runtime": "Seeded desert scenery; themed districts and foreground shuffle. Travel and docking corridors stay clear.",
+      "image": "assets/art100/wasteland/renders/25-wasteland-relay-vault.png",
+      "source": "assets/art100/wasteland/art100-wasteland.blend",
+      "original_status": "new",
+      "number": 50
+    },
+    {
+      "id": "nomad-tool-drawers",
+      "title": "Rivetline tool drawers",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.2149999737739563,
+        1.0729999542236328,
+        0.7689999938011169
+      ],
+      "triangles": 5209,
+      "detail": "A fitted machinist chest with seven enamel drawers and replaceable corner guards. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 18 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-tool-drawers.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 51
+    },
+    {
+      "id": "nomad-service-cart",
+      "title": "Portside service cart",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.9550000429153442,
+        1.1540000587701797,
+        0.7100000083446503
+      ],
+      "triangles": 5939,
+      "detail": "A two-shelf rolling cart with captive spares and a wrapped pushbar. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 16 scrap.",
+      "image": "assets/art100/machine/nomad-service-cart.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 52
+    },
+    {
+      "id": "nomad-field-chair",
+      "title": "Wayfarer field chair",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.8250000476837158,
+        1.1399999856948853,
+        0.7282999753952026
+      ],
+      "triangles": 2558,
+      "detail": "A weathered canvas armchair on a welded steel frame. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 12 scrap.",
+      "image": "assets/art100/machine/nomad-field-chair.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 53
+    },
+    {
+      "id": "nomad-sleeping-berth",
+      "title": "Surveyor sleeping berth",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.9599999785423279,
+        0.7549999952316284,
+        1.9685000777244568
+      ],
+      "triangles": 2524,
+      "detail": "A compact bunk with a quilted mattress, field pillow and strapped blanket. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 22 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-sleeping-berth.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 54
+    },
+    {
+      "id": "nomad-radio-cabinet",
+      "title": "Longwave radio cabinet",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.6850000023841858,
+        1.0369999408721924,
+        0.5275000184774399
+      ],
+      "triangles": 4609,
+      "detail": "A salvaged analog radio and twin speaker cabinet with an unlit tuning dial. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 14 scrap, 2 components.",
+      "image": "assets/art100/machine/nomad-radio-cabinet.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 55
+    },
+    {
+      "id": "nomad-repair-trestle",
+      "title": "Rivetline repair trestle",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.340000033378601,
+        1.2799999713897705,
+        0.8339999914169312
+      ],
+      "triangles": 2870,
+      "detail": "A compact workshop trestle with a forged vise and replaceable work mat. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 20 scrap, 2 components.",
+      "image": "assets/art100/machine/nomad-repair-trestle.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 56
+    },
+    {
+      "id": "nomad-parts-organizer",
+      "title": "Fastener library",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.0049999356269836,
+        1.5749999284744263,
+        0.4350000023841858
+      ],
+      "triangles": 4550,
+      "detail": "A freestanding library of labelled parts bins and capped hardware samples. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 14 scrap.",
+      "image": "assets/art100/machine/nomad-parts-organizer.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 57
+    },
+    {
+      "id": "nomad-charging-cabinet",
+      "title": "Standby charging cabinet",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.0299999713897705,
+        1.7699999809265137,
+        0.6354999840259552
+      ],
+      "triangles": 3293,
+      "detail": "A sealed display cabinet with parked connectors and inactive cell bays. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 20 scrap, 3 components.",
+      "image": "assets/art100/machine/nomad-charging-cabinet.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 58
+    },
+    {
+      "id": "nomad-expedition-trunk",
+      "title": "Expedition flight trunk",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.1799999475479126,
+        0.7299999594688416,
+        0.8389999568462372
+      ],
+      "triangles": 2097,
+      "detail": "A reinforced travel case with recessed grips, stack ribs and transport latches. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 14 scrap.",
+      "image": "assets/art100/machine/nomad-expedition-trunk.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 59
+    },
+    {
+      "id": "nomad-archive-vitrine",
+      "title": "Archive specimen vitrine",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.7900000214576721,
+        1.505000114440918,
+        0.6899999976158142
+      ],
+      "triangles": 7927,
+      "detail": "A guarded display of sealed sample tubes on a museum-style pedestal. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 18 scrap, 2 components.",
+      "image": "assets/art100/machine/nomad-archive-vitrine.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 60
+    },
+    {
+      "id": "nomad-chart-desk",
+      "title": "Forward chart desk",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.3200000524520874,
+        1.1410000324249268,
+        0.8519999980926514
+      ],
+      "triangles": 4493,
+      "detail": "A field navigation desk with a printed route, compass and curled paper chart. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 18 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-chart-desk.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 61
+    },
+    {
+      "id": "nomad-survey-floodlight",
+      "title": "Survey tripod floodlight",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.946743369102478,
+        2.0199999809265137,
+        0.8400000333786011
+      ],
+      "triangles": 2556,
+      "detail": "A portable survey lamp with a folding tripod and parked cable. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 15 scrap, 2 components.",
+      "image": "assets/art100/machine/nomad-survey-floodlight.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 62
+    },
+    {
+      "id": "nomad-machinist-lamp",
+      "title": "Machinist task lamp",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.41999998688697815,
+        1.5809999704360962,
+        0.6210000067949295
+      ],
+      "triangles": 1724,
+      "detail": "An articulated lamp on a narrow weighted stand, with its original enamel shade. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 10 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-machinist-lamp.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 63
+    },
+    {
+      "id": "nomad-coat-rack",
+      "title": "Survey coat rack",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.875,
+        1.8313885927200317,
+        0.5899999737739563
+      ],
+      "triangles": 1644,
+      "detail": "A freestanding coat rail with a patched canvas work jacket and sling satchel. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 12 scrap.",
+      "image": "assets/art100/machine/nomad-coat-rack.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 64
+    },
+    {
+      "id": "nomad-cable-reel",
+      "title": "Retrieval cable drum",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.9700000286102295,
+        0.8799999952316284,
+        0.8299999833106995
+      ],
+      "triangles": 9468,
+      "detail": "A braked cable drum on a solid stand with a capped connector. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 14 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-cable-reel.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 65
+    },
+    {
+      "id": "nomad-boots-locker",
+      "title": "Crew gear locker",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.6349999904632568,
+        1.850000023841858,
+        0.6114999949932098
+      ],
+      "triangles": 2803,
+      "detail": "A narrow personal locker with a vented door, boot cubby and stamped crew number. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 16 scrap.",
+      "image": "assets/art100/machine/nomad-boots-locker.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 66
+    },
+    {
+      "id": "nomad-galley-sideboard",
+      "title": "Copperline galley sideboard",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.125,
+        1.309999942779541,
+        0.6805000007152557
+      ],
+      "triangles": 4838,
+      "detail": "A home corner with a sealed cupboard, mugs and a vintage thermos. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 17 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-galley-sideboard.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 67
+    },
+    {
+      "id": "nomad-ceramic-basin",
+      "title": "Field ceramic washstand",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.6800000071525574,
+        1.2782548666000366,
+        0.5899999737739563
+      ],
+      "triangles": 2852,
+      "detail": "A dry portable washstand with a ceramic bowl and stoppered tap. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 14 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-ceramic-basin.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 68
+    },
+    {
+      "id": "nomad-navigation-stool",
+      "title": "Navigator swivel stool",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.5875000059604645,
+        0.7804999705404043,
+        0.5600000023841858
+      ],
+      "triangles": 2464,
+      "detail": "A compact three-leg stool with a stitched cushion and circular footrest. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 8 scrap.",
+      "image": "assets/art100/machine/nomad-navigation-stool.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 69
+    },
+    {
+      "id": "nomad-patchwork-bench",
+      "title": "Patchwork deck bench",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.5499999523162842,
+        0.9950000047683716,
+        0.6400000154972076
+      ],
+      "triangles": 2379,
+      "detail": "A bolted two-place bench with repaired canvas seat pads and a low back. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 18 scrap.",
+      "image": "assets/art100/machine/nomad-patchwork-bench.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 70
+    },
+    {
+      "id": "nomad-spare-track-stand",
+      "title": "Drive shoe service stand",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.059999942779541,
+        1.093999981880188,
+        0.7699999511241913
+      ],
+      "triangles": 3810,
+      "detail": "A displayed articulated drive shoe held in a bolted workshop cradle. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 20 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-spare-track-stand.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 71
+    },
+    {
+      "id": "nomad-air-filter-tower",
+      "title": "Cyclone filter column",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.8299999833106995,
+        1.7102999687194824,
+        0.7200000584125519
+      ],
+      "triangles": 5539,
+      "detail": "A retired cyclone housing with removable filter ribs and a pressure gauge. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 20 scrap, 2 components.",
+      "image": "assets/art100/machine/nomad-air-filter-tower.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 72
+    },
+    {
+      "id": "nomad-canister-caddy",
+      "title": "Twin canister caddy",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.6950000524520874,
+        1.496000051498413,
+        0.6700000166893005
+      ],
+      "triangles": 6400,
+      "detail": "Two capped service cylinders chained to a wheeled transport frame. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 17 scrap, 1 components.",
+      "image": "assets/art100/machine/nomad-canister-caddy.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 73
+    },
+    {
+      "id": "nomad-signal-pennant",
+      "title": "Forward signal pennant",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        0.9724494218826294,
+        2.0999999046325684,
+        0.5299999713897705
+      ],
+      "triangles": 3156,
+      "detail": "A stitched expedition pennant on a weighted deck mast. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 10 scrap.",
+      "image": "assets/art100/machine/nomad-signal-pennant.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 74
+    },
+    {
+      "id": "nomad-memory-board",
+      "title": "Carried memories board",
+      "group": "Machine furnishings",
+      "status": "refined",
+      "dimensions": [
+        1.149999976158142,
+        1.7974998950958252,
+        0.5799999833106995
+      ],
+      "triangles": 3109,
+      "detail": "A freestanding board of postcards, route scraps and personal field notes. Cosmetic; provides no storage, power, healing or resource production.",
+      "runtime": "Build \u2192 Decorations. Existing placement, movement, cutter, undo and save paths. 13 scrap.",
+      "image": "assets/art100/machine/nomad-memory-board.png",
+      "source": "assets/art100/machine/NomadFurnishings.blend",
+      "original_status": "new",
+      "number": 75
+    },
+    {
+      "id": "BerthReferenceDesk",
+      "mesh_root": "BerthReferenceDesk",
+      "title": "Meridian maintenance reference desk",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.99,
+        1.435,
+        0.66
+      ],
+      "triangles": 10390,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/BerthReferenceDesk.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 76
+    },
+    {
+      "id": "BerthReceivingCoupler",
+      "mesh_root": "BerthReceivingCoupler",
+      "title": "Receiving coupler and service breaker",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.85,
+        1.342,
+        0.675
+      ],
+      "triangles": 19367,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/BerthReceivingCoupler.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 77
+    },
+    {
+      "id": "BerthSeedEnclosure",
+      "mesh_root": "BerthSeedEnclosure",
+      "title": "Climate controlled seed enclosure",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        1.05,
+        1.6,
+        0.759
+      ],
+      "triangles": 15547,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/BerthSeedEnclosure.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 78
+    },
+    {
+      "id": "BerthArchiveReceiver",
+      "mesh_root": "BerthArchiveReceiver",
+      "title": "Meridian archive receiving cradle",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.95,
+        1.21332,
+        0.679
+      ],
+      "triangles": 10031,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/BerthArchiveReceiver.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 79
+    },
+    {
+      "id": "BerthAccessTransmitter",
+      "mesh_root": "BerthAccessTransmitter",
+      "title": "Access policy transmitter console",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.9,
+        1.85,
+        0.694
+      ],
+      "triangles": 24228,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/BerthAccessTransmitter.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 80
+    },
+    {
+      "id": "SeedPropagationBench",
+      "mesh_root": "SeedPropagationBench",
+      "title": "Six cup propagation bench",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        2.5,
+        1.29,
+        0.621
+      ],
+      "triangles": 20855,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/SeedPropagationBench.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 81
+    },
+    {
+      "id": "PreservationReservoir",
+      "mesh_root": "PreservationReservoir",
+      "title": "Preservation fluid reservoir",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.5088,
+        1.5425,
+        0.6144
+      ],
+      "triangles": 11459,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/PreservationReservoir.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 82
+    },
+    {
+      "id": "OpenChannelMast",
+      "mesh_root": "OpenChannelMast",
+      "title": "Public invitation dipole mast",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.552,
+        4.2,
+        0.45
+      ],
+      "triangles": 8080,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/OpenChannelMast.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 83
+    },
+    {
+      "id": "RelayChallengeMast",
+      "mesh_root": "RelayChallengeMast",
+      "title": "Narrowcast challenge response array",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.6,
+        3.68,
+        0.44
+      ],
+      "triangles": 9265,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/RelayChallengeMast.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 84
+    },
+    {
+      "id": "IsolatorCabinet",
+      "mesh_root": "IsolatorCabinet",
+      "title": "Orchard archive circuit isolator",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.8,
+        1.55,
+        0.625
+      ],
+      "triangles": 15174,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/IsolatorCabinet.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 85
+    },
+    {
+      "id": "ArchiveTransitCore",
+      "mesh_root": "ArchiveTransitCore",
+      "title": "Sealed archive transport core",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.688,
+        0.582,
+        0.487
+      ],
+      "triangles": 6068,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/ArchiveTransitCore.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 86
+    },
+    {
+      "id": "MemoryReader",
+      "mesh_root": "MemoryReader",
+      "title": "Archive memory inspection desk",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.76,
+        1.305,
+        0.49
+      ],
+      "triangles": 8324,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/MemoryReader.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 87
+    },
+    {
+      "id": "SeedVault",
+      "mesh_root": "SeedVault",
+      "title": "Hermetic seed cassette vault",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.76,
+        1.18,
+        0.732
+      ],
+      "triangles": 12118,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/SeedVault.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 88
+    },
+    {
+      "id": "EmergencyFuelPump",
+      "mesh_root": "EmergencyFuelPump",
+      "title": "Foundry emergency fuel service pump",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.87491,
+        1.5,
+        0.66365
+      ],
+      "triangles": 15902,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/EmergencyFuelPump.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 89
+    },
+    {
+      "id": "CourierChargeCradle",
+      "mesh_root": "CourierChargeCradle",
+      "title": "Courier autonomous charging cradle",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        1.03,
+        0.805,
+        0.843
+      ],
+      "triangles": 6845,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/CourierChargeCradle.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 90
+    },
+    {
+      "id": "RecoveryToolCart",
+      "mesh_root": "RecoveryToolCart",
+      "title": "Mobile recovery technician cart",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.71,
+        1.19018,
+        0.67
+      ],
+      "triangles": 7484,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/RecoveryToolCart.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 91
+    },
+    {
+      "id": "NavGyroCradle",
+      "mesh_root": "NavGyroCradle",
+      "title": "Navigation gyroscope service cradle",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.79,
+        0.98,
+        0.657
+      ],
+      "triangles": 9051,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/NavGyroCradle.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 92
+    },
+    {
+      "id": "FoundryPowerBus",
+      "mesh_root": "FoundryPowerBus",
+      "title": "Foundry three circuit recovery bus",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        1.2,
+        1.35,
+        0.679
+      ],
+      "triangles": 20729,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/FoundryPowerBus.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 93
+    },
+    {
+      "id": "ArrayPhaseRack",
+      "mesh_root": "ArrayPhaseRack",
+      "title": "Quiet Array phase analysis rack",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.91,
+        1.61,
+        0.611
+      ],
+      "triangles": 26534,
+      "detail": "Purpose-built story equipment with manufactured edges, readable panels and connected service hardware.",
+      "runtime": "Playable Meridian receiving berth; selected equipment also appears at earlier expedition sites.",
+      "image": "assets/art100/story-robots/review/ArrayPhaseRack.png",
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "original_status": "new",
+      "number": 94
+    },
+    {
+      "id": "enemy-warden",
+      "mesh_root": "WardenRangefinder",
+      "title": "Warden rangefinder cuirass",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.8597259521484375,
+        1.723087303340435,
+        1.6629180908203125
+      ],
+      "triangles": 131233,
+      "detail": "Existing complete character refined with fitted torso equipment, controlled surface finish and preserved rig/animations. This is an art refinement; no new enemy AI.",
+      "runtime": "Existing warden combat appearances. Idle, walk and attack fits reviewed.",
+      "image": "assets/art100/story-robots/review/blender-complete-warden-front.png",
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "before": "assets/art100/story-robots/review/native-warden-before.png",
+      "rear": "assets/art100/story-robots/review/blender-complete-warden-rear.png",
+      "authored_attachment_triangles": 8272,
+      "original_status": "refined",
+      "number": 95
+    },
+    {
+      "id": "enemy-revenant",
+      "mesh_root": "RevenantPulseRack",
+      "title": "Revenant pulse spine",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        1.6194953918457031,
+        1.8122736224904656,
+        1.177703857421875
+      ],
+      "triangles": 125053,
+      "detail": "Existing complete character refined with fitted torso equipment, controlled surface finish and preserved rig/animations. This is an art refinement; no new enemy AI.",
+      "runtime": "Existing revenant combat appearances. Idle, walk and attack fits reviewed.",
+      "image": "assets/art100/story-robots/review/blender-complete-revenant-front.png",
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "before": "assets/art100/story-robots/review/native-revenant-before.png",
+      "rear": "assets/art100/story-robots/review/blender-complete-revenant-rear.png",
+      "authored_attachment_triangles": 8577,
+      "original_status": "refined",
+      "number": 96
+    },
+    {
+      "id": "enemy-bastion",
+      "mesh_root": "BastionSiegeRadiator",
+      "title": "Bastion siege cooling assembly",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        1.3093986511230469,
+        1.482363224029541,
+        1.3926925659179688
+      ],
+      "triangles": 111749,
+      "detail": "Existing complete character refined with fitted torso equipment, controlled surface finish and preserved rig/animations. This is an art refinement; no new enemy AI.",
+      "runtime": "Existing bastion combat appearances. Idle, walk and attack fits reviewed.",
+      "image": "assets/art100/story-robots/review/blender-complete-bastion-front.png",
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "before": "assets/art100/story-robots/review/native-bastion-before.png",
+      "rear": "assets/art100/story-robots/review/blender-complete-bastion-rear.png",
+      "authored_attachment_triangles": 10741,
+      "original_status": "refined",
+      "number": 97
+    },
+    {
+      "id": "enemy-sovereign",
+      "mesh_root": "SovereignComms",
+      "title": "Sovereign command uplink",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        1.0556907653808594,
+        1.8198007345199585,
+        0.8434906005859375
+      ],
+      "triangles": 179048,
+      "detail": "Existing complete character refined with fitted torso equipment, controlled surface finish and preserved rig/animations. This is an art refinement; no new enemy AI.",
+      "runtime": "Existing sovereign combat appearances. Idle, walk and attack fits reviewed.",
+      "image": "assets/art100/story-robots/review/blender-complete-sovereign-front.png",
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "before": "assets/art100/story-robots/review/native-sovereign-before.png",
+      "rear": "assets/art100/story-robots/review/blender-complete-sovereign-rear.png",
+      "authored_attachment_triangles": 7299,
+      "original_status": "refined",
+      "number": 98
+    },
+    {
+      "id": "enemy-raider",
+      "mesh_root": "RaiderRecoveryPack",
+      "title": "Raider recovery harness",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.9314193725585938,
+        1.920763373374939,
+        0.6671600341796875
+      ],
+      "triangles": 95744,
+      "detail": "Existing complete character refined with fitted torso equipment, controlled surface finish and preserved rig/animations. This is an art refinement; no new enemy AI.",
+      "runtime": "Existing raider combat appearances. Idle, walk and attack fits reviewed.",
+      "image": "assets/art100/story-robots/review/blender-complete-raider-front.png",
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "before": "assets/art100/story-robots/review/native-raider-before.png",
+      "rear": "assets/art100/story-robots/review/blender-complete-raider-rear.png",
+      "authored_attachment_triangles": 7199,
+      "original_status": "refined",
+      "number": 99
+    },
+    {
+      "id": "enemy-scavenger",
+      "mesh_root": "ScavengerSurveyPack",
+      "title": "Scavenger survey equipment",
+      "group": "Story and robots",
+      "status": "refined",
+      "dimensions": [
+        0.940582275390625,
+        1.921417236328125,
+        0.6282730102539062
+      ],
+      "triangles": 56008,
+      "detail": "Existing complete character refined with fitted torso equipment, controlled surface finish and preserved rig/animations. This is an art refinement; no new enemy AI.",
+      "runtime": "Existing scavenger combat appearances. Idle, walk and attack fits reviewed.",
+      "image": "assets/art100/story-robots/review/blender-complete-scavenger-front.png",
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "before": "assets/art100/story-robots/review/native-scavenger-before.png",
+      "rear": "assets/art100/story-robots/review/blender-complete-scavenger-rear.png",
+      "authored_attachment_triangles": 7601,
+      "original_status": "refined",
+      "number": 100
+    },
+    {
+      "id": "art200-billboard-morrow-motors",
+      "title": "MORROW / MOTOR WORKS",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        12.649999618530273,
+        18.065000534057617,
+        3.0850000381469727
+      ],
+      "triangles": 14380,
+      "detail": "Original MORROW graphics; twin truss structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/01-art200-billboard-morrow-motors.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "petrol",
+      "number": 101
+    },
+    {
+      "id": "art200-billboard-last-light-lodging",
+      "title": "LAST LIGHT / MOTOR LODGE",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        6.650000095367432,
+        23.299999237060547,
+        3.0850000381469727
+      ],
+      "triangles": 11616,
+      "detail": "Original LAST LIGHT graphics; stepped pylon structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/02-art200-billboard-last-light-lodging.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "oxblood",
+      "number": 102
+    },
+    {
+      "id": "art200-billboard-brindle-bottling",
+      "title": "BRINDLE / BOTTLING COMPANY",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        10.789494514465332,
+        17.894746780395508,
+        4.684999942779541
+      ],
+      "triangles": 8520,
+      "detail": "Original BRINDLE graphics; round crown structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/03-art200-billboard-brindle-bottling.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "denim",
+      "number": 103
+    },
+    {
+      "id": "art200-billboard-grainward-coop",
+      "title": "GRAINWARD / SEED COOPERATIVE",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        13.649999618530273,
+        18.987873077392578,
+        3.0850000381469727
+      ],
+      "triangles": 15300,
+      "detail": "Original GRAINWARD graphics; arched grain structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/04-art200-billboard-grainward-coop.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "olive",
+      "number": 104
+    },
+    {
+      "id": "art200-billboard-copperline-cookers",
+      "title": "COPPERLINE / HOME COOKERS",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        10.147793769836426,
+        17.71500015258789,
+        4.684999942779541
+      ],
+      "triangles": 7556,
+      "detail": "Original COPPERLINE graphics; shield tripod structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/05-art200-billboard-copperline-cookers.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "clay",
+      "number": 105
+    },
+    {
+      "id": "art200-billboard-seven-mile-laundry",
+      "title": "SEVEN MILE / WASH / DRY / FOLD",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        8.199999809265137,
+        19.600000381469727,
+        4.585000038146973
+      ],
+      "triangles": 12496,
+      "detail": "Original SEVEN MILE graphics; stacked discs structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/06-art200-billboard-seven-mile-laundry.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "celadon",
+      "number": 106
+    },
+    {
+      "id": "art200-billboard-merit-radio",
+      "title": "MERIT / LONG-RANGE RADIO",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        6.650000095367432,
+        26.799999237060547,
+        3.0850000381469727
+      ],
+      "triangles": 12008,
+      "detail": "Original MERIT graphics; radio lattice structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/07-art200-billboard-merit-radio.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "plum",
+      "number": 107
+    },
+    {
+      "id": "art200-billboard-solace-clinic",
+      "title": "SOLACE / TRAVEL CLINIC",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        11.800000190734863,
+        17.270000457763672,
+        3.0850000381469727
+      ],
+      "triangles": 11260,
+      "detail": "Original SOLACE graphics; offset canopy structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/08-art200-billboard-solace-clinic.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "verdigris",
+      "number": 108
+    },
+    {
+      "id": "art200-billboard-open-road-retreads",
+      "title": "OPEN ROAD / RETREAD WORKS",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        13.05370807647705,
+        19.526853561401367,
+        4.684999942779541
+      ],
+      "triangles": 8984,
+      "detail": "Original OPEN ROAD graphics; tyre ring structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/09-art200-billboard-open-road-retreads.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "umber",
+      "number": 109
+    },
+    {
+      "id": "art200-billboard-northstar-bank",
+      "title": "NORTHSTAR / TRAVELLERS BANK",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        7.960000038146973,
+        22.700000762939453,
+        3.0850000381469727
+      ],
+      "triangles": 11688,
+      "detail": "Original NORTHSTAR graphics; deco fin structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/10-art200-billboard-northstar-bank.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "slate",
+      "number": 110
+    },
+    {
+      "id": "art200-billboard-dewpoint-water",
+      "title": "DEWPOINT / WATER SERVICE",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        10.649999618530273,
+        17.065000534057617,
+        5.385000228881836
+      ],
+      "triangles": 16356,
+      "detail": "Original DEWPOINT graphics; tank sign structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/11-art200-billboard-dewpoint-water.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "petrol",
+      "number": 111
+    },
+    {
+      "id": "art200-billboard-paperbird-post",
+      "title": "PAPERBIRD / POST & PARCEL",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        14.448328018188477,
+        20.374916076660156,
+        4.585000038146973
+      ],
+      "triangles": 12768,
+      "detail": "Original PAPERBIRD graphics; swept roof structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/12-art200-billboard-paperbird-post.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "rose",
+      "number": 112
+    },
+    {
+      "id": "art200-billboard-parcel-plain",
+      "title": "PARCEL PLAIN / FREIGHT EXCHANGE",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        12.649999618530273,
+        10.0649995803833,
+        3.4850001335144043
+      ],
+      "triangles": 9132,
+      "detail": "Original PARCEL PLAIN graphics; rail sled structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/13-art200-billboard-parcel-plain.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "ochre",
+      "number": 113
+    },
+    {
+      "id": "art200-billboard-sunbreak-cinema",
+      "title": "SUNBREAK / OPEN-AIR CINEMA",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        16.739999771118164,
+        22.988046646118164,
+        3.0850000381469727
+      ],
+      "triangles": 17024,
+      "detail": "Original SUNBREAK graphics; cinema crown structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/14-art200-billboard-sunbreak-cinema.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "heather",
+      "number": 114
+    },
+    {
+      "id": "art200-billboard-hush-hour-records",
+      "title": "HUSH HOUR / RECORD LIBRARY",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        12.20370864868164,
+        20.10185432434082,
+        4.684999942779541
+      ],
+      "triangles": 8784,
+      "detail": "Original HUSH HOUR graphics; record medallion structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/15-art200-billboard-hush-hour-records.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "oxblood",
+      "number": 115
+    },
+    {
+      "id": "art200-billboard-workday-tools",
+      "title": "WORKDAY / TOOL SUPPLY",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        10.649999618530273,
+        18.14000129699707,
+        3.0850000381469727
+      ],
+      "triangles": 11464,
+      "detail": "Original WORKDAY graphics; cantilever structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/16-art200-billboard-workday-tools.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "denim",
+      "number": 116
+    },
+    {
+      "id": "art200-billboard-pantry-union",
+      "title": "PANTRY UNION / PROVISIONS",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        12.649999618530273,
+        19.938398361206055,
+        4.585000038146973
+      ],
+      "triangles": 12768,
+      "detail": "Original PANTRY UNION graphics; v frame structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/17-art200-billboard-pantry-union.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "celadon",
+      "number": 117
+    },
+    {
+      "id": "art200-billboard-sandglass-tours",
+      "title": "SANDGLASS / OVERLAND TOURS",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        10.863872528076172,
+        20.372386932373047,
+        4.585000038146973
+      ],
+      "triangles": 11308,
+      "detail": "Original SANDGLASS graphics; winged structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/18-art200-billboard-sandglass-tours.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "clay",
+      "number": 118
+    },
+    {
+      "id": "art200-billboard-starlit-fabric",
+      "title": "STARLIT / FABRIC & MENDING",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        7.0,
+        23.299999237060547,
+        3.0850000381469727
+      ],
+      "triangles": 11644,
+      "detail": "Original STARLIT graphics; hanging blade structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/19-art200-billboard-starlit-fabric.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "plum",
+      "number": 119
+    },
+    {
+      "id": "art200-billboard-electrovale-grid",
+      "title": "ELECTROVALE / PUBLIC POWER",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        13.0,
+        20.55500030517578,
+        3.0850000381469727
+      ],
+      "triangles": 15188,
+      "detail": "Original ELECTROVALE graphics; portico structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/20-art200-billboard-electrovale-grid.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "verdigris",
+      "number": 120
+    },
+    {
+      "id": "art200-billboard-cairn-cement",
+      "title": "CAIRN / MASONRY SUPPLY",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        12.649999618530273,
+        17.065000534057617,
+        4.684999942779541
+      ],
+      "triangles": 14868,
+      "detail": "Original CAIRN graphics; inclined girders structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/21-art200-billboard-cairn-cement.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "stone",
+      "number": 121
+    },
+    {
+      "id": "art200-billboard-goodnight-mattress",
+      "title": "GOODNIGHT / BEDDING WORKS",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        10.649999618530273,
+        18.809999465942383,
+        4.585000038146973
+      ],
+      "triangles": 12400,
+      "detail": "Original GOODNIGHT graphics; suspended structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/22-art200-billboard-goodnight-mattress.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "heather",
+      "number": 122
+    },
+    {
+      "id": "art200-billboard-winterfruit-preserves",
+      "title": "WINTERFRUIT / PRESERVING HOUSE",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        11.21799087524414,
+        18.396194458007812,
+        4.684999942779541
+      ],
+      "triangles": 7904,
+      "detail": "Original WINTERFRUIT graphics; hexagon structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/23-art200-billboard-winterfruit-preserves.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "rose",
+      "number": 123
+    },
+    {
+      "id": "art200-billboard-kindred-salvage",
+      "title": "KINDRED / SALVAGE EXCHANGE",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        11.649999618530273,
+        20.14000129699707,
+        3.0850000381469727
+      ],
+      "triangles": 11844,
+      "detail": "Original KINDRED graphics; broken cant structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/24-art200-billboard-kindred-salvage.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "umber",
+      "number": 124
+    },
+    {
+      "id": "art200-billboard-amberline-transit",
+      "title": "AMBERLINE / OVERLAND TRANSIT",
+      "group": "Roadside advertisements",
+      "status": "new",
+      "dimensions": [
+        15.0,
+        20.065000534057617,
+        3.0850000381469727
+      ],
+      "triangles": 16040,
+      "detail": "Original AMBERLINE graphics; portal gantry structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "image": "assets/art200/signs/renders/25-art200-billboard-amberline-transit.png",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "palette": "ochre",
+      "number": 125
+    },
+    {
+      "id": "art200-brasswell-teller-bank",
+      "title": "Brasswell Teller Bank",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        7.625,
+        3.51,
+        4.6
+      ],
+      "triangles": 3264,
+      "detail": "Drive-through bank with recessed teller window, pneumatic transfer island, clerestory and secured night chute",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/01-art200-brasswell-teller-bank.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "denim",
+      "number": 126
+    },
+    {
+      "id": "art200-dustmile-motel-office",
+      "title": "Dustmile Motel Office",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        6.7,
+        3.42841,
+        5.26
+      ],
+      "triangles": 2852,
+      "detail": "Butterfly-roof motel reception, real open clerestory, luggage alcove, counter and late-arrival key cabinet",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/02-art200-dustmile-motel-office.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "rose",
+      "number": 127
+    },
+    {
+      "id": "art200-parcel-post-depot",
+      "title": "Parcel Post Depot",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        7.4,
+        3.85759,
+        6.07
+      ],
+      "triangles": 4800,
+      "detail": "Sawtooth-roof parcel depot, recessed sorting pigeonholes, roller transfer bench and loading platform",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/03-art200-parcel-post-depot.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "petrol",
+      "number": 128
+    },
+    {
+      "id": "art200-thimble-laundrette",
+      "title": "Thimble Laundrette",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        6.6,
+        2.985,
+        4.1
+      ],
+      "triangles": 6788,
+      "detail": "Laundry arcade with three circular drum openings, lint service compartment, folded bench and connected wash manifold",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/04-art200-thimble-laundrette.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "celadon",
+      "number": 129
+    },
+    {
+      "id": "art200-emberside-bakery",
+      "title": "Emberside Bakery",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        6.7,
+        4.105,
+        5.1
+      ],
+      "triangles": 3644,
+      "detail": "Broken bakery kitchen centred on a deep brick oven arch, tapered chimney, flour bins and a supported serving ledge",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/05-art200-emberside-bakery.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "clay",
+      "number": 130
+    },
+    {
+      "id": "art200-drylight-pharmacy",
+      "title": "Drylight Pharmacy",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        5.4,
+        2.89,
+        4.6
+      ],
+      "triangles": 3824,
+      "detail": "Chamfered corner pharmacy kiosk with deep dispensing opening, drawer wall and sheltered prescription counter",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/06-art200-drylight-pharmacy.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "plum",
+      "number": 131
+    },
+    {
+      "id": "art200-cinder-auto-lift",
+      "title": "Cinder Auto Lift",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        7.0,
+        3.67855,
+        5.0
+      ],
+      "triangles": 4172,
+      "detail": "Automotive lift with attached swing arms and carriers, asymmetric workshop roof and complete hydraulic supply cabinet",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/07-art200-cinder-auto-lift.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "oxblood",
+      "number": 132
+    },
+    {
+      "id": "art200-rook-ticket-booth",
+      "title": "Rook Ticket Booth",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        5.1,
+        3.8,
+        4.0
+      ],
+      "triangles": 3060,
+      "detail": "Transit ticket booth with chamfered side walls, ticket slot, segmented canopy and a grounded tripod turnstile",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/08-art200-rook-ticket-booth.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "olive",
+      "number": 133
+    },
+    {
+      "id": "art200-switchback-weighbridge",
+      "title": "Switchback Weighbridge",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        14.27602,
+        2.75912,
+        5.95
+      ],
+      "triangles": 3224,
+      "detail": "Freight weighbridge with tapered approach ramps, stiffened scale deck and a fully supported operator shelter",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/09-art200-switchback-weighbridge.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "slate",
+      "number": 134
+    },
+    {
+      "id": "art200-lastcall-exchange",
+      "title": "Lastcall Exchange",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        4.75,
+        3.4,
+        2.0
+      ],
+      "triangles": 7280,
+      "detail": "Public communications alcoves with raised hoods, physical handsets, restrained cords and protected terminal faces",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/10-art200-lastcall-exchange.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "heather",
+      "number": 135
+    },
+    {
+      "id": "art200-ochre-icehouse",
+      "title": "Ochre Icehouse",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        5.48,
+        2.97,
+        5.145
+      ],
+      "triangles": 3308,
+      "detail": "Cold store with a thick insulated hatch, strap hinges, raised dry sill and integrated compressor alcove",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/11-art200-ochre-icehouse.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "verdigris",
+      "number": 136
+    },
+    {
+      "id": "art200-threadbare-tailor",
+      "title": "Threadbare Tailor",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        5.8,
+        3.3,
+        4.7
+      ],
+      "triangles": 3540,
+      "detail": "Open garment workshop with stepped parapet, treadle sewing machine, fabric cutting table and articulated display form",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/12-art200-threadbare-tailor.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "umber",
+      "number": 137
+    },
+    {
+      "id": "art200-crosswind-compressor-house",
+      "title": "Crosswind Compressor House",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        5.8,
+        3.72973,
+        4.3
+      ],
+      "triangles": 9132,
+      "detail": "Open compressor shelter with broad flywheel, opposed cylinder cooling fins, receiver and motor belt guard",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/13-art200-crosswind-compressor-house.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "ochre",
+      "number": 138
+    },
+    {
+      "id": "art200-sinter-grain-elevator",
+      "title": "Sinter Grain Elevator",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        7.1,
+        6.91,
+        4.7
+      ],
+      "triangles": 11368,
+      "detail": "Paired tapered grain bins with ladder cage, central elevator leg, connected transfer head and gravity loading spout",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/14-art200-sinter-grain-elevator.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "stone",
+      "number": 139
+    },
+    {
+      "id": "art200-borewell-pumpjack",
+      "title": "Borewell Pumpjack",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        7.3,
+        4.64577,
+        3.3
+      ],
+      "triangles": 1896,
+      "detail": "Oil-field walking beam pump with A-frame pivot, curved horsehead, crank counterweights and suspended polished rod",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/15-art200-borewell-pumpjack.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "oxblood",
+      "number": 140
+    },
+    {
+      "id": "art200-lattice-truss-bridge",
+      "title": "Lattice Truss Bridge",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        11.87,
+        2.55,
+        3.1
+      ],
+      "triangles": 2816,
+      "detail": "Short industrial footbridge with triangular side trusses, deck stringers, broken approach abutment and real walkable span",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/16-art200-lattice-truss-bridge.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "petrol",
+      "number": 141
+    },
+    {
+      "id": "art200-reclaimer-trommel",
+      "title": "Reclaimer Trommel",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        6.4,
+        2.83,
+        3.3
+      ],
+      "triangles": 10456,
+      "detail": "Rotating reclamation screen with genuinely open sieve lattice, drive rings, inclined frame and feed hopper",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/17-art200-reclaimer-trommel.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "clay",
+      "number": 142
+    },
+    {
+      "id": "art200-rail-water-crane",
+      "title": "Rail Water Crane",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        4.5,
+        4.35,
+        3.4
+      ],
+      "triangles": 6940,
+      "detail": "Steam-depot water crane with flanged column, supported swing neck, valve spindle and lowered filling hose",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/18-art200-rail-water-crane.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "denim",
+      "number": 143
+    },
+    {
+      "id": "art200-ballast-loader",
+      "title": "Ballast Loader",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        4.7,
+        4.17,
+        4.2
+      ],
+      "triangles": 1588,
+      "detail": "Aggregate loading hopper with tapered discharge body, open grizzly screen, four braced columns and lever-driven gate",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/19-art200-ballast-loader.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "olive",
+      "number": 144
+    },
+    {
+      "id": "art200-ceramic-kiln",
+      "title": "Ceramic Kiln",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        5.6,
+        3.9,
+        4.4
+      ],
+      "triangles": 3528,
+      "detail": "Ceramic works kiln with a deep circular opening, segment masonry rim, hinged fire door, chimney and cooling rack",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/20-art200-ceramic-kiln.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "umber",
+      "number": 145
+    },
+    {
+      "id": "art200-desert-ambulatory",
+      "title": "Desert Ambulatory",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        5.6,
+        4.85,
+        4.73
+      ],
+      "triangles": 4116,
+      "detail": "Compact field clinic with barrel roof, recessed entrance, porch handrails, supply cubbies and a stretcher bay",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/21-art200-desert-ambulatory.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "celadon",
+      "number": 146
+    },
+    {
+      "id": "art200-demolition-cutter",
+      "title": "Demolition Cutter",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        7.2,
+        3.04093,
+        3.7
+      ],
+      "triangles": 3048,
+      "detail": "Quarry rail saw with a large exposed circular blade, travelling portal, counterbalanced motor and stone-cutting bed",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/22-art200-demolition-cutter.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "slate",
+      "number": 147
+    },
+    {
+      "id": "art200-sandglass-cyclone",
+      "title": "Sandglass Cyclone",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        4.6,
+        5.4,
+        3.7
+      ],
+      "triangles": 4660,
+      "detail": "Dust separation plant with tapered cyclone chamber, tangential duct, clean-air stack and wheeled ash receiver",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/23-art200-sandglass-cyclone.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "plum",
+      "number": 148
+    },
+    {
+      "id": "art200-ventstack-catwalk",
+      "title": "Ventstack Catwalk",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        4.8,
+        6.86,
+        4.93
+      ],
+      "triangles": 9744,
+      "detail": "Tall industrial vent stack with a complete accessible maintenance balcony, cage ladder, cap and flanged base",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/24-art200-ventstack-catwalk.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "heather",
+      "number": 149
+    },
+    {
+      "id": "art200-pivot-irrigator",
+      "title": "Pivot Irrigator",
+      "group": "Roadside businesses and industry",
+      "status": "new",
+      "dimensions": [
+        11.2,
+        2.945,
+        2.46
+      ],
+      "triangles": 6272,
+      "detail": "Abandoned centre-pivot irrigation span with two braced wheel towers, triangulated pipe truss and downturned sprinkler heads",
+      "runtime": "Seeded desert districts. Measured footprints keep travel and docking lanes clear; nearby visible surfaces have physical collision.",
+      "image": "assets/art200/wasteland/renders/25-art200-pivot-irrigator.png",
+      "source": "assets/art200/wasteland/Art200Wasteland.blend",
+      "palette": "verdigris",
+      "number": 150
+    },
+    {
+      "id": "nomad2-card-table",
+      "title": "Last Light card table",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.059999942779541,
+        0.906000018119812,
+        0.8999999761581421
+      ],
+      "triangles": 2801,
+      "detail": "A folding card table with retained cards, a score rail and stitched baize. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-card-table.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "oxblood",
+      "number": 151
+    },
+    {
+      "id": "nomad2-instrument-bench",
+      "title": "Horizon instrument bench",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.3199999928474426,
+        1.4424999952316284,
+        0.7200000286102295
+      ],
+      "triangles": 4981,
+      "detail": "An inactive oscilloscope bench with analog meters and parked probes. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-instrument-bench.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "petrol",
+      "number": 152
+    },
+    {
+      "id": "nomad2-privacy-screen",
+      "title": "Quiet Quarter privacy screen",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.9299999475479126,
+        1.6949999332427979,
+        0.7700000405311584
+      ],
+      "triangles": 3472,
+      "detail": "A folding three-panel screen with framed canvas and full-height hinge pins. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-privacy-screen.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "plum",
+      "number": 153
+    },
+    {
+      "id": "nomad2-book-cabinet",
+      "title": "Waymark lending cabinet",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.0750000476837158,
+        1.5924999713897705,
+        0.6435000002384186
+      ],
+      "triangles": 7516,
+      "detail": "A wood-lined book cabinet with a retained travelling library. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-book-cabinet.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "umber",
+      "number": 154
+    },
+    {
+      "id": "nomad2-ration-pantry",
+      "title": "Trail Tin pantry rack",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.9100000262260437,
+        1.6729999780654907,
+        0.6000000238418579
+      ],
+      "triangles": 13393,
+      "detail": "A pantry-style display of sealed tins on open wire shelves. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-ration-pantry.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "olive",
+      "number": 155
+    },
+    {
+      "id": "nomad2-folding-lounge",
+      "title": "Blue Mile folding lounge",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.8199999928474426,
+        1.125,
+        1.6899999380111694
+      ],
+      "triangles": 2484,
+      "detail": "A reclining field lounger with a braced frame and bound canvas panels. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-folding-lounge.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "denim",
+      "number": 156
+    },
+    {
+      "id": "nomad2-microscope-bench",
+      "title": "Morrow specimen bench",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.159999966621399,
+        1.57393479347229,
+        0.6999999582767487
+      ],
+      "triangles": 6833,
+      "detail": "A retired inspection microscope on a specimen preparation bench. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-microscope-bench.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "celadon",
+      "number": 157
+    },
+    {
+      "id": "nomad2-paint-trolley",
+      "title": "Patchcoat painter trolley",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.8399999737739563,
+        1.6599999815225601,
+        0.6732999980449677
+      ],
+      "triangles": 5700,
+      "detail": "A paint display trolley with a clamped sample panel and brush cups. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-paint-trolley.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "clay",
+      "number": 158
+    },
+    {
+      "id": "nomad2-air-return-duct",
+      "title": "Crosswind return duct",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.8899999856948853,
+        1.3899999856948853,
+        0.9579999446868896
+      ],
+      "triangles": 2665,
+      "detail": "A freestanding retired air duct with an elbow, mesh grille and service cover. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-air-return-duct.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "slate",
+      "number": 159
+    },
+    {
+      "id": "nomad2-sewing-station",
+      "title": "Threadline sewing station",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.100000023841858,
+        1.4300000667572021,
+        0.6399999856948853
+      ],
+      "triangles": 5175,
+      "detail": "A treadle sewing machine with a resting needle and retained thread spools. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-sewing-station.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "oxblood",
+      "number": 160
+    },
+    {
+      "id": "nomad2-record-console",
+      "title": "Evening Signal record console",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.149999976158142,
+        0.9656714797019958,
+        0.6574999988079071
+      ],
+      "triangles": 7636,
+      "detail": "A silent record player console with a parked tonearm and sleeve collection. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-record-console.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "umber",
+      "number": 161
+    },
+    {
+      "id": "nomad2-typewriter-desk",
+      "title": "Courier typewriter desk",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.1200000047683716,
+        1.3450000286102295,
+        0.699999988079071
+      ],
+      "triangles": 6673,
+      "detail": "A writing desk with a mechanical typewriter and an unfinished field letter. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-typewriter-desk.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "denim",
+      "number": 162
+    },
+    {
+      "id": "nomad2-clock-rack",
+      "title": "Three Roads clock standard",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.1299999952316284,
+        2.244999885559082,
+        0.48999999463558197
+      ],
+      "triangles": 8716,
+      "detail": "A freestanding display of three stopped route clocks. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-clock-rack.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "heather",
+      "number": 163
+    },
+    {
+      "id": "nomad2-tile-mural",
+      "title": "Roseway ceramic route mural",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.2100000381469727,
+        1.6950000524520874,
+        0.4999999850988388
+      ],
+      "triangles": 4384,
+      "detail": "A standing ceramic mural made from raised, individually framed route tiles. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-tile-mural.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "rose",
+      "number": 164
+    },
+    {
+      "id": "nomad2-observation-seat",
+      "title": "Farline observation seat",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.0,
+        1.5080000162124634,
+        1.180999994277954
+      ],
+      "triangles": 6644,
+      "detail": "A fixed binocular display rig with its own padded operator perch. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-observation-seat.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "petrol",
+      "number": 165
+    },
+    {
+      "id": "nomad2-chess-pedestal",
+      "title": "Long Crossing chess pedestal",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.9700000286102295,
+        1.087499976158142,
+        0.9700000286102295
+      ],
+      "triangles": 10892,
+      "detail": "A complete retained chess set on a braced travelling-game pedestal. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-chess-pedestal.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "plum",
+      "number": 166
+    },
+    {
+      "id": "nomad2-exercise-rack",
+      "title": "Loadline exercise rack",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.0699999928474426,
+        1.2140001058578491,
+        0.5899999737739563
+      ],
+      "triangles": 6034,
+      "detail": "A compact stand of captive exercise weights and wrapped grips. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-exercise-rack.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "clay",
+      "number": 167
+    },
+    {
+      "id": "nomad2-boot-care-stand",
+      "title": "Solemate boot-care stand",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.7900000214576721,
+        0.9860000014305115,
+        0.5699999928474426
+      ],
+      "triangles": 4222,
+      "detail": "A small care stand with a wooden boot last, brush and tread scraper. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-boot-care-stand.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "olive",
+      "number": 168
+    },
+    {
+      "id": "nomad2-botanical-belljar",
+      "title": "Still Orchard botanical bell jar",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.6700000166893005,
+        1.6970000267028809,
+        0.6399999856948853
+      ],
+      "triangles": 3211,
+      "detail": "A preserved botanical miniature under a smoke-glass bell jar. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-botanical-belljar.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "verdigris",
+      "number": 169
+    },
+    {
+      "id": "nomad2-map-roll-rack",
+      "title": "Survey Folio roller rack",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.9300000369548798,
+        1.684999942779541,
+        0.6200000047683716
+      ],
+      "triangles": 12752,
+      "detail": "A rack of banded survey scrolls with capped ends and index cards. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-map-roll-rack.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "ochre",
+      "number": 170
+    },
+    {
+      "id": "nomad2-shade-awning",
+      "title": "Dusk Rose shade awning",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        1.7899999618530273,
+        2.4499998092651367,
+        1.7899999618530273
+      ],
+      "triangles": 1812,
+      "detail": "A small freestanding shade canopy with sewn panels and a braced mast. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-shade-awning.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "rose",
+      "number": 171
+    },
+    {
+      "id": "nomad2-bagatelle-table",
+      "title": "Railrunner bagatelle table",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.8999999761581421,
+        0.9160000085830688,
+        1.2899999022483826
+      ],
+      "triangles": 8247,
+      "detail": "A dormant mechanical tabletop game with captive balls and numbered targets. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-bagatelle-table.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "celadon",
+      "number": 172
+    },
+    {
+      "id": "nomad2-laundry-drum",
+      "title": "Spindrift laundry drum",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.9099999964237213,
+        1.3899999856948853,
+        0.8210000097751617
+      ],
+      "triangles": 5316,
+      "detail": "A retired hand-cranked wash drum with a hinged lid and wringer rolls. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-laundry-drum.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "stone",
+      "number": 173
+    },
+    {
+      "id": "nomad2-rotary-fan",
+      "title": "Crosswind rotary fan",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.7499999403953552,
+        1.7380000352859497,
+        0.550000011920929
+      ],
+      "triangles": 5980,
+      "detail": "A stopped floor fan with a bolted motor, curved blades and wire guard. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-rotary-fan.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "heather",
+      "number": 174
+    },
+    {
+      "id": "nomad2-arrival-bell",
+      "title": "Homeward arrival bell",
+      "group": "Life aboard the machine",
+      "status": "new",
+      "dimensions": [
+        0.7099999785423279,
+        1.877500057220459,
+        0.6500000059604645
+      ],
+      "triangles": 2824,
+      "detail": "A silent cast bell hung from a riveted freestanding armature. Cosmetic; no gameplay effect.",
+      "runtime": "Build \u2192 Decorations. Placement, movement, cutter refunds, undo and saved construction. Cosmetic; no invented functional upgrades.",
+      "image": "assets/art200/machine/nomad2-arrival-bell.png",
+      "source": "assets/art200/machine/NomadLivingArchive.blend",
+      "palette": "oxblood",
+      "number": 175
+    },
+    {
+      "id": "Story2ScoutRepairStand",
+      "title": "Dormant scout on a split repair cradle",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.2,
+        1.565,
+        0.833
+      ],
+      "triangles": 13209,
+      "detail": "A single-track survey courier hangs safely on a visibly bolted maintenance fork; static evidence, no AI.",
+      "runtime": "Environmental storytelling at wreck-one. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2ScoutRepairStand.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "petrol",
+      "number": 176
+    },
+    {
+      "id": "Story2CargoManifestLectern",
+      "title": "Cargo record suitcase lectern",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        0.89,
+        1.53,
+        0.637
+      ],
+      "triangles": 5232,
+      "detail": "An opened itinerary case holds stamped cargo tags and paper evidence on a connected reading pedestal.",
+      "runtime": "Environmental storytelling at wreck-one. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2CargoManifestLectern.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "oxblood",
+      "number": 177
+    },
+    {
+      "id": "Story2SplitDriveAxle",
+      "title": "Recovered split differential axle",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        2.65,
+        0.79,
+        0.782
+      ],
+      "triangles": 20260,
+      "detail": "A heavy differential with one opened hub and a broken drive stub rests on permanent recovery shoes.",
+      "runtime": "Environmental storytelling at wreck-one. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2SplitDriveAxle.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "clay",
+      "number": 178
+    },
+    {
+      "id": "Story2EmergencyShadeStation",
+      "title": "Emergency rest canopy and supply bench",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        2.57,
+        2.407,
+        1.71
+      ],
+      "triangles": 7889,
+      "detail": "A low fabric shade stretched on two continuous curved frames shelters a fixed rest bench and water box.",
+      "runtime": "Environmental storytelling at wreck-one. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2EmergencyShadeStation.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "denim",
+      "number": 179
+    },
+    {
+      "id": "Story2ServoPress",
+      "title": "Open-throat servo forging press",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.997,
+        2.51,
+        1.22
+      ],
+      "triangles": 14294,
+      "detail": "A substantial C-frame press exposes a realistic work throat, ram guide and reaction bed.",
+      "runtime": "Environmental storytelling at relay-foundry. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2ServoPress.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "oxblood",
+      "number": 180
+    },
+    {
+      "id": "Story2LimbAssemblyJig",
+      "title": "Twin-joint robot limb alignment jig",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.48359,
+        1.37,
+        0.98
+      ],
+      "triangles": 19787,
+      "detail": "An asymmetric robot forearm and hand are mechanically pinned to a wheeled repair jig, not a new enemy.",
+      "runtime": "Environmental storytelling at relay-foundry. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2LimbAssemblyJig.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "celadon",
+      "number": 181
+    },
+    {
+      "id": "Story2QuenchManifold",
+      "title": "Three-bank quench and return manifold",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.9,
+        2.071,
+        0.921
+      ],
+      "triangles": 25926,
+      "detail": "Three unequal vessels connect through a continuous return manifold and a guarded manual bypass.",
+      "runtime": "Environmental storytelling at relay-foundry. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2QuenchManifold.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "slate",
+      "number": 182
+    },
+    {
+      "id": "Story2MagneticSortingDrum",
+      "title": "Hand-fed magnetic salvage separator",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.565,
+        1.745,
+        1.215
+      ],
+      "triangles": 13911,
+      "detail": "A broad horizontal sorting drum turns inside a supported capture frame with separate feed and discharge trays.",
+      "runtime": "Environmental storytelling at relay-foundry. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2MagneticSortingDrum.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "umber",
+      "number": 183
+    },
+    {
+      "id": "Story2AzimuthTrackingDish",
+      "title": "Offset azimuth listening dish",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.78824,
+        2.93832,
+        1.445
+      ],
+      "triangles": 8072,
+      "detail": "A deep dished reflector on a real fork gimbal, counterweight, elevation axle and anchored pedestal.",
+      "runtime": "Environmental storytelling at quiet-array. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2AzimuthTrackingDish.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "petrol",
+      "number": 184
+    },
+    {
+      "id": "Story2FerriteTuningBench",
+      "title": "Ferrite lattice tuning workbench",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.59,
+        1.452,
+        0.792
+      ],
+      "triangles": 35958,
+      "detail": "A row of supported adjustable ferrite coils shares a grounded bench with an analog comparison bridge.",
+      "runtime": "Environmental storytelling at quiet-array. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2FerriteTuningBench.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "plum",
+      "number": 185
+    },
+    {
+      "id": "Story2ReceiverRepairBot",
+      "title": "Folded three-foot receiver custodian",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.16,
+        1.42,
+        1.09
+      ],
+      "triangles": 15486,
+      "detail": "A dormant receiver custodian braces itself on three articulated feet; a folded tool visibly connects to the body.",
+      "runtime": "Environmental storytelling at quiet-array. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2ReceiverRepairBot.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "celadon",
+      "number": 186
+    },
+    {
+      "id": "Story2CableRoutingArch",
+      "title": "Open cable routing portal",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        3.01,
+        2.945,
+        0.735
+      ],
+      "triangles": 9496,
+      "detail": "A deliberately walkable 2.4 metre clear cable portal carries four continuous insulated runs above head height.",
+      "runtime": "Environmental storytelling at quiet-array. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2CableRoutingArch.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "denim",
+      "number": 187
+    },
+    {
+      "id": "Story2PneumaticSeedSorter",
+      "title": "Twin-hopper pneumatic seed classifier",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.25444,
+        1.61,
+        0.861
+      ],
+      "triangles": 15268,
+      "detail": "Two gravity hoppers feed a glazed separator and a pair of captured collection drawers.",
+      "runtime": "Environmental storytelling at glass-orchard. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2PneumaticSeedSorter.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "verdigris",
+      "number": 188
+    },
+    {
+      "id": "Story2ClimateBellChamber",
+      "title": "Botanical climate bell enclosure",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        0.94,
+        1.8,
+        0.94
+      ],
+      "triangles": 12812,
+      "detail": "A clear bell enclosure protects a small living specimen on a continuously supported cultivation pedestal.",
+      "runtime": "Environmental storytelling at glass-orchard. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2ClimateBellChamber.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "stone",
+      "number": 189
+    },
+    {
+      "id": "Story2FamilyMemorialTableau",
+      "title": "Family waiting bench and planted memorial",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.65,
+        0.98,
+        0.5465
+      ],
+      "triangles": 10762,
+      "detail": "A modest bench holds a weathered family nameplate and three planted keepsake containers, civilian environmental storytelling.",
+      "runtime": "Environmental storytelling at glass-orchard. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2FamilyMemorialTableau.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "rose",
+      "number": 190
+    },
+    {
+      "id": "Story2RootIrrigationCart",
+      "title": "Manual root irrigation carriage",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.041,
+        1.156,
+        1.146
+      ],
+      "triangles": 27547,
+      "detail": "A compact broad-wheel carriage connects a horizontal water tank, pressure gauge and continuously wound delivery hose.",
+      "runtime": "Environmental storytelling at glass-orchard. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2RootIrrigationCart.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "olive",
+      "number": 191
+    },
+    {
+      "id": "Story2ArchiveReelLibrary",
+      "title": "Six-reel indexed archive library",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.3,
+        2.185,
+        0.701
+      ],
+      "triangles": 34780,
+      "detail": "Individual open reel cartridges rest in supported bays of a tall lockable archive frame.",
+      "runtime": "Environmental storytelling at last-garden-meridian. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2ArchiveReelLibrary.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "plum",
+      "number": 192
+    },
+    {
+      "id": "Story2PassengerBaggageTrolley",
+      "title": "Abandoned passenger luggage trolley",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        0.9931,
+        1.472,
+        0.855
+      ],
+      "triangles": 11020,
+      "detail": "Stacked civilian luggage is strapped to a connected two-wheel terminal trolley; no collectible promises.",
+      "runtime": "Environmental storytelling at last-garden-meridian. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2PassengerBaggageTrolley.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "umber",
+      "number": 193
+    },
+    {
+      "id": "Story2DeadPatrolTorso",
+      "title": "Disabled patrol torso recovery scene",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.42,
+        0.677,
+        1.61
+      ],
+      "triangles": 10063,
+      "detail": "An original mechanical patrol torso lies on a secured pallet with a detached leg laid beside it; static wreck, no enemy AI.",
+      "runtime": "Environmental storytelling at last-garden-meridian. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2DeadPatrolTorso.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "slate",
+      "number": 194
+    },
+    {
+      "id": "Story2SignalVerificationGate",
+      "title": "Walkable signal verification portal",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        3.3,
+        2.84,
+        0.69
+      ],
+      "triangles": 10801,
+      "detail": "Two differentiated receiver pylons join above a clear pedestrian opening; powered states remain story-controlled elsewhere.",
+      "runtime": "Environmental storytelling at last-garden-meridian. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2SignalVerificationGate.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "heather",
+      "number": 195
+    },
+    {
+      "id": "Story2JourneyCartographyTable",
+      "title": "Circular route cartography table",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.48,
+        1.02,
+        1.48
+      ],
+      "triangles": 18682,
+      "detail": "A round chart table carries physical route grooves, pinned waypoints and a restrained mechanical azimuth dial.",
+      "runtime": "Environmental storytelling at meridian-berth. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2JourneyCartographyTable.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "petrol",
+      "number": 196
+    },
+    {
+      "id": "Story2DormantStewardCradle",
+      "title": "Dormant civic steward charging berth",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        0.9,
+        1.425,
+        0.823
+      ],
+      "triangles": 10219,
+      "detail": "A small service robot rests in an unmistakable two-pad charging cradle, with folded arms and no active AI.",
+      "runtime": "Environmental storytelling at meridian-berth. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2DormantStewardCradle.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "celadon",
+      "number": 197
+    },
+    {
+      "id": "Story2CommunalGalleyModule",
+      "title": "Compact communal hot-water galley",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.66,
+        1.85,
+        0.7
+      ],
+      "triangles": 16496,
+      "detail": "An original domestic service module combines a sheltered hot plate, connected kettle and six captured cup hooks.",
+      "runtime": "Environmental storytelling at glass-orchard. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2CommunalGalleyModule.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "clay",
+      "number": 198
+    },
+    {
+      "id": "Story2MissionPlaqueRack",
+      "title": "Civic work-order and dedication board",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.17,
+        1.76,
+        0.66
+      ],
+      "triangles": 12571,
+      "detail": "A freestanding civic board carries six individual engraved work plaques, supported by a splayed frame.",
+      "runtime": "Environmental storytelling at meridian-berth. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2MissionPlaqueRack.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "rose",
+      "number": 199
+    },
+    {
+      "id": "Story2WaterReclamationStill",
+      "title": "Paired civic water reclamation still",
+      "group": "Story evidence and dormant robots",
+      "status": "new",
+      "dimensions": [
+        1.48,
+        1.823,
+        0.831
+      ],
+      "triangles": 19954,
+      "detail": "Two physically connected vessels exchange condensate through a wound cooling coil and a supported collection spout.",
+      "runtime": "Environmental storytelling at relay-foundry. Existing story interactions and approach paths remain usable.",
+      "image": "assets/art200/story/review/Story2WaterReclamationStill.png",
+      "source": "assets/art200/story/Story200-editable.blend",
+      "palette": "verdigris",
+      "number": 200
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "models": {
+    "quiet-drive": {
+      "parts": 59,
+      "maxHeightM": 0.018,
+      "footprintM": [
+        1.64,
+        1.64
+      ],
+      "collision": false,
+      "triangles": 7417,
+      "degenerateTriangles": 0,
+      "materialBatches": 5
+    },
+    "battery-bank": {
+      "parts": 51,
+      "maxHeightM": 0.018,
+      "footprintM": [
+        1.64,
+        1.64
+      ],
+      "collision": false,
+      "triangles": 6101,
+      "degenerateTriangles": 0,
+      "materialBatches": 5
+    },
+    "salvage-crane": {
+      "parts": 66,
+      "maxHeightM": 0.018,
+      "footprintM": [
+        1.64,
+        1.64
+      ],
+      "collision": false,
+      "triangles": 8425,
+      "degenerateTriangles": 0,
+      "materialBatches": 5
+    }
+  },
+  "bytes": 1804232,
+  "sha256": "330d6cd5c4c5fee2fab61274a515696de11d71886b474fa59abf7dc43cf0dc5d",
+  "materialSource": "assets/art200/machine/NomadLivingArchive.blend",
+  "materialSourceSha256": "d114d7d11e5cb2f2dedeff72028433b09eff121c8ad6512b8185e4787194b34a",
+  "source": "tools/art/native_machine/build_service_connections.py",
+  "coordinateSpace": "metres, +Y up, floor at zero",
+  "collision": "none; artwork within 18 mm of existing floor"
+}

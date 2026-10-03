@@ -20,6 +20,7 @@ var hero: Node3D
 var effects_clock=0.0
 var rooftop: Node3D
 var rooftop_departure=0.0
+var prelude=MMFOpeningPrelude.new()
 
 func setup(owner_game):
 	game=owner_game
@@ -36,6 +37,7 @@ func setup(owner_game):
 	transition.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	transition.mouse_filter=Control.MOUSE_FILTER_IGNORE;transition.hide();transition_layer.add_child(transition)
 	timeline=MMFAssets.json("res://data/opening.json")
+	add_child(prelude);prelude.setup(self)
 
 func actor(kind: String,at: Vector3,parent: Node3D) -> Node3D:
 	var node=MMFAssets.scene("models/authored/"+kind+".glb")
@@ -57,7 +59,7 @@ func animate(node: Node3D,clip: String):
 				if animator.current_animation!=key: animator.play(key,0.12)
 				if clip in ["walk","run","idle","armed_run_fwd","armed_idle"]: animator.get_animation(key).loop_mode=Animation.LOOP_LINEAR
 
-func begin_opening():
+func begin_opening(with_prelude: bool=false):
 	game.player.set_camera_fade(0)
 	clear_scene()
 	game.cinematic="opening"
@@ -67,9 +69,12 @@ func begin_opening():
 	scenery=opening_stage.take()
 	if rooftop:rooftop.queue_free()
 	rooftop=scenery.get_node("Rooftop");rooftop.reparent(self)
+	MMFSiteGrounding.attach(rooftop,"opening-rooftop",game)
 	for id in ["warden","revenant"]:actors.append(scenery.get_node(id))
 	game.player.visual.show()
 	update_opening(0)
+	if with_prelude:
+		prelude.begin();time=-MMFOpeningPrelude.DURATION;prelude.update(0)
 	camera.current=true
 
 func begin_signal():
@@ -99,6 +104,7 @@ func begin_arrival():
 	add_child(scenery)
 	scenery.position=Vector3(110,0,-220)
 	scenery.rotation.y=PI
+	MMFSiteGrounding.attach(scenery,"meridian-horizon",game)
 	initial_camera=game.player.camera.global_transform
 	camera.current=true
 
@@ -113,7 +119,10 @@ func update(dt: float):
 	time+=dt
 	match game.cinematic:
 		"opening":
-			update_opening(dt)
+			if prelude.active:prelude.update(time+MMFOpeningPrelude.DURATION)
+			if time>=0:
+				if prelude.active and time-dt<0:prelude.release_memory()
+				update_opening(dt)
 		"signal":
 			scenery.position=signal_route.origin+Vector3.BACK*time*2.6
 			var face=hero.global_position+Vector3.UP*1.65
@@ -171,7 +180,7 @@ func update_opening(dt: float):
 		actors[i].rotation.y=-PI/2;actors[i].visible=sample.pursuers[i].alive
 		animate(actors[i],"run" if sample.pursuers[i].speed>0.2 else "idle")
 	var pose=MMFOpeningPresentation.view(time,MMFAssets.v(sample.player.position))
-	set_transition(MMFOpeningPresentation.handoff_fade(time))
+	set_transition(maxf(MMFOpeningPresentation.handoff_fade(time),1-smoothstep(.05,.55,time) if prelude.active else 0))
 	if time<9.98:
 		camera.position=pose.eye;camera.look_at(pose.target);camera.fov=pose.fov
 	else:
@@ -184,7 +193,7 @@ func update_opening(dt: float):
 			game.audio.shot(false)
 			game.effects.tracer(player.weapon_pose.muzzle_position(),MMFAssets.v(sample.weaponAim),Color(1,.7,.2))
 		if event.name in ["kill1","kill2"]:
-			game.effects.explosion(actors[0 if event.name=="kill1" else 1].position+Vector3.UP,.85)
+			game.effects.explosion(actors[0 if event.name=="kill1" else 1].position+Vector3.UP,.38)
 			game.audio.cue(45,.65,-20,true)
 	if time>=10.2:finish()
 
@@ -214,6 +223,8 @@ func finish():
 		game.session.threat.phase="recovery"
 		game.session.threat.remaining=250
 		game.session.threat.legacy=24
+	elif kind=="arrival" and game.session.finale.mode=="new":
+		game.finale.arrive()
 	elif kind=="arrival":
 		game.session.story.phase="complete"
 		game.session.story.ending="complete"
@@ -223,6 +234,7 @@ func finish():
 	game.save_game("autosave")
 
 func clear_scene(keep_prepared: bool=false):
+	prelude.stop()
 	set_transition(0)
 	game.player.weapon_pose.scripted_aim=false
 	game.player.weapon_pose.scripted_recoil=0

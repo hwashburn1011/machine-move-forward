@@ -19,21 +19,17 @@ func check(condition: bool,label: String):
 func frames(count: int):
 	for i in count: await process_frame
 
+func dismantle_ready(id: String) -> Dictionary:
+	var report=game.building.dismantle_preview(id)
+	for i in 300:
+		if report.refusal!="Checking walking access…":break
+		await physics_frame;report=game.building.dismantle_preview(id)
+	return report
+
 func operate(item: Dictionary) -> bool:
-	for point in game.campaign.points:
-		if point.entry.id==item.id: game.player.position=game.campaign.destination.to_global(point.at)-Vector3.UP*.6
-	if game.activity.completed(item): return game.campaign.interact(item)
-	game.campaign.interact(item)
-	var id=game.activity.key(item)
-	if game.activity.refusal()!="": return false
-	if id in ["power","array"]:
-		var values=[2,1,0] if id=="power" else [25,60,85]
-		for i in 3: game.activity.adjust(i,values[i])
-		game.activity.act()
-	else:
-		for i in range(int(game.activity.state(id).step),3): game.activity.act(i)
-	game.close_menu()
-	return game.activity.completed(item)
+	var result=await preload("res://tests/expedition_fixture.gd").complete(game,item)
+	if not result:print("OPERATE_DIAGNOSTIC ",item.id," at ",game.player.position," entry ",game.activity.entry.get("id","")," refusal ",game.activity.refusal()," moving ",game.activity.moving())
+	return result
 
 func capture(name: String):
 	if not rendered: return
@@ -48,7 +44,8 @@ func run():
 	var fixtures=JSON.parse_string(FileAccess.get_file_as_string("res://data/desert-fixtures.json"))
 	var layout=MMFDesertLayout.new()
 	for fixture in fixtures:
-		var actual=layout.generate(fixture.seed,int(fixture.chunk));var matches=actual.size()==fixture.placements.size()
+		# Retain the frozen browser reference; native variety has separate route tests.
+		var actual=layout.generate_legacy(fixture.seed,int(fixture.chunk));var matches=actual.size()==fixture.placements.size()
 		for i in actual.size():
 			for key in actual[i]:
 				if key=="kind": matches=matches and actual[i][key]==fixture.placements[i][key]
@@ -95,11 +92,11 @@ func run():
 	check(MMFDamage.compute(24,45,120,45,5)==19,"Armour before weapon falloff")
 	check(is_equal_approx(MMFDamage.compute(24,82.5,120,45,5),9.5),"Linear damage falloff")
 	check(MMFDamage.compute(24,121,120,45,5)==0,"No damage beyond range")
-	var condenser_a=game.session.create_piece("condenser",{"x":2,"y":0,"z":3},0,{},true)
-	var condenser_b=game.session.create_piece("condenser",{"x":1,"y":0,"z":3},0,{},true)
+	var collector_a=game.session.create_piece("salvage-crane",{"x":2,"y":0,"z":3},0,{},true)
+	var collector_b=game.session.create_piece("salvage-crane",{"x":1,"y":0,"z":3},0,{},true)
 	game.session.update_power()
 	check(not game.session.powered.get(refinery.instanceId,true) and not game.session.powered.get("fixed-radio",true),"Power shedding cuts the whole station class")
-	game.session.structures.erase(condenser_a);game.session.structures.erase(condenser_b);game.session.update_power()
+	game.session.structures.erase(collector_a);game.session.structures.erase(collector_b);game.session.update_power()
 	game.session.scanner.elapsedS=179.99
 	game.session.tick(0.02)
 	check(game.session.scanner.phase=="contact-ready","Scanner reaches 100%")
@@ -118,18 +115,18 @@ func run():
 	await capture("signal-close")
 	game.cinematics.finish()
 	game.combat.begin_ship()
-	game.combat.ship.position=Vector3(game.combat.ship_side*17,6,0)
-	game.combat.update_ship(0.01)
+	game.combat.update_ship(game.combat.approach_duration)
+	check(game.combat.ship_state=="grapple_launch","Boarding craft launches a visible grapple")
+	game.combat.update_ship(1.1)
 	check(game.combat.ship_state=="grapple","Boarding ship attaches grapple")
-	game.combat.update_ship(6)
+	for i in 361:game.combat.update_ship(1.0/60)
 	check(not game.combat.crew[0].inactive,"Mech completes grapple climb")
 	await frames(5)
 	await capture("boarding")
 	for enemy in game.combat.enemies:
 		if is_instance_valid(enemy): enemy.take_damage(10000,enemy.position)
 	game.combat.retreat_ship(true)
-	game.combat.ship.position.z=100
-	game.combat.update_ship(0.1)
+	game.combat.update_ship(4.6)
 	game.combat.update(0.1)
 	check(not game.combat.active_threat(),"Encounter clears")
 	game.session.story.phase="route-selection"
@@ -140,7 +137,7 @@ func run():
 	game.campaign.update(0.1)
 	check(game.session.story.phase=="docked","Elevated destination docks")
 	var target=game.campaign.expedition().interactables[3]
-	check(operate(target),"Recover expedition unique through gyro interlocks")
+	check(await operate(target),"Recover expedition unique through gyro interlocks")
 	game.player.position=Vector3(0,16.1,0)
 	await capture("destination")
 	game.player.position=Vector3(0,16.1,0)
@@ -167,12 +164,12 @@ func run():
 		game.campaign.update(0.01)
 		check(game.session.story.phase=="docked","Dock chapter %d"%index)
 		for item in game.campaign.expedition().interactables:
-			if item.kind=="journal" and game.campaign.can_show(item): check(game.campaign.interact(item),"Read "+item.id)
+			if item.kind=="journal" and game.campaign.can_show(item): check(await operate(item),"Read "+item.id)
 		for item in game.campaign.expedition().interactables:
-			if item.kind=="objective" and game.campaign.can_show(item): check(operate(item),"Activate "+item.id)
+			if item.kind=="objective" and game.campaign.can_show(item): check(await operate(item),"Activate "+item.id)
 		for pass_index in 2:
 			for item in game.campaign.expedition().interactables:
-				if item.kind=="unique" and game.campaign.can_show(item): operate(item)
+				if item.kind=="unique" and game.campaign.can_show(item): await operate(item)
 		for id in game.campaign.expedition().requiredUniques: check(id in game.session.story.uniques,"Preserve "+id)
 		game.player.position=Vector3(0,16.1,0)
 		check(game.campaign.depart(),"Depart chapter %d"%index)
@@ -181,11 +178,35 @@ func run():
 		await frames(2)
 	check(game.session.story.phase=="ending-ready","Meridian ending ready")
 	check(game.campaign.begin_ending(),"Durable ending checkpoint")
-	game.session.distance=game.session.story.endingDistance
+	game.player.position=game.world.receiver.global_position+Vector3(0,0,1);game.open_station("Signal","receiver")
+	game.finale.secure_link()
+	check(game.combat.ship_state!="none" and game.session.finale.encounter=="launched","All-skipped campaign receives one final interception")
+	var gun=game.data.WEAPONS.rifle
+	var hull=game.combat.ship_targets[0]
+	for shot in 60:
+		if game.combat.ship_state=="destroying":break
+		hull.take_weapon_damage(gun.damage,hull.global_position,20,gun.range,gun.falloffStart)
+	for frame in 70:game.combat.update(.1);game.finale.update()
+	await frames(3)
+	check(game.session.finale.stage=="ready" and not game.combat.active_threat(),"Ordinary rifle damage can resolve final skiff without optional gear")
+	for frame in 60:game.session.tick(.1)
+	game.player.position=game.world.helm_model.root.global_position+Vector3(0,0,1);game.open_station("Helm","helm")
+	check(game.finale.resume_travel(),"Cleared link unlocks protected journey")
+	game.session.distance=game.session.story.get("endingDistance",game.session.distance)
 	game.campaign.update(0.01)
 	check(game.cinematic=="arrival","Native arrival cinematic")
 	game.cinematics.finish()
-	check(game.session.story.phase=="complete","Keep Walking completion")
+	await frames(4)
+	check(game.session.story.phase=="finale-docked","Arrival preserves player control at receiving berth")
+	for id in ["receiver","seeds","archive","transmitter"]:
+		var p=game.finale.berth.points.filter(func(point):return point.id==id)[0]
+		game.player.position=game.finale.berth.to_global(p.at)+Vector3(0,.06,.7);game.open_station("Finale","receiving-berth",id)
+		if id=="receiver":game.finale.act("channel",game.finale.signature());game.finale.act("power",game.finale.signature())
+		elif id=="transmitter":game.finale.pending_policy="open";game.finale.pending_signature=game.finale.signature();game.finale.publish()
+		else:game.finale.act("transfer",game.finale.signature())
+	game.player.position=game.world.helm_model.root.global_position+Vector3(0,0,1);game.open_station("Helm","helm")
+	check(game.finale.depart() and game.session.story.phase=="complete","All-skipped campaign completes transfer, policy and continued play")
+	game.session.distance+=41;game.finale.update();await frames(2)
 	game.close_menu()
 	# Optional contact scheduler must detect a crossing between simulation frames.
 	game.session.distance=250.01
@@ -193,7 +214,8 @@ func run():
 	game.opportunities.schedule_armed=true
 	game.opportunities.update(0.016)
 	check(not game.session.contacts.active.is_empty(),"Optional signal threshold crossing")
-	for kind in ["water-cache","salvage-wreck","memorial","repair-depot"]:
+	for kind in ["fuel-cache","salvage-wreck","memorial","repair-depot"]:
+		game.session.contacts.candidates=[]
 		var contact=game.opportunities.make_contact(3)
 		contact.kind=kind;contact.state="docked";contact.step="task-ready"
 		contact.rewards={"scrap":1};contact.salvageMode="secure" if kind=="salvage-wreck" else ""
@@ -218,8 +240,8 @@ func run():
 	var isolated=MMFSession.new(game.data)
 	isolated.opening_done=true;isolated.fuel=0;isolated.tick(5)
 	check(isolated.speed>0 and isolated.speed<1.6,"Empty fuel preserves emergency crawl")
-	isolated.nourishment=0;isolated.health=40;isolated.inventory.add("repair-kit",1);isolated.use_item("repair-kit")
-	check(isolated.health==60,"Empty nourishment halves healing")
+	isolated.health=40;isolated.inventory.add("repair-kit",1);isolated.use_item("repair-kit")
+	check(isolated.health==80,"Repair kit restores full robot health without food penalties")
 	var bag=MMFInventory.new(game.data.ITEMS,1)
 	check(not bag.restore([{"itemId":"scrap","count":1.5}]),"Reject fractional item counts")
 	# Stair opening, fixture support and transactional cascade are native rules.
@@ -229,8 +251,18 @@ func run():
 	var crate=game.session.create_piece("crate",floor_piece.cell,0,{},true);game.building.add_visual(crate)
 	game.session.stores[crate.instanceId].add("components",2)
 	var count=game.session.count_resource("components")
-	check(game.building.demolish(floor_piece.instanceId),"Demolition cascades supported equipment")
+	await physics_frame
+	var removal=await dismantle_ready(floor_piece.instanceId)
+	check(removal.refusal=="" and game.building.demolish(floor_piece.instanceId),"Demolition cascades equipment whose only support was the removed off-hull floor")
 	check(game.session.find_piece(crate.instanceId).is_empty() and game.session.count_resource("components")>=count,"Cascade preserves stored contents")
+	var hull_floor=game.session.create_piece("floor",{"x":-3,"y":-2,"z":-3},0,{},true);game.building.add_visual(hull_floor)
+	var hull_crate=game.session.create_piece("crate",hull_floor.cell,0,{},true);game.building.add_visual(hull_crate)
+	var hull_store=game.session.stores[hull_crate.instanceId];hull_store.add("components",2)
+	var hull_contents=hull_store.slots.duplicate(true)
+	await physics_frame
+	removal=await dismantle_ready(hull_floor.instanceId)
+	check(removal.refusal=="" and game.building.demolish(hull_floor.instanceId),"Overlay deck plate can be dismantled above permanent native support")
+	check(not game.session.find_piece(hull_crate.instanceId).is_empty() and game.session.stores[hull_crate.instanceId]==hull_store and hull_store.slots==hull_contents,"Permanent hull retains supported equipment identity and exact stored contents")
 	game.session.create_piece("floor",{"x":20,"y":0,"z":20},0,{},true)
 	game.session.create_piece("stairs",{"x":20,"y":0,"z":20},0,{},true)
 	check(game.building.validate({"definitionId":"floor","cell":{"x":20,"y":1,"z":19},"rotation":0})!="","Cannot cap staircase opening")

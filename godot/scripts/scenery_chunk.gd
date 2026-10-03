@@ -1,7 +1,7 @@
 class_name MMFSceneryChunk
 extends RefCounted
 
-# Build the unchanged scenery contract in small, resumable pieces. The root
+# Build deterministic scenery in small, resumable pieces. The root
 # stays outside the scene tree until the complete chunk becomes active.
 const SCATTER=[["rocks","rock",11,0.8,3.4,-1,0.25],["slabs","slab",4,1.2,3.0,-1,0.25],["debris","debris",3,0.5,1.4,-1,0.25],["scrap","scrap",2,0.7,1.8,-1,0.25],["scrub","scrub",1,0.55,1.35,-1,0.25],["nearField","near",22,0.35,1.1,-1,0.25],["wreck-wreck","wreck-wreck",1,9,17,0.34,0.26],["wreck-containers","wreck-containers",3,4,7.5,0.26,0.16],["wreck-debris","wreck-debris",5,1.6,3.4,0.2,0.3]]
 var world
@@ -52,13 +52,23 @@ func landmark(p: Dictionary):
 	for dx in [-half,half]:
 		for dz in [-half,half]:ground=minf(ground,MMFDunes.height_at(site_x+dx,site_z+dz))
 	part.position=Vector3(p.x,ground-b.size.y*size*p.burial,p.z)-part.basis*Vector3(b.get_center().x,b.position.y,b.get_center().z)
+	part.set_meta("landmark_kind",p.kind)
 	part.visibility_range_end=620;root.add_child(part)
 	clearance_bounds.append(part.transform*b)
 
 func scatter(spec: Array):
 	var source=world.scatter_prototypes.get(spec[0])
 	if not source:return
-	var transforms=MMFDesertLayout.scatter(seed_name,key.x,key.y,spec[1],spec[2],spec[3],spec[4],spec[5],spec[6])
+	var count=int(spec[2])
+	# These large, recognizable salvage silhouettes used to repeat in every
+	# row, independently of the landmark pool. Small ground litter stays dense.
+	if spec[0] in ["wreck-wreck","wreck-containers"]:
+		var random=MMFRandom.new();random.seed=MMFRandom.hash_seed([seed_name,"wasteland-salvage-density",key.x,spec[0]])
+		var sparse=MMFDesertLayout.neighborhood(seed_name,key.x).name=="open-desert"
+		var chance=(.08 if sparse else .25) if spec[0]=="wreck-wreck" else (.12 if sparse else .35)
+		if random.randf()>chance:return
+		count=1 if spec[0]=="wreck-wreck" else random.randi_range(1,2)
+	var transforms=MMFDesertLayout.scatter(seed_name,key.x,key.y,spec[1],count,spec[3],spec[4],spec[5],spec[6])
 	var batch=MultiMeshInstance3D.new();var multimesh=MultiMesh.new()
 	multimesh.transform_format=MultiMesh.TRANSFORM_3D;multimesh.mesh=source.mesh;multimesh.instance_count=transforms.size()
 	for i in transforms.size():multimesh.set_instance_transform(i,transforms[i])

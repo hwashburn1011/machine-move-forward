@@ -28,11 +28,19 @@ def build_access(scene, root, profile, kit, game, source):
             box(name + ' mounting foot', (p[0], p[1] + .03, p[2]), (.16, .06, .16), bare)
         for h in [height * .48, height]:
             rod(name + ' handrail', (a[0], a[1] + h, a[2]), (b[0], b[1] + h, b[2]), .035)
+    occupied_slabs = {}
     def slab(name, rect, y):
-        x0, x1, z0, z1 = rect
-        if x1 - x0 <= .001 or z1 - z0 <= .001:
-            return
-        box(name, ((x0 + x1) / 2, y - .09, (z0 + z1) / 2), (x1 - x0, .18, z1 - z0), steel, bevel=.012)
+        # Landings and bypass connectors may share a coverage request with the
+        # perimeter ring. Author that union once, never coincident top faces.
+        existing = occupied_slabs.setdefault(round(y, 4), [])
+        parts = [rect]
+        for covered in existing:
+            parts = [part for item in parts for part in subtract(item, covered)]
+        for x0, x1, z0, z1 in parts:
+            if x1 - x0 <= .001 or z1 - z0 <= .001:
+                continue
+            box(name, ((x0 + x1) / 2, y - .09, (z0 + z1) / 2), (x1 - x0, .18, z1 - z0), steel, bevel=.012)
+            existing.append((x0, x1, z0, z1))
     def subtract(rect, cut):
         x0, x1, z0, z1 = rect
         a, b, c, d = cut

@@ -1,0 +1,3136 @@
+{
+  "whole_assembly_count": 100,
+  "cohorts": {
+    "legacy": 25,
+    "wasteland": 25,
+    "machine": 25,
+    "story-robots": 25
+  },
+  "complete_characters": 6,
+  "attachment_only_entries_counted": 0,
+  "hidden_rig_widgets_not_geometry": [
+    "Icosphere",
+    "Icosphere.004",
+    "Icosphere.002",
+    "Icosphere.001",
+    "Icosphere.005",
+    "Icosphere.003"
+  ],
+  "grounded": true,
+  "native_scale_preserved": true,
+  "overlapping_gallery_footprints": 0,
+  "records": [
+    {
+      "index": 1,
+      "id": "wreck-pickup",
+      "cohort": "legacy",
+      "collection": "001  |  wreck-pickup",
+      "root_object": "wreck-pickup",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "wreck-pickup",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 42492,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -1.2024998664855957,
+          -2.828340530395508,
+          0.0
+        ],
+        "max": [
+          1.2024998664855957,
+          2.828340530395508,
+          2.103999376296997
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.4049997329711914,
+        2.103999376296997,
+        5.656681060791016
+      ]
+    },
+    {
+      "index": 2,
+      "id": "wreck-ambulance",
+      "cohort": "legacy",
+      "collection": "002  |  wreck-ambulance",
+      "root_object": "wreck-ambulance",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "wreck-ambulance",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 37184,
+      "gallery_world_bounds_blender": {
+        "min": [
+          9.865015029907227,
+          -3.0590109825134277,
+          0.0
+        ],
+        "max": [
+          13.134984016418457,
+          3.0590109825134277,
+          2.9539999961853027
+        ]
+      },
+      "native_dimensions_m_godot": [
+        3.2699689865112305,
+        2.9539999961853027,
+        6.1180219650268555
+      ]
+    },
+    {
+      "index": 3,
+      "id": "wreck-forklift",
+      "cohort": "legacy",
+      "collection": "003  |  wreck-forklift",
+      "root_object": "wreck-forklift",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "wreck-forklift",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 38908,
+      "gallery_world_bounds_blender": {
+        "min": [
+          21.927499771118164,
+          -2.3125,
+          0.0
+        ],
+        "max": [
+          24.072500228881836,
+          2.3125,
+          3.123999834060669
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.145000457763672,
+        3.123999834060669,
+        4.625
+      ]
+    },
+    {
+      "index": 4,
+      "id": "survey-rover",
+      "cohort": "legacy",
+      "collection": "004  |  survey-rover",
+      "root_object": "survey-rover",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "survey-rover",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 45044,
+      "gallery_world_bounds_blender": {
+        "min": [
+          33.12969970703125,
+          -1.9545655250549316,
+          0.0
+        ],
+        "max": [
+          35.87030029296875,
+          1.9545655250549316,
+          3.1740000247955322
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.7406005859375,
+        3.1740000247955322,
+        3.9091310501098633
+      ]
+    },
+    {
+      "index": 5,
+      "id": "rail-bogie",
+      "cohort": "legacy",
+      "collection": "005  |  rail-bogie",
+      "root_object": "rail-bogie",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "rail-bogie",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 10132,
+      "gallery_world_bounds_blender": {
+        "min": [
+          44.900001525878906,
+          -1.399999976158142,
+          0.0
+        ],
+        "max": [
+          47.099998474121094,
+          1.399999976158142,
+          1.1800000667572021
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.1999969482421875,
+        1.1800000667572021,
+        2.799999952316284
+      ]
+    },
+    {
+      "index": 6,
+      "id": "container-wagon",
+      "cohort": "legacy",
+      "collection": "006  |  container-wagon",
+      "root_object": "container-wagon",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "container-wagon",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 34488,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -2.112123966217041,
+          6.800000190734863,
+          0.0
+        ],
+        "max": [
+          2.112123966217041,
+          16.200000762939453,
+          3.740000009536743
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.224247932434082,
+        3.740000009536743,
+        9.40000057220459
+      ]
+    },
+    {
+      "index": 7,
+      "id": "fuel-trailer",
+      "cohort": "legacy",
+      "collection": "007  |  fuel-trailer",
+      "root_object": "fuel-trailer",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "fuel-trailer",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 19004,
+      "gallery_world_bounds_blender": {
+        "min": [
+          10.40149974822998,
+          9.095999717712402,
+          0.0
+        ],
+        "max": [
+          12.59850025177002,
+          13.903999328613281,
+          2.373999834060669
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.197000503540039,
+        2.373999834060669,
+        4.807999610900879
+      ]
+    },
+    {
+      "index": 8,
+      "id": "wreck-motorcycle",
+      "cohort": "legacy",
+      "collection": "008  |  wreck-motorcycle",
+      "root_object": "wreck-motorcycle",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "wreck-motorcycle",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 16308,
+      "gallery_world_bounds_blender": {
+        "min": [
+          22.565372467041016,
+          10.165999412536621,
+          0.0
+        ],
+        "max": [
+          23.434627532958984,
+          12.833999633789062,
+          1.3257497549057007
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.8692550659179688,
+        1.3257497549057007,
+        2.6680002212524414
+      ]
+    },
+    {
+      "index": 9,
+      "id": "culvert",
+      "cohort": "legacy",
+      "collection": "009  |  culvert",
+      "root_object": "culvert",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "culvert",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 3552,
+      "gallery_world_bounds_blender": {
+        "min": [
+          32.242530822753906,
+          8.621530532836914,
+          0.0
+        ],
+        "max": [
+          36.757469177246094,
+          14.378469467163086,
+          2.901156187057495
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.5149383544921875,
+        2.901156187057495,
+        5.756938934326172
+      ]
+    },
+    {
+      "index": 10,
+      "id": "transformer",
+      "cohort": "legacy",
+      "collection": "010  |  transformer",
+      "root_object": "transformer",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "transformer",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 15008,
+      "gallery_world_bounds_blender": {
+        "min": [
+          44.54999923706055,
+          10.125,
+          0.0
+        ],
+        "max": [
+          47.45000076293945,
+          12.875,
+          2.680000066757202
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.9000015258789062,
+        2.680000066757202,
+        2.75
+      ]
+    },
+    {
+      "index": 11,
+      "id": "fuel-pump",
+      "cohort": "legacy",
+      "collection": "011  |  fuel-pump",
+      "root_object": "fuel-pump",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "fuel-pump",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 5940,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -0.8814854025840759,
+          22.46500015258789,
+          0.0
+        ],
+        "max": [
+          0.8814854025840759,
+          23.53499984741211,
+          2.1399998664855957
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.7629708051681519,
+        2.1399998664855957,
+        1.0699996948242188
+      ]
+    },
+    {
+      "index": 12,
+      "id": "utility-cabinet",
+      "cohort": "legacy",
+      "collection": "012  |  utility-cabinet",
+      "root_object": "utility-cabinet",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "utility-cabinet",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 9332,
+      "gallery_world_bounds_blender": {
+        "min": [
+          10.649999618530273,
+          22.361000061035156,
+          0.0
+        ],
+        "max": [
+          12.350000381469727,
+          23.638999938964844,
+          2.369999885559082
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.7000007629394531,
+        2.369999885559082,
+        1.2779998779296875
+      ]
+    },
+    {
+      "index": 13,
+      "id": "telecom-cabinet",
+      "cohort": "legacy",
+      "collection": "013  |  telecom-cabinet",
+      "root_object": "telecom-cabinet",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "telecom-cabinet",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 9872,
+      "gallery_world_bounds_blender": {
+        "min": [
+          22.1180419921875,
+          22.361000061035156,
+          0.0
+        ],
+        "max": [
+          23.8819580078125,
+          23.638999938964844,
+          4.100797653198242
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.763916015625,
+        4.100797653198242,
+        1.2779998779296875
+      ]
+    },
+    {
+      "index": 14,
+      "id": "condenser",
+      "cohort": "legacy",
+      "collection": "014  |  condenser",
+      "root_object": "condenser",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "condenser",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 8312,
+      "gallery_world_bounds_blender": {
+        "min": [
+          32.94831848144531,
+          22.27014923095703,
+          0.0
+        ],
+        "max": [
+          36.05168533325195,
+          23.72985076904297,
+          1.5100001096725464
+        ]
+      },
+      "native_dimensions_m_godot": [
+        3.1033668518066406,
+        1.5100001096725464,
+        1.4597015380859375
+      ]
+    },
+    {
+      "index": 15,
+      "id": "satellite-dish",
+      "cohort": "legacy",
+      "collection": "015  |  satellite-dish",
+      "root_object": "satellite-dish",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "satellite-dish",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 4852,
+      "gallery_world_bounds_blender": {
+        "min": [
+          44.62300109863281,
+          21.904998779296875,
+          0.0
+        ],
+        "max": [
+          47.37699890136719,
+          24.094999313354492,
+          3.5769999027252197
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.753997802734375,
+        3.5769999027252197,
+        2.190000534057617
+      ]
+    },
+    {
+      "index": 16,
+      "id": "light-tower",
+      "cohort": "legacy",
+      "collection": "016  |  light-tower",
+      "root_object": "light-tower",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "light-tower",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 19804,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -1.4900000095367432,
+          33.54999923706055,
+          0.0
+        ],
+        "max": [
+          1.4900000095367432,
+          35.45000076293945,
+          6.434000015258789
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.9800000190734863,
+        6.434000015258789,
+        1.9000015258789062
+      ]
+    },
+    {
+      "index": 17,
+      "id": "diesel-generator",
+      "cohort": "legacy",
+      "collection": "017  |  diesel-generator",
+      "root_object": "diesel-generator",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "diesel-generator",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 7968,
+      "gallery_world_bounds_blender": {
+        "min": [
+          10.470000267028809,
+          33.0,
+          0.0
+        ],
+        "max": [
+          12.529999732971191,
+          36.0,
+          2.4262125492095947
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.059999465942383,
+        2.4262125492095947,
+        3.0
+      ]
+    },
+    {
+      "index": 18,
+      "id": "air-compressor",
+      "cohort": "legacy",
+      "collection": "018  |  air-compressor",
+      "root_object": "air-compressor",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "air-compressor",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 9660,
+      "gallery_world_bounds_blender": {
+        "min": [
+          22.103363037109375,
+          33.04999923706055,
+          0.0
+        ],
+        "max": [
+          23.896636962890625,
+          35.95000076293945,
+          2.140850782394409
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.79327392578125,
+        2.140850782394409,
+        2.9000015258789062
+      ]
+    },
+    {
+      "index": 19,
+      "id": "fire-hydrant",
+      "cohort": "legacy",
+      "collection": "019  |  fire-hydrant",
+      "root_object": "fire-hydrant",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "fire-hydrant",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 3376,
+      "gallery_world_bounds_blender": {
+        "min": [
+          34.04499816894531,
+          34.04499816894531,
+          0.0
+        ],
+        "max": [
+          34.95500183105469,
+          34.95500183105469,
+          1.2400000095367432
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.910003662109375,
+        1.2400000095367432,
+        0.910003662109375
+      ]
+    },
+    {
+      "index": 20,
+      "id": "bulk-fuel-tank",
+      "cohort": "legacy",
+      "collection": "020  |  bulk-fuel-tank",
+      "root_object": "bulk-fuel-tank",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "bulk-fuel-tank",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 8480,
+      "gallery_world_bounds_blender": {
+        "min": [
+          44.07749938964844,
+          31.200000762939453,
+          0.0
+        ],
+        "max": [
+          47.92250061035156,
+          37.79999923706055,
+          3.9551148414611816
+        ]
+      },
+      "native_dimensions_m_godot": [
+        3.845001220703125,
+        3.9551148414611816,
+        6.599998474121094
+      ]
+    },
+    {
+      "index": 21,
+      "id": "cargo-pallet",
+      "cohort": "legacy",
+      "collection": "021  |  cargo-pallet",
+      "root_object": "cargo-pallet",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "cargo-pallet",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 6264,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -0.82750004529953,
+          45.275001525878906,
+          0.0
+        ],
+        "max": [
+          0.82750004529953,
+          46.724998474121094,
+          1.4249999523162842
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.65500009059906,
+        1.4249999523162842,
+        1.4499969482421875
+      ]
+    },
+    {
+      "index": 22,
+      "id": "cable-spool",
+      "cohort": "legacy",
+      "collection": "022  |  cable-spool",
+      "root_object": "cable-spool",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "cable-spool",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 8012,
+      "gallery_world_bounds_blender": {
+        "min": [
+          10.096014022827148,
+          45.084999084472656,
+          0.0
+        ],
+        "max": [
+          12.903986930847168,
+          46.915000915527344,
+          1.3323333263397217
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.8079729080200195,
+        1.3323333263397217,
+        1.8300018310546875
+      ]
+    },
+    {
+      "index": 23,
+      "id": "road-barrier",
+      "cohort": "legacy",
+      "collection": "023  |  road-barrier",
+      "root_object": "road-barrier",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "road-barrier",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 2324,
+      "gallery_world_bounds_blender": {
+        "min": [
+          22.56999969482422,
+          44.38399887084961,
+          0.0
+        ],
+        "max": [
+          23.43000030517578,
+          47.61600112915039,
+          1.0730000734329224
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.8600006103515625,
+        1.0730000734329224,
+        3.2320022583007812
+      ]
+    },
+    {
+      "index": 24,
+      "id": "signal-gantry",
+      "cohort": "legacy",
+      "collection": "024  |  signal-gantry",
+      "root_object": "signal-gantry",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "signal-gantry",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 6016,
+      "gallery_world_bounds_blender": {
+        "min": [
+          30.0,
+          45.189998626708984,
+          0.0
+        ],
+        "max": [
+          39.0,
+          46.810001373291016,
+          6.565000057220459
+        ]
+      },
+      "native_dimensions_m_godot": [
+        9.0,
+        6.565000057220459,
+        1.6200027465820312
+      ]
+    },
+    {
+      "index": 25,
+      "id": "bus-shelter",
+      "cohort": "legacy",
+      "collection": "025  |  bus-shelter",
+      "root_object": "bus-shelter",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/legacy/Art100_DesertRefinement.blend",
+      "editable_source_object": "bus-shelter",
+      "runtime_glb": "godot/art/art100-legacy.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 5704,
+      "gallery_world_bounds_blender": {
+        "min": [
+          43.53404998779297,
+          45.0,
+          0.0
+        ],
+        "max": [
+          48.4659538269043,
+          47.0,
+          2.979999303817749
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.931903839111328,
+        2.979999303817749,
+        2.0
+      ]
+    },
+    {
+      "index": 26,
+      "id": "wasteland-diner",
+      "cohort": "wasteland",
+      "collection": "026  |  wasteland-diner",
+      "root_object": "wasteland-diner",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-diner",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 10279,
+      "gallery_world_bounds_blender": {
+        "min": [
+          70.75669860839844,
+          -4.204178810119629,
+          0.0
+        ],
+        "max": [
+          83.2433090209961,
+          4.204178810119629,
+          6.130000114440918
+        ]
+      },
+      "native_dimensions_m_godot": [
+        12.486610412597656,
+        6.130000114440918,
+        8.408357620239258
+      ]
+    },
+    {
+      "index": 27,
+      "id": "wasteland-greenhouse",
+      "cohort": "wasteland",
+      "collection": "027  |  wasteland-greenhouse",
+      "root_object": "wasteland-greenhouse",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-greenhouse",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 18266,
+      "gallery_world_bounds_blender": {
+        "min": [
+          92.55740356445312,
+          -5.156561851501465,
+          0.0
+        ],
+        "max": [
+          107.4426040649414,
+          5.156561851501465,
+          5.96316385269165
+        ]
+      },
+      "native_dimensions_m_godot": [
+        14.885200500488281,
+        5.96316385269165,
+        10.31312370300293
+      ]
+    },
+    {
+      "index": 28,
+      "id": "wasteland-observatory",
+      "cohort": "wasteland",
+      "collection": "028  |  wasteland-observatory",
+      "root_object": "wasteland-observatory",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-observatory",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 12818,
+      "gallery_world_bounds_blender": {
+        "min": [
+          114.8997802734375,
+          -7.1216583251953125,
+          0.0
+        ],
+        "max": [
+          131.1002197265625,
+          7.1216583251953125,
+          8.699999809265137
+        ]
+      },
+      "native_dimensions_m_godot": [
+        16.200439453125,
+        8.699999809265137,
+        14.243316650390625
+      ]
+    },
+    {
+      "index": 29,
+      "id": "wasteland-passenger-coach",
+      "cohort": "wasteland",
+      "collection": "029  |  wasteland-passenger-coach",
+      "root_object": "wasteland-passenger-coach",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-passenger-coach",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 21708,
+      "gallery_world_bounds_blender": {
+        "min": [
+          139.28045654296875,
+          -3.1237382888793945,
+          0.0
+        ],
+        "max": [
+          152.71954345703125,
+          3.1237382888793945,
+          4.069567680358887
+        ]
+      },
+      "native_dimensions_m_godot": [
+        13.4390869140625,
+        4.069567680358887,
+        6.247476577758789
+      ]
+    },
+    {
+      "index": 30,
+      "id": "wasteland-service-station",
+      "cohort": "wasteland",
+      "collection": "030  |  wasteland-service-station",
+      "root_object": "wasteland-service-station",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-service-station",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 8024,
+      "gallery_world_bounds_blender": {
+        "min": [
+          162.021484375,
+          -5.169142723083496,
+          0.0
+        ],
+        "max": [
+          175.97853088378906,
+          5.169142723083496,
+          6.208431720733643
+        ]
+      },
+      "native_dimensions_m_godot": [
+        13.957046508789062,
+        6.208431720733643,
+        10.338285446166992
+      ]
+    },
+    {
+      "index": 31,
+      "id": "wasteland-cooling-tower",
+      "cohort": "wasteland",
+      "collection": "031  |  wasteland-cooling-tower",
+      "root_object": "wasteland-cooling-tower",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-cooling-tower",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 11358,
+      "gallery_world_bounds_blender": {
+        "min": [
+          67.86882781982422,
+          13.436468124389648,
+          0.0
+        ],
+        "max": [
+          86.13116455078125,
+          32.56352996826172,
+          11.464980125427246
+        ]
+      },
+      "native_dimensions_m_godot": [
+        18.26233673095703,
+        11.464980125427246,
+        19.12706184387207
+      ]
+    },
+    {
+      "index": 32,
+      "id": "wasteland-excavator",
+      "cohort": "wasteland",
+      "collection": "032  |  wasteland-excavator",
+      "root_object": "wasteland-excavator",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-excavator",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 10958,
+      "gallery_world_bounds_blender": {
+        "min": [
+          94.87066650390625,
+          21.0,
+          0.0
+        ],
+        "max": [
+          105.12934112548828,
+          25.0,
+          3.6290321350097656
+        ]
+      },
+      "native_dimensions_m_godot": [
+        10.258674621582031,
+        3.6290321350097656,
+        4.0
+      ]
+    },
+    {
+      "index": 33,
+      "id": "wasteland-solar-farm",
+      "cohort": "wasteland",
+      "collection": "033  |  wasteland-solar-farm",
+      "root_object": "wasteland-solar-farm",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-solar-farm",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 13588,
+      "gallery_world_bounds_blender": {
+        "min": [
+          115.77749633789062,
+          17.17436408996582,
+          0.0
+        ],
+        "max": [
+          130.22250366210938,
+          28.82563591003418,
+          2.010211229324341
+        ]
+      },
+      "native_dimensions_m_godot": [
+        14.44500732421875,
+        2.010211229324341,
+        11.65127182006836
+      ]
+    },
+    {
+      "index": 34,
+      "id": "wasteland-tunnel",
+      "cohort": "wasteland",
+      "collection": "034  |  wasteland-tunnel",
+      "root_object": "wasteland-tunnel",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-tunnel",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 8295,
+      "gallery_world_bounds_blender": {
+        "min": [
+          138.78802490234375,
+          17.441930770874023,
+          0.0
+        ],
+        "max": [
+          153.21197509765625,
+          28.558067321777344,
+          8.25
+        ]
+      },
+      "native_dimensions_m_godot": [
+        14.4239501953125,
+        8.25,
+        11.11613655090332
+      ]
+    },
+    {
+      "index": 35,
+      "id": "wasteland-wind-turbine",
+      "cohort": "wasteland",
+      "collection": "035  |  wasteland-wind-turbine",
+      "root_object": "wasteland-wind-turbine",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-wind-turbine",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 8675,
+      "gallery_world_bounds_blender": {
+        "min": [
+          160.8154296875,
+          16.74619483947754,
+          0.0
+        ],
+        "max": [
+          177.1845703125,
+          29.25380516052246,
+          5.773059368133545
+        ]
+      },
+      "native_dimensions_m_godot": [
+        16.369140625,
+        5.773059368133545,
+        12.507610321044922
+      ]
+    },
+    {
+      "index": 36,
+      "id": "wasteland-cistern",
+      "cohort": "wasteland",
+      "collection": "036  |  wasteland-cistern",
+      "root_object": "wasteland-cistern",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-cistern",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 8156,
+      "gallery_world_bounds_blender": {
+        "min": [
+          74.7300033569336,
+          44.0,
+          0.0
+        ],
+        "max": [
+          79.27000427246094,
+          48.0,
+          3.880000114440918
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.540000915527344,
+        3.880000114440918,
+        4.0
+      ]
+    },
+    {
+      "index": 37,
+      "id": "wasteland-rail-switch",
+      "cohort": "wasteland",
+      "collection": "037  |  wasteland-rail-switch",
+      "root_object": "wasteland-rail-switch",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-rail-switch",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 1808,
+      "gallery_world_bounds_blender": {
+        "min": [
+          96.44999694824219,
+          44.150001525878906,
+          0.0
+        ],
+        "max": [
+          103.55000305175781,
+          47.85000228881836,
+          1.8677453994750977
+        ]
+      },
+      "native_dimensions_m_godot": [
+        7.100006103515625,
+        1.8677453994750977,
+        3.700000762939453
+      ]
+    },
+    {
+      "index": 38,
+      "id": "wasteland-container-shelter",
+      "cohort": "wasteland",
+      "collection": "038  |  wasteland-container-shelter",
+      "root_object": "wasteland-container-shelter",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-container-shelter",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 2816,
+      "gallery_world_bounds_blender": {
+        "min": [
+          119.9000015258789,
+          44.071250915527344,
+          0.0
+        ],
+        "max": [
+          126.0999984741211,
+          47.928749084472656,
+          2.9600000381469727
+        ]
+      },
+      "native_dimensions_m_godot": [
+        6.1999969482421875,
+        2.9600000381469727,
+        3.8574981689453125
+      ]
+    },
+    {
+      "index": 39,
+      "id": "wasteland-survey-rover",
+      "cohort": "wasteland",
+      "collection": "039  |  wasteland-survey-rover",
+      "root_object": "wasteland-survey-rover",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-survey-rover",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 10412,
+      "gallery_world_bounds_blender": {
+        "min": [
+          144.0800018310547,
+          44.814998626708984,
+          0.0
+        ],
+        "max": [
+          147.9199981689453,
+          47.185001373291016,
+          3.1500000953674316
+        ]
+      },
+      "native_dimensions_m_godot": [
+        3.839996337890625,
+        3.1500000953674316,
+        2.3700027465820312
+      ]
+    },
+    {
+      "index": 40,
+      "id": "wasteland-signal-gantry",
+      "cohort": "wasteland",
+      "collection": "040  |  wasteland-signal-gantry",
+      "root_object": "wasteland-signal-gantry",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-signal-gantry",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 5300,
+      "gallery_world_bounds_blender": {
+        "min": [
+          164.5,
+          45.349998474121094,
+          0.0
+        ],
+        "max": [
+          173.5,
+          46.650001525878906,
+          7.267228126525879
+        ]
+      },
+      "native_dimensions_m_godot": [
+        9.0,
+        7.267228126525879,
+        1.3000030517578125
+      ]
+    },
+    {
+      "index": 41,
+      "id": "wasteland-buried-transformer",
+      "cohort": "wasteland",
+      "collection": "041  |  wasteland-buried-transformer",
+      "root_object": "wasteland-buried-transformer",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-buried-transformer",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 5736,
+      "gallery_world_bounds_blender": {
+        "min": [
+          75.05000305175781,
+          67.44999694824219,
+          0.0
+        ],
+        "max": [
+          78.94999694824219,
+          70.55000305175781,
+          2.75
+        ]
+      },
+      "native_dimensions_m_godot": [
+        3.899993896484375,
+        2.75,
+        3.100006103515625
+      ]
+    },
+    {
+      "index": 42,
+      "id": "wasteland-pipeline-valve",
+      "cohort": "wasteland",
+      "collection": "042  |  wasteland-pipeline-valve",
+      "root_object": "wasteland-pipeline-valve",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-pipeline-valve",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 5908,
+      "gallery_world_bounds_blender": {
+        "min": [
+          97.69999694824219,
+          68.18000030517578,
+          0.0
+        ],
+        "max": [
+          102.30000305175781,
+          69.81999969482422,
+          2.817499876022339
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.600006103515625,
+        2.817499876022339,
+        1.6399993896484375
+      ]
+    },
+    {
+      "index": 43,
+      "id": "wasteland-scrap-press",
+      "cohort": "wasteland",
+      "collection": "043  |  wasteland-scrap-press",
+      "root_object": "wasteland-scrap-press",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-scrap-press",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 2536,
+      "gallery_world_bounds_blender": {
+        "min": [
+          120.875,
+          67.5999984741211,
+          0.0
+        ],
+        "max": [
+          125.125,
+          70.4000015258789,
+          4.0
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.25,
+        4.0,
+        2.8000030517578125
+      ]
+    },
+    {
+      "index": 44,
+      "id": "wasteland-sensor-mast",
+      "cohort": "wasteland",
+      "collection": "044  |  wasteland-sensor-mast",
+      "root_object": "wasteland-sensor-mast",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-sensor-mast",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 2592,
+      "gallery_world_bounds_blender": {
+        "min": [
+          144.125,
+          67.42500305175781,
+          0.0
+        ],
+        "max": [
+          147.875,
+          70.57500457763672,
+          5.269999980926514
+        ]
+      },
+      "native_dimensions_m_godot": [
+        3.75,
+        5.269999980926514,
+        3.1500015258789062
+      ]
+    },
+    {
+      "index": 45,
+      "id": "wasteland-cable-drum",
+      "cohort": "wasteland",
+      "collection": "045  |  wasteland-cable-drum",
+      "root_object": "wasteland-cable-drum",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-cable-drum",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 15552,
+      "gallery_world_bounds_blender": {
+        "min": [
+          166.9547119140625,
+          67.53471374511719,
+          0.0
+        ],
+        "max": [
+          171.04527282714844,
+          70.46528625488281,
+          3.200000047683716
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.0905609130859375,
+        3.200000047683716,
+        2.930572509765625
+      ]
+    },
+    {
+      "index": 46,
+      "id": "wasteland-crawler-wreck",
+      "cohort": "wasteland",
+      "collection": "046  |  wasteland-crawler-wreck",
+      "root_object": "wasteland-crawler-wreck",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-crawler-wreck",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 18548,
+      "gallery_world_bounds_blender": {
+        "min": [
+          74.56008911132812,
+          90.48999786376953,
+          0.0
+        ],
+        "max": [
+          79.43990325927734,
+          93.51000213623047,
+          2.7249999046325684
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.879814147949219,
+        2.7249999046325684,
+        3.0200042724609375
+      ]
+    },
+    {
+      "index": 47,
+      "id": "wasteland-water-condenser",
+      "cohort": "wasteland",
+      "collection": "047  |  wasteland-water-condenser",
+      "root_object": "wasteland-water-condenser",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-water-condenser",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 7568,
+      "gallery_world_bounds_blender": {
+        "min": [
+          98.19999694824219,
+          90.7750015258789,
+          0.0
+        ],
+        "max": [
+          101.80000305175781,
+          93.2249984741211,
+          3.04194974899292
+        ]
+      },
+      "native_dimensions_m_godot": [
+        3.600006103515625,
+        3.04194974899292,
+        2.4499969482421875
+      ]
+    },
+    {
+      "index": 48,
+      "id": "wasteland-freight-bogie",
+      "cohort": "wasteland",
+      "collection": "048  |  wasteland-freight-bogie",
+      "root_object": "wasteland-freight-bogie",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-freight-bogie",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 19436,
+      "gallery_world_bounds_blender": {
+        "min": [
+          120.69000244140625,
+          90.72000122070312,
+          0.0
+        ],
+        "max": [
+          125.30999755859375,
+          93.27999877929688,
+          2.180000066757202
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.6199951171875,
+        2.180000066757202,
+        2.55999755859375
+      ]
+    },
+    {
+      "index": 49,
+      "id": "wasteland-checkpoint-gate",
+      "cohort": "wasteland",
+      "collection": "049  |  wasteland-checkpoint-gate",
+      "root_object": "wasteland-checkpoint-gate",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-checkpoint-gate",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 2036,
+      "gallery_world_bounds_blender": {
+        "min": [
+          142.28250122070312,
+          91.30000305175781,
+          0.0
+        ],
+        "max": [
+          149.71749877929688,
+          92.69999694824219,
+          2.799999952316284
+        ]
+      },
+      "native_dimensions_m_godot": [
+        7.43499755859375,
+        2.799999952316284,
+        1.399993896484375
+      ]
+    },
+    {
+      "index": 50,
+      "id": "wasteland-relay-vault",
+      "cohort": "wasteland",
+      "collection": "050  |  wasteland-relay-vault",
+      "root_object": "wasteland-relay-vault",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/wasteland/art100-wasteland.blend",
+      "editable_source_object": "wasteland-relay-vault",
+      "runtime_glb": "godot/art/art100-wasteland.glb",
+      "mesh_objects": 1,
+      "armatures": 0,
+      "triangles": 2084,
+      "gallery_world_bounds_blender": {
+        "min": [
+          166.5500030517578,
+          89.32499694824219,
+          0.0
+        ],
+        "max": [
+          171.4499969482422,
+          94.67500305175781,
+          3.2200000286102295
+        ]
+      },
+      "native_dimensions_m_godot": [
+        4.899993896484375,
+        3.2200000286102295,
+        5.350006103515625
+      ]
+    },
+    {
+      "index": 51,
+      "id": "nomad-tool-drawers",
+      "cohort": "machine",
+      "collection": "051  |  nomad-tool-drawers",
+      "root_object": "nomad-tool-drawers",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-tool-drawers",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 7017,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -0.6075000166893005,
+          74.61549377441406,
+          0.0
+        ],
+        "max": [
+          0.6074999570846558,
+          75.3844985961914,
+          1.0729999542236328
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.2149999737739563,
+        1.0729999542236328,
+        0.7690048217773438
+      ]
+    },
+    {
+      "index": 52,
+      "id": "nomad-service-cart",
+      "cohort": "machine",
+      "collection": "052  |  nomad-service-cart",
+      "root_object": "nomad-service-cart",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-service-cart",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 7,
+      "armatures": 0,
+      "triangles": 6451,
+      "gallery_world_bounds_blender": {
+        "min": [
+          3.5225000381469727,
+          74.64199829101562,
+          0.0
+        ],
+        "max": [
+          4.477499961853027,
+          75.35799407958984,
+          1.1540000438690186
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9549999237060547,
+        1.1540000438690186,
+        0.7159957885742188
+      ]
+    },
+    {
+      "index": 53,
+      "id": "nomad-field-chair",
+      "cohort": "machine",
+      "collection": "053  |  nomad-field-chair",
+      "root_object": "nomad-field-chair",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-field-chair",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 3230,
+      "gallery_world_bounds_blender": {
+        "min": [
+          7.587500095367432,
+          74.63349914550781,
+          0.0
+        ],
+        "max": [
+          8.412500381469727,
+          75.36650085449219,
+          1.1399999856948853
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.8250002861022949,
+        1.1399999856948853,
+        0.733001708984375
+      ]
+    },
+    {
+      "index": 54,
+      "id": "nomad-sleeping-berth",
+      "cohort": "machine",
+      "collection": "054  |  nomad-sleeping-berth",
+      "root_object": "nomad-sleeping-berth",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-sleeping-berth",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 3312,
+      "gallery_world_bounds_blender": {
+        "min": [
+          11.520000457763672,
+          74.01575469970703,
+          0.0
+        ],
+        "max": [
+          12.479999542236328,
+          75.9842529296875,
+          0.7549999952316284
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9599990844726562,
+        0.7549999952316284,
+        1.9684982299804688
+      ]
+    },
+    {
+      "index": 55,
+      "id": "nomad-radio-cabinet",
+      "cohort": "machine",
+      "collection": "055  |  nomad-radio-cabinet",
+      "root_object": "nomad-radio-cabinet",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-radio-cabinet",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 6825,
+      "gallery_world_bounds_blender": {
+        "min": [
+          15.657500267028809,
+          74.73624420166016,
+          0.0
+        ],
+        "max": [
+          16.342500686645508,
+          75.26374816894531,
+          1.0369999408721924
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.6850004196166992,
+        1.0369999408721924,
+        0.5275039672851562
+      ]
+    },
+    {
+      "index": 56,
+      "id": "nomad-repair-trestle",
+      "cohort": "machine",
+      "collection": "056  |  nomad-repair-trestle",
+      "root_object": "nomad-repair-trestle",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-repair-trestle",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 3498,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -0.6700000166893005,
+          78.58300018310547,
+          0.0
+        ],
+        "max": [
+          0.6700000166893005,
+          79.41699981689453,
+          1.2799999713897705
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.340000033378601,
+        1.2799999713897705,
+        0.8339996337890625
+      ]
+    },
+    {
+      "index": 57,
+      "id": "nomad-parts-organizer",
+      "cohort": "machine",
+      "collection": "057  |  nomad-parts-organizer",
+      "root_object": "nomad-parts-organizer",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-parts-organizer",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 6086,
+      "gallery_world_bounds_blender": {
+        "min": [
+          3.497499942779541,
+          78.78250122070312,
+          0.0
+        ],
+        "max": [
+          4.502500057220459,
+          79.21749877929688,
+          1.5749999284744263
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.005000114440918,
+        1.5749999284744263,
+        0.43499755859375
+      ]
+    },
+    {
+      "index": 58,
+      "id": "nomad-charging-cabinet",
+      "cohort": "machine",
+      "collection": "058  |  nomad-charging-cabinet",
+      "root_object": "nomad-charging-cabinet",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-charging-cabinet",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 4429,
+      "gallery_world_bounds_blender": {
+        "min": [
+          7.485000133514404,
+          78.6822509765625,
+          0.0
+        ],
+        "max": [
+          8.515000343322754,
+          79.3177490234375,
+          1.7699999809265137
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.0300002098083496,
+        1.7699999809265137,
+        0.635498046875
+      ]
+    },
+    {
+      "index": 59,
+      "id": "nomad-expedition-trunk",
+      "cohort": "machine",
+      "collection": "059  |  nomad-expedition-trunk",
+      "root_object": "nomad-expedition-trunk",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-expedition-trunk",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 2657,
+      "gallery_world_bounds_blender": {
+        "min": [
+          11.40999984741211,
+          78.57300567626953,
+          0.0
+        ],
+        "max": [
+          12.59000015258789,
+          79.427001953125,
+          0.7299999594688416
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.1800003051757812,
+        0.7299999594688416,
+        0.8539962768554688
+      ]
+    },
+    {
+      "index": 60,
+      "id": "nomad-archive-vitrine",
+      "cohort": "machine",
+      "collection": "060  |  nomad-archive-vitrine",
+      "root_object": "nomad-archive-vitrine",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-archive-vitrine",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 8015,
+      "gallery_world_bounds_blender": {
+        "min": [
+          15.604999542236328,
+          78.65499877929688,
+          0.0
+        ],
+        "max": [
+          16.395000457763672,
+          79.34500122070312,
+          1.505000114440918
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.7900009155273438,
+        1.505000114440918,
+        0.69000244140625
+      ]
+    },
+    {
+      "index": 61,
+      "id": "nomad-chart-desk",
+      "cohort": "machine",
+      "collection": "061  |  nomad-chart-desk",
+      "root_object": "nomad-chart-desk",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-chart-desk",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 5569,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -0.6600000262260437,
+          82.5739974975586,
+          0.0
+        ],
+        "max": [
+          0.6600000262260437,
+          83.4260025024414,
+          1.1410000324249268
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.3200000524520874,
+        1.1410000324249268,
+        0.8520050048828125
+      ]
+    },
+    {
+      "index": 62,
+      "id": "nomad-survey-floodlight",
+      "cohort": "machine",
+      "collection": "062  |  nomad-survey-floodlight",
+      "root_object": "nomad-survey-floodlight",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-survey-floodlight",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 2940,
+      "gallery_world_bounds_blender": {
+        "min": [
+          3.526628255844116,
+          82.58000183105469,
+          0.0
+        ],
+        "max": [
+          4.473371505737305,
+          83.41999816894531,
+          2.0199999809265137
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9467432498931885,
+        2.0199999809265137,
+        0.839996337890625
+      ]
+    },
+    {
+      "index": 63,
+      "id": "nomad-machinist-lamp",
+      "cohort": "machine",
+      "collection": "063  |  nomad-machinist-lamp",
+      "root_object": "nomad-machinist-lamp",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-machinist-lamp",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 1916,
+      "gallery_world_bounds_blender": {
+        "min": [
+          7.789999961853027,
+          82.68949890136719,
+          0.0
+        ],
+        "max": [
+          8.210000038146973,
+          83.31050109863281,
+          1.5809999704360962
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.4200000762939453,
+        1.5809999704360962,
+        0.621002197265625
+      ]
+    },
+    {
+      "index": 64,
+      "id": "nomad-coat-rack",
+      "cohort": "machine",
+      "collection": "064  |  nomad-coat-rack",
+      "root_object": "nomad-coat-rack",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-coat-rack",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 2108,
+      "gallery_world_bounds_blender": {
+        "min": [
+          11.5625,
+          82.70500183105469,
+          0.0
+        ],
+        "max": [
+          12.4375,
+          83.29499816894531,
+          1.8313885927200317
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.875,
+        1.8313885927200317,
+        0.589996337890625
+      ]
+    },
+    {
+      "index": 65,
+      "id": "nomad-cable-reel",
+      "cohort": "machine",
+      "collection": "065  |  nomad-cable-reel",
+      "root_object": "nomad-cable-reel",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-cable-reel",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 4,
+      "armatures": 0,
+      "triangles": 9532,
+      "gallery_world_bounds_blender": {
+        "min": [
+          15.514999389648438,
+          82.58499908447266,
+          0.0
+        ],
+        "max": [
+          16.485000610351562,
+          83.41499328613281,
+          0.8799999952316284
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.970001220703125,
+        0.8799999952316284,
+        0.8299942016601562
+      ]
+    },
+    {
+      "index": 66,
+      "id": "nomad-boots-locker",
+      "cohort": "machine",
+      "collection": "066  |  nomad-boots-locker",
+      "root_object": "nomad-boots-locker",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-boots-locker",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 7,
+      "armatures": 0,
+      "triangles": 3771,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -0.3174999952316284,
+          86.69425201416016,
+          0.0
+        ],
+        "max": [
+          0.3174999952316284,
+          87.30574798583984,
+          1.850000023841858
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.6349999904632568,
+        1.850000023841858,
+        0.6114959716796875
+      ]
+    },
+    {
+      "index": 67,
+      "id": "nomad-galley-sideboard",
+      "cohort": "machine",
+      "collection": "067  |  nomad-galley-sideboard",
+      "root_object": "nomad-galley-sideboard",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-galley-sideboard",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 5658,
+      "gallery_world_bounds_blender": {
+        "min": [
+          3.4375,
+          86.65975189208984,
+          0.0
+        ],
+        "max": [
+          4.5625,
+          87.34024810791016,
+          1.309999942779541
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.125,
+        1.309999942779541,
+        0.6804962158203125
+      ]
+    },
+    {
+      "index": 68,
+      "id": "nomad-ceramic-basin",
+      "cohort": "machine",
+      "collection": "068  |  nomad-ceramic-basin",
+      "root_object": "nomad-ceramic-basin",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-ceramic-basin",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 3244,
+      "gallery_world_bounds_blender": {
+        "min": [
+          7.659999847412109,
+          86.70500183105469,
+          0.0
+        ],
+        "max": [
+          8.34000015258789,
+          87.29499816894531,
+          1.2782548666000366
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.6800003051757812,
+        1.2782548666000366,
+        0.589996337890625
+      ]
+    },
+    {
+      "index": 69,
+      "id": "nomad-navigation-stool",
+      "cohort": "machine",
+      "collection": "069  |  nomad-navigation-stool",
+      "root_object": "nomad-navigation-stool",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-navigation-stool",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 2464,
+      "gallery_world_bounds_blender": {
+        "min": [
+          11.706250190734863,
+          86.72000122070312,
+          0.0
+        ],
+        "max": [
+          12.293750762939453,
+          87.27999877929688,
+          0.780500054359436
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.5875005722045898,
+        0.780500054359436,
+        0.55999755859375
+      ]
+    },
+    {
+      "index": 70,
+      "id": "nomad-patchwork-bench",
+      "cohort": "machine",
+      "collection": "070  |  nomad-patchwork-bench",
+      "root_object": "nomad-patchwork-bench",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-patchwork-bench",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 7,
+      "armatures": 0,
+      "triangles": 3071,
+      "gallery_world_bounds_blender": {
+        "min": [
+          15.225000381469727,
+          86.68000030517578,
+          0.0
+        ],
+        "max": [
+          16.774999618530273,
+          87.31999969482422,
+          0.9950000047683716
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.5499992370605469,
+        0.9950000047683716,
+        0.6399993896484375
+      ]
+    },
+    {
+      "index": 71,
+      "id": "nomad-spare-track-stand",
+      "cohort": "machine",
+      "collection": "071  |  nomad-spare-track-stand",
+      "root_object": "nomad-spare-track-stand",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-spare-track-stand",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 4274,
+      "gallery_world_bounds_blender": {
+        "min": [
+          -0.5299999713897705,
+          90.61500549316406,
+          0.0
+        ],
+        "max": [
+          0.5299999713897705,
+          91.38500213623047,
+          1.093999981880188
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.059999942779541,
+        1.093999981880188,
+        0.7699966430664062
+      ]
+    },
+    {
+      "index": 72,
+      "id": "nomad-air-filter-tower",
+      "cohort": "machine",
+      "collection": "072  |  nomad-air-filter-tower",
+      "root_object": "nomad-air-filter-tower",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-air-filter-tower",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 7563,
+      "gallery_world_bounds_blender": {
+        "min": [
+          3.5850000381469727,
+          90.64000701904297,
+          0.0
+        ],
+        "max": [
+          4.414999961853027,
+          91.36000061035156,
+          1.7200000286102295
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.8299999237060547,
+        1.7200000286102295,
+        0.7199935913085938
+      ]
+    },
+    {
+      "index": 73,
+      "id": "nomad-canister-caddy",
+      "cohort": "machine",
+      "collection": "073  |  nomad-canister-caddy",
+      "root_object": "nomad-canister-caddy",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-canister-caddy",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 6800,
+      "gallery_world_bounds_blender": {
+        "min": [
+          7.652500152587891,
+          90.66500091552734,
+          0.0
+        ],
+        "max": [
+          8.34749984741211,
+          91.33499908447266,
+          1.496000051498413
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.6949996948242188,
+        1.496000051498413,
+        0.6699981689453125
+      ]
+    },
+    {
+      "index": 74,
+      "id": "nomad-signal-pennant",
+      "cohort": "machine",
+      "collection": "074  |  nomad-signal-pennant",
+      "root_object": "nomad-signal-pennant",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-signal-pennant",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 3252,
+      "gallery_world_bounds_blender": {
+        "min": [
+          11.513774871826172,
+          90.73500061035156,
+          0.0
+        ],
+        "max": [
+          12.486225128173828,
+          91.26499938964844,
+          2.0999999046325684
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9724502563476562,
+        2.0999999046325684,
+        0.529998779296875
+      ]
+    },
+    {
+      "index": 75,
+      "id": "nomad-memory-board",
+      "cohort": "machine",
+      "collection": "075  |  nomad-memory-board",
+      "root_object": "nomad-memory-board",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/machine/NomadFurnishings.blend",
+      "editable_source_object": "nomad-memory-board",
+      "runtime_glb": "godot/art/art100-machine.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 4937,
+      "gallery_world_bounds_blender": {
+        "min": [
+          15.425000190734863,
+          90.70999908447266,
+          0.0
+        ],
+        "max": [
+          16.575000762939453,
+          91.29000091552734,
+          1.7974998950958252
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.1500005722045898,
+        1.7974998950958252,
+        0.5800018310546875
+      ]
+    },
+    {
+      "index": 76,
+      "id": "BerthReferenceDesk",
+      "cohort": "story-robots",
+      "collection": "076  |  BerthReferenceDesk",
+      "root_object": "BerthReferenceDesk",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "BerthReferenceDesk",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 8,
+      "armatures": 0,
+      "triangles": 9194,
+      "gallery_world_bounds_blender": {
+        "min": [
+          28.5049991607666,
+          74.66999816894531,
+          0.0
+        ],
+        "max": [
+          29.4950008392334,
+          75.33000183105469,
+          1.434999942779541
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9900016784667969,
+        1.434999942779541,
+        0.660003662109375
+      ]
+    },
+    {
+      "index": 77,
+      "id": "BerthReceivingCoupler",
+      "cohort": "story-robots",
+      "collection": "077  |  BerthReceivingCoupler",
+      "root_object": "BerthReceivingCoupler",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "BerthReceivingCoupler",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 8,
+      "armatures": 0,
+      "triangles": 16108,
+      "gallery_world_bounds_blender": {
+        "min": [
+          33.57500076293945,
+          74.6624984741211,
+          0.0
+        ],
+        "max": [
+          34.42499923706055,
+          75.3375015258789,
+          1.341999888420105
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.8499984741210938,
+        1.341999888420105,
+        0.6750030517578125
+      ]
+    },
+    {
+      "index": 78,
+      "id": "BerthSeedEnclosure",
+      "cohort": "story-robots",
+      "collection": "078  |  BerthSeedEnclosure",
+      "root_object": "BerthSeedEnclosure",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "BerthSeedEnclosure",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 7,
+      "armatures": 0,
+      "triangles": 14464,
+      "gallery_world_bounds_blender": {
+        "min": [
+          38.474998474121094,
+          74.6205062866211,
+          0.0
+        ],
+        "max": [
+          39.525001525878906,
+          75.37950134277344,
+          1.600000023841858
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.0500030517578125,
+        1.600000023841858,
+        0.7589950561523438
+      ]
+    },
+    {
+      "index": 79,
+      "id": "BerthArchiveReceiver",
+      "cohort": "story-robots",
+      "collection": "079  |  BerthArchiveReceiver",
+      "root_object": "BerthArchiveReceiver",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "BerthArchiveReceiver",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 7,
+      "armatures": 0,
+      "triangles": 9423,
+      "gallery_world_bounds_blender": {
+        "min": [
+          43.525001525878906,
+          74.66050720214844,
+          0.0
+        ],
+        "max": [
+          44.474998474121094,
+          75.3395004272461,
+          1.213318943977356
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9499969482421875,
+        1.213318943977356,
+        0.6789932250976562
+      ]
+    },
+    {
+      "index": 80,
+      "id": "BerthAccessTransmitter",
+      "cohort": "story-robots",
+      "collection": "080  |  BerthAccessTransmitter",
+      "root_object": "BerthAccessTransmitter",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "BerthAccessTransmitter",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 9,
+      "armatures": 0,
+      "triangles": 18399,
+      "gallery_world_bounds_blender": {
+        "min": [
+          48.54999923706055,
+          74.65299987792969,
+          0.0
+        ],
+        "max": [
+          49.45000076293945,
+          75.34700012207031,
+          1.8500001430511475
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9000015258789062,
+        1.8500001430511475,
+        0.694000244140625
+      ]
+    },
+    {
+      "index": 81,
+      "id": "SeedPropagationBench",
+      "cohort": "story-robots",
+      "collection": "081  |  SeedPropagationBench",
+      "root_object": "SeedPropagationBench",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "SeedPropagationBench",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 14759,
+      "gallery_world_bounds_blender": {
+        "min": [
+          27.75,
+          79.68949890136719,
+          0.0
+        ],
+        "max": [
+          30.25,
+          80.31050109863281,
+          1.2899999618530273
+        ]
+      },
+      "native_dimensions_m_godot": [
+        2.5,
+        1.2899999618530273,
+        0.621002197265625
+      ]
+    },
+    {
+      "index": 82,
+      "id": "PreservationReservoir",
+      "cohort": "story-robots",
+      "collection": "082  |  PreservationReservoir",
+      "root_object": "PreservationReservoir",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "PreservationReservoir",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 7,
+      "armatures": 0,
+      "triangles": 9127,
+      "gallery_world_bounds_blender": {
+        "min": [
+          33.745601654052734,
+          79.69280242919922,
+          0.0
+        ],
+        "max": [
+          34.254398345947266,
+          80.30720520019531,
+          1.5425000190734863
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.5087966918945312,
+        1.5425000190734863,
+        0.6144027709960938
+      ]
+    },
+    {
+      "index": 83,
+      "id": "OpenChannelMast",
+      "cohort": "story-robots",
+      "collection": "083  |  OpenChannelMast",
+      "root_object": "OpenChannelMast",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "OpenChannelMast",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 3528,
+      "gallery_world_bounds_blender": {
+        "min": [
+          38.724002838134766,
+          79.7750015258789,
+          0.0
+        ],
+        "max": [
+          39.2760009765625,
+          80.2249984741211,
+          4.199999809265137
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.5519981384277344,
+        4.199999809265137,
+        0.4499969482421875
+      ]
+    },
+    {
+      "index": 84,
+      "id": "RelayChallengeMast",
+      "cohort": "story-robots",
+      "collection": "084  |  RelayChallengeMast",
+      "root_object": "RelayChallengeMast",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "RelayChallengeMast",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 4705,
+      "gallery_world_bounds_blender": {
+        "min": [
+          43.70000076293945,
+          79.77999877929688,
+          0.0
+        ],
+        "max": [
+          44.29999923706055,
+          80.22000122070312,
+          3.680000066757202
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.5999984741210938,
+        3.680000066757202,
+        0.44000244140625
+      ]
+    },
+    {
+      "index": 85,
+      "id": "IsolatorCabinet",
+      "cohort": "story-robots",
+      "collection": "085  |  IsolatorCabinet",
+      "root_object": "IsolatorCabinet",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "IsolatorCabinet",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 8,
+      "armatures": 0,
+      "triangles": 11015,
+      "gallery_world_bounds_blender": {
+        "min": [
+          48.599998474121094,
+          79.6875,
+          0.0
+        ],
+        "max": [
+          49.400001525878906,
+          80.3125,
+          1.5499999523162842
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.8000030517578125,
+        1.5499999523162842,
+        0.625
+      ]
+    },
+    {
+      "index": 86,
+      "id": "ArchiveTransitCore",
+      "cohort": "story-robots",
+      "collection": "086  |  ArchiveTransitCore",
+      "root_object": "ArchiveTransitCore",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "ArchiveTransitCore",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 5,
+      "armatures": 0,
+      "triangles": 5692,
+      "gallery_world_bounds_blender": {
+        "min": [
+          28.670000076293945,
+          84.7564926147461,
+          0.0
+        ],
+        "max": [
+          29.329999923706055,
+          85.24349975585938,
+          0.5820000171661377
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.6599998474121094,
+        0.5820000171661377,
+        0.48700714111328125
+      ]
+    },
+    {
+      "index": 87,
+      "id": "MemoryReader",
+      "cohort": "story-robots",
+      "collection": "087  |  MemoryReader",
+      "root_object": "MemoryReader",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "MemoryReader",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 7,
+      "armatures": 0,
+      "triangles": 7820,
+      "gallery_world_bounds_blender": {
+        "min": [
+          33.619998931884766,
+          84.75499725341797,
+          0.0
+        ],
+        "max": [
+          34.380001068115234,
+          85.24500274658203,
+          1.3050000667572021
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.7600021362304688,
+        1.3050000667572021,
+        0.4900054931640625
+      ]
+    },
+    {
+      "index": 88,
+      "id": "SeedVault",
+      "cohort": "story-robots",
+      "collection": "088  |  SeedVault",
+      "root_object": "SeedVault",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "SeedVault",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 8,
+      "armatures": 0,
+      "triangles": 11426,
+      "gallery_world_bounds_blender": {
+        "min": [
+          38.619998931884766,
+          84.63399505615234,
+          0.0
+        ],
+        "max": [
+          39.380001068115234,
+          85.36599731445312,
+          1.1800000667572021
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.7600021362304688,
+        1.1800000667572021,
+        0.7320022583007812
+      ]
+    },
+    {
+      "index": 89,
+      "id": "EmergencyFuelPump",
+      "cohort": "story-robots",
+      "collection": "089  |  EmergencyFuelPump",
+      "root_object": "EmergencyFuelPump",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "EmergencyFuelPump",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 8,
+      "armatures": 0,
+      "triangles": 13059,
+      "gallery_world_bounds_blender": {
+        "min": [
+          43.56254577636719,
+          84.69249725341797,
+          0.0
+        ],
+        "max": [
+          44.43745040893555,
+          85.30750274658203,
+          1.5
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.8749046325683594,
+        1.5,
+        0.6150054931640625
+      ]
+    },
+    {
+      "index": 90,
+      "id": "CourierChargeCradle",
+      "cohort": "story-robots",
+      "collection": "090  |  CourierChargeCradle",
+      "root_object": "CourierChargeCradle",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "CourierChargeCradle",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 8,
+      "armatures": 0,
+      "triangles": 3749,
+      "gallery_world_bounds_blender": {
+        "min": [
+          48.48500061035156,
+          84.57849884033203,
+          0.0
+        ],
+        "max": [
+          49.51499938964844,
+          85.42150115966797,
+          0.8050000071525574
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.029998779296875,
+        0.8050000071525574,
+        0.8430023193359375
+      ]
+    },
+    {
+      "index": 91,
+      "id": "RecoveryToolCart",
+      "cohort": "story-robots",
+      "collection": "091  |  RecoveryToolCart",
+      "root_object": "RecoveryToolCart",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "RecoveryToolCart",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 5280,
+      "gallery_world_bounds_blender": {
+        "min": [
+          28.645000457763672,
+          89.66500091552734,
+          0.0
+        ],
+        "max": [
+          29.354999542236328,
+          90.33499908447266,
+          1.1901787519454956
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.7099990844726562,
+        1.1901787519454956,
+        0.6699981689453125
+      ]
+    },
+    {
+      "index": 92,
+      "id": "NavGyroCradle",
+      "cohort": "story-robots",
+      "collection": "092  |  NavGyroCradle",
+      "root_object": "NavGyroCradle",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "NavGyroCradle",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 7131,
+      "gallery_world_bounds_blender": {
+        "min": [
+          33.60499954223633,
+          89.67150115966797,
+          0.0
+        ],
+        "max": [
+          34.39500045776367,
+          90.32849884033203,
+          0.9800000190734863
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.7900009155273438,
+        0.9800000190734863,
+        0.6569976806640625
+      ]
+    },
+    {
+      "index": 93,
+      "id": "FoundryPowerBus",
+      "cohort": "story-robots",
+      "collection": "093  |  FoundryPowerBus",
+      "root_object": "FoundryPowerBus",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "FoundryPowerBus",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 6,
+      "armatures": 0,
+      "triangles": 19122,
+      "gallery_world_bounds_blender": {
+        "min": [
+          38.400001525878906,
+          89.6604995727539,
+          0.0
+        ],
+        "max": [
+          39.599998474121094,
+          90.3395004272461,
+          1.3499999046325684
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.1999969482421875,
+        1.3499999046325684,
+        0.6790008544921875
+      ]
+    },
+    {
+      "index": 94,
+      "id": "ArrayPhaseRack",
+      "cohort": "story-robots",
+      "collection": "094  |  ArrayPhaseRack",
+      "root_object": "ArrayPhaseRack",
+      "counting_unit": "Runtime visual assembly",
+      "editable_source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "editable_source_object": "ArrayPhaseRack",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 9,
+      "armatures": 0,
+      "triangles": 22190,
+      "gallery_world_bounds_blender": {
+        "min": [
+          43.54499816894531,
+          89.69449615478516,
+          0.0
+        ],
+        "max": [
+          44.45500183105469,
+          90.30549621582031,
+          1.6099998950958252
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.910003662109375,
+        1.6099998950958252,
+        0.6110000610351562
+      ]
+    },
+    {
+      "index": 95,
+      "id": "WardenRangefinder",
+      "cohort": "story-robots",
+      "collection": "095  |  WardenRangefinder",
+      "root_object": "Complete_WardenRangefinder",
+      "counting_unit": "Complete existing rigged body plus authored equipment",
+      "editable_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "editable_source_object": "Complete_WardenRangefinder",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 30,
+      "armatures": 1,
+      "triangles": 130117,
+      "gallery_world_bounds_blender": {
+        "min": [
+          48.38620376586914,
+          89.1415023803711,
+          0.0
+        ],
+        "max": [
+          49.613800048828125,
+          90.8584976196289,
+          2.2631964683532715
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.2275962829589844,
+        2.2631964683532715,
+        1.7169952392578125
+      ],
+      "runtime_body_and_attachment": "enemy:warden"
+    },
+    {
+      "index": 96,
+      "id": "RevenantPulseRack",
+      "cohort": "story-robots",
+      "collection": "096  |  RevenantPulseRack",
+      "root_object": "Complete_RevenantPulseRack",
+      "counting_unit": "Complete existing rigged body plus authored equipment",
+      "editable_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "editable_source_object": "Complete_RevenantPulseRack",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 29,
+      "armatures": 1,
+      "triangles": 123857,
+      "gallery_world_bounds_blender": {
+        "min": [
+          28.399398803710938,
+          94.35707092285156,
+          0.0
+        ],
+        "max": [
+          29.60059928894043,
+          95.64292907714844,
+          2.072871208190918
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.2012004852294922,
+        2.072871208190918,
+        1.285858154296875
+      ],
+      "runtime_body_and_attachment": "enemy:revenant"
+    },
+    {
+      "index": 97,
+      "id": "BastionSiegeRadiator",
+      "cohort": "story-robots",
+      "collection": "097  |  BastionSiegeRadiator",
+      "root_object": "Complete_BastionSiegeRadiator",
+      "counting_unit": "Complete existing rigged body plus authored equipment",
+      "editable_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "editable_source_object": "Complete_BastionSiegeRadiator",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 44,
+      "armatures": 1,
+      "triangles": 109683,
+      "gallery_world_bounds_blender": {
+        "min": [
+          33.07319259643555,
+          94.22248840332031,
+          0.0
+        ],
+        "max": [
+          34.92680740356445,
+          95.77751159667969,
+          2.5573737621307373
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.8536148071289062,
+        2.5573737621307373,
+        1.555023193359375
+      ],
+      "runtime_body_and_attachment": "enemy:bastion"
+    },
+    {
+      "index": 98,
+      "id": "SovereignComms",
+      "cohort": "story-robots",
+      "collection": "098  |  SovereignComms",
+      "root_object": "Complete_SovereignComms",
+      "counting_unit": "Complete existing rigged body plus authored equipment",
+      "editable_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "editable_source_object": "Complete_SovereignComms",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 28,
+      "armatures": 1,
+      "triangles": 132133,
+      "gallery_world_bounds_blender": {
+        "min": [
+          38.39939880371094,
+          94.50943756103516,
+          0.0
+        ],
+        "max": [
+          39.60060119628906,
+          95.49056243896484,
+          2.4445579051971436
+        ]
+      },
+      "native_dimensions_m_godot": [
+        1.201202392578125,
+        2.4445579051971436,
+        0.9811248779296875
+      ],
+      "runtime_body_and_attachment": "enemy:sovereign"
+    },
+    {
+      "index": 99,
+      "id": "RaiderRecoveryPack",
+      "cohort": "story-robots",
+      "collection": "099  |  RaiderRecoveryPack",
+      "root_object": "Complete_RaiderRecoveryPack",
+      "counting_unit": "Complete existing rigged body plus authored equipment",
+      "editable_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "editable_source_object": "Complete_RaiderRecoveryPack",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 26,
+      "armatures": 1,
+      "triangles": 94172,
+      "gallery_world_bounds_blender": {
+        "min": [
+          43.54593276977539,
+          94.67619323730469,
+          0.0
+        ],
+        "max": [
+          44.45406723022461,
+          95.32379913330078,
+          1.8720343112945557
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9081344604492188,
+        1.8720343112945557,
+        0.6476058959960938
+      ],
+      "runtime_body_and_attachment": "enemy:raider"
+    },
+    {
+      "index": 100,
+      "id": "ScavengerSurveyPack",
+      "cohort": "story-robots",
+      "collection": "100  |  ScavengerSurveyPack",
+      "root_object": "Complete_ScavengerSurveyPack",
+      "counting_unit": "Complete existing rigged body plus authored equipment",
+      "editable_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "editable_source_object": "Complete_ScavengerSurveyPack",
+      "runtime_glb": "godot/art/art100-story-robots.glb",
+      "mesh_objects": 26,
+      "armatures": 1,
+      "triangles": 54812,
+      "gallery_world_bounds_blender": {
+        "min": [
+          48.54399871826172,
+          94.70249938964844,
+          0.0
+        ],
+        "max": [
+          49.45600128173828,
+          95.29750061035156,
+          1.8616563081741333
+        ]
+      },
+      "native_dimensions_m_godot": [
+        0.9120025634765625,
+        1.8616563081741333,
+        0.595001220703125
+      ],
+      "runtime_body_and_attachment": "enemy:scavenger"
+    }
+  ],
+  "runtime_sha256": {
+    "legacy": "2a37a3da44f9d67024a531dbdac8a930fb1d84485c8aa2711dc9c5261860920f",
+    "wasteland": "d8e136cd5aea95a42d413a2f36f2d64884b9b9cb85956de8ce13fc7857776cdd",
+    "machine": "b2a74f632502d6252005d529aa3c6e9561dec1013ddd4a4b9b9661b8e5bc9cf1",
+    "story-robots": "43660d8a7bd69ecdd121a78739392f47c30335a7491716ba2e4b5078a65ebbf7"
+  }
+}

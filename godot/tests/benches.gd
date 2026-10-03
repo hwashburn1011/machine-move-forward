@@ -45,7 +45,7 @@ func run():
 	await process_frame
 	var machine=game.world.machine;var bank=MMFAssets.find_named(machine,"NativeServiceBenches")
 	manifest=MMFAssets.json("res://art/nomad-benches.json")
-	check(bank!=null and bank.get_child_count()==6,"Six complete service benches replace the original assemblies")
+	check(bank!=null and bank.get_child_count()==2,"Two complete service benches define the port maintenance edge")
 	if bank==null:quit(1);return
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var pump_manifest=MMFAssets.json("res://art/nomad-pumps.json");var cabinet_boxes=MMFAssets.json("res://art/nomad-switchgear.json").originalBoxes
@@ -68,6 +68,7 @@ func run():
 		report.retained.append({"name":entry.original,"maxDistanceM":distance,"expectedVertices":expected.size(),"actualVertices":actual.size()})
 	var collision_manifest=MMFAssets.json("res://art/nomad-benches-collision.json")
 	var raw=MMFAssets.json("res://data/runtime.json").colliders[int(collision_manifest.sourceCollider)];var body=MMFAssets.find_named(game.world,"NativeWorkshopCollision")
+	var static_removed=preload("res://tests/machine_spaces_collision_contract.gd").removed_offsets()
 	var faces=body.get_child(0).shape.get_faces();var cursor=0;var changed=0;var removed=0;var pump_removed=0;var intake_removed=0
 	for j in range(0,raw.indices.size(),3):
 		var tri=[]
@@ -76,10 +77,11 @@ func run():
 		if tri.all(func(p):return preload("res://tests/bench_trim.gd").removed(p,"Brace_welded_receiver001",manifest)):removed+=1;continue
 		if tri.all(func(p):return preload("res://tests/pump_trim.gd").removed(p,"Brace_welded_receiver001",pump_manifest)):pump_removed+=1;continue
 		if tri.all(func(p):return preload("res://tests/intake_trim.gd").removed(p)):intake_removed+=1;continue
+		if static_removed.has(j):continue
 		for p in tri:
 			if cursor>=faces.size() or not faces[cursor].is_equal_approx(p):changed+=1
 			cursor+=1
-	check(removed==int(collision_manifest.removedBenchTriangles) and pump_removed==4000 and intake_removed==12724 and changed==0 and cursor==faces.size(),"Only old benches, pumps and intake leave the frozen collision; every other triangle and winding is exact")
+	check(removed==int(collision_manifest.removedBenchTriangles) and pump_removed==4000 and intake_removed==12724 and changed==0 and cursor==faces.size(),"Only approved benches, pumps, intake and sparse static parts leave the frozen collision; all other triangles and winding are exact")
 	report.physics={"removedBenchTriangles":removed,"priorPumpRemoved":pump_removed,"retainedTriangles":cursor/3,"changedVertices":changed}
 	var meshes={};var materials={};var shapes={};var transforms={}
 	for i in bank.get_child_count():
@@ -116,7 +118,7 @@ func run():
 		var stop=(game.player.position-at).dot(front)
 		check(stop>.45 and stop<.9 and absf(game.player.position.y-at.y)<.08,"Actual player stops at the bench from its service aisle: "+str(i+1))
 		report.collision.append({"site":site.name,"playerStopM":stop,"playerY":game.player.position.y});report.models.append({"bounds":str(bounds),"triangles":triangles,"collapsed":collapsed})
-	check(meshes.size()==5 and materials.size()==5 and shapes.size()==1,"All six benches share five render resources and one collision shape")
+	check(meshes.size()==5 and materials.size()==5 and shapes.size()==1,"Both retained benches share five render resources and one collision shape")
 	check(MMFAssets.of_type(bank,"Light3D").is_empty() and MMFAssets.of_type(bank,"CollisionObject3D").is_empty(),"Decorative art adds no lights or per-triangle render physics")
 	game.session.story.phase="locked";game.session.scanner.phase="consumed"
 	for frame in 30:game.world.update(1.0/60)

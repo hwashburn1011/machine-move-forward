@@ -1,0 +1,143 @@
+{
+  "status": "Owned runtime and audio assets frozen; integrated final tests and native presentation captures coordinated by root.",
+  "runtime_files": [
+    {
+      "path": "godot/scripts/audio.gd",
+      "sha256": "97436928e8d7e5ae28a3bb019256f4a4c92151e972e95f6b1f09cd64d7106891"
+    },
+    {
+      "path": "godot/scripts/ambient_music.gd",
+      "sha256": "56aca7ab18c40fe09ccf63d6ce6c7625bc003f368367e6acd1c6210c79ab8a26"
+    },
+    {
+      "path": "godot/scripts/enemy_tells.gd",
+      "sha256": "2fe42292afa5b236ceb1ecfae70469571d13a9d9efdeb5e04b6577e0c2a8f6c2"
+    },
+    {
+      "path": "godot/scripts/gatekeeper_presentation.gd",
+      "sha256": "bff2a0401debfb9cb079f7c3a486dc00d6f2169ea4a696bb640398a909a3a736"
+    }
+  ],
+  "source_recipe": "tools/audio/deck_mix/build.py",
+  "editable_score": "tools/audio/deck_mix/score.json",
+  "asset_manifest": "assets/deck-audio/manifest.json",
+  "signal_validation": "assets/deck-audio/signal-validation.json",
+  "auditions": [
+    {
+      "path": "assets/deck-audio/weapon-comparison.wav",
+      "sha256": "07d58ac288d2a9a4d5a6595219566a08d2ab723a34ad710a62facb52fe34bc79",
+      "seconds": 14.0,
+      "peak_dbfs": -9.072111226709723,
+      "rms_dbfs": -34.942789940409334,
+      "dc_offset": 3.3822507274396413e-06,
+      "energy_above_3000_hz_percent": 16.41206996900741,
+      "energy_centroid_hz": 1789.1832097640936,
+      "segments": [
+        {
+          "start_seconds": 0.5,
+          "label": "Rifle original",
+          "shots": 3,
+          "spacing_seconds": 0.3
+        },
+        {
+          "start_seconds": 3.5,
+          "label": "Rifle revised",
+          "shots": 3,
+          "spacing_seconds": 0.3
+        },
+        {
+          "start_seconds": 7.5,
+          "label": "Shotgun original",
+          "shots": 3,
+          "spacing_seconds": 0.85
+        },
+        {
+          "start_seconds": 10.5,
+          "label": "Shotgun revised",
+          "shots": 3,
+          "spacing_seconds": 0.85
+        }
+      ]
+    },
+    {
+      "path": "assets/deck-audio/original-score-preview.wav",
+      "sha256": "c6d3c26f75bcb66059e1e4b9a8defbb2d7a8356d55dc910dc0414f2119516d29",
+      "seconds": 42.0,
+      "peak_dbfs": -22.887493610087866,
+      "rms_dbfs": -37.06573573797239,
+      "dc_offset": 1.4481198945788335e-07,
+      "energy_above_3000_hz_percent": 6.301878530691793e-07,
+      "energy_centroid_hz": 147.07726205031523,
+      "segments": [
+        {
+          "start_seconds": 0,
+          "label": "Dustlight",
+          "excerpt_seconds": 12,
+          "master": 0.7,
+          "music_volume": 0.35
+        },
+        {
+          "start_seconds": 14,
+          "label": "Window Heat",
+          "excerpt_seconds": 12,
+          "master": 0.7,
+          "music_volume": 0.35
+        },
+        {
+          "start_seconds": 28,
+          "label": "The Long Way Home",
+          "excerpt_seconds": 12,
+          "master": 0.7,
+          "music_volume": 0.35
+        }
+      ]
+    }
+  ],
+  "mix": {
+    "master_default": 0.7,
+    "music_default": 0.35,
+    "rifle_gain": 0.55,
+    "shotgun_gain": 0.6,
+    "enemy_servo_gain": 0.12,
+    "guardian_servo_gain": 0.18,
+    "quiet_machine_ambience": "Existing low engine bed retained; previous perpetual98Hz calm-loop removed."
+  },
+  "music": {
+    "tracks": 3,
+    "durations_seconds": [
+      30,
+      28,
+      32
+    ],
+    "initial_calm_silence_seconds": 45,
+    "stopped_gaps_seconds": [
+      90,
+      125,
+      160
+    ],
+    "fade_in_out_seconds": 4,
+    "combat_cinematic_release_seconds": 2,
+    "voices": 1,
+    "resources_preloaded": 3,
+    "gameplay_random_draws": 0,
+    "policy": "Silent text archives do not duck music. Actual combat, recent attacks, cinematics and death suppress entrances. Pause freezes position. Mute stops and detaches playback. Session identity or clock rollback resets schedule."
+  },
+  "checks": {
+    "offline_signal": 39,
+    "ambient_music": 24,
+    "audio_lifecycle": 58,
+    "enemy_tells": 63,
+    "enemy_combat_contract": 42,
+    "guardian": 70,
+    "total": 296,
+    "scope": "Focused preliminary headless and offline verification; not a frozen full-game performance run. Enemy contract compares1680 controller ticks. Old Guardian and combat JSON reports restored byte-for-byte by protected wrapper."
+  },
+  "reports": [
+    "test-results/deck-audio/ambient-music.json",
+    "test-results/deck-audio/audio-lifecycle.json",
+    "test-results/deck-audio/focused/summary.json"
+  ],
+  "native_review_helper": "godot/tests/deck_combat_review.gd",
+  "native_review_status": "Queued; no new GPU captures claimed yet.",
+  "limits": "Offline digital signal measurements and structural score review. Perceived loudness, realism, taste and clarity on individual speakers require listening; no human listening approval is implied."
+}

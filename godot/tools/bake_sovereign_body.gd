@@ -45,17 +45,18 @@ func trimmed(source: ArrayMesh,joint: int,shadow=false) -> ArrayMesh:
 	return result
 
 func run():
-	var source=MMFAssets.scene("models/authored/sovereign.glb")
+	var source=MMFAssets.scene(MMFEnemyModels.path("sovereign"))
 	var body=MMFAssets.find_named(source,"sovereign_CombatBody");var joint=-1
 	for i in body.skin.get_bind_count():
 		if body.skin.get_bind_name(i)==&"equipment_0":joint=i
 	assert(joint>=0,"Missing authored drone skin binding")
 	var mesh=trimmed(body.mesh,joint)
-	if report.removedTriangles!=3856:
+	var art=MMFAssets.json("res://../assets/native-character-refinement/sovereign-manifest.json")
+	if report.removedTriangles!=art.equipmentTriangles:
 		push_error("Unexpected source topology: "+str(report));source.free();MMFAssets.cache.clear();quit(1);return
 	var error=ResourceSaver.save(mesh,"res://art/sovereign-body.res",ResourceSaver.FLAG_COMPRESS)
 	if error!=OK:
 		push_error("Cannot save separated body mesh: "+error_string(error));source.free();MMFAssets.cache.clear();quit(1);return
-	report.sourceSha256=FileAccess.get_sha256("res://assets/models/authored/sovereign.glb");report.godot=Engine.get_version_info().string
+	report.sourceSha256=FileAccess.get_sha256(MMFEnemyModels.path("sovereign"));report.godot=Engine.get_version_info().string
 	var file=FileAccess.open("res://art/sovereign-body.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close();print("SOVEREIGN_BODY ",report)
 	source.free();MMFAssets.cache.clear();quit()

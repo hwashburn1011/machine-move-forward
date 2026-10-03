@@ -28,7 +28,7 @@ func update(dt: float,game):
 	var s=game.session;var phase=s.scanner.phase;var powered=s.powered.get("fixed-radio",false)
 	var fitted=phase not in ["awaiting-receiver","awaiting-module"]
 	module.visible=fitted;contacts.visible=not fitted
-	progress.scale.x=clampf(s.scanner.elapsedS/180.0,.001,1)
+	progress.scale.x=clampf(s.scan_fraction(),.001,1)
 	progress.visible=fitted and powered and s.scanner.elapsedS>0
 	lamp.visible=powered
 	remaining-=dt
@@ -44,7 +44,7 @@ func update(dt: float,game):
 		var activity="SCANNING"
 		if s.attack_recent>0 or game.combat.active_threat():activity="PAUSED / THREAT";color=Color(.87,.60,.27)
 		elif not game.aboard() or s.health<=0 or game.cinematic!="" or (game.menu_open and game.ui.page!="Signal"):activity="SCAN PAUSED";color=Color(.87,.60,.27)
-		text="%d%% COHERENCE\n%s" % [clampi(int(s.scanner.elapsedS/1.8),0,100),activity]
+		text="%d%% COHERENCE\n%s" % [clampi(int(s.scan_fraction()*100.0),0,100),activity]
 	elif phase=="contact-ready":text="100% COHERENCE\nSTABILIZING"
 	else:text="100% COHERENCE\nCONTACT ACQUIRED"
 	if status.text!=text:status.text=text

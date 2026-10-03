@@ -27,7 +27,8 @@ func geometry():
 		check(meshes.size()<=6 and surfaces<=24 and pbr>=3,kind+": original worn PBR surfaces remain batched")
 		check(MMFAssets.of_type(node,"Light3D").is_empty(),kind+": model adds no realtime lights")
 		var bounds=MMFAssets.bounds(node)
-		check(bounds.size.x<3.45 and bounds.position.y>=0 and bounds.end.z<4.51 and bounds.position.z>=-4.51,kind+": hull retains a bounded existing combat footprint")
+		# The adapted crossfire bow tow eye projects 6.5 cm past the heavy hull.
+		check(bounds.size.x<3.45 and bounds.position.y>=0 and bounds.end.z<4.51 and bounds.position.z>=-4.60,kind+": hull retains a bounded existing combat footprint")
 		observations[kind]={"triangles":triangles,"collapsed":collapsed,"meshes":meshes.size(),"surfaces":surfaces,"bounds":str(bounds)}
 		var expected={"CrewSeatLeft":Vector3(-.59,1.2,.35),"CrewSeatRight":Vector3(.59,1.2,.35),"PilotSeat":Vector3(0,1.2,-1.45),"SkiffGunYaw":Vector3(0,2.04,-1.95),"SkiffMuzzle":Vector3(0,2.04,-3.05)} if kind=="skiff" else {"GunboatGunYaw":Vector3(0,3.2,-1.7),"GunboatGunPitch":Vector3(0,3.6,-1.7),"GunboatMuzzle":Vector3(0,3.6,-3.5),"WeaponDamageAnchor":Vector3(0,3.4,-1.7),"EngineDamageAnchor":Vector3(0,3.2,2.8),"EngineExhaust":Vector3(0,3.18,3.8)}
 		for name in expected:
@@ -54,7 +55,7 @@ func geometry():
 				check(game.get_world_3d().direct_space_state.intersect_shape(query).is_empty(),"Heavy standing capsule clears actual skiff fittings at crew X "+str(x))
 		node.queue_free();await frames()
 func clear_encounter():
-	game.combat.boarding.clear()
+	game.combat.reset_encounter()
 	for enemy in game.combat.enemies:
 		if is_instance_valid(enemy):enemy.queue_free()
 	game.combat.enemies.clear();game.combat.crew.clear()
@@ -65,7 +66,8 @@ func clear_encounter():
 	game.combat.shells.clear();await frames()
 func behavior():
 	for kind in ["skiff","gunboat"]:
-		game.combat.begin_ship(kind,false,true);game.combat.ship.position=Vector3(game.combat.ship_side*(18 if kind=="gunboat" else 17),6,0)
+		game.combat.begin_ship(kind,false,true);game.combat.update_ship(game.combat.approach_duration)
+		if kind=="skiff":game.combat.update_ship(1.1)
 		for enemy in game.combat.crew:enemy.set_physics_process(false)
 		game.combat.update_ship(0);var view=game.combat.craft
 		await frames()

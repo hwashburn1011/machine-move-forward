@@ -82,8 +82,8 @@ func run():
 	await tap(KEY_E)
 	check(game.menu_open and game.ui.page=="Signal" and paused,"E opens the recovered receiver service panel")
 	game.session.inventory.add("scanner-replacement-module",1)
-	check(press_button("INSTALL REPLACEMENT MODULE") and game.session.scanner.phase=="installed","Install-module UI consumes the component and enables the scanner")
-	check(press_button("START RECEIVER SCAN") and not game.menu_open and not paused,"Start-scan UI returns to gameplay rather than freezing the scan")
+	check(press_button("INSTALL MODULE") and game.session.scanner.phase=="installed","Install-module UI consumes the component and enables the scanner")
+	check(press_button("SCAN") and not game.menu_open and not paused,"Start-scan UI returns to gameplay rather than freezing the scan")
 	await frames(10)
 	check(game.session.scanner.elapsedS>0 and game.world.receiver_module.visible,"Powered scanner progresses and shows the installed module")
 	# Exercise the actual visible helm, not its obsolete pre-layout trigger.
@@ -96,10 +96,14 @@ func run():
 	# Combat input, reload, refuel gesture and slot switching stay usable after menus.
 	await frames(2)
 	var ammo=game.session.weapons.rifle.ammoInMag
-	Input.action_press("fire");await frames(5)
+	Input.action_press("fire")
 	# Headless DisplayServer cannot capture a mouse. Rendered runs exercise the
-	# held-button path; headless runs exercise the same weapon and reload rules.
-	if DisplayServer.get_name()=="headless": game.player.fire()
+	# held-button path; headless runs exercise the same guarded fire method.
+	# A safe rear-facing shot first turns the real body/muzzle into alignment.
+	for i in 45:
+		await frames(1)
+		if DisplayServer.get_name()=="headless":game.player.fire()
+		if game.session.weapons.rifle.ammoInMag<ammo:break
 	check(game.session.weapons.rifle.ammoInMag<ammo,"Fire resumes normally after closing a terminal")
 	Input.action_release("fire")
 	await tap(KEY_R);check(game.player.reload_left>0,"Physical R starts reload")

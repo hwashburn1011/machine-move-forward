@@ -3,6 +3,7 @@ extends RefCounted
 
 var slots: Array = []
 var definitions: Dictionary
+var mutation_revision: int = 0
 
 func _init(items: Dictionary = {}, capacity: int = 20):
 	definitions = items
@@ -38,6 +39,7 @@ func add(id: String, quantity: int) -> int:
 		var moved = mini(cap, remaining)
 		slots[i] = {"itemId": id, "count": moved}
 		remaining -= moved
+	if remaining < quantity: mutation_revision += 1
 	return remaining
 
 func remove(id: String, quantity: int) -> int:
@@ -49,6 +51,7 @@ func remove(id: String, quantity: int) -> int:
 		slot.count -= moved
 		remaining -= moved
 		if slot.count == 0: slots[i] = null
+	if remaining < maxi(0, quantity): mutation_revision += 1
 	return quantity - remaining
 
 func can_pay(cost: Dictionary) -> bool:
@@ -70,6 +73,7 @@ func transfer_to(other: MMFInventory, matching: bool = false) -> int:
 		moved += int(slot.count) - left
 		if left == 0: slots[i] = null
 		else: slot.count = left
+	if moved > 0: mutation_revision += 1
 	return moved
 
 func sort_slots():
@@ -90,5 +94,9 @@ func restore(raw: Array) -> bool:
 		if slot.count <= 0 or slot.count > definitions[slot.itemId].stackSize: return false
 		if not is_finite(float(slot.count)) or floor(slot.count)!=slot.count: return false
 	slots.fill(null)
-	for i in raw.size(): slots[i] = raw[i].duplicate() if raw[i] != null else null
+	for i in raw.size():
+		if raw[i]==null:continue
+		slots[i]=raw[i].duplicate()
+		slots[i].itemId=MMFNativeProgression.RETIRED_ITEMS.get(slots[i].itemId,slots[i].itemId)
+	mutation_revision += 1
 	return true

@@ -29,6 +29,18 @@ func rounded(value: float):return snappedf(value,.000001)
 func snapshot(e):
 	return [e.phase,rounded(e.position.x),rounded(e.position.y),rounded(e.position.z),rounded(e.cooldown),rounded(e.windup),e.shots_left,rounded(game.session.health),rounded(game.session.subsystems.engine)]
 
+func comparable(kind: String,key: String,value):
+	# The old golden remains authoritative for movement, windup, shot cadence,
+	# phases, subsystem hits, armour and loot. Ranged aim is deliberately changed;
+	# its physical hits/misses, cover and dodge are tested by enemy_ballistics.gd.
+	if kind not in ["warden","bastion","sovereign"]:return value
+	if key=="events":return value.filter(func(event):return event[1]!="hit")
+	if key=="states":
+		var states=value.duplicate(true)
+		for state in states:state[7]=0.0
+		return states
+	return value
+
 func run():
 	game=load("res://scenes/main.tscn").instantiate();root.add_child(game);current_scene=game
 	game.started=true;game.session.opening_done=true;game.close_menu();game.set_physics_process(false);game.player.set_physics_process(false)
@@ -36,7 +48,7 @@ func run():
 	while game.combat.nav.is_baking():await create_timer(.02).timeout
 	var script=observed_script()
 	if script==null:quit(1);return
-	var result={"scope":"Original 60 Hz movement, cooldown/windup/shot/phase, health, subsystem damage, armour and drop events; six enemy types plus sabotage. Presentation fields deliberately excluded.","scenarios":{}}
+	var result={"scope":"Original 60 Hz movement, cooldown/windup/shot/phase, melee health, subsystem damage, armour and drops; six enemy types plus sabotage. Ranged hit frequency intentionally differs: each hit retains exact damage; seeded physical accuracy/cover/dodge tested separately by enemy_ballistics.gd. Original golden remains unchanged.","scenarios":{}}
 	for kind in ["scavenger","raider","warden","revenant","bastion","sovereign","sabotage"]:
 		var enemy=script.new();game.combat.add_child(enemy);enemy.setup(game,"raider" if kind=="sabotage" else kind);enemy.position=Vector3(50,16.04,0);enemy.set_physics_process(false)
 		game.combat.enemies.append(enemy);game.session.health=10000;game.session.subsystems.engine=100
@@ -58,9 +70,16 @@ func run():
 	else:
 		var expected=MMFAssets.json(expected_path)
 		for kind in result.scenarios:
+			if kind in ["warden","bastion","sovereign"]:
+				checks+=1
+				var health=10000.0;var exact=true
+				for state in result.scenarios[kind].states:
+					var damage=health-state[7]
+					exact=exact and (is_zero_approx(damage) or is_equal_approx(damage,game.data.ENEMIES[kind].damage));health=state[7]
+				if not exact:failures.append(kind+"/exact-per-hit-damage")
 			for key in result.scenarios[kind]:
 				checks+=1
-				if JSON.parse_string(JSON.stringify(result.scenarios[kind][key]))!=expected.scenarios[kind][key]:failures.append(kind+"/"+key)
+				if JSON.parse_string(JSON.stringify(comparable(kind,key,result.scenarios[kind][key])))!=comparable(kind,key,expected.scenarios[kind][key]):failures.append(kind+"/"+key)
 		var file=FileAccess.open("res://../test-results/godot-native/enemy-combat-contract.json",FileAccess.WRITE)
 		file.store_string(JSON.stringify({"checks":checks,"failures":failures,"passed":failures.is_empty(),"ticks":1680,"scope":result.scope},"\t"));file.close()
 		print("ENEMY_COMBAT_CONTRACT ",checks," checks; failures: ",failures)

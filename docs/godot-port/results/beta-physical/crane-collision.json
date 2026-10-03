@@ -1,0 +1,8 @@
+{
+	"checks": 48,
+	"failures": [],
+	"passed": true,
+	"removed_triangles": 3020,
+	"retained_deck_probes": 90,
+	"retained_rail_probes": 30
+}

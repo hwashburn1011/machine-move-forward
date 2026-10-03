@@ -6,6 +6,7 @@ var foot_hits={}
 var reload_animation: Animation
 var reload_tracks=[]
 var terminal_blend=0.0
+var tool_clock=0.0
 
 func sample_feet():
 	var skeleton=get_skeleton()
@@ -31,11 +32,8 @@ func _process_modification_with_delta(dt: float):
 	if not player: return
 	var skeleton=get_skeleton()
 	if not skeleton: return
-	terminal_blend=move_toward(terminal_blend,1.0 if player.game.menu_open and player.game.started else 0.0,dt*5)
-	var forearm=skeleton.find_bone("lowerarm_l")
-	if forearm>=0 and terminal_blend>0:
-		var q=skeleton.get_bone_pose_rotation(forearm)
-		skeleton.set_bone_pose_rotation(forearm,q*Quaternion.from_euler(Vector3(-0.72,0.18,0)*terminal_blend))
+	var terminal=player.game.ui.terminal if player.game.ui else null
+	terminal_blend=terminal.blend if terminal else 0.0
 	if reload_animation and player.reload_left>0:
 		var duration=player.game.weapon_definition().reloadTime
 		var fraction=clampf(1-player.reload_left/duration,0,1)
@@ -45,8 +43,19 @@ func _process_modification_with_delta(dt: float):
 			skeleton.set_bone_pose_rotation(entry.bone,skeleton.get_bone_pose_rotation(entry.bone).slerp(q,weight))
 	for name in ["spine_01","spine_02"]:
 		var index=skeleton.find_bone(name)
-		if index>=0: skeleton.set_bone_pose_rotation(index,skeleton.get_bone_pose_rotation(index)*Quaternion(Vector3.RIGHT,clampf(-player.pitch*0.3,-0.32,0.32)*0.5))
-	if player.weapon_pose:player.weapon_pose.apply()
+		if index>=0:
+			var yaw=player.get("aim_yaw")
+			var turn=float(yaw)*.2 if yaw!=null and terminal_blend<=0 and player.game.cinematic=="" and player.reload_left<=0 else 0.0
+			skeleton.set_bone_pose_rotation(index,skeleton.get_bone_pose_rotation(index)*Quaternion.from_euler(Vector3(clampf(-player.pitch*.3,-.32,.32)*.5,turn,0)))
+	if terminal_blend>0:
+		if player.weapon_pose:
+			player.weapon_pose.last_targets.clear();player.weapon_pose.pose_ready=false
+		apply_terminal(skeleton,terminal_blend)
+	elif player.equipment and player.equipment.salvage_selected():
+		if player.weapon_pose:
+			player.weapon_pose.last_targets.clear();player.weapon_pose.pose_ready=false
+		apply_cutter(skeleton,dt)
+	elif player.weapon_pose:player.weapon_pose.apply()
 	if not player.is_on_floor() or player.game.cinematic!="": return
 	for side in ["l","r"]:
 		var hit=foot_hits.get(side,{})
@@ -70,3 +79,34 @@ func _process_modification_with_delta(dt: float):
 		q=Quaternion((ankle_pose.origin-knee_pose.origin).normalized(),(target-knee_pose.origin).normalized())
 		parent_basis=skeleton.get_bone_global_pose(hip).basis.orthonormalized()
 		skeleton.set_bone_pose_rotation(knee,parent_basis.get_rotation_quaternion().inverse()*q*knee_pose.basis.get_rotation_quaternion())
+
+func apply_terminal(skeleton: Skeleton3D,weight: float):
+	if not player.weapon_pose or not player.weapon_pose.valid:return
+	var scale=maxf(player.visual.scale.x,.01)
+	var spine=skeleton.get_bone_global_pose(skeleton.find_bone("spine_02"))
+	# Raise the forearm across the chest, then pronate the wrist to read its
+	# dorsal instrument. The same IK uses the actual standing/crouching rig.
+	var hand=skeleton.get_bone_global_pose(skeleton.find_bone("hand_l"))
+	var target=spine.origin+Vector3(.10,.05,.52)/scale
+	player.weapon_pose.solve_arm("l",target,hand.basis*Basis(Vector3.UP,.28),weight)
+	var forearm_index=skeleton.find_bone("lowerarm_l")
+	var forearm=skeleton.get_bone_global_pose(forearm_index)
+	var wrist=skeleton.get_bone_global_pose(skeleton.find_bone("hand_l"))
+	var along=(wrist.origin-forearm.origin).normalized()
+	var normal=(Vector3.UP-along*along.dot(Vector3.UP)).normalized()
+	# Pronate the arm as part of the gesture: the cuff stays attached and the
+	# display faces the robot's eyes instead of hiding under his other arm.
+	player.weapon_pose.rotate_global(forearm_index,Basis(normal,along,normal.cross(along)).orthonormalized(),weight)
+	var right=skeleton.get_bone_global_pose(skeleton.find_bone("hand_r"))
+	player.weapon_pose.solve_arm("r",spine.origin+Vector3(-.27,-.36,.10)/scale,right.basis,weight)
+
+func apply_cutter(skeleton: Skeleton3D,dt: float):
+	var tool=player.game.building.get("salvage_tool")
+	if not tool or not player.weapon_pose or not player.weapon_pose.valid:return
+	tool_clock+=dt
+	var work=tool.working()
+	var cycle=sin(tool_clock*18)*.035 if work else 0.0
+	var spine=skeleton.get_bone_global_pose(skeleton.find_bone("spine_02"))
+	var scale=maxf(player.visual.scale.x,.01)
+	var right=skeleton.get_bone_global_pose(skeleton.find_bone("hand_r"))
+	player.weapon_pose.solve_arm("r",spine.origin+Vector3(-.15,-.13,.31+cycle)/scale,right.basis*Basis(Vector3.RIGHT,cycle*2),1.0)

@@ -1,0 +1,182 @@
+[
+  {
+    "root": "WakeRelayPodium",
+    "parts": 102,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 10536,
+    "batches": 5
+  },
+  {
+    "root": "FoundryLowerWorks",
+    "parts": 224,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 24144,
+    "batches": 6
+  },
+  {
+    "root": "ArrayServiceBunker",
+    "parts": 207,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 22212,
+    "batches": 6
+  },
+  {
+    "root": "OrchardServiceVault",
+    "parts": 148,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 15312,
+    "batches": 6
+  },
+  {
+    "root": "MeridianCivicBase",
+    "parts": 154,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 15864,
+    "batches": 6
+  },
+  {
+    "root": "FuelPumpHouse",
+    "parts": 164,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 17280,
+    "batches": 6
+  },
+  {
+    "root": "SalvageDepotBase",
+    "parts": 116,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 12480,
+    "batches": 6
+  },
+  {
+    "root": "MemorialListeningPlinth",
+    "parts": 30,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 3192,
+    "batches": 6
+  },
+  {
+    "root": "RepairBayBlock",
+    "parts": 105,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 11148,
+    "batches": 6
+  },
+  {
+    "root": "RefugeResidentialBase",
+    "parts": 102,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 10536,
+    "batches": 6
+  },
+  {
+    "root": "WorkshopLowerShop",
+    "parts": 142,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 15288,
+    "batches": 6
+  },
+  {
+    "root": "RecoveryLoadingTower",
+    "parts": 116,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 12480,
+    "batches": 6
+  },
+  {
+    "root": "DispatchStoreBase",
+    "parts": 102,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 10968,
+    "batches": 6
+  },
+  {
+    "root": "QuietWatchBase",
+    "parts": 180,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 19392,
+    "batches": 6
+  },
+  {
+    "root": "ReceivingCaisson",
+    "parts": 140,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 15024,
+    "batches": 6
+  },
+  {
+    "root": "FoundationUnit",
+    "parts": 1,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 12,
+    "batches": 1
+  },
+  {
+    "root": "GradeCollar",
+    "parts": 1,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 108,
+    "batches": 1
+  },
+  {
+    "root": "HorizonBermSkirt",
+    "parts": 0,
+    "finite": true,
+    "degenerateTriangles": 0,
+    "negativeVolumeCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "triangles": 0,
+    "batches": 0
+  }
+]

@@ -1,0 +1,104 @@
+{
+  "asset": "glass-orchard",
+  "config": {
+    "mesh": "GlassOrchard_Array_Lettering",
+    "source": "assets/glass-orchard/glass-orchard.blend",
+    "labels": [
+      {
+        "name": "Memory vault title",
+        "pivot": [
+          5,
+          3.87,
+          -5.04
+        ],
+        "height": 0.21,
+        "halfWidth": 3.1
+      },
+      {
+        "name": "Orchard identity",
+        "pivot": [
+          -5,
+          3.24,
+          -1.6
+        ],
+        "target": [
+          -5,
+          3.38,
+          -1.449
+        ],
+        "height": 0.4,
+        "halfWidth": 3.0
+      },
+      {
+        "name": "Orchard promise",
+        "pivot": [
+          -5,
+          2.98,
+          -1.6
+        ],
+        "target": [
+          -5,
+          3.16,
+          -1.449
+        ],
+        "height": 0.15,
+        "halfWidth": 2.6
+      }
+    ]
+  },
+  "beforeSha256": "8766252ee36acd2d81fec10f2723673cfe6b285410a3b42668ebe028c3390377",
+  "afterSha256": "5efee5e6915286f36742f32a42150404a09349eb416f9aab19f0d88790237827",
+  "labels": [
+    {
+      "name": "Memory vault title",
+      "pivot": [
+        5,
+        3.87,
+        -5.04
+      ],
+      "targetPivot": [
+        5,
+        3.87,
+        -5.04
+      ],
+      "vertices": 2428,
+      "triangles": 2304,
+      "mixedTriangles": 0
+    },
+    {
+      "name": "Orchard identity",
+      "pivot": [
+        -5,
+        3.24,
+        -1.6
+      ],
+      "targetPivot": [
+        -5,
+        3.38,
+        -1.449
+      ],
+      "vertices": 3763,
+      "triangles": 3264,
+      "mixedTriangles": 0
+    },
+    {
+      "name": "Orchard promise",
+      "pivot": [
+        -5,
+        2.98,
+        -1.6
+      ],
+      "targetPivot": [
+        -5,
+        3.16,
+        -1.449
+      ],
+      "vertices": 4542,
+      "triangles": 3428,
+      "mixedTriangles": 0
+    }
+  ],
+  "onlySelectedPositionNormalTangentBytesChanged": true,
+  "changedBytes": 256347,
+  "uvsIndicesImagesMaterialsOtherNodesPreserved": true
+}

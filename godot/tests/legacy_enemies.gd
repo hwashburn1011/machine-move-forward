@@ -22,8 +22,8 @@ func identical_animation(a: Animation,b: Animation) -> bool:
 func review(kind: String):
 	var original_path="res://assets/models/authored/"+kind+".glb";var path=MMFEnemyModels.path(kind)
 	var original=load(original_path).instantiate();var refined=load(path).instantiate()
-	var manifest=MMFAssets.json("res://art/legacy-enemies.json").models[kind]
-	check(manifest.originalSha256==FileAccess.get_sha256(original_path) and manifest.refinedSha256==FileAccess.get_sha256("res://art/legacy-"+kind+".glb") and manifest.compiledSha256==FileAccess.get_sha256(path),kind+": compiled model matches original rig and refined source hashes")
+	var manifest=MMFAssets.json("res://art/character-refinement.json").models[kind]
+	check(manifest.originalSha256==FileAccess.get_sha256(original_path) and manifest.refinedSha256==FileAccess.get_sha256("res://art/refined-"+kind+".glb") and manifest.compiledSha256==FileAccess.get_sha256(path),kind+": compiled model matches original rig and refined source hashes")
 	check(graph(original,original)==graph(refined,refined),kind+": original native node names, types, hierarchy and local transforms are exact")
 	var old_body=MMFAssets.find_named(original,kind+"_CraftedSkin");var body=MMFAssets.find_named(refined,kind+"_CraftedSkin")
 	var old_sk=old_body.get_node(old_body.skeleton);var sk=body.get_node(body.skeleton);var same=old_sk.get_bone_count()==sk.get_bone_count()

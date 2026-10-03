@@ -1,0 +1,361 @@
+{
+  "uri": "godot/assets/models/authored/relay-foundry.glb",
+  "mimeType": "model/gltf-binary",
+  "validatorVersion": "2.0.0-dev.3.10",
+  "validatedAt": "2026-10-02T14:05:39.317Z",
+  "issues": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 5,
+    "numHints": 0,
+    "messages": [
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/0/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/1/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/2/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/3/attributes/TANGENT"
+      },
+      {
+        "code": "UNUSED_MESH_TANGENT",
+        "message": "Tangents are not used because the material has no normal texture.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/4/attributes/TANGENT"
+      }
+    ],
+    "truncated": false
+  },
+  "info": {
+    "version": "2.0",
+    "generator": "Khronos glTF Blender I/O v5.1.18",
+    "extensionsUsed": [
+      "EXT_texture_webp"
+    ],
+    "extensionsRequired": [
+      "EXT_texture_webp"
+    ],
+    "resources": [
+      {
+        "pointer": "/buffers/0",
+        "mimeType": "application/gltf-buffer",
+        "storage": "glb",
+        "byteLength": 4822492
+      },
+      {
+        "pointer": "/images/0",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/1",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/2",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/3",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/4",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/5",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/6",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/7",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/8",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/9",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 256,
+          "height": 256,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/10",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/11",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 1024,
+          "height": 1024,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/12",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/13",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/14",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 1024,
+          "height": 1024,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/15",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/16",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/17",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 1024,
+          "height": 1024,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/18",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/19",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/20",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 1024,
+          "height": 1024,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      },
+      {
+        "pointer": "/images/21",
+        "mimeType": "image/webp",
+        "storage": "buffer-view",
+        "image": {
+          "width": 512,
+          "height": 512,
+          "format": "rgb",
+          "primaries": "srgb",
+          "transfer": "srgb",
+          "bits": 8
+        }
+      }
+    ],
+    "animationCount": 0,
+    "materialCount": 9,
+    "hasMorphTargets": false,
+    "hasSkins": false,
+    "hasTextures": true,
+    "hasDefaultScene": true,
+    "drawCallCount": 16,
+    "totalVertexCount": 65514,
+    "totalTriangleCount": 63736,
+    "maxUVs": 1,
+    "maxInfluences": 0,
+    "maxAttributes": 5
+  }
+}

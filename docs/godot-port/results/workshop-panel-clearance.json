@@ -1,0 +1,10 @@
+{
+	"checks": 23,
+	"climb": {
+		"end": "(17.56803, 19.64684, 6.0)",
+		"start": "(6.0, 16.1, 6.0)"
+	},
+	"failures": [],
+	"returnPosition": "(5.619974, 16.0485, 6.0)",
+	"supportWallMachineOverlaps": 0
+}

@@ -7,6 +7,12 @@ static func capture(audio) -> Array:
 	for stream in audio.bank.values():refs.append(weakref(stream))
 	for voice in [audio.drone_player,audio.pad_player]:
 		if voice.stream:refs.append(weakref(voice.stream))
+	if audio.music:
+		for stream in audio.music.streams:refs.append(weakref(stream))
+	if audio.game and audio.game.cinematics:
+		var prelude=audio.game.cinematics.prelude
+		for stream in [prelude.bed_stream,prelude.voice_stream,prelude.score_stream,prelude.fire_stream]:
+			if stream:refs.append(weakref(stream))
 	return refs
 
 static func finish(tree: SceneTree,refs: Array) -> bool:

@@ -122,9 +122,12 @@ def foundry():
     h.box('Foundation tray',(0,-.14,0),(14,.28,10),m['Dark'],root,.06)
     for x in range(-6,7,2):
         for z in range(-4,5,2):
-            h.box('Worn floor cassette',(x,-.015,z),(1.97,.035,1.97),m['Paint'],root,.009)
+            # The former 2.5 mm proud top/bevel crossed the foundation at
+            # shallow camera angles. A 44 mm plate seats into that slab while
+            # its 16 mm proud top and 5 mm edge bevel remain visibly separated.
+            h.box('Worn floor cassette',(x,-.006,z),(1.97,.044,1.97),m['Paint'],root,.005)
             for dx in (-.88,.88):
-                h.screw('Flush floor anchor',(x+dx,.003,z+.87),m['Steel'],root,.018)
+                h.cyl('Flush floor anchor',(x+dx,.016,z+.87),(x+dx,.020,z+.87),.018,m['Steel'],root,8)
     for z in (-4.9,4.9):
         h.box('Retaining wall',(1.5,1.35,z),(11,2.7,.2),m['Paint'],root,.025)
         for y in (.18,1.30,2.65):h.box('Continuous rolled wall rail',(1.5,y,z),(11,.10,.23),m['Dark'],root,.012)
@@ -190,6 +193,9 @@ def foundry():
         h.cyl('Wall conduit',(6.77,.25,z),(6.77,2.65,z),.045,m['Steel'],root,24)
     h.box('Foundry serial plate',(6.775,2.6,1.5),(.025,.42,2.2),m['Ochre'],root,.006)
     for z in (.65,.9,1.15,1.65,1.9,2.15):h.box('Raised identity rib',(6.754,2.6,z),(.025,.25,.07),m['Dark'],root,.004)
+    sys.path.insert(0,str(ROOT/'tools/art/native_site_roofs'))
+    import roofkit
+    roofkit.foundry(root)
     return root
 
 def loft_hull(parent,m):
@@ -330,8 +336,14 @@ BUILDERS={'navigation-helm':helm,'relay-foundry':foundry,'raider-gunboat':gunboa
           'automatic-collector':collector,'automatic-turret':auto_turret}
 BUDGETS={'navigation-helm':15000,'relay-foundry':150000,'raider-gunboat':80000,'automatic-collector':22000,'automatic-turret':20000}
 
-def export(stem):
-    h.clear();root=BUILDERS[stem]()
+def export(stem,prepared_root=None):
+    if prepared_root is None:h.clear();root=BUILDERS[stem]()
+    else:root=prepared_root
+    if stem=='relay-foundry':
+        # Preserve editable individual parts before static batching, including
+        # the original functional anchors and the new supported roof assembly.
+        import roofkit
+        roofkit.save_foundry_editable(root,SOURCE/f'{stem}.blend')
     h.join_static()
     # Set metre-scaled planar UVs directly on the mesh loops. These industrial
     # tileable surfaces need consistent texel density, with no edit-mode unwrap
@@ -363,9 +375,10 @@ def export(stem):
         'markers':{obj.name:[obj.matrix_world.translation.x,obj.matrix_world.translation.z,-obj.matrix_world.translation.y]
                    for obj in bpy.context.scene.objects if obj.type=='EMPTY'}}
     bpy.context.scene['sourceTool']='Blender 5.1 original expansion-v1 geometry'
-    bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/f'{stem}.blend'))
+    if stem!='relay-foundry':bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/f'{stem}.blend'))
     bpy.ops.export_scene.gltf(filepath=str(STAGE/f'{stem}.glb'),export_format='GLB',export_yup=True,
-        export_extras=True,export_animations=False,export_cameras=False,export_lights=False,
+        export_extras=True,export_animations=False,export_cameras=False,export_lights=False,export_tangents=True,
+        export_vertex_color='NAME',export_vertex_color_name='RoofPigment',export_all_vertex_colors=False,
         export_copyright='Original Machine Move Forward expansion art')
     report['bytes']=(STAGE/f'{stem}.glb').stat().st_size
     (STAGE/f'{stem}-manifest.json').write_text(json.dumps(report,indent=2)+'\n')

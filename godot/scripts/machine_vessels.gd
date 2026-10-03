@@ -23,7 +23,7 @@ static func install(machine: Node3D) -> Node3D:
 		previous.get_parent().remove_child(previous);previous.free()
 	retained.free()
 	var bank=Node3D.new();bank.name="NativePressureVessels";machine.add_child(bank)
-	for site in manifest.sites:
+	for site in MMFMachineComposition.sites(manifest):
 		var instance=vessel.duplicate();instance.name=site.name;bank.add_child(instance)
 		instance.position=MMFAssets.v(site.position)
 	vessel.free()

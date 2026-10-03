@@ -23,23 +23,12 @@ func supplies(s):
 
 func controller_parity(data: Dictionary):
 	var fixtures=JSON.parse_string(FileAccess.get_file_as_string("res://data/audit-fixtures.json"))
-	for fixture in fixtures.producers:
-		var s=MMFSession.new(data)
-		var p=s.create_piece(fixture.kind,{"x":10,"y":0,"z":10},0,{},true)
-		for i in fixture.steps.size():
-			var step=fixture.steps[i]
-			if step.action=="claim": p.state.stored=maxi(0,p.state.stored-int(step.value))
-			elif step.action!="off": s.fuel=100;s.tick(step.value)
-			else: s.fuel=0;s.tick(step.value)
-			check(p.state.stored==step.stored and is_equal_approx(p.state.elapsedS,step.progress),"Source %s production step %d"%[fixture.kind,i])
-	var garden_session=MMFSession.new(data)
-	var garden=garden_session.create_piece("seed-garden",{"x":10,"y":0,"z":10},0,{},true)
-	for i in fixtures.garden.size():
-		var step=fixtures.garden[i]
-		if step.action=="water": garden.state.water=mini(2,garden.state.water+int(step.value))
-		elif step.action=="harvest": garden.state.stored=maxi(0,garden.state.stored-int(step.value))
-		else: garden_session.tick(step.value)
-		check(garden.state.stored==step.greens and garden.state.water==step.water and is_equal_approx(garden.state.elapsedS,step.progressS),"Source seed garden step %d"%i)
+	var retired=MMFSession.new(data)
+	for id in MMFNativeProgression.RETIRED_PIECES:
+		check(retired.create_piece(id,{"x":10,"y":0,"z":10}).is_empty(),"Retired producer cannot be constructed: "+id)
+	var garden=retired.create_piece("seed-garden",{"x":10,"y":0,"z":10},0,{},true)
+	retired.tick(300)
+	check(garden.state.is_empty(),"Seed preservation remains decorative with no production or watering")
 	var healthy=MMFSession.new(data);healthy.opening_done=true;healthy.tick(10)
 	for fixture in fixtures.legs:
 		var s=MMFSession.new(data);s.opening_done=true
@@ -60,20 +49,15 @@ func controller_parity(data: Dictionary):
 		check(ok==step.ok and completed==expected and s.research.active==step.snapshot.active and s.modifiers()==step.modifiers,"Source upgrade transaction %d / %s"%[i,step.action])
 		var paid=data.UPGRADES[step.id].researchCost.scrap if step.action=="research" and step.ok else 0
 		check(s.count_resource("scrap")==before-paid,"Upgrade charged exactly once %d"%i)
-	for id in ["water","rations"]:
-		s.inventory.add(id,2)
-		var count=s.inventory.count_item(id)
-		check(not s.use_item(id) and s.inventory.count_item(id)==count,"Full meter does not waste "+id)
-		s.hydration=50;s.nourishment=50
-		check(s.use_item(id) and s.inventory.count_item(id)==count-1,"Low meter consumes one "+id)
-		s.hydration=100;s.nourishment=100
+	for id in MMFNativeProgression.RETIRED_ITEMS:
+		check(not s.use_item(id),"Robot cannot consume retired supply: "+id)
 	var old=s.native_snapshot();old.nextPieceId=0
 	old.research.job=data.UPGRADES.keys()[0];old.research.completed.erase(old.research.job)
 	old.structures.append({"instanceId":"bp-999","definitionId":"planter","cell":{"x":12,"y":0,"z":12},"rotation":0,"health":data.BUILD_PIECES.planter.maxHealth,"state":{"stored":3,"elapsedS":10000}})
 	var restored=MMFSession.new(data)
 	check(restored.restore_native(old),"Load legacy paid research and producer timers")
 	check(old.research.job in restored.research.completed and restored.research.job=="","Legacy paid research remains unlocked")
-	check(restored.find_piece("bp-999").state.elapsedS==150,"Restore clamps old banked production")
+	check(restored.find_piece("bp-999").state.legacyStock.scrap==3,"Restore preserves retired production as scrap")
 	var next=restored.create_piece("crate",{"x":10,"y":0,"z":10},0,{},true)
 	check(next.instanceId=="bp-1000","Restored piece counter cannot overwrite storage")
 	var bad=s.native_snapshot();bad.research.active.power="unknown"
@@ -110,7 +94,7 @@ func run():
 	s.fuel=100;s.story.phase="approach"
 	check(not game.research_action("fit",upgrade),"Research fitting is blocked during an active route")
 	s.story.phase="locked"
-	game.open_menu("Workshop")
+	game.open_station("Workshop","workbench")
 	check(not game.fit_attachment("rifle-stabilizer"),"Attachments are locked before Relay Foundry")
 	s.story.completed.append("relay-foundry")
 	check(not game.fit_attachment("rifle-stabilizer"),"Attachments require a functional workbench")
@@ -125,10 +109,10 @@ func run():
 	game.player.reload_left=1;game.player.burst_left=2;game.player.burst_recovery=0.4
 	check(game.remove_attachment("rifle") and game.fit_attachment("rifle-stabilizer") and s.count_resource("components")==components,"Attachment removal and refitting are free")
 	check(game.player.reload_left==0 and game.player.burst_left==0 and game.player.burst_recovery==0,"Changing weapon hardware cancels old reload and burst state")
-	game.ui.refresh()
+	game.ui.workshop_view.category="WEAPONS";game.ui.workshop_view.selected="rifle-stabilizer";game.ui.refresh()
 	var remove_visible=false
-	for child in game.ui.content.get_children():
-		if child is Button and child.text=="REMOVE Rifle Stabilizer" and not child.disabled: remove_visible=true
+	for child in MMFAssets.of_type(game.ui.content,"Button"):
+		if child.text=="REMOVE" and not child.disabled: remove_visible=true
 	check(remove_visible,"Workshop exposes working attachment removal button")
 	game.open_menu("Build");check(not s.fieldwork_active,"Live construction catalog does not reserve fieldwork power")
 	game.open_menu("Pause");check(not s.fieldwork_active,"Pause menu does not reserve fieldwork power")

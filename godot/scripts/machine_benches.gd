@@ -23,7 +23,7 @@ static func install(machine: Node3D) -> Node3D:
 		if replacement:machine.add_child(replacement)
 	retained.free()
 	var root=Node3D.new();root.name="NativeServiceBenches";machine.add_child(root)
-	for site in manifest.sites:
+	for site in MMFMachineComposition.sites(manifest):
 		var instance=bench.duplicate();instance.name=site.name;root.add_child(instance)
 		instance.position=MMFAssets.v(site.position);instance.rotation.y=site.yaw
 	bench.free()
@@ -34,7 +34,7 @@ static func install_collision(world):
 	var mesh=MMFAssets.find_named(source,"BenchCollisionSurface")
 	assert(mesh is MeshInstance3D,"Missing authored bench collision")
 	var shape=mesh.mesh.create_trimesh_shape()
-	for site in MMFAssets.json("res://art/nomad-benches.json").sites:
+	for site in MMFMachineComposition.sites(MMFAssets.json("res://art/nomad-benches.json")):
 		var body=StaticBody3D.new();body.name=site.name+"Collision";world.add_child(body)
 		body.position=MMFAssets.v(site.position);body.rotation.y=site.yaw;body.transform=body.transform*mesh.transform
 		var collider=CollisionShape3D.new();collider.shape=shape;body.add_child(collider)

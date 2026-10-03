@@ -1,0 +1,1689 @@
+{
+  "reviewer": "art100_machine \u2014 independent of wasteland author",
+  "review_phase": "Separate second fine-comb after phase2, 2026-10-01",
+  "models_reviewed": 50,
+  "coverage": {
+    "individual_model_renders": 50,
+    "contact_sheets": 10,
+    "editable_Blender_masters": 2,
+    "additional_reverse_views": 6,
+    "repaired_models_rechecked": 12,
+    "final_reverse_views_rechecked": 6
+  },
+  "method": "Inspected every model render/contact sheet for silhouette, support, muted material colors, scale and lettering; opened both editable Blender masters read-only for connected-component, finite-coordinate, degenerate-face, signed-volume and grounding audits; reviewed six reverse views and source coordinates for support candidates.",
+  "limitations": "Bounds adjacency is a conservative screening aid, not proof of physical mesh contact. Signed-volume checks detect wholly inverted closed components, not every possible local shading defect. Open ruin shells and label planes are intentional. No source assets changed by reviewer.",
+  "summary": {
+    "models_reviewed": 50,
+    "no_concrete_defect_found": 38,
+    "corrected_and_independently_verified": 12,
+    "outstanding_findings": 0
+  },
+  "models": [
+    {
+      "id": "wasteland-diner",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/01-wasteland-diner.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        12.4866,
+        6.13,
+        8.4084
+      ],
+      "visual_review": "Open ruined diner, window sills and entry steps read clearly; reverse view exposes unsupported interior furniture and upper trim.",
+      "geometry_review": {
+        "triangle_count": 10830,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 14
+      },
+      "issues": [
+        {
+          "code": "old-diner-supports",
+          "detail": "Eight seat/back assemblies float about330mm above the floor; counter slab lacks a pedestal; rear fascia is132mm from roof rib; right rib100mm from upright; signpost base69mm above slab.",
+          "fix": "Add seating/counter pedestals, roof connections and a grounded signpost shoe.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": "assets/art200/fine-comb/wasteland-diner-reverse.png",
+      "final_geometry_review": {
+        "triangle_count": 11842,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Verified new seat and counter pedestals, fascia return ties, upright/rib ties and sign footing in source coordinates, corrected reverse view and zero unsupported bounds clusters."
+    },
+    {
+      "id": "wasteland-greenhouse",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/02-wasteland-greenhouse.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        14.8852,
+        5.9632,
+        10.3131
+      ],
+      "visual_review": "Broken glazing remains intentional and ribs are legible; central raised bed needs feet onto the foundation.",
+      "geometry_review": {
+        "triangle_count": 18525,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 1
+      },
+      "issues": [
+        {
+          "code": "old-bed-supports",
+          "detail": "Central raised-bed frame begins105mm above the foundation without feet.",
+          "fix": "Add feet between raised-bed frame and foundation.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": "assets/art200/fine-comb/wasteland-greenhouse-reverse.png",
+      "final_geometry_review": {
+        "triangle_count": 18701,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Four central-bed feet join foundation and bed frame; corrected reverse view and component screen confirm support."
+    },
+    {
+      "id": "wasteland-observatory",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/03-wasteland-observatory.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        16.2004,
+        8.7,
+        14.2433
+      ],
+      "visual_review": "Open hemisphere, receiver cradle, service room and stair access are proportionate and supported in the reviewed views.",
+      "geometry_review": {
+        "triangle_count": 12781,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 12781,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-passenger-coach",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/04-wasteland-passenger-coach.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        13.4391,
+        4.0696,
+        6.2475
+      ],
+      "visual_review": "Coach glazing openings, wheel rims and DUSTLINE lettering are readable; interior seats and several end fittings need supports.",
+      "geometry_review": {
+        "triangle_count": 21596,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 16
+      },
+      "issues": [
+        {
+          "code": "old-coach-supports",
+          "detail": "Twelve seats float about350mm above chassis; end wall80mm above chassis; broken roof rib82mm clear of upright; upper boarding steps36mm clear of connected structure.",
+          "fix": "Add seat pedestals, end-wall ties, rib cleats and boarding-step riser brackets.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": "assets/art200/fine-comb/wasteland-passenger-coach-reverse.png",
+      "final_geometry_review": {
+        "triangle_count": 20252,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Twelve seat pedestals, end-wall sill, boarding-step returns and roof-rib tie verified against corrected source and reverse view."
+    },
+    {
+      "id": "wasteland-service-station",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/05-wasteland-service-station.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        13.9571,
+        6.2084,
+        10.3383
+      ],
+      "visual_review": "Canopy piers, pump islands, hoses and grounded service cabinet are coherent; rear fascia needs short mount brackets.",
+      "geometry_review": {
+        "triangle_count": 8285,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 1
+      },
+      "issues": [
+        {
+          "code": "old-canopy-fascia",
+          "detail": "Rear canopy fascia is30mm clear of roof edge.",
+          "fix": "Add fascia mount brackets.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 8505,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Five rear fascia return tabs bridge the measured canopy gap; corrected primary render and component screen reviewed."
+    },
+    {
+      "id": "wasteland-cooling-tower",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/06-wasteland-cooling-tower.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        18.2623,
+        11.465,
+        19.1271
+      ],
+      "visual_review": "Broken shell, angled base supports and pump pier read correctly; several independent rubble pieces need individual grounding.",
+      "geometry_review": {
+        "triangle_count": 11526,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 5
+      },
+      "issues": [
+        {
+          "code": "old-rubble-grounding",
+          "detail": "Five disconnected loose rubble pieces have lowest vertices52\u2013136mm above ground.",
+          "fix": "Ground each independent rubble piece.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 11526,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Independent concrete fragments individually grounded; corrected primary render and lowest-vertex screen reviewed."
+    },
+    {
+      "id": "wasteland-excavator",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/07-wasteland-excavator.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        10.2587,
+        3.629,
+        4.0
+      ],
+      "visual_review": "Tracks, boom pivot, hydraulic lines and contacting bucket form a coherent excavator silhouette.",
+      "geometry_review": {
+        "triangle_count": 11134,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 11134,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-solar-farm",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/08-wasteland-solar-farm.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        14.445,
+        2.0102,
+        11.6743
+      ],
+      "visual_review": "Array tilt and cell grids are consistent, but the reverse view exposes raised feet, tank supports and independent cell tiles.",
+      "geometry_review": {
+        "triangle_count": 13720,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 64
+      },
+      "issues": [
+        {
+          "code": "old-array-grounding",
+          "detail": "Reverse view shows main array feet262\u2013273mm above ground, tank feet212mm high and controller200mm high. Independent cell tiles lack a common backing/support.",
+          "fix": "Ground each intended upright subassembly, seat fallen panels and connect cells with correctly tilted backing or battens.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": "assets/art200/fine-comb/wasteland-solar-farm-reverse.png",
+      "final_geometry_review": {
+        "triangle_count": 17416,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Original array layout now has connected tilted cell battens, footed upright legs, individually seated fallen modules and grounded tank/controller; corrected reverse view shows continuous load paths."
+    },
+    {
+      "id": "wasteland-tunnel",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/09-wasteland-tunnel.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        14.4239,
+        8.25,
+        11.1161
+      ],
+      "visual_review": "Arch thickness and handrails are readable; unsupported fracture rods, floating road paint and one rubble fragment need correction.",
+      "geometry_review": {
+        "triangle_count": 8558,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 3
+      },
+      "issues": [
+        {
+          "code": "old-tunnel-fracture",
+          "detail": "Reverse view confirms fracture rods suspended in missing arch gap; two centreline paint strips bridge missing floor; one rubble piece begins110mm above ground.",
+          "fix": "Anchor each rod in surviving concrete, clip/remove paint in voids and ground loose rubble.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": "assets/art200/fine-comb/wasteland-tunnel-reverse.png",
+      "final_geometry_review": {
+        "triangle_count": 7162,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Detached rods replaced by bars originating within surviving fracture edges, unsupported paint removed and rubble individually grounded; corrected reverse view reviewed."
+    },
+    {
+      "id": "wasteland-wind-turbine",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/10-wasteland-wind-turbine.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        16.3691,
+        5.7731,
+        12.5076
+      ],
+      "visual_review": "Broken mast and fallen rotor remain grounded, with visible mast flange and cable connections.",
+      "geometry_review": {
+        "triangle_count": 8805,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 8805,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-cistern",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/11-wasteland-cistern.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        4.54,
+        3.88,
+        4.0
+      ],
+      "visual_review": "Hollow rim, welded bands, ladder standoffs and outlet give the cistern a clear scale and supported silhouette.",
+      "geometry_review": {
+        "triangle_count": 8708,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 8708,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-rail-switch",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/12-wasteland-rail-switch.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        7.1,
+        1.8677,
+        3.7
+      ],
+      "visual_review": "Rail profiles, sleepers, tie plates and throw lever form a supported track assembly.",
+      "geometry_review": {
+        "triangle_count": 1960,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 1960,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-container-shelter",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/13-wasteland-container-shelter.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        6.2,
+        2.96,
+        3.8575
+      ],
+      "visual_review": "Cut-open side portal retains negative space, with grounded threshold, bunk and cabinet.",
+      "geometry_review": {
+        "triangle_count": 2948,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 2948,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-survey-rover",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/14-wasteland-survey-rover.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        3.875,
+        3.15,
+        2.37
+      ],
+      "visual_review": "Six wheels, canopy braces and sample gantry are connected and proportionate.",
+      "geometry_review": {
+        "triangle_count": 10720,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 10720,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-signal-gantry",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/15-wasteland-signal-gantry.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        9.0,
+        7.2672,
+        1.3
+      ],
+      "visual_review": "Peaked truss, ladder, piers and three pendant signal heads show consistent supporting structure.",
+      "geometry_review": {
+        "triangle_count": 5432,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 5432,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-buried-transformer",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/16-wasteland-buried-transformer.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        3.9,
+        2.75,
+        3.1
+      ],
+      "visual_review": "Transformer fin banks, mounted service plate and seated bushings remain connected to the plinth.",
+      "geometry_review": {
+        "triangle_count": 5824,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 5824,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-pipeline-valve",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/17-wasteland-pipeline-valve.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        4.6,
+        2.8175,
+        1.64
+      ],
+      "visual_review": "Pipe flanges, supports, bonnet and spoked handwheel meet as a coherent valve assembly.",
+      "geometry_review": {
+        "triangle_count": 6428,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 6428,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-scrap-press",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/18-wasteland-scrap-press.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        4.25,
+        4.0,
+        2.8
+      ],
+      "visual_review": "Guided platen, bearing collars, hydraulic frame and ground skid retain open mechanical spaces.",
+      "geometry_review": {
+        "triangle_count": 2712,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 2712,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-sensor-mast",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/19-wasteland-sensor-mast.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        3.75,
+        5.27,
+        3.15
+      ],
+      "visual_review": "Guy anchors, mast collar and camera arm have visible connection paths.",
+      "geometry_review": {
+        "triangle_count": 3020,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3020,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-cable-drum",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/20-wasteland-cable-drum.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        4.0906,
+        3.2,
+        2.9306
+      ],
+      "visual_review": "Drum coil, timber cradle and knee-braced lifting portal are grounded and mechanically readable.",
+      "geometry_review": {
+        "triangle_count": 15728,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 15728,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-crawler-wreck",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/21-wasteland-crawler-wreck.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        5.0198,
+        2.725,
+        3.02
+      ],
+      "visual_review": "Tracked carrier, webbed rollers, rear crossbar and lowered blade remain connected.",
+      "geometry_review": {
+        "triangle_count": 18856,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 18856,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-water-condenser",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/22-wasteland-water-condenser.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        3.6,
+        3.0419,
+        2.45
+      ],
+      "visual_review": "Fan frames, coil banks, bottle receivers and drain manifold have supported joints.",
+      "geometry_review": {
+        "triangle_count": 8148,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 8148,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-freight-bogie",
+      "collection": "art100",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art100/wasteland/renders/23-wasteland-freight-bogie.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        4.62,
+        2.18,
+        2.56
+      ],
+      "visual_review": "Wheel webs and bolster are connected; two low transverse brake beams need hangers.",
+      "geometry_review": {
+        "triangle_count": 19612,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 2
+      },
+      "issues": [
+        {
+          "code": "old-brake-beams",
+          "detail": "Two transverse beams atX\u00b11.13,Y.33\u2013.43 are130mm clear of axle or connected body.",
+          "fix": "Add brake-beam suspension hangers.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": "assets/art200/fine-comb/wasteland-freight-bogie-reverse.png",
+      "final_geometry_review": {
+        "triangle_count": 19788,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Four diagonal brake-beam hangers connect both beams to sideframes; corrected source and reverse view reviewed."
+    },
+    {
+      "id": "wasteland-checkpoint-gate",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/24-wasteland-checkpoint-gate.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        7.435,
+        2.8,
+        1.4
+      ],
+      "visual_review": "Barrier pivot, far rest saddle, STOP plaque and ground pads read as a complete gate.",
+      "geometry_review": {
+        "triangle_count": 2540,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 2540,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "wasteland-relay-vault",
+      "collection": "art100",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art100/wasteland/renders/25-wasteland-relay-vault.png",
+      "contact_sheet": "assets/art100/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        4.9,
+        3.22,
+        5.35
+      ],
+      "visual_review": "Vault threshold, recessed door, hinge barrels and wheel handle are clearly supported.",
+      "geometry_review": {
+        "triangle_count": 2268,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 2268,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-brasswell-teller-bank",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/01-art200-brasswell-teller-bank.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        7.625,
+        3.51,
+        4.6
+      ],
+      "visual_review": "Teller island, pneumatic piping and supported sign form a coherent drive-up bank; lettering remains readable.",
+      "geometry_review": {
+        "triangle_count": 3264,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3264,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-dustmile-motel-office",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/02-art200-dustmile-motel-office.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        6.7,
+        3.42841,
+        5.26
+      ],
+      "visual_review": "Butterfly roof columns and motel sign hangers are connected; entry threshold has believable scale.",
+      "geometry_review": {
+        "triangle_count": 2852,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 2852,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-parcel-post-depot",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/03-art200-parcel-post-depot.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        7.4,
+        3.85759,
+        6.07
+      ],
+      "visual_review": "Sawtooth roof, attached PARCEL POST sign, roller-bed legs and steps have supported joints.",
+      "geometry_review": {
+        "triangle_count": 4800,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 4800,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-thimble-laundrette",
+      "collection": "art200",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art200/wasteland/renders/04-art200-thimble-laundrette.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        6.6,
+        2.985,
+        4.1
+      ],
+      "visual_review": "Washer bodies and folding shelf are grounded; rear wash manifold needs attachment to the wall or feeds.",
+      "geometry_review": {
+        "triangle_count": 6144,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 1
+      },
+      "issues": [
+        {
+          "code": "new-wash-manifold",
+          "detail": "Wash manifold has133mm clearance from rear wall and riser bases are270mm above floor.",
+          "fix": "Add wall clamps or connected supply feeds.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 6788,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Four wall clamps and three washer feeds connect manifold to wall/machines; source coordinates, corrected primary view and component screen reviewed."
+    },
+    {
+      "id": "art200-emberside-bakery",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/05-art200-emberside-bakery.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-1.png",
+      "dimensions_m": [
+        6.7,
+        4.105,
+        5.1
+      ],
+      "visual_review": "Oven, chimney, side-mounted label and serving ledge form a complete ruined bakery.",
+      "geometry_review": {
+        "triangle_count": 3644,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3644,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-drylight-pharmacy",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/06-art200-drylight-pharmacy.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        5.4,
+        2.89,
+        4.6
+      ],
+      "visual_review": "Pharmacy counter, DRYLIGHT REMEDIES sign hangers and roof are connected, with a consistent muted plum family.",
+      "geometry_review": {
+        "triangle_count": 3824,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3824,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-cinder-auto-lift",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/07-art200-cinder-auto-lift.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        7.0,
+        3.67855,
+        5.0
+      ],
+      "visual_review": "Lift towers, pivot arms and compressor connect to the floor and canopy structure.",
+      "geometry_review": {
+        "triangle_count": 4172,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 4172,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-rook-ticket-booth",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/08-art200-rook-ticket-booth.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        5.1,
+        3.8,
+        4.0
+      ],
+      "visual_review": "Curved booth roof, ticket counter, turnstile pivot and queue rail are supported.",
+      "geometry_review": {
+        "triangle_count": 3060,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3060,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-switchback-weighbridge",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/09-art200-switchback-weighbridge.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        14.27602,
+        2.75912,
+        5.95
+      ],
+      "visual_review": "Weighbridge deck, raised strips, ramps and operator hut meet with a coherent vehicle scale.",
+      "geometry_review": {
+        "triangle_count": 3224,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3224,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-lastcall-exchange",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/10-art200-lastcall-exchange.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-2.png",
+      "dimensions_m": [
+        4.75,
+        3.4,
+        2.0
+      ],
+      "visual_review": "Three exchange booths retain interior recesses and supported receivers, with legible common signage.",
+      "geometry_review": {
+        "triangle_count": 7280,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 7280,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-ochre-icehouse",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/11-art200-ochre-icehouse.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        5.48,
+        2.97,
+        5.145
+      ],
+      "visual_review": "Cold-room door, hinges, handles, compressor enclosure and entry steps are grounded.",
+      "geometry_review": {
+        "triangle_count": 3308,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3308,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-threadbare-tailor",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/12-art200-threadbare-tailor.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        5.8,
+        3.3,
+        4.7
+      ],
+      "visual_review": "Sewing table, corrected drive belt, dress form and attached repair sign have visible support.",
+      "geometry_review": {
+        "triangle_count": 3540,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3540,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-crosswind-compressor-house",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/13-art200-crosswind-compressor-house.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        5.8,
+        3.72973,
+        4.3
+      ],
+      "visual_review": "Compressor flywheel spokes, cylinders, tank legs and roof columns are connected.",
+      "geometry_review": {
+        "triangle_count": 9132,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 9132,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-sinter-grain-elevator",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/14-art200-sinter-grain-elevator.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        7.1,
+        6.91,
+        4.7
+      ],
+      "visual_review": "Silo legs, tapered discharges, elevator housing and feed pipes have continuous support paths.",
+      "geometry_review": {
+        "triangle_count": 11368,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 11368,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-borewell-pumpjack",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/15-art200-borewell-pumpjack.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-3.png",
+      "dimensions_m": [
+        7.3,
+        4.64577,
+        3.3
+      ],
+      "visual_review": "Pumpjack A-frame, crank pivot, drive link and polished rod meet at believable joints.",
+      "geometry_review": {
+        "triangle_count": 1896,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 1896,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-lattice-truss-bridge",
+      "collection": "art200",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art200/wasteland/renders/16-art200-lattice-truss-bridge.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        11.87,
+        2.55,
+        3.1
+      ],
+      "visual_review": "Truss silhouette and broken approach read clearly; both side trusses need bearing ties to the deck.",
+      "geometry_review": {
+        "triangle_count": 2596,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 2
+      },
+      "issues": [
+        {
+          "code": "new-truss-bearing",
+          "detail": "Both side trusses are35mm outside deck edge and have no transverse bearing tie.",
+          "fix": "Add actual transverse ties/bearings connecting trusses and deck.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 2816,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Five transverse ties and bearing plates connect deck to both trusses; corrected primary view reviewed."
+    },
+    {
+      "id": "art200-reclaimer-trommel",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/17-art200-reclaimer-trommel.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        6.4,
+        2.83,
+        3.3
+      ],
+      "visual_review": "Open sieve lattice, corrected roller supports, frame and feed hopper are mechanically readable.",
+      "geometry_review": {
+        "triangle_count": 10456,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 10456,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-rail-water-crane",
+      "collection": "art200",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art200/wasteland/renders/18-art200-rail-water-crane.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        4.5,
+        4.35,
+        3.4
+      ],
+      "visual_review": "Crane column, arm brace and hose meet correctly; handwheel spindle stops short of the wheel.",
+      "geometry_review": {
+        "triangle_count": 6816,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 1
+      },
+      "issues": [
+        {
+          "code": "new-valve-spindle",
+          "detail": "Spindle endsZ.72, wheel and spokes beginZ.7525, leaving32.5mm unsupported gap.",
+          "fix": "Extend spindle into wheel hub.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 6940,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Extended valve spindle reaches wheel hub; corrected primary view and component screen reviewed."
+    },
+    {
+      "id": "art200-ballast-loader",
+      "collection": "art200",
+      "status": "corrected_and_independently_verified",
+      "render": "assets/art200/wasteland/renders/19-art200-ballast-loader.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        4.7,
+        4.17,
+        4.2
+      ],
+      "visual_review": "Hopper, grizzly and four columns read clearly, but the hopper group needs column crossheads.",
+      "geometry_review": {
+        "triangle_count": 1500,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 1
+      },
+      "issues": [
+        {
+          "code": "new-hopper-support",
+          "detail": "Hopper/grizzly group has40mm minimum gap to column envelope.",
+          "fix": "Add support crossheads from four columns to hopper lip.",
+          "status": "resolved",
+          "verified_after_owner_correction": true
+        }
+      ],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 1588,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "resolution_verification": "Two hopper crossheads reach all four columns; corrected primary view shows the added lip support joints."
+    },
+    {
+      "id": "art200-ceramic-kiln",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/20-art200-ceramic-kiln.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-4.png",
+      "dimensions_m": [
+        5.6,
+        3.9,
+        4.4
+      ],
+      "visual_review": "Corrected kiln hatch hinges, chimney, cradle and ware shelves remain attached and grounded.",
+      "geometry_review": {
+        "triangle_count": 3528,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3528,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-desert-ambulatory",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/21-art200-desert-ambulatory.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        5.6,
+        4.85,
+        4.73
+      ],
+      "visual_review": "Curved field-care roof, door, stair rails and attached sign form a complete small clinic.",
+      "geometry_review": {
+        "triangle_count": 4116,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 4116,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-demolition-cutter",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/22-art200-demolition-cutter.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        7.2,
+        3.04093,
+        3.7
+      ],
+      "visual_review": "Cutter blade, pivot, carriage and rail feet are connected; concrete workpiece is grounded.",
+      "geometry_review": {
+        "triangle_count": 3048,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 3048,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-sandglass-cyclone",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/23-art200-sandglass-cyclone.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        4.6,
+        5.4,
+        3.7
+      ],
+      "visual_review": "Cyclone cone, receiver bin, pipe and braced frame have readable joints and muted colors.",
+      "geometry_review": {
+        "triangle_count": 4660,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 4660,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-ventstack-catwalk",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/24-art200-ventstack-catwalk.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        4.8,
+        6.86,
+        4.93
+      ],
+      "visual_review": "Stack flange, platform, guardrail and ladder cage are connected and proportionate.",
+      "geometry_review": {
+        "triangle_count": 9744,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 9744,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    },
+    {
+      "id": "art200-pivot-irrigator",
+      "collection": "art200",
+      "status": "reviewed_no_concrete_defect_found",
+      "render": "assets/art200/wasteland/renders/25-art200-pivot-irrigator.png",
+      "contact_sheet": "assets/art200/wasteland/contact-sheet-5.png",
+      "dimensions_m": [
+        11.2,
+        2.945,
+        2.46
+      ],
+      "visual_review": "Irrigation span, wheel towers, diagonal ties and suspended emitters have consistent supports.",
+      "geometry_review": {
+        "triangle_count": 6272,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      },
+      "issues": [],
+      "reverse_view": null,
+      "final_geometry_review": {
+        "triangle_count": 6272,
+        "ground_minimum_m": 0.0,
+        "zero_area_faces": 0,
+        "nonfinite_vertices": 0,
+        "inverted_closed_components": [],
+        "bounds_screen_clusters": 0
+      }
+    }
+  ],
+  "status": "All 50 models independently reviewed; all 12 measured repair findings verified resolved.",
+  "final_verification_date": "2026-10-02",
+  "final_sources": {
+    "godot/art/art100-wasteland.glb": "682f13a9cc007f84727ddb0f32a0e1f1cab7a76a3df362d48860442023ef989a",
+    "assets/art100/wasteland/art100-wasteland.blend": "4860b029324d4ea48eef756723c497b0ce2bc3fd96717a2e0ce49938cb03611a",
+    "godot/art/art200-wasteland.glb": "6036e900cfe1b56031f188413924cbdd571012040af353035bdfa17871770017",
+    "assets/art200/wasteland/Art200Wasteland.blend": "bd382e45c1bb88a1611c2ef6f4cc42623068d5699962a9c24cbe475c4139e4ae"
+  }
+}

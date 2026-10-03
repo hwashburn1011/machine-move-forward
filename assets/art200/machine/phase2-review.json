@@ -1,0 +1,519 @@
+{
+  "phase": "first full 50-model refinement",
+  "models": 50,
+  "assemblies": [
+    {
+      "collection": "art100",
+      "id": "nomad-tool-drawers",
+      "name": "Rivetline tool drawers",
+      "color_family": "petrol",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 5209,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-service-cart",
+      "name": "Portside service cart",
+      "color_family": "stone",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 5939,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-field-chair",
+      "name": "Wayfarer field chair",
+      "color_family": "plum",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2558,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-sleeping-berth",
+      "name": "Surveyor sleeping berth",
+      "color_family": "denim",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2524,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-radio-cabinet",
+      "name": "Longwave radio cabinet",
+      "color_family": "oxblood",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 4649,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-repair-trestle",
+      "name": "Rivetline repair trestle",
+      "color_family": "slate",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2826,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-parts-organizer",
+      "name": "Fastener library",
+      "color_family": "olive",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 4550,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-charging-cabinet",
+      "name": "Standby charging cabinet",
+      "color_family": "verdigris",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 3205,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-expedition-trunk",
+      "name": "Expedition flight trunk",
+      "color_family": "umber",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2097,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-archive-vitrine",
+      "name": "Archive specimen vitrine",
+      "color_family": "celadon",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 7663,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-chart-desk",
+      "name": "Forward chart desk",
+      "color_family": "denim",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 4513,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-survey-floodlight",
+      "name": "Survey tripod floodlight",
+      "color_family": "ochre",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2556,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-machinist-lamp",
+      "name": "Machinist task lamp",
+      "color_family": "heather",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 1724,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-coat-rack",
+      "name": "Survey coat rack",
+      "color_family": "olive",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 1644,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-cable-reel",
+      "name": "Retrieval cable drum",
+      "color_family": "ochre",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 9468,
+      "material_batches": 4,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-boots-locker",
+      "name": "Crew gear locker",
+      "color_family": "petrol",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2759,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-galley-sideboard",
+      "name": "Copperline galley sideboard",
+      "color_family": "rose",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 4934,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-ceramic-basin",
+      "name": "Field ceramic washstand",
+      "color_family": "verdigris",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2852,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-navigation-stool",
+      "name": "Navigator swivel stool",
+      "color_family": "oxblood",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2464,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-patchwork-bench",
+      "name": "Patchwork deck bench",
+      "color_family": "plum",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 2379,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-spare-track-stand",
+      "name": "Drive shoe service stand",
+      "color_family": "slate",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 3922,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-air-filter-tower",
+      "name": "Cyclone filter column",
+      "color_family": "clay",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 5643,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-canister-caddy",
+      "name": "Twin canister caddy",
+      "color_family": "celadon",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 6400,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-signal-pennant",
+      "name": "Forward signal pennant",
+      "color_family": "oxblood",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 3156,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art100",
+      "id": "nomad-memory-board",
+      "name": "Carried memories board",
+      "color_family": "heather",
+      "first_refinement": "Muted palette, surface finish, bevel economy, support connectivity and graphic placement.",
+      "triangles": 3109,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-card-table",
+      "name": "Last Light card table",
+      "color_family": "oxblood",
+      "first_refinement": "Connected folding hinge pins; cards seated on baize.",
+      "triangles": 2801,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-instrument-bench",
+      "name": "Horizon instrument bench",
+      "color_family": "petrol",
+      "first_refinement": "Thin retained instrument bezel and legibility review.",
+      "triangles": 4853,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-privacy-screen",
+      "name": "Quiet Quarter privacy screen",
+      "color_family": "plum",
+      "first_refinement": "Bound canvas hems within the supported frame.",
+      "triangles": 3472,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-book-cabinet",
+      "name": "Waymark lending cabinet",
+      "color_family": "umber",
+      "first_refinement": "Book retention rails joined to the actual shelf lips.",
+      "triangles": 7472,
+      "material_batches": 8,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-ration-pantry",
+      "name": "Trail Tin pantry rack",
+      "color_family": "olive",
+      "first_refinement": "Individually indexed stock labels on the nine retained cans.",
+      "triangles": 13393,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-folding-lounge",
+      "name": "Blue Mile folding lounge",
+      "color_family": "denim",
+      "first_refinement": "Bound seat/back seams follow the real inclined canvas.",
+      "triangles": 2580,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-microscope-bench",
+      "name": "Morrow specimen bench",
+      "color_family": "celadon",
+      "first_refinement": "Supported focus spindle and spring slide clamps.",
+      "triangles": 6933,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-paint-trolley",
+      "name": "Patchcoat painter trolley",
+      "color_family": "clay",
+      "first_refinement": "Brush ferrules join each wooden handle to its bristles.",
+      "triangles": 5612,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-air-return-duct",
+      "name": "Crosswind return duct",
+      "color_family": "slate",
+      "first_refinement": "Folded seam strips meet the duct body face.",
+      "triangles": 2697,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-sewing-station",
+      "name": "Threadline sewing station",
+      "color_family": "oxblood",
+      "first_refinement": "Seated tension control and complete lower drive pulley reviewed.",
+      "triangles": 5131,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-record-console",
+      "name": "Evening Signal record console",
+      "color_family": "umber",
+      "first_refinement": "Tonearm cartridge has a physical parked support.",
+      "triangles": 8084,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-typewriter-desk",
+      "name": "Courier typewriter desk",
+      "color_family": "denim",
+      "first_refinement": "All key legends, grounded carriage riser and real spacebar linkage.",
+      "triangles": 6673,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-clock-rack",
+      "name": "Three Roads clock standard",
+      "color_family": "heather",
+      "first_refinement": "Three readable route identities printed on the dial faces.",
+      "triangles": 8872,
+      "material_batches": 4,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-tile-mural",
+      "name": "Roseway ceramic route mural",
+      "color_family": "rose",
+      "first_refinement": "Captive frame fasteners and ceramic grout spacing reviewed.",
+      "triangles": 4496,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-observation-seat",
+      "name": "Farline observation seat",
+      "color_family": "petrol",
+      "first_refinement": "Barrel collars retain the optics on their connected trunnion.",
+      "triangles": 6916,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-chess-pedestal",
+      "name": "Long Crossing chess pedestal",
+      "color_family": "plum",
+      "first_refinement": "Board corner retainers and distinct complete chess-piece silhouettes.",
+      "triangles": 10988,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-exercise-rack",
+      "name": "Loadline exercise rack",
+      "color_family": "clay",
+      "first_refinement": "Weight index graphics sit on the actual shelf front faces.",
+      "triangles": 5946,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-boot-care-stand",
+      "name": "Solemate boot-care stand",
+      "color_family": "olive",
+      "first_refinement": "Sized wooden last and seated brush with dense bristle rows.",
+      "triangles": 4222,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-botanical-belljar",
+      "name": "Still Orchard botanical bell jar",
+      "color_family": "verdigris",
+      "first_refinement": "Bell rim seated in a metal gasket on the supported pedestal.",
+      "triangles": 3211,
+      "material_batches": 8,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-map-roll-rack",
+      "name": "Survey Folio roller rack",
+      "color_family": "ochre",
+      "first_refinement": "Shelf route indices and readable capped chart numbers.",
+      "triangles": 13136,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-shade-awning",
+      "name": "Dusk Rose shade awning",
+      "color_family": "rose",
+      "first_refinement": "All four canopy struts terminate in a proper mast hub.",
+      "triangles": 1812,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-bagatelle-table",
+      "name": "Railrunner bagatelle table",
+      "color_family": "celadon",
+      "first_refinement": "Scoring graphics are flush to the playfield; retained pins reviewed.",
+      "triangles": 8247,
+      "material_batches": 7,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-laundry-drum",
+      "name": "Spindrift laundry drum",
+      "color_family": "stone",
+      "first_refinement": "Rear lid hinge leaves and pins join the drum cap.",
+      "triangles": 5316,
+      "material_batches": 6,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-rotary-fan",
+      "name": "Crosswind rotary fan",
+      "color_family": "heather",
+      "first_refinement": "Guard and yoke are tied by physical pivot retainers.",
+      "triangles": 5980,
+      "material_batches": 4,
+      "unsupported_groups": 0
+    },
+    {
+      "collection": "art200",
+      "id": "nomad2-arrival-bell",
+      "name": "Homeward arrival bell",
+      "color_family": "oxblood",
+      "first_refinement": "Gussets tie the bell lintel into both load-bearing posts.",
+      "triangles": 2824,
+      "material_batches": 5,
+      "unsupported_groups": 0
+    }
+  ],
+  "separate_fine_comb_status": "Not started; awaiting independent second pass after the collection-wide first pass.",
+  "phase2_status": "Complete: all50 regenerated in Blender, all50 refreshed renders inspected, support and glTF audits pass.",
+  "native_test_status": {
+    "art100": {
+      "checks": 678,
+      "failures": 0
+    },
+    "art200": {
+      "checks": 757,
+      "failures": 0,
+      "coverage": "Actual rotated clipped clearance, physical support, open space, purchases, movement and saves"
+    }
+  }
+}

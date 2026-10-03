@@ -10,7 +10,7 @@ func check(ok: bool,label: String):
 func frames(n=3):
 	for i in n:await physics_frame
 func clear():
-	game.combat.boarding.clear()
+	game.combat.reset_encounter()
 	for enemy in game.combat.enemies:
 		if is_instance_valid(enemy):enemy.queue_free()
 	game.combat.enemies.clear();game.combat.crew.clear()
@@ -19,9 +19,19 @@ func clear():
 	game.combat.hook=null;game.combat.ship=null;game.combat.ship_state="none"
 	await frames()
 func begin(side: int,tutorial=false):
-	game.combat.begin_ship("skiff",tutorial,true);game.combat.ship_side=side;game.combat.ship.position=Vector3(side*17,6,0);game.combat.weapon_health=0
-	for enemy in game.combat.crew:enemy.set_physics_process(false)
-	game.combat.update_ship(0);await frames()
+	game.combat.begin_ship("skiff",tutorial,true,"rear",side);game.combat.weapon_health=0
+	# This suite isolates grapple traversal; Revenant leap has its own fixture.
+	for enemy in game.combat.crew:enemy.queue_free()
+	game.combat.crew.clear()
+	for i in 2:
+		var enemy=game.combat.spawn("raider",game.combat.boarding.start_position(i),true)
+		enemy.set_physics_process(false);game.combat.boarding.prepare(enemy);game.combat.crew.append(enemy)
+	game.combat.update_ship(game.combat.approach_duration)
+	game.combat.update_ship(1.1);await frames()
+func advance_to(time: float):
+	var remaining=maxf(0,time-game.combat.ship_timer)
+	while remaining>.000001:
+		var dt=minf(1.0/60,remaining);game.combat.update_ship(dt);remaining-=dt
 func fits(enemy,at: Vector3) -> Array:
 	var query=PhysicsShapeQueryParameters3D.new();query.shape=enemy.get_child(0).shape;query.collision_mask=1
 	query.transform=Transform3D(Basis.IDENTITY,at+Vector3.UP*.96);query.margin=.005
@@ -45,7 +55,7 @@ func routes():
 		await begin(side)
 		for index in 2:
 			var enemy=game.combat.crew[index];var start=game.combat.boarding.anchors[index]
-			check(absf(start.y-7.224)<.001 and absf(start.z-.35)<.001,"Crew starts on the authored skiff standing plane, side %d crew %d"%[side,index])
+			check(absf(start.y-15.724)<.001 and absf(start.z-.35)<.001,"Crew starts on the authored skiff standing plane, side %d crew %d"%[side,index])
 			var blocked=[]
 			for i in 101:
 				var at=game.combat.boarding.path(start,index,i/100.0)
@@ -54,16 +64,16 @@ func routes():
 			check(blocked.is_empty(),"Full capsule route clears actual decks and rails, side %d crew %d"%[side,index]);errors.append(blocked)
 			var at=game.combat.boarding.path(start,index,1)
 			check(at.is_equal_approx(Vector3(side*10,16.1,index*2-1)),"Unobstructed boarding retains its existing combat entry")
-		game.combat.ship_timer=5.5-.001;game.combat.update_ship(0)
+		advance_to(5.5-.001)
 		check(game.combat.crew[0].inactive,"First ordinary boarder remains inactive until 5.5 seconds")
 		game.combat.update_ship(.0011);check(not game.combat.crew[0].inactive and game.combat.crew[1].inactive,"First boarder activates at existing 5.5-second boundary")
-		game.combat.ship_timer=7.0;game.combat.update_ship(0)
-		check(not game.combat.crew[1].inactive,"Second ordinary boarder activates at existing seven-second boundary")
+		advance_to(7.26)
+		check(not game.combat.crew[1].inactive,"Second ordinary boarder activates at 7.25-second traversal boundary")
 		await clear()
 	observations.routeFailures=errors
 	await begin(1,true)
-	game.combat.ship_timer=4.5;game.combat.update_ship(0);check(not game.combat.crew[0].inactive and game.combat.crew[1].inactive,"Tutorial first boarder retains 4.5-second activation")
-	game.combat.ship_timer=6.75;game.combat.update_ship(0);check(not game.combat.crew[1].inactive,"Tutorial second boarder retains 6.75-second activation")
+	advance_to(5.01);check(not game.combat.crew[0].inactive and game.combat.crew[1].inactive,"Tutorial first boarder retains five-second activation")
+	advance_to(6.76);check(not game.combat.crew[1].inactive,"Tutorial second boarder retains 6.75-second activation")
 	await clear()
 func poses():
 	for kind in game.data.ENEMIES:
@@ -104,7 +114,7 @@ func route_cost(label: String):
 func cables_and_cut():
 	await begin(1)
 	route_cost("clearRoutePreparation")
-	game.combat.ship_timer=3.75;game.combat.update_ship(0);await frames()
+	advance_to(3.75);await frames()
 	game.combat.boarding.update_lines();var mm=game.combat.boarding.lines.multimesh
 	check(mm.visible_instance_count==2,"Each climber has one persistent solid cable")
 	check(game.combat.boarding.lines.physics_interpolation_mode==Node.PHYSICS_INTERPOLATION_MODE_OFF,"Render-space cables avoid double physics interpolation")
@@ -121,7 +131,7 @@ func cables_and_cut():
 	game.close_menu();var crew=game.combat.crew.duplicate();var before=game.session.count_resource("scrap")
 	game.combat.cut_hook(game.combat.hook.position);var reward=game.session.count_resource("scrap")-before
 	check(game.combat.ship_state=="retreat" and crew.all(func(e):return e.dead and e.boarding_fall),"Severing grapple drops both inactive boarders and retreats the skiff")
-	check(mm.visible_instance_count==0 and game.combat.hook.collision_layer==0,"Cut cable and anchor hit target disable immediately")
+	check(mm.visible_instance_count==0 and not is_instance_valid(game.combat.hook),"Cut cable and anchor hit target disable immediately")
 	game.combat.retreat_ship(false);check(game.session.count_resource("scrap")-before==reward,"Repeated retreat does not duplicate the existing reward")
 	for enemy in crew:
 		var y=enemy.position.y;enemy._physics_process(.2);check(enemy.position.y<y,"Detached boarder falls instead of hanging forever")
@@ -144,11 +154,11 @@ func blocked_routes():
 	wall=MMFAssets.box(game,Vector3(6,8,24),Vector3(10,19,0));await frames();await begin(1)
 	route_cost("blockedRoutePreparation")
 	check(game.combat.boarding.routes.all(func(r):return r.is_empty()),"A fully fortified side reports no clear boarding route")
-	game.combat.ship_timer=8;game.combat.update_ship(0)
-	check(game.combat.crew.all(func(e):return e.inactive and e.position.y<8),"Blocked boarders stay on their actual skiff seats")
-	game.combat.ship_timer=10.1;game.combat.update_ship(0);var crew=game.combat.crew.duplicate();game.combat.update_ship(1)
+	advance_to(8)
+	check(game.combat.crew.all(func(e):return e.inactive and e.position.y<16),"Blocked boarders stay on their actual skiff seats")
+	advance_to(13.1);var crew=game.combat.crew.duplicate();game.combat.update_ship(1)
 	check(game.combat.ship_state=="retreat" and crew.all(func(e):return e.position.z>10),"Blocked living crew leave with the retreating craft")
-	game.combat.update_ship(5);await frames()
+	game.combat.update_ship(5.1);await frames()
 	check(crew.all(func(e):return not is_instance_valid(e)),"Escaping unboarded crew do not leave invisible actors behind")
 	wall.queue_free();await clear()
 func run():

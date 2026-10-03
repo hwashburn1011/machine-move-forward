@@ -1,0 +1,14 @@
+{
+	"checks": 132,
+	"companionRoute": {
+		"companion": "(-8.822433, 16.03855, -5.771027)",
+		"destination": "(-9.0, 16.03115, -6.340575)",
+		"pathAvailable": true,
+		"player": "(-9.0, 16.03115, -5.0)",
+		"remainingDistanceM": 0.791243851184845,
+		"velocity": "(0.0, 0.0, 0.0)"
+	},
+	"failures": [],
+	"passed": true,
+	"renderer": ""
+}

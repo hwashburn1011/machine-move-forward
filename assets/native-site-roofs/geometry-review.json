@@ -1,0 +1,162 @@
+[
+  {
+    "root": "FoundryRoof",
+    "parts": 347,
+    "degenerateTriangles": 0,
+    "invertedSolidCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "finite": true,
+    "weatherStripBounds": [
+      {
+        "name": "Eave gutter bottom",
+        "min": [
+          -4.020000457763672,
+          4.797199726104736,
+          -5.195000171661377
+        ],
+        "max": [
+          7.0,
+          4.819200038909912,
+          -5.014999866485596
+        ],
+        "dimensions": [
+          11.020000457763672,
+          0.02200031280517578,
+          0.18000030517578125
+        ],
+        "finite": true
+      },
+      {
+        "name": "Eave gutter bottom.001",
+        "min": [
+          -4.020000457763672,
+          4.797199726104736,
+          5.014999866485596
+        ],
+        "max": [
+          7.0,
+          4.819200038909912,
+          5.195000171661377
+        ],
+        "dimensions": [
+          11.020000457763672,
+          0.02200031280517578,
+          0.18000030517578125
+        ],
+        "finite": true
+      },
+      {
+        "name": "Eave gutter captured outer lip",
+        "min": [
+          -4.020000457763672,
+          4.8022003173828125,
+          -5.201999664306641
+        ],
+        "max": [
+          7.0,
+          4.900199890136719,
+          -5.184000015258789
+        ],
+        "dimensions": [
+          11.020000457763672,
+          0.09799957275390625,
+          0.017999649047851562
+        ],
+        "finite": true
+      },
+      {
+        "name": "Eave gutter captured outer lip.001",
+        "min": [
+          -4.020000457763672,
+          4.8022003173828125,
+          5.184000015258789
+        ],
+        "max": [
+          7.0,
+          4.900199890136719,
+          5.201999664306641
+        ],
+        "dimensions": [
+          11.020000457763672,
+          0.09799957275390625,
+          0.017999649047851562
+        ],
+        "finite": true
+      },
+      {
+        "name": "Ridge weather cover",
+        "min": [
+          -4.059999942779541,
+          5.764999866485596,
+          -0.1850000023841858
+        ],
+        "max": [
+          7.03000020980835,
+          5.790999889373779,
+          0.004999995231628418
+        ],
+        "dimensions": [
+          11.09000015258789,
+          0.026000022888183594,
+          0.1899999976158142
+        ],
+        "finite": true
+      },
+      {
+        "name": "Ridge weather cover.001",
+        "min": [
+          -4.059999942779541,
+          5.764999866485596,
+          -0.004999995231628418
+        ],
+        "max": [
+          7.03000020980835,
+          5.790999889373779,
+          0.1850000023841858
+        ],
+        "dimensions": [
+          11.09000015258789,
+          0.026000022888183594,
+          0.1899999976158142
+        ],
+        "finite": true
+      }
+    ]
+  },
+  {
+    "root": "WorkshopCanopy",
+    "parts": 155,
+    "degenerateTriangles": 0,
+    "invertedSolidCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "finite": true,
+    "weatherStripBounds": []
+  },
+  {
+    "root": "ArrayVaultRoof",
+    "parts": 30,
+    "degenerateTriangles": 0,
+    "invertedSolidCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "finite": true,
+    "weatherStripBounds": []
+  },
+  {
+    "root": "OrchardArchiveRoof",
+    "parts": 35,
+    "degenerateTriangles": 0,
+    "invertedSolidCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "finite": true,
+    "weatherStripBounds": []
+  },
+  {
+    "root": "MeridianGardenSign",
+    "parts": 13,
+    "degenerateTriangles": 0,
+    "invertedSolidCandidates": [],
+    "unsupportedBoundsCandidates": [],
+    "finite": true,
+    "weatherStripBounds": []
+  }
+]

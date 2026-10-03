@@ -11,6 +11,7 @@ var transforms=[]
 var buffer_updates=0
 var seat_ship: Node3D
 var seats={}
+var leaps={}
 
 func setup(owner_game):
 	game=owner_game
@@ -89,11 +90,92 @@ func prepare_routes():
 			if clear:chosen=points;break
 		routes.append(chosen)
 
+func leap_detached(enemy) -> bool:
+	return is_instance_valid(enemy) and leaps.has(enemy.get_instance_id()) and leaps[enemy.get_instance_id()].phase=="flight"
+
+func has_detached_leaps() -> bool:
+	return leaps.values().any(func(l):return l.phase=="flight" and is_instance_valid(l.enemy) and not l.enemy.dead)
+
+func has_preparing_leap() -> bool:
+	return leaps.values().any(func(l):return l.phase=="prepare" and is_instance_valid(l.enemy) and not l.enemy.dead)
+
+static func leap_sample(start: Vector3,finish: Vector3,t: float) -> Vector3:
+	return start.lerp(finish,t)+Vector3.UP*sin(t*PI)*5.0
+
+func leap_route(enemy,index: int) -> Dictionary:
+	var start=start_position(index)
+	var query=PhysicsShapeQueryParameters3D.new();query.shape=enemy.get_child(0).shape;query.collision_mask=1;query.margin=.02
+	var space=game.get_world_3d().direct_space_state
+	for lane in [0.,-2.,2.,-4.,4.,-6.,6.]:
+		var finish=Vector3(game.combat.ship_side*10,16.1,index*2-1+lane)
+		var floor_hit=game.raycast(finish+Vector3.UP*.1,finish-Vector3.UP*.2,[],1)
+		if floor_hit.is_empty() or floor_hit.normal.y<.7:continue
+		finish.y=floor_hit.position.y+.055
+		var clear=true
+		for step in range(1,81):
+			query.transform=Transform3D(Basis.IDENTITY,leap_sample(start,finish,step/80.0)+Vector3.UP*.96)
+			if not space.intersect_shape(query,1).is_empty():clear=false;break
+		if clear:return {"start":start,"finish":finish}
+	return {}
+
+func prepare_leap(enemy,index: int,dt: float):
+	var id=enemy.get_instance_id()
+	if not leaps.has(id):
+		var route=leap_route(enemy,index)
+		if route.is_empty():
+			leaps[id]={"enemy":enemy,"phase":"aborted"};return
+		leaps[id]={"enemy":enemy,"phase":"prepare","time":0.0,"start":route.start,"finish":route.finish}
+		enemy.hp_label.text="▰".repeat(maxi(1,int(ceil(enemy.health/35))))
+		enemy.boarding_pose.set_leap(0,true)
+		game.audio.play_at("servo-load",enemy.position,.16)
+	var flight=leaps[id]
+	if flight.phase!="prepare":return
+	flight.time+=dt;enemy.position=start_position(index)
+	enemy.visual.rotation.y=-game.combat.ship_side*PI/2
+	if flight.time<1.1:return
+	# Recheck after the windup: freshly placed construction must block commitment.
+	var route=leap_route(enemy,index)
+	if route.is_empty():flight.phase="aborted";enemy.boarding_pose.finish();return
+	flight.start=route.start;flight.finish=route.finish;flight.phase="flight";flight.time=0
+	enemy.boarding_pose.set_leap(0,false)
+	game.audio.play_at("footfall",enemy.position,.4)
+
+func update_leaps(dt: float):
+	for id in leaps.keys():
+		var flight=leaps[id];var enemy=flight.enemy
+		if not is_instance_valid(enemy) or enemy.dead:leaps.erase(id);continue
+		if flight.phase!="flight":continue
+		flight.time+=dt
+		var t=clampf(flight.time/1.65,0,1)
+		var next=leap_sample(flight.start,flight.finish,t)
+		var query=PhysicsShapeQueryParameters3D.new();query.shape=enemy.get_child(0).shape;query.collision_mask=1;query.margin=.01
+		query.transform=Transform3D(Basis.IDENTITY,enemy.position+Vector3.UP*.96);query.motion=next-enemy.position
+		var result=game.get_world_3d().direct_space_state.cast_motion(query)
+		if result[0]<.999:
+			enemy.take_damage(10000,enemy.position);leaps.erase(id);continue
+		enemy.position=next;enemy.boarding_pose.set_leap(t,false)
+		if t>=1:
+			enemy.boarding_pose.finish();enemy.inactive=false;enemy.boarding_recovery=.95
+			enemy.phase="idle";enemy.timer=0;enemy.cooldown=maxf(enemy.cooldown,1.2);enemy.play("idle",true)
+			game.audio.play_at("footfall",enemy.position,.6);game.effects.impact(enemy.position,Vector3.UP)
+			leaps.erase(id)
+
+func reset_leaps():
+	for flight in leaps.values():
+		if is_instance_valid(flight.enemy) and flight.enemy.boarding_pose:flight.enemy.boarding_pose.finish()
+	leaps.clear()
+
 func pose(enemy,index: int,t: float) -> bool:
 	if not enemy.boarding_pose:prepare(enemy)
 	if index>=routes.size() or routes[index].is_empty():
 		enemy.position=start_position(index);return false
-	enemy.position=path(anchors[index] if index<anchors.size() else start_position(index),index,t)
+	var next=path(anchors[index] if index<anchors.size() else start_position(index),index,t)
+	if t>0:
+		var query=PhysicsShapeQueryParameters3D.new();query.shape=enemy.get_child(0).shape;query.collision_mask=1;query.margin=.01
+		query.transform=Transform3D(Basis.IDENTITY,enemy.position+Vector3.UP*.96);query.motion=next-enemy.position
+		if game.get_world_3d().direct_space_state.cast_motion(query)[0]<.999:
+			routes[index]=[];enemy.take_damage(10000,enemy.position);return false
+	enemy.position=next
 	enemy.visual.rotation.y=-game.combat.ship_side*PI/2
 	enemy.boarding_pose.set_phase(t)
 	if t>=1:
@@ -102,10 +184,11 @@ func pose(enemy,index: int,t: float) -> bool:
 
 func update_lines():
 	var combat=game.combat;var count=0
-	if combat.ship_state=="grapple" and is_instance_valid(combat.hook) and fairleads.size()==combat.crew.size():
+	if combat.ship_state in ["grapple_launch","grapple"] and is_instance_valid(combat.hook) and fairleads.size()==combat.crew.size():
 		for i in combat.crew.size():
 			var enemy=combat.crew[i]
 			if not is_instance_valid(enemy) or enemy.dead or not enemy.inactive or not enemy.boarding_pose:continue
+			if enemy.kind=="revenant" and not combat.tutorial_ship:continue
 			if not is_instance_valid(fairleads[i]):continue
 			var start=fairleads[i].get_global_transform_interpolated().origin
 			var end=enemy.boarding_pose.eye.get_global_transform_interpolated().origin

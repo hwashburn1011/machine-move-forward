@@ -3,9 +3,13 @@ extends SceneTree
 var game
 var failures=[]
 var output=""
+var output_root="res://../test-results/godot-native/"
+var route_evidence={}
 
 func _initialize():
 	set_meta("test_mode",true);MMFSaves.DIRECTORY="user://native-test-campaigns/"
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--output-root="):output_root=arg.trim_prefix("--output-root=").trim_suffix("/")+"/"
 	call_deferred("run")
 
 func check(passed: bool,label: String):
@@ -27,7 +31,7 @@ func walk_to(target: Vector3,seconds: float=5.0):
 	return Vector2(target.x-game.player.position.x,target.z-game.player.position.z).length()<0.5
 
 func run():
-	output=ProjectSettings.globalize_path("res://../test-results/godot-native/")
+	output=ProjectSettings.globalize_path(output_root);DirAccess.make_dir_recursive_absolute(output)
 	game=load("res://scenes/main.tscn").instantiate();root.add_child(game);current_scene=game
 	game.started=true;game.session.opening_done=true;game.invulnerable=true;game.close_menu()
 	game.player.position=Vector3(-12,8.95,-4.1);game.player.velocity=Vector3.ZERO;game.player.reset_physics_interpolation()
@@ -40,9 +44,19 @@ func run():
 	check(await walk_to(Vector3(-12,16.03,4)),"Middle-to-upper side stair traversal")
 	check(absf(game.player.position.y-16.03)<0.15,"Upper landing is grounded")
 	game.player.position=Vector3(10,16.1,0);game.player.velocity=Vector3.ZERO
-	game.session.story.phase="route-selection";game.session.story.index=0;game.campaign.begin_route()
+	game.session.story.phase="route-selection";game.session.story.index=0
+	# This traversal fixture advances the story directly. Supply its matching
+	# receiver-ready state, then require the real route/docking controller to
+	# open the gate; an ignored failed begin_route is not a gangway test.
+	route_evidence.before_receiver=MMFMachineOperations.departure_reason(game.session)
+	game.session.facts.salvage=true;game.session.scanner.phase="consumed";game.session.update_power()
+	route_evidence.departure_reason=MMFMachineOperations.departure_reason(game.session)
+	route_evidence.accepted=game.campaign.begin_route()
+	check(route_evidence.accepted,"Route-ready fixture enters the real expedition approach")
 	game.session.distance=game.session.story.arrival;game.session.speed=0
 	game.campaign.update(0.02)
+	route_evidence.phase=game.session.story.phase
+	check(game.session.story.phase=="docked","Real arrival controller docks before gangway traversal")
 	for i in 10: await physics_frame
 	check(await walk_to(Vector3(19,16.03,0),6),"Walk from machine across expedition gangway")
 	check(game.player.position.y>15.9,"Gangway keeps the player above radioactive ground")
@@ -50,7 +64,7 @@ func run():
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(output+"gangway.png")
 	game.combat.begin_ship("gunboat")
-	game.combat.ship.position=Vector3(18,6,0);game.combat.update_ship(0.01)
+	game.combat.update_ship(game.combat.approach_duration)
 	game.combat.weapon_health=0;game.combat.update_ship(3.1)
 	check(game.combat.ship_state=="retreat","Gunboat retreats after weapon disable")
 	game.combat.update_ship(8)
@@ -61,7 +75,7 @@ func run():
 	check(game.combat.ship_health==220 and game.combat.hook_health==45,"Guided skiff uses original profile")
 	check(game.combat.crew.size()==2 and game.combat.crew[0].kind=="raider","Guided skiff carries original raiders")
 	check(game.combat.crew[0].mission=="sabotage" and game.combat.crew[0].mission_subsystem=="engine","Legacy raiders prioritize the engine")
-	var f=FileAccess.open(output+"traversal.json",FileAccess.WRITE);f.store_string(JSON.stringify({"failures":failures,"passed":failures.is_empty()},"\t"));f.close()
+	var f=FileAccess.open(output+"traversal.json",FileAccess.WRITE);f.store_string(JSON.stringify({"failures":failures,"passed":failures.is_empty(),"route":route_evidence},"\t"));f.close()
 	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.02).timeout
 	var drain=load("res://tests/audio_drain.gd");var refs=drain.capture(game.audio)
 	game.queue_free();while is_instance_valid(game):await process_frame

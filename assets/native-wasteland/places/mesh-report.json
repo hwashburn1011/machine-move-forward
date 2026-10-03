@@ -1,0 +1,94 @@
+{
+  "originalAuthored": true,
+  "units": "metres",
+  "coordinateSystem": "Godot Y-up (Blender Z-up source)",
+  "materials": [
+    "Scoured lime and dust",
+    "Oxidized charcoal steel",
+    "Bleached petrol enamel",
+    "Weathered red oxide"
+  ],
+  "assemblies": [
+    {
+      "name": "wasteland-diner",
+      "vertices": 1593,
+      "triangles": 2602,
+      "dimensionsGodot": [
+        12.489,
+        6.108,
+        8.409
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "materialSlots": 4
+    },
+    {
+      "name": "wasteland-greenhouse",
+      "vertices": 2192,
+      "triangles": 3636,
+      "dimensionsGodot": [
+        14.784,
+        5.942,
+        10.313
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "materialSlots": 4
+    },
+    {
+      "name": "wasteland-service-station",
+      "vertices": 915,
+      "triangles": 1526,
+      "dimensionsGodot": [
+        13.957,
+        6.186,
+        10.338
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "materialSlots": 4
+    },
+    {
+      "name": "wasteland-observatory",
+      "vertices": 2489,
+      "triangles": 3600,
+      "dimensionsGodot": [
+        16.2,
+        8.7,
+        14.243
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "materialSlots": 4
+    },
+    {
+      "name": "wasteland-passenger-coach",
+      "vertices": 1789,
+      "triangles": 2836,
+      "dimensionsGodot": [
+        13.439,
+        4.07,
+        6.247
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "materialSlots": 4
+    }
+  ],
+  "totalTriangles": 14200
+}

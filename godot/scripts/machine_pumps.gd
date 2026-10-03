@@ -24,7 +24,7 @@ static func install(machine: Node3D) -> Node3D:
 		if replacement:machine.add_child(replacement)
 	retained.free()
 	var root=Node3D.new();root.name="NativeServicePumps";machine.add_child(root)
-	for site in manifest.sites:
+	for site in MMFMachineComposition.sites(manifest):
 		var instance=pump.duplicate();instance.name=site.name;root.add_child(instance)
 		instance.position=MMFAssets.v(site.position)
 	pump.free()
@@ -36,8 +36,8 @@ static func install_collision(world):
 	assert(mesh is MeshInstance3D,"Missing authored pump collision")
 	var shape=mesh.mesh.create_trimesh_shape()
 	# The collision export is authored in game metres with an identity transform.
-	# A single shared low-detail shape serves both stationary service assemblies.
-	for site in MMFAssets.json("res://art/nomad-pumps.json").sites:
+	# A shared low-detail shape serves the retained stationary service assemblies.
+	for site in MMFMachineComposition.sites(MMFAssets.json("res://art/nomad-pumps.json")):
 		var body=StaticBody3D.new();body.name=site.name+"Collision";world.add_child(body)
 		body.position=MMFAssets.v(site.position);body.transform=body.transform*mesh.transform
 		var collider=CollisionShape3D.new();collider.shape=shape;body.add_child(collider)

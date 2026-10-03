@@ -61,7 +61,7 @@ func run():
 		child.reparent(physics,false)
 	for path in MMFAssets.cache:
 		remember(path);remember(path+".import")
-	for path in ["res://data/runtime.json","res://scripts/assets.gd","res://scripts/world.gd","res://tools/bake_machine.gd"]:remember(path)
+	for path in ["res://data/runtime.json","res://data/machine-spaces.json","res://scripts/assets.gd","res://scripts/art100_materials.gd","res://scripts/world.gd","res://tools/bake_machine.gd"]:remember(path)
 	for name in DirAccess.get_files_at("res://scripts"):
 		if name.begins_with("machine_") and name.ends_with(".gd"):remember("res://scripts/"+name)
 	for name in DirAccess.get_files_at("res://art"):

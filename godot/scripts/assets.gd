@@ -2,12 +2,19 @@ class_name MMFAssets
 extends RefCounted
 
 static var cache: Dictionary = {}
+static var scene_preparers: Array = []
 
 static func json(path: String):
 	return JSON.parse_string(FileAccess.get_file_as_string(path))
 
 static func scene(path: String) -> Node3D:
 	if not path.begins_with("res://"): path = "res://assets/" + path
+	if not cache.has(path):
+		# An immediate cold scene can need different textures while preparation
+		# is still initializing render resources. Finish those owned requests
+		# before another synchronous load; regular preparation stays asynchronous.
+		for preparer in scene_preparers:
+			if is_instance_valid(preparer) and preparer.pending!="":preparer.collect()
 	if not cache.has(path):
 		if not ResourceLoader.exists(path):
 			push_error("Missing native asset: " + path)

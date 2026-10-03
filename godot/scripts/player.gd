@@ -39,6 +39,10 @@ var boundary: MMFGroundBoundary
 var dead=false
 var suppress_fire=false
 var restore_placement_frames=0
+var aim_yaw=0.0
+var pending_shot=false
+var queued_click=false
+var combat_hold=0.0
 
 func setup(owner_game):
 	game = owner_game
@@ -57,9 +61,9 @@ func setup(owner_game):
 	capsule.shape = shape
 	capsule.position.y = 0.96
 	add_child(capsule)
-	visual = MMFAssets.scene("models/authored/s07-player.glb")
+	visual = MMFAssets.scene(MMFEnemyModels.PLAYER)
 	var bounds = MMFAssets.bounds(visual)
-	var fit = 1.92 / maxf(bounds.size.y, 0.01)
+	var fit = 1.92 / maxf(visual.get_meta("original_fit_height",bounds.size.y), 0.01)
 	visual.scale *= fit
 	visual.position.y = -bounds.position.y * fit
 	add_child(visual)
@@ -126,6 +130,7 @@ func setup(owner_game):
 
 func _unhandled_input(event):
 	if game == null or game.menu_open or game.cinematic != "" or game.session.health<=0: return
+	if equipment and equipment.has_method("terminal_presenting") and equipment.terminal_presenting():return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		yaw -= event.relative.x * 0.0022 * game.settings.sensitivity
 		pitch = clampf(pitch - event.relative.y * 0.0022 * game.settings.sensitivity, deg_to_rad(-70), deg_to_rad(75))
@@ -133,8 +138,11 @@ func _unhandled_input(event):
 	if event.is_action_pressed("reload"): reload_weapon()
 	if event.is_action_pressed("rifle"): switch_weapon("rifle")
 	if event.is_action_pressed("shotgun"): switch_weapon("shotgun")
+	if event.is_action_pressed("fire") and game.building.selected=="" and game.manual_turret=="" and not suppress_fire:
+		queued_click=true;pending_shot=true;combat_hold=.35
 
-func switch_weapon(id: String):
+func switch_weapon(id: String,preserve_tool: bool=false):
+	if game.building.salvage_tool and not preserve_tool:game.building.salvage_tool.set_equipped(false)
 	game.session.current_weapon = id
 	cancel_reload()
 	rifle_mesh.visible = id == "rifle"
@@ -146,6 +154,7 @@ func cancel_reload():
 	reload_left = 0
 	burst_left=0
 	burst_recovery=0
+	pending_shot=false;queued_click=false
 	animation = ""
 
 func play(wanted: String, one_shot: bool = false):
@@ -168,6 +177,7 @@ func _process(dt):
 func _physics_process(dt):
 	if game == null:return
 	if game.cinematic != "" or forced_motion:
+		pending_shot=false;queued_click=false;combat_hold=0;aim_yaw=0
 		if locomotion and locomotion.active:play("armed_idle")
 		return
 	# Wait for rebuilt colliders and queued old bodies to reach the physics world.
@@ -180,6 +190,7 @@ func _physics_process(dt):
 	hit_grace = maxf(0, hit_grace-dt)
 	fire_left = maxf(0, fire_left-dt)
 	burst_recovery=maxf(0,burst_recovery-dt)
+	combat_hold=maxf(0,combat_hold-dt)
 	if state.health <= 0:
 		if not dead: die()
 		death_left += dt
@@ -192,11 +203,13 @@ func _physics_process(dt):
 			game.session.notify("Back aboard. Keep the Nomad moving.")
 		return
 	if game.menu_open:
+		pending_shot=false;queued_click=false;aim_yaw=0
 		# An unpaused panel away from the machine must not suspend gravity.
 		velocity.x=0;velocity.z=0;velocity.y-=22*dt
 		move_and_slide();boundary.observe();update_camera(dt)
 		return
 	if game.manual_turret!="":
+		pending_shot=false;queued_click=false;aim_yaw=0
 		if locomotion and locomotion.active:play("armed_idle")
 		game.update_manual_turret(dt)
 		return
@@ -210,7 +223,13 @@ func _physics_process(dt):
 	var input = Input.get_vector("left", "right", "forward", "back")
 	crouched = Input.is_action_pressed("crouch")
 	aiming = Input.is_action_pressed("aim") and game.building.selected == ""
-	var run = Input.is_action_pressed("sprint") and not crouched and input.y<0 and state.hydration>0
+	var terminal_busy=equipment and equipment.has_method("terminal_presenting") and equipment.terminal_presenting()
+	var tool_busy=game.building.salvage_tool and game.building.salvage_tool.equipped()
+	var trigger=not terminal_busy and not tool_busy and not suppress_fire and game.building.selected=="" and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED and (Input.is_action_pressed("fire") or burst_left>0)
+	pending_shot=queued_click or trigger
+	if trigger:combat_hold=.35
+	if terminal_busy or tool_busy or game.building.selected!="":pending_shot=false;queued_click=false;combat_hold=0
+	var run = Input.is_action_pressed("sprint") and not crouched and input.y<0
 	var move_speed = 2.2 if crouched else (7.5 if run else 4.5)
 	var direction = Basis(Vector3.UP, yaw) * Vector3(input.x, 0, input.y)
 	var before_motion=position
@@ -221,18 +240,14 @@ func _physics_process(dt):
 		velocity.y = -0.1
 		if Input.is_action_just_pressed("jump"): velocity.y = sqrt(2*22*1.1)
 	# Step-up is bounded to the same 45 cm curb used by the reference controller.
-	if is_on_floor() and direction.length_squared() > 0.01:
-		var motion = direction * move_speed * dt
-		if test_move(global_transform, motion):
-			var raised = global_transform
-			raised.origin.y += 0.44
-			if not test_move(raised, motion):
-				var ray = game.raycast(raised.origin + motion, raised.origin + motion - Vector3.UP*0.52, [get_rid()])
-				if not ray.is_empty() and ray.normal.y > 0.65: position.y = ray.position.y + 0.025
+	if is_on_floor() and velocity.y<=0 and direction.length_squared() > 0.01:
+		try_step_up(direction * move_speed * dt)
 	move_and_slide()
 	boundary.observe()
-	if input.length() > 0.05 or aiming:
+	var tool_working=tool_busy and game.building.salvage_tool.working()
+	if input.length() > 0.05 or aiming or pending_shot or combat_hold>0 or tool_working:
 		visual.rotation.y = lerp_angle(visual.rotation.y, yaw+PI, 1-exp(-14*dt))
+	aim_yaw=clampf(wrapf(yaw+PI-visual.rotation.y,-PI,PI),-deg_to_rad(35),deg_to_rad(35)) if aiming or pending_shot or combat_hold>0 else 0.0
 	if not is_on_floor():play("armed_jump")
 	else:
 		var actual_motion=(position-before_motion)/maxf(dt,.001)
@@ -241,13 +256,30 @@ func _physics_process(dt):
 		if actual_motion.length()>move_speed*2:actual_motion=Vector3.ZERO
 		locomotion.update(dt,actual_motion)
 	if not Input.is_action_pressed("fire"): suppress_fire=false
-	if not suppress_fire and (Input.is_action_pressed("fire") or burst_left>0) and game.building.selected == "" and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED: fire()
 	update_camera(dt)
+	if pending_shot and not terminal_busy and not suppress_fire and game.building.selected=="" and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED:fire()
 	if pose_modifier: pose_modifier.sample_feet()
 	recoil=lerpf(recoil,0,1-exp(-12*dt))
 	# The hold solver moves both arms with presentation recoil, preserving grip.
 
+func try_step_up(motion: Vector3):
+	if not test_move(global_transform,motion):return
+	# The capsule touches a stair landing before its centre reaches the edge.
+	# Probe its leading footprint, then sweep the entire capsule through the lift
+	# and the actual frame's motion; a clear ray alone cannot establish headroom.
+	var ahead=global_position+motion+motion.normalized()*capsule_shape.radius
+	var support=game.raycast(ahead+Vector3.UP*.44,ahead-Vector3.UP*.08,[get_rid()])
+	if support.is_empty() or support.normal.y<cos(floor_max_angle):return
+	var rise=support.position.y+.025-global_position.y
+	if rise<=.001 or rise>.44:return
+	var lift=Vector3.UP*rise
+	if test_move(global_transform,lift):return
+	var raised=global_transform;raised.origin+=lift
+	if test_move(raised,motion):return
+	global_position+=lift
+
 func update_camera(dt: float):
+	if equipment and equipment.has_method("terminal_presenting") and equipment.terminal_presenting():return
 	var desired = position + Vector3(0, 1.5 if not crouched else 1.1, 0)
 	pivot.position = desired
 	pivot.rotation = Vector3(pitch, yaw, 0)
@@ -279,7 +311,13 @@ func set_camera_fade(value: float):
 	for mesh in meshes: mesh.transparency = value
 
 func fire():
-	if fire_left > 0 or reload_left > 0 or burst_recovery>0 or game.session.health <= 0: return
+	if game.menu_open or game.cinematic!="" or forced_motion or game.manual_turret!="" or game.session.health<=0:return
+	if equipment and equipment.has_method("terminal_presenting") and equipment.terminal_presenting():return
+	if game.building.salvage_tool and game.building.salvage_tool.equipped():return
+	if fire_left > 0 or reload_left > 0 or burst_recovery>0:return
+	combat_hold=.35
+	if not weapon_pose.can_fire():pending_shot=true;return
+	pending_shot=false;queued_click=false
 	var gun = game.session.weapons[game.session.current_weapon]
 	if gun.ammoInMag <= 0:
 		reload_weapon()
@@ -294,30 +332,33 @@ func fire():
 	fire_left = 1.0 / def.fireRate
 	var forward = -camera.global_basis.z
 	equipment.refresh_attachment()
-	var muzzle = weapon_pose.muzzle_position()
+	var muzzle = weapon_pose.resolved_muzzle
+	var impact_summary={}
 	for i in int(def.pellets):
 		var spread = deg_to_rad(def.aimSpread if aiming else def.spread)
 		var angle = game.session.rng.randf()*TAU
 		var radius = sqrt(game.session.rng.randf())*spread
 		var dir = (forward + camera.global_basis.x*(cos(angle)*radius) + camera.global_basis.y*(sin(angle)*radius)).normalized()
-		var hit = game.raycast(camera.global_position, camera.global_position + dir*def.range, [get_rid()], 5)
-		var end = camera.global_position+dir*def.range if hit.is_empty() else hit.position
+		var path=MMFOwnedShot.trace(game,muzzle,camera.global_position,dir,def.range,[get_rid()],weapon_pose.resolved_origin)
+		var hit=path.hit
 		if not hit.is_empty():
-			var distance_hit = camera.global_position.distance_to(hit.position)
-			if hit.collider.has_method("take_weapon_damage"): hit.collider.take_weapon_damage(def.damage,hit.position,distance_hit,def.range,def.falloffStart)
-			elif hit.collider.has_method("take_damage"): hit.collider.take_damage(MMFDamage.compute(def.damage,distance_hit,def.range,def.falloffStart),hit.position)
-			game.effects.impact(hit.position, hit.normal)
-		game.effects.tracer(muzzle, end, Color(1,0.65,0.18))
+			var impact=MMFOwnedShot.resolve(hit,def.damage,path.distance,def.range,def.falloffStart,"player_weapon")
+			MMFCombatFeedback.present(game,impact)
+			impact_summary=MMFCombatFeedback.summarize(impact_summary,impact)
+		game.effects.tracer(path.origin,path.end,Color(1,0.65,0.18))
+	MMFCombatFeedback.confirm(game,impact_summary)
+	game.record_event("combat","player_shot",{"weapon":game.session.current_weapon,"damaging_hit":not impact_summary.is_empty()})
 	pitch = minf(deg_to_rad(75), pitch+deg_to_rad(def.recoil))
 	game.audio.shot(game.session.current_weapon == "shotgun")
 
 func reload_weapon():
+	if game.building.salvage_tool and game.building.salvage_tool.equipped():return
 	if reload_left > 0 or game.building.selected != "": return
 	var gun = game.session.weapons[game.session.current_weapon]
 	var def = game.weapon_definition()
 	if gun.ammoInMag >= def.magazineSize+gun.magazineBonus: return
 	reload_left = def.reloadTime
-	burst_left=0
+	burst_left=0;pending_shot=false;queued_click=false
 	if pose_modifier and animator:
 		for key in animator.get_animation_list():
 			if String(key).get_file()=="reload_"+game.session.current_weapon: pose_modifier.begin_reload(animator.get_animation(key))
@@ -333,9 +374,10 @@ func take_damage(amount: float, _point: Vector3 = Vector3.ZERO):
 	if game.session.health<=0: die()
 
 func die():
+	game.building.clear_history("Recovery")
 	dead=true;death_left=0;velocity=Vector3.ZERO
 	if locomotion and locomotion.active:play("armed_idle")
-	reload_left=0;burst_left=0;fire_left=0
+	reload_left=0;burst_left=0;fire_left=0;pending_shot=false;queued_click=false;combat_hold=0;aim_yaw=0
 	game.building.cancel();game.salvage.cancel();game.dismount_turret()
 	game.home.chair_id=""
 	if game.menu_open: game.close_menu()

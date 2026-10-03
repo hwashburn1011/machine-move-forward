@@ -1,0 +1,83 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MMF_NATIVE_READY 
+PASS Free campaign/checkpoint setup creates no undo receipts
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -3 } 
+PASS One placement records exactly one paid transaction
+PASS Untouched recent part can be undone
+PASS Refund uses actual payment, not changed blueprint price
+PASS Undo never reuses IDs or refunds a consumed receipt twice
+PASS Ephemeral history is absent from native saves
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -3 } 
+PASS Full bags reject full refund atomically without removing the part
+PASS A transient refund-capacity refusal can be retried after freeing storage
+PASS Ordinary paid placement: crate{ "x": -4, "y": 0, "z": -2 } 
+PASS Receipt records exact deductions across pack and store
+PASS Atomic undo refunds the complete split payment
+PASS Ordinary paid placement: crate{ "x": -4, "y": 0, "z": -2 } 
+PASS Used-then-emptied storage cannot regain full-price undo eligibility
+PASS Loaded crate relocates through ordinary placement validation
+PASS Untouched loaded crate relocation can be reversed
+PASS Reverse move retains the same live instance and contents, with no resource transaction
+PASS Copy selects only blueprint and orientation, not relocation identity
+PASS Copied blueprint creates an ordinary paid part
+PASS Copying loaded storage never clones its items
+PASS Copy placement pays ordinary resources exactly once
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -3 } 
+PASS Damage invalidates history even after repair
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -2 } 
+PASS Expired receipt cannot undo or silently undo an older operation
+PASS Ordinary paid placement: floor{ "x": 6, "y": 0, "z": 3 } 
+PASS Undo cannot disconnect a neighboring supported floor chain
+PASS Support refusal leaves every part in place
+PASS Ordinary paid placement: floor{ "x": 6, "y": 0, "z": 0 } 
+PASS Active return gangway support cannot be undone
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -3 } 
+PASS Personal wrist cannot execute construction undo
+PASS Combat clears recent receipts and placement
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -2 } 
+PASS Loading a native save clears all actionable history
+PASS Ordinary paid placement: workbench{ "x": -4, "y": 0, "z": -3 } 
+PASS Unused workbench is eligible through its registered use tracking
+PASS Ordinary crafting uses the actual selected workbench
+PASS Successful station use prevents full-price construction undo
+PASS Ordinary paid placement: generator{ "x": -4, "y": 0, "z": -2 } 
+PASS Untracked autonomous equipment has an explicit safe refusal
+PASS Refused autonomous equipment undo cannot remove/refund the machine
+PASS Full storage can be relocated without changing its contents
+PASS Craft whose output has no room fails through the real station transaction
+PASS Failed output rollback preserves contents, mutation revision and untouched relocation eligibility
+PASS Failed craft cannot destroy a safe loaded-storage move reversal
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -3 } 
+PASS Held/repeating undo key cannot consume construction history
+PASS Remapped undo executes through real input while placing
+PASS Remapped copy key selects the aimed blueprint without creating a part
+PASS Copy cannot leak through the personal wrist interface
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -3 } 
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -2 } 
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": -1 } 
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": 0 } 
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": 1 } 
+PASS Ordinary paid placement: floor{ "x": -4, "y": 0, "z": 2 } 
+PASS Ordinary paid placement: floor{ "x": -3, "y": 0, "z": -4 } 
+PASS Ordinary paid placement: floor{ "x": -3, "y": 0, "z": -3 } 
+PASS Ordinary paid placement: floor{ "x": -3, "y": 0, "z": -2 } 
+PASS Ordinary paid placement: floor{ "x": -3, "y": 0, "z": -1 } 
+PASS Ordinary paid placement: floor{ "x": -3, "y": 0, "z": 0 } 
+PASS Construction journal retains at most ten receipts
+PASS Undo removes only the most recent exact instance
+PASS Initial grid candidate uses normal nearest-cell snap
+PASS Small boundary jitter keeps the selected cell
+PASS Deliberate movement beyond hysteresis changes cell
+PASS Negative coordinates snap consistently
+PASS Small corner jitter does not flip wall edge axis
+PASS Deliberate edge change releases the prior axis
+PASS Changed deck resets candidate memory
+PASS Occupied equipment footprint is an authoritative refusal
+PASS Repeated previews do not change inventory, power charge, clock or gameplay RNG
+PASS Power preview matches authoritative power after placement
+PASS Over-capacity preview reports whole-tier shedding
+PASS Battery preview serves navigation when generation is absent
+PASS Power calculation does not drain battery energy
+PASS Live power advances charge once after shared pure calculation
+CONSTRUCTION_USABILITY {"checks":79,"failures":[],"human_test":false,"passed":true,"scope":"headless authority/input fixtures; native review remains separate","source_hash":"1d831f5f685c9c7b4480eeecbf16cc1d4355c5452b59cd78881a9a74adc6963f","source_hash_end":"1d831f5f685c9c7b4480eeecbf16cc1d4355c5452b59cd78881a9a74adc6963f","source_stable":true}

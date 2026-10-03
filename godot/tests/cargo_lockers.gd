@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SITES=[Vector3(8.525,16.03,7.54),Vector3(-8.9375,16.03,-8.19),Vector3(8.8,12.43,9.88),Vector3(6.875,8.83,-6.5)]
+const SITES=[Vector3(8.525,16.03,7.54),Vector3(6.875,8.83,-6.5)]
 var game
 var checks=0
 var failures=[]
@@ -15,7 +15,7 @@ func check(ok: bool,label: String):
 
 func tank_distance(meshes: Array) -> float:
 	# Exact minimum in XZ projection against the original vessel's outer ellipse.
-	# Its source bounds are x=8±.285, z=10.4±.304, y=12.471667..13.930001.
+	# Its source bounds are x=8Â±.285, z=10.4Â±.304, y=12.471667..13.930001.
 	# All inspected case surfaces lie in this vessel's vertical interval. Testing
 	# whole triangle projections is conservative for triangles spanning an end.
 	var result=INF
@@ -39,7 +39,7 @@ func run():
 	for i in 2:await physics_frame
 	await process_frame
 	var machine=game.world.machine;var cargo=MMFAssets.find_named(machine,"NativeCargoLockers")
-	check(cargo!=null and cargo.get_child_count()==4,"Four refined fixed cases are installed on the three decks")
+	check(cargo!=null and cargo.get_child_count()==2,"Two fixed supply cases leave the middle deck open")
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	for name in ["Secured_weatherproof_cargo_locker001","Secured_weatherproof_cargo_locker001_1","Secured_weatherproof_cargo_locker001_2","Secured_weatherproof_cargo_locker001_5"]:
 		check(MMFAssets.find_named(machine,name)==null,"Old coincident cargo geometry is removed: "+name)
@@ -77,12 +77,13 @@ func run():
 		var stop=(game.player.position.z-SITES[i].z)*direction
 		check(stop>.77 and stop<.90 and absf(game.player.position.y-SITES[i].y)<.1,"Real player stops outside case: "+str(i+1))
 		report.collision.append({"site":str(SITES[i]),"stoppedOffset":stop,"playerPosition":str(game.player.position)})
-	check(resources.size()==4 and materials.size()==4,"All four cases share the same four mesh/material resources")
+	check(resources.size()==4 and materials.size()==4,"Both retained cases share the same four mesh/material resources")
 	check(MMFAssets.of_type(cargo,"CollisionObject3D").is_empty() and MMFAssets.of_type(cargo,"Light3D").is_empty() and cargo.find_children("*","GPUParticles3D",true,false).is_empty(),"New detail adds no physics bodies, lights or particles")
 	var old_distance=tank_distance([MMFAssets.find_named(original,"Secured_weatherproof_cargo_locker001"),MMFAssets.find_named(original,"Secured_weatherproof_cargo_locker001_1")])
-	var new_distance=tank_distance(MMFAssets.of_type(cargo.get_child(2),"MeshInstance3D"))
+	var library_case=MMFAssets.scene("res://art/nomad-cargo-locker.glb");root.add_child(library_case);library_case.position=Vector3(8.8,12.43,9.88)
+	var new_distance=tank_distance(MMFAssets.of_type(library_case,"MeshInstance3D"));library_case.free()
 	check(old_distance<1.0,"Original case geometry intersects the adjacent pressure vessel's envelope")
-	check(new_distance>1.0,"Refined middle-deck case clears the adjacent pressure vessel's envelope")
+	check(new_distance>1.0,"Reusable refined case geometry still clears the original adjacent vessel envelope")
 	report.tank={"originalNormalizedDistance":old_distance,"refinedNormalizedDistance":new_distance,"clearanceThreshold":1.0}
 	game.session.story.phase="locked";game.session.scanner.phase="consumed"
 	for frame in 30:game.world.update(1.0/60)

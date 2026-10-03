@@ -78,4 +78,10 @@ func run():
 	var report={"checks":checks,"failures":failures,"passed":failures.is_empty()}
 	var file=FileAccess.open("res://../test-results/godot-native/scenery-streaming-checks.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	while game.combat.nav.is_baking():await create_timer(.1).timeout
-	game.queue_free();await create_timer(.1).timeout;MMFAssets.cache.clear();quit(0 if failures.is_empty() else 1)
+	var drain=load("res://tests/audio_drain.gd");var audio_refs=drain.capture(game.audio)
+	game.queue_free();while is_instance_valid(game):await process_frame
+	MMFAssets.cache.clear();MMFArt100Decor.clear_cache();MMFArt200Decor.clear_cache()
+	for frame in 3:await process_frame
+	await drain.finish(self,audio_refs)
+	# Let coroutine-local references release before renderer shutdown.
+	call_deferred("quit",0 if failures.is_empty() else 1)

@@ -1,0 +1,22 @@
+{
+  "editable_parts": 276,
+  "batches": 52,
+  "triangles": 79120,
+  "bytes": 5239440,
+  "moving_roots": [
+    "HumanGlove",
+    "UpperSleeve",
+    "ForeSleeve",
+    "DisconnectLever",
+    "SuspendedMotor",
+    "ServiceCart",
+    "EjectedSpool",
+    "GlassFractures"
+  ],
+  "articulated_finger_joints": 12,
+  "sleeve_lengths_m": [
+    0.34,
+    0.29
+  ],
+  "provenance": "Original beveled Blender geometry and deterministic painted wear. Existing game actors are staged separately in Godot."
+}

@@ -127,6 +127,6 @@ static func valid_snapshot(raw,items: Dictionary) -> bool:
 func restore(raw: Array):
 	for item in raw:
 		var node=Node3D.new();node.name="Recovered_"+item.id;game.combat.add_child(node);node.position=MMFAssets.v(item.position)
-		game.combat.loot.append({"node":node,"id":item.id,"count":int(item.count)})
+		game.combat.loot.append({"node":node,"id":MMFNativeProgression.RETIRED_ITEMS.get(item.id,item.id),"count":int(item.count)})
 	# Rebuilt deck/site colliders need a physics synchronization before fitting.
 	dirty=true;restore_delay=2

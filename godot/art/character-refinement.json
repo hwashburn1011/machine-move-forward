@@ -1,0 +1,54 @@
+{
+	"engine": "4.7.2-stable (official)",
+	"models": {
+		"bastion": {
+			"bytes": 2673114,
+			"compiledSha256": "171b31f4360aeed54c8944f48b6d50c0b90df4b1ecfc7abf961d7b84fe6a1ce3",
+			"originalFitHeight": 2.55738544464111,
+			"originalSha256": "85002d3922e8e5a0e5ce6b4244d8a15da150fac1181622f47911d022799a85c5",
+			"refinedSha256": "e695883dd04eaccfaa583879837e3f0bedc80da5a1de60dbcb2a747a59931f0b"
+		},
+		"raider": {
+			"bytes": 1876018.0,
+			"compiledSha256": "104601142d30dea27973489f1688fd4f015e6585fba4704c50921c1e69897e79",
+			"originalFitHeight": 1.87199997901917,
+			"originalSha256": "81bf0129c9437633f0d5a870a7d4f196afa8f057c44a4006229b1df32c509172",
+			"refinedSha256": "08b4b652caef45b66efdfe58df2bd6e6f182dfc92ec64bc4ceb1d2e71310d23c"
+		},
+		"revenant": {
+			"bytes": 2948140.0,
+			"compiledSha256": "d1ebdf6830897cbe38ad7919777007af53bb772667ad78ee40f80690039c493b",
+			"originalFitHeight": 2.07287335395813,
+			"originalSha256": "ea0f176b6159e2d5151e7e08269070019662b9f7e068724b6f26eb9fd5342ecf",
+			"refinedSha256": "4d33242bb8cf3255fb823033d2f0e2386b5962d458c6c73a1a66ee8d97a32094"
+		},
+		"s07-player": {
+			"bytes": 4258163.0,
+			"compiledSha256": "23edb03c9853388aaae9dffaccb57868036198a04af2c8c82f36e44825112e6f",
+			"originalFitHeight": 2.14833116531372,
+			"originalSha256": "bc6253495689c10e2a540040f4101a57bb6ef14a89290242e52042031f43f3b1",
+			"refinedSha256": "e49b2ee7397824d505e10e5c452082b38f67def1229980cdf647caa94ae12e33"
+		},
+		"scavenger": {
+			"bytes": 1015487.0,
+			"compiledSha256": "d2ebd9c4117d38b7d6bd2e6af38c7bdf2c2dc288c9374fb262586a9217392246",
+			"originalFitHeight": 1.86165630817413,
+			"originalSha256": "97bb9d9ef83c9efc28b70b511decbd06f74763ffea726a614fc3d0577404122d",
+			"refinedSha256": "16d40d73ecfc67c51e29dd70b52f4c6d0beb95b410aeb62e1904482601df9cd6"
+		},
+		"sovereign": {
+			"bytes": 3387067.0,
+			"compiledSha256": "f8643f5e2f2f9580c0788a44b9628bb1a71dd5542c64f686dc8e359390a60200",
+			"originalFitHeight": 2.44455814361572,
+			"originalSha256": "91cfc2458e7d5037f4d8d13f95d621b4479c46d8f95162cb7a431802eeb4fd9e",
+			"refinedSha256": "633dccd17bf7993d54b068a1678b6c0c7e097c3b6198650d0df6157bc683eb52"
+		},
+		"warden": {
+			"bytes": 3357133.0,
+			"compiledSha256": "fc7d51f48ad374d88c62467805ed0636289aa0afa2f5458ca2049121a3659c1b",
+			"originalFitHeight": 2.26300811767578,
+			"originalSha256": "935334346ae2447604eb5dd45b171cf75a79477e183af72a0f2d1438e6d91e87",
+			"refinedSha256": "d5082162fb9fa5d9a3de487ce6c53a0892b049dbcf3cd67c38f7abf57569df8b"
+		}
+	}
+}

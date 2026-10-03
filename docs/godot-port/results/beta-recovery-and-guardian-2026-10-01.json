@@ -1,0 +1,971 @@
+{
+  "date": "2026-10-01",
+  "edition": "native Godot 4.7.2",
+  "status": "playable development iteration; full V1 acceptance remains open",
+  "headless": {
+    "suite_count": 17,
+    "checks": 1460,
+    "passed": true,
+    "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+    "source_stable": true,
+    "suites": [
+      {
+        "suite": "beta_salvage",
+        "exit_code": 0,
+        "checks": 32,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "beta_salvage_edges",
+        "exit_code": 0,
+        "checks": 8,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "beta_physical_quality",
+        "exit_code": 0,
+        "checks": 65,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "beta_crane_collision",
+        "exit_code": 0,
+        "checks": 48,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "cordon_guardian",
+        "exit_code": 0,
+        "checks": 42,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "salvage_feedback",
+        "exit_code": 0,
+        "checks": 75,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "later_expeditions",
+        "exit_code": 0,
+        "checks": 88,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "recovery_operations",
+        "exit_code": 0,
+        "checks": 97,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "construction_usability",
+        "exit_code": 0,
+        "checks": 79,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "controls_interactions",
+        "exit_code": 0,
+        "checks": 66,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "playtest_checkpoints",
+        "exit_code": 0,
+        "checks": 455,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "pacing_contracts",
+        "exit_code": 0,
+        "checks": 25,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "narrative_delivery",
+        "exit_code": 0,
+        "checks": 169,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "narrative_edge_cases",
+        "exit_code": 0,
+        "checks": 47,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "integration",
+        "exit_code": 0,
+        "checks": 113,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "autosave_worker",
+        "exit_code": 0,
+        "checks": 31,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      },
+      {
+        "suite": "compiled_machine",
+        "exit_code": 0,
+        "checks": 20,
+        "failures": [],
+        "source_hash": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70",
+        "source_hash_end": "3f1fdeef2fd9808bcf5207ff97ae7a4de5e5dc72cd38e446b93f764a1a999a70"
+      }
+    ]
+  },
+  "native_salvage": {
+    "checks": 32,
+    "failures": [],
+    "renderer": "NVIDIA GeForce RTX 3070"
+  },
+  "asset_hashes": {
+    "godot/art/beta-crane-collision.json": "c44ad8d6b55b5cd7ae9003ae27c95fc3d9c5c0e46b90a9430e3d4dcee1aed8ab",
+    "godot/art/beta-port-claw.glb": "bcf4cbd91fcc855d18cf8f718cd2eecb0825316b2148d28ddd18ec38552b6b2e",
+    "godot/art/beta-salvage-cassette.glb": "28e21103bf8f5a8ad13a0b9d61a6a355cdede8c45453a82f7b99d21139e6015d",
+    "godot/art/beta-salvage-cell.glb": "93f1d68b233465596a0bbf367db7d6d09b784d8e133caf47bf373816544cccba",
+    "godot/art/beta-salvage-coil.glb": "217254b9a36d747458dd79837276ef4a8b5d96346e6e0d8a572bf63168c6962f",
+    "godot/art/beta-salvage-dock.glb": "2a5ff58603c7fb6625c0b3c8ba7a5fafbbb65eaf66fdafcf8e75c39c8c3f4d58",
+    "godot/art/beta-salvage-drone.glb": "2ef12922420cbd9c78471ae8093c0599cb05c0cbc76a2e5ce06711c1413c3ab5",
+    "godot/art/beta-salvage.json": "6aa40df802a1acffacd179509e2317f1b344a09d0c35d56aac023e1be19ccbdb"
+  },
+  "asset_validation": {
+    "assets": [
+      {
+        "name": "PortClaw",
+        "file": "beta-port-claw.glb",
+        "bytes": 3046912,
+        "triangles": 32330,
+        "meshes": 28,
+        "materials": 7,
+        "embedded": true,
+        "errors": 0,
+        "warnings": 0,
+        "messages": [
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/6/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/6/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/8/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/8/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/10/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/10/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/11/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/11/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/13/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/13/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/14/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/14/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/15/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/15/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/18/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/18/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/19/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/19/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/20/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/20/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/22/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/22/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/23/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/23/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/25/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/25/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/26/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/26/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/27/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/27/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/3"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/8"
+          }
+        ]
+      },
+      {
+        "name": "DroneRoot",
+        "file": "beta-salvage-drone.glb",
+        "bytes": 2456652,
+        "triangles": 20476,
+        "meshes": 15,
+        "materials": 7,
+        "embedded": true,
+        "errors": 0,
+        "warnings": 0,
+        "messages": [
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/6/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/6/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/7/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/7/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/8/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/8/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/9/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/9/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/10/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/10/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/11/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/11/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/12/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/12/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/13/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/13/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/14/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/14/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/0"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/1"
+          }
+        ]
+      },
+      {
+        "name": "SalvageDock",
+        "file": "beta-salvage-dock.glb",
+        "bytes": 1965388,
+        "triangles": 9035,
+        "meshes": 7,
+        "materials": 7,
+        "embedded": true,
+        "errors": 0,
+        "warnings": 0,
+        "messages": [
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/6/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/6/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/0"
+          },
+          {
+            "code": "NODE_EMPTY",
+            "message": "Empty node encountered.",
+            "severity": 2,
+            "pointer": "/nodes/1"
+          }
+        ]
+      },
+      {
+        "name": "SalvageCassette",
+        "file": "beta-salvage-cassette.glb",
+        "bytes": 1683996,
+        "triangles": 2896,
+        "meshes": 6,
+        "materials": 6,
+        "embedded": true,
+        "errors": 0,
+        "warnings": 0,
+        "messages": [
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/1/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/3/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/3/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/5/primitives/0/attributes/TEXCOORD_0"
+          }
+        ]
+      },
+      {
+        "name": "SalvageCoil",
+        "file": "beta-salvage-coil.glb",
+        "bytes": 1835944,
+        "triangles": 6636,
+        "meshes": 4,
+        "materials": 4,
+        "embedded": true,
+        "errors": 0,
+        "warnings": 0,
+        "messages": [
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/3/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/3/primitives/0/attributes/TEXCOORD_0"
+          }
+        ]
+      },
+      {
+        "name": "SalvageCell",
+        "file": "beta-salvage-cell.glb",
+        "bytes": 817872,
+        "triangles": 2148,
+        "meshes": 5,
+        "materials": 5,
+        "embedded": true,
+        "errors": 0,
+        "warnings": 0,
+        "messages": [
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/2/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/3/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/3/primitives/0/attributes/TEXCOORD_0"
+          },
+          {
+            "code": "UNUSED_MESH_TANGENT",
+            "message": "Tangents are not used because the material has no normal texture.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TANGENT"
+          },
+          {
+            "code": "UNUSED_OBJECT",
+            "message": "This object may be unused.",
+            "severity": 2,
+            "pointer": "/meshes/4/primitives/0/attributes/TEXCOORD_0"
+          }
+        ]
+      }
+    ],
+    "checks": [
+      {
+        "check": "PortClaw / SlewPivot",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / CraneInteract",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / ShoulderPivot",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / ElbowPivot",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / HoistAnchor",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / ClawHead",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / CargoAnchor",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / JawA",
+        "pass": true
+      },
+      {
+        "check": "PortClaw / JawB",
+        "pass": true
+      },
+      {
+        "check": "PortClaw triangle accounting",
+        "pass": true
+      },
+      {
+        "check": "PortClaw ground contact",
+        "pass": true
+      },
+      {
+        "check": "DroneRoot / CargoAnchor",
+        "pass": true
+      },
+      {
+        "check": "DroneRoot / DroneDockPoint",
+        "pass": true
+      },
+      {
+        "check": "DroneRoot / RotorFL",
+        "pass": true
+      },
+      {
+        "check": "DroneRoot / RotorFR",
+        "pass": true
+      },
+      {
+        "check": "DroneRoot / RotorRL",
+        "pass": true
+      },
+      {
+        "check": "DroneRoot / RotorRR",
+        "pass": true
+      },
+      {
+        "check": "DroneRoot triangle accounting",
+        "pass": true
+      },
+      {
+        "check": "SalvageDock / CargoDeposit",
+        "pass": true
+      },
+      {
+        "check": "SalvageDock / DroneDockPoint",
+        "pass": true
+      },
+      {
+        "check": "SalvageDock triangle accounting",
+        "pass": true
+      },
+      {
+        "check": "SalvageDock ground contact",
+        "pass": true
+      },
+      {
+        "check": "SalvageCassette triangle accounting",
+        "pass": true
+      },
+      {
+        "check": "SalvageCassette ground contact",
+        "pass": true
+      },
+      {
+        "check": "SalvageCoil triangle accounting",
+        "pass": true
+      },
+      {
+        "check": "SalvageCoil ground contact",
+        "pass": true
+      },
+      {
+        "check": "SalvageCell triangle accounting",
+        "pass": true
+      },
+      {
+        "check": "SalvageCell ground contact",
+        "pass": true
+      },
+      {
+        "check": "collector collider footprint contains dock and parked drone",
+        "pass": true
+      },
+      {
+        "check": "drone lifting latch matches chest top within 1 mm",
+        "pass": true
+      }
+    ]
+  },
+  "evidence": {
+    "first_combined_failures": "test-results/beta-iteration/first-combined.json",
+    "final_logs": "test-results/narrative-regressions/",
+    "native_log": "test-results/beta-iteration/salvage-native.log",
+    "native_captures_log": "test-results/beta-iteration/native-review.log",
+    "pre_iteration_sources": "test-results/beta-iteration/baseline-sources.zip"
+  },
+  "limits": [
+    "No uncoached end-to-end human campaign acceptance",
+    "No new low-spec or many-drone performance benchmark",
+    "Berth and recovery platform surface/detail art remains unfinished",
+    "Cassette, coil and cell are authored but not in collectible tables",
+    "Machine painting and broader starter equipment relocation are not implemented in this iteration"
+  ]
+}

@@ -1,0 +1,115 @@
+{
+	"checks": 107,
+	"failures": [],
+	"samples": [
+		{
+			"cameraHits": 0,
+			"candidates": 13,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.0972524242784,
+			"origin": {
+				"x": 90.0,
+				"y": 4.18331098556519,
+				"z": -112.0
+			},
+			"planningMs": 57.217,
+			"scenario": [
+				"first",
+				0.0,
+				0.0
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 1,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.03394395693249,
+			"origin": {
+				"x": 54.0,
+				"y": 4.64674139022827,
+				"z": -76.0
+			},
+			"planningMs": 6.653,
+			"scenario": [
+				"nomad",
+				425.0,
+				0.0
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 6,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.33267432660952,
+			"origin": {
+				"x": 78.0,
+				"y": 2.37478947639465,
+				"z": -94.0
+			},
+			"planningMs": 7.295,
+			"scenario": [
+				"ruins",
+				1216.3,
+				262.4
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 1,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.08115460116446,
+			"origin": {
+				"x": 54.0,
+				"y": 1.89538407325745,
+				"z": -76.0
+			},
+			"planningMs": 7.461,
+			"scenario": [
+				"crosswind",
+				3900.0,
+				-271.3
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 1,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.09756679097839,
+			"origin": {
+				"x": 54.0,
+				"y": 1.97036874294281,
+				"z": -76.0
+			},
+			"planningMs": 6.661,
+			"scenario": [
+				"industrial",
+				8491.8,
+				51.2
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 1,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.06117587886472,
+			"origin": {
+				"x": 54.0,
+				"y": 3.07327961921692,
+				"z": -76.0
+			},
+			"planningMs": 6.922,
+			"scenario": [
+				"last",
+				20567.0,
+				523.0
+			]
+		}
+	],
+	"scope": "Six seeded routes, full 17-second ship/camera envelopes against actual rendered MultiMeshes, finer dune grid, all-deck concealed cuts and crowded-world fallback."
+}

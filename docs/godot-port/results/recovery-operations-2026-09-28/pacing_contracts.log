@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MMF_NATIVE_READY 
+PASS Legacy scan preserves completion fraction 0.0
+PASS Changed-duration scan migrates proportionally 0.0
+PASS Legacy scan preserves completion fraction 0.4
+PASS Changed-duration scan migrates proportionally 0.4
+PASS Legacy scan preserves completion fraction 1.0
+PASS Changed-duration scan migrates proportionally 1.0
+PASS Zero scan duration rejected before division
+PASS Unstable encounter pauses eligible scanner time
+PASS Leaving machine pauses eligible scanner time
+PASS Only stable aboard powered time advances scanner
+PASS Scanning offers useful preparation without shortening timer
+PASS Encounter eligibility query is pure
+PASS Low health gives a readable encounter hold
+PASS Briefing interval blocks random scheduling
+PASS Docked expedition preserves sanctuary
+PASS Active scout occupies encounter slot
+PASS Second carrier cannot stack onto active scout
+PASS Retreating carrier cannot consume a scheduled route fight
+PASS Scheduled route fight retries when the encounter slot clears
+PASS Refused broadcast does not consume the salvage choice
+PASS Broadcast commits only after its carrier starts
+PASS Charged bank reports current receiver+helm reserve
+PASS Reserve preview does not cut generation or drain charge
+PASS Drive comparison agrees from either live mode
+PASS Comparison preserves existing speed/detection tradeoff

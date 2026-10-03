@@ -1,0 +1,1549 @@
+{
+  "scope": "Whole-carrier source geometry screen; AABB proximity is a missing-support screen, not a mesh intersection proof. Native closed/open close views are required.",
+  "authored_components": 82,
+  "finite": true,
+  "authored_zero_area_faces": 0,
+  "parts": [
+    {
+      "name": "Bolted G01 identity backing",
+      "new_hardware": true,
+      "min": [
+        -1.193000078201294,
+        -0.4699999988079071,
+        2.429999828338623
+      ],
+      "max": [
+        -1.1649999618530273,
+        0.4699999988079071,
+        2.7699999809265137
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel"
+    },
+    {
+      "name": "Inset cordon identity enamel",
+      "new_hardware": true,
+      "min": [
+        -1.2059999704360962,
+        -0.4399999976158142,
+        2.4569997787475586
+      ],
+      "max": [
+        -1.1920000314712524,
+        0.4399999976158142,
+        2.743000030517578
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Bolted G01 identity backing"
+    },
+    {
+      "name": "Stamped G - 01",
+      "new_hardware": true,
+      "min": [
+        -1.2074999809265137,
+        -0.18861499428749084,
+        2.577470064163208
+      ],
+      "max": [
+        -1.2065000534057617,
+        0.21411500871181488,
+        2.696470022201538
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Stamped CORDON / FIRE CONTROL",
+      "new_hardware": true,
+      "min": [
+        -1.2084999084472656,
+        -0.2141999900341034,
+        2.489185094833374
+      ],
+      "max": [
+        -1.2074999809265137,
+        0.21286998689174652,
+        2.5136849880218506
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer",
+      "new_hardware": true,
+      "min": [
+        -1.2089999914169312,
+        0.406499981880188,
+        2.4514999389648438
+      ],
+      "max": [
+        -1.2050000429153442,
+        0.4334999918937683,
+        2.4784998893737793
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel"
+    },
+    {
+      "name": "Hex cap",
+      "new_hardware": true,
+      "min": [
+        -1.2170000076293945,
+        0.4122057557106018,
+        2.456389904022217
+      ],
+      "max": [
+        -1.2090001106262207,
+        0.4277942180633545,
+        2.4736099243164062
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer.001",
+      "new_hardware": true,
+      "min": [
+        -1.2089999914169312,
+        -0.4334999918937683,
+        2.4514999389648438
+      ],
+      "max": [
+        -1.2050000429153442,
+        -0.406499981880188,
+        2.4784998893737793
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel"
+    },
+    {
+      "name": "Hex cap.001",
+      "new_hardware": true,
+      "min": [
+        -1.2170000076293945,
+        -0.4277942180633545,
+        2.456389904022217
+      ],
+      "max": [
+        -1.2090001106262207,
+        -0.4122057557106018,
+        2.4736099243164062
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer.002",
+      "new_hardware": true,
+      "min": [
+        -1.2089999914169312,
+        0.406499981880188,
+        2.7214999198913574
+      ],
+      "max": [
+        -1.2050000429153442,
+        0.4334999918937683,
+        2.748499870300293
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel"
+    },
+    {
+      "name": "Hex cap.002",
+      "new_hardware": true,
+      "min": [
+        -1.2170000076293945,
+        0.4122057557106018,
+        2.7263898849487305
+      ],
+      "max": [
+        -1.2090001106262207,
+        0.4277942180633545,
+        2.74360990524292
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer.003",
+      "new_hardware": true,
+      "min": [
+        -1.2089999914169312,
+        -0.4334999918937683,
+        2.7214999198913574
+      ],
+      "max": [
+        -1.2050000429153442,
+        -0.406499981880188,
+        2.748499870300293
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel"
+    },
+    {
+      "name": "Hex cap.003",
+      "new_hardware": true,
+      "min": [
+        -1.2170000076293945,
+        -0.4277942180633545,
+        2.7263898849487305
+      ],
+      "max": [
+        -1.2090001106262207,
+        -0.4122057557106018,
+        2.74360990524292
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Bolted G01 identity backing.001",
+      "new_hardware": true,
+      "min": [
+        1.1649999618530273,
+        -0.4699999988079071,
+        2.429999828338623
+      ],
+      "max": [
+        1.193000078201294,
+        0.4699999988079071,
+        2.7699999809265137
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel.001"
+    },
+    {
+      "name": "Inset cordon identity enamel.001",
+      "new_hardware": true,
+      "min": [
+        1.1920000314712524,
+        -0.4399999976158142,
+        2.4569997787475586
+      ],
+      "max": [
+        1.2059999704360962,
+        0.4399999976158142,
+        2.743000030517578
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Bolted G01 identity backing.001"
+    },
+    {
+      "name": "Stamped G - 01.001",
+      "new_hardware": true,
+      "min": [
+        1.2065000534057617,
+        -0.21411500871181488,
+        2.577470064163208
+      ],
+      "max": [
+        1.2074999809265137,
+        0.18861499428749084,
+        2.696470022201538
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Stamped CORDON / FIRE CONTROL.001",
+      "new_hardware": true,
+      "min": [
+        1.2074999809265137,
+        -0.21286998689174652,
+        2.489185094833374
+      ],
+      "max": [
+        1.2084999084472656,
+        0.2141999900341034,
+        2.5136849880218506
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer.004",
+      "new_hardware": true,
+      "min": [
+        1.2050000429153442,
+        0.406499981880188,
+        2.4514999389648438
+      ],
+      "max": [
+        1.2089999914169312,
+        0.4334999918937683,
+        2.4784998893737793
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel.001"
+    },
+    {
+      "name": "Hex cap.004",
+      "new_hardware": true,
+      "min": [
+        1.2090001106262207,
+        0.4122057557106018,
+        2.456389904022217
+      ],
+      "max": [
+        1.2170000076293945,
+        0.4277942180633545,
+        2.4736099243164062
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer.005",
+      "new_hardware": true,
+      "min": [
+        1.2050000429153442,
+        -0.4334999918937683,
+        2.4514999389648438
+      ],
+      "max": [
+        1.2089999914169312,
+        -0.406499981880188,
+        2.4784998893737793
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel.001"
+    },
+    {
+      "name": "Hex cap.005",
+      "new_hardware": true,
+      "min": [
+        1.2090001106262207,
+        -0.4277942180633545,
+        2.456389904022217
+      ],
+      "max": [
+        1.2170000076293945,
+        -0.4122057557106018,
+        2.4736099243164062
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer.006",
+      "new_hardware": true,
+      "min": [
+        1.2050000429153442,
+        0.406499981880188,
+        2.7214999198913574
+      ],
+      "max": [
+        1.2089999914169312,
+        0.4334999918937683,
+        2.748499870300293
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel.001"
+    },
+    {
+      "name": "Hex cap.006",
+      "new_hardware": true,
+      "min": [
+        1.2090001106262207,
+        0.4122057557106018,
+        2.7263898849487305
+      ],
+      "max": [
+        1.2170000076293945,
+        0.4277942180633545,
+        2.74360990524292
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Captured washer.007",
+      "new_hardware": true,
+      "min": [
+        1.2050000429153442,
+        -0.4334999918937683,
+        2.7214999198913574
+      ],
+      "max": [
+        1.2089999914169312,
+        -0.406499981880188,
+        2.748499870300293
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Inset cordon identity enamel.001"
+    },
+    {
+      "name": "Hex cap.007",
+      "new_hardware": true,
+      "min": [
+        1.2090001106262207,
+        -0.4277942180633545,
+        2.7263898849487305
+      ],
+      "max": [
+        1.2170000076293945,
+        -0.4122057557106018,
+        2.74360990524292
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Roof relay mounting sole",
+      "new_hardware": true,
+      "min": [
+        -0.46000000834465027,
+        -0.9099999666213989,
+        3.0
+      ],
+      "max": [
+        0.46000000834465027,
+        -0.33000001311302185,
+        3.059999942779541
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Weather sealed bearing relay"
+    },
+    {
+      "name": "Weather sealed bearing relay",
+      "new_hardware": true,
+      "min": [
+        -0.4300000071525574,
+        -0.8799999952316284,
+        3.055000066757202
+      ],
+      "max": [
+        0.4300000071525574,
+        -0.36000001430511475,
+        3.2749998569488525
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Roof relay mounting sole"
+    },
+    {
+      "name": "Raised relay service lid",
+      "new_hardware": true,
+      "min": [
+        -0.44999998807907104,
+        -0.8949999809265137,
+        3.2699999809265137
+      ],
+      "max": [
+        0.44999998807907104,
+        -0.3449999988079071,
+        3.309999942779541
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Weather sealed bearing relay"
+    },
+    {
+      "name": "Captured washer.008",
+      "new_hardware": true,
+      "min": [
+        -0.36800000071525574,
+        -0.4480000138282776,
+        3.311000347137451
+      ],
+      "max": [
+        -0.3319999873638153,
+        -0.41200000047683716,
+        3.315000057220459
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.008"
+    },
+    {
+      "name": "Hex cap.008",
+      "new_hardware": true,
+      "min": [
+        -0.360392302274704,
+        -0.4414801001548767,
+        3.315000057220459
+      ],
+      "max": [
+        -0.33960768580436707,
+        -0.41851991415023804,
+        3.323000431060791
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.008"
+    },
+    {
+      "name": "Captured washer.009",
+      "new_hardware": true,
+      "min": [
+        -0.36800000071525574,
+        -0.828000009059906,
+        3.311000347137451
+      ],
+      "max": [
+        -0.3319999873638153,
+        -0.7919999957084656,
+        3.315000057220459
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.009"
+    },
+    {
+      "name": "Hex cap.009",
+      "new_hardware": true,
+      "min": [
+        -0.360392302274704,
+        -0.8214800953865051,
+        3.315000057220459
+      ],
+      "max": [
+        -0.33960768580436707,
+        -0.7985199093818665,
+        3.323000431060791
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.009"
+    },
+    {
+      "name": "Captured washer.010",
+      "new_hardware": true,
+      "min": [
+        0.3319999873638153,
+        -0.4480000138282776,
+        3.311000347137451
+      ],
+      "max": [
+        0.36800000071525574,
+        -0.41200000047683716,
+        3.315000057220459
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.010"
+    },
+    {
+      "name": "Hex cap.010",
+      "new_hardware": true,
+      "min": [
+        0.33960768580436707,
+        -0.4414801001548767,
+        3.315000057220459
+      ],
+      "max": [
+        0.360392302274704,
+        -0.41851991415023804,
+        3.323000431060791
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.010"
+    },
+    {
+      "name": "Captured washer.011",
+      "new_hardware": true,
+      "min": [
+        0.3319999873638153,
+        -0.828000009059906,
+        3.311000347137451
+      ],
+      "max": [
+        0.36800000071525574,
+        -0.7919999957084656,
+        3.315000057220459
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.011"
+    },
+    {
+      "name": "Hex cap.011",
+      "new_hardware": true,
+      "min": [
+        0.33960768580436707,
+        -0.8214800953865051,
+        3.315000057220459
+      ],
+      "max": [
+        0.360392302274704,
+        -0.7985199093818665,
+        3.323000431060791
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.011"
+    },
+    {
+      "name": "Aerial dielectric foot",
+      "new_hardware": true,
+      "min": [
+        -0.41499999165534973,
+        -0.7549999952316284,
+        3.299999952316284
+      ],
+      "max": [
+        -0.2849999964237213,
+        -0.625,
+        3.390000104904175
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Raised relay service lid"
+    },
+    {
+      "name": "Captured aerial ferrule",
+      "new_hardware": true,
+      "min": [
+        -0.3869999945163727,
+        -0.7269999980926514,
+        3.359999656677246
+      ],
+      "max": [
+        -0.31299999356269836,
+        -0.652999997138977,
+        3.4600000381469727
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Aerial dielectric foot"
+    },
+    {
+      "name": "Short bearing antenna",
+      "new_hardware": true,
+      "min": [
+        -0.35899999737739563,
+        -0.6990000009536743,
+        3.440000057220459
+      ],
+      "max": [
+        -0.3409999907016754,
+        -0.6809999942779541,
+        3.8499999046325684
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured aerial ferrule"
+    },
+    {
+      "name": "Aerial dielectric foot.001",
+      "new_hardware": true,
+      "min": [
+        0.2849999964237213,
+        -0.7549999952316284,
+        3.299999952316284
+      ],
+      "max": [
+        0.41499999165534973,
+        -0.625,
+        3.390000104904175
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Raised relay service lid"
+    },
+    {
+      "name": "Captured aerial ferrule.001",
+      "new_hardware": true,
+      "min": [
+        0.31299999356269836,
+        -0.7269999980926514,
+        3.359999656677246
+      ],
+      "max": [
+        0.3869999945163727,
+        -0.652999997138977,
+        3.4600000381469727
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Aerial dielectric foot.001"
+    },
+    {
+      "name": "Short bearing antenna.001",
+      "new_hardware": true,
+      "min": [
+        0.3409999907016754,
+        -0.6990000009536743,
+        3.440000057220459
+      ],
+      "max": [
+        0.35899999737739563,
+        -0.6809999942779541,
+        3.8499999046325684
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured aerial ferrule.001"
+    },
+    {
+      "name": "Separate relay cooling rib",
+      "new_hardware": true,
+      "min": [
+        -0.2720000147819519,
+        -0.9110000133514404,
+        3.1100001335144043
+      ],
+      "max": [
+        -0.2280000001192093,
+        -0.8849999904632568,
+        3.2300000190734863
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Separate relay cooling rib.001",
+      "new_hardware": true,
+      "min": [
+        -0.1720000058412552,
+        -0.9110000133514404,
+        3.1100001335144043
+      ],
+      "max": [
+        -0.12800000607967377,
+        -0.8849999904632568,
+        3.2300000190734863
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Separate relay cooling rib.002",
+      "new_hardware": true,
+      "min": [
+        -0.07199999690055847,
+        -0.9110000133514404,
+        3.1100001335144043
+      ],
+      "max": [
+        -0.02800000086426735,
+        -0.8849999904632568,
+        3.2300000190734863
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Separate relay cooling rib.003",
+      "new_hardware": true,
+      "min": [
+        0.02800000086426735,
+        -0.9110000133514404,
+        3.1100001335144043
+      ],
+      "max": [
+        0.07199999690055847,
+        -0.8849999904632568,
+        3.2300000190734863
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Separate relay cooling rib.004",
+      "new_hardware": true,
+      "min": [
+        0.12800000607967377,
+        -0.9110000133514404,
+        3.1100001335144043
+      ],
+      "max": [
+        0.1720000058412552,
+        -0.8849999904632568,
+        3.2300000190734863
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Separate relay cooling rib.005",
+      "new_hardware": true,
+      "min": [
+        0.2280000001192093,
+        -0.9110000133514404,
+        3.1100001335144043
+      ],
+      "max": [
+        0.2720000147819519,
+        -0.8849999904632568,
+        3.2300000190734863
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "RaiderGunboatMesh"
+    },
+    {
+      "name": "Terminated roof signal loom",
+      "new_hardware": true,
+      "min": [
+        0.36872562766075134,
+        -0.5177168846130371,
+        2.9944207668304443
+      ],
+      "max": [
+        0.5360347628593445,
+        -0.18854618072509766,
+        3.150465488433838
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Roof relay mounting sole"
+    },
+    {
+      "name": "Shutter frame upright",
+      "new_hardware": true,
+      "min": [
+        -0.1574999988079071,
+        1.715000033378601,
+        3.7799999713897705
+      ],
+      "max": [
+        -0.13249999284744263,
+        1.7950000762939453,
+        4.019999980926514
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter cross member"
+    },
+    {
+      "name": "Shutter frame upright.001",
+      "new_hardware": true,
+      "min": [
+        0.13249999284744263,
+        1.715000033378601,
+        3.7799999713897705
+      ],
+      "max": [
+        0.1574999988079071,
+        1.7950000762939453,
+        4.019999980926514
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter cross member"
+    },
+    {
+      "name": "Shutter cross member",
+      "new_hardware": true,
+      "min": [
+        -0.1550000011920929,
+        1.715000033378601,
+        3.7709999084472656
+      ],
+      "max": [
+        0.1550000011920929,
+        1.7950000762939453,
+        3.796999931335449
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter frame upright"
+    },
+    {
+      "name": "Shutter cross member.001",
+      "new_hardware": true,
+      "min": [
+        -0.1550000011920929,
+        1.715000033378601,
+        4.002999782562256
+      ],
+      "max": [
+        0.1550000011920929,
+        1.7950000762939453,
+        4.0289998054504395
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter frame upright"
+    },
+    {
+      "name": "Supported hinge pin",
+      "new_hardware": true,
+      "min": [
+        -0.15399999916553497,
+        1.7920000553131104,
+        3.7869999408721924
+      ],
+      "max": [
+        -0.1300000101327896,
+        1.8160001039505005,
+        4.0169997215271
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter frame upright"
+    },
+    {
+      "name": "Armored optic shutter",
+      "new_hardware": true,
+      "min": [
+        -0.14149999618530273,
+        1.7899999618530273,
+        3.798999786376953
+      ],
+      "max": [
+        -0.0045000165700912476,
+        1.818000078201294,
+        4.000999927520752
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter frame upright"
+    },
+    {
+      "name": "Shutter edge rail",
+      "new_hardware": true,
+      "min": [
+        -0.11800000816583633,
+        1.815000057220459,
+        3.8954999446868896
+      ],
+      "max": [
+        -0.028000004589557648,
+        1.8270000219345093,
+        3.9044997692108154
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Armored optic shutter"
+    },
+    {
+      "name": "Captured washer.012",
+      "new_hardware": true,
+      "min": [
+        -0.0820000097155571,
+        1.8200000524520874,
+        3.815999746322632
+      ],
+      "max": [
+        -0.06400000303983688,
+        1.8240000009536743,
+        3.8339998722076416
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.012"
+    },
+    {
+      "name": "Hex cap.012",
+      "new_hardware": true,
+      "min": [
+        -0.07819616049528122,
+        1.8240000009536743,
+        3.8192598819732666
+      ],
+      "max": [
+        -0.06780385226011276,
+        1.8320000171661377,
+        3.830739974975586
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.012"
+    },
+    {
+      "name": "Captured washer.013",
+      "new_hardware": true,
+      "min": [
+        -0.0820000097155571,
+        1.8200000524520874,
+        3.9659998416900635
+      ],
+      "max": [
+        -0.06400000303983688,
+        1.8240000009536743,
+        3.9839999675750732
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.013"
+    },
+    {
+      "name": "Hex cap.013",
+      "new_hardware": true,
+      "min": [
+        -0.07819616049528122,
+        1.8240000009536743,
+        3.969259738922119
+      ],
+      "max": [
+        -0.06780385226011276,
+        1.8320000171661377,
+        3.9807398319244385
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.013"
+    },
+    {
+      "name": "Stamped 1",
+      "new_hardware": true,
+      "min": [
+        -0.07525000721216202,
+        1.8365000486373901,
+        3.929499864578247
+      ],
+      "max": [
+        -0.0708400085568428,
+        1.837499976158142,
+        3.9601898193359375
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Supported hinge pin.001",
+      "new_hardware": true,
+      "min": [
+        0.1300000101327896,
+        1.7920000553131104,
+        3.7869999408721924
+      ],
+      "max": [
+        0.15399999916553497,
+        1.8160001039505005,
+        4.0169997215271
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter frame upright.001"
+    },
+    {
+      "name": "Armored optic shutter.001",
+      "new_hardware": true,
+      "min": [
+        0.0045000165700912476,
+        1.7899999618530273,
+        3.798999786376953
+      ],
+      "max": [
+        0.14149999618530273,
+        1.818000078201294,
+        4.000999927520752
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Shutter frame upright.001"
+    },
+    {
+      "name": "Shutter edge rail.001",
+      "new_hardware": true,
+      "min": [
+        0.028000004589557648,
+        1.815000057220459,
+        3.8954999446868896
+      ],
+      "max": [
+        0.11800000816583633,
+        1.8270000219345093,
+        3.9044997692108154
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Armored optic shutter.001"
+    },
+    {
+      "name": "Captured washer.014",
+      "new_hardware": true,
+      "min": [
+        0.06400000303983688,
+        1.8200000524520874,
+        3.815999746322632
+      ],
+      "max": [
+        0.0820000097155571,
+        1.8240000009536743,
+        3.8339998722076416
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.014"
+    },
+    {
+      "name": "Hex cap.014",
+      "new_hardware": true,
+      "min": [
+        0.06780385226011276,
+        1.8240000009536743,
+        3.8192598819732666
+      ],
+      "max": [
+        0.07819616049528122,
+        1.8320000171661377,
+        3.830739974975586
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.014"
+    },
+    {
+      "name": "Captured washer.015",
+      "new_hardware": true,
+      "min": [
+        0.06400000303983688,
+        1.8200000524520874,
+        3.9659998416900635
+      ],
+      "max": [
+        0.0820000097155571,
+        1.8240000009536743,
+        3.9839999675750732
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Hex cap.015"
+    },
+    {
+      "name": "Hex cap.015",
+      "new_hardware": true,
+      "min": [
+        0.06780385226011276,
+        1.8240000009536743,
+        3.969259738922119
+      ],
+      "max": [
+        0.07819616049528122,
+        1.8320000171661377,
+        3.9807398319244385
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captured washer.015"
+    },
+    {
+      "name": "Stamped 0",
+      "new_hardware": true,
+      "min": [
+        0.06310000270605087,
+        1.8365000486373901,
+        3.9290947914123535
+      ],
+      "max": [
+        0.08290000259876251,
+        1.837499976158142,
+        3.960594892501831
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Gauge bracket sole",
+      "new_hardware": true,
+      "min": [
+        0.28999999165534973,
+        1.5850000381469727,
+        3.7049999237060547
+      ],
+      "max": [
+        0.4899999797344208,
+        1.7750000953674316,
+        3.7289998531341553
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Gauge cast mounting neck"
+    },
+    {
+      "name": "Gauge cast mounting neck",
+      "new_hardware": true,
+      "min": [
+        0.3514999747276306,
+        1.6480000019073486,
+        3.7279999256134033
+      ],
+      "max": [
+        0.4284999966621399,
+        1.7120000123977661,
+        3.8479998111724854
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Gauge bracket sole"
+    },
+    {
+      "name": "Fire control pressure housing",
+      "new_hardware": true,
+      "min": [
+        0.30399996042251587,
+        1.6549999713897705,
+        3.7899999618530273
+      ],
+      "max": [
+        0.47600001096725464,
+        1.8600001335144043,
+        3.9619998931884766
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Gauge cast mounting neck"
+    },
+    {
+      "name": "Pressure bezel",
+      "new_hardware": true,
+      "min": [
+        0.2999999523162842,
+        1.8600000143051147,
+        3.7859997749328613
+      ],
+      "max": [
+        0.48000001907348633,
+        1.877000093460083,
+        3.9659998416900635
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Fire control pressure housing"
+    },
+    {
+      "name": "Recessed ivory gauge face",
+      "new_hardware": true,
+      "min": [
+        0.312999963760376,
+        1.878000020980835,
+        3.798999786376953
+      ],
+      "max": [
+        0.46700000762939453,
+        1.8820000886917114,
+        3.9529998302459717
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Pressure gauge index",
+      "new_hardware": true,
+      "min": [
+        0.34552308917045593,
+        1.8840000629425049,
+        3.8300397396087646
+      ],
+      "max": [
+        0.35052308440208435,
+        1.8860000371932983,
+        3.8390398025512695
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Pressure gauge index.001",
+      "new_hardware": true,
+      "min": [
+        0.32850050926208496,
+        1.8840000629425049,
+        3.871743679046631
+      ],
+      "max": [
+        0.3335005044937134,
+        1.8860000371932983,
+        3.8807435035705566
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Pressure gauge index.002",
+      "new_hardware": true,
+      "min": [
+        0.34586694836616516,
+        1.8840000629425049,
+        3.9133052825927734
+      ],
+      "max": [
+        0.3508669435977936,
+        1.8860000371932983,
+        3.9223053455352783
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Pressure gauge index.003",
+      "new_hardware": true,
+      "min": [
+        0.38749998807907104,
+        1.8840000629425049,
+        3.930500030517578
+      ],
+      "max": [
+        0.39249998331069946,
+        1.8860000371932983,
+        3.939499855041504
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Pressure gauge index.004",
+      "new_hardware": true,
+      "min": [
+        0.4291330575942993,
+        1.8840000629425049,
+        3.9133052825927734
+      ],
+      "max": [
+        0.43413305282592773,
+        1.8860000371932983,
+        3.9223053455352783
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Pressure gauge index.005",
+      "new_hardware": true,
+      "min": [
+        0.4464994966983795,
+        1.8840000629425049,
+        3.871743679046631
+      ],
+      "max": [
+        0.45149949193000793,
+        1.8860000371932983,
+        3.8807435035705566
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Pressure gauge index.006",
+      "new_hardware": true,
+      "min": [
+        0.42947691679000854,
+        1.8840000629425049,
+        3.8300397396087646
+      ],
+      "max": [
+        0.43447691202163696,
+        1.8860000371932983,
+        3.8390398025512695
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "GunboatRecoilMesh"
+    },
+    {
+      "name": "Balanced pressure needle",
+      "new_hardware": true,
+      "min": [
+        0.3869999945163727,
+        1.8865000009536743,
+        3.868000030517578
+      ],
+      "max": [
+        0.3929999768733978,
+        1.8895000219345093,
+        3.931999921798706
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Captive pointer spindle"
+    },
+    {
+      "name": "Captive pointer spindle",
+      "new_hardware": true,
+      "min": [
+        0.3789999783039093,
+        1.8860000371932983,
+        3.865000009536743
+      ],
+      "max": [
+        0.4009999930858612,
+        1.8930000066757202,
+        3.8869998455047607
+      ],
+      "nonfinite": 0,
+      "degenerate": 0,
+      "nearest_bounds_gap_m": 0.0,
+      "nearest_component": "Balanced pressure needle"
+    },
+    {
+      "name": "EngineStateLampMesh",
+      "new_hardware": false,
+      "min": [
+        -0.042500000447034836,
+        -3.0,
+        3.615999937057495
+      ],
+      "max": [
+        0.042500000447034836,
+        -2.5999999046325684,
+        3.628000020980835
+      ],
+      "nonfinite": 0,
+      "degenerate": 0
+    },
+    {
+      "name": "GunboatRecoilMesh",
+      "new_hardware": false,
+      "min": [
+        -0.26899999380111694,
+        1.334999918937683,
+        3.3899998664855957
+      ],
+      "max": [
+        0.5299999713897705,
+        3.5,
+        3.9750001430511475
+      ],
+      "nonfinite": 0,
+      "degenerate": 0
+    },
+    {
+      "name": "GunboatGunYawMesh",
+      "new_hardware": false,
+      "min": [
+        -0.46000000834465027,
+        1.2400000095367432,
+        3.108313798904419
+      ],
+      "max": [
+        0.46000000834465027,
+        2.1600000858306885,
+        3.859999895095825
+      ],
+      "nonfinite": 0,
+      "degenerate": 0
+    },
+    {
+      "name": "RaiderGunboatMesh",
+      "new_hardware": false,
+      "min": [
+        -1.709697961807251,
+        -4.392000198364258,
+        0.2170800119638443
+      ],
+      "max": [
+        1.709697961807251,
+        4.564800262451172,
+        3.850665330886841
+      ],
+      "nonfinite": 0,
+      "degenerate": 0
+    }
+  ],
+  "candidates": []
+}

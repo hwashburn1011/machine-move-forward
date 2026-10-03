@@ -14,6 +14,7 @@ var visual: Node3D
 var animator: AnimationPlayer
 var presentation=MMFEnemyAnimation.new()
 var equipment=MMFEnemyEquipment.new()
+var tells=MMFEnemyTells.new()
 var agent: NavigationAgent3D
 var cooldown = 1.0
 var windup = 0.0
@@ -44,6 +45,8 @@ var cue_phase=""
 var step_clock=0.0
 var boarding_pose: MMFBoardingPose
 var boarding_fall=false
+var boarding_recovery=0.0
+var aim_rng: MMFRandom
 
 func find_flank(player_target: Vector3):
 	var nearest=INF
@@ -66,10 +69,12 @@ func setup(owner_game,id: String):
 	game = owner_game
 	kind = id
 	definition = game.data.ENEMIES[id]
+	aim_rng=MMFEnemyBallistics.rng_for([game.session.seed_name,"enemy",id])
 	if definition.targetPriority=="engine":
 		mission="sabotage";mission_subsystem="engine";mission_point=MMFAssets.v(game.data.SUBSYSTEMS.engine.repairAt)
 	health = definition.maxHealth
 	collision_layer = 4
+	set_meta("hostile_target",true)
 	collision_mask = 1
 	floor_snap_length = 0.4
 	floor_max_angle = deg_to_rad(50)
@@ -107,12 +112,14 @@ func setup(owner_game,id: String):
 	hp_label.billboard=BaseMaterial3D.BILLBOARD_ENABLED
 	add_child(hp_label)
 	equipment.setup(self)
+	MMFArt100RobotDetails.apply(self)
 	tactical_marker=MeshInstance3D.new()
 	tactical_marker.mesh=TACTICAL_RING
 	tactical_marker.material_override=WARNING_READY
 	tactical_marker.position.y=0.025
 	tactical_marker.visible=false
 	add_child(tactical_marker)
+	tells.setup(self)
 
 func play(wanted: String,force: bool=false):
 	animation=presentation.play(wanted,force)
@@ -120,6 +127,9 @@ func play(wanted: String,force: bool=false):
 func _physics_process(dt):
 	if not game or game.cinematic!="": return
 	if inactive and not dead:return
+	if boarding_recovery>0 and not dead:
+		boarding_recovery=maxf(0,boarding_recovery-dt)
+		velocity=Vector3(0,-.1,0);move_and_slide();return
 	presentation.tick(dt)
 	timer+=dt
 	if dead:
@@ -129,7 +139,6 @@ func _physics_process(dt):
 			move_and_slide()
 		if timer>5: queue_free()
 		return
-	hp_label.text="━".repeat(maxi(1,int(health/definition.maxHealth*7)))
 	flash_left=maxf(0,flash_left-dt)
 	var target=game.player.global_position
 	if mission=="sabotage" and game.session.subsystems.get(mission_subsystem,0)<=0: mission="assault"
@@ -184,7 +193,7 @@ func _physics_process(dt):
 				phase="vent"
 				timer=0
 		elif cooldown<=0:
-			var hit=game.raycast(position+Vector3.UP*1.4,target+Vector3.UP*1.0,[get_rid()],1)
+			var hit=MMFEnemyBallistics.trace(game,position+Vector3.UP*1.4,target+Vector3.UP*1.0,[get_rid()],1)
 			if hit.is_empty():
 				committed=target+Vector3.UP
 				windup=definition.ranged.windup
@@ -235,15 +244,7 @@ func _physics_process(dt):
 	if actual_speed>1 and is_on_floor() and step_clock<=0:
 		step_clock=.5 if kind=="bastion" else .38
 		game.audio.play_at("footfall",global_position,.28 if kind=="bastion" else .14)
-	var next_cue=phase if phase in ["telegraph","vent"] else ""
-	if next_cue!=cue_phase:
-		cue_phase=next_cue
-		if cue_phase!="": game.audio.play_at("warning",global_position,.12)
-	if phase=="telegraph" and kind=="revenant": hp_label.text="SWORD WINDUP";hp_label.modulate=Color(1,.53,.16)
-	elif phase=="vent" and kind=="bastion": hp_label.text="VENT OPEN / AIM HIGH";hp_label.modulate=Color(.35,1,.65)
-	else: hp_label.modulate=Color(1,.25,.1)
-	var warning=WARNING_VULNERABLE if phase=="vent" else WARNING_DANGER
-	if tactical_marker.material_override!=warning:tactical_marker.material_override=warning
+	tells.update(dt)
 	var facing=travelled if walking and actual_speed>.08 and presentation.action_left<=0 else delta
 	if facing.length_squared()>0.000001: visual.rotation.y=lerp_angle(visual.rotation.y,atan2(facing.x,facing.z),1-exp(-8*dt))
 	if position.y<0: take_damage(10000,position)
@@ -256,19 +257,26 @@ func hit_target(amount: float):
 
 func shoot_committed():
 	play("polish_attack",true)
-	var start=position+Vector3.UP*1.4
-	var dir=(committed-start).normalized()
-	var hit=game.raycast(start,start+dir*definition.attackRange*1.4,[get_rid()],3)
+	var start=equipment.shot_origin(self)
+	var dir=MMFEnemyBallistics.direction(start,committed,aim_rng)
+	# A barrel may poke through a thin wall. Its body-to-muzzle segment must
+	# also be clear; then damage and presentation share the same physical ray.
+	var hit=MMFEnemyBallistics.trace(game,global_position+Vector3.UP*1.4,start,[get_rid()],1)
+	if hit.is_empty():hit=MMFEnemyBallistics.trace(game,start,start+dir*definition.attackRange*1.4,[get_rid()],3)
 	var visible_origin=equipment.show_shot(self,hit,dir)
 	if not hit.is_empty() and hit.collider==game.player: hit_target(definition.damage)
 	elif not hit.is_empty() and hit.collider.has_method("take_damage"): hit.collider.take_damage(definition.damage,hit.position)
 	game.audio.play_at("rifle",visible_origin,.15)
 
-func take_weapon_damage(amount: float,point: Vector3,distance: float,range_m: float,falloff_start: float):
-	take_damage(MMFDamage.compute(amount,distance,range_m,falloff_start,definition.armor)+definition.armor,point)
+func take_weapon_damage(amount: float,point: Vector3,distance: float,range_m: float,falloff_start: float) -> float:
+	return take_damage(MMFDamage.compute(amount,distance,range_m,falloff_start,definition.armor)+definition.armor,point)
 
-func take_damage(amount: float,point: Vector3):
-	if dead: return
+func impact_profile(point: Vector3) -> Dictionary:
+	return {"category":"enemy","armor":float(definition.armor),"exposed":kind=="bastion" and phase=="vent" and point.y>position.y+1.1,"health":health}
+
+func take_damage(amount: float,point: Vector3) -> float:
+	if dead: return 0.0
+	var before=health
 	var armor=float(definition.armor)
 	amount=maxf(0,amount-armor)
 	if kind=="bastion" and phase=="vent" and point.y>position.y+1.1: amount*=2
@@ -277,12 +285,13 @@ func take_damage(amount: float,point: Vector3):
 			amount*=0.8
 			break
 	health=maxf(0,health-amount)
-	if not inactive and game.ui:
-		game.ui.combat_hit("ELIMINATED" if health<=0 else "EXPOSED HIT" if kind=="bastion" and phase=="vent" and point.y>position.y+1.1 else "ARMOUR HIT" if armor>0 else "HIT")
-		game.audio.play_at("hit-metal",point,.15)
 	game.session.attack_recent=5
 	flash_left=0.12
-	play("polish_hit",true)
+	if amount>0:
+		play("polish_hit",true)
+		if presentation.hit_pose:
+			var local_hit=visual.to_local(point)
+			presentation.hit_pose.direct(local_hit.x,kind=="bastion" and phase=="vent" and point.y>position.y+1.1)
 	if health<=0:
 		boarding_fall=inactive and boarding_pose!=null
 		if boarding_pose:boarding_pose.finish()
@@ -292,8 +301,10 @@ func take_damage(amount: float,point: Vector3):
 		collision_layer=0
 		hp_label.visible=false
 		tactical_marker.visible=false
+		tells.clear()
 		equipment.disable_drone(self)
 		play("polish_death",true)
 		for drop in definition.drops:
 			if game.session.rng.randf()<=drop.get("chance",1): game.combat.drop_loot(position,drop.id,game.session.rng.randi_range(int(drop.min),int(drop.max)))
 		game.combat.killed(self)
+	return maxf(0,before-health)

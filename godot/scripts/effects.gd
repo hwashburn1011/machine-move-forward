@@ -137,6 +137,20 @@ func impact(at: Vector3,normal: Vector3):
 	for i in 4:
 		particle(at,normal*randf_range(1,3)+Vector3(randf_range(-1,1),randf(),randf_range(-1,1)),Color(1,0.6,0.15),0.04,0.25)
 
+func combat_impact(at: Vector3,normal: Vector3,kind: String):
+	if kind=="world":impact(at,normal);return
+	# Deterministic presentation pattern: no draw from the session RNG, no new
+	# material/player allocation, and a small fixed particle count per impact.
+	var n=normal.normalized() if normal.length_squared()>.001 else Vector3.UP
+	var side=n.cross(Vector3.UP).normalized() if absf(n.dot(Vector3.UP))<.95 else Vector3.RIGHT
+	var up=n.cross(side).normalized()
+	var count=6 if kind=="exposed" else 3 if kind=="blocked" else 4
+	for i in count:
+		var angle=i*2.39996
+		var spread=(side*cos(angle)+up*sin(angle))*(.3+.12*i)
+		var velocity=n*(.8 if kind=="exposed" else 1.6)+spread*(.5 if kind=="exposed" else 1.2)+Vector3.UP*.2
+		particle(at,velocity,Color(.65,.86,1) if kind=="exposed" else Color(1,.63,.22),.006 if kind=="exposed" else .008,.28 if kind=="exposed" else .18)
+
 func particle(at: Vector3,velocity: Vector3,color: Color,size: float,life: float,grow: float=0):
 	objects.append({"at":at,"remaining":life,"life":life,"velocity":velocity,"grow":grow,"scale":size/.05,"color":color.srgb_to_linear()})
 

@@ -1,0 +1,138 @@
+{
+  "models_reviewed": 25,
+  "models_changed": [
+    "nomad-radio-cabinet",
+    "nomad-air-filter-tower"
+  ],
+  "records": [
+    {
+      "id": "nomad-tool-drawers",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-service-cart",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-field-chair",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-sleeping-berth",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-radio-cabinet",
+      "attachment_corrections": [
+        "Individual display backing mounts"
+      ],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-repair-trestle",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-parts-organizer",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-charging-cabinet",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-expedition-trunk",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-archive-vitrine",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-chart-desk",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-survey-floodlight",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-machinist-lamp",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-coat-rack",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-cable-reel",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-boots-locker",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-galley-sideboard",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-ceramic-basin",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-navigation-stool",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-patchwork-bench",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-spare-track-stand",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-air-filter-tower",
+      "attachment_corrections": [
+        "Seated graphic Captive hex screw.032"
+      ],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-canister-caddy",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-signal-pennant",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    },
+    {
+      "id": "nomad-memory-board",
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 0
+    }
+  ]
+}

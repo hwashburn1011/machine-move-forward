@@ -1,0 +1,48 @@
+{
+  "date": "2026-09-25",
+  "scope": "Compact native wrist menu",
+  "wrist": {
+    "checks": 45,
+    "failures": [],
+    "passed": true,
+    "renderer": "NVIDIA GeForce RTX 3070",
+    "resolutions": [
+      {
+        "screenFits": true,
+        "viewport": "(1920.0, 1200.0)",
+        "window": "(1280, 800)"
+      },
+      {
+        "screenFits": true,
+        "viewport": "(1920.0, 1440.0)",
+        "window": "(1200, 900)"
+      },
+      {
+        "screenFits": true,
+        "viewport": "(2560.0, 1080.0)",
+        "window": "(1920, 810)"
+      }
+    ],
+    "timings": {
+      "closedViewport": "disabled",
+      "displayCpuMedianMs": 0.0799999982118607,
+      "displayGpuMaxMs": 0.0230000000447035,
+      "displayGpuMedianMs": 0.0230000000447035,
+      "idleRefreshHz": 10,
+      "mainViewGpuMedianMs": 2.18899989128113,
+      "scope": "Wrist 1120x792 redraw and native arm/machine view while aboard simulation paused; 24 rendered samples, 1440x810 window, Vulkan RTX3070; rendering only"
+    }
+  },
+  "controls": {
+    "checks": 66,
+    "failures": [],
+    "passed": true,
+    "renderer": ""
+  },
+  "story": {
+    "checks": 59,
+    "failures": [],
+    "passed": true,
+    "renderer": ""
+  }
+}

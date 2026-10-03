@@ -4,8 +4,12 @@ extends RefCounted
 signal notice(text: String)
 signal changed
 signal contact_ready
+signal piece_used(instance_id: String,reason: String)
+signal transaction(event: String,details: Dictionary)
 
-const POWER_DRAWS = {"lamp": 1, "refinery": 10, "condenser": 4, "turret-manual": 3, "collector-auto": 4, "turret-auto": 6, "caretaker-dock": 3}
+const POWER_DRAWS = {"lamp": 1, "refinery": 10, "turret-manual": 3, "collector-auto": 4, "turret-auto": 6, "caretaker-dock": 3, "salvage-crane":4}
+const SCAN_DURATION_SECONDS=180.0
+const SCAN_HANDOFF_SECONDS=3.0
 
 var data: Dictionary
 var inventory: MMFInventory
@@ -17,13 +21,11 @@ var distance = 0.0
 var speed = 0.0
 var fuel = 60.0
 var health = 100.0
-var hydration = 100.0
-var nourishment = 100.0
 var subsystems = {}
 var current_weapon = "rifle"
 var weapons = {}
-var scanner = {"format": 1, "phase": "awaiting-receiver", "elapsedS": 0.0, "pendingDelayS": 0.0}
-var facts = {"salvage": false, "refined": 0, "defenses": 0}
+var scanner = {"format": 1, "phase": "awaiting-receiver", "elapsedS": 0.0, "pendingDelayS": 0.0,"durationS":SCAN_DURATION_SECONDS}
+var facts = {"salvage": false, "refined": 0, "defenses": 0, "portCraneRepaired":false, "portCraneEnabled":true, "guardianOutcome":""}
 var unlocks: Array = []
 var research = {"completed": [], "active": {}, "job": "", "elapsed": 0.0}
 var attachment_research: Array = []
@@ -31,7 +33,7 @@ var story = {"phase": "locked", "index": 0, "arrival": 0.0, "routeId": "", "uniq
 var caretaker = {"recovered": false, "mode": "companion", "priority": "auto"}
 var weather = {"phase": "clear", "elapsed": 0.0, "next": 600.0, "intensity": 0.0, "sequence":0}
 var sheltered=false
-var contacts={"nextSlot":1,"active":{},"visited":[],"missed":[]}
+var contacts={"nextSlot":1,"active":{},"candidates":[],"visited":[],"missed":[]}
 var threat = {"phase": "calm", "remaining": 800.0, "warning": false}
 var course = 0.0
 var target_course = 0.0
@@ -44,10 +46,23 @@ var demand = 0.0
 var powered: Dictionary = {}
 var opening_done = false
 var save_extras: Dictionary = {}
+var survivor_content={"toolAcquired":false,"toolSelected":false,"refuge":{},"workshop":{}}
+var scout_state={"phase":"idle","sequence":0,"resolved":0,"outcome":"","progress":0.0}
+var expedition_gear=MMFNativeProgression.gear_defaults()
+var operations=MMFMachineOperations.defaults()
+var recovery=MMFMachineService.defaults()
+var narrative=MMFNarrativeProgress.defaults()
+var missions=MMFMissionContracts.defaults()
+var finale=MMFMeridianFinale.defaults()
+var customization=MMFNomadPersonalization.defaults()
+var roadside=MMFRoadsideOutposts.defaults()
+var battery_draw=0.0
 var fieldwork_active = false
 
 func _init(definitions: Dictionary):
+	MMFNativeProgression.apply(definitions)
 	data = definitions
+	survivor_content=MMFSurvivorContent.defaults()
 	rng.seed = MMFRandom.hash_seed([seed_name])
 	inventory = MMFInventory.new(data.ITEMS, int(data.PLAYER_INVENTORY_SLOTS))
 	for id in data.STARTING_INVENTORY: inventory.add(id, int(data.STARTING_INVENTORY[id]))
@@ -101,15 +116,19 @@ func station_powered(id: String) -> bool:
 
 func create_piece(id: String, cell: Dictionary, turn: int = 0, edge: Dictionary = {}, free: bool = false) -> Dictionary:
 	if not data.BUILD_PIECES.has(id): return {}
+	if not free and (id in MMFNativeProgression.RETIRED_PIECES or id in MMFNativeProgression.MODULES and id not in expedition_gear.recovered):return {}
+	if not free and MMFMachineSpaces.bay_refusal({"definitionId":id,"cell":cell,"rotation":turn})!="":return {}
 	var def = data.BUILD_PIECES[id]
 	if not free and not pay(def.cost): return {}
 	var instance = {"instanceId": "bp-%d" % next_piece_id, "definitionId": id, "cell": cell.duplicate(), "rotation": turn, "health": def.maxHealth, "state": {}}
 	next_piece_id += 1
 	if not edge.is_empty(): instance.edge = edge.duplicate()
 	structures.append(instance)
+	if id=="refinery":facts.refineryBuilt=true
+	if id=="workbench":facts.workbenchBuilt=true
 	if id in ["crate", "collector-auto"]:
 		stores[instance.instanceId] = MMFInventory.new(data.ITEMS, 12 if id == "crate" else 6)
-	if id in ["planter", "condenser", "seed-garden"]: instance.state = {"elapsedS": 0.0, "stored": 0, "water": 0}
+	if id=="battery-bank":instance.state={"charge":0.0}
 	changed.emit()
 	return instance
 
@@ -118,11 +137,14 @@ func find_piece(id: String) -> Dictionary:
 		if p.instanceId == id: return p
 	return {}
 
-func craft(id: String, times: int = 1) -> bool:
+func craft(id: String, times: int = 1, station_id: String="") -> bool:
 	var recipe = {}
 	for candidate in data.RECIPES:
 		if candidate.id == id: recipe = candidate
 	if recipe.is_empty(): return false
+	if station_id!="":
+		var station=find_piece(station_id)
+		if station.is_empty() or station.definitionId!=recipe.station or station.health<=0 or not powered.get(station_id,true):return false
 	if not station_powered(recipe.station):
 		notify("Install and power a " + recipe.station + " first.")
 		return false
@@ -131,45 +153,42 @@ func craft(id: String, times: int = 1) -> bool:
 		if not can_pay(recipe.inputs): break
 		# Trial the complete transaction so full bags never delete materials.
 		var backups = []
-		for bag in containers(): backups.append(bag.slots.duplicate(true))
+		var revisions=[]
+		for bag in containers():backups.append(bag.slots.duplicate(true));revisions.append(bag.mutation_revision)
 		pay(recipe.inputs)
 		if add_resource(recipe.output.itemId, int(recipe.output.count)) > 0:
 			var bags = containers()
-			for j in bags.size(): bags[j].slots = backups[j]
+			for j in bags.size():bags[j].slots=backups[j];bags[j].mutation_revision=revisions[j]
 			break
 		made += 1
 		if id == "refine-components": facts.refined += int(recipe.output.count)
-	if made > 0: notify("Crafted %s × %d" % [recipe.name, made])
+	if made > 0:
+		if station_id!="":piece_used.emit(station_id,"Crafted supplies")
+		else:
+			for p in structures:
+				if p.definitionId==recipe.station and p.health>0:piece_used.emit(p.instanceId,"Crafted supplies")
+		transaction.emit("crafted",{"recipe":id,"batches":made,"inputs_per_batch":recipe.inputs,"output":recipe.output})
+		notify("Crafted %s × %d" % [recipe.name, made])
 	else: notify("Check materials and free storage space.")
 	return made > 0
 
 func use_item(id: String) -> bool:
 	if inventory.count_item(id) == 0: return false
 	match id:
-		"water":
-			if hydration >= 100: return false
-			hydration = minf(100, hydration + 60)
-		"rations":
-			if nourishment >= 100: return false
-			nourishment = minf(100, nourishment + 60)
 		"repair-kit":
 			if health<=0 or health>=100: return false
-			health = minf(100, health + 40*(0.5 if nourishment<=0 else 1))
+			health = minf(100, health + 40)
 		"extended-mag":
 			if weapons[current_weapon].magazineBonus > 0: return false
 			weapons[current_weapon].magazineBonus = int(data.WEAPONS[current_weapon].magazineSize * 0.5)
 		_: return false
 	inventory.remove(id, 1)
+	transaction.emit("item_used",{"item":id,"count":1})
 	changed.emit()
 	return true
 
 func refuel() -> bool:
-	var count = mini(int(ceil(100-fuel)), inventory.count_item("fuel"))
-	if count <= 0: return false
-	inventory.remove("fuel", count)
-	fuel = minf(100, fuel+count)
-	notify("Generator refuelled: %d%%" % fuel)
-	return true
+	return MMFMachineService.refill(self)
 
 func salvage_reward() -> Dictionary:
 	var contents = {"scrap": rng.randi_range(22, 46)}
@@ -182,12 +201,13 @@ func salvage_reward() -> Dictionary:
 		if "manual-turret" not in unlocks: unlocks.append("manual-turret")
 		scanner.phase = "awaiting-module"
 		notify("Radio recovered. Build a refinery and workbench to repair the scanner.")
-	return contents
+	return MMFNomadPersonalization.salvage_reward(self,contents)
 
 func install_scanner() -> bool:
 	if scanner.phase != "awaiting-module" or not pay({"scanner-replacement-module": 1}): return false
 	scanner.phase = "installed"
-	notify("Scanner module installed. Ready to begin scanning.")
+	transaction.emit("scanner_installed",{"item":"scanner-replacement-module","count":1})
+	notify("Scanner module installed. Ready to begin scanning.\nThe workbench can also make an actuator for the seized port crane; fit it at the left-side crane base.")
 	return true
 
 func start_scan(aboard: bool = true) -> bool:
@@ -195,8 +215,11 @@ func start_scan(aboard: bool = true) -> bool:
 	if scanner.phase != "installed" or not powered.get("fixed-radio",false) or attack_recent > 0 or not aboard: return false
 	scanner.phase = "scanning"
 	story.phase = "signal"
-	notify("Scanner active. Keep the receiver powered for three minutes.")
+	notify("Scanner active. Keep the receiver powered for %d seconds. Salvage, repair or build while it scans."%SCAN_DURATION_SECONDS)
 	return true
+
+func scan_fraction() -> float:
+	return clampf(float(scanner.elapsedS)/SCAN_DURATION_SECONDS,0,1)
 
 func modifiers() -> Dictionary:
 	var result = data.DEFAULT_UPGRADE_MODIFIERS.duplicate()
@@ -205,6 +228,8 @@ func modifiers() -> Dictionary:
 		for key in data.UPGRADES[id].modifiers:
 			if key.ends_with("Bonus"): result[key] += data.UPGRADES[id].modifiers[key]
 			else: result[key] *= data.UPGRADES[id].modifiers[key]
+	if MMFNativeProgression.quiet_running(self):
+		result.speedMultiplier*=.65;result.generationBonus-=4
 	return result
 
 func begin_research(id: String) -> bool:
@@ -212,6 +237,7 @@ func begin_research(id: String) -> bool:
 	if not data.UPGRADES.has(id) or id in research.completed: return false
 	if not pay(data.UPGRADES[id].researchCost): return false
 	research.completed.append(id)
+	transaction.emit("researched",{"id":id,"cost":data.UPGRADES[id].researchCost})
 	changed.emit()
 	return true
 
@@ -245,56 +271,48 @@ func repair(id: String) -> bool:
 		var cost = maxi(1, int(ceil(def.cost.get("scrap", 0) * (1-p.health/def.maxHealth) * 0.2)))
 		if not pay({"scrap": cost}): return false
 		p.health = def.maxHealth
+		piece_used.emit(id,"Repaired equipment")
+	update_power()
+	transaction.emit("machine_repaired",{"id":id})
 	notify("Repair complete.")
 	return true
 
-func update_power():
-	capacity = 0
-	demand = 0
-	powered.clear()
-	var priority_draws = [0.0, 0.0, 0.0]
-	var mods = modifiers()
+func update_power(step_seconds: float=0.0):
+	if recovery.loan and has_station("generator"):recovery.loan=false
+	var budget=MMFPowerBudget.calculate(self,structures,step_seconds)
+	capacity=budget.capacity;demand=budget.demand;powered=budget.powered;battery_draw=budget.battery_draw
+	if step_seconds<=0:return
 	for p in structures:
-		var id = p.definitionId
-		if id == "generator" and fuel > 0:
-			capacity += maxf(0, 16+mods.generationBonus) * p.health / data.BUILD_PIECES[id].maxHealth
-		if POWER_DRAWS.has(id) and p.health > 0:
-			var priority = 2 if id.begins_with("turret") else (0 if id == "lamp" else 1)
-			var draw=POWER_DRAWS[id]+(mods.turretPowerBonus if priority==2 else 0)
-			priority_draws[priority]+=draw
-			powered[p.instanceId]=priority
-			demand += draw
-	if facts.salvage: powered["fixed-radio"]=1;priority_draws[1]+=1;demand+=1
-	if fieldwork_active: powered["fixed-fieldwork"]=1;priority_draws[1]+=1;demand+=1
-	if "course-gyro" in story.uniques: powered["fixed-helm"]=1;priority_draws[1]+=1;demand+=1
-	# Temporarily store priorities in the output map, then resolve them in place.
-	# This keeps the same whole-tier shedding without allocating a consumer record
-	# for every powered station on every simulation tick.
-	var total=demand;var first_enabled=0
-	for priority in [0,1,2]:
-		if total<=capacity: break
-		first_enabled=priority+1
-		total-=priority_draws[priority]
-	for id in powered: powered[id]=int(powered[id])>=first_enabled
+		if p.definitionId!="battery-bank" or p.health<=0:continue
+		var change=budget.charge.get(p.instanceId,0)-budget.discharge.get(p.instanceId,0)
+		p.state["charge"]=clampf(float(p.state.get("charge",0))+change*step_seconds,0,120)
+
+func travel_speed() -> float:
+	var mods=modifiers();var weight=12000.0
+	for p in structures:weight+=data.BUILD_PIECES[p.definitionId].weight
+	var engine=subsystems.engine/data.SUBSYSTEMS.engine.maxHealth
+	var legs=0.0
+	for id in subsystems:
+		if id.begins_with("leg-"):legs+=subsystems[id]/data.SUBSYSTEMS[id].maxHealth
+	var result=7.5*engine*(.4+.6*legs/4)*mods.speedMultiplier/sqrt((12000+(weight-12000)*mods.effectiveWeightMultiplier)/12000)
+	return result*(.2 if fuel<=0 else 1.0)
 
 func tick(dt: float, stable: bool = true, aboard: bool = true):
+	# Split the fuel-exhaustion boundary so energy is never generated for an
+	# entire large step from a fractional remainder of fuel.
+	var initial=MMFPowerBudget.calculate(self,structures,dt)
+	if initial.fuel_rate>0 and fuel>0 and fuel<initial.fuel_rate*dt-.0000001:
+		var supplied_seconds=fuel/initial.fuel_rate
+		tick(supplied_seconds,stable,aboard);fuel=0
+		tick(dt-supplied_seconds,stable,aboard);return
 	clock += dt
 	attack_recent = maxf(0, attack_recent-dt)
-	update_power()
-	var mods = modifiers()
-	var generators = 0
-	var weight = 12000.0
-	for p in structures:
-		weight += data.BUILD_PIECES[p.definitionId].weight
-		if p.definitionId == "generator" and p.health > 0: generators += 1
-	fuel = maxf(0, fuel - dt*0.06*generators*mods.fuelBurnMultiplier)
-	var engine = subsystems.engine / data.SUBSYSTEMS.engine.maxHealth
-	var legs = 0.0
-	for id in subsystems:
-		if id.begins_with("leg-"): legs += subsystems[id] / data.SUBSYSTEMS[id].maxHealth
-	var target = 7.5 * engine * (0.4 + 0.6*legs/4) * mods.speedMultiplier / sqrt((12000+(weight-12000)*mods.effectiveWeightMultiplier)/12000)
-	if fuel <= 0: target *= 0.2
-	if story.phase in ["docked", "crossfire", "arrival"] or contacts.active.get("state","") in ["docked","visited"] or not opening_done: target = 0
+	update_power(dt)
+	var mods=modifiers()
+	var target=travel_speed() if initial.drive_enabled else 0.0
+	fuel=maxf(0,fuel-dt*initial.fuel_rate)
+	if recovery.phase=="service":target=0
+	if story.phase in ["docked", "crossfire", "arrival", "finale-docked"] or contacts.active.get("state","") in ["docked","visited"] or not opening_done: target = 0
 	if contacts.active.get("state","")=="committed":
 		target=minf(target,maxf(0.1,(contacts.active.atDistanceM-distance)*0.18))
 	if story.phase in ["approach", "braking"]:
@@ -304,62 +322,27 @@ func tick(dt: float, stable: bool = true, aboard: bool = true):
 	distance += speed*dt
 	course = move_toward(course, target_course, dt*1.5)
 	lateral += sin(deg_to_rad(course))*speed*dt
-	if opening_done:
-		# Weather changes visibility and ambience, not resource consumption.
-		hydration = maxf(0, hydration - dt*float(data.HYDRATION_DRAIN_PER_S))
-		nourishment = maxf(0, nourishment - dt*float(data.NOURISHMENT_DRAIN_PER_S))
 	if scanner.phase == "scanning" and stable and aboard and health>0 and attack_recent <= 0 and powered.get("fixed-radio",false):
-		scanner.elapsedS = minf(180, scanner.elapsedS+dt)
-		if scanner.elapsedS >= 180:
+		scanner.elapsedS = minf(SCAN_DURATION_SECONDS, scanner.elapsedS+dt)
+		if scanner.elapsedS >= SCAN_DURATION_SECONDS:
 			scanner.phase = "contact-ready"
-			scanner.pendingDelayS = 3.0
+			scanner.pendingDelayS = SCAN_HANDOFF_SECONDS
 	elif scanner.phase == "contact-ready" and stable and aboard and health>0 and attack_recent <= 0:
 		scanner.pendingDelayS = maxf(0, scanner.pendingDelayS-dt)
 		if scanner.pendingDelayS == 0:
 			scanner.phase = "consumed"
 			contact_ready.emit()
-	for p in structures:
-		var kind = p.definitionId
-		if kind not in ["planter", "condenser", "seed-garden"] or p.health <= 0: continue
-		var st = p.state
-		if kind == "condenser" and not powered.get(p.instanceId, false): continue
-		var cap = 1 if kind == "condenser" else (6 if kind == "seed-garden" else 3)
-		if st.get("stored", 0) >= cap: continue
-		var period = 90 if kind == "condenser" else (180 if kind == "seed-garden" else 150)
-		if kind == "seed-garden":
-			var remaining = dt
-			while remaining > 0 and st.get("water",0) > 0 and st.get("stored",0) <= cap-3:
-				var step = minf(remaining, period-st.get("elapsedS",0.0))
-				st.elapsedS = st.get("elapsedS",0.0)+step
-				remaining -= step
-				if st.elapsedS+1e-9 < period: break
-				st.elapsedS = 0.0
-				st.water -= 1
-				st.stored = st.get("stored",0)+3
-			continue
-		st.elapsedS = st.get("elapsedS", 0.0)+dt
-		while st.elapsedS >= period and st.get("stored",0)<cap:
-			st.elapsedS -= period
-			st.stored = st.get("stored", 0)+1
-		if st.stored >= cap: st.elapsedS = minf(st.elapsedS,period)
 
 func objective() -> String:
-	if not facts.salvage: return "RECOVER SALVAGE\nReel in a drifting cargo crate with [{key:reel}]."
-	if has_station("refinery"): facts.refineryBuilt=true
-	if has_station("workbench"): facts.workbenchBuilt=true
-	if not facts.get("refineryBuilt",false): return "BUILD A REFINERY\nOpen [{key:build}] and place a refinery aboard."
-	if facts.refined < 12 and scanner.phase in ["awaiting-module", "installed"]: return "REFINE COMPONENTS\nUse the wrist Workshop to refine 12 components."
-	if not facts.get("workbenchBuilt",false): return "BUILD A WORKBENCH\nBuild the station needed for scanner repairs."
-	if scanner.phase == "awaiting-module": return "REPAIR THE SCANNER\nCraft a replacement module, then install it at the receiver."
-	if scanner.phase == "installed": return "START THE SCAN\nOpen Signal in the wrist terminal."
-	if scanner.phase == "scanning": return "SCAN IN PROGRESS  %d%%\nKeep the receiver powered. Explore and improve your machine." % (scanner.elapsedS/1.8)
-	if scanner.phase == "contact-ready": return "CONTACT ACQUIRED\nTransmission stabilizing…"
-	if scanner.phase=="consumed" and (not has_station("turret-manual") or not facts.get("defenseCrewed",false)): return "PREPARE A DEFENSE\nBuild and crew the Manual Deck Gun. [{key:use}] to mount."
-	if story.phase == "raids": return "DEFEND THE NOMAD\nWatch both sides for grappling mechs."
-	if story.phase == "docked": return data.STORY_EXPEDITIONS[int(story.index)].objective
-	if story.phase in ["approach", "braking"]: return "FOLLOW THE SIGNAL\nDestination in %d m" % maxf(0, story.arrival-distance)
-	if story.phase == "complete": return "KEEP WALKING\nYour machine, your course."
-	return "TRACE THE SIGNAL\nOpen the wrist Signal page or navigation helm."
+	return MMFObjectiveGuide.describe(self).text
+
+func complete_guardian(outcome: String) -> bool:
+	if outcome not in ["destroyed","disarmed","evaded"] or facts.get("guardianOutcome","")!="":return false
+	if story.routeId!="meridian-cordon-gap" or story.get("scripted","")!="resolved":return false
+	facts.guardianOutcome=outcome
+	transaction.emit("guardian_clearance",{"outcome":outcome,"reward":"g01-service-mark"})
+	changed.emit()
+	return true
 
 func navigation_limit() -> float:
 	if "meridian-solution" in story.uniques: return 45
@@ -373,12 +356,13 @@ func native_snapshot() -> Dictionary:
 	var storage = {}
 	for id in stores: storage[id] = stores[id].slots.duplicate(true)
 	return {"format": 1, "seed": seed_name, "distance": distance, "speed": speed, "fuel": fuel,
-		"health": health, "hydration": hydration, "nourishment": nourishment, "subsystems": subsystems,
+		"operations":operations,"recovery":recovery,"narrative":narrative,"missions":missions,"finale":finale,"customization":customization,"roadside":roadside,
+		"health": health, "subsystems": subsystems, "expeditionGear":expedition_gear,
 		"inventory": inventory.slots, "structures": structures, "stores": storage, "weapons": weapons,
 		"currentWeapon": current_weapon, "scanner": scanner, "facts": facts, "unlocks": unlocks,
 		"research": research, "attachmentResearch": attachment_research, "story": story, "caretaker": caretaker,
 		"weather": weather, "threat": threat, "course": course, "targetCourse": target_course, "lateral": lateral,
-		"contacts":contacts,"polish":polish,
+		"contacts":contacts,"polish":polish,"survivorContent":survivor_content,"scoutState":scout_state,
 		"nextPieceId": next_piece_id, "openingDone": opening_done, "clock": clock, "rngState": str(rng.state)}.duplicate(true)
 
 func restore_native(raw: Dictionary) -> bool:
@@ -394,17 +378,15 @@ func restore_native(raw: Dictionary) -> bool:
 	speed = float(raw.get("speed", 0))
 	fuel = clampf(raw.get("fuel", 60), 0, 100)
 	health = clampf(raw.get("health", 100), 0, 100)
-	hydration = clampf(raw.get("hydration", 100), 0, 100)
-	nourishment = clampf(raw.get("nourishment", 100), 0, 100)
 	structures = raw.get("structures", []).duplicate(true)
 	stores.clear()
 	for p in structures:
-		if p.definitionId in ["condenser","planter","seed-garden"]:
-			var period=90 if p.definitionId=="condenser" else (180 if p.definitionId=="seed-garden" else 150)
-			var cap=1 if p.definitionId=="condenser" else (6 if p.definitionId=="seed-garden" else 3)
-			p.state.elapsedS=clampf(p.state.get("elapsedS",0),0,period)
-			p.state.stored=clampi(int(p.state.get("stored",0)),0,cap)
-			p.state.water=clampi(int(p.state.get("water",0)),0,2)
+		if p.definitionId in MMFNativeProgression.RETIRED_PIECES or p.definitionId=="seed-garden":
+			var stock=p.state.get("legacyStock",{}).duplicate()
+			var item="fuel" if p.definitionId=="condenser" else "scrap"
+			stock[item]=stock.get(item,0)+int(p.state.get("stored",0))
+			stock["fuel"]=stock.get("fuel",0)+int(p.state.get("water",0))
+			p.state={"legacyStock":stock}
 		if p.definitionId in ["crate", "collector-auto"]:
 			var bag = MMFInventory.new(data.ITEMS, 12 if p.definitionId == "crate" else 6)
 			if not bag.restore(raw.get("stores", {}).get(p.instanceId, [])): return false
@@ -416,6 +398,11 @@ func restore_native(raw: Dictionary) -> bool:
 				var merged=get(pair[1]).duplicate(true);merged.merge(value,true);value=merged
 			set(pair[1],value)
 	current_weapon = raw.get("currentWeapon", "rifle")
+	facts.guardianOutcome=raw.facts.get("guardianOutcome","")
+	customization=raw.get("customization",MMFNomadPersonalization.defaults()).duplicate(true)
+	roadside=raw.get("roadside",MMFRoadsideOutposts.defaults()).duplicate(true)
+	scanner.elapsedS=float(raw.scanner.elapsedS)/float(raw.scanner.get("durationS",180.0))*SCAN_DURATION_SECONDS
+	scanner.durationS=SCAN_DURATION_SECONDS
 	attachment_research = raw.get("attachmentResearch", []).duplicate()
 	course = float(raw.get("course", 0))
 	target_course = float(raw.get("targetCourse", course))
@@ -430,12 +417,39 @@ func restore_native(raw: Dictionary) -> bool:
 		research.completed.append(research.job)
 	research.job = ""
 	research.elapsed = 0.0
+	operations=raw.get("operations",MMFMachineOperations.defaults()).duplicate(true)
+	recovery=raw.get("recovery",MMFMachineService.defaults()).duplicate(true)
+	MMFMachineOperations.clean(self)
+	narrative=raw.get("narrative",MMFNarrativeProgress.migrated(self)).duplicate(true)
+	missions=raw.get("missions",MMFMissionContracts.defaults()).duplicate(true)
+	finale=raw.get("finale",MMFMeridianFinale.legacy(story)).duplicate(true)
+	if finale.encounter=="launched":finale.encounter="pending";finale.stage="secure"
 	fieldwork_active = false
 	opening_done = raw.get("openingDone", true)
 	clock = float(raw.get("clock", 0))
 	contacts=raw.get("contacts",{"nextSlot":1,"active":{},"visited":[],"missed":[]}).duplicate(true)
+	contacts["candidates"]=contacts.get("candidates",[])
+	for contact in contacts.candidates+[contacts.active]:
+		if contact.is_empty():continue
+		if contact.kind=="water-cache":contact.kind="fuel-cache"
+		contact.rewards=MMFNativeProgression.supplies(contact.rewards)
+	for contact in contacts.candidates:
+		if contact.id==contacts.active.get("id",""):contacts.active=contact;break
+	expedition_gear=raw.get("expeditionGear",MMFNativeProgression.gear_defaults()).duplicate(true)
+	caretaker.mode="companion";caretaker.priority="auto"
 	polish={"seen":[],"log":[],"activities":{},"favorites":[]}
 	polish.merge(raw.get("polish",{}).duplicate(true),true)
+	polish["pin"]=polish.get("pin",{})
+	if MMFNativeProgression.retired_recipe_pin(polish.pin):polish.pin={}
+	polish.activities=MMFExpeditionMechanisms.migrate_activities(polish.activities,story)
+	if has_station("refinery"):facts.refineryBuilt=true
+	if has_station("workbench"):facts.workbenchBuilt=true
+	survivor_content=MMFSurvivorContent.normalize(raw.get("survivorContent",MMFSurvivorContent.defaults()))
+	scout_state={"phase":"idle","sequence":0,"resolved":0,"outcome":"","progress":0.0}
+	scout_state.merge(raw.get("scoutState",{}).duplicate(true),true)
+	# Live encounters cannot be saved. Imported transient scout states resume
+	# from their durable outcome rather than retaining a phantom airborne actor.
+	scout_state.phase="idle";scout_state.progress=0.0
 	if not contacts.active.is_empty() and not contacts.active.has("record"): contacts.active.record=false
 	rng.seed = MMFRandom.hash_seed([seed_name])
 	if raw.has("rngState"): rng.state = int(raw.rngState)

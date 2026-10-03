@@ -23,6 +23,8 @@ func support_root(body: Node) -> Node3D:
 	if game.world.is_ancestor_of(body) or game.building.is_ancestor_of(body): return game
 	var destination=game.campaign.destination
 	if is_instance_valid(destination) and game.session.story.phase=="docked" and destination.is_ancestor_of(body): return destination
+	var berth=game.finale.berth
+	if is_instance_valid(berth) and game.session.story.phase=="finale-docked" and berth.is_ancestor_of(body):return berth
 	var site=game.opportunities.site
 	if is_instance_valid(site) and game.session.contacts.active.get("state","") in ["docked","visited"] and site.is_ancestor_of(body): return site
 	return null

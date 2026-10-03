@@ -1,0 +1,83 @@
+{
+  "characters": [
+    {
+      "kind": "warden",
+      "root": "Complete_WardenRangefinder",
+      "skin_joints": 47,
+      "blender_bones": 47,
+      "triangles": 131233,
+      "native": {
+        "error": 0,
+        "native_bones": 47,
+        "native_skinned_meshes": 1,
+        "source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+      }
+    },
+    {
+      "kind": "revenant",
+      "root": "Complete_RevenantPulseRack",
+      "skin_joints": 48,
+      "blender_bones": 48,
+      "triangles": 125053,
+      "native": {
+        "error": 0,
+        "native_bones": 48,
+        "native_skinned_meshes": 1,
+        "source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+      }
+    },
+    {
+      "kind": "bastion",
+      "root": "Complete_BastionSiegeRadiator",
+      "skin_joints": 47,
+      "blender_bones": 47,
+      "triangles": 111749,
+      "native": {
+        "error": 0,
+        "native_bones": 47,
+        "native_skinned_meshes": 1,
+        "source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+      }
+    },
+    {
+      "kind": "sovereign",
+      "root": "Complete_SovereignComms",
+      "skin_joints": 47,
+      "blender_bones": 47,
+      "triangles": 179048,
+      "native": {
+        "error": 0,
+        "native_bones": 47,
+        "native_skinned_meshes": 1,
+        "source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+      }
+    },
+    {
+      "kind": "raider",
+      "root": "Complete_RaiderRecoveryPack",
+      "skin_joints": 16,
+      "blender_bones": 16,
+      "triangles": 95744,
+      "native": {
+        "error": 0,
+        "native_bones": 16,
+        "native_skinned_meshes": 1,
+        "source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+      }
+    },
+    {
+      "kind": "scavenger",
+      "root": "Complete_ScavengerSurveyPack",
+      "skin_joints": 16,
+      "blender_bones": 16,
+      "triangles": 56008,
+      "native": {
+        "error": 0,
+        "native_bones": 16,
+        "native_skinned_meshes": 1,
+        "source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+      }
+    }
+  ],
+  "failures": []
+}

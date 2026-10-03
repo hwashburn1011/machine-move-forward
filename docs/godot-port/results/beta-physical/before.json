@@ -1,0 +1,111 @@
+{
+	"checks": 65,
+	"failures": [
+		"Berth reservoir -2.1: physically supported within 5 mm",
+		"Berth reservoir -2.1: visible near face blocks collision",
+		"Berth reservoir -1.1: physically supported within 5 mm",
+		"Berth reservoir -1.1: visible near face blocks collision",
+		"Seed cup 0: physically supported within 5 mm",
+		"Seed cup 0: visible near face blocks collision",
+		"Seed cup 1: physically supported within 5 mm",
+		"Seed cup 1: visible near face blocks collision",
+		"Seed cup 2: physically supported within 5 mm",
+		"Seed cup 2: visible near face blocks collision",
+		"Seed cup 3: physically supported within 5 mm",
+		"Seed cup 3: visible near face blocks collision",
+		"Seed cup 4: physically supported within 5 mm",
+		"Seed cup 4: visible near face blocks collision",
+		"Seed cup 5: physically supported within 5 mm",
+		"Seed cup 5: visible near face blocks collision",
+		"Relay mast 4.8: solid at actual radius",
+		"Relay mast 4.2: solid at actual radius",
+		"Actual S-07 controller stops outside the reservoir",
+		"salvage-crane: release-control cabinet has physical collision",
+		"salvage-crane: entry-side rail blocks at -2.6",
+		"salvage-crane: entry-side rail blocks at 2.6",
+		"salvage-crane: removed device leaves no invisible collision",
+		"salvage-crane: S-07 walks through the empty recovery cradle",
+		"battery-bank: release-control cabinet has physical collision",
+		"battery-bank: entry-side rail blocks at -2.6",
+		"battery-bank: entry-side rail blocks at 2.6",
+		"battery-bank: removed device leaves no invisible collision",
+		"battery-bank: S-07 walks through the empty recovery cradle",
+		"quiet-drive: release-control cabinet has physical collision",
+		"quiet-drive: entry-side rail blocks at -2.6",
+		"quiet-drive: entry-side rail blocks at 2.6",
+		"quiet-drive: removed device leaves no invisible collision",
+		"quiet-drive: S-07 walks through the empty recovery cradle"
+	],
+	"metrics": {
+		"crane": {
+			"CargoCrane_Yaw": {
+				"local_bounds": "[P: (-0.914775, -2.480002, -2.06), S: (11.04478, 7.329335, 2.974775)]",
+				"origin": "(-9.4875, 16.03, 7.8)",
+				"transform": "[X: (-0.75, 0.0, -0.0), Y: (0.0, 0.833333, 0.0), Z: (0.0, 0.0, -0.8), O: (-9.4875, 16.03, 7.8)]",
+				"world_bounds": "[P: (-17.085, 13.96333, 7.06818), S: (8.283584, 6.10778, 2.37982)]"
+			},
+			"Crane_Jib": {
+				"local_bounds": "[P: (-0.032501, -3.980002, -2.06), S: (10.1625, 7.329335, 2.495085)]",
+				"origin": "(-9.4875, 17.28, 7.8)",
+				"transform": "[X: (-0.75, 0.0, -0.0), Y: (0.0, 0.833333, 0.0), Z: (0.0, 0.0, -0.8), O: (-9.4875, 17.28, 7.8)]",
+				"world_bounds": "[P: (-17.085, 13.96333, 7.451932), S: (7.621879, 6.10778, 1.996068)]"
+			},
+			"Hoist_Load": {
+				"local_bounds": "[P: (-0.829997, -0.880002, -0.86), S: (1.66, 2.454463, 1.720001)]",
+				"origin": "(-16.4625, 14.69667, 8.76)",
+				"transform": "[X: (-0.75, 0.0, -0.0), Y: (0.0, 0.833333, 0.0), Z: (0.0, 0.0, -0.8), O: (-16.4625, 14.69667, 8.76)]",
+				"world_bounds": "[P: (-17.085, 13.96333, 8.072), S: (1.244999, 2.045386, 1.376)]"
+			}
+		},
+		"grounding": [
+			{
+				"gap_m": 0.25,
+				"part": "Berth reservoir -2.1"
+			},
+			{
+				"gap_m": 0.25,
+				"part": "Berth reservoir -1.1"
+			},
+			{
+				"gap_m": 0.829999923706055,
+				"part": "Seed cup 0"
+			},
+			{
+				"gap_m": 0.829999923706055,
+				"part": "Seed cup 1"
+			},
+			{
+				"gap_m": 0.829999923706055,
+				"part": "Seed cup 2"
+			},
+			{
+				"gap_m": 0.829999923706055,
+				"part": "Seed cup 3"
+			},
+			{
+				"gap_m": 0.829999923706055,
+				"part": "Seed cup 4"
+			},
+			{
+				"gap_m": 0.829999923706055,
+				"part": "Seed cup 5"
+			}
+		],
+		"recovery": [
+			{
+				"finish": "(2.5, 0.001066, -0.5)",
+				"module": "salvage-crane"
+			},
+			{
+				"finish": "(2.5, 0.001066, -0.5)",
+				"module": "battery-bank"
+			},
+			{
+				"finish": "(2.5, 0.001066, -0.5)",
+				"module": "quiet-drive"
+			}
+		]
+	},
+	"passed": false,
+	"renderer": "headless"
+}

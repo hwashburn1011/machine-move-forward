@@ -54,7 +54,7 @@ func run():
 	for i in 2:await physics_frame
 	await process_frame
 	var kit=game.world.switchgear.root;var machine=game.world.machine;var manifest=MMFAssets.json("res://art/nomad-switchgear.json")
-	check(kit!=null and kit.get_child_count()==4,"Four complete electrical cabinets replace the old controls")
+	check(kit!=null and kit.get_child_count()==2,"Two complete electrical cabinets serve the middle-deck control edges")
 	var original=MMFAssets.scene("runtime/machine.glb");root.add_child(original);original.hide()
 	var pump_manifest=MMFAssets.json("res://art/nomad-pumps.json")
 	var bench_manifest=MMFAssets.json("res://art/nomad-benches.json")
@@ -72,8 +72,9 @@ func run():
 		check(preload("res://tests/material_equivalence.gd").same(retained.get_active_material(0),old.get_active_material(0)),"Retained geometry keeps the original material properties and textures: "+entry.replacement)
 		report.retained.append({"name":entry.replacement,"maxDistanceM":distance,"originalVertices":expected.size(),"retainedVertices":actual.size()})
 	var meshes={};var materials={};var transforms={}
-	for i in 4:
-		var site=manifest.sites[i];var node=kit.get_child(i);var bounds=MMFAssets.bounds(node);var at=MMFAssets.v(site.position);var front=-node.basis.z
+	var sites=MMFMachineComposition.sites(manifest)
+	for selected in sites.size():
+		var site=sites[selected];var i=manifest.sites.find(site);var node=kit.get_child(selected);var bounds=MMFAssets.bounds(node);var at=MMFAssets.v(site.position);var front=-node.basis.z
 		check(node.position.is_equal_approx(at) and front.is_equal_approx(Vector3.BACK if i<2 else Vector3.LEFT),"Cabinet keeps its site with controls facing the aisle: "+str(i+1))
 		check(absf(bounds.position.y)<.001 and bounds.end.y<=1.7101,"Continuous plinth and gland flange contact the deck: "+str(i+1))
 		var world_bounds=node.transform*bounds;var allowed=manifest.originalBoxes[i]

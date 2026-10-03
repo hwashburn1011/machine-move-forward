@@ -47,6 +47,10 @@ func run():
 	check(game.started and not paused and game.cinematic=="opening" and not game.ui.panel.visible,"Prepared New Game enters the existing cinematic and closes the title")
 	check(c.scenery==prepared and c.rooftop==roof and roof.get_parent()==c,"Activation reuses the prepared set and preserves the departing rooftop")
 	check([c.actors[0].get_instance_id(),c.actors[1].get_instance_id()]==model_ids and helper.stage==null,"Both prepared actors are reused without duplicate instances")
+	check(c.prelude.active and c.time==-MMFOpeningPrelude.DURATION,"A new campaign starts with the cinematic memory and escape lead-in")
+	for i in roundi(MMFOpeningPrelude.DURATION*60):c.update(1.0/60);game.effects.update(1.0/60)
+	check(absf(c.time)<.001 and s.clock==0 and s.rng.state==rng,"The lead-in preserves campaign time and RNG through its full duration")
+	c.time=0
 	c.update(1.0/60)
 	var sample=c.timeline.samples[1]
 	check(game.player.position.is_equal_approx(MMFAssets.v(sample.player.position)-Vector3.UP*.96),"The chase starts at the original first timeline sample")

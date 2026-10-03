@@ -1,0 +1,108 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"failures": [],
+	"resolution": "(1440, 810)",
+	"scenarios": [
+		{
+			"connectingHits": 8,
+			"contactS": 18.0,
+			"direction": "rear",
+			"firstActualHullDamageS": 3.0,
+			"firstInRangeS": 3.8,
+			"frameMs": {
+				"median": 16.664,
+				"p95": 16.723,
+				"samples": 652
+			},
+			"gpuMs": {
+				"median": 3.76200008392334,
+				"p95": 5.34100008010864,
+				"samples": 652
+			},
+			"grappleAttachedS": 19.1,
+			"hullDestroyedS": 8.83333333333333,
+			"kind": "skiff",
+			"mountAllowanceS": 3,
+			"passed": true,
+			"sampledRays": [
+				{
+					"body": "@StaticBody3D@441",
+					"health": 112.0,
+					"pitch": -0.0334145284219797,
+					"point": "(24.12362, 16.13903, 42.33333)",
+					"t": 6.0,
+					"yaw": -2.75132513957179
+				},
+				{
+					"body": "@StaticBody3D@441",
+					"health": 1.0,
+					"pitch": -0.0419699615600467,
+					"point": "(23.75737, 16.11497, 34.79881)",
+					"t": 8.0,
+					"yaw": -2.66731624156355
+				}
+			],
+			"side": 1,
+			"wallElapsedS": 10.890402
+		},
+		{
+			"connectingHits": 12,
+			"contactS": 23.0,
+			"direction": "front",
+			"firstActualHullDamageS": 3.83333333333333,
+			"firstInRangeS": 4.9,
+			"frameMs": {
+				"median": 16.664,
+				"p95": 16.705,
+				"samples": 902
+			},
+			"gpuMs": {
+				"median": 5.67199993133545,
+				"p95": 5.82299995422363,
+				"samples": 902
+			},
+			"grappleAttachedS": 24.1,
+			"hullDestroyedS": 13.0,
+			"kind": "gunboat",
+			"mountAllowanceS": 3,
+			"passed": true,
+			"sampledRays": [
+				{
+					"body": "@StaticBody3D@474",
+					"health": 312.0,
+					"pitch": -0.0291158512192616,
+					"point": "(-23.96908, 16.20741, -45.76087)",
+					"t": 6.0,
+					"yaw": 0.35432308977968
+				},
+				{
+					"body": "@StaticBody3D@474",
+					"health": 204.0,
+					"pitch": -0.0341091472818381,
+					"point": "(-24.34812, 16.16936, -40.44869)",
+					"t": 8.0,
+					"yaw": 0.416330771442832
+				},
+				{
+					"body": "@StaticBody3D@474",
+					"health": 132.0,
+					"pitch": -0.040594211579533,
+					"point": "(-24.45629, 16.12928, -35.18928)",
+					"t": 10.0,
+					"yaw": 0.48867769452159
+				},
+				{
+					"body": "@StaticBody3D@474",
+					"health": 60.0,
+					"pitch": -0.0493462069590577,
+					"point": "(-24.20139, 16.09255, -29.86121)",
+					"t": 12.0,
+					"yaw": 0.576105059222174
+				}
+			],
+			"side": -1,
+			"wallElapsedS": 15.185232
+		}
+	],
+	"scope": "Native real-time 60 Hz encounter update and held fire through actual mounted deck-gun handler; scripted aim follows hull center. 3-second mount allowance; not a human accuracy/playtest claim."
+}

@@ -1,0 +1,110 @@
+{
+  "authorship": "Original Machine Move Forward compositions, written as timed notes and synthesized instruments for this iteration. No samples, copied recordings or quoted melodies.",
+  "sample_rate": 44100,
+  "format": "16-bit PCM WAV; runtime streams are finite and non-looping",
+  "score": "tools/audio/deck_mix/score.json",
+  "recipe": "tools/audio/deck_mix/build.py",
+  "sounds": [
+    {
+      "id": "rifle-bodied",
+      "path": "godot/assets/audio/deck/rifle-bodied.wav",
+      "sha256": "0dd5124cfec777f404a6791e33885550777babc90a04fc3429a10aa6f822ce28",
+      "seconds": 0.24,
+      "channels": 1,
+      "peak_dbfs": -11.0,
+      "rms_dbfs": -27.761240940433435,
+      "energy_above_3000_hz_pct": 1.5947679635937664e-08,
+      "spectral_energy_centroid_hz": 278.48723021210645
+    },
+    {
+      "id": "shotgun-bodied",
+      "path": "godot/assets/audio/deck/shotgun-bodied.wav",
+      "sha256": "5b07da7e9b1de504dc82ea512cbe3d853d330f3fde9fde6ece73919b642ff16c",
+      "seconds": 0.42,
+      "channels": 1,
+      "peak_dbfs": -10.0,
+      "rms_dbfs": -26.270157205732442,
+      "energy_above_3000_hz_pct": 3.915510994042844e-09,
+      "spectral_energy_centroid_hz": 182.6628982103598
+    },
+    {
+      "id": "servo-load",
+      "path": "godot/assets/audio/deck/servo-load.wav",
+      "sha256": "e5343e414e64667d9fdc54fb9ec03776d839bff28fff2d824825abfa25820950",
+      "seconds": 0.42,
+      "channels": 1,
+      "peak_dbfs": -16.0,
+      "rms_dbfs": -25.421572455864098,
+      "energy_above_3000_hz_pct": 4.727842003380535e-12,
+      "spectral_energy_centroid_hz": 123.05587172249521
+    },
+    {
+      "id": "pressure-release",
+      "path": "godot/assets/audio/deck/pressure-release.wav",
+      "sha256": "6a34dc507350bde98933216f3b63bf263828f0779935323febe28934009b49a7",
+      "seconds": 0.65,
+      "channels": 1,
+      "peak_dbfs": -18.0,
+      "rms_dbfs": -33.62055203534177,
+      "energy_above_3000_hz_pct": 5.877417357004129e-13,
+      "spectral_energy_centroid_hz": 394.4802740017347
+    },
+    {
+      "id": "receiver-contact",
+      "path": "godot/assets/audio/deck/receiver-contact.wav",
+      "sha256": "094ae84d0487164afff034b9485f3e5c226a38d473be87257bee35ff2d36f22a",
+      "seconds": 0.24,
+      "channels": 1,
+      "peak_dbfs": -20.0,
+      "rms_dbfs": -31.30456457855926,
+      "energy_above_3000_hz_pct": 1.455097452290633e-09,
+      "spectral_energy_centroid_hz": 195.64021775848042
+    },
+    {
+      "id": "music-dustlight",
+      "path": "godot/assets/audio/deck/music-dustlight.wav",
+      "sha256": "f27fb3fa45110b5d8b55686f0f6e06ebf4efa6ba21fd31fc9c67fa47137faa2c",
+      "seconds": 30.0,
+      "channels": 2,
+      "peak_dbfs": -10.0,
+      "rms_dbfs": -23.426416763518173,
+      "energy_above_3000_hz_pct": 1.9104724966010496e-13,
+      "spectral_energy_centroid_hz": 152.41859069697165
+    },
+    {
+      "id": "music-window-heat",
+      "path": "godot/assets/audio/deck/music-window-heat.wav",
+      "sha256": "c540d65e59f23a416a1464fc730a0d77dd6654c926457dd908abf7046321546c",
+      "seconds": 28.0,
+      "channels": 2,
+      "peak_dbfs": -10.818548525089334,
+      "rms_dbfs": -23.0,
+      "energy_above_3000_hz_pct": 1.5661006623948628e-13,
+      "spectral_energy_centroid_hz": 124.61885792051962
+    },
+    {
+      "id": "music-long-way-home",
+      "path": "godot/assets/audio/deck/music-long-way-home.wav",
+      "sha256": "5cc696056bc0f566d7ad38312f667068c8512f93b5ebb429a669d6e241380b1a",
+      "seconds": 32.0,
+      "channels": 2,
+      "peak_dbfs": -10.810762902420167,
+      "rms_dbfs": -23.0,
+      "energy_above_3000_hz_pct": 1.069685442885371e-13,
+      "spectral_energy_centroid_hz": 134.84915530347143
+    }
+  ],
+  "runtime_music_schedule": {
+    "initial_calm_seconds": 45,
+    "silence_after_piece_seconds": [
+      90,
+      125,
+      160
+    ],
+    "fade_in_seconds": 4,
+    "fade_out_seconds": 4,
+    "interrupt_fade_seconds": 2,
+    "default_music_gain": 0.35
+  },
+  "audition_note": "Sound assets are intended to be auditioned at the documented runtime gains; source WAVs are louder than their in-game mix."
+}

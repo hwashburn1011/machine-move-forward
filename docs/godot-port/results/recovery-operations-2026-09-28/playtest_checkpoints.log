@@ -1,0 +1,329 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MMF_NATIVE_READY 
+PASS Campaign sentinel saved
+PASS Checkpoints available from title independently of player wrist
+PASS first-steps: generated save passes real JSON validation
+PASS first-steps: only preceding expeditions are completed
+PASS first-steps: launches through normal restore
+PASS first-steps: camera and controls returned to playable state
+PASS first-steps: saves isolated from campaign
+PASS first-steps: spawn clears world geometry
+PASS first-steps: generator clears fixed machine equipment
+PASS scanner: generated save passes real JSON validation
+PASS scanner: only preceding expeditions are completed
+PASS scanner: launches through normal restore
+PASS scanner: camera and controls returned to playable state
+PASS scanner: saves isolated from campaign
+PASS scanner: spawn clears world geometry
+PASS scanner: generator clears fixed machine equipment
+PASS scanner: refinery clears fixed machine equipment
+PASS scanner: workbench clears fixed machine equipment
+PASS crossfire: generated save passes real JSON validation
+PASS crossfire: only preceding expeditions are completed
+PASS crossfire: launches through normal restore
+PASS crossfire: camera and controls returned to playable state
+PASS crossfire: saves isolated from campaign
+PASS crossfire: spawn clears world geometry
+PASS crossfire: generator clears fixed machine equipment
+PASS crossfire: refinery clears fixed machine equipment
+PASS crossfire: workbench clears fixed machine equipment
+PASS defense: generated save passes real JSON validation
+PASS defense: only preceding expeditions are completed
+PASS defense: launches through normal restore
+PASS defense: camera and controls returned to playable state
+PASS defense: saves isolated from campaign
+PASS defense: spawn clears world geometry
+PASS defense: generator clears fixed machine equipment
+PASS defense: refinery clears fixed machine equipment
+PASS defense: workbench clears fixed machine equipment
+PASS defense: turret-manual clears fixed machine equipment
+PASS wake: generated save passes real JSON validation
+PASS wake: only preceding expeditions are completed
+PASS wake: launches through normal restore
+PASS wake: camera and controls returned to playable state
+PASS wake: saves isolated from campaign
+PASS wake: spawn clears world geometry
+PASS wake: generator clears fixed machine equipment
+PASS wake: refinery clears fixed machine equipment
+PASS wake: workbench clears fixed machine equipment
+PASS wake: turret-manual clears fixed machine equipment
+PASS wake: destination and interaction points restored
+PASS wake: destination recoveries remain playable
+PASS wake: cannot bypass unfinished area
+PASS wake: physical service controls and local recovery wreck-one-journal-cargo
+PASS wake: physical service controls and local recovery wreck-one-journal-crew
+PASS wake: physical service controls and local recovery wreck-one-journal-route
+PASS wake: physical service controls and local recovery wreck-one-course-gyro
+PASS wake: real objectives permit normal departure
+PASS foundry-route: generated save passes real JSON validation
+PASS foundry-route: only preceding expeditions are completed
+PASS foundry-route: launches through normal restore
+PASS foundry-route: camera and controls returned to playable state
+PASS foundry-route: saves isolated from campaign
+PASS foundry-route: spawn clears world geometry
+PASS foundry-route: generator clears fixed machine equipment
+PASS foundry-route: refinery clears fixed machine equipment
+PASS foundry-route: workbench clears fixed machine equipment
+PASS foundry-route: turret-manual clears fixed machine equipment
+PASS foundry: generated save passes real JSON validation
+PASS foundry: only preceding expeditions are completed
+PASS foundry: launches through normal restore
+PASS foundry: camera and controls returned to playable state
+PASS foundry: saves isolated from campaign
+PASS foundry: spawn clears world geometry
+PASS foundry: generator clears fixed machine equipment
+PASS foundry: refinery clears fixed machine equipment
+PASS foundry: workbench clears fixed machine equipment
+PASS foundry: turret-manual clears fixed machine equipment
+PASS foundry: destination and interaction points restored
+PASS foundry: destination recoveries remain playable
+PASS foundry: cannot bypass unfinished area
+PASS foundry: physical service controls and local recovery relay-foundry-journal-log
+PASS foundry: physical service controls and local recovery relay-foundry-journal-blueprint
+PASS foundry: physical service controls and local recovery relay-foundry-salvage-controller
+PASS foundry: physical service controls and local recovery relay-foundry-tracking-servo
+PASS foundry: real objectives permit normal departure
+PASS array: generated save passes real JSON validation
+PASS array: only preceding expeditions are completed
+PASS array: launches through normal restore
+PASS array: camera and controls returned to playable state
+PASS array: saves isolated from campaign
+PASS array: spawn clears world geometry
+PASS array: generator clears fixed machine equipment
+PASS array: refinery clears fixed machine equipment
+PASS array: workbench clears fixed machine equipment
+PASS array: turret-manual clears fixed machine equipment
+PASS array: destination and interaction points restored
+PASS array: destination recoveries remain playable
+PASS array: cannot bypass unfinished area
+PASS array: physical service controls and local recovery quiet-array-journal-port
+PASS array: physical service controls and local recovery quiet-array-journal-starboard
+PASS array: physical service controls and local recovery quiet-array-journal-archive
+PASS array: physical service controls and local recovery quiet-array-course-actuator
+PASS array: physical service controls and local recovery quiet-array-annika-archive-shard
+PASS array: real objectives permit normal departure
+PASS refuge: generated save passes real JSON validation
+PASS refuge: only preceding expeditions are completed
+PASS refuge: launches through normal restore
+PASS refuge: camera and controls returned to playable state
+PASS refuge: saves isolated from campaign
+PASS refuge: spawn clears world geometry
+PASS refuge: generator clears fixed machine equipment
+PASS refuge: refinery clears fixed machine equipment
+PASS refuge: workbench clears fixed machine equipment
+PASS refuge: turret-manual clears fixed machine equipment
+PASS refuge: optional site and interactions restored
+PASS workshop: generated save passes real JSON validation
+PASS workshop: only preceding expeditions are completed
+PASS workshop: launches through normal restore
+PASS workshop: camera and controls returned to playable state
+PASS workshop: saves isolated from campaign
+PASS workshop: spawn clears world geometry
+PASS workshop: generator clears fixed machine equipment
+PASS workshop: refinery clears fixed machine equipment
+PASS workshop: workbench clears fixed machine equipment
+PASS workshop: turret-manual clears fixed machine equipment
+PASS workshop: optional site and interactions restored
+PASS scout: generated save passes real JSON validation
+PASS scout: only preceding expeditions are completed
+PASS scout: launches through normal restore
+PASS scout: camera and controls returned to playable state
+PASS scout: saves isolated from campaign
+PASS scout: spawn clears world geometry
+PASS scout: generator clears fixed machine equipment
+PASS scout: refinery clears fixed machine equipment
+PASS scout: workbench clears fixed machine equipment
+PASS scout: turret-manual clears fixed machine equipment
+PASS crane: generated save passes real JSON validation
+PASS crane: only preceding expeditions are completed
+PASS crane: launches through normal restore
+PASS crane: camera and controls returned to playable state
+PASS crane: saves isolated from campaign
+PASS crane: spawn clears world geometry
+PASS crane: generator clears fixed machine equipment
+PASS crane: refinery clears fixed machine equipment
+PASS crane: workbench clears fixed machine equipment
+PASS crane: turret-manual clears fixed machine equipment
+PASS crane: optional site and interactions restored
+PASS crane: recovery prerequisites earned
+PASS orchard-caretaker: generated save passes real JSON validation
+PASS orchard-caretaker: only preceding expeditions are completed
+PASS orchard-caretaker: launches through normal restore
+PASS orchard-caretaker: camera and controls returned to playable state
+PASS orchard-caretaker: saves isolated from campaign
+PASS orchard-caretaker: spawn clears world geometry
+PASS orchard-caretaker: generator clears fixed machine equipment
+PASS orchard-caretaker: refinery clears fixed machine equipment
+PASS orchard-caretaker: workbench clears fixed machine equipment
+PASS orchard-caretaker: turret-manual clears fixed machine equipment
+PASS orchard-caretaker: destination and interaction points restored
+PASS orchard-caretaker: destination recoveries remain playable
+PASS orchard-caretaker: cannot bypass unfinished area
+PASS orchard-caretaker: physical service controls and local recovery orchard-caretaker-record
+PASS orchard-caretaker: physical service controls and local recovery orchard-memory-record
+PASS orchard-caretaker: physical service controls and local recovery orchard-starboard-isolator
+PASS orchard-caretaker: physical service controls and local recovery orchard-human-seed-bank
+PASS orchard-caretaker: physical service controls and local recovery orchard-vector-governor
+PASS orchard-caretaker: physical service controls and local recovery orchard-memory-core
+PASS orchard-caretaker: real objectives permit normal departure
+PASS orchard-cold-vault: generated save passes real JSON validation
+PASS orchard-cold-vault: only preceding expeditions are completed
+PASS orchard-cold-vault: launches through normal restore
+PASS orchard-cold-vault: camera and controls returned to playable state
+PASS orchard-cold-vault: saves isolated from campaign
+PASS orchard-cold-vault: spawn clears world geometry
+PASS orchard-cold-vault: generator clears fixed machine equipment
+PASS orchard-cold-vault: refinery clears fixed machine equipment
+PASS orchard-cold-vault: workbench clears fixed machine equipment
+PASS orchard-cold-vault: turret-manual clears fixed machine equipment
+PASS orchard-cold-vault: destination and interaction points restored
+PASS orchard-cold-vault: destination recoveries remain playable
+PASS orchard-cold-vault: cannot bypass unfinished area
+PASS orchard-cold-vault: physical service controls and local recovery orchard-evacuation-record
+PASS orchard-cold-vault: physical service controls and local recovery orchard-memory-record
+PASS orchard-cold-vault: physical service controls and local recovery orchard-port-isolator
+PASS orchard-cold-vault: physical service controls and local recovery orchard-human-seed-bank
+PASS orchard-cold-vault: physical service controls and local recovery orchard-vector-governor
+PASS orchard-cold-vault: physical service controls and local recovery orchard-memory-core
+PASS orchard-cold-vault: real objectives permit normal departure
+PASS battery: generated save passes real JSON validation
+PASS battery: only preceding expeditions are completed
+PASS battery: launches through normal restore
+PASS battery: camera and controls returned to playable state
+PASS battery: saves isolated from campaign
+PASS battery: spawn clears world geometry
+PASS battery: generator clears fixed machine equipment
+PASS battery: refinery clears fixed machine equipment
+PASS battery: workbench clears fixed machine equipment
+PASS battery: turret-manual clears fixed machine equipment
+PASS battery: salvage-crane clears fixed machine equipment
+PASS battery: optional site and interactions restored
+PASS battery: recovery prerequisites earned
+PASS quiet-drive: generated save passes real JSON validation
+PASS quiet-drive: only preceding expeditions are completed
+PASS quiet-drive: launches through normal restore
+PASS quiet-drive: camera and controls returned to playable state
+PASS quiet-drive: saves isolated from campaign
+PASS quiet-drive: spawn clears world geometry
+PASS quiet-drive: generator clears fixed machine equipment
+PASS quiet-drive: refinery clears fixed machine equipment
+PASS quiet-drive: workbench clears fixed machine equipment
+PASS quiet-drive: turret-manual clears fixed machine equipment
+PASS quiet-drive: salvage-crane clears fixed machine equipment
+PASS quiet-drive: optional site and interactions restored
+PASS quiet-drive: recovery prerequisites earned
+PASS meridian-quiet: generated save passes real JSON validation
+PASS meridian-quiet: only preceding expeditions are completed
+PASS meridian-quiet: launches through normal restore
+PASS meridian-quiet: camera and controls returned to playable state
+PASS meridian-quiet: saves isolated from campaign
+PASS meridian-quiet: spawn clears world geometry
+PASS meridian-quiet: generator clears fixed machine equipment
+PASS meridian-quiet: refinery clears fixed machine equipment
+PASS meridian-quiet: workbench clears fixed machine equipment
+PASS meridian-quiet: turret-manual clears fixed machine equipment
+PASS meridian-quiet: salvage-crane clears fixed machine equipment
+PASS meridian-quiet: destination and interaction points restored
+PASS meridian-quiet: destination recoveries remain playable
+PASS meridian-quiet: cannot bypass unfinished area
+PASS meridian-quiet: physical service controls and local recovery meridian-common-record
+PASS meridian-quiet: physical service controls and local recovery meridian-civilian-record
+PASS meridian-quiet: physical service controls and local recovery meridian-transmitter-online
+PASS meridian-quiet: physical service controls and local recovery meridian-archive-installed
+PASS meridian-quiet: physical service controls and local recovery meridian-solution
+PASS meridian-quiet: real objectives permit normal departure
+PASS meridian-cordon: generated save passes real JSON validation
+PASS meridian-cordon: only preceding expeditions are completed
+PASS meridian-cordon: launches through normal restore
+PASS meridian-cordon: camera and controls returned to playable state
+PASS meridian-cordon: saves isolated from campaign
+PASS meridian-cordon: spawn clears world geometry
+PASS meridian-cordon: generator clears fixed machine equipment
+PASS meridian-cordon: refinery clears fixed machine equipment
+PASS meridian-cordon: workbench clears fixed machine equipment
+PASS meridian-cordon: turret-manual clears fixed machine equipment
+PASS meridian-cordon: salvage-crane clears fixed machine equipment
+PASS meridian-cordon: destination and interaction points restored
+PASS meridian-cordon: destination recoveries remain playable
+PASS meridian-cordon: cannot bypass unfinished area
+PASS meridian-cordon: physical service controls and local recovery meridian-common-record
+PASS meridian-cordon: physical service controls and local recovery meridian-defense-record
+PASS meridian-cordon: physical service controls and local recovery meridian-transmitter-online
+PASS meridian-cordon: physical service controls and local recovery meridian-archive-installed
+PASS meridian-cordon: physical service controls and local recovery meridian-solution
+PASS meridian-cordon: real objectives permit normal departure
+PASS final-bearing: generated save passes real JSON validation
+PASS final-bearing: only preceding expeditions are completed
+PASS final-bearing: launches through normal restore
+PASS final-bearing: camera and controls returned to playable state
+PASS final-bearing: saves isolated from campaign
+PASS final-bearing: spawn clears world geometry
+PASS final-bearing: generator clears fixed machine equipment
+PASS final-bearing: refinery clears fixed machine equipment
+PASS final-bearing: workbench clears fixed machine equipment
+PASS final-bearing: turret-manual clears fixed machine equipment
+PASS final-bearing: salvage-crane clears fixed machine equipment
+PASS recovery-empty: generated save passes real JSON validation
+PASS recovery-empty: only preceding expeditions are completed
+PASS recovery-empty: launches through normal restore
+PASS recovery-empty: camera and controls returned to playable state
+PASS recovery-empty: saves isolated from campaign
+PASS recovery-empty: spawn clears world geometry
+PASS recovery-empty: generator clears fixed machine equipment
+PASS recovery-destroyed: generated save passes real JSON validation
+PASS recovery-destroyed: only preceding expeditions are completed
+PASS recovery-destroyed: launches through normal restore
+PASS recovery-destroyed: camera and controls returned to playable state
+PASS recovery-destroyed: saves isolated from campaign
+PASS recovery-destroyed: spawn clears world geometry
+PASS operations-shutdown: generated save passes real JSON validation
+PASS operations-shutdown: only preceding expeditions are completed
+PASS operations-shutdown: launches through normal restore
+PASS operations-shutdown: camera and controls returned to playable state
+PASS operations-shutdown: saves isolated from campaign
+PASS operations-shutdown: spawn clears world geometry
+PASS operations-shutdown: generator clears fixed machine equipment
+PASS operations-shutdown: refinery clears fixed machine equipment
+PASS operations-shutdown: workbench clears fixed machine equipment
+PASS operations-loads: generated save passes real JSON validation
+PASS operations-loads: only preceding expeditions are completed
+PASS operations-loads: launches through normal restore
+PASS operations-loads: camera and controls returned to playable state
+PASS operations-loads: saves isolated from campaign
+PASS operations-loads: spawn clears world geometry
+PASS operations-loads: generator clears fixed machine equipment
+PASS operations-loads: refinery clears fixed machine equipment
+PASS operations-loads: workbench clears fixed machine equipment
+PASS operations-loads: turret-manual clears fixed machine equipment
+PASS operations-loads: generator clears fixed machine equipment
+PASS operations-loads: collector-auto clears fixed machine equipment
+PASS operations-loads: turret-auto clears fixed machine equipment
+PASS All checkpoint launches preserve campaign autosave byte for byte
+PASS Defense checkpoint starts an actual tutorial boarding craft
+PASS Scout checkpoint starts the real detection encounter
+PASS Pause offers an explicit playtest save
+PASS Continue resumes the selected checkpoint's own progress
+PASS Restart regenerates fresh loadout
+PASS Wrist navigation contains only personal pack and log
+PASS Pack does not expose remote machine storage
+PASS Build shortcut escapes wrist to construction catalog
+PASS Actual PLACE click closes catalog and immediately restores placement camera
+PASS PLACE click never fires a weapon
+PASS Normal paid build has a reachable valid deck cell
+PASS World click builds exactly one part and charges ordinary cost
+PASS workbench: interaction opens equipment's own interface
+PASS workbench: offers only local recipes
+PASS refinery: interaction opens equipment's own interface
+PASS refinery: offers only local recipes
+PASS Receiver owns signals and research
+PASS Receiver research available independently of workbench
+PASS Station detail stays on station screen
+PASS Helm navigation remains separate from physical engineering
+PASS Checkpoint selector fits viewport with scrollable details
+PASS Leaving title-started playtest restores campaign directory and title
+PASS Playtest saves never alter campaign autosave
+PASS Campaign can enter playtest from a safe paused point
+PASS Return restores pre-playtest campaign health, progress and save scope
+PASS Unsafe campaign switch is refused without losing live progress
+PLAYTEST_CHECKPOINTS {"checks":325,"failures":[],"passed":true}

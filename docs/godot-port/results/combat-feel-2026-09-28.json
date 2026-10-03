@@ -1,0 +1,490 @@
+{
+  "date": "2026-09-28",
+  "scope": "Native feedback/camera/recorder implementation, preserved baseline, matched recording samples and accepted first-stairs resource-loading fix. Human campaign/feel acceptance remains separate.",
+  "baseline_source_manifest": "4c88aa6cbe279d91ef21f1ac8a9aaee8abe2c0ecc1d8714cd73ca2f36b3a8869",
+  "headless": [
+    {
+      "suite": "playtest_recorder",
+      "checks": 22,
+      "passed": true,
+      "log": "test-results/godot-native/feel-playtest_recorder.log"
+    },
+    {
+      "suite": "impact_feedback",
+      "checks": 18,
+      "passed": true,
+      "log": "test-results/godot-native/feel-impact_feedback.log"
+    },
+    {
+      "suite": "enemy_combat_contract",
+      "checks": 42,
+      "passed": true,
+      "log": "test-results/godot-native/feel-enemy_combat_contract.log"
+    },
+    {
+      "suite": "enemy_animation",
+      "checks": 113,
+      "passed": true,
+      "log": "test-results/godot-native/feel-enemy_animation.log"
+    },
+    {
+      "suite": "camera_clearance",
+      "checks": 55,
+      "passed": true,
+      "log": "test-results/godot-native/feel-camera_clearance.log"
+    },
+    {
+      "suite": "canopy_camera",
+      "checks": 68,
+      "passed": true,
+      "log": "test-results/godot-native/feel-canopy_camera.log"
+    },
+    {
+      "suite": "survivor_combat",
+      "checks": 31,
+      "passed": true,
+      "log": "test-results/godot-native/feel-survivor_combat.log"
+    },
+    {
+      "suite": "audio_lifecycle",
+      "checks": 50,
+      "passed": true,
+      "log": "test-results/godot-native/feel-audio_lifecycle.log"
+    },
+    {
+      "suite": "weapon_presentation",
+      "checks": 68,
+      "passed": true,
+      "log": "test-results/godot-native/feel-weapon_presentation.log"
+    },
+    {
+      "suite": "player_locomotion",
+      "checks": 39,
+      "passed": true,
+      "log": "test-results/godot-native/feel-player_locomotion.log"
+    },
+    {
+      "suite": "encounter_loading",
+      "checks": 40,
+      "passed": true,
+      "log": "test-results/godot-native/final-loader-encounter_loading.log"
+    }
+  ],
+  "headless_checks": 546,
+  "native": {
+    "impact_feedback": 18,
+    "survivor_combat": 31,
+    "camera_clearance": 55,
+    "wrist_terminal": 45
+  },
+  "native_checks": 149,
+  "native_scope": "Presentation/input/collision only; concurrent headless workers allowed, so printed native timing samples are not isolated benchmarks. Wrist subsequently received a lead-owned mount-clearance adjustment requiring its own recheck.",
+  "source_hashes": {
+    "scripts/combat_feedback.gd": "2cd619974c4b1274fcc24b72c76348abfd43fb18d378ce2a3b3c618ecef13792",
+    "scripts/owned_shot.gd": "aea6e8ef4e77fa926478d0c0cbe7992f447f0dea084750d8e309274fa7675dbd",
+    "scripts/hit_zone.gd": "423a2e206b5ce727eefce89faef23474e8ce3ac18270f9181d2924fe02ff7b13",
+    "scripts/enemy.gd": "e3919034a422932fd9c319c6e6832e7afa15a5109d1a66fcfe23c9c3d4d160f2",
+    "scripts/enemy_hit_pose.gd": "5adf9a0398e3c77345d621e113a931ac8e86df74c76966bbf40afa025e888bac",
+    "scripts/audio.gd": "85bf7b13881d5b1a4323ad226d1e80cbde0bdd0af3609bab8471509573c470f4",
+    "scripts/effects.gd": "f7c52c3e13cb5d13671e9040c103b998cfa3ec29214d14db9260b5bd7bd84aae",
+    "scripts/playtest_recorder.gd": "4c0b8c5a2b7abd328e19bd733d116d9c3c329b893b3a52fb189c1c4b79b526f6",
+    "tests/impact_feedback.gd": "39ae0b62f5b66a826ecd011ef9b3bf5c3f33f2bb8c7fe6cdff51d80e875103a8",
+    "tests/playtest_recorder.gd": "bd893b9622637cc48d8060d66aa52ee004087031e722a19c34d8638ee131fc8e",
+    "tests/feel_route_profile.gd": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+    "tests/feel_review.gd": "031e25700bd6a7f8db17d204f00e699e1fbf287ed898a455edaf89dc0a31614c",
+    "tests/audio_lifecycle.gd": "7c70e8aa95ffc8a4bda2f720b648e05f084e15b982d0369054ac13caf7da5d58",
+    "scripts/assets.gd": "e1bf91658a518a3656bde1344dcfee9b42d3dec974a1ded3abc136f1fcc9ef51",
+    "scripts/encounter_assets.gd": "745ce62057d75529938b923121ee2f1b457a3964017c559359d4698d4b3d0fbc",
+    "tests/encounter_loading.gd": "c056d88e3129a89edc6de3474127682b9470485cae796894e0d567b23bd9c83f",
+    "tests/feel_load_dependencies.gd": "47c234b10a3c00a56f2df97ce5d0bfd020b8c469f4bf320ea065e52548db5593",
+    "tests/feel_load_overlap.gd": "6301663af6459d64f73194889e41adcd72b1fc8a434e2fc374ea448ee9155c1e"
+  },
+  "profiles": [
+    {
+      "run_id": "baseline-control-defense-1005753",
+      "label": "baseline-control",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "defense",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "frame_cap": 60,
+      "instrumented": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 332.492,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1189,
+        "max": 249.324,
+        "median": 16.665,
+        "over100": 1,
+        "over25": 2,
+        "over50": 1,
+        "p95": 16.874,
+        "p99": 17.213
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 19.035,
+        "median": 16.666,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 16.863,
+        "p99": 16.969
+      },
+      "gpu_ms": {
+        "count": 1189,
+        "max": 6.58400011062622,
+        "median": 4.58799982070923,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.91900014877319,
+        "p99": 6.36199998855591
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 938.185900771871,
+      "source_hashes": {
+        "audio": "4e832d0bb5de254b28169b0bc0631118100a9fb618786b619e1879914c7e92f4",
+        "combat": "08e37a2a0ba873ee24266bfeb67f9ae1464b8c112f228da3809f827f6a71b641",
+        "effects": "ffc6781010cc6a21af1aca36dd28b7f49ad917f22b8ee17472b8bd91445c6c6d",
+        "enemy": "6be9723c396ce765aaf43e8f1dda434124cfed869dacf1880e540067127f2050",
+        "main": "ded6393f0bc96df208a24f4e7f071118a36a15a2d2a0cd09cef07fca10f8e00a",
+        "owned_shot": "7c3588c4bd71df9ec3069bf27927d690404c76423e1f465fdd6d42f67e061b41",
+        "player": "288a382fec56e21df329bf6bf69ac4ce1cfb5fb12d72080b71594c46635a6cdf",
+        "playtest_checkpoints": "4ad1b987063571f6e3260fd69670d426938ba7f9e939d11f544ce4f8e02b2474",
+        "session": "5756a404c6663c45fee449039a70c584b2e23e1c04ff9ced4fb8f2fcb2e3f59f",
+        "world": "ee97711424f506dd43a2ef2616a55dee81d6ee7459fd019f392f9100d7f84dee"
+      },
+      "raw": "test-results/godot-native/feel-preserved-defense-control.json"
+    },
+    {
+      "run_id": "baseline-control-scout-937026",
+      "label": "baseline-control",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "scout",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "frame_cap": 60,
+      "instrumented": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 320.612,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1180,
+        "max": 258.324,
+        "median": 16.668,
+        "over100": 1,
+        "over25": 7,
+        "over50": 1,
+        "p95": 16.861,
+        "p99": 21.702
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 19.049,
+        "median": 16.668,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 16.841,
+        "p99": 17.066
+      },
+      "gpu_ms": {
+        "count": 1180,
+        "max": 34.2809982299805,
+        "median": 4.85799980163574,
+        "over100": 0,
+        "over25": 4,
+        "over50": 0,
+        "p95": 5.46799993515015,
+        "p99": 18.4500007629395
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 6038.42064859262,
+      "source_hashes": {
+        "audio": "4e832d0bb5de254b28169b0bc0631118100a9fb618786b619e1879914c7e92f4",
+        "combat": "08e37a2a0ba873ee24266bfeb67f9ae1464b8c112f228da3809f827f6a71b641",
+        "effects": "ffc6781010cc6a21af1aca36dd28b7f49ad917f22b8ee17472b8bd91445c6c6d",
+        "enemy": "6be9723c396ce765aaf43e8f1dda434124cfed869dacf1880e540067127f2050",
+        "main": "ded6393f0bc96df208a24f4e7f071118a36a15a2d2a0cd09cef07fca10f8e00a",
+        "owned_shot": "7c3588c4bd71df9ec3069bf27927d690404c76423e1f465fdd6d42f67e061b41",
+        "player": "288a382fec56e21df329bf6bf69ac4ce1cfb5fb12d72080b71594c46635a6cdf",
+        "playtest_checkpoints": "4ad1b987063571f6e3260fd69670d426938ba7f9e939d11f544ce4f8e02b2474",
+        "session": "5756a404c6663c45fee449039a70c584b2e23e1c04ff9ced4fb8f2fcb2e3f59f",
+        "world": "ee97711424f506dd43a2ef2616a55dee81d6ee7459fd019f392f9100d7f84dee"
+      },
+      "raw": "test-results/godot-native/feel-preserved-scout-control.json"
+    },
+    {
+      "run_id": "baseline-control-foundry-route-1063516",
+      "label": "baseline-control",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "frame_cap": 60,
+      "instrumented": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 473.947,
+      "sample_seconds": 90.0,
+      "frame_ms": {
+        "count": 5380,
+        "max": 254.143,
+        "median": 16.665,
+        "over100": 1,
+        "over25": 6,
+        "over50": 2,
+        "p95": 16.875,
+        "p99": 17.103
+      },
+      "steady_after5s_ms": {
+        "count": 5101,
+        "max": 18.838,
+        "median": 16.665,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 16.874,
+        "p99": 17.075
+      },
+      "gpu_ms": {
+        "count": 5380,
+        "max": 37.8740005493164,
+        "median": 5.22800016403198,
+        "over100": 0,
+        "over25": 2,
+        "over50": 0,
+        "p95": 5.53000020980835,
+        "p99": 5.60400009155273
+      },
+      "successful_autosaves": 1,
+      "final_health": 100.0,
+      "final_distance": 3130.80420244844,
+      "source_hashes": {
+        "audio": "4e832d0bb5de254b28169b0bc0631118100a9fb618786b619e1879914c7e92f4",
+        "combat": "08e37a2a0ba873ee24266bfeb67f9ae1464b8c112f228da3809f827f6a71b641",
+        "effects": "ffc6781010cc6a21af1aca36dd28b7f49ad917f22b8ee17472b8bd91445c6c6d",
+        "enemy": "6be9723c396ce765aaf43e8f1dda434124cfed869dacf1880e540067127f2050",
+        "main": "ded6393f0bc96df208a24f4e7f071118a36a15a2d2a0cd09cef07fca10f8e00a",
+        "owned_shot": "7c3588c4bd71df9ec3069bf27927d690404c76423e1f465fdd6d42f67e061b41",
+        "player": "288a382fec56e21df329bf6bf69ac4ce1cfb5fb12d72080b71594c46635a6cdf",
+        "playtest_checkpoints": "4ad1b987063571f6e3260fd69670d426938ba7f9e939d11f544ce4f8e02b2474",
+        "session": "5756a404c6663c45fee449039a70c584b2e23e1c04ff9ced4fb8f2fcb2e3f59f",
+        "world": "ee97711424f506dd43a2ef2616a55dee81d6ee7459fd019f392f9100d7f84dee"
+      },
+      "raw": "test-results/godot-native/feel-preserved-travel-control.json"
+    },
+    {
+      "run_id": "baseline-instrumented-foundry-route-1011446",
+      "label": "baseline-instrumented",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "frame_cap": 0,
+      "instrumented": true,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 510.686,
+      "sample_seconds": 90.0,
+      "frame_ms": {
+        "count": 19307,
+        "max": 350.154,
+        "median": 3.963,
+        "over100": 1,
+        "over25": 6,
+        "over50": 1,
+        "p95": 7.81,
+        "p99": 14.416
+      },
+      "steady_after5s_ms": {
+        "count": 18573,
+        "max": 24.129,
+        "median": 3.955,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 7.407,
+        "p99": 13.004
+      },
+      "gpu_ms": {
+        "count": 19307,
+        "max": 6.78800010681152,
+        "median": 3.19700002670288,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 4.28599977493286,
+        "p99": 4.93300008773804
+      },
+      "successful_autosaves": 1,
+      "final_health": 100.0,
+      "final_distance": 3130.80420244844,
+      "source_hashes": {
+        "audio": "4e832d0bb5de254b28169b0bc0631118100a9fb618786b619e1879914c7e92f4",
+        "combat": "08e37a2a0ba873ee24266bfeb67f9ae1464b8c112f228da3809f827f6a71b641",
+        "effects": "ffc6781010cc6a21af1aca36dd28b7f49ad917f22b8ee17472b8bd91445c6c6d",
+        "enemy": "6be9723c396ce765aaf43e8f1dda434124cfed869dacf1880e540067127f2050",
+        "main": "ded6393f0bc96df208a24f4e7f071118a36a15a2d2a0cd09cef07fca10f8e00a",
+        "owned_shot": "7c3588c4bd71df9ec3069bf27927d690404c76423e1f465fdd6d42f67e061b41",
+        "player": "288a382fec56e21df329bf6bf69ac4ce1cfb5fb12d72080b71594c46635a6cdf",
+        "playtest_checkpoints": "4ad1b987063571f6e3260fd69670d426938ba7f9e939d11f544ce4f8e02b2474",
+        "session": "5756a404c6663c45fee449039a70c584b2e23e1c04ff9ced4fb8f2fcb2e3f59f",
+        "world": "ee97711424f506dd43a2ef2616a55dee81d6ee7459fd019f392f9100d7f84dee"
+      },
+      "raw": "test-results/godot-native/feel-preserved-travel-instrumented.json"
+    },
+    {
+      "run_id": "baseline-control-workshop-926213",
+      "label": "baseline-control",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "workshop",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "frame_cap": 60,
+      "instrumented": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 434.029,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1181,
+        "max": 366.049,
+        "median": 16.664,
+        "over100": 1,
+        "over25": 2,
+        "over50": 1,
+        "p95": 16.807,
+        "p99": 17.069
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 17.134,
+        "median": 16.664,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 16.788,
+        "p99": 16.918
+      },
+      "gpu_ms": {
+        "count": 1181,
+        "max": 6.45599985122681,
+        "median": 4.92500019073486,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.47900009155273,
+        "p99": 6.16300010681152
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 5900.0,
+      "source_hashes": {
+        "audio": "4e832d0bb5de254b28169b0bc0631118100a9fb618786b619e1879914c7e92f4",
+        "combat": "08e37a2a0ba873ee24266bfeb67f9ae1464b8c112f228da3809f827f6a71b641",
+        "effects": "ffc6781010cc6a21af1aca36dd28b7f49ad917f22b8ee17472b8bd91445c6c6d",
+        "enemy": "6be9723c396ce765aaf43e8f1dda434124cfed869dacf1880e540067127f2050",
+        "main": "ded6393f0bc96df208a24f4e7f071118a36a15a2d2a0cd09cef07fca10f8e00a",
+        "owned_shot": "7c3588c4bd71df9ec3069bf27927d690404c76423e1f465fdd6d42f67e061b41",
+        "player": "288a382fec56e21df329bf6bf69ac4ce1cfb5fb12d72080b71594c46635a6cdf",
+        "playtest_checkpoints": "4ad1b987063571f6e3260fd69670d426938ba7f9e939d11f544ce4f8e02b2474",
+        "session": "5756a404c6663c45fee449039a70c584b2e23e1c04ff9ced4fb8f2fcb2e3f59f",
+        "world": "ee97711424f506dd43a2ef2616a55dee81d6ee7459fd019f392f9100d7f84dee"
+      },
+      "raw": "test-results/godot-native/feel-preserved-workshop-control.json"
+    }
+  ],
+  "performance_disposition": {
+    "steady_historical_stall": "Not reproduced in bounded preserved baseline or integrated travel samples. The attributed stairs first-use fix is distinct; no whole-game FPS or historical hitch fix claim.",
+    "startup": "Initial/checkpoint handoff costs remain unattributed. Final ten-pair initial-window maxima134.758\u2013208.087ms. Additional resource residency/title preparation and immediate-load ownership waits are explicit tradeoffs.",
+    "repeat_matrix": "Five preserved samples, nine integrated recording/workload samples, two construction reproductions plus one split diagnosis, and ten final same-source stairs causal-control/production samples. Broader route/cold-cache/Continue matrix and fine callback-stamp overhead remain unmeasured.",
+    "host": "Baseline idle Blender CPU+0.06s overabout2min. Final set idle Blender CPU+0.078125s over6m05s, background GPU unmeasured, OS/driver cache uncontrolled. Only one Godot at a time during final timing; small desktop/report activity continued.",
+    "human": "No uncoached human campaign run; subjective feel/audio acceptance remains with C05.",
+    "stairs_first_use": "Attributed resource load fixed by existing asynchronous queue preparation; five alternating causal-control/production pairs pass on05ed64e1. Uncached choose77.315\u201385.183ms versus production0.074\u20130.339ms; production steady maxima18.845\u201324.617ms with zero frames above25ms."
+  },
+  "final_native_performance_report": "docs/godot-port/results/final-native-performance-2026-09-28.json",
+  "stairs_preview_performance_report": "docs/godot-port/results/stairs-preview-performance-2026-09-28.json",
+  "final_loader_regression_report": "docs/godot-port/results/final-loader-regressions-2026-09-28.json"
+}

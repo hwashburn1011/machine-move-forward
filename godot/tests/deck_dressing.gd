@@ -1,6 +1,6 @@
 extends SceneTree
 
-const SITES=[Vector3(9.625,16.03,7.8),Vector3(-9.625,16.03,-6.5),Vector3(5.5,16.03,10.4)]
+const SITES=[Vector3(9.625,16.03,7.8)]
 var game
 var checks=0
 var failures=[]
@@ -90,7 +90,7 @@ func run():
 		check(not hit.is_empty() and absf(hit.position.z-(SITES[i].z-.28))<.025,"Existing drum obstruction remains aligned: "+str(i+1))
 		var floor_hit=game.raycast(SITES[i]+Vector3(.7,.3,0),SITES[i]+Vector3(.7,-.2,0),[],1)
 		check(not floor_hit.is_empty() and absf(floor_hit.position.y-16.03)<.012,"Neighbouring deck remains clear and supported: "+str(i+1))
-	check(total_triangles<=55000 and total_surfaces==15,"All three props fit the 55k triangle / 15-batch budget")
+	check(total_triangles<=18500 and total_surfaces==5,"One retained supply drum fits the 18.5k triangle / five-batch budget")
 	# Static scenery: no callbacks or additional physical/light emitters.
 	check(MMFAssets.of_type(dressing,"Light3D").is_empty() and dressing.find_children("*","GPUParticles3D",true,false).is_empty(),"Props add no lights or particle systems")
 	var poses={}

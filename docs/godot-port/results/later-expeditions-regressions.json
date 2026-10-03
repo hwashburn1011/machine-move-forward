@@ -1,0 +1,110 @@
+{
+  "date": "2026-09-25",
+  "passed": true,
+  "checks": 826.0,
+  "suites": [
+    {
+      "suite": "later-expeditions",
+      "checks": 84,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "integration",
+      "checks": 109,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "audit-parity",
+      "checks": 103,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "controls-interactions",
+      "checks": 66,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "wrist-terminal",
+      "checks": 45,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "survivor-combat",
+      "checks": 31,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "scout-escape",
+      "checks": 47,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "salvage-tests",
+      "checks": 75,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "friendly-encounter",
+      "checks": 21,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "workshop-first-visit",
+      "checks": 23,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "story-polish",
+      "checks": 59,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "journey-pacing",
+      "checks": null,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "loot-tests",
+      "checks": 62,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "caretaker-workload",
+      "checks": 13,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "session-workload",
+      "checks": 16,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "desert-life-tests",
+      "checks": 32,
+      "passed": true,
+      "failures": []
+    },
+    {
+      "suite": "survivor-content",
+      "checks": 40,
+      "passed": true,
+      "failures": []
+    }
+  ],
+  "scope": "Focused native fixtures and existing regressions, including rendered equipment/radar and a 65-second real-time pacing sample. Not a manual whole-campaign playthrough."
+}

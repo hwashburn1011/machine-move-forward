@@ -1,0 +1,157 @@
+{
+	"checks": 31,
+	"failures": [],
+	"inputMode": "rendered captured-pointer click",
+	"muzzleErrorM": 0.0000019073486328125,
+	"opening": [
+		{
+			"bodyGunYawDegrees": 0.0000232888075090154,
+			"time": 2.48
+		},
+		{
+			"bodyGunYawDegrees": 0.0000114636822966187,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDegrees": 1.24620109779762,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDegrees": 1.24620024402397,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDegrees": 1.24620312551003,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDegrees": 1.24620312551003,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDegrees": 1.24620312551003,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDegrees": 1.24620312551003,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDegrees": 1.24620269862321,
+			"time": 2.65
+		},
+		{
+			"bodyGunYawDegrees": 6.41378455282881,
+			"time": 2.65
+		},
+		{
+			"bodyGunYawDegrees": 6.41378455282881,
+			"time": 2.65
+		},
+		{
+			"bodyGunYawDegrees": 6.41378455282881,
+			"time": 2.65
+		},
+		{
+			"bodyGunYawDegrees": 6.41378455282881,
+			"time": 2.65
+		},
+		{
+			"bodyGunYawDegrees": 6.41378412594198,
+			"time": 2.8
+		},
+		{
+			"bodyGunYawDegrees": 17.7492505960861,
+			"time": 2.8
+		},
+		{
+			"bodyGunYawDegrees": 17.7492523036334,
+			"time": 2.8
+		},
+		{
+			"bodyGunYawDegrees": 17.7492505960861,
+			"time": 2.8
+		},
+		{
+			"bodyGunYawDegrees": 17.7492505960861,
+			"time": 2.8
+		},
+		{
+			"bodyGunYawDegrees": 17.7492540111807,
+			"time": 3.05
+		},
+		{
+			"bodyGunYawDegrees": 0.00000539816930934363,
+			"time": 3.05
+		},
+		{
+			"bodyGunYawDegrees": 0.00000539816930934363,
+			"time": 3.05
+		},
+		{
+			"bodyGunYawDegrees": 0.00000539816930934363,
+			"time": 3.05
+		},
+		{
+			"bodyGunYawDegrees": 0.00000539816930934363,
+			"time": 3.05
+		},
+		{
+			"bodyGunYawDegrees": 0.00000539816930934363,
+			"time": 3.65
+		},
+		{
+			"bodyGunYawDegrees": 0.00000863706910366141,
+			"time": 3.65
+		},
+		{
+			"bodyGunYawDegrees": 0.00000863706910366141,
+			"time": 3.65
+		},
+		{
+			"bodyGunYawDegrees": 0.00000863706910366141,
+			"time": 3.65
+		},
+		{
+			"bodyGunYawDegrees": 0.00000863706910366141,
+			"time": 3.65
+		},
+		{
+			"bodyGunYawDegrees": 0.00000431853455183071,
+			"time": 5.0
+		},
+		{
+			"bodyGunYawDegrees": 0.0000181118570242089,
+			"time": 5.0
+		},
+		{
+			"bodyGunYawDegrees": 0.0000181118570242089,
+			"time": 5.0
+		},
+		{
+			"bodyGunYawDegrees": 0.0000181118570242089,
+			"time": 5.0
+		},
+		{
+			"bodyGunYawDegrees": 0.0000181118570242089,
+			"time": 5.0
+		},
+		{
+			"bodyGunYawDegrees": 0.000018803584208328,
+			"time": 0
+		}
+	],
+	"rear": {
+		"aimYaw": 0.0,
+		"ammoAfter": 29.0,
+		"ammoBefore": 30.0,
+		"bodyYaw": 6.28176259994507,
+		"boreError": 0.0815299737605654,
+		"cachedYaw": 6.28176259994507,
+		"canFire": true,
+		"pending": false,
+		"queued": false,
+		"ready": true,
+		"suppress": false
+	}
+}

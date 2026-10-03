@@ -24,12 +24,14 @@ static func install(machine: Node3D) -> Node3D:
 			replacement.owner=null;replacement.get_parent().remove_child(replacement);machine.add_child(replacement)
 		previous.get_parent().remove_child(previous);previous.free()
 	fittings.free()
+	MMFMachineComposition.prune_children(drums)
 	drums.name="NativeDeckDressing";machine.add_child(drums)
 	var cargo=Node3D.new();cargo.name="NativeCargoLockers";machine.add_child(cargo)
-	for site in manifest.sites:
+	for site in MMFMachineComposition.sites(manifest):
 		# PackedScene instances share meshes/materials, while transforms remain
 		# independent and grounded at the original three deck heights.
 		var instance=locker.duplicate();instance.name=site.name;cargo.add_child(instance)
 		instance.position=MMFAssets.v(site.position);instance.rotation.y=site.yaw
 	locker.free()
+	MMFMachineComposition.install_connections(machine)
 	return drums

@@ -1,0 +1,745 @@
+{
+  "format": 1,
+  "palette": {
+    "petrol": {
+      "id": "petrol",
+      "name": "Aged petrol blue",
+      "paint": "#405C62",
+      "secondary": "#778581",
+      "letter": "#B7B09F"
+    },
+    "oxblood": {
+      "id": "oxblood",
+      "name": "Faded oxblood enamel",
+      "paint": "#704B50",
+      "secondary": "#A08379",
+      "letter": "#BDB09B"
+    },
+    "denim": {
+      "id": "denim",
+      "name": "Dust blue industrial enamel",
+      "paint": "#596C80",
+      "secondary": "#879095",
+      "letter": "#BBB7A9"
+    },
+    "plum": {
+      "id": "plum",
+      "name": "Smoke plum enamel",
+      "paint": "#6D5C70",
+      "secondary": "#998A91",
+      "letter": "#BDB5A8"
+    },
+    "celadon": {
+      "id": "celadon",
+      "name": "Weathered celadon",
+      "paint": "#708174",
+      "secondary": "#A4AA91",
+      "letter": "#C0B8A2"
+    },
+    "clay": {
+      "id": "clay",
+      "name": "Mineral clay paint",
+      "paint": "#936E5C",
+      "secondary": "#B09A84",
+      "letter": "#C2B7A4"
+    },
+    "olive": {
+      "id": "olive",
+      "name": "Grey olive lacquer",
+      "paint": "#797E58",
+      "secondary": "#AAA58B",
+      "letter": "#C0B9A5"
+    },
+    "umber": {
+      "id": "umber",
+      "name": "Cocoa brown enamel",
+      "paint": "#726252",
+      "secondary": "#9C8974",
+      "letter": "#BCB5A5"
+    },
+    "slate": {
+      "id": "slate",
+      "name": "Blue slate enamel",
+      "paint": "#616E76",
+      "secondary": "#909895",
+      "letter": "#C0BBAE"
+    },
+    "verdigris": {
+      "id": "verdigris",
+      "name": "Dusty copper green",
+      "paint": "#578078",
+      "secondary": "#8F9E92",
+      "letter": "#BABBA9"
+    },
+    "heather": {
+      "id": "heather",
+      "name": "Ash violet paint",
+      "paint": "#807384",
+      "secondary": "#A4989D",
+      "letter": "#C1B7AA"
+    },
+    "ochre": {
+      "id": "ochre",
+      "name": "Faded straw ochre",
+      "paint": "#94815C",
+      "secondary": "#AE9E83",
+      "letter": "#C1B8A5"
+    },
+    "rose": {
+      "id": "rose",
+      "name": "Dust rose mineral enamel",
+      "paint": "#94787A",
+      "secondary": "#B2A19B",
+      "letter": "#C3B7A8"
+    },
+    "stone": {
+      "id": "stone",
+      "name": "Warm stone paint",
+      "paint": "#928D7D",
+      "secondary": "#ADA895",
+      "letter": "#484B49"
+    }
+  },
+  "pieces": {
+    "nomad-tool-drawers": {
+      "N100_petrol": {
+        "source": "#405C62",
+        "tone": "paint"
+      },
+      "N100_petrol_washed": {
+        "source": "#778581",
+        "tone": "secondary"
+      },
+      "N100_fabric_petrol": {
+        "source": "#405C62",
+        "tone": "paint"
+      }
+    },
+    "nomad-service-cart": {
+      "N100_stone": {
+        "source": "#928D7D",
+        "tone": "paint"
+      },
+      "N100_stone_washed": {
+        "source": "#ADA895",
+        "tone": "secondary"
+      },
+      "N100_fabric_stone": {
+        "source": "#928D7D",
+        "tone": "paint"
+      }
+    },
+    "nomad-field-chair": {
+      "N100_plum": {
+        "source": "#6D5C70",
+        "tone": "paint"
+      },
+      "N100_plum_washed": {
+        "source": "#998A91",
+        "tone": "secondary"
+      },
+      "N100_fabric_plum": {
+        "source": "#6D5C70",
+        "tone": "paint"
+      }
+    },
+    "nomad-sleeping-berth": {
+      "N100_denim": {
+        "source": "#596C80",
+        "tone": "paint"
+      },
+      "N100_denim_washed": {
+        "source": "#879095",
+        "tone": "secondary"
+      },
+      "N100_fabric_denim": {
+        "source": "#596C80",
+        "tone": "paint"
+      }
+    },
+    "nomad-radio-cabinet": {
+      "N100_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      },
+      "N100_oxblood_washed": {
+        "source": "#A08379",
+        "tone": "secondary"
+      },
+      "N100_fabric_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      }
+    },
+    "nomad-repair-trestle": {
+      "N100_slate": {
+        "source": "#616E76",
+        "tone": "paint"
+      },
+      "N100_slate_washed": {
+        "source": "#909895",
+        "tone": "secondary"
+      },
+      "N100_fabric_slate": {
+        "source": "#616E76",
+        "tone": "paint"
+      }
+    },
+    "nomad-parts-organizer": {
+      "N100_olive": {
+        "source": "#797E58",
+        "tone": "paint"
+      },
+      "N100_olive_washed": {
+        "source": "#AAA58B",
+        "tone": "secondary"
+      },
+      "N100_fabric_olive": {
+        "source": "#797E58",
+        "tone": "paint"
+      }
+    },
+    "nomad-charging-cabinet": {
+      "N100_verdigris": {
+        "source": "#578078",
+        "tone": "paint"
+      },
+      "N100_verdigris_washed": {
+        "source": "#8F9E92",
+        "tone": "secondary"
+      },
+      "N100_fabric_verdigris": {
+        "source": "#578078",
+        "tone": "paint"
+      }
+    },
+    "nomad-expedition-trunk": {
+      "N100_umber": {
+        "source": "#726252",
+        "tone": "paint"
+      },
+      "N100_umber_washed": {
+        "source": "#9C8974",
+        "tone": "secondary"
+      },
+      "N100_fabric_umber": {
+        "source": "#726252",
+        "tone": "paint"
+      }
+    },
+    "nomad-archive-vitrine": {
+      "N100_celadon": {
+        "source": "#708174",
+        "tone": "paint"
+      },
+      "N100_celadon_washed": {
+        "source": "#A4AA91",
+        "tone": "secondary"
+      },
+      "N100_fabric_celadon": {
+        "source": "#708174",
+        "tone": "paint"
+      }
+    },
+    "nomad-chart-desk": {
+      "N100_denim": {
+        "source": "#596C80",
+        "tone": "paint"
+      },
+      "N100_denim_washed": {
+        "source": "#879095",
+        "tone": "secondary"
+      },
+      "N100_fabric_denim": {
+        "source": "#596C80",
+        "tone": "paint"
+      }
+    },
+    "nomad-survey-floodlight": {
+      "N100_ochre": {
+        "source": "#94815C",
+        "tone": "paint"
+      },
+      "N100_ochre_washed": {
+        "source": "#AE9E83",
+        "tone": "secondary"
+      },
+      "N100_fabric_ochre": {
+        "source": "#94815C",
+        "tone": "paint"
+      }
+    },
+    "nomad-machinist-lamp": {
+      "N100_heather": {
+        "source": "#807384",
+        "tone": "paint"
+      },
+      "N100_heather_washed": {
+        "source": "#A4989D",
+        "tone": "secondary"
+      },
+      "N100_fabric_heather": {
+        "source": "#807384",
+        "tone": "paint"
+      }
+    },
+    "nomad-coat-rack": {
+      "N100_olive": {
+        "source": "#797E58",
+        "tone": "paint"
+      },
+      "N100_olive_washed": {
+        "source": "#AAA58B",
+        "tone": "secondary"
+      },
+      "N100_fabric_olive": {
+        "source": "#797E58",
+        "tone": "paint"
+      }
+    },
+    "nomad-cable-reel": {
+      "N100_ochre": {
+        "source": "#94815C",
+        "tone": "paint"
+      },
+      "N100_ochre_washed": {
+        "source": "#AE9E83",
+        "tone": "secondary"
+      },
+      "N100_fabric_ochre": {
+        "source": "#94815C",
+        "tone": "paint"
+      }
+    },
+    "nomad-boots-locker": {
+      "N100_petrol": {
+        "source": "#405C62",
+        "tone": "paint"
+      },
+      "N100_petrol_washed": {
+        "source": "#778581",
+        "tone": "secondary"
+      },
+      "N100_fabric_petrol": {
+        "source": "#405C62",
+        "tone": "paint"
+      }
+    },
+    "nomad-galley-sideboard": {
+      "N100_rose": {
+        "source": "#94787A",
+        "tone": "paint"
+      },
+      "N100_rose_washed": {
+        "source": "#B2A19B",
+        "tone": "secondary"
+      },
+      "N100_fabric_rose": {
+        "source": "#94787A",
+        "tone": "paint"
+      }
+    },
+    "nomad-ceramic-basin": {
+      "N100_verdigris": {
+        "source": "#578078",
+        "tone": "paint"
+      },
+      "N100_verdigris_washed": {
+        "source": "#8F9E92",
+        "tone": "secondary"
+      },
+      "N100_fabric_verdigris": {
+        "source": "#578078",
+        "tone": "paint"
+      }
+    },
+    "nomad-navigation-stool": {
+      "N100_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      },
+      "N100_oxblood_washed": {
+        "source": "#A08379",
+        "tone": "secondary"
+      },
+      "N100_fabric_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      }
+    },
+    "nomad-patchwork-bench": {
+      "N100_plum": {
+        "source": "#6D5C70",
+        "tone": "paint"
+      },
+      "N100_plum_washed": {
+        "source": "#998A91",
+        "tone": "secondary"
+      },
+      "N100_fabric_plum": {
+        "source": "#6D5C70",
+        "tone": "paint"
+      }
+    },
+    "nomad-spare-track-stand": {
+      "N100_slate": {
+        "source": "#616E76",
+        "tone": "paint"
+      },
+      "N100_slate_washed": {
+        "source": "#909895",
+        "tone": "secondary"
+      },
+      "N100_fabric_slate": {
+        "source": "#616E76",
+        "tone": "paint"
+      }
+    },
+    "nomad-air-filter-tower": {
+      "N100_clay": {
+        "source": "#936E5C",
+        "tone": "paint"
+      },
+      "N100_clay_washed": {
+        "source": "#B09A84",
+        "tone": "secondary"
+      },
+      "N100_fabric_clay": {
+        "source": "#936E5C",
+        "tone": "paint"
+      }
+    },
+    "nomad-canister-caddy": {
+      "N100_celadon": {
+        "source": "#708174",
+        "tone": "paint"
+      },
+      "N100_celadon_washed": {
+        "source": "#A4AA91",
+        "tone": "secondary"
+      },
+      "N100_fabric_celadon": {
+        "source": "#708174",
+        "tone": "paint"
+      }
+    },
+    "nomad-signal-pennant": {
+      "N100_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      },
+      "N100_oxblood_washed": {
+        "source": "#A08379",
+        "tone": "secondary"
+      },
+      "N100_fabric_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      }
+    },
+    "nomad-memory-board": {
+      "N100_heather": {
+        "source": "#807384",
+        "tone": "paint"
+      },
+      "N100_heather_washed": {
+        "source": "#A4989D",
+        "tone": "secondary"
+      },
+      "N100_fabric_heather": {
+        "source": "#807384",
+        "tone": "paint"
+      }
+    },
+    "nomad2-card-table": {
+      "N200_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      },
+      "N200_oxblood_washed": {
+        "source": "#A08379",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-instrument-bench": {
+      "N200_petrol": {
+        "source": "#405C62",
+        "tone": "paint"
+      },
+      "N200_petrol_washed": {
+        "source": "#778581",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-privacy-screen": {
+      "N200_plum": {
+        "source": "#6D5C70",
+        "tone": "paint"
+      },
+      "N200_plum_washed": {
+        "source": "#998A91",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-book-cabinet": {
+      "N200_umber": {
+        "source": "#726252",
+        "tone": "paint"
+      },
+      "N200_umber_washed": {
+        "source": "#9C8974",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-ration-pantry": {
+      "N200_olive": {
+        "source": "#797E58",
+        "tone": "paint"
+      },
+      "N200_olive_washed": {
+        "source": "#AAA58B",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-folding-lounge": {
+      "N200_denim": {
+        "source": "#596C80",
+        "tone": "paint"
+      },
+      "N200_denim_washed": {
+        "source": "#879095",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-microscope-bench": {
+      "N200_celadon": {
+        "source": "#708174",
+        "tone": "paint"
+      },
+      "N200_celadon_washed": {
+        "source": "#A4AA91",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-paint-trolley": {
+      "N200_clay": {
+        "source": "#936E5C",
+        "tone": "paint"
+      },
+      "N200_clay_washed": {
+        "source": "#B09A84",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-air-return-duct": {
+      "N200_slate": {
+        "source": "#616E76",
+        "tone": "paint"
+      },
+      "N200_slate_washed": {
+        "source": "#909895",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-sewing-station": {
+      "N200_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      },
+      "N200_oxblood_washed": {
+        "source": "#A08379",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-record-console": {
+      "N200_umber": {
+        "source": "#726252",
+        "tone": "paint"
+      },
+      "N200_umber_washed": {
+        "source": "#9C8974",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-typewriter-desk": {
+      "N200_denim": {
+        "source": "#596C80",
+        "tone": "paint"
+      },
+      "N200_denim_washed": {
+        "source": "#879095",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-clock-rack": {
+      "N200_heather": {
+        "source": "#807384",
+        "tone": "paint"
+      },
+      "N200_heather_washed": {
+        "source": "#A4989D",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-tile-mural": {
+      "N200_rose": {
+        "source": "#94787A",
+        "tone": "paint"
+      },
+      "N200_rose_washed": {
+        "source": "#B2A19B",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-observation-seat": {
+      "N200_petrol": {
+        "source": "#405C62",
+        "tone": "paint"
+      },
+      "N200_petrol_washed": {
+        "source": "#778581",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-chess-pedestal": {
+      "N200_plum": {
+        "source": "#6D5C70",
+        "tone": "paint"
+      },
+      "N200_plum_washed": {
+        "source": "#998A91",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-exercise-rack": {
+      "N200_clay": {
+        "source": "#936E5C",
+        "tone": "paint"
+      },
+      "N200_clay_washed": {
+        "source": "#B09A84",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-boot-care-stand": {
+      "N200_olive": {
+        "source": "#797E58",
+        "tone": "paint"
+      },
+      "N200_olive_washed": {
+        "source": "#AAA58B",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-botanical-belljar": {
+      "N200_verdigris": {
+        "source": "#578078",
+        "tone": "paint"
+      },
+      "N200_verdigris_washed": {
+        "source": "#8F9E92",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-map-roll-rack": {
+      "N200_ochre": {
+        "source": "#94815C",
+        "tone": "paint"
+      },
+      "N200_ochre_washed": {
+        "source": "#AE9E83",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-shade-awning": {
+      "N200_rose": {
+        "source": "#94787A",
+        "tone": "paint"
+      },
+      "N200_rose_washed": {
+        "source": "#B2A19B",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-bagatelle-table": {
+      "N200_celadon": {
+        "source": "#708174",
+        "tone": "paint"
+      },
+      "N200_celadon_washed": {
+        "source": "#A4AA91",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-laundry-drum": {
+      "N200_stone": {
+        "source": "#928D7D",
+        "tone": "paint"
+      },
+      "N200_stone_washed": {
+        "source": "#ADA895",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-rotary-fan": {
+      "N200_heather": {
+        "source": "#807384",
+        "tone": "paint"
+      },
+      "N200_heather_washed": {
+        "source": "#A4989D",
+        "tone": "secondary"
+      }
+    },
+    "nomad2-arrival-bell": {
+      "N200_oxblood": {
+        "source": "#704B50",
+        "tone": "paint"
+      },
+      "N200_oxblood_washed": {
+        "source": "#A08379",
+        "tone": "secondary"
+      }
+    },
+    "generator": {
+      "Generator worn ivory": {
+        "source_linear": [
+          0.43,
+          0.405,
+          0.32
+        ],
+        "tone": "paint"
+      }
+    }
+  },
+  "zones": {
+    "lockers": {
+      "name": "Cargo locker enamel",
+      "anchor": "NativeCargoLockers",
+      "materials": {
+        "Locker worn enamel": {
+          "source_linear": [
+            0.33,
+            0.315,
+            0.255
+          ],
+          "tone": "paint"
+        }
+      }
+    },
+    "benches": {
+      "name": "Service bench enamel",
+      "anchor": "NativeServiceBenches",
+      "materials": {
+        "Bench worn mineral enamel": {
+          "source_linear": [
+            0.21,
+            0.239,
+            0.218
+          ],
+          "tone": "paint"
+        }
+      }
+    }
+  }
+}

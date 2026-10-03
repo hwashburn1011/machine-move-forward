@@ -31,7 +31,7 @@ func install(machine: Node3D):
 	retained.free()
 	indicators=ShaderMaterial.new();indicators.shader=load("res://shaders/switchgear_indicators.gdshader")
 	root=Node3D.new();root.name="NativeSwitchgear";machine.add_child(root)
-	for site in manifest.sites:
+	for site in MMFMachineComposition.sites(manifest):
 		var instance=cabinet.duplicate();instance.name=site.name;root.add_child(instance)
 		instance.position=MMFAssets.v(site.position);instance.rotation.y=site.yaw
 		MMFAssets.find_named(instance,"SwitchgearIndicators").material_override=indicators

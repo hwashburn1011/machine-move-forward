@@ -1,0 +1,999 @@
+{
+  "models": [
+    {
+      "id": "art200-billboard-morrow-motors",
+      "brand": "MORROW",
+      "business": "MOTOR WORKS",
+      "tagline": "A good engine deserves another road.",
+      "footer": "SERVICE / NEXT EXIT",
+      "form": "twin-truss",
+      "width": 12,
+      "panel_height": 6,
+      "top": 18,
+      "palette_family": "petrol",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/morrow-motors.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        12.649999618530273,
+        18.065000534057617,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.324999809265137,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          6.324999809265137,
+          18.065000534057617,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original MORROW graphics; twin truss structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 359,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 14380,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-last-light-lodging",
+      "brand": "LAST LIGHT",
+      "business": "MOTOR LODGE",
+      "tagline": "There is still a room for you.",
+      "footer": "VACANCY / 24 ROOMS",
+      "form": "stepped-pylon",
+      "width": 6,
+      "panel_height": 10,
+      "top": 22,
+      "palette_family": "oxblood",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/last-light-lodging.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        6.650000095367432,
+        23.299999237060547,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -3.325000047683716,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          3.325000047683716,
+          23.299999237060547,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original LAST LIGHT graphics; stepped pylon structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 294,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 11616,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-brindle-bottling",
+      "brand": "BRINDLE",
+      "business": "BOTTLING COMPANY",
+      "tagline": "A little fizz. A longer afternoon.",
+      "footer": "RETURN THE BOTTLE",
+      "form": "round-crown",
+      "width": 7,
+      "panel_height": 7,
+      "top": 16,
+      "palette_family": "denim",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/brindle-bottling.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        10.789494514465332,
+        17.894746780395508,
+        4.684999942779541
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.394747257232666,
+          0.0,
+          -3.5999999046325684
+        ],
+        "max": [
+          5.394747257232666,
+          17.894746780395508,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 0,
+      "features": "Original BRINDLE graphics; round crown structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 196,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 8520,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-grainward-coop",
+      "brand": "GRAINWARD",
+      "business": "SEED COOPERATIVE",
+      "tagline": "Every mile begins with a seed.",
+      "footer": "GROW SOMETHING WORTH KEEPING",
+      "form": "arched-grain",
+      "width": 13,
+      "panel_height": 5,
+      "top": 17,
+      "palette_family": "olive",
+      "theme": "growing-belt",
+      "texture": "assets/art200/signs/textures/grainward-coop.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        13.649999618530273,
+        18.987873077392578,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.824999809265137,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          6.824999809265137,
+          18.987873077392578,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original GRAINWARD graphics; arched grain structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 377,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 15300,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-copperline-cookers",
+      "brand": "COPPERLINE",
+      "business": "HOME COOKERS",
+      "tagline": "The warmth that brings you home.",
+      "footer": "CERAMIC / MADE TO LAST",
+      "form": "shield-tripod",
+      "width": 8,
+      "panel_height": 7,
+      "top": 17,
+      "palette_family": "clay",
+      "theme": "residential",
+      "texture": "assets/art200/signs/textures/copperline-cookers.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        10.147793769836426,
+        17.71500015258789,
+        4.684999942779541
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.073896884918213,
+          0.0,
+          -3.5999999046325684
+        ],
+        "max": [
+          5.073896884918213,
+          17.71500015258789,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original COPPERLINE graphics; shield tripod structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 193,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 7556,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-seven-mile-laundry",
+      "brand": "SEVEN MILE",
+      "business": "WASH / DRY / FOLD",
+      "tagline": "Leave the dust with us.",
+      "footer": "OPEN UNTIL THE LAST LOAD",
+      "form": "stacked-discs",
+      "width": 6,
+      "panel_height": 10,
+      "top": 18,
+      "palette_family": "celadon",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/seven-mile-laundry.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        8.199999809265137,
+        19.600000381469727,
+        4.585000038146973
+      ],
+      "bounds_godot": {
+        "min": [
+          -4.099999904632568,
+          0.0,
+          -3.5
+        ],
+        "max": [
+          4.099999904632568,
+          19.600000381469727,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original SEVEN MILE graphics; stacked discs structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 222,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 12496,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-merit-radio",
+      "brand": "MERIT",
+      "business": "LONG-RANGE RADIO",
+      "tagline": "A familiar voice, farther away.",
+      "footer": "KEEP IN TOUCH",
+      "form": "radio-lattice",
+      "width": 6,
+      "panel_height": 10,
+      "top": 23,
+      "palette_family": "plum",
+      "theme": "survey",
+      "texture": "assets/art200/signs/textures/merit-radio.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        6.650000095367432,
+        26.799999237060547,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -3.325000047683716,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          3.325000047683716,
+          26.799999237060547,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original MERIT graphics; radio lattice structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 304,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 12008,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-solace-clinic",
+      "brand": "SOLACE",
+      "business": "TRAVEL CLINIC",
+      "tagline": "Good hands. Along the way.",
+      "footer": "WALK IN / REST A WHILE",
+      "form": "offset-canopy",
+      "width": 11,
+      "panel_height": 5,
+      "top": 17,
+      "palette_family": "verdigris",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/solace-clinic.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        11.800000190734863,
+        17.270000457763672,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.900000095367432,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          5.900000095367432,
+          17.270000457763672,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original SOLACE graphics; offset canopy structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 287,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 11260,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-open-road-retreads",
+      "brand": "OPEN ROAD",
+      "business": "RETREAD WORKS",
+      "tagline": "Another thousand miles in them.",
+      "footer": "TYRES / BALANCE / REPAIR",
+      "form": "tyre-ring",
+      "width": 8,
+      "panel_height": 8,
+      "top": 17,
+      "palette_family": "umber",
+      "theme": "transport",
+      "texture": "assets/art200/signs/textures/open-road-retreads.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        13.05370807647705,
+        19.526853561401367,
+        4.684999942779541
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.526854038238525,
+          0.0,
+          -3.5999999046325684
+        ],
+        "max": [
+          6.526854038238525,
+          19.526853561401367,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original OPEN ROAD graphics; tyre ring structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 191,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 8984,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-northstar-bank",
+      "brand": "NORTHSTAR",
+      "business": "TRAVELLERS BANK",
+      "tagline": "Keep a little for tomorrow.",
+      "footer": "DEPOSITS / CREDIT / EXCHANGE",
+      "form": "deco-fin",
+      "width": 7,
+      "panel_height": 9,
+      "top": 21,
+      "palette_family": "slate",
+      "theme": "residential",
+      "texture": "assets/art200/signs/textures/northstar-bank.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        7.960000038146973,
+        22.700000762939453,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -3.9800000190734863,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          3.9800000190734863,
+          22.700000762939453,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original NORTHSTAR graphics; deco fin structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 296,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 11688,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-dewpoint-water",
+      "brand": "DEWPOINT",
+      "business": "WATER SERVICE",
+      "tagline": "Good water. Nothing added.",
+      "footer": "REFILL / FILTER / CARRY ON",
+      "form": "tank-sign",
+      "width": 10,
+      "panel_height": 6,
+      "top": 17,
+      "palette_family": "petrol",
+      "theme": "growing-belt",
+      "texture": "assets/art200/signs/textures/dewpoint-water.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        10.649999618530273,
+        17.065000534057617,
+        5.385000228881836
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.324999809265137,
+          0.0,
+          -4.300000190734863
+        ],
+        "max": [
+          5.324999809265137,
+          17.065000534057617,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original DEWPOINT graphics; tank sign structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 249,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 16356,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-paperbird-post",
+      "brand": "PAPERBIRD",
+      "business": "POST & PARCEL",
+      "tagline": "Somebody is waiting to hear.",
+      "footer": "LETTERS FIND A WAY",
+      "form": "swept-roof",
+      "width": 12,
+      "panel_height": 6,
+      "top": 19,
+      "palette_family": "rose",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/paperbird-post.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        14.448328018188477,
+        20.374916076660156,
+        4.585000038146973
+      ],
+      "bounds_godot": {
+        "min": [
+          -7.224164009094238,
+          0.0,
+          -3.5
+        ],
+        "max": [
+          7.224164009094238,
+          20.374916076660156,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original PAPERBIRD graphics; swept roof structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 252,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 12768,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-parcel-plain",
+      "brand": "PARCEL PLAIN",
+      "business": "FREIGHT EXCHANGE",
+      "tagline": "A place for everything you carry.",
+      "footer": "WEIGH / WRAP / SEND",
+      "form": "rail-sled",
+      "width": 12,
+      "panel_height": 5,
+      "top": 10,
+      "palette_family": "ochre",
+      "theme": "transport",
+      "texture": "assets/art200/signs/textures/parcel-plain.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        12.649999618530273,
+        10.0649995803833,
+        3.4850001335144043
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.324999809265137,
+          0.0,
+          -2.4000000953674316
+        ],
+        "max": [
+          6.324999809265137,
+          10.0649995803833,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 3,
+      "features": "Original PARCEL PLAIN graphics; rail sled structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 195,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 9132,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-sunbreak-cinema",
+      "brand": "SUNBREAK",
+      "business": "OPEN-AIR CINEMA",
+      "tagline": "Stay for the second feature.",
+      "footer": "TONIGHT / A WORLD AWAY",
+      "form": "cinema-crown",
+      "width": 14,
+      "panel_height": 7,
+      "top": 21,
+      "palette_family": "heather",
+      "theme": "residential",
+      "texture": "assets/art200/signs/textures/sunbreak-cinema.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        16.739999771118164,
+        22.988046646118164,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -8.369999885559082,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          8.369999885559082,
+          22.988046646118164,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original SUNBREAK graphics; cinema crown structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 414,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 17024,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-hush-hour-records",
+      "brand": "HUSH HOUR",
+      "business": "RECORD LIBRARY",
+      "tagline": "A good song has no expiry.",
+      "footer": "BORROW THE EVENING",
+      "form": "record-medallion",
+      "width": 8,
+      "panel_height": 8,
+      "top": 18,
+      "palette_family": "oxblood",
+      "theme": "residential",
+      "texture": "assets/art200/signs/textures/hush-hour-records.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        12.20370864868164,
+        20.10185432434082,
+        4.684999942779541
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.10185432434082,
+          0.0,
+          -3.5999999046325684
+        ],
+        "max": [
+          6.10185432434082,
+          20.10185432434082,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 0,
+      "features": "Original HUSH HOUR graphics; record medallion structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 202,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 8784,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-workday-tools",
+      "brand": "WORKDAY",
+      "business": "TOOL SUPPLY",
+      "tagline": "Built for hands that build.",
+      "footer": "REPAIR / RENT / RETURN",
+      "form": "cantilever",
+      "width": 10,
+      "panel_height": 5,
+      "top": 18,
+      "palette_family": "denim",
+      "theme": "industry",
+      "texture": "assets/art200/signs/textures/workday-tools.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        10.649999618530273,
+        18.14000129699707,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.324999809265137,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          5.324999809265137,
+          18.14000129699707,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original WORKDAY graphics; cantilever structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 292,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 11464,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-pantry-union",
+      "brand": "PANTRY UNION",
+      "business": "PROVISIONS",
+      "tagline": "A full shelf is a kind of comfort.",
+      "footer": "TINS / GRAINS / GOOD COMPANY",
+      "form": "v-frame",
+      "width": 12,
+      "panel_height": 5,
+      "top": 18,
+      "palette_family": "celadon",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/pantry-union.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        12.649999618530273,
+        19.938398361206055,
+        4.585000038146973
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.324999809265137,
+          0.0,
+          -3.5
+        ],
+        "max": [
+          6.324999809265137,
+          19.938398361206055,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original PANTRY UNION graphics; v frame structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 252,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 12768,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-sandglass-tours",
+      "brand": "SANDGLASS",
+      "business": "OVERLAND TOURS",
+      "tagline": "There is more beyond the ridge.",
+      "footer": "SEE A LITTLE FURTHER",
+      "form": "winged",
+      "width": 9,
+      "panel_height": 7,
+      "top": 19,
+      "palette_family": "clay",
+      "theme": "survey",
+      "texture": "assets/art200/signs/textures/sandglass-tours.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        10.863872528076172,
+        20.372386932373047,
+        4.585000038146973
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.431936264038086,
+          0.0,
+          -3.5
+        ],
+        "max": [
+          5.431936264038086,
+          20.372386932373047,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original SANDGLASS graphics; winged structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 205,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 11308,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-starlit-fabric",
+      "brand": "STARLIT",
+      "business": "FABRIC & MENDING",
+      "tagline": "Keep the things that fit your life.",
+      "footer": "PATCHES / THREAD / PATIENCE",
+      "form": "hanging-blade",
+      "width": 6,
+      "panel_height": 10,
+      "top": 22,
+      "palette_family": "plum",
+      "theme": "residential",
+      "texture": "assets/art200/signs/textures/starlit-fabric.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        7.0,
+        23.299999237060547,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -3.5,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          3.5,
+          23.299999237060547,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original STARLIT graphics; hanging blade structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 295,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 11644,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-electrovale-grid",
+      "brand": "ELECTROVALE",
+      "business": "PUBLIC POWER",
+      "tagline": "A little light goes a long way.",
+      "footer": "SERVICE DEPOT / LINE 04",
+      "form": "portico",
+      "width": 12,
+      "panel_height": 6,
+      "top": 20,
+      "palette_family": "verdigris",
+      "theme": "industry",
+      "texture": "assets/art200/signs/textures/electrovale-grid.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        13.0,
+        20.55500030517578,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.5,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          6.5,
+          20.55500030517578,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original ELECTROVALE graphics; portico structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 377,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 15188,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-cairn-cement",
+      "brand": "CAIRN",
+      "business": "MASONRY SUPPLY",
+      "tagline": "For the things that must remain.",
+      "footer": "LIME / SAND / STONE",
+      "form": "inclined-girders",
+      "width": 12,
+      "panel_height": 5,
+      "top": 17,
+      "palette_family": "stone",
+      "theme": "industry",
+      "texture": "assets/art200/signs/textures/cairn-cement.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        12.649999618530273,
+        17.065000534057617,
+        4.684999942779541
+      ],
+      "bounds_godot": {
+        "min": [
+          -6.324999809265137,
+          0.0,
+          -3.5999999046325684
+        ],
+        "max": [
+          6.324999809265137,
+          17.065000534057617,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original CAIRN graphics; inclined girders structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 373,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 14868,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-goodnight-mattress",
+      "brand": "GOODNIGHT",
+      "business": "BEDDING WORKS",
+      "tagline": "Put the miles down for a while.",
+      "footer": "SPRINGS / LINEN / REST",
+      "form": "suspended",
+      "width": 10,
+      "panel_height": 6,
+      "top": 18,
+      "palette_family": "heather",
+      "theme": "roadside-services",
+      "texture": "assets/art200/signs/textures/goodnight-mattress.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        10.649999618530273,
+        18.809999465942383,
+        4.585000038146973
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.324999809265137,
+          0.0,
+          -3.5
+        ],
+        "max": [
+          5.324999809265137,
+          18.809999465942383,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original GOODNIGHT graphics; suspended structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 244,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 12400,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-winterfruit-preserves",
+      "brand": "WINTERFRUIT",
+      "business": "PRESERVING HOUSE",
+      "tagline": "A little summer, saved for later.",
+      "footer": "ORCHARD / JARS / PANTRY",
+      "form": "hexagon",
+      "width": 8,
+      "panel_height": 7,
+      "top": 17,
+      "palette_family": "rose",
+      "theme": "growing-belt",
+      "texture": "assets/art200/signs/textures/winterfruit-preserves.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        11.21799087524414,
+        18.396194458007812,
+        4.684999942779541
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.60899543762207,
+          0.0,
+          -3.5999999046325684
+        ],
+        "max": [
+          5.60899543762207,
+          18.396194458007812,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 0,
+      "features": "Original WINTERFRUIT graphics; hexagon structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 204,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 7904,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-kindred-salvage",
+      "brand": "KINDRED",
+      "business": "SALVAGE EXCHANGE",
+      "tagline": "Someone can use what you leave.",
+      "footer": "PARTS / METAL / SECOND CHANCES",
+      "form": "broken-cant",
+      "width": 11,
+      "panel_height": 6,
+      "top": 20,
+      "palette_family": "umber",
+      "theme": "scrapyard",
+      "texture": "assets/art200/signs/textures/kindred-salvage.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        11.649999618530273,
+        20.14000129699707,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -5.824999809265137,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          5.824999809265137,
+          20.14000129699707,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 3,
+      "features": "Original KINDRED graphics; broken cant structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 293,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 11844,
+      "materials": 7
+    },
+    {
+      "id": "art200-billboard-amberline-transit",
+      "brand": "AMBERLINE",
+      "business": "OVERLAND TRANSIT",
+      "tagline": "We will get there together.",
+      "footer": "NEXT STOP / SOMEWHERE NEW",
+      "form": "portal-gantry",
+      "width": 13,
+      "panel_height": 5,
+      "top": 20,
+      "palette_family": "ochre",
+      "theme": "transport",
+      "texture": "assets/art200/signs/textures/amberline-transit.png",
+      "status": "new",
+      "source": "assets/art200/signs/Art200_Advertising-editable.blend",
+      "dimensions_m": [
+        15.0,
+        20.065000534057617,
+        3.0850000381469727
+      ],
+      "bounds_godot": {
+        "min": [
+          -7.5,
+          0.0,
+          -2.0
+        ],
+        "max": [
+          7.5,
+          20.065000534057617,
+          1.0850000381469727
+        ]
+      },
+      "missing_panels": 1,
+      "features": "Original AMBERLINE graphics; portal gantry structure, true corroded panel loss, exposed rear bracing, supported service catwalk, bolted feet, maintenance ladder and disconnected floodlights.",
+      "source_parts": 396,
+      "runtime": "Seeded native desert advertising landmark; original fictional brand; no new interaction.",
+      "triangles": 16040,
+      "materials": 7
+    }
+  ],
+  "count": 25,
+  "new": 25,
+  "refined": 0,
+  "palette_families": [
+    "celadon",
+    "clay",
+    "denim",
+    "heather",
+    "ochre",
+    "olive",
+    "oxblood",
+    "petrol",
+    "plum",
+    "rose",
+    "slate",
+    "stone",
+    "umber",
+    "verdigris"
+  ],
+  "triangles": 303300
+}

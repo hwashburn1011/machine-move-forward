@@ -1,0 +1,182 @@
+{
+  "review_date": "2026-10-01",
+  "method": "Direct visual inspection of all five final Blender Cycles contact sheets, plus selected individual close reviews. Measurements and topology checked separately by build and validator.",
+  "glb_sha256": "d8e136cd5aea95a42d413a2f36f2d64884b9b9cb85956de8ce13fc7857776cdd",
+  "models": [
+    {
+      "id": "wasteland-diner",
+      "render": "renders/01-wasteland-diner.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-greenhouse",
+      "render": "renders/02-wasteland-greenhouse.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-observatory",
+      "render": "renders/03-wasteland-observatory.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-passenger-coach",
+      "render": "renders/04-wasteland-passenger-coach.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-service-station",
+      "render": "renders/05-wasteland-service-station.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Mounted replacement covers and hoses on the three original pump bodies; pier anchors meet original canopy posts."
+    },
+    {
+      "id": "wasteland-cooling-tower",
+      "render": "renders/06-wasteland-cooling-tower.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-excavator",
+      "render": "renders/07-wasteland-excavator.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Catwalks meet chassis and radiator grille meets body panel; hose follows connected boom."
+    },
+    {
+      "id": "wasteland-solar-farm",
+      "render": "renders/08-wasteland-solar-farm.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Actuator omitted on collapsed panel; remaining boxes attach to standing array members."
+    },
+    {
+      "id": "wasteland-tunnel",
+      "render": "renders/09-wasteland-tunnel.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Added rail stanchions reach ground, and each inspection lamp has a bracket to the concrete shell."
+    },
+    {
+      "id": "wasteland-wind-turbine",
+      "render": "renders/10-wasteland-wind-turbine.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Restored ivory turbine finish; flange, service hatch and trailing cable inspected."
+    },
+    {
+      "id": "wasteland-cistern",
+      "render": "renders/11-wasteland-cistern.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-rail-switch",
+      "render": "renders/12-wasteland-rail-switch.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-container-shelter",
+      "render": "renders/13-wasteland-container-shelter.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-survey-rover",
+      "render": "renders/14-wasteland-survey-rover.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Moved sample head outside cabin roof and extended its supporting gantry; beacon mast meets chassis."
+    },
+    {
+      "id": "wasteland-signal-gantry",
+      "render": "renders/15-wasteland-signal-gantry.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Added physical lamp hangers, connected arch diagonals, and grounded pier braces."
+    },
+    {
+      "id": "wasteland-buried-transformer",
+      "render": "renders/16-wasteland-buried-transformer.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-pipeline-valve",
+      "render": "renders/17-wasteland-pipeline-valve.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-scrap-press",
+      "render": "renders/18-wasteland-scrap-press.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-sensor-mast",
+      "render": "renders/19-wasteland-sensor-mast.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-cable-drum",
+      "render": "renders/20-wasteland-cable-drum.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-crawler-wreck",
+      "render": "renders/21-wasteland-crawler-wreck.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-water-condenser",
+      "render": "renders/22-wasteland-water-condenser.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Controller mounted to cross rail; fan apertures are open with physical blades below guards."
+    },
+    {
+      "id": "wasteland-freight-bogie",
+      "render": "renders/23-wasteland-freight-bogie.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    },
+    {
+      "id": "wasteland-checkpoint-gate",
+      "render": "renders/24-wasteland-checkpoint-gate.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Raised arm rest to meet barrier and joined counterweight to pivot with a steel shaft."
+    },
+    {
+      "id": "wasteland-relay-vault",
+      "render": "renders/25-wasteland-relay-vault.png",
+      "reviewed": true,
+      "result": "No unresolved framing, grounding or support artifacts observed in reviewed studio view.",
+      "corrections_verified": "Physical scale, silhouette, opening depth and material separation inspected."
+    }
+  ]
+}

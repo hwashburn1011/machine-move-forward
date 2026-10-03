@@ -1,0 +1,188 @@
+{
+  "date": "2026-09-25",
+  "checks": 759,
+  "suites": [
+    {
+      "name": "character_refinement",
+      "checks": 167,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "legacy_enemies",
+      "checks": 43,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "enemy_equipment",
+      "checks": 137,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "player_locomotion",
+      "checks": 39,
+      "passed": true,
+      "exitDiagnostics": [
+        "ERROR: 1 resources still in use at exit (run with --verbose for details)."
+      ]
+    },
+    {
+      "name": "weapon_presentation",
+      "checks": 68,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "wrist_terminal",
+      "checks": 45,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "enemy_animation",
+      "checks": 113,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "boarding",
+      "checks": 69,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "enemy_combat_contract",
+      "checks": 42,
+      "passed": true,
+      "exitDiagnostics": []
+    },
+    {
+      "name": "encounter_loading",
+      "checks": 36,
+      "passed": true,
+      "exitDiagnostics": []
+    }
+  ],
+  "models": {
+    "bastion": {
+      "collapsed": 0,
+      "pbrSurfaces": 3,
+      "surfaces": 10,
+      "triangles": 100514
+    },
+    "raider": {
+      "collapsed": 0,
+      "pbrSurfaces": 9,
+      "surfaces": 13,
+      "triangles": 88545
+    },
+    "revenant": {
+      "collapsed": 0,
+      "pbrSurfaces": 4,
+      "surfaces": 10,
+      "triangles": 116476
+    },
+    "s07-player": {
+      "collapsed": 0,
+      "pbrSurfaces": 6,
+      "surfaces": 14,
+      "triangles": 158126
+    },
+    "scavenger": {
+      "collapsed": 0,
+      "pbrSurfaces": 4,
+      "surfaces": 9,
+      "triangles": 48407
+    },
+    "sovereign": {
+      "collapsed": 0,
+      "pbrSurfaces": 6,
+      "surfaces": 13,
+      "triangles": 125774
+    },
+    "warden": {
+      "collapsed": 0,
+      "pbrSurfaces": 7,
+      "surfaces": 15,
+      "triangles": 122961
+    }
+  },
+  "performance": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "scope": "Six actual native enemies on an isolated review deck; fixed camera, 1920x1080 high/Vulkan/4x MSAA, VSync off; 2s warmup/4s sample, screenshots after timing. Simulation frozen; authored animation continues. Not a live combat FPS test.",
+    "views": {
+      "fallen": {
+        "drawCalls": 591,
+        "frames": 1035,
+        "medianFrameMs": 3.741,
+        "medianGpuMs": 3.23000001907349
+      },
+      "walking": {
+        "drawCalls": 618,
+        "frames": 1017,
+        "medianFrameMs": 3.824,
+        "medianGpuMs": 3.27099990844727
+      }
+    }
+  },
+  "knownIssue": {
+    "test": "boarding_contract.gd",
+    "line": 39,
+    "error": "Missing hook position dereference",
+    "reproducesWithPreviousCharacterAssets": true,
+    "currentBoardingChecksPassed": 69
+  },
+  "compiledModels": {
+    "bastion": {
+      "bytes": 2657016.0,
+      "compiledSha256": "889b732ad452b6e27df7c61e989fa7fd0e56cc0a4ff76916de2c31c96cf46735",
+      "originalFitHeight": 2.55738544464111,
+      "originalSha256": "85002d3922e8e5a0e5ce6b4244d8a15da150fac1181622f47911d022799a85c5",
+      "refinedSha256": "0709c89c1072bff14ce4a47d2c11b3036722fafcb70bcb749fc9b38290ae9cbe"
+    },
+    "raider": {
+      "bytes": 1876018.0,
+      "compiledSha256": "104601142d30dea27973489f1688fd4f015e6585fba4704c50921c1e69897e79",
+      "originalFitHeight": 1.87199997901917,
+      "originalSha256": "81bf0129c9437633f0d5a870a7d4f196afa8f057c44a4006229b1df32c509172",
+      "refinedSha256": "08b4b652caef45b66efdfe58df2bd6e6f182dfc92ec64bc4ceb1d2e71310d23c"
+    },
+    "revenant": {
+      "bytes": 2948140.0,
+      "compiledSha256": "d1ebdf6830897cbe38ad7919777007af53bb772667ad78ee40f80690039c493b",
+      "originalFitHeight": 2.07287335395813,
+      "originalSha256": "ea0f176b6159e2d5151e7e08269070019662b9f7e068724b6f26eb9fd5342ecf",
+      "refinedSha256": "4d33242bb8cf3255fb823033d2f0e2386b5962d458c6c73a1a66ee8d97a32094"
+    },
+    "s07-player": {
+      "bytes": 4258163,
+      "compiledSha256": "23edb03c9853388aaae9dffaccb57868036198a04af2c8c82f36e44825112e6f",
+      "originalFitHeight": 2.14833116531372,
+      "originalSha256": "bc6253495689c10e2a540040f4101a57bb6ef14a89290242e52042031f43f3b1",
+      "refinedSha256": "e49b2ee7397824d505e10e5c452082b38f67def1229980cdf647caa94ae12e33"
+    },
+    "scavenger": {
+      "bytes": 1015487.0,
+      "compiledSha256": "d2ebd9c4117d38b7d6bd2e6af38c7bdf2c2dc288c9374fb262586a9217392246",
+      "originalFitHeight": 1.86165630817413,
+      "originalSha256": "97bb9d9ef83c9efc28b70b511decbd06f74763ffea726a614fc3d0577404122d",
+      "refinedSha256": "16d40d73ecfc67c51e29dd70b52f4c6d0beb95b410aeb62e1904482601df9cd6"
+    },
+    "sovereign": {
+      "bytes": 3387067.0,
+      "compiledSha256": "f8643f5e2f2f9580c0788a44b9628bb1a71dd5542c64f686dc8e359390a60200",
+      "originalFitHeight": 2.44455814361572,
+      "originalSha256": "91cfc2458e7d5037f4d8d13f95d621b4479c46d8f95162cb7a431802eeb4fd9e",
+      "refinedSha256": "633dccd17bf7993d54b068a1678b6c0c7e097c3b6198650d0df6157bc683eb52"
+    },
+    "warden": {
+      "bytes": 3357133.0,
+      "compiledSha256": "fc7d51f48ad374d88c62467805ed0636289aa0afa2f5458ca2049121a3659c1b",
+      "originalFitHeight": 2.26300811767578,
+      "originalSha256": "935334346ae2447604eb5dd45b171cf75a79477e183af72a0f2d1438e6d91e87",
+      "refinedSha256": "d5082162fb9fa5d9a3de487ce6c53a0892b049dbcf3cd67c38f7abf57569df8b"
+    }
+  }
+}

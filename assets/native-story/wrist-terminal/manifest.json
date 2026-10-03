@@ -1,0 +1,25 @@
+{
+  "original": "S-07 Linekeeper field terminal",
+  "units": "metres",
+  "screen": {
+    "width": 0.252,
+    "height": 0.178,
+    "normal": "+Z",
+    "center": [
+      -0.018,
+      0.009,
+      0.039
+    ]
+  },
+  "meshes": 12,
+  "triangles": 15922,
+  "runtime_nodes": [
+    "ScreenSurface",
+    "ScreenCenter",
+    "ForearmMount",
+    "SelectorDial",
+    "TactileKey1",
+    "TactileKey2",
+    "TactileKey3"
+  ]
+}

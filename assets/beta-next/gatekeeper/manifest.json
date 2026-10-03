@@ -1,0 +1,29 @@
+{
+  "source": "Original G-01 hardware; retained gunboat supplied only as complete visual reference",
+  "units": "metres",
+  "counting": "One signature encounter refinement, not a new enemy AI or full replacement hull",
+  "roots": [
+    {
+      "root": "GatekeeperHullDetails",
+      "editable_parts": 48,
+      "triangles": 13020
+    },
+    {
+      "root": "GatekeeperGunDetails",
+      "editable_parts": 34,
+      "triangles": 8380
+    }
+  ],
+  "hinges": [
+    "FireControlShutterPort",
+    "FireControlShutterStarboard"
+  ],
+  "material_surfaces": 18,
+  "bytes": 1782692,
+  "tangent_repairs": 0,
+  "runtime_targets": {
+    "GatekeeperHullDetails": "RaiderGunboat",
+    "GatekeeperGunDetails": "GunboatRecoil"
+  },
+  "collision": "Existing gunboat hull and physical subsystem targets retained; kit adds no invisible colliders"
+}

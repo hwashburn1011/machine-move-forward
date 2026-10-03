@@ -8,7 +8,35 @@ func check(ok: bool,label: String):
 	checks+=1;print("PASS " if ok else "FAIL ",label)
 	if not ok:failures.append(label)
 
+func cached_material_contract():
+	var Contract=preload("res://tests/machine_resource_contract.gd")
+	var material=StandardMaterial3D.new();material.albedo_color=Color(.3,.4,.5);material.roughness=.72
+	var equivalent=material.duplicate()
+	var source=Node3D.new();source.name="CachedPaint"
+	var compiled=Node3D.new();compiled.name="CachedPaint"
+	source.set_meta("nomad_original_finish_materials",{0:material})
+	compiled.set_meta("nomad_original_finish_materials",{0:equivalent})
+	var same=Contract.new();same.compare(source,compiled)
+	check(same.differences.is_empty() and same.links.get(material)==equivalent,"Cached paint metadata compares equivalent independent materials and records their sharing relation")
+	check(same.equal_value({"nested":[{0:material},material]},{"nested":[{0:equivalent},equivalent]}),"Nested dictionaries and arrays preserve previously mapped cached material references")
+	same.clear()
+	var split=Contract.new()
+	check(not split.equal_value({"slots":[material,material]},{"slots":[equivalent,equivalent.duplicate()]}),"Cached material contract rejects splitting one shared material into independent copies")
+	split.clear()
+	var merged=Contract.new()
+	check(not merged.equal_value({"slots":[material,material.duplicate()]},{"slots":[equivalent,equivalent]}),"Cached material contract rejects merging independent materials into one shared copy")
+	merged.clear()
+	var modified=equivalent.duplicate();modified.roughness=.31
+	compiled.set_meta("nomad_original_finish_materials",{0:modified})
+	var changed=Contract.new();changed.compare(source,compiled)
+	check(changed.differences.size()==1 and "metadata/nomad_original_finish_materials" in changed.differences[0],"Cached metadata still detects changed material properties rather than omitting the cache")
+	changed.clear()
+	var shape=Contract.new()
+	check(not shape.equal_value({0:material},{1:equivalent}) and not shape.equal_value([material],[equivalent,equivalent]) and not shape.equal_value({0:material},[equivalent]),"Cached contract rejects changed keys, array lengths and container types")
+	shape.clear();source.free();compiled.free()
+
 func run():
+	cached_material_contract()
 	var manifest=MMFAssets.json("res://art/nomad-native-manifest.json");var stale=[]
 	for path in manifest.sources:
 		var hash=FileAccess.get_file_as_string(path).replace("\r\n","\n").sha256_text() if path.get_extension() in ["gd","json","import"] else FileAccess.get_sha256(path)
@@ -39,7 +67,7 @@ func run():
 	var other_indicators=MMFAssets.find_named(another,"SwitchgearIndicators").material_override
 	check(other_canvas!=game.world.canopy.fabric and other_indicators!=game.world.switchgear.indicators,"Separate game instances get independent animated shader state")
 	var indicator_meshes=MMFAssets.of_type(game.world.switchgear.root,"MeshInstance3D").filter(func(n):return n.name=="SwitchgearIndicators")
-	check(indicator_meshes.size()==4 and indicator_meshes.all(func(n):return n.material_override==game.world.switchgear.indicators),"All four cabinets within one game retain their shared status material")
+	check(indicator_meshes.size()==2 and indicator_meshes.all(func(n):return n.material_override==game.world.switchgear.indicators),"Both retained cabinets within one game retain their shared status material")
 	game.world.canopy.update(.5,.7);game.session.capacity=16;game.session.demand=19;game.world.switchgear.update(1,game.session)
 	check(is_equal_approx(game.world.canopy.fabric.get_shader_parameter("cloth_time"),.5) and other_canvas.get_shader_parameter("cloth_time")!=.5,"Compiled canopy responds to simulation time without changing another instance")
 	check(game.world.switchgear.indicators.get_shader_parameter("status_bits")==Vector3(1,1,0) and other_indicators.get_shader_parameter("status_bits")!=Vector3(1,1,0),"Compiled indicators display real power status without changing another instance")

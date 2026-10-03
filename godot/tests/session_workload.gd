@@ -19,7 +19,7 @@ func check(ok: bool,label: String):
 # in fuel, generator damage, upgrades, consumers and the three fixed services.
 func reference_power(session) -> Dictionary:
 	var capacity=0.0;var demand=0.0;var powered={};var consumers=[]
-	var draws={"lamp":1,"refinery":10,"condenser":4,"turret-manual":3,"collector-auto":4,"turret-auto":6,"caretaker-dock":3}
+	var draws={"lamp":1,"refinery":10,"salvage-crane":4,"turret-manual":3,"collector-auto":4,"turret-auto":6,"caretaker-dock":3}
 	var mods=session.modifiers()
 	for p in session.structures:
 		var id=p.definitionId
@@ -44,7 +44,7 @@ func run():
 	var data=MMFAssets.json("res://data/definitions.json")
 	var rng=RandomNumberGenerator.new();rng.seed=6082026
 	var session=MMFSession.new(data);session.structures.clear();session.stores.clear()
-	var kinds=["floor","generator","lamp","refinery","condenser","turret-auto","turret-manual","collector-auto","caretaker-dock"]
+	var kinds=["floor","generator","lamp","refinery","salvage-crane","turret-auto","turret-manual","collector-auto","caretaker-dock"]
 	for i in 180:session.create_piece(kinds[i%kinds.size()],{"x":i%20,"y":0,"z":int(i/20)},0,{},true)
 	var mismatches=[]
 	for trial in 700:
@@ -58,7 +58,7 @@ func run():
 			p.health=data.BUILD_PIECES[p.definitionId].maxHealth*([0.0,.125,.5,1.0][rng.randi_range(0,3)])
 		var expected=reference_power(session);session.update_power()
 		if not is_equal_approx(session.capacity,expected.capacity) or not is_equal_approx(session.demand,expected.demand) or session.powered!=expected.powered:mismatches.append(trial)
-	check(mismatches.is_empty(),"700 damaged/upgraded/powered layouts match original power allocation")
+	check(mismatches.is_empty(),"700 damaged/upgraded/powered layouts match power allocation for active station types")
 	check(session.powered.values().all(func(value):return value is bool),"Public power map contains only final booleans")
 	session.structures.clear();session.research.active.clear();session.facts.salvage=false;session.fieldwork_active=false;session.story.uniques.clear();session.fuel=60
 	var generator=session.create_piece("generator",{"x":0,"y":0,"z":0},0,{},true)

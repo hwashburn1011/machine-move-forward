@@ -67,8 +67,14 @@ func run():
 	check(ray_blocks.is_empty(),"Roof and machine triangles do not obscure the actors' legs, torsos or heads")
 	check(camera_contacts.is_empty(),"Continuous opening camera and its width clear the actual rooftop and machine")
 	check(corridor_hits.is_empty(),"Authored roof fittings leave the complete sampled chase corridors clear")
-	check(MMFAssets.of_type(c.rooftop,"MeshInstance3D").size()==6,"Refined building uses six static material batches")
-	check(MMFAssets.of_type(c.rooftop,"CollisionObject3D").is_empty(),"Cinematic dressing does not introduce gameplay colliders")
+	var grounding=c.rooftop.get_node("GroundedSiteStructure")
+	var roof_meshes=MMFAssets.of_type(c.rooftop,"MeshInstance3D").filter(func(node):return not grounding.is_ancestor_of(node))
+	check(roof_meshes.size()==6,"Original rooftop retains six static material batches above its grounded foundation")
+	var roof_bodies=MMFAssets.of_type(c.rooftop,"CollisionObject3D")
+	var low_footing=true
+	for shape in MMFAssets.of_type(grounding,"CollisionShape3D"):
+		low_footing=low_footing and shape.shape is BoxShape3D and shape.global_position.y+shape.shape.size.y*.5<7
+	check(roof_bodies.all(func(node):return grounding.is_ancestor_of(node)) and low_footing,"Only the buried lower building adds collision; the original cinematic rooftop stays clear")
 	var anchor=c.rooftop.find_child("TakeoffLedge",true,false)
 	check(anchor!=null and anchor.global_position.distance_to(Vector3(14.5,19.522,0))<.001,"Authored ledge retains the exact existing launch anchor")
 	p.pose_modifier.modification_processed.connect(modified)

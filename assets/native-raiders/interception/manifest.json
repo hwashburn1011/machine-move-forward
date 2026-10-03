@@ -1,0 +1,27 @@
+{
+  "source": "CrossfireShips.blend RobotWarship hull and RaiderCraft.blend full-scale decks, seats, weapons and engines",
+  "models": [
+    {
+      "name": "RaiderSkiff",
+      "crossfireParts": 240,
+      "hullScaleXYZ": [
+        0.34,
+        0.145,
+        0.22
+      ],
+      "crewAndWeaponScale": 1.0
+    },
+    {
+      "name": "RaiderGunboat",
+      "crossfireParts": 240,
+      "hullScaleXYZ": [
+        0.4,
+        0.268,
+        0.36
+      ],
+      "crewAndWeaponScale": 1.0
+    }
+  ],
+  "tangentRepair": 2,
+  "bytes": 11878148
+}

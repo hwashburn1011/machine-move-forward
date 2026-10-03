@@ -33,6 +33,7 @@ func record(id: String,count: int):
 	var parts=[]
 	for key in received:parts.append("%s +%d"%[title(key),received[key]])
 	receipt.text="RECOVERED  ·  "+"  /  ".join(parts)
+	MMFWristLog.append(game.session,receipt.text)
 	selection_clock=0
 
 func clear():
@@ -64,7 +65,7 @@ func update(dt: float):
 	var readable=game.started and not game.menu_open and game.cinematic=="" and game.session.health>0
 	if not readable:label.hide();receipt.hide();return
 	receipt_left=maxf(0,receipt_left-dt);receipt_age+=dt
-	receipt.visible=receipt_left>0;receipt.modulate.a=minf(1,receipt_left/.35)
+	receipt.hide()
 	receipt.position=Vector2(28,size.y-65);receipt.size=Vector2(maxf(100,size.x-56),40)
 	if game.building.selected!="" or game.manual_turret!="":label.hide();return
 	selection_clock-=dt

@@ -5,10 +5,12 @@ var game
 var terrain_material: ShaderMaterial
 var chunks = {}
 var library: Node3D
+var wasteland_libraries: Array[Node3D]=[]
 var prototypes = {}
 var scatter_library: Node3D
 var scatter_prototypes={}
 var streamer=MMFSceneryStream.new()
+var scenery_collision=MMFSceneryCollision.new()
 var layout=MMFDesertLayout.new()
 var last_chunk=Vector2i(999999,999999)
 var progress_signature="uninitialized"
@@ -95,7 +97,7 @@ func assemble_machine(colliders: Array):
 	canopy.install(machine)
 	MMFMachineHelm.install(machine)
 	# Compose the pump, bench and main-intake removals from the frozen mesh.
-	var workshop_collision=MMFAssets.json("res://art/nomad-intake-collision.json")
+	var workshop_collision=MMFAssets.json("res://art/nomad-spaces-collision.json")
 	for index in colliders.size():
 		var raw=colliders[index]
 		var ranges=workshop_collision.retainedIndexRanges if index==int(workshop_collision.sourceCollider) else []
@@ -158,12 +160,27 @@ func setup_environment():
 	for node in nodes:
 		if "__lod" in node.name: continue
 		prototypes[String(node.name)] = node
+	# Art100 replaces all ten earlier wasteland prototypes. Loading those old
+	# kits too would retain redundant meshes and textures for the entire run.
+	for path in ["res://art/art100-legacy.glb","res://art/art100-wasteland.glb","res://art/art200-wasteland.glb","res://art/art200-signs.glb"]:
+		var kit=MMFAssets.scene(path)
+		MMFArt100Materials.prepare(kit)
+		wasteland_libraries.append(kit)
+		for node in MMFAssets.of_type(kit,"MeshInstance3D"):
+			# glTF COLOR_0 contains the industry's baked patina. Godot can import
+			# the first shared material without enabling its vertex-color flag.
+			for surface in node.mesh.get_surface_count():
+				var material=node.mesh.surface_get_material(surface)
+				if material is BaseMaterial3D and node.mesh.surface_get_format(surface)&Mesh.ARRAY_FORMAT_COLOR:
+					material.vertex_color_use_as_albedo=true
+			prototypes[String(node.name)]=node
 	scatter_library=MMFAssets.scene("runtime/scatter.glb")
 	for spec in MMFSceneryChunk.SCATTER:
 		var source=MMFAssets.find_named(scatter_library,spec[0])
 		if source is MeshInstance3D:scatter_prototypes[spec[0]]=source
 	atmosphere.setup(game)
 	streamer.setup(self)
+	scenery_collision.setup(self)
 	refresh_chunks()
 
 func lighting():
@@ -231,6 +248,7 @@ func update(dt: float):
 		chunks[key].position.z = distance+key.x*64
 		chunks[key].position.x = key.y*256-game.session.lateral
 	streamer.prepare()
+	scenery_collision.update(dt)
 	if rotor:
 		# The replacement is authored in game metres. Its shaft is local -Z;
 		# the original nested Blender transform used local Y for this same axis.
@@ -241,8 +259,12 @@ func update(dt: float):
 
 func _exit_tree():
 	streamer.clear()
+	scenery_collision.clear()
 	atmosphere.clear()
 	if is_instance_valid(library): library.free()
+	for kit in wasteland_libraries:
+		if is_instance_valid(kit):kit.free()
+	wasteland_libraries.clear()
 	if is_instance_valid(scatter_library): scatter_library.free()
 
 func set_dock_open(open: bool):

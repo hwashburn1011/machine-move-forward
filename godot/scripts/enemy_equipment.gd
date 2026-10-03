@@ -21,6 +21,7 @@ func setup(enemy):
 	enemy.drone_visual.rotation.x=PI/2
 	muzzle=MMFAssets.find_named(enemy.drone_visual,"DroneMuzzle")
 	enemy.drone=MMFHitZone.new()
+	enemy.drone.health_reader=func():return enemy.drone_health
 	# Retain the original generous 55 cm target, at the actual animated orb.
 	# All authored equipment poses retain the same uniform character scale.
 	var fit=enemy.visual.scale.x
@@ -42,15 +43,15 @@ func shot_origin(enemy) -> Vector3:
 	# Losing the shield drone does not remove the commander's existing attack.
 	if enemy.kind=="sovereign" and enemy.drone_health<=0:return palm.global_position
 	if muzzle:return muzzle.global_position
-	return enemy.position+Vector3.UP*1.4
+	return enemy.global_position+Vector3.UP*1.4
 
 func show_shot(enemy,hit: Dictionary,direction: Vector3) -> Vector3:
 	var origin=shot_origin(enemy)
-	var endpoint: Vector3=hit.position if not hit.is_empty() else enemy.committed
+	var endpoint: Vector3=hit.position if not hit.is_empty() else origin+direction*enemy.definition.attackRange*1.4
 	# A long barrel can extend past nearby cover. Do not draw a backwards line
-	# through that cover; the original chest-based damage ray remains decisive.
+	# through that cover; the controller already guards its body-to-muzzle path.
 	if (endpoint-origin).dot(direction)>.001:
-		var visible_hit=enemy.game.raycast(origin,endpoint,[enemy.get_rid()],1)
+		var visible_hit=MMFEnemyBallistics.trace(enemy.game,origin,endpoint,[enemy.get_rid()],1)
 		if not visible_hit.is_empty():endpoint=visible_hit.position
 		enemy.game.effects.tracer(origin,endpoint,Color(1,.1,.04))
 	return origin
