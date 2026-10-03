@@ -1,0 +1,120 @@
+{
+  "totalAssertions": 1000,
+  "suites": [
+    {
+      "suite": "encounter_loading",
+      "assertions": 36,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "enemy_animation",
+      "assertions": 113,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "opening_handoff",
+      "assertions": 32,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "crossfire_handoff",
+      "assertions": 66,
+      "exitCode": 0,
+      "reportedErrors": [
+        "ERROR: Parameter \"t\" is null."
+      ],
+      "nativeVerification": {
+        "exitCode": 0,
+        "reportedErrors": [],
+        "sameAssertions": true
+      }
+    },
+    {
+      "suite": "enemy_combat_contract",
+      "assertions": 42,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "boarding_contract",
+      "assertions": 18,
+      "exitCode": 0,
+      "reportedErrors": [
+        "ERROR: Parameter \"t\" is null.",
+        "ERROR: 1 RID allocations of type 'PN13RendererDummy14TextureStorage12DummyTextureE' were leaked at exit."
+      ],
+      "nativeVerification": {
+        "exitCode": 0,
+        "reportedErrors": [],
+        "sameAssertions": true
+      }
+    },
+    {
+      "suite": "enemy_equipment",
+      "assertions": 137,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "boarding",
+      "assertions": 69,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "raider_craft",
+      "assertions": 87,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "integration",
+      "assertions": 108,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "play_parity",
+      "assertions": 58,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "controls_interactions",
+      "assertions": 66,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "story_polish",
+      "assertions": 59,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "autosave_worker",
+      "assertions": 31,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "desert_life",
+      "assertions": 28,
+      "exitCode": 0,
+      "reportedErrors": []
+    },
+    {
+      "suite": "audio_lifecycle",
+      "assertions": 50,
+      "exitCode": 0,
+      "reportedErrors": []
+    }
+  ],
+  "notes": [
+    "Headless dummy-renderer texture initialization warnings remain recorded above; both affected suites also passed cleanly on native Vulkan. This is not an engine fix claim.",
+    "Audio lifecycle uses a real-time 60 FPS cap; accelerated --fixed-fps does not advance the audio mixer clock equivalently."
+  ]
+}

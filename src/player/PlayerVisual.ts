@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
+import { cloneRig as cloneSkinned, disposeRigSkeletons } from '@/art/CloneRig';
 import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { fitToCapsule } from '@/enemies/EnemyVisual';
@@ -431,6 +431,7 @@ export class PlayerVisual {
 
   /** Mount the authored terminal to the resolved forearm, if this rig exposes one. */
   setWristTerminal(model: LoadedModel | null): void {
+    disposeRigSkeletons(this.terminalMount);
     this.terminalMount?.removeFromParent();
     this.terminalMount = null;
     if (!model || !this.forearm) return;
@@ -501,6 +502,7 @@ export class PlayerVisual {
   }
 
   cancelRefuel(): void {
+    disposeRigSkeletons(this.refuelMount);
     this.refuelMount?.removeFromParent();
     this.refuelMount = null;
     this.refuelActive = false;
@@ -619,6 +621,7 @@ export class PlayerVisual {
 
   dispose(): void {
     this.mixer?.stopAllAction();
+    disposeRigSkeletons(this.object3D);
     this.cancelRefuel();
     this.terminalMount?.removeFromParent();
     this.terminalMount = null;

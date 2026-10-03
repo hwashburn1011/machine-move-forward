@@ -1,0 +1,520 @@
+{
+  "scope": "Matched 1920x1080 high/Forward+/Vulkan/4xMSAA opening profiles; vsync off, 60 FPS cap, RTX 3070. Before/after wait three seconds at title. Immediate click includes startup; all timing runs have no screenshot capture. Native source started at f1df64a.",
+  "runs": {
+    "before": {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "beforePipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 43,
+        "SURFACE": 66
+      },
+      "captures": false,
+      "completed": true,
+      "entryCpuMs": 589.359,
+      "events": [
+        {
+          "cinematic": "opening",
+          "cinematicS": 1.35,
+          "frame": 243,
+          "gpuMs": 4.78299999237061,
+          "ms": 16.633,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 54,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.20099997520447,
+          "wallS": 1.810059
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 2.36666666666666,
+          "frame": 304,
+          "gpuMs": 5.20699977874756,
+          "ms": 16.685,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 54,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.26600003242493,
+          "wallS": 2.826725
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 3.66666666666666,
+          "frame": 382,
+          "gpuMs": 4.00699996948242,
+          "ms": 16.798,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 54,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.26499998569489,
+          "wallS": 4.126774
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 3.73333333333333,
+          "frame": 386,
+          "gpuMs": 3.74699997901917,
+          "ms": 16.722,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 55,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.674000024795532,
+          "wallS": 4.193418
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 5.01666666666665,
+          "frame": 463,
+          "gpuMs": 2.97499990463257,
+          "ms": 16.761,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 57,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.589999973773956,
+          "wallS": 5.476669
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 5.08333333333332,
+          "frame": 467,
+          "gpuMs": 4.11299991607666,
+          "ms": 16.715,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 57,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.61599999666214,
+          "wallS": 5.543332
+        },
+        {
+          "cinematic": "",
+          "cinematicS": 10.2000000000001,
+          "frame": 774,
+          "gpuMs": 3.82599997520447,
+          "ms": 17.231,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 57,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.564000010490417,
+          "wallS": 10.660251
+        }
+      ],
+      "frameMs": {
+        "max": 616.471,
+        "median": 16.664,
+        "p95": 16.782,
+        "p99": 17.197
+      },
+      "slowFrames": [
+        {
+          "cinematic": "opening",
+          "cinematicS": 0.133333333333333,
+          "frame": 170,
+          "gpuMs": 5.38700008392334,
+          "ms": 616.471,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 43,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 0.805999994277954,
+          "wallS": 0.616471
+        }
+      ],
+      "titleSeconds": 3,
+      "maxOpeningFrameMs": 616.471,
+      "afterPipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 57,
+        "SURFACE": 67
+      },
+      "frameCount": 776
+    },
+    "after": {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "beforePipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 43,
+        "SURFACE": 66
+      },
+      "captures": false,
+      "completed": true,
+      "entryCpuMs": 2.903,
+      "events": [
+        {
+          "cinematic": "opening",
+          "cinematicS": 1.35,
+          "frame": 248,
+          "gpuMs": 5.69199991226196,
+          "ms": 16.623,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 54,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.29100000858307,
+          "wallS": 1.350722
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 2.36666666666666,
+          "frame": 309,
+          "gpuMs": 5.18900012969971,
+          "ms": 16.647,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 54,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.2059999704361,
+          "wallS": 2.367181
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 3.66666666666666,
+          "frame": 387,
+          "gpuMs": 4.85500001907349,
+          "ms": 16.82,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 54,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.18099999427795,
+          "wallS": 3.667296
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 3.73333333333333,
+          "frame": 391,
+          "gpuMs": 3.16199994087219,
+          "ms": 16.699,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 55,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.632000029087067,
+          "wallS": 3.73388
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 5.01666666666665,
+          "frame": 468,
+          "gpuMs": 3.17700004577637,
+          "ms": 16.83,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 57,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.583000004291534,
+          "wallS": 5.017191
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 5.08333333333332,
+          "frame": 472,
+          "gpuMs": 3.19300007820129,
+          "ms": 16.759,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 57,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.605000019073486,
+          "wallS": 5.083859
+        },
+        {
+          "cinematic": "",
+          "cinematicS": 10.2000000000001,
+          "frame": 779,
+          "gpuMs": 5.15100002288818,
+          "ms": 17.227,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 57,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.558000028133392,
+          "wallS": 10.200774
+        }
+      ],
+      "frameMs": {
+        "max": 18.834,
+        "median": 16.663,
+        "p95": 16.795,
+        "p99": 17.069
+      },
+      "slowFrames": [],
+      "titleSeconds": 3,
+      "maxOpeningFrameMs": 18.834,
+      "afterPipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 57,
+        "SURFACE": 67
+      },
+      "frameCount": 810
+    },
+    "immediate": {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "beforePipelines": {
+        "CANVAS": 0,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 0,
+        "SURFACE": 0
+      },
+      "captures": false,
+      "completed": true,
+      "entryCpuMs": 0.45,
+      "events": [
+        {
+          "cinematic": "opening",
+          "cinematicS": 1.35,
+          "frame": 109,
+          "gpuMs": 4.02099990844727,
+          "ms": 16.678,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 53,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.39900004863739,
+          "wallS": 2.023575
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 2.36666666666666,
+          "frame": 170,
+          "gpuMs": 5.19500017166138,
+          "ms": 16.645,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 53,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.42799997329712,
+          "wallS": 3.040193
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 3.66666666666666,
+          "frame": 248,
+          "gpuMs": 5.26999998092651,
+          "ms": 16.755,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 53,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.44400000572205,
+          "wallS": 4.340262
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 3.73333333333333,
+          "frame": 252,
+          "gpuMs": 3.92199993133545,
+          "ms": 16.72,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 54,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.861999988555908,
+          "wallS": 4.406924
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 5.01666666666665,
+          "frame": 329,
+          "gpuMs": 4.26000022888184,
+          "ms": 16.782,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 56,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 1.26999998092651,
+          "wallS": 5.690249
+        },
+        {
+          "cinematic": "opening",
+          "cinematicS": 5.08333333333332,
+          "frame": 333,
+          "gpuMs": 4.32999992370605,
+          "ms": 16.655,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 56,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.879000008106232,
+          "wallS": 5.756869
+        },
+        {
+          "cinematic": "",
+          "cinematicS": 10.2000000000001,
+          "frame": 640,
+          "gpuMs": 5.60400009155273,
+          "ms": 17.28,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 56,
+            "SURFACE": 67
+          },
+          "renderCpuMs": 0.566999971866608,
+          "wallS": 10.873815
+        }
+      ],
+      "firstOpeningMs": 691.902,
+      "frameMs": {
+        "max": 184.005,
+        "median": 16.666,
+        "p95": 16.762,
+        "p99": 17.124
+      },
+      "slowFrames": [
+        {
+          "cinematic": "",
+          "cinematicS": 0.0,
+          "frame": 1,
+          "gpuMs": 0.0,
+          "ms": 184.005,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 40,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 0.0,
+          "wallS": 0.187026
+        },
+        {
+          "cinematic": "",
+          "cinematicS": 0.0,
+          "frame": 3,
+          "gpuMs": 39.8489990234375,
+          "ms": 42.57,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 42,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.23500001430511,
+          "wallS": 0.232338
+        },
+        {
+          "cinematic": "",
+          "cinematicS": 0.0,
+          "frame": 4,
+          "gpuMs": 32.765998840332,
+          "ms": 46.396,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 42,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 1.51999998092651,
+          "wallS": 0.278734
+        },
+        {
+          "cinematic": "",
+          "cinematicS": 0.0,
+          "frame": 5,
+          "gpuMs": 25.7290000915527,
+          "ms": 27.479,
+          "pipelines": {
+            "CANVAS": 2,
+            "DRAW": 0,
+            "MESH": 38,
+            "SPECIALIZATION": 42,
+            "SURFACE": 66
+          },
+          "renderCpuMs": 0.698000013828278,
+          "wallS": 0.306213
+        }
+      ],
+      "titleSeconds": 0.0,
+      "maxOpeningFrameMs": 19.06,
+      "afterPipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 56,
+        "SURFACE": 67
+      },
+      "frameCount": 799
+    }
+  }
+}

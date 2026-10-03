@@ -1,0 +1,193 @@
+{
+  "startingRevision": "2a0fa07",
+  "before": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": true,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native cabinet views, high Forward+/Vulkan, 4x MSAA, VSync off; both resources resident; 2s warmup/4s samples. Physics frozen. Screenshots after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 540.0,
+          "median": 540.0,
+          "p95": 540.0
+        },
+        "frameMs": {
+          "max": 4.145,
+          "median": 3.085,
+          "p95": 3.74
+        },
+        "gpuMs": {
+          "max": 3.35500001907349,
+          "median": 2.62400007247925,
+          "p95": 3.08699989318848
+        },
+        "samples": 1245
+      },
+      "2": {
+        "drawCalls": {
+          "max": 353.0,
+          "median": 353.0,
+          "p95": 353.0
+        },
+        "frameMs": {
+          "max": 3.786,
+          "median": 2.836,
+          "p95": 3.436
+        },
+        "gpuMs": {
+          "max": 3.13700008392334,
+          "median": 2.3840000629425,
+          "p95": 2.81699991226196
+        },
+        "samples": 1355
+      },
+      "3": {
+        "drawCalls": {
+          "max": 178.0,
+          "median": 178.0,
+          "p95": 178.0
+        },
+        "frameMs": {
+          "max": 3.611,
+          "median": 2.619,
+          "p95": 3.227
+        },
+        "gpuMs": {
+          "max": 2.75399994850159,
+          "median": 2.16499996185303,
+          "p95": 2.44000005722046
+        },
+        "samples": 1463
+      },
+      "4": {
+        "drawCalls": {
+          "max": 1170.0,
+          "median": 1170.0,
+          "p95": 1170.0
+        },
+        "frameMs": {
+          "max": 4.912,
+          "median": 3.712,
+          "p95": 4.545
+        },
+        "gpuMs": {
+          "max": 4.09100008010864,
+          "median": 3.22900009155273,
+          "p95": 3.9300000667572
+        },
+        "samples": 1033
+      }
+    }
+  },
+  "after": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": false,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native cabinet views, high Forward+/Vulkan, 4x MSAA, VSync off; both resources resident; 2s warmup/4s samples. Physics frozen. Screenshots after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 560.0,
+          "median": 560.0,
+          "p95": 560.0
+        },
+        "frameMs": {
+          "max": 4.548,
+          "median": 3.272,
+          "p95": 4.01
+        },
+        "gpuMs": {
+          "max": 3.71399998664856,
+          "median": 2.74600005149841,
+          "p95": 3.19799995422363
+        },
+        "samples": 1184
+      },
+      "2": {
+        "drawCalls": {
+          "max": 361.0,
+          "median": 361.0,
+          "p95": 361.0
+        },
+        "frameMs": {
+          "max": 4.365,
+          "median": 3.062,
+          "p95": 3.854
+        },
+        "gpuMs": {
+          "max": 3.16499996185303,
+          "median": 2.53800010681152,
+          "p95": 2.99200010299683
+        },
+        "samples": 1260
+      },
+      "3": {
+        "drawCalls": {
+          "max": 182.0,
+          "median": 182.0,
+          "p95": 182.0
+        },
+        "frameMs": {
+          "max": 3.735,
+          "median": 2.686,
+          "p95": 3.403
+        },
+        "gpuMs": {
+          "max": 2.85899996757507,
+          "median": 2.23699998855591,
+          "p95": 2.54500007629395
+        },
+        "samples": 1430
+      },
+      "4": {
+        "drawCalls": {
+          "max": 1221.0,
+          "median": 1221.0,
+          "p95": 1221.0
+        },
+        "frameMs": {
+          "max": 5.253,
+          "median": 3.76,
+          "p95": 4.79
+        },
+        "gpuMs": {
+          "max": 4.14400005340576,
+          "median": 3.2960000038147,
+          "p95": 3.97399997711182
+        },
+        "samples": 1013
+      }
+    }
+  },
+  "comparison": [
+    {
+      "view": "1",
+      "name": "Fore cabinet",
+      "gpuMedianDifferenceMs": 0.12199997901916015,
+      "frameMedianDifferenceMs": 0.18699999999999983,
+      "drawCallDifference": 20.0
+    },
+    {
+      "view": "2",
+      "name": "Controls close-up",
+      "gpuMedianDifferenceMs": 0.1540000438690199,
+      "frameMedianDifferenceMs": 0.22599999999999998,
+      "drawCallDifference": 8.0
+    },
+    {
+      "view": "3",
+      "name": "Starboard cabinet",
+      "gpuMedianDifferenceMs": 0.07200002670287997,
+      "frameMedianDifferenceMs": 0.06699999999999973,
+      "drawCallDifference": 4.0
+    },
+    {
+      "view": "4",
+      "name": "Workshop overview",
+      "gpuMedianDifferenceMs": 0.06699991226197,
+      "frameMedianDifferenceMs": 0.0479999999999996,
+      "drawCallDifference": 51.0
+    }
+  ]
+}

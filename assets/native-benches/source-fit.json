@@ -1,0 +1,521 @@
+{
+  "supports": [
+    {
+      "part": "Square welded leg",
+      "gapM": -3.725290298461914e-09
+    },
+    {
+      "part": "Square welded leg.001",
+      "gapM": -3.725290298461914e-09
+    },
+    {
+      "part": "Square welded leg.002",
+      "gapM": -3.725290298461914e-09
+    },
+    {
+      "part": "Square welded leg.003",
+      "gapM": -3.725290298461914e-09
+    },
+    {
+      "part": "Endframe crossmember",
+      "gapM": 0.0
+    },
+    {
+      "part": "Endframe crossmember.001",
+      "gapM": 0.0
+    },
+    {
+      "part": "Endframe crossmember.002",
+      "gapM": 0.0
+    },
+    {
+      "part": "Endframe crossmember.003",
+      "gapM": 0.0
+    },
+    {
+      "part": "Upper longitudinal bearer",
+      "gapM": -0.0339999794960022
+    },
+    {
+      "part": "Upper longitudinal bearer.001",
+      "gapM": -0.0339999794960022
+    },
+    {
+      "part": "Full steel worktop",
+      "gapM": 0.0
+    },
+    {
+      "part": "Drawer suspension housing",
+      "gapM": -0.0029999613761901855
+    },
+    {
+      "part": "Drawer welded suspension strap",
+      "gapM": -0.023333370685577393
+    },
+    {
+      "part": "Drawer welded suspension strap.001",
+      "gapM": -0.023333370685577393
+    },
+    {
+      "part": "Lower folded parts shelf",
+      "gapM": -0.005500003695487976
+    },
+    {
+      "part": "Vise swivel base",
+      "gapM": 0.0
+    },
+    {
+      "part": "Vise fixed body",
+      "gapM": -0.0015000104904174805
+    },
+    {
+      "part": "Vise slide rail",
+      "gapM": -0.0009999871253967285
+    },
+    {
+      "part": "Vise moving body",
+      "gapM": -0.0494999885559082
+    },
+    {
+      "part": "Replaceable vise jaw",
+      "gapM": -0.0040000006556510925
+    },
+    {
+      "part": "Replaceable vise jaw.001",
+      "gapM": -0.014500003308057785
+    },
+    {
+      "part": "Parts tray base",
+      "gapM": 0.0
+    },
+    {
+      "part": "Sealed field tool case rubber foot",
+      "gapM": 0.0
+    },
+    {
+      "part": "Sealed field tool case rubber foot.001",
+      "gapM": 0.0
+    },
+    {
+      "part": "Sealed field tool case rubber foot.002",
+      "gapM": 0.0
+    },
+    {
+      "part": "Sealed field tool case rubber foot.003",
+      "gapM": 0.0
+    },
+    {
+      "part": "Sealed field tool case formed lower shell",
+      "gapM": 5.960464477539063e-08
+    },
+    {
+      "part": "Sealed field tool case fitted lid",
+      "gapM": -0.001999974250793457
+    },
+    {
+      "part": "Fastener case rubber foot",
+      "gapM": 0.0
+    },
+    {
+      "part": "Fastener case rubber foot.001",
+      "gapM": 0.0
+    },
+    {
+      "part": "Fastener case rubber foot.002",
+      "gapM": 0.0
+    },
+    {
+      "part": "Fastener case rubber foot.003",
+      "gapM": 0.0
+    },
+    {
+      "part": "Fastener case formed lower shell",
+      "gapM": 0.0
+    },
+    {
+      "part": "Fastener case fitted lid",
+      "gapM": -0.001999974250793457
+    }
+  ],
+  "deckContact": [
+    {
+      "part": "Continuous deck shoe",
+      "minY": 0.0
+    },
+    {
+      "part": "Continuous deck shoe.001",
+      "minY": 0.0
+    },
+    {
+      "part": "Continuous deck shoe.002",
+      "minY": 0.0
+    },
+    {
+      "part": "Continuous deck shoe.003",
+      "minY": 0.0
+    }
+  ],
+  "neighbourClearance": [
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "frozen surrounding structure",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "ServicePump1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "ServicePump2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "ServiceCabinet1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "ServiceCabinet2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "ServiceCabinet3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "ServiceCabinet4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "PressureReceiver1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "PressureReceiver2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "PressureReceiver3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "PressureReceiver4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench1",
+      "neighbour": "PressureReceiver5",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "frozen surrounding structure",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "ServicePump1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "ServicePump2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "ServiceCabinet1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "ServiceCabinet2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "ServiceCabinet3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "ServiceCabinet4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "PressureReceiver1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "PressureReceiver2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "PressureReceiver3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "PressureReceiver4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench2",
+      "neighbour": "PressureReceiver5",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "frozen surrounding structure",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "ServicePump1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "ServicePump2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "ServiceCabinet1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "ServiceCabinet2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "ServiceCabinet3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "ServiceCabinet4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "PressureReceiver1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "PressureReceiver2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "PressureReceiver3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "PressureReceiver4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench3",
+      "neighbour": "PressureReceiver5",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "frozen surrounding structure",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "ServicePump1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "ServicePump2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "ServiceCabinet1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "ServiceCabinet2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "ServiceCabinet3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "ServiceCabinet4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "PressureReceiver1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "PressureReceiver2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "PressureReceiver3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "PressureReceiver4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench4",
+      "neighbour": "PressureReceiver5",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "frozen surrounding structure",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "ServicePump1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "ServicePump2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "ServiceCabinet1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "ServiceCabinet2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "ServiceCabinet3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "ServiceCabinet4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "PressureReceiver1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "PressureReceiver2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "PressureReceiver3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "PressureReceiver4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench5",
+      "neighbour": "PressureReceiver5",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "frozen surrounding structure",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "ServicePump1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "ServicePump2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "ServiceCabinet1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "ServiceCabinet2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "ServiceCabinet3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "ServiceCabinet4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "PressureReceiver1",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "PressureReceiver2",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "PressureReceiver3",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "PressureReceiver4",
+      "overlappingTrianglePairs": 0
+    },
+    {
+      "bench": "ServiceBench6",
+      "neighbour": "PressureReceiver5",
+      "overlappingTrianglePairs": 0
+    }
+  ],
+  "passed": true
+}

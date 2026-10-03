@@ -1,0 +1,42 @@
+{
+	"captures": [
+		{
+			"at": 2.48333333333333,
+			"frameMs": 17.813,
+			"path": "res://../test-results/godot-native/survivor-opening-2.48.png"
+		},
+		{
+			"at": 2.56666666666666,
+			"frameMs": 17.813,
+			"path": "res://../test-results/godot-native/survivor-opening-2.55.png"
+		},
+		{
+			"at": 2.66666666666666,
+			"frameMs": 17.813,
+			"path": "res://../test-results/godot-native/survivor-opening-2.65.png"
+		},
+		{
+			"at": 2.81666666666666,
+			"frameMs": 17.813,
+			"path": "res://../test-results/godot-native/survivor-opening-2.80.png"
+		},
+		{
+			"at": 3.06666666666666,
+			"frameMs": 17.813,
+			"path": "res://../test-results/godot-native/survivor-opening-3.05.png"
+		},
+		{
+			"at": 3.66666666666666,
+			"frameMs": 48.862,
+			"path": "res://../test-results/godot-native/survivor-opening-3.65.png"
+		},
+		{
+			"at": 5.01666666666665,
+			"frameMs": 32.806,
+			"path": "res://../test-results/godot-native/survivor-opening-5.00.png"
+		}
+	],
+	"elapsedSeconds": 10.150518,
+	"handedBack": true,
+	"mode": "normal-speed live cinematic; default simulation and camera"
+}

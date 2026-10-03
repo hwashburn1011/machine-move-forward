@@ -1,0 +1,11 @@
+.godot/
+# Converted browser assets remain reproducible; native-only authored inputs ship in Git.
+/assets/*
+!/assets/animation/
+!/assets/fonts/
+!/assets/audio/
+/assets/audio/*
+!/assets/audio/deck/
+!/assets/audio/opening/
+exports/
+*.tmp

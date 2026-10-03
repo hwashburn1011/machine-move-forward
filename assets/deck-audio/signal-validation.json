@@ -1,0 +1,277 @@
+{
+  "checks": 39,
+  "passed": true,
+  "assertions": [
+    {
+      "passed": true,
+      "label": "rifle-bodied: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "rifle-bodied: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "rifle-bodied: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "rifle-bodied: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "shotgun-bodied: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "shotgun-bodied: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "shotgun-bodied: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "shotgun-bodied: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "servo-load: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "servo-load: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "servo-load: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "servo-load: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "pressure-release: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "pressure-release: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "pressure-release: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "pressure-release: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "receiver-contact: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "receiver-contact: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "receiver-contact: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "receiver-contact: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "music-dustlight: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "music-dustlight: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "music-dustlight: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "music-dustlight: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "music-window-heat: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "music-window-heat: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "music-window-heat: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "music-window-heat: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "music-long-way-home: file matches authored manifest"
+    },
+    {
+      "passed": true,
+      "label": "music-long-way-home: finite PCM with headroom and negligible DC"
+    },
+    {
+      "passed": true,
+      "label": "music-long-way-home: starts and ends on digital silence"
+    },
+    {
+      "passed": true,
+      "label": "music-long-way-home: restrained high-frequency energy"
+    },
+    {
+      "passed": true,
+      "label": "Rifle: default-mix peak reduced by at least 6 dB"
+    },
+    {
+      "passed": true,
+      "label": "Rifle: high-frequency energy fraction reduced by over 99 percent"
+    },
+    {
+      "passed": true,
+      "label": "Shotgun: default-mix peak reduced by at least 6 dB"
+    },
+    {
+      "passed": true,
+      "label": "Shotgun: high-frequency energy fraction reduced by over 99 percent"
+    },
+    {
+      "passed": true,
+      "label": "dustlight: authored changing harmony and distinct melodic phrase, not one looping test tone"
+    },
+    {
+      "passed": true,
+      "label": "window-heat: authored changing harmony and distinct melodic phrase, not one looping test tone"
+    },
+    {
+      "passed": true,
+      "label": "long-way-home: authored changing harmony and distinct melodic phrase, not one looping test tone"
+    }
+  ],
+  "weapon_comparison": [
+    {
+      "weapon": "Rifle",
+      "before": {
+        "seconds": 0.1610204081632653,
+        "peak_dbfs": -11.649280909050555,
+        "rms_dbfs": -26.44944896471188,
+        "dc_offset": 9.753075876197142e-06,
+        "energy_above_3000_hz_percent": 31.653433675285285,
+        "energy_centroid_hz": 2878.453355464565
+      },
+      "after": {
+        "seconds": 0.24,
+        "peak_dbfs": -19.29104611349914,
+        "rms_dbfs": -36.05231547482485,
+        "dc_offset": 2.289020195208833e-06,
+        "energy_above_3000_hz_percent": 3.924061009115331e-06,
+        "energy_centroid_hz": 278.48735295653654
+      },
+      "peak_change_db": -7.641765204448584
+    },
+    {
+      "weapon": "Shotgun",
+      "before": {
+        "seconds": 0.2810204081632653,
+        "peak_dbfs": -9.072111226709723,
+        "rms_dbfs": -24.963481393116385,
+        "dc_offset": 4.979194167700473e-05,
+        "energy_above_3000_hz_percent": 14.454221014906862,
+        "energy_centroid_hz": 1759.7799583848478
+      },
+      "after": {
+        "seconds": 0.42,
+        "peak_dbfs": -17.5351411322143,
+        "rms_dbfs": -33.805442311974,
+        "dc_offset": 1.8338227217972728e-06,
+        "energy_above_3000_hz_percent": 2.7954602359935608e-06,
+        "energy_centroid_hz": 182.663847456406
+      },
+      "peak_change_db": -8.463029905504577
+    }
+  ],
+  "auditions": [
+    {
+      "path": "assets/deck-audio/weapon-comparison.wav",
+      "sha256": "07d58ac288d2a9a4d5a6595219566a08d2ab723a34ad710a62facb52fe34bc79",
+      "seconds": 14.0,
+      "peak_dbfs": -9.072111226709723,
+      "rms_dbfs": -34.942789940409334,
+      "dc_offset": 3.3822507274396413e-06,
+      "energy_above_3000_hz_percent": 16.41206996900741,
+      "energy_centroid_hz": 1789.1832097640936,
+      "segments": [
+        {
+          "start_seconds": 0.5,
+          "label": "Rifle original",
+          "shots": 3,
+          "spacing_seconds": 0.3
+        },
+        {
+          "start_seconds": 3.5,
+          "label": "Rifle revised",
+          "shots": 3,
+          "spacing_seconds": 0.3
+        },
+        {
+          "start_seconds": 7.5,
+          "label": "Shotgun original",
+          "shots": 3,
+          "spacing_seconds": 0.85
+        },
+        {
+          "start_seconds": 10.5,
+          "label": "Shotgun revised",
+          "shots": 3,
+          "spacing_seconds": 0.85
+        }
+      ]
+    },
+    {
+      "path": "assets/deck-audio/original-score-preview.wav",
+      "sha256": "c6d3c26f75bcb66059e1e4b9a8defbb2d7a8356d55dc910dc0414f2119516d29",
+      "seconds": 42.0,
+      "peak_dbfs": -22.887493610087866,
+      "rms_dbfs": -37.06573573797239,
+      "dc_offset": 1.4481198945788335e-07,
+      "energy_above_3000_hz_percent": 6.301878530691793e-07,
+      "energy_centroid_hz": 147.07726205031523,
+      "segments": [
+        {
+          "start_seconds": 0,
+          "label": "Dustlight",
+          "excerpt_seconds": 12,
+          "master": 0.7,
+          "music_volume": 0.35
+        },
+        {
+          "start_seconds": 14,
+          "label": "Window Heat",
+          "excerpt_seconds": 12,
+          "master": 0.7,
+          "music_volume": 0.35
+        },
+        {
+          "start_seconds": 28,
+          "label": "The Long Way Home",
+          "excerpt_seconds": 12,
+          "master": 0.7,
+          "music_volume": 0.35
+        }
+      ]
+    }
+  ],
+  "limits": "Offline digital signal measurements and structural score review. Perceived loudness, realism, taste and clarity on individual speakers require listening; no human listening approval is implied.",
+  "preview_note": "Default runtime gains. Weapon original then revised, rifle first then shotgun. Score contains three12-second excerpts with2-second gaps; normal play has45-second initial calm silence and90/125/160-second stopped intervals."
+}

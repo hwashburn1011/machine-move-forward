@@ -1,0 +1,115 @@
+{
+	"checks": 107,
+	"failures": [],
+	"samples": [
+		{
+			"cameraHits": 0,
+			"candidates": 1,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.06395141857119,
+			"origin": {
+				"x": 54.0,
+				"y": 3.57532620429993,
+				"z": -76.0
+			},
+			"planningMs": 9.465,
+			"scenario": [
+				"first",
+				0.0,
+				0.0
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 100,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.06167447361749,
+			"origin": {
+				"x": 150.0,
+				"y": 3.04016208648682,
+				"z": -202.0
+			},
+			"planningMs": 97.312,
+			"scenario": [
+				"nomad",
+				425.0,
+				0.0
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 15,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.09722304447446,
+			"origin": {
+				"x": 54.0,
+				"y": 1.73603999614716,
+				"z": -130.0
+			},
+			"planningMs": 37.867,
+			"scenario": [
+				"ruins",
+				1216.3,
+				262.4
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 1,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.08115460116446,
+			"origin": {
+				"x": 54.0,
+				"y": 1.89538407325745,
+				"z": -76.0
+			},
+			"planningMs": 6.555,
+			"scenario": [
+				"crosswind",
+				3900.0,
+				-271.3
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 48,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.05998509235122,
+			"origin": {
+				"x": 162.0,
+				"y": 0.768653512001038,
+				"z": -76.0
+			},
+			"planningMs": 35.152,
+			"scenario": [
+				"industrial",
+				8491.8,
+				51.2
+			]
+		},
+		{
+			"cameraHits": 0,
+			"candidates": 1,
+			"collisions": 0,
+			"fallback": false,
+			"minimumGroundM": 1.06117587886472,
+			"origin": {
+				"x": 54.0,
+				"y": 3.07327961921692,
+				"z": -76.0
+			},
+			"planningMs": 6.567,
+			"scenario": [
+				"last",
+				20567.0,
+				523.0
+			]
+		}
+	],
+	"scope": "Six seeded routes, full 17-second ship/camera envelopes against actual rendered MultiMeshes, finer dune grid, all-deck concealed cuts and crowded-world fallback."
+}

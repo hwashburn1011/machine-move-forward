@@ -1,0 +1,204 @@
+{
+  "before": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": true,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native middle-deck views, high Forward+/Vulkan, 4x MSAA, VSync off. 2s warmup, 4s samples. Both assets resident. Gameplay frozen; not gameplay FPS. Captures after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 165.0,
+          "median": 165.0,
+          "p95": 165.0
+        },
+        "frameMs": {
+          "max": 3.903,
+          "median": 2.842,
+          "p95": 3.414
+        },
+        "gpuMs": {
+          "max": 2.93799996376038,
+          "median": 2.30699992179871,
+          "p95": 2.71900010108948
+        },
+        "samples": 1370
+      },
+      "2": {
+        "drawCalls": {
+          "max": 130.0,
+          "median": 130.0,
+          "p95": 130.0
+        },
+        "frameMs": {
+          "max": 3.18,
+          "median": 2.406,
+          "p95": 2.827
+        },
+        "gpuMs": {
+          "max": 2.27999997138977,
+          "median": 1.96700000762939,
+          "p95": 2.21199989318848
+        },
+        "samples": 1598
+      },
+      "3": {
+        "drawCalls": {
+          "max": 329.0,
+          "median": 329.0,
+          "p95": 329.0
+        },
+        "frameMs": {
+          "max": 3.604,
+          "median": 2.788,
+          "p95": 3.378
+        },
+        "gpuMs": {
+          "max": 2.93600010871887,
+          "median": 2.32599997520447,
+          "p95": 2.75300002098084
+        },
+        "samples": 1380
+      },
+      "4": {
+        "drawCalls": {
+          "max": 153.0,
+          "median": 153.0,
+          "p95": 153.0
+        },
+        "frameMs": {
+          "max": 3.13,
+          "median": 2.504,
+          "p95": 2.904
+        },
+        "gpuMs": {
+          "max": 2.34400010108948,
+          "median": 2.0460000038147,
+          "p95": 2.30100011825562
+        },
+        "samples": 1544
+      }
+    }
+  },
+  "after": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": false,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native middle-deck views, high Forward+/Vulkan, 4x MSAA, VSync off. 2s warmup, 4s samples. Both assets resident. Gameplay frozen; not gameplay FPS. Captures after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 180.0,
+          "median": 180.0,
+          "p95": 180.0
+        },
+        "frameMs": {
+          "max": 3.798,
+          "median": 2.92,
+          "p95": 3.444
+        },
+        "gpuMs": {
+          "max": 2.98200011253357,
+          "median": 2.37400007247925,
+          "p95": 2.81699991226196
+        },
+        "samples": 1338
+      },
+      "2": {
+        "drawCalls": {
+          "max": 136.0,
+          "median": 136.0,
+          "p95": 136.0
+        },
+        "frameMs": {
+          "max": 3.442,
+          "median": 2.622,
+          "p95": 2.944
+        },
+        "gpuMs": {
+          "max": 2.44199991226196,
+          "median": 2.06100010871887,
+          "p95": 2.31800007820129
+        },
+        "samples": 1504
+      },
+      "3": {
+        "drawCalls": {
+          "max": 360.0,
+          "median": 360.0,
+          "p95": 360.0
+        },
+        "frameMs": {
+          "max": 3.775,
+          "median": 2.853,
+          "p95": 3.402
+        },
+        "gpuMs": {
+          "max": 2.94000005722046,
+          "median": 2.35800004005432,
+          "p95": 2.78399991989136
+        },
+        "samples": 1363
+      },
+      "4": {
+        "drawCalls": {
+          "max": 157.0,
+          "median": 157.0,
+          "p95": 157.0
+        },
+        "frameMs": {
+          "max": 3.681,
+          "median": 2.566,
+          "p95": 2.979
+        },
+        "gpuMs": {
+          "max": 2.39199995994568,
+          "median": 2.09100008010864,
+          "p95": 2.34299993515015
+        },
+        "samples": 1511
+      }
+    }
+  },
+  "comparison": [
+    {
+      "view": "1",
+      "beforeGpuMs": 2.30699992179871,
+      "afterGpuMs": 2.37400007247925,
+      "deltaGpuMs": 0.06700015068053977,
+      "beforeFrameMs": 2.842,
+      "afterFrameMs": 2.92,
+      "beforeDrawCalls": 165.0,
+      "afterDrawCalls": 180.0
+    },
+    {
+      "view": "2",
+      "beforeGpuMs": 1.96700000762939,
+      "afterGpuMs": 2.06100010871887,
+      "deltaGpuMs": 0.09400010108947976,
+      "beforeFrameMs": 2.406,
+      "afterFrameMs": 2.622,
+      "beforeDrawCalls": 130.0,
+      "afterDrawCalls": 136.0
+    },
+    {
+      "view": "3",
+      "beforeGpuMs": 2.32599997520447,
+      "afterGpuMs": 2.35800004005432,
+      "deltaGpuMs": 0.03200006484984996,
+      "beforeFrameMs": 2.788,
+      "afterFrameMs": 2.853,
+      "beforeDrawCalls": 329.0,
+      "afterDrawCalls": 360.0
+    },
+    {
+      "view": "4",
+      "beforeGpuMs": 2.0460000038147,
+      "afterGpuMs": 2.09100008010864,
+      "deltaGpuMs": 0.04500007629393998,
+      "beforeFrameMs": 2.504,
+      "afterFrameMs": 2.566,
+      "beforeDrawCalls": 153.0,
+      "afterDrawCalls": 157.0
+    }
+  ]
+}

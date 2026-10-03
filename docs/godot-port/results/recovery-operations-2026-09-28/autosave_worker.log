@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS Initial verified checkpoint is durable
+PASS Background request is accepted
+PASS Controlled worker reaches I/O gate
+PASS Frames continue while autosave I/O is deliberately blocked
+PASS Pending work does not replace the previous verified checkpoint
+PASS Burst requests retain one worker and only the latest queued replacement
+PASS Worker completes and is harvested without a main-thread wait
+PASS Paused menus still harvest serialized writes in order
+PASS Snapshots are deeply detached and previous verified content becomes the backup
+PASS In-flight jobs retain their captured save directory
+PASS Successful commit leaves no temporary file
+PASS Worker completes and is harvested without a main-thread wait
+PASS I/O failure is reported and preserves the verified checkpoint
+PASS Explicit flush waits until acknowledged writes are durable
+PASS Checksum mismatch recovers the previous verified payload
+PASS Malformed JSON recovers the backup without parser errors
+PASS Replacing a corrupt primary preserves the healthy backup
+PASS Unsafe save names remain rejected
+PASS Node teardown drains the active and queued autosave
+MMF_NATIVE_READY 
+PASS Gameplay enqueues a safe snapshot and resets the interval
+PASS Ongoing gameplay cannot mutate an in-flight campaign snapshot
+PASS Background output passes full native campaign validation
+PASS Loading drains pending I/O before restoring a complete campaign
+PASS Unsafe combat state cannot enqueue an autosave
+PASS Manual save still returns only after a verified durable commit
+PASS Immediate Continue reads the newest acknowledged autosave
+PASS Worker completes and is harvested without a main-thread wait
+PASS Background failure reaches the player and retains the campaign
+PASS A failed autosave does not retry disk I/O every physics frame
+PASS Campaign library opens with the latest acknowledged checkpoint
+PASS Full game teardown finishes its accepted autosave
+WARNING: 6 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

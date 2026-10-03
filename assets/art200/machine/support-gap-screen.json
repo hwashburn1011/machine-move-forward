@@ -1,0 +1,127 @@
+{
+  "nomad2-card-table": {
+    "parts": 34,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-instrument-bench": {
+    "parts": 48,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-privacy-screen": {
+    "parts": 28,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-book-cabinet": {
+    "parts": 136,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-ration-pantry": {
+    "parts": 87,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-folding-lounge": {
+    "parts": 27,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-microscope-bench": {
+    "parts": 59,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-paint-trolley": {
+    "parts": 46,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-air-return-duct": {
+    "parts": 38,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-sewing-station": {
+    "parts": 41,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-record-console": {
+    "parts": 84,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-typewriter-desk": {
+    "parts": 87,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-clock-rack": {
+    "parts": 65,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-tile-mural": {
+    "parts": 50,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-observation-seat": {
+    "parts": 37,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-chess-pedestal": {
+    "parts": 149,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-exercise-rack": {
+    "parts": 37,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-boot-care-stand": {
+    "parts": 68,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-botanical-belljar": {
+    "parts": 25,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-map-roll-rack": {
+    "parts": 59,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-shade-awning": {
+    "parts": 15,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-bagatelle-table": {
+    "parts": 65,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-laundry-drum": {
+    "parts": 36,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-rotary-fan": {
+    "parts": 39,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad2-arrival-bell": {
+    "parts": 19,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  }
+}

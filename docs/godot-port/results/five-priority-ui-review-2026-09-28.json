@@ -1,0 +1,22 @@
+{
+  "benchmark": false,
+  "checks": 21,
+  "failures": [],
+  "human_test": false,
+  "passed": true,
+  "renderer": "NVIDIA GeForce RTX 3070",
+  "scope": "Native controlled input/layout review. Concurrent headless correctness runs; no performance inference.",
+  "screenshots": [
+    "res://../docs/godot-port/previews/five-priority-objective-pin-1440x900.png",
+    "res://../docs/godot-port/previews/five-priority-catalog-1440x900.png",
+    "res://../docs/godot-port/previews/five-priority-personal-pin-1440x900.png",
+    "res://../docs/godot-port/previews/five-priority-catalog-1200x900.png",
+    "res://../docs/godot-port/previews/five-priority-personal-pin-1200x900.png",
+    "res://../docs/godot-port/previews/five-priority-placement-controls.png",
+    "res://../docs/godot-port/previews/five-priority-power-clearance-controls.png",
+    "res://../docs/godot-port/previews/five-priority-walking-after-build.png"
+  ],
+  "source_hash": "d334485bfded0f9371cd922701eb723e99afc98388b92f465ffc797aed4ade59",
+  "source_hash_end": "d334485bfded0f9371cd922701eb723e99afc98388b92f465ffc797aed4ade59",
+  "source_stable": true
+}

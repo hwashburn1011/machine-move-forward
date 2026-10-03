@@ -1,0 +1,70 @@
+{
+	"cameraHandoffs": [
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 45,
+			"fovGap": 0.0000152587890625,
+			"positionGapM": 0.0000747102822060697,
+			"yaw": -2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 45,
+			"fovGap": 0.0000152587890625,
+			"positionGapM": 0.0000746554796933196,
+			"yaw": 0.5
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 45,
+			"fovGap": 0.0000152587890625,
+			"positionGapM": 0.0000717729271855205,
+			"yaw": 2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 72,
+			"fovGap": 0.0000457763671875,
+			"positionGapM": 0.0000747102822060697,
+			"yaw": -2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 72,
+			"fovGap": 0.0000457763671875,
+			"positionGapM": 0.0000746554796933196,
+			"yaw": 0.5
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 72,
+			"fovGap": 0.0000457763671875,
+			"positionGapM": 0.0000717729271855205,
+			"yaw": 2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 100,
+			"fovGap": 0.0000762939453125,
+			"positionGapM": 0.0000747102822060697,
+			"yaw": -2.8
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 100,
+			"fovGap": 0.0000762939453125,
+			"positionGapM": 0.0000746554796933196,
+			"yaw": 0.5
+		},
+		{
+			"angleGapDegrees": 0.0,
+			"fov": 100,
+			"fovGap": 0.0000762939453125,
+			"positionGapM": 0.0000717729271855205,
+			"yaw": 2.8
+		}
+	],
+	"checks": 64,
+	"failures": [],
+	"scope": "Asset preparation/lifetime, scanner timing, nine full camera/FOV transitions, existing close-up/raid timing and saved-crossfire fallback."
+}

@@ -1,0 +1,220 @@
+{
+  "adapter": "NVIDIA GeForce RTX 3070",
+  "beforePipelines": {
+    "CANVAS": 0,
+    "DRAW": 0,
+    "MESH": 44,
+    "SPECIALIZATION": 0,
+    "SURFACE": 0
+  },
+  "captures": false,
+  "completed": true,
+  "encounterPreparation": false,
+  "entryCpuMs": 0.41,
+  "events": [
+    {
+      "cinematic": "opening",
+      "cinematicS": 1.35,
+      "frame": 110,
+      "gpuMs": 3.88700008392334,
+      "ms": 16.689,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 47,
+        "SURFACE": 76
+      },
+      "renderCpuMs": 0.50900000333786,
+      "wallS": 1.985076
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 2.36666666666666,
+      "frame": 171,
+      "gpuMs": 5.32399988174438,
+      "ms": 16.66,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 49,
+        "SURFACE": 76
+      },
+      "renderCpuMs": 0.625999987125397,
+      "wallS": 3.001691
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 3.66666666666666,
+      "frame": 249,
+      "gpuMs": 5.49300003051758,
+      "ms": 16.765,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 49,
+        "SURFACE": 76
+      },
+      "renderCpuMs": 0.607999980449677,
+      "wallS": 4.301753
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 3.73333333333333,
+      "frame": 253,
+      "gpuMs": 5.52400016784668,
+      "ms": 16.743,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 50,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.625999987125397,
+      "wallS": 4.36845
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 5.01666666666665,
+      "frame": 330,
+      "gpuMs": 5.58799982070923,
+      "ms": 16.782,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 52,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.578000009059906,
+      "wallS": 5.651703
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 5.08333333333332,
+      "frame": 334,
+      "gpuMs": 5.61899995803833,
+      "ms": 16.777,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 52,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.617999970912933,
+      "wallS": 5.718375
+    },
+    {
+      "cinematic": "",
+      "cinematicS": 10.2000000000001,
+      "frame": 641,
+      "gpuMs": 3.6800000667572,
+      "ms": 17.227,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 57,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.635999977588654,
+      "wallS": 10.835283
+    }
+  ],
+  "firstOpeningMs": 669.148,
+  "frameMs": {
+    "max": 118.997,
+    "median": 16.664,
+    "p95": 16.765,
+    "p99": 17.186
+  },
+  "scope": "Actual paused title, New Game, original opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off, 60 FPS cap. No input or story timing changes.",
+  "slowFrames": [
+    {
+      "cinematic": "",
+      "cinematicS": 0.0,
+      "frame": 1,
+      "gpuMs": 0.0,
+      "ms": 118.997,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 43,
+        "SURFACE": 75
+      },
+      "renderCpuMs": 0.0,
+      "wallS": 0.121811
+    },
+    {
+      "cinematic": "",
+      "cinematicS": 0.0,
+      "frame": 3,
+      "gpuMs": 37.6290016174316,
+      "ms": 40.069,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 47,
+        "SURFACE": 75
+      },
+      "renderCpuMs": 1.58299994468689,
+      "wallS": 0.164982
+    },
+    {
+      "cinematic": "",
+      "cinematicS": 0.0,
+      "frame": 4,
+      "gpuMs": 38.5900001525879,
+      "ms": 46.722,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 47,
+        "SURFACE": 75
+      },
+      "renderCpuMs": 1.05599999427795,
+      "wallS": 0.211704
+    },
+    {
+      "cinematic": "",
+      "cinematicS": 0.0,
+      "frame": 5,
+      "gpuMs": 34.7050018310547,
+      "ms": 39.343,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 47,
+        "SURFACE": 75
+      },
+      "renderCpuMs": 0.727999985218048,
+      "wallS": 0.251047
+    },
+    {
+      "cinematic": "opening",
+      "cinematicS": 0.0166666666666667,
+      "frame": 30,
+      "gpuMs": 3.65100002288818,
+      "ms": 34.866,
+      "pipelines": {
+        "CANVAS": 2,
+        "DRAW": 0,
+        "MESH": 44,
+        "SPECIALIZATION": 47,
+        "SURFACE": 75
+      },
+      "renderCpuMs": 0.739000022411346,
+      "wallS": 0.669148
+    }
+  ],
+  "titleSeconds": 0.0,
+  "rawReport": "test-results/godot-native/opening-encounter-fast-before.json"
+}

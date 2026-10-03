@@ -1,0 +1,19 @@
+{
+  "source": "Original fictional hover craft; no external meshes or textures",
+  "units": "metres",
+  "up": "+Y",
+  "models": [
+    {
+      "name": "RaiderSkiff",
+      "editableParts": 398,
+      "triangles": 45728
+    },
+    {
+      "name": "RaiderGunboat",
+      "editableParts": 400,
+      "triangles": 49519
+    }
+  ],
+  "repairedTangents": 4,
+  "bytes": 8828040
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "test": "integration",
+    "exit": 0,
+    "passes": 108,
+    "problems": []
+  },
+  {
+    "test": "audit_parity",
+    "exit": 0,
+    "passes": 132,
+    "problems": []
+  },
+  {
+    "test": "play_parity",
+    "exit": 0,
+    "passes": 58,
+    "problems": []
+  },
+  {
+    "test": "camera_clearance",
+    "exit": 0,
+    "passes": 55,
+    "problems": []
+  },
+  {
+    "test": "desert_life",
+    "exit": 0,
+    "passes": 28,
+    "problems": []
+  },
+  {
+    "test": "opening_framing",
+    "exit": 0,
+    "passes": 22,
+    "problems": []
+  },
+  {
+    "test": "compiled_machine",
+    "exit": 0,
+    "passes": 20,
+    "problems": []
+  },
+  {
+    "test": "helm",
+    "exit": 0,
+    "passes": 36,
+    "problems": []
+  },
+  {
+    "test": "controls_interactions",
+    "exit": 0,
+    "passes": 66,
+    "problems": []
+  },
+  {
+    "test": "story_polish",
+    "exit": 0,
+    "passes": 59,
+    "problems": []
+  }
+]

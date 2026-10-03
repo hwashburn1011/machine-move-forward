@@ -1,0 +1,194 @@
+[
+	{
+		"direction": "fwd",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_fwd",
+		"period": 0.6,
+		"stride": 0.86
+	},
+	{
+		"direction": "fwd_right",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_fwd_right",
+		"period": 0.6,
+		"stride": 0.70189092643261
+	},
+	{
+		"direction": "right",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_right",
+		"period": 0.6,
+		"stride": 0.6364
+	},
+	{
+		"direction": "back_right",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_back_right",
+		"period": 0.6,
+		"stride": 0.592430798578262
+	},
+	{
+		"direction": "back",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_back",
+		"period": 0.6,
+		"stride": 0.7052
+	},
+	{
+		"direction": "back_left",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_back_left",
+		"period": 0.6,
+		"stride": 0.592430798578262
+	},
+	{
+		"direction": "left",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_left",
+		"period": 0.6,
+		"stride": 0.6364
+	},
+	{
+		"direction": "fwd_left",
+		"duty": 0.52,
+		"gait": "walk",
+		"name": "native_walk_fwd_left",
+		"period": 0.6,
+		"stride": 0.70189092643261
+	},
+	{
+		"direction": "fwd",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_fwd",
+		"period": 0.5,
+		"stride": 1.04
+	},
+	{
+		"direction": "fwd_right",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_fwd_right",
+		"period": 0.5,
+		"stride": 0.848798329639435
+	},
+	{
+		"direction": "right",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_right",
+		"period": 0.5,
+		"stride": 0.7696
+	},
+	{
+		"direction": "back_right",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_back_right",
+		"period": 0.5,
+		"stride": 0.716427942466736
+	},
+	{
+		"direction": "back",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_back",
+		"period": 0.5,
+		"stride": 0.8528
+	},
+	{
+		"direction": "back_left",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_back_left",
+		"period": 0.5,
+		"stride": 0.716427942466736
+	},
+	{
+		"direction": "left",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_left",
+		"period": 0.5,
+		"stride": 0.7696
+	},
+	{
+		"direction": "fwd_left",
+		"duty": 0.34,
+		"gait": "run",
+		"name": "native_run_fwd_left",
+		"period": 0.5,
+		"stride": 0.848798329639435
+	},
+	{
+		"direction": "fwd",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_fwd",
+		"period": 0.7,
+		"stride": 0.58
+	},
+	{
+		"direction": "fwd_right",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_fwd_right",
+		"period": 0.7,
+		"stride": 0.473368299221992
+	},
+	{
+		"direction": "right",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_right",
+		"period": 0.7,
+		"stride": 0.4292
+	},
+	{
+		"direction": "back_right",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_back_right",
+		"period": 0.7,
+		"stride": 0.399546352529526
+	},
+	{
+		"direction": "back",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_back",
+		"period": 0.7,
+		"stride": 0.4756
+	},
+	{
+		"direction": "back_left",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_back_left",
+		"period": 0.7,
+		"stride": 0.399546352529526
+	},
+	{
+		"direction": "left",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_left",
+		"period": 0.7,
+		"stride": 0.4292
+	},
+	{
+		"direction": "fwd_left",
+		"duty": 0.62,
+		"gait": "crouch_walk",
+		"name": "native_crouch_walk_fwd_left",
+		"period": 0.7,
+		"stride": 0.473368299221992
+	}
+]

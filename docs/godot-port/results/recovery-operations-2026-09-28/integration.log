@@ -1,0 +1,116 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS Original seeded desert mmf-default-seed / -55.0
+PASS Original seeded desert mmf-default-seed / -3.0
+PASS Original seeded desert mmf-default-seed / -2.0
+PASS Original seeded desert mmf-default-seed / -1.0
+PASS Original seeded desert mmf-default-seed / 0.0
+PASS Original seeded desert mmf-default-seed / 1.0
+PASS Original seeded desert mmf-default-seed / 2.0
+PASS Original seeded desert mmf-default-seed / 3.0
+PASS Original seeded desert mmf-default-seed / 55.0
+PASS Original seeded desert native-parity:α / -55.0
+PASS Original seeded desert native-parity:α / -3.0
+PASS Original seeded desert native-parity:α / -2.0
+PASS Original seeded desert native-parity:α / -1.0
+PASS Original seeded desert native-parity:α / 0.0
+PASS Original seeded desert native-parity:α / 1.0
+PASS Original seeded desert native-parity:α / 2.0
+PASS Original seeded desert native-parity:α / 3.0
+PASS Original seeded desert native-parity:α / 55.0
+MMF_NATIVE_READY 
+PASS Title opens
+PLAYER (0.0, 16.03889, -1.0) MODEL [P: (-0.688175, 0.0075, -0.755737), S: (1.376349, 2.148701, 1.89148)]
+MACHINE [P: (-17.085, -0.785431, -15.08), S: (30.165, 30.10709, 35.84333)]
+BONES ["root", "pelvis", "spine_01", "spine_02", "neck_01", "head", "clavicle_r", "upperarm_r", "lowerarm_r", "hand_r", "finger_01_01_r", "finger_01_02_r", "finger_01_03_r", "finger_02_01_r", "finger_02_02_r", "finger_02_03_r", "finger_03_01_r", "finger_03_02_r", "finger_03_03_r", "finger_04_01_r", "finger_04_02_r", "finger_04_03_r", "thumb_01_r", "thumb_02_r", "clavicle_l", "upperarm_l", "lowerarm_l", "hand_l", "finger_01_01_l", "finger_01_02_l", "finger_01_03_l", "finger_02_01_l", "finger_02_02_l", "finger_02_03_l", "finger_03_01_l", "finger_03_02_l", "finger_03_03_l", "finger_04_01_l", "finger_04_02_l", "finger_04_03_l", "thumb_01_l", "thumb_02_l", "thigh_r", "calf_r", "foot_r", "ball_r", "thigh_l", "calf_l", "foot_l", "ball_l"]
+PASS Player rests on upper deck
+PASS Terminal Inventory
+PASS Terminal Build
+PASS Terminal Workshop
+PASS Terminal Machine
+PASS Terminal Signal
+PASS Terminal Records
+PASS Terminal Settings
+PASS Terminal Library
+PASS Refine recipe transaction
+PASS Install scanner
+PASS Start scanner
+PASS Armour before weapon falloff
+PASS Linear damage falloff
+PASS No damage beyond range
+PASS Power shedding cuts the whole station class
+PASS Scanner reaches 100%
+PASS Signal triggers native cutscene
+PASS Boarding craft launches a visible grapple
+PASS Boarding ship attaches grapple
+PASS Mech completes grapple climb
+PASS Encounter clears
+PASS First expedition route
+PASS Elevated destination docks
+PASS Recover expedition unique through gyro interlocks
+SAVE SAFETY true 100.0 false 
+PASS Durable campaign save
+PASS Verified campaign load
+PASS Save preserves story unlocks
+PASS Commit chapter 0
+PASS Dock chapter 0
+PASS Read wreck-one-journal-cargo
+PASS Read wreck-one-journal-crew
+PASS Read wreck-one-journal-route
+PASS Preserve course-gyro
+PASS Depart chapter 0
+PASS Commit chapter 1
+PASS Dock chapter 1
+PASS Read relay-foundry-journal-log
+PASS Read relay-foundry-journal-blueprint
+PASS Preserve salvage-controller
+PASS Preserve tracking-servo
+PASS Depart chapter 1
+PASS Commit chapter 2
+PASS Dock chapter 2
+PASS Read quiet-array-journal-port
+PASS Read quiet-array-journal-starboard
+PASS Read quiet-array-journal-archive
+PASS Preserve course-actuator
+PASS Preserve annika-archive-shard
+PASS Depart chapter 2
+PASS Commit chapter 3
+PASS Dock chapter 3
+PASS Read orchard-caretaker-record
+PASS Read orchard-memory-record
+PASS Activate orchard-starboard-isolator
+PASS Preserve human-seed-bank
+PASS Preserve vector-governor
+PASS Preserve orchard-memory-core
+PASS Depart chapter 3
+PASS Commit chapter 4
+PASS Dock chapter 4
+PASS Read meridian-common-record
+PASS Read meridian-civilian-record
+PASS Activate meridian-transmitter-online
+PASS Activate meridian-archive-installed
+PASS Preserve meridian-solution
+PASS Depart chapter 4
+PASS Meridian ending ready
+PASS Durable ending checkpoint
+PASS Native arrival cinematic
+PASS Keep Walking completion
+PASS Optional signal threshold crossing
+PASS Gate optional retrieval: fuel-cache
+PASS Complete optional site: fuel-cache
+PASS Gate optional retrieval: salvage-wreck
+PASS Complete optional site: salvage-wreck
+PASS Gate optional retrieval: memorial
+PASS Complete optional site: memorial
+PASS Gate optional retrieval: repair-depot
+PASS Complete optional site: repair-depot
+PASS Reject malformed structure health
+PASS Reject negative ammunition
+PASS Reject invalid chapter
+PASS Full campaign native round trip
+PASS Empty fuel preserves emergency crawl
+PASS Repair kit restores full robot health without food penalties
+PASS Reject fractional item counts
+PASS Demolition cascades supported equipment
+PASS Cascade preserves stored contents
+PASS Cannot cap staircase opening

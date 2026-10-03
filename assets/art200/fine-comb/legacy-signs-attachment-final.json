@@ -1,0 +1,306 @@
+{
+  "threshold_m": 0.025,
+  "limitation": "Axis-aligned bounds adjacency is only a screening check; it cannot prove that angled or hollow meshes touch. Source geometry and renders were inspected separately.",
+  "models": {
+    "wreck-pickup": {
+      "editable_parts": 245,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "wreck-ambulance": {
+      "editable_parts": 228,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "wreck-forklift": {
+      "editable_parts": 234,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "survey-rover": {
+      "editable_parts": 280,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "rail-bogie": {
+      "editable_parts": 42,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "container-wagon": {
+      "editable_parts": 157,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "fuel-trailer": {
+      "editable_parts": 109,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "wreck-motorcycle": {
+      "editable_parts": 90,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "culvert": {
+      "editable_parts": 33,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "transformer": {
+      "editable_parts": 86,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "fuel-pump": {
+      "editable_parts": 43,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "utility-cabinet": {
+      "editable_parts": 72,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "telecom-cabinet": {
+      "editable_parts": 72,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "condenser": {
+      "editable_parts": 58,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "satellite-dish": {
+      "editable_parts": 37,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "light-tower": {
+      "editable_parts": 111,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "diesel-generator": {
+      "editable_parts": 55,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "air-compressor": {
+      "editable_parts": 41,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "fire-hydrant": {
+      "editable_parts": 42,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "bulk-fuel-tank": {
+      "editable_parts": 65,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "cargo-pallet": {
+      "editable_parts": 39,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "cable-spool": {
+      "editable_parts": 44,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "road-barrier": {
+      "editable_parts": 13,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "signal-gantry": {
+      "editable_parts": 82,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "bus-shelter": {
+      "editable_parts": 50,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-morrow-motors": {
+      "editable_parts": 359,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-last-light-lodging": {
+      "editable_parts": 294,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-brindle-bottling": {
+      "editable_parts": 196,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-grainward-coop": {
+      "editable_parts": 377,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-copperline-cookers": {
+      "editable_parts": 193,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-seven-mile-laundry": {
+      "editable_parts": 222,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-merit-radio": {
+      "editable_parts": 304,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-solace-clinic": {
+      "editable_parts": 287,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-open-road-retreads": {
+      "editable_parts": 191,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-northstar-bank": {
+      "editable_parts": 296,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-dewpoint-water": {
+      "editable_parts": 249,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-paperbird-post": {
+      "editable_parts": 252,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-parcel-plain": {
+      "editable_parts": 195,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-sunbreak-cinema": {
+      "editable_parts": 414,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-hush-hour-records": {
+      "editable_parts": 202,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-workday-tools": {
+      "editable_parts": 292,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-pantry-union": {
+      "editable_parts": 252,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-sandglass-tours": {
+      "editable_parts": 205,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-starlit-fabric": {
+      "editable_parts": 295,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-electrovale-grid": {
+      "editable_parts": 377,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-cairn-cement": {
+      "editable_parts": 373,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-goodnight-mattress": {
+      "editable_parts": 244,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-winterfruit-preserves": {
+      "editable_parts": 204,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-kindred-salvage": {
+      "editable_parts": 293,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    },
+    "art200-billboard-amberline-transit": {
+      "editable_parts": 396,
+      "zero_area_faces": 0,
+      "bounds_groups": 1,
+      "elevated_bounds_groups_at_25mm": 0
+    }
+  }
+}

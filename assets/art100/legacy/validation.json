@@ -1,0 +1,15 @@
+{
+  "models": 25,
+  "roots": 25,
+  "triangles": 381644,
+  "bytes": 31091792,
+  "materials": 1,
+  "embedded": true,
+  "namesExact": true,
+  "grounded": true,
+  "identityRoots": true,
+  "accounting": true,
+  "errors": 0,
+  "warnings": 0,
+  "messages": []
+}

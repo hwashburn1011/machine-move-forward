@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "accepted_utc": "2026-10-03T03:50:18.525779+00:00",
+  "build": {
+    "schema": 1,
+    "version": "0.3.0-beta.1",
+    "build_id": "0.3.0-beta.1-941f79bf1d73",
+    "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+    "created_utc": "2026-10-03T03:46:51Z",
+    "asset_manifest_sha256": "c084f87ed50d292f8c3f01a6219e79683589ff398c508eb4735155917f5bbc94",
+    "roof_collision_sha256": {
+      "glass-orchard.res": "1897fb3f2641ad870508df335e367142298b514d9f4d8fffacdd8db4913c00fd",
+      "last-garden-meridian.res": "2f4368f6a49f77f542a9d3c3fb7d7b598ca2a05748f703336ceeb8896dd7a9cd",
+      "quiet-array.res": "be83d64398429bf557f3a771176defa68d1f76c6535f454f3e916e56b5eb0612",
+      "relay-foundry.res": "407898c5008dd747e34c7fb13adb7e41e182bac55b59d05dc18a9ef1bc86584b",
+      "rooftop-workshop.res": "7fa9c17a6674f7ccf5b9e0f94256add0a66a6e605a1a749ed796925f2138f6da",
+      "wreck-one.res": "6e897ef50a732d6a84a164d272fcf8384f4d222042ea7c17ba507c6c5e27e117"
+    },
+    "refinement_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+    "prior_roof_floor_evidence_sha256": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
+    "grounded_sites_outposts_evidence_sha256": "59363312998ae2a15d9de724fa8f933a14744a1e4dfea451fe8242dad8acc844",
+    "wrist_menu_evidence_sha256": "de6c66e802d6a967ae214b5f71f54ede84d95bb0588c12bdd97741e4bcffc009",
+    "title_screen_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+    "prior_cinematic_opening_evidence_sha256": "5f00293232932f83bcdf38e8cbb42e4b1ae336d560149fe7ea53b0f3d0187be2"
+  },
+  "scope": "Three cinematic refinement passes and final contact/framing corrections. No campaign or combat balance changes. Windows package acceptance recorded separately.",
+  "passes": [
+    {
+      "pass": 1,
+      "focus": "Articulated glove, fixed-length sleeve IK, single cart impact, rooftop decision beat. Native review exposed a visible shoulder end."
+    },
+    {
+      "pass": 2,
+      "focus": "Reverse-side close-up, horizontal framing, grip adjustment, elbow gusset, rooftop reaction/reveal in motion. Review exposed per-face UV patching and premature spool descent."
+    },
+    {
+      "pass": 3,
+      "focus": "Continuous cloth UVs, robot knee compression with planted feet, equipment following the hands, staged blade contact, shelf-aware spool roll/fall/bounce, clean subtitles and pursuer eyeline."
+    }
+  ],
+  "checks": 832,
+  "native_review": {
+    "checks": 37,
+    "path": "test-results/opening-refinement/final-review/review.json",
+    "sha256": "62f7f0d7bb4a61ef7b8a45fd500f35434cdc2dc6022a973b824a8ec98fd25881",
+    "images": 29,
+    "physical_contacts": {
+      "max_elbow_gap_m": 3.37174782316652e-07,
+      "max_wrist_gap_m": 3.37174782316652e-07,
+      "min_finger_joint_clearance_m": 0.000636012852191926,
+      "min_spool_floor_clearance_m": 3.39388847350741e-06,
+      "spool_clears_tray": true
+    }
+  },
+  "regressions": [
+    {
+      "suite": "opening_handoff",
+      "exit_code": 0,
+      "checks": 34,
+      "failures": [],
+      "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+      "source_hash_end": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa"
+    },
+    {
+      "suite": "opening_framing",
+      "exit_code": 0,
+      "checks": 22,
+      "failures": [],
+      "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+      "source_hash_end": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa"
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "checks": 115,
+      "failures": [],
+      "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+      "source_hash_end": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa"
+    },
+    {
+      "suite": "controls_interactions",
+      "exit_code": 0,
+      "checks": 66,
+      "failures": [],
+      "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+      "source_hash_end": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa"
+    },
+    {
+      "suite": "wrist_terminal",
+      "exit_code": 0,
+      "checks": 45,
+      "failures": [],
+      "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+      "source_hash_end": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa"
+    },
+    {
+      "suite": "audio_lifecycle",
+      "exit_code": 0,
+      "checks": 58,
+      "failures": [],
+      "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+      "source_hash_end": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa"
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "checks": 455,
+      "failures": [],
+      "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+      "source_hash_end": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa"
+    }
+  ],
+  "model": {
+    "editable_parts": 276,
+    "batches": 52,
+    "triangles": 79120,
+    "bytes": 5239440,
+    "moving_roots": [
+      "HumanGlove",
+      "UpperSleeve",
+      "ForeSleeve",
+      "DisconnectLever",
+      "SuspendedMotor",
+      "ServiceCart",
+      "EjectedSpool",
+      "GlassFractures"
+    ],
+    "articulated_finger_joints": 12,
+    "sleeve_lengths_m": [
+      0.34,
+      0.29
+    ],
+    "provenance": "Original beveled Blender geometry and deterministic painted wear. Existing game actors are staged separately in Godot."
+  },
+  "runtime_asset_changes": {
+    "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+    "previous_assets": "8235152e3435e8828263718cb833869b78a3bf9d4065a070bebe312a1f870c14",
+    "assets": "c084f87ed50d292f8c3f01a6219e79683589ff398c508eb4735155917f5bbc94",
+    "changed": [
+      "art/opening-memory.glb",
+      "assets/audio/opening/memory-and-escape.wav"
+    ],
+    "removed": [],
+    "passed": true
+  },
+  "performance": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "fpsCap": 0,
+    "frameMs": {
+      "max": 42.414,
+      "median": 3.698,
+      "p95": 5.702,
+      "p99": 6.71
+    },
+    "entryCpuMs": 3.94,
+    "firstOpeningMs": 42.414,
+    "slowFrames": [
+      {
+        "cinematic": "opening",
+        "cinematicS": -21.9833333333333,
+        "frame": 578,
+        "gpuMs": 0.0659999996423721,
+        "ms": 42.414,
+        "pipelines": {
+          "CANVAS": 3,
+          "DRAW": 0,
+          "MESH": 90,
+          "SPECIALIZATION": 48,
+          "SURFACE": 116
+        },
+        "renderCpuMs": 0.0570000000298023,
+        "wallS": 0.042414
+      }
+    ],
+    "completed": true,
+    "scope": "Actual paused title, New Game, full 32.2-second opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off. No input or story timing changes."
+  },
+  "performance_after_black_entry_max_ms": 9.42,
+  "movie": {
+    "first_frame": 96,
+    "fps": 30,
+    "last_frame": 1152,
+    "opening_done": true,
+    "scope": "Real New Game input, native rendered full opening and mixed engine audio. Fixed-rate movie output is not a performance measurement.",
+    "source_hash": "941f79bf1d731941e9f87b1d62554f8396a10d150d0d90eb1fe1a7f1b57d20fa",
+    "path": "test-results/opening-refinement/film/opening.mp4",
+    "sha256": "297d552bea88828865e7be2ff906a556ef7f21c57ab996c6000239bf8e3cf163",
+    "mixed_audio_peak_dbfs": -16.0,
+    "mixed_audio_mean_dbfs": -42.6,
+    "audio_scope": "Native engine recording; waveform analysis and event timing review, not a listening-panel evaluation."
+  },
+  "prior_cinematic_acceptance_unchanged": true,
+  "publication": "Local only; itch.io account/project setup remains deferred by owner."
+}

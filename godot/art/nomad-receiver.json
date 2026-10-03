@@ -1,0 +1,25 @@
+{
+  "sourceRevision": "77c4798",
+  "position": [
+    1,
+    16.03,
+    -9.8
+  ],
+  "editableParts": 208,
+  "materialBatches": 15,
+  "masterTriangles": 45524,
+  "bytes": 3938368,
+  "bounds": {
+    "min": [
+      -0.4449999928474426,
+      0.0,
+      -0.27000001072883606
+    ],
+    "max": [
+      0.44499996304512024,
+      1.8680000305175781,
+      0.27799999713897705
+    ]
+  },
+  "reference": "https://scdn.rohde-schwarz.com/ur/pws/dl_downloads/dl_common_library/dl_brochures_and_datasheets/pdf_1/EB500_bro_en_5214-3800-12_v0500.pdf"
+}

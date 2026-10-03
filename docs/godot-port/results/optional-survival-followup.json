@@ -1,0 +1,287 @@
+{
+  "date": "2026-09-25",
+  "scope": "Optional survivor follow-up; controlled native fixtures, not a first-time pacing study",
+  "totalChecks": 498,
+  "reports": {
+    "friendly-encounter": {
+      "checks": 21,
+      "failures": [],
+      "passed": true,
+      "renderer": ""
+    },
+    "survivor-content": {
+      "bridgeRefusal": "",
+      "checks": 40,
+      "failures": [],
+      "toolTarget": "bp-4"
+    },
+    "workshop-first-visit": {
+      "checks": 22,
+      "climb": {
+        "end": "(17.5074, 19.6485, 6.0)",
+        "start": "(6.0, 16.1, 6.0)"
+      },
+      "failures": [],
+      "returnPosition": "(5.555515, 16.0485, 6.0)"
+    },
+    "scout-escape": {
+      "checks": 47,
+      "failures": [],
+      "navigation": [
+        {
+          "heading": -12.0,
+          "lateralMovement": -16.3374829669161,
+          "seconds": 14.75,
+          "side": 1
+        },
+        {
+          "heading": 12.0,
+          "lateralMovement": 16.3374829669159,
+          "seconds": 14.75,
+          "side": -1
+        }
+      ],
+      "passed": true,
+      "scope": "Headless native state, collision, inventory, steering and lifecycle regression; not a manual campaign playthrough"
+    },
+    "player-step-clearance": {
+      "checks": 6,
+      "failures": [],
+      "passed": true,
+      "samples": [
+        {
+          "peak": 0.373344421386719,
+          "position": "(2.394764, 0.366844, 0.0)"
+        },
+        {
+          "peak": 0.0187149047851563,
+          "position": "(0.599976, 0.006508, 0.0)"
+        },
+        {
+          "peak": 0.0187149047851563,
+          "position": "(0.599976, 0.0065, 0.0)"
+        },
+        {
+          "peak": 0.11871337890625,
+          "position": "(2.399895, 0.118507, 0.0)"
+        },
+        {
+          "peak": 0.0187149047851563,
+          "position": "(2.860939, -1.939789, 0.0)"
+        }
+      ]
+    },
+    "locomotion-tests": {
+      "checks": 39,
+      "failures": [],
+      "passed": true,
+      "scenarios": {
+        "back": {
+          "actualSpeedMps": 4.4999885559082,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.00744277163959,
+          "stanceFootDriftMps": 0.0314631883520633,
+          "stanceSamples": 19
+        },
+        "backLeft": {
+          "actualSpeedMps": 4.50011014938354,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.38964418854025,
+          "stanceFootDriftMps": 0.0164477719226852,
+          "stanceSamples": 20
+        },
+        "backRight": {
+          "actualSpeedMps": 4.50011014938354,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.38964418854025,
+          "stanceFootDriftMps": 0.0127769584651105,
+          "stanceSamples": 18
+        },
+        "blocked": {
+          "actualSpeedMps": 0.0,
+          "clips": [
+            "armed_idle"
+          ],
+          "cyclesPerSecond": 0.0,
+          "stanceFootDriftMps": 0.0,
+          "stanceSamples": 0
+        },
+        "crouch": {
+          "actualSpeedMps": 2.1999979019165,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.63139471930776,
+          "stanceFootDriftMps": 0.00190209611901082,
+          "stanceSamples": 39
+        },
+        "crouchBack": {
+          "actualSpeedMps": 2.20001220703125,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 3.20903888645065,
+          "stanceFootDriftMps": 0.00169066850503441,
+          "stanceSamples": 38
+        },
+        "forward": {
+          "actualSpeedMps": 4.49999570846558,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 1.64610565326555,
+          "stanceFootDriftMps": 0.0429589720442891,
+          "stanceSamples": 21
+        },
+        "forwardLeft": {
+          "actualSpeedMps": 4.50011014938354,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.01699141271936,
+          "stanceFootDriftMps": 0.0310761015862226,
+          "stanceSamples": 19
+        },
+        "forwardRight": {
+          "actualSpeedMps": 4.50011014938354,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.01699156002506,
+          "stanceFootDriftMps": 0.0276869017397985,
+          "stanceSamples": 18
+        },
+        "left": {
+          "actualSpeedMps": 4.50004577636719,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.22449168763958,
+          "stanceFootDriftMps": 0.00882977881701663,
+          "stanceSamples": 24
+        },
+        "right": {
+          "actualSpeedMps": 4.50004577636719,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.22449186681532,
+          "stanceFootDriftMps": 0.00961320736678317,
+          "stanceSamples": 20
+        },
+        "sprint": {
+          "actualSpeedMps": 7.49999809265137,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 2.74351116638723,
+          "stanceFootDriftMps": 0.0558945466764271,
+          "stanceSamples": 19
+        },
+        "sprintDiagonal": {
+          "actualSpeedMps": 7.5000786781311,
+          "clips": [
+            "grounded_locomotion"
+          ],
+          "cyclesPerSecond": 3.36157798152413,
+          "stanceFootDriftMps": 0.0252243963768706,
+          "stanceSamples": 18
+        }
+      }
+    },
+    "integration": {
+      "checks": 109,
+      "failures": [],
+      "passed": true,
+      "renderer": ""
+    },
+    "controls-interactions": {
+      "checks": 66,
+      "failures": [],
+      "passed": true,
+      "renderer": ""
+    },
+    "story-polish": {
+      "checks": 59,
+      "failures": [],
+      "passed": true,
+      "renderer": ""
+    },
+    "boarding-tests": {
+      "checks": 69,
+      "failures": [],
+      "observations": {
+        "bastion": {
+          "gripErrors": [
+            1.23778335137104E-07,
+            4.21468477895814E-08
+          ]
+        },
+        "blockedRoutePreparation": {
+          "maxMs": 1.144,
+          "medianMs": 0.869,
+          "samples": 15,
+          "scope": "One-time two-crew route preparation, real physics world; not gameplay FPS"
+        },
+        "clearRoutePreparation": {
+          "maxMs": 0.243,
+          "medianMs": 0.186,
+          "samples": 15,
+          "scope": "One-time two-crew route preparation, real physics world; not gameplay FPS"
+        },
+        "geometry": {
+          "collapsed": 0,
+          "triangles": 45071
+        },
+        "raider": {
+          "gripErrors": [
+            8.5807920413572E-07,
+            8.5807920413572E-07
+          ]
+        },
+        "revenant": {
+          "gripErrors": [
+            1.23778335137104E-07,
+            1.23778335137104E-07
+          ]
+        },
+        "routeFailures": [
+          [],
+          [],
+          [],
+          []
+        ],
+        "scavenger": {
+          "gripErrors": [
+            8.53408664625022E-07,
+            8.53408664625022E-07
+          ]
+        },
+        "sovereign": {
+          "gripErrors": [
+            1.23778335137104E-07,
+            5.96046447753906E-08
+          ]
+        },
+        "warden": {
+          "gripErrors": [
+            1.49011611938477E-08,
+            4.21468477895814E-08
+          ]
+        }
+      },
+      "passed": true
+    },
+    "interception-defenses": {
+      "checks": 20,
+      "failures": [],
+      "passed": true
+    }
+  }
+}

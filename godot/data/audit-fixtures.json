@@ -1,0 +1,860 @@
+{
+  "producers": [
+    {
+      "kind": "condenser",
+      "steps": [
+        {
+          "action": "tick",
+          "value": 45,
+          "progress": 45,
+          "stored": 0
+        },
+        {
+          "action": "off",
+          "value": 180,
+          "progress": 45,
+          "stored": 0
+        },
+        {
+          "action": "tick",
+          "value": 45,
+          "progress": 0,
+          "stored": 1
+        },
+        {
+          "action": "tick",
+          "value": 10000,
+          "progress": 0,
+          "stored": 1
+        },
+        {
+          "action": "claim",
+          "value": 1,
+          "progress": 0,
+          "stored": 0
+        },
+        {
+          "action": "tick",
+          "value": 0.01,
+          "progress": 0.01,
+          "stored": 0
+        },
+        {
+          "action": "claim",
+          "value": 10,
+          "progress": 0.01,
+          "stored": 0
+        },
+        {
+          "action": "tick",
+          "value": 0.01,
+          "progress": 0.02,
+          "stored": 0
+        },
+        {
+          "action": "tick",
+          "value": 90,
+          "progress": 0.01999999999999602,
+          "stored": 1
+        }
+      ]
+    },
+    {
+      "kind": "planter",
+      "steps": [
+        {
+          "action": "tick",
+          "value": 75,
+          "progress": 75,
+          "stored": 0
+        },
+        {
+          "action": "off",
+          "value": 300,
+          "progress": 75,
+          "stored": 2
+        },
+        {
+          "action": "tick",
+          "value": 75,
+          "progress": 0,
+          "stored": 3
+        },
+        {
+          "action": "tick",
+          "value": 10000,
+          "progress": 0,
+          "stored": 3
+        },
+        {
+          "action": "claim",
+          "value": 1,
+          "progress": 0,
+          "stored": 2
+        },
+        {
+          "action": "tick",
+          "value": 0.01,
+          "progress": 0.01,
+          "stored": 2
+        },
+        {
+          "action": "claim",
+          "value": 10,
+          "progress": 0.01,
+          "stored": 0
+        },
+        {
+          "action": "tick",
+          "value": 0.01,
+          "progress": 0.02,
+          "stored": 0
+        },
+        {
+          "action": "tick",
+          "value": 150,
+          "progress": 0.020000000000010232,
+          "stored": 1
+        }
+      ]
+    }
+  ],
+  "garden": [
+    {
+      "action": "water",
+      "value": 2,
+      "format": 1,
+      "water": 2,
+      "greens": 0,
+      "progressS": 0
+    },
+    {
+      "action": "tick",
+      "value": 179,
+      "format": 1,
+      "water": 2,
+      "greens": 0,
+      "progressS": 179
+    },
+    {
+      "action": "tick",
+      "value": 181,
+      "format": 1,
+      "water": 0,
+      "greens": 6,
+      "progressS": 0
+    },
+    {
+      "action": "water",
+      "value": 2,
+      "format": 1,
+      "water": 2,
+      "greens": 6,
+      "progressS": 0
+    },
+    {
+      "action": "tick",
+      "value": 10000,
+      "format": 1,
+      "water": 2,
+      "greens": 6,
+      "progressS": 0
+    },
+    {
+      "action": "harvest",
+      "value": 1,
+      "format": 1,
+      "water": 2,
+      "greens": 5,
+      "progressS": 0
+    },
+    {
+      "action": "tick",
+      "value": 180,
+      "format": 1,
+      "water": 2,
+      "greens": 5,
+      "progressS": 0
+    },
+    {
+      "action": "harvest",
+      "value": 2,
+      "format": 1,
+      "water": 2,
+      "greens": 3,
+      "progressS": 0
+    },
+    {
+      "action": "tick",
+      "value": 90,
+      "format": 1,
+      "water": 2,
+      "greens": 3,
+      "progressS": 90
+    },
+    {
+      "action": "tick",
+      "value": 90,
+      "format": 1,
+      "water": 1,
+      "greens": 6,
+      "progressS": 0
+    },
+    {
+      "action": "harvest",
+      "value": 6,
+      "format": 1,
+      "water": 1,
+      "greens": 0,
+      "progressS": 0
+    },
+    {
+      "action": "tick",
+      "value": 10000,
+      "format": 1,
+      "water": 0,
+      "greens": 3,
+      "progressS": 0
+    },
+    {
+      "action": "water",
+      "value": 2,
+      "format": 1,
+      "water": 2,
+      "greens": 3,
+      "progressS": 0
+    },
+    {
+      "action": "tick",
+      "value": 1,
+      "format": 1,
+      "water": 2,
+      "greens": 3,
+      "progressS": 1
+    }
+  ],
+  "legs": [
+    {
+      "fraction": 1,
+      "speedScale": 1
+    },
+    {
+      "fraction": 0.75,
+      "speedScale": 0.85
+    },
+    {
+      "fraction": 0.5,
+      "speedScale": 0.7
+    },
+    {
+      "fraction": 0.25,
+      "speedScale": 0.55
+    },
+    {
+      "fraction": 0,
+      "speedScale": 0.4
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "longstride-rams",
+      "action": "research",
+      "ok": true,
+      "charged": 1,
+      "snapshot": {
+        "researched": [
+          "longstride-rams"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "longstride-rams",
+      "action": "research",
+      "ok": false,
+      "charged": 1,
+      "snapshot": {
+        "researched": [
+          "longstride-rams"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "longstride-rams",
+      "action": "fit",
+      "ok": true,
+      "charged": 1,
+      "snapshot": {
+        "researched": [
+          "longstride-rams"
+        ],
+        "active": {
+          "propulsion": "longstride-rams"
+        }
+      },
+      "modifiers": {
+        "speedMultiplier": 1.18,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1.25,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "longstride-rams",
+      "action": "remove",
+      "ok": true,
+      "charged": 1,
+      "snapshot": {
+        "researched": [
+          "longstride-rams"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "torque-clutch",
+      "action": "research",
+      "ok": true,
+      "charged": 2,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "torque-clutch",
+      "action": "research",
+      "ok": false,
+      "charged": 2,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "torque-clutch",
+      "action": "fit",
+      "ok": true,
+      "charged": 2,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch"
+        ],
+        "active": {
+          "propulsion": "torque-clutch"
+        }
+      },
+      "modifiers": {
+        "speedMultiplier": 0.97,
+        "effectiveWeightMultiplier": 0.65,
+        "accelerationMultiplier": 0.7,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "torque-clutch",
+      "action": "remove",
+      "ok": true,
+      "charged": 2,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "overwound-dynamo",
+      "action": "research",
+      "ok": true,
+      "charged": 3,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "overwound-dynamo",
+      "action": "research",
+      "ok": false,
+      "charged": 3,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "overwound-dynamo",
+      "action": "fit",
+      "ok": true,
+      "charged": 3,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo"
+        ],
+        "active": {
+          "power": "overwound-dynamo"
+        }
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1.5,
+        "generationBonus": 6,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "overwound-dynamo",
+      "action": "remove",
+      "ok": true,
+      "charged": 3,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "lean-governor",
+      "action": "research",
+      "ok": true,
+      "charged": 4,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "lean-governor",
+      "action": "research",
+      "ok": false,
+      "charged": 4,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "lean-governor",
+      "action": "fit",
+      "ok": true,
+      "charged": 4,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor"
+        ],
+        "active": {
+          "power": "lean-governor"
+        }
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 0.55,
+        "generationBonus": -2,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "lean-governor",
+      "action": "remove",
+      "ok": true,
+      "charged": 4,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "heavy-breech",
+      "action": "research",
+      "ok": true,
+      "charged": 5,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "heavy-breech",
+      "action": "research",
+      "ok": false,
+      "charged": 5,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "heavy-breech",
+      "action": "fit",
+      "ok": true,
+      "charged": 5,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech"
+        ],
+        "active": {
+          "defense": "heavy-breech"
+        }
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1.4285714285714286,
+        "turretRateMultiplier": 0.6666666666666667,
+        "turretPowerBonus": 1
+      }
+    },
+    {
+      "id": "heavy-breech",
+      "action": "remove",
+      "ok": true,
+      "charged": 5,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "cycler-feed",
+      "action": "research",
+      "ok": true,
+      "charged": 6,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech",
+          "cycler-feed"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "cycler-feed",
+      "action": "research",
+      "ok": false,
+      "charged": 6,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech",
+          "cycler-feed"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    },
+    {
+      "id": "cycler-feed",
+      "action": "fit",
+      "ok": true,
+      "charged": 6,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech",
+          "cycler-feed"
+        ],
+        "active": {
+          "defense": "cycler-feed"
+        }
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 0.7142857142857143,
+        "turretRateMultiplier": 1.5,
+        "turretPowerBonus": 2
+      }
+    },
+    {
+      "id": "cycler-feed",
+      "action": "remove",
+      "ok": true,
+      "charged": 6,
+      "snapshot": {
+        "researched": [
+          "longstride-rams",
+          "torque-clutch",
+          "overwound-dynamo",
+          "lean-governor",
+          "heavy-breech",
+          "cycler-feed"
+        ],
+        "active": {}
+      },
+      "modifiers": {
+        "speedMultiplier": 1,
+        "effectiveWeightMultiplier": 1,
+        "accelerationMultiplier": 1,
+        "fuelBurnMultiplier": 1,
+        "generationBonus": 0,
+        "turretDamageMultiplier": 1,
+        "turretRateMultiplier": 1,
+        "turretPowerBonus": 0
+      }
+    }
+  ]
+}

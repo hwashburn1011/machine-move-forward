@@ -1,0 +1,18 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import validator from 'gltf-validator';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../..');
+const source='godot/art/gatekeeper-service-kit.glb';
+const bytes=await fs.readFile(path.join(root,source));
+const result=await validator.validateBytes(new Uint8Array(bytes),{maxIssues:200,ignoredIssues:['UNUSED_OBJECT']});
+const json=JSON.parse(bytes.subarray(20,20+bytes.readUInt32LE(12)).toString());
+const names=new Set(json.nodes.map(x=>x.name));
+const required=['GatekeeperHullDetails','GatekeeperGunDetails','FireControlShutterPort','FireControlShutterStarboard','PressureNeedle'];
+const failures=required.filter(x=>!names.has(x)).map(x=>'Missing retained moving root: '+x);
+if(result.issues.numErrors||result.issues.numWarnings)failures.push('Portable glTF validation must have zero errors and warnings.');
+if(json.skins?.length||json.animations?.length)failures.push('Additive rigid hardware must not duplicate or replace the carrier rig.');
+const report={source,sha256:crypto.createHash('sha256').update(bytes).digest('hex'),bytes:bytes.length,meshes:json.meshes.length,materials:json.materials.length,required_nodes:required,gltf:result.issues,failures};
+await fs.writeFile(path.join(root,'assets/beta-next/gatekeeper/validation.json'),JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify(report,null,2));process.exitCode=failures.length?1:0;

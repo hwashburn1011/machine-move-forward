@@ -1,0 +1,22 @@
+{
+	"aimQueryMs": {
+		"max": 0.026,
+		"mean": 0.0103815370623009,
+		"median": 0.01,
+		"p95": 0.013
+	},
+	"duneHeightMs": {
+		"max": 0.023,
+		"mean": 0.0115488858572079,
+		"median": 0.011,
+		"p95": 0.012
+	},
+	"scope": "Headless isolated CPU cost: full six-crate free pool, same coordinates/time/distance sequence; 2199 post-warmup samples. Query cost excludes UI drawing; not rendered FPS.",
+	"uncached": false,
+	"updateMs": {
+		"max": 1.01,
+		"mean": 0.324776716689404,
+		"median": 0.077,
+		"p95": 0.641
+	}
+}

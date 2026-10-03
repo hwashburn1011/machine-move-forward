@@ -1,0 +1,101 @@
+{
+  "packs": [
+    {
+      "path": "godot/art/art100-legacy.glb",
+      "sha256": "d37dfc08bf885197abf1afe8473a68611174ba282dbd15ea371b29898509652f",
+      "bytes": 31091792,
+      "roots": 25,
+      "triangles": 381644,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art100-wasteland.glb",
+      "sha256": "682f13a9cc007f84727ddb0f32a0e1f1cab7a76a3df362d48860442023ef989a",
+      "bytes": 21007428,
+      "roots": 25,
+      "triangles": 243204,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 143,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art100-machine.glb",
+      "sha256": "feff00deb7ba935ead516d71805d290125662bc87f7529de245e96f36419617f",
+      "bytes": 6400988,
+      "roots": 25,
+      "triangles": 98811,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art100-story-robots.glb",
+      "sha256": "f7e3a65f706f4ba4a566798e69cb2de8bd6215a01bad040266bd50f266a194ec",
+      "bytes": 16320796,
+      "roots": 25,
+      "triangles": 307140,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 265,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-signs.glb",
+      "sha256": "77ba53a1ee04aead66eb709a1f7c96d16926e70f6bf4693066850250f8065d0e",
+      "bytes": 32312112,
+      "roots": 25,
+      "triangles": 303300,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 517,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-wasteland.glb",
+      "sha256": "6036e900cfe1b56031f188413924cbdd571012040af353035bdfa17871770017",
+      "bytes": 8680980,
+      "roots": 25,
+      "triangles": 125320,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 226,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-machine.glb",
+      "sha256": "5fd1afadc67a07686e6d5cd0ab5fcd3f3b9b5c3ae05819d644df74cad0655e64",
+      "bytes": 7797712,
+      "roots": 25,
+      "triangles": 150363,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 0,
+      "diagnostics": []
+    },
+    {
+      "path": "godot/art/art200-story.glb",
+      "sha256": "4a57a307776ab1b92a0f89405bcaaa1484dba31d7ad89e6ceee1223d4bc780fb",
+      "bytes": 19683288,
+      "roots": 25,
+      "triangles": 400495,
+      "embeddedImages": true,
+      "errors": 0,
+      "warnings": 0,
+      "information": 302,
+      "diagnostics": []
+    }
+  ],
+  "passed": true
+}

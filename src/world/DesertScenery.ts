@@ -26,6 +26,42 @@ export const DESERT_ARCHETYPES = [
   'road-sign',
   'pylon',
   'water-tower',
+  'wreck-pickup',
+  'wreck-ambulance',
+  'wreck-forklift',
+  'survey-rover',
+  'rail-bogie',
+  'container-wagon',
+  'fuel-trailer',
+  'culvert',
+  'transformer',
+  'fuel-pump',
+  'utility-cabinet',
+  'telecom-cabinet',
+  'condenser',
+  'satellite-dish',
+  'light-tower',
+  'diesel-generator',
+  'air-compressor',
+  'fire-hydrant',
+  'bulk-fuel-tank',
+  'cargo-pallet',
+  'cable-spool',
+  'road-barrier',
+  'signal-gantry',
+  'bus-shelter',
+  'crane-pedestal',
+  'wreck-motorcycle',
+  'ventilation-turbine',
+  'pump-skid',
+  'scrapyard-magnet',
+  'radar-tower',
+  'fallen-antenna',
+  'bunker-entrance',
+  'grain-silo',
+  'storm-drain',
+  'street-lamp',
+  'rail-crossing',
 ] as const;
 export type DesertKind = (typeof DESERT_ARCHETYPES)[number];
 export interface DesertModel {
@@ -52,6 +88,49 @@ export const DESERT_MAX_PER_CHUNK = 14;
 export function desertBudget(propsPerChunk: number): number {
   return Math.min(DESERT_MAX_PER_CHUNK, Math.max(5, Math.round(propsPerChunk * 0.5) + 1));
 }
+
+// Ground footprint in metres, including loose hoses and open doors. These are
+// complete Blender assemblies; do not scale a small hydrant to a building slot.
+const VEHICLE_ARTIFACTS: ReadonlyArray<readonly [DesertKind, number]> = [
+  ['wreck-pickup', 5.6],
+  ['wreck-ambulance', 6.2],
+  ['wreck-forklift', 4.2],
+  ['survey-rover', 4.2],
+  ['rail-bogie', 3],
+  ['container-wagon', 9.4],
+  ['fuel-trailer', 4.5],
+  ['wreck-motorcycle', 2.7],
+];
+const UTILITY_ARTIFACTS: ReadonlyArray<readonly [DesertKind, number]> = [
+  ['culvert', 6],
+  ['transformer', 3.1],
+  ['fuel-pump', 1.8],
+  ['utility-cabinet', 1.8],
+  ['telecom-cabinet', 1.8],
+  ['condenser', 3.2],
+  ['satellite-dish', 3.2],
+  ['light-tower', 3.1],
+  ['diesel-generator', 3.3],
+  ['air-compressor', 3.1],
+  ['fire-hydrant', 1.1],
+  ['bulk-fuel-tank', 7],
+  ['cargo-pallet', 1.9],
+  ['cable-spool', 2.9],
+  ['road-barrier', 3.3],
+  ['signal-gantry', 9.3],
+  ['bus-shelter', 5],
+  ['crane-pedestal', 6.1],
+  ['ventilation-turbine', 1.7],
+  ['pump-skid', 3.2],
+  ['scrapyard-magnet', 2.9],
+  ['radar-tower', 4],
+  ['fallen-antenna', 7],
+  ['bunker-entrance', 4.6],
+  ['grain-silo', 6],
+  ['storm-drain', 3],
+  ['street-lamp', 2.2],
+  ['rail-crossing', 3.8],
+];
 
 /** Pure seeded districts. Higher quality adds detail without relocating landmarks.
  * A footprint radius includes rotation; the starboard 8–45m band stays free for
@@ -92,11 +171,17 @@ export function desertLayout(
   // One large, set-back silhouette, then the remains of its street or yard.
   const landmark: DesertKind =
     district === 0
-      ? landmarkBlock ? 'ruin-tower' : rng.pick(['ruin-house', 'ruin-apartment'])
+      ? landmarkBlock
+        ? 'ruin-tower'
+        : rng.pick(['ruin-house', 'ruin-apartment'])
       : district === 1
-        ? landmarkBlock ? 'ruin-factory' : rng.pick(['water-tower', 'ruin-shop'])
+        ? landmarkBlock
+          ? 'ruin-factory'
+          : rng.pick(['water-tower', 'ruin-shop'])
         : district === 2
-          ? landmarkBlock ? 'overpass' : rng.pick(['pylon', 'billboard'])
+          ? landmarkBlock
+            ? 'overpass'
+            : rng.pick(['pylon', 'billboard'])
           : rng.pick(['wreck-bus', 'wreck-tanker', 'road-sign']);
   add(
     landmark,
@@ -108,11 +193,17 @@ export function desertLayout(
         ? 30
         : landmark === 'ruin-factory'
           ? 25
-          : landmark === 'ruin-apartment' ? rng.range(17, 22) : 10,
+          : landmark === 'ruin-apartment'
+            ? rng.range(17, 22)
+            : 10,
     rng.signed(0.3),
   );
   add(
-    district === 0 ? 'ruin-apartment' : district === 3 ? 'wreck-tanker' : rng.pick(['ruin-house', 'ruin-shop']),
+    district === 0
+      ? 'ruin-apartment'
+      : district === 3
+        ? 'wreck-tanker'
+        : rng.pick(['ruin-house', 'ruin-shop']),
     side * rng.range(57, 75),
     -20,
     district === 0 ? rng.range(17, 22) : rng.range(10, 14),
@@ -136,7 +227,9 @@ export function desertLayout(
     0.02,
   );
   add(
-    district === 3 ? rng.pick(['wreck-bus', 'billboard']) : rng.pick(['ruin-house', 'ruin-apartment']),
+    district === 3
+      ? rng.pick(['wreck-bus', 'billboard'])
+      : rng.pick(['ruin-house', 'ruin-apartment']),
     -side * rng.range(83, 105),
     -17,
     district === 3 ? rng.range(5, 10) : rng.range(12, 18),
@@ -145,7 +238,13 @@ export function desertLayout(
   );
   add('wreck-car', side * 58, 18, rng.range(5, 6.5), rng.signed(1), 0.14);
   add(
-    district === 0 ? 'ruin-apartment' : district === 1 ? 'pylon' : district === 3 ? 'wreck-car' : 'water-tower',
+    district === 0
+      ? 'ruin-apartment'
+      : district === 1
+        ? 'pylon'
+        : district === 3
+          ? 'wreck-car'
+          : 'water-tower',
     side * 142,
     22,
     district === 0 ? rng.range(18, 23) : rng.range(6, 9),
@@ -165,6 +264,22 @@ export function desertLayout(
   add('wreck-car', -side * 93, 29, 5.5, rng.signed(2), 0.18);
   add('ruin-shop', -side * 146, -27, 10, rng.signed(0.2), 0.15);
   add('ruin-house', side * 150, -24, 10, rng.signed(0.2), 0.22);
+  // Independent stream preserves the existing landmark layout and every
+  // gameplay RNG. Reuse decorative slots instead of adding draw/instance load.
+  const artifacts = new Rng(chunkAspectSeed(seed, chunk, 'desert-artifacts-v2'));
+  for (const index of [2, 3, 5, 8, 9, 10, 11, 12, 13]) {
+    if (artifacts.next() < 0.3) continue;
+    const prop = result[index]!;
+    const [kind, footprint] = artifacts.pick(
+      [2, 5, 8, 11].includes(index) ? VEHICLE_ARTIFACTS : UTILITY_ARTIFACTS,
+    );
+    prop.kind = kind;
+    prop.width = footprint * artifacts.range(0.96, 1.04);
+    prop.burial = 0.012;
+    prop.tilt = artifacts.signed(kind.startsWith('wreck') ? 0.045 : 0.012);
+    prop.x =
+      Math.sign(prop.x) * Math.max(Math.abs(prop.x), (prop.x > 0 ? 48 : 14) + prop.width * 0.75);
+  }
   return result.slice(0, desertBudget(propsPerChunk));
 }
 

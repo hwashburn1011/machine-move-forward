@@ -1,0 +1,13 @@
+{
+  "parts": [
+    "GyroPanel",
+    "PowerRouter",
+    "ArrayTuner",
+    "Isolator",
+    "ArchiveConsole",
+    "WristHousing",
+    "SeedTerrarium"
+  ],
+  "meshes": 44,
+  "triangles": 75972
+}

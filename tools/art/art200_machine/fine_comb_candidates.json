@@ -1,0 +1,753 @@
+{
+  "nomad-service-cart": [
+    {
+      "parts": [
+        "Captive hex screw.002",
+        "Captive hex screw.003",
+        "Countersunk washer.002",
+        "Countersunk washer.003",
+        "Riveted nomenclature plate.001",
+        "Stamped PORTSIDE / 02"
+      ],
+      "nearest_gap_m": 0.0104999840259552
+    }
+  ],
+  "nomad-field-chair": [
+    {
+      "parts": [
+        "Captive hex screw.004",
+        "Captive hex screw.005",
+        "Countersunk washer.004",
+        "Countersunk washer.005",
+        "Riveted nomenclature plate.002",
+        "Stamped NOMAD / HABITAT"
+      ],
+      "nearest_gap_m": 0.004999995231628418
+    },
+    {
+      "parts": [
+        "Double stitched back channel"
+      ],
+      "nearest_gap_m": 0.004500001668930054
+    },
+    {
+      "parts": [
+        "Double stitched back channel.001"
+      ],
+      "nearest_gap_m": 0.004500001668930054
+    },
+    {
+      "parts": [
+        "Double stitched back channel.002"
+      ],
+      "nearest_gap_m": 0.004500001668930054
+    }
+  ],
+  "nomad-radio-cabinet": [
+    {
+      "parts": [
+        "Speaker dark diaphragm",
+        "Speaker dark diaphragm.001",
+        "Speaker outer ring",
+        "Speaker outer ring.001",
+        "Speaker protective grille",
+        "Speaker protective grille.001",
+        "Speaker protective grille.002",
+        "Speaker protective grille.003",
+        "Speaker protective grille.004",
+        "Speaker protective grille.005",
+        "Speaker protective grille.006",
+        "Speaker protective grille.007",
+        "Speaker protective grille.008",
+        "Speaker protective grille.009",
+        "Speaker protective grille.010",
+        "Speaker protective grille.011",
+        "Speaker protective grille.012",
+        "Speaker protective grille.013"
+      ],
+      "nearest_gap_m": 0.006999969482421875
+    }
+  ],
+  "nomad-repair-trestle": [
+    {
+      "parts": [
+        "Forged vise jaw",
+        "Forged vise jaw.001",
+        "Handle captive stop",
+        "Handle captive stop.001",
+        "Vise screw housing",
+        "Vise screw spindle",
+        "Vise sliding handle",
+        "Vise swivel shoe"
+      ],
+      "nearest_gap_m": 0.0074999332427978516
+    }
+  ],
+  "nomad-parts-organizer": [
+    {
+      "parts": [
+        "Clip label",
+        "Stamped 01"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.001",
+        "Stamped 02"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.002",
+        "Stamped 03"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.003",
+        "Stamped 04"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.004",
+        "Stamped 05"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.005",
+        "Stamped 06"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.006",
+        "Stamped 07"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.007",
+        "Stamped 08"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.008",
+        "Stamped 09"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.009",
+        "Stamped 10"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.010",
+        "Stamped 11"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    },
+    {
+      "parts": [
+        "Clip label.011",
+        "Stamped 12"
+      ],
+      "nearest_gap_m": 0.004000023007392883
+    }
+  ],
+  "nomad-charging-cabinet": [
+    {
+      "parts": [
+        "Captive hex screw.012",
+        "Captive hex screw.013",
+        "Countersunk washer.012",
+        "Countersunk washer.013",
+        "Riveted nomenclature plate.006",
+        "Stamped STANDBY / CABINET"
+      ],
+      "nearest_gap_m": 0.01199999451637268
+    },
+    {
+      "parts": [
+        "Docked connector grip",
+        "Parked insulated connector"
+      ],
+      "nearest_gap_m": 0.004999995231628418
+    },
+    {
+      "parts": [
+        "Docked connector grip.001",
+        "Parked insulated connector.001"
+      ],
+      "nearest_gap_m": 0.004999995231628418
+    }
+  ],
+  "nomad-archive-vitrine": [
+    {
+      "parts": [
+        "Captive hex screw.016",
+        "Captive hex screw.017",
+        "Countersunk washer.016",
+        "Countersunk washer.017",
+        "Riveted nomenclature plate.008",
+        "Stamped ARCHIVE / SPECIMENS"
+      ],
+      "nearest_gap_m": 0.005000010132789612
+    },
+    {
+      "parts": [
+        "Sealed amber specimen tube",
+        "Specimen tube clamp",
+        "Specimen tube clamp.001",
+        "Tube center paper band"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Sealed amber specimen tube.001",
+        "Specimen tube clamp.002",
+        "Specimen tube clamp.003",
+        "Tube center paper band.001"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Sealed amber specimen tube.002",
+        "Specimen tube clamp.004",
+        "Specimen tube clamp.005",
+        "Tube center paper band.002"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Sealed amber specimen tube.003",
+        "Specimen tube clamp.006",
+        "Specimen tube clamp.007",
+        "Tube center paper band.003"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Sealed amber specimen tube.004",
+        "Specimen tube clamp.008",
+        "Specimen tube clamp.009",
+        "Tube center paper band.004"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Sealed amber specimen tube.005",
+        "Specimen tube clamp.010",
+        "Specimen tube clamp.011",
+        "Tube center paper band.005"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    }
+  ],
+  "nomad-chart-desk": [
+    {
+      "parts": [
+        "Compass needle",
+        "Desk compass body",
+        "Desk compass face"
+      ],
+      "nearest_gap_m": 0.004999995231628418
+    }
+  ],
+  "nomad-coat-rack": [
+    {
+      "parts": [
+        "Jacket chest patch"
+      ],
+      "nearest_gap_m": 0.0040000081062316895
+    },
+    {
+      "parts": [
+        "Jacket opening seam"
+      ],
+      "nearest_gap_m": 0.00700000673532486
+    }
+  ],
+  "nomad-boots-locker": [
+    {
+      "parts": [
+        "Pull mounting lug.020",
+        "Pull mounting lug.021",
+        "Rounded pull grip.010"
+      ],
+      "nearest_gap_m": 0.005499988794326782
+    }
+  ],
+  "nomad-spare-track-stand": [
+    {
+      "parts": [
+        "Captive hex screw.026",
+        "Countersunk washer.026"
+      ],
+      "nearest_gap_m": 0.008000016212463379
+    },
+    {
+      "parts": [
+        "Captive hex screw.027",
+        "Countersunk washer.027"
+      ],
+      "nearest_gap_m": 0.008000016212463379
+    },
+    {
+      "parts": [
+        "Captive hex screw.028",
+        "Countersunk washer.028"
+      ],
+      "nearest_gap_m": 0.008000016212463379
+    },
+    {
+      "parts": [
+        "Captive hex screw.029",
+        "Countersunk washer.029"
+      ],
+      "nearest_gap_m": 0.008000016212463379
+    },
+    {
+      "parts": [
+        "Captive hex screw.030",
+        "Captive hex screw.031",
+        "Countersunk washer.030",
+        "Countersunk washer.031",
+        "Riveted nomenclature plate.013",
+        "Stamped DRIVE / SPARE"
+      ],
+      "nearest_gap_m": 0.006999999284744263
+    }
+  ],
+  "nomad-air-filter-tower": [
+    {
+      "parts": [
+        "Captive hex screw.032",
+        "Captive hex screw.033",
+        "Countersunk washer.032",
+        "Countersunk washer.033",
+        "Dial graduation",
+        "Dial graduation.001",
+        "Dial graduation.002",
+        "Dial graduation.003",
+        "Dial graduation.004",
+        "Dial graduation.005",
+        "Dial graduation.006",
+        "Filter clamp ring",
+        "Filter clamp ring.001",
+        "Filter clamp ring.002",
+        "Filter clamp ring.003",
+        "Filter column main body",
+        "Filter cooling rib",
+        "Filter cooling rib.001",
+        "Filter cooling rib.002",
+        "Filter cooling rib.003",
+        "Filter cooling rib.004",
+        "Filter cooling rib.005",
+        "Filter cooling rib.006",
+        "Filter cooling rib.007",
+        "Filter cooling rib.008",
+        "Filter cooling rib.009",
+        "Filter cooling rib.010",
+        "Filter cooling rib.011",
+        "Filter crown",
+        "Instrument bezel",
+        "Porcelain instrument face",
+        "Resting indicator needle",
+        "Riveted nomenclature plate.014",
+        "Sealed inlet pipe",
+        "Stamped CYCLONE / 3A"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Inlet blanking cap"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    }
+  ],
+  "nomad-memory-board": [
+    {
+      "parts": [
+        "Handled enamel edge nick.005",
+        "Pinned field postcard.002",
+        "Pinned field postcard.003",
+        "Pinned field postcard.004",
+        "Pinned route thread",
+        "Postcard handwriting line.004",
+        "Postcard handwriting line.005",
+        "Postcard handwriting line.006",
+        "Postcard handwriting line.007",
+        "Postcard handwriting line.008",
+        "Postcard handwriting line.009",
+        "Postcard pin.002",
+        "Postcard pin.003",
+        "Postcard pin.004",
+        "Printed photo inset.002",
+        "Printed photo inset.003",
+        "Printed photo inset.004"
+      ],
+      "nearest_gap_m": 0.005499996244907379
+    },
+    {
+      "parts": [
+        "Pinned field postcard",
+        "Postcard handwriting line",
+        "Postcard handwriting line.001",
+        "Postcard pin",
+        "Printed photo inset"
+      ],
+      "nearest_gap_m": 0.005499996244907379
+    },
+    {
+      "parts": [
+        "Pinned field postcard.001",
+        "Postcard handwriting line.002",
+        "Postcard handwriting line.003",
+        "Postcard pin.001",
+        "Printed photo inset.001"
+      ],
+      "nearest_gap_m": 0.005499996244907379
+    }
+  ],
+  "nomad2-instrument-bench": [
+    {
+      "parts": [
+        "Dial graduation",
+        "Dial graduation.001",
+        "Dial graduation.002",
+        "Dial graduation.003",
+        "Dial graduation.004",
+        "Dial graduation.005",
+        "Dial graduation.006",
+        "Instrument bezel",
+        "Porcelain instrument face",
+        "Resting indicator needle"
+      ],
+      "nearest_gap_m": 0.006000012159347534
+    },
+    {
+      "parts": [
+        "Inset screen bezel edge",
+        "Inset screen bezel edge.001",
+        "Inset screen bezel side",
+        "Inset screen bezel side.001",
+        "Oscilloscope cast housing",
+        "Oscilloscope etched grid",
+        "Oscilloscope etched grid.001",
+        "Oscilloscope etched grid.002",
+        "Oscilloscope etched grid.003",
+        "Oscilloscope etched grid.004",
+        "Oscilloscope etched grid.005",
+        "Recessed cathode screen",
+        "Small worn enamel corner",
+        "Small worn enamel corner.001"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Oscilloscope control knob"
+      ],
+      "nearest_gap_m": 0.011000007390975952
+    },
+    {
+      "parts": [
+        "Oscilloscope control knob.001"
+      ],
+      "nearest_gap_m": 0.011000007390975952
+    }
+  ],
+  "nomad2-book-cabinet": [
+    {
+      "parts": [
+        "Lower cupboard door",
+        "Pull mounting lug",
+        "Pull mounting lug.001",
+        "Rounded pull grip",
+        "Small worn enamel corner.002",
+        "Small worn enamel corner.003"
+      ],
+      "nearest_gap_m": 0.005500003695487976
+    }
+  ],
+  "nomad2-microscope-bench": [
+    {
+      "parts": [
+        "Drawer front shadow gap",
+        "Drawer front shadow gap.001",
+        "Drawer front shadow gap.002",
+        "Pull mounting lug.002",
+        "Pull mounting lug.003",
+        "Pull mounting lug.004",
+        "Pull mounting lug.005",
+        "Pull mounting lug.006",
+        "Pull mounting lug.007",
+        "Rolled enamel drawer",
+        "Rolled enamel drawer.001",
+        "Rolled enamel drawer.002",
+        "Rounded pull grip.001",
+        "Rounded pull grip.002",
+        "Rounded pull grip.003",
+        "Slide drawer case"
+      ],
+      "nearest_gap_m": 0.00999993085861206
+    }
+  ],
+  "nomad2-paint-trolley": [
+    {
+      "parts": [
+        "Brush bristle tuft",
+        "Brush bristle tuft.001",
+        "Brush cleaning cup",
+        "Crimped brush ferrule",
+        "Crimped brush ferrule.001",
+        "Paint brush handle",
+        "Paint brush handle.001"
+      ],
+      "nearest_gap_m": 0.0040000081062316895
+    },
+    {
+      "parts": [
+        "Brush bristle tuft.002",
+        "Brush bristle tuft.003",
+        "Brush cleaning cup.001",
+        "Crimped brush ferrule.002",
+        "Crimped brush ferrule.003",
+        "Paint brush handle.002",
+        "Paint brush handle.003"
+      ],
+      "nearest_gap_m": 0.009999990463256836
+    },
+    {
+      "parts": [
+        "Captive hex screw.018",
+        "Captive hex screw.019",
+        "Countersunk washer.018",
+        "Countersunk washer.019",
+        "Riveted nomenclature plate.005",
+        "Stamped PATCHCOAT / STUDIO"
+      ],
+      "nearest_gap_m": 0.004999995231628418
+    }
+  ],
+  "nomad2-air-return-duct": [
+    {
+      "parts": [
+        "Captive hex screw.020",
+        "Countersunk washer.020"
+      ],
+      "nearest_gap_m": 0.005000010132789612
+    },
+    {
+      "parts": [
+        "Captive hex screw.021",
+        "Countersunk washer.021"
+      ],
+      "nearest_gap_m": 0.005000010132789612
+    },
+    {
+      "parts": [
+        "Captive hex screw.022",
+        "Countersunk washer.022"
+      ],
+      "nearest_gap_m": 0.005000010132789612
+    },
+    {
+      "parts": [
+        "Captive hex screw.023",
+        "Countersunk washer.023"
+      ],
+      "nearest_gap_m": 0.005000010132789612
+    },
+    {
+      "parts": [
+        "Captive hex screw.024",
+        "Captive hex screw.025",
+        "Countersunk washer.024",
+        "Countersunk washer.025",
+        "Riveted nomenclature plate.006",
+        "Stamped CROSSWIND / RETURN"
+      ],
+      "nearest_gap_m": 0.010000020265579224
+    }
+  ],
+  "nomad2-sewing-station": [
+    {
+      "parts": [
+        "Captive hex screw.026",
+        "Captive hex screw.027",
+        "Countersunk washer.026",
+        "Countersunk washer.027",
+        "Riveted nomenclature plate.007",
+        "Stamped THREADLINE / 08"
+      ],
+      "nearest_gap_m": 0.01199999451637268
+    },
+    {
+      "parts": [
+        "Treadle pedal"
+      ],
+      "nearest_gap_m": 0.0045000165700912476
+    }
+  ],
+  "nomad2-clock-rack": [
+    {
+      "parts": [
+        "Clock central pin",
+        "Clock central pin.001",
+        "Clock central pin.002",
+        "Clock dial",
+        "Clock dial.001",
+        "Clock dial.002",
+        "Clock hour hand",
+        "Clock hour hand.001",
+        "Clock hour hand.002",
+        "Clock hour marker",
+        "Clock hour marker.001",
+        "Clock hour marker.002",
+        "Clock hour marker.003",
+        "Clock hour marker.004",
+        "Clock hour marker.005",
+        "Clock hour marker.006",
+        "Clock hour marker.007",
+        "Clock hour marker.008",
+        "Clock hour marker.009",
+        "Clock hour marker.010",
+        "Clock hour marker.011",
+        "Clock hour marker.012",
+        "Clock hour marker.013",
+        "Clock hour marker.014",
+        "Clock hour marker.015",
+        "Clock hour marker.016",
+        "Clock hour marker.017",
+        "Clock hour marker.018",
+        "Clock hour marker.019",
+        "Clock hour marker.020",
+        "Clock hour marker.021",
+        "Clock hour marker.022",
+        "Clock hour marker.023",
+        "Clock hour marker.024",
+        "Clock hour marker.025",
+        "Clock hour marker.026",
+        "Clock hour marker.027",
+        "Clock hour marker.028",
+        "Clock hour marker.029",
+        "Clock hour marker.030",
+        "Clock hour marker.031",
+        "Clock hour marker.032",
+        "Clock hour marker.033",
+        "Clock hour marker.034",
+        "Clock hour marker.035",
+        "Clock minute hand",
+        "Clock minute hand.001",
+        "Clock minute hand.002",
+        "Stamped DUSK",
+        "Stamped HOME",
+        "Stamped WEST"
+      ],
+      "nearest_gap_m": 0.007999934256076813
+    }
+  ],
+  "nomad2-exercise-rack": [
+    {
+      "parts": [
+        "Knurled dumbbell grip.004",
+        "Round retained weight.008",
+        "Round retained weight.009"
+      ],
+      "nearest_gap_m": 0.008499979972839355
+    },
+    {
+      "parts": [
+        "Knurled dumbbell grip.005",
+        "Round retained weight.010",
+        "Round retained weight.011"
+      ],
+      "nearest_gap_m": 0.008499979972839355
+    }
+  ],
+  "nomad2-botanical-belljar": [
+    {
+      "parts": [
+        "Captive hex screw.054",
+        "Captive hex screw.055",
+        "Countersunk washer.054",
+        "Countersunk washer.055",
+        "Riveted nomenclature plate.012",
+        "Stamped STILL ORCHARD"
+      ],
+      "nearest_gap_m": 0.008000001311302185
+    }
+  ],
+  "nomad2-map-roll-rack": [
+    {
+      "parts": [
+        "Stamped 01"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    },
+    {
+      "parts": [
+        "Stamped 02"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    },
+    {
+      "parts": [
+        "Stamped 03"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    },
+    {
+      "parts": [
+        "Stamped 04"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    },
+    {
+      "parts": [
+        "Stamped 05"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    },
+    {
+      "parts": [
+        "Stamped 06"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    },
+    {
+      "parts": [
+        "Stamped 07"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    },
+    {
+      "parts": [
+        "Stamped 08"
+      ],
+      "nearest_gap_m": 0.007999986410140991
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "models": 25,
+  "palette_families": [
+    "celadon",
+    "clay",
+    "denim",
+    "heather",
+    "olive",
+    "oxblood",
+    "petrol",
+    "plum",
+    "rose",
+    "slate",
+    "stone",
+    "umber",
+    "verdigris"
+  ],
+  "materials_per_model": 1,
+  "review": [
+    {
+      "id": "wreck-pickup",
+      "palette_family": "denim",
+      "colored_corners_including_components": 16714,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "wreck-ambulance",
+      "palette_family": "rose",
+      "colored_corners_including_components": 18208,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "wreck-forklift",
+      "palette_family": "oxblood",
+      "colored_corners_including_components": 2442,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "survey-rover",
+      "palette_family": "petrol",
+      "colored_corners_including_components": 5134,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "rail-bogie",
+      "palette_family": "slate",
+      "colored_corners_including_components": 0,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "container-wagon",
+      "palette_family": "plum",
+      "colored_corners_including_components": 34116,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "fuel-trailer",
+      "palette_family": "clay",
+      "colored_corners_including_components": 6036,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "wreck-motorcycle",
+      "palette_family": "verdigris",
+      "colored_corners_including_components": 2164,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "culvert",
+      "palette_family": "stone",
+      "colored_corners_including_components": 660,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "transformer",
+      "palette_family": "celadon",
+      "colored_corners_including_components": 30238,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "fuel-pump",
+      "palette_family": "heather",
+      "colored_corners_including_components": 8976,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "utility-cabinet",
+      "palette_family": "oxblood",
+      "colored_corners_including_components": 3946,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "telecom-cabinet",
+      "palette_family": "denim",
+      "colored_corners_including_components": 4436,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "condenser",
+      "palette_family": "petrol",
+      "colored_corners_including_components": 2862,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "satellite-dish",
+      "palette_family": "olive",
+      "colored_corners_including_components": 6596,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "light-tower",
+      "palette_family": "slate",
+      "colored_corners_including_components": 2940,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "diesel-generator",
+      "palette_family": "clay",
+      "colored_corners_including_components": 6138,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "air-compressor",
+      "palette_family": "verdigris",
+      "colored_corners_including_components": 7450,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "fire-hydrant",
+      "palette_family": "oxblood",
+      "colored_corners_including_components": 0,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "bulk-fuel-tank",
+      "palette_family": "heather",
+      "colored_corners_including_components": 8128,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "cargo-pallet",
+      "palette_family": "umber",
+      "colored_corners_including_components": 4748,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "cable-spool",
+      "palette_family": "celadon",
+      "colored_corners_including_components": 0,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "road-barrier",
+      "palette_family": "stone",
+      "colored_corners_including_components": 2352,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "signal-gantry",
+      "palette_family": "olive",
+      "colored_corners_including_components": 588,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    },
+    {
+      "id": "bus-shelter",
+      "palette_family": "plum",
+      "colored_corners_including_components": 4208,
+      "geometry_changed": false,
+      "source_components_preserved": true
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+	"firstSpawnSeconds": 23.389,
+	"groundClearanceM": {
+		"max": 3.90785428565639,
+		"median": 1.8286569769853,
+		"min": -0.0915735714212862,
+		"samples": 600
+	},
+	"offAxis": {
+		"aimedIndex": 0,
+		"caught": false,
+		"flightSeconds": 1.49999999999991,
+		"prompt": "\n[TAB] Wrist terminal   [B] Build   CARGO IN SIGHTS · [F] Throw hook",
+		"range": 28.8471412658691
+	},
+	"openingWallSeconds": 10.873,
+	"receipt": "Cargo secured. Supplies transferred.",
+	"scannerPhase": "awaiting-module",
+	"scope": "Real-time existing opening, first spawned cargo and physical F input; diagnostic relocation to the lower fishing deck. Separate 600-distance terrain-clearance observation. No story progression added."
+}

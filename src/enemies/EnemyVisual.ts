@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
+import { cloneRig as cloneSkinned } from '@/art/CloneRig';
 import type { Materials } from '@/art/Materials';
 import type { LoadedModel } from '@/art/ModelLoader';
 import { applyHeightFog } from '@/art/Fog';
@@ -267,6 +267,7 @@ export class EnemyVisual {
     intensity: number;
     colour: THREE.Color;
   }[] = [];
+  private readonly ownedMaterials = new Set<THREE.Material>();
   private flashElapsed = FLASH_SECONDS;
   private appliedFlash = 0;
   /** Floating health bar: a backing plate and the fill that sits on it. */
@@ -502,11 +503,18 @@ export class EnemyVisual {
    * deck. They are wrong here for one reason: this class writes to them.
    */
   private adoptMaterials(tint: boolean, applyTypeTint = true): void {
+    // One mutable copy per source material per enemy, shared by that enemy's
+    // parts. Other enemies keep independent hit flashes and type tints.
+    const copies = new Map<THREE.Material, THREE.Material>();
     this.object3D.traverse((o) => {
       const mesh = o as THREE.Mesh;
       if (!mesh.isMesh || !mesh.material) return;
       const own = (m: THREE.Material): THREE.Material => {
+        const existing = copies.get(m);
+        if (existing) return existing;
         const clone = m.clone();
+        copies.set(m, clone);
+        this.ownedMaterials.add(clone);
         const std = clone as THREE.MeshStandardMaterial;
         // Three does not copy onBeforeCompile when cloning a material. Each
         // enemy needs its own hit-flash material and the same desert haze.
@@ -707,7 +715,8 @@ export class EnemyVisual {
       (sprite as THREE.Sprite).material.dispose();
     }
     this.bar.clear();
-    for (const rec of this.flashMaterials) rec.mat.dispose();
+    for (const material of this.ownedMaterials) material.dispose();
+    this.ownedMaterials.clear();
     this.flashMaterials.length = 0;
     this.mixer?.stopAllAction();
     this.originalPose?.dispose();

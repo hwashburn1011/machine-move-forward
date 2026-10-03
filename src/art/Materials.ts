@@ -99,6 +99,10 @@ export class Materials {
     this.buildPlate = this.register(
       new THREE.MeshStandardMaterial({
         color: PALETTE.buildPlate,
+        // Flush construction can overlap an original hull plate at the seam.
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1,
         map: deckTex,
         normalMap: deckNormal,
         normalScale: new THREE.Vector2(0.5, 0.5),
@@ -185,14 +189,7 @@ export class Materials {
       }),
     );
 
-    this.disposables.push(
-      paintTex,
-      paintNormal,
-      rustTex,
-      rustNormal,
-      deckTex,
-      deckNormal,
-    );
+    this.disposables.push(paintTex, paintNormal, rustTex, rustNormal, deckTex, deckNormal);
 
     // Distinct cache tags. Materials that differ only in colour and roughness
     // otherwise produce identical program cache keys and share one compiled

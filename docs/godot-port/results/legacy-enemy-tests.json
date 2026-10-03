@@ -1,0 +1,22 @@
+{
+	"checks": 43,
+	"failures": [],
+	"observations": {
+		"raider": {
+			"collapsed": 0,
+			"maxIdleSoleY": 16.0499992370605,
+			"minIdleSoleY": 16.0499992370605,
+			"pbrSurfaces": 9,
+			"surfaces": 13,
+			"triangles": 74200
+		},
+		"scavenger": {
+			"collapsed": 0,
+			"maxIdleSoleY": 16.0499992370605,
+			"minIdleSoleY": 16.0499992370605,
+			"pbrSurfaces": 4,
+			"surfaces": 9,
+			"triangles": 54944
+		}
+	}
+}

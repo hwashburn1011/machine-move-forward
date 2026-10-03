@@ -1,0 +1,65 @@
+{
+	"checks": 76,
+	"failures": [],
+	"models": {
+		"wasteland-cooling-tower": {
+			"bounds": "[P: (-8.183787, -0.047143, -10.3598), S: (18.2627, 11.46511, 19.12716)]",
+			"surfaces": 2,
+			"triangles": 3268
+		},
+		"wasteland-diner": {
+			"bounds": "[P: (-6.099655, 0.021776, -4.204725), S: (12.48881, 6.108224, 8.408689)]",
+			"surfaces": 4,
+			"triangles": 2602
+		},
+		"wasteland-excavator": {
+			"bounds": "[P: (-2.9, 0.005696, -2.0), S: (10.25949, 3.629304, 4.0)]",
+			"surfaces": 2,
+			"triangles": 3102
+		},
+		"wasteland-greenhouse": {
+			"bounds": "[P: (-7.198478, 0.022267, -5.17), S: (14.78367, 5.941771, 10.31312)]",
+			"surfaces": 4,
+			"triangles": 3636
+		},
+		"wasteland-observatory": {
+			"bounds": "[P: (-7.832601, 0.0, -7.199346), S: (16.20044, 8.7, 14.24332)]",
+			"surfaces": 4,
+			"triangles": 3600
+		},
+		"wasteland-passenger-coach": {
+			"bounds": "[P: (-6.641107, 0.022612, -3.14818), S: (13.43908, 4.069754, 6.247477)]",
+			"surfaces": 4,
+			"triangles": 2836
+		},
+		"wasteland-service-station": {
+			"bounds": "[P: (-6.847952, 0.02268, -5.079954), S: (13.95706, 6.185826, 10.33829)]",
+			"surfaces": 4,
+			"triangles": 1526
+		},
+		"wasteland-solar-farm": {
+			"bounds": "[P: (-7.245, -0.185847, -6.022775), S: (14.445, 2.013745, 11.65208)]",
+			"surfaces": 3,
+			"triangles": 4092
+		},
+		"wasteland-tunnel": {
+			"bounds": "[P: (-7.21, -0.04, -5.149616), S: (14.42, 8.25, 11.12374)]",
+			"surfaces": 3,
+			"triangles": 2120
+		},
+		"wasteland-wind-turbine": {
+			"bounds": "[P: (-7.600657, -0.086046, -7.465045), S: (16.3702, 5.775365, 12.51168)]",
+			"surfaces": 3,
+			"triangles": 2248
+		}
+	},
+	"passed": true,
+	"route": {
+		"chunks": 136,
+		"corridorClear": true,
+		"maxLandmarks": 11,
+		"seed": "wasteland-asset-route",
+		"uniqueModels": 59
+	},
+	"totalTriangles": 29030
+}

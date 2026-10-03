@@ -1,0 +1,15 @@
+{
+	"checks": 75,
+	"failures": [],
+	"flights": {
+		"actualHits": 8,
+		"cases": 27,
+		"predictedHits": 8
+	},
+	"groundCorners": {
+		"maxClearanceM": 0.215101762803282,
+		"minClearanceM": 0.0189774713441314,
+		"samples": 36000
+	},
+	"receipt": "Receiver recovered — build a refinery and workbench to repair it.\nCargo secured: +56 Scrap Metal · +4 Fuel"
+}

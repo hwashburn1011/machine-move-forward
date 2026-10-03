@@ -1,0 +1,68 @@
+{
+  "startingRevision": "2a0fa07",
+  "checks": 613,
+  "failures": 0,
+  "suites": {
+    "tests": {
+      "checks": 76,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-tests.log"
+    },
+    "pressure_vessels": {
+      "checks": 77,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-pressure_vessels.log"
+    },
+    "cargo_lockers": {
+      "checks": 56,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-cargo_lockers.log"
+    },
+    "machine_access": {
+      "checks": 13,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-machine_access.log"
+    },
+    "traversal": {
+      "checks": 13,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-traversal.log"
+    },
+    "integration": {
+      "checks": 108,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-integration.log"
+    },
+    "audit_parity": {
+      "checks": 132,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-audit_parity.log"
+    },
+    "play_parity": {
+      "checks": 58,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-play_parity.log"
+    },
+    "canopy": {
+      "checks": 26,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-canopy.log"
+    },
+    "camera_clearance": {
+      "checks": 54,
+      "failures": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/switchgear-camera_clearance.log"
+    }
+  },
+  "note": "Selected regression suites and matching render logs are clean. This is not a claim of full-campaign completion."
+}

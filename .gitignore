@@ -67,3 +67,10 @@ __pycache__/
 /assets/nomad-foundations/*.log
 /assets/nomad-foundations/review-next.py
 /assets/nomad-foundations-build.log
+# Reproducible art galleries, session backups and build logs stay local.
+/assets/**/MCP-session-before*.blend
+/assets/art100/Art100Review.blend
+/assets/art200/Art200Review.blend
+/assets/art200/Art100-before-Art200.zip
+/assets/art200/signs/phase1.zip
+/assets/**/*.log

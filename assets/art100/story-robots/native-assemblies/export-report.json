@@ -1,0 +1,41 @@
+{
+	"characters": {
+		"bastion": {
+			"error": 0,
+			"native_bones": 47,
+			"native_skinned_meshes": 1,
+			"source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+		},
+		"raider": {
+			"error": 0,
+			"native_bones": 16,
+			"native_skinned_meshes": 1,
+			"source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+		},
+		"revenant": {
+			"error": 0,
+			"native_bones": 48,
+			"native_skinned_meshes": 1,
+			"source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+		},
+		"scavenger": {
+			"error": 0,
+			"native_bones": 16,
+			"native_skinned_meshes": 1,
+			"source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+		},
+		"sovereign": {
+			"error": 0,
+			"native_bones": 47,
+			"native_skinned_meshes": 1,
+			"source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+		},
+		"warden": {
+			"error": 0,
+			"native_bones": 47,
+			"native_skinned_meshes": 1,
+			"source": "actual native enemy.visual, idle 0.25s; original skeleton/skin retained; equipped material overrides exported"
+		}
+	},
+	"failures": []
+}

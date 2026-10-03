@@ -1,0 +1,2607 @@
+{
+  "pieces": {
+    "nomad-tool-drawers": {
+      "id": "nomad-tool-drawers",
+      "name": "Rivetline tool drawers",
+      "description": "A fitted machinist chest with seven enamel drawers and replaceable corner guards. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 18,
+        "components": 1
+      },
+      "weight": 31,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-service-cart": {
+      "id": "nomad-service-cart",
+      "name": "Portside service cart",
+      "description": "A two-shelf rolling cart with captive spares and a wrapped pushbar. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 16
+      },
+      "weight": 19,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-field-chair": {
+      "id": "nomad-field-chair",
+      "name": "Wayfarer field chair",
+      "description": "A weathered canvas armchair on a welded steel frame. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 12
+      },
+      "weight": 12,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-sleeping-berth": {
+      "id": "nomad-sleeping-berth",
+      "name": "Surveyor sleeping berth",
+      "description": "A compact bunk with a quilted mattress, field pillow and strapped blanket. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 22,
+        "components": 1
+      },
+      "weight": 29,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-radio-cabinet": {
+      "id": "nomad-radio-cabinet",
+      "name": "Longwave radio cabinet",
+      "description": "A salvaged analog radio and twin speaker cabinet with an unlit tuning dial. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 14,
+        "components": 2
+      },
+      "weight": 17,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-repair-trestle": {
+      "id": "nomad-repair-trestle",
+      "name": "Rivetline repair trestle",
+      "description": "A compact workshop trestle with a forged vise and replaceable work mat. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 20,
+        "components": 2
+      },
+      "weight": 37,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-parts-organizer": {
+      "id": "nomad-parts-organizer",
+      "name": "Fastener library",
+      "description": "A freestanding library of labelled parts bins and capped hardware samples. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 14
+      },
+      "weight": 20,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-charging-cabinet": {
+      "id": "nomad-charging-cabinet",
+      "name": "Standby charging cabinet",
+      "description": "A sealed display cabinet with parked connectors and inactive cell bays. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 20,
+        "components": 3
+      },
+      "weight": 42,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-expedition-trunk": {
+      "id": "nomad-expedition-trunk",
+      "name": "Expedition flight trunk",
+      "description": "A reinforced travel case with recessed grips, stack ribs and transport latches. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 14
+      },
+      "weight": 21,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-archive-vitrine": {
+      "id": "nomad-archive-vitrine",
+      "name": "Archive specimen vitrine",
+      "description": "A guarded display of sealed sample tubes on a museum-style pedestal. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 18,
+        "components": 2
+      },
+      "weight": 26,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-chart-desk": {
+      "id": "nomad-chart-desk",
+      "name": "Forward chart desk",
+      "description": "A field navigation desk with a printed route, compass and curled paper chart. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 18,
+        "components": 1
+      },
+      "weight": 24,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-survey-floodlight": {
+      "id": "nomad-survey-floodlight",
+      "name": "Survey tripod floodlight",
+      "description": "A portable survey lamp with a folding tripod and parked cable. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 15,
+        "components": 2
+      },
+      "weight": 16,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-machinist-lamp": {
+      "id": "nomad-machinist-lamp",
+      "name": "Machinist task lamp",
+      "description": "An articulated lamp on a narrow weighted stand, with its original enamel shade. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 10,
+        "components": 1
+      },
+      "weight": 10,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-coat-rack": {
+      "id": "nomad-coat-rack",
+      "name": "Survey coat rack",
+      "description": "A freestanding coat rail with a patched canvas work jacket and sling satchel. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 12
+      },
+      "weight": 11,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-cable-reel": {
+      "id": "nomad-cable-reel",
+      "name": "Retrieval cable drum",
+      "description": "A braked cable drum on a solid stand with a capped connector. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 14,
+        "components": 1
+      },
+      "weight": 23,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-boots-locker": {
+      "id": "nomad-boots-locker",
+      "name": "Crew gear locker",
+      "description": "A narrow personal locker with a vented door, boot cubby and stamped crew number. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 16
+      },
+      "weight": 26,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-galley-sideboard": {
+      "id": "nomad-galley-sideboard",
+      "name": "Copperline galley sideboard",
+      "description": "A home corner with a sealed cupboard, mugs and a vintage thermos. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 17,
+        "components": 1
+      },
+      "weight": 28,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-ceramic-basin": {
+      "id": "nomad-ceramic-basin",
+      "name": "Field ceramic washstand",
+      "description": "A dry portable washstand with a ceramic bowl and stoppered tap. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 14,
+        "components": 1
+      },
+      "weight": 19,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-navigation-stool": {
+      "id": "nomad-navigation-stool",
+      "name": "Navigator swivel stool",
+      "description": "A compact three-leg stool with a stitched cushion and circular footrest. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 8
+      },
+      "weight": 9,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-patchwork-bench": {
+      "id": "nomad-patchwork-bench",
+      "name": "Patchwork deck bench",
+      "description": "A bolted two-place bench with repaired canvas seat pads and a low back. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 18
+      },
+      "weight": 24,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-spare-track-stand": {
+      "id": "nomad-spare-track-stand",
+      "name": "Drive shoe service stand",
+      "description": "A displayed articulated drive shoe held in a bolted workshop cradle. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 20,
+        "components": 1
+      },
+      "weight": 62,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-air-filter-tower": {
+      "id": "nomad-air-filter-tower",
+      "name": "Cyclone filter column",
+      "description": "A retired cyclone housing with removable filter ribs and a pressure gauge. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 20,
+        "components": 2
+      },
+      "weight": 44,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-canister-caddy": {
+      "id": "nomad-canister-caddy",
+      "name": "Twin canister caddy",
+      "description": "Two capped service cylinders chained to a wheeled transport frame. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 17,
+        "components": 1
+      },
+      "weight": 39,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-signal-pennant": {
+      "id": "nomad-signal-pennant",
+      "name": "Forward signal pennant",
+      "description": "A stitched expedition pennant on a weighted deck mast. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 10
+      },
+      "weight": 12,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "nomad-memory-board": {
+      "id": "nomad-memory-board",
+      "name": "Carried memories board",
+      "description": "A freestanding board of postcards, route scraps and personal field notes. Cosmetic; provides no storage, power, healing or resource production.",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 13
+      },
+      "weight": 16,
+      "maxHealth": 100,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    }
+  },
+  "colliders": {
+    "nomad-tool-drawers": [
+      {
+        "offset": {
+          "x": -0.5099999999999999,
+          "y": 0.06,
+          "z": -0.27
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.5099999999999999,
+          "y": 0.06,
+          "z": 0.27
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.5099999999999999,
+          "y": 0.06,
+          "z": -0.27
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.5099999999999999,
+          "y": 0.06,
+          "z": 0.27
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.5700000000000001,
+          "z": 0
+        },
+        "half": {
+          "x": 0.565,
+          "y": 0.45,
+          "z": 0.325
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.045,
+          "z": 0
+        },
+        "half": {
+          "x": 0.5774999999999999,
+          "y": 0.025,
+          "z": 0.3375
+        }
+      }
+    ],
+    "nomad-service-cart": [
+      {
+        "offset": {
+          "x": -0.42,
+          "y": 0.085,
+          "z": -0.27
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": -0.42,
+          "y": 0.53,
+          "z": -0.27
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.4,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": -0.42,
+          "y": 0.085,
+          "z": 0.27
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": -0.42,
+          "y": 0.53,
+          "z": 0.27
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.4,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.42,
+          "y": 0.085,
+          "z": -0.27
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": 0.42,
+          "y": 0.53,
+          "z": -0.27
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.4,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.42,
+          "y": 0.085,
+          "z": 0.27
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": 0.42,
+          "y": 0.53,
+          "z": 0.27
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.4,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.25,
+          "z": 0
+        },
+        "half": {
+          "x": 0.47,
+          "y": 0.0275,
+          "z": 0.32
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.88,
+          "z": 0
+        },
+        "half": {
+          "x": 0.47,
+          "y": 0.0275,
+          "z": 0.32
+        }
+      }
+    ],
+    "nomad-field-chair": [
+      {
+        "offset": {
+          "x": -0.29,
+          "y": 0.23,
+          "z": -0.265
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.23,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.29,
+          "y": 0.23,
+          "z": 0.265
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.23,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.29,
+          "y": 0.23,
+          "z": -0.265
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.23,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.29,
+          "y": 0.23,
+          "z": 0.265
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.23,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.43,
+          "z": 0
+        },
+        "half": {
+          "x": 0.36,
+          "y": 0.0375,
+          "z": 0.345
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.51,
+          "z": 0.015
+        },
+        "half": {
+          "x": 0.34,
+          "y": 0.0575,
+          "z": 0.315
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.84,
+          "z": -0.29
+        },
+        "half": {
+          "x": 0.36,
+          "y": 0.3,
+          "z": 0.07
+        }
+      },
+      {
+        "offset": {
+          "x": -0.365,
+          "y": 0.6,
+          "z": 0.19
+        },
+        "half": {
+          "x": 0.022,
+          "y": 0.17,
+          "z": 0.022
+        }
+      },
+      {
+        "offset": {
+          "x": -0.365,
+          "y": 0.76,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.045,
+          "z": 0.345
+        }
+      },
+      {
+        "offset": {
+          "x": 0.365,
+          "y": 0.6,
+          "z": 0.19
+        },
+        "half": {
+          "x": 0.022,
+          "y": 0.17,
+          "z": 0.022
+        }
+      },
+      {
+        "offset": {
+          "x": 0.365,
+          "y": 0.76,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.045,
+          "z": 0.345
+        }
+      }
+    ],
+    "nomad-sleeping-berth": [
+      {
+        "offset": {
+          "x": -0.375,
+          "y": 0.18,
+          "z": -0.86
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.18,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.375,
+          "y": 0.18,
+          "z": 0.86
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.18,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.375,
+          "y": 0.18,
+          "z": -0.86
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.18,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.375,
+          "y": 0.18,
+          "z": 0.86
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.18,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.345,
+          "z": 0
+        },
+        "half": {
+          "x": 0.47,
+          "y": 0.075,
+          "z": 0.965
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.485,
+          "z": 0
+        },
+        "half": {
+          "x": 0.44,
+          "y": 0.09,
+          "z": 0.93
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.54,
+          "z": -0.94
+        },
+        "half": {
+          "x": 0.48,
+          "y": 0.215,
+          "z": 0.0375
+        }
+      }
+    ],
+    "nomad-radio-cabinet": [
+      {
+        "offset": {
+          "x": -0.275,
+          "y": 0.06,
+          "z": -0.16
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.275,
+          "y": 0.06,
+          "z": 0.16
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.275,
+          "y": 0.06,
+          "z": -0.16
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.275,
+          "y": 0.06,
+          "z": 0.16
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.55,
+          "z": 0
+        },
+        "half": {
+          "x": 0.33,
+          "y": 0.43,
+          "z": 0.215
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.005,
+          "z": 0
+        },
+        "half": {
+          "x": 0.3425,
+          "y": 0.025,
+          "z": 0.2275
+        }
+      }
+    ],
+    "nomad-repair-trestle": [
+      {
+        "offset": {
+          "x": -0.55,
+          "y": 0.45,
+          "z": -0.28
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.45,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.55,
+          "y": 0.45,
+          "z": 0.28
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.45,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.55,
+          "y": 0.45,
+          "z": -0.28
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.45,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.55,
+          "y": 0.45,
+          "z": 0.28
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.45,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.78,
+          "z": 0.3
+        },
+        "half": {
+          "x": 0.595,
+          "y": 0.075,
+          "z": 0.03
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.78,
+          "z": -0.3
+        },
+        "half": {
+          "x": 0.595,
+          "y": 0.075,
+          "z": 0.03
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.94,
+          "z": 0
+        },
+        "half": {
+          "x": 0.67,
+          "y": 0.055,
+          "z": 0.39
+        }
+      },
+      {
+        "offset": {
+          "x": -0.41,
+          "y": 1.035,
+          "z": 0.12
+        },
+        "half": {
+          "x": 0.155,
+          "y": 0.0325,
+          "z": 0.155
+        }
+      },
+      {
+        "offset": {
+          "x": -0.41,
+          "y": 1.12,
+          "z": 0.1
+        },
+        "half": {
+          "x": 0.09,
+          "y": 0.07,
+          "z": 0.175
+        }
+      },
+      {
+        "offset": {
+          "x": -0.41,
+          "y": 1.23,
+          "z": -0.05
+        },
+        "half": {
+          "x": 0.16,
+          "y": 0.05,
+          "z": 0.0425
+        }
+      },
+      {
+        "offset": {
+          "x": -0.41,
+          "y": 1.23,
+          "z": 0.21
+        },
+        "half": {
+          "x": 0.16,
+          "y": 0.05,
+          "z": 0.0425
+        }
+      }
+    ],
+    "nomad-parts-organizer": [
+      {
+        "offset": {
+          "x": -0.425,
+          "y": 0.06,
+          "z": -0.155
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.425,
+          "y": 0.06,
+          "z": 0.155
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.425,
+          "y": 0.06,
+          "z": -0.155
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.425,
+          "y": 0.06,
+          "z": 0.155
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.84,
+          "z": -0.19
+        },
+        "half": {
+          "x": 0.49,
+          "y": 0.72,
+          "z": 0.03
+        }
+      },
+      {
+        "offset": {
+          "x": -0.47,
+          "y": 0.84,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0325,
+          "y": 0.72,
+          "z": 0.21
+        }
+      },
+      {
+        "offset": {
+          "x": 0.47,
+          "y": 0.84,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0325,
+          "y": 0.72,
+          "z": 0.21
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.14,
+          "z": 0
+        },
+        "half": {
+          "x": 0.475,
+          "y": 0.025,
+          "z": 0.215
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.49,
+          "z": 0
+        },
+        "half": {
+          "x": 0.475,
+          "y": 0.025,
+          "z": 0.215
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.84,
+          "z": 0
+        },
+        "half": {
+          "x": 0.475,
+          "y": 0.025,
+          "z": 0.215
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.19,
+          "z": 0
+        },
+        "half": {
+          "x": 0.475,
+          "y": 0.025,
+          "z": 0.215
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.55,
+          "z": 0
+        },
+        "half": {
+          "x": 0.475,
+          "y": 0.025,
+          "z": 0.215
+        }
+      }
+    ],
+    "nomad-charging-cabinet": [
+      {
+        "offset": {
+          "x": -0.385,
+          "y": 0.06,
+          "z": -0.195
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.385,
+          "y": 0.06,
+          "z": 0.195
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.385,
+          "y": 0.06,
+          "z": -0.195
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.385,
+          "y": 0.06,
+          "z": 0.195
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.9199999999999999,
+          "z": 0
+        },
+        "half": {
+          "x": 0.44,
+          "y": 0.8,
+          "z": 0.25
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.7449999999999999,
+          "z": 0
+        },
+        "half": {
+          "x": 0.4525,
+          "y": 0.025,
+          "z": 0.2625
+        }
+      }
+    ],
+    "nomad-expedition-trunk": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.04,
+          "z": 0
+        },
+        "half": {
+          "x": 0.57,
+          "y": 0.04,
+          "z": 0.35
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.3,
+          "z": 0
+        },
+        "half": {
+          "x": 0.58,
+          "y": 0.24,
+          "z": 0.365
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.62,
+          "z": 0
+        },
+        "half": {
+          "x": 0.59,
+          "y": 0.075,
+          "z": 0.375
+        }
+      }
+    ],
+    "nomad-archive-vitrine": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.075,
+          "z": 0
+        },
+        "half": {
+          "x": 0.375,
+          "y": 0.075,
+          "z": 0.32
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.53,
+          "z": 0
+        },
+        "half": {
+          "x": 0.26,
+          "y": 0.415,
+          "z": 0.22
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.96,
+          "z": 0
+        },
+        "half": {
+          "x": 0.395,
+          "y": 0.04,
+          "z": 0.345
+        }
+      },
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 1.22,
+          "z": -0.3
+        },
+        "half": {
+          "x": 0.0175,
+          "y": 0.245,
+          "z": 0.0175
+        }
+      },
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 1.22,
+          "z": 0.3
+        },
+        "half": {
+          "x": 0.0175,
+          "y": 0.245,
+          "z": 0.0175
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 1.22,
+          "z": -0.3
+        },
+        "half": {
+          "x": 0.0175,
+          "y": 0.245,
+          "z": 0.0175
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 1.22,
+          "z": 0.3
+        },
+        "half": {
+          "x": 0.0175,
+          "y": 0.245,
+          "z": 0.0175
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.47,
+          "z": 0
+        },
+        "half": {
+          "x": 0.395,
+          "y": 0.035,
+          "z": 0.345
+        }
+      }
+    ],
+    "nomad-chart-desk": [
+      {
+        "offset": {
+          "x": -0.56,
+          "y": 0.485,
+          "z": -0.31
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.485,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.56,
+          "y": 0.485,
+          "z": 0.31
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.485,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.56,
+          "y": 0.485,
+          "z": -0.31
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.485,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.56,
+          "y": 0.485,
+          "z": 0.31
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.485,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.84,
+          "z": -0.18
+        },
+        "half": {
+          "x": 0.34,
+          "y": 0.105,
+          "z": 0.185
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.99,
+          "z": 0
+        },
+        "half": {
+          "x": 0.66,
+          "y": 0.045,
+          "z": 0.415
+        }
+      }
+    ],
+    "nomad-survey-floodlight": [
+      {
+        "offset": {
+          "x": 2.816687638038912e-17,
+          "y": 0.025,
+          "z": 0.46
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.025,
+          "z": 0.075
+        }
+      },
+      {
+        "offset": {
+          "x": 5.070037748470042e-18,
+          "y": 0.49829999999999997,
+          "z": 0.0828
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 1.2111756843567323e-17,
+          "y": 0.35705000000000003,
+          "z": 0.1978
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 1.9153475938664606e-17,
+          "y": 0.2158,
+          "z": 0.3128
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 2.4786851214742427e-17,
+          "y": 0.1028,
+          "z": 0.4048
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": -0.39837168574084186,
+          "y": 0.025,
+          "z": -0.22999999999999987
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.025,
+          "z": 0.075
+        }
+      },
+      {
+        "offset": {
+          "x": -0.07170690343335154,
+          "y": 0.49829999999999997,
+          "z": -0.04139999999999998
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": -0.171299824868562,
+          "y": 0.35705000000000003,
+          "z": -0.09889999999999995
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": -0.27089274630377247,
+          "y": 0.2158,
+          "z": -0.15639999999999993
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": -0.3505670834519408,
+          "y": 0.1028,
+          "z": -0.20239999999999989
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0.3983716857408417,
+          "y": 0.025,
+          "z": -0.2300000000000002
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.025,
+          "z": 0.075
+        }
+      },
+      {
+        "offset": {
+          "x": 0.0717069034333515,
+          "y": 0.49829999999999997,
+          "z": -0.041400000000000034
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0.17129982486856193,
+          "y": 0.35705000000000003,
+          "z": -0.09890000000000009
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0.27089274630377236,
+          "y": 0.2158,
+          "z": -0.15640000000000015
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0.3505670834519407,
+          "y": 0.1028,
+          "z": -0.2024000000000002
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.08,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.0,
+          "z": 0
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.71,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": -0.29,
+          "y": 1.78,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.24,
+          "z": 0.035
+        }
+      },
+      {
+        "offset": {
+          "x": 0.29,
+          "y": 1.78,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.24,
+          "z": 0.035
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.83,
+          "z": 0
+        },
+        "half": {
+          "x": 0.255,
+          "y": 0.19,
+          "z": 0.09
+        }
+      }
+    ],
+    "nomad-machinist-lamp": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.055,
+          "z": 0
+        },
+        "half": {
+          "x": 0.21,
+          "y": 0.055,
+          "z": 0.21
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.65,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0425,
+          "y": 0.54,
+          "z": 0.0425
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.48,
+          "z": 0.26
+        },
+        "half": {
+          "x": 0.145,
+          "y": 0.095,
+          "z": 0.12
+        }
+      }
+    ],
+    "nomad-coat-rack": [
+      {
+        "offset": {
+          "x": -0.38,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.035,
+          "z": 0.295
+        }
+      },
+      {
+        "offset": {
+          "x": -0.38,
+          "y": 0.91,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.88,
+          "z": 0.0225
+        }
+      },
+      {
+        "offset": {
+          "x": 0.38,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.035,
+          "z": 0.295
+        }
+      },
+      {
+        "offset": {
+          "x": 0.38,
+          "y": 0.91,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.88,
+          "z": 0.0225
+        }
+      },
+      {
+        "offset": {
+          "x": -0.17,
+          "y": 1.2,
+          "z": 0.03
+        },
+        "half": {
+          "x": 0.195,
+          "y": 0.34,
+          "z": 0.06
+        }
+      },
+      {
+        "offset": {
+          "x": 0.19,
+          "y": 0.95,
+          "z": 0.09
+        },
+        "half": {
+          "x": 0.13,
+          "y": 0.145,
+          "z": 0.085
+        }
+      }
+    ],
+    "nomad-cable-reel": [
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.045,
+          "z": 0
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.045,
+          "z": 0.325
+        }
+      },
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.32,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0325,
+          "y": 0.275,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.045,
+          "z": 0
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.045,
+          "z": 0.325
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.32,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0325,
+          "y": 0.275,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.51,
+          "z": 0
+        },
+        "half": {
+          "x": 0.38,
+          "y": 0.36,
+          "z": 0.36
+        }
+      }
+    ],
+    "nomad-boots-locker": [
+      {
+        "offset": {
+          "x": -0.25,
+          "y": 0.06,
+          "z": -0.19
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.25,
+          "y": 0.06,
+          "z": 0.19
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.25,
+          "y": 0.06,
+          "z": -0.19
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.25,
+          "y": 0.06,
+          "z": 0.19
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.96,
+          "z": 0
+        },
+        "half": {
+          "x": 0.305,
+          "y": 0.8400000000000001,
+          "z": 0.245
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.825,
+          "z": 0
+        },
+        "half": {
+          "x": 0.3175,
+          "y": 0.025,
+          "z": 0.2575
+        }
+      }
+    ],
+    "nomad-galley-sideboard": [
+      {
+        "offset": {
+          "x": -0.49500000000000005,
+          "y": 0.06,
+          "z": -0.22999999999999998
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.49500000000000005,
+          "y": 0.06,
+          "z": 0.22999999999999998
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.49500000000000005,
+          "y": 0.06,
+          "z": -0.22999999999999998
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.49500000000000005,
+          "y": 0.06,
+          "z": 0.22999999999999998
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.5,
+          "z": 0
+        },
+        "half": {
+          "x": 0.55,
+          "y": 0.38,
+          "z": 0.285
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.905,
+          "z": 0
+        },
+        "half": {
+          "x": 0.5625,
+          "y": 0.025,
+          "z": 0.2975
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.02,
+          "z": -0.26
+        },
+        "half": {
+          "x": 0.56,
+          "y": 0.115,
+          "z": 0.0225
+        }
+      }
+    ],
+    "nomad-ceramic-basin": [
+      {
+        "offset": {
+          "x": -0.26,
+          "y": 0.435,
+          "z": -0.23
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.435,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.26,
+          "y": 0.435,
+          "z": 0.23
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.435,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.26,
+          "y": 0.435,
+          "z": -0.23
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.435,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.26,
+          "y": 0.435,
+          "z": 0.23
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.435,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.28,
+          "z": 0
+        },
+        "half": {
+          "x": 0.29,
+          "y": 0.02,
+          "z": 0.25
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.88,
+          "z": 0
+        },
+        "half": {
+          "x": 0.34,
+          "y": 0.04,
+          "z": 0.295
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.965,
+          "z": 0
+        },
+        "half": {
+          "x": 0.315,
+          "y": 0.065,
+          "z": 0.265
+        }
+      }
+    ],
+    "nomad-navigation-stool": [
+      {
+        "offset": {
+          "x": 0.27,
+          "y": 0.027,
+          "z": 0.0
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.0275,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.2241,
+          "y": 0.33,
+          "z": 0.0
+        },
+        "half": {
+          "x": 0.045,
+          "y": 0.295,
+          "z": 0.045
+        }
+      },
+      {
+        "offset": {
+          "x": -0.13499999999999995,
+          "y": 0.027,
+          "z": 0.23382685902179848
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.0275,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.11204999999999996,
+          "y": 0.33,
+          "z": 0.19407629298809273
+        },
+        "half": {
+          "x": 0.045,
+          "y": 0.295,
+          "z": 0.045
+        }
+      },
+      {
+        "offset": {
+          "x": -0.13500000000000012,
+          "y": 0.027,
+          "z": -0.2338268590217984
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.0275,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.1120500000000001,
+          "y": 0.33,
+          "z": -0.19407629298809265
+        },
+        "half": {
+          "x": 0.045,
+          "y": 0.295,
+          "z": 0.045
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.7,
+          "z": 0
+        },
+        "half": {
+          "x": 0.275,
+          "y": 0.085,
+          "z": 0.275
+        }
+      }
+    ],
+    "nomad-patchwork-bench": [
+      {
+        "offset": {
+          "x": -0.665,
+          "y": 0.22,
+          "z": -0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.22,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.665,
+          "y": 0.22,
+          "z": 0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.22,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.665,
+          "y": 0.22,
+          "z": -0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.22,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.665,
+          "y": 0.22,
+          "z": 0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.22,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.44,
+          "z": 0
+        },
+        "half": {
+          "x": 0.775,
+          "y": 0.0425,
+          "z": 0.31
+        }
+      },
+      {
+        "offset": {
+          "x": -0.39,
+          "y": 0.53,
+          "z": 0
+        },
+        "half": {
+          "x": 0.36,
+          "y": 0.055,
+          "z": 0.29
+        }
+      },
+      {
+        "offset": {
+          "x": 0.39,
+          "y": 0.53,
+          "z": 0
+        },
+        "half": {
+          "x": 0.36,
+          "y": 0.055,
+          "z": 0.29
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.82,
+          "z": -0.27
+        },
+        "half": {
+          "x": 0.775,
+          "y": 0.175,
+          "z": 0.045
+        }
+      },
+      {
+        "offset": {
+          "x": -0.67,
+          "y": 0.68,
+          "z": -0.3
+        },
+        "half": {
+          "x": 0.03,
+          "y": 0.305,
+          "z": 0.03
+        }
+      },
+      {
+        "offset": {
+          "x": 0.67,
+          "y": 0.68,
+          "z": -0.3
+        },
+        "half": {
+          "x": 0.03,
+          "y": 0.305,
+          "z": 0.03
+        }
+      }
+    ],
+    "nomad-spare-track-stand": [
+      {
+        "offset": {
+          "x": -0.47,
+          "y": 0.055,
+          "z": 0
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.055,
+          "z": 0.385
+        }
+      },
+      {
+        "offset": {
+          "x": -0.47,
+          "y": 0.39,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.34,
+          "z": 0.06
+        }
+      },
+      {
+        "offset": {
+          "x": 0.47,
+          "y": 0.055,
+          "z": 0
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.055,
+          "z": 0.385
+        }
+      },
+      {
+        "offset": {
+          "x": 0.47,
+          "y": 0.39,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.34,
+          "z": 0.06
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.69,
+          "z": 0
+        },
+        "half": {
+          "x": 0.425,
+          "y": 0.135,
+          "z": 0.32
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.88,
+          "z": 0
+        },
+        "half": {
+          "x": 0.42,
+          "y": 0.07,
+          "z": 0.26
+        }
+      }
+    ],
+    "nomad-air-filter-tower": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.055,
+          "z": 0
+        },
+        "half": {
+          "x": 0.375,
+          "y": 0.055,
+          "z": 0.36
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.88,
+          "z": 0
+        },
+        "half": {
+          "x": 0.285,
+          "y": 0.76,
+          "z": 0.285
+        }
+      }
+    ],
+    "nomad-canister-caddy": [
+      {
+        "offset": {
+          "x": -0.3,
+          "y": 0.1,
+          "z": -0.19
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.1,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": 0.3,
+          "y": 0.1,
+          "z": -0.19
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.1,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.045,
+          "z": 0.11
+        },
+        "half": {
+          "x": 0.345,
+          "y": 0.045,
+          "z": 0.27
+        }
+      },
+      {
+        "offset": {
+          "x": -0.27,
+          "y": 0.77,
+          "z": -0.17
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.725,
+          "z": 0.0225
+        }
+      },
+      {
+        "offset": {
+          "x": 0.27,
+          "y": 0.77,
+          "z": -0.17
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.725,
+          "z": 0.0225
+        }
+      },
+      {
+        "offset": {
+          "x": -0.16,
+          "y": 0.58,
+          "z": 0.04
+        },
+        "half": {
+          "x": 0.1425,
+          "y": 0.475,
+          "z": 0.1425
+        }
+      },
+      {
+        "offset": {
+          "x": 0.16,
+          "y": 0.58,
+          "z": 0.04
+        },
+        "half": {
+          "x": 0.1425,
+          "y": 0.475,
+          "z": 0.1425
+        }
+      }
+    ],
+    "nomad-signal-pennant": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.06,
+          "z": 0
+        },
+        "half": {
+          "x": 0.265,
+          "y": 0.06,
+          "z": 0.265
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.05,
+          "z": 0
+        },
+        "half": {
+          "x": 0.035,
+          "y": 0.99,
+          "z": 0.035
+        }
+      }
+    ],
+    "nomad-memory-board": [
+      {
+        "offset": {
+          "x": -0.48,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.035,
+          "z": 0.29
+        }
+      },
+      {
+        "offset": {
+          "x": -0.48,
+          "y": 0.91,
+          "z": 0
+        },
+        "half": {
+          "x": 0.026,
+          "y": 0.88,
+          "z": 0.026
+        }
+      },
+      {
+        "offset": {
+          "x": 0.48,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.035,
+          "z": 0.29
+        }
+      },
+      {
+        "offset": {
+          "x": 0.48,
+          "y": 0.91,
+          "z": 0
+        },
+        "half": {
+          "x": 0.026,
+          "y": 0.88,
+          "z": 0.026
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.21,
+          "z": 0
+        },
+        "half": {
+          "x": 0.55,
+          "y": 0.54,
+          "z": 0.0375
+        }
+      }
+    ]
+  }
+}

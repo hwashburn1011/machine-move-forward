@@ -1,0 +1,497 @@
+{
+  "closed": true,
+  "sourceHash": "65a30803dde2ff8c862ab586b7aaebb339eba306005a474041c2c6acf97a987c",
+  "roofManifestSha256": "9e55377e818a48e14866620b3f0e2cdce4929bcf5190e0c320644425e7099fae",
+  "roofGlbSha256": "bdf5ea1781f91e2a634ebc7a53f19941917eba5816017f89ce1a2118b42c3791",
+  "baseSiteGlbHashes": {
+    "res://art/native-rooftop-workshop.glb": "508190accd223c8c6acc942579979ac19d557772e6741ddac2fb1e80509de40b",
+    "res://assets/models/authored/expedition-wreck.glb": "a96182ee8adb652b773e1d92afc5dbe67b5c8d2b0da5b9599804d348950e1ab5",
+    "res://assets/models/authored/glass-orchard.glb": "5efee5e6915286f36742f32a42150404a09349eb416f9aab19f0d88790237827",
+    "res://assets/models/authored/last-garden-meridian.glb": "be37d3b274d7edf86c9599feff4a6d429173cd471340323be930120c800217ed",
+    "res://assets/models/authored/quiet-array.glb": "5e3e9b685dbc0449438a90f9c031e521272b6c6176ffaa9230a94e240524667c",
+    "res://assets/models/authored/relay-foundry.glb": "b9fad493b0ced29e6bb505333e333b075ed5aba7a9b46574608c64034bb76984"
+  },
+  "nativeChecks": 121,
+  "nativeFailures": [],
+  "geometryReviews": [
+    {
+      "root": "FoundryRoof",
+      "parts": 347,
+      "degenerateTriangles": 0,
+      "invertedSolidCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "finite": true,
+      "weatherStripBounds": [
+        {
+          "name": "Eave gutter bottom",
+          "min": [
+            -4.020000457763672,
+            4.797199726104736,
+            -5.195000171661377
+          ],
+          "max": [
+            7.0,
+            4.819200038909912,
+            -5.014999866485596
+          ],
+          "dimensions": [
+            11.020000457763672,
+            0.02200031280517578,
+            0.18000030517578125
+          ],
+          "finite": true
+        },
+        {
+          "name": "Eave gutter bottom.001",
+          "min": [
+            -4.020000457763672,
+            4.797199726104736,
+            5.014999866485596
+          ],
+          "max": [
+            7.0,
+            4.819200038909912,
+            5.195000171661377
+          ],
+          "dimensions": [
+            11.020000457763672,
+            0.02200031280517578,
+            0.18000030517578125
+          ],
+          "finite": true
+        },
+        {
+          "name": "Eave gutter captured outer lip",
+          "min": [
+            -4.020000457763672,
+            4.8022003173828125,
+            -5.201999664306641
+          ],
+          "max": [
+            7.0,
+            4.900199890136719,
+            -5.184000015258789
+          ],
+          "dimensions": [
+            11.020000457763672,
+            0.09799957275390625,
+            0.017999649047851562
+          ],
+          "finite": true
+        },
+        {
+          "name": "Eave gutter captured outer lip.001",
+          "min": [
+            -4.020000457763672,
+            4.8022003173828125,
+            5.184000015258789
+          ],
+          "max": [
+            7.0,
+            4.900199890136719,
+            5.201999664306641
+          ],
+          "dimensions": [
+            11.020000457763672,
+            0.09799957275390625,
+            0.017999649047851562
+          ],
+          "finite": true
+        },
+        {
+          "name": "Ridge weather cover",
+          "min": [
+            -4.059999942779541,
+            5.764999866485596,
+            -0.1850000023841858
+          ],
+          "max": [
+            7.03000020980835,
+            5.790999889373779,
+            0.004999995231628418
+          ],
+          "dimensions": [
+            11.09000015258789,
+            0.026000022888183594,
+            0.1899999976158142
+          ],
+          "finite": true
+        },
+        {
+          "name": "Ridge weather cover.001",
+          "min": [
+            -4.059999942779541,
+            5.764999866485596,
+            -0.004999995231628418
+          ],
+          "max": [
+            7.03000020980835,
+            5.790999889373779,
+            0.1850000023841858
+          ],
+          "dimensions": [
+            11.09000015258789,
+            0.026000022888183594,
+            0.1899999976158142
+          ],
+          "finite": true
+        }
+      ]
+    },
+    {
+      "root": "WorkshopCanopy",
+      "parts": 155,
+      "degenerateTriangles": 0,
+      "invertedSolidCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "finite": true,
+      "weatherStripBounds": []
+    },
+    {
+      "root": "ArrayVaultRoof",
+      "parts": 30,
+      "degenerateTriangles": 0,
+      "invertedSolidCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "finite": true,
+      "weatherStripBounds": []
+    },
+    {
+      "root": "OrchardArchiveRoof",
+      "parts": 35,
+      "degenerateTriangles": 0,
+      "invertedSolidCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "finite": true,
+      "weatherStripBounds": []
+    },
+    {
+      "root": "MeridianGardenSign",
+      "parts": 13,
+      "degenerateTriangles": 0,
+      "invertedSolidCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "finite": true,
+      "weatherStripBounds": []
+    }
+  ],
+  "foundryPreservation": {
+    "baseline": "test-results\\roof-floor\\source-before\\relay-foundry-runtime.glb",
+    "new": "godot\\assets\\models\\authored\\relay-foundry.glb",
+    "baselineSha256": "33794e40c2095bd7b88136e24222f32444936985d8f7b76a700427f8591b7a7d",
+    "newSha256": "b9fad493b0ced29e6bb505333e333b075ed5aba7a9b46574608c64034bb76984",
+    "nonFloorTrianglesBefore": 23690,
+    "nonFloorTrianglesAfter": 23690,
+    "missingUnchangedTriangles": 0,
+    "addedUnchangedTriangles": 0,
+    "missingUnchangedUVTriangles": 0,
+    "floorTrianglesBefore": 16834,
+    "floorTrianglesAfter": 16834,
+    "anchorsBefore": {
+      "FoundryRoot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "EntryAnchor": [
+        -7.0,
+        0.0,
+        0.0
+      ],
+      "ExitSightline": [
+        -5.800000190734863,
+        1.600000023841858,
+        0.0
+      ],
+      "Gangway": [
+        -7.5,
+        -0.07999999821186066,
+        0.0
+      ],
+      "JournalBlueprint": [
+        1.0,
+        1.2300000190734863,
+        2.0
+      ],
+      "JournalLog": [
+        -2.0,
+        1.0,
+        -2.0
+      ],
+      "SalvageController": [
+        -1.0,
+        1.0,
+        1.5
+      ],
+      "TrackingServo": [
+        3.0,
+        1.0,
+        -1.5
+      ]
+    },
+    "anchorsAfter": {
+      "FoundryRoot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "EntryAnchor": [
+        -7.0,
+        0.0,
+        0.0
+      ],
+      "ExitSightline": [
+        -5.800000190734863,
+        1.600000023841858,
+        0.0
+      ],
+      "FoundryRoof": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "Gangway": [
+        -7.5,
+        -0.07999999821186066,
+        0.0
+      ],
+      "JournalBlueprint": [
+        1.0,
+        1.2300000190734863,
+        2.0
+      ],
+      "JournalLog": [
+        -2.0,
+        1.0,
+        -2.0
+      ],
+      "SalvageController": [
+        -1.0,
+        1.0,
+        1.5
+      ],
+      "TrackingServo": [
+        3.0,
+        1.0,
+        -1.5
+      ]
+    },
+    "boundsBefore": {
+      "FoundryRoot_Geometry": {
+        "min": [
+          -7.014999866485596,
+          -0.2800000011920929,
+          -5.039999961853027
+        ],
+        "max": [
+          7.0,
+          4.830000266432762,
+          5.039999961853027
+        ]
+      },
+      "Gangway_Geometry": {
+        "min": [
+          -8.0,
+          -0.1599999964237213,
+          -1.0
+        ],
+        "max": [
+          -7.0,
+          0.020999997854232788,
+          1.0
+        ]
+      },
+      "SalvageController_Geometry": {
+        "min": [
+          -1.209999993443489,
+          0.9149999991059303,
+          1.334999993443489
+        ],
+        "max": [
+          -0.7900000065565109,
+          1.1200000196695328,
+          1.665000006556511
+        ]
+      },
+      "TrackingServo_Geometry": {
+        "min": [
+          2.8030000030994384,
+          0.8899999856948853,
+          -1.6969999969005614
+        ],
+        "max": [
+          3.19699999690056,
+          1.059999942779541,
+          -1.3030000030994413
+        ]
+      }
+    },
+    "boundsAfter": {
+      "FoundryRoot_Geometry": {
+        "min": [
+          -7.014999866485596,
+          -0.2800000011920929,
+          -5.039999961853027
+        ],
+        "max": [
+          7.0,
+          4.830000266432762,
+          5.039999961853027
+        ]
+      },
+      "Gangway_Geometry": {
+        "min": [
+          -8.0,
+          -0.1599999964237213,
+          -1.0
+        ],
+        "max": [
+          -7.0,
+          0.020999997854232788,
+          1.0
+        ]
+      },
+      "SalvageController_Geometry": {
+        "min": [
+          -1.209999993443489,
+          0.9149999991059303,
+          1.334999993443489
+        ],
+        "max": [
+          -0.7900000065565109,
+          1.1200000196695328,
+          1.665000006556511
+        ]
+      },
+      "TrackingServo_Geometry": {
+        "min": [
+          2.8030000030994384,
+          0.8899999856948853,
+          -1.6969999969005614
+        ],
+        "max": [
+          3.19699999690056,
+          1.059999942779541,
+          -1.3030000030994413
+        ]
+      }
+    },
+    "missingExamples": [],
+    "newExamples": [],
+    "preservedMaterialImages": {
+      "Expansion_Dark": true,
+      "Expansion_Paint": true,
+      "Expansion_Steel": true,
+      "Expansion_Ochre": true
+    },
+    "anchorsPreserved": true,
+    "meshBoundsPreserved": true,
+    "passed": true
+  },
+  "views": [
+    {
+      "name": "foundry-high-roof",
+      "image": "test-results\\roof-floor\\native-roofs\\foundry-high-roof.png",
+      "observation": "High pitched roof reads as one supported shed. The original western loading apron remains open; faded panels form a coherent surviving envelope.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "foundry-loading-entrance",
+      "image": "test-results\\roof-floor\\native-roofs\\foundry-loading-entrance.png",
+      "observation": "Entrance, aisles, gantry and suspended lifting eye remain unobstructed. Roof tie beams and purlins are seated on the original boundary structure.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "foundry-player-interior",
+      "image": "test-results\\roof-floor\\native-roofs\\foundry-player-interior.png",
+      "observation": "Player-height view confirms generous headroom, attached braces, corrugated undersides, and daylight through the deliberate torn bay.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "foundry-torn-bay",
+      "image": "test-results\\roof-floor\\native-roofs\\foundry-torn-bay.png",
+      "observation": "Retained ripped sheets curl at the damaged edge and remain attached along their ridge/purlin spine. Remaining exposed framing is continuous.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "foundry-eave-folds",
+      "image": "test-results\\roof-floor\\native-roofs\\foundry-eave-folds.png",
+      "observation": "Shallow drip pan, upright outer return and bolted brackets form attached metal sections instead of floating plates or vertical strip mistakes.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "foundry-seated-floor",
+      "image": "test-results\\roof-floor\\native-roofs\\foundry-seated-floor.png",
+      "observation": "Cassette bevels are visibly separated from the underlying foundation with a 16 mm proud top; original physics floor height stays unchanged.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "workshop-rear-canopy",
+      "image": "test-results\\roof-floor\\native-roofs\\workshop-rear-canopy.png",
+      "observation": "Small rear canopy shelters the workbenches and preserves the open central workshop and separate raised archive.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "workshop-player-aisle",
+      "image": "test-results\\roof-floor\\native-roofs\\workshop-player-aisle.png",
+      "observation": "Rear-wall saddle and knee braces support the shelter above standing player height without adding floor posts.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "workshop-clear-upper-bridge",
+      "image": "test-results\\roof-floor\\native-roofs\\workshop-clear-upper-bridge.png",
+      "observation": "The upper archive entrance/bridge remains outside the canopy footprint and keeps its original headroom.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "workshop-canopy-brackets",
+      "image": "test-results\\roof-floor\\native-roofs\\workshop-canopy-brackets.png",
+      "observation": "Folded gutter, seated wall saddles and diagonal braces are continuous. The existing motto now reads correctly toward the interior.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "array-vault-seated-cap",
+      "image": "test-results\\roof-floor\\native-roofs\\array-vault-seated-cap.png",
+      "observation": "The existing cap has a continuous bound edge and raised seams, with bearing seats bridging the previous 120 mm source gap.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "array-vault-bearing-detail",
+      "image": "test-results\\roof-floor\\native-roofs\\array-vault-bearing-detail.png",
+      "observation": "Corner view exposes seated cap supports; no new floor obstacle or antenna cover was added.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "orchard-archive-cap",
+      "image": "test-results\\roof-floor\\native-roofs\\orchard-archive-cap.png",
+      "observation": "The existing archive canopy keeps its silhouette; a small seated support and seam treatment closes its prior 60 mm source gap.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "orchard-archive-bearing-detail",
+      "image": "test-results\\roof-floor\\native-roofs\\orchard-archive-bearing-detail.png",
+      "observation": "Corner support and edge bindings are seated on the vault; existing greenhouse openings remain unchanged.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "orchard-archive-title",
+      "image": "test-results\\roof-floor\\native-roofs\\orchard-archive-title.png",
+      "observation": "Archive title is readable from its actual +Z front. Only its text positions/normals/tangents changed.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "orchard-entry-lettering",
+      "image": "test-results\\roof-floor\\native-roofs\\orchard-entry-lettering.png",
+      "observation": "Both entrance lines face the approach and lie within the original backing plate, with the subtitle visibly seated instead of hanging below it.",
+      "status": "visually inspected"
+    },
+    {
+      "name": "meridian-garden-lettering",
+      "image": "test-results\\roof-floor\\native-roofs\\meridian-garden-lettering.png",
+      "observation": "Readable garden title/subtitle sit on a small board with clamps at both existing posts; its underside is 2.445 m above the path.",
+      "status": "visually inspected"
+    }
+  ],
+  "scope": "Four roof/roof-seat assemblies and one mounted garden sign; exact collision also covers the independently repaired Wake roof. Existing functional floor/route/interaction anchors remain unchanged.",
+  "runtimeCache": "Four shared additive packed models and six exact baked shapes; bounded title preparation and teardown."
+}

@@ -1,0 +1,32 @@
+{
+  "asset": "last-garden-meridian",
+  "beforeSha256": "8eaabf37c5ce609a8d984bbce5c812824adfb18fe41aa6e530ce4bad59ea9974",
+  "afterSha256": "be37d3b274d7edf86c9599feff4a6d429173cd471340323be930120c800217ed",
+  "labels": [
+    {
+      "name": "Refuge garden sign",
+      "pivot": [
+        -5,
+        2.8,
+        -3.43
+      ],
+      "vertices": 1882,
+      "triangles": 1812,
+      "mixedTriangles": 0
+    },
+    {
+      "name": "Refuge promise",
+      "pivot": [
+        -5,
+        2.5,
+        -3.43
+      ],
+      "vertices": 4898,
+      "triangles": 4740,
+      "mixedTriangles": 0
+    }
+  ],
+  "onlySelectedPositionNormalTangentBytesChanged": true,
+  "changedBytes": 143066,
+  "uvsIndicesImagesMaterialsOtherNodesPreserved": true
+}

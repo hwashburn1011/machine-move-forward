@@ -1,0 +1,201 @@
+{
+  "source": "assets\\gunner-s07\\game\\S07_Playable.blend",
+  "sourceSha256": "c01bb6b4a1acf10c7229e20cbc70ef3ddca74abdae5eeb4b4eb423a82b1dcd98",
+  "originalGeometryPreserved": true,
+  "meshVertices": 62158,
+  "maxFootReachError": 9.8843121241194e-08,
+  "clips": [
+    {
+      "name": "native_walk_fwd",
+      "gait": "walk",
+      "direction": "fwd",
+      "stride": 0.86,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_walk_fwd_right",
+      "gait": "walk",
+      "direction": "fwd_right",
+      "stride": 0.7018909264326095,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_walk_right",
+      "gait": "walk",
+      "direction": "right",
+      "stride": 0.6364,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_walk_back_right",
+      "gait": "walk",
+      "direction": "back_right",
+      "stride": 0.5924307985782623,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_walk_back",
+      "gait": "walk",
+      "direction": "back",
+      "stride": 0.7052,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_walk_back_left",
+      "gait": "walk",
+      "direction": "back_left",
+      "stride": 0.5924307985782623,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_walk_left",
+      "gait": "walk",
+      "direction": "left",
+      "stride": 0.6364,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_walk_fwd_left",
+      "gait": "walk",
+      "direction": "fwd_left",
+      "stride": 0.7018909264326095,
+      "duty": 0.52,
+      "period": 0.6
+    },
+    {
+      "name": "native_run_fwd",
+      "gait": "run",
+      "direction": "fwd",
+      "stride": 1.04,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_run_fwd_right",
+      "gait": "run",
+      "direction": "fwd_right",
+      "stride": 0.8487983296394348,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_run_right",
+      "gait": "run",
+      "direction": "right",
+      "stride": 0.7696000000000001,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_run_back_right",
+      "gait": "run",
+      "direction": "back_right",
+      "stride": 0.7164279424667359,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_run_back",
+      "gait": "run",
+      "direction": "back",
+      "stride": 0.8528000000000001,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_run_back_left",
+      "gait": "run",
+      "direction": "back_left",
+      "stride": 0.7164279424667359,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_run_left",
+      "gait": "run",
+      "direction": "left",
+      "stride": 0.7696000000000001,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_run_fwd_left",
+      "gait": "run",
+      "direction": "fwd_left",
+      "stride": 0.8487983296394348,
+      "duty": 0.34,
+      "period": 0.5
+    },
+    {
+      "name": "native_crouch_walk_fwd",
+      "gait": "crouch_walk",
+      "direction": "fwd",
+      "stride": 0.58,
+      "duty": 0.62,
+      "period": 0.7
+    },
+    {
+      "name": "native_crouch_walk_fwd_right",
+      "gait": "crouch_walk",
+      "direction": "fwd_right",
+      "stride": 0.4733682992219925,
+      "duty": 0.62,
+      "period": 0.7
+    },
+    {
+      "name": "native_crouch_walk_right",
+      "gait": "crouch_walk",
+      "direction": "right",
+      "stride": 0.42919999999999997,
+      "duty": 0.62,
+      "period": 0.7
+    },
+    {
+      "name": "native_crouch_walk_back_right",
+      "gait": "crouch_walk",
+      "direction": "back_right",
+      "stride": 0.39954635252952575,
+      "duty": 0.62,
+      "period": 0.7
+    },
+    {
+      "name": "native_crouch_walk_back",
+      "gait": "crouch_walk",
+      "direction": "back",
+      "stride": 0.4756,
+      "duty": 0.62,
+      "period": 0.7
+    },
+    {
+      "name": "native_crouch_walk_back_left",
+      "gait": "crouch_walk",
+      "direction": "back_left",
+      "stride": 0.39954635252952575,
+      "duty": 0.62,
+      "period": 0.7
+    },
+    {
+      "name": "native_crouch_walk_left",
+      "gait": "crouch_walk",
+      "direction": "left",
+      "stride": 0.42919999999999997,
+      "duty": 0.62,
+      "period": 0.7
+    },
+    {
+      "name": "native_crouch_walk_fwd_left",
+      "gait": "crouch_walk",
+      "direction": "fwd_left",
+      "stride": 0.4733682992219925,
+      "duty": 0.62,
+      "period": 0.7
+    }
+  ]
+}

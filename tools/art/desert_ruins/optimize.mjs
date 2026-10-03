@@ -12,7 +12,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MeshoptEncoder } from 'meshoptimizer';
+import { MeshoptEncoder, MeshoptDecoder } from 'meshoptimizer';
 import sharp from 'sharp';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
@@ -20,6 +20,7 @@ const INPUT = path.join(ROOT, 'assets', 'desert-ruins', 'exports');
 const OUTPUT = path.join(ROOT, 'public', 'models', 'props', 'ruins');
 await fs.mkdir(OUTPUT, { recursive: true });
 await MeshoptEncoder.ready;
+await MeshoptDecoder.ready;
 
 const COMPONENT_BYTES = { 5120: 1, 5121: 1, 5122: 2, 5123: 2, 5125: 4, 5126: 4 };
 const TYPE_COMPONENTS = { SCALAR: 1, VEC2: 2, VEC3: 3, VEC4: 4, MAT2: 4, MAT3: 9, MAT4: 16 };
@@ -138,11 +139,68 @@ function imageRoles(json) {
   return roles;
 }
 
+// Reorder opaque triangle/vertex streams for GPU cache locality. Every attribute
+// is copied byte-for-byte: no quantisation, simplification, or changed UV seams.
+function reorderGeometry(json, bin) {
+  const replacements = new Map();
+  let reordered = 0;
+  for (const mesh of json.meshes ?? [])
+    for (const primitive of mesh.primitives ?? []) {
+      if (
+        (primitive.mode ?? 4) !== 4 ||
+        primitive.targets ||
+        json.materials?.[primitive.material]?.alphaMode === 'BLEND'
+      )
+        continue;
+      const index = json.accessors[primitive.indices];
+      const attributes = Object.values(primitive.attributes).map((i) => json.accessors[i]);
+      if (
+        !index ||
+        ![5123, 5125].includes(index.componentType) ||
+        [...attributes, index].some(
+          (a) =>
+            a.sparse ||
+            !Number.isInteger(a.bufferView) ||
+            json.bufferViews[a.bufferView].byteStride ||
+            replacements.has(a.bufferView),
+        )
+      )
+        continue;
+      const indexView = json.bufferViews[index.bufferView];
+      const width = COMPONENT_BYTES[index.componentType];
+      const source = bin.subarray((indexView.byteOffset ?? 0) + (index.byteOffset ?? 0));
+      const indices = new Uint32Array(index.count);
+      for (let i = 0; i < indices.length; i++)
+        indices[i] = width === 2 ? source.readUInt16LE(i * width) : source.readUInt32LE(i * width);
+      const [remap, unique] = MeshoptEncoder.reorderMesh(indices, true, false);
+      const orderedIndex = Buffer.alloc(index.count * width);
+      for (let i = 0; i < indices.length; i++) {
+        if (width === 2) orderedIndex.writeUInt16LE(indices[i], i * width);
+        else orderedIndex.writeUInt32LE(indices[i], i * width);
+      }
+      replacements.set(index.bufferView, orderedIndex);
+      for (const attribute of attributes) {
+        const view = json.bufferViews[attribute.bufferView];
+        const stride = accessorBytes(attribute);
+        const original = bin.subarray((view.byteOffset ?? 0) + (attribute.byteOffset ?? 0));
+        const ordered = Buffer.alloc(unique * stride);
+        for (let i = 0; i < remap.length; i++)
+          if (remap[i] !== 0xffffffff)
+            original.copy(ordered, remap[i] * stride, i * stride, (i + 1) * stride);
+        attribute.count = unique;
+        replacements.set(attribute.bufferView, ordered);
+      }
+      reordered++;
+    }
+  return { replacements, reordered };
+}
+
 async function optimizeOne(file) {
   const original = await fs.readFile(file);
   const { json, bin } = parseGlb(original);
   if (json.buffers?.length !== 1) throw new Error('only one BIN buffer is supported');
   const sourceViews = json.bufferViews || [];
+  const reordered = reorderGeometry(json, bin);
   const originalImages = [...(json.images || [])];
   const originalImageViews = originalImages.map((image) => image.bufferView);
   const imageViewSet = new Set(originalImageViews.filter(Number.isInteger));
@@ -162,7 +220,9 @@ async function optimizeOne(file) {
       remap.set(i, null);
       continue;
     }
-    const raw = bin.subarray(view.byteOffset || 0, (view.byteOffset || 0) + view.byteLength);
+    const raw =
+      reordered.replacements.get(i) ??
+      bin.subarray(view.byteOffset || 0, (view.byteOffset || 0) + view.byteLength);
     const info = geometry.get(i);
     const outView = { buffer: 0 };
     if (info && !info.unsupported && !view.byteStride) {
@@ -171,6 +231,12 @@ async function optimizeOne(file) {
       const compressed = Buffer.from(
         MeshoptEncoder.encodeGltfBuffer(raw, accessor.count, stride, info.mode),
       );
+      const decoded = Buffer.alloc(raw.length);
+      MeshoptDecoder.decodeGltfBuffer(decoded, accessor.count, stride, compressed, info.mode);
+      // Triangle codec may rotate a triangle's first vertex but retains exact
+      // winding/vertex data. Attribute streams must be bit-for-bit identical.
+      if (info.mode === 'ATTRIBUTES' && !decoded.equals(raw))
+        throw new Error('Lossless attribute round-trip failed');
       geometryOriginalBytes += raw.length;
       geometryCompressedBytes += compressed.length;
       // Keep a standards-valid decoded fallback view. EXT_meshopt points to a
@@ -290,13 +356,28 @@ async function optimizeOne(file) {
   if (missing.length) throw new Error(`${stem}: contract missing ${missing.join(', ')}`);
   const out = makeGlb(json, Buffer.concat(parts.items));
   const outPath = path.join(OUTPUT, `${stem}.glb`);
-  await fs.writeFile(outPath, out);
+  // Preview servers and Windows scanners can briefly hold the old asset.
+  // Publish a complete file atomically; never expose a truncated GLB to Vite.
+  const pendingPath = `${outPath}.pending`;
+  await fs.writeFile(pendingPath, out);
+  for (let attempt = 0; ; attempt++) {
+    try {
+      await fs.rename(pendingPath, outPath);
+      break;
+    } catch (error) {
+      if (attempt >= 4 || !['EPERM', 'EACCES', 'EBUSY', 'UNKNOWN'].includes(error.code))
+        throw error;
+      await new Promise((resolve) => setTimeout(resolve, 200 * (attempt + 1)));
+    }
+  }
   const gpu = imageReport.reduce((sum, item) => sum + (item.width * item.height * 4 * 4) / 3, 0);
   return {
     asset: stem,
     sourceBytes: original.length,
     optimizedBytes: out.length,
     sourceGeometryBytes: geometryOriginalBytes,
+    cacheReorderedPrimitives: reordered.reordered,
+    geometryAttributeRoundTrip: 'byte-exact',
     compressedGeometryBytes: geometryCompressedBytes,
     meshoptFallbackBufferBytes: fallbackCursor,
     sourceTextureBytes: textureOriginalBytes,

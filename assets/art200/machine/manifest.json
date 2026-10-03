@@ -1,0 +1,3069 @@
+{
+  "nomad2-card-table": {
+    "name": "Last Light card table",
+    "description": "A folding card table with retained cards, a score rail and stitched baize. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 14
+    },
+    "weight": 16,
+    "color_family": "oxblood",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.43000000000000005,
+          "y": 0.375,
+          "z": -0.35
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.43000000000000005,
+          "y": 0.375,
+          "z": 0.35
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.43000000000000005,
+          "y": 0.375,
+          "z": -0.35
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.43000000000000005,
+          "y": 0.375,
+          "z": 0.35
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.66,
+          "z": 0.38
+        },
+        "half": {
+          "x": 0.47000000000000003,
+          "y": 0.065,
+          "z": 0.025
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.79,
+          "z": 0
+        },
+        "half": {
+          "x": 0.53,
+          "y": 0.04,
+          "z": 0.45
+        }
+      }
+    ],
+    "phase2_review": "Connected folding hinge pins; cards seated on baize.",
+    "bounds": {
+      "min": [
+        -0.5299999713897705,
+        0.0,
+        -0.44999998807907104
+      ],
+      "max": [
+        0.5299999713897705,
+        0.906000018119812,
+        0.44999998807907104
+      ],
+      "size": [
+        1.059999942779541,
+        0.906000018119812,
+        0.8999999761581421
+      ],
+      "triangles": 2801,
+      "material_batches": 7,
+      "colliders": 6
+    }
+  },
+  "nomad2-instrument-bench": {
+    "name": "Horizon instrument bench",
+    "description": "An inactive oscilloscope bench with analog meters and parked probes. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 23,
+      "components": 3
+    },
+    "weight": 35,
+    "color_family": "petrol",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.56,
+          "y": 0.42,
+          "z": -0.26
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.56,
+          "y": 0.42,
+          "z": 0.26
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.56,
+          "y": 0.42,
+          "z": -0.26
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.56,
+          "y": 0.42,
+          "z": 0.26
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.75,
+          "z": 0.29
+        },
+        "half": {
+          "x": 0.6000000000000001,
+          "y": 0.065,
+          "z": 0.025
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.88,
+          "z": 0
+        },
+        "half": {
+          "x": 0.66,
+          "y": 0.04,
+          "z": 0.36
+        }
+      },
+      {
+        "offset": {
+          "x": -0.57,
+          "y": 1.16,
+          "z": -0.29
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.275,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.57,
+          "y": 1.16,
+          "z": -0.29
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.275,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.42,
+          "z": -0.15
+        },
+        "half": {
+          "x": 0.63,
+          "y": 0.0225,
+          "z": 0.185
+        }
+      },
+      {
+        "offset": {
+          "x": -0.22,
+          "y": 1.13,
+          "z": -0.015
+        },
+        "half": {
+          "x": 0.32,
+          "y": 0.2,
+          "z": 0.205
+        }
+      }
+    ],
+    "phase2_review": "Thin retained instrument bezel and legibility review.",
+    "bounds": {
+      "min": [
+        -0.6600000262260437,
+        0.0,
+        -0.36000001430511475
+      ],
+      "max": [
+        0.6599999666213989,
+        1.4424999952316284,
+        0.36000001430511475
+      ],
+      "size": [
+        1.3199999928474426,
+        1.4424999952316284,
+        0.7200000286102295
+      ],
+      "triangles": 4981,
+      "material_batches": 7,
+      "colliders": 10
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Attached Instrument bezel to Parked test lead.001",
+        "Attached Oscilloscope cast housing to Rounded work surface.001",
+        "Attached Oscilloscope control knob to Oscilloscope cast housing",
+        "Attached Oscilloscope control knob.001 to Oscilloscope cast housing"
+      ],
+      "zero_area_faces_removed": 24
+    }
+  },
+  "nomad2-privacy-screen": {
+    "name": "Quiet Quarter privacy screen",
+    "description": "A folding three-panel screen with framed canvas and full-height hinge pins. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 18
+    },
+    "weight": 19,
+    "color_family": "plum",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.39,
+          "y": 0.035,
+          "z": -0.08
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.035,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": -0.39,
+          "y": 0.035,
+          "z": 0.49
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.035,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": -0.39,
+          "y": 0.86,
+          "z": -0.05
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.835,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": -0.39,
+          "y": 0.86,
+          "z": 0.46
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.835,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": -0.39,
+          "y": 0.91,
+          "z": 0.21
+        },
+        "half": {
+          "x": 0.012,
+          "y": 0.715,
+          "z": 0.245
+        }
+      },
+      {
+        "offset": {
+          "x": 0.39,
+          "y": 0.035,
+          "z": -0.08
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.035,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": 0.39,
+          "y": 0.035,
+          "z": 0.49
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.035,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": 0.39,
+          "y": 0.86,
+          "z": -0.05
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.835,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.39,
+          "y": 0.86,
+          "z": 0.46
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.835,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.39,
+          "y": 0.91,
+          "z": 0.21
+        },
+        "half": {
+          "x": 0.012,
+          "y": 0.715,
+          "z": 0.245
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.91,
+          "z": -0.05
+        },
+        "half": {
+          "x": 0.37,
+          "y": 0.715,
+          "z": 0.012
+        }
+      }
+    ],
+    "phase2_review": "Bound canvas hems within the supported frame.",
+    "bounds": {
+      "min": [
+        -0.4649999737739563,
+        0.0,
+        -0.18000000715255737
+      ],
+      "max": [
+        0.4649999737739563,
+        1.6949999332427979,
+        0.5900000333786011
+      ],
+      "size": [
+        0.9299999475479126,
+        1.6949999332427979,
+        0.7700000405311584
+      ],
+      "triangles": 3472,
+      "material_batches": 5,
+      "colliders": 11
+    }
+  },
+  "nomad2-book-cabinet": {
+    "name": "Waymark lending cabinet",
+    "description": "A wood-lined book cabinet with a retained travelling library. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 19
+    },
+    "weight": 30,
+    "color_family": "umber",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.47000000000000003,
+          "y": 0.06,
+          "z": -0.165
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.47000000000000003,
+          "y": 0.06,
+          "z": 0.165
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.47000000000000003,
+          "y": 0.06,
+          "z": -0.165
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0.47000000000000003,
+          "y": 0.06,
+          "z": 0.165
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.06,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.8200000000000001,
+          "z": 0
+        },
+        "half": {
+          "x": 0.525,
+          "y": 0.7,
+          "z": 0.22
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.545,
+          "z": 0
+        },
+        "half": {
+          "x": 0.5375,
+          "y": 0.025,
+          "z": 0.2325
+        }
+      }
+    ],
+    "phase2_review": "Book retention rails joined to the actual shelf lips.",
+    "bounds": {
+      "min": [
+        -0.5375000238418579,
+        0.0,
+        -0.23249998688697815
+      ],
+      "max": [
+        0.5375000238418579,
+        1.5924999713897705,
+        0.41100001335144043
+      ],
+      "size": [
+        1.0750000476837158,
+        1.5924999713897705,
+        0.6435000002384186
+      ],
+      "triangles": 7516,
+      "material_batches": 8,
+      "colliders": 6
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Attached Lower cupboard door to Folded steel carcass"
+      ],
+      "zero_area_faces_removed": 0
+    }
+  },
+  "nomad2-ration-pantry": {
+    "name": "Trail Tin pantry rack",
+    "description": "A pantry-style display of sealed tins on open wire shelves. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 17
+    },
+    "weight": 18,
+    "color_family": "olive",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.4,
+          "y": 0.78,
+          "z": -0.25
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.78,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.4,
+          "y": 0.78,
+          "z": 0.25
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.78,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.4,
+          "y": 0.78,
+          "z": -0.25
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.78,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.4,
+          "y": 0.78,
+          "z": 0.25
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.78,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.18,
+          "z": 0
+        },
+        "half": {
+          "x": 0.455,
+          "y": 0.0225,
+          "z": 0.3
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.62,
+          "z": 0
+        },
+        "half": {
+          "x": 0.455,
+          "y": 0.0225,
+          "z": 0.3
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.06,
+          "z": 0
+        },
+        "half": {
+          "x": 0.455,
+          "y": 0.0225,
+          "z": 0.3
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.52,
+          "z": 0
+        },
+        "half": {
+          "x": 0.455,
+          "y": 0.0225,
+          "z": 0.3
+        }
+      }
+    ],
+    "phase2_review": "Individually indexed stock labels on the nine retained cans.",
+    "bounds": {
+      "min": [
+        -0.45500001311302185,
+        0.0,
+        -0.30000001192092896
+      ],
+      "max": [
+        0.45500001311302185,
+        1.6729999780654907,
+        0.30000001192092896
+      ],
+      "size": [
+        0.9100000262260437,
+        1.6729999780654907,
+        0.6000000238418579
+      ],
+      "triangles": 13393,
+      "material_batches": 6,
+      "colliders": 8
+    }
+  },
+  "nomad2-folding-lounge": {
+    "name": "Blue Mile folding lounge",
+    "description": "A reclining field lounger with a braced frame and bound canvas panels. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 17
+    },
+    "weight": 15,
+    "color_family": "denim",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.035,
+          "z": -0.61
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.035,
+          "z": 0.09
+        }
+      },
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.035,
+          "z": 0.62
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.035,
+          "z": 0.09
+        }
+      },
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.355,
+          "z": -0.505
+        },
+        "half": {
+          "x": 0.0215,
+          "y": 0.30372685096974883,
+          "z": 0.0215
+        },
+        "rotX": 0.3529903878269104
+      },
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.245,
+          "z": 0.45499999999999996
+        },
+        "half": {
+          "x": 0.0215,
+          "y": 0.24052026941611387,
+          "z": 0.0215
+        },
+        "rotX": -0.7559948751934432
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.035,
+          "z": -0.61
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.035,
+          "z": 0.09
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.035,
+          "z": 0.62
+        },
+        "half": {
+          "x": 0.06,
+          "y": 0.035,
+          "z": 0.09
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.355,
+          "z": -0.505
+        },
+        "half": {
+          "x": 0.0215,
+          "y": 0.30372685096974883,
+          "z": 0.0215
+        },
+        "rotX": 0.3529903878269104
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.245,
+          "z": 0.45499999999999996
+        },
+        "half": {
+          "x": 0.0215,
+          "y": 0.24052026941611387,
+          "z": 0.0215
+        },
+        "rotX": -0.7559948751934432
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.455,
+          "z": 0.26
+        },
+        "half": {
+          "x": 0.34,
+          "y": 0.0175,
+          "z": 0.575
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.79,
+          "z": -0.53
+        },
+        "half": {
+          "x": 0.34,
+          "y": 0.0175,
+          "z": 0.41
+        },
+        "rotX": 0.879
+      }
+    ],
+    "phase2_review": "Bound seat/back seams follow the real inclined canvas.",
+    "bounds": {
+      "min": [
+        -0.4099999964237213,
+        0.0,
+        -0.8550000190734863
+      ],
+      "max": [
+        0.4099999964237213,
+        1.125,
+        0.8349999189376831
+      ],
+      "size": [
+        0.8199999928474426,
+        1.125,
+        1.6899999380111694
+      ],
+      "triangles": 2484,
+      "material_batches": 6,
+      "colliders": 10
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 48
+    }
+  },
+  "nomad2-microscope-bench": {
+    "name": "Morrow specimen bench",
+    "description": "A retired inspection microscope on a specimen preparation bench. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 24,
+      "components": 3
+    },
+    "weight": 31,
+    "color_family": "celadon",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.48,
+          "y": 0.42,
+          "z": -0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.48,
+          "y": 0.42,
+          "z": 0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.48,
+          "y": 0.42,
+          "z": -0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.48,
+          "y": 0.42,
+          "z": 0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.42,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.75,
+          "z": 0.27999999999999997
+        },
+        "half": {
+          "x": 0.52,
+          "y": 0.065,
+          "z": 0.025
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.88,
+          "z": 0
+        },
+        "half": {
+          "x": 0.58,
+          "y": 0.04,
+          "z": 0.35
+        }
+      },
+      {
+        "offset": {
+          "x": -0.23,
+          "y": 1.22,
+          "z": 0.04
+        },
+        "half": {
+          "x": 0.215,
+          "y": 0.27,
+          "z": 0.215
+        }
+      },
+      {
+        "offset": {
+          "x": 0.32,
+          "y": 1.05,
+          "z": 0
+        },
+        "half": {
+          "x": 0.165,
+          "y": 0.12,
+          "z": 0.17
+        }
+      }
+    ],
+    "phase2_review": "Supported focus spindle and spring slide clamps.",
+    "bounds": {
+      "min": [
+        -0.5799999833106995,
+        0.0,
+        -0.34999996423721313
+      ],
+      "max": [
+        0.5799999833106995,
+        1.57393479347229,
+        0.3499999940395355
+      ],
+      "size": [
+        1.159999966621399,
+        1.57393479347229,
+        0.6999999582767487
+      ],
+      "triangles": 6833,
+      "material_batches": 6,
+      "colliders": 8
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Attached Slide drawer case to Rounded work surface.002"
+      ],
+      "zero_area_faces_removed": 72
+    }
+  },
+  "nomad2-paint-trolley": {
+    "name": "Patchcoat painter trolley",
+    "description": "A paint display trolley with a clamped sample panel and brush cups. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 18,
+      "components": 1
+    },
+    "weight": 21,
+    "color_family": "clay",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.36,
+          "y": 0.085,
+          "z": -0.25
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": -0.36,
+          "y": 0.6,
+          "z": -0.25
+        },
+        "half": {
+          "x": 0.02,
+          "y": 0.47,
+          "z": 0.02
+        }
+      },
+      {
+        "offset": {
+          "x": -0.36,
+          "y": 0.085,
+          "z": 0.25
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": -0.36,
+          "y": 0.6,
+          "z": 0.25
+        },
+        "half": {
+          "x": 0.02,
+          "y": 0.47,
+          "z": 0.02
+        }
+      },
+      {
+        "offset": {
+          "x": 0.36,
+          "y": 0.085,
+          "z": -0.25
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": 0.36,
+          "y": 0.6,
+          "z": -0.25
+        },
+        "half": {
+          "x": 0.02,
+          "y": 0.47,
+          "z": 0.02
+        }
+      },
+      {
+        "offset": {
+          "x": 0.36,
+          "y": 0.085,
+          "z": 0.25
+        },
+        "half": {
+          "x": 0.0475,
+          "y": 0.085,
+          "z": 0.085
+        }
+      },
+      {
+        "offset": {
+          "x": 0.36,
+          "y": 0.6,
+          "z": 0.25
+        },
+        "half": {
+          "x": 0.02,
+          "y": 0.47,
+          "z": 0.02
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.3,
+          "z": 0
+        },
+        "half": {
+          "x": 0.41,
+          "y": 0.035,
+          "z": 0.31
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.9,
+          "z": 0
+        },
+        "half": {
+          "x": 0.42,
+          "y": 0.04,
+          "z": 0.315
+        }
+      },
+      {
+        "offset": {
+          "x": -0.22,
+          "y": 1.28,
+          "z": -0.21
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.38,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.22,
+          "y": 1.28,
+          "z": -0.21
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.38,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.28,
+          "z": -0.17
+        },
+        "half": {
+          "x": 0.3,
+          "y": 0.3,
+          "z": 0.019
+        }
+      }
+    ],
+    "phase2_review": "Brush ferrules join each wooden handle to its bristles.",
+    "bounds": {
+      "min": [
+        -0.41999998688697815,
+        -1.4901161193847656e-08,
+        -0.33500000834465027
+      ],
+      "max": [
+        0.41999998688697815,
+        1.659999966621399,
+        0.3382999897003174
+      ],
+      "size": [
+        0.8399999737739563,
+        1.6599999815225601,
+        0.6732999980449677
+      ],
+      "triangles": 5700,
+      "material_batches": 7,
+      "colliders": 13
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Attached Brush cleaning cup to Painter trolley upright.001",
+        "Attached Brush cleaning cup.001 to Painter work shelf",
+        "Seated graphic Captive hex screw.018"
+      ],
+      "zero_area_faces_removed": 0
+    }
+  },
+  "nomad2-air-return-duct": {
+    "name": "Crosswind return duct",
+    "description": "A freestanding retired air duct with an elbow, mesh grille and service cover. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 19,
+      "components": 1
+    },
+    "weight": 34,
+    "color_family": "slate",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.07,
+          "z": 0
+        },
+        "half": {
+          "x": 0.445,
+          "y": 0.07,
+          "z": 0.37
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.67,
+          "z": -0.08
+        },
+        "half": {
+          "x": 0.28,
+          "y": 0.545,
+          "z": 0.235
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.22,
+          "z": 0.02
+        },
+        "half": {
+          "x": 0.305,
+          "y": 0.14,
+          "z": 0.33
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.18,
+          "z": 0.4
+        },
+        "half": {
+          "x": 0.325,
+          "y": 0.21,
+          "z": 0.14
+        }
+      }
+    ],
+    "phase2_review": "Folded seam strips meet the duct body face.",
+    "bounds": {
+      "min": [
+        -0.4449999928474426,
+        0.0,
+        -0.3700000047683716
+      ],
+      "max": [
+        0.4449999928474426,
+        1.3899999856948853,
+        0.5879999399185181
+      ],
+      "size": [
+        0.8899999856948853,
+        1.3899999856948853,
+        0.9579999446868896
+      ],
+      "triangles": 2665,
+      "material_batches": 6,
+      "colliders": 4
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Attached Countersunk washer.020 to Duct removable service cover",
+        "Attached Countersunk washer.021 to Duct removable service cover",
+        "Attached Countersunk washer.022 to Duct removable service cover",
+        "Attached Countersunk washer.023 to Duct removable service cover",
+        "Seated graphic Captive hex screw.024"
+      ],
+      "zero_area_faces_removed": 104
+    }
+  },
+  "nomad2-sewing-station": {
+    "name": "Threadline sewing station",
+    "description": "A treadle sewing machine with a resting needle and retained thread spools. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 22,
+      "components": 2
+    },
+    "weight": 34,
+    "color_family": "oxblood",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.45000000000000007,
+          "y": 0.375,
+          "z": -0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.45000000000000007,
+          "y": 0.375,
+          "z": 0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.45000000000000007,
+          "y": 0.375,
+          "z": -0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.45000000000000007,
+          "y": 0.375,
+          "z": 0.22
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.66,
+          "z": 0.25
+        },
+        "half": {
+          "x": 0.49000000000000005,
+          "y": 0.065,
+          "z": 0.025
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.79,
+          "z": 0
+        },
+        "half": {
+          "x": 0.55,
+          "y": 0.04,
+          "z": 0.32
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.16,
+          "z": 0.02
+        },
+        "half": {
+          "x": 0.23,
+          "y": 0.0175,
+          "z": 0.155
+        }
+      },
+      {
+        "offset": {
+          "x": -0.28,
+          "y": 0.023,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.023,
+          "z": 0.18
+        }
+      },
+      {
+        "offset": {
+          "x": 0.28,
+          "y": 0.023,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0225,
+          "y": 0.023,
+          "z": 0.18
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.12,
+          "z": 0
+        },
+        "half": {
+          "x": 0.4,
+          "y": 0.245,
+          "z": 0.195
+        }
+      }
+    ],
+    "phase2_review": "Seated tension control and complete lower drive pulley reviewed.",
+    "bounds": {
+      "min": [
+        -0.550000011920929,
+        0.0,
+        -0.3199999928474426
+      ],
+      "max": [
+        0.550000011920929,
+        1.4300000667572021,
+        0.3199999928474426
+      ],
+      "size": [
+        1.100000023841858,
+        1.4300000667572021,
+        0.6399999856948853
+      ],
+      "triangles": 5175,
+      "material_batches": 6,
+      "colliders": 10
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Seated graphic Captive hex screw.026",
+        "Attached Treadle pedal to Treadle crank shaft"
+      ],
+      "zero_area_faces_removed": 0
+    }
+  },
+  "nomad2-record-console": {
+    "name": "Evening Signal record console",
+    "description": "A silent record player console with a parked tonearm and sleeve collection. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 21,
+      "components": 2
+    },
+    "weight": 28,
+    "color_family": "umber",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.495,
+          "y": 0.14,
+          "z": -0.235
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.14,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.495,
+          "y": 0.14,
+          "z": 0.235
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.14,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.495,
+          "y": 0.14,
+          "z": -0.235
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.14,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.495,
+          "y": 0.14,
+          "z": 0.235
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.14,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.47,
+          "z": 0
+        },
+        "half": {
+          "x": 0.56,
+          "y": 0.215,
+          "z": 0.31
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.72,
+          "z": 0
+        },
+        "half": {
+          "x": 0.575,
+          "y": 0.045,
+          "z": 0.32
+        }
+      }
+    ],
+    "phase2_review": "Tonearm cartridge has a physical parked support.",
+    "bounds": {
+      "min": [
+        -0.574999988079071,
+        0.0,
+        -0.3199999928474426
+      ],
+      "max": [
+        0.574999988079071,
+        0.9656714797019958,
+        0.3375000059604645
+      ],
+      "size": [
+        1.149999976158142,
+        0.9656714797019958,
+        0.6574999988079071
+      ],
+      "triangles": 7636,
+      "material_batches": 7,
+      "colliders": 6
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 224
+    }
+  },
+  "nomad2-typewriter-desk": {
+    "name": "Courier typewriter desk",
+    "description": "A writing desk with a mechanical typewriter and an unfinished field letter. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 19,
+      "components": 1
+    },
+    "weight": 24,
+    "color_family": "denim",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.4600000000000001,
+          "y": 0.375,
+          "z": -0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.4600000000000001,
+          "y": 0.375,
+          "z": 0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.4600000000000001,
+          "y": 0.375,
+          "z": -0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.4600000000000001,
+          "y": 0.375,
+          "z": 0.24999999999999997
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.375,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.66,
+          "z": 0.27999999999999997
+        },
+        "half": {
+          "x": 0.5,
+          "y": 0.065,
+          "z": 0.025
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.79,
+          "z": 0
+        },
+        "half": {
+          "x": 0.56,
+          "y": 0.04,
+          "z": 0.35
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.88,
+          "z": 0.01
+        },
+        "half": {
+          "x": 0.305,
+          "y": 0.0525,
+          "z": 0.21
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.05,
+          "z": -0.1
+        },
+        "half": {
+          "x": 0.33,
+          "y": 0.08,
+          "z": 0.08
+        }
+      }
+    ],
+    "phase2_review": "All key legends, grounded carriage riser and real spacebar linkage.",
+    "bounds": {
+      "min": [
+        -0.5600000023841858,
+        0.0,
+        -0.3499999940395355
+      ],
+      "max": [
+        0.5600000023841858,
+        1.3450000286102295,
+        0.3499999940395355
+      ],
+      "size": [
+        1.1200000047683716,
+        1.3450000286102295,
+        0.699999988079071
+      ],
+      "triangles": 6673,
+      "material_batches": 6,
+      "colliders": 8
+    }
+  },
+  "nomad2-clock-rack": {
+    "name": "Three Roads clock standard",
+    "description": "A freestanding display of three stopped route clocks. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 15,
+      "components": 2
+    },
+    "weight": 17,
+    "color_family": "heather",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.055,
+          "z": 0
+        },
+        "half": {
+          "x": 0.335,
+          "y": 0.055,
+          "z": 0.245
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.85,
+          "z": -0.035
+        },
+        "half": {
+          "x": 0.055,
+          "y": 0.77,
+          "z": 0.055
+        }
+      },
+      {
+        "offset": {
+          "x": -0.31,
+          "y": 1.57,
+          "z": -0.015
+        },
+        "half": {
+          "x": 0.255,
+          "y": 0.255,
+          "z": 0.09
+        }
+      },
+      {
+        "offset": {
+          "x": 0.31,
+          "y": 1.57,
+          "z": -0.015
+        },
+        "half": {
+          "x": 0.255,
+          "y": 0.255,
+          "z": 0.09
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.99,
+          "z": -0.015
+        },
+        "half": {
+          "x": 0.255,
+          "y": 0.255,
+          "z": 0.09
+        }
+      }
+    ],
+    "phase2_review": "Three readable route identities printed on the dial faces.",
+    "bounds": {
+      "min": [
+        -0.5649999976158142,
+        0.0,
+        -0.2449999898672104
+      ],
+      "max": [
+        0.5649999976158142,
+        2.244999885559082,
+        0.24500000476837158
+      ],
+      "size": [
+        1.1299999952316284,
+        2.244999885559082,
+        0.48999999463558197
+      ],
+      "triangles": 8716,
+      "material_batches": 4,
+      "colliders": 5
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Individual display backing mounts"
+      ],
+      "zero_area_faces_removed": 144
+    }
+  },
+  "nomad2-tile-mural": {
+    "name": "Roseway ceramic route mural",
+    "description": "A standing ceramic mural made from raised, individually framed route tiles. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 16
+    },
+    "weight": 23,
+    "color_family": "rose",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.51,
+          "y": 0.045,
+          "z": 0
+        },
+        "half": {
+          "x": 0.08,
+          "y": 0.045,
+          "z": 0.25
+        }
+      },
+      {
+        "offset": {
+          "x": -0.51,
+          "y": 0.86,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.81,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.51,
+          "y": 0.045,
+          "z": 0
+        },
+        "half": {
+          "x": 0.08,
+          "y": 0.045,
+          "z": 0.25
+        }
+      },
+      {
+        "offset": {
+          "x": 0.51,
+          "y": 0.86,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.81,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.2,
+          "z": 0
+        },
+        "half": {
+          "x": 0.605,
+          "y": 0.495,
+          "z": 0.05
+        }
+      }
+    ],
+    "phase2_review": "Captive frame fasteners and ceramic grout spacing reviewed.",
+    "bounds": {
+      "min": [
+        -0.6050000190734863,
+        0.0,
+        -0.2499999850988388
+      ],
+      "max": [
+        0.6050000190734863,
+        1.6950000524520874,
+        0.25
+      ],
+      "size": [
+        1.2100000381469727,
+        1.6950000524520874,
+        0.4999999850988388
+      ],
+      "triangles": 4384,
+      "material_batches": 5,
+      "colliders": 5
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 56
+    }
+  },
+  "nomad2-observation-seat": {
+    "name": "Farline observation seat",
+    "description": "A fixed binocular display rig with its own padded operator perch. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 23,
+      "components": 2
+    },
+    "weight": 33,
+    "color_family": "petrol",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.055,
+          "z": 0
+        },
+        "half": {
+          "x": 0.5,
+          "y": 0.055,
+          "z": 0.59
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.31,
+          "z": -0.28
+        },
+        "half": {
+          "x": 0.1,
+          "y": 0.215,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.55,
+          "z": -0.28
+        },
+        "half": {
+          "x": 0.32,
+          "y": 0.065,
+          "z": 0.255
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.77,
+          "z": -0.5
+        },
+        "half": {
+          "x": 0.305,
+          "y": 0.23,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.64,
+          "z": 0.31
+        },
+        "half": {
+          "x": 0.075,
+          "y": 0.54,
+          "z": 0.075
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.27,
+          "z": 0.28
+        },
+        "half": {
+          "x": 0.05,
+          "y": 0.06,
+          "z": 0.06
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.33,
+          "z": 0.26
+        },
+        "half": {
+          "x": 0.22,
+          "y": 0.045,
+          "z": 0.08
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.4,
+          "z": 0.28
+        },
+        "half": {
+          "x": 0.265,
+          "y": 0.11,
+          "z": 0.325
+        }
+      }
+    ],
+    "phase2_review": "Barrel collars retain the optics on their connected trunnion.",
+    "bounds": {
+      "min": [
+        -0.5,
+        0.0,
+        -0.5899999737739563
+      ],
+      "max": [
+        0.5,
+        1.5080000162124634,
+        0.5910000205039978
+      ],
+      "size": [
+        1.0,
+        1.5080000162124634,
+        1.180999994277954
+      ],
+      "triangles": 6644,
+      "material_batches": 5,
+      "colliders": 8
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 136
+    }
+  },
+  "nomad2-chess-pedestal": {
+    "name": "Long Crossing chess pedestal",
+    "description": "A complete retained chess set on a braced travelling-game pedestal. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 17,
+      "components": 1
+    },
+    "weight": 19,
+    "color_family": "plum",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.065,
+          "z": 0
+        },
+        "half": {
+          "x": 0.325,
+          "y": 0.065,
+          "z": 0.325
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.43,
+          "z": 0
+        },
+        "half": {
+          "x": 0.095,
+          "y": 0.33,
+          "z": 0.095
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.8,
+          "z": 0
+        },
+        "half": {
+          "x": 0.485,
+          "y": 0.045,
+          "z": 0.485
+        }
+      }
+    ],
+    "phase2_review": "Board corner retainers and distinct complete chess-piece silhouettes.",
+    "bounds": {
+      "min": [
+        -0.48500001430511475,
+        0.0,
+        -0.48500001430511475
+      ],
+      "max": [
+        0.48500001430511475,
+        1.087499976158142,
+        0.48500001430511475
+      ],
+      "size": [
+        0.9700000286102295,
+        1.087499976158142,
+        0.9700000286102295
+      ],
+      "triangles": 10892,
+      "material_batches": 5,
+      "colliders": 3
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [],
+      "zero_area_faces_removed": 48
+    }
+  },
+  "nomad2-exercise-rack": {
+    "name": "Loadline exercise rack",
+    "description": "A compact stand of captive exercise weights and wrapped grips. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 16
+    },
+    "weight": 43,
+    "color_family": "clay",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.47,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.065,
+          "y": 0.035,
+          "z": 0.295
+        }
+      },
+      {
+        "offset": {
+          "x": 0.47,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.065,
+          "y": 0.035,
+          "z": 0.295
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.31,
+          "z": 0.15
+        },
+        "half": {
+          "x": 0.53,
+          "y": 0.0275,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": -0.26,
+          "y": 0.42,
+          "z": 0.15
+        },
+        "half": {
+          "x": 0.175,
+          "y": 0.11,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": 0.26,
+          "y": 0.42,
+          "z": 0.15
+        },
+        "half": {
+          "x": 0.175,
+          "y": 0.11,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.66,
+          "z": 0.025
+        },
+        "half": {
+          "x": 0.53,
+          "y": 0.0275,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": -0.26,
+          "y": 0.77,
+          "z": 0.025
+        },
+        "half": {
+          "x": 0.175,
+          "y": 0.11,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": 0.26,
+          "y": 0.77,
+          "z": 0.025
+        },
+        "half": {
+          "x": 0.175,
+          "y": 0.11,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.01,
+          "z": -0.1
+        },
+        "half": {
+          "x": 0.53,
+          "y": 0.0275,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": -0.26,
+          "y": 1.12,
+          "z": -0.1
+        },
+        "half": {
+          "x": 0.175,
+          "y": 0.11,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": 0.26,
+          "y": 1.12,
+          "z": -0.1
+        },
+        "half": {
+          "x": 0.175,
+          "y": 0.11,
+          "z": 0.11
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.2,
+          "z": 0.23
+        },
+        "half": {
+          "x": 0.51,
+          "y": 0.0375,
+          "z": 0.04
+        }
+      }
+    ],
+    "phase2_review": "Weight index graphics sit on the actual shelf front faces.",
+    "bounds": {
+      "min": [
+        -0.5349999666213989,
+        0.0,
+        -0.29499998688697815
+      ],
+      "max": [
+        0.5350000262260437,
+        1.2140001058578491,
+        0.29499998688697815
+      ],
+      "size": [
+        1.0699999928474426,
+        1.2140001058578491,
+        0.5899999737739563
+      ],
+      "triangles": 6034,
+      "material_batches": 5,
+      "colliders": 12
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Attached Round retained weight.008 to Weight rack shelf.002",
+        "Attached Round retained weight.010 to Weight rack shelf.002"
+      ],
+      "zero_area_faces_removed": 0
+    }
+  },
+  "nomad2-boot-care-stand": {
+    "name": "Solemate boot-care stand",
+    "description": "A small care stand with a wooden boot last, brush and tread scraper. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 11
+    },
+    "weight": 13,
+    "color_family": "olive",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.29,
+          "y": 0.28,
+          "z": -0.2
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.28,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.29,
+          "y": 0.28,
+          "z": 0.2
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.28,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.29,
+          "y": 0.28,
+          "z": -0.2
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.28,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.29,
+          "y": 0.28,
+          "z": 0.2
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.28,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.58,
+          "z": 0
+        },
+        "half": {
+          "x": 0.395,
+          "y": 0.04,
+          "z": 0.285
+        }
+      },
+      {
+        "offset": {
+          "x": -0.17,
+          "y": 0.71,
+          "z": 0.03
+        },
+        "half": {
+          "x": 0.11,
+          "y": 0.095,
+          "z": 0.18
+        }
+      },
+      {
+        "offset": {
+          "x": -0.24,
+          "y": 0.135,
+          "z": 0
+        },
+        "half": {
+          "x": 0.018,
+          "y": 0.0225,
+          "z": 0.2
+        }
+      },
+      {
+        "offset": {
+          "x": 0.24,
+          "y": 0.135,
+          "z": 0
+        },
+        "half": {
+          "x": 0.018,
+          "y": 0.0225,
+          "z": 0.2
+        }
+      }
+    ],
+    "phase2_review": "Sized wooden last and seated brush with dense bristle rows.",
+    "bounds": {
+      "min": [
+        -0.39500001072883606,
+        0.0,
+        -0.2849999964237213
+      ],
+      "max": [
+        0.39500001072883606,
+        0.9860000014305115,
+        0.2849999964237213
+      ],
+      "size": [
+        0.7900000214576721,
+        0.9860000014305115,
+        0.5699999928474426
+      ],
+      "triangles": 4222,
+      "material_batches": 6,
+      "colliders": 8
+    }
+  },
+  "nomad2-botanical-belljar": {
+    "name": "Still Orchard botanical bell jar",
+    "description": "A preserved botanical miniature under a smoke-glass bell jar. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 18,
+      "components": 1
+    },
+    "weight": 17,
+    "color_family": "verdigris",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.065,
+          "z": 0
+        },
+        "half": {
+          "x": 0.335,
+          "y": 0.065,
+          "z": 0.295
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.56,
+          "z": 0
+        },
+        "half": {
+          "x": 0.125,
+          "y": 0.44,
+          "z": 0.125
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.36,
+          "z": 0
+        },
+        "half": {
+          "x": 0.295,
+          "y": 0.305,
+          "z": 0.295
+        }
+      }
+    ],
+    "phase2_review": "Bell rim seated in a metal gasket on the supported pedestal.",
+    "bounds": {
+      "min": [
+        -0.33500000834465027,
+        0.0,
+        -0.3199999928474426
+      ],
+      "max": [
+        0.33500000834465027,
+        1.6970000267028809,
+        0.3199999928474426
+      ],
+      "size": [
+        0.6700000166893005,
+        1.6970000267028809,
+        0.6399999856948853
+      ],
+      "triangles": 3211,
+      "material_batches": 8,
+      "colliders": 3
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Seated graphic Captive hex screw.054"
+      ],
+      "zero_area_faces_removed": 0
+    }
+  },
+  "nomad2-map-roll-rack": {
+    "name": "Survey Folio roller rack",
+    "description": "A rack of banded survey scrolls with capped ends and index cards. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 16
+    },
+    "weight": 21,
+    "color_family": "ochre",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.4,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.065,
+          "y": 0.035,
+          "z": 0.31
+        }
+      },
+      {
+        "offset": {
+          "x": -0.4,
+          "y": 0.86,
+          "z": -0.12
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.825,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0.4,
+          "y": 0.035,
+          "z": 0
+        },
+        "half": {
+          "x": 0.065,
+          "y": 0.035,
+          "z": 0.31
+        }
+      },
+      {
+        "offset": {
+          "x": 0.4,
+          "y": 0.86,
+          "z": -0.12
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.825,
+          "z": 0.0275
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.28,
+          "z": 0
+        },
+        "half": {
+          "x": 0.43,
+          "y": 0.0225,
+          "z": 0.25
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.67,
+          "z": 0
+        },
+        "half": {
+          "x": 0.43,
+          "y": 0.0225,
+          "z": 0.25
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.06,
+          "z": 0
+        },
+        "half": {
+          "x": 0.43,
+          "y": 0.0225,
+          "z": 0.25
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.45,
+          "z": 0
+        },
+        "half": {
+          "x": 0.43,
+          "y": 0.0225,
+          "z": 0.25
+        }
+      }
+    ],
+    "phase2_review": "Shelf route indices and readable capped chart numbers.",
+    "bounds": {
+      "min": [
+        -0.4650000035762787,
+        0.0,
+        -0.3100000023841858
+      ],
+      "max": [
+        0.4650000333786011,
+        1.684999942779541,
+        0.3100000023841858
+      ],
+      "size": [
+        0.9300000369548798,
+        1.684999942779541,
+        0.6200000047683716
+      ],
+      "triangles": 12752,
+      "material_batches": 6,
+      "colliders": 8
+    },
+    "fine_comb_review": {
+      "attachment_corrections": [
+        "Seated graphic Stamped 01",
+        "Seated graphic Stamped 02",
+        "Seated graphic Stamped 03",
+        "Seated graphic Stamped 04",
+        "Seated graphic Stamped 05",
+        "Seated graphic Stamped 06",
+        "Seated graphic Stamped 07",
+        "Seated graphic Stamped 08"
+      ],
+      "zero_area_faces_removed": 192
+    }
+  },
+  "nomad2-shade-awning": {
+    "name": "Dusk Rose shade awning",
+    "description": "A small freestanding shade canopy with sewn panels and a braced mast. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 20,
+      "components": 1
+    },
+    "weight": 25,
+    "color_family": "rose",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.06,
+          "z": 0
+        },
+        "half": {
+          "x": 0.325,
+          "y": 0.06,
+          "z": 0.325
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.23,
+          "z": 0
+        },
+        "half": {
+          "x": 0.05,
+          "y": 1.14,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 2.37,
+          "z": 0
+        },
+        "half": {
+          "x": 0.89,
+          "y": 0.0225,
+          "z": 0.89
+        }
+      }
+    ],
+    "phase2_review": "All four canopy struts terminate in a proper mast hub.",
+    "bounds": {
+      "min": [
+        -0.8949999809265137,
+        0.0,
+        -0.8949999809265137
+      ],
+      "max": [
+        0.8949999809265137,
+        2.4499998092651367,
+        0.8949999809265137
+      ],
+      "size": [
+        1.7899999618530273,
+        2.4499998092651367,
+        1.7899999618530273
+      ],
+      "triangles": 1812,
+      "material_batches": 5,
+      "colliders": 3
+    }
+  },
+  "nomad2-bagatelle-table": {
+    "name": "Railrunner bagatelle table",
+    "description": "A dormant mechanical tabletop game with captive balls and numbered targets. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 22,
+      "components": 2
+    },
+    "weight": 28,
+    "color_family": "celadon",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.37,
+          "z": -0.49
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.37,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.35,
+          "y": 0.37,
+          "z": 0.49
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.37,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.37,
+          "z": -0.49
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.37,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.35,
+          "y": 0.37,
+          "z": 0.49
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.37,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.65,
+          "z": 0.52
+        },
+        "half": {
+          "x": 0.39,
+          "y": 0.065,
+          "z": 0.025
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.78,
+          "z": 0
+        },
+        "half": {
+          "x": 0.45,
+          "y": 0.04,
+          "z": 0.59
+        }
+      }
+    ],
+    "phase2_review": "Scoring graphics are flush to the playfield; retained pins reviewed.",
+    "bounds": {
+      "min": [
+        -0.44999998807907104,
+        0.0,
+        -0.5899999141693115
+      ],
+      "max": [
+        0.44999998807907104,
+        0.9160000085830688,
+        0.699999988079071
+      ],
+      "size": [
+        0.8999999761581421,
+        0.9160000085830688,
+        1.2899999022483826
+      ],
+      "triangles": 8247,
+      "material_batches": 7,
+      "colliders": 6
+    }
+  },
+  "nomad2-laundry-drum": {
+    "name": "Spindrift laundry drum",
+    "description": "A retired hand-cranked wash drum with a hinged lid and wringer rolls. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 21,
+      "components": 1
+    },
+    "weight": 33,
+    "color_family": "stone",
+    "colliders": [
+      {
+        "offset": {
+          "x": -0.33,
+          "y": 0.21,
+          "z": -0.3
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.21,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": -0.33,
+          "y": 0.21,
+          "z": 0.3
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.21,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.33,
+          "y": 0.21,
+          "z": -0.3
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.21,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.33,
+          "y": 0.21,
+          "z": 0.3
+        },
+        "half": {
+          "x": 0.0375,
+          "y": 0.21,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.307,
+          "z": 0
+        },
+        "half": {
+          "x": 0.385,
+          "y": 0.0225,
+          "z": 0.32
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.67,
+          "z": 0
+        },
+        "half": {
+          "x": 0.4,
+          "y": 0.35,
+          "z": 0.4
+        }
+      },
+      {
+        "offset": {
+          "x": -0.27,
+          "y": 1.15,
+          "z": -0.2
+        },
+        "half": {
+          "x": 0.04,
+          "y": 0.12,
+          "z": 0.1
+        }
+      },
+      {
+        "offset": {
+          "x": 0.27,
+          "y": 1.15,
+          "z": -0.2
+        },
+        "half": {
+          "x": 0.04,
+          "y": 0.12,
+          "z": 0.1
+        }
+      }
+    ],
+    "phase2_review": "Rear lid hinge leaves and pins join the drum cap.",
+    "bounds": {
+      "min": [
+        -0.4000000059604645,
+        0.0,
+        -0.4000000059604645
+      ],
+      "max": [
+        0.5099999904632568,
+        1.3899999856948853,
+        0.42100000381469727
+      ],
+      "size": [
+        0.9099999964237213,
+        1.3899999856948853,
+        0.8210000097751617
+      ],
+      "triangles": 5316,
+      "material_batches": 6,
+      "colliders": 8
+    }
+  },
+  "nomad2-rotary-fan": {
+    "name": "Crosswind rotary fan",
+    "description": "A stopped floor fan with a bolted motor, curved blades and wire guard. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 18,
+      "components": 2
+    },
+    "weight": 19,
+    "color_family": "heather",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.065,
+          "z": 0
+        },
+        "half": {
+          "x": 0.33,
+          "y": 0.065,
+          "z": 0.275
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.62,
+          "z": -0.03
+        },
+        "half": {
+          "x": 0.035,
+          "y": 0.5,
+          "z": 0.035
+        }
+      },
+      {
+        "offset": {
+          "x": -0.33,
+          "y": 1.26,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.21,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0.33,
+          "y": 1.26,
+          "z": 0
+        },
+        "half": {
+          "x": 0.0275,
+          "y": 0.21,
+          "z": 0.0375
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.37,
+          "z": -0.015
+        },
+        "half": {
+          "x": 0.37,
+          "y": 0.37,
+          "z": 0.23
+        }
+      }
+    ],
+    "phase2_review": "Guard and yoke are tied by physical pivot retainers.",
+    "bounds": {
+      "min": [
+        -0.3749999403953552,
+        0.0,
+        -0.2750000059604645
+      ],
+      "max": [
+        0.375,
+        1.7380000352859497,
+        0.2750000059604645
+      ],
+      "size": [
+        0.7499999403953552,
+        1.7380000352859497,
+        0.550000011920929
+      ],
+      "triangles": 5980,
+      "material_batches": 4,
+      "colliders": 5
+    }
+  },
+  "nomad2-arrival-bell": {
+    "name": "Homeward arrival bell",
+    "description": "A silent cast bell hung from a riveted freestanding armature. Cosmetic; no gameplay effect.",
+    "cost": {
+      "scrap": 17,
+      "components": 1
+    },
+    "weight": 29,
+    "color_family": "oxblood",
+    "colliders": [
+      {
+        "offset": {
+          "x": 0,
+          "y": 0.06,
+          "z": 0
+        },
+        "half": {
+          "x": 0.35,
+          "y": 0.06,
+          "z": 0.31
+        }
+      },
+      {
+        "offset": {
+          "x": -0.28,
+          "y": 0.96,
+          "z": -0.04
+        },
+        "half": {
+          "x": 0.0325,
+          "y": 0.905,
+          "z": 0.0325
+        }
+      },
+      {
+        "offset": {
+          "x": 0.28,
+          "y": 0.96,
+          "z": -0.04
+        },
+        "half": {
+          "x": 0.0325,
+          "y": 0.905,
+          "z": 0.0325
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.84,
+          "z": -0.04
+        },
+        "half": {
+          "x": 0.355,
+          "y": 0.0375,
+          "z": 0.05
+        }
+      },
+      {
+        "offset": {
+          "x": 0,
+          "y": 1.29,
+          "z": -0.04
+        },
+        "half": {
+          "x": 0.305,
+          "y": 0.265,
+          "z": 0.305
+        }
+      }
+    ],
+    "phase2_review": "Gussets tie the bell lintel into both load-bearing posts.",
+    "bounds": {
+      "min": [
+        -0.35499998927116394,
+        0.0,
+        -0.3400000035762787
+      ],
+      "max": [
+        0.35499998927116394,
+        1.877500057220459,
+        0.3100000023841858
+      ],
+      "size": [
+        0.7099999785423279,
+        1.877500057220459,
+        0.6500000059604645
+      ],
+      "triangles": 2824,
+      "material_batches": 5,
+      "colliders": 5
+    }
+  }
+}

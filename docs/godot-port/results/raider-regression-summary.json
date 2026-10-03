@@ -1,0 +1,146 @@
+[
+  {
+    "suite": "boarding",
+    "exit": 0,
+    "passLines": 69,
+    "summaries": [
+      "BOARDING_RESULT 69 checks, 0 failures"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "boarding_contract",
+    "exit": 0,
+    "passLines": 0,
+    "summaries": [
+      "BOARDING_CONTRACT 18 comparisons; failures []"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "enemy_combat_contract",
+    "exit": 0,
+    "passLines": 0,
+    "summaries": [
+      "ENEMY_COMBAT_CONTRACT 42 checks; failures: []"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "enemy_equipment",
+    "exit": 0,
+    "passLines": 137,
+    "summaries": [
+      "ENEMY_EQUIPMENT { \"checks\": 137, \"failures\": [], \"passed\": true, \"observed\": { &\"drone\": { \"triangles\": 49763, \"meshes\": 7, \"collapsed\": 0 } } }"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "enemy_animation",
+    "exit": 0,
+    "passLines": 113,
+    "summaries": [
+      "ENEMY_ANIMATION_RESULT 113 checks; failures: []"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "integration",
+    "exit": 0,
+    "passLines": 108,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "audit_parity",
+    "exit": 0,
+    "passLines": 132,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "controls_interactions",
+    "exit": 0,
+    "passLines": 66,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "play_parity",
+    "exit": 0,
+    "passLines": 58,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "story_polish",
+    "exit": 0,
+    "passLines": 59,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "crossfire_handoff",
+    "exit": 0,
+    "passLines": 66,
+    "summaries": [
+      "CROSSFIRE_RESULT 66 checks, 0 failures"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "traversal",
+    "exit": 0,
+    "passLines": 13,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "audio_lifecycle",
+    "exit": 0,
+    "passLines": 50,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "desert_life",
+    "exit": 0,
+    "passLines": 28,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "opening_handoff",
+    "exit": 0,
+    "passLines": 32,
+    "summaries": [
+      "OPENING_HANDOFF_RESULT 32 checks, 0 failures"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "autosave_worker",
+    "exit": 0,
+    "passLines": 31,
+    "summaries": [],
+    "errors": []
+  },
+  {
+    "suite": "salvage_feedback",
+    "exit": 0,
+    "passLines": 75,
+    "summaries": [
+      "SALVAGE_RESULT 75 checks, 0 failures"
+    ],
+    "errors": []
+  },
+  {
+    "suite": "loot_feedback",
+    "exit": 0,
+    "passLines": 62,
+    "summaries": [
+      "LOOT_FEEDBACK { \"checks\": 62, \"failures\": [], \"passed\": true, \"models\": { \"scrap\": { \"triangles\": 11625, \"collapsed\": 0, \"surfaces\": 6 }, \"components\": { \"triangles\": 18645, \"collapsed\": 0, \"surfaces\": 7 }, \"fuel\": { \"triangles\": 11925, \"collapsed\": 0, \"surfaces\": 6 } } }"
+    ],
+    "errors": []
+  }
+]

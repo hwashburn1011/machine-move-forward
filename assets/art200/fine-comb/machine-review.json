@@ -1,0 +1,2276 @@
+{
+  "reviewer": "Independent story/robot agent reviewing machine-agent output",
+  "models_reviewed": 50,
+  "method": "Viewed all 50 complete assemblies across ten collection sheets, then inspected individual final renders for the six substantive mounting repairs. Independently executed review_machine_geometry.py against both final saved Blender masters. AABB adjacency at 4 mm is a screening test, not a proof of exact mesh intersection. Runtime placement/collision and performance are separate root checks.",
+  "initial_evidence": "assets/art200/fine-comb/machine-geometry-independent-before.json",
+  "final_evidence": "assets/art200/fine-comb/machine-geometry-independent.json",
+  "source_sha256": {
+    "assets/art100/machine/NomadFurnishings.blend": "f7d1ccdd2e5f170598dd8d01c2ffc47f61f0b1110863cc2cbca129ec4e8b230a",
+    "assets/art200/machine/NomadLivingArchive.blend": "d114d7d11e5cb2f2dedeff72028433b09eff121c8ad6512b8185e4787194b34a"
+  },
+  "models": [
+    {
+      "id": "nomad-tool-drawers",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-tool-drawers.png",
+        "assets/art100/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 50,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-service-cart",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-service-cart.png",
+        "assets/art100/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.002",
+            "Captive hex screw.003",
+            "Countersunk washer.002",
+            "Countersunk washer.003",
+            "Riveted nomenclature plate.001",
+            "Stamped PORTSIDE / 02"
+          ],
+          "before_nearest_gap_m": 0.0104999840259552,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 40,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-field-chair",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-field-chair.png",
+        "assets/art100/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Stitched back channels and identifying plate sit close to their supporting surfaces.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.004",
+            "Captive hex screw.005",
+            "Countersunk washer.004",
+            "Countersunk washer.005",
+            "Riveted nomenclature plate.002",
+            "Stamped NOMAD / HABITAT"
+          ],
+          "before_nearest_gap_m": 0.004999995231628418,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Double stitched back channel"
+          ],
+          "before_nearest_gap_m": 0.004500001668930054,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Double stitched back channel.001"
+          ],
+          "before_nearest_gap_m": 0.004500001668930054,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Double stitched back channel.002"
+          ],
+          "before_nearest_gap_m": 0.004500001668930054,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 28,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-sleeping-berth",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-sleeping-berth.png",
+        "assets/art100/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 27,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-radio-cabinet",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-radio-cabinet.png",
+        "assets/art100/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Both speaker units have individual housing backings.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Speaker dark diaphragm",
+            "Speaker dark diaphragm.001",
+            "Speaker outer ring",
+            "Speaker outer ring.001",
+            "Speaker protective grille",
+            "Speaker protective grille.001",
+            "Speaker protective grille.002",
+            "Speaker protective grille.003",
+            "Speaker protective grille.004",
+            "Speaker protective grille.005",
+            "Speaker protective grille.006",
+            "Speaker protective grille.007",
+            "Speaker protective grille.008",
+            "Speaker protective grille.009",
+            "Speaker protective grille.010",
+            "Speaker protective grille.011",
+            "Speaker protective grille.012",
+            "Speaker protective grille.013"
+          ],
+          "before_nearest_gap_m": 0.006999969482421875,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 50,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-repair-trestle",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-repair-trestle.png",
+        "assets/art100/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "The vise swivel shoe now bears on the workbench through a visible mounting pad.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Forged vise jaw",
+            "Forged vise jaw.001",
+            "Handle captive stop",
+            "Handle captive stop.001",
+            "Vise screw housing",
+            "Vise screw spindle",
+            "Vise sliding handle",
+            "Vise swivel shoe"
+          ],
+          "before_nearest_gap_m": 0.0074999332427978516,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 27,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-parts-organizer",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-parts-organizer.png",
+        "assets/art100/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label",
+            "Stamped 01"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.001",
+            "Stamped 02"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.002",
+            "Stamped 03"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.003",
+            "Stamped 04"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.004",
+            "Stamped 05"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.005",
+            "Stamped 06"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.006",
+            "Stamped 07"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.007",
+            "Stamped 08"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.008",
+            "Stamped 09"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.009",
+            "Stamped 10"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.010",
+            "Stamped 11"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clip label.011",
+            "Stamped 12"
+          ],
+          "before_nearest_gap_m": 0.004000023007392883,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 64,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-charging-cabinet",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-charging-cabinet.png",
+        "assets/art100/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.012",
+            "Captive hex screw.013",
+            "Countersunk washer.012",
+            "Countersunk washer.013",
+            "Riveted nomenclature plate.006",
+            "Stamped STANDBY / CABINET"
+          ],
+          "before_nearest_gap_m": 0.01199999451637268,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Docked connector grip",
+            "Parked insulated connector"
+          ],
+          "before_nearest_gap_m": 0.004999995231628418,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Docked connector grip.001",
+            "Parked insulated connector.001"
+          ],
+          "before_nearest_gap_m": 0.004999995231628418,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 40,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-expedition-trunk",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-expedition-trunk.png",
+        "assets/art100/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 21,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-archive-vitrine",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-archive-vitrine.png",
+        "assets/art100/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "All six specimen tubes have seated mounts; the archive label is attached to the cabinet face.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.016",
+            "Captive hex screw.017",
+            "Countersunk washer.016",
+            "Countersunk washer.017",
+            "Riveted nomenclature plate.008",
+            "Stamped ARCHIVE / SPECIMENS"
+          ],
+          "before_nearest_gap_m": 0.005000010132789612,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Sealed amber specimen tube",
+            "Specimen tube clamp",
+            "Specimen tube clamp.001",
+            "Tube center paper band"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Sealed amber specimen tube.001",
+            "Specimen tube clamp.002",
+            "Specimen tube clamp.003",
+            "Tube center paper band.001"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Sealed amber specimen tube.002",
+            "Specimen tube clamp.004",
+            "Specimen tube clamp.005",
+            "Tube center paper band.002"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Sealed amber specimen tube.003",
+            "Specimen tube clamp.006",
+            "Specimen tube clamp.007",
+            "Tube center paper band.003"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Sealed amber specimen tube.004",
+            "Specimen tube clamp.008",
+            "Specimen tube clamp.009",
+            "Tube center paper band.004"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Sealed amber specimen tube.005",
+            "Specimen tube clamp.010",
+            "Specimen tube clamp.011",
+            "Tube center paper band.005"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 44,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-chart-desk",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-chart-desk.png",
+        "assets/art100/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Compass needle",
+            "Desk compass body",
+            "Desk compass face"
+          ],
+          "before_nearest_gap_m": 0.004999995231628418,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 35,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-survey-floodlight",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-survey-floodlight.png",
+        "assets/art100/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 23,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-machinist-lamp",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-machinist-lamp.png",
+        "assets/art100/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 11,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-coat-rack",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-coat-rack.png",
+        "assets/art100/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Chest patch and opening seam sit on the garment rather than ahead of it.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Jacket chest patch"
+          ],
+          "before_nearest_gap_m": 0.0040000081062316895,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Jacket opening seam"
+          ],
+          "before_nearest_gap_m": 0.00700000673532486,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 18,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-cable-reel",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-cable-reel.png",
+        "assets/art100/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 29,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-boots-locker",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-boots-locker.png",
+        "assets/art100/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Pull mounting lug.020",
+            "Pull mounting lug.021",
+            "Rounded pull grip.010"
+          ],
+          "before_nearest_gap_m": 0.005499988794326782,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 33,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-galley-sideboard",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-galley-sideboard.png",
+        "assets/art100/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "zero-area source faces",
+          "before_count": 48,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 32,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-ceramic-basin",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-ceramic-basin.png",
+        "assets/art100/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 24,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-navigation-stool",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-navigation-stool.png",
+        "assets/art100/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 10,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-patchwork-bench",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-patchwork-bench.png",
+        "assets/art100/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 27,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-spare-track-stand",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-spare-track-stand.png",
+        "assets/art100/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.026",
+            "Countersunk washer.026"
+          ],
+          "before_nearest_gap_m": 0.008000016212463379,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.027",
+            "Countersunk washer.027"
+          ],
+          "before_nearest_gap_m": 0.008000016212463379,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.028",
+            "Countersunk washer.028"
+          ],
+          "before_nearest_gap_m": 0.008000016212463379,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.029",
+            "Countersunk washer.029"
+          ],
+          "before_nearest_gap_m": 0.008000016212463379,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.030",
+            "Captive hex screw.031",
+            "Countersunk washer.030",
+            "Countersunk washer.031",
+            "Riveted nomenclature plate.013",
+            "Stamped DRIVE / SPARE"
+          ],
+          "before_nearest_gap_m": 0.006999999284744263,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "zero-area source faces",
+          "before_count": 72,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 31,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-air-filter-tower",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-air-filter-tower.png",
+        "assets/art100/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Filter column is supported by a compact mounting shoe on the skid, with a connected inlet cap.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.032",
+            "Captive hex screw.033",
+            "Countersunk washer.032",
+            "Countersunk washer.033",
+            "Dial graduation",
+            "Dial graduation.001",
+            "Dial graduation.002",
+            "Dial graduation.003",
+            "Dial graduation.004",
+            "Dial graduation.005",
+            "Dial graduation.006",
+            "Filter clamp ring",
+            "Filter clamp ring.001",
+            "Filter clamp ring.002",
+            "Filter clamp ring.003",
+            "Filter column main body",
+            "Filter cooling rib",
+            "Filter cooling rib.001",
+            "Filter cooling rib.002",
+            "Filter cooling rib.003",
+            "Filter cooling rib.004",
+            "Filter cooling rib.005",
+            "Filter cooling rib.006",
+            "Filter cooling rib.007",
+            "Filter cooling rib.008",
+            "Filter cooling rib.009",
+            "Filter cooling rib.010",
+            "Filter cooling rib.011",
+            "Filter crown",
+            "Instrument bezel",
+            "Porcelain instrument face",
+            "Resting indicator needle",
+            "Riveted nomenclature plate.014",
+            "Sealed inlet pipe",
+            "Stamped CYCLONE / 3A"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Inlet blanking cap"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "zero-area source faces",
+          "before_count": 52,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 37,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-canister-caddy",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-canister-caddy.png",
+        "assets/art100/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 28,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-signal-pennant",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-signal-pennant.png",
+        "assets/art100/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 9,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad-memory-board",
+      "collection": "art100",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art100/machine/nomad-memory-board.png",
+        "assets/art100/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Pinned cards, pins and route thread are seated on the backing board.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Handled enamel edge nick.005",
+            "Pinned field postcard.002",
+            "Pinned field postcard.003",
+            "Pinned field postcard.004",
+            "Pinned route thread",
+            "Postcard handwriting line.004",
+            "Postcard handwriting line.005",
+            "Postcard handwriting line.006",
+            "Postcard handwriting line.007",
+            "Postcard handwriting line.008",
+            "Postcard handwriting line.009",
+            "Postcard pin.002",
+            "Postcard pin.003",
+            "Postcard pin.004",
+            "Printed photo inset.002",
+            "Printed photo inset.003",
+            "Printed photo inset.004"
+          ],
+          "before_nearest_gap_m": 0.005499996244907379,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Pinned field postcard",
+            "Postcard handwriting line",
+            "Postcard handwriting line.001",
+            "Postcard pin",
+            "Printed photo inset"
+          ],
+          "before_nearest_gap_m": 0.005499996244907379,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Pinned field postcard.001",
+            "Postcard handwriting line.002",
+            "Postcard handwriting line.003",
+            "Postcard pin.001",
+            "Printed photo inset.001"
+          ],
+          "before_nearest_gap_m": 0.005499996244907379,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art100\\machine\\NomadFurnishings.blend",
+        "parts": 42,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-card-table",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-card-table.png",
+        "assets/art200/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 34,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-instrument-bench",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-instrument-bench.png",
+        "assets/art200/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Oscilloscope case sits on a thin pad; control knobs and indicator have their own shafts/mounts.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Dial graduation",
+            "Dial graduation.001",
+            "Dial graduation.002",
+            "Dial graduation.003",
+            "Dial graduation.004",
+            "Dial graduation.005",
+            "Dial graduation.006",
+            "Instrument bezel",
+            "Porcelain instrument face",
+            "Resting indicator needle"
+          ],
+          "before_nearest_gap_m": 0.006000012159347534,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Inset screen bezel edge",
+            "Inset screen bezel edge.001",
+            "Inset screen bezel side",
+            "Inset screen bezel side.001",
+            "Oscilloscope cast housing",
+            "Oscilloscope etched grid",
+            "Oscilloscope etched grid.001",
+            "Oscilloscope etched grid.002",
+            "Oscilloscope etched grid.003",
+            "Oscilloscope etched grid.004",
+            "Oscilloscope etched grid.005",
+            "Recessed cathode screen",
+            "Small worn enamel corner",
+            "Small worn enamel corner.001"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Oscilloscope control knob"
+          ],
+          "before_nearest_gap_m": 0.011000007390975952,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Oscilloscope control knob.001"
+          ],
+          "before_nearest_gap_m": 0.011000007390975952,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 52,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-privacy-screen",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-privacy-screen.png",
+        "assets/art200/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 28,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-book-cabinet",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-book-cabinet.png",
+        "assets/art200/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Lower cupboard door",
+            "Pull mounting lug",
+            "Pull mounting lug.001",
+            "Rounded pull grip",
+            "Small worn enamel corner.002",
+            "Small worn enamel corner.003"
+          ],
+          "before_nearest_gap_m": 0.005500003695487976,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 137,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-ration-pantry",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-ration-pantry.png",
+        "assets/art200/machine/contact-sheet-01.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 87,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-folding-lounge",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-folding-lounge.png",
+        "assets/art200/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "zero-area source faces",
+          "before_count": 40,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 27,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-microscope-bench",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-microscope-bench.png",
+        "assets/art200/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "The slide drawer case sits on its thin support pad; microscope foot remains seated.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Drawer front shadow gap",
+            "Drawer front shadow gap.001",
+            "Drawer front shadow gap.002",
+            "Pull mounting lug.002",
+            "Pull mounting lug.003",
+            "Pull mounting lug.004",
+            "Pull mounting lug.005",
+            "Pull mounting lug.006",
+            "Pull mounting lug.007",
+            "Rolled enamel drawer",
+            "Rolled enamel drawer.001",
+            "Rolled enamel drawer.002",
+            "Rounded pull grip.001",
+            "Rounded pull grip.002",
+            "Rounded pull grip.003",
+            "Slide drawer case"
+          ],
+          "before_nearest_gap_m": 0.00999993085861206,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "zero-area source faces",
+          "before_count": 72,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 60,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-paint-trolley",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-paint-trolley.png",
+        "assets/art200/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Brush bristle tuft",
+            "Brush bristle tuft.001",
+            "Brush cleaning cup",
+            "Crimped brush ferrule",
+            "Crimped brush ferrule.001",
+            "Paint brush handle",
+            "Paint brush handle.001"
+          ],
+          "before_nearest_gap_m": 0.0040000081062316895,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Brush bristle tuft.002",
+            "Brush bristle tuft.003",
+            "Brush cleaning cup.001",
+            "Crimped brush ferrule.002",
+            "Crimped brush ferrule.003",
+            "Paint brush handle.002",
+            "Paint brush handle.003"
+          ],
+          "before_nearest_gap_m": 0.009999990463256836,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.018",
+            "Captive hex screw.019",
+            "Countersunk washer.018",
+            "Countersunk washer.019",
+            "Riveted nomenclature plate.005",
+            "Stamped PATCHCOAT / STUDIO"
+          ],
+          "before_nearest_gap_m": 0.004999995231628418,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 48,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-air-return-duct",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-air-return-duct.png",
+        "assets/art200/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.020",
+            "Countersunk washer.020"
+          ],
+          "before_nearest_gap_m": 0.005000010132789612,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.021",
+            "Countersunk washer.021"
+          ],
+          "before_nearest_gap_m": 0.005000010132789612,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.022",
+            "Countersunk washer.022"
+          ],
+          "before_nearest_gap_m": 0.005000010132789612,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.023",
+            "Countersunk washer.023"
+          ],
+          "before_nearest_gap_m": 0.005000010132789612,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.024",
+            "Captive hex screw.025",
+            "Countersunk washer.024",
+            "Countersunk washer.025",
+            "Riveted nomenclature plate.006",
+            "Stamped CROSSWIND / RETURN"
+          ],
+          "before_nearest_gap_m": 0.010000020265579224,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "zero-area source faces",
+          "before_count": 56,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 42,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-sewing-station",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-sewing-station.png",
+        "assets/art200/machine/contact-sheet-02.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.026",
+            "Captive hex screw.027",
+            "Countersunk washer.026",
+            "Countersunk washer.027",
+            "Riveted nomenclature plate.007",
+            "Stamped THREADLINE / 08"
+          ],
+          "before_nearest_gap_m": 0.01199999451637268,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Treadle pedal"
+          ],
+          "before_nearest_gap_m": 0.0045000165700912476,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 42,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-record-console",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-record-console.png",
+        "assets/art200/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "zero-area source faces",
+          "before_count": 224,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 84,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-typewriter-desk",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-typewriter-desk.png",
+        "assets/art200/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 87,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-clock-rack",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-clock-rack.png",
+        "assets/art200/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Each of the three clock dials has its own backing connected to its housing.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Clock central pin",
+            "Clock central pin.001",
+            "Clock central pin.002",
+            "Clock dial",
+            "Clock dial.001",
+            "Clock dial.002",
+            "Clock hour hand",
+            "Clock hour hand.001",
+            "Clock hour hand.002",
+            "Clock hour marker",
+            "Clock hour marker.001",
+            "Clock hour marker.002",
+            "Clock hour marker.003",
+            "Clock hour marker.004",
+            "Clock hour marker.005",
+            "Clock hour marker.006",
+            "Clock hour marker.007",
+            "Clock hour marker.008",
+            "Clock hour marker.009",
+            "Clock hour marker.010",
+            "Clock hour marker.011",
+            "Clock hour marker.012",
+            "Clock hour marker.013",
+            "Clock hour marker.014",
+            "Clock hour marker.015",
+            "Clock hour marker.016",
+            "Clock hour marker.017",
+            "Clock hour marker.018",
+            "Clock hour marker.019",
+            "Clock hour marker.020",
+            "Clock hour marker.021",
+            "Clock hour marker.022",
+            "Clock hour marker.023",
+            "Clock hour marker.024",
+            "Clock hour marker.025",
+            "Clock hour marker.026",
+            "Clock hour marker.027",
+            "Clock hour marker.028",
+            "Clock hour marker.029",
+            "Clock hour marker.030",
+            "Clock hour marker.031",
+            "Clock hour marker.032",
+            "Clock hour marker.033",
+            "Clock hour marker.034",
+            "Clock hour marker.035",
+            "Clock minute hand",
+            "Clock minute hand.001",
+            "Clock minute hand.002",
+            "Stamped DUSK",
+            "Stamped HOME",
+            "Stamped WEST"
+          ],
+          "before_nearest_gap_m": 0.007999934256076813,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 68,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-tile-mural",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-tile-mural.png",
+        "assets/art200/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "zero-area source faces",
+          "before_count": 56,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 50,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-observation-seat",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-observation-seat.png",
+        "assets/art200/machine/contact-sheet-03.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "zero-area source faces",
+          "before_count": 136,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 37,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-chess-pedestal",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-chess-pedestal.png",
+        "assets/art200/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "zero-area source faces",
+          "before_count": 48,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 149,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-exercise-rack",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-exercise-rack.png",
+        "assets/art200/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Upper dumbbell weights rest on individual small retainers connected to the rack.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Knurled dumbbell grip.004",
+            "Round retained weight.008",
+            "Round retained weight.009"
+          ],
+          "before_nearest_gap_m": 0.008499979972839355,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Knurled dumbbell grip.005",
+            "Round retained weight.010",
+            "Round retained weight.011"
+          ],
+          "before_nearest_gap_m": 0.008499979972839355,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 39,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-boot-care-stand",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-boot-care-stand.png",
+        "assets/art200/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 68,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-botanical-belljar",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-botanical-belljar.png",
+        "assets/art200/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Captive hex screw.054",
+            "Captive hex screw.055",
+            "Countersunk washer.054",
+            "Countersunk washer.055",
+            "Riveted nomenclature plate.012",
+            "Stamped STILL ORCHARD"
+          ],
+          "before_nearest_gap_m": 0.008000001311302185,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 25,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-map-roll-rack",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-map-roll-rack.png",
+        "assets/art200/machine/contact-sheet-04.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Roll numbers are seated on their slots; zero-area ring faces were removed.",
+      "issues": [
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 01"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 02"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 03"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 04"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 05"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 06"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 07"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "component support gap",
+          "parts": [
+            "Stamped 08"
+          ],
+          "before_nearest_gap_m": 0.007999986410140991,
+          "status": "closed",
+          "closure": "Owner added appropriate hardware mounts or seated the raised surface detail. Independently rerun evaluated-component adjacency reaches the base within 4 mm; final visual review shows no exposed floating group."
+        },
+        {
+          "type": "zero-area source faces",
+          "before_count": 192,
+          "status": "closed",
+          "closure": "Removed only degenerate/loose geometry; final evaluated source has zero zero-area faces and the complete silhouette remains intact."
+        }
+      ],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 59,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-shade-awning",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-shade-awning.png",
+        "assets/art200/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 15,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-bagatelle-table",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-bagatelle-table.png",
+        "assets/art200/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 65,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-laundry-drum",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-laundry-drum.png",
+        "assets/art200/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 36,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-rotary-fan",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-rotary-fan.png",
+        "assets/art200/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 39,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    },
+    {
+      "id": "nomad2-arrival-bell",
+      "collection": "art200",
+      "complete_assembly": true,
+      "status": "reviewed_closed",
+      "views": [
+        "assets/art200/machine/nomad2-arrival-bell.png",
+        "assets/art200/machine/contact-sheet-05.png"
+      ],
+      "visual_checks": [
+        "whole-model silhouette and manufactured edge quality",
+        "muted finish separation",
+        "graphics seating and readability",
+        "floor contact and component support"
+      ],
+      "observation": "Complete assembly reviewed in the collection panel; coherent muted materials, connected visible hardware and a grounded base. Raised graphics and other support candidates are recorded individually below.",
+      "issues": [],
+      "final_geometry": {
+        "source": "assets\\art200\\machine\\NomadLivingArchive.blend",
+        "parts": 19,
+        "finite": true,
+        "zero_area_faces": 0,
+        "support_candidates_4mm": 0
+      }
+    }
+  ]
+}

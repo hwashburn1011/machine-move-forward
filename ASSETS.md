@@ -408,3 +408,23 @@ platform and the distant arrival facade have packed editable masters, reproducib
 exports, and Blender MCP / Unreal / glTF review evidence in
 [the Meridian art delivery](assets/meridian/README.md). No external source meshes
 or paid generation services were used; existing third-party licences are unchanged.
+
+## Native wind-worn scenery
+
+`godot/art/wind-worn-props.glb` contains three original Blender assemblies: a torn canvas mast, caged ventilation rotor and solar warning beacon. Their source geometry, procedural materials, animation partitions, manifest and rebuild/MCP review scripts are retained in [the native atmosphere kit](assets/native-atmosphere/README.md). No downloaded models, image textures or paid generation services were used for this kit. Godot supplies the native wind, oxidation and beacon shaders.
+
+## Native grounded character movement
+
+`godot/art/s07-locomotion.res` contains 24 original Blender-authored skeletal clips, covering eight directions in three gaits. The detailed character geometry, textures and original browser animations remain unchanged. The [native motion source](assets/native-motion/README.md) includes an editable packed Blender file, neutral-light renders, source hash and reproducible import scripts. No external assets or paid generation services were used.
+
+## Native desert ground detail
+
+`godot/art/desert-ground-life.glb` contains seven original Blender assemblies: two dry shrubs, a bent root snag, a wind-shaped tuft, two scoured stones and a gravel fan. The [source kit](assets/native-desert/README.md) retains the editable source, render, manifest and generator. Native instancing, vertex-colour materials and pinned-root wind shaders place them sparsely against the actual dune surface. No downloaded models or new third-party textures were used.
+
+## Native rifle and shotgun
+
+`godot/art/native-rifle.glb` and `native-shotgun.glb` refine the two existing held weapons with original Blender geometry and packed procedural PBR maps. The [source kit](assets/native-weapons/README.md) retains editable meshes, semantic grip/muzzle/attachment anchors, materials, manifest and rebuild/MCP review scripts. Native presentation aligns both hands and firing effects with those anchors. Original browser weapon assets and gameplay definitions remain unchanged. No downloaded source meshes, third-party texture images or paid generation services were used.
+
+## Native opposing ships
+
+`godot/art/crossfire-human.glb` and `crossfire-robot.glb` refine the two existing scanner-battle vessels. The [editable Blender kit](assets/native-ships/README.md) contains original plated hulls, open exhausts and gun bores, supported rails, service fittings, bridge/sensor hardware and packed procedural PBR surfaces. Each keeps its original project-owned faction flag and native crew/effect anchors. Exports batch static geometry by material; source parts remain separate. No downloaded mesh or texture assets, paid generation services, new story roles or changes to the preserved browser models are included.

@@ -1,0 +1,94 @@
+{
+  "characters": [
+    {
+      "kind": "warden",
+      "bytes": 25568268,
+      "skin_joints": 47,
+      "errors": 0,
+      "warnings": 1,
+      "messages": [
+        {
+          "code": "NODE_SKINNED_MESH_NON_ROOT",
+          "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+          "severity": 1,
+          "pointer": "/nodes/50"
+        }
+      ]
+    },
+    {
+      "kind": "revenant",
+      "bytes": 16429404,
+      "skin_joints": 48,
+      "errors": 0,
+      "warnings": 1,
+      "messages": [
+        {
+          "code": "NODE_SKINNED_MESH_NON_ROOT",
+          "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+          "severity": 1,
+          "pointer": "/nodes/51"
+        }
+      ]
+    },
+    {
+      "kind": "bastion",
+      "bytes": 14073124,
+      "skin_joints": 47,
+      "errors": 0,
+      "warnings": 1,
+      "messages": [
+        {
+          "code": "NODE_SKINNED_MESH_NON_ROOT",
+          "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+          "severity": 1,
+          "pointer": "/nodes/50"
+        }
+      ]
+    },
+    {
+      "kind": "sovereign",
+      "bytes": 28140760,
+      "skin_joints": 47,
+      "errors": 0,
+      "warnings": 1,
+      "messages": [
+        {
+          "code": "NODE_SKINNED_MESH_NON_ROOT",
+          "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+          "severity": 1,
+          "pointer": "/nodes/63"
+        }
+      ]
+    },
+    {
+      "kind": "raider",
+      "bytes": 10856852,
+      "skin_joints": 16,
+      "errors": 0,
+      "warnings": 1,
+      "messages": [
+        {
+          "code": "NODE_SKINNED_MESH_NON_ROOT",
+          "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+          "severity": 1,
+          "pointer": "/nodes/19"
+        }
+      ]
+    },
+    {
+      "kind": "scavenger",
+      "bytes": 7726512,
+      "skin_joints": 16,
+      "errors": 0,
+      "warnings": 1,
+      "messages": [
+        {
+          "code": "NODE_SKINNED_MESH_NON_ROOT",
+          "message": "Node with a skinned mesh is not root. Parent transforms will not affect a skinned mesh.",
+          "severity": 1,
+          "pointer": "/nodes/19"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,563 @@
+{
+  "pass": "Phase 2 / all-model physical and material refinement",
+  "model_count": 25,
+  "glb_sha256": "6036e900cfe1b56031f188413924cbdd571012040af353035bdfa17871770017",
+  "geometry_bounds_verified_against_actual_GLTF_position_accessors": true,
+  "identity_runtime_roots": true,
+  "validator_errors": 0,
+  "validator_warnings": 0,
+  "review_rig": "Frozen editable Blender sources; Cycles CPU 24 samples; common daylight; 768 x 576",
+  "models": [
+    {
+      "id": "art200-brasswell-teller-bank",
+      "palette_family": "denim",
+      "refinement": "Roof downpipe has two wall straps and a grounded outlet; pneumatic cabinet has a base flange.",
+      "dimensions_m": [
+        7.625,
+        3.51,
+        4.6
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3264,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 1,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\01-art200-brasswell-teller-bank.png",
+      "render_sha256": "880c3c7f64354c241eae229442cedcf4f2f491db9572a3b4d079f7b0d81e4a43",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-dustmile-motel-office",
+      "palette_family": "rose",
+      "refinement": "Butterfly roof valley drain and wall straps; porch-post shoes.",
+      "dimensions_m": [
+        6.7,
+        3.42841,
+        5.26
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 2852,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\02-art200-dustmile-motel-office.png",
+      "render_sha256": "b10005b04c994ef61c6f3ad0d96350f3a5c12ef3da1d6d2a93f91123834d6216",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-parcel-post-depot",
+      "palette_family": "petrol",
+      "refinement": "Loading dock rubber bumpers and small muted reflector inserts are mounted to the platform face.",
+      "dimensions_m": [
+        7.4,
+        3.85759,
+        6.07
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 4800,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\03-art200-parcel-post-depot.png",
+      "render_sha256": "c59d2c0dacb14d131e345968d74fa71e1c622d0291158ba0c3eba85dc647e33f",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-thimble-laundrette",
+      "palette_family": "celadon",
+      "refinement": "Washer handles have explicit standoff mounts into the metal drum rims.",
+      "dimensions_m": [
+        6.6,
+        2.985,
+        4.1
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 6788,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\04-art200-thimble-laundrette.png",
+      "render_sha256": "0ae6c7cf8024c69b06edbf775b7b1541bbe60f1c65c7cdb6df3f37da36424fdc",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-emberside-bakery",
+      "palette_family": "clay",
+      "refinement": "Oven receives an ash-cleanout hatch and a projecting supported metal hearth ledge.",
+      "dimensions_m": [
+        6.7,
+        4.105,
+        5.1
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3644,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\05-art200-emberside-bakery.png",
+      "render_sha256": "06ccc97c7f68e3a1cdbe49f6947be3c7044e74349114e650c5edf3e9e953deaa",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-drylight-pharmacy",
+      "palette_family": "plum",
+      "refinement": "Dispensing counter has two angle brackets and a rolled front edge.",
+      "dimensions_m": [
+        5.4,
+        2.89,
+        4.6
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3824,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\06-art200-drylight-pharmacy.png",
+      "render_sha256": "e1213848a95db529fe71bb02b7550d130f2ad964610f235c70548f86566c6cbe",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-cinder-auto-lift",
+      "palette_family": "oxblood",
+      "refinement": "Lift columns receive visible safety-lock racks rather than unsupported plain carriers.",
+      "dimensions_m": [
+        7.0,
+        3.67855,
+        5.0
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 4172,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\07-art200-cinder-auto-lift.png",
+      "render_sha256": "0a9b1c42c99ad57613e6922d088cbfc86d331e00a44ba5b2cb6d1679476e0488",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-rook-ticket-booth",
+      "palette_family": "olive",
+      "refinement": "Ticket aperture and queue-rail anchor shoes provide human-scale operational cues.",
+      "dimensions_m": [
+        5.1,
+        3.8,
+        4.0
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3060,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 1,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\08-art200-rook-ticket-booth.png",
+      "render_sha256": "eba97a14a99e23082c4978d5d42f38db729e388730609c66d445f6fbf135b55e",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-switchback-weighbridge",
+      "palette_family": "slate",
+      "refinement": "Load-cell housings and a grounded scale-to-hut cable complete the measuring mechanism.",
+      "dimensions_m": [
+        14.27602,
+        2.75912,
+        5.95
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3224,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\09-art200-switchback-weighbridge.png",
+      "render_sha256": "b6775d86cd856185135d6e98011d5a0665de953b45a23c42ec484a8a68c07249",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-lastcall-exchange",
+      "palette_family": "heather",
+      "refinement": "Each phone alcove has a writing shelf with physical mounting brackets.",
+      "dimensions_m": [
+        4.75,
+        3.4,
+        2.0
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 7280,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\10-art200-lastcall-exchange.png",
+      "render_sha256": "26be8372059aaa39cfc6a10ab4ff8b53e85586cc67f775b73d894996485cb501",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-ochre-icehouse",
+      "palette_family": "verdigris",
+      "refinement": "Cold-store strap hinges gain pivot barrels and the handle gains a keeper plate.",
+      "dimensions_m": [
+        5.48,
+        2.97,
+        5.145
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3308,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 1,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\11-art200-ochre-icehouse.png",
+      "render_sha256": "ae143f67ae92ff180c5489461a128478e71f3a350470392912ca76933c33912e",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-threadbare-tailor",
+      "palette_family": "umber",
+      "refinement": "The treadle pedal drives a continuous mounted belt loop to the sewing head.",
+      "dimensions_m": [
+        5.8,
+        3.3,
+        4.7
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3540,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\12-art200-threadbare-tailor.png",
+      "render_sha256": "a098287f622aded49d111dc6fbed5148956ac6da2aa7f07b5624cc0b01305922",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-crosswind-compressor-house",
+      "palette_family": "ochre",
+      "refinement": "Receiver pressure gauge has a connected stem, bezel and physical needle.",
+      "dimensions_m": [
+        5.8,
+        3.72973,
+        4.3
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 9132,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\13-art200-crosswind-compressor-house.png",
+      "render_sha256": "c55cf196157b6419b529bee70108cdd63227748c67bea1cc6a8c148d8833b87a",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-sinter-grain-elevator",
+      "palette_family": "stone",
+      "refinement": "Both grain funnels have outlet collars and gate actuator crossbars.",
+      "dimensions_m": [
+        7.1,
+        6.91,
+        4.7
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 11368,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\14-art200-sinter-grain-elevator.png",
+      "render_sha256": "d132e1418b727e5ac919d05971a87b1594ed8958952551efb5b67e65df26aa3f",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-borewell-pumpjack",
+      "palette_family": "oxblood",
+      "refinement": "Crank links connect through actual cross-shafts to the walking beam and gearbox.",
+      "dimensions_m": [
+        7.3,
+        4.64577,
+        3.3
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 1896,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\15-art200-borewell-pumpjack.png",
+      "render_sha256": "6081ebb7e5cc1b8994bf776cf0bc770724f919ef90fb682778b9effa9655e978",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-lattice-truss-bridge",
+      "palette_family": "petrol",
+      "refinement": "Truss reactions sit on four steel bearing plates over concrete abutments.",
+      "dimensions_m": [
+        11.87,
+        2.55,
+        3.1
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 2816,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\16-art200-lattice-truss-bridge.png",
+      "render_sha256": "3bf36b974fa29d9a0e1faf84fe273c35e9a21259096a117d9946d5f9d0e282ac",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-reclaimer-trommel",
+      "palette_family": "clay",
+      "refinement": "Drive bands rest on four cradle rollers instead of appearing suspended inside the frame.",
+      "dimensions_m": [
+        6.4,
+        2.83,
+        3.3
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 10456,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\17-art200-reclaimer-trommel.png",
+      "render_sha256": "c5462158964df8d083bd701bc0f23768b35945c903e9084e77ae9a07abd0bf24",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-rail-water-crane",
+      "palette_family": "denim",
+      "refinement": "Column base gets an anchor shoe and flanges receive six fasteners each.",
+      "dimensions_m": [
+        4.5,
+        4.35,
+        3.4
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 6940,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\18-art200-rail-water-crane.png",
+      "render_sha256": "d621930a2b70fc579f54cc3a7b0b6ae48d0a525da20ca07cd9ea8caf777da878",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-ballast-loader",
+      "palette_family": "olive",
+      "refinement": "Discharge gate has a crosshead and an attached operating link.",
+      "dimensions_m": [
+        4.7,
+        4.17,
+        4.2
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 1588,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\19-art200-ballast-loader.png",
+      "render_sha256": "7cf033d3b0e106894476a1b5ff6aba804d54f36d093025d6f92fc99aedb7eaee",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-ceramic-kiln",
+      "palette_family": "umber",
+      "refinement": "Kiln has a cleanout hatch, mounted pull and broad thermal support shoes.",
+      "dimensions_m": [
+        5.6,
+        3.9,
+        4.4
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3528,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\20-art200-ceramic-kiln.png",
+      "render_sha256": "730d91ca59b327609d1b05b48bdc6bad85a7e2dbad9854ddf3123906abe553dc",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-desert-ambulatory",
+      "palette_family": "celadon",
+      "refinement": "Upper handrail ends now terminate in porch anchor posts, completing the access railing.",
+      "dimensions_m": [
+        5.6,
+        4.85,
+        4.73
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 4116,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\21-art200-desert-ambulatory.png",
+      "render_sha256": "fe64c83ea048a74bce43d44c974648ec659de75214f9ae63375dc49ca3b896ca",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-demolition-cutter",
+      "palette_family": "slate",
+      "refinement": "Saw blade receives a through spindle into the motor and a secured supply loop.",
+      "dimensions_m": [
+        7.2,
+        3.04093,
+        3.7
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3048,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\22-art200-demolition-cutter.png",
+      "render_sha256": "aa2124ded898809f7184d2559e39467835e4949ed0764e0744fe4bed4fda0678",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-sandglass-cyclone",
+      "palette_family": "plum",
+      "refinement": "Support posts have footplates; side duct receives service flange collars.",
+      "dimensions_m": [
+        4.6,
+        5.4,
+        3.7
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 4660,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\23-art200-sandglass-cyclone.png",
+      "render_sha256": "771b75c02c55aaad43922b897da054a6c1c4d350c8406931eb024a9d78a0cb5b",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-ventstack-catwalk",
+      "palette_family": "heather",
+      "refinement": "Ladder cage strips connect to the hoops, and stack base flange is explicitly anchored.",
+      "dimensions_m": [
+        4.8,
+        6.86,
+        4.93
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 9744,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\24-art200-ventstack-catwalk.png",
+      "render_sha256": "393f6287ef816bbb41cf7c56aea11ff425f3cadc9090ddfbb9105c7981ae546f",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "art200-pivot-irrigator",
+      "palette_family": "verdigris",
+      "refinement": "Irrigator wheel towers have complete cross-axles and central gear housings.",
+      "dimensions_m": [
+        11.2,
+        2.945,
+        2.46
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 6272,
+      "material_batches": 4,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\25-art200-pivot-irrigator.png",
+      "render_sha256": "e76af0939fc373f3f5b17a4220af58ad9a072315aed1f92df0f1edf04f961d7d",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    }
+  ],
+  "next_pass": "Independent fine-comb review is separate from this authored-detail pass."
+}

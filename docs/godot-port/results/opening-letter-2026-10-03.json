@@ -1,0 +1,168 @@
+{
+  "passed": true,
+  "accepted_utc": "2026-10-03T04:59:42.975504+00:00",
+  "build": {
+    "schema": 1,
+    "version": "0.3.0-beta.1",
+    "build_id": "0.3.0-beta.1-302c7f1a20a1",
+    "source_hash": "302c7f1a20a165abcae8853c5fcf06571b897d85fbd2dbd68b1130a7fe26703d",
+    "created_utc": "2026-10-03T04:44:27Z",
+    "asset_manifest_sha256": "17bdbf0f2c4eb5f55cff3f988f8f3976c2bd6c64559244d132119da9eb470011",
+    "roof_collision_sha256": {
+      "glass-orchard.res": "1897fb3f2641ad870508df335e367142298b514d9f4d8fffacdd8db4913c00fd",
+      "last-garden-meridian.res": "2f4368f6a49f77f542a9d3c3fb7d7b598ca2a05748f703336ceeb8896dd7a9cd",
+      "quiet-array.res": "be83d64398429bf557f3a771176defa68d1f76c6535f454f3e916e56b5eb0612",
+      "relay-foundry.res": "407898c5008dd747e34c7fb13adb7e41e182bac55b59d05dc18a9ef1bc86584b",
+      "rooftop-workshop.res": "7fa9c17a6674f7ccf5b9e0f94256add0a66a6e605a1a749ed796925f2138f6da",
+      "wreck-one.res": "6e897ef50a732d6a84a164d272fcf8384f4d222042ea7c17ba507c6c5e27e117"
+    },
+    "refinement_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+    "prior_roof_floor_evidence_sha256": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
+    "grounded_sites_outposts_evidence_sha256": "59363312998ae2a15d9de724fa8f933a14744a1e4dfea451fe8242dad8acc844",
+    "wrist_menu_evidence_sha256": "de6c66e802d6a967ae214b5f71f54ede84d95bb0588c12bdd97741e4bcffc009",
+    "title_screen_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+    "prior_cinematic_opening_evidence_sha256": "5f00293232932f83bcdf38e8cbb42e4b1ae336d560149fe7ea53b0f3d0187be2"
+  },
+  "opening_seconds": 83.7,
+  "letter": {
+    "words": 115,
+    "reading_seconds": 38,
+    "hold_seconds": 2,
+    "burn_seconds": 5,
+    "narration": false,
+    "typeface": "Marck Script, bundled unmodified with SIL OFL 1.1"
+  },
+  "acting": {
+    "blade": "Blender-authored high wind-up, descending contact, low follow-through",
+    "player": "Forward walk along a diagonal curved path with heading following its tangent",
+    "pursuers": "Staggered coping grips, knees over the rear wall, vaults and cushioned landings into the original chase"
+  },
+  "checks": {
+    "native_acting_contacts_lifecycle": 45,
+    "native_letter_layout_skip": 19,
+    "regressions": 795
+  },
+  "source_checks_total": 859,
+  "physical_contacts": {
+    "max_elbow_gap_m": 3.37174782316652e-07,
+    "max_wrist_gap_m": 3.37174782316652e-07,
+    "min_finger_joint_clearance_m": 0.000636012852191926,
+    "min_spool_floor_clearance_m": 3.39388847350741e-06,
+    "spool_clears_tray": true
+  },
+  "arrival_contacts": {
+    "max_hand_error_m": 2.92001942625575e-07,
+    "max_walk_facing_error_radians": 0.0546940437432646,
+    "min_ankle_clearance_above_wall_m": 0.285739898681641,
+    "wall_crossing_samples": 18,
+    "worst_foot": {
+      "actor": 0,
+      "at": 23.6,
+      "position": "(24.48972, 20.78574, 2.652717)"
+    },
+    "worst_grip": {
+      "actor": 0,
+      "at": 22.1666666666667,
+      "scale": "(0.848428, 0.848428, 0.848428)"
+    }
+  },
+  "slash": {
+    "downward_travel_m": 2.6358542740345,
+    "windup_tip_above_head_m": 1.31462383270264
+  },
+  "asset_changes": {
+    "added": [
+      "assets/animation/opening/revenant-climb.json",
+      "assets/animation/opening/revenant-slash.json",
+      "assets/animation/opening/warden-climb.json",
+      "assets/audio/opening/paper-fire.wav",
+      "assets/audio/opening/paper-fire.wav.import",
+      "assets/fonts/marck-script/MarckScript-Regular.ttf",
+      "assets/fonts/marck-script/MarckScript-Regular.ttf.import",
+      "assets/fonts/marck-script/OFL.txt"
+    ],
+    "modified": [
+      "assets/audio/opening/memory-and-escape.wav"
+    ],
+    "removed": []
+  },
+  "performance": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "scope": "Actual paused title, New Game, full letter, memories, escape opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off. No input or story timing changes.",
+    "frame_ms": {
+      "max": 59.724,
+      "median": 4.009,
+      "p95": 6.799,
+      "p99": 7.505
+    },
+    "slow_frames": [
+      {
+        "cinematic": "opening",
+        "cinematicS": -73.4833333333333,
+        "frame": 534,
+        "gpuMs": 0.0649999976158142,
+        "ms": 59.724,
+        "pipelines": {
+          "CANVAS": 3,
+          "DRAW": 0,
+          "MESH": 90,
+          "SPECIALIZATION": 64,
+          "SURFACE": 116
+        },
+        "renderCpuMs": 0.0520000010728836,
+        "wallS": 0.059724
+      }
+    ],
+    "completed": true,
+    "note": "This final timing pass ran without capture, export, or other validation processes. The earlier diagnostic timing report is retained separately. Host-specific result, not a minimum hardware claim."
+  },
+  "recording": {
+    "path": "test-results/opening-letter/film/opening.mp4",
+    "seconds": 86.73333333333333,
+    "fps": 30,
+    "peak_dbfs": -16,
+    "mean_dbfs": -45,
+    "scope": "Real New Game input, native rendered full opening and mixed engine audio. Fixed-rate movie output is not a performance measurement.",
+    "raw_avi_removed_after_encoding": true
+  },
+  "archive": "test-results\\windows-beta-letter\\distribution\\MachineMoveForward-0.3.0-beta.1-windows-x86_64.zip",
+  "archive_bytes": 950640034,
+  "archive_sha256": "5e6f4f24369012c37f84814ae3c5bcad178dff42665feb77d0a06b737216631e",
+  "resource_audit_checks": 4478,
+  "standalone_smoke": {
+    "checks": 59,
+    "extracted_checksums_verified": 9,
+    "runs": [
+      {
+        "phase": "normal-boot",
+        "passed": true,
+        "checks": 0,
+        "diagnostics": []
+      },
+      {
+        "phase": "new",
+        "passed": true,
+        "checks": 34,
+        "diagnostics": []
+      },
+      {
+        "phase": "resume",
+        "passed": true,
+        "checks": 25,
+        "diagnostics": []
+      }
+    ],
+    "instrumentation_limit": "Official templates disable external scripts. Only normal-boot uses the release EXE; new/resume use the matching engine and unchanged extracted PCK."
+  },
+  "evidence_sha256": {
+    "test-results/opening-letter/final-review/review.json": "7200e99a1169e2ad16bfc66b18ccb327d9f5df0ea14d3a5f22dac6fb77e6d179",
+    "test-results/opening-letter/letter-final/review.json": "08c6bd066a2910259c75a89af83c56a071de48a494ff46f4fb9fc9b0efa78f8c",
+    "test-results/opening-letter/regressions/summary.json": "2ac03069575d94e7497946b4d698c51cc499e8cf58d7e638089790a2d1fd9b9a",
+    "test-results/opening-letter/performance/opening-letter-clean.json": "ffe637f5be40b78303db3bde0f07f1b7be2a6d97f132e0fcb4077612a6e5f8b5",
+    "test-results/opening-letter/film/capture.json": "c757fd9ca44ab99b43f9e149e961ec1fedf503428702b58da7e811bdc5368abb",
+    "test-results/opening-letter/film/opening.mp4": "380a922f167742c2de86356ecdce06b8beb428d04b3a5b2e10f9235c4abd40dc",
+    "test-results/windows-beta-letter/audit/audit.json": "aa0ce946afbbb6b25ed92b4f795bc2dc60bc8349a8b1c0a2e415a559b270cecf",
+    "test-results/windows-beta-letter/standalone-smoke/summary.json": "087d47304a4c40847800728f232402fea90b2e8c5fe5c89049770b6f0ac16c65"
+  },
+  "publication": "Local Windows package only. itch.io account and destination remain deferred by the owner."
+}

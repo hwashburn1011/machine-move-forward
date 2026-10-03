@@ -1,0 +1,192 @@
+{
+  "runs": [
+    {
+      "finalDistance": 174.125634817796,
+      "slowMainTicks": [],
+      "streamSteps": [],
+      "frameP95Ms": 4.7,
+      "file": "travel-profile.json",
+      "frameMaxMs": 7.651,
+      "frameSamples": 5623,
+      "frameMedianMs": 3.726,
+      "startupSlowFrames": [
+        {
+          "distance": 0.364832880006313,
+          "frame": 1,
+          "gpuMs": 0.0,
+          "ms": 253.511,
+          "renderCpuMs": 0.0,
+          "time": 0.183333333333333
+        },
+        {
+          "distance": 0.845323564026695,
+          "frame": 3,
+          "gpuMs": 93.4680023193359,
+          "ms": 102.525,
+          "renderCpuMs": 1.02600002288818,
+          "time": 0.3
+        },
+        {
+          "distance": 1.00681910335743,
+          "frame": 8,
+          "gpuMs": 4.77299976348877,
+          "ms": 21.632,
+          "renderCpuMs": 0.628000020980835,
+          "time": 0.333333333333333
+        },
+        {
+          "distance": 1.17706910001198,
+          "frame": 10,
+          "gpuMs": 4.53900003433228,
+          "ms": 28.284,
+          "renderCpuMs": 0.741999983787537,
+          "time": 0.366666666666667
+        },
+        {
+          "distance": 1.3551616383732,
+          "frame": 12,
+          "gpuMs": 4.38299989700317,
+          "ms": 29.265,
+          "renderCpuMs": 0.728999972343445,
+          "time": 0.4
+        }
+      ],
+      "mainMaxMs": 1.982
+    },
+    {
+      "finalDistance": 173.880095841119,
+      "slowMainTicks": [
+        {
+          "distance": 0.00656999100425781,
+          "frame": 0,
+          "ms": 4.061,
+          "stages": {
+            "autosave_clock+=dt": 0.0,
+            "building.update(dt)": 0.002,
+            "campaign.update(dt)": 1.17,
+            "cinematics.update(dt)": 0.003,
+            "combat.update(dt)": 0.013,
+            "effects.update(dt)": 0.032,
+            "home.update(dt)": 0.369,
+            "journey.update(dt)": 0.341,
+            "opportunities.update(dt)": 0.005,
+            "salvage.update(dt)": 0.012,
+            "session.tick(dt,not combat.active_threat() and (not menu_open or ui.page==\"Signal\"),aboard())": 0.045,
+            "story_art.update(dt)": 0.016,
+            "terminal_pages.update(dt)": 0.002,
+            "update_interaction(dt)": 0.012,
+            "world.update(dt)": 2.038
+          },
+          "time": 0.0166666666666667
+        }
+      ],
+      "streamSteps": [],
+      "frameP95Ms": 5.034,
+      "file": "travel-profile-2.json",
+      "frameMaxMs": 7.236,
+      "frameSamples": 5627,
+      "frameMedianMs": 3.538,
+      "startupSlowFrames": [
+        {
+          "distance": 0.091794266582987,
+          "frame": 0,
+          "gpuMs": 0.0,
+          "ms": 48.429,
+          "renderCpuMs": 0.0,
+          "time": 0.0833333333333333
+        },
+        {
+          "distance": 0.486860417536165,
+          "frame": 1,
+          "gpuMs": 0.0,
+          "ms": 276.613,
+          "renderCpuMs": 0.0,
+          "time": 0.216666666666667
+        },
+        {
+          "distance": 0.924916027647271,
+          "frame": 3,
+          "gpuMs": 91.640998840332,
+          "ms": 98.749,
+          "renderCpuMs": 0.994000017642975,
+          "time": 0.316666666666667
+        },
+        {
+          "distance": 1.17706910001198,
+          "frame": 8,
+          "gpuMs": 4.77699995040894,
+          "ms": 22.094,
+          "renderCpuMs": 0.597000002861023,
+          "time": 0.366666666666667
+        },
+        {
+          "distance": 1.3551616383732,
+          "frame": 10,
+          "gpuMs": 4.46600008010864,
+          "ms": 32.122,
+          "renderCpuMs": 0.720000028610229,
+          "time": 0.4
+        },
+        {
+          "distance": 1.54027979330273,
+          "frame": 12,
+          "gpuMs": 4.11800003051758,
+          "ms": 30.392,
+          "renderCpuMs": 0.736000001430511,
+          "time": 0.433333333333333
+        }
+      ],
+      "mainMaxMs": 2.281
+    },
+    {
+      "finalDistance": 174.002865329457,
+      "slowMainTicks": [],
+      "streamSteps": [],
+      "frameP95Ms": 4.664,
+      "file": "travel-profile-3.json",
+      "frameMaxMs": 8.712,
+      "frameSamples": 5603,
+      "frameMedianMs": 3.791,
+      "startupSlowFrames": [
+        {
+          "distance": 0.364832880006313,
+          "frame": 1,
+          "gpuMs": 0.0,
+          "ms": 267.47,
+          "renderCpuMs": 0.0,
+          "time": 0.183333333333333
+        },
+        {
+          "distance": 0.768172355923525,
+          "frame": 15,
+          "gpuMs": 4.25899982452393,
+          "ms": 27.248,
+          "renderCpuMs": 0.617999970912933,
+          "time": 0.283333333333333
+        },
+        {
+          "distance": 0.924916027647271,
+          "frame": 17,
+          "gpuMs": 4.11700010299683,
+          "ms": 29.277,
+          "renderCpuMs": 0.712000012397766,
+          "time": 0.316666666666667
+        },
+        {
+          "distance": 1.09090913909307,
+          "frame": 19,
+          "gpuMs": 4.11999988555908,
+          "ms": 29.487,
+          "renderCpuMs": 0.741999983787537,
+          "time": 0.35
+        }
+      ],
+      "mainMaxMs": 2.553
+    }
+  ],
+  "warmupSeconds": 3,
+  "quality": "1920x1080 high / Forward+ / Vulkan / 4x MSAA / RTX 3070 / VSync off",
+  "conclusion": "Intermittent post-startup hitch not reproduced by these three traces; unresolved. Full frame/tick traces remain in test-results/godot-native/.",
+  "revision": "668b91d (before articulated-track art)",
+  "durationSeconds": 24
+}

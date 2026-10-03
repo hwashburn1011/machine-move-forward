@@ -1,0 +1,746 @@
+{
+  "complete_assemblies": 50,
+  "old_props": 19,
+  "existing_complete_characters": 6,
+  "new_story_props": 25,
+  "method": "All 50 received a deliberate second Blender pass with palette, surface graphics and geometry refinements, then individual renders. Four separately reported prop support gaps and Bastion aerial sockets were repaired and re-viewed. Native site tests use actual floor/collision/interaction geometry. Complete characters preserve armatures and equipped native material overrides.",
+  "native_tests": {
+    "old25": {
+      "checks": 241,
+      "failures": [],
+      "gpu_native": true,
+      "path": "assets/art100/story-robots/native-validation-gpu.json"
+    },
+    "new25": {
+      "checks": 347,
+      "failures": [],
+      "gpu_native": true,
+      "path": "assets/art200/story/native-validation-gpu.json"
+    }
+  },
+  "shipping_story_kit_gltf": "Both kits: 0 errors and 0 warnings.",
+  "character_gltf_limitation": "Retained identity-parent skin hierarchy emits NODE_SKINNED_MESH_NON_ROOT warning; zero errors. Original gameplay bone graph and bind matrices preserved.",
+  "independent_story_review": "assets/art200/fine-comb/story-review.json",
+  "independent_machine_review_performed": "assets/art200/fine-comb/machine-review.json",
+  "bastion_export_regression": "Resolved by baking only new socket object transforms before the retained component exporter. Added 18 posed body min/max invariants against protected intact captures at 4 mm tolerance; final Bastion maximum measured drift below 0.07 mm.",
+  "source_sha256": {
+    "godot/art/art100-story-robots.glb": "f7e3a65f706f4ba4a566798e69cb2de8bd6215a01bad040266bd50f266a194ec",
+    "godot/art/art200-story.glb": "4a57a307776ab1b92a0f89405bcaaa1484dba31d7ad89e6ceee1223d4bc780fb",
+    "godot/art/refined-bastion.glb": "e695883dd04eaccfaa583879837e3f0bedc80da5a1de60dbcb2a747a59931f0b",
+    "godot/art/art200-robot-finishes.json": "d198130bd1913c6d7bb4a982f00f2d425d71eef7c21f4f32f11104da566f44e6",
+    "assets/art100/story-robots/CompleteCharacterAssemblies.blend": "e470a088979f56a52e4094094bc39ab0fff127bb7c61e98d390596662938f2e8",
+    "assets/art100/story-robots/StoryRobots-editable.blend": "951b8fdfe629ceaae0c7d88c190929ecf8b82b449184a246d0f8adbd622f3d9a",
+    "assets/art200/story/Story200-editable.blend": "34bd0b13c5c423ee898dbe589fcf2a4a6dae3fcc1664a44f2f6d84671fb269fa"
+  },
+  "models": [
+    {
+      "id": "BerthReferenceDesk",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/BerthReferenceDesk.png"
+      ],
+      "phase2_refinements": [
+        "Retained work papers, worktop fasteners and muted denim service finish."
+      ],
+      "paint_family": "denim",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "BerthReceivingCoupler",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/BerthReceivingCoupler.png"
+      ],
+      "phase2_refinements": [
+        "Locked contact ferrules and receiving-channel service identity."
+      ],
+      "paint_family": "oxblood",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "BerthSeedEnclosure",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/BerthSeedEnclosure.png"
+      ],
+      "phase2_refinements": [
+        "Fastened climate hood and individually numbered seed carriers.",
+        "Carrier numbers clear the curved caps; cabinet title has a separate unobstructed field."
+      ],
+      "paint_family": "celadon",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "BerthArchiveReceiver",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/BerthArchiveReceiver.png"
+      ],
+      "phase2_refinements": [
+        "Physical extraction stops and keyed archive-drawer marks."
+      ],
+      "paint_family": "plum",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "BerthAccessTransmitter",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/BerthAccessTransmitter.png"
+      ],
+      "phase2_refinements": [
+        "Meter retainers and service identity on the transmitter junction."
+      ],
+      "paint_family": "petrol",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "SeedPropagationBench",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/SeedPropagationBench.png"
+      ],
+      "phase2_refinements": [
+        "Rolled cup rims and numbered planting seats without closing cup gaps."
+      ],
+      "paint_family": "olive",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "PreservationReservoir",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/PreservationReservoir.png"
+      ],
+      "phase2_refinements": [
+        "Foot anchoring fasteners and a supported outlet compression fitting."
+      ],
+      "paint_family": "slate",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "OpenChannelMast",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/OpenChannelMast.png"
+      ],
+      "phase2_refinements": [
+        "Bolted mast foundation and distinct open/relay service cover."
+      ],
+      "paint_family": "denim",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "RelayChallengeMast",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/RelayChallengeMast.png"
+      ],
+      "phase2_refinements": [
+        "Bolted mast foundation and distinct open/relay service cover."
+      ],
+      "paint_family": "plum",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "IsolatorCabinet",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/IsolatorCabinet.png"
+      ],
+      "phase2_refinements": [
+        "Isolation safety engraving and captive fuse-terminal fasteners.",
+        "Identification plate resized and spaced above the instrument display."
+      ],
+      "paint_family": "clay",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "ArchiveTransitCore",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/ArchiveTransitCore.png"
+      ],
+      "phase2_refinements": [
+        "Captured side transport locks and a muted oxblood field finish."
+      ],
+      "paint_family": "oxblood",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "MemoryReader",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/MemoryReader.png"
+      ],
+      "phase2_refinements": [
+        "A supported reader plaque and physical display pivot."
+      ],
+      "paint_family": "heather",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "SeedVault",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/SeedVault.png"
+      ],
+      "phase2_refinements": [
+        "Handwheel spindle reaches the door; retained vault door hinges.",
+        "Meter assembly seated on the outer door, clear of the gasket and title."
+      ],
+      "paint_family": "olive",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "EmergencyFuelPump",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/EmergencyFuelPump.png"
+      ],
+      "phase2_refinements": [
+        "Connected dispensing-nozzle guard and a readable manual-service plate."
+      ],
+      "paint_family": "clay",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "CourierChargeCradle",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/CourierChargeCradle.png"
+      ],
+      "phase2_refinements": [
+        "Captured charge collars and grounded docking-pad anchors."
+      ],
+      "paint_family": "petrol",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "RecoveryToolCart",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/RecoveryToolCart.png"
+      ],
+      "phase2_refinements": [
+        "Connected caster forks and axles; supported recovery identification rail."
+      ],
+      "paint_family": "umber",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "NavGyroCradle",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/NavGyroCradle.png"
+      ],
+      "phase2_refinements": [
+        "Retained trunnion fasteners and a bolted instrument plinth."
+      ],
+      "paint_family": "denim",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "FoundryPowerBus",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/FoundryPowerBus.png"
+      ],
+      "phase2_refinements": [
+        "Readable 2/1/0 circuit allocation marks and retained cassette frame."
+      ],
+      "paint_family": "slate",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "ArrayPhaseRack",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "views": [
+        "assets/art100/story-robots/review/ArrayPhaseRack.png"
+      ],
+      "phase2_refinements": [
+        "Serviceable receiver-rack ears and captured fasteners."
+      ],
+      "paint_family": "verdigris",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "WardenRangefinder",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-warden-front.png",
+        "assets/art100/story-robots/review/blender-complete-warden-rear.png"
+      ],
+      "phase2_refinements": [
+        "Fitted chest calibration slots and purpose-specific retained warden service hardware; muted denim body/attachment faction finish."
+      ],
+      "paint_family": "denim",
+      "counting_note": "Refined existing complete rigged enemy with fitted equipment; preserved AI and original skin bindings",
+      "status": "complete"
+    },
+    {
+      "id": "RevenantPulseRack",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-revenant-front.png",
+        "assets/art100/story-robots/review/blender-complete-revenant-rear.png"
+      ],
+      "phase2_refinements": [
+        "Fitted chest calibration slots and purpose-specific retained revenant service hardware; muted oxblood body/attachment faction finish."
+      ],
+      "paint_family": "oxblood",
+      "counting_note": "Refined existing complete rigged enemy with fitted equipment; preserved AI and original skin bindings",
+      "status": "complete"
+    },
+    {
+      "id": "BastionSiegeRadiator",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-bastion-front.png",
+        "assets/art100/story-robots/review/blender-complete-bastion-rear.png"
+      ],
+      "phase2_refinements": [
+        "Fitted chest calibration slots and purpose-specific retained bastion service hardware; muted olive body/attachment faction finish."
+      ],
+      "paint_family": "olive",
+      "counting_note": "Refined existing complete rigged enemy with fitted equipment; preserved AI and original skin bindings",
+      "status": "complete"
+    },
+    {
+      "id": "SovereignComms",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-sovereign-front.png",
+        "assets/art100/story-robots/review/blender-complete-sovereign-rear.png"
+      ],
+      "phase2_refinements": [
+        "Fitted chest calibration slots and purpose-specific retained sovereign service hardware; muted plum body/attachment faction finish."
+      ],
+      "paint_family": "plum",
+      "counting_note": "Refined existing complete rigged enemy with fitted equipment; preserved AI and original skin bindings",
+      "status": "complete"
+    },
+    {
+      "id": "RaiderRecoveryPack",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-raider-front.png",
+        "assets/art100/story-robots/review/blender-complete-raider-rear.png"
+      ],
+      "phase2_refinements": [
+        "Fitted chest calibration slots and purpose-specific retained raider service hardware; muted clay body/attachment faction finish."
+      ],
+      "paint_family": "clay",
+      "counting_note": "Refined existing complete rigged enemy with fitted equipment; preserved AI and original skin bindings",
+      "status": "complete"
+    },
+    {
+      "id": "ScavengerSurveyPack",
+      "complete_assembly": true,
+      "source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "views": [
+        "assets/art100/story-robots/review/blender-complete-scavenger-front.png",
+        "assets/art100/story-robots/review/blender-complete-scavenger-rear.png"
+      ],
+      "phase2_refinements": [
+        "Fitted chest calibration slots and purpose-specific retained scavenger service hardware; muted petrol body/attachment faction finish."
+      ],
+      "paint_family": "petrol",
+      "counting_note": "Refined existing complete rigged enemy with fitted equipment; preserved AI and original skin bindings",
+      "status": "complete"
+    },
+    {
+      "id": "Story2ScoutRepairStand",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2ScoutRepairStand.png"
+      ],
+      "phase2_refinements": [
+        "Gasketed hull service panel, optical-head identity and shroud fasteners."
+      ],
+      "paint_family": "petrol",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2CargoManifestLectern",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2CargoManifestLectern.png"
+      ],
+      "phase2_refinements": [
+        "Numbered cargo leaves and connected case latches."
+      ],
+      "paint_family": "oxblood",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2SplitDriveAxle",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2SplitDriveAxle.png"
+      ],
+      "phase2_refinements": [
+        "Stepped axle covers and six-point fastened hub flanges."
+      ],
+      "paint_family": "clay",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2EmergencyShadeStation",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2EmergencyShadeStation.png"
+      ],
+      "phase2_refinements": [
+        "Matte weather-canvas material, three sewn seams and anchored corner ties."
+      ],
+      "paint_family": "denim",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2ServoPress",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2ServoPress.png"
+      ],
+      "phase2_refinements": [
+        "Reaction-bed fasteners, captive pressure gauge and column service cover."
+      ],
+      "paint_family": "oxblood",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2LimbAssemblyJig",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2LimbAssemblyJig.png"
+      ],
+      "phase2_refinements": [
+        "Load-bearing caster forks and axles; bolted forearm access panel and hold-downs."
+      ],
+      "paint_family": "celadon",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2QuenchManifold",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2QuenchManifold.png"
+      ],
+      "phase2_refinements": [
+        "Vessel band clamps and individually indexed return vessels."
+      ],
+      "paint_family": "slate",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2MagneticSortingDrum",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2MagneticSortingDrum.png"
+      ],
+      "phase2_refinements": [
+        "Exposed leg-stay nameplate corrected; sealed bearing covers and torque fasteners."
+      ],
+      "paint_family": "umber",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2AzimuthTrackingDish",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2AzimuthTrackingDish.png"
+      ],
+      "phase2_refinements": [
+        "Connected reflector rear ribs and locked elevation trunnions."
+      ],
+      "paint_family": "petrol",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2FerriteTuningBench",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2FerriteTuningBench.png"
+      ],
+      "phase2_refinements": [
+        "Continuous winding terminations connect coils to the comparison bridge."
+      ],
+      "paint_family": "plum",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2ReceiverRepairBot",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2ReceiverRepairBot.png"
+      ],
+      "phase2_refinements": [
+        "Rear service access hatch and locked tripod foot joints."
+      ],
+      "paint_family": "celadon",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2CableRoutingArch",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2CableRoutingArch.png"
+      ],
+      "phase2_refinements": [
+        "Four individually retained cable glands terminate each supported bundle."
+      ],
+      "paint_family": "denim",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2PneumaticSeedSorter",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2PneumaticSeedSorter.png"
+      ],
+      "phase2_refinements": [
+        "Clamped hopper throats, display fasteners and explicit collection-drawer marks."
+      ],
+      "paint_family": "verdigris",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2ClimateBellChamber",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2ClimateBellChamber.png"
+      ],
+      "phase2_refinements": [
+        "Four physical bell latches and a sealed calibration plate."
+      ],
+      "paint_family": "stone",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2FamilyMemorialTableau",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2FamilyMemorialTableau.png"
+      ],
+      "phase2_refinements": [
+        "Bench slat fasteners and visible planted soil in each keepsake pot."
+      ],
+      "paint_family": "rose",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2RootIrrigationCart",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2RootIrrigationCart.png"
+      ],
+      "phase2_refinements": [
+        "Connected cart axles/caster forks and a reachable sealed filling neck."
+      ],
+      "paint_family": "olive",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2ArchiveReelLibrary",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2ArchiveReelLibrary.png"
+      ],
+      "phase2_refinements": [
+        "All six reels individually numbered; rail service fasteners."
+      ],
+      "paint_family": "plum",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2PassengerBaggageTrolley",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2PassengerBaggageTrolley.png"
+      ],
+      "phase2_refinements": [
+        "Continuous fitted retaining webbing follows both suitcases; attached metal buckles."
+      ],
+      "paint_family": "umber",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2DeadPatrolTorso",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2DeadPatrolTorso.png"
+      ],
+      "phase2_refinements": [
+        "Bolted power-isolated torso cover and retained elbow pins."
+      ],
+      "paint_family": "slate",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2SignalVerificationGate",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2SignalVerificationGate.png"
+      ],
+      "phase2_refinements": [
+        "Distinct receiver/transmitter service plates and foundation anchors."
+      ],
+      "paint_family": "heather",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2JourneyCartographyTable",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2JourneyCartographyTable.png"
+      ],
+      "phase2_refinements": [
+        "Engraved numbered waypoints and a visibly anchored table pedestal."
+      ],
+      "paint_family": "petrol",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2DormantStewardCradle",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2DormantStewardCradle.png"
+      ],
+      "phase2_refinements": [
+        "Removable civic chest cover, protected optical bezels and rear cooling seams."
+      ],
+      "paint_family": "celadon",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2CommunalGalleyModule",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2CommunalGalleyModule.png"
+      ],
+      "phase2_refinements": [
+        "Connected open kettle spout, attached cup handles, visible cup interiors and worktop fasteners."
+      ],
+      "paint_family": "clay",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2MissionPlaqueRack",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2MissionPlaqueRack.png"
+      ],
+      "phase2_refinements": [
+        "Anchored foot plates and connected diagonal back brace behind the readable civic plaques."
+      ],
+      "paint_family": "rose",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    },
+    {
+      "id": "Story2WaterReclamationStill",
+      "complete_assembly": true,
+      "source": "assets/art200/story/Story200-editable.blend",
+      "views": [
+        "assets/art200/story/review/Story2WaterReclamationStill.png"
+      ],
+      "phase2_refinements": [
+        "Continuous vessel bypass and a connected manual isolation handwheel."
+      ],
+      "paint_family": "verdigris",
+      "counting_note": "Complete story/environment assembly; no new AI or story gate",
+      "status": "complete"
+    }
+  ]
+}

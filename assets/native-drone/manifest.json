@@ -1,0 +1,11 @@
+{
+  "sourceParts": 134,
+  "runtimeMeshes": 7,
+  "triangles": 49763,
+  "removedDegenerateFaces": 0,
+  "materials": 7,
+  "bytes": 3920644,
+  "reference": "User-supplied badmechs.png; Sovereign orb",
+  "front": "+Z",
+  "units": "metres before original character fit"
+}

@@ -1,0 +1,82 @@
+{
+	"opening": [
+		{
+			"bodyGunYawDifferenceDeg": 0.0000232962299567533,
+			"bodyTargetYawErrorDeg": 161.722896903244,
+			"gunTargetYawErrorDeg": 162.453126087789,
+			"scriptedAim": false,
+			"time": 2.47
+		},
+		{
+			"bodyGunYawDifferenceDeg": 161.722896903244,
+			"bodyTargetYawErrorDeg": 161.722896903244,
+			"gunTargetYawErrorDeg": 0.175861723057718,
+			"scriptedAim": true,
+			"time": 2.48
+		},
+		{
+			"bodyGunYawDifferenceDeg": 155.004845779025,
+			"bodyTargetYawErrorDeg": 155.004845779025,
+			"gunTargetYawErrorDeg": 0.179280579582853,
+			"scriptedAim": true,
+			"time": 2.55
+		},
+		{
+			"bodyGunYawDifferenceDeg": 127.147618720804,
+			"bodyTargetYawErrorDeg": 127.147632381182,
+			"gunTargetYawErrorDeg": 0.191030452626406,
+			"scriptedAim": true,
+			"time": 2.65
+		},
+		{
+			"bodyGunYawDifferenceDeg": 66.0407985565298,
+			"bodyTargetYawErrorDeg": 66.0407985565298,
+			"gunTargetYawErrorDeg": 0.194764965276816,
+			"scriptedAim": true,
+			"time": 2.8
+		},
+		{
+			"bodyGunYawDifferenceDeg": 0.00000323890121920628,
+			"bodyTargetYawErrorDeg": 0.00000266308158989965,
+			"gunTargetYawErrorDeg": 0.166256155887579,
+			"scriptedAim": true,
+			"time": 3.05
+		},
+		{
+			"bodyGunYawDifferenceDeg": 0.00000539816849512163,
+			"bodyTargetYawErrorDeg": 0.00000266308158989965,
+			"gunTargetYawErrorDeg": 0.165219047691009,
+			"scriptedAim": true,
+			"time": 3.65
+		},
+		{
+			"bodyGunYawDifferenceDeg": 0.0000191772583669668,
+			"bodyTargetYawErrorDeg": 0.00000998905297743744,
+			"gunTargetYawErrorDeg": 0.153697905943372,
+			"scriptedAim": true,
+			"time": 5.0
+		}
+	],
+	"ownStructureShot": {
+		"healthAfter": 128.0,
+		"healthBefore": 150.0,
+		"pieceId": "bp-2",
+		"rayHitOwnedStructure": true
+	},
+	"scope": "Native Godot; controlled runtime fixtures, not a full playthrough",
+	"shipDestruction": {
+		"crewBefore": 2,
+		"healthAfter": -735.0,
+		"shipStillVisible": true,
+		"stateAfter": "retreat",
+		"unboardedCrewDefeated": true
+	},
+	"stationaryRearFire": {
+		"ammoAfter": 29.0,
+		"ammoBefore": 30.0,
+		"bodyCameraYawDifferenceDeg": 180.000005008956,
+		"bodyShotYawDifferenceDeg": 179.032167203566,
+		"gunCameraYawDifferenceDeg": 179.999991348578,
+		"method": "Actual player.fire() with stationary, non-aiming pose and rear-facing camera"
+	}
+}

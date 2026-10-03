@@ -1,0 +1,2654 @@
+{
+  "date": "2026-10-02",
+  "status": "first_playable_delivery_verified",
+  "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+  "asset_sha256": "bbae3ae18a031bebaf5cdf3120e2c338345f607a36a1cbe52ae6b809467f71c4",
+  "plan": "docs/superpowers/plans/2026-10-02-beta-progression-ownership-combat.md",
+  "guide": "docs/godot-port/beta-progression-ownership-combat.md",
+  "scope": [
+    "Inventory-based opening guidance and practical fuel/upgrade advice",
+    "Earned Patchcoat tools, 14 finishes, 50 furnishings plus generators and two machine zones, three keepsakes and relocation access",
+    "Six enemy-role tells, fitted Gatekeeper hardware, cross-salvo escalation and persistent service-mark entitlement"
+  ],
+  "regressions": {
+    "suites": 27,
+    "checks": 10951,
+    "failures": [],
+    "engine_diagnostics": [],
+    "results": [
+      {
+        "suite": "campaign_flow",
+        "exit_code": 0,
+        "checks": 26,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "objective_guidance",
+        "exit_code": 0,
+        "checks": 98,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "nomad_personalization",
+        "exit_code": 0,
+        "checks": 7471,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "enemy_tells",
+        "exit_code": 0,
+        "checks": 57,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "cordon_guardian",
+        "exit_code": 0,
+        "checks": 70,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "construction_usability",
+        "exit_code": 0,
+        "checks": 98,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "art100_decor",
+        "exit_code": 0,
+        "checks": 678,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "art200_decor",
+        "exit_code": 0,
+        "checks": 757,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "beta_salvage",
+        "exit_code": 0,
+        "checks": 32,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "beta_salvage_edges",
+        "exit_code": 0,
+        "checks": 8,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "controls_interactions",
+        "exit_code": 0,
+        "checks": 66,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "narrative_delivery",
+        "exit_code": 0,
+        "checks": 181,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "narrative_edge_cases",
+        "exit_code": 0,
+        "checks": 47,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "pacing_contracts",
+        "exit_code": 0,
+        "checks": 25,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "story_polish",
+        "exit_code": 0,
+        "checks": 76,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "playtest_checkpoints",
+        "exit_code": 0,
+        "checks": 455,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "later_expeditions",
+        "exit_code": 0,
+        "checks": 88,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "recovery_operations",
+        "exit_code": 0,
+        "checks": 97,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "integration",
+        "exit_code": 0,
+        "checks": 113,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "autosave_worker",
+        "exit_code": 0,
+        "checks": 31,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "compiled_machine",
+        "exit_code": 0,
+        "checks": 26,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "encounter_loading",
+        "exit_code": 0,
+        "checks": 43,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "enemy_equipment",
+        "exit_code": 0,
+        "checks": 151,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "character_refinement",
+        "exit_code": 0,
+        "checks": 167,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "audio_lifecycle",
+        "exit_code": 0,
+        "checks": 50,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "playtest_recorder",
+        "exit_code": 0,
+        "checks": 22,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      },
+      {
+        "suite": "scenery_streaming_checks",
+        "exit_code": 0,
+        "checks": 18,
+        "failures": [],
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "diagnostics": []
+      }
+    ]
+  },
+  "corrected_test_contracts": [
+    "Functional paint trolley description supersedes its former decorative-only description.",
+    "Sword caption/direction checks retain the original attack timing assertions.",
+    "Compiled-machine comparison recursively checks resource metadata and sharing; six adversarial checks added.",
+    "Loader probes isolate request ownership after title preparation; real direction-mesh warm-up is checked.",
+    "Guardian fixture awaits cold title resources and defers shutdown; cleanup diagnostics no longer occur."
+  ],
+  "visuals": {
+    "native_views": 42,
+    "human_acceptance": false,
+    "paint_report": "test-results/beta-next/native/patchcoat-review.json",
+    "paint_inspection": "test-results/beta-next/native/patchcoat-visual-closure.json",
+    "combat_report": "test-results/beta-next/combat-native/review.json",
+    "combat_inspection": "test-results/beta-next/combat-completion.json"
+  },
+  "earned_campaign": {
+    "runner": {
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--max-fps",
+        "60",
+        "--headless",
+        "--script",
+        "res://tests/campaign_earned_soak.gd",
+        "--",
+        "--run-id=acceptance-wake-01",
+        "--seed=mmf-default-seed",
+        "--stop-after=wake",
+        "--max-wall=900"
+      ],
+      "diagnostic": false,
+      "human_test": false,
+      "normal_clock": true,
+      "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+      "actor_sha256": "1889e2bc0b8c54e5c839bd944efab69dbe171a8e81db91b84267162d75d5a8a0",
+      "runner_sha256": "f946d54fcf4a2aa240a9b5b0bccf9803277a72e1aa17013c69f859a4ab9c2195",
+      "asset_sha256": "bbae3ae18a031bebaf5cdf3120e2c338345f607a36a1cbe52ae6b809467f71c4",
+      "started_utc": "2026-10-02T11:13:30.161492+00:00",
+      "process_id": 17804,
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 490.43700000000536,
+      "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+      "actor_sha256_end": "1889e2bc0b8c54e5c839bd944efab69dbe171a8e81db91b84267162d75d5a8a0",
+      "runner_sha256_end": "f946d54fcf4a2aa240a9b5b0bccf9803277a72e1aa17013c69f859a4ab9c2195",
+      "asset_sha256_end": "bbae3ae18a031bebaf5cdf3120e2c338345f607a36a1cbe52ae6b809467f71c4",
+      "inputs_stable": true,
+      "source_stable": true,
+      "engine_errors": [],
+      "engine_error_count": 0,
+      "completed_report": true,
+      "actor_passed": true,
+      "passed": true
+    },
+    "report_path": "test-results/campaign-earned-soak/acceptance-wake-01/report.json",
+    "actor_summary": {
+      "actor_contract": {
+        "aim": "Programmatic yaw/pitch target selection; not measured human aiming",
+        "building": "Reach/support/occupancy/unlock placement_report then paid create_piece and visual add; not UI pointer placement",
+        "combat": "Damage enabled, normal fire input/raycast/rate/reload; no direct enemy health writes",
+        "controls": "Reached local authorities and normal mechanism durations; reading waits are scripted five-second minima",
+        "crafting": "Production craft authority at physically reached Workshop",
+        "limits": "Opening through Wake only; no uncoached comprehension, expected novice skill or complete campaign balance claim. Scripted minimal read/build decisions underestimate exploratory dwell.",
+        "movement": "Input forward with collision-checked route planning; no position edits",
+        "pacing": "Real engine physics; no fixed-fps, time acceleration or manual ticks",
+        "salvage": "Actual distance-spawned cargo and production hook flight; no direct receive/reward calls"
+      },
+      "combat_observations": {
+        "carrier_transitions": [
+          {
+            "player_health": 100.0,
+            "ship_health": 0.0,
+            "simulation_seconds": 0.0,
+            "state": "none",
+            "wall_seconds": 5.101
+          },
+          {
+            "player_health": 100.0,
+            "ship_health": 220,
+            "simulation_seconds": 230.583333333409,
+            "state": "approach",
+            "wall_seconds": 278.69
+          },
+          {
+            "player_health": 100.0,
+            "ship_health": 220,
+            "simulation_seconds": 248.566666666757,
+            "state": "grapple_launch",
+            "wall_seconds": 296.592
+          },
+          {
+            "player_health": 100.0,
+            "ship_health": 220,
+            "simulation_seconds": 249.666666666757,
+            "state": "grapple",
+            "wall_seconds": 297.691
+          },
+          {
+            "player_health": 52.0,
+            "ship_health": 220,
+            "simulation_seconds": 262.666666666756,
+            "state": "retreat",
+            "wall_seconds": 310.692
+          },
+          {
+            "player_health": 52.0,
+            "ship_health": 220,
+            "simulation_seconds": 268.683333333418,
+            "state": "none",
+            "wall_seconds": 316.707
+          }
+        ],
+        "manual_turret_damaging_hits": 4,
+        "manual_turret_shots": 46,
+        "recorder_overflow": 0
+      },
+      "events": [
+        {
+          "details": {
+            "supplies": {
+              "scrap": 260
+            }
+          },
+          "event": "normal_opening_completed",
+          "simulation_seconds": 0.0,
+          "wall_seconds": 16.908
+        },
+        {
+          "details": {
+            "actor_api": "MMFSalvage.throw_hook",
+            "crate_index": 0,
+            "range": 30.9779148101807
+          },
+          "event": "actor_hook_throw",
+          "simulation_seconds": 18.5833333333336,
+          "wall_seconds": 35.505
+        },
+        {
+          "details": {
+            "after": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 318
+            },
+            "before": {
+              "scrap": 260
+            }
+          },
+          "event": "earned_cargo",
+          "simulation_seconds": 19.9000000000002,
+          "wall_seconds": 36.821
+        },
+        {
+          "details": {
+            "actor_api": "placement_report + create_piece(free=false) + add_visual",
+            "after": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 310
+            },
+            "before": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 318
+            },
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 3
+            },
+            "cost": {
+              "scrap": 8.0
+            },
+            "id": "floor"
+          },
+          "event": "actor_paid_construction",
+          "simulation_seconds": 21.1666666666667,
+          "wall_seconds": 38.088
+        },
+        {
+          "details": {
+            "actor_api": "placement_report + create_piece(free=false) + add_visual",
+            "after": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 230
+            },
+            "before": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 310
+            },
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 3
+            },
+            "cost": {
+              "scrap": 80.0
+            },
+            "id": "refinery"
+          },
+          "event": "actor_paid_construction",
+          "simulation_seconds": 22.6833333333333,
+          "wall_seconds": 39.634
+        },
+        {
+          "details": {
+            "actor_api": "MMFSession.craft at reached Workshop",
+            "recipe": "refine-components",
+            "success": true
+          },
+          "event": "actor_craft",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 43.669
+        },
+        {
+          "details": {
+            "actor_api": "MMFSession.craft at reached Workshop",
+            "recipe": "refine-components",
+            "success": true
+          },
+          "event": "actor_craft",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 45.685
+        },
+        {
+          "details": {
+            "actor_api": "MMFSession.craft at reached Workshop",
+            "recipe": "refine-components",
+            "success": true
+          },
+          "event": "actor_craft",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 47.702
+        },
+        {
+          "details": {
+            "actor_api": "MMFSession.craft at reached Workshop",
+            "recipe": "refine-components",
+            "success": true
+          },
+          "event": "actor_craft",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 49.718
+        },
+        {
+          "details": {
+            "actor_api": "MMFSession.craft at reached Workshop",
+            "recipe": "refine-components",
+            "success": true
+          },
+          "event": "actor_craft",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 51.735
+        },
+        {
+          "details": {
+            "actor_api": "MMFSession.craft at reached Workshop",
+            "recipe": "refine-components",
+            "success": true
+          },
+          "event": "actor_craft",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 53.752
+        },
+        {
+          "details": {
+            "actor_api": "placement_report + create_piece(free=false) + add_visual",
+            "after": {
+              "components": 12,
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 174
+            },
+            "before": {
+              "components": 12,
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 182
+            },
+            "cell": {
+              "x": 4,
+              "y": 0,
+              "z": 3
+            },
+            "cost": {
+              "scrap": 8.0
+            },
+            "id": "floor"
+          },
+          "event": "actor_paid_construction",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 53.753
+        },
+        {
+          "details": {
+            "actor_api": "placement_report + create_piece(free=false) + add_visual",
+            "after": {
+              "components": 8,
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 144
+            },
+            "before": {
+              "components": 12,
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 174
+            },
+            "cell": {
+              "x": 4,
+              "y": 0,
+              "z": 3
+            },
+            "cost": {
+              "components": 4.0,
+              "scrap": 30.0
+            },
+            "id": "workbench"
+          },
+          "event": "actor_paid_construction",
+          "simulation_seconds": 26.2499999999998,
+          "wall_seconds": 55.333
+        },
+        {
+          "details": {
+            "actor_api": "MMFSession.craft at reached Workshop",
+            "recipe": "craft-scanner-replacement-module",
+            "success": true
+          },
+          "event": "actor_craft",
+          "simulation_seconds": 28.583333333333,
+          "wall_seconds": 59.634
+        },
+        {
+          "details": {},
+          "event": "paid_scanner_started",
+          "simulation_seconds": 32.5666666666661,
+          "wall_seconds": 63.637
+        },
+        {
+          "details": {
+            "actor_api": "placement_report + create_piece(free=false) + add_visual",
+            "after": {
+              "components": 4,
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 132
+            },
+            "before": {
+              "components": 4,
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 140
+            },
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 4
+            },
+            "cost": {
+              "scrap": 8.0
+            },
+            "id": "floor"
+          },
+          "event": "actor_paid_construction",
+          "simulation_seconds": 36.0833333333326,
+          "wall_seconds": 67.149
+        },
+        {
+          "details": {
+            "actor_api": "placement_report + create_piece(free=false) + add_visual",
+            "after": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 90
+            },
+            "before": {
+              "components": 4,
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 132
+            },
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 4
+            },
+            "cost": {
+              "components": 4.0,
+              "scrap": 42.0
+            },
+            "id": "turret-manual"
+          },
+          "event": "actor_paid_construction",
+          "simulation_seconds": 37.5999999999991,
+          "wall_seconds": 68.712
+        },
+        {
+          "details": {
+            "id": "opening-earned",
+            "saved": true
+          },
+          "event": "milestone",
+          "simulation_seconds": 268.683333333418,
+          "wall_seconds": 316.731
+        },
+        {
+          "details": {
+            "id": "wake-arrival-earned",
+            "saved": true
+          },
+          "event": "milestone",
+          "simulation_seconds": 387.966666666642,
+          "wall_seconds": 436.127
+        },
+        {
+          "details": {
+            "id": "wreck-one-journal-cargo",
+            "minimum_dwell_seconds": 5
+          },
+          "event": "actor_read_record",
+          "simulation_seconds": 395.299999999969,
+          "wall_seconds": 443.455
+        },
+        {
+          "details": {
+            "id": "wreck-one-journal-crew",
+            "minimum_dwell_seconds": 5
+          },
+          "event": "actor_read_record",
+          "simulation_seconds": 402.766666666629,
+          "wall_seconds": 450.919
+        },
+        {
+          "details": {
+            "id": "wreck-one-journal-route",
+            "minimum_dwell_seconds": 5
+          },
+          "event": "actor_read_record",
+          "simulation_seconds": 409.716666666623,
+          "wall_seconds": 457.869
+        },
+        {
+          "details": {
+            "id": "wake-earned",
+            "saved": true
+          },
+          "event": "milestone",
+          "simulation_seconds": 437.99999999993,
+          "wall_seconds": 486.148
+        }
+      ],
+      "failures": [],
+      "final": {
+        "active_wall_seconds": 438.105999999993,
+        "cargo_receipts": 1,
+        "damage_taken": 48.0,
+        "defenses": 1,
+        "distance": 2672.20703212202,
+        "engine": 320.0,
+        "fuel": 33.7200000000612,
+        "health": 52.0,
+        "objective": "TRACE THE SIGNAL\nInteract with the navigation helm to choose your next course.",
+        "player": {
+          "x": -2.49638915061951,
+          "y": 16.0468349456787,
+          "z": -7.36577463150024
+        },
+        "scanner": {
+          "durationS": 180.0,
+          "elapsedS": 180.0,
+          "format": 1,
+          "pendingDelayS": 0.0,
+          "phase": "consumed"
+        },
+        "simulation_seconds": 437.99999999993,
+        "speed": 7.04243460136933,
+        "stage": "wake_local_work",
+        "story": {
+          "arrival": 2632.1457203847,
+          "completed": [
+            "wreck-one"
+          ],
+          "ending": "none",
+          "index": 1,
+          "journals": [
+            "wreck-one-journal-cargo",
+            "wreck-one-journal-crew",
+            "wreck-one-journal-route"
+          ],
+          "objectives": [],
+          "phase": "route-selection",
+          "routeId": "",
+          "scripted": "not-due",
+          "uniques": [
+            "course-gyro"
+          ]
+        },
+        "supplies": {
+          "fuel": 8,
+          "recovered-finish-parts": 1,
+          "scrap": 90
+        },
+        "threat": "none",
+        "throws": 1,
+        "walked_m": 165.121076509357,
+        "wall_seconds": 486.148
+      },
+      "human_test": false,
+      "milestones": [
+        {
+          "id": "opening-earned",
+          "snapshot": {
+            "active_wall_seconds": 268.68699999996,
+            "cargo_receipts": 1,
+            "damage_taken": 48.0,
+            "defenses": 1,
+            "distance": 1898.92890375986,
+            "engine": 320.0,
+            "fuel": 43.8790000000376,
+            "health": 52.0,
+            "objective": "TRACE THE SIGNAL\nInteract with the navigation helm to choose your next course.",
+            "player": {
+              "x": 4.49991846084595,
+              "y": 16.0468349456787,
+              "z": 7.3882942199707
+            },
+            "save_succeeded": true,
+            "scanner": {
+              "durationS": 180.0,
+              "elapsedS": 180.0,
+              "format": 1,
+              "pendingDelayS": 0.0,
+              "phase": "consumed"
+            },
+            "simulation_seconds": 268.683333333418,
+            "speed": 7.04243462010109,
+            "stage": "live_defense",
+            "story": {
+              "arrival": 0.0,
+              "completed": [],
+              "ending": "none",
+              "index": 0,
+              "journals": [],
+              "objectives": [],
+              "phase": "route-selection",
+              "routeId": "",
+              "uniques": []
+            },
+            "supplies": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 90
+            },
+            "threat": "none",
+            "throws": 1,
+            "walked_m": 47.1840989142656,
+            "wall_seconds": 316.73
+          }
+        },
+        {
+          "id": "wake-arrival-earned",
+          "snapshot": {
+            "active_wall_seconds": 388.082999999983,
+            "cargo_receipts": 1,
+            "damage_taken": 48.0,
+            "defenses": 1,
+            "distance": 2632.1457203847,
+            "engine": 320.0,
+            "fuel": 36.7220000000543,
+            "health": 52.0,
+            "objective": "EXPLORE THE SITE\nGYRO / Isolate feed",
+            "player": {
+              "x": -2.49643111228943,
+              "y": 16.0485019683838,
+              "z": -7.36412286758423
+            },
+            "save_succeeded": true,
+            "scanner": {
+              "durationS": 180.0,
+              "elapsedS": 180.0,
+              "format": 1,
+              "pendingDelayS": 0.0,
+              "phase": "consumed"
+            },
+            "simulation_seconds": 387.966666666642,
+            "speed": 0,
+            "stage": "normal_clock_wake_travel",
+            "story": {
+              "arrival": 2632.1457203847,
+              "completed": [],
+              "ending": "none",
+              "index": 0,
+              "journals": [],
+              "objectives": [],
+              "phase": "docked",
+              "routeId": "",
+              "scripted": "not-due",
+              "uniques": []
+            },
+            "supplies": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 90
+            },
+            "threat": "none",
+            "throws": 1,
+            "walked_m": 68.4130238443613,
+            "wall_seconds": 436.126
+          }
+        },
+        {
+          "id": "wake-earned",
+          "snapshot": {
+            "active_wall_seconds": 438.105999999993,
+            "cargo_receipts": 1,
+            "damage_taken": 48.0,
+            "defenses": 1,
+            "distance": 2672.20703212202,
+            "engine": 320.0,
+            "fuel": 33.7200000000612,
+            "health": 52.0,
+            "objective": "TRACE THE SIGNAL\nInteract with the navigation helm to choose your next course.",
+            "player": {
+              "x": -2.49638915061951,
+              "y": 16.0468349456787,
+              "z": -7.36577463150024
+            },
+            "save_succeeded": true,
+            "scanner": {
+              "durationS": 180.0,
+              "elapsedS": 180.0,
+              "format": 1,
+              "pendingDelayS": 0.0,
+              "phase": "consumed"
+            },
+            "simulation_seconds": 437.99999999993,
+            "speed": 7.04243460136933,
+            "stage": "wake_local_work",
+            "story": {
+              "arrival": 2632.1457203847,
+              "completed": [
+                "wreck-one"
+              ],
+              "ending": "none",
+              "index": 1,
+              "journals": [
+                "wreck-one-journal-cargo",
+                "wreck-one-journal-crew",
+                "wreck-one-journal-route"
+              ],
+              "objectives": [],
+              "phase": "route-selection",
+              "routeId": "",
+              "scripted": "not-due",
+              "uniques": [
+                "course-gyro"
+              ]
+            },
+            "supplies": {
+              "fuel": 8,
+              "recovered-finish-parts": 1,
+              "scrap": 90
+            },
+            "threat": "none",
+            "throws": 1,
+            "walked_m": 165.121076509357,
+            "wall_seconds": 486.147
+          }
+        }
+      ],
+      "minimum_resources": {
+        "components": 0,
+        "engine": 320.0,
+        "fuel": 33.7200000000612,
+        "health": 52.0,
+        "scrap": 90
+      },
+      "mode": "scripted native normal-clock earned-supply soak",
+      "normal_campaign_saves_unchanged": true,
+      "passed": true,
+      "resource_movements": [
+        {
+          "actor_stage": "collect_spawned_salvage",
+          "after": {
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 318
+          },
+          "carrier": "none",
+          "delta": {
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 58
+          },
+          "hook": "",
+          "simulation_seconds": 19.9000000000002,
+          "wall_seconds": 36.806
+        },
+        {
+          "actor_stage": "build_floor",
+          "after": {
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 310
+          },
+          "carrier": "none",
+          "delta": {
+            "scrap": -8
+          },
+          "hook": "",
+          "simulation_seconds": 21.1833333333334,
+          "wall_seconds": 38.09
+        },
+        {
+          "actor_stage": "build_refinery",
+          "after": {
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 230
+          },
+          "carrier": "none",
+          "delta": {
+            "scrap": -80
+          },
+          "hook": "",
+          "simulation_seconds": 22.7166666666667,
+          "wall_seconds": 39.637
+        },
+        {
+          "actor_stage": "craft_refine-components",
+          "after": {
+            "components": 2,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 222
+          },
+          "carrier": "none",
+          "delta": {
+            "components": 2,
+            "scrap": -8
+          },
+          "hook": "",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 43.685
+        },
+        {
+          "actor_stage": "craft_refine-components",
+          "after": {
+            "components": 4,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 214
+          },
+          "carrier": "none",
+          "delta": {
+            "components": 2,
+            "scrap": -8
+          },
+          "hook": "",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 45.702
+        },
+        {
+          "actor_stage": "craft_refine-components",
+          "after": {
+            "components": 6,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 206
+          },
+          "carrier": "none",
+          "delta": {
+            "components": 2,
+            "scrap": -8
+          },
+          "hook": "",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 47.718
+        },
+        {
+          "actor_stage": "craft_refine-components",
+          "after": {
+            "components": 8,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 198
+          },
+          "carrier": "none",
+          "delta": {
+            "components": 2,
+            "scrap": -8
+          },
+          "hook": "",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 49.735
+        },
+        {
+          "actor_stage": "craft_refine-components",
+          "after": {
+            "components": 10,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 190
+          },
+          "carrier": "none",
+          "delta": {
+            "components": 2,
+            "scrap": -8
+          },
+          "hook": "",
+          "simulation_seconds": 24.7333333333332,
+          "wall_seconds": 51.752
+        },
+        {
+          "actor_stage": "build_floor",
+          "after": {
+            "components": 12,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 174
+          },
+          "carrier": "none",
+          "delta": {
+            "components": 2,
+            "scrap": -16
+          },
+          "hook": "",
+          "simulation_seconds": 24.7499999999999,
+          "wall_seconds": 53.77
+        },
+        {
+          "actor_stage": "build_workbench",
+          "after": {
+            "components": 8,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 144
+          },
+          "carrier": "none",
+          "delta": {
+            "components": -4,
+            "scrap": -30
+          },
+          "hook": "",
+          "simulation_seconds": 26.2999999999998,
+          "wall_seconds": 55.337
+        },
+        {
+          "actor_stage": "craft_craft-scanner-replacement-module",
+          "after": {
+            "components": 4,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scanner-replacement-module": 1,
+            "scrap": 140
+          },
+          "carrier": "none",
+          "delta": {
+            "components": -4,
+            "scanner-replacement-module": 1,
+            "scrap": -4
+          },
+          "hook": "",
+          "simulation_seconds": 28.633333333333,
+          "wall_seconds": 59.705
+        },
+        {
+          "actor_stage": "build_floor",
+          "after": {
+            "components": 4,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 140
+          },
+          "carrier": "none",
+          "delta": {
+            "scanner-replacement-module": -1
+          },
+          "hook": "",
+          "simulation_seconds": 32.5833333333328,
+          "wall_seconds": 63.699
+        },
+        {
+          "actor_stage": "build_floor",
+          "after": {
+            "components": 4,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 132
+          },
+          "carrier": "none",
+          "delta": {
+            "scrap": -8
+          },
+          "hook": "",
+          "simulation_seconds": 36.0999999999992,
+          "wall_seconds": 67.152
+        },
+        {
+          "actor_stage": "build_turret-manual",
+          "after": {
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 90
+          },
+          "carrier": "none",
+          "delta": {
+            "components": -4,
+            "scrap": -42
+          },
+          "hook": "",
+          "simulation_seconds": 37.6499999999991,
+          "wall_seconds": 68.719
+        }
+      ],
+      "run_id": "acceptance-wake-01",
+      "save_directory": "C:/Users/hwash/Documents/MachineMoveForward/test-results/campaign-earned-soak/acceptance-wake-01/saves/",
+      "schema": 1,
+      "seed": "mmf-default-seed",
+      "simulation_to_active_wall_ratio": 0.999758049421686,
+      "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+      "source_hash_end": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+      "source_stable": true,
+      "starting_resources": {
+        "scrap": 260
+      },
+      "stop_after": "wake",
+      "time_scale": 1.0,
+      "transactions": [
+        {
+          "details": {
+            "batches": 1,
+            "inputs_per_batch": {
+              "scrap": 8.0
+            },
+            "output": {
+              "count": 2.0,
+              "itemId": "components"
+            },
+            "recipe": "refine-components"
+          },
+          "event": "crafted",
+          "simulation_seconds": 24.7333333333332,
+          "supplies": {
+            "components": 2,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 222
+          },
+          "wall_seconds": 43.669
+        },
+        {
+          "details": {
+            "batches": 1,
+            "inputs_per_batch": {
+              "scrap": 8.0
+            },
+            "output": {
+              "count": 2.0,
+              "itemId": "components"
+            },
+            "recipe": "refine-components"
+          },
+          "event": "crafted",
+          "simulation_seconds": 24.7333333333332,
+          "supplies": {
+            "components": 4,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 214
+          },
+          "wall_seconds": 45.685
+        },
+        {
+          "details": {
+            "batches": 1,
+            "inputs_per_batch": {
+              "scrap": 8.0
+            },
+            "output": {
+              "count": 2.0,
+              "itemId": "components"
+            },
+            "recipe": "refine-components"
+          },
+          "event": "crafted",
+          "simulation_seconds": 24.7333333333332,
+          "supplies": {
+            "components": 6,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 206
+          },
+          "wall_seconds": 47.702
+        },
+        {
+          "details": {
+            "batches": 1,
+            "inputs_per_batch": {
+              "scrap": 8.0
+            },
+            "output": {
+              "count": 2.0,
+              "itemId": "components"
+            },
+            "recipe": "refine-components"
+          },
+          "event": "crafted",
+          "simulation_seconds": 24.7333333333332,
+          "supplies": {
+            "components": 8,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 198
+          },
+          "wall_seconds": 49.718
+        },
+        {
+          "details": {
+            "batches": 1,
+            "inputs_per_batch": {
+              "scrap": 8.0
+            },
+            "output": {
+              "count": 2.0,
+              "itemId": "components"
+            },
+            "recipe": "refine-components"
+          },
+          "event": "crafted",
+          "simulation_seconds": 24.7333333333332,
+          "supplies": {
+            "components": 10,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 190
+          },
+          "wall_seconds": 51.735
+        },
+        {
+          "details": {
+            "batches": 1,
+            "inputs_per_batch": {
+              "scrap": 8.0
+            },
+            "output": {
+              "count": 2.0,
+              "itemId": "components"
+            },
+            "recipe": "refine-components"
+          },
+          "event": "crafted",
+          "simulation_seconds": 24.7333333333332,
+          "supplies": {
+            "components": 12,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 182
+          },
+          "wall_seconds": 53.752
+        },
+        {
+          "details": {
+            "batches": 1,
+            "inputs_per_batch": {
+              "components": 4.0,
+              "scrap": 4.0
+            },
+            "output": {
+              "count": 1.0,
+              "itemId": "scanner-replacement-module"
+            },
+            "recipe": "craft-scanner-replacement-module"
+          },
+          "event": "crafted",
+          "simulation_seconds": 28.583333333333,
+          "supplies": {
+            "components": 4,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scanner-replacement-module": 1,
+            "scrap": 140
+          },
+          "wall_seconds": 59.634
+        },
+        {
+          "details": {
+            "count": 1,
+            "item": "scanner-replacement-module"
+          },
+          "event": "scanner_installed",
+          "simulation_seconds": 32.5666666666661,
+          "supplies": {
+            "components": 4,
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 140
+          },
+          "wall_seconds": 63.637
+        },
+        {
+          "details": {
+            "beat": "wake-dispatch"
+          },
+          "event": "story_evidence",
+          "simulation_seconds": 424.566666666609,
+          "supplies": {
+            "fuel": 8,
+            "recovered-finish-parts": 1,
+            "scrap": 90
+          },
+          "wall_seconds": 472.805
+        }
+      ],
+      "wall_seconds_by_phase": {
+        "approach": 73.8470410000028,
+        "braking": 40.7150380000014,
+        "crossfire": 16.9826540000003,
+        "departing": 5.96642799999997,
+        "docked": 44.0649050000015,
+        "locked": 58.7116613333355,
+        "raids": 53.0978760000019,
+        "route-selection": 4.74980899999998,
+        "signal": 182.992679999961
+      }
+    },
+    "scope": "One default-seed opening-through-Wake run, normal clock/damage, ordinary paid resources. First crate rolled58 scrap and8 fuel; not a lower-percentile economy sample or human playtest."
+  },
+  "performance": {
+    "hardware": {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan / 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0
+    },
+    "workloads": [
+      {
+        "scenario": "travel",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 8.615,
+          "median": 3.693,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.123,
+          "p99": 6.623,
+          "samples": 4683
+        },
+        "gpu_ms": {
+          "max": 4.56599998474121,
+          "median": 3.25399994850159,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.75300002098084,
+          "p99": 3.89199995994568,
+          "samples": 4683
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 898.0,
+        "passed": true
+      },
+      {
+        "scenario": "construction",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 35.326,
+          "median": 3.999,
+          "over33ms": 1,
+          "over50ms": 0,
+          "p95": 6.615,
+          "p99": 7.813,
+          "samples": 4150
+        },
+        "gpu_ms": {
+          "max": 5.66900014877319,
+          "median": 3.81399989128113,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.30399990081787,
+          "p99": 5.05399990081787,
+          "samples": 4150
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 1253.0,
+        "passed": true
+      },
+      {
+        "scenario": "furnished",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 8.82,
+          "median": 3.591,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.528,
+          "p99": 6.116,
+          "samples": 4630
+        },
+        "gpu_ms": {
+          "max": 4.8600001335144,
+          "median": 3.24499988555908,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.48699998855591,
+          "p99": 3.52500009536743,
+          "samples": 4630
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 1092.0,
+        "passed": true
+      },
+      {
+        "scenario": "combat",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 11.372,
+          "median": 4.01,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.642,
+          "p99": 8.651,
+          "samples": 3737
+        },
+        "gpu_ms": {
+          "max": 5.72399997711182,
+          "median": 3.50300002098084,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.58300018310547,
+          "p99": 5.0939998626709,
+          "samples": 3737
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 1034.0,
+        "passed": true
+      },
+      {
+        "scenario": "guardian",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 9.512,
+          "median": 3.948,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.479,
+          "p99": 7.152,
+          "samples": 4430
+        },
+        "gpu_ms": {
+          "max": 5.07000017166138,
+          "median": 3.09599995613098,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.11199998855591,
+          "p99": 4.50099992752075,
+          "samples": 4430
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 847.0,
+        "passed": true
+      },
+      {
+        "scenario": "crane",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 9.554,
+          "median": 3.273,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.312,
+          "p99": 7.812,
+          "samples": 4679
+        },
+        "gpu_ms": {
+          "max": 4.98000001907349,
+          "median": 2.87899994850159,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.01100015640259,
+          "p99": 4.41599988937378,
+          "samples": 4679
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 935.0,
+        "passed": true
+      },
+      {
+        "scenario": "drone",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 9.897,
+          "median": 3.491,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.173,
+          "p99": 7.148,
+          "samples": 4500
+        },
+        "gpu_ms": {
+          "max": 5.05499982833862,
+          "median": 3.08400011062622,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.14699983596802,
+          "p99": 4.59499979019165,
+          "samples": 4500
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 749.0,
+        "passed": true
+      },
+      {
+        "scenario": "wake",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 13.45,
+          "median": 5.074,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.953,
+          "p99": 8.63,
+          "samples": 3322
+        },
+        "gpu_ms": {
+          "max": 6.87099981307983,
+          "median": 4.34899997711182,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.83900022506714,
+          "p99": 6.2519998550415,
+          "samples": 3322
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 2056.0,
+        "passed": true
+      },
+      {
+        "scenario": "foundry",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 10.008,
+          "median": 4.939,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.77,
+          "p99": 8.591,
+          "samples": 3280
+        },
+        "gpu_ms": {
+          "max": 6.72800016403198,
+          "median": 4.45900011062622,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.87200021743774,
+          "p99": 6.25899982452393,
+          "samples": 3280
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 2083.0,
+        "passed": true
+      },
+      {
+        "scenario": "array",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 13.05,
+          "median": 4.812,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.979,
+          "p99": 8.746,
+          "samples": 3324
+        },
+        "gpu_ms": {
+          "max": 8.12100028991699,
+          "median": 4.3769998550415,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.67899990081787,
+          "p99": 6.18200016021729,
+          "samples": 3324
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 1993.0,
+        "passed": true
+      },
+      {
+        "scenario": "orchard",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 9.844,
+          "median": 4.877,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 8.152,
+          "p99": 8.713,
+          "samples": 3251
+        },
+        "gpu_ms": {
+          "max": 6.7350001335144,
+          "median": 4.51599979400635,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.88100004196167,
+          "p99": 6.35900020599365,
+          "samples": 3251
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 2145.0,
+        "passed": true
+      },
+      {
+        "scenario": "meridian",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 12.183,
+          "median": 4.656,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 8.083,
+          "p99": 8.596,
+          "samples": 3315
+        },
+        "gpu_ms": {
+          "max": 6.59999990463257,
+          "median": 4.33799982070923,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.84899997711182,
+          "p99": 6.21999979019165,
+          "samples": 3315
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 2126.0,
+        "passed": true
+      },
+      {
+        "scenario": "berth",
+        "label": "beta-next",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 10.608,
+          "median": 4.912,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.773,
+          "p99": 7.538,
+          "samples": 3553
+        },
+        "gpu_ms": {
+          "max": 7.52500009536743,
+          "median": 3.93400001525879,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.3439998626709,
+          "p99": 5.77600002288818,
+          "samples": 3553
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 2328.0,
+        "passed": true
+      },
+      {
+        "scenario": "guardian",
+        "label": "beta-escalated",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 10.406,
+          "median": 3.835,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.445,
+          "p99": 6.495,
+          "samples": 11233
+        },
+        "gpu_ms": {
+          "max": 4.57299995422363,
+          "median": 3.24399995803833,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.97099995613098,
+          "p99": 4.25099992752075,
+          "samples": 11233
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 1011.0,
+        "passed": true
+      },
+      {
+        "scenario": "furnished",
+        "label": "painted-home",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 13.122,
+          "median": 3.654,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.13,
+          "p99": 6.961,
+          "samples": 43611
+        },
+        "gpu_ms": {
+          "max": 4.87400007247925,
+          "median": 3.22000002861023,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.72900009155273,
+          "p99": 3.90799999237061,
+          "samples": 43611
+        },
+        "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb",
+        "draw_calls": 1211.0,
+        "passed": true
+      }
+    ],
+    "historical_comparison": [
+      {
+        "scenario": "travel",
+        "before_frame_ms": {
+          "max": 9.587,
+          "median": 3.73,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.365,
+          "p99": 6.992,
+          "samples": 4589
+        },
+        "after_frame_ms": {
+          "max": 8.615,
+          "median": 3.693,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.123,
+          "p99": 6.623,
+          "samples": 4683
+        },
+        "p95_delta_ms": -0.242
+      },
+      {
+        "scenario": "construction",
+        "before_frame_ms": {
+          "max": 38.045,
+          "median": 3.992,
+          "over33ms": 1,
+          "over50ms": 0,
+          "p95": 6.696,
+          "p99": 7.914,
+          "samples": 4140
+        },
+        "after_frame_ms": {
+          "max": 35.326,
+          "median": 3.999,
+          "over33ms": 1,
+          "over50ms": 0,
+          "p95": 6.615,
+          "p99": 7.813,
+          "samples": 4150
+        },
+        "p95_delta_ms": -0.081
+      },
+      {
+        "scenario": "furnished",
+        "before_frame_ms": {
+          "max": 8.992,
+          "median": 3.773,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.449,
+          "p99": 6.037,
+          "samples": 4531
+        },
+        "after_frame_ms": {
+          "max": 8.82,
+          "median": 3.591,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.528,
+          "p99": 6.116,
+          "samples": 4630
+        },
+        "p95_delta_ms": 0.079
+      },
+      {
+        "scenario": "combat",
+        "before_frame_ms": {
+          "max": 10.415,
+          "median": 3.821,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.159,
+          "p99": 7.815,
+          "samples": 3963
+        },
+        "after_frame_ms": {
+          "max": 11.372,
+          "median": 4.01,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.642,
+          "p99": 8.651,
+          "samples": 3737
+        },
+        "p95_delta_ms": 0.483
+      },
+      {
+        "scenario": "guardian",
+        "before_frame_ms": {
+          "max": 8.455,
+          "median": 3.508,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.718,
+          "p99": 7.2,
+          "samples": 4692
+        },
+        "after_frame_ms": {
+          "max": 9.512,
+          "median": 3.948,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.479,
+          "p99": 7.152,
+          "samples": 4430
+        },
+        "p95_delta_ms": -0.239
+      },
+      {
+        "scenario": "crane",
+        "before_frame_ms": {
+          "max": 8.298,
+          "median": 3.343,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.777,
+          "p99": 6.148,
+          "samples": 5096
+        },
+        "after_frame_ms": {
+          "max": 9.554,
+          "median": 3.273,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.312,
+          "p99": 7.812,
+          "samples": 4679
+        },
+        "p95_delta_ms": 1.535
+      },
+      {
+        "scenario": "drone",
+        "before_frame_ms": {
+          "max": 9.614,
+          "median": 3.504,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.512,
+          "p99": 6.58,
+          "samples": 4829
+        },
+        "after_frame_ms": {
+          "max": 9.897,
+          "median": 3.491,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.173,
+          "p99": 7.148,
+          "samples": 4500
+        },
+        "p95_delta_ms": 0.661
+      },
+      {
+        "scenario": "wake",
+        "before_frame_ms": {
+          "max": 8.729,
+          "median": 5.02,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.632,
+          "p99": 7.936,
+          "samples": 3586
+        },
+        "after_frame_ms": {
+          "max": 13.45,
+          "median": 5.074,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.953,
+          "p99": 8.63,
+          "samples": 3322
+        },
+        "p95_delta_ms": 1.321
+      },
+      {
+        "scenario": "foundry",
+        "before_frame_ms": {
+          "max": 9.306,
+          "median": 4.849,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.008,
+          "p99": 8.087,
+          "samples": 3540
+        },
+        "after_frame_ms": {
+          "max": 10.008,
+          "median": 4.939,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.77,
+          "p99": 8.591,
+          "samples": 3280
+        },
+        "p95_delta_ms": 0.762
+      },
+      {
+        "scenario": "array",
+        "before_frame_ms": {
+          "max": 8.664,
+          "median": 5.098,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.493,
+          "p99": 7.152,
+          "samples": 3577
+        },
+        "after_frame_ms": {
+          "max": 13.05,
+          "median": 4.812,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.979,
+          "p99": 8.746,
+          "samples": 3324
+        },
+        "p95_delta_ms": 1.486
+      },
+      {
+        "scenario": "orchard",
+        "before_frame_ms": {
+          "max": 8.657,
+          "median": 4.73,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.881,
+          "p99": 7.462,
+          "samples": 3509
+        },
+        "after_frame_ms": {
+          "max": 9.844,
+          "median": 4.877,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 8.152,
+          "p99": 8.713,
+          "samples": 3251
+        },
+        "p95_delta_ms": 1.271
+      },
+      {
+        "scenario": "meridian",
+        "before_frame_ms": {
+          "max": 11.489,
+          "median": 4.706,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.559,
+          "p99": 7.309,
+          "samples": 3589
+        },
+        "after_frame_ms": {
+          "max": 12.183,
+          "median": 4.656,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 8.083,
+          "p99": 8.596,
+          "samples": 3315
+        },
+        "p95_delta_ms": 1.524
+      },
+      {
+        "scenario": "berth",
+        "before_frame_ms": {
+          "max": 8.886,
+          "median": 4.229,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.492,
+          "p99": 7.158,
+          "samples": 3795
+        },
+        "after_frame_ms": {
+          "max": 10.608,
+          "median": 4.912,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.773,
+          "p99": 7.538,
+          "samples": 3553
+        },
+        "p95_delta_ms": 0.281
+      }
+    ],
+    "painted_home": {
+      "metrics": {
+        "draw_calls": {
+          "max": 2509.0,
+          "median": 1211.0,
+          "p95": 2383.0,
+          "p99": 2460.0,
+          "samples": 43611
+        },
+        "frame_ms": {
+          "max": 13.122,
+          "median": 3.654,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.13,
+          "p99": 6.961,
+          "samples": 43611
+        },
+        "gpu_ms": {
+          "max": 4.87400007247925,
+          "median": 3.22000002861023,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.72900009155273,
+          "p99": 3.90799999237061,
+          "samples": 43611
+        },
+        "primitives": {
+          "max": 5493607.0,
+          "median": 3113533.0,
+          "p95": 5262864.0,
+          "p99": 5365969.0,
+          "samples": 43611
+        },
+        "render_cpu_ms": {
+          "max": 3.90000009536743,
+          "median": 1.16999995708466,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 1.83599996566772,
+          "p99": 2.09200000762939,
+          "samples": 43611
+        },
+        "static_memory_bytes": {
+          "max": 314422722.0,
+          "median": 295042110.0,
+          "p95": 310452608.0,
+          "p99": 313699102.0,
+          "samples": 43611
+        },
+        "video_memory_bytes": {
+          "max": 2226179456.0,
+          "median": 2226178608.0,
+          "p95": 2226179120.0,
+          "p99": 2226179120.0,
+          "samples": 43611
+        }
+      },
+      "workload": {
+        "dock_cells": [
+          {
+            "x": -9,
+            "y": 0,
+            "z": -5
+          },
+          {
+            "x": 9,
+            "y": 0,
+            "z": -2
+          },
+          {
+            "x": -9,
+            "y": 0,
+            "z": 1
+          }
+        ],
+        "docks": 3,
+        "kind": "painted_home_three_drones",
+        "painted_pieces": 51,
+        "phase_samples": {
+          "idle": 45,
+          "lower": 5,
+          "out": 1,
+          "raise": 3
+        },
+        "received_items": 361,
+        "samples": [
+          {
+            "chunks": 27,
+            "collision_cache": 2,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 84.7129999999989,
+            "received_items": 0,
+            "seconds": 0.0,
+            "static_bytes": 255697850.0,
+            "video_bytes": 2226182192.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 5,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 83.1510000000026,
+            "received_items": 0,
+            "seconds": 10.001166,
+            "static_bytes": 253738442.0,
+            "video_bytes": 2226178928.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 7,
+            "drone_phases": [
+              "idle",
+              "raise",
+              "idle"
+            ],
+            "fuel": 81.9510000000054,
+            "received_items": 0,
+            "seconds": 20.002189,
+            "static_bytes": 258246278.0,
+            "video_bytes": 2226179120.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 8,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 80.7510000000081,
+            "received_items": 35,
+            "seconds": 30.005049,
+            "static_bytes": 259419356.0,
+            "video_bytes": 2226179056.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 11,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 79.5510000000109,
+            "received_items": 77,
+            "seconds": 40.007052,
+            "static_bytes": 269664938.0,
+            "video_bytes": 2226179120.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 14,
+            "drone_phases": [
+              "lower",
+              "idle",
+              "idle"
+            ],
+            "fuel": 78.3510000000137,
+            "received_items": 77,
+            "seconds": 50.007927,
+            "static_bytes": 279209490.0,
+            "video_bytes": 2226178992.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 16,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 77.1510000000165,
+            "received_items": 107,
+            "seconds": 60.009183,
+            "static_bytes": 281602514.0,
+            "video_bytes": 2226178992.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 19,
+            "drone_phases": [
+              "idle",
+              "lower",
+              "idle"
+            ],
+            "fuel": 75.9510000000193,
+            "received_items": 107,
+            "seconds": 70.011174,
+            "static_bytes": 285764512.0,
+            "video_bytes": 2226178736.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 22,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 74.7510000000221,
+            "received_items": 140,
+            "seconds": 80.01223,
+            "static_bytes": 291223032.0,
+            "video_bytes": 2226178608.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 26,
+            "drone_phases": [
+              "idle",
+              "raise",
+              "idle"
+            ],
+            "fuel": 73.5490000000249,
+            "received_items": 140,
+            "seconds": 90.017448,
+            "static_bytes": 295040274.0,
+            "video_bytes": 2226178544.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 29,
+            "drone_phases": [
+              "out",
+              "idle",
+              "idle"
+            ],
+            "fuel": 72.3490000000277,
+            "received_items": 174,
+            "seconds": 100.020564,
+            "static_bytes": 302111198.0,
+            "video_bytes": 2226178608.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 31,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 71.1490000000305,
+            "received_items": 223,
+            "seconds": 110.021092,
+            "static_bytes": 305057972.0,
+            "video_bytes": 2226178352.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "lower",
+              "idle",
+              "idle"
+            ],
+            "fuel": 69.9490000000333,
+            "received_items": 223,
+            "seconds": 120.021712,
+            "static_bytes": 310303896.0,
+            "video_bytes": 2226178352.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 68.7490000000361,
+            "received_items": 264,
+            "seconds": 130.023891,
+            "static_bytes": 310413424.0,
+            "video_bytes": 2226178288.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "lower",
+              "idle"
+            ],
+            "fuel": 67.5490000000389,
+            "received_items": 264,
+            "seconds": 140.026476,
+            "static_bytes": 309213484.0,
+            "video_bytes": 2226178224.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 66.3490000000417,
+            "received_items": 314,
+            "seconds": 150.028112,
+            "static_bytes": 310144438.0,
+            "video_bytes": 2226178288.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "raise",
+              "idle"
+            ],
+            "fuel": 65.1470000000445,
+            "received_items": 314,
+            "seconds": 160.033202,
+            "static_bytes": 309477658.0,
+            "video_bytes": 2226178288.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "lower",
+              "idle",
+              "idle"
+            ],
+            "fuel": 63.9470000000471,
+            "received_items": 361,
+            "seconds": 170.036249,
+            "static_bytes": 313698186.0,
+            "video_bytes": 2226178288.0
+          }
+        ],
+        "scope": "Fixture-funded, invulnerable rendering stress, not progression or difficulty evidence."
+      },
+      "furnishings": 50,
+      "distance_travelled": 930.076516348875
+    },
+    "escalated_guardian": {
+      "metrics": {
+        "draw_calls": {
+          "max": 1865.0,
+          "median": 1011.0,
+          "p95": 1789.0,
+          "p99": 1845.0,
+          "samples": 11233
+        },
+        "frame_ms": {
+          "max": 10.406,
+          "median": 3.835,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.445,
+          "p99": 6.495,
+          "samples": 11233
+        },
+        "gpu_ms": {
+          "max": 4.57299995422363,
+          "median": 3.24399995803833,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.97099995613098,
+          "p99": 4.25099992752075,
+          "samples": 11233
+        },
+        "primitives": {
+          "max": 4974852.0,
+          "median": 3017647.0,
+          "p95": 4889050.0,
+          "p99": 4949573.0,
+          "samples": 11233
+        },
+        "render_cpu_ms": {
+          "max": 2.9909999370575,
+          "median": 0.994000017642975,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 1.45299994945526,
+          "p99": 1.66799998283386,
+          "samples": 11233
+        },
+        "static_memory_bytes": {
+          "max": 280993983.0,
+          "median": 275261133.0,
+          "p95": 280078227.0,
+          "p99": 280933459.0,
+          "samples": 11233
+        },
+        "video_memory_bytes": {
+          "max": 2188001280.0,
+          "median": 2187898048.0,
+          "p95": 2187988320.0,
+          "p99": 2188001280.0,
+          "samples": 11233
+        }
+      },
+      "events": [
+        {
+          "cross_observed": true,
+          "fixture": "half-hull Guardian after two cycles",
+          "samples": {
+            "cross/cooling": 8,
+            "cross/lock": 27,
+            "cross/salvo": 3,
+            "line/cooling": 2,
+            "line/lock": 3,
+            "line/salvo": 2
+          },
+          "scope": "Prepared, invulnerable rendering workload; not earned combat or difficulty evidence."
+        }
+      ]
+    },
+    "scope": "Sequential native fresh processes: thirteen comparable18s workloads,45s late Guardian and180s painted home with three drones.3s warmup, invulnerable prepared fixtures. OS/driver caches uncontrolled; not low-spec certification."
+  },
+  "save_profile": {
+    "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+    "scenarios": {
+      "2": {
+        "asyncHarvestMainMs": {
+          "max": 0.032,
+          "median": 0.025
+        },
+        "asyncRequestMainMs": {
+          "max": 0.144,
+          "median": 0.12
+        },
+        "asyncWallToDurableMs": {
+          "max": 13.825,
+          "median": 13.812
+        },
+        "bytes": 7008,
+        "painted": 1,
+        "pieces": 2,
+        "syncMainMs": {
+          "max": 7.657,
+          "median": 3.587
+        },
+        "validCampaign": true
+      },
+      "300": {
+        "asyncHarvestMainMs": {
+          "max": 0.335,
+          "median": 0.231
+        },
+        "asyncRequestMainMs": {
+          "max": 1.193,
+          "median": 1.091
+        },
+        "asyncWallToDurableMs": {
+          "max": 27.635,
+          "median": 27.623
+        },
+        "bytes": 103071,
+        "painted": 51,
+        "pieces": 300,
+        "syncMainMs": {
+          "max": 16.873,
+          "median": 15.662
+        },
+        "validCampaign": true
+      },
+      "900": {
+        "asyncHarvestMainMs": {
+          "max": 1.139,
+          "median": 1.007
+        },
+        "asyncRequestMainMs": {
+          "max": 3.814,
+          "median": 3.582
+        },
+        "asyncWallToDurableMs": {
+          "max": 48.335,
+          "median": 48.315
+        },
+        "bytes": 297311,
+        "painted": 51,
+        "pieces": 900,
+        "syncMainMs": {
+          "max": 37.866,
+          "median": 35.021
+        },
+        "validCampaign": true
+      }
+    },
+    "scope": "Synthetic personalized native campaign serialization/I/O timings, not rendering FPS. Eight verified writes per case; no personal saves.",
+    "source_hash": "e0bf970a3209a3268cfbf459e3ed33695e2b93422a6c7c32c99fbfce06069ccb"
+  },
+  "remaining_gates": [
+    "Uncoached story comprehension and difficulty/chill-balance testing",
+    "Uninterrupted later-campaign earned economy and pacing",
+    "Broader player-built drone route layouts and lower-spec hardware"
+  ],
+  "evidence_notes": [
+    "Initial failing regression logs are retained under regressions-initial; corrected suites replaced only their own final entries.",
+    "The first dense home fixture held cargo at obstructed landing pads. Its failed result is retained under performance/blocked-home. The corrected rendering fixture keeps all50 furnishings and adds three legal pads with clear cargo space; only that workload was rerun.",
+    "One earlier historical objective-guidance report was recovered from its last retained cached report, not exact pre-iteration bytes; see historical-report-recovery.json.",
+    "The transient failed paint-review diagnostic is reconstructed and labeled as such in the native review records; its raw log had already been overwritten."
+  ]
+}

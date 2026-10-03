@@ -29,7 +29,7 @@ function stubMaterials(): Materials {
 
 function stubPhysics(): PhysicsWorld {
   return {
-    addFixedBox: () => ({}),
+    addBoxTo: () => ({}),
     addFixedBoxRotated: () => ({}),
     removeCollider: () => undefined,
   } as unknown as PhysicsWorld;
@@ -44,6 +44,8 @@ function buildForRestore(inventory = new Container(16)): BuildSystem {
     bus,
   );
   const machine = {
+    group: new THREE.Group(),
+    constructionBody: {},
     equipmentCells: [],
     deckCells: [{ x: 0, y: 0, z: 0 }],
     fixedLinks: [],

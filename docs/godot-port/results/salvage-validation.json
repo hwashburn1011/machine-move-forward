@@ -1,0 +1,32 @@
+{
+  "baseRevision": "26d46e4",
+  "totalPassed": 430.0,
+  "suites": [
+    {
+      "suite": "salvage-tests",
+      "passed": 75,
+      "issues": 0
+    },
+    {
+      "suite": "salvage-integration",
+      "passed": 108,
+      "issues": 0
+    },
+    {
+      "suite": "salvage-audit",
+      "passed": 132,
+      "issues": 0
+    },
+    {
+      "suite": "salvage-story",
+      "passed": 58,
+      "issues": 0
+    },
+    {
+      "suite": "salvage-play-parity",
+      "passed": 57,
+      "issues": 0
+    }
+  ],
+  "scope": "Focused terrain/targeting/storage checks plus existing native integration, audit, story and physical-input parity; not a full human campaign playthrough."
+}

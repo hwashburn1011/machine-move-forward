@@ -32,7 +32,7 @@ function fixture() {
   let failNextCollider = false;
   const removed: object[] = [];
   const physics = {
-    addFixedBox: () => {
+    addBoxTo: () => {
       if (failNextCollider) {
         failNextCollider = false;
         throw new Error('injected collider failure');
@@ -52,6 +52,8 @@ function fixture() {
     bus,
   );
   const machine = {
+    group: new THREE.Group(),
+    constructionBody: {},
     equipmentCells: [],
     deckCells: [],
     fixedLinks: [],

@@ -1,0 +1,79 @@
+{
+  "trim": [
+    {
+      "original": "Tailored_hanging_banner001_2",
+      "replacement": "CanopyRetainedBanner",
+      "removedVertices": 1094,
+      "keptVertices": 1032,
+      "keptTriangles": 1304,
+      "unchangedCoordinatesSha256": "dad261c279fa638b763d3d9622dc2c93208e9ea3825231c36b80ebeb549b0849"
+    },
+    {
+      "original": "Bridge_maintenance_ladder_upright001",
+      "replacement": "CanopyRetainedServiceMetal",
+      "removedVertices": 342,
+      "keptVertices": 8896,
+      "keptTriangles": 11310,
+      "unchangedCoordinatesSha256": "08386d6d376e768f1e6ab0bafbac7523f64a89a8b83e1e145bd31b80b1e60c38"
+    },
+    {
+      "original": "Bridge_maintenance_ladder_upright001_3",
+      "replacement": "",
+      "removedVertices": 620,
+      "keptVertices": 0,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "posts": [
+    [
+      5.5,
+      19.446666717529297,
+      -1.0399999618530273
+    ],
+    [
+      -3.0250000953674316,
+      20.030000686645508,
+      -0.7799999713897705
+    ],
+    [
+      6.1875,
+      18.696666717529297,
+      5.980000019073486
+    ],
+    [
+      -2.4749999046325684,
+      19.11333465576172,
+      6.5
+    ]
+  ],
+  "corners": [
+    [
+      5.324887752532959,
+      19.446666717529297,
+      -0.8758789300918579
+    ],
+    [
+      -2.833324432373047,
+      20.030000686645508,
+      -0.6355684995651245
+    ],
+    [
+      5.992209434509277,
+      18.696666717529297,
+      5.840495586395264
+    ],
+    [
+      -2.301306962966919,
+      19.11333465576172,
+      6.334377765655518
+    ]
+  ],
+  "minimumCanvasY": 18.478477478027344,
+  "deckY": 16.03,
+  "editableParts": 68,
+  "batches": 3,
+  "triangles": 31532,
+  "bytes": 2664500,
+  "provenance": "Original Blender geometry and procedural canvas maps. Practical construction references: Sailrite canvas repair and boom-tent tutorials; no downloaded assets or branding."
+}

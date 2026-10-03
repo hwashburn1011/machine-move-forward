@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-01",
+  "scope": "Native guardian behavioral integration and related regressions; source-stamped per suite during parallel beta development. Not a natural campaign or balance certification.",
+  "human_playthrough": false,
+  "suites": [
+    {
+      "suite": "narrative_delivery",
+      "exit_code": 0,
+      "checks": 167,
+      "failures": [],
+      "source_hash": "1a51da8bbe21c7bc2083203034a1170f401590bba5863955672df48f336e2989",
+      "source_hash_end": "1a51da8bbe21c7bc2083203034a1170f401590bba5863955672df48f336e2989"
+    },
+    {
+      "suite": "pacing_contracts",
+      "exit_code": 0,
+      "checks": 25,
+      "failures": [],
+      "source_hash": "1a51da8bbe21c7bc2083203034a1170f401590bba5863955672df48f336e2989",
+      "source_hash_end": "1a51da8bbe21c7bc2083203034a1170f401590bba5863955672df48f336e2989"
+    },
+    {
+      "suite": "enemy_combat_contract",
+      "exit_code": 0,
+      "checks": 42,
+      "failures": [],
+      "source_hash": "50edd5bb2df18465bd2d9ada6e38ab4939a14d767d9f75193770d1be5ab7f4d7",
+      "source_hash_end": "50edd5bb2df18465bd2d9ada6e38ab4939a14d767d9f75193770d1be5ab7f4d7",
+      "count_source": "ENEMY_COMBAT_CONTRACT 42 checks; failures: [] in runner-captured output"
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "checks": 434,
+      "failures": [],
+      "source_hash": "50edd5bb2df18465bd2d9ada6e38ab4939a14d767d9f75193770d1be5ab7f4d7",
+      "source_hash_end": "50edd5bb2df18465bd2d9ada6e38ab4939a14d767d9f75193770d1be5ab7f4d7"
+    },
+    {
+      "suite": "cordon_guardian",
+      "exit_code": 0,
+      "checks": 42,
+      "failures": [],
+      "source_hash": "bfdf7af46eb28dfbfc959268f3c8c54dc9cc6771d5b114e5199e3ad6877129df",
+      "source_hash_end": "bfdf7af46eb28dfbfc959268f3c8c54dc9cc6771d5b114e5199e3ad6877129df"
+    },
+    {
+      "suite": "scout_escape",
+      "exit_code": 0,
+      "checks": 47,
+      "failures": [],
+      "source_hash": "bfdf7af46eb28dfbfc959268f3c8c54dc9cc6771d5b114e5199e3ad6877129df",
+      "source_hash_end": "bfdf7af46eb28dfbfc959268f3c8c54dc9cc6771d5b114e5199e3ad6877129df"
+    }
+  ],
+  "checks": 757,
+  "native": {
+    "captures": [
+      "res://../test-results/gatekeeper-salvo.png",
+      "res://../test-results/gatekeeper-cooling.png"
+    ],
+    "checks": 42,
+    "failures": [],
+    "human_playthrough": false,
+    "scope": "Controlled native gameplay/physical target/save regression; natural difficulty and comprehension remain unverified."
+  }
+}

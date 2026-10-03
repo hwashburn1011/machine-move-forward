@@ -1,0 +1,105 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"quality": "high / Forward+ / Vulkan / 4x MSAA",
+	"resolution": "(1920, 1080)",
+	"scenarios": {
+		"legacy-1": {
+			"frameMs": {
+				"max": 23.009,
+				"median": 2.471,
+				"p95": 3.336
+			},
+			"gpuMs": {
+				"max": 3.28900003433228,
+				"median": 2.00999999046326,
+				"p95": 2.27300000190735
+			},
+			"movingFraction": 1.0,
+			"physicsMs": {
+				"max": 0.638,
+				"median": 0.597,
+				"p95": 0.638
+			},
+			"processMs": {
+				"max": 22.652,
+				"median": 4.447,
+				"p95": 22.652
+			},
+			"samples": 2286
+		},
+		"legacy-2": {
+			"frameMs": {
+				"max": 3.536,
+				"median": 2.434,
+				"p95": 2.897
+			},
+			"gpuMs": {
+				"max": 2.44300007820129,
+				"median": 2.01900005340576,
+				"p95": 2.24900007247925
+			},
+			"movingFraction": 1.0,
+			"physicsMs": {
+				"max": 0.662,
+				"median": 0.413,
+				"p95": 0.662
+			},
+			"processMs": {
+				"max": 5.299,
+				"median": 3.208,
+				"p95": 5.299
+			},
+			"samples": 2412
+		},
+		"refined-1": {
+			"frameMs": {
+				"max": 5.809,
+				"median": 2.447,
+				"p95": 3.575
+			},
+			"gpuMs": {
+				"max": 3.05100011825562,
+				"median": 2.01500010490417,
+				"p95": 2.39499998092651
+			},
+			"movingFraction": 1.0,
+			"physicsMs": {
+				"max": 0.579,
+				"median": 0.413,
+				"p95": 0.579
+			},
+			"processMs": {
+				"max": 5.291,
+				"median": 3.602,
+				"p95": 5.291
+			},
+			"samples": 2273
+		},
+		"refined-2": {
+			"frameMs": {
+				"max": 3.249,
+				"median": 2.44,
+				"p95": 2.902
+			},
+			"gpuMs": {
+				"max": 2.30999994277954,
+				"median": 2.02999997138977,
+				"p95": 2.25399994850159
+			},
+			"movingFraction": 1.0,
+			"physicsMs": {
+				"max": 0.388,
+				"median": 0.326,
+				"p95": 0.388
+			},
+			"processMs": {
+				"max": 3.681,
+				"median": 2.913,
+				"p95": 3.681
+			},
+			"samples": 2412
+		}
+	},
+	"scope": "Actual capsule sprint on an unobstructed test platform in the native world/lighting, same camera/assets. Two six-second samples per controller, 2s warmup each. Resetting position every 1.3s retains a fixed view. At least 90% of sampled frames must have actual speed above 7.4 m/s. Physics/process monitors include other active work, not just animation; GPU timings are rendered.",
+	"vsync": false
+}

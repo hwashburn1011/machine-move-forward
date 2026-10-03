@@ -1,0 +1,120 @@
+{
+  "scope": "24-second actual native travel with continuous camera rotation, active cloth updates and final camera-only collision. 1920x1080 high/Forward+/Vulkan/4xMSAA, uncapped, no VSync. Instrumented test-owned main loop; no image readbacks. Not a matched baseline comparison or full campaign.",
+  "adapter": "NVIDIA GeForce RTX 3070",
+  "allFrames": {
+    "max": 267.265,
+    "median": 3.88,
+    "p95": 4.837,
+    "p99": 5.881
+  },
+  "afterThreeGameSeconds": {
+    "samples": 5436,
+    "median": 3.877,
+    "p95": 4.825,
+    "p99": 5.834,
+    "max": 9.885
+  },
+  "slowFrames": [
+    {
+      "distance": 0.209234234356403,
+      "focused": true,
+      "frame": 1,
+      "gpuMs": 0.0,
+      "ms": 267.265,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 41,
+        "SPECIALIZATION": 45,
+        "SURFACE": 71
+      },
+      "renderCpuMs": 0.0,
+      "setupCpuMs": 0.819,
+      "time": 0.133333333333333
+    },
+    {
+      "distance": 0.621753630925536,
+      "focused": true,
+      "frame": 14,
+      "gpuMs": 4.33199977874756,
+      "ms": 24.176,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 41,
+        "SPECIALIZATION": 45,
+        "SURFACE": 71
+      },
+      "renderCpuMs": 0.787000000476837,
+      "setupCpuMs": 0.537,
+      "time": 0.25
+    },
+    {
+      "distance": 0.768172355923525,
+      "focused": true,
+      "frame": 16,
+      "gpuMs": 4.21199989318848,
+      "ms": 27.199,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 41,
+        "SPECIALIZATION": 45,
+        "SURFACE": 71
+      },
+      "renderCpuMs": 1.26600003242493,
+      "setupCpuMs": 0.301,
+      "time": 0.283333333333333
+    },
+    {
+      "distance": 0.924916027647271,
+      "focused": true,
+      "frame": 18,
+      "gpuMs": 4.21400022506714,
+      "ms": 28.96,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 41,
+        "SPECIALIZATION": 45,
+        "SURFACE": 71
+      },
+      "renderCpuMs": 0.842999994754791,
+      "setupCpuMs": 0.242,
+      "time": 0.316666666666667
+    }
+  ],
+  "slowMainTicks": [
+    {
+      "distance": 64.7380207082508,
+      "frame": 2314,
+      "ms": 4.782,
+      "stages": {
+        "autosave_clock+=dt": 0.001,
+        "building.update(dt)": 0.015,
+        "campaign.update(dt)": 0.005,
+        "cinematics.update(dt)": 0.016,
+        "combat.update(dt)": 0.019,
+        "effects.update(dt)": 0.062,
+        "home.update(dt)": 0.03,
+        "journey.update(dt)": 0.05,
+        "opportunities.update(dt)": 0.005,
+        "salvage.update(dt)": 0.02,
+        "session.tick(dt,not combat.active_threat() and (not menu_open or ui.page==\"Signal\"),aboard())": 0.065,
+        "story_art.update(dt)": 0.023,
+        "terminal_pages.update(dt)": 0.005,
+        "update_interaction(dt)": 0.026,
+        "world.update(dt)": 4.437
+      },
+      "time": 9.08333333333336
+    }
+  ],
+  "playerSlowSamples": [],
+  "worldSlowSamples": [
+    {
+      "frame": 2314,
+      "ms": 4.422,
+      "time": 9.08333333333336
+    }
+  ]
+}

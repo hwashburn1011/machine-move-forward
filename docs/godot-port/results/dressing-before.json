@@ -1,0 +1,62 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"legacy": true,
+	"resolution": "(1920, 1080)",
+	"scope": "Three fixed native deck-detail views, high Forward+/Vulkan, 4x MSAA, VSync off. 2.5s warmup, 5s samples. Gameplay frozen; not gameplay FPS.",
+	"views": {
+		"1": {
+			"drawCalls": {
+				"max": 310.0,
+				"median": 310.0,
+				"p95": 310.0
+			},
+			"frameMs": {
+				"max": 30.708,
+				"median": 2.982,
+				"p95": 3.605
+			},
+			"gpuMs": {
+				"max": 3.3529999256134,
+				"median": 2.41599988937378,
+				"p95": 2.87599992752075
+			},
+			"samples": 1597
+		},
+		"2": {
+			"drawCalls": {
+				"max": 828.0,
+				"median": 828.0,
+				"p95": 828.0
+			},
+			"frameMs": {
+				"max": 29.97,
+				"median": 3.771,
+				"p95": 4.561
+			},
+			"gpuMs": {
+				"max": 4.48099994659424,
+				"median": 3.24799990653992,
+				"p95": 3.92799997329712
+			},
+			"samples": 1259
+		},
+		"3": {
+			"drawCalls": {
+				"max": 238.0,
+				"median": 238.0,
+				"p95": 238.0
+			},
+			"frameMs": {
+				"max": 30.13,
+				"median": 3.276,
+				"p95": 3.763
+			},
+			"gpuMs": {
+				"max": 3.73900008201599,
+				"median": 2.76999998092651,
+				"p95": 3.01600003242493
+			},
+			"samples": 1474
+		}
+	}
+}

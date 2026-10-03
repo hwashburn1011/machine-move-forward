@@ -1,0 +1,16 @@
+{
+  "assemblies": [
+    {
+      "name": "NativeRifle",
+      "triangles": 16620,
+      "meshes": 10,
+      "bytes": 3250816
+    },
+    {
+      "name": "NativeShotgun",
+      "triangles": 13560,
+      "meshes": 9,
+      "bytes": 3075080
+    }
+  ]
+}

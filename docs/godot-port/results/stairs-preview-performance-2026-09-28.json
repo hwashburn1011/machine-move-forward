@@ -1,0 +1,2092 @@
+{
+  "date": "2026-09-28",
+  "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+  "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+  "scope": "Five alternating same-source causal-control/production pairs for first-use stairs model preparation. BEFORE disables only the stairs queue entry before its first tick. All other final code, cold-load ownership fix, recording, callback probes, seed, route, 20s duration, 60Hz cap and input schedule are identical. This is not an old-build versus new-build FPS comparison.",
+  "acceptance": {
+    "passed": true,
+    "predeclared": "Every production sample must select cached stairs in less than5ms and have zero post-five-second frames above25ms; controls must reproduce the uncached spike.",
+    "controls_reproduced": 5,
+    "production_passed": 5
+  },
+  "runner": "tools/godot/run-feel-acceptance.ps1 -StairsPairs",
+  "host_manifest": "test-results/godot-native/feel-stairs-host.json",
+  "host": {
+    "samples": [
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:29:45.1732054Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-before-1",
+          "--output=res://../test-results/godot-native/feel-final-stairs-before-1.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented",
+          "--skip-stairs-preparation"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": true,
+        "started": "2026-09-28T08:29:17.9852539Z",
+        "id": "stairs-before-1",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:30:11.5404710Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-after-1",
+          "--output=res://../test-results/godot-native/feel-final-stairs-after-1.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": false,
+        "started": "2026-09-28T08:29:45.1789603Z",
+        "id": "stairs-after-1",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:30:38.0306356Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-before-2",
+          "--output=res://../test-results/godot-native/feel-final-stairs-before-2.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented",
+          "--skip-stairs-preparation"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": true,
+        "started": "2026-09-28T08:30:11.5426834Z",
+        "id": "stairs-before-2",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:31:04.4783139Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-after-2",
+          "--output=res://../test-results/godot-native/feel-final-stairs-after-2.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": false,
+        "started": "2026-09-28T08:30:38.0314068Z",
+        "id": "stairs-after-2",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:31:30.9445896Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-before-3",
+          "--output=res://../test-results/godot-native/feel-final-stairs-before-3.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented",
+          "--skip-stairs-preparation"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": true,
+        "started": "2026-09-28T08:31:04.4791277Z",
+        "id": "stairs-before-3",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:31:57.5493937Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-after-3",
+          "--output=res://../test-results/godot-native/feel-final-stairs-after-3.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": false,
+        "started": "2026-09-28T08:31:30.9452895Z",
+        "id": "stairs-after-3",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:32:23.8566934Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-before-4",
+          "--output=res://../test-results/godot-native/feel-final-stairs-before-4.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented",
+          "--skip-stairs-preparation"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": true,
+        "started": "2026-09-28T08:31:57.5500164Z",
+        "id": "stairs-before-4",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:32:49.7334358Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-after-4",
+          "--output=res://../test-results/godot-native/feel-final-stairs-after-4.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": false,
+        "started": "2026-09-28T08:32:23.8571593Z",
+        "id": "stairs-after-4",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:33:16.2796168Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-before-5",
+          "--output=res://../test-results/godot-native/feel-final-stairs-before-5.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented",
+          "--skip-stairs-preparation"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": true,
+        "started": "2026-09-28T08:32:49.7340280Z",
+        "id": "stairs-before-5",
+        "route": "scanner"
+      },
+      {
+        "exercise": "construction",
+        "instrumented": true,
+        "recording": true,
+        "finished": "2026-09-28T08:33:42.5100361Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-stairs-after-5",
+          "--output=res://../test-results/godot-native/feel-final-stairs-after-5.json",
+          "--playtest-record",
+          "--exercise=construction",
+          "--instrumented"
+        ],
+        "cap": 60,
+        "exit_code": 0,
+        "seconds": 20,
+        "skip_stairs_preparation": false,
+        "started": "2026-09-28T08:33:16.2800892Z",
+        "id": "stairs-after-5",
+        "route": "scanner"
+      }
+    ],
+    "finished": "2026-09-28T08:33:42.5104148Z",
+    "host_before": [
+      {
+        "id": 16032,
+        "name": "blender",
+        "cpu_seconds": 72.703125
+      }
+    ],
+    "engine": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+    "started": "2026-09-28T08:29:17.9517683Z",
+    "cache_state": "Fresh processes; OS and driver caches uncontrolled. Background GPU utilization not measured.",
+    "host_after": [
+      {
+        "id": 16032,
+        "name": "blender",
+        "cpu_seconds": 72.765625
+      }
+    ]
+  },
+  "samples": [
+    {
+      "run_id": "final-stairs-before-1-scanner-1955813",
+      "label": "final-stairs-before-1",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": true,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 218.241,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1185,
+        "max": 208.087,
+        "median": 16.654,
+        "over100": 1,
+        "over25": 4,
+        "over50": 2,
+        "p95": 17.243,
+        "p99": 18.134
+      },
+      "steady_after5s_ms": {
+        "count": 898,
+        "max": 91.768,
+        "median": 16.655,
+        "over100": 0,
+        "over25": 1,
+        "over50": 1,
+        "p95": 17.163,
+        "p99": 17.555
+      },
+      "gpu_ms": {
+        "count": 1185,
+        "max": 6.90100002288818,
+        "median": 4.00299978256226,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.43499994277954,
+        "p99": 6.01999998092651
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-before-1.json",
+      "log": "test-results/godot-native/feel-final-stairs-before-1.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-before-1",
+        "--output=res://../test-results/godot-native/feel-final-stairs-before-1.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented",
+        "--skip-stairs-preparation"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": false,
+        "choose_cpu_ms": 79.438,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 218.241
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4687.378
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 7,
+            "failures": [],
+            "requests": 7
+          },
+          "phase": "locked",
+          "simulation_s": 1.75,
+          "wall_ms": 6424.845
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.01666666666665,
+          "wall_ms": 9699.56
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.1,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.01666666666664,
+          "wall_ms": 12692.8
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": false,
+            "choose_cpu_ms": 79.438,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0166666666668,
+          "wall_ms": 16770.149
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.016666666667,
+          "wall_ms": 20691.769
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [
+        {
+          "distance": 884.164157090476,
+          "focused": true,
+          "frame": 708,
+          "gpu_ms": 5.63800001144409,
+          "ms": 91.768,
+          "phase": "locked",
+          "render_cpu_ms": 1.13999998569489,
+          "setup_cpu_ms": 0.022,
+          "simulation_s": 12.1000000000002,
+          "wall_s": 12.09336
+        }
+      ],
+      "startup_first5s_max_ms": 208.087,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1737.467
+    },
+    {
+      "run_id": "final-stairs-after-1-scanner-1105624",
+      "label": "final-stairs-after-1",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": false,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 222.634,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1193,
+        "max": 146.307,
+        "median": 16.661,
+        "over100": 1,
+        "over25": 4,
+        "over50": 1,
+        "p95": 17.654,
+        "p99": 18.566
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 19.061,
+        "median": 16.661,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 17.518,
+        "p99": 18.148
+      },
+      "gpu_ms": {
+        "count": 1193,
+        "max": 7.56500005722046,
+        "median": 3.71399998664856,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 6.32800006866455,
+        "p99": 6.94199991226196
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-after-1.json",
+      "log": "test-results/godot-native/feel-final-stairs-after-1.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-after-1",
+        "--output=res://../test-results/godot-native/feel-final-stairs-after-1.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": true,
+        "choose_cpu_ms": 0.339,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 222.634
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4704.877
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 8,
+            "failures": [],
+            "requests": 8
+          },
+          "phase": "locked",
+          "simulation_s": 1.83333333333333,
+          "wall_ms": 6482.793
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.06666666666665,
+          "wall_ms": 9724.5
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.107,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.06666666666665,
+          "wall_ms": 12717.865
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.339,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0666666666668,
+          "wall_ms": 16719.327
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.066666666667,
+          "wall_ms": 20716.127
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 146.307,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1777.916
+    },
+    {
+      "run_id": "final-stairs-before-2-scanner-1110539",
+      "label": "final-stairs-before-2",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": true,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 227.177,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1189,
+        "max": 158.405,
+        "median": 16.659,
+        "over100": 1,
+        "over25": 4,
+        "over50": 2,
+        "p95": 17.319,
+        "p99": 18.311
+      },
+      "steady_after5s_ms": {
+        "count": 898,
+        "max": 88.752,
+        "median": 16.662,
+        "over100": 0,
+        "over25": 1,
+        "over50": 1,
+        "p95": 17.211,
+        "p99": 17.801
+      },
+      "gpu_ms": {
+        "count": 1189,
+        "max": 9.44600009918213,
+        "median": 3.69099998474121,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.71199989318848,
+        "p99": 6.46000003814697
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-before-2.json",
+      "log": "test-results/godot-native/feel-final-stairs-before-2.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-before-2",
+        "--output=res://../test-results/godot-native/feel-final-stairs-before-2.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented",
+        "--skip-stairs-preparation"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": false,
+        "choose_cpu_ms": 79.677,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 227.177
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4853.175
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 7,
+            "failures": [],
+            "requests": 7
+          },
+          "phase": "locked",
+          "simulation_s": 1.75,
+          "wall_ms": 6530.661
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.08333333333332,
+          "wall_ms": 9871.737
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.091,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.08333333333331,
+          "wall_ms": 12865.348
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": false,
+            "choose_cpu_ms": 79.677,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0833333333335,
+          "wall_ms": 16943.397
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.0833333333337,
+          "wall_ms": 20864.702
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [
+        {
+          "distance": 884.63945027837,
+          "focused": true,
+          "frame": 712,
+          "gpu_ms": 4.51599979400635,
+          "ms": 88.752,
+          "phase": "locked",
+          "render_cpu_ms": 0.904999971389771,
+          "setup_cpu_ms": 0.02,
+          "simulation_s": 12.1666666666669,
+          "wall_s": 12.097234
+        }
+      ],
+      "startup_first5s_max_ms": 158.405,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1677.486
+    },
+    {
+      "run_id": "final-stairs-after-2-scanner-1072636",
+      "label": "final-stairs-after-2",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": false,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 226.919,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1193,
+        "max": 134.758,
+        "median": 16.662,
+        "over100": 1,
+        "over25": 3,
+        "over50": 1,
+        "p95": 17.236,
+        "p99": 17.956
+      },
+      "steady_after5s_ms": {
+        "count": 900,
+        "max": 18.845,
+        "median": 16.663,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 17.144,
+        "p99": 17.594
+      },
+      "gpu_ms": {
+        "count": 1193,
+        "max": 8.40299987792969,
+        "median": 3.70499992370605,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 6.16400003433228,
+        "p99": 6.68499994277954
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-after-2.json",
+      "log": "test-results/godot-native/feel-final-stairs-after-2.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-after-2",
+        "--output=res://../test-results/godot-native/feel-final-stairs-after-2.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": true,
+        "choose_cpu_ms": 0.076,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 226.919
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4898.875
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 8,
+            "failures": [],
+            "requests": 8
+          },
+          "phase": "locked",
+          "simulation_s": 1.83333333333333,
+          "wall_ms": 6633.478
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.11666666666665,
+          "wall_ms": 9925.451
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.143,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.11666666666665,
+          "wall_ms": 12919.098
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.076,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.1000000000002,
+          "wall_ms": 16900.48
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.1000000000004,
+          "wall_ms": 20900.44
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 134.758,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1734.603
+    },
+    {
+      "run_id": "final-stairs-before-3-scanner-1093240",
+      "label": "final-stairs-before-3",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": true,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 215.828,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1187,
+        "max": 188.328,
+        "median": 16.66,
+        "over100": 1,
+        "over25": 4,
+        "over50": 2,
+        "p95": 17.346,
+        "p99": 18.089
+      },
+      "steady_after5s_ms": {
+        "count": 898,
+        "max": 88.345,
+        "median": 16.662,
+        "over100": 0,
+        "over25": 1,
+        "over50": 1,
+        "p95": 17.259,
+        "p99": 17.859
+      },
+      "gpu_ms": {
+        "count": 1187,
+        "max": 5.94600009918213,
+        "median": 4.20599985122681,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.07200002670288,
+        "p99": 5.40999984741211
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-before-3.json",
+      "log": "test-results/godot-native/feel-final-stairs-before-3.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-before-3",
+        "--output=res://../test-results/godot-native/feel-final-stairs-before-3.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented",
+        "--skip-stairs-preparation"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": false,
+        "choose_cpu_ms": 77.315,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 215.828
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4871.596
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 7,
+            "failures": [],
+            "requests": 7
+          },
+          "phase": "locked",
+          "simulation_s": 1.71666666666667,
+          "wall_ms": 6554.185
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.04999999999999,
+          "wall_ms": 9896.56
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.088,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.04999999999998,
+          "wall_ms": 12888.896
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": false,
+            "choose_cpu_ms": 77.315,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0500000000002,
+          "wall_ms": 16964.767
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.0500000000004,
+          "wall_ms": 20886.664
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [
+        {
+          "distance": 884.401803684423,
+          "focused": true,
+          "frame": 710,
+          "gpu_ms": 4.55900001525879,
+          "ms": 88.345,
+          "phase": "locked",
+          "render_cpu_ms": 0.933000028133392,
+          "setup_cpu_ms": 0.032,
+          "simulation_s": 12.1333333333335,
+          "wall_s": 12.102636
+        }
+      ],
+      "startup_first5s_max_ms": 188.328,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1682.589
+    },
+    {
+      "run_id": "final-stairs-after-3-scanner-1061845",
+      "label": "final-stairs-after-3",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": false,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 250.924,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1190,
+        "max": 174.114,
+        "median": 16.669,
+        "over100": 1,
+        "over25": 4,
+        "over50": 1,
+        "p95": 17.807,
+        "p99": 19.5
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 24.617,
+        "median": 16.664,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 17.502,
+        "p99": 18.48
+      },
+      "gpu_ms": {
+        "count": 1190,
+        "max": 7.80399990081787,
+        "median": 3.69799995422363,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.29899978637695,
+        "p99": 5.98199987411499
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-after-3.json",
+      "log": "test-results/godot-native/feel-final-stairs-after-3.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-after-3",
+        "--output=res://../test-results/godot-native/feel-final-stairs-after-3.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": true,
+        "choose_cpu_ms": 0.074,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 250.924
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 5054.857
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 8,
+            "failures": [],
+            "requests": 8
+          },
+          "phase": "locked",
+          "simulation_s": 1.93333333333333,
+          "wall_ms": 6966.681
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.03333333333332,
+          "wall_ms": 10076.035
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.23,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.03333333333331,
+          "wall_ms": 13069.833
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.074,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0333333333335,
+          "wall_ms": 17066.214
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.0333333333337,
+          "wall_ms": 21066.286
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 174.114,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1911.824
+    },
+    {
+      "run_id": "final-stairs-before-4-scanner-1091919",
+      "label": "final-stairs-before-4",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": true,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 217.839,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1187,
+        "max": 190.676,
+        "median": 16.655,
+        "over100": 1,
+        "over25": 4,
+        "over50": 2,
+        "p95": 17.277,
+        "p99": 17.928
+      },
+      "steady_after5s_ms": {
+        "count": 898,
+        "max": 91.228,
+        "median": 16.658,
+        "over100": 0,
+        "over25": 1,
+        "over50": 1,
+        "p95": 17.191,
+        "p99": 17.493
+      },
+      "gpu_ms": {
+        "count": 1187,
+        "max": 7.10300016403198,
+        "median": 3.68199992179871,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.73699998855591,
+        "p99": 6.59899997711182
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-before-4.json",
+      "log": "test-results/godot-native/feel-final-stairs-before-4.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-before-4",
+        "--output=res://../test-results/godot-native/feel-final-stairs-before-4.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented",
+        "--skip-stairs-preparation"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": false,
+        "choose_cpu_ms": 80.057,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 217.839
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4743.556
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 7,
+            "failures": [],
+            "requests": 7
+          },
+          "phase": "locked",
+          "simulation_s": 1.73333333333333,
+          "wall_ms": 6440.129
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.04999999999999,
+          "wall_ms": 9765.923
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.11,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.04999999999998,
+          "wall_ms": 12759.057
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": false,
+            "choose_cpu_ms": 80.057,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0500000000002,
+          "wall_ms": 16837.125
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.0500000000004,
+          "wall_ms": 20759.666
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [
+        {
+          "distance": 884.401803684423,
+          "focused": true,
+          "frame": 710,
+          "gpu_ms": 3.67899990081787,
+          "ms": 91.228,
+          "phase": "locked",
+          "render_cpu_ms": 1.14900004863739,
+          "setup_cpu_ms": 0.035,
+          "simulation_s": 12.1333333333335,
+          "wall_s": 12.103369
+        }
+      ],
+      "startup_first5s_max_ms": 190.676,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1696.573
+    },
+    {
+      "run_id": "final-stairs-after-4-scanner-985758",
+      "label": "final-stairs-after-4",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": false,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 202.456,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1186,
+        "max": 197.071,
+        "median": 16.666,
+        "over100": 1,
+        "over25": 5,
+        "over50": 2,
+        "p95": 17.317,
+        "p99": 18.272
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 19.576,
+        "median": 16.666,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 17.155,
+        "p99": 17.579
+      },
+      "gpu_ms": {
+        "count": 1186,
+        "max": 37.7389984130859,
+        "median": 4.28200006484985,
+        "over100": 0,
+        "over25": 4,
+        "over50": 0,
+        "p95": 4.93800020217896,
+        "p99": 5.58599996566772
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-after-4.json",
+      "log": "test-results/godot-native/feel-final-stairs-after-4.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-after-4",
+        "--output=res://../test-results/godot-native/feel-final-stairs-after-4.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": true,
+        "choose_cpu_ms": 0.075,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 202.456
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4390.328
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 8,
+            "failures": [],
+            "requests": 8
+          },
+          "phase": "locked",
+          "simulation_s": 2.0,
+          "wall_ms": 6369.852
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.03333333333332,
+          "wall_ms": 9415.577
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.079,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.03333333333331,
+          "wall_ms": 12404.722
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.075,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0333333333335,
+          "wall_ms": 16403.603
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.0333333333337,
+          "wall_ms": 20403.454
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 197.071,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1979.524
+    },
+    {
+      "run_id": "final-stairs-before-5-scanner-1099622",
+      "label": "final-stairs-before-5",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": true,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 218.528,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1190,
+        "max": 141.355,
+        "median": 16.662,
+        "over100": 1,
+        "over25": 4,
+        "over50": 2,
+        "p95": 17.27,
+        "p99": 18.206
+      },
+      "steady_after5s_ms": {
+        "count": 898,
+        "max": 97.535,
+        "median": 16.663,
+        "over100": 0,
+        "over25": 1,
+        "over50": 1,
+        "p95": 17.193,
+        "p99": 17.665
+      },
+      "gpu_ms": {
+        "count": 1190,
+        "max": 7.2020001411438,
+        "median": 3.70099997520447,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.75299978256226,
+        "p99": 6.53299999237061
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-before-5.json",
+      "log": "test-results/godot-native/feel-final-stairs-before-5.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-before-5",
+        "--output=res://../test-results/godot-native/feel-final-stairs-before-5.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented",
+        "--skip-stairs-preparation"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": false,
+        "choose_cpu_ms": 85.183,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 218.528
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4930.599
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 7,
+            "failures": [],
+            "requests": 7
+          },
+          "phase": "locked",
+          "simulation_s": 1.66666666666667,
+          "wall_ms": 6521.715
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.08333333333332,
+          "wall_ms": 9947.224
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.106,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.08333333333331,
+          "wall_ms": 12940.364
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": false,
+            "choose_cpu_ms": 85.183,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0833333333335,
+          "wall_ms": 17023.909
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.1000000000004,
+          "wall_ms": 20946.301
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [
+        {
+          "distance": 884.758273575343,
+          "focused": true,
+          "frame": 713,
+          "gpu_ms": 3.95900011062622,
+          "ms": 97.535,
+          "phase": "locked",
+          "render_cpu_ms": 0.939999997615814,
+          "setup_cpu_ms": 0.028,
+          "simulation_s": 12.1833333333335,
+          "wall_s": 12.104046
+        }
+      ],
+      "startup_first5s_max_ms": 141.355,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1591.116
+    },
+    {
+      "run_id": "final-stairs-after-5-scanner-1079698",
+      "label": "final-stairs-after-5",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5",
+      "profiler_sha256": "ef7e65b8b05502916e9f59d29162a9be0902a6d87c71aa44f9da556d4558dbd6",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": true,
+      "recording_enabled": true,
+      "skip_stairs_preparation": false,
+      "split_preview_load": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 227.079,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1190,
+        "max": 181.605,
+        "median": 16.658,
+        "over100": 1,
+        "over25": 3,
+        "over50": 1,
+        "p95": 17.257,
+        "p99": 17.971
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 19.093,
+        "median": 16.658,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 17.16,
+        "p99": 17.66
+      },
+      "gpu_ms": {
+        "count": 1190,
+        "max": 7.2480001449585,
+        "median": 3.67700004577637,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.91400003433228,
+        "p99": 6.86100006103516
+      },
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-stairs-after-5.json",
+      "log": "test-results/godot-native/feel-final-stairs-after-5.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-stairs-after-5",
+        "--output=res://../test-results/godot-native/feel-final-stairs-after-5.json",
+        "--playtest-record",
+        "--exercise=construction",
+        "--instrumented"
+      ],
+      "exit_code": 0,
+      "stairs": {
+        "accepted": true,
+        "cached_after": true,
+        "cached_before": true,
+        "choose_cpu_ms": 0.077,
+        "piece": "stairs"
+      },
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 227.079
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4651.483
+        },
+        {
+          "event": "title_assets_prepared",
+          "payload": {
+            "completed": 8,
+            "failures": [],
+            "requests": 8
+          },
+          "phase": "locked",
+          "simulation_s": 1.78333333333333,
+          "wall_ms": 6394.549
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 5.04999999999999,
+          "wall_ms": 9670.083
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.091,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 8.04999999999998,
+          "wall_ms": 12662.956
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "cached_after": true,
+            "cached_before": true,
+            "choose_cpu_ms": 0.077,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 12.0500000000002,
+          "wall_ms": 16661.466
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 16.0500000000004,
+          "wall_ms": 20661.514
+        }
+      ],
+      "unfocused_frames": 0,
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 181.605,
+      "errors": [],
+      "preparation_completed_ms_after_checkpoint": 1743.066
+    }
+  ],
+  "attribution": {
+    "repeats": [
+      "test-results/godot-native/feel-construction-diagnostic-1.json",
+      "test-results/godot-native/feel-construction-diagnostic-2.json"
+    ],
+    "split": "test-results/godot-native/feel-construction-split.json",
+    "split_load_cpu_ms": 76.662,
+    "split_instantiate_cpu_ms": 0.024,
+    "split_override_cpu_ms": 0.017,
+    "split_warm_choose_cpu_ms": 0.059
+  },
+  "correctness": {
+    "report": "docs/godot-port/results/final-loader-regressions-2026-09-28.json",
+    "checks": 439,
+    "same_start_end_source": true,
+    "errors": 0,
+    "loader_checks": 40,
+    "integration_checks": 109,
+    "checkpoint_checks": 290,
+    "regression_found": "Adding the threaded textured model exposed renderer initialization errors during concurrent immediate cold scene loads in the full headless fixtures; assertions alone had passed.",
+    "fix": "Live title preparers register and unregister deterministically. An uncached immediate scene request collects their outstanding owned load before another synchronous resource load, then rechecks cache. No extra request/get, test sleep, headless exclusion or altered geometry.",
+    "focused_proof": "Actual delayed-worker test proves unrelated immediate load starts after the owned pending request is collected and freed preparers unregister."
+  },
+  "limits": [
+    "This removes the measured first stairs-preview load spike within these runs; historical intermittent steady-travel stalls were not reproduced or claimed fixed.",
+    "The extra existing PackedScene is retained from title preparation instead of first stairs use, adding one bounded queued resource; title readiness can wait for it. The immediate cold-load fallback can wait on already pending title preparation. No blanket startup speedup is claimed.",
+    "Initial-window maxima remain134.758\u2013208.087ms across these ten runs. OS/driver cache and background GPU activity were uncontrolled. Small desktop/report activity continued, with no second Godot during timing.",
+    "Native machine is RTX3070/i9-11900KF,1920x1080 high Forward+/Vulkan4xMSAA. Broader hardware, cold-cache/Continue matrix, fine callback overhead and human campaign/feel acceptance remain unmeasured."
+  ]
+}

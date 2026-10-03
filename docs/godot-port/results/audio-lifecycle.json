@@ -1,0 +1,16 @@
+{
+	"checks": 50,
+	"failures": [],
+	"mixerRelease": [
+		{
+			"ms": 60,
+			"streams": 0
+		},
+		{
+			"ms": 60,
+			"streams": 0
+		}
+	],
+	"passed": true,
+	"renderer": "NVIDIA GeForce RTX 3070"
+}

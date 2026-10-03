@@ -1,0 +1,164 @@
+{
+  "scope": "65-second actual native travel with rotating camera, no image readbacks. 1080p high/Forward+/Vulkan/4xMSAA, uncapped, no vsync, RTX 3070, f1df64a before the opening change. Not a full-campaign benchmark.",
+  "overallFrameMs": {
+    "max": 161.704,
+    "median": 3.593,
+    "p95": 4.817,
+    "p99": 5.346
+  },
+  "slowFrames": [
+    {
+      "distance": 0.209234234356403,
+      "focused": true,
+      "frame": 1,
+      "gpuMs": 0.0,
+      "ms": 161.704,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 42,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 0.0,
+      "setupCpuMs": 1.661,
+      "time": 0.133333333333333
+    },
+    {
+      "distance": 0.424148794462164,
+      "focused": true,
+      "frame": 3,
+      "gpuMs": 31.2549991607666,
+      "ms": 33.193,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 42,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 1.37899994850159,
+      "setupCpuMs": 0.241,
+      "time": 0.2
+    },
+    {
+      "distance": 0.552786028384021,
+      "focused": true,
+      "frame": 4,
+      "gpuMs": 35.6399993896484,
+      "ms": 38.035,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 42,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 0.837999999523163,
+      "setupCpuMs": 0.461,
+      "time": 0.233333333333333
+    },
+    {
+      "distance": 0.693600433425297,
+      "focused": true,
+      "frame": 5,
+      "gpuMs": 27.1410007476807,
+      "ms": 30.376,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 42,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 1.31299996376038,
+      "setupCpuMs": 0.376,
+      "time": 0.266666666666667
+    },
+    {
+      "distance": 0.768172355923525,
+      "focused": true,
+      "frame": 6,
+      "gpuMs": 25.8969993591309,
+      "ms": 26.648,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 42,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 1.20200002193451,
+      "setupCpuMs": 0.322,
+      "time": 0.283333333333333
+    },
+    {
+      "distance": 0.924916027647271,
+      "focused": true,
+      "frame": 7,
+      "gpuMs": 27.2350006103516,
+      "ms": 30.739,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 42,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 1.03799998760223,
+      "setupCpuMs": 0.472,
+      "time": 0.316666666666667
+    },
+    {
+      "distance": 1.09090913909307,
+      "focused": true,
+      "frame": 8,
+      "gpuMs": 26.9190006256104,
+      "ms": 28.668,
+      "pipelines": {
+        "CANVAS": 1,
+        "DRAW": 0,
+        "MESH": 38,
+        "SPECIALIZATION": 42,
+        "SURFACE": 66
+      },
+      "renderCpuMs": 1.32599997520447,
+      "setupCpuMs": 0.452,
+      "time": 0.35
+    }
+  ],
+  "slowMainTicks": [],
+  "afterTenGameSeconds": {
+    "frames": 14739,
+    "medianMs": 3.588,
+    "p99Ms": 5.145,
+    "maxMs": 7.082,
+    "maximumMainTickMs": 2.489
+  },
+  "autosaveTicks": [
+    {
+      "distance": 439.921577070464,
+      "frame": 15904,
+      "ms": 0.627,
+      "stages": {
+        "autosave_clock+=dt": 0.001,
+        "building.update(dt)": 0.014,
+        "campaign.update(dt)": 0.005,
+        "cinematics.update(dt)": 0.006,
+        "combat.update(dt)": 0.015,
+        "effects.update(dt)": 0.026,
+        "home.update(dt)": 0.033,
+        "journey.update(dt)": 0.022,
+        "opportunities.update(dt)": 0.005,
+        "salvage.update(dt)": 0.041,
+        "save_game(\"autosave\")": 0.122,
+        "session.tick(dt,not combat.active_threat() and (not menu_open or ui.page==\"Signal\"),aboard())": 0.037,
+        "story_art.update(dt)": 0.011,
+        "terminal_pages.update(dt)": 0.002,
+        "update_interaction(dt)": 0.028,
+        "world.update(dt)": 0.258
+      },
+      "time": 60.0166666666645
+    }
+  ]
+}

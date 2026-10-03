@@ -1,0 +1,80 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"legacy": false,
+	"resolution": "(1920, 1080)",
+	"scope": "Four fixed native helm views, high Forward+/Vulkan, 4x MSAA, VSync off. 2s warmup/4s samples. Physics frozen; captures follow timings. Last view includes all existing earned hardware.",
+	"views": {
+		"1": {
+			"drawCalls": {
+				"max": 1025.0,
+				"median": 1025.0,
+				"p95": 1025.0
+			},
+			"frameMs": {
+				"max": 5.93,
+				"median": 4.239,
+				"p95": 5.243
+			},
+			"gpuMs": {
+				"max": 5.31899976730347,
+				"median": 3.7409999370575,
+				"p95": 4.44899988174438
+			},
+			"samples": 904
+		},
+		"2": {
+			"drawCalls": {
+				"max": 620.0,
+				"median": 620.0,
+				"p95": 620.0
+			},
+			"frameMs": {
+				"max": 4.727,
+				"median": 3.582,
+				"p95": 4.326
+			},
+			"gpuMs": {
+				"max": 3.71799993515015,
+				"median": 3.08699989318848,
+				"p95": 3.54299998283386
+			},
+			"samples": 1075
+		},
+		"3": {
+			"drawCalls": {
+				"max": 476.0,
+				"median": 476.0,
+				"p95": 476.0
+			},
+			"frameMs": {
+				"max": 4.606,
+				"median": 3.325,
+				"p95": 4.188
+			},
+			"gpuMs": {
+				"max": 3.52699995040894,
+				"median": 2.85199999809265,
+				"p95": 3.30699992179871
+			},
+			"samples": 1150
+		},
+		"4": {
+			"drawCalls": {
+				"max": 940.0,
+				"median": 940.0,
+				"p95": 940.0
+			},
+			"frameMs": {
+				"max": 5.385,
+				"median": 4.079,
+				"p95": 5.011
+			},
+			"gpuMs": {
+				"max": 4.44000005722046,
+				"median": 3.60700011253357,
+				"p95": 4.28700017929077
+			},
+			"samples": 938
+		}
+	}
+}

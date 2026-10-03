@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-28",
+  "scope": "Final frozen integration and checkpoint regressions after shared production freeze; synthetic correctness, not human or performance evidence",
+  "source_hash_start": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+  "suites": [
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "passing_assertions": 109,
+      "errors": [],
+      "seconds": 17.59,
+      "log": "test-results/final-frozen-integration.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/integration.gd"
+      ]
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "passing_assertions": 290,
+      "errors": [],
+      "seconds": 24.11,
+      "log": "test-results/final-frozen-playtest_checkpoints.log",
+      "command": [
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+        "--headless",
+        "--path",
+        "C:\\Users\\hwash\\Documents\\MachineMoveForward\\godot",
+        "--script",
+        "res://tests/playtest_checkpoints.gd"
+      ]
+    }
+  ],
+  "human_test": false,
+  "source_hash_end": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+  "source_stable": true,
+  "passed": true
+}

@@ -1,0 +1,51 @@
+{
+  "trim": [
+    {
+      "original": "Secured_weatherproof_cargo_locker001_2",
+      "replacement": "NativeCargoFittings",
+      "removedVertices": 1757,
+      "unchangedVertices": 186,
+      "originalTriangles": 1772,
+      "keptTriangles": 84,
+      "unchangedCoordinatesSha256": "3940ca480a3f70c124280140c09b5e49b44507ea604aa58d3761e9ca8200555d"
+    },
+    {
+      "original": "Secured_weatherproof_cargo_locker001_5",
+      "replacement": "",
+      "removedVertices": 266,
+      "unchangedVertices": 0,
+      "originalTriangles": 140,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "sites": [
+    {
+      "name": "ServiceDrum1",
+      "position": [
+        9.625,
+        16.03,
+        7.8
+      ],
+      "yaw": 0
+    },
+    {
+      "name": "ServiceDrum2",
+      "position": [
+        -9.625,
+        16.03,
+        -6.5
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "ServiceDrum3",
+      "position": [
+        5.5,
+        16.03,
+        10.4
+      ],
+      "yaw": 0
+    }
+  ]
+}

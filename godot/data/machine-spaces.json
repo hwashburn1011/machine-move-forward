@@ -1,0 +1,830 @@
+{
+  "format": 1,
+  "units": "metres",
+  "coordinateSpace": "machine-local, +Y up",
+  "compositionPolicy": "Retain occupied footprints only; remove repeated fixed dressing without changing player-owned structures or core machinery.",
+  "staticRetained": [
+    {
+      "name": "CargoLocker1",
+      "position": [
+        8.525,
+        16.03,
+        7.54
+      ],
+      "yaw": 0,
+      "family": "locker",
+      "parent": "NativeCargoLockers",
+      "deck": 0,
+      "purpose": "Upper supply corner beside the starter generator"
+    },
+    {
+      "name": "CargoLocker4",
+      "position": [
+        6.875,
+        8.83,
+        -6.5
+      ],
+      "yaw": 3.141592653589793,
+      "family": "locker",
+      "parent": "NativeCargoLockers",
+      "deck": -2,
+      "purpose": "Lower deck supply chest"
+    },
+    {
+      "name": "ServiceBench1",
+      "position": [
+        -7.2,
+        12.43,
+        -7
+      ],
+      "yaw": 3.141592653589793,
+      "family": "bench",
+      "parent": "NativeServiceBenches",
+      "deck": -1,
+      "purpose": "Middle port forward repair bench"
+    },
+    {
+      "name": "ServiceBench2",
+      "position": [
+        -7.2,
+        12.43,
+        7.2
+      ],
+      "yaw": 0,
+      "family": "bench",
+      "parent": "NativeServiceBenches",
+      "deck": -1,
+      "purpose": "Middle port aft repair bench"
+    },
+    {
+      "name": "PressureReceiver4",
+      "position": [
+        -4,
+        12.43,
+        10.4
+      ],
+      "family": "vessel",
+      "parent": "NativePressureVessels",
+      "deck": -1,
+      "purpose": "Middle aft port pressure manifold"
+    },
+    {
+      "name": "PressureReceiver5",
+      "position": [
+        -8,
+        12.43,
+        10.4
+      ],
+      "family": "vessel",
+      "parent": "NativePressureVessels",
+      "deck": -1,
+      "purpose": "Middle aft port pressure manifold"
+    },
+    {
+      "name": "ServicePump1",
+      "position": [
+        4.5,
+        12.43,
+        -2.8
+      ],
+      "family": "pump",
+      "parent": "NativeServicePumps",
+      "deck": -1,
+      "purpose": "Middle drive service pump"
+    },
+    {
+      "name": "ServiceCabinet1",
+      "position": [
+        -6,
+        12.43,
+        -11
+      ],
+      "yaw": 3.141592653589793,
+      "family": "switchgear",
+      "parent": "NativeSwitchgear",
+      "deck": -1,
+      "purpose": "Middle forward port control cabinet"
+    },
+    {
+      "name": "ServiceCabinet4",
+      "position": [
+        9.6,
+        12.43,
+        9
+      ],
+      "yaw": 1.5707963267948966,
+      "family": "switchgear",
+      "parent": "NativeSwitchgear",
+      "deck": -1,
+      "purpose": "Middle aft starboard control cabinet"
+    },
+    {
+      "name": "ServiceDrum1",
+      "position": [
+        9.625,
+        16.03,
+        7.8
+      ],
+      "yaw": 0,
+      "family": "drum",
+      "parent": "NativeDeckDressing",
+      "deck": 0,
+      "purpose": "Upper supply corner consumables"
+    }
+  ],
+  "staticRemoved": [
+    {
+      "name": "CargoLocker2",
+      "position": [
+        -8.9375,
+        16.03,
+        -8.19
+      ],
+      "yaw": 3.141592653589793,
+      "family": "locker",
+      "parent": "NativeCargoLockers",
+      "deck": 0
+    },
+    {
+      "name": "CargoLocker3",
+      "position": [
+        8.8,
+        12.43,
+        9.88
+      ],
+      "yaw": 0,
+      "family": "locker",
+      "parent": "NativeCargoLockers",
+      "deck": -1
+    },
+    {
+      "name": "ServiceBench3",
+      "position": [
+        1.5,
+        12.43,
+        -7
+      ],
+      "yaw": 3.141592653589793,
+      "family": "bench",
+      "parent": "NativeServiceBenches",
+      "deck": -1
+    },
+    {
+      "name": "ServiceBench4",
+      "position": [
+        1.5,
+        12.43,
+        7.2
+      ],
+      "yaw": 0,
+      "family": "bench",
+      "parent": "NativeServiceBenches",
+      "deck": -1
+    },
+    {
+      "name": "ServiceBench5",
+      "position": [
+        6.5,
+        12.43,
+        -7
+      ],
+      "yaw": 3.141592653589793,
+      "family": "bench",
+      "parent": "NativeServiceBenches",
+      "deck": -1
+    },
+    {
+      "name": "ServiceBench6",
+      "position": [
+        6.5,
+        12.43,
+        7.2
+      ],
+      "yaw": 0,
+      "family": "bench",
+      "parent": "NativeServiceBenches",
+      "deck": -1
+    },
+    {
+      "name": "PressureReceiver1",
+      "position": [
+        8,
+        12.43,
+        10.4
+      ],
+      "family": "vessel",
+      "parent": "NativePressureVessels",
+      "deck": -1
+    },
+    {
+      "name": "PressureReceiver2",
+      "position": [
+        4,
+        12.43,
+        10.4
+      ],
+      "family": "vessel",
+      "parent": "NativePressureVessels",
+      "deck": -1
+    },
+    {
+      "name": "PressureReceiver3",
+      "position": [
+        0,
+        12.43,
+        10.4
+      ],
+      "family": "vessel",
+      "parent": "NativePressureVessels",
+      "deck": -1
+    },
+    {
+      "name": "ServicePump2",
+      "position": [
+        4.5,
+        12.43,
+        2.8
+      ],
+      "family": "pump",
+      "parent": "NativeServicePumps",
+      "deck": -1
+    },
+    {
+      "name": "ServiceCabinet2",
+      "position": [
+        1,
+        12.43,
+        -11
+      ],
+      "yaw": 3.141592653589793,
+      "family": "switchgear",
+      "parent": "NativeSwitchgear",
+      "deck": -1
+    },
+    {
+      "name": "ServiceCabinet3",
+      "position": [
+        9.6,
+        12.43,
+        -9.8
+      ],
+      "yaw": 1.5707963267948966,
+      "family": "switchgear",
+      "parent": "NativeSwitchgear",
+      "deck": -1
+    },
+    {
+      "name": "ServiceDrum2",
+      "position": [
+        -9.625,
+        16.03,
+        -6.5
+      ],
+      "yaw": 0,
+      "family": "drum",
+      "parent": "NativeDeckDressing",
+      "deck": 0
+    },
+    {
+      "name": "ServiceDrum3",
+      "position": [
+        5.5,
+        16.03,
+        10.4
+      ],
+      "yaw": 0,
+      "family": "drum",
+      "parent": "NativeDeckDressing",
+      "deck": 0
+    }
+  ],
+  "decks": [
+    {
+      "level": 0,
+      "name": "upper deck",
+      "surfaceY": 16.03,
+      "buildGridMetres": 2,
+      "ordinaryPlacement": "Permanent supported deck needs no added floor plate; workbenches, refineries, generators, furnishings and clear outdoor drone docks remain freely placeable and repeatable."
+    },
+    {
+      "level": -1,
+      "name": "middle service deck",
+      "surfaceY": 12.430000000000001,
+      "buildGridMetres": 2,
+      "ordinaryPlacement": "Permanent supported deck needs no added floor plate; workbenches, refineries, generators, furnishings and clear outdoor drone docks remain freely placeable and repeatable."
+    },
+    {
+      "level": -2,
+      "name": "lower drive deck",
+      "surfaceY": 8.830000000000002,
+      "buildGridMetres": 2,
+      "ordinaryPlacement": "Permanent supported deck needs no added floor plate; workbenches, refineries, generators, furnishings and clear outdoor drone docks remain freely placeable and repeatable."
+    }
+  ],
+  "openAreas": [
+    {
+      "deck": 0,
+      "name": "open working deck",
+      "minXZ": [
+        -8,
+        -6
+      ],
+      "maxXZ": [
+        8,
+        6
+      ],
+      "note": "A planning area, not a rectangular placement whitelist; actual support, compound collision and access are checked."
+    },
+    {
+      "deck": -1,
+      "name": "workshop and power space",
+      "minXZ": [
+        -8,
+        -6
+      ],
+      "maxXZ": [
+        8,
+        6
+      ],
+      "note": "A planning area, not a rectangular placement whitelist; actual support, compound collision and access are checked."
+    },
+    {
+      "deck": -2,
+      "name": "drive and living space",
+      "minXZ": [
+        -8,
+        -6
+      ],
+      "maxXZ": [
+        8,
+        6
+      ],
+      "note": "A planning area, not a rectangular placement whitelist; actual support, compound collision and access are checked."
+    }
+  ],
+  "routes": [
+    {
+      "name": "central stair forward landing",
+      "deck": -2,
+      "at": [
+        -2,
+        8.830000000000002,
+        -3.7
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "central stair aft landing",
+      "deck": -2,
+      "at": [
+        -2,
+        8.830000000000002,
+        3.7
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "port stair forward landing",
+      "deck": -2,
+      "at": [
+        -12,
+        8.830000000000002,
+        -4
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "port stair aft landing",
+      "deck": -2,
+      "at": [
+        -12,
+        8.830000000000002,
+        4
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "central stair forward landing",
+      "deck": -1,
+      "at": [
+        -2,
+        12.430000000000001,
+        -3.7
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "central stair aft landing",
+      "deck": -1,
+      "at": [
+        -2,
+        12.430000000000001,
+        3.7
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "port stair forward landing",
+      "deck": -1,
+      "at": [
+        -12,
+        12.430000000000001,
+        -4
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "port stair aft landing",
+      "deck": -1,
+      "at": [
+        -12,
+        12.430000000000001,
+        4
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "central stair forward landing",
+      "deck": 0,
+      "at": [
+        -2,
+        16.03,
+        -3.7
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "central stair aft landing",
+      "deck": 0,
+      "at": [
+        -2,
+        16.03,
+        3.7
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "port stair forward landing",
+      "deck": 0,
+      "at": [
+        -12,
+        16.03,
+        -4
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "port stair aft landing",
+      "deck": 0,
+      "at": [
+        -12,
+        16.03,
+        4
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "navigation helm",
+      "deck": 0,
+      "at": [
+        -3,
+        16.03,
+        -7.4
+      ],
+      "radius": 1.1
+    },
+    {
+      "name": "signal receiver",
+      "deck": 0,
+      "at": [
+        1,
+        16.03,
+        -8.2
+      ],
+      "radius": 1.1
+    },
+    {
+      "name": "port recovery control",
+      "deck": 0,
+      "at": [
+        -8.35,
+        16.03,
+        7.8
+      ],
+      "radius": 1.0
+    },
+    {
+      "name": "return gangway",
+      "deck": 0,
+      "at": [
+        10.5,
+        16.03,
+        0
+      ],
+      "radius": 1.0
+    },
+    {
+      "name": "forward engineering cabinet",
+      "deck": -1,
+      "at": [
+        -6,
+        12.430000000000001,
+        -9.3
+      ],
+      "radius": 1.05
+    },
+    {
+      "name": "aft engineering cabinet",
+      "deck": -1,
+      "at": [
+        7.9,
+        12.430000000000001,
+        9
+      ],
+      "radius": 1.05
+    }
+  ],
+  "protectedVolumes": [
+    {
+      "name": "the central stairwell",
+      "min": [
+        -3,
+        8.94,
+        -2.5
+      ],
+      "max": [
+        -1,
+        18.08,
+        2.5
+      ]
+    },
+    {
+      "name": "the port stairwell",
+      "min": [
+        -13,
+        8.94,
+        -3.1
+      ],
+      "max": [
+        -11,
+        18.08,
+        3.1
+      ]
+    },
+    {
+      "name": "the return gangway",
+      "min": [
+        10.2,
+        16.15,
+        -1.15
+      ],
+      "max": [
+        13.5,
+        18.1,
+        1.15
+      ]
+    },
+    {
+      "name": "central forward stair landing",
+      "min": [
+        -2.65,
+        8.950000000000001,
+        -4.3
+      ],
+      "max": [
+        -1.35,
+        10.850000000000001,
+        -3.1
+      ]
+    },
+    {
+      "name": "central aft stair landing",
+      "min": [
+        -2.65,
+        8.950000000000001,
+        3.1
+      ],
+      "max": [
+        -1.35,
+        10.850000000000001,
+        4.3
+      ]
+    },
+    {
+      "name": "port forward stair landing",
+      "min": [
+        -12.65,
+        8.950000000000001,
+        -4.6
+      ],
+      "max": [
+        -11.35,
+        10.850000000000001,
+        -3.4
+      ]
+    },
+    {
+      "name": "port aft stair landing",
+      "min": [
+        -12.65,
+        8.950000000000001,
+        3.4
+      ],
+      "max": [
+        -11.35,
+        10.850000000000001,
+        4.6
+      ]
+    },
+    {
+      "name": "central forward stair landing",
+      "min": [
+        -2.65,
+        12.55,
+        -4.3
+      ],
+      "max": [
+        -1.35,
+        14.450000000000001,
+        -3.1
+      ]
+    },
+    {
+      "name": "central aft stair landing",
+      "min": [
+        -2.65,
+        12.55,
+        3.1
+      ],
+      "max": [
+        -1.35,
+        14.450000000000001,
+        4.3
+      ]
+    },
+    {
+      "name": "port forward stair landing",
+      "min": [
+        -12.65,
+        12.55,
+        -4.6
+      ],
+      "max": [
+        -11.35,
+        14.450000000000001,
+        -3.4
+      ]
+    },
+    {
+      "name": "port aft stair landing",
+      "min": [
+        -12.65,
+        12.55,
+        3.4
+      ],
+      "max": [
+        -11.35,
+        14.450000000000001,
+        4.6
+      ]
+    },
+    {
+      "name": "central forward stair landing",
+      "min": [
+        -2.65,
+        16.150000000000002,
+        -4.3
+      ],
+      "max": [
+        -1.35,
+        18.05,
+        -3.1
+      ]
+    },
+    {
+      "name": "central aft stair landing",
+      "min": [
+        -2.65,
+        16.150000000000002,
+        3.1
+      ],
+      "max": [
+        -1.35,
+        18.05,
+        4.3
+      ]
+    },
+    {
+      "name": "port forward stair landing",
+      "min": [
+        -12.65,
+        16.150000000000002,
+        -4.6
+      ],
+      "max": [
+        -11.35,
+        18.05,
+        -3.4
+      ]
+    },
+    {
+      "name": "port aft stair landing",
+      "min": [
+        -12.65,
+        16.150000000000002,
+        3.4
+      ],
+      "max": [
+        -11.35,
+        18.05,
+        4.6
+      ]
+    }
+  ],
+  "bays": {
+    "quiet-drive": {
+      "name": "quiet-drive service riser",
+      "deckName": "lower drive deck",
+      "cell": {
+        "x": 2,
+        "y": -2,
+        "z": 2
+      },
+      "rotation": 0,
+      "service": [
+        4,
+        8.83,
+        6
+      ],
+      "reserved": {
+        "min": [
+          3.14,
+          8.930000000000001,
+          3.14
+        ],
+        "max": [
+          4.86,
+          10.280000000000001,
+          4.86
+        ]
+      },
+      "legacyPolicy": "Existing instances remain untouched; new placements and moves use this connection. Safe immediate undo may return to an older position."
+    },
+    "battery-bank": {
+      "name": "battery power connection",
+      "deckName": "middle service deck",
+      "cell": {
+        "x": 2,
+        "y": -1,
+        "z": 2
+      },
+      "rotation": 0,
+      "service": [
+        4,
+        12.43,
+        6
+      ],
+      "reserved": {
+        "min": [
+          3.14,
+          12.530000000000001,
+          3.14
+        ],
+        "max": [
+          4.86,
+          13.88,
+          4.86
+        ]
+      },
+      "legacyPolicy": "Existing instances remain untouched; new placements and moves use this connection. Safe immediate undo may return to an older position."
+    },
+    "salvage-crane": {
+      "name": "starboard heavy-recovery mount",
+      "deckName": "upper deck",
+      "cell": {
+        "x": 5,
+        "y": 0,
+        "z": -2
+      },
+      "rotation": 1,
+      "service": [
+        8.4,
+        16.03,
+        -4
+      ],
+      "reserved": {
+        "min": [
+          9.14,
+          16.130000000000003,
+          -4.86
+        ],
+        "max": [
+          10.86,
+          18.330000000000002,
+          -3.14
+        ]
+      },
+      "legacyPolicy": "Existing instances remain untouched; new placements and moves use this connection. Safe immediate undo may return to an older position."
+    }
+  }
+}

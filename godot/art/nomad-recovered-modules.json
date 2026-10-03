@@ -1,0 +1,129 @@
+{
+  "models": {
+    "quiet-drive": {
+      "parts": 86,
+      "min": [
+        -0.64000004529953,
+        0.0,
+        -0.6000001430511475
+      ],
+      "max": [
+        0.64000004529953,
+        1.2350000143051147,
+        0.6000001430511475
+      ],
+      "outsideEnvelopeVertices": 0,
+      "degenerateTriangles": 0,
+      "guideException": false,
+      "triangles": 13552,
+      "materialBatches": 6
+    },
+    "battery-bank": {
+      "parts": 81,
+      "min": [
+        -0.64000004529953,
+        0.0,
+        -0.6000001430511475
+      ],
+      "max": [
+        0.64000004529953,
+        1.2735000848770142,
+        0.6137897968292236
+      ],
+      "outsideEnvelopeVertices": 0,
+      "degenerateTriangles": 0,
+      "guideException": false,
+      "triangles": 10132,
+      "materialBatches": 6
+    },
+    "salvage-crane": {
+      "parts": 121,
+      "min": [
+        -0.6399999856948853,
+        0.0,
+        -3.3103840351104736
+      ],
+      "max": [
+        0.6399999856948853,
+        2.3752293586730957,
+        0.6000000238418579
+      ],
+      "outsideEnvelopeVertices": 0,
+      "degenerateTriangles": 0,
+      "guideException": true,
+      "triangles": 17735,
+      "materialBatches": 15
+    }
+  },
+  "bytes": 1987168,
+  "sha256": "04224020b7cba68b9a1578b9a8f27cc69b6632249257b8f1c2a89dfcb96ba171",
+  "guideExceptions": [
+    {
+      "model": "salvage-crane",
+      "root": "FoldedGuide",
+      "min": [
+        -0.06,
+        1.89,
+        -0.686
+      ],
+      "max": [
+        0.06,
+        2.285,
+        -0.425
+      ],
+      "tip": [
+        0,
+        2.25,
+        -0.65
+      ],
+      "collision": false
+    },
+    {
+      "model": "salvage-crane",
+      "root": "ExtendedGuide",
+      "min": [
+        -0.06,
+        2.2,
+        -3.325
+      ],
+      "max": [
+        0.06,
+        2.38,
+        -3.08
+      ],
+      "tip": [
+        0,
+        2.25,
+        -3.25
+      ],
+      "collision": false
+    }
+  ],
+  "deployedSolidBounds": [
+    {
+      "min": [
+        -0.18,
+        1.82,
+        -0.9
+      ],
+      "max": [
+        0.18,
+        2.28,
+        -0.38
+      ]
+    },
+    {
+      "min": [
+        -0.18,
+        2.075,
+        -3.15
+      ],
+      "max": [
+        0.18,
+        2.36,
+        -0.72
+      ]
+    }
+  ],
+  "compatibility": "Original boxes and old cable tip remain for off-bay saved cranes. Only the exact D3 mount deploys the outboard jib and its per-instance collision boxes. Costs and root pivots are untouched."
+}

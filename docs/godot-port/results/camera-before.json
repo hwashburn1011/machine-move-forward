@@ -1,0 +1,58 @@
+[
+	{
+		"armHit": 0.7890625,
+		"bodyTransparency": 0.029038256034255,
+		"camera": {
+			"x": 30.5499992370605,
+			"y": 17.6000003814697,
+			"z": 0.7890625
+		},
+		"case": "rightCorner",
+		"gunTransparency": 0.0,
+		"headRayBlocked": false,
+		"playerBehindCamera": false,
+		"playerScreen": "(236.951, 737.195)"
+	},
+	{
+		"armHit": 0.7890625,
+		"bodyTransparency": 0.0358414202928543,
+		"camera": {
+			"x": 29.4574127197266,
+			"y": 17.6000003814697,
+			"z": 0.7890625
+		},
+		"case": "leftCorner",
+		"gunTransparency": 0.0,
+		"headRayBlocked": false,
+		"playerBehindCamera": false,
+		"playerScreen": "(1673.305, 737.195)"
+	},
+	{
+		"armHit": 0.781510353088379,
+		"bodyTransparency": 0.128247261047363,
+		"camera": {
+			"x": 30.4433116912842,
+			"y": 17.6000003814697,
+			"z": 0.781510353088379
+		},
+		"case": "aimCorner",
+		"gunTransparency": 0.0,
+		"headRayBlocked": false,
+		"playerBehindCamera": false,
+		"playerScreen": "(73.27709, 840.033)"
+	},
+	{
+		"armHit": 0.597660183906555,
+		"bodyTransparency": 0.267413824796677,
+		"camera": {
+			"x": 30.1955070495605,
+			"y": 17.6000003814697,
+			"z": 0.787835419178009
+		},
+		"case": "sideWall",
+		"gunTransparency": 0.0,
+		"headRayBlocked": false,
+		"playerBehindCamera": false,
+		"playerScreen": "(4.320889, 800.9798)"
+	}
+]

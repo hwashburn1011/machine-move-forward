@@ -1,0 +1,28 @@
+{
+	"models": {
+		"bastion": {
+			"sourceSha256": "171b31f4360aeed54c8944f48b6d50c0b90df4b1ecfc7abf961d7b84fe6a1ce3",
+			"visualY": -0.00402926304377615
+		},
+		"raider": {
+			"sourceSha256": "104601142d30dea27973489f1688fd4f015e6585fba4704c50921c1e69897e79",
+			"visualY": -0.0184277109801769
+		},
+		"revenant": {
+			"sourceSha256": "d1ebdf6830897cbe38ad7919777007af53bb772667ad78ee40f80690039c493b",
+			"visualY": 0.0112956138327718
+		},
+		"scavenger": {
+			"sourceSha256": "d2ebd9c4117d38b7d6bd2e6af38c7bdf2c2dc288c9374fb262586a9217392246",
+			"visualY": -0.0185640635900199
+		},
+		"sovereign": {
+			"sourceSha256": "f8643f5e2f2f9580c0788a44b9628bb1a71dd5542c64f686dc8e359390a60200",
+			"visualY": 0.00962838809937239
+		},
+		"warden": {
+			"sourceSha256": "fc7d51f48ad374d88c62467805ed0636289aa0afa2f5458ca2049121a3659c1b",
+			"visualY": 0.0104602463543415
+		}
+	}
+}

@@ -1,0 +1,1036 @@
+{
+  "closed": true,
+  "checks": 953,
+  "failures": [],
+  "captureSourceHash": "3afd49b23285df625e44d14080292e0d8999d077abd082e3b837696ffdbaf0ce",
+  "testSourceHash": "3afd49b23285df625e44d14080292e0d8999d077abd082e3b837696ffdbaf0ce",
+  "glbSha256": "c88cf9da5a7862805d9f82f1df5bf2b7436a6d3aed97d74cb36d7d5392b6aa48",
+  "manifestSha256": "35baf02c9f1ed2b7502202f67dd3dfe711aaeab3c8cfd50a6ef4b2e3f2a11a0b",
+  "triangles": 215976,
+  "identities": [
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "wreck-one",
+      "materials": 6,
+      "meshInstances": 15,
+      "style": "Split weathered relay masonry with exposed end bracing",
+      "terrainOrigin": "(95.5, -2873.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "relay-foundry",
+      "materials": 7,
+      "meshInstances": 12,
+      "style": "Tall ribbed works hall and braced loading apron",
+      "terrainOrigin": "(81.5, -2993.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "quiet-array",
+      "materials": 7,
+      "meshInstances": 12,
+      "style": "Three segmented receiver bunker masses and transfer ribs",
+      "terrainOrigin": "(67.5, -3113.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "glass-orchard",
+      "materials": 7,
+      "meshInstances": 10,
+      "style": "Paired lower growing-service vaults and central bridge",
+      "terrainOrigin": "(53.5, -3233.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "last-garden-meridian",
+      "materials": 6,
+      "meshInstances": 28,
+      "style": "Maintained civic storeys with strong perimeter buttresses",
+      "terrainOrigin": "(39.5, -3353.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "fuel-cache",
+      "materials": 7,
+      "meshInstances": 12,
+      "style": "Sealed lower pump room with protected twin tank risers",
+      "terrainOrigin": "(25.5, -3473.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "salvage-wreck",
+      "materials": 7,
+      "meshInstances": 8,
+      "style": "Scorched cargo-store with external crossed trusses",
+      "terrainOrigin": "(11.5, -3593.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "memorial",
+      "materials": 6,
+      "meshInstances": 12,
+      "style": "Stepped stone listening plinth with quiet recessed bands",
+      "terrainOrigin": "(-2.5, -3713.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "repair-depot",
+      "materials": 7,
+      "meshInstances": 8,
+      "style": "Lower service workshops with three closed shutter bays",
+      "terrainOrigin": "(-16.5, -3833.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "friendly-refuge",
+      "materials": 7,
+      "meshInstances": 8,
+      "style": "Three occupied-looking lower storeys with shuttered windows",
+      "terrainOrigin": "(-30.5, -3953.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "rooftop-workshop",
+      "materials": 7,
+      "meshInstances": 8,
+      "style": "Framed repair shop below open rooftop work area",
+      "terrainOrigin": "(-44.5, -4073.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "gear-salvage-crane",
+      "materials": 7,
+      "meshInstances": 10,
+      "style": "Freight lift tower with rear equipment/service shaft",
+      "terrainOrigin": "(-58.5, -4193.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "gear-battery-bank",
+      "materials": 7,
+      "meshInstances": 10,
+      "style": "Freight lift tower with rear equipment/service shaft",
+      "terrainOrigin": "(-72.5, -4313.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "gear-quiet-drive",
+      "materials": 7,
+      "meshInstances": 10,
+      "style": "Freight lift tower with rear equipment/service shaft",
+      "terrainOrigin": "(-86.5, -4433.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "mission-stranded-courier",
+      "materials": 7,
+      "meshInstances": 8,
+      "style": "Three occupied-looking lower storeys with shuttered windows",
+      "terrainOrigin": "(-100.5, -4553.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "mission-roof-supplies",
+      "materials": 7,
+      "meshInstances": 8,
+      "style": "Supplies-store lower block with long captured cladding bands",
+      "terrainOrigin": "(-114.5, -4673.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "mission-quiet-watch",
+      "materials": 7,
+      "meshInstances": 12,
+      "style": "Shielded listening post with paired narrow instrumentation towers",
+      "terrainOrigin": "(-128.5, -4793.0)"
+    },
+    {
+      "bottoms": [
+        -6.70000076293945
+      ],
+      "footings": 1,
+      "id": "receiving-berth",
+      "materials": 7,
+      "meshInstances": 10,
+      "style": "Paired receiving caissons with tied steel transfer frame",
+      "terrainOrigin": "(-142.5, -4913.0)"
+    },
+    {
+      "bottoms": [
+        -6.69999980926514
+      ],
+      "footings": 1,
+      "id": "meridian-horizon",
+      "materials": 2,
+      "meshInstances": 2,
+      "style": "Existing city berm extended into dune field",
+      "terrainOrigin": "(-68.5, -5118.0)"
+    },
+    {
+      "bottoms": [
+        -6.69999980926514
+      ],
+      "footings": 1,
+      "id": "opening-rooftop",
+      "materials": 2,
+      "meshInstances": 2,
+      "style": "Runtime scales only buried closed foundations",
+      "terrainOrigin": "(-192.5, -5018.0)"
+    }
+  ],
+  "geometry": [
+    {
+      "root": "WakeRelayPodium",
+      "parts": 102,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 10536,
+      "batches": 5
+    },
+    {
+      "root": "FoundryLowerWorks",
+      "parts": 224,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 24144,
+      "batches": 6
+    },
+    {
+      "root": "ArrayServiceBunker",
+      "parts": 207,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 22212,
+      "batches": 6
+    },
+    {
+      "root": "OrchardServiceVault",
+      "parts": 148,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 15312,
+      "batches": 6
+    },
+    {
+      "root": "MeridianCivicBase",
+      "parts": 154,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 15864,
+      "batches": 6
+    },
+    {
+      "root": "FuelPumpHouse",
+      "parts": 164,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 17280,
+      "batches": 6
+    },
+    {
+      "root": "SalvageDepotBase",
+      "parts": 116,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 12480,
+      "batches": 6
+    },
+    {
+      "root": "MemorialListeningPlinth",
+      "parts": 30,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 3192,
+      "batches": 6
+    },
+    {
+      "root": "RepairBayBlock",
+      "parts": 105,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 11148,
+      "batches": 6
+    },
+    {
+      "root": "RefugeResidentialBase",
+      "parts": 102,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 10536,
+      "batches": 6
+    },
+    {
+      "root": "WorkshopLowerShop",
+      "parts": 142,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 15288,
+      "batches": 6
+    },
+    {
+      "root": "RecoveryLoadingTower",
+      "parts": 116,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 12480,
+      "batches": 6
+    },
+    {
+      "root": "DispatchStoreBase",
+      "parts": 102,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 10968,
+      "batches": 6
+    },
+    {
+      "root": "QuietWatchBase",
+      "parts": 180,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 19392,
+      "batches": 6
+    },
+    {
+      "root": "ReceivingCaisson",
+      "parts": 140,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 15024,
+      "batches": 6
+    },
+    {
+      "root": "FoundationUnit",
+      "parts": 1,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 12,
+      "batches": 1
+    },
+    {
+      "root": "GradeCollar",
+      "parts": 1,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 108,
+      "batches": 1
+    },
+    {
+      "root": "HorizonBermSkirt",
+      "parts": 0,
+      "finite": true,
+      "degenerateTriangles": 0,
+      "negativeVolumeCandidates": [],
+      "unsupportedBoundsCandidates": [],
+      "triangles": 0,
+      "batches": 0
+    }
+  ],
+  "upperPreservation": {
+    "passed": true,
+    "upperAssets": [
+      {
+        "id": "wreck-one",
+        "path": "godot/assets/models/authored/expedition-wreck.glb",
+        "exists": true,
+        "sha256": "a96182ee8adb652b773e1d92afc5dbe67b5c8d2b0da5b9599804d348950e1ab5",
+        "finalSha256": "a96182ee8adb652b773e1d92afc5dbe67b5c8d2b0da5b9599804d348950e1ab5",
+        "unchanged": true
+      },
+      {
+        "id": "relay-foundry",
+        "path": "godot/assets/models/authored/relay-foundry.glb",
+        "exists": true,
+        "sha256": "b9fad493b0ced29e6bb505333e333b075ed5aba7a9b46574608c64034bb76984",
+        "finalSha256": "b9fad493b0ced29e6bb505333e333b075ed5aba7a9b46574608c64034bb76984",
+        "unchanged": true
+      },
+      {
+        "id": "quiet-array",
+        "path": "godot/assets/models/authored/quiet-array.glb",
+        "exists": true,
+        "sha256": "5e3e9b685dbc0449438a90f9c031e521272b6c6176ffaa9230a94e240524667c",
+        "finalSha256": "5e3e9b685dbc0449438a90f9c031e521272b6c6176ffaa9230a94e240524667c",
+        "unchanged": true
+      },
+      {
+        "id": "glass-orchard",
+        "path": "godot/assets/models/authored/glass-orchard.glb",
+        "exists": true,
+        "sha256": "5efee5e6915286f36742f32a42150404a09349eb416f9aab19f0d88790237827",
+        "finalSha256": "5efee5e6915286f36742f32a42150404a09349eb416f9aab19f0d88790237827",
+        "unchanged": true
+      },
+      {
+        "id": "last-garden-meridian",
+        "path": "godot/assets/models/authored/last-garden-meridian.glb",
+        "exists": true,
+        "sha256": "be37d3b274d7edf86c9599feff4a6d429173cd471340323be930120c800217ed",
+        "finalSha256": "be37d3b274d7edf86c9599feff4a6d429173cd471340323be930120c800217ed",
+        "unchanged": true
+      },
+      {
+        "id": "fuel-cache",
+        "path": "godot/assets/models/authored/route-water-cache.glb",
+        "exists": true,
+        "sha256": "ec9edb4ff854d4d7f26fc7d59fd99d81243de26de4ca0c36099ccb611796457c",
+        "finalSha256": "ec9edb4ff854d4d7f26fc7d59fd99d81243de26de4ca0c36099ccb611796457c",
+        "unchanged": true
+      },
+      {
+        "id": "salvage-wreck",
+        "path": "godot/assets/models/authored/route-salvage-wreck.glb",
+        "exists": true,
+        "sha256": "5217913bb507b6884910a046e60c480f495376aa1c0f87079e8f0e8a691472cb",
+        "finalSha256": "5217913bb507b6884910a046e60c480f495376aa1c0f87079e8f0e8a691472cb",
+        "unchanged": true
+      },
+      {
+        "id": "memorial",
+        "path": "godot/assets/models/authored/route-memorial.glb",
+        "exists": true,
+        "sha256": "490227db1efb96dabb91728f2c2cfb31eba5545d1c787127ed22003b6a628662",
+        "finalSha256": "490227db1efb96dabb91728f2c2cfb31eba5545d1c787127ed22003b6a628662",
+        "unchanged": true
+      },
+      {
+        "id": "repair-depot",
+        "path": "godot/assets/models/authored/route-repair-depot.glb",
+        "exists": true,
+        "sha256": "cf55fadac65c95b71b3fd05377d73a024711c437646a5922c6c3ee28a4521714",
+        "finalSha256": "cf55fadac65c95b71b3fd05377d73a024711c437646a5922c6c3ee28a4521714",
+        "unchanged": true
+      },
+      {
+        "id": "friendly-refuge",
+        "path": "godot/art/native-friendly-refuge.glb",
+        "exists": true,
+        "sha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "finalSha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "unchanged": true
+      },
+      {
+        "id": "rooftop-workshop",
+        "path": "godot/art/native-rooftop-workshop.glb",
+        "exists": true,
+        "sha256": "508190accd223c8c6acc942579979ac19d557772e6741ddac2fb1e80509de40b",
+        "finalSha256": "508190accd223c8c6acc942579979ac19d557772e6741ddac2fb1e80509de40b",
+        "unchanged": true
+      },
+      {
+        "id": "gear-salvage-crane",
+        "path": "godot/art/expedition-equipment.glb",
+        "exists": true,
+        "sha256": "28076b94b36f4e9c0bf6c614d9ed13079772d847766c93d53e8505e4cad0fb1d",
+        "finalSha256": "28076b94b36f4e9c0bf6c614d9ed13079772d847766c93d53e8505e4cad0fb1d",
+        "unchanged": true
+      },
+      {
+        "id": "gear-battery-bank",
+        "path": "godot/art/expedition-equipment.glb",
+        "exists": true,
+        "sha256": "28076b94b36f4e9c0bf6c614d9ed13079772d847766c93d53e8505e4cad0fb1d",
+        "finalSha256": "28076b94b36f4e9c0bf6c614d9ed13079772d847766c93d53e8505e4cad0fb1d",
+        "unchanged": true
+      },
+      {
+        "id": "gear-quiet-drive",
+        "path": "godot/art/expedition-equipment.glb",
+        "exists": true,
+        "sha256": "28076b94b36f4e9c0bf6c614d9ed13079772d847766c93d53e8505e4cad0fb1d",
+        "finalSha256": "28076b94b36f4e9c0bf6c614d9ed13079772d847766c93d53e8505e4cad0fb1d",
+        "unchanged": true
+      },
+      {
+        "id": "mission-stranded-courier",
+        "path": "godot/art/native-friendly-refuge.glb",
+        "exists": true,
+        "sha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "finalSha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "unchanged": true
+      },
+      {
+        "id": "mission-roof-supplies",
+        "path": "godot/art/native-friendly-refuge.glb",
+        "exists": true,
+        "sha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "finalSha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "unchanged": true
+      },
+      {
+        "id": "mission-quiet-watch",
+        "path": "godot/art/native-friendly-refuge.glb",
+        "exists": true,
+        "sha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "finalSha256": "1422158670347d1896f1b20955dac4c76a7693552d308849ca45b51b24da4b55",
+        "unchanged": true
+      },
+      {
+        "id": "opening-rooftop",
+        "path": "godot/art/opening-rooftop.glb",
+        "exists": true,
+        "sha256": "c58d7c17280da2a55545c5222debad967a1d0a7fb5a3be474300d62c89658fce",
+        "finalSha256": "c58d7c17280da2a55545c5222debad967a1d0a7fb5a3be474300d62c89658fce",
+        "unchanged": true
+      },
+      {
+        "id": "meridian-horizon",
+        "path": "godot/assets/models/authored/meridian-horizon.glb",
+        "exists": true,
+        "sha256": "8e3c5f28eb49e9c8b8d57d1d850a5dd252cbdc1e6b89809176dd7dccca952dee",
+        "finalSha256": "8e3c5f28eb49e9c8b8d57d1d850a5dd252cbdc1e6b89809176dd7dccca952dee",
+        "unchanged": true
+      }
+    ],
+    "changes": "Only additive lower buildings/foundations and centralized attach calls; no saved campaign fields, walking floor/roof/collider definitions, costs, interactions, or anchors changed."
+  },
+  "views": [
+    {
+      "fov": 61.0,
+      "id": "wreck-one",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "wreck-one-side",
+      "image": "test-results/site-grounding/native/wreck-one-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Split weathered relay masonry with exposed end bracing"
+    },
+    {
+      "fov": 62.0,
+      "id": "wreck-one",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "wreck-one-footing",
+      "image": "test-results/site-grounding/native/wreck-one-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Split weathered relay masonry with exposed end bracing"
+    },
+    {
+      "fov": 61.0,
+      "id": "relay-foundry",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "relay-foundry-side",
+      "image": "test-results/site-grounding/native/relay-foundry-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Tall ribbed works hall and braced loading apron"
+    },
+    {
+      "fov": 62.0,
+      "id": "relay-foundry",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "relay-foundry-footing",
+      "image": "test-results/site-grounding/native/relay-foundry-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Tall ribbed works hall and braced loading apron"
+    },
+    {
+      "fov": 61.0,
+      "id": "quiet-array",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "quiet-array-side",
+      "image": "test-results/site-grounding/native/quiet-array-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Three segmented receiver bunker masses and transfer ribs"
+    },
+    {
+      "fov": 62.0,
+      "id": "quiet-array",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "quiet-array-footing",
+      "image": "test-results/site-grounding/native/quiet-array-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Three segmented receiver bunker masses and transfer ribs"
+    },
+    {
+      "fov": 61.0,
+      "id": "glass-orchard",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "glass-orchard-side",
+      "image": "test-results/site-grounding/native/glass-orchard-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Paired lower growing-service vaults and central bridge"
+    },
+    {
+      "fov": 62.0,
+      "id": "glass-orchard",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "glass-orchard-footing",
+      "image": "test-results/site-grounding/native/glass-orchard-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Paired lower growing-service vaults and central bridge"
+    },
+    {
+      "fov": 61.0,
+      "id": "last-garden-meridian",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "last-garden-meridian-side",
+      "image": "test-results/site-grounding/native/last-garden-meridian-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Maintained civic storeys with strong perimeter buttresses"
+    },
+    {
+      "fov": 62.0,
+      "id": "last-garden-meridian",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "last-garden-meridian-footing",
+      "image": "test-results/site-grounding/native/last-garden-meridian-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Maintained civic storeys with strong perimeter buttresses"
+    },
+    {
+      "fov": 61.0,
+      "id": "fuel-cache",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "fuel-cache-side",
+      "image": "test-results/site-grounding/native/fuel-cache-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Sealed lower pump room with protected twin tank risers"
+    },
+    {
+      "fov": 62.0,
+      "id": "fuel-cache",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "fuel-cache-footing",
+      "image": "test-results/site-grounding/native/fuel-cache-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Sealed lower pump room with protected twin tank risers"
+    },
+    {
+      "fov": 61.0,
+      "id": "salvage-wreck",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "salvage-wreck-side",
+      "image": "test-results/site-grounding/native/salvage-wreck-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Scorched cargo-store with external crossed trusses"
+    },
+    {
+      "fov": 62.0,
+      "id": "salvage-wreck",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "salvage-wreck-footing",
+      "image": "test-results/site-grounding/native/salvage-wreck-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Scorched cargo-store with external crossed trusses"
+    },
+    {
+      "fov": 61.0,
+      "id": "memorial",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "memorial-side",
+      "image": "test-results/site-grounding/native/memorial-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Stepped stone listening plinth with quiet recessed bands"
+    },
+    {
+      "fov": 62.0,
+      "id": "memorial",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "memorial-footing",
+      "image": "test-results/site-grounding/native/memorial-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Stepped stone listening plinth with quiet recessed bands"
+    },
+    {
+      "fov": 61.0,
+      "id": "repair-depot",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "repair-depot-side",
+      "image": "test-results/site-grounding/native/repair-depot-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Lower service workshops with three closed shutter bays"
+    },
+    {
+      "fov": 62.0,
+      "id": "repair-depot",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "repair-depot-footing",
+      "image": "test-results/site-grounding/native/repair-depot-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Lower service workshops with three closed shutter bays"
+    },
+    {
+      "fov": 61.0,
+      "id": "friendly-refuge",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "friendly-refuge-side",
+      "image": "test-results/site-grounding/native/friendly-refuge-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Three occupied-looking lower storeys with shuttered windows"
+    },
+    {
+      "fov": 62.0,
+      "id": "friendly-refuge",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "friendly-refuge-footing",
+      "image": "test-results/site-grounding/native/friendly-refuge-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Three occupied-looking lower storeys with shuttered windows"
+    },
+    {
+      "fov": 61.0,
+      "id": "rooftop-workshop",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "rooftop-workshop-side",
+      "image": "test-results/site-grounding/native/rooftop-workshop-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Framed repair shop below open rooftop work area"
+    },
+    {
+      "fov": 62.0,
+      "id": "rooftop-workshop",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "rooftop-workshop-footing",
+      "image": "test-results/site-grounding/native/rooftop-workshop-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Framed repair shop below open rooftop work area"
+    },
+    {
+      "fov": 61.0,
+      "id": "gear-salvage-crane",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "gear-salvage-crane-side",
+      "image": "test-results/site-grounding/native/gear-salvage-crane-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Freight lift tower with rear equipment/service shaft"
+    },
+    {
+      "fov": 62.0,
+      "id": "gear-salvage-crane",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "gear-salvage-crane-footing",
+      "image": "test-results/site-grounding/native/gear-salvage-crane-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Freight lift tower with rear equipment/service shaft"
+    },
+    {
+      "fov": 61.0,
+      "id": "gear-battery-bank",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "gear-battery-bank-side",
+      "image": "test-results/site-grounding/native/gear-battery-bank-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Freight lift tower with rear equipment/service shaft"
+    },
+    {
+      "fov": 62.0,
+      "id": "gear-battery-bank",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "gear-battery-bank-footing",
+      "image": "test-results/site-grounding/native/gear-battery-bank-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Freight lift tower with rear equipment/service shaft"
+    },
+    {
+      "fov": 61.0,
+      "id": "gear-quiet-drive",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "gear-quiet-drive-side",
+      "image": "test-results/site-grounding/native/gear-quiet-drive-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Freight lift tower with rear equipment/service shaft"
+    },
+    {
+      "fov": 62.0,
+      "id": "gear-quiet-drive",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "gear-quiet-drive-footing",
+      "image": "test-results/site-grounding/native/gear-quiet-drive-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Freight lift tower with rear equipment/service shaft"
+    },
+    {
+      "fov": 61.0,
+      "id": "mission-stranded-courier",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "mission-stranded-courier-side",
+      "image": "test-results/site-grounding/native/mission-stranded-courier-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Three occupied-looking lower storeys with shuttered windows"
+    },
+    {
+      "fov": 62.0,
+      "id": "mission-stranded-courier",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "mission-stranded-courier-footing",
+      "image": "test-results/site-grounding/native/mission-stranded-courier-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Three occupied-looking lower storeys with shuttered windows"
+    },
+    {
+      "fov": 61.0,
+      "id": "mission-roof-supplies",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "mission-roof-supplies-side",
+      "image": "test-results/site-grounding/native/mission-roof-supplies-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Supplies-store lower block with long captured cladding bands"
+    },
+    {
+      "fov": 62.0,
+      "id": "mission-roof-supplies",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "mission-roof-supplies-footing",
+      "image": "test-results/site-grounding/native/mission-roof-supplies-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Supplies-store lower block with long captured cladding bands"
+    },
+    {
+      "fov": 61.0,
+      "id": "mission-quiet-watch",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "mission-quiet-watch-side",
+      "image": "test-results/site-grounding/native/mission-quiet-watch-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Shielded listening post with paired narrow instrumentation towers"
+    },
+    {
+      "fov": 62.0,
+      "id": "mission-quiet-watch",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "mission-quiet-watch-footing",
+      "image": "test-results/site-grounding/native/mission-quiet-watch-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Shielded listening post with paired narrow instrumentation towers"
+    },
+    {
+      "fov": 61.0,
+      "id": "receiving-berth",
+      "localEye": "(-23.0, -5.0, 23.0)",
+      "localTarget": "(0.0, -5.4, 0.0)",
+      "name": "receiving-berth-side",
+      "image": "test-results/site-grounding/native/receiving-berth-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Paired receiving caissons with tied steel transfer frame"
+    },
+    {
+      "fov": 62.0,
+      "id": "receiving-berth",
+      "localEye": "(18.0, -12.8, 20.0)",
+      "localTarget": "(0.0, -11.4, 0.0)",
+      "name": "receiving-berth-footing",
+      "image": "test-results/site-grounding/native/receiving-berth-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Paired receiving caissons with tied steel transfer frame"
+    },
+    {
+      "fov": 62.0,
+      "id": "opening-rooftop",
+      "localEye": "(-7.0, 8.0, 23.0)",
+      "localTarget": "(19.5, 9.0, 0.0)",
+      "name": "opening-rooftop-side",
+      "image": "test-results/site-grounding/native/opening-rooftop-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Runtime scales only buried closed foundations"
+    },
+    {
+      "fov": 62.0,
+      "id": "opening-rooftop",
+      "localEye": "(5.0, 3.0, 12.0)",
+      "localTarget": "(19.5, 1.0, 0.0)",
+      "name": "opening-rooftop-footing",
+      "image": "test-results/site-grounding/native/opening-rooftop-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Runtime scales only buried closed foundations"
+    },
+    {
+      "fov": 59.0,
+      "id": "meridian-horizon",
+      "localEye": "(-75.0, 26.0, -84.0)",
+      "localTarget": "(0.0, 14.0, 0.0)",
+      "name": "meridian-horizon-side",
+      "image": "test-results/site-grounding/native/meridian-horizon-side.png",
+      "review": "visually inspected",
+      "observation": "Side view shows a continuous structural path from the unchanged upper platform to the buried foundation.",
+      "architecture": "Existing city berm extended into dune field"
+    },
+    {
+      "fov": 64.0,
+      "id": "meridian-horizon",
+      "localEye": "(42.0, 4.0, -39.0)",
+      "localTarget": "(8.0, 1.0, 0.0)",
+      "name": "meridian-horizon-footing",
+      "image": "test-results/site-grounding/native/meridian-horizon-footing.png",
+      "review": "visually inspected",
+      "observation": "Ground-level view shows closed base entering the dune surface without a suspended sole.",
+      "architecture": "Existing city berm extended into dune field"
+    },
+    {
+      "fov": 76.0,
+      "id": "relay-foundry",
+      "localEye": "(-14.0, 2.3, 7.0)",
+      "localTarget": "(1.0, 1.8, 0.0)",
+      "name": "relay-foundry-nomad-approach",
+      "image": "test-results/site-grounding/native/relay-foundry-nomad-approach.png",
+      "review": "visually inspected",
+      "observation": "Actual Nomad approach retains its floor, guardrails and original destination entrance; the lower works stay below the walking surface.",
+      "architecture": "Tall ribbed works hall and braced loading apron"
+    }
+  ],
+  "ownedFileSha256": {
+    "godot/scripts/site_grounding.gd": "2559483b309d2b5160fd54912d2435dc484c468df6595e220e4dbf70f1cb6028",
+    "godot/art/native-site-grounding.glb": "c88cf9da5a7862805d9f82f1df5bf2b7436a6d3aed97d74cb36d7d5392b6aa48",
+    "godot/data/site-grounding.json": "35baf02c9f1ed2b7502202f67dd3dfe711aaeab3c8cfd50a6ef4b2e3f2a11a0b",
+    "godot/scripts/campaign.gd": "191a84f1c1fc34dc53d70d5bbf9aad2554834a3bd8fd87c9cb2fe6281f22428c",
+    "godot/scripts/opportunities.gd": "eed6e23de20b604170b1310946229aa6d92ef8c567d23785ec090da6cbc10d7e",
+    "godot/scripts/meridian_berth.gd": "d0bdc9f539ea96b181aecebfd4ab1df49e75e7e65aa94d1fd4eadc10c7739ecc",
+    "godot/tests/site_grounding.gd": "b6fdebc4f5c8111e4890970861b0f66f2ebb8697cd22ceb5b41b3f30f91aca42",
+    "godot/tests/site_grounding_review.gd": "01a98cd5d7bd400fcd5d220615d3223c45e84d2263471e6db7b5c33287a13b2e"
+  },
+  "limits": "Visual/physical fixture proof, not earned campaign progress. Final global source fingerprint can advance with coordinated parallel UI/outpost work; per-file and asset hashes identify this frozen contribution."
+}

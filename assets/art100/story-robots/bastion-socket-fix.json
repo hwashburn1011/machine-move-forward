@@ -1,0 +1,13 @@
+{
+  "original_antenna_gap_m": 0.01458257,
+  "added_components": [
+    "Retained cranial aerial socket port",
+    "Retained cranial aerial socket starboard"
+  ],
+  "binding": "head",
+  "source": "assets\\native-character-refinement\\bastion-components.blend",
+  "original_component_vertices_changed": false,
+  "new_component_transforms_baked": true,
+  "export_regression_root_cause": "Two new primitives retained object translations; exporter joined onto the first part then reset its matrix, shifting the body. Baking only new socket transforms restores the retained frame.",
+  "regression_guard": "All six bodies in three poses compare minimum and maximum to protected intact reference within 4 mm."
+}

@@ -1,0 +1,2566 @@
+{
+  "reviewer": "Wasteland author: independent initial review of root-owned legacy and billboard art, followed by explicitly delegated narrow cleanup",
+  "scope": "25 prior legacy assemblies and 25 new billboard assemblies. Initial review was read-only. Root subsequently authorized this reviewer to remove only zero-area legacy runtime triangles and add two ambulance headlamp pedestals; all other corrections belong to their original authors. Two authorized sign source-part metadata counts were corrected.",
+  "method": "All 50 final model renders visually inspected in ten final contact sheets, followed by the fresh ambulance render after its final pedestals. All 9,290 editable component bounds examined with source-code support relationships; runtime and editable component zero-area checks repeated after the final support and hidden-web corrections. Bounds adjacency at 25 mm is a screening check, not proof of attachment; concrete repair closure also uses actual source positions and render inspection.",
+  "limitations": "No gameplay collision or performance claim; root owns native runtime and final profiling. Closed form whole-model ground bounds do not prove every subcomponent supported.",
+  "sources": {
+    "godot/art/art100-legacy.glb": "d37dfc08bf885197abf1afe8473a68611174ba282dbd15ea371b29898509652f",
+    "godot/art/art200-signs.glb": "77ba53a1ee04aead66eb709a1f7c96d16926e70f6bf4693066850250f8065d0e"
+  },
+  "models_reviewed": 50,
+  "models": [
+    {
+      "id": "wreck-pickup",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-1.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Hollow cab, dropped tailgate, spare wheel and cargo rails read coherently; headlamps and rims maintain scale.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Two seat groups have 28.5mm clearance from nearest support; add under-seat pedestals. Front grille has a27mm gap to body; add mounting tabs.",
+          "status": "verified_resolved",
+          "resolution": "Verified two seat pedestals and grille return tabs overlap the adjoining seat/body geometry.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.404999852180481,
+        2.103999376296997,
+        5.656681060791016
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-1.jpg",
+      "final_render": "assets/art100/legacy/renders/wreck-pickup.png",
+      "final_render_sha256": "49c102575724f11527daa70fa90a7e6c653333d6e1f2ae93ca65cc72611c145d",
+      "final_geometry_screen": {
+        "editable_parts": 245,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified two seat pedestals and grille return tabs overlap the adjoining seat/body geometry. Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "wreck-ambulance",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-1.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Open rear medical door, hollow driving compartment and muted ceramic paint read clearly.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Beacon/rail assembly is200mm from cab roof; add two roof saddles. Two seats have65mm floor clearance without pedestals. Oxygen cylinder/cradle groups have55mm body clearance; add wall/backing brackets. Roof edge begins~30mm above rear box wall; add perimeter seat/gasket.",
+          "status": "verified_resolved",
+          "resolution": "Verified roof saddles, two seat pedestals, oxygen cradle wall brackets and perimeter roof seating rails. Two added steel pedestals now support the headlamp housings directly from the bumper; the fresh ambulance render confirms the final attachment.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Final strict component check found a 95 mm headlamp-to-bumper gap beneath each ambulance headlamp housing.",
+          "status": "verified_resolved",
+          "resolution": "Verified roof saddles, two seat pedestals, oxygen cradle wall brackets and perimeter roof seating rails. Two added steel pedestals now support the headlamp housings directly from the bumper; the fresh ambulance render confirms the final attachment.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        3.2699689865112305,
+        2.9539999961853027,
+        6.1180219650268555
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-1.jpg",
+      "final_render": "assets/art100/legacy/renders/wreck-ambulance.png",
+      "final_render_sha256": "14cc33d42bda51abca1040b08560ed7561a7b53fc08c11d9228888294234c2af",
+      "final_geometry_screen": {
+        "editable_parts": 228,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified roof saddles, two seat pedestals, oxygen cradle wall brackets and perimeter roof seating rails. Two added steel pedestals now support the headlamp housings directly from the bumper; the fresh ambulance render confirms the final attachment. Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "wreck-forklift",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-1.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Mast, overhead guard and grounded forks are well separated; rear guard post overlaps counterweight and is not floating.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Seat and belt group is95mm above engine deck; add a pedestal. Roller-chain link boxes stop30mm apart; add continuous inner chain strips with actual mast/sheave mounting.",
+          "status": "verified_resolved",
+          "resolution": "Verified the seat pedestal and continuous inner chain strips with mast/sheave mounting.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.145000457763672,
+        3.123999834060669,
+        4.625
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-1.jpg",
+      "final_render": "assets/art100/legacy/renders/wreck-forklift.png",
+      "final_render_sha256": "4720e9f6d5113e7f87ee8911d0ccb83141fed024b2f93df7bbe962631aee8d08",
+      "final_geometry_screen": {
+        "editable_parts": 234,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified the seat pedestal and continuous inner chain strips with mast/sheave mounting. Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "survey-rover",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-1.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Solar wings and protected sample loom are supported; optical head and six wheel suspension give a clear research silhouette.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.7406005859375,
+        3.1740000247955322,
+        3.9091310501098633
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-1.jpg",
+      "final_render": "assets/art100/legacy/renders/survey-rover.png",
+      "final_render_sha256": "d387ca069d27ba32643db401cb27d67cd79c96aa312060827afdc24b8168d67e",
+      "final_geometry_screen": {
+        "editable_parts": 280,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "rail-bogie",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-1.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Brake cylinder, four flanged wheels and central swivel are legible; no major unsupported mass seen.",
+      "issues": [],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.1999969482421875,
+        1.1800000667572021,
+        2.799999952316284
+      ],
+      "geometry_status": "no_concrete_defect_found",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-1.jpg",
+      "final_render": "assets/art100/legacy/renders/rail-bogie.png",
+      "final_render_sha256": "3b338a1b9c89486d767babde2d40884e992a8659b9c7bb972ed82f27ed579d16",
+      "final_geometry_screen": {
+        "editable_parts": 42,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final render and source review found no concrete support, grounding, scale, material or graphic defect.",
+      "status": "review_complete"
+    },
+    {
+      "id": "container-wagon",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-2.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Open freight doors preserve true access; longitudinal container corrugation is appropriate to the substrate.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        4.224247694015503,
+        3.740000009536743,
+        9.40000057220459
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-2.jpg",
+      "final_render": "assets/art100/legacy/renders/container-wagon.png",
+      "final_render_sha256": "31382b72487a34ce9e8cd1094d860ac87792bc755cf0db8915cf36af18b30979",
+      "final_geometry_screen": {
+        "editable_parts": 157,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "fuel-trailer",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-2.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Grounded hitch support and attached tank straps; rear bumper requires real hangers.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Rear safety beam is60mm separated from chassis; add two welded rear hangers.",
+          "status": "verified_resolved",
+          "resolution": "Verified welded bumper hangers connect the rear bumper to the chassis.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.197000503540039,
+        2.373999834060669,
+        4.807999610900879
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-2.jpg",
+      "final_render": "assets/art100/legacy/renders/fuel-trailer.png",
+      "final_render_sha256": "2adeacf79c036aff8183de11a2324d9679c5852fe2f528354ed682516a93ccd3",
+      "final_geometry_screen": {
+        "editable_parts": 109,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified welded bumper hangers connect the rear bumper to the chassis. Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "wreck-motorcycle",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-2.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Tyres, rack struts, caliper and kickstand are coherent; restrained tank color.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        0.8692550659179688,
+        1.3257497549057007,
+        2.6680002212524414
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-2.jpg",
+      "final_render": "assets/art100/legacy/renders/wreck-motorcycle.png",
+      "final_render_sha256": "2d37a5d20d283d3df2aafd91b16dabcae2626e8c1616013225dbf39c479aadb4",
+      "final_geometry_screen": {
+        "editable_parts": 90,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "culvert",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-2.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Open bore and expansion rings meet ground; inlet grate needs one local attachment correction.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Leftmost collapsed inlet grate rod is102mm from the nearest concrete/grate component; embed its lower end in apron or add a connected grate crossbar.",
+          "status": "verified_resolved",
+          "resolution": "Verified the left grate support and two newly added, rotated cast foundation shoes under the wingwalls. Both shoes reach ground; the final render shows continuous wall-to-foundation contact.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        4.5149383544921875,
+        2.901156187057495,
+        5.756938934326172
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-2.jpg",
+      "final_render": "assets/art100/legacy/renders/culvert.png",
+      "final_render_sha256": "1310b688913efd4fe417b0a7cbac9fbac3871bc236de5c30ab2b4448c8c592a0",
+      "final_geometry_screen": {
+        "editable_parts": 33,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified the left grate support and two newly added, rotated cast foundation shoes under the wingwalls. Both shoes reach ground; the final render shows continuous wall-to-foundation contact.",
+      "status": "review_complete"
+    },
+    {
+      "id": "transformer",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-2.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Porcelain sheds, tank, oil return and radiator fins read as distinct manufactured surfaces.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.9000015258789062,
+        2.680000066757202,
+        2.75
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-2.jpg",
+      "final_render": "assets/art100/legacy/renders/transformer.png",
+      "final_render_sha256": "8c7433fae92f345625c633d011f85646038810d51840755e43b8f87fbb8856dc",
+      "final_geometry_screen": {
+        "editable_parts": 86,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "fuel-pump",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-3.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "LITRES and mechanical numerals are crisp, with a coherent nozzle holster and hose.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        1.7629708051681519,
+        2.1399998664855957,
+        1.0699996948242188
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-3.jpg",
+      "final_render": "assets/art100/legacy/renders/fuel-pump.png",
+      "final_render_sha256": "ddff9170aa01afde960c7f5f41a6da6ae4a255a72e4e51598356e64c3b92ba8c",
+      "final_geometry_screen": {
+        "editable_parts": 43,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "utility-cabinet",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-3.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "ISOLATE label and handles are readable; cabinet is grounded on the plinth.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        1.7000007629394531,
+        2.369999885559082,
+        1.2779998779296875
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-3.jpg",
+      "final_render": "assets/art100/legacy/renders/utility-cabinet.png",
+      "final_render_sha256": "7a40f8b2003fd6daf8dce88f50ef00ff48c9e1cc5eda18ab9086d97dd55f8c05",
+      "final_geometry_screen": {
+        "editable_parts": 72,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "telecom-cabinet",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-3.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "RELAY plate, antennae and earth conductor are coherent; door and roof edges remain clear.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        1.763916015625,
+        4.100797653198242,
+        1.2779998779296875
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-3.jpg",
+      "final_render": "assets/art100/legacy/renders/telecom-cabinet.png",
+      "final_render_sha256": "6821b343eb37993963e9aef3effe8fefc80838fc59f5c4b3e571055d63e216a4",
+      "final_geometry_screen": {
+        "editable_parts": 72,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "condenser",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-3.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Twin fan grilles, contactor and pipe loops are connected, with correctly mounted support skids.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        3.1033668518066406,
+        1.5100001096725464,
+        1.4597015380859375
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-3.jpg",
+      "final_render": "assets/art100/legacy/renders/condenser.png",
+      "final_render_sha256": "eda7a087be2bb1e6f023d5adb58c7713dbccd271b164fb990b4a2cc8ed63b4c0",
+      "final_geometry_screen": {
+        "editable_parts": 58,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "satellite-dish",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-3.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Dish rim, pivot and pedestal are convincing; painted fake dents are too conspicuous.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.753997802734375,
+        3.5769999027252197,
+        2.190000534057617
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-3.jpg",
+      "final_render": "assets/art100/legacy/renders/satellite-dish.png",
+      "final_render_sha256": "7df363907d74d204e3da8085ea734197baac8fe6f83f01aa3c02778804614a00",
+      "final_geometry_screen": {
+        "editable_parts": 37,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "light-tower",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-4.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Mast, wheelbase and outrigger foot are legible at human scale; no major floating assembly seen.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.9800000190734863,
+        6.434000015258789,
+        1.9000015258789062
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-4.jpg",
+      "final_render": "assets/art100/legacy/renders/light-tower.png",
+      "final_render_sha256": "3918b27fe0e9e179c23533ce0b8755377edae12691bd0dc6124ad9e1a6268225",
+      "final_geometry_screen": {
+        "editable_parts": 111,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "diesel-generator",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-4.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Grounded machinery skids and three gauges; service plate sits ahead of its mounting surface.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "DIESEL /40 plate+letter group is49mm in front of housing; add short mounting posts or move onto the housing.",
+          "status": "verified_resolved",
+          "resolution": "Verified the DIESEL 40 plaque mounting posts meet the chassis and back of the plaque.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.059999465942383,
+        2.4262125492095947,
+        3.0
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-4.jpg",
+      "final_render": "assets/art100/legacy/renders/diesel-generator.png",
+      "final_render_sha256": "7c8446a39df9e0a3311029afe64d1221ea1239ebae14aa1f17c17433a565a658",
+      "final_geometry_screen": {
+        "editable_parts": 55,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified the DIESEL 40 plaque mounting posts meet the chassis and back of the plaque. Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "air-compressor",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-4.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Receiver, cooling heads and motor are distinct and visibly connected.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        1.79327392578125,
+        2.140850782394409,
+        2.9000015258789062
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-4.jpg",
+      "final_render": "assets/art100/legacy/renders/air-compressor.png",
+      "final_render_sha256": "35f8b9af268faca0323bc6a9ef88e8edb9a053a373b0e4304eeb51aa8a534943",
+      "final_geometry_screen": {
+        "editable_parts": 41,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "fire-hydrant",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-4.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Grounded hydrant barrel, cap chains and broad mounting plate read correctly.",
+      "issues": [],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        0.910003662109375,
+        1.2400000095367432,
+        0.910003662109375
+      ],
+      "geometry_status": "no_concrete_defect_found",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-4.jpg",
+      "final_render": "assets/art100/legacy/renders/fire-hydrant.png",
+      "final_render_sha256": "4fc9d4468e84e3bd2a54d11b93c36f747a2712cc07340f178179954c1c406d28",
+      "final_geometry_screen": {
+        "editable_parts": 42,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final render and source review found no concrete support, grounding, scale, material or graphic defect.",
+      "status": "review_complete"
+    },
+    {
+      "id": "bulk-fuel-tank",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-4.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Tank saddles and access rail are coherent; the current BaseColor overstates painted dents.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        3.8449974060058594,
+        3.9551148414611816,
+        6.599998474121094
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-4.jpg",
+      "final_render": "assets/art100/legacy/renders/bulk-fuel-tank.png",
+      "final_render_sha256": "324c5544332ba0316a9079852c1a3b3b909bc1d418d0a08094c33838419dfd66",
+      "final_geometry_screen": {
+        "editable_parts": 65,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "cargo-pallet",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-5.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Pallet runners carry the cases; FRAGILE and PARTS graphics are purpose appropriate.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        1.65500009059906,
+        1.4249999523162842,
+        1.4499969482421875
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-5.jpg",
+      "final_render": "assets/art100/legacy/renders/cargo-pallet.png",
+      "final_render_sha256": "2b0eae0a3df92017cda34906fe310e9cb279b1127b07f24a9b4dabc3aecd08e3",
+      "final_geometry_screen": {
+        "editable_parts": 39,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "cable-spool",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-5.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Coiled cable, reel bolts and trailing connector are coherent, with the flange grounded.",
+      "issues": [],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        2.8079729080200195,
+        1.3323333263397217,
+        1.8300018310546875
+      ],
+      "geometry_status": "no_concrete_defect_found",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-5.jpg",
+      "final_render": "assets/art100/legacy/renders/cable-spool.png",
+      "final_render_sha256": "bb16cee53a4ba266ee5c53f438303242961ec41a425b0ab3a5c773e74c12278c",
+      "final_geometry_screen": {
+        "editable_parts": 44,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final render and source review found no concrete support, grounding, scale, material or graphic defect.",
+      "status": "review_complete"
+    },
+    {
+      "id": "road-barrier",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-5.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Chamfered concrete and reflectors are legible; lifting loops sit in the barrier.",
+      "issues": [],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        0.8600006103515625,
+        1.0730000734329224,
+        3.2320022583007812
+      ],
+      "geometry_status": "no_concrete_defect_found",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-5.jpg",
+      "final_render": "assets/art100/legacy/renders/road-barrier.png",
+      "final_render_sha256": "a24c5b2e9460431b5b0b1d2233b48745ec552a7353c90db2ea0182d9a74edaaa",
+      "final_geometry_screen": {
+        "editable_parts": 13,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Final render and source review found no concrete support, grounding, scale, material or graphic defect.",
+      "status": "review_complete"
+    },
+    {
+      "id": "signal-gantry",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-5.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Wayfinding arrows are appropriate to an overhead road gantry; upper panel mounting tubes need ties.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Two upper panel mounting tubes have43.5mm separation from nearest panel/steel; add straps between mounting tubes and actual panel backs.",
+          "status": "verified_resolved",
+          "resolution": "Verified upper mounting-tube straps connect into the main gantry frame.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        9.0,
+        6.565000057220459,
+        1.6200027465820312
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-5.jpg",
+      "final_render": "assets/art100/legacy/renders/signal-gantry.png",
+      "final_render_sha256": "4f215ed924449f4eaec5731ae32bbb74afcdccc03bc522e843ad3b29b3d8df0c",
+      "final_geometry_screen": {
+        "editable_parts": 82,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified upper mounting-tube straps connect into the main gantry frame.",
+      "status": "review_complete"
+    },
+    {
+      "id": "bus-shelter",
+      "cohort": "legacy25",
+      "review_image": "assets/art200/fine-comb/legacy-final-5.jpg",
+      "inspected": [
+        "geometry/render silhouette",
+        "grounding and scale",
+        "surface palette and normals",
+        "graphics meaning and legibility",
+        "editable component bounds and source support relationships"
+      ],
+      "observation": "Roof, bench, gutter and broken glass are supported; highway sign graphic is inappropriate as the stop map.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Replace reused NORTH/CITY LIMIT highway arrow graphic with an original route/stop/destination panel; preserve highway graphics on the gantry.",
+          "status": "verified_resolved",
+          "resolution": "Verified the original AMBERLINE / DUSTMILE STOP / ROUTE 07 board. Only the shelter uses the new atlas tile; the highway gantry retains its direction arrows.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "BaseColor contains repeated directional triangular dent stamps in atlas tiles3,7,8,14, producing identical apparent damage across unrelated painted objects. Replace with subtle nondirectional coating variation and sparse chips while retaining real mesh damage. Cause: NeutralPaint_BaseColor.png multiplied by Art200Pigment; fine-grain Normal map is not the source.",
+          "status": "verified_resolved",
+          "resolution": "Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        4.931903839111328,
+        2.979999303817749,
+        2.0
+      ],
+      "geometry_status": "verified_after_correction",
+      "material_batches": 1,
+      "initial_review_image": "assets/art200/legacy-touchup/review-5.jpg",
+      "final_render": "assets/art100/legacy/renders/bus-shelter.png",
+      "final_render_sha256": "cbed09c8d5c474db967db2b6fdbf454c36bf9550907cf4da09a08914fd32373e",
+      "final_geometry_screen": {
+        "editable_parts": 50,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified the original AMBERLINE / DUSTMILE STOP / ROUTE 07 board. Only the shelter uses the new atlas tile; the highway gantry retains its direction arrows. Final renders show subdued nondirectional paint variation and small chips. The repeated triangular BaseColor dent stamps are removed from tiles 3, 7, 8 and 14; authored vehicle mesh dents remain. Roughness and fine normal maps retain material response.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-morrow-motors",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-1.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Truck icon and large MORROW brand suit vehicle service; twin lattice supports are legible.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        12.649999618530273,
+        18.065000534057617,
+        3.0850000381469727
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-1.jpg",
+      "final_render": "assets/art200/signs/renders/01-art200-billboard-morrow-motors.png",
+      "final_render_sha256": "8804a0d2e367de3415869623b96ba44870f6750645220a0aef8ff23ed7933403",
+      "final_geometry_screen": {
+        "editable_parts": 359,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-last-light-lodging",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-1.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Sunrise/bed motif, stacked lodge lettering and stepped cap read clearly.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        6.650001525878906,
+        23.299999237060547,
+        3.0850000381469727
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-1.jpg",
+      "final_render": "assets/art200/signs/renders/02-art200-billboard-last-light-lodging.png",
+      "final_render_sha256": "b1b52e87b4e822e80e6c10a9840de7c84dd4cd2a239ab48227bc1c2be22d8934",
+      "final_geometry_screen": {
+        "editable_parts": 294,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-brindle-bottling",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-1.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Bottle icon and medallion surround are purpose appropriate; tripod stance is broad.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        10.789497375488281,
+        17.894746780395508,
+        4.684999942779541
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-1.jpg",
+      "final_render": "assets/art200/signs/renders/03-art200-billboard-brindle-bottling.png",
+      "final_render_sha256": "6b31a24501d2e850ad611319e31bdb14e55829cc57532cce7de8274957db9eb2",
+      "final_geometry_screen": {
+        "editable_parts": 196,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-grainward-coop",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-1.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Grain motif and arched crest reinforce the seed cooperative identity.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        13.649993896484375,
+        18.987873077392578,
+        3.0850000381469727
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-1.jpg",
+      "final_render": "assets/art200/signs/renders/04-art200-billboard-grainward-coop.png",
+      "final_render_sha256": "24bd5457e9322aaab0ccf19650c4d6be69875dfadac245043c167f6b1c10ccb4",
+      "final_geometry_screen": {
+        "editable_parts": 377,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate. Verified the hidden zero-length crest web is removed. Final editable components and runtime have no zero-area faces; source-part count now matches actual children.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-copperline-cookers",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-1.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Cooker silhouette is meaningful; missing corner removes initial brand letter intentionally as physical damage.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        10.147796630859375,
+        17.71500015258789,
+        4.684999942779541
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-1.jpg",
+      "final_render": "assets/art200/signs/renders/05-art200-billboard-copperline-cookers.png",
+      "final_render_sha256": "f5afcdcb15293e60b82e502ba11a9616097f05db87dd8d01a98a826568a1942d",
+      "final_geometry_screen": {
+        "editable_parts": 193,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-seven-mile-laundry",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-2.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Drum motif and twin laundry medallions suit the wash/fold business.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        8.199999809265137,
+        19.600000381469727,
+        4.584999084472656
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-2.jpg",
+      "final_render": "assets/art200/signs/renders/06-art200-billboard-seven-mile-laundry.png",
+      "final_render_sha256": "3a3affa5fc27aec52036b3ddd623445250c3951881fe7486d15694689109d3a4",
+      "final_geometry_screen": {
+        "editable_parts": 222,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-merit-radio",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-2.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Antenna motif, aerials and slender radio tower form are coherent.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        6.650001525878906,
+        26.799999237060547,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-2.jpg",
+      "final_render": "assets/art200/signs/renders/07-art200-billboard-merit-radio.png",
+      "final_render_sha256": "ad0b61f34fa1cf7abab991ed4d45efe3479791bd7c291b9ea71aba149e068f2f",
+      "final_geometry_screen": {
+        "editable_parts": 304,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-solace-clinic",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-2.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Clinic cross and shade cap are coherent; cantilever compression brace reads clearly.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        11.800003051757812,
+        17.270000457763672,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-2.jpg",
+      "final_render": "assets/art200/signs/renders/08-art200-billboard-solace-clinic.png",
+      "final_render_sha256": "e3e871188fc2404cba8850053bdb0a32e3ada884f5ef236c36be2d4566c99823",
+      "final_geometry_screen": {
+        "editable_parts": 287,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-open-road-retreads",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-2.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Tyre icon and triple-ring surround are coherent; missing first brand letter is a readable consequence of lost sheet.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        13.0537109375,
+        19.526853561401367,
+        4.684999465942383
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-2.jpg",
+      "final_render": "assets/art200/signs/renders/09-art200-billboard-open-road-retreads.png",
+      "final_render_sha256": "58e74a2f495faf7754903771f51f2482955f9db81f76bc1d9a7109bfeab6896d",
+      "final_geometry_screen": {
+        "editable_parts": 191,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-northstar-bank",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-2.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Safe icon and bank name read clearly against muted denim; deco fins bound the panel.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        7.9600067138671875,
+        22.700000762939453,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-2.jpg",
+      "final_render": "assets/art200/signs/renders/10-art200-billboard-northstar-bank.png",
+      "final_render_sha256": "758c1bd4dc0da4309729a342cc9978543d1d97f8119d25e3bf8a82f8c93ada3f",
+      "final_geometry_screen": {
+        "editable_parts": 296,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-dewpoint-water",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-3.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Water drop icon is clear; cistern structure is visible from rear and tubular piers are coherent.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        10.649999618530273,
+        17.065000534057617,
+        5.384998321533203
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-3.jpg",
+      "final_render": "assets/art200/signs/renders/11-art200-billboard-dewpoint-water.png",
+      "final_render_sha256": "18efd2d125b7b17bad518f9d7a66a60e336e5c719ab1b63a6f4a649706084a74",
+      "final_geometry_screen": {
+        "editable_parts": 249,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-paperbird-post",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-3.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Paper plane icon and winged crest agree; damaged lower corner reveals genuine back bracing.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        14.448326110839844,
+        20.374916076660156,
+        4.584999084472656
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-3.jpg",
+      "final_render": "assets/art200/signs/renders/12-art200-billboard-paperbird-post.png",
+      "final_render_sha256": "02a38d1e240c5c41b2307485222e2b065a47b446e9c0a90152d6f3144bf44595",
+      "final_geometry_screen": {
+        "editable_parts": 252,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-parcel-plain",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-3.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Parcel icon and freight wagon form agree; missing underframe crossmembers leave uprights unsupported.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Advertising car uprights atY=.75 stopZ1.2 between underframe rails centeredY=-.2/1.8. Add transverse chassis members beneath both uprights and connect into the longitudinal rails.",
+          "status": "verified_resolved",
+          "resolution": "Verified transverse chassis crossmembers beneath both uprights, spanning into both longitudinal underframe rails.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        12.650001525878906,
+        10.0649995803833,
+        3.4850006103515625
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-3.jpg",
+      "final_render": "assets/art200/signs/renders/13-art200-billboard-parcel-plain.png",
+      "final_render_sha256": "1514abd0b5cda94b5fde0308cee6f34d3bf543ff15dd34deeb00367aab28d87c",
+      "final_geometry_screen": {
+        "editable_parts": 195,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate. Verified transverse chassis crossmembers beneath both uprights, spanning into both longitudinal underframe rails.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-sunbreak-cinema",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-3.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Film reel graphic and arched crest are meaningful; detached decorative blades require ties.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Theatre vertical blades atX\u00b18.12 have545mm minimum clearance to other parts. Add top and bottom lateral ties into the billboard frame.",
+          "status": "verified_resolved",
+          "resolution": "Verified top and bottom lateral ties connecting both vertical theatre blades to the main frame.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        16.740005493164062,
+        22.988046646118164,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-3.jpg",
+      "final_render": "assets/art200/signs/renders/14-art200-billboard-sunbreak-cinema.png",
+      "final_render_sha256": "47a04f113fac6eba4e87b89212bfeb98dae2fcb935bcb5e8dd1a73107b8930f3",
+      "final_geometry_screen": {
+        "editable_parts": 414,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate. Verified top and bottom lateral ties connecting both vertical theatre blades to the main frame. Verified the hidden zero-length crest web is removed. Final editable components and runtime have no zero-area faces; source-part count now matches actual children.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-hush-hour-records",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-3.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Record grooves icon and circular surround suit the record library.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        12.203704833984375,
+        20.10185432434082,
+        4.68499755859375
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-3.jpg",
+      "final_render": "assets/art200/signs/renders/15-art200-billboard-hush-hour-records.png",
+      "final_render_sha256": "4e836d7877bc426ae081840efc10267a89ecaf1e116764be82f7eea8244b44ee",
+      "final_geometry_screen": {
+        "editable_parts": 202,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-workday-tools",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-4.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Spanner icon and supported cantilever suit a tool supplier.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        10.649999618530273,
+        18.14000129699707,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-4.jpg",
+      "final_render": "assets/art200/signs/renders/16-art200-billboard-workday-tools.png",
+      "final_render_sha256": "33f73616f8442c559d3bf3de4f134b4745dacce4010421442d0aa5b12797b24b",
+      "final_geometry_screen": {
+        "editable_parts": 292,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-pantry-union",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-4.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Tin icon and enamel wings suit a provisions business.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        12.650001525878906,
+        19.938398361206055,
+        4.584999084472656
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-4.jpg",
+      "final_render": "assets/art200/signs/renders/17-art200-billboard-pantry-union.png",
+      "final_render_sha256": "e01f81493301fd73bc457050af24346de095007147854dccffc3a4a47f12a6e4",
+      "final_geometry_screen": {
+        "editable_parts": 252,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-sandglass-tours",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-4.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Compass icon and swept header suit overland tours.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        10.863876342773438,
+        20.372386932373047,
+        4.584999084472656
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-4.jpg",
+      "final_render": "assets/art200/signs/renders/18-art200-billboard-sandglass-tours.png",
+      "final_render_sha256": "4c2165db6c092cb6f77987682df3348c8261ad9593180e8fa3af6c25a1d21fc4",
+      "final_geometry_screen": {
+        "editable_parts": 205,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-starlit-fabric",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-4.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Scissors icon and suspended blade structure suit fabric/mending.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        7.0,
+        23.299999237060547,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-4.jpg",
+      "final_render": "assets/art200/signs/renders/19-art200-billboard-starlit-fabric.png",
+      "final_render_sha256": "0f6c8dae83fa41ec158e045c37ea7aed67453cab26ed9e2b5840830ea94b0c14",
+      "final_geometry_screen": {
+        "editable_parts": 295,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-electrovale-grid",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-4.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Pylon icon and bridge lintel agree with public power service.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        13.0,
+        20.55500030517578,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-4.jpg",
+      "final_render": "assets/art200/signs/renders/20-art200-billboard-electrovale-grid.png",
+      "final_render_sha256": "195d4094899b4c3cbf961851fdb3bb3bc70a765a866ba67aabc3ed8b51a0f8a2",
+      "final_geometry_screen": {
+        "editable_parts": 377,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-cairn-cement",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-5.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Block motif, restrained limestone paint and rear raking props suit cement supply.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        12.649999618530273,
+        17.065000534057617,
+        4.68499755859375
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-5.jpg",
+      "final_render": "assets/art200/signs/renders/21-art200-billboard-cairn-cement.png",
+      "final_render_sha256": "b10bc3d49791178604e366d49376b446c7da5a42b4838f86991ffd579ac52af9",
+      "final_geometry_screen": {
+        "editable_parts": 373,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-goodnight-mattress",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-5.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Bed icon and suspension header are coherent with bedding works.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        10.650001525878906,
+        18.809999465942383,
+        4.584999084472656
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-5.jpg",
+      "final_render": "assets/art200/signs/renders/22-art200-billboard-goodnight-mattress.png",
+      "final_render_sha256": "9b0904cdf348f40caafabd23ff3927bd5221e58cdd34a77c8dc6c08c0bc66b96",
+      "final_geometry_screen": {
+        "editable_parts": 244,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-winterfruit-preserves",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-5.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Preserve jar graphic and faceted crown are meaningful and readable.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        11.217987060546875,
+        18.396194458007812,
+        4.68499755859375
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-5.jpg",
+      "final_render": "assets/art200/signs/renders/23-art200-billboard-winterfruit-preserves.png",
+      "final_render_sha256": "56cb0be95153a60cce800f7103efd41412102fd013cef26508c0999e503fe81d",
+      "final_geometry_screen": {
+        "editable_parts": 204,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-kindred-salvage",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-5.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Exchange arrows and visibly broken/rebraced pier suit salvage.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        11.649993896484375,
+        20.14000129699707,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-5.jpg",
+      "final_render": "assets/art200/signs/renders/24-art200-billboard-kindred-salvage.png",
+      "final_render_sha256": "50db42c40fa106afaa86ac6de649a27d6018dbfce620bb34a999e37997617474",
+      "final_geometry_screen": {
+        "editable_parts": 293,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    },
+    {
+      "id": "art200-billboard-amberline-transit",
+      "cohort": "signs25",
+      "review_image": "assets/art200/fine-comb/signs-final-5.jpg",
+      "inspected": [
+        "final25 phase2 renders",
+        "business-specific graphics and typography",
+        "physical panel loss and supports",
+        "editable Blender component coordinates",
+        "ground scale and muted palette"
+      ],
+      "observation": "Bus icon and deep highway truss suit transit; muted ochre contrasts enough for title legibility.",
+      "issues": [
+        {
+          "priority": 2,
+          "description": "Interior printed panels end at rearY=-.07 while rear rails beginY=-.01, leaving60mm gap; front captive fixings stopY=-.13. Add physical rear stand-off clips or connected rails/fixing shafts for every sheet.",
+          "status": "verified_resolved",
+          "resolution": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        },
+        {
+          "priority": 2,
+          "description": "Tubular stanchions/backing spines startZ=.420; bolted sole plates endZ=.410. Extend stems into plates to remove10mm air gap.",
+          "status": "verified_resolved",
+          "resolution": "Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+          "verified_by": [
+            "Final editable component coordinates and source geometry",
+            "Final model render"
+          ]
+        }
+      ],
+      "bounds_evidence": "legacy-signs-geometry.json",
+      "ground_min_m": 0.0,
+      "dimensions_m": [
+        15.0,
+        20.065000534057617,
+        3.0849990844726562
+      ],
+      "geometry_status": "verified_after_correction",
+      "initial_review_image": "assets/art200/fine-comb/signs-review-5.jpg",
+      "final_render": "assets/art200/signs/renders/25-art200-billboard-amberline-transit.png",
+      "final_render_sha256": "736546ce2387e6f79e4fad955499d6d09892b7bedec06d0158a656081fec3c15",
+      "final_geometry_screen": {
+        "editable_parts": 396,
+        "zero_area_faces": 0,
+        "bounds_groups": 1,
+        "elevated_bounds_groups_at_25mm": 0
+      },
+      "final_observation": "Verified continuous rear rails at all sheet seams, including three-row boards; four stand-off sleeves per panel span the former 60 mm air gap, and longer fixing shafts connect to the rails. Lower-right fixings move clear of intentionally missing panel corners. Verified tubular posts, backing spines and ladder rails start inside their base seats. Each backing spine has its own soleplate.",
+      "status": "review_complete"
+    }
+  ],
+  "status": "Complete: 50 reviewed, 80 findings resolved, no pending correction.",
+  "initial_sources": {
+    "godot/art/art100-legacy.glb": "5a6fa00e2944000499a54e10cf144cb9c49e23ce23abf80babbb54eb04b5b815",
+    "godot/art/art200-signs.glb": "92c4dffeba631b712c5b00c80adeb34687ce0ae44f1d0496e4dd72926d3ededa"
+  },
+  "final_review_images": [
+    "assets/art200/fine-comb/legacy-final-1.jpg",
+    "assets/art200/fine-comb/legacy-final-2.jpg",
+    "assets/art200/fine-comb/legacy-final-3.jpg",
+    "assets/art200/fine-comb/legacy-final-4.jpg",
+    "assets/art200/fine-comb/legacy-final-5.jpg",
+    "assets/art200/fine-comb/signs-final-1.jpg",
+    "assets/art200/fine-comb/signs-final-2.jpg",
+    "assets/art200/fine-comb/signs-final-3.jpg",
+    "assets/art200/fine-comb/signs-final-4.jpg",
+    "assets/art200/fine-comb/signs-final-5.jpg"
+  ],
+  "final_sources": {
+    "assets/art100/legacy/Art100_DesertRefinement.blend": "0232f0949ae846d30745132c284a338f0ba0bff66dc79fcaa00847576ff2000a",
+    "assets/art200/signs/Art200_Advertising-editable.blend": "269ce9c97f2e32ab8dd7cc443140cba88e31734da3eb7628d84bf33bef6e457e"
+  },
+  "review_completion": "Fine-comb review complete; all 80 recorded findings verified resolved. No additional concrete defect found in the 50 final renders and source review.",
+  "runtime_cleanup_evidence": "assets/art200/legacy-touchup/degenerate-cleanup-audit.json",
+  "metadata_corrections": {
+    "art200-billboard-grainward-coop": {
+      "source_parts": 377
+    },
+    "art200-billboard-sunbreak-cinema": {
+      "source_parts": 414
+    }
+  },
+  "runtime_geometry_evidence": "assets/art200/fine-comb/legacy-signs-glb-geometry.json"
+}

@@ -1,0 +1,28 @@
+{
+	"approaches": [
+		{
+			"height": 12.4348087310791,
+			"side": "(0.0, 0.0, 1.0)",
+			"stopM": 0.77503776550293
+		},
+		{
+			"height": 12.4376268386841,
+			"side": "(1.0, 0.0, 0.0)",
+			"stopM": 1.87500524520874
+		}
+	],
+	"checks": 27,
+	"failures": [],
+	"passed": true,
+	"physics": {
+		"changedUnrelatedVertices": 0,
+		"priorRemoved": 5656,
+		"removedIntakeTriangles": 12724,
+		"replacementTriangles": 708.0
+	},
+	"render": {
+		"batches": 9,
+		"collapsedTriangles": 0,
+		"triangles": 162127
+	}
+}

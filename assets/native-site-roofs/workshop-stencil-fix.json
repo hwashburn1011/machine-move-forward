@@ -1,0 +1,38 @@
+{
+  "beforeSha256": "68cc571c9ddbfb4621e0011c0e7a86c81b7be2682b337b0645f5c0d9fdb5fb64",
+  "afterSha256": "508190accd223c8c6acc942579979ac19d557772e6741ddac2fb1e80509de40b",
+  "node": "Workshop motto",
+  "beforeNode": {
+    "mesh": 7,
+    "name": "Workshop motto",
+    "rotation": [
+      0,
+      -0.7071068286895752,
+      0.7071068286895752,
+      3.090862321641907e-08
+    ],
+    "translation": [
+      1.399999976158142,
+      2.6500000953674316,
+      -4.510000228881836
+    ]
+  },
+  "afterNode": {
+    "mesh": 7,
+    "name": "Workshop motto",
+    "rotation": [
+      0.7071067811865476,
+      0,
+      0,
+      0.7071067811865476
+    ],
+    "translation": [
+      1.399999976158142,
+      2.6500000953674316,
+      -4.510000228881836
+    ]
+  },
+  "binaryBytesUnchanged": true,
+  "allOtherNodesMaterialsMeshesPreserved": true,
+  "intent": "Readable from inside the workshop at +Z; same translation, mesh, texture and material resources."
+}

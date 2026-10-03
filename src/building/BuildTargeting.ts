@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { BUILD_PIECES, type PieceId } from '@/data/build-pieces';
-import { GRID_LEVELS, GRID_MIN_LEVEL, LEVEL_HEIGHT, DECK_HEIGHT } from '@/game/constants';
+import { GRID_LEVELS, GRID_MIN_LEVEL, LEVEL_HEIGHT, DECK_SURFACE_Y } from '@/game/constants';
 import {
   canonicalEdge,
   cellCenter,
@@ -101,7 +101,7 @@ export function intersectDeckPlane(
   const o = origin.clone().applyMatrix4(inverse),
     d = direction.clone().transformDirection(inverse);
   if (Math.abs(d.y) < 1e-6) return null;
-  const t = (DECK_HEIGHT + level * LEVEL_HEIGHT - o.y) / d.y;
+  const t = (DECK_SURFACE_Y + level * LEVEL_HEIGHT - o.y) / d.y;
   if (t < 0) return null;
   return o.addScaledVector(d, t);
 }
@@ -240,10 +240,11 @@ function worldPointFor(origin: THREE.Vector3, direction: THREE.Vector3): THREE.V
 
 /** Hysteretic auto deck selection: retain the current deck inside this band. */
 export function selectAutoLevel(height: number, currentLevel: number, hysteresis = 0.3): number {
-  const raw = Math.round((height - DECK_HEIGHT) / LEVEL_HEIGHT);
+  const raw = Math.round((height - DECK_SURFACE_Y) / LEVEL_HEIGHT);
   if (!levelInEnvelope(raw))
     return Math.max(GRID_MIN_LEVEL, Math.min(GRID_LEVELS - 1, currentLevel));
-  const boundary = DECK_HEIGHT + (currentLevel + (raw > currentLevel ? 0.5 : -0.5)) * LEVEL_HEIGHT;
+  const boundary =
+    DECK_SURFACE_Y + (currentLevel + (raw > currentLevel ? 0.5 : -0.5)) * LEVEL_HEIGHT;
   if (Math.abs(height - boundary) <= hysteresis)
     return Math.max(GRID_MIN_LEVEL, Math.min(GRID_LEVELS - 1, currentLevel));
   return raw;

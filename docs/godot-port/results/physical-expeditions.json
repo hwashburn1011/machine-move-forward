@@ -1,0 +1,64 @@
+{
+  "scope": "physical-expedition workstream E",
+  "date": "2026-09-28",
+  "human_uncoached_acceptance": "pending",
+  "suites": {
+    "state": {
+      "checks": 154,
+      "failures": []
+    },
+    "traversal_headless": {
+      "checks": 304,
+      "failures": [],
+      "passed": true,
+      "walked_m": 554.960504803807
+    },
+    "lifecycle": {
+      "checks": 21,
+      "failures": [],
+      "passed": true
+    },
+    "story_polish": {
+      "checks": 76,
+      "failures": [],
+      "passed": true,
+      "renderer": ""
+    },
+    "checkpoints": {
+      "checks": 290,
+      "failures": [],
+      "passed": true
+    },
+    "traversal_native": {
+      "checks": 304,
+      "failures": [],
+      "passed": true,
+      "walked_m": 555.856711108238
+    },
+    "foundry_native_1200x900": {
+      "checks": 39,
+      "failures": [],
+      "passed": true,
+      "walked_m": 47.4928974509239
+    },
+    "campaign_integration": {
+      "checks": 109,
+      "failures": [],
+      "passed": true,
+      "renderer": ""
+    }
+  },
+  "native_capture_directory": "docs/godot-port/previews/physical-expeditions",
+  "final_art_review": {
+    "passed": true,
+    "checks": 35,
+    "failures": [],
+    "scope": "All seven native site variants after final production changes; posed fixture supplements movement-input traversal."
+  },
+  "owned_sources": {
+    "godot/scripts/expedition_mechanisms.gd": "e5e3784c6ecd2619df4f0f4353632a2fa8a103b7e7cd0b34d5540fc16ba9adfa",
+    "godot/scripts/expedition_activity.gd": "61b24f3764956d43f844a5ac1c25c690df0d3f6f52dd79bb0c21bebd496c851c",
+    "godot/scripts/expedition_mechanism_view.gd": "18013fb9f31ecc540a5418c5a41acedee0f5223558b83dfb57654927ca6702df"
+  },
+  "native_capture_count": 72
+}

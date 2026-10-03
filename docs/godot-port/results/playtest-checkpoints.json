@@ -1,0 +1,71 @@
+{
+  "date": "2026-09-26",
+  "checks": 799,
+  "passed": true,
+  "suites": [
+    {
+      "suite": "checkpoint-parity",
+      "checks": 103,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoint-controls_interactions",
+      "checks": 66,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoint-wrist_terminal",
+      "checks": 45,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoint-later_expeditions",
+      "checks": 85,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoint-story_polish",
+      "checks": 59,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoint-autosave_worker",
+      "checks": 31,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoint-workshop_first_visit",
+      "checks": 23,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoint-integration",
+      "checks": 109,
+      "failures": [],
+      "errors": []
+    },
+    {
+      "suite": "checkpoints-native",
+      "checks": 278,
+      "failures": [],
+      "errors": []
+    }
+  ],
+  "nativeReview": {
+    "renderer": "Vulkan / NVIDIA GeForce RTX 3070",
+    "resolutions": [
+      "1440x900",
+      "1200x900"
+    ],
+    "checkpointCount": 19,
+    "wristChecks": 45,
+    "wristPassed": true
+  }
+}

@@ -36,6 +36,8 @@ const fixture = () => {
     bus,
   );
   const machine = {
+    group: new THREE.Group(),
+    constructionBody: {},
     equipmentCells: [],
     deckCells: [{ x: 0, y: 0, z: 0 }],
     fixedLinks: [],
@@ -44,7 +46,7 @@ const fixture = () => {
   const build = new BuildSystem(
     new THREE.Scene(),
     {
-      addFixedBox: () => ({}),
+      addBoxTo: () => ({}),
       addFixedBoxRotated: () => ({}),
       removeCollider: () => undefined,
     } as unknown as PhysicsWorld,

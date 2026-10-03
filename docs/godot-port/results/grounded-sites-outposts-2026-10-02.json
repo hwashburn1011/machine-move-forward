@@ -1,0 +1,587 @@
+{
+  "passed": true,
+  "created_utc": "2026-10-02T16:32:43.446123+00:00",
+  "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+  "runtime_assets_sha256": "ee6ed36c71490cb591b571adedf911258de47f8a1253bdc9a7a8edaf99f8686e",
+  "scope": "Grounded destination architecture, sparse shootable roadside towers, shared physical ranged dispersion, and title layout refinement.",
+  "regressions": [
+    {
+      "suite": "site_grounding",
+      "exit_code": 0,
+      "checks": 953,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "roadside_outposts",
+      "exit_code": 0,
+      "checks": 512,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-footing-final"
+    },
+    {
+      "suite": "enemy_ballistics",
+      "exit_code": 0,
+      "checks": 75,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "enemy_equipment",
+      "exit_code": 0,
+      "checks": 151,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "enemy_combat_contract",
+      "exit_code": 0,
+      "checks": 45,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "enemy_tells",
+      "exit_code": 0,
+      "checks": 63,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "cordon_guardian",
+      "exit_code": 0,
+      "checks": 70,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "encounter_loading",
+      "exit_code": 0,
+      "checks": 49,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "floor_surfaces",
+      "exit_code": 0,
+      "checks": 55,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "site_roofs",
+      "exit_code": 0,
+      "checks": 121,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "compiled_machine",
+      "exit_code": 0,
+      "checks": 26,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "traversal",
+      "exit_code": 0,
+      "checks": 15,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "physical_expeditions",
+      "exit_code": 0,
+      "checks": 304,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "workshop_first_visit",
+      "exit_code": 0,
+      "checks": 23,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "construction_spaces",
+      "exit_code": 0,
+      "checks": 41,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "campaign_flow",
+      "exit_code": 0,
+      "checks": 26,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "checks": 455,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "checks": 115,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "narrative_delivery",
+      "exit_code": 0,
+      "checks": 183,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "narrative_edge_cases",
+      "exit_code": 0,
+      "checks": 47,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "autosave_worker",
+      "exit_code": 0,
+      "checks": 31,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "survivor_content",
+      "exit_code": 0,
+      "checks": 40,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "playtest_recorder",
+      "exit_code": 0,
+      "checks": 22,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    },
+    {
+      "suite": "controls_interactions",
+      "exit_code": 0,
+      "checks": 66,
+      "failures": [],
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "source_hash_end": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "evidence_directory": "test-results/site-grounding/regressions-final"
+    }
+  ],
+  "regression_checks": 3488,
+  "additional_test_scope": "Final roadside suite adds six physical footing assertions; replaces its earlier 506-check result without counting duplicates.",
+  "native_performance": [
+    {
+      "scenario": "travel",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 8.936,
+        "median": 3.73,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.309,
+        "p99": 6.847,
+        "samples": 4572
+      },
+      "gpu_ms": {
+        "max": 4.93599987030029,
+        "median": 3.20900011062622,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.72699999809265,
+        "p99": 4.01100015640259,
+        "samples": 4572
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 856.0,
+      "passed": true
+    },
+    {
+      "scenario": "combat",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 11.515,
+        "median": 3.85,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 7.675,
+        "p99": 8.447,
+        "samples": 3864
+      },
+      "gpu_ms": {
+        "max": 5.19199991226196,
+        "median": 3.40499997138977,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 4.08699989318848,
+        "p99": 4.5479998588562,
+        "samples": 3864
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 1008.0,
+      "passed": true
+    },
+    {
+      "scenario": "wake",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 8.46,
+        "median": 3.732,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.01,
+        "p99": 5.65,
+        "samples": 4549
+      },
+      "gpu_ms": {
+        "max": 4.59899997711182,
+        "median": 3.17000007629395,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.63199996948242,
+        "p99": 4.26200008392334,
+        "samples": 4549
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 1902.0,
+      "passed": true
+    },
+    {
+      "scenario": "foundry",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 9.796,
+        "median": 3.844,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.124,
+        "p99": 5.652,
+        "samples": 4386
+      },
+      "gpu_ms": {
+        "max": 4.65899991989136,
+        "median": 3.28200006484985,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.74600005149841,
+        "p99": 4.3730001449585,
+        "samples": 4386
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 1948.0,
+      "passed": true
+    },
+    {
+      "scenario": "array",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 9.662,
+        "median": 3.703,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.732,
+        "p99": 6.497,
+        "samples": 4372
+      },
+      "gpu_ms": {
+        "max": 4.74399995803833,
+        "median": 3.29800009727478,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.75500011444092,
+        "p99": 4.39200019836426,
+        "samples": 4372
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 1844.0,
+      "passed": true
+    },
+    {
+      "scenario": "orchard",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 9.999,
+        "median": 3.882,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.35,
+        "p99": 6.016,
+        "samples": 4359
+      },
+      "gpu_ms": {
+        "max": 4.76999998092651,
+        "median": 3.22300004959106,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.6029999256134,
+        "p99": 3.79900002479553,
+        "samples": 4359
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 1981.0,
+      "passed": true
+    },
+    {
+      "scenario": "meridian",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 10.801,
+        "median": 3.731,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.888,
+        "p99": 6.745,
+        "samples": 4287
+      },
+      "gpu_ms": {
+        "max": 4.73600006103516,
+        "median": 3.23799991607666,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.69600009918213,
+        "p99": 3.84800004959106,
+        "samples": 4287
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 1964.0,
+      "passed": true
+    },
+    {
+      "scenario": "berth",
+      "exit_code": 0,
+      "diagnostics": [],
+      "report_present": true,
+      "source_stable": true,
+      "frame_ms": {
+        "max": 8.806,
+        "median": 4.01,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 5.863,
+        "p99": 6.576,
+        "samples": 4109
+      },
+      "gpu_ms": {
+        "max": 4.83500003814697,
+        "median": 3.33500003814697,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 3.78999996185303,
+        "p99": 3.98399996757507,
+        "samples": 4109
+      },
+      "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+      "draw_calls": 2251.0,
+      "passed": true
+    }
+  ],
+  "roadside_performance": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "assembly_ms": 2.67,
+    "clearance_ms": {
+      "max": 35.585,
+      "median": 34.999,
+      "p95": 35.585,
+      "p99": 35.585,
+      "samples": 18
+    },
+    "distance_travelled": 132.713816893633,
+    "failures": [],
+    "frame_cap": 0,
+    "guards": 2,
+    "metrics": {
+      "draw_calls": {
+        "max": 834.0,
+        "median": 697.0,
+        "p95": 814.0,
+        "p99": 829.0,
+        "samples": 4526
+      },
+      "frame_ms": {
+        "max": 8.13,
+        "median": 3.997,
+        "p95": 4.972,
+        "p99": 5.898,
+        "samples": 4526
+      },
+      "gpu_ms": {
+        "max": 4.84100008010864,
+        "median": 3.40499997138977,
+        "p95": 3.78500008583069,
+        "p99": 3.93499994277954,
+        "samples": 4526
+      },
+      "render_cpu_ms": {
+        "max": 2.90799999237061,
+        "median": 0.769999980926514,
+        "p95": 0.948000013828278,
+        "p99": 1.13300001621246,
+        "samples": 4526
+      }
+    },
+    "normal_reveal_frames_ms": {
+      "max": 11.484,
+      "median": 3.579,
+      "p95": 6.596,
+      "p99": 9.072,
+      "samples": 1436
+    },
+    "normal_reveal_last_frame_ms": 7.318,
+    "production_preparation_peak_ms": 2.465,
+    "quality": "high Forward+ 4xMSAA",
+    "resolution": [
+      1920,
+      1080
+    ],
+    "sample_seconds": 18,
+    "scope": "Normal travel reveal observed separately; then staged pass with two live guards, stationary invulnerable test player, real travel/scenery and AI, no fixed-fps; no resource loading inside measured 18s beyond normal streaming.",
+    "shots": 6,
+    "source_hash": "9ea7a59eeeb3d7c7992fef66454ded495c3525fd509e03d0643d92fc84d13805",
+    "vsync": 0,
+    "warmup_seconds": 3
+  },
+  "worst_p95_frame_ms": 7.675,
+  "visual_review": {
+    "grounded_site_views": 41,
+    "roadside_views": 11,
+    "title_settings_views": 5,
+    "root_site_review": "test-results/site-grounding/root-visual-review.json",
+    "root_tower_review": "test-results/roadside-outposts/root-visual-review.json",
+    "site_closure": "assets/site-grounding/review-closure.json",
+    "outpost_handoff": "test-results/roadside-outposts/handoff.json"
+  },
+  "aim_statistics": [
+    {
+      "distance_m": 2.0,
+      "envelope": "actual standing player capsule radius0.34,height1.92,aimY1.0",
+      "hit_fraction": 0.879916666666667,
+      "hits": 10559,
+      "samples": 12000,
+      "spread_radius_m": 0.440246510903454
+    },
+    {
+      "distance_m": 12.0,
+      "envelope": "actual standing player capsule radius0.34,height1.92,aimY1.0",
+      "hit_fraction": 0.705583333333333,
+      "hits": 8467,
+      "samples": 12000,
+      "spread_radius_m": 0.572899115967157
+    },
+    {
+      "distance_m": 32.0,
+      "envelope": "actual standing player capsule radius0.34,height1.92,aimY1.0",
+      "hit_fraction": 0.43075,
+      "hits": 5169,
+      "samples": 12000,
+      "spread_radius_m": 0.995322498185328
+    },
+    {
+      "distance_m": 65.0,
+      "envelope": "actual standing player capsule radius0.34,height1.92,aimY1.0",
+      "hit_fraction": 0.118833333333333,
+      "hits": 1426,
+      "samples": 12000,
+      "spread_radius_m": 2.150466276042
+    },
+    {
+      "outside_2m_blast_fraction": 0.024,
+      "samples": 5000,
+      "shell_distance_m": 5.0
+    },
+    {
+      "outside_2m_blast_fraction": 0.4296,
+      "samples": 5000,
+      "shell_distance_m": 25.0
+    },
+    {
+      "outside_2m_blast_fraction": 0.775,
+      "samples": 5000,
+      "shell_distance_m": 60.0
+    }
+  ],
+  "preserved_historical_reports": {
+    "test-results/roof-floor/completion.json": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
+    "docs/godot-port/results/roofs-floor-stability-2026-10-02.json": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
+    "test-results/deck-audio/completion.json": "32ec379d87495985c4be4142d9f334ef276a2c6f6a4edfa360e0197ab87ab125",
+    "docs/godot-port/results/machine-spaces-audio-2026-10-02.json": "32ec379d87495985c4be4142d9f334ef276a2c6f6a4edfa360e0197ab87ab125",
+    "test-results/beta-next/completion.json": "f9328c42c4a34203bc30574ac22b5af3bd2209438677a112c5b612ddd7fd9881",
+    "docs/godot-port/results/beta-next-2026-10-02.json": "f9328c42c4a34203bc30574ac22b5af3bd2209438677a112c5b612ddd7fd9881"
+  },
+  "limits": "Native scripted workloads on the RTX 3070/i9-11900KF host at 1920x1080 High, Forward+ 4xMSAA, uncapped. Performance scenes use staged checkpoints and an invulnerable test player. Static review and controlled physics checks do not replace fresh-player feedback or establish minimum hardware requirements.",
+  "distribution": "Windows package is a separate acceptance step. itch.io account/project setup remains deferred by the owner; nothing is uploaded."
+}

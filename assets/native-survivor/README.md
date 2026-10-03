@@ -1,0 +1,1 @@
+Original Blender-authored survivor content. Rebuild with Blender 5.1 --background --python tools/art/native_survivor/build.py. Runtime imports are Godot Y-up metres. The cutter grip is its origin, jaws +Y. The extension is 4m along local Z. Workshop named PrimaryEntry and SecondaryEntry match authored collision/interaction anchors. No downloaded assets.

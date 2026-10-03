@@ -1,0 +1,77 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MMF_NATIVE_READY 
+PASS Objective rendering has no progression side effects
+PASS Fresh campaign directs to salvage
+PASS Receiver recovery directs to refinery
+PASS A build transaction records the historical refinery fact
+PASS Working refinery directs to component crafting
+PASS Destroyed refinery requests recovery without clearing history
+PASS Refining milestone directs to workbench
+PASS Workbench directs to scanner module recipe
+PASS Already carried module directs to physical receiver
+PASS Manual recipe pin identifies its physical station
+PASS Recipe checklist uses real recipe inputs
+PASS Pinning neither crafts nor spends resources
+PASS Pin identity survives native save validation
+PASS Unknown pin fails before live save mutation
+PASS Legacy saves default to no manual pin
+PASS One manual build pin replaces a recipe pin
+PASS Clearing pin resumes suggested requirements
+PASS Powered workbench requirement is truthful
+PASS Unpowered refinery checklist explains the requirement
+PASS Optional target marker resolves the current station
+PASS Centered target marker fits the safe viewport area
+PASS Behind-camera marker cannot clip into HUD
+PASS Marker preference hides world guidance
+PASS Removing prerequisite clears freed/missing station target
+PASS Recipe pins keep the station interface independent of wrist
+PASS Personal pack remains on wrist computer
+PASS Closing personal menu returns camera immediately
+PASS Later route guidance names the physical navigation helm
+PASS Checkpoint remains valid: first-steps
+PASS Pure objective at checkpoint: first-steps
+PASS Checkpoint remains valid: scanner
+PASS Pure objective at checkpoint: scanner
+PASS Checkpoint remains valid: crossfire
+PASS Pure objective at checkpoint: crossfire
+PASS Checkpoint remains valid: defense
+PASS Pure objective at checkpoint: defense
+PASS Checkpoint remains valid: wake
+PASS Pure objective at checkpoint: wake
+PASS Checkpoint remains valid: foundry-route
+PASS Pure objective at checkpoint: foundry-route
+PASS Checkpoint remains valid: foundry
+PASS Pure objective at checkpoint: foundry
+PASS Checkpoint remains valid: array
+PASS Pure objective at checkpoint: array
+PASS Checkpoint remains valid: refuge
+PASS Pure objective at checkpoint: refuge
+PASS Checkpoint remains valid: workshop
+PASS Pure objective at checkpoint: workshop
+PASS Checkpoint remains valid: scout
+PASS Pure objective at checkpoint: scout
+PASS Checkpoint remains valid: crane
+PASS Pure objective at checkpoint: crane
+PASS Checkpoint remains valid: orchard-caretaker
+PASS Pure objective at checkpoint: orchard-caretaker
+PASS Checkpoint remains valid: orchard-cold-vault
+PASS Pure objective at checkpoint: orchard-cold-vault
+PASS Checkpoint remains valid: battery
+PASS Pure objective at checkpoint: battery
+PASS Checkpoint remains valid: quiet-drive
+PASS Pure objective at checkpoint: quiet-drive
+PASS Checkpoint remains valid: meridian-quiet
+PASS Pure objective at checkpoint: meridian-quiet
+PASS Checkpoint remains valid: meridian-cordon
+PASS Pure objective at checkpoint: meridian-cordon
+PASS Checkpoint remains valid: final-bearing
+PASS Pure objective at checkpoint: final-bearing
+PASS Checkpoint remains valid: recovery-empty
+PASS Pure objective at checkpoint: recovery-empty
+PASS Checkpoint remains valid: recovery-destroyed
+PASS Pure objective at checkpoint: recovery-destroyed
+PASS Checkpoint remains valid: operations-shutdown
+PASS Pure objective at checkpoint: operations-shutdown
+PASS Checkpoint remains valid: operations-loads
+PASS Pure objective at checkpoint: operations-loads

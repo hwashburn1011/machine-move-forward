@@ -1,0 +1,4455 @@
+{
+  "count": 25,
+  "new": 25,
+  "refined": 0,
+  "units": "metres",
+  "palette": "assets/art200/palette.json",
+  "models": [
+    {
+      "id": "Story2ScoutRepairStand",
+      "root": "Story2ScoutRepairStand",
+      "title": "Dormant scout on a split repair cradle",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "petrol",
+      "runtime_target": "wreck-one",
+      "description": "A single-track survey courier hangs safely on a visibly bolted maintenance fork; static evidence, no AI.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.05,
+            0
+          ],
+          "size": [
+            1.2,
+            0.1,
+            0.82
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.43,
+            0.43,
+            -0.06
+          ],
+          "size": [
+            0.14,
+            0.72,
+            0.26
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.43,
+            0.43,
+            -0.06
+          ],
+          "size": [
+            0.14,
+            0.72,
+            0.26
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.54,
+            0.68,
+            0
+          ],
+          "b": [
+            0.54,
+            0.68,
+            0
+          ],
+          "radius": 0.074
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.11999999731779099,
+            0.6600000262260437,
+            0.0
+          ],
+          "b": [
+            0.11999999731779099,
+            0.6600000262260437,
+            0.0
+          ],
+          "radius": 0.33
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.01,
+            0
+          ],
+          "size": [
+            0.66,
+            0.36,
+            0.53
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            1.19,
+            0
+          ],
+          "b": [
+            0,
+            1.45,
+            0
+          ],
+          "radius": 0.047
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.49,
+            0.02
+          ],
+          "size": [
+            0.37,
+            0.15,
+            0.27
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.6,
+        0.0,
+        -0.41
+      ],
+      "bounds_max": [
+        0.6,
+        1.565,
+        0.423
+      ],
+      "dimensions_m": [
+        1.2,
+        1.565,
+        0.833
+      ],
+      "triangles": 13209,
+      "editable_parts": 47,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 petrol ceramic stencil",
+        "A200 petrol enamel",
+        "A200 petrol service inset",
+        "A200 smoked instrument glazing",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Gasketed hull service panel, optical-head identity and shroud fasteners."
+      ]
+    },
+    {
+      "id": "Story2CargoManifestLectern",
+      "root": "Story2CargoManifestLectern",
+      "title": "Cargo record suitcase lectern",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "oxblood",
+      "runtime_target": "wreck-one",
+      "description": "An opened itinerary case holds stamped cargo tags and paper evidence on a connected reading pedestal.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.04,
+            0
+          ],
+          "size": [
+            0.76,
+            0.08,
+            0.61
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.16,
+            0.08,
+            0
+          ],
+          "b": [
+            -0.16,
+            0.82,
+            0
+          ],
+          "radius": 0.1
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.87,
+            0
+          ],
+          "size": [
+            0.89,
+            0.16,
+            0.62
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.23,
+            -0.24
+          ],
+          "size": [
+            0.89,
+            0.6,
+            0.07
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.445,
+        0.0,
+        -0.31
+      ],
+      "bounds_max": [
+        0.445,
+        1.53,
+        0.327
+      ],
+      "dimensions_m": [
+        0.89,
+        1.53,
+        0.637
+      ],
+      "triangles": 5232,
+      "editable_parts": 27,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 oxblood ceramic stencil",
+        "A200 oxblood enamel",
+        "A200 oxblood service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Numbered cargo leaves and connected case latches."
+      ]
+    },
+    {
+      "id": "Story2SplitDriveAxle",
+      "root": "Story2SplitDriveAxle",
+      "title": "Recovered split differential axle",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "clay",
+      "runtime_target": "wreck-one",
+      "description": "A heavy differential with one opened hub and a broken drive stub rests on permanent recovery shoes.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.82,
+            0.1,
+            0
+          ],
+          "size": [
+            0.34,
+            0.2,
+            0.64
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.82,
+            0.1,
+            0
+          ],
+          "size": [
+            0.34,
+            0.2,
+            0.64
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -1.09,
+            0.43,
+            0
+          ],
+          "b": [
+            1.09,
+            0.43,
+            0
+          ],
+          "radius": 0.15
+        },
+        {
+          "type": "sphere",
+          "at": [
+            0,
+            0.43,
+            0
+          ],
+          "radius": 0.34
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -1.1600000000000001,
+            0.43,
+            0
+          ],
+          "b": [
+            -0.9400000000000001,
+            0.43,
+            0
+          ],
+          "radius": 0.36
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.9400000000000001,
+            0.43,
+            0
+          ],
+          "b": [
+            1.1600000000000001,
+            0.43,
+            0
+          ],
+          "radius": 0.36
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -1.47,
+            0.43,
+            0
+          ],
+          "b": [
+            -1.15,
+            0.43,
+            0
+          ],
+          "radius": 0.092
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -1.47,
+        0.0,
+        -0.36
+      ],
+      "bounds_max": [
+        1.18,
+        0.79,
+        0.422
+      ],
+      "dimensions_m": [
+        2.65,
+        0.79,
+        0.782
+      ],
+      "triangles": 20260,
+      "editable_parts": 60,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 clay ceramic stencil",
+        "A200 clay enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 5,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Stepped axle covers and six-point fastened hub flanges."
+      ]
+    },
+    {
+      "id": "Story2EmergencyShadeStation",
+      "root": "Story2EmergencyShadeStation",
+      "title": "Emergency rest canopy and supply bench",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "denim",
+      "runtime_target": "wreck-one",
+      "description": "A low fabric shade stretched on two continuous curved frames shelters a fixed rest bench and water box.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -1.15,
+            0.035,
+            -0.73
+          ],
+          "size": [
+            0.27,
+            0.07,
+            0.25
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -1.15,
+            0.035,
+            0.73
+          ],
+          "size": [
+            0.27,
+            0.07,
+            0.25
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -1.15,
+            0.07,
+            -0.64
+          ],
+          "b": [
+            -1.15,
+            2.16,
+            -0.64
+          ],
+          "radius": 0.052
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -1.15,
+            0.07,
+            0.64
+          ],
+          "b": [
+            -1.15,
+            2.16,
+            0.64
+          ],
+          "radius": 0.052
+        },
+        {
+          "type": "box",
+          "at": [
+            1.15,
+            0.035,
+            -0.73
+          ],
+          "size": [
+            0.27,
+            0.07,
+            0.25
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            1.15,
+            0.035,
+            0.73
+          ],
+          "size": [
+            0.27,
+            0.07,
+            0.25
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            1.15,
+            0.07,
+            -0.64
+          ],
+          "b": [
+            1.15,
+            2.16,
+            -0.64
+          ],
+          "radius": 0.052
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            1.15,
+            0.07,
+            0.64
+          ],
+          "b": [
+            1.15,
+            2.16,
+            0.64
+          ],
+          "radius": 0.052
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.76,
+            0.22,
+            -0.35
+          ],
+          "size": [
+            0.17,
+            0.44,
+            0.39
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.76,
+            0.22,
+            -0.35
+          ],
+          "size": [
+            0.17,
+            0.44,
+            0.39
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.465,
+            -0.52
+          ],
+          "size": [
+            1.86,
+            0.065,
+            0.15
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.465,
+            -0.35
+          ],
+          "size": [
+            1.86,
+            0.065,
+            0.15
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.465,
+            -0.18
+          ],
+          "size": [
+            1.86,
+            0.065,
+            0.15
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.68,
+            0.69,
+            -0.33
+          ],
+          "size": [
+            0.42,
+            0.38,
+            0.34
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -1.285,
+        0.0,
+        -0.855
+      ],
+      "bounds_max": [
+        1.285,
+        2.407,
+        0.855
+      ],
+      "dimensions_m": [
+        2.57,
+        2.407,
+        1.71
+      ],
+      "triangles": 7889,
+      "editable_parts": 29,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 denim ceramic stencil",
+        "A200 denim enamel",
+        "A200 denim service inset",
+        "A200 denim weather canvas",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Matte weather-canvas material, three sewn seams and anchored corner ties."
+      ]
+    },
+    {
+      "id": "Story2ServoPress",
+      "root": "Story2ServoPress",
+      "title": "Open-throat servo forging press",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "oxblood",
+      "runtime_target": "relay-foundry",
+      "description": "A substantial C-frame press exposes a realistic work throat, ram guide and reaction bed.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.08,
+            0
+          ],
+          "size": [
+            1.62,
+            0.16,
+            1.22
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.49,
+            1.26,
+            -0.34
+          ],
+          "size": [
+            0.31,
+            2.24,
+            0.39
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.49,
+            1.26,
+            -0.34
+          ],
+          "size": [
+            0.31,
+            2.24,
+            0.39
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            2.31,
+            -0.04
+          ],
+          "size": [
+            1.28,
+            0.4,
+            0.93
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.58,
+            0.04
+          ],
+          "size": [
+            1.37,
+            0.29,
+            0.91
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            1.29,
+            0.1
+          ],
+          "b": [
+            0,
+            2.17,
+            0.1
+          ],
+          "radius": 0.135
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.23,
+            0.1
+          ],
+          "size": [
+            0.62,
+            0.14,
+            0.53
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.98,
+            0.08,
+            -0.24
+          ],
+          "b": [
+            0.98,
+            1.3399999999999999,
+            -0.24
+          ],
+          "radius": 0.2
+        },
+        {
+          "type": "box",
+          "at": [
+            0.848,
+            0.055,
+            -0.24
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.17
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            1.112,
+            0.055,
+            -0.24
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.17
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.81,
+        0.0,
+        -0.61
+      ],
+      "bounds_max": [
+        1.187,
+        2.51,
+        0.61
+      ],
+      "dimensions_m": [
+        1.997,
+        2.51,
+        1.22
+      ],
+      "triangles": 14294,
+      "editable_parts": 58,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 ivory gauge needle",
+        "A200 oxblood ceramic stencil",
+        "A200 oxblood enamel",
+        "A200 oxblood service inset",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 9,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Reaction-bed fasteners, captive pressure gauge and column service cover."
+      ],
+      "independent_review_fixes": [
+        "Pressure gauge is seated on a connected tank tap, correcting a local-depth placement error."
+      ]
+    },
+    {
+      "id": "Story2LimbAssemblyJig",
+      "root": "Story2LimbAssemblyJig",
+      "title": "Twin-joint robot limb alignment jig",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "celadon",
+      "runtime_target": "relay-foundry",
+      "description": "An asymmetric robot forearm and hand are mechanically pinned to a wheeled repair jig, not a new enemy.",
+      "collision_shapes": [
+        {
+          "type": "cylinder",
+          "a": [
+            -0.6600000262260437,
+            0.11999999731779099,
+            -0.3700000047683716
+          ],
+          "b": [
+            -0.5799999833106995,
+            0.11999999731779099,
+            -0.3700000047683716
+          ],
+          "radius": 0.12
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.6600000262260437,
+            0.11999999731779099,
+            0.3700000047683716
+          ],
+          "b": [
+            -0.5799999833106995,
+            0.11999999731779099,
+            0.3700000047683716
+          ],
+          "radius": 0.12
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.5799999833106995,
+            0.11999999731779099,
+            -0.3700000047683716
+          ],
+          "b": [
+            0.6600000262260437,
+            0.11999999731779099,
+            -0.3700000047683716
+          ],
+          "radius": 0.12
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.5799999833106995,
+            0.11999999731779099,
+            0.3700000047683716
+          ],
+          "b": [
+            0.6600000262260437,
+            0.11999999731779099,
+            0.3700000047683716
+          ],
+          "radius": 0.12
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.3,
+            0
+          ],
+          "size": [
+            1.28,
+            0.17,
+            0.75
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.44,
+            0.69,
+            -0.1
+          ],
+          "size": [
+            0.1,
+            0.77,
+            0.13
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.44,
+            0.69,
+            -0.1
+          ],
+          "size": [
+            0.1,
+            0.77,
+            0.13
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.08,
+            -0.1
+          ],
+          "size": [
+            1.03,
+            0.09,
+            0.16
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.45,
+            1.16,
+            0
+          ],
+          "b": [
+            0.25,
+            1.16,
+            0
+          ],
+          "radius": 0.085
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.14,
+            1.2,
+            0
+          ],
+          "size": [
+            0.66,
+            0.24,
+            0.29
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.52,
+            1.16,
+            0
+          ],
+          "size": [
+            0.24,
+            0.17,
+            0.28
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.6684,
+        0.0,
+        -0.49
+      ],
+      "bounds_max": [
+        0.81519,
+        1.37,
+        0.49
+      ],
+      "dimensions_m": [
+        1.48359,
+        1.37,
+        0.98
+      ],
+      "triangles": 19787,
+      "editable_parts": 58,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 celadon ceramic stencil",
+        "A200 celadon enamel",
+        "A200 celadon service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Load-bearing caster forks and axles; bolted forearm access panel and hold-downs."
+      ]
+    },
+    {
+      "id": "Story2QuenchManifold",
+      "root": "Story2QuenchManifold",
+      "title": "Three-bank quench and return manifold",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "slate",
+      "runtime_target": "relay-foundry",
+      "description": "Three unequal vessels connect through a continuous return manifold and a guarded manual bypass.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.05,
+            0
+          ],
+          "size": [
+            1.9,
+            0.1,
+            0.9
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.59,
+            0.18,
+            0
+          ],
+          "b": [
+            -0.59,
+            1.73,
+            0
+          ],
+          "radius": 0.23
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.7418,
+            0.155,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.1955
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.4381999999999999,
+            0.155,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.1955
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.18,
+            0
+          ],
+          "b": [
+            0,
+            1.37,
+            0
+          ],
+          "radius": 0.26
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.1716,
+            0.155,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.221
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.1716,
+            0.155,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.221
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.61,
+            0.18,
+            0
+          ],
+          "b": [
+            0.61,
+            1.51,
+            0
+          ],
+          "radius": 0.23
+        },
+        {
+          "type": "box",
+          "at": [
+            0.45819999999999994,
+            0.155,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.1955
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.7618,
+            0.155,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.1955
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.75,
+            0.47,
+            0.39
+          ],
+          "b": [
+            0.82,
+            0.47,
+            0.39
+          ],
+          "radius": 0.055
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.95,
+        0.0,
+        -0.45
+      ],
+      "bounds_max": [
+        0.95,
+        2.071,
+        0.471
+      ],
+      "dimensions_m": [
+        1.9,
+        2.071,
+        0.921
+      ],
+      "triangles": 25926,
+      "editable_parts": 94,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 ivory gauge needle",
+        "A200 slate ceramic stencil",
+        "A200 slate enamel",
+        "A200 slate service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Vessel band clamps and individually indexed return vessels."
+      ]
+    },
+    {
+      "id": "Story2MagneticSortingDrum",
+      "root": "Story2MagneticSortingDrum",
+      "title": "Hand-fed magnetic salvage separator",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "umber",
+      "runtime_target": "relay-foundry",
+      "description": "A broad horizontal sorting drum turns inside a supported capture frame with separate feed and discharge trays.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.55,
+            0.025,
+            -0.34
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.55,
+            0.05,
+            -0.34
+          ],
+          "b": [
+            -0.55,
+            0.62,
+            -0.34
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.55,
+            0.025,
+            0.34
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.55,
+            0.05,
+            0.34
+          ],
+          "b": [
+            -0.55,
+            0.62,
+            0.34
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0.55,
+            0.025,
+            -0.34
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.55,
+            0.05,
+            -0.34
+          ],
+          "b": [
+            0.55,
+            0.62,
+            -0.34
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0.55,
+            0.025,
+            0.34
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.55,
+            0.05,
+            0.34
+          ],
+          "b": [
+            0.55,
+            0.62,
+            0.34
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.66,
+            0
+          ],
+          "size": [
+            1.26,
+            0.08,
+            0.8400000000000001
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.54,
+            1.05,
+            0
+          ],
+          "size": [
+            0.13,
+            0.74,
+            0.65
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.54,
+            1.05,
+            0
+          ],
+          "size": [
+            0.13,
+            0.74,
+            0.65
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.5,
+            1.16,
+            0
+          ],
+          "b": [
+            0.5,
+            1.16,
+            0
+          ],
+          "radius": 0.37
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.77,
+            0.47
+          ],
+          "size": [
+            1.04,
+            0.07,
+            0.63
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.61,
+            -0.36
+          ],
+          "size": [
+            0.94,
+            0.27,
+            0.065
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.635,
+        0.0,
+        -0.425
+      ],
+      "bounds_max": [
+        0.93,
+        1.745,
+        0.79
+      ],
+      "dimensions_m": [
+        1.565,
+        1.745,
+        1.215
+      ],
+      "triangles": 13911,
+      "editable_parts": 52,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 umber ceramic stencil",
+        "A200 umber enamel",
+        "A200 umber service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Exposed leg-stay nameplate corrected; sealed bearing covers and torque fasteners."
+      ]
+    },
+    {
+      "id": "Story2AzimuthTrackingDish",
+      "root": "Story2AzimuthTrackingDish",
+      "title": "Offset azimuth listening dish",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "petrol",
+      "runtime_target": "quiet-array",
+      "description": "A deep dished reflector on a real fork gimbal, counterweight, elevation axle and anchored pedestal.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.07,
+            0
+          ],
+          "size": [
+            1.27,
+            0.14,
+            1.06
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.14,
+            0
+          ],
+          "b": [
+            0,
+            1.45,
+            0
+          ],
+          "radius": 0.15
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.51,
+            1.75,
+            -0.06
+          ],
+          "size": [
+            0.12,
+            0.96,
+            0.21
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.51,
+            1.75,
+            -0.06
+          ],
+          "size": [
+            0.12,
+            0.96,
+            0.21
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.63,
+            2.06,
+            -0.03
+          ],
+          "b": [
+            0.63,
+            2.06,
+            -0.03
+          ],
+          "radius": 0.068
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.82,
+            -0.39
+          ],
+          "size": [
+            0.44,
+            0.25,
+            0.29
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            2.12,
+            0.08
+          ],
+          "size": [
+            1.74,
+            1.78,
+            0.63
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.89412,
+        0.0,
+        -0.535
+      ],
+      "bounds_max": [
+        0.89412,
+        2.93832,
+        0.91
+      ],
+      "dimensions_m": [
+        1.78824,
+        2.93832,
+        1.445
+      ],
+      "triangles": 8072,
+      "editable_parts": 22,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 petrol ceramic stencil",
+        "A200 petrol enamel",
+        "A200 petrol service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Connected reflector rear ribs and locked elevation trunnions."
+      ]
+    },
+    {
+      "id": "Story2FerriteTuningBench",
+      "root": "Story2FerriteTuningBench",
+      "title": "Ferrite lattice tuning workbench",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "plum",
+      "runtime_target": "quiet-array",
+      "description": "A row of supported adjustable ferrite coils shares a grounded bench with an analog comparison bridge.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.71,
+            0.025,
+            -0.305
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.71,
+            0.05,
+            -0.305
+          ],
+          "b": [
+            -0.71,
+            0.77,
+            -0.305
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.71,
+            0.025,
+            0.305
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.71,
+            0.05,
+            0.305
+          ],
+          "b": [
+            -0.71,
+            0.77,
+            0.305
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0.71,
+            0.025,
+            -0.305
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.71,
+            0.05,
+            -0.305
+          ],
+          "b": [
+            0.71,
+            0.77,
+            -0.305
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0.71,
+            0.025,
+            0.305
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.71,
+            0.05,
+            0.305
+          ],
+          "b": [
+            0.71,
+            0.77,
+            0.305
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.81,
+            0
+          ],
+          "size": [
+            1.5799999999999998,
+            0.08,
+            0.77
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.45,
+            0.86,
+            -0.06
+          ],
+          "b": [
+            -0.45,
+            1.34,
+            -0.06
+          ],
+          "radius": 0.065
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.15,
+            0.86,
+            -0.06
+          ],
+          "b": [
+            -0.15,
+            1.34,
+            -0.06
+          ],
+          "radius": 0.065
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.15,
+            0.86,
+            -0.06
+          ],
+          "b": [
+            0.15,
+            1.34,
+            -0.06
+          ],
+          "radius": 0.065
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.45,
+            0.86,
+            -0.06
+          ],
+          "b": [
+            0.45,
+            1.34,
+            -0.06
+          ],
+          "radius": 0.065
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.99,
+            0.27
+          ],
+          "size": [
+            1.21,
+            0.27,
+            0.16
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.795,
+        0.0,
+        -0.39
+      ],
+      "bounds_max": [
+        0.795,
+        1.452,
+        0.402
+      ],
+      "dimensions_m": [
+        1.59,
+        1.452,
+        0.792
+      ],
+      "triangles": 35958,
+      "editable_parts": 75,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 ivory gauge needle",
+        "A200 plum ceramic stencil",
+        "A200 plum enamel",
+        "A200 plum service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Continuous winding terminations connect coils to the comparison bridge."
+      ]
+    },
+    {
+      "id": "Story2ReceiverRepairBot",
+      "root": "Story2ReceiverRepairBot",
+      "title": "Folded three-foot receiver custodian",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "celadon",
+      "runtime_target": "quiet-array",
+      "description": "A dormant receiver custodian braces itself on three articulated feet; a folded tool visibly connects to the body.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.45,
+            0.035,
+            0.32
+          ],
+          "size": [
+            0.26,
+            0.07,
+            0.29
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.45,
+            0.055,
+            0.32
+          ],
+          "b": [
+            -0.315,
+            0.46,
+            0.22399999999999998
+          ],
+          "radius": 0.055
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.315,
+            0.46,
+            0.22399999999999998
+          ],
+          "b": [
+            -0.117,
+            0.69,
+            0.08320000000000001
+          ],
+          "radius": 0.075
+        },
+        {
+          "type": "box",
+          "at": [
+            0.45,
+            0.035,
+            0.32
+          ],
+          "size": [
+            0.26,
+            0.07,
+            0.29
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.45,
+            0.055,
+            0.32
+          ],
+          "b": [
+            0.315,
+            0.46,
+            0.22399999999999998
+          ],
+          "radius": 0.055
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.315,
+            0.46,
+            0.22399999999999998
+          ],
+          "b": [
+            0.117,
+            0.69,
+            0.08320000000000001
+          ],
+          "radius": 0.075
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.035,
+            -0.48
+          ],
+          "size": [
+            0.26,
+            0.07,
+            0.29
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.055,
+            -0.48
+          ],
+          "b": [
+            0.0,
+            0.46,
+            -0.33599999999999997
+          ],
+          "radius": 0.055
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.0,
+            0.46,
+            -0.33599999999999997
+          ],
+          "b": [
+            0.0,
+            0.69,
+            -0.1248
+          ],
+          "radius": 0.075
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.6,
+            0
+          ],
+          "b": [
+            0,
+            1.2,
+            0
+          ],
+          "radius": 0.29
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.45,
+            0.99,
+            0
+          ],
+          "b": [
+            -0.49,
+            0.63,
+            0.17
+          ],
+          "radius": 0.052
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.58,
+        0.0,
+        -0.625
+      ],
+      "bounds_max": [
+        0.58,
+        1.42,
+        0.465
+      ],
+      "dimensions_m": [
+        1.16,
+        1.42,
+        1.09
+      ],
+      "triangles": 15486,
+      "editable_parts": 45,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 celadon ceramic stencil",
+        "A200 celadon enamel",
+        "A200 celadon service inset",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 8,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Rear service access hatch and locked tripod foot joints."
+      ]
+    },
+    {
+      "id": "Story2CableRoutingArch",
+      "root": "Story2CableRoutingArch",
+      "title": "Open cable routing portal",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "denim",
+      "runtime_target": "quiet-array",
+      "description": "A deliberately walkable 2.4 metre clear cable portal carries four continuous insulated runs above head height.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -1.3,
+            0.065,
+            0
+          ],
+          "size": [
+            0.41,
+            0.13,
+            0.6
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -1.3,
+            1.47,
+            0
+          ],
+          "size": [
+            0.15,
+            2.82,
+            0.25
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            1.3,
+            0.065,
+            0
+          ],
+          "size": [
+            0.41,
+            0.13,
+            0.6
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            1.3,
+            1.47,
+            0
+          ],
+          "size": [
+            0.15,
+            2.82,
+            0.25
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            2.84,
+            0
+          ],
+          "size": [
+            2.8,
+            0.21,
+            0.34
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "clear_opening_m": {
+        "width": 2.45,
+        "height": 2.735
+      },
+      "bounds_min": [
+        -1.505,
+        0.0,
+        -0.3
+      ],
+      "bounds_max": [
+        1.505,
+        2.945,
+        0.435
+      ],
+      "dimensions_m": [
+        3.01,
+        2.945,
+        0.735
+      ],
+      "triangles": 9496,
+      "editable_parts": 40,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 denim ceramic stencil",
+        "A200 denim enamel",
+        "A200 denim service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Four individually retained cable glands terminate each supported bundle."
+      ]
+    },
+    {
+      "id": "Story2PneumaticSeedSorter",
+      "root": "Story2PneumaticSeedSorter",
+      "title": "Twin-hopper pneumatic seed classifier",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "verdigris",
+      "runtime_target": "glass-orchard",
+      "description": "Two gravity hoppers feed a glazed separator and a pair of captured collection drawers.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.495,
+            0.025,
+            -0.31
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.495,
+            0.05,
+            -0.31
+          ],
+          "b": [
+            -0.495,
+            0.62,
+            -0.31
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.495,
+            0.025,
+            0.31
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.495,
+            0.05,
+            0.31
+          ],
+          "b": [
+            -0.495,
+            0.62,
+            0.31
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0.495,
+            0.025,
+            -0.31
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.495,
+            0.05,
+            -0.31
+          ],
+          "b": [
+            0.495,
+            0.62,
+            -0.31
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0.495,
+            0.025,
+            0.31
+          ],
+          "size": [
+            0.17,
+            0.05,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.495,
+            0.05,
+            0.31
+          ],
+          "b": [
+            0.495,
+            0.62,
+            0.31
+          ],
+          "radius": 0.032
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.66,
+            0
+          ],
+          "size": [
+            1.15,
+            0.08,
+            0.78
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.29,
+            0.71,
+            -0.02
+          ],
+          "b": [
+            -0.29,
+            1.05,
+            -0.02
+          ],
+          "radius": 0.086
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.29,
+            1.03,
+            -0.02
+          ],
+          "b": [
+            -0.29,
+            1.6,
+            -0.02
+          ],
+          "radius": 0.24
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.29,
+            0.71,
+            -0.02
+          ],
+          "b": [
+            0.29,
+            1.05,
+            -0.02
+          ],
+          "radius": 0.086
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.29,
+            1.03,
+            -0.02
+          ],
+          "b": [
+            0.29,
+            1.6,
+            -0.02
+          ],
+          "radius": 0.24
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.93,
+            0.26
+          ],
+          "size": [
+            1.05,
+            0.43,
+            0.3
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.27,
+            0.51,
+            0.29
+          ],
+          "size": [
+            0.42,
+            0.19,
+            0.27
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.27,
+            0.51,
+            0.29
+          ],
+          "size": [
+            0.42,
+            0.19,
+            0.27
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.67444,
+        0.0,
+        -0.395
+      ],
+      "bounds_max": [
+        0.58,
+        1.61,
+        0.466
+      ],
+      "dimensions_m": [
+        1.25444,
+        1.61,
+        0.861
+      ],
+      "triangles": 15268,
+      "editable_parts": 49,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 verdigris ceramic stencil",
+        "A200 verdigris enamel",
+        "A200 verdigris service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 8,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Clamped hopper throats, display fasteners and explicit collection-drawer marks."
+      ]
+    },
+    {
+      "id": "Story2ClimateBellChamber",
+      "root": "Story2ClimateBellChamber",
+      "title": "Botanical climate bell enclosure",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "stone",
+      "runtime_target": "glass-orchard",
+      "description": "A clear bell enclosure protects a small living specimen on a continuously supported cultivation pedestal.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.05,
+            0
+          ],
+          "size": [
+            0.94,
+            0.1,
+            0.94
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.1,
+            0
+          ],
+          "b": [
+            0,
+            0.6,
+            0
+          ],
+          "radius": 0.36
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.65,
+            0
+          ],
+          "b": [
+            0,
+            1.81,
+            0
+          ],
+          "radius": 0.39
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.65,
+            0
+          ],
+          "b": [
+            0,
+            0.85,
+            0
+          ],
+          "radius": 0.19
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.47,
+        0.0,
+        -0.47
+      ],
+      "bounds_max": [
+        0.47,
+        1.8,
+        0.47
+      ],
+      "dimensions_m": [
+        0.94,
+        1.8,
+        0.94
+      ],
+      "triangles": 12812,
+      "editable_parts": 45,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 aged enclosure glass",
+        "A200 dormant grey sage foliage",
+        "A200 ivory gauge needle",
+        "A200 stone ceramic stencil",
+        "A200 stone enamel",
+        "A200 stone service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 9,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Four physical bell latches and a sealed calibration plate."
+      ]
+    },
+    {
+      "id": "Story2FamilyMemorialTableau",
+      "root": "Story2FamilyMemorialTableau",
+      "title": "Family waiting bench and planted memorial",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "rose",
+      "runtime_target": "glass-orchard",
+      "description": "A modest bench holds a weathered family nameplate and three planted keepsake containers, civilian environmental storytelling.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.64,
+            0.225,
+            0
+          ],
+          "size": [
+            0.15,
+            0.45,
+            0.51
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.64,
+            0.225,
+            0
+          ],
+          "size": [
+            0.15,
+            0.45,
+            0.51
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.485,
+            -0.18
+          ],
+          "size": [
+            1.65,
+            0.07,
+            0.165
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.485,
+            0
+          ],
+          "size": [
+            1.65,
+            0.07,
+            0.165
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.485,
+            0.18
+          ],
+          "size": [
+            1.65,
+            0.07,
+            0.165
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.7,
+            0.34,
+            -0.25
+          ],
+          "b": [
+            -0.7,
+            0.98,
+            -0.25
+          ],
+          "radius": 0.034
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.7,
+            0.34,
+            -0.25
+          ],
+          "b": [
+            0.7,
+            0.98,
+            -0.25
+          ],
+          "radius": 0.034
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.73,
+            -0.25
+          ],
+          "size": [
+            1.53,
+            0.13,
+            0.05
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.91,
+            -0.25
+          ],
+          "size": [
+            1.53,
+            0.13,
+            0.05
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.36,
+            0.52,
+            0.02
+          ],
+          "b": [
+            -0.36,
+            0.73,
+            0.02
+          ],
+          "radius": 0.125
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.019999999999999962,
+            0.52,
+            0.02
+          ],
+          "b": [
+            -0.019999999999999962,
+            0.73,
+            0.02
+          ],
+          "radius": 0.125
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.32000000000000006,
+            0.52,
+            0.02
+          ],
+          "b": [
+            0.32000000000000006,
+            0.73,
+            0.02
+          ],
+          "radius": 0.125
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.825,
+        0.0,
+        -0.284
+      ],
+      "bounds_max": [
+        0.825,
+        0.98,
+        0.2625
+      ],
+      "dimensions_m": [
+        1.65,
+        0.98,
+        0.5465
+      ],
+      "triangles": 10762,
+      "editable_parts": 41,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 dormant grey sage foliage",
+        "A200 rose ceramic stencil",
+        "A200 rose enamel",
+        "A200 rose service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Bench slat fasteners and visible planted soil in each keepsake pot."
+      ]
+    },
+    {
+      "id": "Story2RootIrrigationCart",
+      "root": "Story2RootIrrigationCart",
+      "title": "Manual root irrigation carriage",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "olive",
+      "runtime_target": "glass-orchard",
+      "description": "A compact broad-wheel carriage connects a horizontal water tank, pressure gauge and continuously wound delivery hose.",
+      "collision_shapes": [
+        {
+          "type": "cylinder",
+          "a": [
+            -0.5099999904632568,
+            0.18000000715255737,
+            -0.38999998569488525
+          ],
+          "b": [
+            -0.4099999964237213,
+            0.18000000715255737,
+            -0.38999998569488525
+          ],
+          "radius": 0.18
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.5099999904632568,
+            0.18000000715255737,
+            0.38999998569488525
+          ],
+          "b": [
+            -0.4099999964237213,
+            0.18000000715255737,
+            0.38999998569488525
+          ],
+          "radius": 0.18
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.4099999964237213,
+            0.18000000715255737,
+            -0.38999998569488525
+          ],
+          "b": [
+            0.5099999904632568,
+            0.18000000715255737,
+            -0.38999998569488525
+          ],
+          "radius": 0.18
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.4099999964237213,
+            0.18000000715255737,
+            0.38999998569488525
+          ],
+          "b": [
+            0.5099999904632568,
+            0.18000000715255737,
+            0.38999998569488525
+          ],
+          "radius": 0.18
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.28,
+            0
+          ],
+          "size": [
+            0.88,
+            0.11,
+            0.91
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.62,
+            -0.36
+          ],
+          "b": [
+            0,
+            0.62,
+            0.36
+          ],
+          "radius": 0.3
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.29,
+            -0.27
+          ],
+          "b": [
+            0,
+            0.41,
+            -0.27
+          ],
+          "radius": 0.16
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.29,
+            0.27
+          ],
+          "b": [
+            0,
+            0.41,
+            0.27
+          ],
+          "radius": 0.16
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.39,
+            0.27,
+            -0.43
+          ],
+          "b": [
+            -0.39,
+            1.12,
+            -0.54
+          ],
+          "radius": 0.029
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.39,
+            0.27,
+            -0.43
+          ],
+          "b": [
+            0.39,
+            1.12,
+            -0.54
+          ],
+          "radius": 0.029
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.5205,
+        0.0,
+        -0.576
+      ],
+      "bounds_max": [
+        0.5205,
+        1.156,
+        0.57
+      ],
+      "dimensions_m": [
+        1.041,
+        1.156,
+        1.146
+      ],
+      "triangles": 27547,
+      "editable_parts": 75,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 ivory gauge needle",
+        "A200 olive ceramic stencil",
+        "A200 olive enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Connected cart axles/caster forks and a reachable sealed filling neck."
+      ]
+    },
+    {
+      "id": "Story2ArchiveReelLibrary",
+      "root": "Story2ArchiveReelLibrary",
+      "title": "Six-reel indexed archive library",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "plum",
+      "runtime_target": "last-garden-meridian",
+      "description": "Individual open reel cartridges rest in supported bays of a tall lockable archive frame.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.045,
+            0
+          ],
+          "size": [
+            1.3,
+            0.09,
+            0.68
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.58,
+            1.1,
+            0
+          ],
+          "size": [
+            0.1,
+            2.11,
+            0.59
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.58,
+            1.1,
+            0
+          ],
+          "size": [
+            0.1,
+            2.11,
+            0.59
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.32,
+            0
+          ],
+          "size": [
+            1.18,
+            0.07,
+            0.59
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.94,
+            0
+          ],
+          "size": [
+            1.18,
+            0.07,
+            0.59
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.56,
+            0
+          ],
+          "size": [
+            1.18,
+            0.07,
+            0.59
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            2.15,
+            0
+          ],
+          "size": [
+            1.18,
+            0.07,
+            0.59
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.28,
+            0.63,
+            -0.22
+          ],
+          "b": [
+            -0.28,
+            0.63,
+            0.2
+          ],
+          "radius": 0.115
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.28,
+            0.355,
+            0
+          ],
+          "size": [
+            0.3,
+            0.09,
+            0.44
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.28,
+            0.63,
+            -0.22
+          ],
+          "b": [
+            0.28,
+            0.63,
+            0.2
+          ],
+          "radius": 0.115
+        },
+        {
+          "type": "box",
+          "at": [
+            0.28,
+            0.355,
+            0
+          ],
+          "size": [
+            0.3,
+            0.09,
+            0.44
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.28,
+            1.25,
+            -0.22
+          ],
+          "b": [
+            -0.28,
+            1.25,
+            0.2
+          ],
+          "radius": 0.115
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.28,
+            0.975,
+            0
+          ],
+          "size": [
+            0.3,
+            0.09,
+            0.44
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.28,
+            1.25,
+            -0.22
+          ],
+          "b": [
+            0.28,
+            1.25,
+            0.2
+          ],
+          "radius": 0.115
+        },
+        {
+          "type": "box",
+          "at": [
+            0.28,
+            0.975,
+            0
+          ],
+          "size": [
+            0.3,
+            0.09,
+            0.44
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.28,
+            1.86,
+            -0.22
+          ],
+          "b": [
+            -0.28,
+            1.86,
+            0.2
+          ],
+          "radius": 0.115
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.28,
+            1.585,
+            0
+          ],
+          "size": [
+            0.3,
+            0.09,
+            0.44
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.28,
+            1.86,
+            -0.22
+          ],
+          "b": [
+            0.28,
+            1.86,
+            0.2
+          ],
+          "radius": 0.115
+        },
+        {
+          "type": "box",
+          "at": [
+            0.28,
+            1.585,
+            0
+          ],
+          "size": [
+            0.3,
+            0.09,
+            0.44
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.65,
+        0.0,
+        -0.34
+      ],
+      "bounds_max": [
+        0.65,
+        2.185,
+        0.361
+      ],
+      "dimensions_m": [
+        1.3,
+        2.185,
+        0.701
+      ],
+      "triangles": 34780,
+      "editable_parts": 112,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 plum ceramic stencil",
+        "A200 plum enamel",
+        "A200 plum service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "All six reels individually numbered; rail service fasteners."
+      ]
+    },
+    {
+      "id": "Story2PassengerBaggageTrolley",
+      "root": "Story2PassengerBaggageTrolley",
+      "title": "Abandoned passenger luggage trolley",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "umber",
+      "runtime_target": "last-garden-meridian",
+      "description": "Stacked civilian luggage is strapped to a connected two-wheel terminal trolley; no collectible promises.",
+      "collision_shapes": [
+        {
+          "type": "cylinder",
+          "a": [
+            -0.48500001430511475,
+            0.20999999344348907,
+            -0.2199999988079071
+          ],
+          "b": [
+            -0.375,
+            0.20999999344348907,
+            -0.2199999988079071
+          ],
+          "radius": 0.21
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.375,
+            0.20999999344348907,
+            -0.2199999988079071
+          ],
+          "b": [
+            0.48500001430511475,
+            0.20999999344348907,
+            -0.2199999988079071
+          ],
+          "radius": 0.21
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.34,
+            0.035,
+            0.34
+          ],
+          "size": [
+            0.14,
+            0.07,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.34,
+            0.06,
+            0.34
+          ],
+          "b": [
+            -0.34,
+            0.19,
+            0.34
+          ],
+          "radius": 0.028
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.34,
+            0.19,
+            0.37
+          ],
+          "b": [
+            -0.34,
+            0.19,
+            -0.26
+          ],
+          "radius": 0.034
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.34,
+            0.19,
+            -0.26
+          ],
+          "b": [
+            -0.34,
+            1.43,
+            -0.26
+          ],
+          "radius": 0.034
+        },
+        {
+          "type": "box",
+          "at": [
+            0.34,
+            0.035,
+            0.34
+          ],
+          "size": [
+            0.14,
+            0.07,
+            0.17
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.34,
+            0.06,
+            0.34
+          ],
+          "b": [
+            0.34,
+            0.19,
+            0.34
+          ],
+          "radius": 0.028
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.34,
+            0.19,
+            0.37
+          ],
+          "b": [
+            0.34,
+            0.19,
+            -0.26
+          ],
+          "radius": 0.034
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.34,
+            0.19,
+            -0.26
+          ],
+          "b": [
+            0.34,
+            1.43,
+            -0.26
+          ],
+          "radius": 0.034
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.48,
+            0.02
+          ],
+          "size": [
+            0.8,
+            0.55,
+            0.6
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.05,
+            0.97,
+            0
+          ],
+          "size": [
+            0.66,
+            0.42,
+            0.47
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.49655,
+        0.0,
+        -0.43
+      ],
+      "bounds_max": [
+        0.49655,
+        1.472,
+        0.425
+      ],
+      "dimensions_m": [
+        0.9931,
+        1.472,
+        0.855
+      ],
+      "triangles": 11020,
+      "editable_parts": 29,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 umber ceramic stencil",
+        "A200 umber enamel",
+        "A200 umber service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Continuous fitted retaining webbing follows both suitcases; attached metal buckles."
+      ]
+    },
+    {
+      "id": "Story2DeadPatrolTorso",
+      "root": "Story2DeadPatrolTorso",
+      "title": "Disabled patrol torso recovery scene",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "slate",
+      "runtime_target": "last-garden-meridian",
+      "description": "An original mechanical patrol torso lies on a secured pallet with a detached leg laid beside it; static wreck, no enemy AI.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.57,
+            0.055,
+            0
+          ],
+          "size": [
+            0.16,
+            0.11,
+            1.55
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.57,
+            0.055,
+            0
+          ],
+          "size": [
+            0.16,
+            0.11,
+            1.55
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.15,
+            -0.64
+          ],
+          "size": [
+            1.42,
+            0.08,
+            0.26
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.15,
+            -0.21
+          ],
+          "size": [
+            1.42,
+            0.08,
+            0.26
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.15,
+            0.21
+          ],
+          "size": [
+            1.42,
+            0.08,
+            0.26
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.15,
+            0.64
+          ],
+          "size": [
+            1.42,
+            0.08,
+            0.26
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.43,
+            -0.22
+          ],
+          "size": [
+            0.73,
+            0.45,
+            0.62
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.35,
+            0.19
+          ],
+          "size": [
+            0.44,
+            0.25,
+            0.23
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.31,
+            0.34,
+            0.41
+          ],
+          "b": [
+            0.31,
+            0.34,
+            0.41
+          ],
+          "radius": 0.085
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.44,
+            -0.69
+          ],
+          "size": [
+            0.31,
+            0.26,
+            0.27
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.54,
+            0.4,
+            -0.27
+          ],
+          "b": [
+            -0.54,
+            0.34,
+            0.08
+          ],
+          "radius": 0.085
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.54,
+            0.34,
+            0.08
+          ],
+          "b": [
+            -0.43200000000000005,
+            0.31,
+            0.32
+          ],
+          "radius": 0.067
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.54,
+            0.4,
+            -0.27
+          ],
+          "b": [
+            0.54,
+            0.34,
+            0.08
+          ],
+          "radius": 0.085
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.54,
+            0.34,
+            0.08
+          ],
+          "b": [
+            0.43200000000000005,
+            0.31,
+            0.32
+          ],
+          "radius": 0.067
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.45,
+            0.29,
+            0.57
+          ],
+          "b": [
+            0.37,
+            0.29,
+            0.57
+          ],
+          "radius": 0.086
+        },
+        {
+          "type": "box",
+          "at": [
+            0.48,
+            0.28,
+            0.57
+          ],
+          "size": [
+            0.25,
+            0.16,
+            0.3
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.71,
+        0.0,
+        -0.825
+      ],
+      "bounds_max": [
+        0.71,
+        0.677,
+        0.785
+      ],
+      "dimensions_m": [
+        1.42,
+        0.677,
+        1.61
+      ],
+      "triangles": 10063,
+      "editable_parts": 34,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 slate ceramic stencil",
+        "A200 slate enamel",
+        "A200 slate service inset",
+        "A200 smoked instrument glazing",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Bolted power-isolated torso cover and retained elbow pins."
+      ],
+      "independent_review_fixes": [
+        "Retained neck spindle mechanically joins the disabled head and torso."
+      ]
+    },
+    {
+      "id": "Story2SignalVerificationGate",
+      "root": "Story2SignalVerificationGate",
+      "title": "Walkable signal verification portal",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "heather",
+      "runtime_target": "last-garden-meridian",
+      "description": "Two differentiated receiver pylons join above a clear pedestrian opening; powered states remain story-controlled elsewhere.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -1.4,
+            0.06,
+            0
+          ],
+          "size": [
+            0.5,
+            0.12,
+            0.69
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -1.4,
+            1.4,
+            0
+          ],
+          "size": [
+            0.33,
+            2.7,
+            0.44
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            1.4,
+            0.06,
+            0
+          ],
+          "size": [
+            0.5,
+            0.12,
+            0.69
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            1.4,
+            1.4,
+            0
+          ],
+          "size": [
+            0.33,
+            2.7,
+            0.44
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            2.72,
+            0
+          ],
+          "size": [
+            2.95,
+            0.24,
+            0.42
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "clear_opening_m": {
+        "width": 2.47,
+        "height": 2.6
+      },
+      "bounds_min": [
+        -1.65,
+        0.0,
+        -0.345
+      ],
+      "bounds_max": [
+        1.65,
+        2.84,
+        0.345
+      ],
+      "dimensions_m": [
+        3.3,
+        2.84,
+        0.69
+      ],
+      "triangles": 10801,
+      "editable_parts": 49,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 heather ceramic stencil",
+        "A200 heather enamel",
+        "A200 heather service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Distinct receiver/transmitter service plates and foundation anchors."
+      ]
+    },
+    {
+      "id": "Story2JourneyCartographyTable",
+      "root": "Story2JourneyCartographyTable",
+      "title": "Circular route cartography table",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "petrol",
+      "runtime_target": "meridian-berth",
+      "description": "A round chart table carries physical route grooves, pinned waypoints and a restrained mechanical azimuth dial.",
+      "collision_shapes": [
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0,
+            0
+          ],
+          "b": [
+            0,
+            0.1,
+            0
+          ],
+          "radius": 0.49
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.1,
+            0
+          ],
+          "b": [
+            0,
+            0.89,
+            0
+          ],
+          "radius": 0.15
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0,
+            0.86,
+            0
+          ],
+          "b": [
+            0,
+            0.97,
+            0
+          ],
+          "radius": 0.74
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.74,
+        0.0,
+        -0.74
+      ],
+      "bounds_max": [
+        0.74,
+        1.02,
+        0.74
+      ],
+      "dimensions_m": [
+        1.48,
+        1.02,
+        1.48
+      ],
+      "triangles": 18682,
+      "editable_parts": 46,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 petrol ceramic stencil",
+        "A200 petrol enamel",
+        "A200 petrol service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Engraved numbered waypoints and a visibly anchored table pedestal."
+      ]
+    },
+    {
+      "id": "Story2DormantStewardCradle",
+      "root": "Story2DormantStewardCradle",
+      "title": "Dormant civic steward charging berth",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "celadon",
+      "runtime_target": "meridian-berth",
+      "description": "A small service robot rests in an unmistakable two-pad charging cradle, with folded arms and no active AI.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.055,
+            0
+          ],
+          "size": [
+            0.9,
+            0.11,
+            0.81
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.69,
+            -0.3
+          ],
+          "size": [
+            0.44,
+            1.16,
+            0.13
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.22,
+            0.17,
+            0.05
+          ],
+          "size": [
+            0.25,
+            0.12,
+            0.35
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.22,
+            0.23,
+            0
+          ],
+          "b": [
+            -0.22,
+            0.58,
+            0
+          ],
+          "radius": 0.078
+        },
+        {
+          "type": "box",
+          "at": [
+            0.22,
+            0.17,
+            0.05
+          ],
+          "size": [
+            0.25,
+            0.12,
+            0.35
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.22,
+            0.23,
+            0
+          ],
+          "b": [
+            0.22,
+            0.58,
+            0
+          ],
+          "radius": 0.078
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.86,
+            0
+          ],
+          "size": [
+            0.59,
+            0.59,
+            0.41
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.3,
+            0.01
+          ],
+          "size": [
+            0.4,
+            0.25,
+            0.34
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.27999999999999997,
+            0.98,
+            0
+          ],
+          "b": [
+            -0.35,
+            0.73,
+            0.03
+          ],
+          "radius": 0.065
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.35,
+            0.73,
+            0.03
+          ],
+          "b": [
+            -0.154,
+            0.75,
+            0.25
+          ],
+          "radius": 0.052
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.27999999999999997,
+            0.98,
+            0
+          ],
+          "b": [
+            0.35,
+            0.73,
+            0.03
+          ],
+          "radius": 0.065
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.35,
+            0.73,
+            0.03
+          ],
+          "b": [
+            0.154,
+            0.75,
+            0.25
+          ],
+          "radius": 0.052
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.45,
+        0.0,
+        -0.405
+      ],
+      "bounds_max": [
+        0.45,
+        1.425,
+        0.418
+      ],
+      "dimensions_m": [
+        0.9,
+        1.425,
+        0.823
+      ],
+      "triangles": 10219,
+      "editable_parts": 35,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 celadon ceramic stencil",
+        "A200 celadon enamel",
+        "A200 celadon service inset",
+        "A200 smoked instrument glazing",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Removable civic chest cover, protected optical bezels and rear cooling seams."
+      ]
+    },
+    {
+      "id": "Story2CommunalGalleyModule",
+      "root": "Story2CommunalGalleyModule",
+      "title": "Compact communal hot-water galley",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "clay",
+      "runtime_target": "glass-orchard",
+      "description": "An original domestic service module combines a sheltered hot plate, connected kettle and six captured cup hooks.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.045,
+            0
+          ],
+          "size": [
+            1.66,
+            0.09,
+            0.66
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.53,
+            0
+          ],
+          "size": [
+            1.55,
+            0.9,
+            0.58
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.01,
+            0
+          ],
+          "size": [
+            1.65,
+            0.08,
+            0.69
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.76,
+            -0.26
+          ],
+          "size": [
+            1.5,
+            0.1,
+            0.1
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.41,
+            1.1600000000000001,
+            0
+          ],
+          "b": [
+            0.41,
+            1.35,
+            0
+          ],
+          "radius": 0.16
+        },
+        {
+          "type": "box",
+          "at": [
+            0.30439999999999995,
+            1.135,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.136
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.5156,
+            1.135,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.136
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.43,
+            1.18,
+            0.04
+          ],
+          "size": [
+            0.38,
+            0.27,
+            0.32
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.83,
+        0.0,
+        -0.345
+      ],
+      "bounds_max": [
+        0.83,
+        1.85,
+        0.355
+      ],
+      "dimensions_m": [
+        1.66,
+        1.85,
+        0.7
+      ],
+      "triangles": 16496,
+      "editable_parts": 55,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 clay ceramic stencil",
+        "A200 clay enamel",
+        "A200 clay service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Connected open kettle spout, attached cup handles, visible cup interiors and worktop fasteners."
+      ]
+    },
+    {
+      "id": "Story2MissionPlaqueRack",
+      "root": "Story2MissionPlaqueRack",
+      "title": "Civic work-order and dedication board",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "rose",
+      "runtime_target": "meridian-berth",
+      "description": "A freestanding civic board carries six individual engraved work plaques, supported by a splayed frame.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            -0.47,
+            0.045,
+            0
+          ],
+          "size": [
+            0.23,
+            0.09,
+            0.66
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.47,
+            0.09,
+            -0.04
+          ],
+          "b": [
+            -0.47,
+            1.75,
+            -0.04
+          ],
+          "radius": 0.041
+        },
+        {
+          "type": "box",
+          "at": [
+            0.47,
+            0.045,
+            0
+          ],
+          "size": [
+            0.23,
+            0.09,
+            0.66
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.47,
+            0.09,
+            -0.04
+          ],
+          "b": [
+            0.47,
+            1.75,
+            -0.04
+          ],
+          "radius": 0.041
+        },
+        {
+          "type": "box",
+          "at": [
+            0,
+            1.21,
+            0
+          ],
+          "size": [
+            1.07,
+            1.1,
+            0.1
+          ]
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.585,
+        0.0,
+        -0.33
+      ],
+      "bounds_max": [
+        0.585,
+        1.76,
+        0.33
+      ],
+      "dimensions_m": [
+        1.17,
+        1.76,
+        0.66
+      ],
+      "triangles": 12571,
+      "editable_parts": 53,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 rose ceramic stencil",
+        "A200 rose enamel",
+        "A200 rose service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 6,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Anchored foot plates and connected diagonal back brace behind the readable civic plaques."
+      ]
+    },
+    {
+      "id": "Story2WaterReclamationStill",
+      "root": "Story2WaterReclamationStill",
+      "title": "Paired civic water reclamation still",
+      "status": "new",
+      "counting_unit": "complete assembled model",
+      "paint_family": "verdigris",
+      "runtime_target": "relay-foundry",
+      "description": "Two physically connected vessels exchange condensate through a wound cooling coil and a supported collection spout.",
+      "collision_shapes": [
+        {
+          "type": "box",
+          "at": [
+            0,
+            0.045,
+            0
+          ],
+          "size": [
+            1.48,
+            0.09,
+            0.81
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.4,
+            0.16999999999999998,
+            0
+          ],
+          "b": [
+            -0.4,
+            1.15,
+            0
+          ],
+          "radius": 0.29
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.5914,
+            0.145,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.24649999999999997
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            -0.20860000000000004,
+            0.145,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.24649999999999997
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.42,
+            0.16999999999999998,
+            0
+          ],
+          "b": [
+            0.42,
+            0.8599999999999999,
+            0
+          ],
+          "radius": 0.24
+        },
+        {
+          "type": "box",
+          "at": [
+            0.26159999999999994,
+            0.145,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.204
+          ]
+        },
+        {
+          "type": "box",
+          "at": [
+            0.5784,
+            0.145,
+            0
+          ],
+          "size": [
+            0.13,
+            0.11,
+            0.204
+          ]
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            -0.4,
+            1.25,
+            0
+          ],
+          "b": [
+            -0.4,
+            1.68,
+            0
+          ],
+          "radius": 0.042
+        },
+        {
+          "type": "cylinder",
+          "a": [
+            0.42,
+            0.93,
+            0
+          ],
+          "b": [
+            0.42,
+            1.64,
+            0
+          ],
+          "radius": 0.048
+        }
+      ],
+      "source": "assets/art200/story/Story200-editable.blend",
+      "bounds_min": [
+        -0.74,
+        0.0,
+        -0.405
+      ],
+      "bounds_max": [
+        0.74,
+        1.823,
+        0.426
+      ],
+      "dimensions_m": [
+        1.48,
+        1.823,
+        0.831
+      ],
+      "triangles": 19954,
+      "editable_parts": 50,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 ivory gauge needle",
+        "A200 verdigris ceramic stencil",
+        "A200 verdigris enamel",
+        "A200 verdigris service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "collision": "authored compound primitives; open space and round silhouettes retained",
+      "runtime_meshes": 7,
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Continuous vessel bypass and a connected manual isolation handwheel."
+      ]
+    }
+  ],
+  "phase2": "Blender detail, supported hardware, muted palette and graphics pass"
+}

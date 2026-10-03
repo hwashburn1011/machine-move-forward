@@ -1,0 +1,48 @@
+{
+  "originalAuthored": true,
+  "units": "metres",
+  "assemblies": [
+    {
+      "name": "DryBrushA",
+      "triangles": 5904,
+      "vertices": 3186,
+      "height": 1.102
+    },
+    {
+      "name": "DryBrushB",
+      "triangles": 5904,
+      "vertices": 3186,
+      "height": 0.886
+    },
+    {
+      "name": "RootSnag",
+      "triangles": 1864,
+      "vertices": 948,
+      "height": 0.858
+    },
+    {
+      "name": "WindTuft",
+      "triangles": 3196,
+      "vertices": 1692,
+      "height": 0.669
+    },
+    {
+      "name": "ScouredStoneA",
+      "triangles": 576,
+      "vertices": 312,
+      "height": 0.728
+    },
+    {
+      "name": "ScouredStoneB",
+      "triangles": 576,
+      "vertices": 312,
+      "height": 0.518
+    },
+    {
+      "name": "GravelFan",
+      "triangles": 8640,
+      "vertices": 4680,
+      "height": 0.149
+    }
+  ]
+}

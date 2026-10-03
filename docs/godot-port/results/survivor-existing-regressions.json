@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-25",
+  "engine": "Godot 4.7.2",
+  "scope": "Existing native regressions, isolated saves, headless. See focused rendered evidence separately.",
+  "suites": [
+    {
+      "suite": "survivor-integration",
+      "checks": 109,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "survivor-weapon",
+      "checks": 68,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "survivor-controls",
+      "checks": 66,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "survivor-story",
+      "checks": 59,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "survivor-traversal",
+      "checks": 13,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "survivor-opening-handoff",
+      "checks": 32,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "suite": "survivor-opening-framing",
+      "checks": 22,
+      "failures": 0,
+      "errors": 0
+    }
+  ]
+}

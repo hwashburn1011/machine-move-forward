@@ -1,0 +1,310 @@
+{
+  "passed": true,
+  "build": {
+    "schema": 1,
+    "version": "0.3.0-beta.1",
+    "build_id": "0.3.0-beta.1-1722c605387d",
+    "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+    "created_utc": "2026-10-03T01:45:41Z",
+    "asset_manifest_sha256": "8235152e3435e8828263718cb833869b78a3bf9d4065a070bebe312a1f870c14",
+    "roof_collision_sha256": {
+      "glass-orchard.res": "1897fb3f2641ad870508df335e367142298b514d9f4d8fffacdd8db4913c00fd",
+      "last-garden-meridian.res": "2f4368f6a49f77f542a9d3c3fb7d7b598ca2a05748f703336ceeb8896dd7a9cd",
+      "quiet-array.res": "be83d64398429bf557f3a771176defa68d1f76c6535f454f3e916e56b5eb0612",
+      "relay-foundry.res": "407898c5008dd747e34c7fb13adb7e41e182bac55b59d05dc18a9ef1bc86584b",
+      "rooftop-workshop.res": "7fa9c17a6674f7ccf5b9e0f94256add0a66a6e605a1a749ed796925f2138f6da",
+      "wreck-one.res": "6e897ef50a732d6a84a164d272fcf8384f4d222042ea7c17ba507c6c5e27e117"
+    },
+    "refinement_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+    "prior_roof_floor_evidence_sha256": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
+    "grounded_sites_outposts_evidence_sha256": "59363312998ae2a15d9de724fa8f933a14744a1e4dfea451fe8242dad8acc844",
+    "wrist_menu_evidence_sha256": "de6c66e802d6a967ae214b5f71f54ede84d95bb0588c12bdd97741e4bcffc009",
+    "title_screen_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78"
+  },
+  "scope": "New Game cinematic memory and rooftop prelude, full original escape, audio/skip/control return, title/save regressions, and grounded rooftop checks. Native video is separate from uninstrumented-timing performance. No minimum-hardware or human-playtest claim.",
+  "checks": 1808,
+  "native_review": {
+    "checks": 27,
+    "failures": [],
+    "passed": true,
+    "resolutions": [],
+    "scope": "Staged native shots and real skip input; independent timing pass covers real-time playback and performance.",
+    "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+    "timings": {}
+  },
+  "title_review": {
+    "checks": 33,
+    "failures": [],
+    "passed": true,
+    "resolutions": [
+      {
+        "name": "title-1440",
+        "panel": "[P: (85.6, 522.0), S: (454.0, 420.0)]",
+        "render_size": "(1440, 810)",
+        "viewport": "(1440, 810)"
+      },
+      {
+        "name": "empty-load",
+        "panel": "[P: (342.0, 146.0), S: (1156.0, 800.0)]",
+        "render_size": "(1440, 810)",
+        "viewport": "(1440, 810)"
+      },
+      {
+        "name": "title-settings",
+        "panel": "[P: (342.0, 146.0), S: (1156.0, 800.0)]",
+        "render_size": "(1440, 810)",
+        "viewport": "(1440, 810)"
+      },
+      {
+        "name": "title-960x540",
+        "panel": "[P: (85.6, 522.0), S: (454.0, 420.0)]",
+        "render_size": "(960, 540)",
+        "viewport": "(960, 540)"
+      },
+      {
+        "name": "title-1200x900",
+        "panel": "[P: (85.6, 702.0), S: (454.0, 420.0)]",
+        "render_size": "(1200, 900)",
+        "viewport": "(1200, 900)"
+      },
+      {
+        "name": "title-1920x810",
+        "panel": "[P: (120.8, 522.0), S: (454.0, 420.0)]",
+        "render_size": "(1920, 810)",
+        "viewport": "(1920, 810)"
+      },
+      {
+        "name": "title-continue",
+        "panel": "[P: (85.6, 522.0), S: (454.0, 420.0)]",
+        "render_size": "(1920, 1080)",
+        "viewport": "(1920, 1080)"
+      }
+    ],
+    "scope": "Native title rendering, save isolation and real input transitions. Performance measures the isolated animated title, not a full campaign.",
+    "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+    "timings": {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "frame_max_ms": 6.068,
+      "frame_p95_ms": 5.663,
+      "quality": "high",
+      "resolution": "1920x1080",
+      "samples": 600,
+      "title_cpu_p95_ms": 0.836000025272369,
+      "title_gpu_max_ms": 4.9229998588562,
+      "title_gpu_p95_ms": 4.49300003051758
+    }
+  },
+  "regressions": [
+    {
+      "suite": "opening_handoff",
+      "exit_code": 0,
+      "checks": 34,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    },
+    {
+      "suite": "opening_framing",
+      "exit_code": 0,
+      "checks": 22,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "checks": 115,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    },
+    {
+      "suite": "controls_interactions",
+      "exit_code": 0,
+      "checks": 66,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    },
+    {
+      "suite": "wrist_terminal",
+      "exit_code": 0,
+      "checks": 45,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    },
+    {
+      "suite": "audio_lifecycle",
+      "exit_code": 0,
+      "checks": 58,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    },
+    {
+      "suite": "playtest_checkpoints",
+      "exit_code": 0,
+      "checks": 455,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    },
+    {
+      "suite": "site_grounding",
+      "exit_code": 0,
+      "checks": 953,
+      "failures": [],
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+      "source_hash_end": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    }
+  ],
+  "regression_note": "The first opening_framing run exposed two obsolete assertions that predated the already-released buried building foundation. The fixture now distinguishes the six original rooftop batches from lower foundations and verifies that only the lower building contributes collision. The revised framing suite and 953 site-grounding checks passed.",
+  "performance": {
+    "scope": "Actual paused title, New Game, full 32.2-second opening and first playable seconds. 1080p high / Vulkan / 4x MSAA, vsync off. No input or story timing changes.",
+    "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c",
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "entryCpuMs": 3.246,
+    "firstOpeningMs": 44.617,
+    "fpsCap": 0,
+    "frameMs": {
+      "max": 44.617,
+      "median": 3.914,
+      "p95": 5.82,
+      "p99": 6.619
+    },
+    "slowFrames": [
+      {
+        "cinematic": "opening",
+        "cinematicS": -21.9833333333333,
+        "frame": 531,
+        "gpuMs": 0.0659999996423721,
+        "ms": 44.617,
+        "pipelines": {
+          "CANVAS": 3,
+          "DRAW": 0,
+          "MESH": 90,
+          "SPECIALIZATION": 48,
+          "SURFACE": 116
+        },
+        "renderCpuMs": 0.0489999987185001,
+        "wallS": 0.044617
+      },
+      {
+        "cinematic": "opening",
+        "cinematicS": 1.6666666666667,
+        "frame": 7516,
+        "gpuMs": 3.73200011253357,
+        "ms": 26.552,
+        "pipelines": {
+          "CANVAS": 3,
+          "DRAW": 0,
+          "MESH": 90,
+          "SPECIALIZATION": 85,
+          "SURFACE": 118
+        },
+        "renderCpuMs": 3.63100004196167,
+        "wallS": 23.686003
+      }
+    ],
+    "completed": true
+  },
+  "performance_note": "The first fully black entry frame took 44.617 ms. The only other frame over 25 ms was 26.552 ms during the chase. Every sampled frame after the initial 0.1 seconds met a 33.34 ms budget on this RTX 3070 host. Timing runs performed no image readbacks.",
+  "post_entry_max_frame_ms": 26.552,
+  "assets": {
+    "prior_runtime_assets_sha256": "ee6ed36c71490cb591b571adedf911258de47f8a1253bdc9a7a8edaf99f8686e",
+    "previous_release_assets_sha256": "ee6ed36c71490cb591b571adedf911258de47f8a1253bdc9a7a8edaf99f8686e",
+    "all_previous_inputs_unchanged": true,
+    "added_assets": {
+      "art/opening-memory.glb": "d9362c014b70eececf20ed56d7e391013d24caedcc0a0bc017bd33808e56fdf4",
+      "art/opening-memory.glb.import": "9fae344108e1be4992a075abe7c79b57e3ae0ee0610469410ca3874fc7cc7674",
+      "art/opening-memory_Ash grey cast concrete original wear.png": "d82c488f578cde3d44305e981ef9d9d11b7d54fea0cc88187da4cc46aa9983d9",
+      "art/opening-memory_Ash grey cast concrete original wear.png.import": "3cfd2e83028899693a00fce8a14fa9c01600a47d59b94def7a21f4aeb56a519f",
+      "art/opening-memory_Blue graphite enamel original wear.png": "31d65a75d45bacb9c1bea8cb0970774aba35f150da63aab72d98f03913136ba4",
+      "art/opening-memory_Blue graphite enamel original wear.png.import": "f0cb7dadf9297f938e10f1c1858b6ef436ed4ff829d194fbcdb49292a0fe7cba",
+      "art/opening-memory_Canvas work sleeve original wear.png": "4f5030a75f08c7bfdf9a6bd53a4afbea4a8875a3a0cbef98156d68e3c5aa646b",
+      "art/opening-memory_Canvas work sleeve original wear.png.import": "cd22c03ce4449dc5ce840c049ba07728830b60731c28cf59a7cb7c106271569d",
+      "art/opening-memory_Faded machinery ochre original wear.png": "def843f9e8fb415644eff14b2e582f4a88072cfef1e22bef94659c89d24518a7",
+      "art/opening-memory_Faded machinery ochre original wear.png.import": "ef603e6f3ac80ad28f6fc09e82b65160215bacfd6f9a5ff307ef68ebf1844064",
+      "art/opening-memory_Oxide emergency enamel original wear.png": "5f2303e29a590740111b427864c5f61eb969e824a00845ea35abb6db285c2a8e",
+      "art/opening-memory_Oxide emergency enamel original wear.png.import": "37dc9d6d5e784551e074f4642f4992cdb2e1ebc1e0edcf5950057a41ec793fb9",
+      "art/opening-memory_Worn leather glove original wear.png": "46ed5f061bb16d8a1f378b26e1c4625a4e553ff35c5778dc6f82be512e70469e",
+      "art/opening-memory_Worn leather glove original wear.png.import": "425f5b48e3fdd6d59ebc381ea6f401fa42f039b61a2ec44321b5f9af6ef5a34a",
+      "assets/audio/opening/memory-and-escape.wav": "1f75402c4386f3350e79d6761e1096dcb409f856ec80e150f0f53a2767fa8211",
+      "assets/audio/opening/memory-and-escape.wav.import": "2ba250e7fcc11fb1ba77c6aff68b29edc90bb8e80ad64746c76ef155b3ee3c18",
+      "assets/audio/opening/memory-score.wav": "8d3be35a206472fc07ecd244bd524a56935baefb6f9902d22c13b55b4503b527",
+      "assets/audio/opening/memory-score.wav.import": "ceb4727838e30ab96e7f193670e89145d3fffc3eaa7db80a5c323ef07ce08812",
+      "assets/audio/opening/pursuer-roof.wav": "428f88cb734003d866431353bfbfb437bba72f4f96ee2ad28e1524e3ada4eaf7",
+      "assets/audio/opening/pursuer-roof.wav.import": "8218fb036eae570ca3ac26bcfd95d2fa4f376163b35f3e0c23f8f6a07f61c6b6"
+    }
+  },
+  "model": {
+    "editable_parts": 228,
+    "batches": 17,
+    "triangles": 57788,
+    "bytes": 4439808,
+    "moving_roots": [
+      "HumanGlove",
+      "DisconnectLever",
+      "SuspendedMotor"
+    ],
+    "provenance": "Original beveled Blender geometry and deterministic painted wear. Existing game actors are staged separately in Godot."
+  },
+  "audio": {
+    "sources": "Original harmonic/noise foley; pursuer-source.wav synthesized locally with Microsoft David Desktop via System.Speech, rate -1. Filtered and mixed by this script.",
+    "dialogue": "There. On the roof.",
+    "dialogue_at_seconds": 12.9,
+    "files": [
+      {
+        "path": "godot\\assets\\audio\\opening\\memory-and-escape.wav",
+        "seconds": 32.2,
+        "peak_dbfs": -15.403772027791478,
+        "rms_dbfs": -38.480245480983555,
+        "sha256": "1f75402c4386f3350e79d6761e1096dcb409f856ec80e150f0f53a2767fa8211"
+      },
+      {
+        "path": "godot\\assets\\audio\\opening\\memory-score.wav",
+        "seconds": 13.0,
+        "peak_dbfs": -37.62453905247846,
+        "rms_dbfs": -44.8712801230939,
+        "sha256": "8d3be35a206472fc07ecd244bd524a56935baefb6f9902d22c13b55b4503b527"
+      },
+      {
+        "path": "godot\\assets\\audio\\opening\\pursuer-roof.wav",
+        "seconds": 4.0,
+        "peak_dbfs": -12.570421084453908,
+        "rms_dbfs": -36.777354447501274,
+        "sha256": "428f88cb734003d866431353bfbfb437bba72f4f96ee2ad28e1524e3ada4eaf7"
+      }
+    ]
+  },
+  "audio_capture": {
+    "mean_dbfs": -42.0,
+    "peak_dbfs": -16.0,
+    "report": "film/audio-levels.txt"
+  },
+  "film": {
+    "path": "film/opening.mp4",
+    "sha256": "40f597b93bf972050bce4396dcdc5583ba9cc4f1490a1400c2c01d1c690e76e8",
+    "capture": {
+      "first_frame": 70,
+      "fps": 30,
+      "last_frame": 1126,
+      "opening_done": true,
+      "scope": "Real New Game input, native rendered full opening and mixed engine audio. Fixed-rate movie output is not a performance measurement.",
+      "source_hash": "1722c605387d2fae6bdf9a2250e0ab0b09c74e4a5b256b1e4359757ba0171f9c"
+    }
+  },
+  "footing_probe": {
+    "roof_height_m": 19.53,
+    "crouching_sole_height_m": 19.5219783782959,
+    "standing_sole_height_m": 19.5219669342041,
+    "log": "feet.log"
+  },
+  "limitations": [
+    "Prepared visual sequence; no new backstory facts are asserted.",
+    "Pursuer dialogue uses processed local Windows speech synthesis, credited in the package.",
+    "Native screenshots cover High and Low graphics and 16:9, 4:3 and ultrawide framing. Performance measured only 1080p High on the current host."
+  ]
+}

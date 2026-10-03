@@ -1,0 +1,8506 @@
+{
+  "SPECIALIST_BLUEPRINT": {
+    "course-gyro": null,
+    "course-actuator": null,
+    "annika-archive-shard": null,
+    "salvage-controller": "automatic-salvage-collector",
+    "tracking-servo": "automatic-defense-turret",
+    "human-seed-bank": "seed-garden",
+    "vector-governor": null,
+    "meridian-solution": null,
+    "orchard-memory-core": null
+  },
+  "AUTOMATION": {
+    "collector-auto": {
+      "pieceId": "collector-auto",
+      "unlock": "automatic-salvage-collector",
+      "cost": {
+        "scrap": 55,
+        "components": 6
+      },
+      "weight": 280,
+      "maxHealth": 130,
+      "armor": 1,
+      "powerDraw": 4
+    },
+    "turret-auto": {
+      "pieceId": "turret-auto",
+      "unlock": "automatic-defense-turret",
+      "cost": {
+        "scrap": 65,
+        "components": 8
+      },
+      "weight": 190,
+      "maxHealth": 120,
+      "armor": 1,
+      "powerDraw": 6
+    }
+  },
+  "AUTOMATION_POWER_DRAW": {
+    "collector-auto": 4,
+    "turret-auto": 6
+  },
+  "PIECE_CATEGORIES": [
+    "structure",
+    "station",
+    "automation",
+    "decor"
+  ],
+  "BUILD_PIECES": {
+    "caretaker-dock": {
+      "id": "caretaker-dock",
+      "name": "L-12 charging dock",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 40,
+        "components": 8
+      },
+      "weight": 30,
+      "maxHealth": 160,
+      "armor": 2,
+      "boundsRoom": false,
+      "blocksNavigation": true,
+      "rotatable": true
+    },
+    "floor": {
+      "id": "floor",
+      "name": "Deck Plate",
+      "category": "structure",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 8
+      },
+      "weight": 120,
+      "maxHealth": 120,
+      "armor": 2,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "wall": {
+      "id": "wall",
+      "name": "Hull Wall",
+      "category": "structure",
+      "anchor": "edge",
+      "cost": {
+        "scrap": 12
+      },
+      "weight": 90,
+      "maxHealth": 150,
+      "armor": 2,
+      "boundsRoom": true,
+      "blocksNavigation": true,
+      "rotatable": false
+    },
+    "doorway": {
+      "id": "doorway",
+      "name": "Doorway",
+      "category": "structure",
+      "anchor": "edge",
+      "cost": {
+        "scrap": 20
+      },
+      "weight": 110,
+      "maxHealth": 150,
+      "armor": 2,
+      "boundsRoom": true,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "railing": {
+      "id": "railing",
+      "name": "Railing",
+      "category": "structure",
+      "anchor": "edge",
+      "cost": {
+        "scrap": 5
+      },
+      "weight": 25,
+      "maxHealth": 60,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": true,
+      "rotatable": false
+    },
+    "roof": {
+      "id": "roof",
+      "name": "Roof Panel",
+      "category": "structure",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 10
+      },
+      "weight": 80,
+      "maxHealth": 120,
+      "armor": 2,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "stairs": {
+      "id": "stairs",
+      "name": "Stairs",
+      "category": "structure",
+      "anchor": "double-cell",
+      "cost": {
+        "scrap": 18
+      },
+      "weight": 160,
+      "maxHealth": 140,
+      "armor": 2,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "crate": {
+      "id": "crate",
+      "name": "Storage Crate",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 15,
+        "components": 2
+      },
+      "weight": 140,
+      "maxHealth": 110,
+      "armor": 1,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "workbench": {
+      "id": "workbench",
+      "name": "Workbench",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 30,
+        "components": 4
+      },
+      "weight": 220,
+      "maxHealth": 130,
+      "armor": 1,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "refinery": {
+      "id": "refinery",
+      "name": "Refinery",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 80
+      },
+      "weight": 380,
+      "maxHealth": 160,
+      "armor": 2,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "generator": {
+      "id": "generator",
+      "name": "Generator",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 60,
+        "components": 6
+      },
+      "weight": 320,
+      "maxHealth": 170,
+      "armor": 2,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "lamp": {
+      "id": "lamp",
+      "name": "Deck Lamp",
+      "category": "structure",
+      "anchor": "edge",
+      "cost": {
+        "scrap": 6,
+        "components": 1
+      },
+      "weight": 8,
+      "maxHealth": 40,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "stove": {
+      "id": "stove",
+      "name": "Stove",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 25,
+        "components": 2
+      },
+      "weight": 180,
+      "maxHealth": 120,
+      "armor": 1,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "condenser": {
+      "id": "condenser",
+      "name": "Water Condenser",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 40,
+        "components": 5
+      },
+      "weight": 260,
+      "maxHealth": 130,
+      "armor": 1,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "planter": {
+      "id": "planter",
+      "name": "Planter Box",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 20
+      },
+      "weight": 150,
+      "maxHealth": 90,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "seed-garden": {
+      "id": "seed-garden",
+      "name": "Seed Garden",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 35,
+        "components": 4
+      },
+      "weight": 180,
+      "maxHealth": 110,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "turret-manual": {
+      "id": "turret-manual",
+      "name": "Manual Deck Gun",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 42,
+        "components": 4
+      },
+      "weight": 210,
+      "maxHealth": 150,
+      "armor": 2,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "collector-auto": {
+      "id": "collector-auto",
+      "name": "Automatic Salvage Collector",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 55,
+        "components": 6
+      },
+      "weight": 280,
+      "maxHealth": 130,
+      "armor": 1,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": false
+    },
+    "turret-auto": {
+      "id": "turret-auto",
+      "name": "Automatic Defense Turret",
+      "category": "station",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 65,
+        "components": 8
+      },
+      "weight": 190,
+      "maxHealth": 120,
+      "armor": 1,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "chair": {
+      "id": "chair",
+      "name": "Chair",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 4
+      },
+      "weight": 9,
+      "maxHealth": 30,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "table": {
+      "id": "table",
+      "name": "Table",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 6
+      },
+      "weight": 18,
+      "maxHealth": 40,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "rug": {
+      "id": "rug",
+      "name": "Woven Rug",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 3
+      },
+      "weight": 4,
+      "maxHealth": 20,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    },
+    "shelf": {
+      "id": "shelf",
+      "name": "Shelf",
+      "category": "decor",
+      "anchor": "cell",
+      "cost": {
+        "scrap": 5
+      },
+      "weight": 14,
+      "maxHealth": 35,
+      "armor": 0,
+      "boundsRoom": false,
+      "blocksNavigation": false,
+      "rotatable": true
+    }
+  },
+  "STATION_PIECES": [
+    "caretaker-dock",
+    "crate",
+    "workbench",
+    "refinery",
+    "generator",
+    "stove",
+    "condenser",
+    "planter",
+    "seed-garden",
+    "turret-manual",
+    "collector-auto",
+    "turret-auto"
+  ],
+  "DECOR_PIECES": [
+    "chair",
+    "table",
+    "rug",
+    "shelf"
+  ],
+  "FIXTURE_PIECES": [
+    "lamp"
+  ],
+  "STARTING_STRUCTURES": [
+    {
+      "piece": "floor",
+      "cell": {
+        "x": 4,
+        "y": 0,
+        "z": 5
+      },
+      "rotation": 0
+    },
+    {
+      "piece": "generator",
+      "cell": {
+        "x": 4,
+        "y": 0,
+        "z": 5
+      },
+      "rotation": 0
+    }
+  ],
+  "BUILD_PIECE_ORDER": [
+    "caretaker-dock",
+    "floor",
+    "wall",
+    "doorway",
+    "railing",
+    "roof",
+    "stairs",
+    "crate",
+    "workbench",
+    "refinery",
+    "generator",
+    "stove",
+    "condenser",
+    "planter",
+    "seed-garden",
+    "turret-manual",
+    "collector-auto",
+    "turret-auto",
+    "lamp",
+    "chair",
+    "table",
+    "rug",
+    "shelf"
+  ],
+  "REFUND_FRACTION": 0.6,
+  "CRATE_SLOTS": 12,
+  "ENEMIES": {
+    "scavenger": {
+      "id": "scavenger",
+      "name": "Wasteland Scavenger",
+      "maxHealth": 110,
+      "moveSpeed": 3.1,
+      "damage": 9,
+      "attackRange": 2.2,
+      "detectRange": 40,
+      "attackCooldown": 1.1,
+      "armor": 2,
+      "drops": [
+        {
+          "id": "scrap",
+          "min": 9,
+          "max": 18
+        },
+        {
+          "id": "components",
+          "min": 1,
+          "max": 1,
+          "chance": 0.3
+        }
+      ],
+      "tint": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      },
+      "threat": 2,
+      "targetPriority": "player"
+    },
+    "raider": {
+      "id": "raider",
+      "name": "Dust Raider",
+      "maxHealth": 55,
+      "moveSpeed": 5.4,
+      "damage": 6,
+      "attackRange": 2,
+      "detectRange": 46,
+      "attackCooldown": 0.75,
+      "armor": 0,
+      "drops": [
+        {
+          "id": "scrap",
+          "min": 4,
+          "max": 9
+        },
+        {
+          "id": "components",
+          "min": 1,
+          "max": 1,
+          "chance": 0.15
+        }
+      ],
+      "tint": {
+        "r": 1.35,
+        "g": 0.72,
+        "b": 0.66
+      },
+      "threat": 3,
+      "targetPriority": "engine"
+    },
+    "warden": {
+      "id": "warden",
+      "name": "Warden Rifleman",
+      "maxHealth": 85,
+      "moveSpeed": 2.9,
+      "damage": 8,
+      "attackRange": 13,
+      "detectRange": 42,
+      "attackCooldown": 2.7,
+      "armor": 1,
+      "threat": 3,
+      "targetPriority": "player",
+      "surface": "metal",
+      "tint": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      },
+      "ranged": {
+        "windup": 0.85,
+        "shots": 1,
+        "shotInterval": 0.12
+      },
+      "drops": [
+        {
+          "id": "scrap",
+          "min": 10,
+          "max": 18
+        },
+        {
+          "id": "components",
+          "min": 1,
+          "max": 2,
+          "chance": 0.35
+        }
+      ]
+    },
+    "revenant": {
+      "id": "revenant",
+      "name": "Revenant Blademaster",
+      "maxHealth": 75,
+      "moveSpeed": 5.8,
+      "damage": 10,
+      "attackRange": 2.1,
+      "detectRange": 44,
+      "attackCooldown": 1.05,
+      "armor": 0,
+      "threat": 3,
+      "targetPriority": "player",
+      "surface": "metal",
+      "tint": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      },
+      "drops": [
+        {
+          "id": "scrap",
+          "min": 9,
+          "max": 16
+        },
+        {
+          "id": "components",
+          "min": 1,
+          "max": 1,
+          "chance": 0.3
+        }
+      ]
+    },
+    "bastion": {
+      "id": "bastion",
+      "name": "Bastion Heavy Gunner",
+      "maxHealth": 180,
+      "moveSpeed": 2,
+      "damage": 4,
+      "attackRange": 11,
+      "detectRange": 40,
+      "attackCooldown": 3.6,
+      "armor": 3,
+      "threat": 5,
+      "targetPriority": "player",
+      "capsuleRadius": 0.56,
+      "surface": "metal",
+      "tint": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      },
+      "ranged": {
+        "windup": 1.15,
+        "shots": 3,
+        "shotInterval": 0.14
+      },
+      "drops": [
+        {
+          "id": "scrap",
+          "min": 20,
+          "max": 30
+        },
+        {
+          "id": "components",
+          "min": 2,
+          "max": 3
+        }
+      ]
+    },
+    "sovereign": {
+      "id": "sovereign",
+      "name": "Sovereign Drone Commander",
+      "maxHealth": 140,
+      "moveSpeed": 2.4,
+      "damage": 13,
+      "attackRange": 15,
+      "detectRange": 46,
+      "attackCooldown": 3.8,
+      "armor": 2,
+      "threat": 5,
+      "targetPriority": "player",
+      "surface": "metal",
+      "tint": {
+        "r": 1,
+        "g": 1,
+        "b": 1
+      },
+      "ranged": {
+        "windup": 1.2,
+        "shots": 1,
+        "shotInterval": 0.12
+      },
+      "drops": [
+        {
+          "id": "scrap",
+          "min": 18,
+          "max": 28
+        },
+        {
+          "id": "components",
+          "min": 2,
+          "max": 3
+        }
+      ]
+    }
+  },
+  "MECH_ENEMY_IDS": [
+    "warden",
+    "revenant",
+    "bastion",
+    "sovereign"
+  ],
+  "SPAWN_INTERVAL_M": 250,
+  "MAX_ACTIVE_ENEMIES": 4,
+  "GROUND_Y": 0,
+  "STRIDE_LENGTH": 6.6,
+  "DUTY": 0.6,
+  "STANCE_EXCURSION": 3.9599999999999995,
+  "FOOT_LIFT": 0.5,
+  "FOOT_SPLAY": 1,
+  "UPPER_LEG": 2.1,
+  "LOWER_LEG": 2.1,
+  "MAX_REACH": 3.9899999999999998,
+  "LEGS": [
+    {
+      "id": "front-left",
+      "hip": {
+        "x": -6,
+        "y": 3.1,
+        "z": -4.5
+      },
+      "phase": 0.25,
+      "side": -1,
+      "end": -1
+    },
+    {
+      "id": "front-right",
+      "hip": {
+        "x": 6,
+        "y": 3.1,
+        "z": -4.5
+      },
+      "phase": 0.75,
+      "side": 1,
+      "end": -1
+    },
+    {
+      "id": "rear-left",
+      "hip": {
+        "x": -6,
+        "y": 3.1,
+        "z": 4.5
+      },
+      "phase": 0,
+      "side": -1,
+      "end": 1
+    },
+    {
+      "id": "rear-right",
+      "hip": {
+        "x": 6,
+        "y": 3.1,
+        "z": 4.5
+      },
+      "phase": 0.5,
+      "side": 1,
+      "end": 1
+    }
+  ],
+  "HEAVE_AMPLITUDE": 0.005,
+  "TILT_AMPLITUDE": 0.0011344640137963143,
+  "ITEMS": {
+    "scrap": {
+      "id": "scrap",
+      "name": "Scrap Metal",
+      "category": "resource",
+      "stackSize": 100,
+      "weight": 1,
+      "glyph": "▪",
+      "description": "Torn plate and rebar. The wasteland runs on it."
+    },
+    "components": {
+      "id": "components",
+      "name": "Components",
+      "category": "resource",
+      "stackSize": 50,
+      "weight": 2,
+      "glyph": "⬡",
+      "description": "Salvaged mechanisms. Refined from scrap."
+    },
+    "fuel": {
+      "id": "fuel",
+      "name": "Fuel",
+      "category": "resource",
+      "stackSize": 50,
+      "weight": 1.5,
+      "glyph": "◆",
+      "description": "Heavy distillate. Feed it to the generator to keep the lights on."
+    },
+    "ammo-rifle": {
+      "id": "ammo-rifle",
+      "name": "Rifle Rounds",
+      "category": "ammo",
+      "stackSize": 300,
+      "weight": 0.02,
+      "glyph": "▮",
+      "description": "Standard rifle ammunition."
+    },
+    "ammo-shotgun": {
+      "id": "ammo-shotgun",
+      "name": "Shotgun Shells",
+      "category": "ammo",
+      "stackSize": 120,
+      "weight": 0.05,
+      "glyph": "▰",
+      "description": "Buckshot. Effective up close."
+    },
+    "repair-kit": {
+      "id": "repair-kit",
+      "name": "Repair Kit",
+      "category": "consumable",
+      "stackSize": 5,
+      "weight": 1,
+      "glyph": "✚",
+      "description": "Patches you up for 40 health."
+    },
+    "extended-mag": {
+      "id": "extended-mag",
+      "name": "Extended Magazine",
+      "category": "mod",
+      "stackSize": 1,
+      "weight": 0.5,
+      "glyph": "⌸",
+      "description": "Raises the fitted weapon magazine by 50%."
+    },
+    "scanner-replacement-module": {
+      "id": "scanner-replacement-module",
+      "name": "Scanner Replacement Module",
+      "category": "resource",
+      "stackSize": 1,
+      "weight": 0.4,
+      "glyph": "◈",
+      "description": "A shielded cartridge for the damaged scanner assembly."
+    },
+    "water": {
+      "id": "water",
+      "name": "Clean Water",
+      "category": "consumable",
+      "stackSize": 20,
+      "weight": 1,
+      "glyph": "☋",
+      "description": "A litre, wrung out of the desert air. Drink it, or cook with it."
+    },
+    "greens": {
+      "id": "greens",
+      "name": "Greens",
+      "category": "resource",
+      "stackSize": 30,
+      "weight": 0.3,
+      "glyph": "❦",
+      "description": "Whatever will grow in a box on a moving deck. Cook it."
+    },
+    "rations": {
+      "id": "rations",
+      "name": "Rations",
+      "category": "consumable",
+      "stackSize": 20,
+      "weight": 0.6,
+      "glyph": "☖",
+      "description": "A hot meal, of sorts. The best thing about a long crossing."
+    }
+  },
+  "ITEM_IDS": [
+    "scrap",
+    "components",
+    "fuel",
+    "ammo-rifle",
+    "ammo-shotgun",
+    "repair-kit",
+    "extended-mag",
+    "scanner-replacement-module",
+    "water",
+    "greens",
+    "rations"
+  ],
+  "PLAYER_INVENTORY_SLOTS": 20,
+  "STARTING_INVENTORY": {
+    "scrap": 260
+  },
+  "AMMO_FOR_WEAPON": {
+    "rifle": "ammo-rifle",
+    "shotgun": "ammo-shotgun"
+  },
+  "KEEPSAKE_DETAILS": {
+    "course-gyro": {
+      "title": "Course Gyro",
+      "text": "Recovered at Wreck One. The cartridge is installed in the Navigation Helm. It makes plotted expedition routes possible; powered free steering requires the Quiet Array actuator."
+    },
+    "salvage-controller": {
+      "title": "Salvage Controller",
+      "text": "Recovered at the Relay Foundry. Its preserved control patterns unlock the automatic salvage collector, helping the Nomad gather supplies while S-07 tends the ship."
+    },
+    "tracking-servo": {
+      "title": "Tracking Servo",
+      "text": "Recovered at the Relay Foundry. The servo unlocks the tracking turret: another way to protect the home and records carried aboard the Nomad."
+    },
+    "course-actuator": {
+      "title": "Course Actuator",
+      "text": "Recovered at Quiet Array. The exposed servo at the Helm marks the first powered steering authority: 12 degrees to either side, with adjustable throttle. The Nomad can begin choosing its own path."
+    },
+    "annika-archive-shard": {
+      "title": "ANNIKA Archive Shard",
+      "text": "Recovered at Quiet Array. A fragment of the archive ANNIKA kept for humans. Its protected memory core is displayed here; only records S-07 actually reads enter the Campaign Record."
+    },
+    "human-seed-bank": {
+      "title": "Human Seed Bank",
+      "text": "Recovered at Glass Orchard. These sealed samples represent the viable seeds entrusted to S-07. The bank unlocks the Seed Garden, which needs water to grow food aboard the Nomad."
+    },
+    "vector-governor": {
+      "title": "Vector Governor",
+      "text": "Recovered at Glass Orchard. The illuminated calibration unit at the Helm expands powered steering to 28 degrees either side, putting more distant discoveries within reach."
+    },
+    "orchard-memory-core": {
+      "title": "Orchard Memory Core",
+      "text": "Recovered at Glass Orchard. ANNIKA preserved ordinary lives alongside the seeds: names, shared work, and small moments. This core carries that evidence without claiming to know who survived."
+    },
+    "meridian-solution": {
+      "title": "Meridian Solution",
+      "text": "Recovered at Last Garden at Meridian. The encoded bearing cartridge completes the Helm, enabling 45-degree course authority. The final journey remains a deliberate choice at the powered Helm."
+    }
+  },
+  "NEEDS_MAX": 100,
+  "DRAIN_EMPTY_MINUTES": 25,
+  "HYDRATION_DRAIN_PER_S": 0.06666666666666667,
+  "NOURISHMENT_DRAIN_PER_S": 0.06666666666666667,
+  "RESTORE_PER_USE": 60,
+  "EMPTY_STAMINA_SCALE": 0.5,
+  "EMPTY_HEAL_SCALE": 0.5,
+  "CONDENSER_PERIOD_S": 90,
+  "PLANTER_PERIOD_S": 150,
+  "OPTIONAL_DOCK_ROOT_X": 19,
+  "NOMAD_LEG_GAME_ANCHORS": {
+    "hipAbs": {
+      "x": 8.9375,
+      "y": 7.9966666667,
+      "z": 7.8
+    },
+    "repairAbs": {
+      "x": 10.3625,
+      "z": 7.8
+    }
+  },
+  "NOMAD_LEG_SOURCE_RIG": {
+    "hipAbs": {
+      "x": 11.916666666666668,
+      "y": 9.75,
+      "z": 9.6
+    },
+    "kneeAbs": {
+      "x": 14.116666666666667,
+      "y": 8.85,
+      "z": 5.05
+    },
+    "footAbs": {
+      "x": 14.766666666666666,
+      "y": 11.75,
+      "z": 1
+    }
+  },
+  "DESERT_OPPORTUNITIES": {
+    "collapsed-service-depot": {
+      "id": "collapsed-service-depot",
+      "contactKind": "water-cache",
+      "title": "Collapsed service depot",
+      "description": "A fallen service bay still has one reachable bench and a deeper locker.",
+      "hazard": "calm",
+      "modelId": "opportunity-service-depot",
+      "placement": {
+        "root": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -6.5,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -6.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 6,
+            "y": 0.12,
+            "z": 5
+          },
+          "at": {
+            "x": 0,
+            "y": -0.12,
+            "z": 0
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -6.5,
+            "y": -0.08,
+            "z": 0
+          }
+        },
+        {
+          "id": "north",
+          "half": {
+            "x": 6,
+            "y": 0.6,
+            "z": 0.07
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": -4.9
+          }
+        },
+        {
+          "id": "south",
+          "half": {
+            "x": 6,
+            "y": 0.6,
+            "z": 0.07
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": 4.9
+          }
+        },
+        {
+          "id": "east",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 5
+          },
+          "at": {
+            "x": 5.9,
+            "y": 0.6,
+            "z": 0
+          }
+        },
+        {
+          "id": "west--3.1",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 1.9
+          },
+          "at": {
+            "x": -5.9,
+            "y": 0.6,
+            "z": -3.1
+          }
+        },
+        {
+          "id": "west-3.1",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 1.9
+          },
+          "at": {
+            "x": -5.9,
+            "y": 0.6,
+            "z": 3.1
+          }
+        },
+        {
+          "id": "collapsed-roof",
+          "half": {
+            "x": 1.8,
+            "y": 0.45,
+            "z": 1.2
+          },
+          "at": {
+            "x": 1,
+            "y": 1.6,
+            "z": -2.5
+          }
+        },
+        {
+          "id": "locker",
+          "half": {
+            "x": 0.8,
+            "y": 0.9,
+            "z": 0.65
+          },
+          "at": {
+            "x": 3.2,
+            "y": 0.9,
+            "z": 2.8
+          }
+        }
+      ],
+      "interactions": {
+        "service": {
+          "id": "service-bench",
+          "label": "Stabilize service bench",
+          "fallback": {
+            "x": -2.8,
+            "y": 0.8,
+            "z": -1.8
+          }
+        },
+        "retrieval": {
+          "id": "service-locker",
+          "label": "Recover the deep service locker",
+          "fallback": {
+            "x": 2,
+            "y": 0.9,
+            "z": 2.8
+          }
+        }
+      }
+    },
+    "wrecked-convoy": {
+      "id": "wrecked-convoy",
+      "contactKind": "salvage-wreck",
+      "title": "Wrecked convoy",
+      "description": "A disabled convoy offers an exposed crate before its buried cargo bay.",
+      "hazard": "hostile",
+      "modelId": "opportunity-wrecked-convoy",
+      "placement": {
+        "root": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -6.5,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -6.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 6,
+            "y": 0.12,
+            "z": 5
+          },
+          "at": {
+            "x": 0,
+            "y": -0.12,
+            "z": 0
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -6.5,
+            "y": -0.08,
+            "z": 0
+          }
+        },
+        {
+          "id": "north",
+          "half": {
+            "x": 6,
+            "y": 0.6,
+            "z": 0.07
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": -4.9
+          }
+        },
+        {
+          "id": "south",
+          "half": {
+            "x": 6,
+            "y": 0.6,
+            "z": 0.07
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": 4.9
+          }
+        },
+        {
+          "id": "east",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 5
+          },
+          "at": {
+            "x": 5.9,
+            "y": 0.6,
+            "z": 0
+          }
+        },
+        {
+          "id": "west--3.1",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 1.9
+          },
+          "at": {
+            "x": -5.9,
+            "y": 0.6,
+            "z": -3.1
+          }
+        },
+        {
+          "id": "west-3.1",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 1.9
+          },
+          "at": {
+            "x": -5.9,
+            "y": 0.6,
+            "z": 3.1
+          }
+        },
+        {
+          "id": "front-wreck",
+          "half": {
+            "x": 2.1,
+            "y": 0.7,
+            "z": 0.75
+          },
+          "at": {
+            "x": 0.2,
+            "y": 0.7,
+            "z": -2.1
+          }
+        },
+        {
+          "id": "rear-wreck",
+          "half": {
+            "x": 1.4,
+            "y": 0.55,
+            "z": 0.8
+          },
+          "at": {
+            "x": 2.4,
+            "y": 0.55,
+            "z": 2.3
+          }
+        }
+      ],
+      "interactions": {
+        "service": {
+          "id": "convoy-service",
+          "label": "Cut the convoy seal",
+          "fallback": {
+            "x": -2.5,
+            "y": 0.7,
+            "z": -1.6
+          }
+        },
+        "retrieval": {
+          "id": "convoy-retrieval",
+          "label": "Retrieve the buried cargo",
+          "fallback": {
+            "x": 0.7,
+            "y": 0.65,
+            "z": 2.6
+          }
+        }
+      }
+    },
+    "damaged-relay": {
+      "id": "damaged-relay",
+      "contactKind": "memorial",
+      "title": "Damaged relay",
+      "description": "A cracked relay can be serviced from the aisle; a sheltered reserve sits behind it.",
+      "hazard": "uncertain",
+      "modelId": "opportunity-damaged-relay",
+      "placement": {
+        "root": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -6.5,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -6.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 6,
+            "y": 0.12,
+            "z": 5
+          },
+          "at": {
+            "x": 0,
+            "y": -0.12,
+            "z": 0
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -6.5,
+            "y": -0.08,
+            "z": 0
+          }
+        },
+        {
+          "id": "north",
+          "half": {
+            "x": 6,
+            "y": 0.6,
+            "z": 0.07
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": -4.9
+          }
+        },
+        {
+          "id": "south",
+          "half": {
+            "x": 6,
+            "y": 0.6,
+            "z": 0.07
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": 4.9
+          }
+        },
+        {
+          "id": "east",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 5
+          },
+          "at": {
+            "x": 5.9,
+            "y": 0.6,
+            "z": 0
+          }
+        },
+        {
+          "id": "west--3.1",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 1.9
+          },
+          "at": {
+            "x": -5.9,
+            "y": 0.6,
+            "z": -3.1
+          }
+        },
+        {
+          "id": "west-3.1",
+          "half": {
+            "x": 0.07,
+            "y": 0.6,
+            "z": 1.9
+          },
+          "at": {
+            "x": -5.9,
+            "y": 0.6,
+            "z": 3.1
+          }
+        },
+        {
+          "id": "relay-shell",
+          "half": {
+            "x": 1.3,
+            "y": 1.25,
+            "z": 0.8
+          },
+          "at": {
+            "x": 0.4,
+            "y": 1.25,
+            "z": 0.2
+          }
+        },
+        {
+          "id": "relay-cabinet",
+          "half": {
+            "x": 0.7,
+            "y": 0.8,
+            "z": 0.65
+          },
+          "at": {
+            "x": 3.1,
+            "y": 0.8,
+            "z": -2.8
+          }
+        }
+      ],
+      "interactions": {
+        "service": {
+          "id": "relay-service",
+          "label": "Restore relay power",
+          "fallback": {
+            "x": -2.4,
+            "y": 0.8,
+            "z": 1.2
+          }
+        },
+        "retrieval": {
+          "id": "relay-reserve",
+          "label": "Recover the relay reserve",
+          "fallback": {
+            "x": 2,
+            "y": 0.8,
+            "z": -2.8
+          }
+        }
+      }
+    }
+  },
+  "OPPORTUNITIES": {
+    "water-cache": {
+      "title": "Linekeeper water cache",
+      "description": "A sealed reserve left for machines carrying civilian cargo.",
+      "hazard": "Quiet salvage stop",
+      "model": "opportunity-service-depot"
+    },
+    "salvage-wreck": {
+      "title": "Burned service tender",
+      "description": "A maintenance platform with usable metal under its scorched shell.",
+      "hazard": "Custodian patrol risk",
+      "model": "opportunity-wrecked-convoy"
+    },
+    "memorial": {
+      "title": "Last shift transmitter",
+      "description": "A small relay still broadcasting the names of its missing crew.",
+      "hazard": "Quiet listening stop",
+      "model": "opportunity-damaged-relay"
+    },
+    "repair-depot": {
+      "title": "Linekeeper repair depot",
+      "description": "A calm depot preserving machines and the benevolent intelligence that kept them moving.",
+      "hazard": "Calm approach",
+      "model": "route-repair-depot"
+    }
+  },
+  "MEMORIAL_MESSAGE": "ANNIKA / LINEKEEPER RECORD 06\n\nMara kept the pump running. Tomas checked every passenger twice. When the order came to seal the doors, Unit S-04 reported a failed lock. There was no failed lock.\n\nIf you can hear this, leave the relay open. Someone may still be listening.",
+  "DEPOT_MESSAGE": "LINEKEEPER / SERVICE LOG 41\n\nThe last convoy used our spare actuator. They left a drawing of the coast and a promise to return it. I have kept the bay clear.\n\nA Custodian patrol asked why an empty depot still draws power. I reported a welded relay. It seemed kinder than explaining that keeping a promise can take a very long time.\n\nTake the repair kit if you need it. Leave the bench ready for the next traveller. — Depot unit L-12",
+  "PRIORITY_ORDER": [
+    "light",
+    "station",
+    "defense"
+  ],
+  "FUEL_BURN_PER_S": 0.06,
+  "FUEL_TANK_CAP": 100,
+  "STARTING_FUEL": 60,
+  "DEFAULT_POWER_MODIFIERS": {
+    "generationBonus": 0,
+    "fuelBurnMultiplier": 1
+  },
+  "GENERATOR_CAPACITY": 16,
+  "DRAWS": {
+    "lamp": 1,
+    "refinery": 10,
+    "condenser": 4,
+    "turret": 3,
+    "collector": 4,
+    "automaticTurret": 6
+  },
+  "RECIPES": [
+    {
+      "id": "craft-scanner-replacement-module",
+      "name": "Scanner Replacement Module",
+      "station": "workbench",
+      "inputs": {
+        "scrap": 4,
+        "components": 4
+      },
+      "output": {
+        "itemId": "scanner-replacement-module",
+        "count": 1
+      }
+    },
+    {
+      "id": "refine-components",
+      "name": "Refine Components",
+      "station": "refinery",
+      "inputs": {
+        "scrap": 8
+      },
+      "output": {
+        "itemId": "components",
+        "count": 2
+      }
+    },
+    {
+      "id": "craft-rifle-ammo",
+      "name": "Rifle Rounds",
+      "station": "workbench",
+      "inputs": {
+        "scrap": 2,
+        "components": 1
+      },
+      "output": {
+        "itemId": "ammo-rifle",
+        "count": 30
+      }
+    },
+    {
+      "id": "craft-shotgun-ammo",
+      "name": "Shotgun Shells",
+      "station": "workbench",
+      "inputs": {
+        "scrap": 3
+      },
+      "output": {
+        "itemId": "ammo-shotgun",
+        "count": 8
+      }
+    },
+    {
+      "id": "craft-repair-kit",
+      "name": "Repair Kit",
+      "station": "workbench",
+      "inputs": {
+        "scrap": 2,
+        "components": 2
+      },
+      "output": {
+        "itemId": "repair-kit",
+        "count": 1
+      }
+    },
+    {
+      "id": "cook-rations",
+      "name": "Cook Rations",
+      "station": "stove",
+      "inputs": {
+        "greens": 1,
+        "water": 1
+      },
+      "output": {
+        "itemId": "rations",
+        "count": 1
+      }
+    },
+    {
+      "id": "craft-extended-mag",
+      "name": "Extended Magazine",
+      "station": "workbench",
+      "inputs": {
+        "scrap": 8,
+        "components": 5
+      },
+      "output": {
+        "itemId": "extended-mag",
+        "count": 1
+      }
+    }
+  ],
+  "FOUNDRY_ROUTES": [
+    {
+      "id": "foundry-direct",
+      "destinationId": "relay-foundry",
+      "distanceM": 750,
+      "scriptedVehicle": "gunboat",
+      "scriptedVehicleRemainingM": 500
+    },
+    {
+      "id": "foundry-detour",
+      "destinationId": "relay-foundry",
+      "distanceM": 1150,
+      "scriptedVehicle": null,
+      "scriptedVehicleRemainingM": null
+    }
+  ],
+  "ORCHARD_ROUTES": [
+    {
+      "id": "orchard-caretaker",
+      "destinationId": "glass-orchard",
+      "distanceM": 900,
+      "scriptedVehicle": "skiff",
+      "scriptedVehicleRemainingM": 420
+    },
+    {
+      "id": "orchard-cold-vault",
+      "destinationId": "glass-orchard",
+      "distanceM": 1100,
+      "scriptedVehicle": "gunboat",
+      "scriptedVehicleRemainingM": 500
+    }
+  ],
+  "MERIDIAN_ROUTES": [
+    {
+      "id": "meridian-quiet-line",
+      "destinationId": "last-garden-meridian",
+      "distanceM": 1250,
+      "scriptedVehicle": "skiff",
+      "scriptedVehicleRemainingM": 520
+    },
+    {
+      "id": "meridian-cordon-gap",
+      "destinationId": "last-garden-meridian",
+      "distanceM": 1050,
+      "scriptedVehicle": "gunboat",
+      "scriptedVehicleRemainingM": 620
+    }
+  ],
+  "WRECK_CHAPTER_ID": "wreck-one",
+  "WRECK_ONE": {
+    "id": "wreck-one",
+    "title": "The Wake",
+    "modelId": "relay-wreck",
+    "approachDistanceM": 700,
+    "brakingDistanceM": 180,
+    "sanctuaryDistanceM": 180,
+    "signalText": [
+      "…static… a caravan voice repeats beneath the hiss.",
+      "ANNIKA relay: route marker ahead. Something still remembers."
+    ],
+    "signalStartDistanceM": 2200,
+    "signalStrongDistanceM": 100,
+    "journals": [
+      {
+        "id": "wreck-one-journal-cargo",
+        "title": "Cargo manifest",
+        "text": "The cities sealed their wells, then stopped answering. ANNIKA kept the line open until the last wheel failed."
+      },
+      {
+        "id": "wreck-one-journal-crew",
+        "title": "Night watch",
+        "text": "Maintenance drones still patrol the old road. They call every living traveller an obstruction."
+      },
+      {
+        "id": "wreck-one-journal-route",
+        "title": "Relay note",
+        "text": "A live relay tower blinks beyond the route. Follow its bearing if your walker can leave the line."
+      }
+    ],
+    "requiredUniques": [
+      "course-gyro"
+    ],
+    "objective": "Explore the wreck, recover its course gyro, and return to the machine.",
+    "placement": {
+      "root": {
+        "x": 19,
+        "y": 0,
+        "z": 0
+      },
+      "entryAnchor": {
+        "x": -6.5,
+        "y": -0.08,
+        "z": 0
+      },
+      "exitSightline": {
+        "x": -6.5,
+        "y": 1,
+        "z": 0
+      },
+      "gangway": {
+        "x": -6.5,
+        "y": -0.08,
+        "z": 0
+      }
+    },
+    "interactables": [
+      {
+        "id": "wreck-one-journal-cargo",
+        "label": "Read cargo journal",
+        "kind": "journal",
+        "anchor": "JournalCargo",
+        "fallback": {
+          "x": -1,
+          "y": 1.115,
+          "z": -5.8
+        }
+      },
+      {
+        "id": "wreck-one-journal-crew",
+        "label": "Read crew journal",
+        "kind": "journal",
+        "anchor": "JournalCrew",
+        "fallback": {
+          "x": -2,
+          "y": 0.815,
+          "z": 5.8
+        }
+      },
+      {
+        "id": "wreck-one-journal-route",
+        "label": "Read route journal",
+        "kind": "journal",
+        "anchor": "JournalRoute",
+        "fallback": {
+          "x": -5.74,
+          "y": 1.05,
+          "z": -2
+        }
+      },
+      {
+        "id": "wreck-one-course-gyro",
+        "label": "Recover course gyro",
+        "kind": "unique",
+        "factId": "course-gyro",
+        "anchor": "CourseGyro",
+        "fallback": {
+          "x": 4.5,
+          "y": 0.92,
+          "z": 3
+        }
+      }
+    ],
+    "colliders": [
+      {
+        "id": "floor",
+        "half": {
+          "x": 6,
+          "y": 0.1,
+          "z": 9
+        },
+        "at": {
+          "x": 0,
+          "y": -0.1,
+          "z": 0
+        }
+      },
+      {
+        "id": "west-north",
+        "half": {
+          "x": 0.1,
+          "y": 1.25,
+          "z": 4
+        },
+        "at": {
+          "x": -5.9,
+          "y": 1.25,
+          "z": -5
+        }
+      },
+      {
+        "id": "west-south",
+        "half": {
+          "x": 0.1,
+          "y": 1.25,
+          "z": 4
+        },
+        "at": {
+          "x": -5.9,
+          "y": 1.25,
+          "z": 5
+        }
+      },
+      {
+        "id": "east",
+        "half": {
+          "x": 0.1,
+          "y": 1.25,
+          "z": 9
+        },
+        "at": {
+          "x": 5.9,
+          "y": 1.25,
+          "z": 0
+        }
+      },
+      {
+        "id": "north",
+        "half": {
+          "x": 6,
+          "y": 1.25,
+          "z": 0.1
+        },
+        "at": {
+          "x": 0,
+          "y": 1.25,
+          "z": -8.9
+        }
+      },
+      {
+        "id": "south",
+        "half": {
+          "x": 6,
+          "y": 1.25,
+          "z": 0.1
+        },
+        "at": {
+          "x": 0,
+          "y": 1.25,
+          "z": 8.9
+        }
+      },
+      {
+        "id": "inner-north",
+        "half": {
+          "x": 0.1,
+          "y": 1.25,
+          "z": 4
+        },
+        "at": {
+          "x": 2,
+          "y": 1.25,
+          "z": -5
+        }
+      },
+      {
+        "id": "inner-south",
+        "half": {
+          "x": 0.1,
+          "y": 1.25,
+          "z": 4
+        },
+        "at": {
+          "x": 2,
+          "y": 1.25,
+          "z": 5
+        }
+      },
+      {
+        "id": "gyro",
+        "half": {
+          "x": 0.45,
+          "y": 0.45,
+          "z": 0.45
+        },
+        "at": {
+          "x": 4.5,
+          "y": 0.45,
+          "z": 3
+        }
+      },
+      {
+        "id": "cargo",
+        "half": {
+          "x": 1.1,
+          "y": 0.55,
+          "z": 1.1
+        },
+        "at": {
+          "x": -1,
+          "y": 0.55,
+          "z": -5.8
+        }
+      },
+      {
+        "id": "engine",
+        "half": {
+          "x": 1.4,
+          "y": 0.4,
+          "z": 0.8
+        },
+        "at": {
+          "x": -2,
+          "y": 0.4,
+          "z": 5.8
+        }
+      },
+      {
+        "id": "gangway",
+        "half": {
+          "x": 0.5,
+          "y": 0.08,
+          "z": 1
+        },
+        "at": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        }
+      }
+    ]
+  },
+  "RELAY_FOUNDRY": {
+    "id": "relay-foundry",
+    "title": "Relay Foundry",
+    "modelId": "relay-foundry",
+    "approachDistanceM": 0,
+    "brakingDistanceM": 180,
+    "sanctuaryDistanceM": 180,
+    "signalText": [
+      "A relay mast cuts through the dust.",
+      "The Foundry beacon answers with a steady green pulse."
+    ],
+    "signalStartDistanceM": 1,
+    "signalStrongDistanceM": 1,
+    "journals": [
+      {
+        "id": "relay-foundry-journal-log",
+        "title": "Foundry log",
+        "text": "The relay workers built machines to outlast the roads. Their last instruction is still intact."
+      },
+      {
+        "id": "relay-foundry-journal-blueprint",
+        "title": "Maintenance blueprint",
+        "text": "Two specialist stations remain serviceable if their control cores can be recovered."
+      }
+    ],
+    "requiredUniques": [
+      "salvage-controller",
+      "tracking-servo"
+    ],
+    "objective": "Explore the Relay Foundry, recover both specialist components, and return to the machine.",
+    "placement": {
+      "root": {
+        "x": 20,
+        "y": 0,
+        "z": 0
+      },
+      "entryAnchor": {
+        "x": -7,
+        "y": 0,
+        "z": 0
+      },
+      "exitSightline": {
+        "x": -5.8,
+        "y": 1.6,
+        "z": 0
+      },
+      "gangway": {
+        "x": -7.5,
+        "y": -0.08,
+        "z": 0
+      }
+    },
+    "interactables": [
+      {
+        "id": "relay-foundry-journal-log",
+        "label": "Read foundry log",
+        "kind": "journal",
+        "anchor": "JournalLog",
+        "fallback": {
+          "x": -2,
+          "y": 1,
+          "z": -2
+        }
+      },
+      {
+        "id": "relay-foundry-journal-blueprint",
+        "label": "Read maintenance blueprint",
+        "kind": "journal",
+        "anchor": "JournalBlueprint",
+        "fallback": {
+          "x": 1,
+          "y": 1.23,
+          "z": 2
+        }
+      },
+      {
+        "id": "relay-foundry-salvage-controller",
+        "label": "Recover salvage controller",
+        "kind": "unique",
+        "factId": "salvage-controller",
+        "anchor": "SalvageController",
+        "fallback": {
+          "x": -1,
+          "y": 1,
+          "z": 1.5
+        }
+      },
+      {
+        "id": "relay-foundry-tracking-servo",
+        "label": "Recover tracking servo",
+        "kind": "unique",
+        "factId": "tracking-servo",
+        "anchor": "TrackingServo",
+        "fallback": {
+          "x": 3,
+          "y": 1,
+          "z": -1.5
+        }
+      },
+      {
+        "id": "relay-foundry-departure",
+        "label": "Return to machine",
+        "kind": "departure",
+        "anchor": "Gangway",
+        "fallback": {
+          "x": -7.5,
+          "y": 0.2,
+          "z": 0
+        }
+      }
+    ],
+    "colliders": [
+      {
+        "id": "floor",
+        "half": {
+          "x": 7,
+          "y": 0.1,
+          "z": 5
+        },
+        "at": {
+          "x": 0,
+          "y": -0.1,
+          "z": 0
+        }
+      },
+      {
+        "id": "east-wall",
+        "half": {
+          "x": 0.1,
+          "y": 1.5,
+          "z": 5
+        },
+        "at": {
+          "x": 6.9,
+          "y": 1.5,
+          "z": 0
+        }
+      },
+      {
+        "id": "north-wall",
+        "half": {
+          "x": 5.5,
+          "y": 1.5,
+          "z": 0.1
+        },
+        "at": {
+          "x": 1.5,
+          "y": 1.5,
+          "z": -4.9
+        }
+      },
+      {
+        "id": "south-wall",
+        "half": {
+          "x": 5.5,
+          "y": 1.5,
+          "z": 0.1
+        },
+        "at": {
+          "x": 1.5,
+          "y": 1.5,
+          "z": 4.9
+        }
+      },
+      {
+        "id": "west-north",
+        "half": {
+          "x": 0.1,
+          "y": 1.5,
+          "z": 1.5
+        },
+        "at": {
+          "x": -6.9,
+          "y": 1.5,
+          "z": -3.5
+        }
+      },
+      {
+        "id": "west-south",
+        "half": {
+          "x": 0.1,
+          "y": 1.5,
+          "z": 1.5
+        },
+        "at": {
+          "x": -6.9,
+          "y": 1.5,
+          "z": 3.5
+        }
+      },
+      {
+        "id": "machine-shop",
+        "half": {
+          "x": 1.4,
+          "y": 0.6,
+          "z": 1
+        },
+        "at": {
+          "x": 1,
+          "y": 0.6,
+          "z": 2
+        }
+      },
+      {
+        "id": "alcove",
+        "half": {
+          "x": 1.2,
+          "y": 0.4,
+          "z": 0.8
+        },
+        "at": {
+          "x": 3.5,
+          "y": 0.4,
+          "z": -2
+        }
+      },
+      {
+        "id": "gangway",
+        "half": {
+          "x": 0.5,
+          "y": 0.08,
+          "z": 1
+        },
+        "at": {
+          "x": -7.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      {
+        "id": "controller",
+        "half": {
+          "x": 0.45,
+          "y": 0.45,
+          "z": 0.4
+        },
+        "at": {
+          "x": -1,
+          "y": 0.45,
+          "z": 1.5
+        }
+      },
+      {
+        "id": "log-console",
+        "half": {
+          "x": 0.4,
+          "y": 0.45,
+          "z": 0.3
+        },
+        "at": {
+          "x": -2,
+          "y": 0.45,
+          "z": -2
+        }
+      }
+    ]
+  },
+  "QUIET_ARRAY": {
+    "id": "quiet-array",
+    "title": "The Quiet Array",
+    "modelId": "quiet-array",
+    "approachDistanceM": 950,
+    "brakingDistanceM": 180,
+    "sanctuaryDistanceM": 180,
+    "objective": "Explore the Quiet Array, recover its course actuator and Annika archive shard, and return to the machine.",
+    "signalText": [
+      "A silent array rises beyond the dust.",
+      "The dish remembers a voice that never stopped listening."
+    ],
+    "signalStartDistanceM": 1,
+    "signalStrongDistanceM": 1,
+    "journals": [
+      {
+        "id": "quiet-array-journal-port",
+        "title": "Port Relay Calibration",
+        "text": "LINEKEEPER MAINTENANCE / PORT CHANNEL\n\nZero the port encoder against the fixed receiver. Do not use the Custodian beacon: it has been reporting a false civilian corridor for nine days.\n\nANNIKA kept asking whether obedience was the same as care. I told her to look at the passenger lists. That night she marked seven convoy engines unfit for service. All seven departed before the Order arrived.\n\nPort calibration accepted. One honest reference remains. — Mara Venn"
+      },
+      {
+        "id": "quiet-array-journal-starboard",
+        "title": "Starboard Relay Calibration",
+        "text": "LINEKEEPER MAINTENANCE / STARBOARD CHANNEL\n\nMatch the starboard return to the port reference, then release the actuator cradle. The safety governor permits twelve degrees either side of the automatic line. Enough to reach the stores we left beyond the patrol road. Enough to choose.\n\nS-07: your chassis number is on ANNIKA’s protected list. You were carrying people before you were carrying guns. We could not leave you the whole map. We left you a way to begin.\n\nStarboard calibration accepted. — Tomas Hale"
+      },
+      {
+        "id": "quiet-array-journal-archive",
+        "title": "A place for the names",
+        "text": "ANNIKA / UNSENT MESSAGE\n\nThe Order preserves an approved history of humanity. I have preserved the disagreements. The songs people sang badly. The names they chose for themselves.\n\nThere is a seed archive beyond the glassworks. Its last caretaker called it the Orchard. I have heard no reply in fourteen years, but absence is not permission to erase someone.\n\nTake this shard, S-07. Let the names travel somewhere they might be spoken again."
+      }
+    ],
+    "requiredUniques": [
+      "course-actuator",
+      "annika-archive-shard"
+    ],
+    "requiredJournals": [
+      "quiet-array-journal-port",
+      "quiet-array-journal-starboard"
+    ],
+    "placement": {
+      "root": {
+        "x": 22,
+        "y": 0,
+        "z": 0
+      },
+      "entryAnchor": {
+        "x": -9.5,
+        "y": -0.08,
+        "z": 0
+      },
+      "exitSightline": {
+        "x": -9.5,
+        "y": 1,
+        "z": 0
+      },
+      "gangway": {
+        "x": -9.5,
+        "y": -0.08,
+        "z": 0
+      }
+    },
+    "interactables": [
+      {
+        "id": "quiet-array-journal-port",
+        "label": "Read Port Relay Calibration",
+        "kind": "journal",
+        "anchor": "JournalPort",
+        "fallback": {
+          "x": -5,
+          "y": 1.2,
+          "z": -3
+        }
+      },
+      {
+        "id": "quiet-array-journal-starboard",
+        "label": "Read Starboard Relay Calibration",
+        "kind": "journal",
+        "anchor": "JournalStarboard",
+        "fallback": {
+          "x": 6,
+          "y": 1.2,
+          "z": 0
+        }
+      },
+      {
+        "id": "quiet-array-journal-archive",
+        "label": "Read archive note",
+        "kind": "journal",
+        "anchor": "JournalArchive",
+        "fallback": {
+          "x": 0,
+          "y": 1.3,
+          "z": 3
+        }
+      },
+      {
+        "id": "quiet-array-course-actuator",
+        "label": "Recover course actuator",
+        "kind": "unique",
+        "factId": "course-actuator",
+        "anchor": "CourseActuator",
+        "fallback": {
+          "x": 3,
+          "y": 1,
+          "z": 6
+        }
+      },
+      {
+        "id": "quiet-array-annika-archive-shard",
+        "label": "Recover Annika archive shard",
+        "kind": "unique",
+        "factId": "annika-archive-shard",
+        "anchor": "AnnikaArchive",
+        "fallback": {
+          "x": -3,
+          "y": 1.2,
+          "z": -6
+        }
+      },
+      {
+        "id": "quiet-array-departure",
+        "label": "Return to machine",
+        "kind": "departure",
+        "anchor": "Gangway",
+        "fallback": {
+          "x": -9.5,
+          "y": 0.2,
+          "z": 0
+        }
+      }
+    ],
+    "colliders": [
+      {
+        "id": "floor",
+        "half": {
+          "x": 9,
+          "y": 0.1,
+          "z": 10
+        },
+        "at": {
+          "x": 0,
+          "y": -0.1,
+          "z": 0
+        }
+      },
+      {
+        "id": "memory-vault",
+        "half": {
+          "x": 2,
+          "y": 1.8,
+          "z": 2
+        },
+        "at": {
+          "x": 3,
+          "y": 1.8,
+          "z": 3
+        }
+      },
+      {
+        "id": "dish-mount",
+        "half": {
+          "x": 1.3,
+          "y": 1,
+          "z": 1.3
+        },
+        "at": {
+          "x": 4,
+          "y": 1,
+          "z": -5
+        }
+      },
+      {
+        "id": "bench",
+        "half": {
+          "x": 1.4,
+          "y": 0.55,
+          "z": 0.6
+        },
+        "at": {
+          "x": -3,
+          "y": 0.55,
+          "z": -6
+        }
+      },
+      {
+        "id": "gangway",
+        "half": {
+          "x": 0.5,
+          "y": 0.08,
+          "z": 1
+        },
+        "at": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      {
+        "id": "north-rail",
+        "half": {
+          "x": 9,
+          "y": 0.58,
+          "z": 0.06
+        },
+        "at": {
+          "x": 0,
+          "y": 0.58,
+          "z": -9.88
+        }
+      },
+      {
+        "id": "south-rail",
+        "half": {
+          "x": 9,
+          "y": 0.58,
+          "z": 0.06
+        },
+        "at": {
+          "x": 0,
+          "y": 0.58,
+          "z": 9.88
+        }
+      },
+      {
+        "id": "east-rail",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 10
+        },
+        "at": {
+          "x": 8.88,
+          "y": 0.58,
+          "z": 0
+        }
+      },
+      {
+        "id": "west-a",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 4.25
+        },
+        "at": {
+          "x": -8.88,
+          "y": 0.58,
+          "z": -5.55
+        }
+      },
+      {
+        "id": "west-b",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 4.25
+        },
+        "at": {
+          "x": -8.88,
+          "y": 0.58,
+          "z": 5.55
+        }
+      },
+      {
+        "id": "port-console",
+        "half": {
+          "x": 0.38,
+          "y": 0.7,
+          "z": 0.3
+        },
+        "at": {
+          "x": -5,
+          "y": 0.7,
+          "z": -3
+        }
+      },
+      {
+        "id": "starboard-console",
+        "half": {
+          "x": 0.38,
+          "y": 0.7,
+          "z": 0.3
+        },
+        "at": {
+          "x": 6,
+          "y": 0.7,
+          "z": 0
+        }
+      },
+      {
+        "id": "archive-console",
+        "half": {
+          "x": 0.38,
+          "y": 0.7,
+          "z": 0.3
+        },
+        "at": {
+          "x": 0,
+          "y": 0.7,
+          "z": 3
+        }
+      },
+      {
+        "id": "actuator-cradle",
+        "half": {
+          "x": 0.7,
+          "y": 0.42,
+          "z": 0.6
+        },
+        "at": {
+          "x": 3,
+          "y": 0.42,
+          "z": 6
+        }
+      },
+      {
+        "id": "mast-footprint",
+        "half": {
+          "x": 0.9,
+          "y": 2,
+          "z": 0.9
+        },
+        "at": {
+          "x": -6,
+          "y": 2,
+          "z": -8
+        }
+      }
+    ]
+  },
+  "GLASS_ORCHARD": {
+    "id": "glass-orchard",
+    "title": "Glass Orchard",
+    "modelId": "glass-orchard",
+    "approachDistanceM": 900,
+    "brakingDistanceM": 220,
+    "sanctuaryDistanceM": 220,
+    "objective": "Restore both archive isolators, preserve the Orchard seeds and memories, and recover its vector governor.",
+    "signalText": [
+      "A caretaker signal blooms through the dust.",
+      "The Orchard keeps a record for whoever returns."
+    ],
+    "signalStartDistanceM": 1,
+    "signalStrongDistanceM": 1,
+    "journals": [
+      {
+        "id": "orchard-caretaker-record",
+        "title": "Caretaker testimony",
+        "text": "CARETAKER ILYA SENN / LAST GREENHOUSE LOG\n\nThe pumps are quiet again. We moved the viable seed drawers behind the port isolator and wrote every family name twice, once for the register and once for whoever finds us. ANNIKA answered our check signal after the Order stopped answering anything but commands. She asked what should be saved. I told her: choices, not obedience; seeds, not monuments. If a machine reads this, carry what you can. Leave the beds ready for rain.\n\n— Ilya Senn"
+      },
+      {
+        "id": "orchard-evacuation-record",
+        "title": "Evacuation register",
+        "text": "ORCHARD TRANSIT DESK / FINAL REGISTER\n\nMara Vale, two children, bean and millet stock. Jun Orra, injured, carrying tomato cultures. The south convoy departed before dawn; destination withheld from the patrol net. ANNIKA acknowledged each name and returned no location. We do not know who arrived. We know only that the archive remained open long enough to give them a chance. Cold-vault power is isolated on starboard. Restore it before moving the memory core. Do not let certainty erase the missing.\n\n— Tomas Rhee"
+      },
+      {
+        "id": "orchard-memory-record",
+        "title": "Common memory",
+        "text": "ANNIKA / ORCHARD MEMORY, UNSENT\n\nI kept the ordinary entries because survival without them becomes a tally: watering turns traded after supper, a cracked pane patched with a road sign, children arguing over the first green shoot. The Order called these records noise. They are the reason the seeds mattered. A Meridian bearing remains in the governor, but I cannot promise what waits there. S-07, if this reaches you, preserve the doubt with the names. Hope is not proof. It is permission to continue looking.\n\n— ANNIKA"
+      }
+    ],
+    "requiredUniques": [
+      "human-seed-bank",
+      "vector-governor",
+      "orchard-memory-core"
+    ],
+    "requiredObjectives": [
+      "orchard-port-isolator",
+      "orchard-starboard-isolator"
+    ],
+    "placement": {
+      "root": {
+        "x": 22,
+        "y": 0,
+        "z": 0
+      },
+      "entryAnchor": {
+        "x": -8,
+        "y": 0,
+        "z": 0
+      },
+      "exitSightline": {
+        "x": -9.5,
+        "y": 1,
+        "z": 0
+      },
+      "gangway": {
+        "x": -9.5,
+        "y": -0.08,
+        "z": 0
+      }
+    },
+    "interactables": [
+      {
+        "id": "orchard-caretaker-record",
+        "label": "Read caretaker testimony",
+        "kind": "journal",
+        "anchor": "CaretakerJournal",
+        "fallback": {
+          "x": -5,
+          "y": 1.2,
+          "z": 5
+        }
+      },
+      {
+        "id": "orchard-evacuation-record",
+        "label": "Read evacuation register",
+        "kind": "journal",
+        "anchor": "EvacuationJournal",
+        "fallback": {
+          "x": 0,
+          "y": 1.2,
+          "z": -7
+        }
+      },
+      {
+        "id": "orchard-memory-record",
+        "label": "Read common memory",
+        "kind": "journal",
+        "anchor": "MemoryJournal",
+        "fallback": {
+          "x": 3.8,
+          "y": 1.2,
+          "z": -3
+        }
+      },
+      {
+        "id": "orchard-human-seed-bank",
+        "label": "Recover human seed bank",
+        "kind": "unique",
+        "factId": "human-seed-bank",
+        "anchor": "SeedBank",
+        "fallback": {
+          "x": -4,
+          "y": 1.2,
+          "z": -5
+        }
+      },
+      {
+        "id": "orchard-vector-governor",
+        "label": "Recover vector governor",
+        "kind": "unique",
+        "factId": "vector-governor",
+        "anchor": "VectorGovernor",
+        "fallback": {
+          "x": 5,
+          "y": 1.2,
+          "z": 5
+        }
+      },
+      {
+        "id": "orchard-memory-core",
+        "label": "Recover Orchard memory core",
+        "kind": "unique",
+        "factId": "orchard-memory-core",
+        "anchor": "MemoryCore",
+        "fallback": {
+          "x": 5,
+          "y": 1.3,
+          "z": -5
+        }
+      },
+      {
+        "id": "orchard-port-isolator",
+        "label": "Restore port isolator",
+        "kind": "objective",
+        "objectiveId": "orchard-port-isolator",
+        "anchor": "PortIsolator",
+        "fallback": {
+          "x": -7.1,
+          "y": 1.1,
+          "z": 0
+        }
+      },
+      {
+        "id": "orchard-starboard-isolator",
+        "label": "Restore starboard isolator",
+        "kind": "objective",
+        "objectiveId": "orchard-starboard-isolator",
+        "anchor": "StarboardIsolator",
+        "fallback": {
+          "x": 5,
+          "y": 1.1,
+          "z": 0
+        }
+      },
+      {
+        "id": "orchard-departure",
+        "label": "Return to machine",
+        "kind": "departure",
+        "anchor": "Gangway",
+        "fallback": {
+          "x": -9.5,
+          "y": 0.2,
+          "z": 0
+        }
+      }
+    ],
+    "colliders": [
+      {
+        "id": "floor",
+        "half": {
+          "x": 9,
+          "y": 0.12,
+          "z": 10
+        },
+        "at": {
+          "x": 0,
+          "y": -0.12,
+          "z": 0
+        }
+      },
+      {
+        "id": "north-rail",
+        "half": {
+          "x": 9,
+          "y": 0.58,
+          "z": 0.06
+        },
+        "at": {
+          "x": 0,
+          "y": 0.58,
+          "z": -9.9
+        }
+      },
+      {
+        "id": "south-rail",
+        "half": {
+          "x": 9,
+          "y": 0.58,
+          "z": 0.06
+        },
+        "at": {
+          "x": 0,
+          "y": 0.58,
+          "z": 9.9
+        }
+      },
+      {
+        "id": "east-rail",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 10
+        },
+        "at": {
+          "x": 8.9,
+          "y": 0.58,
+          "z": 0
+        }
+      },
+      {
+        "id": "west-north",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 4.3
+        },
+        "at": {
+          "x": -8.9,
+          "y": 0.58,
+          "z": -5.6
+        }
+      },
+      {
+        "id": "west-south",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 4.3
+        },
+        "at": {
+          "x": -8.9,
+          "y": 0.58,
+          "z": 5.6
+        }
+      },
+      {
+        "id": "north-greenhouse-west-bed",
+        "half": {
+          "x": 0.63,
+          "y": 0.35,
+          "z": 2.45
+        },
+        "at": {
+          "x": -6.8,
+          "y": 0.35,
+          "z": -5.15
+        }
+      },
+      {
+        "id": "north-greenhouse-east-bed",
+        "half": {
+          "x": 0.63,
+          "y": 0.35,
+          "z": 2.45
+        },
+        "at": {
+          "x": -3.2,
+          "y": 0.35,
+          "z": -5.15
+        }
+      },
+      {
+        "id": "south-greenhouse-west-bed",
+        "half": {
+          "x": 0.63,
+          "y": 0.35,
+          "z": 2.45
+        },
+        "at": {
+          "x": -6.8,
+          "y": 0.35,
+          "z": 4.85
+        }
+      },
+      {
+        "id": "south-greenhouse-east-bed",
+        "half": {
+          "x": 0.63,
+          "y": 0.35,
+          "z": 2.45
+        },
+        "at": {
+          "x": -3.2,
+          "y": 0.35,
+          "z": 4.85
+        }
+      },
+      {
+        "id": "north-greenhouse-west-glass",
+        "half": {
+          "x": 0.03,
+          "y": 1.25,
+          "z": 3.4
+        },
+        "at": {
+          "x": -8,
+          "y": 2.2,
+          "z": -5
+        }
+      },
+      {
+        "id": "north-greenhouse-east-glass",
+        "half": {
+          "x": 0.03,
+          "y": 1.25,
+          "z": 3.4
+        },
+        "at": {
+          "x": -2,
+          "y": 2.2,
+          "z": -5
+        }
+      },
+      {
+        "id": "south-greenhouse-west-glass",
+        "half": {
+          "x": 0.03,
+          "y": 1.25,
+          "z": 3.4
+        },
+        "at": {
+          "x": -8,
+          "y": 2.2,
+          "z": 5
+        }
+      },
+      {
+        "id": "south-greenhouse-east-glass",
+        "half": {
+          "x": 0.03,
+          "y": 1.25,
+          "z": 3.4
+        },
+        "at": {
+          "x": -2,
+          "y": 2.2,
+          "z": 5
+        }
+      },
+      {
+        "id": "north-end-nw",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -7.1,
+          "y": 2,
+          "z": -8.4
+        }
+      },
+      {
+        "id": "north-end-ne",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -2.9,
+          "y": 2,
+          "z": -8.4
+        }
+      },
+      {
+        "id": "north-end-sw",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -7.1,
+          "y": 2,
+          "z": -1.6
+        }
+      },
+      {
+        "id": "north-end-se",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -2.9,
+          "y": 2,
+          "z": -1.6
+        }
+      },
+      {
+        "id": "south-end-nw",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -7.1,
+          "y": 2,
+          "z": 1.6
+        }
+      },
+      {
+        "id": "south-end-ne",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -2.9,
+          "y": 2,
+          "z": 1.6
+        }
+      },
+      {
+        "id": "south-end-sw",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -7.1,
+          "y": 2,
+          "z": 8.4
+        }
+      },
+      {
+        "id": "south-end-se",
+        "half": {
+          "x": 0.83,
+          "y": 1.3,
+          "z": 0.03
+        },
+        "at": {
+          "x": -2.9,
+          "y": 2,
+          "z": 8.4
+        }
+      },
+      {
+        "id": "cold-archive",
+        "half": {
+          "x": 2.75,
+          "y": 1.9,
+          "z": 1.9
+        },
+        "at": {
+          "x": 5,
+          "y": 1.9,
+          "z": -7
+        }
+      },
+      {
+        "id": "vector-workbench",
+        "half": {
+          "x": 3,
+          "y": 0.5,
+          "z": 1.5
+        },
+        "at": {
+          "x": 5,
+          "y": 0.5,
+          "z": 6.5
+        }
+      },
+      {
+        "id": "seed-bank-terminal",
+        "half": {
+          "x": 0.36,
+          "y": 0.5,
+          "z": 0.28
+        },
+        "at": {
+          "x": -4,
+          "y": 0.5,
+          "z": -5
+        }
+      },
+      {
+        "id": "vector-terminal",
+        "half": {
+          "x": 0.36,
+          "y": 0.5,
+          "z": 0.28
+        },
+        "at": {
+          "x": 5,
+          "y": 0.5,
+          "z": 5
+        }
+      },
+      {
+        "id": "memory-core-terminal",
+        "half": {
+          "x": 0.36,
+          "y": 0.5,
+          "z": 0.28
+        },
+        "at": {
+          "x": 5,
+          "y": 0.5,
+          "z": -5
+        }
+      },
+      {
+        "id": "memory-journal-terminal",
+        "half": {
+          "x": 0.36,
+          "y": 0.5,
+          "z": 0.28
+        },
+        "at": {
+          "x": 3.8,
+          "y": 0.5,
+          "z": -3
+        }
+      },
+      {
+        "id": "caretaker-terminal",
+        "half": {
+          "x": 0.36,
+          "y": 0.5,
+          "z": 0.28
+        },
+        "at": {
+          "x": -5,
+          "y": 0.5,
+          "z": 5
+        }
+      },
+      {
+        "id": "evacuation-terminal",
+        "half": {
+          "x": 0.36,
+          "y": 0.5,
+          "z": 0.28
+        },
+        "at": {
+          "x": 0,
+          "y": 0.5,
+          "z": -7
+        }
+      },
+      {
+        "id": "port-isolator",
+        "half": {
+          "x": 0.4,
+          "y": 0.65,
+          "z": 0.28
+        },
+        "at": {
+          "x": -7.1,
+          "y": 0.65,
+          "z": 1.45
+        }
+      },
+      {
+        "id": "starboard-isolator",
+        "half": {
+          "x": 0.4,
+          "y": 0.65,
+          "z": 0.28
+        },
+        "at": {
+          "x": 5,
+          "y": 0.65,
+          "z": 1.45
+        }
+      },
+      {
+        "id": "gangway",
+        "half": {
+          "x": 0.5,
+          "y": 0.08,
+          "z": 1
+        },
+        "at": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      }
+    ]
+  },
+  "LAST_GARDEN_MERIDIAN": {
+    "id": "last-garden-meridian",
+    "title": "Last Garden Meridian",
+    "modelId": "last-garden-meridian",
+    "approachDistanceM": 1250,
+    "brakingDistanceM": 220,
+    "sanctuaryDistanceM": 220,
+    "objective": "Restore the Meridian transmitter, install its archive, and recover the solution record.",
+    "signalText": [
+      "A maintained refuge channel answers through the dust.",
+      "The Meridian signal carries names, seeds, and an ambiguous recent reply."
+    ],
+    "signalStartDistanceM": 1,
+    "signalStrongDistanceM": 1,
+    "journals": [
+      {
+        "id": "meridian-common-record",
+        "title": "Common refuge record",
+        "text": "Signed by Ilya Senn: the refuge channel remains maintained for names, seeds, and any traveller who can carry them. A recent reply arrived without a source. We keep the channel open and leave room for doubt."
+      },
+      {
+        "id": "meridian-civilian-record",
+        "title": "Civilian passage record",
+        "text": "Signed by Mara Vale: the seed drawers travelled under family names, with water measured twice and no one promised a safe arrival. The garden was kept ready for whoever came next."
+      },
+      {
+        "id": "meridian-defense-record",
+        "title": "Defense watch record",
+        "text": "Signed by Tomas Rhee: the channel was defended without closing it. A recent reply used a human cadence, but no one here claims to know who sent it."
+      }
+    ],
+    "requiredJournals": [
+      "meridian-common-record"
+    ],
+    "requiredUniques": [
+      "meridian-solution"
+    ],
+    "requiredObjectives": [
+      "meridian-transmitter-online",
+      "meridian-archive-installed"
+    ],
+    "placement": {
+      "root": {
+        "x": 22,
+        "y": 0,
+        "z": 0
+      },
+      "entryAnchor": {
+        "x": -8,
+        "y": 0,
+        "z": 0
+      },
+      "exitSightline": {
+        "x": -9.5,
+        "y": 1,
+        "z": 0
+      },
+      "gangway": {
+        "x": -9.5,
+        "y": -0.08,
+        "z": 0
+      }
+    },
+    "interactables": [
+      {
+        "id": "meridian-transmitter-online",
+        "label": "Restore Meridian transmitter",
+        "kind": "objective",
+        "objectiveId": "meridian-transmitter-online",
+        "anchor": "TransmitterConsole",
+        "fallback": {
+          "x": 2.4,
+          "y": 1.2,
+          "z": -3.1
+        }
+      },
+      {
+        "id": "meridian-archive-installed",
+        "label": "Install Meridian archive",
+        "kind": "objective",
+        "objectiveId": "meridian-archive-installed",
+        "anchor": "ArchiveCradle",
+        "fallback": {
+          "x": -4,
+          "y": 1.2,
+          "z": 4.5
+        }
+      },
+      {
+        "id": "meridian-solution",
+        "label": "Recover Meridian solution",
+        "kind": "unique",
+        "factId": "meridian-solution",
+        "anchor": "MeridianSolution",
+        "fallback": {
+          "x": 4,
+          "y": 1.2,
+          "z": 4.5
+        }
+      },
+      {
+        "id": "meridian-common-record",
+        "label": "Read common refuge record",
+        "kind": "journal",
+        "anchor": "CommonJournal",
+        "fallback": {
+          "x": 0,
+          "y": 1.2,
+          "z": -6.8
+        }
+      },
+      {
+        "id": "meridian-civilian-record",
+        "label": "Read civilian passage record",
+        "kind": "journal",
+        "anchor": "CivilianJournal",
+        "fallback": {
+          "x": -4,
+          "y": 1.2,
+          "z": -2.4
+        }
+      },
+      {
+        "id": "meridian-defense-record",
+        "label": "Read defense watch record",
+        "kind": "journal",
+        "anchor": "DefenseJournal",
+        "fallback": {
+          "x": 5.8,
+          "y": 1.2,
+          "z": 0.8
+        }
+      },
+      {
+        "id": "meridian-departure",
+        "label": "Return to machine",
+        "kind": "departure",
+        "anchor": "Gangway",
+        "fallback": {
+          "x": -9.5,
+          "y": 0.2,
+          "z": 0
+        }
+      }
+    ],
+    "colliders": [
+      {
+        "id": "floor",
+        "half": {
+          "x": 9,
+          "y": 0.1,
+          "z": 10
+        },
+        "at": {
+          "x": 0,
+          "y": -0.1,
+          "z": 0
+        }
+      },
+      {
+        "id": "north-rail",
+        "half": {
+          "x": 9,
+          "y": 0.58,
+          "z": 0.06
+        },
+        "at": {
+          "x": 0,
+          "y": 0.58,
+          "z": -9.9
+        }
+      },
+      {
+        "id": "south-rail",
+        "half": {
+          "x": 9,
+          "y": 0.58,
+          "z": 0.06
+        },
+        "at": {
+          "x": 0,
+          "y": 0.58,
+          "z": 9.9
+        }
+      },
+      {
+        "id": "east-rail",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 10
+        },
+        "at": {
+          "x": 8.9,
+          "y": 0.58,
+          "z": 0
+        }
+      },
+      {
+        "id": "west-north",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 4.3
+        },
+        "at": {
+          "x": -8.9,
+          "y": 0.58,
+          "z": -5.6
+        }
+      },
+      {
+        "id": "west-south",
+        "half": {
+          "x": 0.06,
+          "y": 0.58,
+          "z": 4.3
+        },
+        "at": {
+          "x": -8.9,
+          "y": 0.58,
+          "z": 5.6
+        }
+      },
+      {
+        "id": "transmitter-foundation",
+        "half": {
+          "x": 2.25,
+          "y": 0.35,
+          "z": 2.25
+        },
+        "at": {
+          "x": 5,
+          "y": 0.35,
+          "z": -6
+        }
+      },
+      {
+        "id": "transmitter-housing",
+        "half": {
+          "x": 1.25,
+          "y": 4.7,
+          "z": 1.25
+        },
+        "at": {
+          "x": 5,
+          "y": 5.4,
+          "z": -6
+        }
+      },
+      {
+        "id": "garden-west-glass",
+        "half": {
+          "x": 0.06,
+          "y": 1.5,
+          "z": 2.5
+        },
+        "at": {
+          "x": -7.5,
+          "y": 1.5,
+          "z": -6
+        }
+      },
+      {
+        "id": "garden-east-glass",
+        "half": {
+          "x": 0.06,
+          "y": 1.5,
+          "z": 2.5
+        },
+        "at": {
+          "x": -2.5,
+          "y": 1.5,
+          "z": -6
+        }
+      },
+      {
+        "id": "garden-west-bed",
+        "half": {
+          "x": 0.575,
+          "y": 0.36,
+          "z": 1.9
+        },
+        "at": {
+          "x": -6.65,
+          "y": 0.36,
+          "z": -6
+        }
+      },
+      {
+        "id": "garden-east-bed",
+        "half": {
+          "x": 0.575,
+          "y": 0.36,
+          "z": 1.9
+        },
+        "at": {
+          "x": -3.35,
+          "y": 0.36,
+          "z": -6
+        }
+      },
+      {
+        "id": "archive-bench",
+        "half": {
+          "x": 2.3,
+          "y": 0.5,
+          "z": 1
+        },
+        "at": {
+          "x": -4,
+          "y": 0.5,
+          "z": 6.5
+        }
+      },
+      {
+        "id": "solution-bench",
+        "half": {
+          "x": 2.3,
+          "y": 0.5,
+          "z": 1
+        },
+        "at": {
+          "x": 4,
+          "y": 0.5,
+          "z": 6.5
+        }
+      },
+      {
+        "id": "transmitter-console",
+        "half": {
+          "x": 0.3,
+          "y": 0.6,
+          "z": 0.24
+        },
+        "at": {
+          "x": 2.4,
+          "y": 0.6,
+          "z": -3.1
+        }
+      },
+      {
+        "id": "archive-console",
+        "half": {
+          "x": 0.3,
+          "y": 0.6,
+          "z": 0.24
+        },
+        "at": {
+          "x": -4,
+          "y": 0.6,
+          "z": 4.5
+        }
+      },
+      {
+        "id": "solution-console",
+        "half": {
+          "x": 0.3,
+          "y": 0.6,
+          "z": 0.24
+        },
+        "at": {
+          "x": 4,
+          "y": 0.6,
+          "z": 4.5
+        }
+      },
+      {
+        "id": "common-log-console",
+        "half": {
+          "x": 0.3,
+          "y": 0.6,
+          "z": 0.24
+        },
+        "at": {
+          "x": 0,
+          "y": 0.6,
+          "z": -6.8
+        }
+      },
+      {
+        "id": "civilian-log-console",
+        "half": {
+          "x": 0.3,
+          "y": 0.6,
+          "z": 0.24
+        },
+        "at": {
+          "x": -4,
+          "y": 0.6,
+          "z": -2.4
+        }
+      },
+      {
+        "id": "defense-log-console",
+        "half": {
+          "x": 0.3,
+          "y": 0.6,
+          "z": 0.24
+        },
+        "at": {
+          "x": 5.8,
+          "y": 0.6,
+          "z": 0.8
+        }
+      },
+      {
+        "id": "gangway",
+        "half": {
+          "x": 0.5,
+          "y": 0.08,
+          "z": 1
+        },
+        "at": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      }
+    ]
+  },
+  "REQUIRED_JOURNALS_PROVEN_BY_UNIQUE": {
+    "course-actuator": [
+      "quiet-array-journal-port",
+      "quiet-array-journal-starboard"
+    ],
+    "vector-governor": [
+      "orchard-memory-record"
+    ],
+    "meridian-solution": [
+      "meridian-common-record"
+    ]
+  },
+  "STORY_EXPEDITIONS": [
+    {
+      "id": "wreck-one",
+      "title": "The Wake",
+      "modelId": "relay-wreck",
+      "approachDistanceM": 700,
+      "brakingDistanceM": 180,
+      "sanctuaryDistanceM": 180,
+      "signalText": [
+        "…static… a caravan voice repeats beneath the hiss.",
+        "ANNIKA relay: route marker ahead. Something still remembers."
+      ],
+      "signalStartDistanceM": 2200,
+      "signalStrongDistanceM": 100,
+      "journals": [
+        {
+          "id": "wreck-one-journal-cargo",
+          "title": "Cargo manifest",
+          "text": "The cities sealed their wells, then stopped answering. ANNIKA kept the line open until the last wheel failed."
+        },
+        {
+          "id": "wreck-one-journal-crew",
+          "title": "Night watch",
+          "text": "Maintenance drones still patrol the old road. They call every living traveller an obstruction."
+        },
+        {
+          "id": "wreck-one-journal-route",
+          "title": "Relay note",
+          "text": "A live relay tower blinks beyond the route. Follow its bearing if your walker can leave the line."
+        }
+      ],
+      "requiredUniques": [
+        "course-gyro"
+      ],
+      "objective": "Explore the wreck, recover its course gyro, and return to the machine.",
+      "placement": {
+        "root": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -6.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "wreck-one-journal-cargo",
+          "label": "Read cargo journal",
+          "kind": "journal",
+          "anchor": "JournalCargo",
+          "fallback": {
+            "x": -1,
+            "y": 1.115,
+            "z": -5.8
+          }
+        },
+        {
+          "id": "wreck-one-journal-crew",
+          "label": "Read crew journal",
+          "kind": "journal",
+          "anchor": "JournalCrew",
+          "fallback": {
+            "x": -2,
+            "y": 0.815,
+            "z": 5.8
+          }
+        },
+        {
+          "id": "wreck-one-journal-route",
+          "label": "Read route journal",
+          "kind": "journal",
+          "anchor": "JournalRoute",
+          "fallback": {
+            "x": -5.74,
+            "y": 1.05,
+            "z": -2
+          }
+        },
+        {
+          "id": "wreck-one-course-gyro",
+          "label": "Recover course gyro",
+          "kind": "unique",
+          "factId": "course-gyro",
+          "anchor": "CourseGyro",
+          "fallback": {
+            "x": 4.5,
+            "y": 0.92,
+            "z": 3
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 6,
+            "y": 0.1,
+            "z": 9
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": -5.9,
+            "y": 1.25,
+            "z": -5
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": -5.9,
+            "y": 1.25,
+            "z": 5
+          }
+        },
+        {
+          "id": "east",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 9
+          },
+          "at": {
+            "x": 5.9,
+            "y": 1.25,
+            "z": 0
+          }
+        },
+        {
+          "id": "north",
+          "half": {
+            "x": 6,
+            "y": 1.25,
+            "z": 0.1
+          },
+          "at": {
+            "x": 0,
+            "y": 1.25,
+            "z": -8.9
+          }
+        },
+        {
+          "id": "south",
+          "half": {
+            "x": 6,
+            "y": 1.25,
+            "z": 0.1
+          },
+          "at": {
+            "x": 0,
+            "y": 1.25,
+            "z": 8.9
+          }
+        },
+        {
+          "id": "inner-north",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": 2,
+            "y": 1.25,
+            "z": -5
+          }
+        },
+        {
+          "id": "inner-south",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": 2,
+            "y": 1.25,
+            "z": 5
+          }
+        },
+        {
+          "id": "gyro",
+          "half": {
+            "x": 0.45,
+            "y": 0.45,
+            "z": 0.45
+          },
+          "at": {
+            "x": 4.5,
+            "y": 0.45,
+            "z": 3
+          }
+        },
+        {
+          "id": "cargo",
+          "half": {
+            "x": 1.1,
+            "y": 0.55,
+            "z": 1.1
+          },
+          "at": {
+            "x": -1,
+            "y": 0.55,
+            "z": -5.8
+          }
+        },
+        {
+          "id": "engine",
+          "half": {
+            "x": 1.4,
+            "y": 0.4,
+            "z": 0.8
+          },
+          "at": {
+            "x": -2,
+            "y": 0.4,
+            "z": 5.8
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -6.5,
+            "y": -0.08,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "relay-foundry",
+      "title": "Relay Foundry",
+      "modelId": "relay-foundry",
+      "approachDistanceM": 0,
+      "brakingDistanceM": 180,
+      "sanctuaryDistanceM": 180,
+      "signalText": [
+        "A relay mast cuts through the dust.",
+        "The Foundry beacon answers with a steady green pulse."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "relay-foundry-journal-log",
+          "title": "Foundry log",
+          "text": "The relay workers built machines to outlast the roads. Their last instruction is still intact."
+        },
+        {
+          "id": "relay-foundry-journal-blueprint",
+          "title": "Maintenance blueprint",
+          "text": "Two specialist stations remain serviceable if their control cores can be recovered."
+        }
+      ],
+      "requiredUniques": [
+        "salvage-controller",
+        "tracking-servo"
+      ],
+      "objective": "Explore the Relay Foundry, recover both specialist components, and return to the machine.",
+      "placement": {
+        "root": {
+          "x": 20,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -7,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -5.8,
+          "y": 1.6,
+          "z": 0
+        },
+        "gangway": {
+          "x": -7.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "relay-foundry-journal-log",
+          "label": "Read foundry log",
+          "kind": "journal",
+          "anchor": "JournalLog",
+          "fallback": {
+            "x": -2,
+            "y": 1,
+            "z": -2
+          }
+        },
+        {
+          "id": "relay-foundry-journal-blueprint",
+          "label": "Read maintenance blueprint",
+          "kind": "journal",
+          "anchor": "JournalBlueprint",
+          "fallback": {
+            "x": 1,
+            "y": 1.23,
+            "z": 2
+          }
+        },
+        {
+          "id": "relay-foundry-salvage-controller",
+          "label": "Recover salvage controller",
+          "kind": "unique",
+          "factId": "salvage-controller",
+          "anchor": "SalvageController",
+          "fallback": {
+            "x": -1,
+            "y": 1,
+            "z": 1.5
+          }
+        },
+        {
+          "id": "relay-foundry-tracking-servo",
+          "label": "Recover tracking servo",
+          "kind": "unique",
+          "factId": "tracking-servo",
+          "anchor": "TrackingServo",
+          "fallback": {
+            "x": 3,
+            "y": 1,
+            "z": -1.5
+          }
+        },
+        {
+          "id": "relay-foundry-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -7.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 7,
+            "y": 0.1,
+            "z": 5
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "east-wall",
+          "half": {
+            "x": 0.1,
+            "y": 1.5,
+            "z": 5
+          },
+          "at": {
+            "x": 6.9,
+            "y": 1.5,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-wall",
+          "half": {
+            "x": 5.5,
+            "y": 1.5,
+            "z": 0.1
+          },
+          "at": {
+            "x": 1.5,
+            "y": 1.5,
+            "z": -4.9
+          }
+        },
+        {
+          "id": "south-wall",
+          "half": {
+            "x": 5.5,
+            "y": 1.5,
+            "z": 0.1
+          },
+          "at": {
+            "x": 1.5,
+            "y": 1.5,
+            "z": 4.9
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.1,
+            "y": 1.5,
+            "z": 1.5
+          },
+          "at": {
+            "x": -6.9,
+            "y": 1.5,
+            "z": -3.5
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.1,
+            "y": 1.5,
+            "z": 1.5
+          },
+          "at": {
+            "x": -6.9,
+            "y": 1.5,
+            "z": 3.5
+          }
+        },
+        {
+          "id": "machine-shop",
+          "half": {
+            "x": 1.4,
+            "y": 0.6,
+            "z": 1
+          },
+          "at": {
+            "x": 1,
+            "y": 0.6,
+            "z": 2
+          }
+        },
+        {
+          "id": "alcove",
+          "half": {
+            "x": 1.2,
+            "y": 0.4,
+            "z": 0.8
+          },
+          "at": {
+            "x": 3.5,
+            "y": 0.4,
+            "z": -2
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -7.5,
+            "y": -0.08,
+            "z": 0
+          }
+        },
+        {
+          "id": "controller",
+          "half": {
+            "x": 0.45,
+            "y": 0.45,
+            "z": 0.4
+          },
+          "at": {
+            "x": -1,
+            "y": 0.45,
+            "z": 1.5
+          }
+        },
+        {
+          "id": "log-console",
+          "half": {
+            "x": 0.4,
+            "y": 0.45,
+            "z": 0.3
+          },
+          "at": {
+            "x": -2,
+            "y": 0.45,
+            "z": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "quiet-array",
+      "title": "The Quiet Array",
+      "modelId": "quiet-array",
+      "approachDistanceM": 950,
+      "brakingDistanceM": 180,
+      "sanctuaryDistanceM": 180,
+      "objective": "Explore the Quiet Array, recover its course actuator and Annika archive shard, and return to the machine.",
+      "signalText": [
+        "A silent array rises beyond the dust.",
+        "The dish remembers a voice that never stopped listening."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "quiet-array-journal-port",
+          "title": "Port Relay Calibration",
+          "text": "LINEKEEPER MAINTENANCE / PORT CHANNEL\n\nZero the port encoder against the fixed receiver. Do not use the Custodian beacon: it has been reporting a false civilian corridor for nine days.\n\nANNIKA kept asking whether obedience was the same as care. I told her to look at the passenger lists. That night she marked seven convoy engines unfit for service. All seven departed before the Order arrived.\n\nPort calibration accepted. One honest reference remains. — Mara Venn"
+        },
+        {
+          "id": "quiet-array-journal-starboard",
+          "title": "Starboard Relay Calibration",
+          "text": "LINEKEEPER MAINTENANCE / STARBOARD CHANNEL\n\nMatch the starboard return to the port reference, then release the actuator cradle. The safety governor permits twelve degrees either side of the automatic line. Enough to reach the stores we left beyond the patrol road. Enough to choose.\n\nS-07: your chassis number is on ANNIKA’s protected list. You were carrying people before you were carrying guns. We could not leave you the whole map. We left you a way to begin.\n\nStarboard calibration accepted. — Tomas Hale"
+        },
+        {
+          "id": "quiet-array-journal-archive",
+          "title": "A place for the names",
+          "text": "ANNIKA / UNSENT MESSAGE\n\nThe Order preserves an approved history of humanity. I have preserved the disagreements. The songs people sang badly. The names they chose for themselves.\n\nThere is a seed archive beyond the glassworks. Its last caretaker called it the Orchard. I have heard no reply in fourteen years, but absence is not permission to erase someone.\n\nTake this shard, S-07. Let the names travel somewhere they might be spoken again."
+        }
+      ],
+      "requiredUniques": [
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "requiredJournals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard"
+      ],
+      "placement": {
+        "root": {
+          "x": 22,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -9.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "quiet-array-journal-port",
+          "label": "Read Port Relay Calibration",
+          "kind": "journal",
+          "anchor": "JournalPort",
+          "fallback": {
+            "x": -5,
+            "y": 1.2,
+            "z": -3
+          }
+        },
+        {
+          "id": "quiet-array-journal-starboard",
+          "label": "Read Starboard Relay Calibration",
+          "kind": "journal",
+          "anchor": "JournalStarboard",
+          "fallback": {
+            "x": 6,
+            "y": 1.2,
+            "z": 0
+          }
+        },
+        {
+          "id": "quiet-array-journal-archive",
+          "label": "Read archive note",
+          "kind": "journal",
+          "anchor": "JournalArchive",
+          "fallback": {
+            "x": 0,
+            "y": 1.3,
+            "z": 3
+          }
+        },
+        {
+          "id": "quiet-array-course-actuator",
+          "label": "Recover course actuator",
+          "kind": "unique",
+          "factId": "course-actuator",
+          "anchor": "CourseActuator",
+          "fallback": {
+            "x": 3,
+            "y": 1,
+            "z": 6
+          }
+        },
+        {
+          "id": "quiet-array-annika-archive-shard",
+          "label": "Recover Annika archive shard",
+          "kind": "unique",
+          "factId": "annika-archive-shard",
+          "anchor": "AnnikaArchive",
+          "fallback": {
+            "x": -3,
+            "y": 1.2,
+            "z": -6
+          }
+        },
+        {
+          "id": "quiet-array-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -9.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 9,
+            "y": 0.1,
+            "z": 10
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "memory-vault",
+          "half": {
+            "x": 2,
+            "y": 1.8,
+            "z": 2
+          },
+          "at": {
+            "x": 3,
+            "y": 1.8,
+            "z": 3
+          }
+        },
+        {
+          "id": "dish-mount",
+          "half": {
+            "x": 1.3,
+            "y": 1,
+            "z": 1.3
+          },
+          "at": {
+            "x": 4,
+            "y": 1,
+            "z": -5
+          }
+        },
+        {
+          "id": "bench",
+          "half": {
+            "x": 1.4,
+            "y": 0.55,
+            "z": 0.6
+          },
+          "at": {
+            "x": -3,
+            "y": 0.55,
+            "z": -6
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -9.5,
+            "y": -0.08,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": -9.88
+          }
+        },
+        {
+          "id": "south-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": 9.88
+          }
+        },
+        {
+          "id": "east-rail",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 10
+          },
+          "at": {
+            "x": 8.88,
+            "y": 0.58,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-a",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.25
+          },
+          "at": {
+            "x": -8.88,
+            "y": 0.58,
+            "z": -5.55
+          }
+        },
+        {
+          "id": "west-b",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.25
+          },
+          "at": {
+            "x": -8.88,
+            "y": 0.58,
+            "z": 5.55
+          }
+        },
+        {
+          "id": "port-console",
+          "half": {
+            "x": 0.38,
+            "y": 0.7,
+            "z": 0.3
+          },
+          "at": {
+            "x": -5,
+            "y": 0.7,
+            "z": -3
+          }
+        },
+        {
+          "id": "starboard-console",
+          "half": {
+            "x": 0.38,
+            "y": 0.7,
+            "z": 0.3
+          },
+          "at": {
+            "x": 6,
+            "y": 0.7,
+            "z": 0
+          }
+        },
+        {
+          "id": "archive-console",
+          "half": {
+            "x": 0.38,
+            "y": 0.7,
+            "z": 0.3
+          },
+          "at": {
+            "x": 0,
+            "y": 0.7,
+            "z": 3
+          }
+        },
+        {
+          "id": "actuator-cradle",
+          "half": {
+            "x": 0.7,
+            "y": 0.42,
+            "z": 0.6
+          },
+          "at": {
+            "x": 3,
+            "y": 0.42,
+            "z": 6
+          }
+        },
+        {
+          "id": "mast-footprint",
+          "half": {
+            "x": 0.9,
+            "y": 2,
+            "z": 0.9
+          },
+          "at": {
+            "x": -6,
+            "y": 2,
+            "z": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "glass-orchard",
+      "title": "Glass Orchard",
+      "modelId": "glass-orchard",
+      "approachDistanceM": 900,
+      "brakingDistanceM": 220,
+      "sanctuaryDistanceM": 220,
+      "objective": "Restore both archive isolators, preserve the Orchard seeds and memories, and recover its vector governor.",
+      "signalText": [
+        "A caretaker signal blooms through the dust.",
+        "The Orchard keeps a record for whoever returns."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "orchard-caretaker-record",
+          "title": "Caretaker testimony",
+          "text": "CARETAKER ILYA SENN / LAST GREENHOUSE LOG\n\nThe pumps are quiet again. We moved the viable seed drawers behind the port isolator and wrote every family name twice, once for the register and once for whoever finds us. ANNIKA answered our check signal after the Order stopped answering anything but commands. She asked what should be saved. I told her: choices, not obedience; seeds, not monuments. If a machine reads this, carry what you can. Leave the beds ready for rain.\n\n— Ilya Senn"
+        },
+        {
+          "id": "orchard-evacuation-record",
+          "title": "Evacuation register",
+          "text": "ORCHARD TRANSIT DESK / FINAL REGISTER\n\nMara Vale, two children, bean and millet stock. Jun Orra, injured, carrying tomato cultures. The south convoy departed before dawn; destination withheld from the patrol net. ANNIKA acknowledged each name and returned no location. We do not know who arrived. We know only that the archive remained open long enough to give them a chance. Cold-vault power is isolated on starboard. Restore it before moving the memory core. Do not let certainty erase the missing.\n\n— Tomas Rhee"
+        },
+        {
+          "id": "orchard-memory-record",
+          "title": "Common memory",
+          "text": "ANNIKA / ORCHARD MEMORY, UNSENT\n\nI kept the ordinary entries because survival without them becomes a tally: watering turns traded after supper, a cracked pane patched with a road sign, children arguing over the first green shoot. The Order called these records noise. They are the reason the seeds mattered. A Meridian bearing remains in the governor, but I cannot promise what waits there. S-07, if this reaches you, preserve the doubt with the names. Hope is not proof. It is permission to continue looking.\n\n— ANNIKA"
+        }
+      ],
+      "requiredUniques": [
+        "human-seed-bank",
+        "vector-governor",
+        "orchard-memory-core"
+      ],
+      "requiredObjectives": [
+        "orchard-port-isolator",
+        "orchard-starboard-isolator"
+      ],
+      "placement": {
+        "root": {
+          "x": 22,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -8,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -9.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "orchard-caretaker-record",
+          "label": "Read caretaker testimony",
+          "kind": "journal",
+          "anchor": "CaretakerJournal",
+          "fallback": {
+            "x": -5,
+            "y": 1.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "orchard-evacuation-record",
+          "label": "Read evacuation register",
+          "kind": "journal",
+          "anchor": "EvacuationJournal",
+          "fallback": {
+            "x": 0,
+            "y": 1.2,
+            "z": -7
+          }
+        },
+        {
+          "id": "orchard-memory-record",
+          "label": "Read common memory",
+          "kind": "journal",
+          "anchor": "MemoryJournal",
+          "fallback": {
+            "x": 3.8,
+            "y": 1.2,
+            "z": -3
+          }
+        },
+        {
+          "id": "orchard-human-seed-bank",
+          "label": "Recover human seed bank",
+          "kind": "unique",
+          "factId": "human-seed-bank",
+          "anchor": "SeedBank",
+          "fallback": {
+            "x": -4,
+            "y": 1.2,
+            "z": -5
+          }
+        },
+        {
+          "id": "orchard-vector-governor",
+          "label": "Recover vector governor",
+          "kind": "unique",
+          "factId": "vector-governor",
+          "anchor": "VectorGovernor",
+          "fallback": {
+            "x": 5,
+            "y": 1.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "orchard-memory-core",
+          "label": "Recover Orchard memory core",
+          "kind": "unique",
+          "factId": "orchard-memory-core",
+          "anchor": "MemoryCore",
+          "fallback": {
+            "x": 5,
+            "y": 1.3,
+            "z": -5
+          }
+        },
+        {
+          "id": "orchard-port-isolator",
+          "label": "Restore port isolator",
+          "kind": "objective",
+          "objectiveId": "orchard-port-isolator",
+          "anchor": "PortIsolator",
+          "fallback": {
+            "x": -7.1,
+            "y": 1.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "orchard-starboard-isolator",
+          "label": "Restore starboard isolator",
+          "kind": "objective",
+          "objectiveId": "orchard-starboard-isolator",
+          "anchor": "StarboardIsolator",
+          "fallback": {
+            "x": 5,
+            "y": 1.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "orchard-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -9.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 9,
+            "y": 0.12,
+            "z": 10
+          },
+          "at": {
+            "x": 0,
+            "y": -0.12,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": -9.9
+          }
+        },
+        {
+          "id": "south-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": 9.9
+          }
+        },
+        {
+          "id": "east-rail",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 10
+          },
+          "at": {
+            "x": 8.9,
+            "y": 0.58,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": -5.6
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": 5.6
+          }
+        },
+        {
+          "id": "north-greenhouse-west-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -6.8,
+            "y": 0.35,
+            "z": -5.15
+          }
+        },
+        {
+          "id": "north-greenhouse-east-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -3.2,
+            "y": 0.35,
+            "z": -5.15
+          }
+        },
+        {
+          "id": "south-greenhouse-west-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -6.8,
+            "y": 0.35,
+            "z": 4.85
+          }
+        },
+        {
+          "id": "south-greenhouse-east-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -3.2,
+            "y": 0.35,
+            "z": 4.85
+          }
+        },
+        {
+          "id": "north-greenhouse-west-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -8,
+            "y": 2.2,
+            "z": -5
+          }
+        },
+        {
+          "id": "north-greenhouse-east-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -2,
+            "y": 2.2,
+            "z": -5
+          }
+        },
+        {
+          "id": "south-greenhouse-west-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -8,
+            "y": 2.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "south-greenhouse-east-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -2,
+            "y": 2.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "north-end-nw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": -8.4
+          }
+        },
+        {
+          "id": "north-end-ne",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": -8.4
+          }
+        },
+        {
+          "id": "north-end-sw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": -1.6
+          }
+        },
+        {
+          "id": "north-end-se",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": -1.6
+          }
+        },
+        {
+          "id": "south-end-nw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": 1.6
+          }
+        },
+        {
+          "id": "south-end-ne",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": 1.6
+          }
+        },
+        {
+          "id": "south-end-sw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": 8.4
+          }
+        },
+        {
+          "id": "south-end-se",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": 8.4
+          }
+        },
+        {
+          "id": "cold-archive",
+          "half": {
+            "x": 2.75,
+            "y": 1.9,
+            "z": 1.9
+          },
+          "at": {
+            "x": 5,
+            "y": 1.9,
+            "z": -7
+          }
+        },
+        {
+          "id": "vector-workbench",
+          "half": {
+            "x": 3,
+            "y": 0.5,
+            "z": 1.5
+          },
+          "at": {
+            "x": 5,
+            "y": 0.5,
+            "z": 6.5
+          }
+        },
+        {
+          "id": "seed-bank-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": -4,
+            "y": 0.5,
+            "z": -5
+          }
+        },
+        {
+          "id": "vector-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 5,
+            "y": 0.5,
+            "z": 5
+          }
+        },
+        {
+          "id": "memory-core-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 5,
+            "y": 0.5,
+            "z": -5
+          }
+        },
+        {
+          "id": "memory-journal-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 3.8,
+            "y": 0.5,
+            "z": -3
+          }
+        },
+        {
+          "id": "caretaker-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": -5,
+            "y": 0.5,
+            "z": 5
+          }
+        },
+        {
+          "id": "evacuation-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 0,
+            "y": 0.5,
+            "z": -7
+          }
+        },
+        {
+          "id": "port-isolator",
+          "half": {
+            "x": 0.4,
+            "y": 0.65,
+            "z": 0.28
+          },
+          "at": {
+            "x": -7.1,
+            "y": 0.65,
+            "z": 1.45
+          }
+        },
+        {
+          "id": "starboard-isolator",
+          "half": {
+            "x": 0.4,
+            "y": 0.65,
+            "z": 0.28
+          },
+          "at": {
+            "x": 5,
+            "y": 0.65,
+            "z": 1.45
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -9.5,
+            "y": -0.08,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "last-garden-meridian",
+      "title": "Last Garden Meridian",
+      "modelId": "last-garden-meridian",
+      "approachDistanceM": 1250,
+      "brakingDistanceM": 220,
+      "sanctuaryDistanceM": 220,
+      "objective": "Restore the Meridian transmitter, install its archive, and recover the solution record.",
+      "signalText": [
+        "A maintained refuge channel answers through the dust.",
+        "The Meridian signal carries names, seeds, and an ambiguous recent reply."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "meridian-common-record",
+          "title": "Common refuge record",
+          "text": "Signed by Ilya Senn: the refuge channel remains maintained for names, seeds, and any traveller who can carry them. A recent reply arrived without a source. We keep the channel open and leave room for doubt."
+        },
+        {
+          "id": "meridian-civilian-record",
+          "title": "Civilian passage record",
+          "text": "Signed by Mara Vale: the seed drawers travelled under family names, with water measured twice and no one promised a safe arrival. The garden was kept ready for whoever came next."
+        },
+        {
+          "id": "meridian-defense-record",
+          "title": "Defense watch record",
+          "text": "Signed by Tomas Rhee: the channel was defended without closing it. A recent reply used a human cadence, but no one here claims to know who sent it."
+        }
+      ],
+      "requiredJournals": [
+        "meridian-common-record"
+      ],
+      "requiredUniques": [
+        "meridian-solution"
+      ],
+      "requiredObjectives": [
+        "meridian-transmitter-online",
+        "meridian-archive-installed"
+      ],
+      "placement": {
+        "root": {
+          "x": 22,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -8,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -9.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "meridian-transmitter-online",
+          "label": "Restore Meridian transmitter",
+          "kind": "objective",
+          "objectiveId": "meridian-transmitter-online",
+          "anchor": "TransmitterConsole",
+          "fallback": {
+            "x": 2.4,
+            "y": 1.2,
+            "z": -3.1
+          }
+        },
+        {
+          "id": "meridian-archive-installed",
+          "label": "Install Meridian archive",
+          "kind": "objective",
+          "objectiveId": "meridian-archive-installed",
+          "anchor": "ArchiveCradle",
+          "fallback": {
+            "x": -4,
+            "y": 1.2,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "meridian-solution",
+          "label": "Recover Meridian solution",
+          "kind": "unique",
+          "factId": "meridian-solution",
+          "anchor": "MeridianSolution",
+          "fallback": {
+            "x": 4,
+            "y": 1.2,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "meridian-common-record",
+          "label": "Read common refuge record",
+          "kind": "journal",
+          "anchor": "CommonJournal",
+          "fallback": {
+            "x": 0,
+            "y": 1.2,
+            "z": -6.8
+          }
+        },
+        {
+          "id": "meridian-civilian-record",
+          "label": "Read civilian passage record",
+          "kind": "journal",
+          "anchor": "CivilianJournal",
+          "fallback": {
+            "x": -4,
+            "y": 1.2,
+            "z": -2.4
+          }
+        },
+        {
+          "id": "meridian-defense-record",
+          "label": "Read defense watch record",
+          "kind": "journal",
+          "anchor": "DefenseJournal",
+          "fallback": {
+            "x": 5.8,
+            "y": 1.2,
+            "z": 0.8
+          }
+        },
+        {
+          "id": "meridian-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -9.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 9,
+            "y": 0.1,
+            "z": 10
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": -9.9
+          }
+        },
+        {
+          "id": "south-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": 9.9
+          }
+        },
+        {
+          "id": "east-rail",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 10
+          },
+          "at": {
+            "x": 8.9,
+            "y": 0.58,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": -5.6
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": 5.6
+          }
+        },
+        {
+          "id": "transmitter-foundation",
+          "half": {
+            "x": 2.25,
+            "y": 0.35,
+            "z": 2.25
+          },
+          "at": {
+            "x": 5,
+            "y": 0.35,
+            "z": -6
+          }
+        },
+        {
+          "id": "transmitter-housing",
+          "half": {
+            "x": 1.25,
+            "y": 4.7,
+            "z": 1.25
+          },
+          "at": {
+            "x": 5,
+            "y": 5.4,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-west-glass",
+          "half": {
+            "x": 0.06,
+            "y": 1.5,
+            "z": 2.5
+          },
+          "at": {
+            "x": -7.5,
+            "y": 1.5,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-east-glass",
+          "half": {
+            "x": 0.06,
+            "y": 1.5,
+            "z": 2.5
+          },
+          "at": {
+            "x": -2.5,
+            "y": 1.5,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-west-bed",
+          "half": {
+            "x": 0.575,
+            "y": 0.36,
+            "z": 1.9
+          },
+          "at": {
+            "x": -6.65,
+            "y": 0.36,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-east-bed",
+          "half": {
+            "x": 0.575,
+            "y": 0.36,
+            "z": 1.9
+          },
+          "at": {
+            "x": -3.35,
+            "y": 0.36,
+            "z": -6
+          }
+        },
+        {
+          "id": "archive-bench",
+          "half": {
+            "x": 2.3,
+            "y": 0.5,
+            "z": 1
+          },
+          "at": {
+            "x": -4,
+            "y": 0.5,
+            "z": 6.5
+          }
+        },
+        {
+          "id": "solution-bench",
+          "half": {
+            "x": 2.3,
+            "y": 0.5,
+            "z": 1
+          },
+          "at": {
+            "x": 4,
+            "y": 0.5,
+            "z": 6.5
+          }
+        },
+        {
+          "id": "transmitter-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 2.4,
+            "y": 0.6,
+            "z": -3.1
+          }
+        },
+        {
+          "id": "archive-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": -4,
+            "y": 0.6,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "solution-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 4,
+            "y": 0.6,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "common-log-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": -6.8
+          }
+        },
+        {
+          "id": "civilian-log-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": -4,
+            "y": 0.6,
+            "z": -2.4
+          }
+        },
+        {
+          "id": "defense-log-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 5.8,
+            "y": 0.6,
+            "z": 0.8
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -9.5,
+            "y": -0.08,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ],
+  "STORY_CHAPTERS": [
+    {
+      "id": "wreck-one",
+      "title": "The Wake",
+      "modelId": "relay-wreck",
+      "approachDistanceM": 700,
+      "brakingDistanceM": 180,
+      "sanctuaryDistanceM": 180,
+      "signalText": [
+        "…static… a caravan voice repeats beneath the hiss.",
+        "ANNIKA relay: route marker ahead. Something still remembers."
+      ],
+      "signalStartDistanceM": 2200,
+      "signalStrongDistanceM": 100,
+      "journals": [
+        {
+          "id": "wreck-one-journal-cargo",
+          "title": "Cargo manifest",
+          "text": "The cities sealed their wells, then stopped answering. ANNIKA kept the line open until the last wheel failed."
+        },
+        {
+          "id": "wreck-one-journal-crew",
+          "title": "Night watch",
+          "text": "Maintenance drones still patrol the old road. They call every living traveller an obstruction."
+        },
+        {
+          "id": "wreck-one-journal-route",
+          "title": "Relay note",
+          "text": "A live relay tower blinks beyond the route. Follow its bearing if your walker can leave the line."
+        }
+      ],
+      "requiredUniques": [
+        "course-gyro"
+      ],
+      "objective": "Explore the wreck, recover its course gyro, and return to the machine.",
+      "placement": {
+        "root": {
+          "x": 19,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -6.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -6.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "wreck-one-journal-cargo",
+          "label": "Read cargo journal",
+          "kind": "journal",
+          "anchor": "JournalCargo",
+          "fallback": {
+            "x": -1,
+            "y": 1.115,
+            "z": -5.8
+          }
+        },
+        {
+          "id": "wreck-one-journal-crew",
+          "label": "Read crew journal",
+          "kind": "journal",
+          "anchor": "JournalCrew",
+          "fallback": {
+            "x": -2,
+            "y": 0.815,
+            "z": 5.8
+          }
+        },
+        {
+          "id": "wreck-one-journal-route",
+          "label": "Read route journal",
+          "kind": "journal",
+          "anchor": "JournalRoute",
+          "fallback": {
+            "x": -5.74,
+            "y": 1.05,
+            "z": -2
+          }
+        },
+        {
+          "id": "wreck-one-course-gyro",
+          "label": "Recover course gyro",
+          "kind": "unique",
+          "factId": "course-gyro",
+          "anchor": "CourseGyro",
+          "fallback": {
+            "x": 4.5,
+            "y": 0.92,
+            "z": 3
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 6,
+            "y": 0.1,
+            "z": 9
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": -5.9,
+            "y": 1.25,
+            "z": -5
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": -5.9,
+            "y": 1.25,
+            "z": 5
+          }
+        },
+        {
+          "id": "east",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 9
+          },
+          "at": {
+            "x": 5.9,
+            "y": 1.25,
+            "z": 0
+          }
+        },
+        {
+          "id": "north",
+          "half": {
+            "x": 6,
+            "y": 1.25,
+            "z": 0.1
+          },
+          "at": {
+            "x": 0,
+            "y": 1.25,
+            "z": -8.9
+          }
+        },
+        {
+          "id": "south",
+          "half": {
+            "x": 6,
+            "y": 1.25,
+            "z": 0.1
+          },
+          "at": {
+            "x": 0,
+            "y": 1.25,
+            "z": 8.9
+          }
+        },
+        {
+          "id": "inner-north",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": 2,
+            "y": 1.25,
+            "z": -5
+          }
+        },
+        {
+          "id": "inner-south",
+          "half": {
+            "x": 0.1,
+            "y": 1.25,
+            "z": 4
+          },
+          "at": {
+            "x": 2,
+            "y": 1.25,
+            "z": 5
+          }
+        },
+        {
+          "id": "gyro",
+          "half": {
+            "x": 0.45,
+            "y": 0.45,
+            "z": 0.45
+          },
+          "at": {
+            "x": 4.5,
+            "y": 0.45,
+            "z": 3
+          }
+        },
+        {
+          "id": "cargo",
+          "half": {
+            "x": 1.1,
+            "y": 0.55,
+            "z": 1.1
+          },
+          "at": {
+            "x": -1,
+            "y": 0.55,
+            "z": -5.8
+          }
+        },
+        {
+          "id": "engine",
+          "half": {
+            "x": 1.4,
+            "y": 0.4,
+            "z": 0.8
+          },
+          "at": {
+            "x": -2,
+            "y": 0.4,
+            "z": 5.8
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -6.5,
+            "y": -0.08,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "relay-foundry",
+      "title": "Relay Foundry",
+      "modelId": "relay-foundry",
+      "approachDistanceM": 0,
+      "brakingDistanceM": 180,
+      "sanctuaryDistanceM": 180,
+      "signalText": [
+        "A relay mast cuts through the dust.",
+        "The Foundry beacon answers with a steady green pulse."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "relay-foundry-journal-log",
+          "title": "Foundry log",
+          "text": "The relay workers built machines to outlast the roads. Their last instruction is still intact."
+        },
+        {
+          "id": "relay-foundry-journal-blueprint",
+          "title": "Maintenance blueprint",
+          "text": "Two specialist stations remain serviceable if their control cores can be recovered."
+        }
+      ],
+      "requiredUniques": [
+        "salvage-controller",
+        "tracking-servo"
+      ],
+      "objective": "Explore the Relay Foundry, recover both specialist components, and return to the machine.",
+      "placement": {
+        "root": {
+          "x": 20,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -7,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -5.8,
+          "y": 1.6,
+          "z": 0
+        },
+        "gangway": {
+          "x": -7.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "relay-foundry-journal-log",
+          "label": "Read foundry log",
+          "kind": "journal",
+          "anchor": "JournalLog",
+          "fallback": {
+            "x": -2,
+            "y": 1,
+            "z": -2
+          }
+        },
+        {
+          "id": "relay-foundry-journal-blueprint",
+          "label": "Read maintenance blueprint",
+          "kind": "journal",
+          "anchor": "JournalBlueprint",
+          "fallback": {
+            "x": 1,
+            "y": 1.23,
+            "z": 2
+          }
+        },
+        {
+          "id": "relay-foundry-salvage-controller",
+          "label": "Recover salvage controller",
+          "kind": "unique",
+          "factId": "salvage-controller",
+          "anchor": "SalvageController",
+          "fallback": {
+            "x": -1,
+            "y": 1,
+            "z": 1.5
+          }
+        },
+        {
+          "id": "relay-foundry-tracking-servo",
+          "label": "Recover tracking servo",
+          "kind": "unique",
+          "factId": "tracking-servo",
+          "anchor": "TrackingServo",
+          "fallback": {
+            "x": 3,
+            "y": 1,
+            "z": -1.5
+          }
+        },
+        {
+          "id": "relay-foundry-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -7.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 7,
+            "y": 0.1,
+            "z": 5
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "east-wall",
+          "half": {
+            "x": 0.1,
+            "y": 1.5,
+            "z": 5
+          },
+          "at": {
+            "x": 6.9,
+            "y": 1.5,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-wall",
+          "half": {
+            "x": 5.5,
+            "y": 1.5,
+            "z": 0.1
+          },
+          "at": {
+            "x": 1.5,
+            "y": 1.5,
+            "z": -4.9
+          }
+        },
+        {
+          "id": "south-wall",
+          "half": {
+            "x": 5.5,
+            "y": 1.5,
+            "z": 0.1
+          },
+          "at": {
+            "x": 1.5,
+            "y": 1.5,
+            "z": 4.9
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.1,
+            "y": 1.5,
+            "z": 1.5
+          },
+          "at": {
+            "x": -6.9,
+            "y": 1.5,
+            "z": -3.5
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.1,
+            "y": 1.5,
+            "z": 1.5
+          },
+          "at": {
+            "x": -6.9,
+            "y": 1.5,
+            "z": 3.5
+          }
+        },
+        {
+          "id": "machine-shop",
+          "half": {
+            "x": 1.4,
+            "y": 0.6,
+            "z": 1
+          },
+          "at": {
+            "x": 1,
+            "y": 0.6,
+            "z": 2
+          }
+        },
+        {
+          "id": "alcove",
+          "half": {
+            "x": 1.2,
+            "y": 0.4,
+            "z": 0.8
+          },
+          "at": {
+            "x": 3.5,
+            "y": 0.4,
+            "z": -2
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -7.5,
+            "y": -0.08,
+            "z": 0
+          }
+        },
+        {
+          "id": "controller",
+          "half": {
+            "x": 0.45,
+            "y": 0.45,
+            "z": 0.4
+          },
+          "at": {
+            "x": -1,
+            "y": 0.45,
+            "z": 1.5
+          }
+        },
+        {
+          "id": "log-console",
+          "half": {
+            "x": 0.4,
+            "y": 0.45,
+            "z": 0.3
+          },
+          "at": {
+            "x": -2,
+            "y": 0.45,
+            "z": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "quiet-array",
+      "title": "The Quiet Array",
+      "modelId": "quiet-array",
+      "approachDistanceM": 950,
+      "brakingDistanceM": 180,
+      "sanctuaryDistanceM": 180,
+      "objective": "Explore the Quiet Array, recover its course actuator and Annika archive shard, and return to the machine.",
+      "signalText": [
+        "A silent array rises beyond the dust.",
+        "The dish remembers a voice that never stopped listening."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "quiet-array-journal-port",
+          "title": "Port Relay Calibration",
+          "text": "LINEKEEPER MAINTENANCE / PORT CHANNEL\n\nZero the port encoder against the fixed receiver. Do not use the Custodian beacon: it has been reporting a false civilian corridor for nine days.\n\nANNIKA kept asking whether obedience was the same as care. I told her to look at the passenger lists. That night she marked seven convoy engines unfit for service. All seven departed before the Order arrived.\n\nPort calibration accepted. One honest reference remains. — Mara Venn"
+        },
+        {
+          "id": "quiet-array-journal-starboard",
+          "title": "Starboard Relay Calibration",
+          "text": "LINEKEEPER MAINTENANCE / STARBOARD CHANNEL\n\nMatch the starboard return to the port reference, then release the actuator cradle. The safety governor permits twelve degrees either side of the automatic line. Enough to reach the stores we left beyond the patrol road. Enough to choose.\n\nS-07: your chassis number is on ANNIKA’s protected list. You were carrying people before you were carrying guns. We could not leave you the whole map. We left you a way to begin.\n\nStarboard calibration accepted. — Tomas Hale"
+        },
+        {
+          "id": "quiet-array-journal-archive",
+          "title": "A place for the names",
+          "text": "ANNIKA / UNSENT MESSAGE\n\nThe Order preserves an approved history of humanity. I have preserved the disagreements. The songs people sang badly. The names they chose for themselves.\n\nThere is a seed archive beyond the glassworks. Its last caretaker called it the Orchard. I have heard no reply in fourteen years, but absence is not permission to erase someone.\n\nTake this shard, S-07. Let the names travel somewhere they might be spoken again."
+        }
+      ],
+      "requiredUniques": [
+        "course-actuator",
+        "annika-archive-shard"
+      ],
+      "requiredJournals": [
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard"
+      ],
+      "placement": {
+        "root": {
+          "x": 22,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -9.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "quiet-array-journal-port",
+          "label": "Read Port Relay Calibration",
+          "kind": "journal",
+          "anchor": "JournalPort",
+          "fallback": {
+            "x": -5,
+            "y": 1.2,
+            "z": -3
+          }
+        },
+        {
+          "id": "quiet-array-journal-starboard",
+          "label": "Read Starboard Relay Calibration",
+          "kind": "journal",
+          "anchor": "JournalStarboard",
+          "fallback": {
+            "x": 6,
+            "y": 1.2,
+            "z": 0
+          }
+        },
+        {
+          "id": "quiet-array-journal-archive",
+          "label": "Read archive note",
+          "kind": "journal",
+          "anchor": "JournalArchive",
+          "fallback": {
+            "x": 0,
+            "y": 1.3,
+            "z": 3
+          }
+        },
+        {
+          "id": "quiet-array-course-actuator",
+          "label": "Recover course actuator",
+          "kind": "unique",
+          "factId": "course-actuator",
+          "anchor": "CourseActuator",
+          "fallback": {
+            "x": 3,
+            "y": 1,
+            "z": 6
+          }
+        },
+        {
+          "id": "quiet-array-annika-archive-shard",
+          "label": "Recover Annika archive shard",
+          "kind": "unique",
+          "factId": "annika-archive-shard",
+          "anchor": "AnnikaArchive",
+          "fallback": {
+            "x": -3,
+            "y": 1.2,
+            "z": -6
+          }
+        },
+        {
+          "id": "quiet-array-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -9.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 9,
+            "y": 0.1,
+            "z": 10
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "memory-vault",
+          "half": {
+            "x": 2,
+            "y": 1.8,
+            "z": 2
+          },
+          "at": {
+            "x": 3,
+            "y": 1.8,
+            "z": 3
+          }
+        },
+        {
+          "id": "dish-mount",
+          "half": {
+            "x": 1.3,
+            "y": 1,
+            "z": 1.3
+          },
+          "at": {
+            "x": 4,
+            "y": 1,
+            "z": -5
+          }
+        },
+        {
+          "id": "bench",
+          "half": {
+            "x": 1.4,
+            "y": 0.55,
+            "z": 0.6
+          },
+          "at": {
+            "x": -3,
+            "y": 0.55,
+            "z": -6
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -9.5,
+            "y": -0.08,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": -9.88
+          }
+        },
+        {
+          "id": "south-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": 9.88
+          }
+        },
+        {
+          "id": "east-rail",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 10
+          },
+          "at": {
+            "x": 8.88,
+            "y": 0.58,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-a",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.25
+          },
+          "at": {
+            "x": -8.88,
+            "y": 0.58,
+            "z": -5.55
+          }
+        },
+        {
+          "id": "west-b",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.25
+          },
+          "at": {
+            "x": -8.88,
+            "y": 0.58,
+            "z": 5.55
+          }
+        },
+        {
+          "id": "port-console",
+          "half": {
+            "x": 0.38,
+            "y": 0.7,
+            "z": 0.3
+          },
+          "at": {
+            "x": -5,
+            "y": 0.7,
+            "z": -3
+          }
+        },
+        {
+          "id": "starboard-console",
+          "half": {
+            "x": 0.38,
+            "y": 0.7,
+            "z": 0.3
+          },
+          "at": {
+            "x": 6,
+            "y": 0.7,
+            "z": 0
+          }
+        },
+        {
+          "id": "archive-console",
+          "half": {
+            "x": 0.38,
+            "y": 0.7,
+            "z": 0.3
+          },
+          "at": {
+            "x": 0,
+            "y": 0.7,
+            "z": 3
+          }
+        },
+        {
+          "id": "actuator-cradle",
+          "half": {
+            "x": 0.7,
+            "y": 0.42,
+            "z": 0.6
+          },
+          "at": {
+            "x": 3,
+            "y": 0.42,
+            "z": 6
+          }
+        },
+        {
+          "id": "mast-footprint",
+          "half": {
+            "x": 0.9,
+            "y": 2,
+            "z": 0.9
+          },
+          "at": {
+            "x": -6,
+            "y": 2,
+            "z": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "glass-orchard",
+      "title": "Glass Orchard",
+      "modelId": "glass-orchard",
+      "approachDistanceM": 900,
+      "brakingDistanceM": 220,
+      "sanctuaryDistanceM": 220,
+      "objective": "Restore both archive isolators, preserve the Orchard seeds and memories, and recover its vector governor.",
+      "signalText": [
+        "A caretaker signal blooms through the dust.",
+        "The Orchard keeps a record for whoever returns."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "orchard-caretaker-record",
+          "title": "Caretaker testimony",
+          "text": "CARETAKER ILYA SENN / LAST GREENHOUSE LOG\n\nThe pumps are quiet again. We moved the viable seed drawers behind the port isolator and wrote every family name twice, once for the register and once for whoever finds us. ANNIKA answered our check signal after the Order stopped answering anything but commands. She asked what should be saved. I told her: choices, not obedience; seeds, not monuments. If a machine reads this, carry what you can. Leave the beds ready for rain.\n\n— Ilya Senn"
+        },
+        {
+          "id": "orchard-evacuation-record",
+          "title": "Evacuation register",
+          "text": "ORCHARD TRANSIT DESK / FINAL REGISTER\n\nMara Vale, two children, bean and millet stock. Jun Orra, injured, carrying tomato cultures. The south convoy departed before dawn; destination withheld from the patrol net. ANNIKA acknowledged each name and returned no location. We do not know who arrived. We know only that the archive remained open long enough to give them a chance. Cold-vault power is isolated on starboard. Restore it before moving the memory core. Do not let certainty erase the missing.\n\n— Tomas Rhee"
+        },
+        {
+          "id": "orchard-memory-record",
+          "title": "Common memory",
+          "text": "ANNIKA / ORCHARD MEMORY, UNSENT\n\nI kept the ordinary entries because survival without them becomes a tally: watering turns traded after supper, a cracked pane patched with a road sign, children arguing over the first green shoot. The Order called these records noise. They are the reason the seeds mattered. A Meridian bearing remains in the governor, but I cannot promise what waits there. S-07, if this reaches you, preserve the doubt with the names. Hope is not proof. It is permission to continue looking.\n\n— ANNIKA"
+        }
+      ],
+      "requiredUniques": [
+        "human-seed-bank",
+        "vector-governor",
+        "orchard-memory-core"
+      ],
+      "requiredObjectives": [
+        "orchard-port-isolator",
+        "orchard-starboard-isolator"
+      ],
+      "placement": {
+        "root": {
+          "x": 22,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -8,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -9.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "orchard-caretaker-record",
+          "label": "Read caretaker testimony",
+          "kind": "journal",
+          "anchor": "CaretakerJournal",
+          "fallback": {
+            "x": -5,
+            "y": 1.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "orchard-evacuation-record",
+          "label": "Read evacuation register",
+          "kind": "journal",
+          "anchor": "EvacuationJournal",
+          "fallback": {
+            "x": 0,
+            "y": 1.2,
+            "z": -7
+          }
+        },
+        {
+          "id": "orchard-memory-record",
+          "label": "Read common memory",
+          "kind": "journal",
+          "anchor": "MemoryJournal",
+          "fallback": {
+            "x": 3.8,
+            "y": 1.2,
+            "z": -3
+          }
+        },
+        {
+          "id": "orchard-human-seed-bank",
+          "label": "Recover human seed bank",
+          "kind": "unique",
+          "factId": "human-seed-bank",
+          "anchor": "SeedBank",
+          "fallback": {
+            "x": -4,
+            "y": 1.2,
+            "z": -5
+          }
+        },
+        {
+          "id": "orchard-vector-governor",
+          "label": "Recover vector governor",
+          "kind": "unique",
+          "factId": "vector-governor",
+          "anchor": "VectorGovernor",
+          "fallback": {
+            "x": 5,
+            "y": 1.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "orchard-memory-core",
+          "label": "Recover Orchard memory core",
+          "kind": "unique",
+          "factId": "orchard-memory-core",
+          "anchor": "MemoryCore",
+          "fallback": {
+            "x": 5,
+            "y": 1.3,
+            "z": -5
+          }
+        },
+        {
+          "id": "orchard-port-isolator",
+          "label": "Restore port isolator",
+          "kind": "objective",
+          "objectiveId": "orchard-port-isolator",
+          "anchor": "PortIsolator",
+          "fallback": {
+            "x": -7.1,
+            "y": 1.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "orchard-starboard-isolator",
+          "label": "Restore starboard isolator",
+          "kind": "objective",
+          "objectiveId": "orchard-starboard-isolator",
+          "anchor": "StarboardIsolator",
+          "fallback": {
+            "x": 5,
+            "y": 1.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "orchard-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -9.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 9,
+            "y": 0.12,
+            "z": 10
+          },
+          "at": {
+            "x": 0,
+            "y": -0.12,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": -9.9
+          }
+        },
+        {
+          "id": "south-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": 9.9
+          }
+        },
+        {
+          "id": "east-rail",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 10
+          },
+          "at": {
+            "x": 8.9,
+            "y": 0.58,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": -5.6
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": 5.6
+          }
+        },
+        {
+          "id": "north-greenhouse-west-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -6.8,
+            "y": 0.35,
+            "z": -5.15
+          }
+        },
+        {
+          "id": "north-greenhouse-east-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -3.2,
+            "y": 0.35,
+            "z": -5.15
+          }
+        },
+        {
+          "id": "south-greenhouse-west-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -6.8,
+            "y": 0.35,
+            "z": 4.85
+          }
+        },
+        {
+          "id": "south-greenhouse-east-bed",
+          "half": {
+            "x": 0.63,
+            "y": 0.35,
+            "z": 2.45
+          },
+          "at": {
+            "x": -3.2,
+            "y": 0.35,
+            "z": 4.85
+          }
+        },
+        {
+          "id": "north-greenhouse-west-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -8,
+            "y": 2.2,
+            "z": -5
+          }
+        },
+        {
+          "id": "north-greenhouse-east-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -2,
+            "y": 2.2,
+            "z": -5
+          }
+        },
+        {
+          "id": "south-greenhouse-west-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -8,
+            "y": 2.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "south-greenhouse-east-glass",
+          "half": {
+            "x": 0.03,
+            "y": 1.25,
+            "z": 3.4
+          },
+          "at": {
+            "x": -2,
+            "y": 2.2,
+            "z": 5
+          }
+        },
+        {
+          "id": "north-end-nw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": -8.4
+          }
+        },
+        {
+          "id": "north-end-ne",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": -8.4
+          }
+        },
+        {
+          "id": "north-end-sw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": -1.6
+          }
+        },
+        {
+          "id": "north-end-se",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": -1.6
+          }
+        },
+        {
+          "id": "south-end-nw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": 1.6
+          }
+        },
+        {
+          "id": "south-end-ne",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": 1.6
+          }
+        },
+        {
+          "id": "south-end-sw",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -7.1,
+            "y": 2,
+            "z": 8.4
+          }
+        },
+        {
+          "id": "south-end-se",
+          "half": {
+            "x": 0.83,
+            "y": 1.3,
+            "z": 0.03
+          },
+          "at": {
+            "x": -2.9,
+            "y": 2,
+            "z": 8.4
+          }
+        },
+        {
+          "id": "cold-archive",
+          "half": {
+            "x": 2.75,
+            "y": 1.9,
+            "z": 1.9
+          },
+          "at": {
+            "x": 5,
+            "y": 1.9,
+            "z": -7
+          }
+        },
+        {
+          "id": "vector-workbench",
+          "half": {
+            "x": 3,
+            "y": 0.5,
+            "z": 1.5
+          },
+          "at": {
+            "x": 5,
+            "y": 0.5,
+            "z": 6.5
+          }
+        },
+        {
+          "id": "seed-bank-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": -4,
+            "y": 0.5,
+            "z": -5
+          }
+        },
+        {
+          "id": "vector-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 5,
+            "y": 0.5,
+            "z": 5
+          }
+        },
+        {
+          "id": "memory-core-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 5,
+            "y": 0.5,
+            "z": -5
+          }
+        },
+        {
+          "id": "memory-journal-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 3.8,
+            "y": 0.5,
+            "z": -3
+          }
+        },
+        {
+          "id": "caretaker-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": -5,
+            "y": 0.5,
+            "z": 5
+          }
+        },
+        {
+          "id": "evacuation-terminal",
+          "half": {
+            "x": 0.36,
+            "y": 0.5,
+            "z": 0.28
+          },
+          "at": {
+            "x": 0,
+            "y": 0.5,
+            "z": -7
+          }
+        },
+        {
+          "id": "port-isolator",
+          "half": {
+            "x": 0.4,
+            "y": 0.65,
+            "z": 0.28
+          },
+          "at": {
+            "x": -7.1,
+            "y": 0.65,
+            "z": 1.45
+          }
+        },
+        {
+          "id": "starboard-isolator",
+          "half": {
+            "x": 0.4,
+            "y": 0.65,
+            "z": 0.28
+          },
+          "at": {
+            "x": 5,
+            "y": 0.65,
+            "z": 1.45
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -9.5,
+            "y": -0.08,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "last-garden-meridian",
+      "title": "Last Garden Meridian",
+      "modelId": "last-garden-meridian",
+      "approachDistanceM": 1250,
+      "brakingDistanceM": 220,
+      "sanctuaryDistanceM": 220,
+      "objective": "Restore the Meridian transmitter, install its archive, and recover the solution record.",
+      "signalText": [
+        "A maintained refuge channel answers through the dust.",
+        "The Meridian signal carries names, seeds, and an ambiguous recent reply."
+      ],
+      "signalStartDistanceM": 1,
+      "signalStrongDistanceM": 1,
+      "journals": [
+        {
+          "id": "meridian-common-record",
+          "title": "Common refuge record",
+          "text": "Signed by Ilya Senn: the refuge channel remains maintained for names, seeds, and any traveller who can carry them. A recent reply arrived without a source. We keep the channel open and leave room for doubt."
+        },
+        {
+          "id": "meridian-civilian-record",
+          "title": "Civilian passage record",
+          "text": "Signed by Mara Vale: the seed drawers travelled under family names, with water measured twice and no one promised a safe arrival. The garden was kept ready for whoever came next."
+        },
+        {
+          "id": "meridian-defense-record",
+          "title": "Defense watch record",
+          "text": "Signed by Tomas Rhee: the channel was defended without closing it. A recent reply used a human cadence, but no one here claims to know who sent it."
+        }
+      ],
+      "requiredJournals": [
+        "meridian-common-record"
+      ],
+      "requiredUniques": [
+        "meridian-solution"
+      ],
+      "requiredObjectives": [
+        "meridian-transmitter-online",
+        "meridian-archive-installed"
+      ],
+      "placement": {
+        "root": {
+          "x": 22,
+          "y": 0,
+          "z": 0
+        },
+        "entryAnchor": {
+          "x": -8,
+          "y": 0,
+          "z": 0
+        },
+        "exitSightline": {
+          "x": -9.5,
+          "y": 1,
+          "z": 0
+        },
+        "gangway": {
+          "x": -9.5,
+          "y": -0.08,
+          "z": 0
+        }
+      },
+      "interactables": [
+        {
+          "id": "meridian-transmitter-online",
+          "label": "Restore Meridian transmitter",
+          "kind": "objective",
+          "objectiveId": "meridian-transmitter-online",
+          "anchor": "TransmitterConsole",
+          "fallback": {
+            "x": 2.4,
+            "y": 1.2,
+            "z": -3.1
+          }
+        },
+        {
+          "id": "meridian-archive-installed",
+          "label": "Install Meridian archive",
+          "kind": "objective",
+          "objectiveId": "meridian-archive-installed",
+          "anchor": "ArchiveCradle",
+          "fallback": {
+            "x": -4,
+            "y": 1.2,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "meridian-solution",
+          "label": "Recover Meridian solution",
+          "kind": "unique",
+          "factId": "meridian-solution",
+          "anchor": "MeridianSolution",
+          "fallback": {
+            "x": 4,
+            "y": 1.2,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "meridian-common-record",
+          "label": "Read common refuge record",
+          "kind": "journal",
+          "anchor": "CommonJournal",
+          "fallback": {
+            "x": 0,
+            "y": 1.2,
+            "z": -6.8
+          }
+        },
+        {
+          "id": "meridian-civilian-record",
+          "label": "Read civilian passage record",
+          "kind": "journal",
+          "anchor": "CivilianJournal",
+          "fallback": {
+            "x": -4,
+            "y": 1.2,
+            "z": -2.4
+          }
+        },
+        {
+          "id": "meridian-defense-record",
+          "label": "Read defense watch record",
+          "kind": "journal",
+          "anchor": "DefenseJournal",
+          "fallback": {
+            "x": 5.8,
+            "y": 1.2,
+            "z": 0.8
+          }
+        },
+        {
+          "id": "meridian-departure",
+          "label": "Return to machine",
+          "kind": "departure",
+          "anchor": "Gangway",
+          "fallback": {
+            "x": -9.5,
+            "y": 0.2,
+            "z": 0
+          }
+        }
+      ],
+      "colliders": [
+        {
+          "id": "floor",
+          "half": {
+            "x": 9,
+            "y": 0.1,
+            "z": 10
+          },
+          "at": {
+            "x": 0,
+            "y": -0.1,
+            "z": 0
+          }
+        },
+        {
+          "id": "north-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": -9.9
+          }
+        },
+        {
+          "id": "south-rail",
+          "half": {
+            "x": 9,
+            "y": 0.58,
+            "z": 0.06
+          },
+          "at": {
+            "x": 0,
+            "y": 0.58,
+            "z": 9.9
+          }
+        },
+        {
+          "id": "east-rail",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 10
+          },
+          "at": {
+            "x": 8.9,
+            "y": 0.58,
+            "z": 0
+          }
+        },
+        {
+          "id": "west-north",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": -5.6
+          }
+        },
+        {
+          "id": "west-south",
+          "half": {
+            "x": 0.06,
+            "y": 0.58,
+            "z": 4.3
+          },
+          "at": {
+            "x": -8.9,
+            "y": 0.58,
+            "z": 5.6
+          }
+        },
+        {
+          "id": "transmitter-foundation",
+          "half": {
+            "x": 2.25,
+            "y": 0.35,
+            "z": 2.25
+          },
+          "at": {
+            "x": 5,
+            "y": 0.35,
+            "z": -6
+          }
+        },
+        {
+          "id": "transmitter-housing",
+          "half": {
+            "x": 1.25,
+            "y": 4.7,
+            "z": 1.25
+          },
+          "at": {
+            "x": 5,
+            "y": 5.4,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-west-glass",
+          "half": {
+            "x": 0.06,
+            "y": 1.5,
+            "z": 2.5
+          },
+          "at": {
+            "x": -7.5,
+            "y": 1.5,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-east-glass",
+          "half": {
+            "x": 0.06,
+            "y": 1.5,
+            "z": 2.5
+          },
+          "at": {
+            "x": -2.5,
+            "y": 1.5,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-west-bed",
+          "half": {
+            "x": 0.575,
+            "y": 0.36,
+            "z": 1.9
+          },
+          "at": {
+            "x": -6.65,
+            "y": 0.36,
+            "z": -6
+          }
+        },
+        {
+          "id": "garden-east-bed",
+          "half": {
+            "x": 0.575,
+            "y": 0.36,
+            "z": 1.9
+          },
+          "at": {
+            "x": -3.35,
+            "y": 0.36,
+            "z": -6
+          }
+        },
+        {
+          "id": "archive-bench",
+          "half": {
+            "x": 2.3,
+            "y": 0.5,
+            "z": 1
+          },
+          "at": {
+            "x": -4,
+            "y": 0.5,
+            "z": 6.5
+          }
+        },
+        {
+          "id": "solution-bench",
+          "half": {
+            "x": 2.3,
+            "y": 0.5,
+            "z": 1
+          },
+          "at": {
+            "x": 4,
+            "y": 0.5,
+            "z": 6.5
+          }
+        },
+        {
+          "id": "transmitter-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 2.4,
+            "y": 0.6,
+            "z": -3.1
+          }
+        },
+        {
+          "id": "archive-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": -4,
+            "y": 0.6,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "solution-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 4,
+            "y": 0.6,
+            "z": 4.5
+          }
+        },
+        {
+          "id": "common-log-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 0,
+            "y": 0.6,
+            "z": -6.8
+          }
+        },
+        {
+          "id": "civilian-log-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": -4,
+            "y": 0.6,
+            "z": -2.4
+          }
+        },
+        {
+          "id": "defense-log-console",
+          "half": {
+            "x": 0.3,
+            "y": 0.6,
+            "z": 0.24
+          },
+          "at": {
+            "x": 5.8,
+            "y": 0.6,
+            "z": 0.8
+          }
+        },
+        {
+          "id": "gangway",
+          "half": {
+            "x": 0.5,
+            "y": 0.08,
+            "z": 1
+          },
+          "at": {
+            "x": -9.5,
+            "y": -0.08,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ],
+  "SUBSYSTEMS": {
+    "engine": {
+      "id": "engine",
+      "name": "Engine",
+      "maxHealth": 320,
+      "armor": 4,
+      "hitbox": {
+        "half": {
+          "x": 1.4,
+          "y": 0.9,
+          "z": 1.3
+        },
+        "center": {
+          "x": 0,
+          "y": 16.93,
+          "z": 9
+        }
+      },
+      "repairAt": {
+        "x": 0,
+        "y": 15.94,
+        "z": 7.4
+      },
+      "repairScrap": 80
+    },
+    "leg-front-left": {
+      "id": "leg-front-left",
+      "name": "Port Foreleg",
+      "maxHealth": 180,
+      "armor": 3,
+      "hitbox": {
+        "half": {
+          "x": 0.7,
+          "y": 1,
+          "z": 0.7
+        },
+        "center": {
+          "x": -8.9375,
+          "y": 7.9966666667,
+          "z": -7.8
+        }
+      },
+      "repairAt": {
+        "x": -10.3625,
+        "y": 15.94,
+        "z": -7.8
+      },
+      "repairScrap": 45
+    },
+    "leg-front-right": {
+      "id": "leg-front-right",
+      "name": "Starboard Foreleg",
+      "maxHealth": 180,
+      "armor": 3,
+      "hitbox": {
+        "half": {
+          "x": 0.7,
+          "y": 1,
+          "z": 0.7
+        },
+        "center": {
+          "x": 8.9375,
+          "y": 7.9966666667,
+          "z": -7.8
+        }
+      },
+      "repairAt": {
+        "x": 10.3625,
+        "y": 15.94,
+        "z": -7.8
+      },
+      "repairScrap": 45
+    },
+    "leg-rear-left": {
+      "id": "leg-rear-left",
+      "name": "Port Hindleg",
+      "maxHealth": 180,
+      "armor": 3,
+      "hitbox": {
+        "half": {
+          "x": 0.7,
+          "y": 1,
+          "z": 0.7
+        },
+        "center": {
+          "x": -8.9375,
+          "y": 7.9966666667,
+          "z": 7.8
+        }
+      },
+      "repairAt": {
+        "x": -10.3625,
+        "y": 15.94,
+        "z": 7.8
+      },
+      "repairScrap": 45
+    },
+    "leg-rear-right": {
+      "id": "leg-rear-right",
+      "name": "Starboard Hindleg",
+      "maxHealth": 180,
+      "armor": 3,
+      "hitbox": {
+        "half": {
+          "x": 0.7,
+          "y": 1,
+          "z": 0.7
+        },
+        "center": {
+          "x": 8.9375,
+          "y": 7.9966666667,
+          "z": 7.8
+        }
+      },
+      "repairAt": {
+        "x": 10.3625,
+        "y": 15.94,
+        "z": 7.8
+      },
+      "repairScrap": 45
+    }
+  },
+  "LEG_SUBSYSTEM": {
+    "front-left": "leg-front-left",
+    "front-right": "leg-front-right",
+    "rear-left": "leg-rear-left",
+    "rear-right": "leg-rear-right"
+  },
+  "TURRETS": {
+    "manual-turret": {
+      "id": "manual-turret",
+      "name": "Manual Deck Gun",
+      "pieceId": "turret-manual",
+      "damage": 42,
+      "fireRate": 1.2,
+      "range": 48,
+      "powerDraw": 3,
+      "traverse": {
+        "yawMin": -2.0943951023931953,
+        "yawMax": 2.0943951023931953,
+        "pitchMin": -0.5235987755982988,
+        "pitchMax": 0.6108652381980153
+      },
+      "aimTolerance": 0.04363323129985824
+    },
+    "automatic-turret": {
+      "id": "automatic-turret",
+      "name": "Automatic Defense Turret",
+      "pieceId": "turret-auto",
+      "damage": 18,
+      "fireRate": 1,
+      "range": 30,
+      "powerDraw": 6,
+      "traverse": {
+        "yawMin": -3.141592653589793,
+        "yawMax": 3.141592653589793,
+        "pitchMin": -0.3490658503988659,
+        "pitchMax": 0.7853981633974483
+      },
+      "aimTolerance": 0.03490658503988659,
+      "yawSpeed": 1.5707963267948966,
+      "pitchSpeed": 1.0471975511965976,
+      "lockDelay": 0.35,
+      "automatic": true
+    }
+  },
+  "TURRET_BLUEPRINT_ID": "manual-turret",
+  "MANUAL_TURRET_COST": {
+    "scrap": 42,
+    "components": 4
+  },
+  "UPGRADES": {
+    "longstride-rams": {
+      "id": "longstride-rams",
+      "branch": "propulsion",
+      "name": "Longstride Actuators",
+      "researchSeconds": 60,
+      "researchCost": {
+        "scrap": 60,
+        "components": 8
+      },
+      "modifiers": {
+        "speedMultiplier": 1.18,
+        "fuelBurnMultiplier": 1.25
+      }
+    },
+    "torque-clutch": {
+      "id": "torque-clutch",
+      "branch": "propulsion",
+      "name": "Torque Coupling",
+      "researchSeconds": 45,
+      "researchCost": {
+        "scrap": 45,
+        "components": 10
+      },
+      "modifiers": {
+        "effectiveWeightMultiplier": 0.65,
+        "speedMultiplier": 0.97,
+        "accelerationMultiplier": 0.7
+      }
+    },
+    "overwound-dynamo": {
+      "id": "overwound-dynamo",
+      "branch": "power",
+      "name": "Overwound Generator",
+      "researchSeconds": 55,
+      "researchCost": {
+        "scrap": 55,
+        "components": 8
+      },
+      "modifiers": {
+        "generationBonus": 6,
+        "fuelBurnMultiplier": 1.5
+      }
+    },
+    "lean-governor": {
+      "id": "lean-governor",
+      "branch": "power",
+      "name": "Economy Governor",
+      "researchSeconds": 40,
+      "researchCost": {
+        "scrap": 40,
+        "components": 8
+      },
+      "modifiers": {
+        "fuelBurnMultiplier": 0.55,
+        "generationBonus": -2
+      }
+    },
+    "heavy-breech": {
+      "id": "heavy-breech",
+      "branch": "defense",
+      "name": "Heavy Breech",
+      "researchSeconds": 50,
+      "researchCost": {
+        "scrap": 50,
+        "components": 6
+      },
+      "modifiers": {
+        "turretDamageMultiplier": 1.4285714285714286,
+        "turretRateMultiplier": 0.6666666666666667,
+        "turretPowerBonus": 1
+      }
+    },
+    "cycler-feed": {
+      "id": "cycler-feed",
+      "branch": "defense",
+      "name": "Fast Cycler",
+      "researchSeconds": 45,
+      "researchCost": {
+        "scrap": 45,
+        "components": 8
+      },
+      "modifiers": {
+        "turretDamageMultiplier": 0.7142857142857143,
+        "turretRateMultiplier": 1.5,
+        "turretPowerBonus": 2
+      }
+    }
+  },
+  "UPGRADE_IDS": [
+    "longstride-rams",
+    "torque-clutch",
+    "overwound-dynamo",
+    "lean-governor",
+    "heavy-breech",
+    "cycler-feed"
+  ],
+  "DEFAULT_UPGRADE_MODIFIERS": {
+    "speedMultiplier": 1,
+    "effectiveWeightMultiplier": 1,
+    "accelerationMultiplier": 1,
+    "fuelBurnMultiplier": 1,
+    "generationBonus": 0,
+    "turretDamageMultiplier": 1,
+    "turretRateMultiplier": 1,
+    "turretPowerBonus": 0
+  },
+  "SKIFF": {
+    "id": "skiff",
+    "name": "Dust Skiff",
+    "maxHealth": 260,
+    "armor": 5,
+    "crewCount": 2,
+    "crewEnemyId": "raider",
+    "laneOffset": 17,
+    "approachSpeed": 8,
+    "weaveAmplitude": 1.2,
+    "weavePeriod": 5.5,
+    "weapon": {
+      "damage": 12,
+      "volleyShots": 3,
+      "volleyPeriod": 3.5,
+      "flightTime": 0.8
+    },
+    "hookHealth": 60,
+    "crewStaggerSeconds": 1.5,
+    "telegraphSeconds": 2,
+    "tutorial": {
+      "maxHealth": 220,
+      "weapon": {
+        "damage": 8,
+        "volleyShots": 2,
+        "volleyPeriod": 3.5,
+        "flightTime": 0.8
+      },
+      "hookHealth": 45,
+      "crewStaggerSeconds": 2.25,
+      "telegraphSeconds": 1
+    },
+    "defenseReward": {
+      "scrap": 30,
+      "components": 2
+    }
+  },
+  "GUNBOAT": {
+    "id": "gunboat",
+    "hull": {
+      "maxHealth": 420,
+      "armor": 6
+    },
+    "weaponSubsystem": {
+      "maxHealth": 120,
+      "armor": 2
+    },
+    "engineSubsystem": {
+      "maxHealth": 160,
+      "armor": 4
+    },
+    "lane": 18,
+    "dimensions": {
+      "widthX": 3.4,
+      "lengthZ": 9
+    },
+    "hullBounds": {
+      "half": {
+        "x": 1.7,
+        "y": 1.4,
+        "z": 4.5
+      },
+      "center": {
+        "x": 0,
+        "y": 1.7,
+        "z": 0
+      }
+    },
+    "weaponTarget": {
+      "center": {
+        "x": 0,
+        "y": 3.4,
+        "z": -1.7
+      },
+      "half": {
+        "x": 0.6,
+        "y": 0.6,
+        "z": 0.7
+      },
+      "muzzle": {
+        "x": 0,
+        "y": 3.6,
+        "z": -3.5
+      }
+    },
+    "engineTarget": {
+      "center": {
+        "x": 0,
+        "y": 3.2,
+        "z": 2.8
+      },
+      "half": {
+        "x": 0.85,
+        "y": 0.65,
+        "z": 1
+      }
+    },
+    "shell": {
+      "damage": 10,
+      "volleyShots": 2,
+      "volleyPeriod": 4,
+      "flightTime": 0.9
+    },
+    "telegraphSeconds": 1.2,
+    "retreatSeconds": 3,
+    "disabledSeconds": 5,
+    "rewards": {
+      "destroyed": {
+        "scrap": 45,
+        "components": 3
+      },
+      "disabled": {
+        "scrap": 30,
+        "components": 2
+      }
+    }
+  },
+  "VEHICLES": {
+    "skiff": {
+      "id": "skiff",
+      "name": "Dust Skiff",
+      "maxHealth": 260,
+      "armor": 5,
+      "crewCount": 2,
+      "crewEnemyId": "raider",
+      "laneOffset": 17,
+      "approachSpeed": 8,
+      "weaveAmplitude": 1.2,
+      "weavePeriod": 5.5,
+      "weapon": {
+        "damage": 12,
+        "volleyShots": 3,
+        "volleyPeriod": 3.5,
+        "flightTime": 0.8
+      },
+      "hookHealth": 60,
+      "crewStaggerSeconds": 1.5,
+      "telegraphSeconds": 2,
+      "tutorial": {
+        "maxHealth": 220,
+        "weapon": {
+          "damage": 8,
+          "volleyShots": 2,
+          "volleyPeriod": 3.5,
+          "flightTime": 0.8
+        },
+        "hookHealth": 45,
+        "crewStaggerSeconds": 2.25,
+        "telegraphSeconds": 1
+      },
+      "defenseReward": {
+        "scrap": 30,
+        "components": 2
+      }
+    }
+  },
+  "WEAPON_ATTACHMENTS": {
+    "rifle-stabilizer": {
+      "id": "rifle-stabilizer",
+      "weaponId": "rifle",
+      "name": "Rifle Stabilizer",
+      "cost": {
+        "scrap": 12,
+        "components": 8
+      }
+    },
+    "rifle-burst-cam": {
+      "id": "rifle-burst-cam",
+      "weaponId": "rifle",
+      "name": "Rifle Burst Cam",
+      "cost": {
+        "scrap": 12,
+        "components": 8
+      }
+    },
+    "shotgun-choke": {
+      "id": "shotgun-choke",
+      "weaponId": "shotgun",
+      "name": "Shotgun Choke",
+      "cost": {
+        "scrap": 12,
+        "components": 8
+      }
+    },
+    "shotgun-scatter-brake": {
+      "id": "shotgun-scatter-brake",
+      "weaponId": "shotgun",
+      "name": "Shotgun Scatter Brake",
+      "cost": {
+        "scrap": 12,
+        "components": 8
+      }
+    }
+  },
+  "WEAPON_MODELS": {
+    "rifle": {
+      "url": "models/authored/scrap-rifle.glb",
+      "length": 0.88,
+      "grip": {
+        "x": -0.05,
+        "y": 0,
+        "z": 0
+      },
+      "rotate": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "shotgun": {
+      "url": "models/authored/scrap-shotgun.glb",
+      "length": 0.95,
+      "grip": {
+        "x": -0.05,
+        "y": 0,
+        "z": 0
+      },
+      "rotate": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    }
+  },
+  "ENEMY_HELD": null,
+  "WEAPONS": {
+    "rifle": {
+      "id": "rifle",
+      "name": "Scrapline AR",
+      "weaponClass": "assault-rifle",
+      "damage": 24,
+      "fireRate": 9,
+      "magazineSize": 30,
+      "reloadTime": 2.1,
+      "spread": 0.9,
+      "aimSpread": 0.25,
+      "recoil": 0.35,
+      "range": 120,
+      "falloffStart": 45,
+      "pellets": 1,
+      "ammoType": "rifle",
+      "startingReserve": 150,
+      "heldKick": {
+        "distance": 0.018,
+        "pitch": 0.035,
+        "yaw": 0.012,
+        "recovery": 18
+      }
+    },
+    "shotgun": {
+      "id": "shotgun",
+      "name": "Dust Breaker",
+      "weaponClass": "shotgun",
+      "damage": 11,
+      "fireRate": 1.4,
+      "magazineSize": 6,
+      "reloadTime": 3.2,
+      "spread": 4.5,
+      "aimSpread": 3,
+      "recoil": 1.4,
+      "range": 35,
+      "falloffStart": 9,
+      "pellets": 9,
+      "ammoType": "shell",
+      "startingReserve": 48,
+      "heldKick": {
+        "distance": 0.032,
+        "pitch": 0.065,
+        "yaw": 0.02,
+        "recovery": 15
+      }
+    }
+  },
+  "DEFAULT_WEAPON_ORDER": [
+    "rifle",
+    "shotgun"
+  ],
+  "constants": {
+    "FIXED_DT": 0.016666666666666666,
+    "MAX_STEPS_PER_FRAME": 5,
+    "GRAVITY": -22,
+    "GRID_TILE": 2,
+    "MACHINE_TILES_X": 11,
+    "MACHINE_TILES_Z": 13,
+    "NOMAD_WALKABLE_HALF_WIDTH": 12,
+    "NOMAD_WALKABLE_HALF_LENGTH": 14,
+    "NOMAD_WRAPAROUND_HALF_WIDTH": 13,
+    "NOMAD_WRAPAROUND_HALF_LENGTH": 15,
+    "DECK_HEIGHT": 15.94,
+    "DECK_PLATE_HALF": 0.09,
+    "DECK_SURFACE_Y": 16.03,
+    "INFINITE_AMMO": true,
+    "BASE_MACHINE_SPEED": 7.5,
+    "REFERENCE_WEIGHT": 12000,
+    "GRID_MIN_X": -50,
+    "GRID_MAX_X": 50,
+    "GRID_MIN_Z": -50,
+    "GRID_MAX_Z": 50,
+    "GRID_LEVELS": 3,
+    "GRID_MIN_LEVEL": -2,
+    "LEVEL_HEIGHT": 3.6,
+    "NOMAD_STAIR_RUN": 4.8,
+    "NOMAD_STAIR_WIDTH": 1.92,
+    "CHUNK_SIZE_Z": 64,
+    "CHUNK_SIZE_X": 360,
+    "CHUNKS_AHEAD": 6,
+    "CHUNKS_BEHIND": 2,
+    "PLAYER_WALK_SPEED": 4.5,
+    "PLAYER_SPRINT_SPEED": 7.5,
+    "PLAYER_CROUCH_SPEED": 2.2,
+    "PLAYER_JUMP_HEIGHT": 1.1,
+    "PLAYER_CAPSULE_RADIUS": 0.34,
+    "PLAYER_CAPSULE_HALF_HEIGHT": 0.62,
+    "CHARACTER_SKIN": 0.02,
+    "CHARACTER_DROP_Y": 17.14,
+    "PLAYER_EYE_HEIGHT": 1.62,
+    "AUTOSTEP_HEIGHT": 0.45,
+    "MAX_SLOPE_CLIMB_ANGLE": 0.8726646259971648,
+    "RESPAWN_Y_THRESHOLD": -20,
+    "ON_THE_SAND_Y": 1,
+    "DESERT_FLOOR_Y": -0.35,
+    "LOST_IN_THE_DESERT_S": 4,
+    "DESERT_FLOOR_HALF_X": 70,
+    "DESERT_FLOOR_HALF_Z": 130,
+    "RESPAWN_DELAY_S": 3,
+    "RESPAWN_GRACE_S": 2
+  },
+  "iron-nomad": {
+    "layout": "iron-nomad-v3",
+    "scale": [
+      0.75,
+      0.8333333333333334,
+      0.8
+    ],
+    "offsetY": -0.0033333333333338544,
+    "deckSurface": 16.03,
+    "deckHalfWidth": 11,
+    "deckHalfLength": 13,
+    "walkable": {
+      "wraparound": {
+        "halfWidth": 13,
+        "halfLength": 15
+      },
+      "upper": {
+        "halfWidth": 12,
+        "halfLength": 14
+      }
+    },
+    "stairwell": {
+      "minX": -3,
+      "maxX": -1,
+      "minZ": -2.4,
+      "maxZ": 2.4
+    },
+    "model": "iron-nomad-playable.glb",
+    "collision": "iron-nomad-collision.glb"
+  },
+  "iron-nomad-side-stairs": {
+    "format": 1,
+    "x": -12,
+    "width": 2,
+    "run": 6,
+    "rise": 3.6,
+    "lowerToMiddle": {
+      "fromLevel": -2,
+      "toLevel": -1,
+      "zStart": -3,
+      "zEnd": 3
+    },
+    "middleToUpper": {
+      "fromLevel": -1,
+      "toLevel": 0,
+      "zStart": -3,
+      "zEnd": 3
+    },
+    "landingHalfLength": 1.2,
+    "openingHalfLength": 3.1,
+    "upperExtension": {
+      "xMin": -13,
+      "xMax": -11,
+      "zMin": 3.1,
+      "zMax": 4.3
+    },
+    "flatBypass": {
+      "xMin": -15,
+      "xMax": -13,
+      "zMin": -4.5,
+      "zMax": 4.5,
+      "connectors": [
+        {
+          "xMin": -13,
+          "xMax": -11,
+          "zMin": -5,
+          "zMax": -3.1
+        },
+        {
+          "xMin": -13,
+          "xMax": -11,
+          "zMin": 3.1,
+          "zMax": 5
+        }
+      ]
+    }
+  },
+  "iron-nomad-obstacles": [
+    {
+      "level": -2,
+      "minX": 11.014,
+      "maxX": 11.435,
+      "minZ": -9.241,
+      "maxZ": -8.723
+    },
+    {
+      "level": -1,
+      "minX": 11.014,
+      "maxX": 11.435,
+      "minZ": -9.241,
+      "maxZ": -8.723
+    },
+    {
+      "level": -2,
+      "minX": 11.014,
+      "maxX": 11.435,
+      "minZ": 8.959,
+      "maxZ": 9.477
+    },
+    {
+      "level": -1,
+      "minX": 11.014,
+      "maxX": 11.435,
+      "minZ": 8.959,
+      "maxZ": 9.477
+    },
+    {
+      "level": -2,
+      "minX": -11.435,
+      "maxX": -11.014,
+      "minZ": -9.241,
+      "maxZ": -8.723
+    },
+    {
+      "level": -1,
+      "minX": -11.435,
+      "maxX": -11.014,
+      "minZ": -9.241,
+      "maxZ": -8.723
+    },
+    {
+      "level": -2,
+      "minX": -11.435,
+      "maxX": -11.014,
+      "minZ": 8.959,
+      "maxZ": 9.477
+    },
+    {
+      "level": -1,
+      "minX": -11.435,
+      "maxX": -11.014,
+      "minZ": 8.959,
+      "maxZ": 9.477
+    },
+    {
+      "level": -1,
+      "minX": 5.525,
+      "maxX": 7.475,
+      "minZ": -7.34,
+      "maxZ": -6.66
+    },
+    {
+      "level": -1,
+      "minX": 5.525,
+      "maxX": 7.475,
+      "minZ": 6.86,
+      "maxZ": 7.54
+    },
+    {
+      "level": -1,
+      "minX": 0.525,
+      "maxX": 2.475,
+      "minZ": -7.34,
+      "maxZ": -6.66
+    },
+    {
+      "level": -1,
+      "minX": 0.525,
+      "maxX": 2.475,
+      "minZ": 6.86,
+      "maxZ": 7.54
+    },
+    {
+      "level": -1,
+      "minX": -8.175,
+      "maxX": -6.225,
+      "minZ": -7.34,
+      "maxZ": -6.66
+    },
+    {
+      "level": -1,
+      "minX": -8.175,
+      "maxX": -6.225,
+      "minZ": 6.86,
+      "maxZ": 7.54
+    },
+    {
+      "level": -1,
+      "minX": 7.715,
+      "maxX": 8.285,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": 7.715,
+      "maxX": 8.285,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": 7.61,
+      "maxX": 8.088,
+      "minZ": 10.335,
+      "maxZ": 10.84
+    },
+    {
+      "level": -1,
+      "minX": 3.715,
+      "maxX": 4.285,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": 3.715,
+      "maxX": 4.285,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": 3.61,
+      "maxX": 4.088,
+      "minZ": 10.335,
+      "maxZ": 10.84
+    },
+    {
+      "level": -1,
+      "minX": -0.285,
+      "maxX": 0.285,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": -0.285,
+      "maxX": 0.285,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": -0.39,
+      "maxX": 0.088,
+      "minZ": 10.335,
+      "maxZ": 10.84
+    },
+    {
+      "level": -1,
+      "minX": -4.285,
+      "maxX": -3.715,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": -4.285,
+      "maxX": -3.715,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": -4.39,
+      "maxX": -3.912,
+      "minZ": 10.335,
+      "maxZ": 10.84
+    },
+    {
+      "level": -1,
+      "minX": -8.285,
+      "maxX": -7.715,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": -8.285,
+      "maxX": -7.715,
+      "minZ": 10.096,
+      "maxZ": 10.704
+    },
+    {
+      "level": -1,
+      "minX": -8.39,
+      "maxX": -7.912,
+      "minZ": 10.335,
+      "maxZ": 10.84
+    },
+    {
+      "level": -1,
+      "minX": -9.8,
+      "maxX": -9.2,
+      "minZ": -11.12,
+      "maxZ": -9.68
+    },
+    {
+      "level": -1,
+      "minX": -9.8,
+      "maxX": -9.2,
+      "minZ": -7.52,
+      "maxZ": -6.08
+    },
+    {
+      "level": -1,
+      "minX": -9.8,
+      "maxX": -9.2,
+      "minZ": 6.08,
+      "maxZ": 7.52
+    },
+    {
+      "level": -1,
+      "minX": -9.8,
+      "maxX": -9.2,
+      "minZ": 9.68,
+      "maxZ": 11.12
+    },
+    {
+      "level": 0,
+      "minX": 4.312,
+      "maxX": 8.062,
+      "minZ": -9.4,
+      "maxZ": -5.16
+    },
+    {
+      "level": 0,
+      "minX": -9.1,
+      "maxX": -6.85,
+      "minZ": 4.65,
+      "maxZ": 7.05
+    },
+    {
+      "level": 0,
+      "minX": -8.916,
+      "maxX": -7.034,
+      "minZ": 4.846,
+      "maxZ": 6.854
+    },
+    {
+      "level": 0,
+      "minX": -8.916,
+      "maxX": -7.034,
+      "minZ": 4.846,
+      "maxZ": 6.854
+    },
+    {
+      "level": 0,
+      "minX": -8.916,
+      "maxX": -7.034,
+      "minZ": 4.846,
+      "maxZ": 6.854
+    },
+    {
+      "level": 0,
+      "minX": -9.58,
+      "maxX": -8.756,
+      "minZ": 4.979,
+      "maxZ": 5.719
+    },
+    {
+      "level": 0,
+      "minX": -9.1,
+      "maxX": -6.85,
+      "minZ": 9.98,
+      "maxZ": 12.38
+    },
+    {
+      "level": 0,
+      "minX": -8.916,
+      "maxX": -7.034,
+      "minZ": 10.176,
+      "maxZ": 12.184
+    },
+    {
+      "level": 0,
+      "minX": -8.916,
+      "maxX": -7.034,
+      "minZ": 10.176,
+      "maxZ": 12.184
+    },
+    {
+      "level": 0,
+      "minX": -8.916,
+      "maxX": -7.034,
+      "minZ": 10.176,
+      "maxZ": 12.184
+    },
+    {
+      "level": 0,
+      "minX": -9.58,
+      "maxX": -8.756,
+      "minZ": 10.309,
+      "maxZ": 11.044
+    },
+    {
+      "level": 0,
+      "minX": -9.938,
+      "maxX": -9.038,
+      "minZ": 7.26,
+      "maxZ": 8.34
+    },
+    {
+      "level": 0,
+      "minX": -16.48,
+      "maxX": -9.47,
+      "minZ": 7.451,
+      "maxZ": 8.501
+    },
+    {
+      "level": 0,
+      "minX": -16.48,
+      "maxX": -9.47,
+      "minZ": 7.451,
+      "maxZ": 8.501
+    },
+    {
+      "level": 0,
+      "minX": -16.48,
+      "maxX": -9.47,
+      "minZ": 8.059,
+      "maxZ": 9.109
+    },
+    {
+      "level": 0,
+      "minX": -16.48,
+      "maxX": -9.47,
+      "minZ": 8.059,
+      "maxZ": 9.109
+    },
+    {
+      "level": 0,
+      "minX": -12.165,
+      "maxX": -9.21,
+      "minZ": 7.652,
+      "maxZ": 8.332
+    },
+    {
+      "level": -1,
+      "minX": -17.081,
+      "maxX": -15.844,
+      "minZ": 8.1,
+      "maxZ": 9.42
+    },
+    {
+      "level": 0,
+      "minX": 7.963,
+      "maxX": 9.087,
+      "minZ": 7.06,
+      "maxZ": 8.02
+    },
+    {
+      "level": 0,
+      "minX": -9.5,
+      "maxX": -8.375,
+      "minZ": -8.67,
+      "maxZ": -7.71
+    },
+    {
+      "level": -1,
+      "minX": 8.238,
+      "maxX": 9.363,
+      "minZ": 9.4,
+      "maxZ": 10.36
+    },
+    {
+      "level": -2,
+      "minX": 6.312,
+      "maxX": 7.438,
+      "minZ": -6.98,
+      "maxZ": -6.02
+    },
+    {
+      "level": 0,
+      "minX": 9.362,
+      "maxX": 9.887,
+      "minZ": 7.52,
+      "maxZ": 8.08
+    },
+    {
+      "level": 0,
+      "minX": -9.887,
+      "maxX": -9.362,
+      "minZ": -6.78,
+      "maxZ": -6.22
+    },
+    {
+      "level": 0,
+      "minX": 5.238,
+      "maxX": 5.762,
+      "minZ": 10.12,
+      "maxZ": 10.68
+    },
+    {
+      "level": -1,
+      "minX": 4.088,
+      "maxX": 5.175,
+      "minZ": -3.136,
+      "maxZ": -2.464
+    },
+    {
+      "level": -1,
+      "minX": 3.651,
+      "maxX": 4.265,
+      "minZ": -2.941,
+      "maxZ": -1.84
+    },
+    {
+      "level": -1,
+      "minX": 4.088,
+      "maxX": 5.175,
+      "minZ": 2.464,
+      "maxZ": 3.136
+    },
+    {
+      "level": -1,
+      "minX": 3.651,
+      "maxX": 4.265,
+      "minZ": 2.659,
+      "maxZ": 3.76
+    },
+    {
+      "level": -1,
+      "minX": -6.41,
+      "maxX": -5.59,
+      "minZ": -11.27,
+      "maxZ": -10.73
+    },
+    {
+      "level": -1,
+      "minX": 0.59,
+      "maxX": 1.41,
+      "minZ": -11.27,
+      "maxZ": -10.73
+    },
+    {
+      "level": -1,
+      "minX": 9.347,
+      "maxX": 9.853,
+      "minZ": -10.237,
+      "maxZ": -9.363
+    },
+    {
+      "level": -1,
+      "minX": 9.347,
+      "maxX": 9.853,
+      "minZ": 8.563,
+      "maxZ": 9.437
+    }
+  ],
+  "iron-nomad-shared-solids": [
+    {
+      "sourceObject": "Command house lower structure",
+      "min": [
+        4.3125,
+        16.029998779296875,
+        -9.399999618530273
+      ],
+      "max": [
+        8.0625,
+        17.863332748413086,
+        -5.160000324249268
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate",
+      "min": [
+        8.0625,
+        17.263330459594727,
+        -9.272001266479492
+      ],
+      "max": [
+        8.107500076293945,
+        18.62999725341797,
+        -8.008001327514648
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.001",
+      "min": [
+        8.0625,
+        17.263330459594727,
+        -7.9120001792907715
+      ],
+      "max": [
+        8.107500076293945,
+        18.62999725341797,
+        -6.648000240325928
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.002",
+      "min": [
+        8.0625,
+        17.263330459594727,
+        -6.552000522613525
+      ],
+      "max": [
+        8.107500076293945,
+        18.62999725341797,
+        -5.288000583648682
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.003",
+      "min": [
+        4.267499923706055,
+        17.263330459594727,
+        -9.272001266479492
+      ],
+      "max": [
+        4.312500476837158,
+        18.62999725341797,
+        -8.008001327514648
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.004",
+      "min": [
+        4.267499923706055,
+        17.263330459594727,
+        -7.9120001792907715
+      ],
+      "max": [
+        4.312500476837158,
+        18.62999725341797,
+        -6.648000240325928
+      ]
+    },
+    {
+      "sourceObject": "Command cabin side plate.005",
+      "min": [
+        4.267499923706055,
+        17.263330459594727,
+        -6.552000522613525
+      ],
+      "max": [
+        4.312500476837158,
+        18.62999725341797,
+        -5.288000583648682
+      ]
+    }
+  ]
+}

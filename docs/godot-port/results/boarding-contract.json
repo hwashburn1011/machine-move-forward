@@ -1,0 +1,7 @@
+{
+	"checks": 18,
+	"failures": [],
+	"passed": true,
+	"scope": "Six original ship scenarios, 720 ticks each: state/timing, crew activation/missions, shell timing/damage, health and rewards. Route/pose, disabled hook hit target and dead-body cleanup deliberately differ.",
+	"ticks": 4320
+}

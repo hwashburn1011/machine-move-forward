@@ -1,0 +1,10 @@
+{
+	"checks": 98,
+	"failures": [],
+	"human_test": false,
+	"passed": true,
+	"scope": "headless authority/input fixtures; native review remains separate",
+	"source_hash": "eca252d03988f8b8eb8e83ba022c40082a466b9025abb3bb2fab8d8b0c51e780",
+	"source_hash_end": "eca252d03988f8b8eb8e83ba022c40082a466b9025abb3bb2fab8d8b0c51e780",
+	"source_stable": true
+}

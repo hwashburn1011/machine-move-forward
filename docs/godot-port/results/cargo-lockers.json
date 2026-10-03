@@ -1,0 +1,69 @@
+{
+	"checks": 56,
+	"collision": [
+		{
+			"playerPosition": "(8.525, 16.02479, 6.689992)",
+			"site": "(8.525, 16.03, 7.54)",
+			"stoppedOffset": 0.850008010864258
+		},
+		{
+			"playerPosition": "(-8.9375, 16.02413, -7.339984)",
+			"site": "(-8.9375, 16.03, -8.19)",
+			"stoppedOffset": 0.850015163421631
+		},
+		{
+			"playerPosition": "(8.8, 12.42413, 9.029986)",
+			"site": "(8.8, 12.43, 9.88)",
+			"stoppedOffset": 0.850013732910156
+		},
+		{
+			"playerPosition": "(6.875, 8.824134, -5.649985)",
+			"site": "(6.875, 8.83, -6.5)",
+			"stoppedOffset": 0.850014686584473
+		}
+	],
+	"failures": [],
+	"instancedTriangles": 99160,
+	"models": [
+		{
+			"bounds": "[P: (-0.554, 0.0, -0.513909), S: (1.108, 0.851, 1.027817)]",
+			"degenerateByMesh": {},
+			"degenerateTriangles": 0,
+			"site": "(8.525, 16.03, 7.54)",
+			"surfaces": 4,
+			"triangles": 24790
+		},
+		{
+			"bounds": "[P: (-0.554, 0.0, -0.513909), S: (1.108, 0.851, 1.027817)]",
+			"degenerateByMesh": {},
+			"degenerateTriangles": 0,
+			"site": "(-8.9375, 16.03, -8.19)",
+			"surfaces": 4,
+			"triangles": 24790
+		},
+		{
+			"bounds": "[P: (-0.554, 0.0, -0.513909), S: (1.108, 0.851, 1.027817)]",
+			"degenerateByMesh": {},
+			"degenerateTriangles": 0,
+			"site": "(8.8, 12.43, 9.88)",
+			"surfaces": 4,
+			"triangles": 24790
+		},
+		{
+			"bounds": "[P: (-0.554, 0.0, -0.513909), S: (1.108, 0.851, 1.027817)]",
+			"degenerateByMesh": {},
+			"degenerateTriangles": 0,
+			"site": "(6.875, 8.83, -6.5)",
+			"surfaces": 4,
+			"triangles": 24790
+		}
+	],
+	"passed": true,
+	"tank": {
+		"clearanceThreshold": 1.0,
+		"originalNormalizedDistance": 0.891486287117004,
+		"refinedNormalizedDistance": 1.10908687114716
+	},
+	"uniqueMaterials": 4,
+	"uniqueMeshes": 4
+}

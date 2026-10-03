@@ -1,0 +1,397 @@
+{
+  "sourceCollider": 75,
+  "sourceIndexCount": 405156,
+  "priorPumpRemovedTriangles": 4000,
+  "priorBenchRemovedTriangles": 1656,
+  "removedIntakeTriangles": 12724,
+  "retainedIndexRanges": [
+    [
+      0,
+      34416
+    ],
+    [
+      51444,
+      61692
+    ],
+    [
+      99864,
+      278820
+    ],
+    [
+      280476,
+      294672
+    ],
+    [
+      295608,
+      329688
+    ],
+    [
+      341136,
+      401760
+    ],
+    [
+      402312,
+      403692
+    ],
+    [
+      404244,
+      405156
+    ]
+  ],
+  "replacementTriangles": 708,
+  "sourceSha256": "7616601728e371e023834cae5866c935ed7a86cd39d1fc2fcac6934ee33739f7",
+  "removedStaticIndexRanges": [
+    [
+      39384,
+      51444
+    ],
+    [
+      278820,
+      280476
+    ],
+    [
+      294672,
+      295608
+    ],
+    [
+      401760,
+      402312
+    ]
+  ],
+  "removedStaticTriangles": 5068,
+  "retainedTriangles": 111604,
+  "priorRecipe": "res://art/nomad-intake-collision.json",
+  "priorRecipeSha256": "f77fff0a878fef7a217d1df7790fce802f489397e79af2bb8c8d795c2d00d528",
+  "staticCompositionSha256": "8d468a3bea5c25366a7310a234d027debc69f0f5e50a5b392c3c76b1d8de9e1f",
+  "removedStaticNames": [
+    "CargoLocker2",
+    "CargoLocker3",
+    "PressureReceiver1",
+    "PressureReceiver2",
+    "PressureReceiver3",
+    "ServiceCabinet2",
+    "ServiceCabinet3",
+    "ServiceDrum2",
+    "ServiceDrum3"
+  ],
+  "protectedStatic": [
+    {
+      "name": "CargoLocker1",
+      "triangles": 276
+    },
+    {
+      "name": "CargoLocker4",
+      "triangles": 276
+    },
+    {
+      "name": "PressureReceiver4",
+      "triangles": 1340
+    },
+    {
+      "name": "PressureReceiver5",
+      "triangles": 1340
+    },
+    {
+      "name": "ServiceCabinet1",
+      "triangles": 92
+    },
+    {
+      "name": "ServiceCabinet4",
+      "triangles": 92
+    },
+    {
+      "name": "ServiceDrum1",
+      "triangles": 156
+    }
+  ],
+  "removedComponents": [
+    {
+      "triangles": 140,
+      "sourceTriangleMin": 13128,
+      "sourceTriangleMax": 13267,
+      "min": [
+        7.715000152587891,
+        12.471667289733887,
+        10.095999717712402
+      ],
+      "max": [
+        8.28499984741211,
+        13.930001258850098,
+        10.704000473022461
+      ]
+    },
+    {
+      "triangles": 720,
+      "sourceTriangleMin": 13268,
+      "sourceTriangleMax": 13987,
+      "min": [
+        7.715000152587891,
+        13.771668434143066,
+        10.095999717712402
+      ],
+      "max": [
+        8.28499984741211,
+        14.12166690826416,
+        10.704000473022461
+      ]
+    },
+    {
+      "triangles": 480,
+      "sourceTriangleMin": 13988,
+      "sourceTriangleMax": 14467,
+      "min": [
+        7.6100006103515625,
+        14.013333320617676,
+        10.334898948669434
+      ],
+      "max": [
+        8.08813190460205,
+        14.578829765319824,
+        10.84000015258789
+      ]
+    },
+    {
+      "triangles": 140,
+      "sourceTriangleMin": 14468,
+      "sourceTriangleMax": 14607,
+      "min": [
+        3.7150001525878906,
+        12.471667289733887,
+        10.095999717712402
+      ],
+      "max": [
+        4.285000324249268,
+        13.930001258850098,
+        10.704000473022461
+      ]
+    },
+    {
+      "triangles": 720,
+      "sourceTriangleMin": 14608,
+      "sourceTriangleMax": 15327,
+      "min": [
+        3.7150001525878906,
+        13.771668434143066,
+        10.095999717712402
+      ],
+      "max": [
+        4.284999847412109,
+        14.12166690826416,
+        10.704000473022461
+      ]
+    },
+    {
+      "triangles": 480,
+      "sourceTriangleMin": 15328,
+      "sourceTriangleMax": 15807,
+      "min": [
+        3.6100001335144043,
+        14.013333320617676,
+        10.334898948669434
+      ],
+      "max": [
+        4.088131904602051,
+        14.578829765319824,
+        10.84000015258789
+      ]
+    },
+    {
+      "triangles": 140,
+      "sourceTriangleMin": 15808,
+      "sourceTriangleMax": 15947,
+      "min": [
+        -0.2849999964237213,
+        12.471667289733887,
+        10.095999717712402
+      ],
+      "max": [
+        0.2849999964237213,
+        13.930001258850098,
+        10.704000473022461
+      ]
+    },
+    {
+      "triangles": 720,
+      "sourceTriangleMin": 15948,
+      "sourceTriangleMax": 16667,
+      "min": [
+        -0.2849999666213989,
+        13.771668434143066,
+        10.095999717712402
+      ],
+      "max": [
+        0.2849998474121094,
+        14.12166690826416,
+        10.704000473022461
+      ]
+    },
+    {
+      "triangles": 480,
+      "sourceTriangleMin": 16668,
+      "sourceTriangleMax": 17147,
+      "min": [
+        -0.3899998962879181,
+        14.013333320617676,
+        10.334898948669434
+      ],
+      "max": [
+        0.08813172578811646,
+        14.578829765319824,
+        10.84000015258789
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 92940,
+      "sourceTriangleMax": 93031,
+      "min": [
+        -9.5,
+        16.030000686645508,
+        -8.670000076293945
+      ],
+      "max": [
+        -8.375,
+        16.89666748046875,
+        -7.709999084472656
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 93032,
+      "sourceTriangleMax": 93123,
+      "min": [
+        -8.570000648498535,
+        16.005001068115234,
+        -8.685998916625977
+      ],
+      "max": [
+        -8.510000228881836,
+        16.921667098999023,
+        -7.693999290466309
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 93124,
+      "sourceTriangleMax": 93215,
+      "min": [
+        -9.364999771118164,
+        16.005001068115234,
+        -8.685998916625977
+      ],
+      "max": [
+        -9.305000305175781,
+        16.921667098999023,
+        -7.693999290466309
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 93216,
+      "sourceTriangleMax": 93307,
+      "min": [
+        8.237500190734863,
+        12.430000305175781,
+        9.399999618530273
+      ],
+      "max": [
+        9.362500190734863,
+        13.296667098999023,
+        10.360000610351562
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 93308,
+      "sourceTriangleMax": 93399,
+      "min": [
+        9.167499542236328,
+        12.405000686645508,
+        9.384000778198242
+      ],
+      "max": [
+        9.227499961853027,
+        13.321667671203613,
+        10.37600040435791
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 93400,
+      "sourceTriangleMax": 93491,
+      "min": [
+        8.372499465942383,
+        12.405000686645508,
+        9.384000778198242
+      ],
+      "max": [
+        8.432499885559082,
+        13.321667671203613,
+        10.37600040435791
+      ]
+    },
+    {
+      "triangles": 156,
+      "sourceTriangleMin": 98224,
+      "sourceTriangleMax": 98379,
+      "min": [
+        -9.887499809265137,
+        16.030000686645508,
+        -6.78000020980835
+      ],
+      "max": [
+        -9.362499237060547,
+        16.904998779296875,
+        -6.220000267028809
+      ]
+    },
+    {
+      "triangles": 156,
+      "sourceTriangleMin": 98380,
+      "sourceTriangleMax": 98535,
+      "min": [
+        5.237500190734863,
+        16.030000686645508,
+        10.120000839233398
+      ],
+      "max": [
+        5.762499809265137,
+        16.904998779296875,
+        10.680001258850098
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 133920,
+      "sourceTriangleMax": 134011,
+      "min": [
+        0.5900000333786011,
+        12.579999923706055,
+        -11.269999504089355
+      ],
+      "max": [
+        1.4100000858306885,
+        14.140000343322754,
+        -10.730000495910645
+      ]
+    },
+    {
+      "triangles": 92,
+      "sourceTriangleMin": 134012,
+      "sourceTriangleMax": 134103,
+      "min": [
+        9.346875190734863,
+        12.579999923706055,
+        -10.237333297729492
+      ],
+      "max": [
+        9.853124618530273,
+        14.140000343322754,
+        -9.362666130065918
+      ]
+    }
+  ],
+  "partialTriangles": 0,
+  "partialComponents": 0,
+  "retainedSourceFacesSha256": "b5d3cd0ef6a033ea497a910078501fd6c639c11582dc5e440f1aa30bb713b956"
+}

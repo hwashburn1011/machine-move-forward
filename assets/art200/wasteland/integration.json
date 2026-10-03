@@ -1,0 +1,281 @@
+{
+  "runtime": "res://art/art200-wasteland.glb",
+  "scale": 1,
+  "models": [
+    {
+      "id": "art200-brasswell-teller-bank",
+      "width": 7.625,
+      "theme": "roadside business",
+      "dimensions_m": [
+        7.625,
+        3.51,
+        4.6
+      ],
+      "palette_family": "denim"
+    },
+    {
+      "id": "art200-dustmile-motel-office",
+      "width": 6.7,
+      "theme": "roadside business",
+      "dimensions_m": [
+        6.7,
+        3.42841,
+        5.26
+      ],
+      "palette_family": "rose"
+    },
+    {
+      "id": "art200-parcel-post-depot",
+      "width": 7.4,
+      "theme": "roadside business",
+      "dimensions_m": [
+        7.4,
+        3.85759,
+        6.07
+      ],
+      "palette_family": "petrol"
+    },
+    {
+      "id": "art200-thimble-laundrette",
+      "width": 6.6,
+      "theme": "roadside business",
+      "dimensions_m": [
+        6.6,
+        2.985,
+        4.1
+      ],
+      "palette_family": "celadon"
+    },
+    {
+      "id": "art200-emberside-bakery",
+      "width": 6.7,
+      "theme": "roadside business",
+      "dimensions_m": [
+        6.7,
+        4.105,
+        5.1
+      ],
+      "palette_family": "clay"
+    },
+    {
+      "id": "art200-drylight-pharmacy",
+      "width": 5.4,
+      "theme": "roadside business",
+      "dimensions_m": [
+        5.4,
+        2.89,
+        4.6
+      ],
+      "palette_family": "plum"
+    },
+    {
+      "id": "art200-cinder-auto-lift",
+      "width": 7.0,
+      "theme": "roadside business",
+      "dimensions_m": [
+        7.0,
+        3.67855,
+        5.0
+      ],
+      "palette_family": "oxblood"
+    },
+    {
+      "id": "art200-rook-ticket-booth",
+      "width": 5.1,
+      "theme": "roadside business",
+      "dimensions_m": [
+        5.1,
+        3.8,
+        4.0
+      ],
+      "palette_family": "olive"
+    },
+    {
+      "id": "art200-switchback-weighbridge",
+      "width": 14.27602,
+      "theme": "roadside business",
+      "dimensions_m": [
+        14.27602,
+        2.75912,
+        5.95
+      ],
+      "palette_family": "slate"
+    },
+    {
+      "id": "art200-lastcall-exchange",
+      "width": 4.75,
+      "theme": "roadside business",
+      "dimensions_m": [
+        4.75,
+        3.4,
+        2.0
+      ],
+      "palette_family": "heather"
+    },
+    {
+      "id": "art200-ochre-icehouse",
+      "width": 5.48,
+      "theme": "roadside business",
+      "dimensions_m": [
+        5.48,
+        2.97,
+        5.145
+      ],
+      "palette_family": "verdigris"
+    },
+    {
+      "id": "art200-threadbare-tailor",
+      "width": 5.8,
+      "theme": "roadside business",
+      "dimensions_m": [
+        5.8,
+        3.3,
+        4.7
+      ],
+      "palette_family": "umber"
+    },
+    {
+      "id": "art200-crosswind-compressor-house",
+      "width": 5.8,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        5.8,
+        3.72973,
+        4.3
+      ],
+      "palette_family": "ochre"
+    },
+    {
+      "id": "art200-sinter-grain-elevator",
+      "width": 7.1,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        7.1,
+        6.91,
+        4.7
+      ],
+      "palette_family": "stone"
+    },
+    {
+      "id": "art200-borewell-pumpjack",
+      "width": 7.3,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        7.3,
+        4.64577,
+        3.3
+      ],
+      "palette_family": "oxblood"
+    },
+    {
+      "id": "art200-lattice-truss-bridge",
+      "width": 11.87,
+      "theme": "transport relic",
+      "dimensions_m": [
+        11.87,
+        2.55,
+        3.1
+      ],
+      "palette_family": "petrol"
+    },
+    {
+      "id": "art200-reclaimer-trommel",
+      "width": 6.4,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        6.4,
+        2.83,
+        3.3
+      ],
+      "palette_family": "clay"
+    },
+    {
+      "id": "art200-rail-water-crane",
+      "width": 4.5,
+      "theme": "transport relic",
+      "dimensions_m": [
+        4.5,
+        4.35,
+        3.4
+      ],
+      "palette_family": "denim"
+    },
+    {
+      "id": "art200-ballast-loader",
+      "width": 4.7,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        4.7,
+        4.17,
+        4.2
+      ],
+      "palette_family": "olive"
+    },
+    {
+      "id": "art200-ceramic-kiln",
+      "width": 5.6,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        5.6,
+        3.9,
+        4.4
+      ],
+      "palette_family": "umber"
+    },
+    {
+      "id": "art200-desert-ambulatory",
+      "width": 5.6,
+      "theme": "roadside business",
+      "dimensions_m": [
+        5.6,
+        4.85,
+        4.73
+      ],
+      "palette_family": "celadon"
+    },
+    {
+      "id": "art200-demolition-cutter",
+      "width": 7.2,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        7.2,
+        3.04093,
+        3.7
+      ],
+      "palette_family": "slate"
+    },
+    {
+      "id": "art200-sandglass-cyclone",
+      "width": 4.6,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        4.6,
+        5.4,
+        3.7
+      ],
+      "palette_family": "plum"
+    },
+    {
+      "id": "art200-ventstack-catwalk",
+      "width": 4.93,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        4.8,
+        6.86,
+        4.93
+      ],
+      "palette_family": "heather"
+    },
+    {
+      "id": "art200-pivot-irrigator",
+      "width": 11.2,
+      "theme": "industrial relic",
+      "dimensions_m": [
+        11.2,
+        2.945,
+        2.46
+      ],
+      "palette_family": "verdigris"
+    }
+  ]
+}

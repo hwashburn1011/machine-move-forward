@@ -1,0 +1,30 @@
+{
+	"canvas": {
+		"degenerateTriangles": 0,
+		"maximumY": 20.0390014648438,
+		"minimumTint": 0.600000023841858,
+		"minimumY": 18.4784774780273,
+		"pinnedVertexSamples": 16,
+		"triangleCount": 22476,
+		"weightRange": [
+			0.0,
+			1.0
+		]
+	},
+	"checks": 26,
+	"failures": [],
+	"retained": [
+		{
+			"maxDistanceM": 0.0,
+			"name": "CanopyRetainedBanner",
+			"newVertices": 1032,
+			"oldVertices": 1032
+		},
+		{
+			"maxDistanceM": 0.0,
+			"name": "CanopyRetainedServiceMetal",
+			"newVertices": 9493,
+			"oldVertices": 8896
+		}
+	]
+}

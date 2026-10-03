@@ -1,0 +1,44 @@
+{
+  "sourceRevision": "80b55d2",
+  "position": [
+    5.01875,
+    12.43,
+    -13.39
+  ],
+  "originalBox": {
+    "min": [
+      3.41,
+      12.059,
+      -14.025
+    ],
+    "max": [
+      6.628,
+      15.663,
+      -12.93
+    ]
+  },
+  "originalNode": "Front_Turbine_Housing",
+  "editableParts": 530,
+  "materialBatches": 9,
+  "masterTriangles": 162127,
+  "bytes": 9960460,
+  "bounds": {
+    "min": [
+      -1.4677499532699585,
+      0.0,
+      -0.5376999974250793
+    ],
+    "max": [
+      1.4677499532699585,
+      3.0428519248962402,
+      0.3999499976634979
+    ]
+  },
+  "fitScale": 0.95,
+  "centerHeight": 1.539,
+  "bladeCount": 36,
+  "bladeRadius": 1.32715,
+  "housingBore": 1.3508999999999998,
+  "rotationAxis": "game -Z",
+  "reference": "https://content.greenheck.com/public/DAMProd/Original/10003/VaneAxial_Application_Perf_Supplement.pdf"
+}

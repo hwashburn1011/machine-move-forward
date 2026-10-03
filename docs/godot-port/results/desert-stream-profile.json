@@ -1,0 +1,89 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"baselineRevision": "e8fea34",
+	"checkpoints": [
+		{
+			"chunks": 27,
+			"nodes": 1699.0,
+			"objects": 6033.0,
+			"preparedActivations": 795,
+			"readyChunks": 13,
+			"resources": 1505.0,
+			"rotorEntries": 2,
+			"staticBytes": 202958096.0,
+			"step": 40,
+			"synchronousBuilds": 27,
+			"unfinishedChunks": 0,
+			"videoBytes": 907154928.0
+		}
+	],
+	"description": "Accelerated boundary crossings; main gameplay paused, world/gait/atmosphere fully updated, GPU renders original full assets. Prepared mode allows 60 normal update ticks before each crossing. Measures streaming work, not normal travel FPS.",
+	"final": {
+		"chunks": 27,
+		"nodes": 1699.0,
+		"objects": 6033.0,
+		"preparedActivations": 795,
+		"readyChunks": 13,
+		"resources": 1505.0,
+		"rotorEntries": 2,
+		"staticBytes": 202962968.0,
+		"synchronousBuilds": 27,
+		"unfinishedChunks": 0,
+		"videoBytes": 907154928.0
+	},
+	"forwardBoundary": {
+		"maxMs": 2.234,
+		"p50Ms": 1.452,
+		"p95Ms": 1.957,
+		"p99Ms": 2.234
+	},
+	"initial": {
+		"chunks": 27,
+		"nodes": 1685.0,
+		"objects": 5592.0,
+		"preparedActivations": 0,
+		"readyChunks": 0,
+		"resources": 1505.0,
+		"rotorEntries": 2,
+		"staticBytes": 200931946.0,
+		"synchronousBuilds": 27,
+		"unfinishedChunks": 1,
+		"videoBytes": 907121840.0
+	},
+	"lateralBoundary": {
+		"maxMs": 1.084,
+		"p50Ms": 0.633,
+		"p95Ms": 0.843,
+		"p99Ms": 1.084
+	},
+	"nextRenderFrame": {
+		"maxMs": 5.135,
+		"p50Ms": 2.61,
+		"p95Ms": 4.439,
+		"p99Ms": 5.135
+	},
+	"prepared": true,
+	"resolution": "(1920, 1080)",
+	"sameCell": {
+		"maxMs": 4.672,
+		"p50Ms": 0.226,
+		"p95Ms": 1.177,
+		"p99Ms": 1.652
+	},
+	"setupUpdate": {
+		"maxMs": 1.235,
+		"p50Ms": 0.629,
+		"p95Ms": 0.834,
+		"p99Ms": 1.235
+	},
+	"slowPlacements": [],
+	"slowPreparationUpdates": [
+		{
+			"ms": 4.672,
+			"stage": "beforeLateral",
+			"step": 15,
+			"tick": 4
+		}
+	],
+	"slowSteps": []
+}

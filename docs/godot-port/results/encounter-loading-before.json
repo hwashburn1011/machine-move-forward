@@ -1,0 +1,225 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"enemies": {
+		"bastion": {
+			"following": {
+				"frameMs": {
+					"count": 117,
+					"max": 5.176,
+					"median": 4.204,
+					"p95": 4.932
+				},
+				"gpuMs": {
+					"count": 117,
+					"max": 4.32200002670288,
+					"median": 3.58200001716614,
+					"p95": 4.24100017547607
+				}
+			},
+			"setupMs": 117.012,
+			"spawnThroughRenderMs": 125.953,
+			"stages": {
+				"add_child(tactical_marker)": 0.029,
+				"animation": 0.192,
+				"body_and_collision": 0.048,
+				"bounds_fit": 0.213,
+				"equipment": 0.013,
+				"instantiate": 0.165,
+				"navigation_and_label": 0.045,
+				"remaining_setup": 0.001,
+				"resource_load": 99.564,
+				"tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)": 16.653,
+				"tactical_marker=MeshInstance3D.new()": 0.009
+			}
+		},
+		"raider": {
+			"following": {
+				"frameMs": {
+					"count": 119,
+					"max": 5.063,
+					"median": 4.126,
+					"p95": 4.863
+				},
+				"gpuMs": {
+					"count": 119,
+					"max": 4.23299980163574,
+					"median": 3.54699993133545,
+					"p95": 4.03999996185303
+				}
+			},
+			"setupMs": 102.225,
+			"spawnThroughRenderMs": 114.07,
+			"stages": {
+				"add_child(tactical_marker)": 0.033,
+				"animation": 0.072,
+				"body_and_collision": 0.047,
+				"bounds_fit": 0.175,
+				"equipment": 0.013,
+				"instantiate": 0.104,
+				"navigation_and_label": 0.04,
+				"remaining_setup": 0.001,
+				"resource_load": 85.824,
+				"tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)": 15.841,
+				"tactical_marker=MeshInstance3D.new()": 0.006
+			}
+		},
+		"revenant": {
+			"following": {
+				"frameMs": {
+					"count": 119,
+					"max": 5.408,
+					"median": 4.081,
+					"p95": 5.012
+				},
+				"gpuMs": {
+					"count": 119,
+					"max": 4.69899988174438,
+					"median": 3.57500004768372,
+					"p95": 4.3270001411438
+				}
+			},
+			"setupMs": 15.275,
+			"spawnThroughRenderMs": 22.899,
+			"stages": {
+				"add_child(tactical_marker)": 0.027,
+				"animation": 0.184,
+				"body_and_collision": 0.033,
+				"bounds_fit": 0.166,
+				"equipment": 0.011,
+				"instantiate": 0.169,
+				"navigation_and_label": 0.036,
+				"remaining_setup": 0.001,
+				"resource_load": 0.006,
+				"tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)": 14.575,
+				"tactical_marker=MeshInstance3D.new()": 0.008
+			}
+		},
+		"scavenger": {
+			"following": {
+				"frameMs": {
+					"count": 121,
+					"max": 4.966,
+					"median": 4.032,
+					"p95": 4.739
+				},
+				"gpuMs": {
+					"count": 121,
+					"max": 4.19500017166138,
+					"median": 3.52900004386902,
+					"p95": 4.00099992752075
+				}
+			},
+			"setupMs": 59.414,
+			"spawnThroughRenderMs": 66.367,
+			"stages": {
+				"add_child(tactical_marker)": 0.025,
+				"animation": 0.067,
+				"body_and_collision": 0.033,
+				"bounds_fit": 0.13,
+				"equipment": 0.013,
+				"instantiate": 0.088,
+				"navigation_and_label": 0.036,
+				"remaining_setup": 0.001,
+				"resource_load": 44.097,
+				"tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)": 14.866,
+				"tactical_marker=MeshInstance3D.new()": 0.006
+			}
+		},
+		"sovereign": {
+			"following": {
+				"frameMs": {
+					"count": 120,
+					"max": 5.086,
+					"median": 4.095,
+					"p95": 4.789
+				},
+				"gpuMs": {
+					"count": 120,
+					"max": 4.27400016784668,
+					"median": 3.57999992370605,
+					"p95": 4.05499982833862
+				}
+			},
+			"setupMs": 228.284,
+			"spawnThroughRenderMs": 238.961,
+			"stages": {
+				"add_child(tactical_marker)": 0.068,
+				"animation": 0.428,
+				"body_and_collision": 0.04,
+				"bounds_fit": 0.171,
+				"equipment": 40.477,
+				"instantiate": 0.148,
+				"navigation_and_label": 0.044,
+				"remaining_setup": 0.001,
+				"resource_load": 171.669,
+				"tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)": 15.111,
+				"tactical_marker=MeshInstance3D.new()": 0.014
+			}
+		},
+		"warden": {
+			"following": {
+				"frameMs": {
+					"count": 111,
+					"max": 5.423,
+					"median": 4.549,
+					"p95": 5.307
+				},
+				"gpuMs": {
+					"count": 111,
+					"max": 4.68900012969971,
+					"median": 3.76399993896484,
+					"p95": 4.46600008010864
+				}
+			},
+			"setupMs": 15.557,
+			"spawnThroughRenderMs": 22.478,
+			"stages": {
+				"add_child(tactical_marker)": 0.025,
+				"animation": 0.241,
+				"body_and_collision": 0.074,
+				"bounds_fit": 0.269,
+				"equipment": 0.013,
+				"instantiate": 0.23,
+				"navigation_and_label": 0.057,
+				"remaining_setup": 0.001,
+				"resource_load": 0.014,
+				"tactical_marker.material_override=MMFAssets.material(Color(1,0.16,0.04),2)": 14.521,
+				"tactical_marker=MeshInstance3D.new()": 0.008
+			}
+		}
+	},
+	"preparation": {
+		"cacheCount": 22,
+		"frames": {
+			"count": 217,
+			"max": 212.675,
+			"median": 4.04,
+			"p95": 5.036
+		},
+		"ms": 1201.323,
+		"staticMemory": 164242923
+	},
+	"scope": "Native 1920x1080/high Vulkan/4xMSAA, VSync off; real title preparation followed by first use of each enemy. Instrumented original setup statements; captures follow timing. No travel or combat simulation.",
+	"warningBursts": [
+		{
+			"cpuMs": 14.47,
+			"throughRenderMs": 21.894
+		},
+		{
+			"cpuMs": 14.636,
+			"throughRenderMs": 21.628
+		},
+		{
+			"cpuMs": 14.647,
+			"throughRenderMs": 22.299
+		},
+		{
+			"cpuMs": 14.734,
+			"throughRenderMs": 21.857
+		},
+		{
+			"cpuMs": 14.468,
+			"throughRenderMs": 21.889
+		}
+	]
+}

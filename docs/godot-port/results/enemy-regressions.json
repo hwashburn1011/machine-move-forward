@@ -1,0 +1,74 @@
+[
+  {
+    "test": "enemy_animation",
+    "exit": 0,
+    "passes": 113,
+    "problems": []
+  },
+  {
+    "test": "enemy_combat_contract",
+    "exit": 0,
+    "passes": 42,
+    "problems": []
+  },
+  {
+    "test": "integration",
+    "exit": 0,
+    "passes": 108,
+    "problems": []
+  },
+  {
+    "test": "controls_interactions",
+    "exit": 0,
+    "passes": 66,
+    "problems": []
+  },
+  {
+    "test": "play_parity",
+    "exit": 0,
+    "passes": 58,
+    "problems": []
+  },
+  {
+    "test": "story_polish",
+    "exit": 0,
+    "passes": 59,
+    "problems": []
+  },
+  {
+    "test": "crossfire_handoff",
+    "exit": 0,
+    "passes": 66,
+    "problems": []
+  },
+  {
+    "test": "traversal",
+    "exit": 0,
+    "passes": 13,
+    "problems": []
+  },
+  {
+    "test": "audit_parity",
+    "exit": 0,
+    "passes": 132,
+    "problems": []
+  },
+  {
+    "test": "audio_lifecycle",
+    "exit": 0,
+    "passes": 50,
+    "problems": []
+  },
+  {
+    "test": "desert_life",
+    "exit": 0,
+    "passes": 28,
+    "problems": []
+  },
+  {
+    "test": "opening_handoff",
+    "exit": 0,
+    "passes": 32,
+    "problems": []
+  }
+]

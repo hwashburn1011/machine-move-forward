@@ -1,0 +1,19 @@
+{
+  "source": "assets/fieldwork/fieldwork-kit.blend",
+  "sourceSHA256": "0cee2387a8b7b30e21de8b48f58f8aac34fec1b7e5f61d2c640e53d2c716a181",
+  "removedStaticBatches": [
+    "L12DriveLeft_Field_MachinedMetal",
+    "L12DriveLeft_Field_Rubber",
+    "L12DriveRight_Field_MachinedMetal",
+    "L12DriveRight_Field_Rubber"
+  ],
+  "retainedBodyMeshes": 57,
+  "unchangedBodyGeometry": true,
+  "linksPerBelt": 48,
+  "beltLengthM": 2.22814150222053,
+  "wheelRadiusM": 0.143,
+  "beltRadiusM": 0.17,
+  "linkTriangles": 2388,
+  "runtimeMaterials": "Rebound to existing Field_Rubber / Field_MachinedMetal; no new textures",
+  "license": "Original project-authored derivative; no external models"
+}

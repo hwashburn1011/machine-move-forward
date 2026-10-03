@@ -1,0 +1,146 @@
+{
+  "version": "supports-2026-10-01-v3",
+  "models_corrected": [
+    "wreck-pickup",
+    "wreck-ambulance",
+    "wreck-forklift",
+    "fuel-trailer",
+    "culvert",
+    "diesel-generator",
+    "signal-gantry"
+  ],
+  "glb_sha256": "12970b3bc5874b1fbc78c3c80901cdf8eb852fe9c1782a25b3aa3459bcacb05c",
+  "master_sha256": "e27cae48346104ddebb7014800e52eaef6e164d42ff92f5ebb635ac488ba672e",
+  "materials_per_model": 1,
+  "triangles": 381644,
+  "texture_nodes_preserved": [
+    [
+      "BaseColor",
+      "NeutralPaint_BaseColor.png.001",
+      [
+        2048,
+        2048
+      ]
+    ],
+    [
+      "Normal",
+      "Finecomb_Normal.png",
+      [
+        2048,
+        2048
+      ]
+    ],
+    [
+      "ORM",
+      "Finecomb_ORM.png",
+      [
+        2048,
+        2048
+      ]
+    ]
+  ],
+  "changes": [
+    {
+      "id": "wreck-pickup",
+      "added_editable_parts": [
+        "Finecomb wreck-pickup / seat pedestal 1",
+        "Finecomb wreck-pickup / seat pedestal 2",
+        "Finecomb wreck-pickup / grille welded return tab",
+        "Finecomb wreck-pickup / grille welded return tab.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "Two seat pedestals connect upholstery to floor; two welded return tabs connect cooling grille to bumper."
+    },
+    {
+      "id": "wreck-ambulance",
+      "added_editable_parts": [
+        "Finecomb wreck-ambulance / seat pedestal 1",
+        "Finecomb wreck-ambulance / seat pedestal 2",
+        "Finecomb wreck-ambulance / beacon roof saddle",
+        "Finecomb wreck-ambulance / beacon roof saddle.001",
+        "Finecomb wreck-ambulance / oxygen cradle wall tie",
+        "Finecomb wreck-ambulance / oxygen cradle wall tie.001",
+        "Finecomb wreck-ambulance / oxygen cradle wall tie.002",
+        "Finecomb wreck-ambulance / oxygen cradle wall tie.003",
+        "Finecomb wreck-ambulance / roof edge seating rail",
+        "Finecomb wreck-ambulance / roof edge seating rail.001",
+        "Finecomb wreck-ambulance / roof perimeter cross seat",
+        "Finecomb wreck-ambulance / roof perimeter cross seat.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "Seats have floor pedestals; emergency light rail has two roof saddles; oxygen cradles tie to side walls; perimeter rails close roof-to-wall gap."
+    },
+    {
+      "id": "wreck-forklift",
+      "added_editable_parts": [
+        "Finecomb wreck-forklift / seat pedestal 1",
+        "Finecomb wreck-forklift / continuous chain inner strip",
+        "Finecomb wreck-forklift / chain upper tangent keeper",
+        "Finecomb wreck-forklift / sheave axle mast mounting",
+        "Finecomb wreck-forklift / continuous chain inner strip.001",
+        "Finecomb wreck-forklift / chain upper tangent keeper.001",
+        "Finecomb wreck-forklift / sheave axle mast mounting.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "Seat pedestal joins power unit; continuous inner chain strips connect every link to carriage and positively mounted sheave axles."
+    },
+    {
+      "id": "fuel-trailer",
+      "added_editable_parts": [
+        "Finecomb fuel-trailer / rear bumper welded hanger",
+        "Finecomb fuel-trailer / rear bumper welded hanger.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "Two rear hangers connect safety beam directly into chassis channels."
+    },
+    {
+      "id": "culvert",
+      "added_editable_parts": [
+        "Finecomb culvert / inlet grate continuous crossbar",
+        "Finecomb culvert / grate apron anchor",
+        "Finecomb culvert / grate apron anchor.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "One continuous grate crossbar and two apron anchors support all inlet rods without closing the bore."
+    },
+    {
+      "id": "diesel-generator",
+      "added_editable_parts": [
+        "Finecomb diesel-generator / enamel plaque mounting post",
+        "Finecomb diesel-generator / enamel plaque mounting post.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "Two steel mounting posts connect the existing DIESEL / 40 plaque to enclosure; lettering and its UVs remain unchanged."
+    },
+    {
+      "id": "signal-gantry",
+      "added_editable_parts": [
+        "Finecomb signal-gantry / panel-to-truss vertical strap",
+        "Finecomb signal-gantry / panel-to-truss vertical strap.001",
+        "Finecomb signal-gantry / panel-to-truss vertical strap.002",
+        "Finecomb signal-gantry / panel-to-truss vertical strap.003"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "Four continuous steel straps join panel backs, upper/lower mounting tubes and both actual truss chords."
+    },
+    {
+      "id": "culvert",
+      "added_editable_parts": [
+        "Finecomb culvert / cast wingwall foundation shoe",
+        "Finecomb culvert / cast wingwall foundation shoe.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "note": "Two low cast foundation shoes ground the previously elevated retaining wingwalls and match their rotations."
+    },
+    {
+      "id": "wreck-ambulance",
+      "added_editable_parts": [
+        "Finecomb wreck-ambulance / headlamp bumper mounting pedestal",
+        "Finecomb wreck-ambulance / headlamp bumper mounting pedestal.001"
+      ],
+      "original_vertices_uvs_pigment_preserved": true,
+      "maximum_existing_normal_delta": 5.622208118438721e-05,
+      "note": "Two small steel mounting pedestals connect the round headlamp housings to the front bumper, closing the 95 mm gap."
+    }
+  ]
+}

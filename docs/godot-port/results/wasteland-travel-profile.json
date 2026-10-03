@@ -1,0 +1,180 @@
+{
+  "recordedAt": "2026-09-25T18:23:14.4432507-04:00",
+  "adapter": "NVIDIA GeForce RTX 3070",
+  "resolution": "(1920, 1080)",
+  "quality": "high / Forward+ / Vulkan / 4x MSAA",
+  "vsync": false,
+  "requestedSeconds": 30,
+  "sampleCount": 7992,
+  "distanceM": 217.831572666279,
+  "frameMs": {
+    "max": 283.707,
+    "median": 3.706,
+    "p95": 4.626,
+    "p99": 5.474
+  },
+  "slowFrameThresholdMs": 16.67,
+  "slowFrames": [
+    {
+      "distance": 0.0193583809162336,
+      "focused": true,
+      "frame": 0,
+      "gpuMs": 0.0,
+      "ms": 49.47,
+      "pipelines": {
+        "CANVAS": 0,
+        "DRAW": 0,
+        "MESH": 47,
+        "SPECIALIZATION": 0,
+        "SURFACE": 0
+      },
+      "renderCpuMs": 0.0,
+      "setupCpuMs": 0.0,
+      "time": 0.0333333333333333
+    },
+    {
+      "distance": 0.309104669621139,
+      "focused": true,
+      "frame": 1,
+      "gpuMs": 0.0,
+      "ms": 283.707,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 47,
+        "SPECIALIZATION": 46,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.0,
+      "setupCpuMs": 1.114,
+      "time": 0.166666666666667
+    },
+    {
+      "distance": 0.621753630925536,
+      "focused": true,
+      "frame": 12,
+      "gpuMs": 4.2350001335144,
+      "ms": 21.354,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 47,
+        "SPECIALIZATION": 46,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 1.62699997425079,
+      "setupCpuMs": 0.24,
+      "time": 0.25
+    },
+    {
+      "distance": 0.768172355923525,
+      "focused": true,
+      "frame": 14,
+      "gpuMs": 4.08500003814697,
+      "ms": 25.032,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 47,
+        "SPECIALIZATION": 46,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 1.54799997806549,
+      "setupCpuMs": 0.349,
+      "time": 0.283333333333333
+    },
+    {
+      "distance": 6.9506726958328,
+      "focused": true,
+      "frame": 257,
+      "gpuMs": 3.00799989700317,
+      "ms": 19.463,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 54,
+        "SPECIALIZATION": 46,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.851999998092651,
+      "setupCpuMs": 0.22,
+      "time": 1.23333333333333
+    },
+    {
+      "distance": 7.67686703823244,
+      "focused": true,
+      "frame": 278,
+      "gpuMs": 3.03900003433228,
+      "ms": 18.493,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 59,
+        "SPECIALIZATION": 46,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.847000002861023,
+      "setupCpuMs": 0.219,
+      "time": 1.33333333333333
+    },
+    {
+      "distance": 215.498952387848,
+      "focused": true,
+      "frame": 7973,
+      "gpuMs": 3.05800008773804,
+      "ms": 146.519,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 59,
+        "SPECIALIZATION": 60,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.564999997615814,
+      "setupCpuMs": 0.17,
+      "time": 29.5499999999996
+    },
+    {
+      "distance": 215.744491364525,
+      "focused": true,
+      "frame": 7974,
+      "gpuMs": 2.8050000667572,
+      "ms": 21.59,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 59,
+        "SPECIALIZATION": 60,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.528999984264374,
+      "setupCpuMs": 0.305,
+      "time": 29.5833333333329
+    },
+    {
+      "distance": 217.831572666279,
+      "focused": true,
+      "frame": 7991,
+      "gpuMs": 2.82800006866455,
+      "ms": 32.363,
+      "pipelines": {
+        "CANVAS": 3,
+        "DRAW": 0,
+        "MESH": 59,
+        "SPECIALIZATION": 60,
+        "SURFACE": 77
+      },
+      "renderCpuMs": 0.666999995708466,
+      "setupCpuMs": 0.256,
+      "time": 29.8666666666663
+    }
+  ],
+  "slowMainTickThresholdMs": 4,
+  "slowMainTickCount": 0,
+  "streamSteps": [],
+  "placementProfiles": [],
+  "exitCode": 0,
+  "stderrEmpty": true,
+  "rawTrace": "test-results/godot-native/wasteland-travel-profile.json",
+  "scope": "One instrumented 30-second rotating-camera travel sample on the local RTX 3070. Includes startup. A 283.707 ms startup frame and a later 146.519 ms pause remain visible; no slow main ticks or scenery preparation steps were recorded. Does not establish general hardware performance or absence of stutter."
+}

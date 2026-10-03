@@ -1,0 +1,18 @@
+[
+  {
+    "originalMesh": "Secured_weatherproof_cargo_locker001_4",
+    "replacementMesh": "NativeCargoCables",
+    "shiftInboardM": 0.65,
+    "movedVertices": 79,
+    "unchangedVertices": 541,
+    "triangles": 1000
+  },
+  {
+    "originalMesh": "Suspended_undercarriage_reduction_gearbox001_5",
+    "replacementMesh": "NativeSideWiring",
+    "shiftInboardM": 0.45,
+    "movedVertices": 159,
+    "unchangedVertices": 1748,
+    "triangles": 2866
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "source": "godot/art/story-instruments.glb",
+  "removedByMesh": {
+    "ArchiveConsole_Instrument graphite": 28,
+    "ArchiveConsole_Preservation green": 96,
+    "SeedTerrarium Orchard_LeafVeins": 0,
+    "SeedTerrarium_Brushed edge alloy": 0,
+    "ArchiveConsole_Engraved ivory": 0,
+    "ArchiveConsole_Brushed edge alloy": 160,
+    "ArchiveConsole_Aged copper": 0,
+    "ArchiveConsole_Screen recess": 64,
+    "Cultivation substrate": 0,
+    "Preservation label": 0,
+    "Seed tray": 0,
+    "SeedTerrarium Orchard_LivingLeaves": 288,
+    "SeedTerrarium_Instrument graphite": 32,
+    "SeedTerrarium_Preservation green": 0
+  },
+  "areaThresholdM2": 1e-09,
+  "removedAreaM2": 1.3338597299871347e-08,
+  "sourceAreaM2": 4.442478398301425,
+  "bytes": 677012,
+  "removedTriangles": 668
+}

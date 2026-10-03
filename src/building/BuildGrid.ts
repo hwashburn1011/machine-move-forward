@@ -1,5 +1,5 @@
 import {
-  DECK_HEIGHT,
+  DECK_SURFACE_Y,
   GRID_LEVELS,
   GRID_MIN_LEVEL,
   GRID_MAX_X,
@@ -146,7 +146,7 @@ export function inEnvelope(c: Cell): boolean {
 export function cellCenter(c: Cell): { x: number; y: number; z: number } {
   return {
     x: c.x * GRID_TILE,
-    y: DECK_HEIGHT + c.y * LEVEL_HEIGHT,
+    y: DECK_SURFACE_Y + c.y * LEVEL_HEIGHT,
     z: c.z * GRID_TILE,
   };
 }

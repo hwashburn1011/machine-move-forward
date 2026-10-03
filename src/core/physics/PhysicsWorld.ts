@@ -53,6 +53,7 @@ export class PhysicsWorld {
   private readonly userData = new Map<number, unknown>();
   /** Bodies created by the single-box helpers are owned by their colliders. */
   private readonly boxBodies = new Set<number>();
+  private readonly drivenBodies = new Set<number>();
   private readonly scratchRay: RAPIER.Ray;
   private readonly cameraBall: RAPIER.Ball;
   private readonly queryRotation = { x: 0, y: 0, z: 0, w: 1 };
@@ -109,7 +110,9 @@ export class PhysicsWorld {
     if (rotation) {
       desc.setRotation({ x: rotation.x, y: rotation.y, z: rotation.z, w: rotation.w });
     }
-    return this.world.createRigidBody(desc);
+    const body = this.world.createRigidBody(desc);
+    this.drivenBodies.add(body.handle);
+    return body;
   }
 
   createKinematicBody(position?: THREE.Vector3, rotation?: THREE.Quaternion): RAPIER.RigidBody {
@@ -142,6 +145,10 @@ export class PhysicsWorld {
         w: localRotation.w,
       });
     }
+    // Explicitly posed, immovable hull parts cannot push one another. Exclude
+    // only these internal contacts; characters, ordinary bodies and queries
+    // retain their normal collision against every authored surface.
+    if (this.drivenBodies.has(body.handle)) desc.setCollisionGroups(0x0002fffd);
     const collider = this.world.createCollider(desc, body);
     if (userData !== undefined) this.setUserData(collider, userData);
     return collider;
@@ -154,10 +161,9 @@ export class PhysicsWorld {
     indices: Uint32Array,
     userData?: unknown,
   ): RAPIER.Collider {
-    const collider = this.world.createCollider(
-      RAPIER.ColliderDesc.trimesh(vertices, indices),
-      body,
-    );
+    const desc = RAPIER.ColliderDesc.trimesh(vertices, indices);
+    if (this.drivenBodies.has(body.handle)) desc.setCollisionGroups(0x0002fffd);
+    const collider = this.world.createCollider(desc, body);
     if (userData !== undefined) this.setUserData(collider, userData);
     return collider;
   }
@@ -552,12 +558,14 @@ export class PhysicsWorld {
   removeBody(body: RAPIER.RigidBody): void {
     for (let i = 0; i < body.numColliders(); i++) this.userData.delete(body.collider(i).handle);
     this.boxBodies.delete(body.handle);
+    this.drivenBodies.delete(body.handle);
     this.world.removeRigidBody(body);
   }
 
   dispose(): void {
     this.userData.clear();
     this.boxBodies.clear();
+    this.drivenBodies.clear();
     this.world.free();
   }
 }

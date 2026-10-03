@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { StaticMeshOcclusion } from '@/core/math/StaticMeshOcclusion';
 
 interface MaterialRecord {
   readonly clone: THREE.Material;
@@ -9,6 +10,7 @@ interface CandidateRecord {
   readonly originalMaterial: THREE.Material | THREE.Material[];
   readonly fadedMaterial: THREE.Material | THREE.Material[];
   readonly materials: MaterialRecord[];
+  readonly occlusion: StaticMeshOcclusion | null;
   blocked: boolean;
   clearFor: number;
   attached: boolean;
@@ -42,6 +44,7 @@ export class CameraClothFade {
           ? materials.map(({ clone }) => clone)
           : materials[0]!.clone,
         materials,
+        occlusion: StaticMeshOcclusion.create(mesh),
         blocked: false,
         clearFor: 0,
         attached: false,
@@ -163,6 +166,9 @@ export class CameraClothFade {
       this.direction.copy(camera.position).sub(this.sample);
       const distance = this.direction.length();
       if (distance <= 1e-5) continue;
+      const indexed = record.occlusion?.intersects(this.sample, camera.position);
+      if (indexed === true) return true;
+      if (indexed === false) continue;
       this.raycaster.set(this.sample, this.direction.normalize());
       this.raycaster.far = distance;
       this.hits.length = 0;

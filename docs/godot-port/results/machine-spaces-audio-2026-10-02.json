@@ -1,0 +1,2103 @@
+{
+  "date": "2026-10-02",
+  "status": "machine_spaces_audio_iteration_verified",
+  "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+  "asset_sha256": "aebf8f1aba3d7b551f0b1ae6f1ab4d1247f57fab4605b109d19ce6ee371310e5",
+  "plan": "docs/superpowers/plans/2026-10-02-machine-spaces-audio.md",
+  "guide": "docs/godot-port/machine-spaces-audio.md",
+  "scope": [
+    "Sparse purposeful fixed dressing and permanent-deck building",
+    "Three guided recovered-machine connections, refined authored models and working freight clearance",
+    "Lower gunfire, intermittent original music and physical enemy cues",
+    "Quiet, persistent story/activity records and equipment-specific wrist feedback"
+  ],
+  "regressions": {
+    "suites": 36,
+    "checks": 11391,
+    "results": [
+      {
+        "suite": "campaign_flow",
+        "exit_code": 0,
+        "checks": 26,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/campaign_flow-output.txt"
+      },
+      {
+        "suite": "objective_guidance",
+        "exit_code": 0,
+        "checks": 98,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/objective_guidance-output.txt"
+      },
+      {
+        "suite": "nomad_personalization",
+        "exit_code": 0,
+        "checks": 7472,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-corrected/nomad_personalization-output.txt"
+      },
+      {
+        "suite": "enemy_tells",
+        "exit_code": 0,
+        "checks": 63,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/enemy_tells-output.txt"
+      },
+      {
+        "suite": "cordon_guardian",
+        "exit_code": 0,
+        "checks": 70,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/cordon_guardian-output.txt"
+      },
+      {
+        "suite": "construction_usability",
+        "exit_code": 0,
+        "checks": 99,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/construction_usability-output.txt"
+      },
+      {
+        "suite": "art100_decor",
+        "exit_code": 0,
+        "checks": 678,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/art100_decor-output.txt"
+      },
+      {
+        "suite": "art200_decor",
+        "exit_code": 0,
+        "checks": 757,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/art200_decor-output.txt"
+      },
+      {
+        "suite": "beta_salvage",
+        "exit_code": 0,
+        "checks": 32,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/beta_salvage-output.txt"
+      },
+      {
+        "suite": "beta_salvage_edges",
+        "exit_code": 0,
+        "checks": 8,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/beta_salvage_edges-output.txt"
+      },
+      {
+        "suite": "controls_interactions",
+        "exit_code": 0,
+        "checks": 66,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/controls_interactions-output.txt"
+      },
+      {
+        "suite": "narrative_delivery",
+        "exit_code": 0,
+        "checks": 183,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/narrative_delivery-output.txt"
+      },
+      {
+        "suite": "narrative_edge_cases",
+        "exit_code": 0,
+        "checks": 47,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-corrected/narrative_edge_cases-output.txt"
+      },
+      {
+        "suite": "pacing_contracts",
+        "exit_code": 0,
+        "checks": 25,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/pacing_contracts-output.txt"
+      },
+      {
+        "suite": "story_polish",
+        "exit_code": 0,
+        "checks": 76,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/story_polish-output.txt"
+      },
+      {
+        "suite": "playtest_checkpoints",
+        "exit_code": 0,
+        "checks": 455,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/playtest_checkpoints-output.txt"
+      },
+      {
+        "suite": "later_expeditions",
+        "exit_code": 0,
+        "checks": 88,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/later_expeditions-output.txt"
+      },
+      {
+        "suite": "recovery_operations",
+        "exit_code": 0,
+        "checks": 98,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/recovery_operations-output.txt"
+      },
+      {
+        "suite": "integration",
+        "exit_code": 0,
+        "checks": 115,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/integration-output.txt"
+      },
+      {
+        "suite": "autosave_worker",
+        "exit_code": 0,
+        "checks": 31,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/autosave_worker-output.txt"
+      },
+      {
+        "suite": "compiled_machine",
+        "exit_code": 0,
+        "checks": 26,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-corrected/compiled_machine-output.txt"
+      },
+      {
+        "suite": "encounter_loading",
+        "exit_code": 0,
+        "checks": 43,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/encounter_loading-output.txt"
+      },
+      {
+        "suite": "enemy_equipment",
+        "exit_code": 0,
+        "checks": 151,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/enemy_equipment-output.txt"
+      },
+      {
+        "suite": "character_refinement",
+        "exit_code": 0,
+        "checks": 167,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/character_refinement-output.txt"
+      },
+      {
+        "suite": "audio_lifecycle",
+        "exit_code": 0,
+        "checks": 58,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/audio_lifecycle-output.txt"
+      },
+      {
+        "suite": "playtest_recorder",
+        "exit_code": 0,
+        "checks": 22,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/playtest_recorder-output.txt"
+      },
+      {
+        "suite": "scenery_streaming_checks",
+        "exit_code": 0,
+        "checks": 18,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/scenery_streaming_checks-output.txt"
+      },
+      {
+        "suite": "quiet_wrist",
+        "exit_code": 0,
+        "checks": 32,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/quiet_wrist-output.txt"
+      },
+      {
+        "suite": "construction_spaces",
+        "exit_code": 0,
+        "checks": 41,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/construction_spaces-output.txt"
+      },
+      {
+        "suite": "machine_composition",
+        "exit_code": 0,
+        "checks": 122,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/machine_composition-output.txt"
+      },
+      {
+        "suite": "recovered_module_models",
+        "exit_code": 0,
+        "checks": 61,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/recovered_module_models-output.txt"
+      },
+      {
+        "suite": "ambient_music",
+        "exit_code": 0,
+        "checks": 24,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/ambient_music-output.txt"
+      },
+      {
+        "suite": "survivor_content",
+        "exit_code": 0,
+        "checks": 40,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-final/survivor_content-output.txt"
+      },
+      {
+        "suite": "scout_escape",
+        "exit_code": 0,
+        "checks": 48,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-corrected/scout_escape-output.txt"
+      },
+      {
+        "suite": "enemy_combat_contract",
+        "exit_code": 0,
+        "checks": 42,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-corrected/enemy_combat_contract-output.txt"
+      },
+      {
+        "suite": "construction_crane_delivery",
+        "exit_code": 0,
+        "checks": 9,
+        "failures": [],
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "diagnostics": [],
+        "evidence": "test-results/deck-audio/regressions-corrected/construction_crane_delivery-output.txt",
+        "count_source": "Four complete ground pickup/transfer cases plus five obstacle, dune, parking and compatibility contracts."
+      }
+    ],
+    "alternate_compiled_spaces": {
+      "suite": "construction_spaces",
+      "exit_code": 0,
+      "checks": 41,
+      "failures": [],
+      "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+      "source_hash_end": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe"
+    },
+    "offline_audio_checks": 39,
+    "failures": [],
+    "engine_diagnostics": []
+  },
+  "initial_diagnostics": {
+    "retained": [
+      "regressions-initial",
+      "regressions-final",
+      "construction-regression-01",
+      "freight-preflight-hazard-diagnostic.log",
+      "crane-ground-delivery-before.json",
+      "performance-furnished-diagnostic"
+    ],
+    "resolved": [
+      "Old synchronous placement/undo fixtures now await actual readiness.",
+      "Failed action atomicity checks preserve all gameplay state and verify the intentional local receipt.",
+      "Narrative test shutdown defers quit until suspended fixture references unwind.",
+      "Scout scheduling asserts silence plus actual arrival instead of a retired advance warning.",
+      "Final Blender export required a final compiled-source manifest refresh.",
+      "Misspelled combat_contract invocation replaced by the real enemy_combat_contract suite.",
+      "Freight fixture uses legal inventory capacity; low-dune cables now ignore only the flat safety proxy and test actual dune height.",
+      "The obsolete exterior grid accepted only35/50 pieces under access rules; final furnishing stress validates all50 on the three permanent decks."
+    ]
+  },
+  "visuals": {
+    "native_views": 59,
+    "human_acceptance": false,
+    "inspection": {
+      "passed": true,
+      "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+      "human_acceptance": false,
+      "reviewer": "Root agent with art100_machine model/composition review",
+      "method": "Inspected native deck, connection, recovered-module and combat contact sheets, plus full-size fairlead, field, log, local receipt, build and helm captures. Authoring agent inspected each of the31 composition/module views. Automated wrist tests exercised32 behavior contracts at two native resolutions.",
+      "observations": [
+        "Upper supply cluster, paired middle maintenance equipment and single lower supply chest have deliberate clear surrounding floor; stairs and connection approaches remain readable.",
+        "D1/D2/D3 physical plates and installed modules align with the deck. Service controls face the approach, and folded legacy crane and deployed D3 mode are distinct.",
+        "Deployed crane cable reaches the outboard sheave; actual visible grounded cargo catches, lifts and transfers completely without hull occlusion.",
+        "Combat retains ground danger marks, committed directions, exposed hardware and health bars without the former floating command captions or central approach banner.",
+        "Wrist personal log and full local receipts fit the physical S07 terminal. Equipment/build panels carry matching source labels. At1200x675 navigation, scrollable content and inline failure feedback remain visible.",
+        "The ordinary field view has wrist-link status and nearby controls without unsolicited task/transmission/toast text."
+      ],
+      "limits": [
+        "Controlled native fixture cameras and paused combat states do not constitute natural-play comprehension or difficulty acceptance.",
+        "Audio assets were numerically analyzed; no claim of human listening approval."
+      ],
+      "image_sha256": {
+        "test-results/deck-audio/native/composition-connections-sheet.png": "3ebef6cc21d5734d028dac5fdd6a0b4fbee5b2f500453a72f0bef01952d73140",
+        "test-results/deck-audio/native/composition-decks-sheet.png": "b51b37cb699b3d8e38a589764ee09adc9e53ba3cf30f68d0e11b7f17b3266e79",
+        "test-results/deck-audio/native/connection-detail-battery-bank.png": "78362e2bda17c9210d656fe3865b4c0e9df258f677abba0c0ec005b71c1b9f7e",
+        "test-results/deck-audio/native/connection-detail-quiet-drive.png": "74ae0d05f36135db5f197bcf16547c913b0d13877648e67b2469930ed4e8cc07",
+        "test-results/deck-audio/native/connection-detail-salvage-crane.png": "7b01bd10757cd999859a5275a447a407f7fa6b09b20142443e2bd0f15dc732fa",
+        "test-results/deck-audio/native/connection-empty-battery-bank.png": "637563742856fe80574e473b634d82894e4ffa462bf44db388583cd6efb8f99a",
+        "test-results/deck-audio/native/connection-empty-quiet-drive.png": "cbcf41e97355f369c55b71f542312c11867827cf385cfbfe9baeb497000a5ece",
+        "test-results/deck-audio/native/connection-empty-salvage-crane.png": "a65cd59749ffc5a011efc86768e6312201f7215527e37e89e6160b69d2410030",
+        "test-results/deck-audio/native/connection-fixture-battery-bank.png": "0a6312e0fc53d8b4bc05ca55f9b7a2053d4099be90ba1e9e351d0f6adee7f59e",
+        "test-results/deck-audio/native/connection-fixture-quiet-drive.png": "ec6b9b0b425d575e3766ce7c4bed3a264e8b8496ba5345e397004fd6b2caa580",
+        "test-results/deck-audio/native/connection-fixture-salvage-crane.png": "efd3409e510069b100e4f20b4f18b782b3fa9d74cc7ace95308031d481cc8a27",
+        "test-results/deck-audio/native/lower-aft.png": "f7c63a644f85dc5fde81fdb002b941bb8bf0a3a7c6cb197ebe2fcf61fbf6f033",
+        "test-results/deck-audio/native/lower-forward.png": "846dfb080fc20f3149d5f59e057be7e05cc8a14f86af2da4a1096ea6ba445940",
+        "test-results/deck-audio/native/machine-overall.png": "fb3ea218afb66f8f6f7a51d974a0d6c029fdefecd47a866332d1e9fa4587a61f",
+        "test-results/deck-audio/native/middle-aft.png": "78fe9661065bd8e108e9350797bc9824a0d20b0ded7507815d66226e0f8e5c17",
+        "test-results/deck-audio/native/middle-forward.png": "027553349d7afeab090d52b6a7365c0b23e8467a082a4719ae8e83cb95fdc694",
+        "test-results/deck-audio/native/upgraded-machine-overall.png": "fd76af36bb8515a902a4f3f84b778559ee953914b3d873d83b0035e01ce251f2",
+        "test-results/deck-audio/native/upper-aft.png": "d34a1c3e56ddee0b900cd7a761b118931bf78c25b730a26a158f0fa4baf36707",
+        "test-results/deck-audio/native/upper-forward.png": "5abc32fce0588e31644d8bd022c83c81736b0df59ee82be3ee49e5b01d84c64b",
+        "test-results/deck-audio/native-recovered/battery-bank-context.png": "f28b24ca8cbb682f92526566126b1fec78d916e4eb2892088e59b6a2c8db98d9",
+        "test-results/deck-audio/native-recovered/battery-bank-reverse.png": "b0042e03dabe749bd535b2f8662c6dc15aa744dd3275b6b7d9e2380d0168b8f8",
+        "test-results/deck-audio/native-recovered/battery-bank-service.png": "634d5b453ec3149107d1163010267019632d07ee8da527b971986dcb6b357954",
+        "test-results/deck-audio/native-recovered/quiet-drive-context.png": "2e20a041fb4fe0312f7840989cabd901da8d634174c6554a68b3c873c93405d2",
+        "test-results/deck-audio/native-recovered/quiet-drive-reverse.png": "3d538ddace5d9f81efe03a6d13fe62eef7c479cd1342fa010f8b7804bfbe43d7",
+        "test-results/deck-audio/native-recovered/quiet-drive-service.png": "23442e6849a2d0468e7632b28674f4d7a1651a97965420d2aee7cfba6d85d0d7",
+        "test-results/deck-audio/native-recovered/recovered-modules-sheet.png": "a927d6f0f3db419983f74b3531d05d74a861d813bde584d34c719f88d46721cd",
+        "test-results/deck-audio/native-recovered/salvage-crane-context.png": "59550b8c3127b31161b48e1ef23e66391ecd183d7aedd48faf8fa01441b14f23",
+        "test-results/deck-audio/native-recovered/salvage-crane-deployed-jib.png": "9c7cf0efde29ee1f4151c873b74bb88e095c71c41b95f968590f2d81c22b656b",
+        "test-results/deck-audio/native-recovered/salvage-crane-ground-catch.png": "51b35c43b9a82f4cbfc0ef379e751eb4b89518a87d1a69b0c78ab936ccb944f4",
+        "test-results/deck-audio/native-recovered/salvage-crane-legacy-folded.png": "66b0c51d626d6270848761826df0725b97e0b9a349828dd5c4232dffe6f064a6",
+        "test-results/deck-audio/native-recovered/salvage-crane-live-fairlead.png": "f4acfec31d32ba81661ed5cce17d55a3289291295ce412a47b8be433e07af234",
+        "test-results/deck-audio/native-recovered/salvage-crane-mid-hoist.png": "9c08b07fbdf574b63269cd30e94c26ef48c0fd066e1b3269cb64400fdc9a6ecf",
+        "test-results/deck-audio/native-recovered/salvage-crane-outboard.png": "fa26eab195eff2151b645fc89c17b3d19ec3f3cca02a2734104c5e233153d65f",
+        "test-results/deck-audio/native-recovered/salvage-crane-service.png": "e0e46e14b118f0481745b28d3ce11656b4710bd8cf762e2c1caaddb9fe38c576",
+        "test-results/deck-audio/wrist/build-1200.png": "003d44328c80283ed863ea388090dd65032caf5aa1067b1bd682d9ff4c9e6cfc",
+        "test-results/deck-audio/wrist/build-1440.png": "48f918d5ff9162c7810f300a250a851d625bc28b1c3c124d5b8b64fb9a0a20ca",
+        "test-results/deck-audio/wrist/field-1440.png": "6f05c10ac5c886c6ed6e26ea4d6f173783cddf85b977215484e8c1c6a63c909a",
+        "test-results/deck-audio/wrist/helm-1200.png": "91057c5becbb96413dbe89e34783cedf60b20fc84a41be8eb404d55181a32e72",
+        "test-results/deck-audio/wrist/helm-1440.png": "dad8ff35b716b1f673e3bb54f17f8a6f6d6cf9c8c89972eb3ac56596066a374e",
+        "test-results/deck-audio/wrist/log-1200.png": "02ffeda3d149eb6b8ccfea7b775dbf0f5a02288d23ae955b11e7945afd8855e2",
+        "test-results/deck-audio/wrist/log-1440.png": "c6c7d8ad3c09a2bf9eb99ed6c3cc5dc0e34b56ba3743eb17b1398754c73dc599",
+        "test-results/deck-audio/wrist/receipt-1440.png": "10e015980ec450cba35bc2d7b4e711724b4a99cb41e114f97d5c22da077a1c1c",
+        "test-results/deck-audio/combat-native/01-gatekeeper-lock.png": "b7a1c6d3db712c6d3e05172465d6ee218a951923b5d62a50c9ff751ca6ca0847",
+        "test-results/deck-audio/combat-native/02-g01-complete-carrier.png": "c2f5254d21388676e3b882cdf59a21a8379f7eb32591af8145e3b56497cee7df",
+        "test-results/deck-audio/combat-native/03-g01-identity-and-relay.png": "203344d46d47b966714eb45b52f6443d08cd21cbbef94d05af8830596512b5d5",
+        "test-results/deck-audio/combat-native/04-fire-control-armored.png": "592cf18054b40418be03f4a8cde97a393a27b7900b4967342ff7108ec80529b6",
+        "test-results/deck-audio/combat-native/05-line-fixed-ground-marks.png": "862314c4a03a3d81549737a91cfb0ceb8edd762a0864419fdeb82bf6f5608da3",
+        "test-results/deck-audio/combat-native/06-cooling-counterattack.png": "f4095fb2fe46c90382578af0e8b060f94019ed4bb98b3c0d9c5a12fbfc20daa4",
+        "test-results/deck-audio/combat-native/07-fire-control-shutters-open.png": "6be6386d8d009eb495a146f122008ab4825e2ec02b3270ef028138558356fac7",
+        "test-results/deck-audio/combat-native/08-cross-pattern-warning.png": "52deb4d9b6916c78f19c0658a52826eb27fb455fefb75e20608c08a802a1048e",
+        "test-results/deck-audio/combat-native/09-cross-fixed-ground-marks.png": "fbfc61f1c01acb43fd4c3ef7f0ec1173b6f58295b6d7e58248b15629901d1054",
+        "test-results/deck-audio/combat-native/10-cross-extended-cooling.png": "f4095fb2fe46c90382578af0e8b060f94019ed4bb98b3c0d9c5a12fbfc20daa4",
+        "test-results/deck-audio/combat-native/contact.png": "1e8b81450e10fe9ffa6d04f834d421b974cfdf2539f7915f5de7393956354665",
+        "test-results/deck-audio/combat-native/enemy-bastion-burst_lock.png": "9706e9ed282e78817b8fcce1ff56765c7d70d6fae0105529fefe026c79eeb79b",
+        "test-results/deck-audio/combat-native/enemy-bastion-vent.png": "a4d550ff1fac428fb475be1fccbef476af78d74ddfc3aff2fa11cf7fd541f7e1",
+        "test-results/deck-audio/combat-native/enemy-raider-sabotage.png": "ed34e14178ce2e00b4eeee798fb9efa724ae6c111858144d912677321225944e",
+        "test-results/deck-audio/combat-native/enemy-revenant-blade_commit.png": "252374963eb57c08c38bb4ff80dc8a49e214cd2053aca8c45ef00b460fc23e32",
+        "test-results/deck-audio/combat-native/enemy-revenant-blade_recover.png": "6eb82eb85fce39ddf6fdc3dd2771e57eec9ca92cf96c022a375cbfaa6a5ba550",
+        "test-results/deck-audio/combat-native/enemy-scavenger-closing.png": "606a9d0dc8876ba259c7b7de32979f8b0224be5355c3ed919f0bd7ce6e3d3595",
+        "test-results/deck-audio/combat-native/enemy-sovereign-relay_broken.png": "8f34149e309a19b31ca981b4f56a2e455af69bad71883e7ddc68859a5c6d5479",
+        "test-results/deck-audio/combat-native/enemy-sovereign-relay_lock.png": "fbdd5826e4edb0d4bd0a2ad46fb371e68c75eea148df8c5444264dc95ede17ed",
+        "test-results/deck-audio/combat-native/enemy-sovereign-shield_relay.png": "aa462c461bc08c5ed3c9030d3451af21146d461c0f7945cf20a1942a9232e136",
+        "test-results/deck-audio/combat-native/enemy-warden-rifle_lock.png": "c8dd272902453f12d5cba89b76cf43541aa5ba76efa8a60008f204fa016961b6"
+      }
+    },
+    "composition": "test-results/deck-audio/composition-visual-closure.json",
+    "modules": "test-results/deck-audio/recovered-module-visual-closure.json",
+    "wrist": "test-results/deck-audio/wrist/report.json",
+    "combat": "test-results/deck-audio/combat-native/review.json"
+  },
+  "audio": {
+    "signal_validation": "assets/deck-audio/signal-validation.json",
+    "weapon_peak_reduction_db": [
+      7.641765204448584,
+      8.463029905504577
+    ],
+    "music": "Three original finite phrases; 45s initial calm, 90/125/160s silent intervals, 4s fade envelope, separate volume.",
+    "listening_acceptance": false
+  },
+  "performance": {
+    "hardware": {
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan / 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0
+    },
+    "workloads": [
+      {
+        "scenario": "travel",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 9.568,
+          "median": 3.748,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.153,
+          "p99": 6.789,
+          "samples": 4637
+        },
+        "gpu_ms": {
+          "max": 4.53299999237061,
+          "median": 3.21700000762939,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.76500010490417,
+          "p99": 3.97300004959106,
+          "samples": 4637
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 855.0,
+        "passed": true
+      },
+      {
+        "scenario": "construction",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 37.209,
+          "median": 3.964,
+          "over33ms": 1,
+          "over50ms": 0,
+          "p95": 6.764,
+          "p99": 7.675,
+          "samples": 4132
+        },
+        "gpu_ms": {
+          "max": 4.96400022506714,
+          "median": 3.75999999046326,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.29300022125244,
+          "p99": 4.61399984359741,
+          "samples": 4132
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 1191.0,
+        "passed": true
+      },
+      {
+        "scenario": "furnished",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 8.862,
+          "median": 3.591,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.815,
+          "p99": 6.279,
+          "samples": 4600
+        },
+        "gpu_ms": {
+          "max": 4.44600009918213,
+          "median": 3.23499989509583,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.75500011444092,
+          "p99": 3.95600008964539,
+          "samples": 4600
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 932.0,
+        "passed": true
+      },
+      {
+        "scenario": "combat",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 10.021,
+          "median": 3.777,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 7.183,
+          "p99": 7.788,
+          "samples": 3971
+        },
+        "gpu_ms": {
+          "max": 4.8769998550415,
+          "median": 3.41000008583069,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.07000017166138,
+          "p99": 4.33500003814697,
+          "samples": 3971
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 1008.0,
+        "passed": true
+      },
+      {
+        "scenario": "guardian",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 11.631,
+          "median": 3.529,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.42,
+          "p99": 7.113,
+          "samples": 4765
+        },
+        "gpu_ms": {
+          "max": 4.08900022506714,
+          "median": 3.06500005722046,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.55800008773804,
+          "p99": 3.76099991798401,
+          "samples": 4765
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 818.0,
+        "passed": true
+      },
+      {
+        "scenario": "crane",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 7.508,
+          "median": 3.353,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.878,
+          "p99": 6.08,
+          "samples": 5102
+        },
+        "gpu_ms": {
+          "max": 3.94400000572205,
+          "median": 2.89499998092651,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.3510000705719,
+          "p99": 3.44099998474121,
+          "samples": 5102
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 904.0,
+        "passed": true
+      },
+      {
+        "scenario": "drone",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 8.418,
+          "median": 3.479,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.816,
+          "p99": 5.717,
+          "samples": 4932
+        },
+        "gpu_ms": {
+          "max": 4.09899997711182,
+          "median": 3.02099990844727,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.48300004005432,
+          "p99": 3.59699988365173,
+          "samples": 4932
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 714.0,
+        "passed": true
+      },
+      {
+        "scenario": "wake",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 10.334,
+          "median": 4.74,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.477,
+          "p99": 7.322,
+          "samples": 3604
+        },
+        "gpu_ms": {
+          "max": 5.65500020980835,
+          "median": 4.29699993133545,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.90899991989136,
+          "p99": 5.23600006103516,
+          "samples": 3604
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 2014.0,
+        "passed": true
+      },
+      {
+        "scenario": "foundry",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 21.391,
+          "median": 5.097,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.641,
+          "p99": 7.649,
+          "samples": 3538
+        },
+        "gpu_ms": {
+          "max": 7.86899995803833,
+          "median": 4.37900018692017,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.00299978256226,
+          "p99": 5.36299991607666,
+          "samples": 3538
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 2028.0,
+        "passed": true
+      },
+      {
+        "scenario": "array",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 8.745,
+          "median": 4.586,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.867,
+          "p99": 7.284,
+          "samples": 3587
+        },
+        "gpu_ms": {
+          "max": 5.60699987411499,
+          "median": 4.30499982833862,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.03700017929077,
+          "p99": 5.33500003814697,
+          "samples": 3587
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 1935.0,
+        "passed": true
+      },
+      {
+        "scenario": "orchard",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 9.022,
+          "median": 4.898,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.46,
+          "p99": 7.15,
+          "samples": 3506
+        },
+        "gpu_ms": {
+          "max": 5.96400022506714,
+          "median": 4.45800018310547,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.18300008773804,
+          "p99": 5.42899990081787,
+          "samples": 3506
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 2098.0,
+        "passed": true
+      },
+      {
+        "scenario": "meridian",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 9.421,
+          "median": 4.647,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.415,
+          "p99": 7.027,
+          "samples": 3621
+        },
+        "gpu_ms": {
+          "max": 5.86399984359741,
+          "median": 4.25299978256226,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.84999990463257,
+          "p99": 5.20699977874756,
+          "samples": 3621
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 2089.0,
+        "passed": true
+      },
+      {
+        "scenario": "berth",
+        "label": "deck-audio",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 29.381,
+          "median": 4.313,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.695,
+          "p99": 7.986,
+          "samples": 3739
+        },
+        "gpu_ms": {
+          "max": 5.41300010681152,
+          "median": 3.88899993896484,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.58400011062622,
+          "p99": 4.90199995040894,
+          "samples": 3739
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 2283.0,
+        "passed": true
+      },
+      {
+        "scenario": "guardian",
+        "label": "beta-escalated",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 10.788,
+          "median": 3.546,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.108,
+          "p99": 7.141,
+          "samples": 11285
+        },
+        "gpu_ms": {
+          "max": 6.94199991226196,
+          "median": 3.1949999332428,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.87899994850159,
+          "p99": 4.17999982833862,
+          "samples": 11285
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 975.0,
+        "passed": true
+      },
+      {
+        "scenario": "furnished",
+        "label": "connected-freight",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 12.569,
+          "median": 4.604,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.083,
+          "p99": 7.903,
+          "samples": 9282
+        },
+        "gpu_ms": {
+          "max": 5.47599983215332,
+          "median": 4.10500001907349,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.63399982452393,
+          "p99": 4.91300010681152,
+          "samples": 9282
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 1884.0,
+        "passed": true
+      },
+      {
+        "scenario": "furnished",
+        "label": "painted-home",
+        "exit_code": 0,
+        "diagnostics": [],
+        "report_present": true,
+        "source_stable": true,
+        "asset_stat_stable": true,
+        "frame_ms": {
+          "max": 12.774,
+          "median": 3.587,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.925,
+          "p99": 6.903,
+          "samples": 44953
+        },
+        "gpu_ms": {
+          "max": 4.59700012207031,
+          "median": 3.22000002861023,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.82399988174438,
+          "p99": 4.06599998474121,
+          "samples": 44953
+        },
+        "source_hash": "f9bdad6ea812eb4be20fb281e85337106a207a0a0a73d44ac55c7c8659544bbe",
+        "draw_calls": 1067.0,
+        "passed": true
+      }
+    ],
+    "historical_comparison": [
+      {
+        "scenario": "travel",
+        "prior_p95_ms": 5.123,
+        "current_p95_ms": 5.153,
+        "p95_delta_ms": 0.03,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "construction",
+        "prior_p95_ms": 6.615,
+        "current_p95_ms": 6.764,
+        "p95_delta_ms": 0.149,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "furnished",
+        "prior_p95_ms": 5.528,
+        "current_p95_ms": 5.815,
+        "p95_delta_ms": 0.287,
+        "fixture_note": "Fifty furnishings now use all three permanent decks; earlier exterior arrangement is not directly comparable."
+      },
+      {
+        "scenario": "combat",
+        "prior_p95_ms": 7.642,
+        "current_p95_ms": 7.183,
+        "p95_delta_ms": -0.459,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "guardian",
+        "prior_p95_ms": 5.479,
+        "current_p95_ms": 5.42,
+        "p95_delta_ms": -0.059,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "crane",
+        "prior_p95_ms": 6.312,
+        "current_p95_ms": 4.878,
+        "p95_delta_ms": -1.434,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "drone",
+        "prior_p95_ms": 6.173,
+        "current_p95_ms": 4.816,
+        "p95_delta_ms": -1.357,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "wake",
+        "prior_p95_ms": 7.953,
+        "current_p95_ms": 6.477,
+        "p95_delta_ms": -1.476,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "foundry",
+        "prior_p95_ms": 7.77,
+        "current_p95_ms": 6.641,
+        "p95_delta_ms": -1.129,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "array",
+        "prior_p95_ms": 7.979,
+        "current_p95_ms": 6.867,
+        "p95_delta_ms": -1.112,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "orchard",
+        "prior_p95_ms": 8.152,
+        "current_p95_ms": 6.46,
+        "p95_delta_ms": -1.692,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "meridian",
+        "prior_p95_ms": 8.083,
+        "current_p95_ms": 6.415,
+        "p95_delta_ms": -1.668,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      },
+      {
+        "scenario": "berth",
+        "prior_p95_ms": 6.773,
+        "current_p95_ms": 6.695,
+        "p95_delta_ms": -0.078,
+        "fixture_note": "Same scripted scenario, updated game assets and rules."
+      }
+    ],
+    "painted_home": {
+      "metrics": {
+        "draw_calls": {
+          "max": 2609.0,
+          "median": 1067.0,
+          "p95": 2421.0,
+          "p99": 2547.0,
+          "samples": 44953
+        },
+        "frame_ms": {
+          "max": 12.774,
+          "median": 3.587,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 5.925,
+          "p99": 6.903,
+          "samples": 44953
+        },
+        "gpu_ms": {
+          "max": 4.59700012207031,
+          "median": 3.22000002861023,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.82399988174438,
+          "p99": 4.06599998474121,
+          "samples": 44953
+        },
+        "primitives": {
+          "max": 5198325.0,
+          "median": 2924752.0,
+          "p95": 4989729.0,
+          "p99": 5122109.0,
+          "samples": 44953
+        },
+        "render_cpu_ms": {
+          "max": 4.21199989318848,
+          "median": 1.05400002002716,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 1.76499998569489,
+          "p99": 2.02999997138977,
+          "samples": 44953
+        },
+        "static_memory_bytes": {
+          "max": 311244668.0,
+          "median": 301924576.0,
+          "p95": 308856768.0,
+          "p99": 309863936.0,
+          "samples": 44953
+        },
+        "video_memory_bytes": {
+          "max": 2225219120.0,
+          "median": 2225218544.0,
+          "p95": 2225219120.0,
+          "p99": 2225219120.0,
+          "samples": 44953
+        }
+      },
+      "workload": {
+        "audio_node_count": 46,
+        "dock_cells": [
+          {
+            "x": 3,
+            "y": 0,
+            "z": -6
+          },
+          {
+            "x": -3,
+            "y": 0,
+            "z": -6
+          },
+          {
+            "x": 5,
+            "y": 0,
+            "z": -6
+          }
+        ],
+        "docks": 3,
+        "kind": "painted_home_three_drones",
+        "music_starts": 2,
+        "music_state": "playing",
+        "native_deck_only": true,
+        "painted_pieces": 52,
+        "phase_samples": {
+          "home": 1,
+          "idle": 41,
+          "land": 1,
+          "launch": 1,
+          "lower": 5,
+          "out": 2,
+          "raise": 3
+        },
+        "placed": [
+          {
+            "cell": {
+              "x": -3,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "generator",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 3,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-tool-drawers",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": -1,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-service-cart",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": 1,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-field-chair",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": 0,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-sleeping-berth",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": -4,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-radio-cabinet",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 4,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-repair-trestle",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": -2,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-parts-organizer",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": 2,
+              "y": -2,
+              "z": -6
+            },
+            "definitionId": "nomad-charging-cabinet",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": -3,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-expedition-trunk",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 3,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-archive-vitrine",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": -1,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-chart-desk",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": 1,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-survey-floodlight",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": 0,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-machinist-lamp",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": -4,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-coat-rack",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": 4,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-cable-reel",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": -2,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-boots-locker",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": 2,
+              "y": -2,
+              "z": 6
+            },
+            "definitionId": "nomad-galley-sideboard",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 3,
+              "y": -1,
+              "z": -6
+            },
+            "definitionId": "nomad-ceramic-basin",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": -1,
+              "y": -1,
+              "z": -6
+            },
+            "definitionId": "nomad-navigation-stool",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": 1,
+              "y": -1,
+              "z": -6
+            },
+            "definitionId": "nomad-patchwork-bench",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": 0,
+              "y": -1,
+              "z": -6
+            },
+            "definitionId": "nomad-spare-track-stand",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 4,
+              "y": -1,
+              "z": -6
+            },
+            "definitionId": "nomad-air-filter-tower",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": 2,
+              "y": -1,
+              "z": -6
+            },
+            "definitionId": "nomad-canister-caddy",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": -3,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad-signal-pennant",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": 3,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad-memory-board",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": -1,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad2-card-table",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": 1,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad2-instrument-bench",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": 0,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad2-privacy-screen",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": -4,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad2-book-cabinet",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 4,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad2-ration-pantry",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": -2,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad2-folding-lounge",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": 2,
+              "y": -1,
+              "z": 6
+            },
+            "definitionId": "nomad2-microscope-bench",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": -5,
+              "y": -1,
+              "z": -4
+            },
+            "definitionId": "nomad2-paint-trolley",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 5,
+              "y": -1,
+              "z": -4
+            },
+            "definitionId": "nomad2-air-return-duct",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": -3,
+              "y": -1,
+              "z": -4
+            },
+            "definitionId": "nomad2-sewing-station",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": -5,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-record-console",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": -1,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-typewriter-desk",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-clock-rack",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": 0,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-tile-mural",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": -4,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-observation-seat",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": 4,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-chess-pedestal",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": -2,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-exercise-rack",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": 2,
+              "y": 0,
+              "z": -6
+            },
+            "definitionId": "nomad2-boot-care-stand",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": -5,
+              "y": 0,
+              "z": 6
+            },
+            "definitionId": "nomad2-botanical-belljar",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": 5,
+              "y": 0,
+              "z": 6
+            },
+            "definitionId": "nomad2-map-roll-rack",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 3,
+              "y": 0,
+              "z": 6
+            },
+            "definitionId": "nomad2-shade-awning",
+            "rotation": 1
+          },
+          {
+            "cell": {
+              "x": -1,
+              "y": 0,
+              "z": 6
+            },
+            "definitionId": "nomad2-bagatelle-table",
+            "rotation": 2
+          },
+          {
+            "cell": {
+              "x": 1,
+              "y": 0,
+              "z": 6
+            },
+            "definitionId": "nomad2-laundry-drum",
+            "rotation": 3
+          },
+          {
+            "cell": {
+              "x": 0,
+              "y": 0,
+              "z": 6
+            },
+            "definitionId": "nomad2-rotary-fan",
+            "rotation": 0
+          },
+          {
+            "cell": {
+              "x": 4,
+              "y": 0,
+              "z": 6
+            },
+            "definitionId": "nomad2-arrival-bell",
+            "rotation": 1
+          }
+        ],
+        "received_items": 506,
+        "received_per_dock": {
+          "bp-6": 0,
+          "bp-7": 196,
+          "bp-8": 338
+        },
+        "samples": [
+          {
+            "chunks": 27,
+            "collision_cache": 3,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 84.2210000000014,
+            "received_items": 0,
+            "seconds": 0.0,
+            "static_bytes": 247890910.0,
+            "video_bytes": 2225204432.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 5,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "lower"
+            ],
+            "fuel": 82.6570000000051,
+            "received_items": 0,
+            "seconds": 10.00307,
+            "static_bytes": 252711940.0,
+            "video_bytes": 2225219120.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 8,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "out"
+            ],
+            "fuel": 81.4570000000079,
+            "received_items": 35,
+            "seconds": 20.005992,
+            "static_bytes": 257486878.0,
+            "video_bytes": 2225219056.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 12,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 80.2570000000107,
+            "received_items": 77,
+            "seconds": 30.006236,
+            "static_bytes": 274243196.0,
+            "video_bytes": 2225219120.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 15,
+            "drone_phases": [
+              "idle",
+              "raise",
+              "idle"
+            ],
+            "fuel": 79.0570000000135,
+            "received_items": 77,
+            "seconds": 40.007558,
+            "static_bytes": 278407956.0,
+            "video_bytes": 2225218992.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 19,
+            "drone_phases": [
+              "idle",
+              "lower",
+              "idle"
+            ],
+            "fuel": 77.8570000000163,
+            "received_items": 117,
+            "seconds": 50.010903,
+            "static_bytes": 284277014.0,
+            "video_bytes": 2225218736.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 22,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 76.6550000000191,
+            "received_items": 158,
+            "seconds": 60.014279,
+            "static_bytes": 288181182.0,
+            "video_bytes": 2225218608.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 28,
+            "drone_phases": [
+              "idle",
+              "raise",
+              "idle"
+            ],
+            "fuel": 75.4550000000219,
+            "received_items": 158,
+            "seconds": 70.016438,
+            "static_bytes": 293224876.0,
+            "video_bytes": 2225218544.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 30,
+            "drone_phases": [
+              "idle",
+              "raise",
+              "idle"
+            ],
+            "fuel": 74.2550000000247,
+            "received_items": 192,
+            "seconds": 80.01689,
+            "static_bytes": 302618048.0,
+            "video_bytes": 2225218608.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "lower"
+            ],
+            "fuel": 73.0550000000274,
+            "received_items": 227,
+            "seconds": 90.01873,
+            "static_bytes": 304051054.0,
+            "video_bytes": 2225218352.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 71.8550000000302,
+            "received_items": 276,
+            "seconds": 100.021074,
+            "static_bytes": 306700434.0,
+            "video_bytes": 2225218288.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "land"
+            ],
+            "fuel": 70.655000000033,
+            "received_items": 276,
+            "seconds": 110.022301,
+            "static_bytes": 305514014.0,
+            "video_bytes": 2225218224.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "lower"
+            ],
+            "fuel": 69.4550000000358,
+            "received_items": 326,
+            "seconds": 120.02577,
+            "static_bytes": 308706072.0,
+            "video_bytes": 2225218288.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "out",
+              "idle"
+            ],
+            "fuel": 68.2550000000386,
+            "received_items": 373,
+            "seconds": 130.027537,
+            "static_bytes": 308849400.0,
+            "video_bytes": 2225218288.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "idle"
+            ],
+            "fuel": 67.0530000000414,
+            "received_items": 419,
+            "seconds": 140.032386,
+            "static_bytes": 304839340.0,
+            "video_bytes": 2225218480.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "home"
+            ],
+            "fuel": 65.8530000000442,
+            "received_items": 419,
+            "seconds": 150.034959,
+            "static_bytes": 301921460.0,
+            "video_bytes": 2225218672.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "lower"
+            ],
+            "fuel": 64.653000000047,
+            "received_items": 466,
+            "seconds": 160.037101,
+            "static_bytes": 306344452.0,
+            "video_bytes": 2225218544.0
+          },
+          {
+            "chunks": 27,
+            "collision_cache": 32,
+            "drone_phases": [
+              "idle",
+              "idle",
+              "launch"
+            ],
+            "fuel": 63.4530000000479,
+            "received_items": 506,
+            "seconds": 170.040033,
+            "static_bytes": 308484490.0,
+            "video_bytes": 2225218288.0
+          }
+        ],
+        "scope": "Funded native-deck furnishing/drone/music stress with invulnerable actor; no expansion floors, not earned campaign evidence."
+      },
+      "distance_travelled": 1180.92867140869
+    },
+    "freight": {
+      "metrics": {
+        "draw_calls": {
+          "max": 1956.0,
+          "median": 1884.0,
+          "p95": 1945.0,
+          "p99": 1953.0,
+          "samples": 9282
+        },
+        "frame_ms": {
+          "max": 12.569,
+          "median": 4.604,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.083,
+          "p99": 7.903,
+          "samples": 9282
+        },
+        "gpu_ms": {
+          "max": 5.47599983215332,
+          "median": 4.10500001907349,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 4.63399982452393,
+          "p99": 4.91300010681152,
+          "samples": 9282
+        },
+        "primitives": {
+          "max": 3510265.0,
+          "median": 3411920.0,
+          "p95": 3465942.0,
+          "p99": 3479273.0,
+          "samples": 9282
+        },
+        "render_cpu_ms": {
+          "max": 4.01999998092651,
+          "median": 1.51900005340576,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 1.89600002765656,
+          "p99": 2.40100002288818,
+          "samples": 9282
+        },
+        "static_memory_bytes": {
+          "max": 269526743.0,
+          "median": 241400493.0,
+          "p95": 268795155.0,
+          "p99": 269526731.0,
+          "samples": 9282
+        },
+        "video_memory_bytes": {
+          "max": 1960612128.0,
+          "median": 1960612064.0,
+          "p95": 1960612128.0,
+          "p99": 1960612128.0,
+          "samples": 9282
+        }
+      },
+      "workload": {
+        "cable_frames": 8047,
+        "captures": 6,
+        "cargo_starts": [
+          {
+            "x": 20.0,
+            "y": -0.00899875164031982,
+            "z": -14.0
+          },
+          {
+            "x": 20.0,
+            "y": 0.129097774624825,
+            "z": -4.0
+          },
+          {
+            "x": 20.0,
+            "y": -0.882116675376892,
+            "z": 8.0
+          },
+          {
+            "x": 20.0,
+            "y": -0.290494352579117,
+            "z": -14.0
+          },
+          {
+            "x": 20.0,
+            "y": 0.661722958087921,
+            "z": -4.0
+          },
+          {
+            "x": 20.0,
+            "y": 0.171610087156296,
+            "z": 8.0
+          }
+        ],
+        "deliveries": 5,
+        "kind": "connected_freight_hoist",
+        "modules": 3,
+        "scope": "Funded isolated native machinery workload; real cargo grounding, cable rays and inventory transfer; invulnerable actor."
+      }
+    },
+    "guardian": {
+      "metrics": {
+        "draw_calls": {
+          "max": 1792.0,
+          "median": 975.0,
+          "p95": 1723.0,
+          "p99": 1777.0,
+          "samples": 11285
+        },
+        "frame_ms": {
+          "max": 10.788,
+          "median": 3.546,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 6.108,
+          "p99": 7.141,
+          "samples": 11285
+        },
+        "gpu_ms": {
+          "max": 6.94199991226196,
+          "median": 3.1949999332428,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 3.87899994850159,
+          "p99": 4.17999982833862,
+          "samples": 11285
+        },
+        "primitives": {
+          "max": 4594834.0,
+          "median": 2896513.0,
+          "p95": 4536798.0,
+          "p99": 4579741.0,
+          "samples": 11285
+        },
+        "render_cpu_ms": {
+          "max": 4.09499979019165,
+          "median": 0.977999985218048,
+          "over33ms": 0,
+          "over50ms": 0,
+          "p95": 1.42200005054474,
+          "p99": 1.66499996185303,
+          "samples": 11285
+        },
+        "static_memory_bytes": {
+          "max": 282872156.0,
+          "median": 277195070.0,
+          "p95": 281594864.0,
+          "p99": 282825016.0,
+          "samples": 11285
+        },
+        "video_memory_bytes": {
+          "max": 2185993344.0,
+          "median": 2185890112.0,
+          "p95": 2185980384.0,
+          "p99": 2185993344.0,
+          "samples": 11285
+        }
+      },
+      "events": [
+        {
+          "cross_observed": true,
+          "fixture": "half-hull Guardian after two cycles",
+          "samples": {
+            "cross/cooling": 8,
+            "cross/lock": 27,
+            "cross/salvo": 3,
+            "line/cooling": 2,
+            "line/lock": 3,
+            "line/salvo": 2
+          },
+          "scope": "Prepared, invulnerable rendering workload; not earned combat or difficulty evidence."
+        }
+      ]
+    },
+    "scope": "Sequential fresh native processes:13 ordinary18s workloads,45s escalated Guardian,45s actual grounded freight,180s all-three-deck home with50 furnishings and3drones.3s warmup. Funded invulnerable fixtures, uncapped1080pHigh; OS/driver caches uncontrolled. Historical timings are observational, not a controlled hardware benchmark."
+  },
+  "compatibility": {
+    "save_format": 1,
+    "player_structures_relocated_on_load": false,
+    "prior_completion_report_unchanged": true,
+    "save_scope": "All harnesses use isolated save directories and test_mode; no earned whole-campaign or human acceptance claim."
+  },
+  "remaining_acceptance": [
+    "Player listening preference and an uncoached playthrough of the quieter guidance.",
+    "Full later-campaign economy/encounter playtesting and low-spec hardware certification remain V1 work.",
+    "At closure, the player requested the next roof-detail and machine/visitable-building floor-flicker iteration."
+  ]
+}

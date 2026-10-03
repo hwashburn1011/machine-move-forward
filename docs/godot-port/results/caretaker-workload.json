@@ -1,0 +1,11 @@
+{
+	"checks": 29,
+	"failures": [],
+	"passed": true,
+	"selector": {
+		"cases": 512,
+		"legacyQueries": 72998,
+		"mismatches": [],
+		"refinedQueries": 1356
+	}
+}

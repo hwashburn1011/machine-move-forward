@@ -1,0 +1,48 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"equipment": {
+		"bastion": {
+			"equipmentBone": "[X: (0.750767, 0.0, 0.0), Y: (0.0, 0.0, -0.750767), Z: (0.0, 0.750767, 0.0), O: (50.0, 17.36136, 0.22523)]",
+			"muzzle": "(50.0, 17.36136, 1.122396)",
+			"muzzleBasis": "[X: (0.750767, 0.0, 0.0), Y: (0.0, 0.750767, 0.0), Z: (0.0, 0.0, 0.750767)]",
+			"socketParent": "BoneAttachment3D",
+			"traceStart": "(50.0, 17.41, 0.0)"
+		},
+		"sovereign": {
+			"equipmentBone": "[X: (0.785418, 0.0, 0.0), Y: (0.0, 0.0, -0.785418), Z: (0.0, 0.785418, 0.0), O: (50.43983, 17.38576, 0.180646)]",
+			"hitbox": "(50.65, 17.86, 0.0)",
+			"muzzle": "(50.43983, 17.38576, 0.274896)",
+			"muzzleBasis": "[X: (0.785418, 0.0, 0.0), Y: (0.0, 0.785418, 0.0), Z: (0.0, 0.0, 0.785418)]",
+			"socketParent": "BoneAttachment3D",
+			"traceStart": "(50.0, 17.41, 0.0)"
+		},
+		"warden": {
+			"equipmentBone": "[X: (0.848428, 0.0, 0.0), Y: (0.0, 0.0, -0.848428), Z: (0.0, 0.848428, 0.0), O: (49.91516, 17.33242, 0.254528)]",
+			"muzzle": "(49.91516, 17.34091, 1.332032)",
+			"muzzleBasis": "[X: (0.848428, 0.0, 0.0), Y: (0.0, 0.848428, 0.0), Z: (0.0, 0.0, 0.848428)]",
+			"socketParent": "BoneAttachment3D",
+			"traceStart": "(50.0, 17.41, 0.0)"
+		}
+	},
+	"scope": "1920x1080 high Forward+/Vulkan, 4x MSAA, VSync off; isolated close native views, 2s warmup/4s sample; shots/captures outside timing. Simulation frozen, authored idle animation continues.",
+	"views": {
+		"bastion": {
+			"drawCalls": 524,
+			"medianFrameMs": 3.038,
+			"medianGpuMs": 2.59899997711182,
+			"samples": 1259
+		},
+		"sovereign": {
+			"drawCalls": 564,
+			"medianFrameMs": 3.198,
+			"medianGpuMs": 2.75799989700317,
+			"samples": 1200
+		},
+		"warden": {
+			"drawCalls": 549,
+			"medianFrameMs": 3.146,
+			"medianGpuMs": 2.67899990081787,
+			"samples": 1217
+		}
+	}
+}

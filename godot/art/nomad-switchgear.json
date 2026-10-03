@@ -1,0 +1,190 @@
+{
+  "sourceRevision": "2a0fa07",
+  "trim": [
+    {
+      "frozen": "Brace_welded_receiver001",
+      "original": "VesselRetained1",
+      "replacement": "VesselRetained1",
+      "priorVesselRemoval": true,
+      "removedCabinetVertices": 1496,
+      "priorRemovedVertices": 762,
+      "unchangedVertices": 16091,
+      "originalTriangles": 7252,
+      "keptTriangles": 6110,
+      "unchangedCoordinatesSha256": "562196dd12459fb2c361894c40055b9f0ef798e813334b38463c6684452db31e"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_1",
+      "original": "Brace_welded_receiver001_1",
+      "replacement": "Brace_welded_receiver001_1",
+      "priorVesselRemoval": false,
+      "removedCabinetVertices": 2662,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 4508,
+      "originalTriangles": 2570,
+      "keptTriangles": 1560,
+      "unchangedCoordinatesSha256": "e22f3559a3c97fd2a6dea28db0e6dba73c7e7bcab97fee402db86de96de863e2"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_2",
+      "original": "Brace_welded_receiver001_2",
+      "replacement": "",
+      "priorVesselRemoval": false,
+      "removedCabinetVertices": 444,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 0,
+      "originalTriangles": 210,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_3",
+      "original": "Brace_welded_receiver001_3",
+      "replacement": "Brace_welded_receiver001_3",
+      "priorVesselRemoval": false,
+      "removedCabinetVertices": 1678,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 308,
+      "originalTriangles": 1016,
+      "keptTriangles": 106,
+      "unchangedCoordinatesSha256": "6a7392c6c813ae8942803078b9a629cb9fb7572cf6fb2a124d6eeb2c5101b0ca"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_4",
+      "original": "Brace_welded_receiver001_4",
+      "replacement": "",
+      "priorVesselRemoval": false,
+      "removedCabinetVertices": 288,
+      "priorRemovedVertices": 0,
+      "unchangedVertices": 0,
+      "originalTriangles": 96,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "frozen": "Brace_welded_receiver001_5",
+      "original": "VesselRetained2",
+      "replacement": "VesselRetained2",
+      "priorVesselRemoval": true,
+      "removedCabinetVertices": 1774,
+      "priorRemovedVertices": 254,
+      "unchangedVertices": 3793,
+      "originalTriangles": 3826,
+      "keptTriangles": 2920,
+      "unchangedCoordinatesSha256": "ebc9569d9ca2757d051fc7f15757930085b41fe8629d50065d17d34e0a3fa02b"
+    }
+  ],
+  "originalBoxes": [
+    {
+      "min": [
+        -6.46,
+        12.43,
+        -11.44501
+      ],
+      "max": [
+        -5.54,
+        14.14001,
+        -10.55789
+      ]
+    },
+    {
+      "min": [
+        0.54,
+        12.43,
+        -11.44501
+      ],
+      "max": [
+        1.46,
+        14.14001,
+        -10.55789
+      ]
+    },
+    {
+      "min": [
+        9.18552,
+        12.43,
+        -10.29068
+      ],
+      "max": [
+        10.0172,
+        14.14001,
+        -9.30932
+      ]
+    },
+    {
+      "min": [
+        9.18552,
+        12.43,
+        8.50932
+      ],
+      "max": [
+        10.0172,
+        14.14001,
+        9.49068
+      ]
+    }
+  ],
+  "sites": [
+    {
+      "name": "ServiceCabinet1",
+      "position": [
+        -6,
+        12.43,
+        -11
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "ServiceCabinet2",
+      "position": [
+        1,
+        12.43,
+        -11
+      ],
+      "yaw": 3.141592653589793
+    },
+    {
+      "name": "ServiceCabinet3",
+      "position": [
+        9.6,
+        12.43,
+        -9.8
+      ],
+      "yaw": 1.5707963267948966
+    },
+    {
+      "name": "ServiceCabinet4",
+      "position": [
+        9.6,
+        12.43,
+        9
+      ],
+      "yaw": 1.5707963267948966
+    }
+  ],
+  "editableParts": 207,
+  "masterTriangles": 54220,
+  "materialBatches": 5,
+  "bytes": 3153512,
+  "bounds": {
+    "min": [
+      -0.44999998807907104,
+      -9.313225746154785e-10,
+      -0.37628695368766785
+    ],
+    "max": [
+      0.44999998807907104,
+      1.7079999446868896,
+      0.41449999809265137
+    ]
+  },
+  "indicatorChannels": [
+    "supply",
+    "loadShed",
+    "engineDamage"
+  ],
+  "references": [
+    "https://www.rittal.com/com-en/products/PG20231215SCH101/PG20231512SCH301/PRO0023?variantId=1376500",
+    "https://productinfo.se.com/nadigest/5c51d645347bdf0001f1f280/Master/17719_MAIN%20%28bookmap%29_0000052086.xml/%24/XB4-XB5CommonOperatorsCompletewithContactBlocksCPT_0000051349"
+  ]
+}

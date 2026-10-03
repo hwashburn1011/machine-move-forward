@@ -1,0 +1,114 @@
+{
+  "supports": [
+    {
+      "part": "Bolted base plate",
+      "gapM": 1.862645149230957e-09
+    },
+    {
+      "part": "Pedestal bottom flange",
+      "gapM": -0.0020000040531158447
+    },
+    {
+      "part": "Sealed pedestal column",
+      "gapM": -0.0020000264048576355
+    },
+    {
+      "part": "Pedestal head flange",
+      "gapM": -0.004999995231628418
+    },
+    {
+      "part": "Instrument support tray",
+      "gapM": -0.000500023365020752
+    },
+    {
+      "part": "Formed shielded receiver case",
+      "gapM": 0.0
+    },
+    {
+      "part": "Front panel seal",
+      "gapM": -0.0029999911785125732
+    },
+    {
+      "part": "Removable front fascia",
+      "gapM": -0.001999989151954651
+    },
+    {
+      "part": "Display compression gasket",
+      "gapM": 1.4901161193847656e-08
+    },
+    {
+      "part": "Machined display bezel",
+      "gapM": -0.0020000040531158447
+    },
+    {
+      "part": "Recessed phosphor glass",
+      "gapM": -0.0014999955892562866
+    },
+    {
+      "part": "Rear removable gasket",
+      "gapM": -0.001999989151954651
+    },
+    {
+      "part": "Rear service cover",
+      "gapM": -0.0014999955892562866
+    },
+    {
+      "part": "Rear identification plate",
+      "gapM": 0.0
+    },
+    {
+      "part": "Recessed edge connector",
+      "gapM": -0.0009999871253967285
+    },
+    {
+      "part": "Recessed edge connector.001",
+      "gapM": -0.0009999871253967285
+    },
+    {
+      "part": "Recessed edge connector.002",
+      "gapM": -0.0009999871253967285
+    },
+    {
+      "part": "Recessed edge connector.003",
+      "gapM": -0.0009999871253967285
+    },
+    {
+      "part": "Recessed edge connector.004",
+      "gapM": -0.0009999871253967285
+    },
+    {
+      "part": "Weather-sealed antenna socket",
+      "gapM": -0.01699984073638916
+    },
+    {
+      "part": "Deck power termination",
+      "gapM": -0.03500000387430191
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.4449999928474426,
+      0.0,
+      -0.27000001072883606
+    ],
+    "max": [
+      0.4449999928474426,
+      1.8680000305175781,
+      0.27799999713897705
+    ]
+  },
+  "antennaAboveMainEnvelope": [
+    "Flexible antenna boot",
+    "Flexible antenna boot.001",
+    "Flexible antenna boot.002",
+    "Flexible antenna boot.003",
+    "Flexible antenna boot.004",
+    "Sealed antenna tip",
+    "Tapered whip lower section",
+    "Weather-sealed antenna socket",
+    "Whip upper section"
+  ],
+  "earnedHardwareUpperIntersections": 0,
+  "neighbourIntersectingTrianglePairs": 0,
+  "passed": true
+}

@@ -1,0 +1,563 @@
+{
+  "pass": "Phase 2 / all-model physical and material refinement",
+  "model_count": 25,
+  "glb_sha256": "682f13a9cc007f84727ddb0f32a0e1f1cab7a76a3df362d48860442023ef989a",
+  "geometry_bounds_verified_against_actual_GLTF_position_accessors": true,
+  "identity_runtime_roots": true,
+  "validator_errors": 0,
+  "validator_warnings": 0,
+  "review_rig": "Frozen editable Blender sources; Cycles CPU 24 samples; common daylight; 768 x 576",
+  "models": [
+    {
+      "id": "wasteland-diner",
+      "palette_family": "oxblood",
+      "refinement": "Each deep window sill receives a physically attached support bracket.",
+      "dimensions_m": [
+        12.4866,
+        6.13,
+        8.4084
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 11842,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 467,
+        "nonmanifold_edges": 827,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\01-wasteland-diner.png",
+      "render_sha256": "d042f943b7804b2868aac9d6e4920650b636aa7d0b2e3fc132952445f6dd88c5",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-greenhouse",
+      "palette_family": "celadon",
+      "refinement": "Irrigation trunk clips and service-tank shutoff handle.",
+      "dimensions_m": [
+        14.8852,
+        5.9632,
+        10.3131
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 18701,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 517,
+        "nonmanifold_edges": 911,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\02-wasteland-greenhouse.png",
+      "render_sha256": "b9ee1e5e87549c7ef06b3cd3197a6f8d91a7bdc68a3348e9f0d6676d0bd9e43b",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-observatory",
+      "palette_family": "denim",
+      "refinement": "The observatory service hatch receives a mounted metal pull.",
+      "dimensions_m": [
+        16.2004,
+        8.7,
+        14.2433
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 12781,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 451,
+        "nonmanifold_edges": 769,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\03-wasteland-observatory.png",
+      "render_sha256": "98d3c810ccf7c7914d00047829b3ceca7e2c6d639b0427dc9a3642de8002325a",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-passenger-coach",
+      "palette_family": "rose",
+      "refinement": "Boarding-step braces and a suspended underfloor battery enclosure.",
+      "dimensions_m": [
+        13.4391,
+        4.0696,
+        6.2475
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 20252,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 511,
+        "nonmanifold_edges": 894,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\04-wasteland-passenger-coach.png",
+      "render_sha256": "91df2501092fa0fd54cab667fa34c36de154189acaa7e686e9f06aa4ce00c5f9",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-service-station",
+      "palette_family": "petrol",
+      "refinement": "Fuel-nozzle holsters and physical access-cover pull strips.",
+      "dimensions_m": [
+        13.9571,
+        6.2084,
+        10.3383
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 8505,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 68,
+        "nonmanifold_edges": 105,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\05-wasteland-service-station.png",
+      "render_sha256": "30e2b8c926b68ffc07c91517b3b25efa473d8bec9f9752a7326bf9c3ae58d811",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-cooling-tower",
+      "palette_family": "stone",
+      "refinement": "Pump controller receives a supported base flange and a physical selector.",
+      "dimensions_m": [
+        18.2623,
+        11.465,
+        19.1271
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 11526,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 126,
+        "nonmanifold_edges": 126,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\06-wasteland-cooling-tower.png",
+      "render_sha256": "10bc7697ff473ccfa256cb8a7ad560fe2fee02899433d228059bac09c1c1c1f3",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-excavator",
+      "palette_family": "ochre",
+      "refinement": "Operator catwalk now carries visible angle braces into the machinery deck.",
+      "dimensions_m": [
+        10.2587,
+        3.629,
+        4.0
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 11134,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 68,
+        "nonmanifold_edges": 96,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\07-wasteland-excavator.png",
+      "render_sha256": "890d0f22ce5011f1a9cbdc3671543eb87f1e8ad1d84f0c8ef2df840be639cee2",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-solar-farm",
+      "palette_family": "slate",
+      "refinement": "Tracking actuators gain seated support plates and controller-cable strain relief.",
+      "dimensions_m": [
+        14.4925,
+        1.8357,
+        11.7067
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 17416,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 1384,
+        "nonmanifold_edges": 1384,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\08-wasteland-solar-farm.png",
+      "render_sha256": "96ed7d9ce3ef30b95d78de52885bb3cef60cd8b12018bef737887a12479c58f0",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-tunnel",
+      "palette_family": "umber",
+      "refinement": "Every inspection-rail upright terminates in an explicit anchor shoe.",
+      "dimensions_m": [
+        14.4239,
+        8.25,
+        11.1161
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 7162,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 5,
+        "nonmanifold_edges": 110,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\09-wasteland-tunnel.png",
+      "render_sha256": "4a4a2e94a692a2667930416dd1ec33d2063d866eb464a0302eb32a19a427047a",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-wind-turbine",
+      "palette_family": "heather",
+      "refinement": "Mast hatch latch and grounded power-cable protection shoes.",
+      "dimensions_m": [
+        16.3691,
+        5.7731,
+        12.5076
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 8805,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 46,
+        "nonmanifold_edges": 61,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\10-wasteland-wind-turbine.png",
+      "render_sha256": "9f842f95ed7c1b972dd9fa79156acc99bbc1959b1c2312c96144cc875037890e",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-cistern",
+      "palette_family": "verdigris",
+      "refinement": "Access ladder has three pairs of positive tank standoffs.",
+      "dimensions_m": [
+        4.54,
+        3.88,
+        4.0
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 8708,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\11-wasteland-cistern.png",
+      "render_sha256": "eea42d4fa5e5972519894c7e7868fa97790634d6e7a31b0437ce3b4f1dae8b54",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-rail-switch",
+      "palette_family": "oxblood",
+      "refinement": "Manual throw lever receives a real through-pivot and pointer plate.",
+      "dimensions_m": [
+        7.1,
+        1.8677,
+        3.7
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 1960,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\12-wasteland-rail-switch.png",
+      "render_sha256": "b150ac01c138b872ea77ca7b42889ec3626b0534c5ecc549df3404fed4a9c39e",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-container-shelter",
+      "palette_family": "plum",
+      "refinement": "The cut-open side portal receives continuous rolled steel jamb and lintel trims.",
+      "dimensions_m": [
+        6.2,
+        2.96,
+        3.8575
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 2948,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\13-wasteland-container-shelter.png",
+      "render_sha256": "e397f6f3293ef89a6a07d416910374407a96b0b7f3b9f7d3813f5a81e69c9857",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-survey-rover",
+      "palette_family": "denim",
+      "refinement": "Rear survey equipment has a chassis-mounted tubular impact bar.",
+      "dimensions_m": [
+        3.875,
+        3.15,
+        2.37
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 10720,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\14-wasteland-survey-rover.png",
+      "render_sha256": "5ee2ed41e3e7c96fed25c14c6339fb33d93dbb7c2ad1bb3487214dba8f26d19a",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-signal-gantry",
+      "palette_family": "slate",
+      "refinement": "Pendant signals gain distinct weather hoods over their lens faces.",
+      "dimensions_m": [
+        9.0,
+        7.2672,
+        1.3
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 5432,
+      "material_batches": 5,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\15-wasteland-signal-gantry.png",
+      "render_sha256": "66f5b0a95727d580c1a1387a2f90396880af0afca65a22ba5c193e3283717ac9",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-buried-transformer",
+      "palette_family": "celadon",
+      "refinement": "Previously forward-set service plate now mounts to the tank through two rigid brackets.",
+      "dimensions_m": [
+        3.9,
+        2.75,
+        3.1
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 5824,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\16-wasteland-buried-transformer.png",
+      "render_sha256": "7a8b5099baa7e40ac818fff1062f3471a7ceec3d8cac76f6d4a47b6b67db5735",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-pipeline-valve",
+      "palette_family": "olive",
+      "refinement": "Valve bonnet receives a service flange and opposed fastener studs.",
+      "dimensions_m": [
+        4.6,
+        2.8175,
+        1.64
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 6428,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\17-wasteland-pipeline-valve.png",
+      "render_sha256": "4a231b20207f10df40b9eb550a3f39d4351c04211b13223abba36a2d6001c2c7",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-scrap-press",
+      "palette_family": "clay",
+      "refinement": "Four guide-column bearing collars align with the compression platen.",
+      "dimensions_m": [
+        4.25,
+        4.0,
+        2.8
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 2712,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\18-wasteland-scrap-press.png",
+      "render_sha256": "b938bf18f9e4d0d30fb36c3b23adb46cc5218e153cf716b8d4e1d53be2e7a106",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-sensor-mast",
+      "palette_family": "heather",
+      "refinement": "Guy lines terminate at a mast collar; field-controller hood protects the enclosure seam.",
+      "dimensions_m": [
+        3.75,
+        5.27,
+        3.15
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 3020,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\19-wasteland-sensor-mast.png",
+      "render_sha256": "4ff4b63190c1030910647a754babb5646f1ea8ac6cc166f17b170367f9d04c84",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-cable-drum",
+      "palette_family": "umber",
+      "refinement": "Lifting portal corner knee braces complete the structural load path.",
+      "dimensions_m": [
+        4.0906,
+        3.2,
+        2.9306
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 15728,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\20-wasteland-cable-drum.png",
+      "render_sha256": "8651e1eca73a927e8c13269fce16f488bf66eed0d83f8f4a6d7eb82449bcd87e",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-crawler-wreck",
+      "palette_family": "ochre",
+      "refinement": "Carrier wreck gains a mounted rear tow crossbar.",
+      "dimensions_m": [
+        5.0198,
+        2.725,
+        3.02
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 18856,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\21-wasteland-crawler-wreck.png",
+      "render_sha256": "33586681dcb000966eeb690a3c5e657cab6053bad9fd41418c314834db378014",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-water-condenser",
+      "palette_family": "verdigris",
+      "refinement": "All receiver bottles now share an attached condenser drain manifold.",
+      "dimensions_m": [
+        3.6,
+        3.0419,
+        2.45
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 8148,
+      "material_batches": 4,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\22-wasteland-water-condenser.png",
+      "render_sha256": "5774412754651bf3f586ad008b49e0babebddd36ed711b8f53729d0240af6623",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-freight-bogie",
+      "palette_family": "petrol",
+      "refinement": "Coil packs receive lower spring seats directly above the side frames.",
+      "dimensions_m": [
+        4.62,
+        2.18,
+        2.56
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 19788,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\23-wasteland-freight-bogie.png",
+      "render_sha256": "4a120a1d302e926fcc85909e15f9a7f3a0071e955392ca2438b97a48be9d7b4d",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-checkpoint-gate",
+      "palette_family": "rose",
+      "refinement": "Barrier rest has a padded saddle and the actuator cover has a service latch.",
+      "dimensions_m": [
+        7.435,
+        2.8,
+        1.4
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 2540,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\24-wasteland-checkpoint-gate.png",
+      "render_sha256": "3de8f0bc276161b4174a05d0260f5579f38e41bb4c5db7534bbbb6762616fa09",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    },
+    {
+      "id": "wasteland-relay-vault",
+      "palette_family": "stone",
+      "refinement": "Relay-vault hatch gains two heavy hinge barrels aligned with the recessed frame.",
+      "dimensions_m": [
+        4.9,
+        3.22,
+        5.35
+      ],
+      "ground_min_m": 0.0,
+      "triangles": 2268,
+      "material_batches": 6,
+      "topology": {
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "zero_area_faces": 0,
+        "loose_vertices": 0
+      },
+      "render": "renders\\25-wasteland-relay-vault.png",
+      "render_sha256": "af5fdbe18fcd7840ca04119bd341375e98837d1d3d070d6f94b5b3161f3518e5",
+      "inspection": "Reviewed native metre scale, grounded assembly, physical refinement placement, muted palette and silhouette in Blender material render."
+    }
+  ],
+  "next_pass": "Independent fine-comb review is separate from this authored-detail pass."
+}

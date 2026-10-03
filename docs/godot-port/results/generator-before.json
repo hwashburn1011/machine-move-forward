@@ -1,0 +1,64 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"bounds": "[P: (-0.82, 0.0, -0.69), S: (1.64, 1.255, 1.38)]",
+	"meshes": 9,
+	"position": "(8.0, 16.03, 10.0)",
+	"resolution": "(1920, 1080)",
+	"scope": "Matched static generator views; native high Forward+/Vulkan, 4x MSAA, VSync off. 2.5s warmup and 5s sample per view. Gameplay frozen, not gameplay FPS.",
+	"views": {
+		"deck": {
+			"drawCalls": {
+				"max": 338.0,
+				"median": 338.0,
+				"p95": 338.0
+			},
+			"frameMs": {
+				"max": 30.279,
+				"median": 3.371,
+				"p95": 4.191
+			},
+			"gpuMs": {
+				"max": 3.55999994277954,
+				"median": 2.92000007629395,
+				"p95": 3.37899994850159
+			},
+			"samples": 1399
+		},
+		"front": {
+			"drawCalls": {
+				"max": 290.0,
+				"median": 290.0,
+				"p95": 290.0
+			},
+			"frameMs": {
+				"max": 30.389,
+				"median": 3.237,
+				"p95": 4.195
+			},
+			"gpuMs": {
+				"max": 3.78099989891052,
+				"median": 2.72699999809265,
+				"p95": 3.2409999370575
+			},
+			"samples": 1446
+		},
+		"rear": {
+			"drawCalls": {
+				"max": 459.0,
+				"median": 459.0,
+				"p95": 459.0
+			},
+			"frameMs": {
+				"max": 30.378,
+				"median": 3.284,
+				"p95": 4.346
+			},
+			"gpuMs": {
+				"max": 3.75999999046326,
+				"median": 2.83100008964539,
+				"p95": 3.3050000667572
+			},
+			"samples": 1419
+		}
+	}
+}

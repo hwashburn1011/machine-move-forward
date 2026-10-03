@@ -1,0 +1,65 @@
+{
+	"checks": 69,
+	"failures": [],
+	"observations": {
+		"bastion": {
+			"gripErrors": [
+				0.0000000298023223876953,
+				0.0000000333200098623365
+			]
+		},
+		"blockedRoutePreparation": {
+			"maxMs": 1.023,
+			"medianMs": 0.898,
+			"samples": 15,
+			"scope": "One-time two-crew route preparation, real physics world; not gameplay FPS"
+		},
+		"clearRoutePreparation": {
+			"maxMs": 0.217,
+			"medianMs": 0.186,
+			"samples": 15,
+			"scope": "One-time two-crew route preparation, real physics world; not gameplay FPS"
+		},
+		"geometry": {
+			"collapsed": 0,
+			"triangles": 45071
+		},
+		"raider": {
+			"gripErrors": [
+				0.000000910313360691362,
+				0.000000910313360691362
+			]
+		},
+		"revenant": {
+			"gripErrors": [
+				0.000000123778335137104,
+				0.000000123778335137104
+			]
+		},
+		"routeFailures": [
+			[],
+			[],
+			[],
+			[]
+		],
+		"scavenger": {
+			"gripErrors": [
+				0.000000910313360691362,
+				0.000000910313360691362
+			]
+		},
+		"sovereign": {
+			"gripErrors": [
+				0.000000123778335137104,
+				0.0000000596046447753906
+			]
+		},
+		"warden": {
+			"gripErrors": [
+				0.0000000298023223876953,
+				0.0000000333200098623365
+			]
+		}
+	},
+	"passed": true
+}

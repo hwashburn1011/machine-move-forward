@@ -1,0 +1,153 @@
+{
+  "pass": "Phase 1 creation review",
+  "models": 25,
+  "glb_sha256": "0ee291e45906ef70163d9af76dc1fc2ec9135a5ee4bcc233ce2aff5b42834c5a",
+  "render_engine": "Blender Cycles, 24 samples, native PBR materials",
+  "review_method": "Manual inspection of five full-size contact sheets and component connection checks against builder coordinates",
+  "issues_fixed": [
+    "Roof post gaps",
+    "Floating parcel sorting base",
+    "Stair/platform coplanar faces",
+    "Cold-store louvre mounting",
+    "Dress-form foot gap",
+    "Air-receiver feet",
+    "Bridge stair alignment",
+    "Kiln hinge and handle support",
+    "Cyclone chamber support ties",
+    "Ladder platform brackets",
+    "Structural bevel separated from fine lettering",
+    "Arc surface smooth normals",
+    "Shop-name visibility",
+    "Saw rail-to-foundation contact",
+    "Trommel hopper feet",
+    "Pharmacy clerestory props",
+    "Independent workshop roof support"
+  ],
+  "models_reviewed": [
+    {
+      "id": "art200-brasswell-teller-bank",
+      "render": "renders/01-art200-brasswell-teller-bank.png",
+      "review": "Denim teller pavilion and pneumatic island; roof props follow pitch and bank lettering clears the roof."
+    },
+    {
+      "id": "art200-dustmile-motel-office",
+      "render": "renders/02-art200-dustmile-motel-office.png",
+      "review": "Rose butterfly-roof office, supported counter and grounded luggage shelf."
+    },
+    {
+      "id": "art200-parcel-post-depot",
+      "render": "renders/03-art200-parcel-post-depot.png",
+      "review": "Petrol sawtooth depot; sorting cabinet reaches platform and stair top meets its edge without coplanar overlap."
+    },
+    {
+      "id": "art200-thimble-laundrette",
+      "render": "renders/04-art200-thimble-laundrette.png",
+      "review": "Celadon laundry; independent washer rims, connected wash manifold and supported folding bench."
+    },
+    {
+      "id": "art200-emberside-bakery",
+      "render": "renders/05-art200-emberside-bakery.png",
+      "review": "Clay bakery; oven arch, cap, flour bins and serving counter read as a single ruined shop."
+    },
+    {
+      "id": "art200-drylight-pharmacy",
+      "render": "renders/06-art200-drylight-pharmacy.png",
+      "review": "Plum pharmacy; chamfered entrance, inset dispensing drawers, clerestory roof posts and visible fascia lettering."
+    },
+    {
+      "id": "art200-cinder-auto-lift",
+      "render": "renders/07-art200-cinder-auto-lift.png",
+      "review": "Oxblood workshop; lift arms and pads attach to carriers, cabinet has complete hydraulic connection, roof has its own structural props."
+    },
+    {
+      "id": "art200-rook-ticket-booth",
+      "render": "renders/08-art200-rook-ticket-booth.png",
+      "review": "Olive booth; smooth arched canopy, ticket counter and attached turnstile hub."
+    },
+    {
+      "id": "art200-switchback-weighbridge",
+      "render": "renders/09-art200-switchback-weighbridge.png",
+      "review": "Slate weighbridge; matching ramps and ribs align with deck, small operator shelter remains grounded."
+    },
+    {
+      "id": "art200-lastcall-exchange",
+      "render": "renders/10-art200-lastcall-exchange.png",
+      "review": "Heather phone alcoves; hoods, handsets, keypads and restrained connected cords."
+    },
+    {
+      "id": "art200-ochre-icehouse",
+      "render": "renders/11-art200-ochre-icehouse.png",
+      "review": "Verdigris cold store; raised door and hinges, service bay louvres and stairs clear platform edge."
+    },
+    {
+      "id": "art200-threadbare-tailor",
+      "render": "renders/12-art200-threadbare-tailor.png",
+      "review": "Umber tailor; treadle machine and stand connected, dress form foot meets floor."
+    },
+    {
+      "id": "art200-crosswind-compressor-house",
+      "render": "renders/13-art200-crosswind-compressor-house.png",
+      "review": "Ochre compressor; flywheel spokes connect, receiver foot brackets reach foundation."
+    },
+    {
+      "id": "art200-sinter-grain-elevator",
+      "render": "renders/14-art200-sinter-grain-elevator.png",
+      "review": "Stone grain elevator; two bins, central lifting leg and connected distribution/loading pipes."
+    },
+    {
+      "id": "art200-borewell-pumpjack",
+      "render": "renders/15-art200-borewell-pumpjack.png",
+      "review": "Oxblood pumpjack; walking beam support and suspended rod read at full native scale."
+    },
+    {
+      "id": "art200-lattice-truss-bridge",
+      "render": "renders/16-art200-lattice-truss-bridge.png",
+      "review": "Petrol footbridge; real lattice rails, deck stringers and approach steps aligned with span."
+    },
+    {
+      "id": "art200-reclaimer-trommel",
+      "render": "renders/17-art200-reclaimer-trommel.png",
+      "review": "Clay trommel; open drum lattice, complete cradle and feed hopper with dedicated foundation feet."
+    },
+    {
+      "id": "art200-rail-water-crane",
+      "render": "renders/18-art200-rail-water-crane.png",
+      "review": "Denim water crane; pivot column, diagonal stay and ribbed hanging hose."
+    },
+    {
+      "id": "art200-ballast-loader",
+      "render": "renders/19-art200-ballast-loader.png",
+      "review": "Olive aggregate loader; tapered hopper, grizzly bars and discharge gate carried by braced columns."
+    },
+    {
+      "id": "art200-ceramic-kiln",
+      "render": "renders/20-art200-ceramic-kiln.png",
+      "review": "Umber kiln; door has actual hinge straps and attached handle, cooling shelves and vessels supported."
+    },
+    {
+      "id": "art200-desert-ambulatory",
+      "render": "renders/21-art200-desert-ambulatory.png",
+      "review": "Celadon clinic; smooth barrel canopy, recessed opening and grounded access stairs."
+    },
+    {
+      "id": "art200-demolition-cutter",
+      "render": "renders/22-art200-demolition-cutter.png",
+      "review": "Slate quarry cutter; portal feet ride rails, rail bases meet the plinth and blade/carriage form a complete mechanism."
+    },
+    {
+      "id": "art200-sandglass-cyclone",
+      "render": "renders/23-art200-sandglass-cyclone.png",
+      "review": "Plum cyclone; four support columns now tie into chamber with crossmembers and brackets."
+    },
+    {
+      "id": "art200-ventstack-catwalk",
+      "render": "renders/24-art200-ventstack-catwalk.png",
+      "review": "Heather vent stack; supported balcony, access ladder has explicit platform mounting brackets."
+    },
+    {
+      "id": "art200-pivot-irrigator",
+      "render": "renders/25-art200-pivot-irrigator.png",
+      "review": "Verdigris irrigator; braced wheeled towers, long truss and suspended sprinkler nozzles."
+    }
+  ]
+}

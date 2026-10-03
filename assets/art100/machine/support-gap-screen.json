@@ -1,0 +1,127 @@
+{
+  "nomad-tool-drawers": {
+    "parts": 50,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-service-cart": {
+    "parts": 40,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-field-chair": {
+    "parts": 28,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-sleeping-berth": {
+    "parts": 27,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-radio-cabinet": {
+    "parts": 48,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-repair-trestle": {
+    "parts": 26,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-parts-organizer": {
+    "parts": 64,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-charging-cabinet": {
+    "parts": 38,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-expedition-trunk": {
+    "parts": 21,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-archive-vitrine": {
+    "parts": 38,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-chart-desk": {
+    "parts": 34,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-survey-floodlight": {
+    "parts": 23,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-machinist-lamp": {
+    "parts": 11,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-coat-rack": {
+    "parts": 18,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-cable-reel": {
+    "parts": 29,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-boots-locker": {
+    "parts": 32,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-galley-sideboard": {
+    "parts": 32,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-ceramic-basin": {
+    "parts": 24,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-navigation-stool": {
+    "parts": 10,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-patchwork-bench": {
+    "parts": 27,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-spare-track-stand": {
+    "parts": 27,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-air-filter-tower": {
+    "parts": 37,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-canister-caddy": {
+    "parts": 28,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-signal-pennant": {
+    "parts": 9,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  },
+  "nomad-memory-board": {
+    "parts": 42,
+    "separated_parts": [],
+    "unsupported_clusters": []
+  }
+}

@@ -1,0 +1,890 @@
+[
+  {
+    "id": "wreck-pickup",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Cargo rail weldments, tethered dropped tailgate, rain-lipped toolbox and inset cooling grille; smoother enamel and convincing exposed steel.",
+    "source_model": "wreck-pickup",
+    "source_triangles": 39604,
+    "original_parts": 228,
+    "editable_parts": 245,
+    "triangles": 42924,
+    "materials": 1,
+    "dimensions_m": [
+      2.404999852180481,
+      2.103999376296997,
+      5.656681060791016
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.2024999856948853,
+        0.0,
+        -3.1566810607910156
+      ],
+      "max": [
+        1.2024998664855957,
+        2.103999376296997,
+        2.5
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "denim",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "fine_comb_supports": "Two seat pedestals connect upholstery to floor; two welded return tabs connect cooling grille to bumper.",
+    "runtime_geometry_sha256": "c632240e808d4be4fdb70b882be4d62f6918bc20850d225589ad37eaf5db592e"
+  },
+  {
+    "id": "wreck-ambulance",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Supported stretcher loading step, strapped oxygen bottles and wall cradles; softened ceramic and medical enamel instead of corrugated surfaces.",
+    "source_model": "wreck-ambulance",
+    "source_triangles": 34416,
+    "original_parts": 199,
+    "editable_parts": 228,
+    "triangles": 38632,
+    "materials": 1,
+    "dimensions_m": [
+      3.2699689865112305,
+      2.9539999961853027,
+      6.1180219650268555
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.3169000148773193,
+        0.0,
+        -3.2930219173431396
+      ],
+      "max": [
+        1.9530689716339111,
+        2.9539999961853027,
+        2.825000047683716
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "rose",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "fine_comb_supports": "Seats have floor pedestals; emergency light rail has two roof saddles; oxygen cradles tie to side walls; perimeter rails close roof-to-wall gap. Two small steel mounting pedestals connect the round headlamp housings to the front bumper, closing the 95 mm gap.",
+    "runtime_geometry_sha256": "410889a1bda34c11be34353ba6ef4da9f6dd0ee9e91a783b405d1b45ba1f3670",
+    "degenerate_runtime_cleanup": "Removed zero-area triangles only; retained all vertex positions, useful-face UV/pigment and custom corner normals. Editable components unchanged."
+  },
+  {
+    "id": "wreck-forklift",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Mast sheaves and roller chains, operator pedal and fitted restraint; matte rubber, forged fork steel and clean rounded counterweight.",
+    "source_model": "wreck-forklift",
+    "source_triangles": 29640,
+    "original_parts": 177,
+    "editable_parts": 234,
+    "triangles": 39664,
+    "materials": 1,
+    "dimensions_m": [
+      2.1449999809265137,
+      3.123999834060669,
+      4.625
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.0724999904632568,
+        0.0,
+        -1.369999885559082
+      ],
+      "max": [
+        1.0724999904632568,
+        3.123999834060669,
+        3.255000114440918
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "oxblood",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "fine_comb_supports": "Seat pedestal joins power unit; continuous inner chain strips connect every link to carriage and positively mounted sheave axles.",
+    "runtime_geometry_sha256": "ebda21e54ebfb07f7c040f4c5fd084d7cc17f31cbc666d98ee30ef6741d1bc0c"
+  },
+  {
+    "id": "survey-rover",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Six suspension dampers, weather-sealed junction enclosure and protected sampling-arm loom; subtle solar and optical housing wear.",
+    "source_model": "survey-rover",
+    "source_triangles": 42320,
+    "original_parts": 259,
+    "editable_parts": 280,
+    "triangles": 45044,
+    "materials": 1,
+    "dimensions_m": [
+      2.7405980825424194,
+      3.1740000247955322,
+      3.9091310501098633
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.370298981666565,
+        0.0,
+        -1.6640000343322754
+      ],
+      "max": [
+        1.3702991008758545,
+        3.1740000247955322,
+        2.245131015777588
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "petrol",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "bfdfd3d0fa26fd3994a625fd6928ad211a5a5c6e5c0ec74a3294746660003c95"
+  },
+  {
+    "id": "rail-bogie",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Physically linked pneumatic brakes, shoe hangers and protected feed pipes; machined wheel flanges and cast frame material separation.",
+    "source_model": "rail-bogie",
+    "source_triangles": 8356,
+    "original_parts": 32,
+    "editable_parts": 42,
+    "triangles": 10132,
+    "materials": 1,
+    "dimensions_m": [
+      2.200000047683716,
+      1.1800000667572021,
+      2.799999952316284
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.100000023841858,
+        0.0,
+        -1.399999976158142
+      ],
+      "max": [
+        1.100000023841858,
+        1.1800000667572021,
+        1.399999976158142
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "slate",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "dfc0917dba975502627389fbea70d83b7c5eb994240d123cc34f44021671c9b2"
+  },
+  {
+    "id": "container-wagon",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Physically linked pneumatic brakes, shoe hangers and protected feed pipes; freight access stirrups and identification plaque.",
+    "source_model": "container-wagon",
+    "source_triangles": 28268,
+    "original_parts": 127,
+    "editable_parts": 157,
+    "triangles": 34488,
+    "materials": 1,
+    "dimensions_m": [
+      4.224247694015503,
+      3.740000009536743,
+      9.399999618530273
+    ],
+    "bounds_godot": {
+      "min": [
+        -2.0579566955566406,
+        0.0,
+        -4.699999809265137
+      ],
+      "max": [
+        2.1662909984588623,
+        3.740000009536743,
+        4.699999809265137
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "plum",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "15cba5114f5ecd330bd7f74a08c7c68ad14118598baa3b16bb6613383e8f1d35"
+  },
+  {
+    "id": "fuel-trailer",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Supported rear safety beam, inset warning lenses and hanging tow tethers; longitudinal tank coating without false corrugation.",
+    "source_model": "fuel-trailer",
+    "source_triangles": 17048,
+    "original_parts": 98,
+    "editable_parts": 109,
+    "triangles": 19124,
+    "materials": 1,
+    "dimensions_m": [
+      2.197000026702881,
+      2.373999834060669,
+      4.807999968528748
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.0985000133514404,
+        0.0,
+        -1.8100000619888306
+      ],
+      "max": [
+        1.0985000133514404,
+        2.373999834060669,
+        2.997999906539917
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "clay",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "fine_comb_supports": "Two rear hangers connect safety beam directly into chassis channels.",
+    "runtime_geometry_sha256": "98d3b07e45507fa7114cf3b9e8a02fa8cd3086c4f3e6c28469b749b203d2bbaa",
+    "degenerate_runtime_cleanup": "Removed zero-area triangles only; retained all vertex positions, useful-face UV/pigment and custom corner normals. Editable components unchanged."
+  },
+  {
+    "id": "wreck-motorcycle",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Vented brake discs, calipers and curved brake line; supported luggage rack and restrained tank enamel.",
+    "source_model": "wreck-motorcycle",
+    "source_triangles": 14892,
+    "original_parts": 82,
+    "editable_parts": 90,
+    "triangles": 16308,
+    "materials": 1,
+    "dimensions_m": [
+      0.8692555129528046,
+      1.3257497549057007,
+      2.668000102043152
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.4271968603134155,
+        0.0,
+        -1.3540000915527344
+      ],
+      "max": [
+        0.44205865263938904,
+        1.3257497549057007,
+        1.3140000104904175
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "verdigris",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "0a224ae4885692c600c5fdee81a8f92df01d8967bbf0cb4efc2f2fb38c3fd40f"
+  },
+  {
+    "id": "culvert",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Drainage weep outlets, bent exposed reinforcement and a cast inlet apron; fine mineral aggregate instead of large mottled blobs.",
+    "source_model": "culvert",
+    "source_triangles": 2136,
+    "original_parts": 20,
+    "editable_parts": 33,
+    "triangles": 4092,
+    "materials": 1,
+    "dimensions_m": [
+      4.675487995147705,
+      2.901156187057495,
+      5.8372156620025635
+    ],
+    "bounds_godot": {
+      "min": [
+        -2.3377439975738525,
+        0.0,
+        -2.5163731575012207
+      ],
+      "max": [
+        2.3377439975738525,
+        2.901156187057495,
+        3.3208425045013428
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "stone",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "fine_comb_supports": "One continuous grate crossbar and two apron anchors support all inlet rods without closing the bore. Two low cast foundation shoes ground the previously elevated retaining wingwalls and match their rotations.",
+    "runtime_geometry_sha256": "7f99688428e5b6156598de9b6ca30f60cd8a30295751b074dabfc1cc659a71c0"
+  },
+  {
+    "id": "transformer",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Lifting eyes, connected conservator return and sealed inspection cover; porcelain, steel fins and enamel read as distinct materials.",
+    "source_model": "transformer",
+    "source_triangles": 13024,
+    "original_parts": 78,
+    "editable_parts": 86,
+    "triangles": 14912,
+    "materials": 1,
+    "dimensions_m": [
+      2.9000000953674316,
+      2.680000066757202,
+      2.75
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.4500000476837158,
+        0.0,
+        -1.4500000476837158
+      ],
+      "max": [
+        1.4500000476837158,
+        2.680000066757202,
+        1.2999999523162842
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "celadon",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "0004300e60974f33739d7cdc6f0b46fc39a0b74b2724c6293e238ba6c0e338f6",
+    "degenerate_runtime_cleanup": "Removed zero-area triangles only; retained all vertex positions, useful-face UV/pigment and custom corner normals. Editable components unchanged."
+  },
+  {
+    "id": "fuel-pump",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Readable mechanical meter numerals, hinged maintenance hatch and nozzle parking escutcheon; cast rounded housing with light coating wear.",
+    "source_model": "fuel-pump",
+    "source_triangles": 4324,
+    "original_parts": 35,
+    "editable_parts": 43,
+    "triangles": 5940,
+    "materials": 1,
+    "dimensions_m": [
+      1.7629708051681519,
+      2.1399998664855957,
+      1.0700000524520874
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.6629999876022339,
+        0.0,
+        -0.5350000262260437
+      ],
+      "max": [
+        1.099970817565918,
+        2.1399998664855957,
+        0.5350000262260437
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "heather",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "3ab1427727adc85e49d12460d5b15719d3fc87b795a589e33b4579d2650bf8c8"
+  },
+  {
+    "id": "utility-cabinet",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Rain-shedding roof channel, compression fittings and recessed isolator surround. Smooth steel doors replace painted-on corrugation.",
+    "source_model": "utility-cabinet",
+    "source_triangles": 7320,
+    "original_parts": 64,
+    "editable_parts": 72,
+    "triangles": 9332,
+    "materials": 1,
+    "dimensions_m": [
+      1.7000000476837158,
+      2.369999885559082,
+      1.2780000567436218
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.8500000238418579,
+        0.0,
+        -0.6830000281333923
+      ],
+      "max": [
+        0.8500000238418579,
+        2.369999885559082,
+        0.5950000286102295
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "oxblood",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "28c0e7101e79c2c089f1a5efd740dd58e61f8f4e350bcc47e841c1e8086e4b8a"
+  },
+  {
+    "id": "telecom-cabinet",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Rain-shedding roof channel, compression fittings and external earth conductor and radio identity plate. Smooth steel doors replace painted-on corrugation.",
+    "source_model": "telecom-cabinet",
+    "source_triangles": 7656,
+    "original_parts": 64,
+    "editable_parts": 72,
+    "triangles": 9872,
+    "materials": 1,
+    "dimensions_m": [
+      1.7639164924621582,
+      4.100797653198242,
+      1.2780000567436218
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.8500000238418579,
+        0.0,
+        -0.6830000281333923
+      ],
+      "max": [
+        0.9139164686203003,
+        4.100797653198242,
+        0.5950000286102295
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "denim",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "094e413cfa973c45b8f403cba483017fcae25cfc97faef203e15177ad707f629"
+  },
+  {
+    "id": "condenser",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Supported fan grille spokes, separate contactor box and connected conduit; fine fin contrast and flat enclosure coating.",
+    "source_model": "condenser",
+    "source_triangles": 7032,
+    "original_parts": 46,
+    "editable_parts": 58,
+    "triangles": 8312,
+    "materials": 1,
+    "dimensions_m": [
+      3.103364586830139,
+      1.5100001096725464,
+      1.4596999883651733
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.3799999952316284,
+        0.0,
+        -0.699999988079071
+      ],
+      "max": [
+        1.7233645915985107,
+        1.5100001096725464,
+        0.7597000002861023
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "petrol",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "153b4a97841d2f0f4a1bb0a1efc4b3e2aebb35e83232aee28547a497aeaf7a1e"
+  },
+  {
+    "id": "satellite-dish",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Azimuth gear housing, elevation linkage and pivot pins give the reflector an understandable mount; smooth reflector coating.",
+    "source_model": "satellite-dish",
+    "source_triangles": 3732,
+    "original_parts": 31,
+    "editable_parts": 37,
+    "triangles": 4852,
+    "materials": 1,
+    "dimensions_m": [
+      2.753999948501587,
+      3.5769999027252197,
+      2.190000057220459
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.3769999742507935,
+        0.0,
+        -1.340000033378601
+      ],
+      "max": [
+        1.3769999742507935,
+        3.5769999027252197,
+        0.8500000238418579
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "olive",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "4f5099009dae2eb8c48253326453ad2ba290c0befa4625e258f47920b74e582b"
+  },
+  {
+    "id": "light-tower",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Visible hand winch, continuous lift cable and individual lamp yokes; quieter lens material and scoured mast sections.",
+    "source_model": "light-tower",
+    "source_triangles": 17392,
+    "original_parts": 104,
+    "editable_parts": 111,
+    "triangles": 19804,
+    "materials": 1,
+    "dimensions_m": [
+      2.9800000190734863,
+      6.434000015258789,
+      1.899999976158142
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.4900000095367432,
+        0.0,
+        -0.949999988079071
+      ],
+      "max": [
+        1.4900000095367432,
+        6.434000015258789,
+        0.949999988079071
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "slate",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "9b3e8d5467760328397795cb6358963857f0014047db82ea6e3d197039dd853d"
+  },
+  {
+    "id": "diesel-generator",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Forged lifting eyes and recessed breaker/output assembly; satin enamel, oily steel skid and properly recessed readable panel.",
+    "source_model": "diesel-generator",
+    "source_triangles": 6092,
+    "original_parts": 44,
+    "editable_parts": 55,
+    "triangles": 8184,
+    "materials": 1,
+    "dimensions_m": [
+      2.059999942779541,
+      2.4262125492095947,
+      3.0
+    ],
+    "bounds_godot": {
+      "min": [
+        -1.0299999713897705,
+        0.0,
+        -1.5
+      ],
+      "max": [
+        1.0299999713897705,
+        2.4262125492095947,
+        1.5
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "clay",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "fine_comb_supports": "Two steel mounting posts connect the existing DIESEL / 40 plaque to enclosure; lettering and its UVs remain unchanged.",
+    "runtime_geometry_sha256": "7356fcb06bca97cf5c9ab361fea3762889c2ed206d0cc5cc826bd0947fccc705"
+  },
+  {
+    "id": "air-compressor",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Pressure-switch housing and capillary sensing line, motor cooling details and receiver identity; brushed motor and painted tank separation.",
+    "source_model": "air-compressor",
+    "source_triangles": 8040,
+    "original_parts": 35,
+    "editable_parts": 41,
+    "triangles": 9564,
+    "materials": 1,
+    "dimensions_m": [
+      1.7932742238044739,
+      2.140850782394409,
+      2.9000000953674316
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.8838774561882019,
+        0.0,
+        -1.4500000476837158
+      ],
+      "max": [
+        0.909396767616272,
+        2.140850782394409,
+        1.4500000476837158
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "verdigris",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "b6a784e09fb847f68a3a3eae8c7c5c8acfc6e0310a6794759856ffe8db082d0d",
+    "degenerate_runtime_cleanup": "Removed zero-area triangles only; retained all vertex positions, useful-face UV/pigment and custom corner normals. Editable components unchanged."
+  },
+  {
+    "id": "fire-hydrant",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Six-stud bonnet flange with a gasket and front service outlet; controlled cast-iron oxidation and machined cap edges.",
+    "source_model": "fire-hydrant",
+    "source_triangles": 2824,
+    "original_parts": 33,
+    "editable_parts": 42,
+    "triangles": 3328,
+    "materials": 1,
+    "dimensions_m": [
+      0.9099999666213989,
+      1.2400000095367432,
+      0.9099999666213989
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.45499998331069946,
+        0.0,
+        -0.45499998331069946
+      ],
+      "max": [
+        0.45499998331069946,
+        1.2400000095367432,
+        0.45499998331069946
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "oxblood",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "e3f43ef17294aed33a98607e2a233db9053abdf06fa2f064ad567c01b6b32b2a",
+    "degenerate_runtime_cleanup": "Removed zero-area triangles only; retained all vertex positions, useful-face UV/pigment and custom corner normals. Editable components unchanged."
+  },
+  {
+    "id": "bulk-fuel-tank",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Supported maintenance walkway, pressure breather and vessel ID; believable large smooth tank skin with fine roughness variation.",
+    "source_model": "bulk-fuel-tank",
+    "source_triangles": 5976,
+    "original_parts": 55,
+    "editable_parts": 65,
+    "triangles": 8384,
+    "materials": 1,
+    "dimensions_m": [
+      3.8450000286102295,
+      3.9551148414611816,
+      6.599999904632568
+    ],
+    "bounds_godot": {
+      "min": [
+        -2.0450000762939453,
+        0.0,
+        -3.299999952316284
+      ],
+      "max": [
+        1.7999999523162842,
+        3.9551148414611816,
+        3.299999952316284
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "heather",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "79ce5b91e9c465fd158c2ad2a8c77c45cc323afeb313da6d6b1f1478fcfa6582",
+    "degenerate_runtime_cleanup": "Removed zero-area triangles only; retained all vertex positions, useful-face UV/pigment and custom corner normals. Editable components unchanged."
+  },
+  {
+    "id": "cargo-pallet",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Tensioned band ratchets, handling plaques and timber fork bearing blocks; restrained wood grain and separate metal shipping cases.",
+    "source_model": "cargo-pallet",
+    "source_triangles": 4108,
+    "original_parts": 29,
+    "editable_parts": 39,
+    "triangles": 6264,
+    "materials": 1,
+    "dimensions_m": [
+      1.65500009059906,
+      1.4249999523162842,
+      1.4500001072883606
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.8300000429153442,
+        0.0,
+        -0.7250000834465027
+      ],
+      "max": [
+        0.8250000476837158,
+        1.4249999523162842,
+        0.7250000238418579
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "umber",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "e01170688f074725814cc4eeb2072c0b5e1c84856e70afb0c903cf0d830dbaa3"
+  },
+  {
+    "id": "cable-spool",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Full-depth flange tie rods and a supported cable-end connector with strain relief; fine wood and rubber surface detail.",
+    "source_model": "cable-spool",
+    "source_triangles": 7460,
+    "original_parts": 34,
+    "editable_parts": 44,
+    "triangles": 8012,
+    "materials": 1,
+    "dimensions_m": [
+      2.8079726099967957,
+      1.3323333263397217,
+      1.8300000429153442
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.9150000214576721,
+        0.0,
+        -0.9150000214576721
+      ],
+      "max": [
+        1.8929725885391235,
+        1.3323333263397217,
+        0.9150000214576721
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "celadon",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "0758ad6e28b4b913855151d7eaa9d80516ad06791276cedaa78a6c7696e8c642"
+  },
+  {
+    "id": "road-barrier",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Chamfered concrete arrises, coupling load spreaders and backed reflectors on both faces; granular mineral finish.",
+    "source_model": "road-barrier",
+    "source_triangles": 1068,
+    "original_parts": 7,
+    "editable_parts": 13,
+    "triangles": 2324,
+    "materials": 1,
+    "dimensions_m": [
+      0.8600000143051147,
+      1.0730000734329224,
+      3.2320001125335693
+    ],
+    "bounds_godot": {
+      "min": [
+        -0.4300000071525574,
+        0.0,
+        -1.6160000562667847
+      ],
+      "max": [
+        0.4300000071525574,
+        1.0730000734329224,
+        1.6160000562667847
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "stone",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "runtime_geometry_sha256": "6221eba2177fad8317fb9a76080da06c2a6ce43126d9be5eaed2f5feb96f2422"
+  },
+  {
+    "id": "signal-gantry",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Bracket-mounted sign lights, continuous electrical conduit and junction housing; original wayfinding graphics preserved.",
+    "source_model": "signal-gantry",
+    "source_triangles": 3392,
+    "original_parts": 68,
+    "editable_parts": 82,
+    "triangles": 6448,
+    "materials": 1,
+    "dimensions_m": [
+      9.0,
+      6.565000057220459,
+      1.6200000047683716
+    ],
+    "bounds_godot": {
+      "min": [
+        -4.5,
+        0.0,
+        -0.6499999761581421
+      ],
+      "max": [
+        4.5,
+        6.565000057220459,
+        0.9700000286102295
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "olive",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained.",
+    "fine_comb_supports": "Four continuous steel straps join panel backs, upper/lower mounting tubes and both actual truss chords.",
+    "runtime_geometry_sha256": "320d76df5067adab8fcdb17b88201c5dc40ebbb1ef2d65f198eb1b7b86b416c9"
+  },
+  {
+    "id": "bus-shelter",
+    "status": "refined",
+    "theme": "desert legacy",
+    "detail": "Bench armrests, connected roof gutter and downpipe, readable route plaque; weathered slats and satin roof enamel.",
+    "source_model": "bus-shelter",
+    "source_triangles": 3600,
+    "original_parts": 44,
+    "editable_parts": 50,
+    "triangles": 5704,
+    "materials": 1,
+    "dimensions_m": [
+      4.931903600692749,
+      2.979999303817749,
+      2.0
+    ],
+    "bounds_godot": {
+      "min": [
+        -2.3499999046325684,
+        0.0,
+        -1.0
+      ],
+      "max": [
+        2.5819036960601807,
+        2.979999303817749,
+        1.0
+      ]
+    },
+    "collision": "Distant streamed scenery; excluded from traversable machine and docking corridor.",
+    "runtime": "Overrides matching MMFDesertLayout vehicle/utility prototype without increasing instance count.",
+    "palette_family": "plum",
+    "art200_touchup": "Model-specific muted pigment; neutral shared atlas with linear vertex tint, preserved wear, decal graphics and substrate separation.",
+    "fine_comb_refinement": "Subtle nondirectional enamel variation replaces artificial painted triangular dents; native pigment, real mesh deformation and substrate separation retained. Dedicated AMBERLINE / DUSTMILE STOP / ROUTE07 graphic replaces unrelated highway sign.",
+    "runtime_geometry_sha256": "354dc55ac9cf4b5f6e3957b3b36d9edd8a4c01a13de77c01e5e2ba7d6f398034"
+  }
+]

@@ -39,19 +39,22 @@ function buildForStairs(rotated: { quaternion: THREE.Quaternion }[]): BuildSyste
     bus,
   );
   const machine = {
+    group: new THREE.Group(),
+    constructionBody: {},
     equipmentCells: [],
     deckCells: [{ x: 0, y: 0, z: 0 }],
     fixedLinks: [],
     movement: { totalWeight: 0 },
   } as unknown as Machine;
   const physics = {
-    addFixedBox: () => ({}),
-    addFixedBoxRotated: (
+    addBoxTo: (
+      _body: unknown,
       _half: THREE.Vector3,
       _center: THREE.Vector3,
       quaternion: THREE.Quaternion,
     ) => {
-      rotated.push({ quaternion: quaternion.clone() });
+      if (Math.abs(quaternion.x) + Math.abs(quaternion.z) > 0.001)
+        rotated.push({ quaternion: quaternion.clone() });
       return {};
     },
     removeCollider: () => undefined,

@@ -1,0 +1,121 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"quality": "high / Forward+ / Vulkan / 4x MSAA",
+	"resolution": "(1920, 1080)",
+	"scenario": "Identical native deck/camera/body with one L12, stationary world, repeated small forward/reverse movement and turns; legacy static tracks versus animated authored shoes.",
+	"scenarios": {
+		"legacy-1": {
+			"draws": {
+				"max": 520.0,
+				"median": 520.0,
+				"p95": 520.0
+			},
+			"driveCpuMs": {
+				"max": 1.334,
+				"median": 0.007,
+				"p95": 0.017
+			},
+			"frameMs": {
+				"max": 187.592,
+				"median": 3.28,
+				"p95": 3.947
+			},
+			"gpuMs": {
+				"max": 3.55800008773804,
+				"median": 2.6340000629425,
+				"p95": 3.17000007629395
+			},
+			"primitives": {
+				"max": 2505084.0,
+				"median": 2504916.0,
+				"p95": 2505084.0
+			},
+			"samples": 1686
+		},
+		"legacy-2": {
+			"draws": {
+				"max": 520.0,
+				"median": 520.0,
+				"p95": 520.0
+			},
+			"driveCpuMs": {
+				"max": 0.01,
+				"median": 0.005,
+				"p95": 0.006
+			},
+			"frameMs": {
+				"max": 5.811,
+				"median": 3.192,
+				"p95": 3.856
+			},
+			"gpuMs": {
+				"max": 3.69199991226196,
+				"median": 2.66100001335144,
+				"p95": 3.12899994850159
+			},
+			"primitives": {
+				"max": 2505084.0,
+				"median": 2504916.0,
+				"p95": 2505084.0
+			},
+			"samples": 1839
+		},
+		"refined-1": {
+			"draws": {
+				"max": 520.0,
+				"median": 520.0,
+				"p95": 520.0
+			},
+			"driveCpuMs": {
+				"max": 0.238,
+				"median": 0.078,
+				"p95": 0.088
+			},
+			"frameMs": {
+				"max": 4.717,
+				"median": 3.241,
+				"p95": 3.965
+			},
+			"gpuMs": {
+				"max": 3.81399989128113,
+				"median": 2.73499989509583,
+				"p95": 3.21000003814697
+			},
+			"primitives": {
+				"max": 2463988.0,
+				"median": 2462692.0,
+				"p95": 2463988.0
+			},
+			"samples": 1784
+		},
+		"refined-2": {
+			"draws": {
+				"max": 520.0,
+				"median": 520.0,
+				"p95": 520.0
+			},
+			"driveCpuMs": {
+				"max": 0.113,
+				"median": 0.076,
+				"p95": 0.081
+			},
+			"frameMs": {
+				"max": 4.256,
+				"median": 3.207,
+				"p95": 3.931
+			},
+			"gpuMs": {
+				"max": 3.37199997901917,
+				"median": 2.74600005149841,
+				"p95": 3.21499991416931
+			},
+			"primitives": {
+				"max": 2463988.0,
+				"median": 2462692.0,
+				"p95": 2463988.0
+			},
+			"samples": 1798
+		}
+	},
+	"vsync": false
+}

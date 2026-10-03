@@ -1,0 +1,7 @@
+{
+	"checks": 42,
+	"failures": [],
+	"passed": true,
+	"scope": "Original 60 Hz movement, cooldown/windup/shot/phase, health, subsystem damage, armour and drop events; six enemy types plus sabotage. Presentation fields deliberately excluded.",
+	"ticks": 1680
+}

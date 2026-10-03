@@ -1,0 +1,15 @@
+{
+	"candidateTriangles": 3357,
+	"faceVertexCount": 334812,
+	"facesSha256": "1c0aaa05d46a26a16899324328e7ca1b80d8895572dc1e4bca0a20ff8d4bf734",
+	"removedRanges": [
+		[
+			213732,
+			222792
+		]
+	],
+	"removedTriangles": 3020,
+	"source": "NativeWorkshopCollision",
+	"surfaceToleranceM": 0.025,
+	"vertexToleranceM": 0.016
+}

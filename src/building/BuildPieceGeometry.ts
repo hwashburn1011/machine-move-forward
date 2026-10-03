@@ -33,15 +33,10 @@ const WALL_HEIGHT = LEVEL_HEIGHT - 0.18;
 const DOOR_OPENING_WIDTH = 1.1;
 
 /**
- * Half-thickness of a built floor plate, and the height of its walking
- * surface above the level's floor plane.
- *
- * Named because the doorway has to subtract it. Geometry here is authored
- * around the floor PLANE, but a body stands on the PLATE, which is this much
- * higher.
+ * Floors extend below the shared walking plane, flush with the original hull.
  */
 const FLOOR_PLATE_HALF = 0.08;
-const FLOOR_PLATE_TOP = FLOOR_PLATE_HALF * 2;
+const FLOOR_PLATE_TOP = 0;
 
 /**
  * The tallest body that has to fit through a doorway, skin included.
@@ -138,7 +133,12 @@ function gaugeFace(x: number, y: number, z: number, radius = 0.14): THREE.Buffer
 function floorGeometry(): THREE.BufferGeometry {
   // Slightly under a full tile so neighbouring plates show a seam, which gives
   // the deck a readable physical scale to walk across.
-  return at(bevelledBox(T * 0.99, 0.16, T * 0.99, 0.035), 0, 0.08, 0);
+  return at(
+    bevelledBox(T * 0.998, FLOOR_PLATE_HALF * 2, T * 0.998, 0.008),
+    0,
+    -FLOOR_PLATE_HALF,
+    0,
+  );
 }
 
 function roofGeometry(): THREE.BufferGeometry {
@@ -545,8 +545,8 @@ function tableGeometry(): THREE.BufferGeometry {
  * it even in principle — and it has no collider anyway.
  */
 function rugGeometry(): THREE.BufferGeometry {
-  const body = at(bevelledBox(1.5, 0.03, 1.05, 0.01), 0, 0.185, 0);
-  const border = at(bevelledBox(1.28, 0.035, 0.84, 0.01), 0, 0.19, 0);
+  const body = at(bevelledBox(1.5, 0.03, 1.05, 0.01), 0, 0.025, 0);
+  const border = at(bevelledBox(1.28, 0.035, 0.84, 0.01), 0, 0.03, 0);
   return grouped([[body], [border]]);
 }
 
@@ -745,7 +745,7 @@ export function pieceColliders(piece: PieceId): ColliderSpec[] {
       return [
         {
           half: new THREE.Vector3(T / 2, FLOOR_PLATE_HALF, T / 2),
-          offset: new THREE.Vector3(0, FLOOR_PLATE_HALF, 0),
+          offset: new THREE.Vector3(0, -FLOOR_PLATE_HALF, 0),
         },
       ];
 

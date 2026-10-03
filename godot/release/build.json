@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "version": "0.3.0-beta.1",
+  "build_id": "0.3.0-beta.1-302c7f1a20a1",
+  "source_hash": "302c7f1a20a165abcae8853c5fcf06571b897d85fbd2dbd68b1130a7fe26703d",
+  "created_utc": "2026-10-03T04:44:27Z",
+  "asset_manifest_sha256": "17bdbf0f2c4eb5f55cff3f988f8f3976c2bd6c64559244d132119da9eb470011",
+  "roof_collision_sha256": {
+    "glass-orchard.res": "1897fb3f2641ad870508df335e367142298b514d9f4d8fffacdd8db4913c00fd",
+    "last-garden-meridian.res": "2f4368f6a49f77f542a9d3c3fb7d7b598ca2a05748f703336ceeb8896dd7a9cd",
+    "quiet-array.res": "be83d64398429bf557f3a771176defa68d1f76c6535f454f3e916e56b5eb0612",
+    "relay-foundry.res": "407898c5008dd747e34c7fb13adb7e41e182bac55b59d05dc18a9ef1bc86584b",
+    "rooftop-workshop.res": "7fa9c17a6674f7ccf5b9e0f94256add0a66a6e605a1a749ed796925f2138f6da",
+    "wreck-one.res": "6e897ef50a732d6a84a164d272fcf8384f4d222042ea7c17ba507c6c5e27e117"
+  },
+  "refinement_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+  "prior_roof_floor_evidence_sha256": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
+  "grounded_sites_outposts_evidence_sha256": "59363312998ae2a15d9de724fa8f933a14744a1e4dfea451fe8242dad8acc844",
+  "wrist_menu_evidence_sha256": "de6c66e802d6a967ae214b5f71f54ede84d95bb0588c12bdd97741e4bcffc009",
+  "title_screen_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+  "prior_cinematic_opening_evidence_sha256": "5f00293232932f83bcdf38e8cbb42e4b1ae336d560149fe7ea53b0f3d0187be2"
+}

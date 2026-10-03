@@ -1,0 +1,970 @@
+{
+	"collisionPolicy": "Exact authored structural faces. Tiny fasteners excluded. Torn-away sheets add no faces; no box spans the torn bay.",
+	"foundryPath": "res://assets/models/authored/relay-foundry.glb",
+	"foundrySha256": "b9fad493b0ced29e6bb505333e333b075ed5aba7a9b46574608c64034bb76984",
+	"sites": {
+		"glass-orchard": {
+			"bounds": {
+				"max": [
+					8.10249996185303,
+					4.32999992370605,
+					-4.7475004196167
+				],
+				"min": [
+					1.89749991893768,
+					3.97499990463257,
+					-9.25250053405762
+				]
+			},
+			"facesSha256": "fcd1821a9de930c916e3cb3fbd42cd5f8806a826cb9ad4bcb203c722b6bd4f92",
+			"parts": [
+				{
+					"name": "Archive cap end folded binding.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Archive cap end folded binding.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Archive cap side folded binding.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Archive cap side folded binding.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat.006",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat.007",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous canopy support.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous canopy support.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.006",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.007",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.008",
+					"triangles": 108.0
+				}
+			],
+			"path": "res://data/site-roofs/glass-orchard.res",
+			"shapeSha256": "1897fb3f2641ad870508df335e367142298b514d9f4d8fffacdd8db4913c00fd",
+			"source": "res://../assets/native-site-roofs/glass-orchard-collision.json",
+			"sourceSha256": "4958eaaa8f2d7f2dc92bd7909630664de770442ae1b416ce11ff3897dd9420cd",
+			"triangles": 1620,
+			"visualTriangles": 2260.0
+		},
+		"last-garden-meridian": {
+			"bounds": {
+				"max": [
+					-2.39000010490417,
+					3.14499998092651,
+					-3.38199996948242
+				],
+				"min": [
+					-7.6100001335144,
+					2.4449999332428,
+					-3.59999990463257
+				]
+			},
+			"facesSha256": "b3822e19f079ef35b67e0da941e5f252b35dffe5b736af99e33b4afe63c2187e",
+			"parts": [
+				{
+					"name": "Garden sign backing",
+					"triangles": 108.0
+				},
+				{
+					"name": "Garden sign captured edge",
+					"triangles": 108.0
+				},
+				{
+					"name": "Garden sign captured edge.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Garden upright capture clamp",
+					"triangles": 108.0
+				},
+				{
+					"name": "Garden upright capture clamp.001",
+					"triangles": 108.0
+				}
+			],
+			"path": "res://data/site-roofs/last-garden-meridian.res",
+			"shapeSha256": "2f4368f6a49f77f542a9d3c3fb7d7b598ca2a05748f703336ceeb8896dd7a9cd",
+			"source": "res://../assets/native-site-roofs/last-garden-meridian-collision.json",
+			"sourceSha256": "958e9e4e8d324d6628777aad883f1adbfa0b479e69a630641ffce654c03447f0",
+			"triangles": 540,
+			"visualTriangles": 796.0
+		},
+		"quiet-array": {
+			"bounds": {
+				"max": [
+					5.5024995803833,
+					3.86999988555908,
+					5.5024995803833
+				],
+				"min": [
+					0.497499972581863,
+					3.47499990463257,
+					0.497499972581863
+				]
+			},
+			"facesSha256": "718c98a6884b2469282bd40e34ad591c1d3826067793b55d5d1b26974af036ef",
+			"parts": [
+				{
+					"name": "Archive cap end folded binding",
+					"triangles": 108.0
+				},
+				{
+					"name": "Archive cap end folded binding.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Archive cap side folded binding",
+					"triangles": 108.0
+				},
+				{
+					"name": "Archive cap side folded binding.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy bearing seat.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous canopy support",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous canopy support.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated standing roof seam.003",
+					"triangles": 108.0
+				}
+			],
+			"path": "res://data/site-roofs/quiet-array.res",
+			"shapeSha256": "be83d64398429bf557f3a771176defa68d1f76c6535f454f3e916e56b5eb0612",
+			"source": "res://../assets/native-site-roofs/quiet-array-collision.json",
+			"sourceSha256": "9f13c73196bd32aed697b7798be833d084e4fb0b0726a2e925aed14bfeb27085",
+			"triangles": 1512,
+			"visualTriangles": 2024.0
+		},
+		"relay-foundry": {
+			"bounds": {
+				"max": [
+					7.03000020980835,
+					5.79099988937378,
+					5.20199966430664
+				],
+				"min": [
+					-4.05999994277954,
+					4.26810550689697,
+					-5.20199966430664
+				]
+			},
+			"facesSha256": "af09de45deb2e106385ce4b091dfb93aa6ca93cc76c346d2e4109dd7f17b395d",
+			"parts": [
+				{
+					"name": "Bolted eave gutter hanger",
+					"triangles": 108.0
+				},
+				{
+					"name": "Bolted eave gutter hanger.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Bolted eave gutter hanger.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Bolted eave gutter hanger.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Bolted eave gutter hanger.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Bolted eave gutter hanger.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous roof purlin",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous roof purlin.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous roof purlin.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous roof purlin.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous roof purlin.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous roof purlin.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Continuous roof purlin.006",
+					"triangles": 108.0
+				},
+				{
+					"name": "Eave folded fascia",
+					"triangles": 108.0
+				},
+				{
+					"name": "Eave folded fascia.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Eave gutter bottom",
+					"triangles": 108.0
+				},
+				{
+					"name": "Eave gutter bottom.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Eave gutter captured outer lip",
+					"triangles": 108.0
+				},
+				{
+					"name": "Eave gutter captured outer lip.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.006",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.007",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.008",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.009",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.010",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.011",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.012",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.013",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.014",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.015",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.016",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.017",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.018",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.019",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.020",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.021",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.022",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.023",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.024",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.025",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.026",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.027",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.028",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.029",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.030",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.031",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.032",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.033",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.034",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.035",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.036",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.037",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.038",
+					"triangles": 108.0
+				},
+				{
+					"name": "Folded sheet side return.039",
+					"triangles": 108.0
+				},
+				{
+					"name": "Gantry roof knee",
+					"triangles": 108.0
+				},
+				{
+					"name": "Gantry roof knee.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Gantry roof knee.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Gantry roof knee.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "King post",
+					"triangles": 108.0
+				},
+				{
+					"name": "King post.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "King post.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Pitched truss upper chord",
+					"triangles": 108.0
+				},
+				{
+					"name": "Pitched truss upper chord.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Pitched truss upper chord.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Pitched truss upper chord.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Pitched truss upper chord.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Pitched truss upper chord.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Pressed roof sheet",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.001",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.002",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.003",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.004",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.005",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.006",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.007",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.008",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.009",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.010",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.011",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.012",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.013",
+					"triangles": 196.0
+				},
+				{
+					"name": "Pressed roof sheet.014",
+					"triangles": 196.0
+				},
+				{
+					"name": "Ridge cover rolled edge",
+					"triangles": 108.0
+				},
+				{
+					"name": "Ridge cover rolled edge.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Ridge weather cover",
+					"triangles": 108.0
+				},
+				{
+					"name": "Ridge weather cover.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.006",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.007",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.008",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.009",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.010",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.011",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.012",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.013",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.014",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.015",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.016",
+					"triangles": 108.0
+				},
+				{
+					"name": "Roof truss captured web.017",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated eave cleat",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated eave cleat.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated eave cleat.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated eave cleat.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated eave cleat.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Seated eave cleat.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Tie beam on original gantry",
+					"triangles": 108.0
+				},
+				{
+					"name": "Tie beam on original gantry.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Tie beam on original gantry.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Wind-torn retained roof sheet",
+					"triangles": 396.0
+				},
+				{
+					"name": "Wind-torn retained roof sheet.001",
+					"triangles": 396.0
+				},
+				{
+					"name": "Wind-torn retained roof sheet.002",
+					"triangles": 396.0
+				},
+				{
+					"name": "Wind-torn retained roof sheet.003",
+					"triangles": 396.0
+				},
+				{
+					"name": "Wind-torn retained roof sheet.004",
+					"triangles": 396.0
+				}
+			],
+			"path": "res://data/site-roofs/relay-foundry.res",
+			"shapeSha256": "407898c5008dd747e34c7fb13adb7e41e182bac55b59d05dc18a9ef1bc86584b",
+			"source": "res://../assets/native-site-roofs/relay-foundry-collision.json",
+			"sourceSha256": "117886ad7d2937444c82441d2d5b4ecd130726493e7b3f407a1db662e0ab0f77",
+			"triangles": 16044,
+			"visualTriangles": 23212.0
+		},
+		"rooftop-workshop": {
+			"bounds": {
+				"max": [
+					5.9539999961853,
+					4.71490955352783,
+					-1.2849999666214
+				],
+				"min": [
+					-2.87400007247925,
+					3.49000000953674,
+					-4.98499965667725
+				]
+			},
+			"facesSha256": "23b58008c6d18c6378c54bcb3db4baac7678629ee06d6f89f3abe04df38fdbbd",
+			"parts": [
+				{
+					"name": "Canopy cantilever rafter",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy cantilever rafter.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy cantilever rafter.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy captured purlin",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy captured purlin.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Canopy captured purlin.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Cantilever knee brace",
+					"triangles": 108.0
+				},
+				{
+					"name": "Cantilever knee brace.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Cantilever knee brace.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter end fold",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter end fold.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.003",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.004",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.005",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.006",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.007",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.008",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.009",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.010",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.011",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.012",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.013",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.014",
+					"triangles": 108.0
+				},
+				{
+					"name": "Shelter folded seam.015",
+					"triangles": 108.0
+				},
+				{
+					"name": "Wall cap saddle",
+					"triangles": 108.0
+				},
+				{
+					"name": "Wall cap saddle.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Wall cap saddle.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Wall seated canopy standard",
+					"triangles": 108.0
+				},
+				{
+					"name": "Wall seated canopy standard.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Wall seated canopy standard.002",
+					"triangles": 108.0
+				},
+				{
+					"name": "Workshop gutter end stop",
+					"triangles": 108.0
+				},
+				{
+					"name": "Workshop gutter end stop.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Workshop gutter folded wall",
+					"triangles": 108.0
+				},
+				{
+					"name": "Workshop gutter folded wall.001",
+					"triangles": 108.0
+				},
+				{
+					"name": "Workshop gutter outlet",
+					"triangles": 60.0
+				},
+				{
+					"name": "Workshop gutter pan",
+					"triangles": 108.0
+				},
+				{
+					"name": "Workshop pitched shelter panel",
+					"triangles": 196.0
+				},
+				{
+					"name": "Workshop pitched shelter panel.001",
+					"triangles": 196.0
+				},
+				{
+					"name": "Workshop pitched shelter panel.002",
+					"triangles": 196.0
+				},
+				{
+					"name": "Workshop pitched shelter panel.003",
+					"triangles": 196.0
+				},
+				{
+					"name": "Workshop pitched shelter panel.004",
+					"triangles": 196.0
+				},
+				{
+					"name": "Workshop pitched shelter panel.005",
+					"triangles": 196.0
+				},
+				{
+					"name": "Workshop pitched shelter panel.006",
+					"triangles": 196.0
+				},
+				{
+					"name": "Workshop pitched shelter panel.007",
+					"triangles": 196.0
+				}
+			],
+			"path": "res://data/site-roofs/rooftop-workshop.res",
+			"shapeSha256": "7fa9c17a6674f7ccf5b9e0f94256add0a66a6e605a1a749ed796925f2138f6da",
+			"source": "res://../assets/native-site-roofs/rooftop-workshop-collision.json",
+			"sourceSha256": "3f1bfdbbaf0a2bc93c4b597ae081fb9d59ac86806e2e55b8ec4f3a4668e2d835",
+			"triangles": 5732,
+			"visualTriangles": 9188.0
+		},
+		"wreck-one": {
+			"bounds": {
+				"max": [
+					5.00000047683716,
+					3.74000000953674,
+					9.43999767303467
+				],
+				"min": [
+					-4.99999952316284,
+					2.44999980926514,
+					-8.9399995803833
+				]
+			},
+			"facesSha256": "9223c15f1b30b3ec6728b98a4bdc950d434c2d001c780bdbb63422d7333dbda1",
+			"parts": [
+				{
+					"name": "Wreck_BrokenRoof_Geometry",
+					"triangles": 8732.0
+				}
+			],
+			"path": "res://data/site-roofs/wreck-one.res",
+			"shapeSha256": "6e897ef50a732d6a84a164d272fcf8384f4d222042ea7c17ba507c6c5e27e117",
+			"source": "res://../assets/native-site-roofs/wreck-one-collision.json",
+			"sourceSha256": "4c27bb38f7412b003ef4cbab4666b51e27200324fc4784c250164f8c8a665e0e",
+			"triangles": 8732,
+			"visualPath": "res://assets/models/authored/expedition-wreck.glb",
+			"visualSha256": "a96182ee8adb652b773e1d92afc5dbe67b5c8d2b0da5b9599804d348950e1ab5",
+			"visualTriangles": 8732.0
+		}
+	},
+	"version": 1,
+	"visualPath": "res://art/native-site-roofs.glb",
+	"visualSha256": "bdf5ea1781f91e2a634ebc7a53f19941917eba5816017f89ce1a2118b42c3791"
+}

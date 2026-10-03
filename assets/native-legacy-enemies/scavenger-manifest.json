@@ -1,0 +1,26 @@
+{
+  "kind": "scavenger",
+  "editableParts": 498,
+  "triangles": 54944,
+  "materials": 9,
+  "bytes": 8149012,
+  "repairedTangents": 0,
+  "bones": [
+    "Root",
+    "Hips",
+    "Spine",
+    "Head",
+    "UpperArm.L",
+    "Forearm.L",
+    "Hand.L",
+    "UpperArm.R",
+    "Forearm.R",
+    "Hand.R",
+    "Thigh.L",
+    "Shin.L",
+    "Foot.L",
+    "Thigh.R",
+    "Shin.R",
+    "Foot.R"
+  ]
+}

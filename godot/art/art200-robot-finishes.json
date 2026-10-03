@@ -1,0 +1,149 @@
+{
+  "warden": {
+    "family": "denim",
+    "rules": [
+      {
+        "contains": "fadedtan_panels",
+        "linear_factor": [
+          0.300797,
+          0.499359,
+          1.0
+        ],
+        "source_material": "MECH_FadedTan_Panels"
+      },
+      {
+        "contains": "charcoal_chippedarmor",
+        "linear_factor": [
+          0.736727,
+          0.845246,
+          1.0
+        ],
+        "source_material": "MECH_Charcoal_ChippedArmor"
+      }
+    ]
+  },
+  "revenant": {
+    "family": "oxblood",
+    "rules": [
+      {
+        "contains": "black_enamel",
+        "linear_factor": [
+          1.0,
+          0.6204,
+          0.582895
+        ],
+        "source_material": "MECH_Black_Enamel"
+      },
+      {
+        "contains": "charcoal_chippedarmor",
+        "linear_factor": [
+          1.0,
+          0.645269,
+          0.663358
+        ],
+        "source_material": "MECH_Charcoal_ChippedArmor"
+      }
+    ]
+  },
+  "bastion": {
+    "family": "olive",
+    "rules": [
+      {
+        "contains": "charcoal_chippedarmor",
+        "linear_factor": [
+          1.0,
+          0.986066,
+          0.670876
+        ],
+        "source_material": "MECH_Charcoal_ChippedArmor"
+      },
+      {
+        "contains": "fadedtan_panels",
+        "linear_factor": [
+          0.82866,
+          1.0,
+          0.650716
+        ],
+        "source_material": "MECH_FadedTan_Panels"
+      }
+    ]
+  },
+  "sovereign": {
+    "family": "plum",
+    "rules": [
+      {
+        "contains": "black_enamel",
+        "linear_factor": [
+          1.0,
+          0.742969,
+          0.768605
+        ],
+        "source_material": "MECH_Black_Enamel"
+      },
+      {
+        "contains": "charcoal_chippedarmor",
+        "linear_factor": [
+          1.0,
+          0.783048,
+          0.940798
+        ],
+        "source_material": "MECH_Charcoal_ChippedArmor"
+      },
+      {
+        "contains": "oxblood_cloak",
+        "linear_factor": [
+          0.133316,
+          0.48135,
+          1.0
+        ],
+        "source_material": "MECH_Oxblood_Cloak"
+      }
+    ]
+  },
+  "raider": {
+    "family": "clay",
+    "rules": [
+      {
+        "contains": "chipped oxide coating",
+        "linear_factor": [
+          0.373181,
+          0.731085,
+          1.0
+        ],
+        "source_material": "Dust chipped oxide coating"
+      },
+      {
+        "contains": "faded ochre coating",
+        "linear_factor": [
+          0.516982,
+          0.421892,
+          1.0
+        ],
+        "source_material": "Dust faded ochre coating"
+      }
+    ]
+  },
+  "scavenger": {
+    "family": "petrol",
+    "rules": [
+      {
+        "contains": "aged olive enamel",
+        "linear_factor": [
+          0.222751,
+          0.394055,
+          1.0
+        ],
+        "source_material": "Scavenger aged olive enamel"
+      },
+      {
+        "contains": "faded ochre coating",
+        "linear_factor": [
+          0.079601,
+          0.253736,
+          1.0
+        ],
+        "source_material": "Dust faded ochre coating"
+      }
+    ]
+  }
+}

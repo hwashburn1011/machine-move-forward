@@ -1,0 +1,9 @@
+{
+  "assemblies": [
+    "WindMast",
+    "WindVent",
+    "RoadBeacon"
+  ],
+  "meshes": 20,
+  "triangles": 30084
+}

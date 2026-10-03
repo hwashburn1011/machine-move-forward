@@ -1,0 +1,134 @@
+{
+  "sourceRevision": "9e84cbd",
+  "trim": [
+    {
+      "original": "Brace_welded_receiver001",
+      "replacement": "VesselRetained1",
+      "removedVertices": 762,
+      "unchangedVertices": 17587,
+      "originalTriangles": 7252,
+      "keptTriangles": 6992,
+      "unchangedCoordinatesSha256": "30686f8d8d6ae00ae19f7e3dba8ae9d9352d56e5e3d4901465c1d3ec9c10557a"
+    },
+    {
+      "original": "Brace_welded_receiver001_5",
+      "replacement": "VesselRetained2",
+      "removedVertices": 254,
+      "unchangedVertices": 5567,
+      "originalTriangles": 3826,
+      "keptTriangles": 3682,
+      "unchangedCoordinatesSha256": "b983672a710f79cff2dd231a5024b50f77d6e9453e08be7e82b19af8561fa453"
+    },
+    {
+      "original": "Workshop_overhead_cable_tray004",
+      "replacement": "VesselRetained3",
+      "removedVertices": 180,
+      "unchangedVertices": 1636,
+      "originalTriangles": 732,
+      "keptTriangles": 672,
+      "unchangedCoordinatesSha256": "3b145691f4b7479c0549451183cc9df6325dfa5e38ada86afe3540aa306916df"
+    },
+    {
+      "original": "Workshop_overhead_cable_tray004_3",
+      "replacement": "VesselRetained4",
+      "removedVertices": 1761,
+      "unchangedVertices": 5896,
+      "originalTriangles": 4172,
+      "keptTriangles": 2132,
+      "unchangedCoordinatesSha256": "8819165375ea097046b038abffb19197ba7f7a26f343948ebf972d008927c47c"
+    },
+    {
+      "original": "Workshop_overhead_cable_tray004_4",
+      "replacement": "VesselRetained5",
+      "removedVertices": 922,
+      "unchangedVertices": 1152,
+      "originalTriangles": 1612,
+      "keptTriangles": 552,
+      "unchangedCoordinatesSha256": "30edbae98280a14a8364e04e8c95c369a8d77216960d5c199de1864b9d716ab8"
+    },
+    {
+      "original": "Workshop_overhead_cable_tray004_5",
+      "replacement": "",
+      "removedVertices": 615,
+      "unchangedVertices": 0,
+      "originalTriangles": 1000,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "original": "Workshop_overhead_cable_tray004_6",
+      "replacement": "",
+      "removedVertices": 352,
+      "unchangedVertices": 0,
+      "originalTriangles": 190,
+      "keptTriangles": 0,
+      "unchangedCoordinatesSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "sites": [
+    {
+      "name": "PressureReceiver1",
+      "position": [
+        8,
+        12.43,
+        10.4
+      ]
+    },
+    {
+      "name": "PressureReceiver2",
+      "position": [
+        4,
+        12.43,
+        10.4
+      ]
+    },
+    {
+      "name": "PressureReceiver3",
+      "position": [
+        0,
+        12.43,
+        10.4
+      ]
+    },
+    {
+      "name": "PressureReceiver4",
+      "position": [
+        -4,
+        12.43,
+        10.4
+      ]
+    },
+    {
+      "name": "PressureReceiver5",
+      "position": [
+        -8,
+        12.43,
+        10.4
+      ]
+    }
+  ],
+  "editableParts": 144,
+  "masterTriangles": 27859,
+  "materialBatches": 5,
+  "bytes": 2003176,
+  "bounds": {
+    "min": [
+      -0.3135949671268463,
+      0.0,
+      -0.41600000858306885
+    ],
+    "max": [
+      0.2849999964237213,
+      2.1252217292785645,
+      0.41999998688697815
+    ]
+  },
+  "shellRadius": [
+    0.285,
+    0.304
+  ],
+  "references": [
+    "https://www.wika.com/en-au/213_53.WIKA",
+    "https://us.kaeser.com/compressed-air-resources/kaeser-talks-shop/when-sizing-met-safety.aspx"
+  ]
+}

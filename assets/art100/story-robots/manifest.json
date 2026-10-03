@@ -1,0 +1,1139 @@
+{
+  "count": 25,
+  "new": 19,
+  "refined": 6,
+  "units": "metres",
+  "models": [
+    {
+      "id": "BerthReferenceDesk",
+      "title": "Meridian maintenance reference desk",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "BerthReferenceDesk",
+      "dimensions_m": [
+        0.99,
+        1.435,
+        0.66
+      ],
+      "bounds_min": [
+        -0.495,
+        0.0,
+        -0.33
+      ],
+      "bounds_max": [
+        0.495,
+        1.435,
+        0.33
+      ],
+      "triangles": 10390,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 denim ceramic stencil",
+        "A200 denim enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 39,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "compound frame, work surface and display; open leg space",
+      "runtime_meshes": 7,
+      "paint_family": "denim",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Retained work papers, worktop fasteners and muted denim service finish."
+      ]
+    },
+    {
+      "id": "BerthReceivingCoupler",
+      "title": "Receiving coupler and service breaker",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "BerthReceivingCoupler",
+      "dimensions_m": [
+        0.85,
+        1.342,
+        0.675
+      ],
+      "bounds_min": [
+        -0.425,
+        0.0,
+        -0.29
+      ],
+      "bounds_max": [
+        0.425,
+        1.342,
+        0.385
+      ],
+      "triangles": 19367,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 oxblood ceramic stencil",
+        "A200 oxblood enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 79,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 7,
+      "paint_family": "oxblood",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Locked contact ferrules and receiving-channel service identity."
+      ]
+    },
+    {
+      "id": "BerthSeedEnclosure",
+      "title": "Climate controlled seed enclosure",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "BerthSeedEnclosure",
+      "dimensions_m": [
+        1.05,
+        1.6,
+        0.759
+      ],
+      "bounds_min": [
+        -0.525,
+        0.0,
+        -0.35
+      ],
+      "bounds_max": [
+        0.525,
+        1.6,
+        0.409
+      ],
+      "triangles": 15547,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 celadon ceramic stencil",
+        "A200 celadon enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 63,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 7,
+      "paint_family": "celadon",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Fastened climate hood and individually numbered seed carriers.",
+        "Carrier numbers clear the curved caps; cabinet title has a separate unobstructed field."
+      ]
+    },
+    {
+      "id": "BerthArchiveReceiver",
+      "title": "Meridian archive receiving cradle",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "BerthArchiveReceiver",
+      "dimensions_m": [
+        0.95,
+        1.21332,
+        0.679
+      ],
+      "bounds_min": [
+        -0.475,
+        0.0,
+        -0.31
+      ],
+      "bounds_max": [
+        0.475,
+        1.21332,
+        0.369
+      ],
+      "triangles": 10031,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 plum ceramic stencil",
+        "A200 plum enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 51,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 7,
+      "paint_family": "plum",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Physical extraction stops and keyed archive-drawer marks."
+      ]
+    },
+    {
+      "id": "BerthAccessTransmitter",
+      "title": "Access policy transmitter console",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "BerthAccessTransmitter",
+      "dimensions_m": [
+        0.9,
+        1.85,
+        0.694
+      ],
+      "bounds_min": [
+        -0.45,
+        0.0,
+        -0.295
+      ],
+      "bounds_max": [
+        0.45,
+        1.85,
+        0.399
+      ],
+      "triangles": 24228,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 petrol ceramic stencil",
+        "A200 petrol enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 101,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 7,
+      "paint_family": "petrol",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Meter retainers and service identity on the transmitter junction."
+      ]
+    },
+    {
+      "id": "SeedPropagationBench",
+      "title": "Six cup propagation bench",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "SeedPropagationBench",
+      "dimensions_m": [
+        2.5,
+        1.29,
+        0.621
+      ],
+      "bounds_min": [
+        -1.25,
+        0.0,
+        -0.305
+      ],
+      "bounds_max": [
+        1.25,
+        1.29,
+        0.316
+      ],
+      "triangles": 20855,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 dormant grey sage foliage",
+        "A200 olive ceramic stencil",
+        "A200 olive enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 61,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "compound tray, legs and feet; six separately rounded cups with open gaps",
+      "runtime_meshes": 6,
+      "paint_family": "olive",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Rolled cup rims and numbered planting seats without closing cup gaps."
+      ]
+    },
+    {
+      "id": "PreservationReservoir",
+      "title": "Preservation fluid reservoir",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "PreservationReservoir",
+      "dimensions_m": [
+        0.5088,
+        1.5425,
+        0.6144
+      ],
+      "bounds_min": [
+        -0.2544,
+        0.0,
+        -0.2544
+      ],
+      "bounds_max": [
+        0.2544,
+        1.5425,
+        0.36
+      ],
+      "triangles": 11459,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 slate ceramic stencil",
+        "A200 slate enamel",
+        "A200 slate service inset",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 35,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "round pressure shell, rim bands, valve and outlet with supporting feet",
+      "runtime_meshes": 7,
+      "paint_family": "slate",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Foot anchoring fasteners and a supported outlet compression fitting."
+      ]
+    },
+    {
+      "id": "OpenChannelMast",
+      "title": "Public invitation dipole mast",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "OpenChannelMast",
+      "dimensions_m": [
+        0.552,
+        4.2,
+        0.45
+      ],
+      "bounds_min": [
+        -0.276,
+        0.0,
+        -0.225
+      ],
+      "bounds_max": [
+        0.276,
+        4.2,
+        0.225
+      ],
+      "triangles": 8080,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 denim ceramic stencil",
+        "A200 denim enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 30,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "round stem and clipped feeder, baseplate, collars and service unit; no antenna bounding wall",
+      "runtime_meshes": 5,
+      "paint_family": "denim",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Bolted mast foundation and distinct open/relay service cover."
+      ]
+    },
+    {
+      "id": "RelayChallengeMast",
+      "title": "Narrowcast challenge response array",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "RelayChallengeMast",
+      "dimensions_m": [
+        0.6,
+        3.68,
+        0.44
+      ],
+      "bounds_min": [
+        -0.3,
+        0.0,
+        -0.22
+      ],
+      "bounds_max": [
+        0.3,
+        3.68,
+        0.22
+      ],
+      "triangles": 9265,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 plum ceramic stencil",
+        "A200 plum enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 34,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "round stem, baseplate and challenge unit; no antenna bounding wall",
+      "runtime_meshes": 5,
+      "paint_family": "plum",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Bolted mast foundation and distinct open/relay service cover."
+      ]
+    },
+    {
+      "id": "IsolatorCabinet",
+      "title": "Orchard archive circuit isolator",
+      "status": "new",
+      "runtime_target": "glass-orchard / berth rear service wall",
+      "counting_unit": "complete assembled model",
+      "root": "IsolatorCabinet",
+      "dimensions_m": [
+        0.8,
+        1.55,
+        0.625
+      ],
+      "bounds_min": [
+        -0.4,
+        0.0,
+        -0.24
+      ],
+      "bounds_max": [
+        0.4,
+        1.55,
+        0.385
+      ],
+      "triangles": 15174,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 clay ceramic stencil",
+        "A200 clay enamel",
+        "A200 clay service inset",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 61,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 8,
+      "paint_family": "clay",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Isolation safety engraving and captive fuse-terminal fasteners.",
+        "Identification plate resized and spaced above the instrument display."
+      ]
+    },
+    {
+      "id": "ArchiveTransitCore",
+      "title": "Sealed archive transport core",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "ArchiveTransitCore",
+      "dimensions_m": [
+        0.688,
+        0.582,
+        0.487
+      ],
+      "bounds_min": [
+        -0.344,
+        0.0,
+        -0.235
+      ],
+      "bounds_max": [
+        0.344,
+        0.582,
+        0.252
+      ],
+      "triangles": 6068,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 oxblood ceramic stencil",
+        "A200 oxblood enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 27,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 5,
+      "paint_family": "oxblood",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Captured side transport locks and a muted oxblood field finish."
+      ]
+    },
+    {
+      "id": "MemoryReader",
+      "title": "Archive memory inspection desk",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "MemoryReader",
+      "dimensions_m": [
+        0.76,
+        1.305,
+        0.49
+      ],
+      "bounds_min": [
+        -0.38,
+        0.0,
+        -0.245
+      ],
+      "bounds_max": [
+        0.38,
+        1.305,
+        0.245
+      ],
+      "triangles": 8324,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 heather ceramic stencil",
+        "A200 heather enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 31,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "compound plinth, pedestal, work surface and display",
+      "runtime_meshes": 7,
+      "paint_family": "heather",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "A supported reader plaque and physical display pivot."
+      ]
+    },
+    {
+      "id": "SeedVault",
+      "title": "Hermetic seed cassette vault",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "SeedVault",
+      "dimensions_m": [
+        0.76,
+        1.18,
+        0.732
+      ],
+      "bounds_min": [
+        -0.38,
+        0.0,
+        -0.28
+      ],
+      "bounds_max": [
+        0.38,
+        1.18,
+        0.452
+      ],
+      "triangles": 12118,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 olive ceramic stencil",
+        "A200 olive enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 49,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 7,
+      "paint_family": "olive",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Handwheel spindle reaches the door; retained vault door hinges.",
+        "Meter assembly seated on the outer door, clear of the gasket and title."
+      ]
+    },
+    {
+      "id": "EmergencyFuelPump",
+      "title": "Foundry emergency fuel service pump",
+      "status": "new",
+      "runtime_target": "relay-foundry / glass-orchard service bay",
+      "counting_unit": "complete assembled model",
+      "root": "EmergencyFuelPump",
+      "dimensions_m": [
+        0.87491,
+        1.5,
+        0.66365
+      ],
+      "bounds_min": [
+        -0.34,
+        0.0,
+        -0.255
+      ],
+      "bounds_max": [
+        0.53491,
+        1.5,
+        0.40865
+      ],
+      "triangles": 15902,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 clay ceramic stencil",
+        "A200 clay enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 66,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 7,
+      "paint_family": "clay",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Connected dispensing-nozzle guard and a readable manual-service plate."
+      ]
+    },
+    {
+      "id": "CourierChargeCradle",
+      "title": "Courier autonomous charging cradle",
+      "status": "new",
+      "runtime_target": "meridian-berth",
+      "counting_unit": "complete assembled model",
+      "root": "CourierChargeCradle",
+      "dimensions_m": [
+        1.03,
+        0.805,
+        0.843
+      ],
+      "bounds_min": [
+        -0.515,
+        0.0,
+        -0.415
+      ],
+      "bounds_max": [
+        0.515,
+        0.805,
+        0.428
+      ],
+      "triangles": 6845,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 petrol ceramic stencil",
+        "A200 petrol enamel",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 27,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "compound base, side supports and rear receiver; open central cradle",
+      "runtime_meshes": 7,
+      "paint_family": "petrol",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Captured charge collars and grounded docking-pad anchors."
+      ],
+      "independent_review_fixes": [
+        "Insulated feedthrough pins connect all three spring contacts to the pedestal."
+      ]
+    },
+    {
+      "id": "RecoveryToolCart",
+      "title": "Mobile recovery technician cart",
+      "status": "new",
+      "runtime_target": "meridian-berth / foundry service bay",
+      "counting_unit": "complete assembled model",
+      "root": "RecoveryToolCart",
+      "dimensions_m": [
+        0.71,
+        1.19018,
+        0.67
+      ],
+      "bounds_min": [
+        -0.355,
+        0.0,
+        -0.335
+      ],
+      "bounds_max": [
+        0.355,
+        1.19018,
+        0.335
+      ],
+      "triangles": 7484,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 umber ceramic stencil",
+        "A200 umber enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 27,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 5,
+      "paint_family": "umber",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Connected caster forks and axles; supported recovery identification rail."
+      ]
+    },
+    {
+      "id": "NavGyroCradle",
+      "title": "Navigation gyroscope service cradle",
+      "status": "new",
+      "runtime_target": "wreck-one",
+      "counting_unit": "complete assembled model",
+      "root": "NavGyroCradle",
+      "dimensions_m": [
+        0.79,
+        0.98,
+        0.657
+      ],
+      "bounds_min": [
+        -0.395,
+        0.0,
+        -0.32
+      ],
+      "bounds_max": [
+        0.395,
+        0.98,
+        0.337
+      ],
+      "triangles": 9051,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 denim ceramic stencil",
+        "A200 denim enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 30,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 5,
+      "paint_family": "denim",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Retained trunnion fasteners and a bolted instrument plinth."
+      ]
+    },
+    {
+      "id": "FoundryPowerBus",
+      "title": "Foundry three circuit recovery bus",
+      "status": "new",
+      "runtime_target": "relay-foundry",
+      "counting_unit": "complete assembled model",
+      "root": "FoundryPowerBus",
+      "dimensions_m": [
+        1.2,
+        1.35,
+        0.679
+      ],
+      "bounds_min": [
+        -0.6,
+        0.0,
+        -0.255
+      ],
+      "bounds_max": [
+        0.6,
+        1.35,
+        0.424
+      ],
+      "triangles": 20729,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 slate ceramic stencil",
+        "A200 slate enamel",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 96,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 6,
+      "paint_family": "slate",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Readable 2/1/0 circuit allocation marks and retained cassette frame."
+      ],
+      "independent_review_fixes": [
+        "Raised circuit number plates support the 2/1/0 labels."
+      ]
+    },
+    {
+      "id": "ArrayPhaseRack",
+      "title": "Quiet Array phase analysis rack",
+      "status": "new",
+      "runtime_target": "quiet-array",
+      "counting_unit": "complete assembled model",
+      "root": "ArrayPhaseRack",
+      "dimensions_m": [
+        0.91,
+        1.61,
+        0.611
+      ],
+      "bounds_min": [
+        -0.455,
+        0.0,
+        -0.265
+      ],
+      "bounds_max": [
+        0.455,
+        1.61,
+        0.346
+      ],
+      "triangles": 26534,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 smoked instrument glazing",
+        "A200 unlit instrument ink",
+        "A200 verdigris ceramic stencil",
+        "A200 verdigris enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 98,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "tight authored assembly bounds for closed solid equipment",
+      "runtime_meshes": 7,
+      "paint_family": "verdigris",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Serviceable receiver-rack ears and captured fasteners."
+      ]
+    },
+    {
+      "id": "WardenRangefinder",
+      "title": "Warden rangefinder cuirass",
+      "status": "refined",
+      "runtime_target": "enemy:warden",
+      "counting_unit": "complete assembled model",
+      "root": "WardenRangefinder",
+      "assembly_base": "res://art/refined-warden.scn",
+      "attachment_bone": "spine_02",
+      "gameplay_changes": false,
+      "dimensions_m": [
+        0.366,
+        0.595,
+        0.594
+      ],
+      "bounds_min": [
+        -0.183,
+        1.18,
+        -0.39
+      ],
+      "bounds_max": [
+        0.183,
+        1.775,
+        0.204
+      ],
+      "triangles": 8272,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 denim ceramic stencil",
+        "A200 denim enamel",
+        "A200 smoked instrument glazing",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 34,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "existing robot capsule unchanged",
+      "runtime_meshes": 6,
+      "complete_assembly_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "complete_assembly_root": "Complete_WardenRangefinder",
+      "dimensions_scope": "attachment root; complete native assembled dimensions and grounding audited in native-validation.json",
+      "authored_attachment_triangles": 8272,
+      "complete_assembly_triangles": 131233,
+      "paint_family": "denim",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Fitted chest calibration slots and purpose-specific retained warden service hardware; muted denim body/attachment faction finish."
+      ],
+      "complete_assembly_rig_bones": 47,
+      "complete_assembly_source_method": "Native runtime visual export, retains original Skeleton3D/skin and faction finish; authored editable attachment parts in StoryRobots-editable.blend",
+      "complete_assembly_source_dimensions_m": [
+        0.85972,
+        1.72309,
+        1.66292
+      ]
+    },
+    {
+      "id": "RevenantPulseRack",
+      "title": "Revenant pulse spine",
+      "status": "refined",
+      "runtime_target": "enemy:revenant",
+      "counting_unit": "complete assembled model",
+      "root": "RevenantPulseRack",
+      "assembly_base": "res://art/refined-revenant.scn",
+      "attachment_bone": "spine_02",
+      "gameplay_changes": false,
+      "dimensions_m": [
+        0.314,
+        0.55316,
+        0.5305
+      ],
+      "bounds_min": [
+        -0.157,
+        1.14,
+        -0.3265
+      ],
+      "bounds_max": [
+        0.157,
+        1.69316,
+        0.204
+      ],
+      "triangles": 8577,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 oxblood ceramic stencil",
+        "A200 oxblood service inset",
+        "A200 unlit instrument ink",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 33,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "existing robot capsule unchanged",
+      "runtime_meshes": 6,
+      "complete_assembly_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "complete_assembly_root": "Complete_RevenantPulseRack",
+      "dimensions_scope": "attachment root; complete native assembled dimensions and grounding audited in native-validation.json",
+      "authored_attachment_triangles": 8577,
+      "complete_assembly_triangles": 125053,
+      "paint_family": "oxblood",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Fitted chest calibration slots and purpose-specific retained revenant service hardware; muted oxblood body/attachment faction finish."
+      ],
+      "complete_assembly_rig_bones": 48,
+      "complete_assembly_source_method": "Native runtime visual export, retains original Skeleton3D/skin and faction finish; authored editable attachment parts in StoryRobots-editable.blend",
+      "complete_assembly_source_dimensions_m": [
+        1.6195,
+        1.81227,
+        1.17771
+      ]
+    },
+    {
+      "id": "BastionSiegeRadiator",
+      "title": "Bastion siege cooling assembly",
+      "status": "refined",
+      "runtime_target": "enemy:bastion",
+      "counting_unit": "complete assembled model",
+      "root": "BastionSiegeRadiator",
+      "assembly_base": "res://art/refined-bastion.scn",
+      "attachment_bone": "spine_02",
+      "gameplay_changes": false,
+      "dimensions_m": [
+        0.46,
+        0.64497,
+        0.564
+      ],
+      "bounds_min": [
+        -0.23,
+        1.06403,
+        -0.36
+      ],
+      "bounds_max": [
+        0.23,
+        1.709,
+        0.204
+      ],
+      "triangles": 10741,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 olive ceramic stencil",
+        "A200 olive enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 50,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "existing robot capsule unchanged",
+      "runtime_meshes": 5,
+      "complete_assembly_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "complete_assembly_root": "Complete_BastionSiegeRadiator",
+      "dimensions_scope": "attachment root; complete native assembled dimensions and grounding audited in native-validation.json",
+      "authored_attachment_triangles": 10741,
+      "complete_assembly_triangles": 111749,
+      "paint_family": "olive",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Fitted chest calibration slots and purpose-specific retained bastion service hardware; muted olive body/attachment faction finish."
+      ],
+      "complete_assembly_rig_bones": 47,
+      "complete_assembly_source_method": "Native runtime visual export, retains original Skeleton3D/skin and faction finish; authored editable attachment parts in StoryRobots-editable.blend",
+      "complete_assembly_source_dimensions_m": [
+        1.3094,
+        1.48236,
+        1.39269
+      ]
+    },
+    {
+      "id": "SovereignComms",
+      "title": "Sovereign command uplink",
+      "status": "refined",
+      "runtime_target": "enemy:sovereign",
+      "counting_unit": "complete assembled model",
+      "root": "SovereignComms",
+      "assembly_base": "res://art/refined-sovereign.scn",
+      "attachment_bone": "spine_02",
+      "gameplay_changes": false,
+      "dimensions_m": [
+        0.4,
+        0.78,
+        0.665
+      ],
+      "bounds_min": [
+        -0.2,
+        1.16,
+        -0.461
+      ],
+      "bounds_max": [
+        0.2,
+        1.94,
+        0.204
+      ],
+      "triangles": 7299,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 plum ceramic stencil",
+        "A200 plum enamel",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 32,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "existing robot capsule unchanged",
+      "runtime_meshes": 5,
+      "complete_assembly_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "complete_assembly_root": "Complete_SovereignComms",
+      "dimensions_scope": "attachment root; complete native assembled dimensions and grounding audited in native-validation.json",
+      "authored_attachment_triangles": 7299,
+      "complete_assembly_triangles": 179048,
+      "paint_family": "plum",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Fitted chest calibration slots and purpose-specific retained sovereign service hardware; muted plum body/attachment faction finish."
+      ],
+      "complete_assembly_rig_bones": 47,
+      "complete_assembly_source_method": "Native runtime visual export, retains original Skeleton3D/skin and faction finish; authored editable attachment parts in StoryRobots-editable.blend",
+      "complete_assembly_source_dimensions_m": [
+        1.05569,
+        1.8198,
+        0.84349
+      ]
+    },
+    {
+      "id": "RaiderRecoveryPack",
+      "title": "Raider recovery harness",
+      "status": "refined",
+      "runtime_target": "enemy:raider",
+      "counting_unit": "complete assembled model",
+      "root": "RaiderRecoveryPack",
+      "assembly_base": "res://art/refined-raider.scn",
+      "attachment_bone": "Spine",
+      "gameplay_changes": false,
+      "dimensions_m": [
+        0.435,
+        0.575,
+        0.596
+      ],
+      "bounds_min": [
+        -0.195,
+        1.155,
+        -0.392
+      ],
+      "bounds_max": [
+        0.24,
+        1.73,
+        0.204
+      ],
+      "triangles": 7199,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 clay ceramic stencil",
+        "A200 clay enamel",
+        "A200 clay service inset",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 32,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "existing robot capsule unchanged",
+      "runtime_meshes": 6,
+      "complete_assembly_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "complete_assembly_root": "Complete_RaiderRecoveryPack",
+      "dimensions_scope": "attachment root; complete native assembled dimensions and grounding audited in native-validation.json",
+      "authored_attachment_triangles": 7199,
+      "complete_assembly_triangles": 95744,
+      "paint_family": "clay",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Fitted chest calibration slots and purpose-specific retained raider service hardware; muted clay body/attachment faction finish."
+      ],
+      "complete_assembly_rig_bones": 16,
+      "complete_assembly_source_method": "Native runtime visual export, retains original Skeleton3D/skin and faction finish; authored editable attachment parts in StoryRobots-editable.blend",
+      "complete_assembly_source_dimensions_m": [
+        0.93142,
+        1.92076,
+        0.66651
+      ]
+    },
+    {
+      "id": "ScavengerSurveyPack",
+      "title": "Scavenger survey equipment",
+      "status": "refined",
+      "runtime_target": "enemy:scavenger",
+      "counting_unit": "complete assembled model",
+      "root": "ScavengerSurveyPack",
+      "assembly_base": "res://art/refined-scavenger.scn",
+      "attachment_bone": "Spine",
+      "gameplay_changes": false,
+      "dimensions_m": [
+        0.332,
+        0.635,
+        0.6
+      ],
+      "bounds_min": [
+        -0.166,
+        1.18,
+        -0.396
+      ],
+      "bounds_max": [
+        0.166,
+        1.815,
+        0.204
+      ],
+      "triangles": 7601,
+      "materials": [
+        "A200 aged brushed alloy",
+        "A200 petrol ceramic stencil",
+        "A200 petrol enamel",
+        "A200 smoked instrument glazing",
+        "A200 vulcanized rubber",
+        "A200 weathered load steel"
+      ],
+      "editable_parts": 30,
+      "source": "assets/art100/story-robots/StoryRobots-editable.blend",
+      "collision": "existing robot capsule unchanged",
+      "runtime_meshes": 6,
+      "complete_assembly_source": "assets/art100/story-robots/CompleteCharacterAssemblies.blend",
+      "complete_assembly_root": "Complete_ScavengerSurveyPack",
+      "dimensions_scope": "attachment root; complete native assembled dimensions and grounding audited in native-validation.json",
+      "authored_attachment_triangles": 7601,
+      "complete_assembly_triangles": 56008,
+      "paint_family": "petrol",
+      "phase2_refined": true,
+      "phase2_notes": [
+        "Fitted chest calibration slots and purpose-specific retained scavenger service hardware; muted petrol body/attachment faction finish."
+      ],
+      "complete_assembly_rig_bones": 16,
+      "complete_assembly_source_method": "Native runtime visual export, retains original Skeleton3D/skin and faction finish; authored editable attachment parts in StoryRobots-editable.blend",
+      "complete_assembly_source_dimensions_m": [
+        0.94058,
+        1.92142,
+        0.62064
+      ]
+    }
+  ],
+  "phase2": "Blender detail, supported hardware, muted palette and graphics pass"
+}

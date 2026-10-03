@@ -1,0 +1,1375 @@
+{
+  "date": "2026-09-28",
+  "scope": "Nine sequential current-source native samples: three alternating OFF/ON recording pairs, ordinary autosave travel, construction previews and fixture-assisted Foundry mechanisms. This is not an uninterrupted human campaign or a measured before/after optimization.",
+  "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+  "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+  "runner": "tools/godot/run-feel-acceptance.ps1",
+  "host_manifest": "test-results/godot-native/feel-final-host.json",
+  "host": {
+    "host_before": [
+      {
+        "name": "blender",
+        "cpu_seconds": 72.125,
+        "id": 16032
+      }
+    ],
+    "finished": "2026-09-28T08:11:16.0098858Z",
+    "engine": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\godot-tools\\Godot_v4.7.2-stable_win64_console.exe",
+    "started": "2026-09-28T08:05:11.0200274Z",
+    "cache_state": "Fresh processes; OS and driver caches uncontrolled. Background GPU utilization not measured.",
+    "samples": [
+      {
+        "seconds": 30,
+        "route": "foundry-route",
+        "started": "2026-09-28T08:05:11.0464986Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry-route",
+          "--seconds=30",
+          "--cap=0",
+          "--label=final-recorder-off-1",
+          "--output=res://../test-results/godot-native/feel-final-recorder-off-1.json"
+        ],
+        "cap": 0,
+        "recording": false,
+        "exit_code": 0,
+        "id": "recorder-off-1",
+        "exercise": "",
+        "finished": "2026-09-28T08:05:47.1310513Z"
+      },
+      {
+        "seconds": 30,
+        "route": "foundry-route",
+        "started": "2026-09-28T08:05:47.1372993Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry-route",
+          "--seconds=30",
+          "--cap=0",
+          "--label=final-recorder-on-1",
+          "--output=res://../test-results/godot-native/feel-final-recorder-on-1.json",
+          "--playtest-record"
+        ],
+        "cap": 0,
+        "recording": true,
+        "exit_code": 0,
+        "id": "recorder-on-1",
+        "exercise": "",
+        "finished": "2026-09-28T08:06:23.3980419Z"
+      },
+      {
+        "seconds": 30,
+        "route": "foundry-route",
+        "started": "2026-09-28T08:06:23.3997587Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry-route",
+          "--seconds=30",
+          "--cap=0",
+          "--label=final-recorder-off-2",
+          "--output=res://../test-results/godot-native/feel-final-recorder-off-2.json"
+        ],
+        "cap": 0,
+        "recording": false,
+        "exit_code": 0,
+        "id": "recorder-off-2",
+        "exercise": "",
+        "finished": "2026-09-28T08:06:59.3650856Z"
+      },
+      {
+        "seconds": 30,
+        "route": "foundry-route",
+        "started": "2026-09-28T08:06:59.3656093Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry-route",
+          "--seconds=30",
+          "--cap=0",
+          "--label=final-recorder-on-2",
+          "--output=res://../test-results/godot-native/feel-final-recorder-on-2.json",
+          "--playtest-record"
+        ],
+        "cap": 0,
+        "recording": true,
+        "exit_code": 0,
+        "id": "recorder-on-2",
+        "exercise": "",
+        "finished": "2026-09-28T08:07:35.6344877Z"
+      },
+      {
+        "seconds": 30,
+        "route": "foundry-route",
+        "started": "2026-09-28T08:07:35.6349665Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry-route",
+          "--seconds=30",
+          "--cap=0",
+          "--label=final-recorder-off-3",
+          "--output=res://../test-results/godot-native/feel-final-recorder-off-3.json"
+        ],
+        "cap": 0,
+        "recording": false,
+        "exit_code": 0,
+        "id": "recorder-off-3",
+        "exercise": "",
+        "finished": "2026-09-28T08:08:11.7082951Z"
+      },
+      {
+        "seconds": 30,
+        "route": "foundry-route",
+        "started": "2026-09-28T08:08:11.7088933Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry-route",
+          "--seconds=30",
+          "--cap=0",
+          "--label=final-recorder-on-3",
+          "--output=res://../test-results/godot-native/feel-final-recorder-on-3.json",
+          "--playtest-record"
+        ],
+        "cap": 0,
+        "recording": true,
+        "exit_code": 0,
+        "id": "recorder-on-3",
+        "exercise": "",
+        "finished": "2026-09-28T08:08:48.0303915Z"
+      },
+      {
+        "seconds": 90,
+        "route": "foundry-route",
+        "started": "2026-09-28T08:08:48.0308021Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry-route",
+          "--seconds=90",
+          "--cap=60",
+          "--label=final-travel-save",
+          "--output=res://../test-results/godot-native/feel-final-travel-save.json",
+          "--playtest-record"
+        ],
+        "cap": 60,
+        "recording": true,
+        "exit_code": 0,
+        "id": "travel-save",
+        "exercise": "",
+        "finished": "2026-09-28T08:10:24.1320098Z"
+      },
+      {
+        "seconds": 20,
+        "route": "scanner",
+        "started": "2026-09-28T08:10:24.1323884Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=scanner",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-construction",
+          "--output=res://../test-results/godot-native/feel-final-construction.json",
+          "--playtest-record",
+          "--exercise=construction"
+        ],
+        "cap": 60,
+        "recording": true,
+        "exit_code": 0,
+        "id": "construction",
+        "exercise": "construction",
+        "finished": "2026-09-28T08:10:49.9881947Z"
+      },
+      {
+        "seconds": 20,
+        "route": "foundry",
+        "started": "2026-09-28T08:10:49.9885759Z",
+        "arguments": [
+          "--path",
+          "godot",
+          "--script",
+          "res://tests/feel_route_profile.gd",
+          "--",
+          "--route=foundry",
+          "--seconds=20",
+          "--cap=60",
+          "--label=final-expedition",
+          "--output=res://../test-results/godot-native/feel-final-expedition.json",
+          "--playtest-record",
+          "--exercise=expedition"
+        ],
+        "cap": 60,
+        "recording": true,
+        "exit_code": 0,
+        "id": "expedition",
+        "exercise": "expedition",
+        "finished": "2026-09-28T08:11:16.0095435Z"
+      }
+    ],
+    "host_after": [
+      {
+        "name": "blender",
+        "cpu_seconds": 72.203125,
+        "id": 16032
+      }
+    ]
+  },
+  "samples": [
+    {
+      "run_id": "final-recorder-off-1-foundry-route-969154",
+      "label": "final-recorder-off-1",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "seed": "playtest-foundry-route",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0,
+      "instrumented": false,
+      "recording_enabled": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 446.321,
+      "sample_seconds": 30.0,
+      "frame_ms": {
+        "count": 7644,
+        "max": 179.387,
+        "median": 3.849,
+        "over100": 1,
+        "over25": 6,
+        "over50": 3,
+        "p95": 4.807,
+        "p99": 5.329
+      },
+      "steady_after5s_ms": {
+        "count": 6420,
+        "max": 7.486,
+        "median": 3.877,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 4.812,
+        "p99": 5.092
+      },
+      "gpu_ms": {
+        "count": 7644,
+        "max": 37.6749992370605,
+        "median": 3.17400002479553,
+        "over100": 0,
+        "over25": 2,
+        "over50": 0,
+        "p95": 3.80200004577637,
+        "p99": 4.03399991989136
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 2708.61024697302,
+      "exercise": {
+        "completed": false,
+        "fixture_assisted": false,
+        "kind": "",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-recorder-off-1.json",
+      "log": "test-results/godot-native/feel-final-recorder-off-1.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry-route",
+        "--seconds=30",
+        "--cap=0",
+        "--label=final-recorder-off-1",
+        "--output=res://../test-results/godot-native/feel-final-recorder-off-1.json"
+      ],
+      "exit_code": 0,
+      "recorded_events": 0,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry-route",
+            "launch_ms": 446.321
+          },
+          "phase": "approach",
+          "simulation_s": 0.0,
+          "wall_ms": 4605.068
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 179.387
+    },
+    {
+      "run_id": "final-recorder-on-1-foundry-route-982761",
+      "label": "final-recorder-on-1",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "seed": "playtest-foundry-route",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0,
+      "instrumented": false,
+      "recording_enabled": true,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 429.445,
+      "sample_seconds": 30.0,
+      "frame_ms": {
+        "count": 7728,
+        "max": 163.745,
+        "median": 3.683,
+        "over100": 1,
+        "over25": 7,
+        "over50": 2,
+        "p95": 4.846,
+        "p99": 5.557
+      },
+      "steady_after5s_ms": {
+        "count": 6507,
+        "max": 7.881,
+        "median": 3.71,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 4.843,
+        "p99": 5.365
+      },
+      "gpu_ms": {
+        "count": 7728,
+        "max": 35.4790000915527,
+        "median": 3.15899991989136,
+        "over100": 0,
+        "over25": 6,
+        "over50": 0,
+        "p95": 3.76999998092651,
+        "p99": 4.01700019836426
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 2708.72762088335,
+      "exercise": {
+        "completed": false,
+        "fixture_assisted": false,
+        "kind": "",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-recorder-on-1.json",
+      "log": "test-results/godot-native/feel-final-recorder-on-1.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry-route",
+        "--seconds=30",
+        "--cap=0",
+        "--label=final-recorder-on-1",
+        "--output=res://../test-results/godot-native/feel-final-recorder-on-1.json",
+        "--playtest-record"
+      ],
+      "exit_code": 0,
+      "recorded_events": 8,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry-route",
+            "launch_ms": 429.445
+          },
+          "phase": "approach",
+          "simulation_s": 0.0,
+          "wall_ms": 4588.185
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 163.745
+    },
+    {
+      "run_id": "final-recorder-off-2-foundry-route-941830",
+      "label": "final-recorder-off-2",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "seed": "playtest-foundry-route",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0,
+      "instrumented": false,
+      "recording_enabled": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 441.217,
+      "sample_seconds": 30.0,
+      "frame_ms": {
+        "count": 7727,
+        "max": 166.885,
+        "median": 3.619,
+        "over100": 1,
+        "over25": 8,
+        "over50": 2,
+        "p95": 5.143,
+        "p99": 5.703
+      },
+      "steady_after5s_ms": {
+        "count": 6491,
+        "max": 9.799,
+        "median": 3.651,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.152,
+        "p99": 5.532
+      },
+      "gpu_ms": {
+        "count": 7727,
+        "max": 35.4150009155273,
+        "median": 3.17199993133545,
+        "over100": 0,
+        "over25": 5,
+        "over50": 0,
+        "p95": 3.77999997138977,
+        "p99": 4.03200006484985
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 2708.84499479369,
+      "exercise": {
+        "completed": false,
+        "fixture_assisted": false,
+        "kind": "",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-recorder-off-2.json",
+      "log": "test-results/godot-native/feel-final-recorder-off-2.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry-route",
+        "--seconds=30",
+        "--cap=0",
+        "--label=final-recorder-off-2",
+        "--output=res://../test-results/godot-native/feel-final-recorder-off-2.json"
+      ],
+      "exit_code": 0,
+      "recorded_events": 0,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry-route",
+            "launch_ms": 441.217
+          },
+          "phase": "approach",
+          "simulation_s": 0.0,
+          "wall_ms": 4513.886
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 166.885
+    },
+    {
+      "run_id": "final-recorder-on-2-foundry-route-981039",
+      "label": "final-recorder-on-2",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "seed": "playtest-foundry-route",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0,
+      "instrumented": false,
+      "recording_enabled": true,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 449.223,
+      "sample_seconds": 30.0,
+      "frame_ms": {
+        "count": 7734,
+        "max": 181.792,
+        "median": 3.582,
+        "over100": 1,
+        "over25": 6,
+        "over50": 2,
+        "p95": 5.655,
+        "p99": 6.013
+      },
+      "steady_after5s_ms": {
+        "count": 6480,
+        "max": 7.331,
+        "median": 3.611,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.674,
+        "p99": 5.975
+      },
+      "gpu_ms": {
+        "count": 7734,
+        "max": 33.351001739502,
+        "median": 3.16499996185303,
+        "over100": 0,
+        "over25": 1,
+        "over50": 0,
+        "p95": 3.76099991798401,
+        "p99": 4.01700019836426
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 2708.72762088335,
+      "exercise": {
+        "completed": false,
+        "fixture_assisted": false,
+        "kind": "",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-recorder-on-2.json",
+      "log": "test-results/godot-native/feel-final-recorder-on-2.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry-route",
+        "--seconds=30",
+        "--cap=0",
+        "--label=final-recorder-on-2",
+        "--output=res://../test-results/godot-native/feel-final-recorder-on-2.json",
+        "--playtest-record"
+      ],
+      "exit_code": 0,
+      "recorded_events": 8,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry-route",
+            "launch_ms": 449.223
+          },
+          "phase": "approach",
+          "simulation_s": 0.0,
+          "wall_ms": 4679.407
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 181.792
+    },
+    {
+      "run_id": "final-recorder-off-3-foundry-route-996747",
+      "label": "final-recorder-off-3",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "seed": "playtest-foundry-route",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0,
+      "instrumented": false,
+      "recording_enabled": false,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 434.2,
+      "sample_seconds": 30.0,
+      "frame_ms": {
+        "count": 7696,
+        "max": 169.604,
+        "median": 3.607,
+        "over100": 1,
+        "over25": 6,
+        "over50": 2,
+        "p95": 5.694,
+        "p99": 6.051
+      },
+      "steady_after5s_ms": {
+        "count": 6474,
+        "max": 7.651,
+        "median": 3.621,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.704,
+        "p99": 5.968
+      },
+      "gpu_ms": {
+        "count": 7696,
+        "max": 38.1660003662109,
+        "median": 3.1710000038147,
+        "over100": 0,
+        "over25": 2,
+        "over50": 0,
+        "p95": 3.77500009536743,
+        "p99": 4.02799987792969
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 2708.72762088335,
+      "exercise": {
+        "completed": false,
+        "fixture_assisted": false,
+        "kind": "",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-recorder-off-3.json",
+      "log": "test-results/godot-native/feel-final-recorder-off-3.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry-route",
+        "--seconds=30",
+        "--cap=0",
+        "--label=final-recorder-off-3",
+        "--output=res://../test-results/godot-native/feel-final-recorder-off-3.json"
+      ],
+      "exit_code": 0,
+      "recorded_events": 0,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry-route",
+            "launch_ms": 434.2
+          },
+          "phase": "approach",
+          "simulation_s": 0.0,
+          "wall_ms": 4544.627
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 169.604
+    },
+    {
+      "run_id": "final-recorder-on-3-foundry-route-987423",
+      "label": "final-recorder-on-3",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "seed": "playtest-foundry-route",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 0,
+      "instrumented": false,
+      "recording_enabled": true,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 439.36,
+      "sample_seconds": 30.0,
+      "frame_ms": {
+        "count": 7686,
+        "max": 198.454,
+        "median": 3.604,
+        "over100": 1,
+        "over25": 7,
+        "over50": 2,
+        "p95": 5.694,
+        "p99": 6.058
+      },
+      "steady_after5s_ms": {
+        "count": 6452,
+        "max": 7.834,
+        "median": 3.624,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.718,
+        "p99": 6.02
+      },
+      "gpu_ms": {
+        "count": 7686,
+        "max": 37.976001739502,
+        "median": 3.17600011825562,
+        "over100": 0,
+        "over25": 5,
+        "over50": 0,
+        "p95": 3.76600003242493,
+        "p99": 4.02299976348877
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 2708.49287306268,
+      "exercise": {
+        "completed": false,
+        "fixture_assisted": false,
+        "kind": "",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-recorder-on-3.json",
+      "log": "test-results/godot-native/feel-final-recorder-on-3.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry-route",
+        "--seconds=30",
+        "--cap=0",
+        "--label=final-recorder-on-3",
+        "--output=res://../test-results/godot-native/feel-final-recorder-on-3.json",
+        "--playtest-record"
+      ],
+      "exit_code": 0,
+      "recorded_events": 8,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry-route",
+            "launch_ms": 439.36
+          },
+          "phase": "approach",
+          "simulation_s": 0.0,
+          "wall_ms": 4739.569
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 198.454
+    },
+    {
+      "run_id": "final-travel-save-foundry-route-1002000",
+      "label": "final-travel-save",
+      "mode": "checkpoint-scripted-panorama",
+      "checkpoint_id": "foundry-route",
+      "seed": "playtest-foundry-route",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": false,
+      "recording_enabled": true,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 433.468,
+      "sample_seconds": 90.0,
+      "frame_ms": {
+        "count": 5385,
+        "max": 164.476,
+        "median": 16.665,
+        "over100": 1,
+        "over25": 8,
+        "over50": 2,
+        "p95": 16.837,
+        "p99": 17.086
+      },
+      "steady_after5s_ms": {
+        "count": 5101,
+        "max": 19.356,
+        "median": 16.665,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 16.834,
+        "p99": 17.016
+      },
+      "gpu_ms": {
+        "count": 5385,
+        "max": 32.5820007324219,
+        "median": 5.0460000038147,
+        "over100": 0,
+        "over25": 6,
+        "over50": 0,
+        "p95": 5.95800018310547,
+        "p99": 6.43800020217896
+      },
+      "successful_autosaves": 1,
+      "final_health": 100.0,
+      "final_distance": 3131.39107200011,
+      "exercise": {
+        "completed": false,
+        "fixture_assisted": false,
+        "kind": "",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-travel-save.json",
+      "log": "test-results/godot-native/feel-final-travel-save.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry-route",
+        "--seconds=90",
+        "--cap=60",
+        "--label=final-travel-save",
+        "--output=res://../test-results/godot-native/feel-final-travel-save.json",
+        "--playtest-record"
+      ],
+      "exit_code": 0,
+      "recorded_events": 16,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry-route",
+            "launch_ms": 433.468
+          },
+          "phase": "approach",
+          "simulation_s": 0.0,
+          "wall_ms": 4617.457
+        },
+        {
+          "event": "autosave_queued",
+          "payload": {},
+          "phase": "approach",
+          "simulation_s": 60.0166666666645,
+          "wall_ms": 64695.346
+        },
+        {
+          "event": "autosave_completed",
+          "payload": {
+            "success": true
+          },
+          "phase": "approach",
+          "simulation_s": 60.0333333333312,
+          "wall_ms": 64711.765
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 164.476
+    },
+    {
+      "run_id": "final-construction-scanner-969421",
+      "label": "final-construction",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "scanner",
+      "seed": "playtest-scanner",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": false,
+      "recording_enabled": true,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 203.611,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1185,
+        "max": 177.295,
+        "median": 16.663,
+        "over100": 1,
+        "over25": 6,
+        "over50": 3,
+        "p95": 17.021,
+        "p99": 17.79
+      },
+      "steady_after5s_ms": {
+        "count": 898,
+        "max": 87.176,
+        "median": 16.663,
+        "over100": 0,
+        "over25": 1,
+        "over50": 1,
+        "p95": 16.873,
+        "p99": 17.274
+      },
+      "gpu_ms": {
+        "count": 1185,
+        "max": 46.6380004882813,
+        "median": 5.30100011825562,
+        "over100": 0,
+        "over25": 2,
+        "over50": 0,
+        "p95": 5.95300006866455,
+        "p99": 6.05700016021729
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 940.248753261896,
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": false,
+        "kind": "construction",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-construction.json",
+      "log": "test-results/godot-native/feel-final-construction.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=scanner",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-construction",
+        "--output=res://../test-results/godot-native/feel-final-construction.json",
+        "--playtest-record",
+        "--exercise=construction"
+      ],
+      "exit_code": 0,
+      "recorded_events": 8,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "scanner",
+            "launch_ms": 203.611
+          },
+          "phase": "locked",
+          "simulation_s": 0.0,
+          "wall_ms": 4438.967
+        },
+        {
+          "event": "exercise_catalog",
+          "payload": {},
+          "phase": "locked",
+          "simulation_s": 4.96666666666665,
+          "wall_ms": 9455.152
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "piece": "floor"
+          },
+          "phase": "locked",
+          "simulation_s": 7.96666666666664,
+          "wall_ms": 12447.885
+        },
+        {
+          "event": "exercise_preview",
+          "payload": {
+            "accepted": true,
+            "piece": "stairs"
+          },
+          "phase": "locked",
+          "simulation_s": 11.9666666666668,
+          "wall_ms": 16524.415
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "locked",
+          "simulation_s": 15.966666666667,
+          "wall_ms": 20445.473
+        }
+      ],
+      "steady_outliers": [
+        {
+          "distance": 883.807687199556,
+          "focused": true,
+          "frame": 708,
+          "gpu_ms": 5.60799980163574,
+          "ms": 87.176,
+          "phase": "locked",
+          "render_cpu_ms": 0.902999997138977,
+          "setup_cpu_ms": 0.02,
+          "simulation_s": 12.0500000000002,
+          "wall_s": 12.093542
+        }
+      ],
+      "startup_first5s_max_ms": 177.295
+    },
+    {
+      "run_id": "final-expedition-foundry-887730",
+      "label": "final-expedition",
+      "mode": "checkpoint-scripted-workload",
+      "checkpoint_id": "foundry",
+      "seed": "playtest-foundry",
+      "source_fingerprint": "8da20c96c84c396ffca6d4fd324ed4ec2dfd0f490d25be70fdbe5ac24c833373",
+      "profiler_sha256": "c9cda7599f96402fa413e303ae9072a2ef6fc8c36c62eb7259f9096180ab8d99",
+      "engine": {
+        "build": "official",
+        "hash": "ed1daf0bf001b61586d9930840f2f1394092c079",
+        "hex": 263938,
+        "major": 4,
+        "minor": 7,
+        "patch": 2,
+        "status": "stable",
+        "string": "4.7.2-stable (official)",
+        "timestamp": 0
+      },
+      "adapter": "NVIDIA GeForce RTX 3070",
+      "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "quality": "high Forward+ Vulkan 4x MSAA",
+      "vsync": false,
+      "frame_cap": 60,
+      "instrumented": false,
+      "recording_enabled": true,
+      "cache_state": "fresh process; OS and driver cache uncontrolled",
+      "launch_ms": 442.587,
+      "sample_seconds": 20.0,
+      "frame_ms": {
+        "count": 1185,
+        "max": 250.439,
+        "median": 16.665,
+        "over100": 1,
+        "over25": 3,
+        "over50": 2,
+        "p95": 17.198,
+        "p99": 17.498
+      },
+      "steady_after5s_ms": {
+        "count": 901,
+        "max": 19.105,
+        "median": 16.665,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 17.182,
+        "p99": 17.38
+      },
+      "gpu_ms": {
+        "count": 1185,
+        "max": 7.15199995040894,
+        "median": 4.66599988937378,
+        "over100": 0,
+        "over25": 0,
+        "over50": 0,
+        "p95": 5.41599988937378,
+        "p99": 5.80299997329712
+      },
+      "successful_autosaves": 0,
+      "final_health": 100.0,
+      "final_distance": 2500.0,
+      "exercise": {
+        "completed": true,
+        "fixture_assisted": true,
+        "kind": "expedition",
+        "success": true
+      },
+      "raw": "test-results/godot-native/feel-final-expedition.json",
+      "log": "test-results/godot-native/feel-final-expedition.log",
+      "arguments": [
+        "--path",
+        "godot",
+        "--script",
+        "res://tests/feel_route_profile.gd",
+        "--",
+        "--route=foundry",
+        "--seconds=20",
+        "--cap=60",
+        "--label=final-expedition",
+        "--output=res://../test-results/godot-native/feel-final-expedition.json",
+        "--playtest-record",
+        "--exercise=expedition"
+      ],
+      "exit_code": 0,
+      "recorded_events": 19,
+      "unfocused_frames": 0,
+      "events": [
+        {
+          "event": "checkpoint_launched",
+          "payload": {
+            "id": "foundry",
+            "launch_ms": 442.587
+          },
+          "phase": "docked",
+          "simulation_s": 0.0,
+          "wall_ms": 4685.194
+        },
+        {
+          "event": "exercise_control",
+          "payload": {
+            "action": "bus"
+          },
+          "phase": "docked",
+          "simulation_s": 5.98333333333332,
+          "wall_ms": 10833.225
+        },
+        {
+          "event": "exercise_milestone",
+          "payload": {
+            "action": "bus"
+          },
+          "phase": "docked",
+          "simulation_s": 6.69999999999998,
+          "wall_ms": 11548.986
+        },
+        {
+          "event": "exercise_control",
+          "payload": {
+            "action": "unlock"
+          },
+          "phase": "docked",
+          "simulation_s": 7.01666666666665,
+          "wall_ms": 11868.177
+        },
+        {
+          "event": "exercise_milestone",
+          "payload": {
+            "action": "unlock"
+          },
+          "phase": "docked",
+          "simulation_s": 7.73333333333331,
+          "wall_ms": 12581.173
+        },
+        {
+          "event": "exercise_control",
+          "payload": {
+            "action": "move"
+          },
+          "phase": "docked",
+          "simulation_s": 8.04999999999998,
+          "wall_ms": 12900.439
+        },
+        {
+          "event": "exercise_milestone",
+          "payload": {
+            "action": "move"
+          },
+          "phase": "docked",
+          "simulation_s": 10.1666666666668,
+          "wall_ms": 15027.513
+        },
+        {
+          "event": "exercise_control",
+          "payload": {
+            "action": "latch"
+          },
+          "phase": "docked",
+          "simulation_s": 10.4833333333334,
+          "wall_ms": 15333.252
+        },
+        {
+          "event": "exercise_milestone",
+          "payload": {
+            "action": "latch"
+          },
+          "phase": "docked",
+          "simulation_s": 11.2000000000001,
+          "wall_ms": 16047.759
+        },
+        {
+          "event": "exercise_complete",
+          "payload": {
+            "success": true
+          },
+          "phase": "docked",
+          "simulation_s": 11.5166666666668,
+          "wall_ms": 16362.678
+        }
+      ],
+      "steady_outliers": [],
+      "startup_first5s_max_ms": 250.439
+    }
+  ],
+  "recording_pairs": [
+    {
+      "pair": 1,
+      "on_minus_off_ms": {
+        "median": -0.167,
+        "p95": 0.031,
+        "p99": 0.273,
+        "max": 0.395
+      }
+    },
+    {
+      "pair": 2,
+      "on_minus_off_ms": {
+        "median": -0.04,
+        "p95": 0.522,
+        "p99": 0.443,
+        "max": -2.468
+      }
+    },
+    {
+      "pair": 3,
+      "on_minus_off_ms": {
+        "median": 0.003,
+        "p95": 0.014,
+        "p99": 0.052,
+        "max": 0.183
+      }
+    }
+  ],
+  "interpretation": {
+    "recording": "Three matched 30s uncapped pairs retained eight coarse events per ON run. P95 ON-minus-OFF was +0.031/+0.522/+0.014ms; between-run variation is substantial. This bounds observed low-activity behavior, not a universal overhead percentage, burst stress result or zero-cost claim. Fine callback instrumentation is OFF in both modes. Opt-in startup hashing and report export are outside timed frame windows.",
+    "travel": "No post-five-second frame exceeded25ms in the six matched samples or90s capped ordinary-autosave route. One ordinary save completed near simulation60s; health remained100.",
+    "construction": "One87.176ms frame after first stairs ghost selection at12s; p95 16.873ms, p99 17.274ms. The sequence opened catalog, previewed floor, then stairs, then cancelled. One observation aligns an operation, not an underlying CPU/GPU/resource/driver cause. No paid placement/undo or dense-layout stress claim.",
+    "expedition": "Fixture-assisted valid local controls completed power bus/unlock/move/latch and actual carriage motion; max19.105ms after5s. The helper positions the character at supported reachable control points, so this is not walking or human usability evidence.",
+    "startup": "Initial-window maxima remain163.745\u2013250.439ms and checkpoint launch CPU203.611\u2013449.223ms; setup, first-use and host/driver attribution remain unresolved. No speedup claim against preserved baseline.",
+    "host": "One Godot engine at a time; other agents paused all Godot correctness/rendering work. Desktop activity and small report reads continued. Blender remained open with0.078125s CPU increase across6m05s; its GPU utilization was not measured. OS/driver caches uncontrolled; all recorded frames focused.",
+    "next_reproduction": "Repeat the construction sequence in fresh processes with fine probes around choose/model acquisition/scene instantiation/material override/first render, plus repeated same-process floor\u2192stairs transitions. Require three matching outliers and controlled isolation before a production fix. Do not conflate this first-use preview cost with historical steady travel stalls."
+  }
+}

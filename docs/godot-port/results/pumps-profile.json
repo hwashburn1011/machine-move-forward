@@ -1,0 +1,193 @@
+{
+  "startingRevision": "bad213b",
+  "before": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": true,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native pump views, high Forward+/Vulkan, 4x MSAA, VSync off; both resource sets resident. 2s warmup/4s samples. Physics frozen. Screenshots after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 392.0,
+          "median": 392.0,
+          "p95": 392.0
+        },
+        "frameMs": {
+          "max": 4.828,
+          "median": 3.292,
+          "p95": 3.872
+        },
+        "gpuMs": {
+          "max": 4.1560001373291,
+          "median": 2.78699994087219,
+          "p95": 3.22699999809265
+        },
+        "samples": 1180
+      },
+      "2": {
+        "drawCalls": {
+          "max": 615.0,
+          "median": 615.0,
+          "p95": 615.0
+        },
+        "frameMs": {
+          "max": 4.281,
+          "median": 3.355,
+          "p95": 3.945
+        },
+        "gpuMs": {
+          "max": 3.46099996566772,
+          "median": 2.85199999809265,
+          "p95": 3.31800007820129
+        },
+        "samples": 1156
+      },
+      "3": {
+        "drawCalls": {
+          "max": 425.0,
+          "median": 425.0,
+          "p95": 425.0
+        },
+        "frameMs": {
+          "max": 4.516,
+          "median": 3.585,
+          "p95": 4.149
+        },
+        "gpuMs": {
+          "max": 3.67799997329712,
+          "median": 3.05699992179871,
+          "p95": 3.51399993896484
+        },
+        "samples": 1088
+      },
+      "4": {
+        "drawCalls": {
+          "max": 588.0,
+          "median": 588.0,
+          "p95": 588.0
+        },
+        "frameMs": {
+          "max": 4.437,
+          "median": 3.498,
+          "p95": 4.083
+        },
+        "gpuMs": {
+          "max": 3.68499994277954,
+          "median": 2.9760000705719,
+          "p95": 3.44300007820129
+        },
+        "samples": 1115
+      }
+    }
+  },
+  "after": {
+    "adapter": "NVIDIA GeForce RTX 3070",
+    "legacy": false,
+    "resolution": "(1920, 1080)",
+    "scope": "Four fixed native pump views, high Forward+/Vulkan, 4x MSAA, VSync off; both resource sets resident. 2s warmup/4s samples. Physics frozen. Screenshots after timings.",
+    "views": {
+      "1": {
+        "drawCalls": {
+          "max": 407.0,
+          "median": 407.0,
+          "p95": 407.0
+        },
+        "frameMs": {
+          "max": 4.867,
+          "median": 3.488,
+          "p95": 4.133
+        },
+        "gpuMs": {
+          "max": 4.09899997711182,
+          "median": 2.93700003623962,
+          "p95": 3.39400005340576
+        },
+        "samples": 1123
+      },
+      "2": {
+        "drawCalls": {
+          "max": 628.0,
+          "median": 628.0,
+          "p95": 628.0
+        },
+        "frameMs": {
+          "max": 4.586,
+          "median": 3.593,
+          "p95": 4.218
+        },
+        "gpuMs": {
+          "max": 3.63100004196167,
+          "median": 3.03500008583069,
+          "p95": 3.48900008201599
+        },
+        "samples": 1093
+      },
+      "3": {
+        "drawCalls": {
+          "max": 437.0,
+          "median": 437.0,
+          "p95": 437.0
+        },
+        "frameMs": {
+          "max": 4.84,
+          "median": 3.699,
+          "p95": 4.439
+        },
+        "gpuMs": {
+          "max": 3.90700006484985,
+          "median": 3.16700005531311,
+          "p95": 3.63100004196167
+        },
+        "samples": 1051
+      },
+      "4": {
+        "drawCalls": {
+          "max": 603.0,
+          "median": 603.0,
+          "p95": 603.0
+        },
+        "frameMs": {
+          "max": 4.501,
+          "median": 3.554,
+          "p95": 4.22
+        },
+        "gpuMs": {
+          "max": 3.67400002479553,
+          "median": 3.01900005340576,
+          "p95": 3.48399996757507
+        },
+        "samples": 1101
+      }
+    }
+  },
+  "comparison": [
+    {
+      "view": "1",
+      "name": "Front casing and valve",
+      "gpuMedianDifferenceMs": 0.15000009536742986,
+      "frameMedianDifferenceMs": 0.19600000000000017,
+      "drawCallDifference": 15.0
+    },
+    {
+      "view": "2",
+      "name": "Motor and fan guard",
+      "gpuMedianDifferenceMs": 0.18300008773803977,
+      "frameMedianDifferenceMs": 0.238,
+      "drawCallDifference": 13.0
+    },
+    {
+      "view": "3",
+      "name": "Aft assembly",
+      "gpuMedianDifferenceMs": 0.11000013351439986,
+      "frameMedianDifferenceMs": 0.11399999999999988,
+      "drawCallDifference": 12.0
+    },
+    {
+      "view": "4",
+      "name": "Workshop overview",
+      "gpuMedianDifferenceMs": 0.042999982833860084,
+      "frameMedianDifferenceMs": 0.055999999999999606,
+      "drawCallDifference": 15.0
+    }
+  ]
+}

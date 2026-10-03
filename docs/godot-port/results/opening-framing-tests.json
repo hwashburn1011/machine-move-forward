@@ -1,0 +1,49 @@
+{
+	"aims": [
+		{
+			"boreAngleDegrees": 0.450183211002535,
+			"chainErrorM": 0.0000000745058059692383,
+			"supportErrorM": 0.00000191107028513215,
+			"time": 3.6
+		},
+		{
+			"boreAngleDegrees": 0.445494366178601,
+			"chainErrorM": 0.000000225002594334001,
+			"supportErrorM": 0.00000213540715776617,
+			"time": 3.65
+		},
+		{
+			"boreAngleDegrees": 0.444924925836977,
+			"chainErrorM": 0.0000000699918487612194,
+			"supportErrorM": 0.00000190880336958799,
+			"time": 4.1
+		},
+		{
+			"boreAngleDegrees": 0.442925494679162,
+			"chainErrorM": 0.000000190827975643515,
+			"supportErrorM": 0.000000108033418655396,
+			"time": 4.6
+		},
+		{
+			"boreAngleDegrees": 0.418948248999965,
+			"chainErrorM": 0.000000177606906959227,
+			"supportErrorM": 0.000000953703420236707,
+			"time": 5.0
+		},
+		{
+			"boreAngleDegrees": 0.422065963551811,
+			"chainErrorM": 0.000000100582838058472,
+			"supportErrorM": 0.0000000149011611938477,
+			"time": 5.4
+		}
+	],
+	"cameraContacts": [],
+	"checks": 22,
+	"corridorChecks": 6188,
+	"corridorHits": [],
+	"failures": [],
+	"obscured": [],
+	"obscuredCount": 0,
+	"offscreen": [],
+	"viewChecks": 2631
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "view": 1,
+    "meanAbsoluteChannelDifference": 0.0,
+    "p99ChannelDifference": 0.0,
+    "pixelsAnyDifferencePercent": 0.0,
+    "pixelsAbove8Percent": 0.0,
+    "maxDifference": 0
+  },
+  {
+    "view": 2,
+    "meanAbsoluteChannelDifference": 0.0,
+    "p99ChannelDifference": 0.0,
+    "pixelsAnyDifferencePercent": 0.0,
+    "pixelsAbove8Percent": 0.0,
+    "maxDifference": 0
+  },
+  {
+    "view": 3,
+    "meanAbsoluteChannelDifference": 0.0,
+    "p99ChannelDifference": 0.0,
+    "pixelsAnyDifferencePercent": 0.0,
+    "pixelsAbove8Percent": 0.0,
+    "maxDifference": 0
+  },
+  {
+    "view": 4,
+    "meanAbsoluteChannelDifference": 0.0,
+    "p99ChannelDifference": 0.0,
+    "pixelsAnyDifferencePercent": 0.0,
+    "pixelsAbove8Percent": 0.0,
+    "maxDifference": 0
+  }
+]

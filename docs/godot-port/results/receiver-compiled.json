@@ -1,0 +1,12 @@
+{
+	"checks": 20,
+	"contract": {
+		"differences": [],
+		"nodes": 910,
+		"resourceUses": 524,
+		"sharedResources": 408
+	},
+	"failures": [],
+	"passed": true,
+	"staleSources": []
+}

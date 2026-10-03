@@ -1,0 +1,89 @@
+[
+  {
+    "name": "open",
+    "jawAngle": 0,
+    "cargoOffset": -1,
+    "chestBounds": {
+      "min": [
+        -0.8192799091339111,
+        5.960464477539063e-08,
+        -0.6290000081062317
+      ],
+      "max": [
+        0.8192799091339111,
+        1.1419999599456787,
+        0.5919999480247498
+      ]
+    },
+    "jaws": [
+      {
+        "jaw": "JawA",
+        "verticesWithinChestAABB": 144,
+        "vertexCount": 1440
+      },
+      {
+        "jaw": "JawB",
+        "verticesWithinChestAABB": 144,
+        "vertexCount": 1440
+      }
+    ]
+  },
+  {
+    "name": "closed-current",
+    "jawAngle": 0.2,
+    "cargoOffset": -1,
+    "chestBounds": {
+      "min": [
+        -0.8192799091339111,
+        5.960464477539063e-08,
+        -0.6290000081062317
+      ],
+      "max": [
+        0.8192799091339111,
+        1.1419999599456787,
+        0.5919999480247498
+      ]
+    },
+    "jaws": [
+      {
+        "jaw": "JawA",
+        "verticesWithinChestAABB": 240,
+        "vertexCount": 1440
+      },
+      {
+        "jaw": "JawB",
+        "verticesWithinChestAABB": 236,
+        "vertexCount": 1440
+      }
+    ]
+  },
+  {
+    "name": "closed-raised-cargo",
+    "jawAngle": 0.2,
+    "cargoOffset": -0.7,
+    "chestBounds": {
+      "min": [
+        -0.8192799091339111,
+        0.30000001192092896,
+        -0.6290000081062317
+      ],
+      "max": [
+        0.8192799091339111,
+        1.4420000314712524,
+        0.5919999480247498
+      ]
+    },
+    "jaws": [
+      {
+        "jaw": "JawA",
+        "verticesWithinChestAABB": 0,
+        "vertexCount": 1440
+      },
+      {
+        "jaw": "JawB",
+        "verticesWithinChestAABB": 0,
+        "vertexCount": 1440
+      }
+    ]
+  }
+]

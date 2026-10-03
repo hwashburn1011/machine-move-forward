@@ -1,0 +1,129 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.312 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3070
+
+MMF_NATIVE_READY NVIDIA GeForce RTX 3070
+PASS One healthy generator supplies 16 and costs 3.6 fuel/min
+PASS Budget preview does not mutate session
+PASS Generator switches off
+PASS Stopped source supplies no power, consumes no fuel and cannot propel
+PASS Deliberately stopped healthy machinery receives no bailout
+PASS Unpowered controls restart generator
+PASS Restart restores ordinary propulsion and exact debit
+PASS Stale operating quote cannot apply
+PASS Enabled zero-fuel source retains emergency crawl
+PASS Destroyed engine blocks crawl
+PASS Defense explicitly disables industry and serves guns
+PASS Salvage serves collector without demanding refinery
+PASS Explicit preset applies once
+PASS Repeated preset callback cannot recommit
+PASS Docked cannot stop an undocked journey
+PASS Docked stops generator debit
+PASS Docked retains prior travel settings
+PASS Docked and previous operating plan round-trip
+PASS Invalid operating switch rejects atomically
+PASS Invalid device priority is rejected
+PASS Older native save receives legacy running defaults
+PASS Backup estimate is truthful and pure
+PASS Actual backup debits two navigation units
+PASS Disabled backup preserves reserve
+PASS Disabled charging creates no energy
+PASS Charging obeys two-unit rate
+PASS Fractional fuel cannot power a full second of charging
+PASS Fuel exhaustion is bounded at dt 0.1
+PASS Fuel exhaustion is bounded at dt 0.25
+PASS Fuel exhaustion is bounded at dt 1.0
+PASS Combined no-fuel/no-stock/no-engine/no-generator state qualifies
+PASS Emergency request is unique while pending
+PASS Combined stranded state completes without power, cargo or items
+PASS Assistance restores bounded tank, half engine and loan starter
+PASS Assistance awards no materials, story facts or RNG changes
+PASS Duplicate completion gives nothing
+PASS Loan starter has ordinary output and fuel cost
+PASS Assisted machine can actually move toward salvage
+PASS Emergency restart can run opening refinery plus receiver
+PASS Recovery benefits and request completion survive save/load
+PASS Ordinary generator replaces loan without stacking supply
+PASS New generator in a deliberate configuration starts stopped
+PASS Fractional tank headroom does not waste a whole fuel item
+PASS Pooled refill consumes pack then storage exactly
+PASS Service pump transfers five fuel for exact price and durable stock
+PASS Full tank purchase has zero mutation
+PASS Partial pump stock survives load
+PASS Invalid service stock is rejected
+PASS Fault checkpoint round-trip: recovery-empty
+PASS Fault checkpoint has exact empty supplies: recovery-empty
+PASS Fault checkpoint round-trip: recovery-destroyed
+PASS Fault checkpoint has exact empty supplies: recovery-destroyed
+PASS Fault checkpoint round-trip: operations-shutdown
+PASS Fault checkpoint round-trip: operations-loads
+PASS Missing source can use loan even when stock cannot prove usable construction space
+PASS Two running generators debit 7.2 fuel over 60 simulated seconds
+PASS Cruise shuts spare source and debits 3.6 over same interval
+PASS Ten active docked minutes consume zero generator fuel
+PASS New exhausted episode is requestable
+PASS Cancellation leaves durable valid state
+PASS Cancellation does not consume future assistance
+PASS Resolved fault receives no unnecessary top-up at completion
+PASS Quiet-drive comparison includes real loan source
+PASS Durable completed substeps validate before final acknowledgement
+PASS Recovered substep completion creates no duplicate construction
+PASS Native route begins in isolated operations checkpoint
+ENGINEERING_WALK (0.0, 16.03, 4.0) -> (0.0, 16.0485, 3.949693)
+PASS Walk from checkpoint to top-deck aisle
+ENGINEERING_WALK (-10.0, 16.03, 4.0) -> (-9.974261, 16.04683, 3.999871)
+PASS Walk along top deck toward fixed stairs
+ENGINEERING_WALK (-12.0, 16.03, 4.0) -> (-11.95932, 16.04885, 3.93953)
+PASS Enter permanent stair landing
+ENGINEERING_WALK (-12.0, 12.43, -4.0) -> (-11.99984, 12.44728, -3.969155)
+PASS Walk down permanent stairs from top deck
+PASS Service deck landing is grounded
+SERVICE_PATH [(-5.5, 12.43, -4.0), (-5.5, 12.43, -9.5)]
+PASS Permanent supported path reaches an engineering cabinet
+ENGINEERING_WALK (-5.5, 12.43, -4.0) -> (-5.550244, 12.44684, -3.999762)
+PASS Walk supported service aisle (-5.5, 12.43, -4.0)
+ENGINEERING_WALK (-5.5, 12.43, -9.5) -> (-5.500236, 12.4485, -9.474195)
+PASS Walk supported service aisle (-5.5, 12.43, -9.5)
+PASS Walking route ends within actual service reach
+PASS Actual Use key opens reached cabinet
+PASS Visible action exists: PREVIEW DEFENSE
+PASS Actual click creates reviewed mode proposal
+PASS Visible action exists: APPLY OPERATING MODE
+PASS Actual Apply click changes mode once
+PASS Station clicks do not fire weapon
+PASS Large-text service uses a usable scrolling panel
+PASS Wrist remains personal after operating machinery
+PASS Visible action exists: PLACE
+PASS Build Place returns to world after engineering and wrist
+PASS Operations checkpoint launches in isolated save scope
+PASS Permanent service cabinet is within reach on service deck
+PASS World interaction selects physical engineering cabinet
+PASS Use opens local engineering interface
+PASS Engineering is separate from helm tabs and personal wrist
+PASS Personal wrist cannot apply machine settings
+PASS Destroyed-machine playtest launches
+PASS Pending assistance does not erase a retreating carrier
+PASS Safe service begins locally and defers new ships
+PASS Service can be saved mid-procedure
+PASS Real held-action coordinator completes all three steps
+PASS Recovery never grants story progress or starts an encounter
+PASS Service site checkpoint launches: foundry
+PASS Service bay waits for required recoveries: foundry
+PASS Service uses common supported return station: foundry
+PASS Site service uses its own reached interface: foundry
+PASS Service site checkpoint launches: orchard-caretaker
+PASS Service bay waits for required recoveries: orchard-caretaker
+PASS Service uses common supported return station: orchard-caretaker
+PASS Site service uses its own reached interface: orchard-caretaker
+PASS Service site checkpoint launches: orchard-cold-vault
+PASS Service bay waits for required recoveries: orchard-cold-vault
+PASS Service uses common supported return station: orchard-cold-vault
+PASS Site service uses its own reached interface: orchard-cold-vault
+PASS Actual dock accepts Docked mode
+PASS Valid departure restores prior travel configuration atomically
+PASS Unfinished expedition cannot resume power or retract its gangway
+PASS Optional departure also resumes its saved travel configuration
+PASS Failed final checkpoint precondition leaves course and operating state untouched
+PASS Route button shows its own distance and fuel: foundry-direct
+PASS Route button shows its own distance and fuel: foundry-detour
+PASS Different Foundry routes carry different transit costs
+RECOVERY_OPERATIONS_RESULT {"captures":["res://../test-results/recovery-cabinet-walking.png","res://../test-results/recovery-service-large-4x3.png","res://../test-results/recovery-engineering.png","res://../test-results/recovery-modes.png","res://../test-results/recovery-service.png","res://../test-results/recovery-restart.png","res://../test-results/recovery-foundry-bay.png","res://../test-results/recovery-orchard-caretaker-bay.png","res://../test-results/recovery-orchard-cold-vault-bay.png","res://../test-results/recovery-route-estimates.png"],"checks":117,"failures":[],"human_test":false,"renderer":"NVIDIA GeForce RTX 3070","source_hash":"1d831f5f685c9c7b4480eeecbf16cc1d4355c5452b59cd78881a9a74adc6963f","source_hash_end":"1d831f5f685c9c7b4480eeecbf16cc1d4355c5452b59cd78881a9a74adc6963f"}

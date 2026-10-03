@@ -1,0 +1,5 @@
+{
+	"checks": 32,
+	"failures": [],
+	"scope": "Paused-title preparation, early/repeated clicks, cancellation, hidden physics/state invariants, original opening events/handoff, Continue and incomplete-save fallback, and shutdown with an engine request."
+}

@@ -1,0 +1,96 @@
+{
+	"adapter": "NVIDIA GeForce RTX 3070",
+	"samples": [
+		{
+			"drawCalls": 1139,
+			"frames": {
+				"max": 6.158,
+				"median": 4.765,
+				"p95": 5.56
+			},
+			"gpu": {
+				"max": 5.16800022125244,
+				"median": 4.11600017547607,
+				"p95": 4.82399988174438
+			},
+			"mode": "legacy",
+			"view": "overview"
+		},
+		{
+			"drawCalls": 1145,
+			"frames": {
+				"max": 6.108,
+				"median": 4.832,
+				"p95": 5.652
+			},
+			"gpu": {
+				"max": 5.14300012588501,
+				"median": 4.18200016021729,
+				"p95": 4.90500020980835
+			},
+			"mode": "refined",
+			"view": "overview"
+		},
+		{
+			"drawCalls": 557,
+			"frames": {
+				"max": 4.894,
+				"median": 3.79,
+				"p95": 4.671
+			},
+			"gpu": {
+				"max": 4.34600019454956,
+				"median": 3.27500009536743,
+				"p95": 3.96199989318848
+			},
+			"mode": "legacy",
+			"view": "corner"
+		},
+		{
+			"drawCalls": 564,
+			"frames": {
+				"max": 5.191,
+				"median": 3.992,
+				"p95": 4.881
+			},
+			"gpu": {
+				"max": 4.59100008010864,
+				"median": 3.47199988365173,
+				"p95": 4.15799999237061
+			},
+			"mode": "refined",
+			"view": "corner"
+		},
+		{
+			"drawCalls": 420,
+			"frames": {
+				"max": 4.002,
+				"median": 2.963,
+				"p95": 3.622
+			},
+			"gpu": {
+				"max": 3.26300001144409,
+				"median": 2.47699999809265,
+				"p95": 2.91700005531311
+			},
+			"mode": "legacy",
+			"view": "underneath"
+		},
+		{
+			"drawCalls": 422,
+			"frames": {
+				"max": 4.176,
+				"median": 3.068,
+				"p95": 3.749
+			},
+			"gpu": {
+				"max": 3.39199995994568,
+				"median": 2.5789999961853,
+				"p95": 3.03999996185303
+			},
+			"mode": "refined",
+			"view": "underneath"
+		}
+	],
+	"scope": "Native fixed views, 1080p high/Forward+/Vulkan/4xMSAA, uncapped/no vsync. Gameplay and cloth phase frozen; both resources resident. 2s warmup, 4s samples per view; captures after sampling. Measures rendering cost, not overall gameplay FPS."
+}

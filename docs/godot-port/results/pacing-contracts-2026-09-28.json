@@ -1,0 +1,7 @@
+{
+  "checks": 25,
+  "failures": [],
+  "scan_duration_seconds": 180.0,
+  "scope": "Synthetic correctness fixtures; no human pacing or campaign balance claim",
+  "source_hash": "05ed64e1d551778300593de28241cdbb6e4a282c1180280f767e0dbf29d319f5"
+}

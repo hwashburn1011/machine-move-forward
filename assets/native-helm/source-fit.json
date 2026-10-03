@@ -1,0 +1,58 @@
+{
+  "supports": [
+    {
+      "part": "Folded mounting plinth",
+      "gapM": 0.0
+    },
+    {
+      "part": "Pedestal bottom rim",
+      "gapM": -0.009999997913837433
+    },
+    {
+      "part": "Formed sealed control pedestal",
+      "gapM": -0.0299999937415123
+    },
+    {
+      "part": "Gyro cartridge casing",
+      "gapM": -0.06400001049041748
+    },
+    {
+      "part": "Rear service hatch",
+      "gapM": -0.0020000040531158447
+    },
+    {
+      "part": "Rear maintenance label",
+      "gapM": 0.0
+    },
+    {
+      "part": "Side identification plate",
+      "gapM": 0.0
+    }
+  ],
+  "fasciaContactsM": [
+    -0.0010132893512491137,
+    -0.0007935138128232211,
+    -0.0005739866101066582,
+    -0.0010133012547157705,
+    -0.0007935316825751215,
+    -0.0005738832769566216,
+    -0.0010131800372619182,
+    -0.0007935197791084647,
+    -0.0005738892359659076
+  ],
+  "bounds": {
+    "min": [
+      -0.5799999833106995,
+      0.0,
+      -0.36000001430511475
+    ],
+    "max": [
+      0.5799999833106995,
+      1.3490413427352905,
+      0.3610000014305115
+    ]
+  },
+  "identityUpgradeIntersectingTrianglePairs": 0,
+  "neighbourIntersectingTrianglePairs": 0,
+  "passed": true
+}

@@ -1,0 +1,99 @@
+{
+  "startingRevision": "d4f74bc",
+  "checks": 779,
+  "failures": 0,
+  "suites": {
+    "benches": {
+      "checks": 87,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-benches.log"
+    },
+    "pumps": {
+      "checks": 45,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-pumps.log"
+    },
+    "pressure_vessels": {
+      "checks": 76,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-pressure_vessels.log"
+    },
+    "switchgear": {
+      "checks": 74,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-switchgear.log"
+    },
+    "cargo_lockers": {
+      "checks": 56,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-cargo_lockers.log"
+    },
+    "machine_access": {
+      "checks": 13,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-machine_access.log"
+    },
+    "traversal": {
+      "checks": 13,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-traversal.log"
+    },
+    "integration": {
+      "checks": 108,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-integration.log"
+    },
+    "audit_parity": {
+      "checks": 132,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-audit_parity.log"
+    },
+    "play_parity": {
+      "checks": 58,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-play_parity.log"
+    },
+    "canopy": {
+      "checks": 26,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-canopy.log"
+    },
+    "camera_clearance": {
+      "checks": 54,
+      "failures": 0,
+      "exitCode": 0,
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-camera_clearance.log"
+    },
+    "caretaker_workload": {
+      "checks": 37,
+      "failures": 0,
+      "exitCode": 0,
+      "renderer": "Vulkan Forward+ / RTX 3070",
+      "runtimeDiagnostics": [],
+      "log": "test-results/godot-native/benches-caretaker-native.log"
+    }
+  }
+}

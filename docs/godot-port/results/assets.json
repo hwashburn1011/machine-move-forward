@@ -1,0 +1,280 @@
+{
+	"assets": [
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/automatic-collector.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 6,
+			"path": "models/authored/automatic-turret.glb"
+		},
+		{
+			"animations": 8,
+			"meshes": 1,
+			"path": "models/authored/bastion.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 12,
+			"path": "models/authored/expedition-wreck.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 82,
+			"path": "models/authored/fieldwork-kit.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/authored/forged-hook.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/fuel-canister.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 25,
+			"path": "models/authored/galley-kit.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 9,
+			"path": "models/authored/generator-refined.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 15,
+			"path": "models/authored/glass-orchard.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 29,
+			"path": "models/authored/home-furnishings.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/authored/iron-nomad-collision.glb"
+		},
+		{
+			"animations": 1,
+			"meshes": 35,
+			"path": "models/authored/iron-nomad-playable.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 15,
+			"path": "models/authored/last-garden-meridian.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/authored/machine-kit.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 34,
+			"path": "models/authored/machine-walker-v3.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 3,
+			"path": "models/authored/manual-turret.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 10,
+			"path": "models/authored/meridian-horizon.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 3,
+			"path": "models/authored/navigation-helm.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 38,
+			"path": "models/authored/nomad-progress.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 17,
+			"path": "models/authored/nomad-workshop.glb"
+		},
+		{
+			"animations": 3,
+			"meshes": 1,
+			"path": "models/authored/player.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 22,
+			"path": "models/authored/quiet-array.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/raider-gunboat.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/raider-skiff.glb"
+		},
+		{
+			"animations": 6,
+			"meshes": 1,
+			"path": "models/authored/raider.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/refinery-refined.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 4,
+			"path": "models/authored/relay-foundry.glb"
+		},
+		{
+			"animations": 8,
+			"meshes": 1,
+			"path": "models/authored/revenant.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 11,
+			"path": "models/authored/route-memorial.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 11,
+			"path": "models/authored/route-repair-depot.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 10,
+			"path": "models/authored/route-salvage-wreck.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 11,
+			"path": "models/authored/route-water-cache.glb"
+		},
+		{
+			"animations": 26,
+			"meshes": 1,
+			"path": "models/authored/s07-player.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 7,
+			"path": "models/authored/salvage-chest.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 11,
+			"path": "models/authored/salvaged-radio.glb"
+		},
+		{
+			"animations": 6,
+			"meshes": 1,
+			"path": "models/authored/scavenger.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/authored/scrap-rifle.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/authored/scrap-shotgun.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 10,
+			"path": "models/authored/seed-garden.glb"
+		},
+		{
+			"animations": 8,
+			"meshes": 1,
+			"path": "models/authored/sovereign.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/station-kit.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/storage-refined.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/tactical-accessories.glb"
+		},
+		{
+			"animations": 8,
+			"meshes": 1,
+			"path": "models/authored/warden.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 5,
+			"path": "models/authored/workbench-refined.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 6,
+			"path": "models/authored/wrist-terminal.glb"
+		},
+		{
+			"animations": 4,
+			"meshes": 2,
+			"path": "models/player.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/props/containers.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/props/debris.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 100,
+			"path": "models/props/ruins/desert-ruins.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/props/wreck.glb"
+		},
+		{
+			"animations": 14,
+			"meshes": 14,
+			"path": "models/scavenger.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/weapons/rifle.glb"
+		},
+		{
+			"animations": 0,
+			"meshes": 1,
+			"path": "models/weapons/shotgun.glb"
+		}
+	],
+	"failed": []
+}

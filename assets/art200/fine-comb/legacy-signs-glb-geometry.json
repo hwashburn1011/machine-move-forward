@@ -1,0 +1,316 @@
+{
+  "art100-legacy": {
+    "glb_sha256": "d37dfc08bf885197abf1afe8473a68611174ba282dbd15ea371b29898509652f",
+    "models": [
+      {
+        "id": "wreck-pickup",
+        "triangles": 42924,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "wreck-ambulance",
+        "triangles": 38632,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "wreck-forklift",
+        "triangles": 39664,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "survey-rover",
+        "triangles": 45044,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "rail-bogie",
+        "triangles": 10132,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "container-wagon",
+        "triangles": 34488,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "fuel-trailer",
+        "triangles": 19124,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "wreck-motorcycle",
+        "triangles": 16308,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "culvert",
+        "triangles": 4092,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "transformer",
+        "triangles": 14912,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "fuel-pump",
+        "triangles": 5940,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "utility-cabinet",
+        "triangles": 9332,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "telecom-cabinet",
+        "triangles": 9872,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "condenser",
+        "triangles": 8312,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "satellite-dish",
+        "triangles": 4852,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "light-tower",
+        "triangles": 19804,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "diesel-generator",
+        "triangles": 8184,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "air-compressor",
+        "triangles": 9564,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "fire-hydrant",
+        "triangles": 3328,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "bulk-fuel-tank",
+        "triangles": 8384,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "cargo-pallet",
+        "triangles": 6264,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "cable-spool",
+        "triangles": 8012,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "road-barrier",
+        "triangles": 2324,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "signal-gantry",
+        "triangles": 6448,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "bus-shelter",
+        "triangles": 5704,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      }
+    ],
+    "triangles": 381644,
+    "degenerate_triangles": 0
+  },
+  "art200-signs": {
+    "glb_sha256": "77ba53a1ee04aead66eb709a1f7c96d16926e70f6bf4693066850250f8065d0e",
+    "models": [
+      {
+        "id": "art200-billboard-morrow-motors",
+        "triangles": 14380,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-last-light-lodging",
+        "triangles": 11616,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-brindle-bottling",
+        "triangles": 8520,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-grainward-coop",
+        "triangles": 15300,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-copperline-cookers",
+        "triangles": 7556,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-seven-mile-laundry",
+        "triangles": 12496,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-merit-radio",
+        "triangles": 12008,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-solace-clinic",
+        "triangles": 11260,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-open-road-retreads",
+        "triangles": 8984,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-northstar-bank",
+        "triangles": 11688,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-dewpoint-water",
+        "triangles": 16356,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-paperbird-post",
+        "triangles": 12768,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-parcel-plain",
+        "triangles": 9132,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-sunbreak-cinema",
+        "triangles": 17024,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-hush-hour-records",
+        "triangles": 8784,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-workday-tools",
+        "triangles": 11464,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-pantry-union",
+        "triangles": 12768,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-sandglass-tours",
+        "triangles": 11308,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-starlit-fabric",
+        "triangles": 11644,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-electrovale-grid",
+        "triangles": 15188,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-cairn-cement",
+        "triangles": 14868,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-goodnight-mattress",
+        "triangles": 12400,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-winterfruit-preserves",
+        "triangles": 7904,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-kindred-salvage",
+        "triangles": 11844,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      },
+      {
+        "id": "art200-billboard-amberline-transit",
+        "triangles": 16040,
+        "degenerate_triangles": 0,
+        "nonfinite_coordinates": 0
+      }
+    ],
+    "triangles": 303300,
+    "degenerate_triangles": 0
+  }
+}
