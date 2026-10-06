@@ -1,0 +1,20 @@
+{
+  "voice_id": "b-warden",
+  "label": "B — Warden",
+  "text": "There. On the roof.",
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+  "seed": 73129,
+  "instruct": "A mature male voice around sixty, low bass-baritone with an aged papery grain and a restrained neutral English accent. Quiet, cold and analytical, speaking with clipped precise articulation and calm absolute certainty. The voice belongs to a patient hunter, not a presenter. A measured pause after There, then the three words On the roof delivered as a spare factual observation with a downward finish. Slightly resonant chest tone but very little volume, steady breath, dry texture, subtle menace with no aggression. No exaggerated deep voice, booming, dramatic narration, growling or whispering. Natural clean unprocessed studio recording.",
+  "performance": "metallic",
+  "clean_reference": "assets/voice-auditions/qwen3-tts/2026-10-04/b-warden-clean.wav",
+  "clean_sha256": "2e16121063521cff854752ec00c7b218c2a329cd92492a4371587749cc8575e5",
+  "source": "assets/voice-auditions/qwen3-tts/2026-10-04/b-warden-metallic.wav",
+  "source_sha256": "b35e2960a6ba1a6248ee5cd8b932f51bf433b3dbee481c29834f9b9206a90c8f",
+  "cue_seconds": 12.9,
+  "lead_seconds": 0.12,
+  "subtitle_hold_seconds": 0.24,
+  "mix_gain_db": -3.0,
+  "pan": 0.18,
+  "note": "Player selected voice B. Subtle metallic treatment used for robot; clean take retained for future identity conditioning."
+}

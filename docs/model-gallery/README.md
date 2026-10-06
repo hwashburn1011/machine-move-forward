@@ -1,6 +1,6 @@
 # Machine Move Forward - 50 model gallery
 
-The latest Blender art pass: 14 refined models and 36 new models. Scroll through the five labeled sheets below. Tap a model name to view its full-size render.
+Archive of the 50-model Blender art pass: 14 refined models and 36 new models. Scroll through the five labeled sheets below. Tap a model name to view its full-size render. The current native beta includes later art and presentation passes; this gallery preserves the original review renders.
 
 ## Models 1-10
 

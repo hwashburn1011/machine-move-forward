@@ -12,6 +12,7 @@ var bracket=Rect2()
 var lead=Vector2.ZERO
 var show_lead=false
 var occlusion_excludes=[]
+var recovery_blocked=false
 
 func setup(owner_game):
 	game=owner_game;mouse_filter=Control.MOUSE_FILTER_IGNORE
@@ -37,7 +38,7 @@ func clear_sight(to: Vector3) -> bool:
 	return false
 
 func update():
-	aligned=-1;selected=-1
+	aligned=-1;selected=-1;recovery_blocked=false
 	if not game.started or game.menu_open or game.cinematic!="" or game.session.health<=0 or game.building.selected!="" or game.manual_turret!="":hide();return
 	var salvage=game.salvage
 	if salvage.busy():selected=salvage.reel_index
@@ -58,15 +59,24 @@ func update():
 	bracket=Rect2(screen-Vector2.ONE*radius,Vector2.ONE*radius*2)
 	var distance=salvage.hand_position().distance_to(node.position)
 	var state="REELING" if salvage.busy() else "READY" if aligned>=0 else "OUT OF REACH" if distance>salvage.REEL_RANGE+salvage.CATCH_RADIUS else "ALIGN TO DIAMOND"
+	var cargo=salvage.crates[selected];var capacity=MMFCargoCapacity.preview(cargo,game.session.containers())
+	recovery_blocked=cargo.claimed=="parked" and cargo.opened and capacity.state=="full"
+	var storage=""
+	if recovery_blocked:state="STORAGE FULL";storage="Free matching space to recover"
+	elif capacity.state=="full":storage="STORAGE FULL · will retain cargo"
+	elif capacity.state=="partial":storage="PARTIAL SPACE · remainder kept"
+	elif cargo.claimed=="parked":storage="REMAINING SUPPLIES · room available"
 	show_lead=not salvage.busy() and distance<=salvage.REEL_RANGE+salvage.CATCH_RADIUS
 	if show_lead:
 		# Project a direction from the camera so its diamond coincides with the
 		# crosshair for the correct hand-launched path, despite shoulder offset.
 		lead=camera.unproject_position(camera.global_position+salvage.suggested_direction(selected)*maxf(distance,1))
 	tint=Color(.45,.95,.86) if aligned>=0 or salvage.busy() else Color(.95,.69,.32)
-	label.text="CARGO · %dm\n%s"%[roundi(distance),state]
-	label.position=Vector2(clampf(screen.x-160,4,maxf(4,size.x-324)),minf(screen.y+radius+7,size.y-60))
-	label.size=Vector2(320,48);label.modulate=tint
+	if capacity.state in ["full","partial"]:tint=Color(.95,.69,.32)
+	if recovery_blocked:show_lead=false
+	label.text="CARGO · %dm\n%s"%[roundi(distance),state]+("\n"+storage if storage!="" else "")
+	label.position=Vector2(clampf(screen.x-180,4,maxf(4,size.x-364)),minf(screen.y+radius+7,size.y-78))
+	label.size=Vector2(360,66);label.modulate=tint
 	show();queue_redraw()
 
 func _draw():

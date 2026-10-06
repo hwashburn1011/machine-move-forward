@@ -3,7 +3,9 @@ extends Control
 
 # Flat presentation of the same graphite case, alloy rails, copper selector
 # and rubber keys authored in art/wrist-terminal.glb. Decoration never owns input.
-const PAGES=["Pause","Settings","Library","Checkpoints"]
+const STATION_PAGES=["Workshop","Research","Console","Service","Signal","Helm","Machine","Storage","Equipment","Mission","Caretaker","Shelf","Painter","PortCrane","Story","Finale"]
+const PAGES=["Pause","Settings","Library","Checkpoints","FinaleBrief"]+STATION_PAGES
+var station_link=false
 var glass=Rect2()
 var housing=Rect2()
 var font: Font
@@ -75,7 +77,7 @@ func _draw():
 	draw_line(Vector2(glass.position.x-2,glass.end.y+2),glass.end+Vector2(2,2),Color("b3a881"),2,true)
 	var spine=housing.end.x-56
 	draw_string(font,housing.position+Vector2(43,38),"LINEKEEPER  /  4",HORIZONTAL_ALIGNMENT_LEFT,-1,19,Color("c0c7ad"))
-	draw_string(font,Vector2(glass.end.x-235,housing.position.y+38),"S–07  ·  FIELD TERMINAL",HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("96a88f"))
+	draw_string(font,Vector2(glass.end.x-235,housing.position.y+38),"S–07  ·  EQUIPMENT LINK" if station_link else "S–07  ·  FIELD TERMINAL",HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("96a88f"))
 	for at in [housing.position+Vector2(22,24),Vector2(housing.end.x-22,housing.position.y+24),housing.end-Vector2(22,24),Vector2(housing.position.x+22,housing.end.y-24)]:screw(at)
 	var lamp=Vector2(spine,glass.position.y+13)
 	draw_circle(lamp,9,Color("0f1b14"));draw_circle(lamp,5,Color("a2b77c"))

@@ -1,0 +1,145 @@
+{
+  "passed": true,
+  "build_id": "0.3.0-beta.1-38aedaeaf106",
+  "source_hash": "38aedaeaf106a20a39137140a4f5c4fbda724e9536317573522429de12d7198c",
+  "asset_manifest_sha256": "856ba9df3c85fdc1628e96d83ef58247d993ac1e94d1acbb7b184ae151eed1ed",
+  "archive": "test-results/windows-v1-20261004/distribution/MachineMoveForward-0.3.0-beta.1-windows-x86_64.zip",
+  "archive_bytes": 951012436,
+  "archive_sha256": "6a81fca400314e97b15dbd36682ebe257b74220564549414c64165a2d5b055b7",
+  "executable_sha256": "177053f1e6d4a40e118d27e95379903344885e4a58c3a494169f4159596463e8",
+  "pck_sha256": "9a506da121a415ceb5cedfddc0f09832b26773cabbaae08b47f54bd14ac74c32",
+  "build_identity_sha256": "42480fb256e89ad6595adb3da508364f9ef1c7c16db621bd00d31878d43229d0",
+  "resource_audit": {
+    "checks": 4493,
+    "collision_shapes_loaded": 729,
+    "passed": true,
+    "report": "test-results/windows-v1-20261004/resource-audit/audit.json",
+    "sha256": "db583476a98ae6323b4be9a85dcf09346f830f546a81c3d4b5052213285bd2c5"
+  },
+  "standalone_smoke": {
+    "payload_checksums_verified": 9,
+    "runs": [
+      {
+        "phase": "normal-boot",
+        "exit_code": 0,
+        "wall_seconds": 14.063,
+        "diagnostics": [],
+        "passed": true
+      },
+      {
+        "phase": "new",
+        "exit_code": 0,
+        "wall_seconds": 96.656,
+        "diagnostics": [],
+        "checks": 34,
+        "passed": true
+      },
+      {
+        "phase": "resume",
+        "exit_code": 0,
+        "wall_seconds": 11.984,
+        "diagnostics": [],
+        "checks": 25,
+        "passed": true
+      }
+    ],
+    "scope": "Official templates disable external scripts. Only normal-boot uses the release EXE; new/resume use the matching engine and unchanged extracted PCK.",
+    "report": "test-results/windows-v1-20261004/standalone-smoke/summary.json",
+    "sha256": "f3ed81357767595bba68ab1b191436797d1c82b90a800eb5c3e05c0bc1c96017",
+    "temporary_extraction": "C:\\Users\\hwash\\AppData\\Local\\Temp\\mmf-beta-standalone-ivnq27p2",
+    "user_data": "Dedicated isolated profile; no developer campaigns or preferences overwritten"
+  },
+  "performance": {
+    "report": "docs/godot-port/results/v1-performance-2026-10-04.json",
+    "sha256": "247f8e585386968ab0fd35541bf03c62f677009c73515b28c76001ff11ef057d",
+    "workloads": 17,
+    "maximum_workload_frame_p95_ms": 10.829,
+    "maximum_workload_frame_p99_ms": 12.785,
+    "residual_hitches": [
+      {
+        "workload": "deck-audio/travel",
+        "seconds": 18.0,
+        "events": [
+          {
+            "distance": 2516.70421648525,
+            "ms": 138.655,
+            "phase": "approach",
+            "seconds": 0.218204
+          },
+          {
+            "distance": 2517.87782321192,
+            "ms": 148.722,
+            "phase": "approach",
+            "seconds": 0.370403
+          },
+          {
+            "distance": 2519.75570012603,
+            "ms": 127.219,
+            "phase": "approach",
+            "seconds": 0.648137
+          }
+        ]
+      }
+    ],
+    "followup": "90-second travel: p95 5.945ms, p99 8.494ms, max15.199ms; no frame over33ms. The initial short-run hitches are retained, not erased by this follow-up.",
+    "home": {
+      "furnishings": 50,
+      "painted_pieces": 52,
+      "docks": 3,
+      "recorded_received_items": 506,
+      "received_per_dock": {
+        "bp-6": 0,
+        "bp-7": 196,
+        "bp-8": 338
+      },
+      "music_starts": 2,
+      "video_memory_max_bytes": 2329089936.0,
+      "static_memory_max_bytes": 317753447.0,
+      "coverage_limit": "Two docks delivered; third remained idle in this deterministic crate pattern. All three were present and powered."
+    }
+  },
+  "campaign_receipt": "docs/godot-port/results/v1-campaign-2026-10-04.json",
+  "campaign_receipt_sha256": "8846af1228cf0c2110382a893abcd8b1b1656a1cd94b08bcef5204885304b63f",
+  "screenshots_reviewed": [
+    "title-new.png",
+    "opening-letter.png",
+    "continued-campaign.png",
+    "wrist-settings.png"
+  ],
+  "pipeline": [
+    {
+      "phase": "inventory",
+      "exit_code": 0,
+      "wall_seconds": 6.218
+    },
+    {
+      "phase": "export",
+      "exit_code": 0,
+      "wall_seconds": 29.219
+    },
+    {
+      "phase": "audit",
+      "exit_code": 0,
+      "wall_seconds": 16.125
+    },
+    {
+      "phase": "package",
+      "exit_code": 0,
+      "wall_seconds": 47.078
+    },
+    {
+      "phase": "standalone-smoke",
+      "exit_code": 0,
+      "wall_seconds": 129.938
+    }
+  ],
+  "free_disk_gib_after": 47.76,
+  "limits": [
+    "No physical lower-spec PC tested.",
+    "Uncoached first-player feedback remains outstanding.",
+    "Actual release EXE normal startup passed; scripted NewGame/Continue used matching engine with unchanged extracted PCK.",
+    "Three powered drone docks present; two delivered during this deterministic pattern, third stayed idle.",
+    "No itch.io upload: account/project deferred by owner.",
+    "Nothing committed or pushed by this release work."
+  ]
+}

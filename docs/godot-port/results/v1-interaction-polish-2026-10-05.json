@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "source_hash": "c084dfa83351dfb6449ce9221e70cf2b675e948300ebdd65dc13f9de8fdfe2b8",
+  "source_hash_end": "c084dfa83351dfb6449ce9221e70cf2b675e948300ebdd65dc13f9de8fdfe2b8",
+  "checks": 246,
+  "failures": [],
+  "diagnostics": [],
+  "captures": 14,
+  "evidence_path": "test-results/v1-presentation-2026-10-05/interactions-final/native.json",
+  "evidence_sha256": "7823eb32695b3a3e94e2dd0f43d0154bd708e473c9b63f972457d0041bb9c87c",
+  "related_controls_checks": 66,
+  "related_native_story_checks": 77,
+  "scope": "Prepared component review. No uncoached discovery or fresh full-campaign claim. Later intro-only grounding correction is outside this component."
+}

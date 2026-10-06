@@ -26,24 +26,33 @@ def weapon(side,wrist,rotation):
         rig.pose.bones[name].matrix=Matrix.Translation(wrist+rotation@Vector((0,-.125,-.035)))@rotation.to_4x4()
     bpy.context.view_layer.update()
 
-def slash(t):
+def lunge(t):
     pose(0,'idle')
-    wind=smooth(.02,.49,t)
-    cut=smooth(.55,.78,t)
-    recover=smooth(1.03,2.5,t)
-    high=Vector((-.44,.10,1.89))
-    low=Vector((.04,-.51,1.00))
+    wind=smooth(.02,.43,t)
+    thrust=smooth(.48,.85,t)
+    recover=smooth(1.25,2.7,t)
     home=Vector((-.44,-.16,1.06))
-    wrist=home.lerp(high,wind).lerp(low,cut).lerp(home,recover)
-    wrist=limb('upperarm_r','lowerarm_r',wrist,(-.76,-.01,1.58))
-    rotation=Euler((.35-2.14*wind+2.55*cut-.50*recover,.05+.23*cut,-.14+.31*cut)).to_matrix()
+    chamber=Vector((-.30,.02,1.35))
+    extended=Vector((-.28,-.64,1.35))
+    wrist=home.lerp(chamber,wind).lerp(extended,thrust).lerp(home,recover)
+    wrist=limb('upperarm_r','lowerarm_r',wrist,(-.70,-.05,1.39))
+    # Blade stays on a chest-height thrust line, never an overhead chop.
+    rotation=Euler((.35*(1-wind)+.06*thrust,0,-.04*wind)).to_matrix()
     weapon('r',wrist,rotation)
     # The free blade stays outside the torso, its tip away from the contact.
     wrist=limb('upperarm_l','lowerarm_l',(.48,-.20,1.18),(.73,-.08,1.33))
     weapon('l',wrist,Euler((-.48,0,.54)).to_matrix())
     for name in ['spine_01','spine_02']:
         if name in rig.pose.bones:
-            rig.pose.bones[name].rotation_quaternion @= Quaternion((1,0,0),-.055*wind+.095*cut-.035*recover)
+            rig.pose.bones[name].rotation_quaternion @= Quaternion((1,0,0),-.04*wind+.09*thrust-.05*recover)
+    # One leading step and a braced rear leg make the root advance a lunge.
+    stride=thrust*(1-recover)
+    for side,sign in [('r',-1),('l',1)]:
+        foot=rig.pose.bones['foot_'+side].matrix.translation.copy()
+        foot.y+=(-.40 if side=='r' else .24)*stride
+        foot.z+=.09*math.sin(math.pi*thrust)*(1-recover) if side=='r' else 0
+        ankle=limb('thigh_'+side,'calf_'+side,foot,(sign*.23,-.65,.64))
+        orient('foot_'+side,ankle,ankle+Vector((0,-.20,-.04)))
     bpy.context.view_layer.update()
 
 def root_path(u,end_x):
@@ -88,7 +97,7 @@ for kind in ['revenant','warden']:
     weapons=[(None,b.name) for b in rig.data.bones if b.name.startswith('equipment_')]
     tree=ast.parse((ROOT/'tools/art/mech_enemies/game_export.py').read_text(encoding='utf-8'))
     exec(compile(ast.Module(body=[n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name in ['orient','limb','pose']],type_ignores=[]),'rig_helpers','exec'))
-    for label,duration,callback in ([('slash',2.6,slash)] if kind=='revenant' else [])+ [('climb',3.6,lambda t:climb(t/3.6))]:
+    for label,duration,callback in ([('lunge',2.8,lunge)] if kind=='revenant' else [])+ [('climb',3.6,lambda t:climb(t/3.6))]:
         frames=[]
         for frame in range(round(duration*30)+1):
             callback(frame/30)

@@ -104,10 +104,17 @@ func throw_hook():
 	if game==null or game.menu_open or game.cinematic!="" or game.session.health<=0 or game.manual_turret!="" or game.building.selected!="" or busy(): return
 	if game.building.salvage_tool and game.building.salvage_tool.equipped():return
 	if game.player.equipment and game.player.equipment.terminal_presenting():return
+	var target=aimed_crate()
+	if target>=0 and recovery_blocked(crates[target]):return
 	hook_origin=hand_position();hook_direction=-game.player.camera.global_basis.z.normalized()
 	hook_distance=0;hook_phase="out";reel_index=-1
 	hook_visual.position=hook_origin;hook_visual.show();cable.show()
 	game.audio.play_sound("hook-throw")
+
+func recovery_blocked(c: Dictionary) -> bool:
+	# A landed, opened remainder need not take another pointless hook flight.
+	# Sealed wilderness cargo stays collectible, including the first receiver.
+	return c.claimed=="parked" and c.opened and MMFCargoCapacity.preview(c,game.session.containers()).state=="full"
 
 func aimed_crate() -> int:
 	# Predict the first physical intercept, including the cargo's drift. The old
@@ -226,8 +233,11 @@ func update_hook(dt: float):
 		hook_visual.position=hand_position().lerp(return_from,hook_distance/maxf(return_distance,0.001))
 	if mission_hook:game.missions.hook_motion(hook_visual.position)
 	if reel_index>=0: crates[reel_index].node.position=hook_visual.position
-	var span=hook_visual.position-hand_position()
-	cable.position=(hand_position()+hook_visual.position)*0.5
+	# Only the rendered line follows the solved free hand. Launch/catch/reel
+	# authorities above continue to use the unchanged gameplay hand_position.
+	var cable_start=game.player.equipment.cable_origin() if game.player.equipment else hand_position()
+	var span=hook_visual.position-cable_start
+	cable.position=(cable_start+hook_visual.position)*0.5
 	cable.quaternion=Quaternion(Vector3.UP,span.normalized()) if span.length()>0.001 else Quaternion.IDENTITY
 	cable.scale=Vector3(1,maxf(0.001,span.length()),1)
 	hook_visual.look_at(hook_visual.position+hook_direction,Vector3.UP)

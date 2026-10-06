@@ -1,0 +1,26 @@
+{
+	"models": {
+		"art200-cinder-auto-lift": {
+			"added_vertex_bytes": 17264,
+			"bytes": 78677,
+			"resource": "res://art/roadside-wear/art200-cinder-auto-lift.res",
+			"vertices_sampled": 4316,
+			"vertices_worn": 2626
+		},
+		"art200-crosswind-compressor-house": {
+			"added_vertex_bytes": 31424,
+			"bytes": 170483,
+			"resource": "res://art/roadside-wear/art200-crosswind-compressor-house.res",
+			"vertices_sampled": 7856,
+			"vertices_worn": 1290
+		},
+		"art200-rail-water-crane": {
+			"added_vertex_bytes": 22168,
+			"bytes": 130490,
+			"resource": "res://art/roadside-wear/art200-rail-water-crane.res",
+			"vertices_sampled": 5542,
+			"vertices_worn": 1580
+		}
+	},
+	"source_sha256": "6036e900cfe1b56031f188413924cbdd571012040af353035bdfa17871770017"
+}

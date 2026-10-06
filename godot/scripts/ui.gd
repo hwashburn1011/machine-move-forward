@@ -270,20 +270,21 @@ func section(title_text: String,trailing: String="") -> HBoxContainer:
 	return row
 
 func compact_row(title_text: String,trailing: String,action: Callable,selected: bool=false,enabled: bool=true) -> Button:
+	var framed=page in MMFTerminalFrame.PAGES
 	var b=Button.new();b.text=title_text;b.alignment=HORIZONTAL_ALIGNMENT_LEFT;b.clip_text=true
 	b.custom_minimum_size.y=44;b.size_flags_horizontal=Control.SIZE_EXPAND_FILL;b.disabled=not enabled
 	b.mouse_default_cursor_shape=Control.CURSOR_POINTING_HAND;b.tooltip_text=title_text
-	var plate=StyleBoxFlat.new();plate.bg_color=Color(.5,.78,.32) if selected else Color.TRANSPARENT
+	var plate=StyleBoxFlat.new();plate.bg_color=(Color("405443") if framed else Color(.5,.78,.32)) if selected else Color.TRANSPARENT
 	plate.content_margin_left=12;plate.content_margin_right=maxf(60,root.get_theme_font("font","Button").get_string_size(trailing,HORIZONTAL_ALIGNMENT_LEFT,-1,21).x+24) if trailing!="" else 12;plate.content_margin_top=8;plate.content_margin_bottom=8
 	b.add_theme_stylebox_override("normal",plate)
-	var focus=StyleBoxFlat.new();focus.bg_color=Color.TRANSPARENT;focus.border_color=Color(.67,.95,.47);focus.set_border_width_all(1)
+	var focus=StyleBoxFlat.new();focus.bg_color=Color.TRANSPARENT;focus.border_color=Color("b5b48a") if framed else Color(.67,.95,.47);focus.set_border_width_all(1)
 	b.add_theme_stylebox_override("focus",focus)
 	if selected:
 		for state in ["hover","pressed"]:b.add_theme_stylebox_override(state,plate)
-		for state in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]:b.add_theme_color_override(state,Color(.02,.07,.025))
+		for state in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]:b.add_theme_color_override(state,Color("e0e3c9") if framed else Color(.02,.07,.025))
 	var value=Label.new();value.text=trailing;value.mouse_filter=Control.MOUSE_FILTER_IGNORE;value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT
 	value.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);value.offset_left=8;value.offset_right=-12;value.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
-	value.add_theme_color_override("font_color",Color(.02,.07,.025) if selected else Color(.61,.9,.45));b.add_child(value)
+	value.add_theme_color_override("font_color",(Color("e0e3c9") if selected else Color("c1cdb5")) if framed else Color(.02,.07,.025) if selected else Color(.61,.9,.45));b.add_child(value)
 	b.pressed.connect(action);content.add_child(b)
 	return b
 
@@ -334,6 +335,7 @@ func costs(cost: Dictionary) -> String:
 func open(which: String):
 	cancel_binding()
 	page=which
+	device_frame.station_link=page in MMFTerminalFrame.STATION_PAGES
 	title_screen.page_changed(which)
 	panel.theme=title_screen.menu_theme if page=="Title" else device_frame.screen_theme if page in MMFTerminalFrame.PAGES else null
 	var style=StyleBoxFlat.new() if page=="Title" else device_frame.screen_style if page in MMFTerminalFrame.PAGES else plain_panel_style
@@ -361,6 +363,7 @@ func focus_first_row():
 	for child in content.find_children("*","BaseButton",true,false):
 		if not child.disabled:
 			child.grab_focus();return
+	if return_button.visible:return_button.grab_focus()
 
 func refresh():
 	cancel_binding()
@@ -379,7 +382,7 @@ func refresh():
 	if game.started and page not in ["Title","Departure","Checkpoints"]:
 		if not terminal_title.text.begins_with("S–07"):terminal_title.text="S–07  /  "+terminal_title.text
 	link_status.visible=game.started and page not in ["Title","Departure","Checkpoints"]
-	link_status.text="LINEKEEPER 4  ·  LOCAL MEMORY" if terminal.physical_page(page) else "LINEKEEPER 4  ·  CONSTRUCTION LINK" if page=="Build" else "LINEKEEPER 4  ·  NEAR-FIELD EQUIPMENT LINK" if page in ["Helm","Machine","Signal","Research","Workshop","Storage","Equipment","Console","Caretaker","Shelf","Service","Story","Mission","Painter","PortCrane"] else "LINEKEEPER 4  ·  LOCAL CONTROLS"
+	link_status.text="LINEKEEPER 4  ·  LOCAL MEMORY" if terminal.physical_page(page) else "LINEKEEPER 4  ·  CONSTRUCTION LINK" if page=="Build" else "LINEKEEPER 4  ·  NEAR-FIELD EQUIPMENT LINK" if page in MMFTerminalFrame.STATION_PAGES else "LINEKEEPER 4  ·  LOCAL CONTROLS"
 	if game.playtests.active_id!="":terminal_title.text+="  ·  PLAYTEST"
 	var plate=panel.get_theme_stylebox("panel").duplicate()
 	plate.border_color=Color(.27,.38,.31)
@@ -473,10 +476,12 @@ func refresh():
 			text_line(record_title,true)
 			text_line(record_text)
 		"Settings": settings_page()
+	update_return_hint()
 	focus_first_row.call_deferred()
 	terminal.redraw()
 
 func storage_page():
+	game.salvage.automation.render_storage(self,storage_id)
 	pack_view.storage(self)
 
 func equipment_page():
@@ -555,14 +560,14 @@ func navigation_page():
 	game.opportunities.radar.render(self)
 	var contact=s.contacts.active
 	if not contact.is_empty():
-		section("NEARBY")
-		text_line(game.opportunities.title(),true)
 		var preview=game.opportunities.preview()
-		text_line("%dm  /  %.0f°  /  %d fuel" %[preview.remaining,preview.bearing,preview.fuel])
+		section("OPTIONAL STOP" if contact.state!="detected" else "PASSED SIGNAL" if preview.passed else "OPTIONAL SIGNAL")
+		text_line(game.opportunities.title(),true)
+		text_line(game.opportunities.preview_summary())
 		button("DETAILS  ›",func():show_record(game.opportunities.title(),game.opportunities.description()))
 		if contact.state=="detected":
 			var mission_id=MMFMissions.contact_mission(contact)
-			button("INTERCEPT",func():game.opportunities.commit(),preview.reachable and (mission_id=="" or (page=="Helm" and (s.missions.records[mission_id].status=="accepted" or MMFMissionContracts.reward_pending(s,mission_id)))) and (not MMFNativeProgression.radar_ready(s) or game.opportunities.radar.powered()))
+			button("INTERCEPT",func():game.opportunities.commit(),preview.reachable and not preview.window_closed and (mission_id=="" or (page=="Helm" and (s.missions.records[mission_id].status=="accepted" or MMFMissionContracts.reward_pending(s,mission_id)))) and (not MMFNativeProgression.radar_ready(s) or game.opportunities.radar.powered()))
 			button("PASS BY",func():game.opportunities.dismiss();refresh())
 		if contact.kind=="friendly-refuge" and s.survivor_content.refuge.workshopKnown and not s.survivor_content.workshop.charted:text_line("MARKED · Shared workshop")
 		if contact.state in ["docked","visited"]:
@@ -574,7 +579,9 @@ func navigation_page():
 	if s.scanner.phase=="installed": button("SCAN",func():
 		if s.start_scan(game.aboard()): game.close_menu()
 		else: refresh())
-	if s.scanner.phase=="scanning": meter_row("SCAN",s.scan_fraction()*100.0,100,"%")
+	if s.scanner.phase=="scanning":
+		meter_row("SCAN",s.scan_fraction()*100.0,100,"%")
+		if page=="Signal":text_line(game.guidance.current_task().action)
 	if page=="Helm":
 		var config=MMFMachineOperations.resume_config(s)
 		var refusal=MMFMachineOperations.departure_reason(s,config)
@@ -652,8 +659,7 @@ func settings_page():
 	refresh_control_labels()
 
 func refresh_control_labels():
-	if is_instance_valid(return_button):
-		return_button.text=game.hint("[{key:terminal} / {key:pause}] CLOSE   ·   ↑↓ ENTER"+("   ·   ALT+←→" if page in TERMINAL_PAGES else "")) if game.started and not title_screen.menu_origin else "RETURN TO TITLE"
+	update_return_hint()
 	if is_instance_valid(toast): toast.text=game.hint(toast_source)
 	if is_instance_valid(action_status):action_status.text=game.hint(toast_source)
 	for action in binding_buttons:
@@ -664,6 +670,16 @@ func refresh_control_labels():
 		row.reset.disabled=not game.settings.bindings.has(action)
 	if is_instance_valid(binding_status):
 		binding_status.text=("Press a key for "+MMFControls.NAMES[binding_action]+". Escape cancels without changing controls.") if binding_action!="" else "Select a control, then press its new key. Escape cancels a pending change."
+
+func update_return_hint():
+	if not is_instance_valid(return_button):return
+	var choices=false
+	if is_instance_valid(content):
+		for child in content.find_children("*","Control",true,false):
+			if child is BaseButton and not child.disabled:choices=true
+			elif child is Slider and child.editable:choices=true
+	var navigation="   ·   ↑↓ ENTER" if choices else ""
+	return_button.text=game.hint("[{key:terminal} / {key:pause}] CLOSE"+navigation+("   ·   ALT+←→" if page in TERMINAL_PAGES else "")) if game.started and not title_screen.menu_origin else "RETURN TO TITLE"
 
 func latest_continue() -> String:
 	if not MMFSaves.read("autosave").is_empty():return "autosave"
@@ -727,6 +743,7 @@ func _process(dt):
 	if game==null: return
 	game.terminal_pages.update_catalog(dt)
 	var readable=game.started and not game.menu_open and game.cinematic=="" and game.session.health>0
+	if not readable:MMFSiteInteractionCues.update(game,{})
 	salvage_readout.update()
 	loot_readout.update(dt)
 	transmission.hide();boarding.hide()
@@ -753,7 +770,7 @@ func _process(dt):
 	crosshair.visible=hud.visible
 	prompt.visible=hud.visible
 	if not hud.visible: return
-	var held="SALVAGE CUTTER / field tool" if game.player.equipment.salvage_selected() else "%s %d / ∞"%[game.data.WEAPONS[s.current_weapon].name,s.weapons[s.current_weapon].ammoInMag]
+	var held="MANUAL DECK GUN" if game.manual_turret!="" else "SALVAGE CUTTER / field tool" if game.player.equipment.salvage_selected() else "%s %d / ∞"%[game.data.WEAPONS[s.current_weapon].name,s.weapons[s.current_weapon].ammoInMag]
 	hud.text="S–07 / NOMAD LINK\n%.1f m/s · %dm\nFuel %d%% · Power %d/%d\nHealth %d\n%s" %[s.speed,s.distance,s.fuel,s.demand,s.capacity,s.health,held]
 	if game.playtests.active_id!="":hud.text="PLAYTEST · "+game.playtests.definition(game.playtests.active_id).title+"\n"+hud.text
 	guidance_left-=dt
@@ -776,7 +793,10 @@ func _process(dt):
 		var connection=MMFMachineSpaces.bay_note(game.building.selected)
 		var actions="\n[{key:fire}] Install at connection  [{key:catalog}] Parts  [{key:aim}] Cancel\n[{key:build_undo}] Undo" if connection!="" else "\n[{key:fire}] Place  [{key:rotate_left} / {key:use}] Rotate  [{key:catalog}] Parts  [{key:aim}] Cancel\n[{key:build_undo}] Undo  [{key:build_copy}] Copy  [{key:shoulder}] Move  [{key:deck_up} / {key:deck_down}] Deck  [{key:deck_auto}] Auto"
 		prompt.text="BUILD "+game.data.BUILD_PIECES[game.building.selected].name+" · "+explanation+"\n"+("MOVE · No material cost" if game.building.moving!="" else " · ".join(materials))+game.hint(actions)
+	elif game.manual_turret!="":
+		prompt.text=game.hint("CREWING DECK GUN · [{key:fire}] Fire   [{key:use}] Dismount")
 	else:
 		var reel="CARGO ALIGNED · [%s] Throw hook"%game.key_label("reel") if salvage_readout.aligned>=0 else "[%s] Throw salvage hook"%game.key_label("reel")
+		if salvage_readout.recovery_blocked:reel="STORAGE FULL · free matching space to recover cargo"
 		if game.salvage.busy(): reel="REELING CARGO" if game.salvage.reel_index>=0 else "HOOK RETURNING" if game.salvage.hook_phase=="back" else "HOOK OUT"
 		prompt.text=game.interaction_prompt+game.hint("\n[{key:terminal}] Wrist / log   [{key:build}] Build   ")+reel

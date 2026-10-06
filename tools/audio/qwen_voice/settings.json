@@ -1,0 +1,49 @@
+{
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+  "text": "There. On the roof.",
+  "language": "English",
+  "dtype": "bfloat16",
+  "attention": "sdpa",
+  "generation": {
+    "max_new_tokens": 160,
+    "do_sample": true,
+    "temperature": 0.75,
+    "top_p": 0.9,
+    "top_k": 40,
+    "repetition_penalty": 1.05
+  },
+  "processing": {
+    "target_active_rms_dbfs": -23.0,
+    "peak_ceiling_dbfs": -3.0,
+    "highpass_hz": 65,
+    "lowpass_hz": 8500,
+    "ring_modulation_hz": 71,
+    "ring_modulation_wet": 0.055,
+    "delays_ms": [7.3, 13.1, 23.7],
+    "delay_gains": [0.055, -0.035, 0.022]
+  },
+  "voices": [
+    {
+      "id": "a-tracker",
+      "label": "A — Tracker",
+      "seed": 73104,
+      "description": "Dry, close, low baritone; grounded and watchful.",
+      "instruct": "A mature male voice in his late forties, a naturally low baritone with a dry, lightly gravelled texture and neutral American English. Close, quiet conversational delivery with firm vocal support, not a whisper. He is a cold, calculating hunter who has just spotted his target and calmly reports its location. Say There as a small private discovery, leave a deliberate pause, then On the roof with precise consonants and a low settled ending. Restrained menace, minimal pitch movement, unhurried but concise. A natural intimate dramatic performance, no announcer projection, no trailer bass, no growling, no shouting, no theatrical villain affect. Clean dry studio voice without sound effects."
+    },
+    {
+      "id": "b-warden",
+      "label": "B — Warden",
+      "seed": 73129,
+      "description": "Older bass-baritone; clipped, deliberate authority.",
+      "instruct": "A mature male voice around sixty, low bass-baritone with an aged papery grain and a restrained neutral English accent. Quiet, cold and analytical, speaking with clipped precise articulation and calm absolute certainty. The voice belongs to a patient hunter, not a presenter. A measured pause after There, then the three words On the roof delivered as a spare factual observation with a downward finish. Slightly resonant chest tone but very little volume, steady breath, dry texture, subtle menace with no aggression. No exaggerated deep voice, booming, dramatic narration, growling or whispering. Natural clean unprocessed studio recording."
+    },
+    {
+      "id": "c-analyst",
+      "label": "C — Analyst",
+      "seed": 73163,
+      "description": "Cool, smooth low register; soft grain and exact diction.",
+      "instruct": "A mature masculine voice, early fifties, low register with a smooth dark baritone body and a fine dry breath texture at the edges of words. Clear neutral English with very precise diction. Quiet and emotionally contained, a calculating hunter calmly tracking movement, nearly detached but still human and natural. There is spoken softly and decisively, followed by a deliberate short silence before On the roof. Keep the sentence compact, the pitch range narrow, and the final word low and controlled. Menace comes from patience, not force. No announcer cadence, no theatrical villain, no excessive vocal fry, no rumbling bass boost, no shouting. A dry clean voice with no electronic processing or background sound."
+    }
+  ]
+}

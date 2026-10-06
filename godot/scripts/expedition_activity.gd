@@ -185,11 +185,28 @@ func render(ui):
 			var known=records.all(func(j):return j in game.session.story.journals)
 			ui.text_line("Recorded calibration tick: "+str([25,60,85][channel])+". This local wheel controls one antenna." if known else "Read the relay calibration records to identify the correct wheel settings.")
 			add_slider(ui,channel,action.to_upper(),100,ready)
-		else:ui.text_line("Keep the striped service sweep clear. The fixed return aisle stays open.")
+		else:ui.text_line(mechanism_help(id,action))
 		ui.button("LATCH CALIBRATION" if id=="array" and action!="lock" else entry.label.split(" / ")[-1].to_upper(),operate_and_refresh,ready)
 		ui.text_line("Completed: %d / %d"%[st.mechanism.milestones.size(),MMFExpeditionMechanisms.STEPS[id].size()])
 	feedback_view=ui.text_line(feedback)
 	ui.button("DISCONNECT / WALK TO NEXT CONTROL",game.close_menu)
+
+static func mechanism_help(id: String,action: String) -> String:
+	if MMFExpeditionMechanisms.moving_step(id,action):return "Keep the striped service sweep clear while the mechanism moves. The fixed return aisle stays open."
+	var help={
+		"gyro/isolate":"Disconnect the gyro's supply before working on its rotor.",
+		"gyro/brake":"Set the rotor brake before releasing the cradle.",
+		"power/unlock":"Release the carriage's travel lock before moving it into the recovery bay.",
+		"power/latch":"Secure the carriage in the recovery bay before removing its components.",
+		"port/ground":"Connect the captive ground before restoring the archive supply.",
+		"starboard/ground":"Connect the captive ground before restoring the archive supply.",
+		"port/bypass":"Close the preservation bypass to keep the archive protected during reconnection.",
+		"starboard/bypass":"Close the preservation bypass to keep the archive protected during reconnection.",
+		"archive/verify":"Check that the preserved memory is intact before seating its carrier. This check does not move the mechanism.",
+		"archive/readback":"Read the seated archive back and compare it with the preserved memory. This confirms the connection without moving the carrier.",
+		"transmitter/link":"Check that the transmitter can read the connected archive before synchronizing its feed.",
+		"transmitter/bearing":"Confirm the trusted bearing against the synchronized transmitter before returning to the Nomad."}
+	return help.get(id+"/"+action,"Check the local instrument before confirming this operation.")
 
 func operate_and_refresh():
 	act()

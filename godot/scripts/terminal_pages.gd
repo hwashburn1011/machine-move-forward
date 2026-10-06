@@ -5,6 +5,8 @@ var game
 var category="all"
 var catalog_selected=""
 var catalog_scroll=0
+const CATALOG_PAGE_SIZE=18
+var catalog_page=0
 var deck=0
 var selected=""
 var locate_left=0.0
@@ -26,6 +28,17 @@ func favorite(id: String):
 	if id in game.session.polish.favorites: game.session.polish.favorites.erase(id)
 	else: game.session.polish.favorites.append(id)
 
+func turn_catalog_page(ui, direction: int):
+	catalog_page+=direction;catalog_scroll=0;ui.refresh()
+	# Keep repeated keyboard paging on the pager, including at either end.
+	var fallback: Button
+	for button in ui.content.find_children("*","Button",true,false):
+		if not button.has_meta("catalog_page_delta") or button.disabled:continue
+		fallback=button
+		if int(button.get_meta("catalog_page_delta"))==direction:
+			ui.preferred_focus=button;return
+	if fallback:ui.preferred_focus=fallback
+
 func catalog(ui):
 	ui.section("PARTS","DECK %d"%(game.building.current_level()+3))
 	ui.text_line("Select a part, then PLACE to aim in the world. [{key:build}] exits placement; [{key:catalog}] changes parts.")
@@ -37,9 +50,23 @@ func catalog(ui):
 	for name in ["all","structure","station","decor","favorites"]:
 		var labels={"all":"ALL","structure":"HULL","station":"UNITS","decor":"DECOR","favorites":"SAVED"}
 		var b=Button.new();b.text=labels[name];b.toggle_mode=true;b.button_pressed=category==name
-		b.pressed.connect(func():category=name;catalog_scroll=0;ui.refresh());filters.add_child(b)
+		b.pressed.connect(func():category=name;catalog_scroll=0;catalog_page=0;ui.refresh());filters.add_child(b)
 	var ids=catalog_ids()
 	if catalog_selected not in ids: catalog_selected=""
+	# Keep construction responsive: only instantiate the visible catalog page.
+	# Selection/details survive page changes; filters still cover the full catalog.
+	var page_count=maxi(1,ceili(float(ids.size())/CATALOG_PAGE_SIZE))
+	catalog_page=clampi(catalog_page,0,page_count-1)
+	var pager=HBoxContainer.new();ui.content.add_child(pager)
+	var prior=ui.button("PREVIOUS PARTS",func():turn_catalog_page(ui,-1),catalog_page>0)
+	prior.reparent(pager);prior.set_meta("catalog_page_delta",-1)
+	prior.autowrap_mode=TextServer.AUTOWRAP_OFF;prior.custom_minimum_size=Vector2(170,40)
+	var page_label=Label.new();page_label.text="  %d / %d  ·  %d parts  "%[catalog_page+1,page_count,ids.size()];pager.add_child(page_label)
+	page_label.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+	var following=ui.button("NEXT PARTS",func():turn_catalog_page(ui,1),catalog_page+1<page_count)
+	following.reparent(pager);following.set_meta("catalog_page_delta",1)
+	following.autowrap_mode=TextServer.AUTOWRAP_OFF;following.custom_minimum_size=Vector2(140,40)
+	var visible_ids=ids.slice(catalog_page*CATALOG_PAGE_SIZE,(catalog_page+1)*CATALOG_PAGE_SIZE)
 	var original=ui.content
 	var columns=HBoxContainer.new();columns.add_theme_constant_override("separation",28)
 	columns.custom_minimum_size.y=maxf(280,ui.scroller.size.y-145);original.add_child(columns)
@@ -47,9 +74,10 @@ func catalog(ui):
 	scroll.size_flags_horizontal=Control.SIZE_EXPAND_FILL;scroll.size_flags_stretch_ratio=1.4;columns.add_child(scroll)
 	var list=VBoxContainer.new();list.size_flags_horizontal=Control.SIZE_EXPAND_FILL;scroll.add_child(list)
 	ui.content=list
-	for id in ids:
+	for id in visible_ids:
 		var def=game.data.BUILD_PIECES[id]
 		var b=ui.compact_row(def.name,"LOCKED" if not game.building.unlocked(id) else "",func():catalog_selected=id;ui.refresh(),catalog_selected==id)
+		b.set_meta("catalog_part",id)
 		if catalog_selected==id:ui.preferred_focus=b
 	scroll.get_v_scroll_bar().value_changed.connect(func(value):catalog_scroll=int(value))
 	scroll.set_deferred("scroll_vertical",catalog_scroll)

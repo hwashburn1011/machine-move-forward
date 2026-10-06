@@ -1,0 +1,367 @@
+{
+  "passed": true,
+  "build_id": "0.3.0-beta.1-6076494f06c0",
+  "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+  "asset_manifest_sha256": "ec8cf259117442dc7a026e0a8472d4f581b5dea5b74e6aad40151e935c3e3cec",
+  "archive": "test-results/windows-v1-playthrough-fixes-20261005/distribution/MachineMoveForward-0.3.0-beta.1-windows-x86_64.zip",
+  "archive_bytes": 951406335,
+  "archive_sha256": "07ead5144f104ca3237b83325409a74e8cdf50cd5d5ec82a50b855bca1991da3",
+  "executable_sha256": "177053f1e6d4a40e118d27e95379903344885e4a58c3a494169f4159596463e8",
+  "pck_sha256": "665ea9e5506f27d388d516200861313283587d3466e0e0e0954a226717488371",
+  "build_identity_sha256": "341e5bba9e4f0181bb1c59885c143e0979c275233cf9bb9421c9a69328699582",
+  "resource_audit": {
+    "checks": 4503,
+    "collision_shapes_loaded": 729,
+    "passed": true,
+    "report": "test-results/windows-v1-playthrough-fixes-20261005/resource-audit/audit.json",
+    "sha256": "4a5cf5faa5bec9d713d84bd5f2cb7f081cd12841d4bc2e4eee3dd0fb3f08e61e"
+  },
+  "standalone_smoke": {
+    "payload_checksums_verified": 9,
+    "runs": [
+      {
+        "phase": "normal-boot",
+        "exit_code": 0,
+        "wall_seconds": 13.422,
+        "diagnostics": [],
+        "passed": true
+      },
+      {
+        "phase": "new",
+        "exit_code": 0,
+        "wall_seconds": 96.672,
+        "diagnostics": [],
+        "checks": 34,
+        "passed": true
+      },
+      {
+        "phase": "resume",
+        "exit_code": 0,
+        "wall_seconds": 11.969,
+        "diagnostics": [],
+        "checks": 25,
+        "passed": true
+      }
+    ],
+    "scope": "Official templates disable external scripts. Only normal-boot uses the release EXE; new/resume use the matching engine and unchanged extracted PCK.",
+    "report": "test-results/windows-v1-playthrough-fixes-20261005/standalone-smoke/summary.json",
+    "sha256": "3271d53f5cc2d9fe0359a6d40baa248652e2204aaecebf2ccc6c2f1088099b26",
+    "temporary_extraction": "C:\\Users\\hwash\\AppData\\Local\\Temp\\mmf-beta-standalone-s83miaft",
+    "user_data": "Dedicated isolated profile; personal campaigns/preferences not used"
+  },
+  "performance": {
+    "report": "docs/godot-port/results/v1-playthrough-fixes-performance-2026-10-05.json",
+    "sha256": "2852cc006e70d92e64d83a4d6030c381ca5a884cc02bb6390b29d40b75211dc3",
+    "workloads": 5,
+    "maximum_frame_p95_ms": 8.66,
+    "maximum_frame_p99_ms": 9.553,
+    "maximum_frame_ms": 21.478,
+    "frames_over33ms": 0,
+    "frames_over50ms": 0,
+    "scope": "Five affected integrated workloads: 90-second travel, 18-second construction/combat/Foundry, 180-second furnished home, plus a separate 36-second ordinary construction trace. Sequential exclusive native rendering with prepared/invulnerable fixtures; no new full campaign or broad17-workload claim.",
+    "home": {
+      "furnishings": 50,
+      "painted_pieces": 52,
+      "docks": 3,
+      "recorded_received_items": 506,
+      "received_per_dock": {
+        "bp-6": 0,
+        "bp-7": 196,
+        "bp-8": 338
+      },
+      "music_starts": 2,
+      "video_memory_max_bytes": 2662907024.0,
+      "static_memory_max_bytes": 330644010.0,
+      "coverage_limit": "Three powered docks present; per-dock delivery counts retained rather than assuming each delivered."
+    },
+    "source_lineage": {
+      "travel_and_construction_trace": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb",
+      "construction_combat_foundry_home": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+      "difference": "Display-only FP18 optional-site committed/docked/departing status correction after the first two workloads. No physics, rendering material or construction changes."
+    },
+    "construction_action_trace": {
+      "report": "test-results/v1-playthrough-fixes-20261005/construction/frozen-final/baseline-construction.json",
+      "sha256": "82f12f7f5eb78a3786e9e27656828fdbb1bd281df97981b212b469fabe035cd2",
+      "source_hash": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb",
+      "seconds": 36,
+      "frame_ms": {
+        "max": 19.958,
+        "median": 4.262,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 6.398,
+        "p99": 7.368,
+        "samples": 8372
+      },
+      "slow_frames_over20ms": [],
+      "actions": [
+        {
+          "ms": 11.439,
+          "operation": "open_build",
+          "reason": "Aim at a deck",
+          "seconds": 5e-06,
+          "step": 0,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 3.474,
+          "operation": "choose_chart_desk",
+          "reason": "Aim at a deck",
+          "seconds": 2.00307,
+          "step": 1,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 0.026,
+          "operation": "rotate",
+          "reason": "",
+          "seconds": 4.004043,
+          "step": 2,
+          "success": true,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-chart-desk",
+            "rotation": 0
+          }
+        },
+        {
+          "ms": 1.126,
+          "operation": "commit_aimed",
+          "reason": "",
+          "seconds": 6.002085,
+          "step": 3,
+          "success": true,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-chart-desk",
+            "rotation": 1
+          }
+        },
+        {
+          "ms": 0.154,
+          "operation": "cancel_then_choose_chair",
+          "reason": "Aim at a deck",
+          "seconds": 8.002079,
+          "step": 4,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 0.372,
+          "operation": "commit_aimed",
+          "reason": "Something is already there",
+          "seconds": 10.001855,
+          "step": 5,
+          "success": false,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-field-chair",
+            "rotation": 0
+          }
+        },
+        {
+          "ms": 0.127,
+          "operation": "undo",
+          "reason": "Aim at a deck",
+          "seconds": 12.004001,
+          "step": 6,
+          "success": false,
+          "target": {}
+        },
+        {
+          "ms": 10.8,
+          "operation": "reopen_build",
+          "reason": "Aim at a deck",
+          "seconds": 14.000037,
+          "step": 7,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 1.938,
+          "operation": "close_cancel",
+          "reason": "Aim at a deck",
+          "seconds": 16.001661,
+          "step": 8,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 9.929,
+          "operation": "open_build",
+          "reason": "Aim at a deck",
+          "seconds": 18.000432,
+          "step": 9,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 2.238,
+          "operation": "choose_chart_desk",
+          "reason": "Aim at a deck",
+          "seconds": 20.002748,
+          "step": 10,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 0.022,
+          "operation": "rotate",
+          "reason": "Something is already there",
+          "seconds": 22.000535,
+          "step": 11,
+          "success": true,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-chart-desk",
+            "rotation": 0
+          }
+        },
+        {
+          "ms": 0.234,
+          "operation": "commit_aimed",
+          "reason": "Something is already there",
+          "seconds": 24.000871,
+          "step": 12,
+          "success": false,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-chart-desk",
+            "rotation": 1
+          }
+        },
+        {
+          "ms": 0.112,
+          "operation": "cancel_then_choose_chair",
+          "reason": "Aim at a deck",
+          "seconds": 26.001946,
+          "step": 13,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 0.267,
+          "operation": "commit_aimed",
+          "reason": "Something is already there",
+          "seconds": 28.000294,
+          "step": 14,
+          "success": false,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-field-chair",
+            "rotation": 0
+          }
+        },
+        {
+          "ms": 0.135,
+          "operation": "undo",
+          "reason": "Aim at a deck",
+          "seconds": 30.000314,
+          "step": 15,
+          "success": false,
+          "target": {}
+        },
+        {
+          "ms": 11.189,
+          "operation": "reopen_build",
+          "reason": "Aim at a deck",
+          "seconds": 32.001791,
+          "step": 16,
+          "success": true,
+          "target": {}
+        },
+        {
+          "ms": 1.628,
+          "operation": "close_cancel",
+          "reason": "Aim at a deck",
+          "seconds": 34.000538,
+          "step": 17,
+          "success": true,
+          "target": {}
+        }
+      ],
+      "title_prepare_ms": 2801.96,
+      "scope": "Real construction callbacks, aimed placement, refusal and undo attempts; no screenshot or route planner in sample. Fixed prepared checkpoint and test resources. Only one placement is expected to succeed at the same aimed cell."
+    }
+  },
+  "component_evidence": {
+    "docs/godot-port/results/v1-construction-hitch-diagnostic-2026-10-05.json": {
+      "scope": "Diagnostic reproduction and catalog causal evidence during shared development; not final frozen acceptance.",
+      "sha256": "fd2fabe067219a2f157ba5da1f58c3970f4f6fbd3558d099e260dce7d4c9ec8f"
+    },
+    "docs/godot-port/results/v1-playthrough-fixes-2026-10-05.json": {
+      "scope": "Final integrated findings/regression receipt with original per-suite source identities; 1207 checks.",
+      "sha256": "91e87e474ebf3dc9db78a1fa7b03f20a94c9b306c973a5f70f12cf8a6ecd8cf4"
+    },
+    "test-results/v1-playthrough-fixes-20261005/construction/visual/review.json": {
+      "scope": "Six stable gun/catalog views at e6d35 before display-only optional-stop labels changed.",
+      "sha256": "da32e7d965ea1e4b82e3f1d5ee970ec064976839aae1d1b74458cb6da2e2a744"
+    }
+  },
+  "historical": {
+    "campaign": "docs/godot-port/results/v1-campaign-presentation-2026-10-05.json",
+    "broad_performance": "docs/godot-port/results/v1-performance-2026-10-04.json",
+    "prior_release": "docs/godot-port/results/v1-presentation-release-2026-10-05.json",
+    "scope": "Prior-build evidence preserved. No new complete campaign or17-workload claim."
+  },
+  "pipeline": [
+    {
+      "phase": "inventory",
+      "exit_code": 0,
+      "wall_seconds": 5.328
+    },
+    {
+      "phase": "export",
+      "exit_code": 0,
+      "wall_seconds": 26.047
+    },
+    {
+      "phase": "audit",
+      "exit_code": 0,
+      "wall_seconds": 15.625
+    },
+    {
+      "phase": "package",
+      "exit_code": 0,
+      "wall_seconds": 48.156
+    },
+    {
+      "phase": "standalone-smoke",
+      "exit_code": 0,
+      "wall_seconds": 128.719
+    }
+  ],
+  "free_disk_gib_after": 38.64,
+  "limits": [
+    "Physical lower-spec hardware and uncoached player feedback remain unverified.",
+    "Actual release EXE startup passed; scripted New Game/Continue use matching engine with unchanged extracted PCK.",
+    "Travel/construction trace and accepted component visuals precede only the final optional-stop display-label correction; source identities remain explicit.",
+    "No publishing, commit, push or deletion."
+  ]
+}

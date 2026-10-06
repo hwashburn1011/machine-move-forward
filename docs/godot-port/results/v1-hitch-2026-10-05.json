@@ -1,0 +1,138 @@
+{
+  "scope": "Focused diagnostic and benchmark lifecycle correction, not production optimization or final frozen acceptance",
+  "runtime_changed_by_this_task": false,
+  "cause": "The previous checkpoint performance fixture bypassed the existing NewGame title preparation gate. One-off resource preparation and render pipeline setup could continue into the travel sample.",
+  "observations": {
+    "reproduced_frame_ms": [
+      92.673,
+      94.8,
+      119.423
+    ],
+    "render_setup_ms": [
+      80.368,
+      78.812
+    ],
+    "gpu_ms_during_stalls_approx": 3,
+    "outpost_preparation_callback_ms": 90.303,
+    "prepared_title_outpost_callback_ms": 109.646,
+    "prepared_title_wait_ms": 3068.683
+  },
+  "runs": [
+    {
+      "run": "baseline-cold-01",
+      "source_before": "e7bc42afeecb38fa7378e2f48dbc5c2e3eaa504aed6bace6b2ab1677abd35b49",
+      "source_after": "e7bc42afeecb38fa7378e2f48dbc5c2e3eaa504aed6bace6b2ab1677abd35b49",
+      "source_stable": true,
+      "exit_code": 3221226356,
+      "diagnostics": [],
+      "frame_ms": {},
+      "title_wait_ms": null,
+      "fresh_shader_profile": true,
+      "cache_scope": "OS and driver caches uncontrolled; warm-90s reuses prepared-cold-04 shader profile",
+      "report": null,
+      "report_sha256": null
+    },
+    {
+      "run": "baseline-cold-02",
+      "source_before": "e7bc42afeecb38fa7378e2f48dbc5c2e3eaa504aed6bace6b2ab1677abd35b49",
+      "source_after": "e7bc42afeecb38fa7378e2f48dbc5c2e3eaa504aed6bace6b2ab1677abd35b49",
+      "source_stable": true,
+      "exit_code": 0,
+      "diagnostics": [],
+      "frame_ms": {
+        "max": 119.423,
+        "median": 4.42,
+        "p95": 9.417,
+        "p99": 11.429
+      },
+      "title_wait_ms": null,
+      "fresh_shader_profile": true,
+      "cache_scope": "OS and driver caches uncontrolled; warm-90s reuses prepared-cold-04 shader profile",
+      "report": "test-results/v1-hitch-20261005/baseline-cold-02/profile.json",
+      "report_sha256": "4a9b04ce1a2bf6b8b3a525c8737c828286172db5b09000dc2f9a0a4debb69746"
+    },
+    {
+      "run": "baseline-traced-03",
+      "source_before": "71d62b46c1a58db4d3b8ed01611c31a545624b329aee0662d1584f769164a0d1",
+      "source_after": "71d62b46c1a58db4d3b8ed01611c31a545624b329aee0662d1584f769164a0d1",
+      "source_stable": true,
+      "exit_code": 0,
+      "diagnostics": [],
+      "frame_ms": {
+        "max": 14.125,
+        "median": 3.794,
+        "p95": 6.496,
+        "p99": 9.35
+      },
+      "title_wait_ms": 0.0,
+      "fresh_shader_profile": true,
+      "cache_scope": "OS and driver caches uncontrolled; warm-90s reuses prepared-cold-04 shader profile",
+      "report": "test-results/v1-hitch-20261005/baseline-traced-03/profile.json",
+      "report_sha256": "4b67dfb4f1ece5e3f16657b0926f9fa439e7281cf36dbf430c4058e0bc94b61e"
+    },
+    {
+      "run": "prepared-cold-04",
+      "source_before": "08be0a20ada57ef9539cb30f9db9dedfe3f0328fac4cc6e9e3cbc99463ff7130",
+      "source_after": "08be0a20ada57ef9539cb30f9db9dedfe3f0328fac4cc6e9e3cbc99463ff7130",
+      "source_stable": true,
+      "exit_code": 0,
+      "diagnostics": [],
+      "frame_ms": {
+        "max": 9.22,
+        "median": 3.58,
+        "p95": 5.832,
+        "p99": 7.267
+      },
+      "title_wait_ms": 3068.683,
+      "fresh_shader_profile": true,
+      "cache_scope": "OS and driver caches uncontrolled; warm-90s reuses prepared-cold-04 shader profile",
+      "report": "test-results/v1-hitch-20261005/prepared-cold-04/profile.json",
+      "report_sha256": "ae139f230f002842415a7c7b03131b68e90f3a99808c774119c521500a32a5fd"
+    },
+    {
+      "run": "prepared-warm-90s-05",
+      "source_before": "08be0a20ada57ef9539cb30f9db9dedfe3f0328fac4cc6e9e3cbc99463ff7130",
+      "source_after": "df602e1407fe39556ccb2750f4a8b8d940d1c3109d7a220b47ecc93b1c30f85b",
+      "source_stable": false,
+      "exit_code": 0,
+      "diagnostics": [],
+      "frame_ms": {
+        "max": 15.319,
+        "median": 4.151,
+        "p95": 8.188,
+        "p99": 10.047
+      },
+      "title_wait_ms": 2150.539,
+      "fresh_shader_profile": false,
+      "cache_scope": "OS and driver caches uncontrolled; warm-90s reuses prepared-cold-04 shader profile",
+      "report": "test-results/v1-hitch-20261005/prepared-warm-90s-05/profile.json",
+      "report_sha256": "d8dc93c203d552ab349ffd41d4cb8e732573c74eea4ca3cc84a802e2b27a8972"
+    }
+  ],
+  "stock_gate_verification": {
+    "title_prepared": true,
+    "title_prepare_ms": 3728.394,
+    "frame_ms": {
+      "max": 9.268,
+      "median": 3.673,
+      "over33ms": 0,
+      "over50ms": 0,
+      "p95": 5.25,
+      "p99": 6.522,
+      "samples": 4595
+    },
+    "diagnostics": [],
+    "source_stable": false,
+    "accepted_frozen_performance": false,
+    "report": "test-results/v1-release-audit-2026-10-04/hitch-gate-20261005/deck-audio-travel.json",
+    "sha256": "4eab8fa8fa80abb0e95f718fa4baa73767c3f5899f3556cf90f3aab2df3ad62a"
+  },
+  "change": "godot/tests/art200_performance.gd waits for opening_stage.prepared() with a strict30secondtimeout and reports title_prepare_ms separately; no fixed extra sleep or production runtime change.",
+  "limits": [
+    "Other agents edited runtime between diagnostics and during warm90s/stock verification; those are explicitly not final frozen comparisons.",
+    "A fresh Godot shader profile is not a cold OS/driver cache.",
+    "The test uses a prepared checkpoint and real NewGame title gate, not a full normal opening playthrough.",
+    "Immediate Continue before preparation was not profiled; no claim of universal hitch elimination.",
+    "First dynamic copied-main instrument crashed in the engine before gameplay and was rejected; retained normal-scene profiler avoids that instrumentation."
+  ]
+}

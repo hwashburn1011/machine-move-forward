@@ -1,0 +1,209 @@
+{
+  "asr_model": "Systran/faster-whisper-tiny.en",
+  "asr_revision": "0d3d19a32d3338f10357c0889762bd8d64bbdeba",
+  "asr_scope": "Local CPU transcription without a text prompt; does not assess acting or voice preference.",
+  "takes": [
+    {
+      "id": "a-tracker",
+      "kind": "clean",
+      "transcript": "There on the roof.",
+      "exact_words": true,
+      "words": [
+        {
+          "word": "There",
+          "start": 0.0,
+          "end": 0.76
+        },
+        {
+          "word": "on",
+          "start": 0.76,
+          "end": 1.42
+        },
+        {
+          "word": "the",
+          "start": 1.42,
+          "end": 1.6
+        },
+        {
+          "word": "roof.",
+          "start": 1.6,
+          "end": 1.84
+        }
+      ],
+      "finite": true,
+      "mono": true,
+      "sample_rate": 24000,
+      "clipped_samples": 0,
+      "sha256_matches": true
+    },
+    {
+      "id": "a-tracker",
+      "kind": "metallic",
+      "transcript": "There on the roof.",
+      "exact_words": true,
+      "words": [
+        {
+          "word": "There",
+          "start": 0.0,
+          "end": 0.76
+        },
+        {
+          "word": "on",
+          "start": 0.76,
+          "end": 1.42
+        },
+        {
+          "word": "the",
+          "start": 1.42,
+          "end": 1.6
+        },
+        {
+          "word": "roof.",
+          "start": 1.6,
+          "end": 1.84
+        }
+      ],
+      "finite": true,
+      "mono": true,
+      "sample_rate": 24000,
+      "clipped_samples": 0,
+      "sha256_matches": true
+    },
+    {
+      "id": "b-warden",
+      "kind": "clean",
+      "transcript": "There on the roof.",
+      "exact_words": true,
+      "words": [
+        {
+          "word": "There",
+          "start": 0.0,
+          "end": 0.78
+        },
+        {
+          "word": "on",
+          "start": 0.78,
+          "end": 1.58
+        },
+        {
+          "word": "the",
+          "start": 1.58,
+          "end": 1.8
+        },
+        {
+          "word": "roof.",
+          "start": 1.8,
+          "end": 2.1
+        }
+      ],
+      "finite": true,
+      "mono": true,
+      "sample_rate": 24000,
+      "clipped_samples": 0,
+      "sha256_matches": true
+    },
+    {
+      "id": "b-warden",
+      "kind": "metallic",
+      "transcript": "There on the roof.",
+      "exact_words": true,
+      "words": [
+        {
+          "word": "There",
+          "start": 0.0,
+          "end": 0.76
+        },
+        {
+          "word": "on",
+          "start": 0.76,
+          "end": 1.58
+        },
+        {
+          "word": "the",
+          "start": 1.58,
+          "end": 1.8
+        },
+        {
+          "word": "roof.",
+          "start": 1.8,
+          "end": 2.1
+        }
+      ],
+      "finite": true,
+      "mono": true,
+      "sample_rate": 24000,
+      "clipped_samples": 0,
+      "sha256_matches": true
+    },
+    {
+      "id": "c-analyst",
+      "kind": "clean",
+      "transcript": "There on the roof.",
+      "exact_words": true,
+      "words": [
+        {
+          "word": "There",
+          "start": 0.0,
+          "end": 0.8
+        },
+        {
+          "word": "on",
+          "start": 0.8,
+          "end": 1.58
+        },
+        {
+          "word": "the",
+          "start": 1.58,
+          "end": 1.8
+        },
+        {
+          "word": "roof.",
+          "start": 1.8,
+          "end": 2.08
+        }
+      ],
+      "finite": true,
+      "mono": true,
+      "sample_rate": 24000,
+      "clipped_samples": 0,
+      "sha256_matches": true
+    },
+    {
+      "id": "c-analyst",
+      "kind": "metallic",
+      "transcript": "There on the roof.",
+      "exact_words": true,
+      "words": [
+        {
+          "word": "There",
+          "start": 0.0,
+          "end": 0.8
+        },
+        {
+          "word": "on",
+          "start": 0.8,
+          "end": 1.58
+        },
+        {
+          "word": "the",
+          "start": 1.58,
+          "end": 1.8
+        },
+        {
+          "word": "roof.",
+          "start": 1.8,
+          "end": 2.1
+        }
+      ],
+      "finite": true,
+      "mono": true,
+      "sample_rate": 24000,
+      "clipped_samples": 0,
+      "sha256_matches": true
+    }
+  ],
+  "protected_game_files": 331,
+  "changed_game_files": [],
+  "technical_passed": true,
+  "all_transcripts_match": true
+}

@@ -1,0 +1,18 @@
+# VF04 / VF05 story voice findings — 4 October 2026
+
+Status: implemented and fixture-verified. Full earned campaign and human listening response belong to the parent journal; neither is claimed here.
+
+| Finding | Evidence | Disposition |
+| --- | --- | --- |
+| Existing evidence readers already preserve local physical context and recording identity. Array's comparison is meaningful and must precede its revelation. | Source inspection of narrative progress and expedition authorization | Kept all canonical text and progression gates. Added voluntary playback at Wake, compared Array and completed berth transmitter only. |
+| Repeating a VoiceDesign description is insufficient identity control. | Generation workflow inspection | Generated original Annika once, then used official Base reference-guided generation for Array from the clean Wake take. Separate understated berth character. |
+| Routine spoken notices would conflict with the quiet design. | Existing journey/audio ownership inspection | No automatic speech, alarm or new popup. Local listen/replay, pause and stop; transcript and synchronized current sentence. |
+| Audio can outlive its owning reader if session/control changes. | 50 isolated ownership/import/cue assertions | All pass: mute/zero volume, pause/resume, replay, comparison, different reader/chapter/phase, death, combat, cinematic, session replacement/rewind and teardown. `test-results/story-voice/lifecycle.json`. |
+| Local production readers render and authorize the clips correctly. | 29 rendered native fixture assertions on RTX 3070 | All pass. Wake, Array and berth captures: `test-results/narrative-story-voice-*.png`, including narrow variants. Bounds and scroll access checked at 1024×768; current sentence, complete transcript and next lead fit. These fixtures intentionally prepare progress. `test-results/story-voice/native-review.json`. |
+| Initial captures used a flat black reader despite the existing wrist device frame. | Native visual inspection by parent and this agent | Reused `MMFTerminalFrame` for Story, Finale and FinaleBrief only. Re-captured all three readers at 1440×900 and 1024×768. Array narrow image inspected: readable panel with complete controls, no overlap or clipped transcript. |
+| Local ASR verifies complete sentences with small spelling/pronunciation ambiguities. | `assets/voice-auditions/story/2026-10-04/verification.json` | 95.6–96.5% token similarity, zero clipped samples. Foundry's→Foundry, S-07→S-007, traveller→traveler flagged for listening. No additional sentences or changed story claims. Human voice approval remains pending. |
+| The first lifecycle harness run passed its assertions but could not write its report through a Windows `res://..` mkdir. | Engine diagnostic | Fixed harness to globalize the path; successful rerun produced the report with 50/50 passes and no errors. Not a gameplay defect. |
+
+The three mono PCM16 runtime files total roughly 1.56 MB. Duration is 7.920 / 13.128 / 11.440 seconds. Local GPU peak during generation was 4.1–4.6 GiB; there is no inference during gameplay. Base download used about 4 GB additional disk; the original intro B recording and opening choreography were not edited. Existing user saves were not used.
+
+Final rendered fixture source hash remained `ec1623ef725af79239ac053ae579702d1918ce3c848bf8e72ef0325d99d2ccba` throughout that run. Runtime freeze offered to the parent after both test suites passed, then restored after the requested device-frame polish. Reproduction settings, scripts and reference takes are retained under `tools/audio/story_voice/` and `assets/voice-auditions/story/2026-10-04/`. Intro B hash remains `d7e74637c70270d3d61b53aca47430b2189d2b7b0e28aa93d5390feab93bfc1d`.

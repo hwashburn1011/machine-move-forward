@@ -1,9 +1,11 @@
 {
-  "base": "http://127.0.0.1:5198/machine-move-forward/",
+  "scope": "Chrome playback, seeking, served file identity and desktop/mobile layout. Muted automation; not a human listening review.",
+  "base": "http://localhost:5198/machine-move-forward/",
+  "sha256": "909087d53176937b8941fb0b4907d9184f2d72b18215957902f3b7c2b17b9d82",
   "video": {
-    "width": 1280,
-    "height": 720,
-    "duration": 46,
+    "width": 1920,
+    "height": 1080,
+    "duration": 56.020703,
     "controls": true,
     "advanced": true,
     "frames": [
@@ -13,8 +15,8 @@
         "ready": 4
       },
       {
-        "at": 9,
-        "actual": 9,
+        "at": 8,
+        "actual": 8,
         "ready": 4
       },
       {
@@ -23,28 +25,28 @@
         "ready": 4
       },
       {
-        "at": 16,
-        "actual": 16,
+        "at": 18,
+        "actual": 18,
         "ready": 4
       },
       {
-        "at": 18.5,
-        "actual": 18.5,
+        "at": 23,
+        "actual": 23,
         "ready": 4
       },
       {
-        "at": 21,
-        "actual": 21,
+        "at": 27,
+        "actual": 27,
         "ready": 4
       },
       {
-        "at": 25,
-        "actual": 25,
+        "at": 31,
+        "actual": 31,
         "ready": 4
       },
       {
-        "at": 32,
-        "actual": 32,
+        "at": 36,
+        "actual": 36,
         "ready": 4
       },
       {
@@ -53,70 +55,27 @@
         "ready": 4
       },
       {
-        "at": 44,
-        "actual": 44,
+        "at": 43,
+        "actual": 43,
+        "ready": 4
+      },
+      {
+        "at": 49,
+        "actual": 49,
+        "ready": 4
+      },
+      {
+        "at": 54,
+        "actual": 54,
         "ready": 4
       }
     ]
   },
-  "game": {
-    "stats": {
-      "calls": 593,
-      "tris": 1477322,
-      "skyBakes": 1,
-      "graphics": {
-        "logicalWidth": 1280,
-        "logicalHeight": 800,
-        "pixelRatio": 1,
-        "drawingBufferWidth": 1280,
-        "drawingBufferHeight": 800,
-        "msaaSamples": 2,
-        "gtao": false,
-        "gtaoWidth": 0,
-        "gtaoHeight": 0,
-        "shimmer": false,
-        "postBypassed": false
-      },
-      "distance": 11,
-      "chunks": 9,
-      "speed": 7.35,
-      "bodies": 24,
-      "playerY": 15.805,
-      "grounded": true,
-      "vy": 0,
-      "simTime": 1.817,
-      "hp": 100,
-      "ammo": "30/150",
-      "weapon": "rifle",
-      "enemies": 0,
-      "particles": 82,
-      "scrap": 260,
-      "pieces": 2,
-      "rooms": 1,
-      "buildMode": false,
-      "opening": "done",
-      "armed": true
-    },
-    "machine": true,
-    "player": true,
-    "mechs": [
-      {
-        "id": "warden",
-        "loaded": true
-      },
-      {
-        "id": "revenant",
-        "loaded": true
-      },
-      {
-        "id": "bastion",
-        "loaded": true
-      },
-      {
-        "id": "sovereign",
-        "loaded": true
-      }
-    ]
+  "mobile": {
+    "fits": true,
+    "controls": true,
+    "width": 354,
+    "viewport": 390
   },
   "errors": [],
   "failed": []

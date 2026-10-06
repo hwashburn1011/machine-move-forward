@@ -4,6 +4,10 @@ extends Node3D
 const MEMORY_DURATION=26.0
 const DURATION=MMFOpeningLetter.DURATION+MEMORY_DURATION
 const PATH="res://art/opening-memory.glb"
+# Authored idle boot-sole datums, in source mesh units. Equipment/cape bounds
+# extend below the boots; using their AABB visibly floats the defender. The
+# independent skinned-vertex regression guards these against asset changes.
+const MEMORY_SOLE_Y={"warden":-.012329,"revenant":-.012182}
 var cinema
 var game
 var set_model: Node3D
@@ -28,6 +32,7 @@ var voice: AudioStreamPlayer
 var score: AudioStreamPlayer
 var bed_stream: AudioStream
 var voice_stream: AudioStream
+var voice_cue: Dictionary
 var score_stream: AudioStream
 var active=false
 var previous=-1.0
@@ -50,7 +55,7 @@ var letter=MMFOpeningLetter.new()
 var fire_stream: AudioStream
 var memory_started=false
 var fire_started=false
-var slash_clip: Dictionary
+var lunge_clip: Dictionary
 var climb_clips=[]
 var climbers=[]
 
@@ -60,9 +65,10 @@ func setup(owner_cinema):
 	bed=AudioStreamPlayer.new();add_child(bed);voice=AudioStreamPlayer.new();add_child(voice);score=AudioStreamPlayer.new();add_child(score)
 	bed_stream=load("res://assets/audio/opening/memory-and-escape.wav")
 	voice_stream=load("res://assets/audio/opening/pursuer-roof.wav")
+	voice_cue=MMFAssets.json("res://data/opening-voice.json")
 	score_stream=load("res://assets/audio/opening/memory-score.wav")
 	fire_stream=load("res://assets/audio/opening/paper-fire.wav")
-	slash_clip=MMFAssets.json("res://assets/animation/opening/revenant-slash.json")
+	lunge_clip=MMFAssets.json("res://assets/animation/opening/revenant-lunge.json")
 	for kind in ["warden","revenant"]:climb_clips.append(MMFAssets.json("res://assets/animation/opening/"+kind+"-climb.json"))
 	var layer=CanvasLayer.new();layer.layer=0;add_child(layer)
 	bars=Control.new();bars.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);bars.mouse_filter=Control.MOUSE_FILTER_IGNORE;layer.add_child(bars)
@@ -92,9 +98,10 @@ func prepare_part(index: int):
 		for i in 4:
 			for j in 3:fingers.append(MMFAssets.find_named(set_model,"Finger%d_%d"%[i,j]))
 	elif index in [1,2]:
-		var model=MMFAssets.scene(MMFEnemyModels.path("warden" if index==1 else "revenant"))
+		var kind="warden" if index==1 else "revenant"
+		var model=MMFAssets.scene(MMFEnemyModels.path(kind))
 		var bounds=MMFAssets.bounds(model);var fit=2.05/maxf(bounds.size.y,.01);model.scale*=fit;add_child(model);machines.append(model)
-		model.position.y=-bounds.position.y*fit
+		model.position.y=-MEMORY_SOLE_Y[kind]*fit+.001
 		var acting=MMFOpeningPerformance.new();MMFAssets.of_type(model,"Skeleton3D")[0].add_child(acting);performances.append(acting)
 	elif index==3:
 		worker=MMFAssets.scene(MMFEnemyModels.PLAYER);var bounds=MMFAssets.bounds(worker);var fit=1.85/maxf(bounds.size.y,.01);worker.scale*=fit;add_child(worker);worker.position.y=-bounds.position.y*fit
@@ -119,6 +126,18 @@ func prepare_part(index: int):
 		passing_gait.setup(game,passing_machine);passing_machine.hide();passing_machine.process_mode=Node.PROCESS_MODE_DISABLED
 
 func prepared() -> bool:return is_instance_valid(passing_machine)
+
+func can_finish_reading() -> bool:
+	var at=cinema.time+DURATION
+	return active and game.cinematic=="opening" and at>=2.0 and at<MMFOpeningLetter.READ_END
+
+func finish_reading() -> bool:
+	if not can_finish_reading():return false
+	# Advance only the silent letter. The two-second hold, burn, memory edit,
+	# selected voice and rooftop choreography still run on the same clock.
+	cinema.time=MMFOpeningLetter.READ_END-DURATION
+	update(MMFOpeningLetter.READ_END)
+	return true
 
 func begin():
 	active=true;previous=-1;memory_started=false;fire_started=false;machine_origin=game.world.machine.position
@@ -152,11 +171,12 @@ func _process(_dt):
 	var size=game.get_viewport().get_visible_rect().size
 	var border=maxf(0,(size.y-size.x/2.35)*.5)
 	var reveal=1-smoothstep(9.65,10.2,cinema.time)
+	skip_hint.text=("Enter · FINISHED READING    " if can_finish_reading() else "")+game.hint("{key:pause} · SKIP INTRO")
 	if cinema.time < -MEMORY_DURATION:border=0
 	border*=reveal
 	top_bar.position=Vector2.ZERO;top_bar.size=Vector2(size.x,border)
 	bottom_bar.position=Vector2(0,size.y-border);bottom_bar.size=Vector2(size.x,border)
-	skip_hint.position=Vector2(size.x-340,size.y-maxf(36,border*.55));skip_hint.size=Vector2(306,24);skip_hint.modulate.a=reveal
+	skip_hint.position=Vector2(maxf(20,size.x-660),size.y-maxf(36,border*.55));skip_hint.size=Vector2(minf(626,size.x-40),24);skip_hint.modulate.a=reveal
 	subtitle.position=Vector2(24,size.y-border+maxf(12,(border-36)*.28) if border>=72 else size.y-96);subtitle.size=Vector2(size.x-48,36)
 
 static func exposure(at: float,start: float,end: float) -> float:
@@ -208,21 +228,25 @@ func hand_performance(at: float):
 
 func factory_performance(at: float):
 	var impact=10.23;var elapsed=maxf(0,at-impact)
-	var shove=smoothstep(9.96,10.23,at)
-	var recoil=smoothstep(10.04,10.28,at)
-	machines[0].position.x=-1.21-.57*recoil;machines[0].position.z=-3.35;machines[0].rotation.y=PI*.5
-	machines[1].position.x=1.0-1.40*smoothstep(9.13,10.13,at)-.10*shove;machines[1].position.z=-3.25;machines[1].rotation.y=-PI*.5
-	sample_actor(machines[0],"idle",at)
-	sample_actor(machines[1],"idle" if at<8.8 or at>=9.45 else "walk",at)
-	if at>=9.45:performances[1].use_clip(slash_clip,at-9.45)
+	var shove=smoothstep(9.86,impact,at)
+	var recoil=smoothstep(impact,10.43,at)
+	var intercept=smoothstep(9.60,10.12,at)
+	# The worker is the original target. The defender begins outside that lane,
+	# crosses it before contact, then absorbs the hit against the service cart.
+	machines[0].position.x=-1.55-.23*recoil;machines[0].position.z=lerpf(-4.65,-3.30,intercept);machines[0].rotation.y=PI*.5*smoothstep(9.83,10.12,at)
+	machines[1].position.x=1.0-.72*shove+.08*recoil;machines[1].position.z=-3.03;machines[1].rotation.y=-PI*.5
+	sample_actor(machines[0],"walk" if at>=9.60 and at<10.12 else "idle",maxf(0,at-9.60)*2.5)
+	sample_actor(machines[1],"idle",at)
+	if at>=9.38:performances[1].use_clip(lunge_clip,at-9.38)
 	else:performances[1].clip={}
 	performances[0].brace=-.43*recoil+.14*smoothstep(10.6,11.9,at)
 	performances[0].compression=.12*recoil-.035*smoothstep(10.7,11.9,at)
 	performances[0].gaze=Vector2(.12*recoil,-.10*recoil)
 	performances[1].brace=.12*shove*(1-smoothstep(10.4,11.4,at))
-	worker.visible=true;worker.position.z=-5.8;worker.rotation.y=-PI/2
-	worker.position.x=-3.7-3.0*clampf(at-9.35,0,1.48)
-	sample_actor(worker,"unarmed_idle" if at<9.35 else "unarmed_run",maxf(0,at-9.35))
+	worker.visible=true;worker.position.z=-3.30
+	worker.rotation.y=lerp_angle(PI/2,-PI/2,smoothstep(10.30,10.65,at))
+	worker.position.x=-3.7-3.0*clampf(at-10.65,0,1.7)
+	sample_actor(worker,"unarmed_idle" if at<10.65 else "unarmed_run",maxf(0,at-10.65))
 	cart.transform=cart_pose(elapsed)
 	spool.rotation.x=0;spool.position=spool_rest
 	if at>=impact:
@@ -243,7 +267,7 @@ func factory_performance(at: float):
 	fractures.visible=at>=impact
 	for light in strip_lights:light.light_energy=3 if at<7.34 else 1.1
 	if previous<impact and at>=impact:
-		game.effects.combat_impact(global_position+Vector3(-2.02,.98,-3.28),Vector3(-1,.3,0),"blocked")
+		game.effects.combat_impact(global_position+Vector3(-1.36,1.10,-3.30),Vector3(-1,.3,0),"blocked")
 	muzzle.light_energy=0
 
 func cart_pose(elapsed: float) -> Transform3D:
@@ -300,7 +324,7 @@ func update(at: float):
 	if not memory_started:
 		memory_started=true;bed.stop();bed.stream=bed_stream;bed.play();score.play()
 	at-=MMFOpeningLetter.DURATION
-	if previous<12.9 and at>=12.9:voice.play()
+	if previous<voice_cue.cue_seconds and at>=voice_cue.cue_seconds and at<voice_cue.cue_seconds+voice_stream.get_length():voice.play(maxf(0,at-voice_cue.cue_seconds))
 	if at<MEMORY_DURATION:
 		game.player.weapon_pose.scripted_aim=false
 		if at<14.25:game.player.play("armed_crouch_idle")
@@ -312,15 +336,17 @@ func update(at: float):
 		glove.visible=at>=5;upper_sleeve.visible=glove.visible;fore_sleeve.visible=glove.visible
 		hand_performance(at);factory_performance(at)
 		if at<5.2:
-			alpha=exposure(at,.15,4.85);camera_view(Vector3(6.8,2.65,8.7).lerp(Vector3(6.1,2.55,7.6),smoothstep(0,4.8,at)),Vector3(-.7,2,-3),48)
+			# Stay inside the retained glass and front gantry posts. The worker,
+			# defender and attacker must read as a three-person line of action.
+			alpha=exposure(at,.15,4.85);camera_view(Vector3(2.5,2.10,1.8).lerp(Vector3(2.0,2.05,1.25),smoothstep(0,4.8,at)),Vector3(-1.35,1.40,-3.65),48)
 			focus.dof_blur_far_distance=18;focus.dof_blur_amount=.02
 		elif at<9.0:
 			alpha=exposure(at,5.25,8.8)
-			camera_view(Vector3(-4.18,1.83,3.94).lerp(Vector3(-4.10,1.77,3.85),smoothstep(5.2,8.8,at)),Vector3(-3.61,1.48,2.68),39)
+			camera_view(Vector3(-4.18,1.83,3.94).lerp(Vector3(-4.10,1.77,3.85),smoothstep(5.2,8.8,at)),Vector3(-3.72,1.48,2.68),35)
 			focus.dof_blur_far_distance=1.6;focus.dof_blur_far_transition=2;focus.dof_blur_amount=.035
 		else:
 			var jolt=.035*exp(-maxf(0,at-10.23)*12) if at>=10.23 else 0.0
-			alpha=exposure(at,9.1,12.5);camera_view(Vector3(1.0,1.85,4.6).lerp(Vector3(.65,1.75,4.3),smoothstep(9.1,12.5,at))+Vector3(jolt,-jolt,0),Vector3(-1.30,1.25,-3.6),40)
+			alpha=exposure(at,9.1,12.5);camera_view(Vector3(.9,1.85,1.85).lerp(Vector3(.45,1.75,1.5),smoothstep(9.1,12.5,at))+Vector3(jolt,-jolt,0),Vector3(-1.30,1.25,-3.6),40)
 			focus.dof_blur_far_distance=14;focus.dof_blur_amount=.012
 	else:
 		hide();cinema.camera.environment=null;cinema.camera.attributes=null
@@ -351,7 +377,8 @@ func update(at: float):
 			release_memory()
 	if at<MEMORY_DURATION:
 		cinema.set_transition(1-alpha)
-		game.ui.caption.text="";subtitle.text="“There. On the roof.”" if at>=13.0 and at<15.7 else ""
+		game.ui.caption.text=""
+		subtitle.text="“"+voice_cue.text+"”" if at>=voice_cue.cue_seconds+voice_cue.lead_seconds and at<voice_cue.cue_seconds+voice_stream.get_length() else ""
 	previous=at
 
 func release_memory():

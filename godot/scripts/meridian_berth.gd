@@ -80,7 +80,7 @@ func cylinder(at: Vector3,radius: float,height: float,material: Material,solid: 
 
 func add_point(id: String,title: String,at: Vector3):
 	var label=Label3D.new();label.text=title;label.position=at+Vector3(0,1.7,-.5);label.font_size=24;label.pixel_size=.0035;label.billboard=BaseMaterial3D.BILLBOARD_ENABLED;label.visibility_range_end=7;add_child(label)
-	points.append({"id":id,"title":title,"at":at})
+	points.append({"id":id,"title":title,"at":at,"label":label})
 
 func nearest() -> Dictionary:
 	var best={};var distance=2.3

@@ -51,6 +51,16 @@ static func modes(s) -> Array:
 	if "relay-foundry" in s.story.completed:result=["cruise","docked","salvage","defense"]
 	return result
 
+static func docked_guidance(s) -> String:
+	# Read-only help for existing instruments. Mooring and the voluntary power
+	# preset are different states; do not promise a preset before it unlocks.
+	if "docked" not in modes(s):
+		return "Docked mode is introduced at the first expedition. Mooring alone does not stop running generators."
+	if not docked(s):
+		return "Docked mode is available only while moored at a site. It stops generators to save fuel while exploring; it does not start automatically."
+	var opening="DOCKED MODE ACTIVE · Generators stopped; no generator fuel burn." if s.operations.mode=="docked" else "Mooring alone does not stop running generators. Choose Docked at engineering on the service deck: Modes → PREVIEW DOCKED → APPLY OPERATING MODE."
+	return opening+"\nDocked switches off the refinery, deck guns, lamps and recovery machinery. Only the receiver, helm and fieldwork can use charged battery backup, if enabled.\nDeparting from the helm automatically restores your saved travel plan. For work aboard before leaving, use engineering's Overview generator switches and Devices controls to set a custom plan."
+
 static func materialized(s) -> Dictionary:
 	var config=s.operations.duplicate(true)
 	for p in s.structures:

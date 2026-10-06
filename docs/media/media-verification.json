@@ -1,0 +1,27 @@
+{
+  "sha256": "909087d53176937b8941fb0b4907d9184f2d72b18215957902f3b7c2b17b9d82",
+  "decode_passed": true,
+  "video": {
+    "codec_name": "h264",
+    "width": 1920,
+    "height": 1080,
+    "r_frame_rate": "30/1",
+    "nb_frames": "1680"
+  },
+  "audio": {
+    "codec_name": "aac",
+    "sample_rate": "48000",
+    "channels": 2
+  },
+  "duration": "56.020703",
+  "bytes": 97755392,
+  "integrated_lufs": -16.83,
+  "true_peak_dbtp": -1.28,
+  "loudness_range_lu": 3.6,
+  "detector_observations": [
+    "[Parsed_freezedetect_0 @ 0000024bed89e600] lavfi.freezedetect.freeze_start: 14.087695",
+    "[Parsed_freezedetect_0 @ 0000024bed89e600] lavfi.freezedetect.freeze_duration: 1.033333",
+    "[Parsed_freezedetect_0 @ 0000024bed89e600] lavfi.freezedetect.freeze_end: 15.121029"
+  ],
+  "review": "One approximately one-second low-motion interval after construction placement; recorded live frames, no cloned-frame padding. Initial and final fades are deliberate. Shot composition and end-title legibility inspected in extracted frames; automated muted browser playback is not a listening review."
+}

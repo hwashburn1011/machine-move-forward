@@ -1,0 +1,235 @@
+{
+  "created_utc": "2026-10-04T23:55:59.602174+00:00",
+  "model": {
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+    "path": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\qwen3-tts\\models\\Qwen3-TTS-12Hz-1.7B-VoiceDesign"
+  },
+  "networking": "HF_HUB_OFFLINE=1; TRANSFORMERS_OFFLINE=1; local_files_only=True",
+  "gpu": "NVIDIA GeForce RTX 3070",
+  "settings": {
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+    "text": "There. On the roof.",
+    "language": "English",
+    "dtype": "bfloat16",
+    "attention": "sdpa",
+    "generation": {
+      "max_new_tokens": 160,
+      "do_sample": true,
+      "temperature": 0.75,
+      "top_p": 0.9,
+      "top_k": 40,
+      "repetition_penalty": 1.05
+    },
+    "processing": {
+      "target_active_rms_dbfs": -23.0,
+      "peak_ceiling_dbfs": -3.0,
+      "highpass_hz": 65,
+      "lowpass_hz": 8500,
+      "ring_modulation_hz": 71,
+      "ring_modulation_wet": 0.055,
+      "delays_ms": [
+        7.3,
+        13.1,
+        23.7
+      ],
+      "delay_gains": [
+        0.055,
+        -0.035,
+        0.022
+      ]
+    },
+    "voices": [
+      {
+        "id": "a-tracker",
+        "label": "A — Tracker",
+        "seed": 73104,
+        "description": "Dry, close, low baritone; grounded and watchful.",
+        "instruct": "A mature male voice in his late forties, a naturally low baritone with a dry, lightly gravelled texture and neutral American English. Close, quiet conversational delivery with firm vocal support, not a whisper. He is a cold, calculating hunter who has just spotted his target and calmly reports its location. Say There as a small private discovery, leave a deliberate pause, then On the roof with precise consonants and a low settled ending. Restrained menace, minimal pitch movement, unhurried but concise. A natural intimate dramatic performance, no announcer projection, no trailer bass, no growling, no shouting, no theatrical villain affect. Clean dry studio voice without sound effects."
+      },
+      {
+        "id": "b-warden",
+        "label": "B — Warden",
+        "seed": 73129,
+        "description": "Older bass-baritone; clipped, deliberate authority.",
+        "instruct": "A mature male voice around sixty, low bass-baritone with an aged papery grain and a restrained neutral English accent. Quiet, cold and analytical, speaking with clipped precise articulation and calm absolute certainty. The voice belongs to a patient hunter, not a presenter. A measured pause after There, then the three words On the roof delivered as a spare factual observation with a downward finish. Slightly resonant chest tone but very little volume, steady breath, dry texture, subtle menace with no aggression. No exaggerated deep voice, booming, dramatic narration, growling or whispering. Natural clean unprocessed studio recording."
+      },
+      {
+        "id": "c-analyst",
+        "label": "C — Analyst",
+        "seed": 73163,
+        "description": "Cool, smooth low register; soft grain and exact diction.",
+        "instruct": "A mature masculine voice, early fifties, low register with a smooth dark baritone body and a fine dry breath texture at the edges of words. Clear neutral English with very precise diction. Quiet and emotionally contained, a calculating hunter calmly tracking movement, nearly detached but still human and natural. There is spoken softly and decisively, followed by a deliberate short silence before On the roof. Keep the sentence compact, the pitch range narrow, and the final word low and controlled. Menace comes from patience, not force. No announcer cadence, no theatrical villain, no excessive vocal fry, no rumbling bass boost, no shouting. A dry clean voice with no electronic processing or background sound."
+      }
+    ]
+  },
+  "packages": {
+    "qwen-tts": "0.1.1",
+    "torch": "2.9.1+cu128",
+    "torchaudio": "2.9.1+cu128",
+    "transformers": "4.57.3",
+    "accelerate": "1.12.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "soundfile": "0.14.0"
+  },
+  "auditions": [
+    {
+      "id": "a-tracker",
+      "label": "A — Tracker",
+      "seed": 73104,
+      "text": "There. On the roof.",
+      "instruct": "A mature male voice in his late forties, a naturally low baritone with a dry, lightly gravelled texture and neutral American English. Close, quiet conversational delivery with firm vocal support, not a whisper. He is a cold, calculating hunter who has just spotted his target and calmly reports its location. Say There as a small private discovery, leave a deliberate pause, then On the roof with precise consonants and a low settled ending. Restrained menace, minimal pitch movement, unhurried but concise. A natural intimate dramatic performance, no announcer projection, no trailer bass, no growling, no shouting, no theatrical villain affect. Clean dry studio voice without sound effects.",
+      "mode": "design",
+      "generation_seconds": 5.25,
+      "gpu_peak_allocated_mb": 4055.5,
+      "edits": {
+        "trim_start_samples": 0,
+        "trim_end_sample": 49920
+      },
+      "files": {
+        "raw": {
+          "file": "a-tracker-raw.wav",
+          "sha256": "33e99503551d626e5e20f8be39d5f077f0409f7fb1eb9697f75ea7852cbbeb7b",
+          "seconds": 2.08,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.37,
+          "active_rms_dbfs": -19.34,
+          "clipped_samples": 0
+        },
+        "clean": {
+          "file": "a-tracker-clean.wav",
+          "sha256": "82ff04479e6dac99826714d588199aa61cf9caed1f922e2a327e332fc7730100",
+          "seconds": 2.08,
+          "sample_rate": 24000,
+          "peak_dbfs": -9.02,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "metallic": {
+          "file": "a-tracker-metallic.wav",
+          "sha256": "26b1ccba88557bbfdc2378174585d44d3cfe864e3bdd7f6b38141a993144d669",
+          "seconds": 2.16,
+          "sample_rate": 24000,
+          "peak_dbfs": -8.15,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "comparison": {
+          "file": "a-tracker-comparison.wav",
+          "sha256": "69aa41c3022ab9131da1b5ca13b3a8d1ed69d43920369456d4719d4c75f659a9",
+          "seconds": 5.09,
+          "sample_rate": 24000,
+          "peak_dbfs": -8.15,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        }
+      }
+    },
+    {
+      "id": "b-warden",
+      "label": "B — Warden",
+      "seed": 73129,
+      "text": "There. On the roof.",
+      "instruct": "A mature male voice around sixty, low bass-baritone with an aged papery grain and a restrained neutral English accent. Quiet, cold and analytical, speaking with clipped precise articulation and calm absolute certainty. The voice belongs to a patient hunter, not a presenter. A measured pause after There, then the three words On the roof delivered as a spare factual observation with a downward finish. Slightly resonant chest tone but very little volume, steady breath, dry texture, subtle menace with no aggression. No exaggerated deep voice, booming, dramatic narration, growling or whispering. Natural clean unprocessed studio recording.",
+      "mode": "design",
+      "generation_seconds": 5.3,
+      "gpu_peak_allocated_mb": 4067.3,
+      "edits": {
+        "trim_start_samples": 897,
+        "trim_end_sample": 58474
+      },
+      "files": {
+        "raw": {
+          "file": "b-warden-raw.wav",
+          "sha256": "5bc8fe01b998ffcc087f8d8e5c956ef0370c7fdd58fef8fe4e8a17b2686d6a65",
+          "seconds": 2.48,
+          "sample_rate": 24000,
+          "peak_dbfs": -7.03,
+          "active_rms_dbfs": -18.73,
+          "clipped_samples": 0
+        },
+        "clean": {
+          "file": "b-warden-clean.wav",
+          "sha256": "2e16121063521cff854752ec00c7b218c2a329cd92492a4371587749cc8575e5",
+          "seconds": 2.399,
+          "sample_rate": 24000,
+          "peak_dbfs": -11.23,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "metallic": {
+          "file": "b-warden-metallic.wav",
+          "sha256": "b35e2960a6ba1a6248ee5cd8b932f51bf433b3dbee481c29834f9b9206a90c8f",
+          "seconds": 2.479,
+          "sample_rate": 24000,
+          "peak_dbfs": -9.72,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "comparison": {
+          "file": "b-warden-comparison.wav",
+          "sha256": "86e0c41c38d3387607f5e9f6da1e277a5fbec65e6440b3227b78896fae8cdfb7",
+          "seconds": 5.7281,
+          "sample_rate": 24000,
+          "peak_dbfs": -9.72,
+          "active_rms_dbfs": -22.98,
+          "clipped_samples": 0
+        }
+      }
+    },
+    {
+      "id": "c-analyst",
+      "label": "C — Analyst",
+      "seed": 73163,
+      "text": "There. On the roof.",
+      "instruct": "A mature masculine voice, early fifties, low register with a smooth dark baritone body and a fine dry breath texture at the edges of words. Clear neutral English with very precise diction. Quiet and emotionally contained, a calculating hunter calmly tracking movement, nearly detached but still human and natural. There is spoken softly and decisively, followed by a deliberate short silence before On the roof. Keep the sentence compact, the pitch range narrow, and the final word low and controlled. Menace comes from patience, not force. No announcer cadence, no theatrical villain, no excessive vocal fry, no rumbling bass boost, no shouting. A dry clean voice with no electronic processing or background sound.",
+      "mode": "design",
+      "generation_seconds": 5.05,
+      "gpu_peak_allocated_mb": 4065.0,
+      "edits": {
+        "trim_start_samples": 953,
+        "trim_end_sample": 57600
+      },
+      "files": {
+        "raw": {
+          "file": "c-analyst-raw.wav",
+          "sha256": "4c62c17594df0d416e807edbd0a1f413fcae2560f327870d83e5a348ae5d6c4b",
+          "seconds": 2.4,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.89,
+          "active_rms_dbfs": -19.68,
+          "clipped_samples": 0
+        },
+        "clean": {
+          "file": "c-analyst-clean.wav",
+          "sha256": "7081e1d8eea61a39b8208bb0eee9853c042cb7d3b4f2edf6fb9fb565fccd9bb1",
+          "seconds": 2.3603,
+          "sample_rate": 24000,
+          "peak_dbfs": -9.21,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "metallic": {
+          "file": "c-analyst-metallic.wav",
+          "sha256": "6863bec4fde8879dc5bce887afb70fa85b1803771a853393cdacddbab7d36846",
+          "seconds": 2.4403,
+          "sample_rate": 24000,
+          "peak_dbfs": -9.02,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "comparison": {
+          "file": "c-analyst-comparison.wav",
+          "sha256": "f5746926351f7d2be487630d3472d853bbfec0db7dee86087a78b0e90fc452e3",
+          "seconds": 5.6506,
+          "sample_rate": 24000,
+          "peak_dbfs": -9.02,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        }
+      }
+    }
+  ]
+}

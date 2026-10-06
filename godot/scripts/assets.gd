@@ -26,7 +26,11 @@ static func scene(path: String) -> Node3D:
 		if ResourceLoader.load_threaded_get_status(path)!=ResourceLoader.THREAD_LOAD_INVALID_RESOURCE and ResourceLoader.load_threaded_request(path,"PackedScene")==OK:
 			cache[path]=ResourceLoader.load_threaded_get(path)
 		else:cache[path]=load(path)
-	return cache[path].instantiate()
+	var instance=cache[path].instantiate()
+	if path=="res://assets/runtime/turret-manual.glb":preload("res://scripts/deck_gun_finish.gd").apply(instance)
+	if path.get_file()=="refined-s07-player.scn":MMFEnemyModels.prepare_player(instance)
+	if path.get_file() in ["refined-revenant.scn","revenant.glb"]:MMFPulseBlades.attach(instance)
+	return instance
 
 static func find_named(root: Node, wanted: String) -> Node:
 	if String(root.name) == wanted: return root
@@ -45,7 +49,7 @@ static func bounds(root: Node3D) -> AABB:
 	var merged = AABB()
 	var initialized = false
 	for mesh in of_type(root, "MeshInstance3D"):
-		if mesh.mesh == null: continue
+		if mesh.mesh == null or mesh.get_meta("exclude_fit_bounds",false): continue
 		var transform_to_root = Transform3D.IDENTITY
 		var node = mesh
 		while node != root and node is Node3D:

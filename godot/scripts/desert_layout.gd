@@ -128,6 +128,13 @@ func generate(seed_name: String,chunk: int,budget: int=11) -> Array:
 		if float(spec[1])>=10:allowed[spec[0]]=silhouette_allowed(seed_name,chunk,spec[0],roadside)
 	var used={}
 	place_varied(near_spec,true,-1,used)
+	# Leave a legible lone silhouette across quiet stretches. On the remaining
+	# route, replace unrelated support with a small site organized around its use.
+	# The foreground bag still gives every authored model its turn.
+	if MMFRoadsideComposition.quiet(seed_name,chunk):
+		return result.slice(0,clampi(budget,0,MAX_LANDMARKS))
+	if not result.is_empty() and MMFRoadsideComposition.compose(self,result[0],specs,used,allowed):
+		return result.slice(0,clampi(budget,0,MAX_LANDMARKS))
 	var sparse=int(district.theme)==7 or rng.randf()<.16
 	var target_count=rng.randi_range(3,4) if sparse else rng.randi_range(8,MAX_LANDMARKS)
 	var theme_pool=THEME_KINDS[int(district.theme)]+MMFArt200Scenery.THEMES[district.name]

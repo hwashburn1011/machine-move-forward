@@ -94,6 +94,6 @@ func render(ui):
 		var c=contacts[i];var p=owner_site.preview(c)
 		var label=game.data.OPPORTUNITIES.get(c.kind,{}).get("title",c.kind)
 		var risk={"quiet":"NO PATROL SIGNAL","patrol":"PATROL SIGNAL","unknown":"UNSURVEYED"}.get(c.get("risk","unknown"),"UNSURVEYED")
-		ui.compact_row(("› " if c.id==game.session.contacts.active.get("id","") else "")+str(i+1)+" · "+label,"%dm · ~%d fuel · %s"%[p.remaining,p.fuel,"IN RANGE" if p.reachable else "OUT OF RANGE"],func():select(c.id);ui.refresh())
+		ui.compact_row(("› " if c.id==game.session.contacts.active.get("id","") else "")+str(i+1)+" · "+label,owner_site.preview_summary(c),func():select(c.id);ui.refresh())
 		if c.id==game.session.contacts.active.get("id",""):
 			ui.text_line(risk+" · "+("equipment signal" if c.kind.begins_with("gear-") else "fuel reserve" if c.kind=="fuel-cache" else "salvage" if c.kind=="salvage-wreck" else "personal transmission"))

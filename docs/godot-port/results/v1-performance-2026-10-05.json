@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "source_hash": "a17d6c7ec6d64581c704f1708485f87051065bdec9c50c33f1d4970e91e7ddd3",
+  "asset_manifest_sha256": "856ba9df3c85fdc1628e96d83ef58247d993ac1e94d1acbb7b184ae151eed1ed",
+  "scope": "Affected-path validation only: travel, crane, drone and180-second furnished home. Sequential exclusive native rendering, prepared/invulnerable fixtures. No new full campaign or17-workload claim.",
+  "hardware": {
+    "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "ram_gib": 16,
+    "vram_mib": 8192,
+    "driver": "581.80"
+  },
+  "settings": {
+    "resolution": [
+      1920,
+      1080
+    ],
+    "quality": "high Forward+ Vulkan / 4x MSAA",
+    "vsync": false,
+    "frame_cap": 0,
+    "warmup_seconds": 3
+  },
+  "preparation": "Existing NewGame title readiness gate completed before checkpoint; preparation time retained separately. No artificial fixed delay added.",
+  "cache_conditions": "Fresh short isolated shader profile for travel/crane/drone, explicitly separate fresh profile for home; OS/driver caches uncontrolled.",
+  "workloads": [
+    {
+      "workload": "deck-audio/travel",
+      "seconds": 18.0,
+      "title_prepare_ms": 2798.054,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.591,
+        "p95": 5.693,
+        "p99": 7.109,
+        "max": 9.076,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.745,
+        "p99": 3.886,
+        "max": 4.269
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-release-audit-2026-10-05/final-performance/deck-audio-travel.json",
+      "sha256": "5e77fdcbb7f2464317fd5629e4bea9042da6a87d912a70433f46c826a8718398"
+    },
+    {
+      "workload": "deck-audio/crane",
+      "seconds": 18.0,
+      "title_prepare_ms": 2082.416,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.452,
+        "p95": 4.739,
+        "p99": 6.294,
+        "max": 8.102,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.347,
+        "p99": 3.466,
+        "max": 3.864
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-release-audit-2026-10-05/final-performance/deck-audio-crane.json",
+      "sha256": "27f46c8cb8d6cc164a7f04707ee22a210ae38fdec3a8c843e5e14ae56824e58b"
+    },
+    {
+      "workload": "deck-audio/drone",
+      "seconds": 18.0,
+      "title_prepare_ms": 2107.08,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.57,
+        "p95": 5.024,
+        "p99": 5.67,
+        "max": 8.415,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.509,
+        "p99": 3.608,
+        "max": 3.904
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-release-audit-2026-10-05/final-performance/deck-audio-drone.json",
+      "sha256": "f0434d7e8c8f9652631aae8bf96f1d94f322117084d9013d4a29b94b3498ddda"
+    },
+    {
+      "workload": "painted-home/furnished",
+      "seconds": 180.0,
+      "title_prepare_ms": 2787.445,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.811,
+        "p95": 5.85,
+        "p99": 6.937,
+        "max": 13.641,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.739,
+        "p99": 3.983,
+        "max": 6.559
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-release-audit-2026-10-05/final-performance/painted-home-furnished.json",
+      "sha256": "19d2fe29a7ed542ecdd0933f03ff6ccd20f0c5750f20d897b3347f358d2118be"
+    }
+  ],
+  "home": {
+    "furnishings": 50,
+    "painted_pieces": 52,
+    "docks": 3,
+    "recorded_received_items": 506,
+    "received_per_dock": {
+      "bp-6": 0,
+      "bp-7": 196,
+      "bp-8": 338
+    },
+    "music_starts": 2,
+    "video_memory_max_bytes": 2662119648.0,
+    "static_memory_max_bytes": 318729352.0,
+    "coverage_limit": "Three powered docks present; delivery counts per dock retained rather than assuming each delivered."
+  },
+  "historical_broad_performance": "docs/godot-port/results/v1-performance-2026-10-04.json",
+  "historical_campaign": "docs/godot-port/results/v1-campaign-2026-10-04.json",
+  "limits": [
+    "Physical lower-spec hardware untested.",
+    "Uncoached human discovery/comprehension untested.",
+    "No immediate unprepared Continue profiling or universal hitch-free claim.",
+    "October4 initial hitches remain historical evidence; investigation established title-gate bypass in that benchmark."
+  ]
+}

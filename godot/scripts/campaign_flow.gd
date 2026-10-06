@@ -16,7 +16,7 @@ static func preparation_text(s) -> String:
 		lines.append("Generators are not burning fuel. A stopped source supplies no engine power.")
 	lines.append("Owned reserve: %d fuel. Transfer it at a generator or engineering service port."%p.owned)
 	if p.docked:
-		lines.append("Choose Docked at engineering to stop fuel burn while exploring. Departure restores the previous operating plan.")
+		lines.append(MMFMachineOperations.docked_guidance(s))
 	else:
 		lines.append("Cruise disables unused workshop and recovery loads. Each running generator still burns fuel; stop spare sources at engineering.")
 	lines.append("These are current operating estimates. Damage, upgrades and switching generators change them.")
@@ -35,7 +35,7 @@ static func messages(s) -> Array:
 	if not s.customization.projects.is_empty() and s.caretaker.recovered:
 		rows.append({"id":"l12/first-keepsake","speaker":"L–12","text":"Your first keepsake is restored. We can carry useful things and things you simply want to keep."})
 	if s.story.phase=="docked":
-		rows.append({"id":"flow/docked-operation","speaker":"SERVICE NOTE","text":"You can take your time here. Engineering's Docked mode stops the generators while you explore. Departure restores your previous operating plan."})
+		rows.append({"id":"flow/docked-operation","speaker":"SERVICE NOTE","text":MMFMachineOperations.docked_guidance(s)})
 	var fuel=fuel_preview(s)
 	if fuel.tank_seconds>=0 and fuel.tank_seconds<180:
 		rows.append({"id":"flow/fuel-reserve","speaker":"L–12" if s.caretaker.recovered else "SERVICE NOTE","text":"Less than three minutes of fuel remain at the current generator load. Transfer reserve fuel at a generator or service port. If you run dry with no supplies, engineering can arrange emergency recovery."})

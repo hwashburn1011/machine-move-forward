@@ -1,0 +1,148 @@
+{
+  "passed": true,
+  "build_id": "0.3.0-beta.1-dc384f8eeec2",
+  "source_hash": "dc384f8eeec234285a71a8fe887cb4e9918d8bd190db6394dbe66b4c7df4abea",
+  "asset_manifest_sha256": "ec8cf259117442dc7a026e0a8472d4f581b5dea5b74e6aad40151e935c3e3cec",
+  "archive": "test-results/windows-v1-presentation-20261005/distribution/MachineMoveForward-0.3.0-beta.1-windows-x86_64.zip",
+  "archive_bytes": 951398912,
+  "archive_sha256": "2a1a25c28ccdf38a362493ea6a77c34f9d60ba1b685f13754aa654499fa06007",
+  "executable_sha256": "177053f1e6d4a40e118d27e95379903344885e4a58c3a494169f4159596463e8",
+  "pck_sha256": "35512312d1dcdc201d5f4d1e2966e096a5560c4ca38a053146c891f6d5126525",
+  "build_identity_sha256": "1031f79e81de4b5ea53864eadba0f2901e4af600fb2b9bfc9228fcf8315fd224",
+  "resource_audit": {
+    "checks": 4502,
+    "collision_shapes_loaded": 729,
+    "passed": true,
+    "report": "test-results/windows-v1-presentation-20261005/resource-audit/audit.json",
+    "sha256": "204c911196f5df9d4111e9cf81f31b35c7c571ede2a75e08c0e64cf8a5d639bd"
+  },
+  "standalone_smoke": {
+    "payload_checksums_verified": 9,
+    "runs": [
+      {
+        "phase": "normal-boot",
+        "exit_code": 0,
+        "wall_seconds": 12.688,
+        "diagnostics": [],
+        "passed": true
+      },
+      {
+        "phase": "new",
+        "exit_code": 0,
+        "wall_seconds": 96.61,
+        "diagnostics": [],
+        "checks": 34,
+        "passed": true
+      },
+      {
+        "phase": "resume",
+        "exit_code": 0,
+        "wall_seconds": 11.906,
+        "diagnostics": [],
+        "checks": 25,
+        "passed": true
+      }
+    ],
+    "scope": "Official templates disable external scripts. Only normal-boot uses the release EXE; new/resume use the matching engine and unchanged extracted PCK.",
+    "report": "test-results/windows-v1-presentation-20261005/standalone-smoke/summary.json",
+    "sha256": "82a55bd2c01d4484e53664b295ca192a4713fc6bd15bf1dd407ae63289fc7c83",
+    "temporary_extraction": "C:\\Users\\hwash\\AppData\\Local\\Temp\\mmf-beta-standalone-m3cqnonp",
+    "user_data": "Dedicated isolated profile; personal campaigns/preferences not used"
+  },
+  "performance": {
+    "report": "docs/godot-port/results/v1-presentation-performance-2026-10-05.json",
+    "sha256": "119e5b20ae4b45ad973a8e9b94a44cead61e50495a9f86c82555ec13e9552997",
+    "workloads": 5,
+    "maximum_frame_p95_ms": 7.317,
+    "maximum_frame_p99_ms": 7.899,
+    "maximum_frame_ms": 39.513,
+    "frames_over33ms": 1,
+    "frames_over50ms": 0,
+    "scope": "Five affected presentation workloads:90-second travel,18-second construction/combat/Foundry,180-second furnished home. Sequential exclusive native rendering with prepared/invulnerable fixtures; no new full campaign or broad17-workload claim.",
+    "home": {
+      "furnishings": 50,
+      "painted_pieces": 52,
+      "docks": 3,
+      "recorded_received_items": 506,
+      "received_per_dock": {
+        "bp-6": 0,
+        "bp-7": 196,
+        "bp-8": 338
+      },
+      "music_starts": 2,
+      "video_memory_max_bytes": 2662906832.0,
+      "static_memory_max_bytes": 331347131.0,
+      "coverage_limit": "Three powered docks present; per-dock delivery counts retained rather than assuming each delivered."
+    }
+  },
+  "component_evidence": {
+    "docs/godot-port/results/v1-environment-polish-2026-10-05.json": {
+      "scope": "Environment component review before subsequent intro-only boot grounding correction.",
+      "sha256": "0b761c21818fef31605f2d44988c7205751bfbb209984f79739102352f4e0951"
+    },
+    "docs/godot-port/results/v1-interaction-polish-2026-10-05.json": {
+      "scope": "Portable interaction component evidence.",
+      "sha256": "23816d10560018a3c2c9df0e673729fd8964eb13b40cb2f541b8b58ee4445b76"
+    },
+    "test-results/intro-polish-20261005/grounded-native/review.json": {
+      "scope": "Final grounded intro native77checks.",
+      "sha256": "f46c01f27dc430f5c241cbfa540b37f624776ff4d8fcff0a67bd7297fa46b2fd"
+    },
+    "test-results/intro-polish-20261005/grounding-headless/review.json": {
+      "scope": "Final grounded intro headless65checks.",
+      "sha256": "93004fe3a644f03e63827321facca87e776b844a9ef65b39bde3bd24f96d006c"
+    },
+    "test-results/v1-movement-polish-2026-10-05/visual-final/review.json": {
+      "scope": "Movement component capture before subsequent intro-only boot grounding correction.",
+      "sha256": "2d68c899e9875b3982ee0f282c1e15107b7fad0127cf80e4e21b86d64bf9c74a"
+    },
+    "test-results/v1-presentation-2026-10-05/interactions-final/native.json": {
+      "scope": "246 interaction checks on stable component hash before intro-only grounding correction.",
+      "sha256": "7823eb32695b3a3e94e2dd0f43d0154bd708e473c9b63f972457d0041bb9c87c"
+    },
+    "test-results/v1-presentation-release-audit-20261005/streaming-final/summary.json": {
+      "scope": "Final-source rendered deterministic scenery and forward/lateral prepared lifecycle checks.",
+      "sha256": "d3128f6b4b3ef9c3addad320ca215459e560b13df27ad5e200ee805959bff6ef"
+    }
+  },
+  "historical": {
+    "campaign": "docs/godot-port/results/v1-campaign-2026-10-04.json",
+    "broad_performance": "docs/godot-port/results/v1-performance-2026-10-04.json",
+    "prior_release": "docs/godot-port/results/v1-release-2026-10-05.json",
+    "scope": "Prior-build evidence preserved. No new complete campaign or17-workload claim."
+  },
+  "pipeline": [
+    {
+      "phase": "inventory",
+      "exit_code": 0,
+      "wall_seconds": 5.0
+    },
+    {
+      "phase": "export",
+      "exit_code": 0,
+      "wall_seconds": 25.39
+    },
+    {
+      "phase": "audit",
+      "exit_code": 0,
+      "wall_seconds": 15.141
+    },
+    {
+      "phase": "package",
+      "exit_code": 0,
+      "wall_seconds": 46.375
+    },
+    {
+      "phase": "standalone-smoke",
+      "exit_code": 0,
+      "wall_seconds": 127.688
+    }
+  ],
+  "free_disk_gib_after": 41.67,
+  "limits": [
+    "Physical lower-spec hardware and uncoached player feedback remain unverified.",
+    "Actual release EXE startup passed; scripted New Game/Continue use matching engine with unchanged extracted PCK.",
+    "Movement/environment/interaction component captures precede only the final intro boot-grounding change and are attributed accordingly.",
+    "No publishing, commit, push or deletion."
+  ]
+}

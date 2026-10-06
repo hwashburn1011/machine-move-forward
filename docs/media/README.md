@@ -1,49 +1,53 @@
-# Gameplay trailer
+# Native Windows beta gameplay trailer
 
 [Watch with playback controls](https://hwashburn1011.github.io/machine-move-forward/trailer/)
-or open `machine-move-forward-trailer.mp4` in a media player.
+or open `machine-move-forward-trailer.mp4` locally.
 
-The 46-second trailer shows the current browser build: the four-legged Iron
-Nomad, playable S-07 gunner, Warden, Revenant, Bastion and Sovereign, rifle combat,
-radio-chest recovery and the workshop deck. Encounters and camera angles are
-staged for presentation, with invulnerability and random spawning disabled.
-Character close-ups use actual in-game idle animation. Combat uses normal mouse
-inputs; the salvage scene uses the game's reel state machine with an exterior
-camera override. The HUD is hidden for the edit. This is in-development footage,
-not a claim that the entire progression occurs within forty-six seconds.
+The 56-second edit contains moving footage from the current native Godot game:
+the walking Iron Nomad, a successful hook catch, real construction placement,
+a drone collecting and returning cargo, Glass Orchard exploration, close combat
+and a Gatekeeper salvo. The final title remains over the moving machine.
+There is no intro footage, still-image montage or artificial slow/fast motion.
 
-The soundtrack is original synthesized audio made with NumPy. There are no
-third-party music samples or stock video clips. Blender artwork provenance is
-recorded in [ASSETS.md](../../ASSETS.md).
+Checkpoints, encounters and camera positions are staged for presentation. The
+actor is invulnerable and the HUD is hidden. Production action/state authorities
+handle the catch, placement, drone cycle and combat; this is not a continuous
+playthrough. Fixed-rate Movie Maker capture is not performance evidence.
+The shipping runtime remains `6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975`.
 
-Final export: **46 seconds, 1280×720 at 30 FPS**, H.264 video and stereo 48 kHz
-AAC audio, 12.55 MiB. Fast-start metadata supports streaming. The soundtrack
-peaks at −7.0 dBFS and averages −25.3 dBFS. Playback, seeking, title layout and
-sampled frames were checked in Chrome. Capture checks require loaded authored
-models, advancing simulation, actual shots/hits/kills and a recovered radio chest.
-See [capture evidence](capture-verification.json) and [playback checks](playback-verification.json).
+The trailer mixes recorded native game sounds with an original 90 BPM score
+synthesized using NumPy. No music samples, stock footage, paid APIs or new
+runtime audio are used. The selected intro voice B and in-game mix are unchanged.
+Artwork provenance is in [ASSETS.md](../../ASSETS.md).
+
+Export: **56 seconds, 1920 x 1080, 30 FPS, H.264/AAC stereo 48 kHz**, with fast-start
+metadata. Source events, edit in-points and final file hash are retained in
+[capture-verification.json](capture-verification.json). Browser playback and
+seeking checks are in [playback-verification.json](playback-verification.json).
+The webpage clearly distinguishes this native beta from the older browser game.
+Public itch.io distribution remains deferred until its account/project is set up.
 
 ## Reproduce on Windows
 
-Requirements: the project's Node dependencies, Chrome, Python with NumPy,
-FFmpeg/ffprobe, and Windows Bahnschrift. Start Vite on port 5193, then run:
+Requirements: Godot 4.7.2 at the path in `native_capture.py`, Python with NumPy,
+FFmpeg/ffprobe, Windows Bahnschrift, project Node dependencies and Chrome.
+Run native captures sequentially on the GPU. They use an isolated temporary
+save profile and a temporary resolution override, removed on completion.
 
 ```powershell
-node tools/trailer/capture.mjs
-python tools/trailer/soundtrack.py
-node tools/trailer/compose.mjs
+python tools/trailer/native_capture.py
+python tools/trailer/native_score.py
+python tools/trailer/native_compose.py
 npm run build -- --base=/machine-move-forward/
 node tools/build-media.mjs
 npm run preview -- --port 5198 --base=/machine-move-forward/
 # In another terminal:
-node tools/trailer/verify.mjs
+node tools/trailer/native_verify.mjs
 ```
 
-Capture uses hardware-accelerated Chrome at 1280×720. Run it without another
-GPU test in parallel. Pass a scene name (`walker`, `hero`, `warden`, `revenant`,
-`bastion`, `sovereign`, `combat`, `salvage` or `decks`) to recapture that scene.
-Set `MMF_PORT` to capture a different dev server and `MMF_VERIFY_URL` to verify
-a different deployment. Raw recordings, soundtrack WAV and
-edit intermediates live under ignored `assets/trailer/`; the final H.264/AAC
-MP4 and poster are versioned here. `tools/build-media.mjs` places the final
-media beside the static video player for GitHub Pages deployment.
+Pass individual shot names to `native_capture.py` to recapture a scene. Native
+masters, score WAV and edit intermediates live in ignored `assets/trailer/native-v1/`.
+Large temporary AVIs are retired after their compressed masters are created.
+Only the finished video, poster, documentation and portable receipts are tracked.
+The earlier browser capture/compose/verify scripts remain historical tooling;
+use the `native_*` workflow for this trailer.

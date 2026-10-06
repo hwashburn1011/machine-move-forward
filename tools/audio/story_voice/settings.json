@@ -1,0 +1,11 @@
+{
+  "language": "English",
+  "attention": "sdpa",
+  "text": "I kept the civilian line open. Someone is replacing its bearings with obstruction reports. The Foundry's service reader can identify the routing mark.",
+  "generation": {"max_new_tokens": 600, "do_sample": true, "temperature": 0.7, "top_p": 0.9, "top_k": 40, "repetition_penalty": 1.05},
+  "processing": {"max_audio_seconds": 45, "target_active_rms_dbfs": -23, "peak_ceiling_dbfs": -3, "highpass_hz": 65, "lowpass_hz": 8500, "ring_modulation_hz": 71, "ring_modulation_wet": 0.025, "delays_ms": [7.3, 13.1, 23.7], "delay_gains": [0.025, -0.015, 0.01]},
+  "voices": [
+    {"id": "annika", "label": "Annika / preserved dispatch", "seed": 84201, "instruct": "A mature woman around forty-five with a warm low alto voice, lightly weathered dry texture and clear neutral English articulation. She is a civilian communications engineer leaving a private recording under difficult circumstances. Quiet, composed, practical and gently compassionate, with natural breath and brief thoughtful pauses between sentences. Understated resolve and fatigue, not a dramatic narrator. Speak at a steady conversational pace with precise consonants, no whispering, no grand speech, no radio announcer cadence, no exaggerated emotion. Clean dry studio recording with no effects or music."},
+    {"id": "berth", "label": "Receiving berth / local status recording", "seed": 84237, "instruct": "A quiet mature male voice in a low middle baritone, clear neutral English. An old receiving station speaking a simple reassuring status report. Measured and gently deliberate, modest narrow pitch range, a dry slightly papery texture. Understated satisfaction without pretending to be a live human survivor. A patient practical machine, not an ominous robot. Small pauses between sentences, natural intelligibility, no boom, no announcer projection, no theatrical performance. Clean dry studio voice without effects or background sound."}
+  ]
+}

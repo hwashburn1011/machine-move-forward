@@ -104,6 +104,11 @@ func campaign_checks():
 	check(game.session.health==91 and game.session.fuel==77 and not game.autosaver.pending(),"Loading drains pending I/O before restoring a complete campaign")
 	game.session.attack_recent=1
 	check(not game.save_game("autosave") and not game.autosaver.pending(),"Unsafe combat state cannot enqueue an autosave")
+	var cooldown_notices=[];game.session.notice.connect(func(message):cooldown_notices.append(message))
+	game.open_menu("Pause")
+	check(not game.save_game("manual"),"Paused post-combat save keeps the safety lock")
+	check(cooldown_notices.back()=="Recent contact. Resume the game for a few seconds, then save.","Save feedback explains that the paused cooldown needs Resume")
+	game.close_menu()
 	game.session.attack_recent=0;game.session.health=88
 	check(game.save_game("manual") and MMFSaves.read("manual").session.health==88,"Manual save still returns only after a verified durable commit")
 	game.session.health=83;game.save_game("autosave")

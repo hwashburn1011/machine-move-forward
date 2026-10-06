@@ -22,6 +22,9 @@ func _draw():
 	var contacts=game.session.contacts.get("candidates",[])
 	for i in contacts.size():
 		var c=contacts[i];var p=game.opportunities.preview(c)
+		# This is a forward sweep. Passed signals remain in the written list,
+		# but must not masquerade as contacts just ahead of the bow.
+		if p.passed or p.window_closed:continue
 		var angle=deg_to_rad(clampf(p.bearing,-75,75))
 		var radius=clampf(p.remaining/1200*126,16,126)
 		var at=origin+Vector2(sin(angle),-cos(angle))*radius

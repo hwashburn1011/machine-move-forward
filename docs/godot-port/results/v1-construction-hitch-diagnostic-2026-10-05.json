@@ -1,0 +1,168 @@
+{
+  "scope": "Diagnostic construction callback comparison during shared source development; final stable-source validation follows integration. No screenshot or synchronous route planner inside measured interval. Not a controlled single-variable full-game benchmark.",
+  "runs": {
+    "baseline": {
+      "report": "test-results/v1-playthrough-fixes-20261005/construction/baseline/baseline-construction.json",
+      "sha256": "81f6ad6ee5db2a48d3fb3b67f363ccb7790b6cdf3998630c5755fba275538d54",
+      "source_start": "dc384f8eeec234285a71a8fe887cb4e9918d8bd190db6394dbe66b4c7df4abea",
+      "source_end": "bebbc2741dde1e7941e1821e98424a603175d3902c9206c248b846a57666249a",
+      "source_stable": false,
+      "frame_ms": {
+        "max": 40.507,
+        "median": 4.337,
+        "over33ms": 4,
+        "over50ms": 0,
+        "p95": 5.391,
+        "p99": 7.212,
+        "samples": 8426
+      },
+      "title_prepared": true,
+      "title_prepare_ms": 3194.851,
+      "catalog_open_ms": [
+        21.513,
+        22.269,
+        25.929,
+        24.656
+      ],
+      "successful_commits": [
+        {
+          "ms": 1.066,
+          "operation": "commit_aimed",
+          "reason": "",
+          "seconds": 6.000375,
+          "step": 3,
+          "success": true,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-chart-desk",
+            "rotation": 1
+          }
+        }
+      ],
+      "slow_frames_over20ms": [
+        {
+          "action": {
+            "ms": 21.513,
+            "operation": "open_build",
+            "reason": "Aim at a deck",
+            "seconds": 4e-06,
+            "step": 0,
+            "success": true,
+            "target": {}
+          },
+          "distance": 820.237291229194,
+          "gpu_ms": 3.1470000743866,
+          "ms": 34.205,
+          "phase": "locked",
+          "render_cpu_ms": 0.865000009536743,
+          "seconds": 4e-06,
+          "step": 0
+        },
+        {
+          "action": {
+            "ms": 22.269,
+            "operation": "reopen_build",
+            "reason": "Aim at a deck",
+            "seconds": 14.000649,
+            "step": 7,
+            "success": true,
+            "target": {}
+          },
+          "distance": 919.999006687808,
+          "gpu_ms": 3.00600004196167,
+          "ms": 35.115,
+          "phase": "locked",
+          "render_cpu_ms": 0.778999984264374,
+          "seconds": 14.000649,
+          "step": 7
+        },
+        {
+          "action": {
+            "ms": 25.929,
+            "operation": "open_build",
+            "reason": "Aim at a deck",
+            "seconds": 18.004443,
+            "step": 9,
+            "success": true,
+            "target": {}
+          },
+          "distance": 948.609580000679,
+          "gpu_ms": 3.16700005531311,
+          "ms": 40.507,
+          "phase": "locked",
+          "render_cpu_ms": 1.98699998855591,
+          "seconds": 18.004443,
+          "step": 9
+        },
+        {
+          "action": {
+            "ms": 24.656,
+            "operation": "reopen_build",
+            "reason": "Aim at a deck",
+            "seconds": 32.001487,
+            "step": 16,
+            "success": true,
+            "target": {}
+          },
+          "distance": 1048.33108034432,
+          "gpu_ms": 3.03999996185303,
+          "ms": 40.458,
+          "phase": "locked",
+          "render_cpu_ms": 0.981000006198883,
+          "seconds": 32.001487,
+          "step": 16
+        }
+      ]
+    },
+    "paged": {
+      "report": "test-results/v1-playthrough-fixes-20261005/construction/paged/baseline-construction.json",
+      "sha256": "5e781da012bdb96d9bb52ef04110342bb028caedb0a098aa4825ce8b46c44107",
+      "source_start": "1fb679ca92a54ab078d8eaa9b59b7931a5da547bba2d0c887ef3dfb957bee9fc",
+      "source_end": "063171a5f0be187c9aa4af595000b26ea60ccc4a7fb91c785e21beb5f5acca1e",
+      "source_stable": false,
+      "frame_ms": {
+        "max": 18.604,
+        "median": 4.118,
+        "over33ms": 0,
+        "over50ms": 0,
+        "p95": 6.501,
+        "p99": 7.816,
+        "samples": 8417
+      },
+      "title_prepared": true,
+      "title_prepare_ms": 2987.898,
+      "catalog_open_ms": [
+        9.956,
+        10.17,
+        9.824,
+        9.439
+      ],
+      "successful_commits": [
+        {
+          "ms": 0.927,
+          "operation": "commit_aimed",
+          "reason": "",
+          "seconds": 6.006088,
+          "step": 3,
+          "success": true,
+          "target": {
+            "cell": {
+              "x": -3,
+              "y": 0,
+              "z": -2
+            },
+            "definitionId": "nomad-chart-desk",
+            "rotation": 1
+          }
+        }
+      ],
+      "slow_frames_over20ms": []
+    }
+  },
+  "legacy_driver_metadata_note": "The copied diagnostic adapter reports prepared_title=false/title_prepare_ms=0 from obsolete travel flags. The actual fixture always waited for the real title gate; authoritative per-run report readiness/timing is copied above. The reusable construction runner now reads those actual fields.",
+  "conclusion": "Four baseline long frames align with catalog openings (21.513\u201325.929 ms synchronous). Paging lowers those calls to 9.439\u201310.170 ms. Successful ordinary aimed placement was 1.066 ms baseline, so no placement/physics workaround is justified."
+}

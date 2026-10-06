@@ -40,6 +40,7 @@ var terminal_pages=MMFTerminalPages.new()
 var playtests=MMFPlaytestCheckpoints.new()
 var engineering=MMFEngineering.new()
 var narrative=MMFNarrativeProgress.new()
+var story_voice: MMFStoryVoice
 var missions=MMFMissions.new()
 var finale=MMFMeridianFinale.new()
 var guidance=MMFObjectiveGuide.new()
@@ -94,6 +95,7 @@ func _ready():
 	roadside=MMFRoadsideOutposts.new();add_child(roadside);roadside.setup(self)
 	effects.machine_atmosphere(self)
 	audio.setup(self)
+	story_voice=MMFStoryVoice.new();add_child(story_voice);story_voice.setup(self)
 	ui=MMFUI.new();add_child(ui);ui.setup(self)
 	engineering.setup(self)
 	journey.reset()
@@ -164,6 +166,8 @@ func hint(message: String) -> String:
 
 func _input(event):
 	if ui==null or ui.binding_action!="": return
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_ENTER,KEY_KP_ENTER] and cinematic=="opening" and cinematics.prelude.finish_reading():
+		get_viewport().set_input_as_handled();return
 	if cinematics.opening_stage.requested:
 		if event.is_action_pressed("pause"):
 			open_menu("Title");get_viewport().set_input_as_handled()
@@ -439,6 +443,7 @@ func reset_interaction_hold():
 
 func update_interaction(dt: float):
 	var selected=interaction_target()
+	MMFSiteInteractionCues.update(self,selected)
 	interaction_prompt=hint(selected.get("text",""))
 	if selected.get("kind","") in ["","piece"] and building.salvage_tool and building.salvage_tool.equipped():interaction_prompt=hint(building.salvage_tool.prompt())
 	var kind=selected.get("kind","")
@@ -561,7 +566,10 @@ func save_game(id: String) -> bool:
 		if id!="autosave":session.notify("Wait for the recovery arm and drones to finish their delivery before saving.")
 		return false
 	if not safe_to_save():
-		if id!="autosave": session.notify("Finish the salvage throw before saving." if salvage.busy() else ("Leave the deck gun before saving." if manual_turret!="" else "Return aboard and secure the deck before saving."))
+		if id!="autosave":
+			if session.attack_recent>0 and not combat.active_threat() and aboard():
+				session.notify("Recent contact. Resume the game for a few seconds, then save.")
+			else:session.notify("Finish the salvage throw before saving." if salvage.busy() else ("Leave the deck gun before saving." if manual_turret!="" else "Return aboard and secure the deck before saving."))
 		return false
 	personalization.reset_preview()
 	var payload={"session":session.native_snapshot(),"player":{"position":MMFAssets.dict_v(player.position),"yaw":player.yaw,"pitch":player.pitch},"salvageDistance":salvage.next_distance,"cargo":salvage.snapshot(),"loot":combat.loot_view.snapshot()}

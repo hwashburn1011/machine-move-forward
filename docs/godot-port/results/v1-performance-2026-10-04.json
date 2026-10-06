@@ -1,0 +1,464 @@
+{
+  "passed": true,
+  "source_hash": "38aedaeaf106a20a39137140a4f5c4fbda724e9536317573522429de12d7198c",
+  "asset_manifest_sha256": "856ba9df3c85fdc1628e96d83ef58247d993ac1e94d1acbb7b184ae151eed1ed",
+  "hardware": {
+    "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "ram_gib": 16,
+    "vram_mib": 8192,
+    "driver": "581.80"
+  },
+  "settings": {
+    "resolution": [
+      1920,
+      1080
+    ],
+    "quality": "high Forward+ Vulkan / 4x MSAA",
+    "vsync": false,
+    "frame_cap": 0,
+    "warmup_seconds": 3
+  },
+  "scope": "Sequential exclusive native synthetic workloads; invulnerable prepared scenes, not earned progression. GPU/OS caches uncontrolled. 16 representative/stress workloads and 90-second travel follow-up.",
+  "workloads": [
+    {
+      "workload": "deck-audio/travel",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 3.591,
+        "p95": 5.906,
+        "p99": 7.887,
+        "max": 148.722,
+        "over33ms": 3,
+        "over50ms": 3
+      },
+      "gpu_ms": {
+        "p95": 3.798,
+        "p99": 4.016,
+        "max": 4.448
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-travel.json",
+      "sha256": "08ef9657af0dd86b8a407506ef7d4ae441abb793dd05ef57bb46101dd33a05e2"
+    },
+    {
+      "workload": "deck-audio/construction",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 4.036,
+        "p95": 7.415,
+        "p99": 10.27,
+        "max": 41.116,
+        "over33ms": 1,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.362,
+        "p99": 4.614,
+        "max": 5.046
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-construction.json",
+      "sha256": "eba49adfe0dde54629dde2ab905abb9398292e917dee52ff9bf35921166a7d13"
+    },
+    {
+      "workload": "deck-audio/furnished",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 3.82,
+        "p95": 5.293,
+        "p99": 6.186,
+        "max": 8.375,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.806,
+        "p99": 4.041,
+        "max": 4.198
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-furnished.json",
+      "sha256": "046c69d817b922eabdbc49db538a246609d0897657373d7105417ac9e0c77f81"
+    },
+    {
+      "workload": "deck-audio/combat",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 4.401,
+        "p95": 10.829,
+        "p99": 12.785,
+        "max": 16.898,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.982,
+        "p99": 4.321,
+        "max": 4.626
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-combat.json",
+      "sha256": "cc7ff79bd6717b9964f0df73c6b04adc0034c83f14e961895ec397b96a37d267"
+    },
+    {
+      "workload": "deck-audio/guardian",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 3.654,
+        "p95": 8.13,
+        "p99": 10.407,
+        "max": 17.236,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.587,
+        "p99": 3.766,
+        "max": 4.027
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-guardian.json",
+      "sha256": "7d5619fe9359c5017a99ea9cb9734d95fb933226ae48c2570e17987e348c990d"
+    },
+    {
+      "workload": "deck-audio/crane",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 3.424,
+        "p95": 5.622,
+        "p99": 7.421,
+        "max": 13.305,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.361,
+        "p99": 3.488,
+        "max": 3.792
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-crane.json",
+      "sha256": "a62add0c8da2d8612706185b5efab53fa7421d76311fc50811cc61ca83870caa"
+    },
+    {
+      "workload": "deck-audio/drone",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 3.465,
+        "p95": 5.582,
+        "p99": 8.03,
+        "max": 12.411,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.503,
+        "p99": 3.636,
+        "max": 3.918
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-drone.json",
+      "sha256": "0cb265a91ff4c4fc534ff97099beefd1cd70e84de592039ed9f93947cc45281f"
+    },
+    {
+      "workload": "deck-audio/wake",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 4.795,
+        "p95": 7.745,
+        "p99": 10.113,
+        "max": 12.773,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.895,
+        "p99": 5.101,
+        "max": 5.693
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-wake.json",
+      "sha256": "8a60d200f87621aaab6a50ce7e15f5ed90558465be331c904d6fdcea7af8e383"
+    },
+    {
+      "workload": "deck-audio/foundry",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 4.901,
+        "p95": 7.551,
+        "p99": 10.615,
+        "max": 12.393,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 5.154,
+        "p99": 5.442,
+        "max": 5.912
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-foundry.json",
+      "sha256": "3354a99b94aab4c0f0182414eb2865674d1228415e497bf580443011e4f73be1"
+    },
+    {
+      "workload": "deck-audio/array",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 5.003,
+        "p95": 7.568,
+        "p99": 10.051,
+        "max": 12.035,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.988,
+        "p99": 5.332,
+        "max": 5.724
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-array.json",
+      "sha256": "77e4f76786a050b65f586b3fb71dd6d5548818bd9c37eb998c5fb8c064d3a104"
+    },
+    {
+      "workload": "deck-audio/orchard",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 4.711,
+        "p95": 7.016,
+        "p99": 7.597,
+        "max": 8.582,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 5.129,
+        "p99": 5.431,
+        "max": 5.778
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-orchard.json",
+      "sha256": "3afa81b5fac7e99371d26577125515b567b8ca93a7a492479f2307b1008f07ee"
+    },
+    {
+      "workload": "deck-audio/meridian",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 4.737,
+        "p95": 7.524,
+        "p99": 10.035,
+        "max": 12.03,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.869,
+        "p99": 5.123,
+        "max": 5.604
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-meridian.json",
+      "sha256": "2f0f79430759ffee6e0ae28d5cdbe7f1ff554d8010d273b454a1cf9f7e0eb21a"
+    },
+    {
+      "workload": "deck-audio/berth",
+      "seconds": 18.0,
+      "frame_ms": {
+        "median": 4.449,
+        "p95": 7.921,
+        "p99": 10.453,
+        "max": 12.304,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.591,
+        "p99": 4.805,
+        "max": 5.212
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/deck-audio-berth.json",
+      "sha256": "f4db2db0772e7389b3b8a29b55936f51c6a3da98b01714058ddb0fa08e36d1ed"
+    },
+    {
+      "workload": "beta-escalated/guardian",
+      "seconds": 45.0,
+      "frame_ms": {
+        "median": 3.713,
+        "p95": 5.754,
+        "p99": 7.85,
+        "max": 9.975,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.674,
+        "p99": 3.987,
+        "max": 4.417
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/beta-escalated-guardian.json",
+      "sha256": "81f6f82ef07000bc83fbed0dd14d0f3b60dbffb9da52342fe3282779f1f43485"
+    },
+    {
+      "workload": "connected-freight/furnished",
+      "seconds": 45.0,
+      "frame_ms": {
+        "median": 4.568,
+        "p95": 8.262,
+        "p99": 10.509,
+        "max": 14.966,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.694,
+        "p99": 4.893,
+        "max": 5.46
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/connected-freight-furnished.json",
+      "sha256": "6de82be735a53a7d625fa24dea2569911e7e6c163fa06b176ff0067dd9d2bbd4"
+    },
+    {
+      "workload": "painted-home/furnished",
+      "seconds": 180.0,
+      "frame_ms": {
+        "median": 3.918,
+        "p95": 6.364,
+        "p99": 9.291,
+        "max": 18.512,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.741,
+        "p99": 4.009,
+        "max": 4.353
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-performance-03/painted-home-furnished.json",
+      "sha256": "5cd0977d5cf43ab64a57dfc18f71034b21a55e58a8353fb812501ac920ea3024"
+    },
+    {
+      "workload": "deck-audio/travel",
+      "seconds": 90.0,
+      "frame_ms": {
+        "median": 3.836,
+        "p95": 5.945,
+        "p99": 8.494,
+        "max": 15.199,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.78,
+        "p99": 4.035,
+        "max": 4.509
+      },
+      "report": "test-results/v1-release-audit-2026-10-04/final-travel-90s-01/deck-audio-travel.json",
+      "sha256": "5b9c03ebb6686487f8b5b7232c4225e689089ed641a508a4e088c9347509da87"
+    }
+  ],
+  "residual_hitches": [
+    {
+      "workload": "deck-audio/travel",
+      "seconds": 18.0,
+      "events": [
+        {
+          "distance": 2516.70421648525,
+          "ms": 138.655,
+          "phase": "approach",
+          "seconds": 0.218204
+        },
+        {
+          "distance": 2517.87782321192,
+          "ms": 148.722,
+          "phase": "approach",
+          "seconds": 0.370403
+        },
+        {
+          "distance": 2519.75570012603,
+          "ms": 127.219,
+          "phase": "approach",
+          "seconds": 0.648137
+        }
+      ]
+    }
+  ],
+  "home": {
+    "furnishings": 50,
+    "painted_pieces": 52,
+    "docks": 3,
+    "recorded_received_items": 506,
+    "received_per_dock": {
+      "bp-6": 0,
+      "bp-7": 196,
+      "bp-8": 338
+    },
+    "music_starts": 2,
+    "video_memory_max_bytes": 2329089936.0,
+    "static_memory_max_bytes": 317753447.0,
+    "coverage_limit": "Two docks delivered; third remained idle in this deterministic crate pattern. All three were present and powered."
+  },
+  "exclusive_save_profile": {
+    "2": {
+      "asyncHarvestMainMs": {
+        "max": 0.048,
+        "median": 0.033
+      },
+      "asyncRequestMainMs": {
+        "max": 0.125,
+        "median": 0.116
+      },
+      "asyncWallToDurableMs": {
+        "max": 13.824,
+        "median": 13.809
+      },
+      "bytes": 7083,
+      "painted": 1,
+      "pieces": 2,
+      "syncMainMs": {
+        "max": 8.184,
+        "median": 3.749
+      },
+      "validCampaign": true
+    },
+    "300": {
+      "asyncHarvestMainMs": {
+        "max": 0.255,
+        "median": 0.239
+      },
+      "asyncRequestMainMs": {
+        "max": 1.154,
+        "median": 1.087
+      },
+      "asyncWallToDurableMs": {
+        "max": 27.626,
+        "median": 27.605
+      },
+      "bytes": 103146,
+      "painted": 51,
+      "pieces": 300,
+      "syncMainMs": {
+        "max": 17.225,
+        "median": 16.117
+      },
+      "validCampaign": true
+    },
+    "900": {
+      "asyncHarvestMainMs": {
+        "max": 1.205,
+        "median": 0.965
+      },
+      "asyncRequestMainMs": {
+        "max": 5.423,
+        "median": 3.737
+      },
+      "asyncWallToDurableMs": {
+        "max": 48.358,
+        "median": 48.317
+      },
+      "bytes": 297386,
+      "painted": 51,
+      "pieces": 900,
+      "syncMainMs": {
+        "max": 37.178,
+        "median": 35.747
+      },
+      "validCampaign": true
+    }
+  },
+  "save_summary_sha256": "b7b31ef2d142d6ac6482c969cdf540a4f76dd67d2011b29ec733906cde307215",
+  "limits": [
+    "Passing p95 does not mean hitch-free: individual >50ms frame events are retained.",
+    "Physical lower-spec hardware untested.",
+    "Synthetic stress is not player feedback.",
+    "Warm-up and scenario startup are not included in sampled frame percentiles."
+  ]
+}

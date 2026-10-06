@@ -142,6 +142,26 @@ func transfer(c: Dictionary,bag=null) -> bool:
 	if not c.contents.is_empty():return false
 	c.active=false;c.node.hide();c.claimed="";return true
 
+func drone_can_accept(c: Dictionary,bag: MMFInventory) -> bool:
+	return MMFCargoCapacity.preview(c,[bag]).state!="full"
+
+func render_storage(ui,id: String):
+	var p=game.session.find_piece(id)
+	if p.is_empty() or p.definitionId!="collector-auto" or not game.session.stores.has(id):return
+	var bag=game.session.stores[id];var job=drones.get(id,{})
+	var status="Waiting for ordinary cargo within 24 m"
+	if p.health<=0:status="Dock damaged / repair required"
+	elif not game.session.powered.get(id,false):status="Recovery paused / check power"
+	elif game.combat.active_threat():status="Waiting for the encounter to clear"
+	elif MMFCargoCapacity.preview({"opened":false},[bag]).state=="full":status="Dock storage full / free space to resume"
+	if not job.get("cargo",{}).is_empty() and job.cargo.active:
+		if job.phase=="wait":
+			if p.health>0:status="Load held / free space in this dock to unload" if not drone_can_accept(job.cargo,bag) else "Space available / close reader to resume unloading"
+			ui.text_line("HELD CARGO: "+MMFCargoCapacity.remaining_text(job.cargo.contents,game.data.ITEMS))
+		elif p.health>0:status="Recovery in progress / "+str(job.phase).replace("-"," ")
+	ui.text_line("DRONE · "+status)
+	ui.text_line("Recovered cargo goes into this dock's six slots. Partial stacks can accept matching supplies; any remainder stays held. Take or use supplies to make room.")
+
 func update_port(dt: float):
 	if not game.session.facts.get("portCraneRepaired",false):return
 	var tip=port_tip();var powered=game.session.powered.get(PORT_ID,false)
@@ -255,7 +275,7 @@ func update_drones(dt: float):
 				for c in salvage.crates:
 					if not c.active or c.heavy or c.claimed!="" or c.node.position.distance_to(home)>DRONE_RANGE:continue
 					var bag=game.session.stores[id]
-					if not ["scrap","components","fuel"].any(func(item):return bag.room_for(item)>0):continue
+					if not drone_can_accept(c,bag):continue
 					var height=maxf(home.y+3,c.node.position.y+3)
 					if not clear_path(home,Vector3(home.x,height,home.z)) or not clear_path(Vector3(home.x,height,home.z),Vector3(c.node.position.x,height,c.node.position.z)):continue
 					c.claimed=id;job.cargo=c;job.phase="launch";job.height=height;break

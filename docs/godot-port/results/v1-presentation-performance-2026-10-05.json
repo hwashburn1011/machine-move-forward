@@ -1,0 +1,185 @@
+{
+  "passed": true,
+  "source_hash": "dc384f8eeec234285a71a8fe887cb4e9918d8bd190db6394dbe66b4c7df4abea",
+  "asset_manifest_sha256": "ec8cf259117442dc7a026e0a8472d4f581b5dea5b74e6aad40151e935c3e3cec",
+  "scope": "Five affected presentation workloads:90-second travel,18-second construction/combat/Foundry,180-second furnished home. Sequential exclusive native rendering with prepared/invulnerable fixtures; no new full campaign or broad17-workload claim.",
+  "hardware": {
+    "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "ram_gib": 16,
+    "vram_mib": 8192,
+    "driver": "581.80"
+  },
+  "settings": {
+    "resolution": [
+      1920,
+      1080
+    ],
+    "quality": "high Forward+ Vulkan / 4x MSAA",
+    "vsync": false,
+    "frame_cap": 0,
+    "warmup_seconds": 3
+  },
+  "preparation": "Existing New Game title readiness gate completed before checkpoint; title preparation costs retained separately.",
+  "cache_conditions": "Separate short isolated shader profiles for travel90, focused three workloads, and home. OS/driver caches uncontrolled.",
+  "workloads": [
+    {
+      "workload": "deck-audio/travel",
+      "seconds": 90.0,
+      "title_prepare_ms": 2808.279,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.59,
+        "p95": 5.519,
+        "p99": 6.336,
+        "max": 15.716,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.765,
+        "p99": 4.025,
+        "max": 4.553
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-presentation-release-audit-20261005/travel90/deck-audio-travel.json",
+      "sha256": "cd1da6f98901ccfcd58cfd3c59bc7a1efc9a340a5a3647ffa9fd504cb1e33d90"
+    },
+    {
+      "workload": "deck-audio/construction",
+      "seconds": 18.0,
+      "title_prepare_ms": 2637.98,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 4.268,
+        "p95": 6.694,
+        "p99": 7.899,
+        "max": 39.513,
+        "over33ms": 1,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.427,
+        "p99": 4.566,
+        "max": 4.998
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-presentation-release-audit-20261005/focused/deck-audio-construction.json",
+      "sha256": "30492dbaccf6148e2525c602b5d7fd1a15c997d6cc835350ad06bdaf2967e325"
+    },
+    {
+      "workload": "deck-audio/combat",
+      "seconds": 18.0,
+      "title_prepare_ms": 2040.433,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.743,
+        "p95": 7.317,
+        "p99": 7.867,
+        "max": 11.95,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.116,
+        "p99": 4.364,
+        "max": 4.649
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-presentation-release-audit-20261005/focused/deck-audio-combat.json",
+      "sha256": "4cb20f963532a1961a53da5106c4b635ae5c6777f36ed958cdad058d9d38905b"
+    },
+    {
+      "workload": "deck-audio/foundry",
+      "seconds": 18.0,
+      "title_prepare_ms": 2034.82,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 5.131,
+        "p95": 6.526,
+        "p99": 7.405,
+        "max": 10.051,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 5.174,
+        "p99": 5.383,
+        "max": 5.765
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-presentation-release-audit-20261005/focused/deck-audio-foundry.json",
+      "sha256": "6caf3c0f446eedda6db2edd3549b7fb97d76520c982218a505ee6093848f61d0"
+    },
+    {
+      "workload": "painted-home/furnished",
+      "seconds": 180.0,
+      "title_prepare_ms": 2762.563,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.799,
+        "p95": 5.421,
+        "p99": 6.299,
+        "max": 14.595,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 3.748,
+        "p99": 4.037,
+        "max": 4.388
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-presentation-release-audit-20261005/focused/painted-home-furnished.json",
+      "sha256": "ea65015d24b9ac51d17c2e2c65088485d60070d1d3672d72f16320f8bdf6f820"
+    }
+  ],
+  "home": {
+    "furnishings": 50,
+    "painted_pieces": 52,
+    "docks": 3,
+    "recorded_received_items": 506,
+    "received_per_dock": {
+      "bp-6": 0,
+      "bp-7": 196,
+      "bp-8": 338
+    },
+    "music_starts": 2,
+    "video_memory_max_bytes": 2662906832.0,
+    "static_memory_max_bytes": 331347131.0,
+    "coverage_limit": "Three powered docks present; per-dock delivery counts retained rather than assuming each delivered."
+  },
+  "historical_broad_performance": "docs/godot-port/results/v1-performance-2026-10-04.json",
+  "prior_affected_performance": "docs/godot-port/results/v1-performance-2026-10-05.json",
+  "historical_campaign": "docs/godot-port/results/v1-campaign-2026-10-04.json",
+  "limits": [
+    "Physical lower-spec hardware untested.",
+    "Uncoached human comprehension untested.",
+    "No immediate unprepared Continue profiling or universal hitch-free claim.",
+    "Only frames over50ms receive timestamps in the fixture; isolated33\u201350ms outliers cannot be located or causally attributed from this trace.",
+    "October4 initial travel stalls remain historical evidence; investigation established title-gate bypass in that fixture."
+  ],
+  "rendered_streaming": {
+    "report": "test-results/v1-presentation-release-audit-20261005/streaming-final/summary.json",
+    "sha256": "d3128f6b4b3ef9c3addad320ca215459e560b13df27ad5e200ee805959bff6ef",
+    "runs": [
+      {
+        "script": "scenery_contract",
+        "checks": 109,
+        "failures": [],
+        "diagnostics": [],
+        "exit_code": 0,
+        "passed": true
+      },
+      {
+        "script": "scenery_streaming_checks",
+        "checks": 18,
+        "failures": [],
+        "diagnostics": [],
+        "exit_code": 0,
+        "passed": true
+      }
+    ],
+    "scope": "Rendered deterministic scenery contract and prepared forward/lateral lifecycle checks, not a frame-rate benchmark."
+  }
+}

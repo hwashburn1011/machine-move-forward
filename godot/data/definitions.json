@@ -2004,7 +2004,7 @@
       },
       {
         "id": "relay-foundry-departure",
-        "label": "Return to machine",
+        "label": "Gangway / Nomad",
         "kind": "departure",
         "anchor": "Gangway",
         "fallback": {
@@ -2281,7 +2281,7 @@
       },
       {
         "id": "quiet-array-departure",
-        "label": "Return to machine",
+        "label": "Gangway / Nomad",
         "kind": "departure",
         "anchor": "Gangway",
         "fallback": {
@@ -2647,7 +2647,7 @@
       },
       {
         "id": "orchard-departure",
-        "label": "Return to machine",
+        "label": "Gangway / Nomad",
         "kind": "departure",
         "anchor": "Gangway",
         "fallback": {
@@ -3224,7 +3224,7 @@
       },
       {
         "id": "meridian-departure",
-        "label": "Return to machine",
+        "label": "Gangway / Nomad",
         "kind": "departure",
         "anchor": "Gangway",
         "fallback": {
@@ -3886,7 +3886,7 @@
         },
         {
           "id": "relay-foundry-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {
@@ -4163,7 +4163,7 @@
         },
         {
           "id": "quiet-array-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {
@@ -4529,7 +4529,7 @@
         },
         {
           "id": "orchard-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {
@@ -5106,7 +5106,7 @@
         },
         {
           "id": "meridian-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {
@@ -5757,7 +5757,7 @@
         },
         {
           "id": "relay-foundry-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {
@@ -6034,7 +6034,7 @@
         },
         {
           "id": "quiet-array-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {
@@ -6400,7 +6400,7 @@
         },
         {
           "id": "orchard-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {
@@ -6977,7 +6977,7 @@
         },
         {
           "id": "meridian-departure",
-          "label": "Return to machine",
+          "label": "Gangway / Nomad",
           "kind": "departure",
           "anchor": "Gangway",
           "fallback": {

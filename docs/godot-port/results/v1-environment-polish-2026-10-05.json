@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "source_hash": "c084dfa83351dfb6449ce9221e70cf2b675e948300ebdd65dc13f9de8fdfe2b8",
+  "source_hash_end": "c084dfa83351dfb6449ce9221e70cf2b675e948300ebdd65dc13f9de8fdfe2b8",
+  "scope": "Environment presentation only; source stable during final static native review. No full campaign or performance acceptance claimed here.",
+  "changes": [
+    "Six existing-asset uses: motor service, motel stop, parcel yard, maintenance convoy, checkpoint, pump service.",
+    "Two/three quiet rows per offset nine-row region; foreground bag remains complete.",
+    "Storefront openings face approaching traffic, with footprint-tested tight support spacing.",
+    "Three color-only shared equipment wear meshes plus bounded steel/alloy response tuning."
+  ],
+  "layout": {
+    "rows": 720,
+    "landmarks": 3886,
+    "quiet_rows": 201,
+    "minimum_landmarks": 1,
+    "maximum_landmarks": 11,
+    "groups": {
+      "last-light-stop": 51,
+      "maintenance-convoy": 68,
+      "motor-service": 48,
+      "old-checkpoint": 51,
+      "parcel-yard": 51,
+      "pump-service": 45
+    },
+    "review_samples": {
+      "last-light-stop": {
+        "row": -217,
+        "seed": "presentation-roadside"
+      },
+      "maintenance-convoy": {
+        "row": -207,
+        "seed": "presentation-roadside"
+      },
+      "motor-service": {
+        "row": -209,
+        "seed": "presentation-roadside"
+      },
+      "old-checkpoint": {
+        "row": -235,
+        "seed": "presentation-roadside"
+      },
+      "parcel-yard": {
+        "row": -223,
+        "seed": "presentation-roadside"
+      },
+      "pump-service": {
+        "row": -144,
+        "seed": "presentation-roadside"
+      }
+    }
+  },
+  "headless": {
+    "composition_checks": 28152,
+    "streaming_checks": 18,
+    "art200_collision_checks": 6616,
+    "art200_scope": "Exact geometry/collision regression ran before final spacing/yaw/color-strength refinement; final composition test independently rechecked transformed bounds and unchanged final mesh/LOD buffers."
+  },
+  "resources": {
+    "wear_resource_bytes": 379650,
+    "wear_mesh_buffer_bytes": 686744,
+    "wear_resource_load_ms": {
+      "art200-cinder-auto-lift": 0.876,
+      "art200-crosswind-compressor-house": 1.866,
+      "art200-rail-water-crane": 1.175
+    },
+    "load_scope": "Headless load/bind only, original GLB loaded first, warm OS cache. Not gameplay frame timing."
+  },
+  "rendered_review": {
+    "captures": 25,
+    "environment_inputs": {
+      "res://art/roadside-wear/art200-cinder-auto-lift.res": "a5aff9f26ea44d7959f3d2524978895f034d1443d429bcb7172a9dbee28e6737",
+      "res://art/roadside-wear/art200-crosswind-compressor-house.res": "5a41506f7afd3bdc8ac99eb9797d8bcf3e544ed18d66850814b58f91194639b3",
+      "res://art/roadside-wear/art200-rail-water-crane.res": "9390bac5edf045533986fdd0cb34dbaa491d1c2ca3d4f5e4aa19e487e73ec441",
+      "res://art/roadside-wear/manifest.json": "89bbe48fd05797c337bc2da2a00b4a74fce1b2dcf31e91fe8eb93dd5d2f80ec5",
+      "res://scripts/art100_materials.gd": "a54daea4325f94a40ead8aa903571569b35f2e29734b02bfd143bde24a0496a8",
+      "res://scripts/desert_layout.gd": "a2bf3284dbb8f9b3ddc738d3c8a19955e4527b142766e8fb13917a54e0351149",
+      "res://scripts/roadside_composition.gd": "9a3c14172259a8ffa792502a0d9c43913ec47869f2fa490c63b0499dd79c2917",
+      "res://scripts/scenery_chunk.gd": "be3bc8bafcf63c205b493acb7607e9a4774c7ab2773e6cd253740ea6f32bdbc9"
+    },
+    "stable": true,
+    "review_report": "test-results/v1-environment-polish-20261005/review.json",
+    "sha256": "ff5e70d175fbf4e94fb9b764ace2d9e7a4c8feec80e36896c7bf8dbe8a1fac05",
+    "captures_sha256": {
+      "last-light-stop-upper-deck.png": "2571df3e4d922d80c384565ca360be1f274eead282fc705e334aea8d467859fb",
+      "last-light-stop-lower-deck.png": "098a91144fff1c0ba8868ccfbd9504756f32d25c41b8abceba7b78dee65aed32",
+      "maintenance-convoy-upper-deck.png": "f408986512bbe24b0e670435e61d5b0af1524e67efcb4b70120fc552752586ba",
+      "maintenance-convoy-lower-deck.png": "9b8732de9a8861c066028dcae74def2453f59cc30c390ab5a0af344cc8ed47d8",
+      "motor-service-upper-deck.png": "fd92a9fad845dfd8f5a50c63501824f28665f2aeb15f7047dd6ddd44c3f99fdb",
+      "motor-service-lower-deck.png": "3c725837f23bea338b1c6090cb57dfa1d4b95a3f2126f52331662cad721a46b3",
+      "old-checkpoint-upper-deck.png": "79428df0c9faa64c79726339fe45f312cb7385b0ed92d423684cc669a90a5e52",
+      "old-checkpoint-lower-deck.png": "6a47d393b5d0d63172dd0c1a944a2196ccd7c97bccd860713dcf534ce6630cab",
+      "parcel-yard-upper-deck.png": "e259c3bcff5d284fbf3519c57c7400d8d771c55e8923e7eb55235c7603b33129",
+      "parcel-yard-lower-deck.png": "baa4645d8922294d243cba1bae96ed404d912fdb50123c9470f63cfeb1ef4ee2",
+      "pump-service-upper-deck.png": "6ec2ea6091678c5f32be54c32d2e4c650f41d7ec10fb187919021a1ec1449f48",
+      "pump-service-lower-deck.png": "4bb30f8c6c34552d980a1a90bed7a92e25820d413391d869c4c9e5b68fe02643",
+      "quiet-interval.png": "38d57af94cb87d92199aab1b0c71804e4328d287474a232ac9b2ef36b3eaed68",
+      "art200-cinder-auto-lift-before.png": "0d9f59000d7e47e6547ecc1bfb65558a1c16f4fefeb7f8409185d5990761447b",
+      "art200-cinder-auto-lift-after.png": "4bb212916318d0d57b26715b06933f15d82c66af240b8d8a1fabd22eb9afa82f",
+      "art200-cinder-auto-lift-detail-after.png": "e94c95232999bf3d681ed87f1ec709a4eef900a4f30ede1dd82cc22c1285e858",
+      "art200-cinder-auto-lift-detail-before.png": "7a2e2eec5a5abd13f9a3bbf90ef10b1f367cb9e8d2bfd899c85dbba7976477cf",
+      "art200-crosswind-compressor-house-before.png": "600049434582f044630398a0634b900fc30e993cd7458f33f69a20f990344063",
+      "art200-crosswind-compressor-house-after.png": "2f41652e95d3624a67e5a86e65b7199332470b4bf62cbb6c54f7c46e7a9b9781",
+      "art200-crosswind-compressor-house-detail-after.png": "9eefd660b6d6dcca9a497c4ad2f50a6d4ea414920746907b86ebb3d294e68748",
+      "art200-crosswind-compressor-house-detail-before.png": "875d6d69b92715a2f7204d9ac7c2993bf47e0c629167ca303ee329ad34e97704",
+      "art200-rail-water-crane-before.png": "e43607b056d299fc7d9acd909a1ade32867c1fe0288b2c62ddf2d28b118732a3",
+      "art200-rail-water-crane-after.png": "84563570d34016646bb3ae925e8b748ae4f14d10b000ccf4be6ed982ab2ab92f",
+      "art200-rail-water-crane-detail-after.png": "a06e76925f32c70d5551639cfaf75c6aeb3b8bef0db44849f9f03426bcc25ab1",
+      "art200-rail-water-crane-detail-before.png": "2022a8d7209581cec4c37e8b2f126e68af70695113af52f2171036f7c4edd184"
+    }
+  },
+  "evidence_sha256": {
+    "checks.json": "8f142027e10c494c6191557f2b7eea9c32980788e01fb733785a58e6574f46a0",
+    "streaming-checks.json": "45bf97996debfcdebf7ed430595a7e955f7bb3acc60dcb218cd9910f0ecf661d",
+    "art200-scenery.json": "97da79b38a05b0bcf0f6bb24c59b81cf7d1d14d47bbf4a6de945a3c79c7055de",
+    "review.log": "f9f61413c5e6546e39ef6757af4d665e02fd107e40bdad0cf4aef41b9127a4fb"
+  },
+  "limits": [
+    "Native images are scripted static reviews, not uncoached player acceptance.",
+    "Load times are warm-OS-cache/headless resource loads, not gameplay frame timing.",
+    "Wear remains local and restrained; this is not a texture/model replacement pass."
+  ],
+  "rejected_attempts": [
+    "Initial baked resources embedded duplicate materials/shadow mesh. Corrected to reconnect originals; passing checks prove shared resources.",
+    "Initial close-review fixture sent its primitive BoxMesh floor through imported-mesh preparation; corrected fixture and retained rejected captures/log.",
+    "First visual spacing/front angle and wear strength were revised after native inspection; originals retained in first-native-spacing."
+  ]
+}
