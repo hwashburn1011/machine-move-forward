@@ -233,6 +233,7 @@ func _physics_process(dt):
 	var move_speed = 2.2 if crouched else (7.5 if run else 4.5)
 	var direction = Basis(Vector3.UP, yaw) * Vector3(input.x, 0, input.y)
 	var before_motion=position
+	var was_grounded=is_on_floor()
 	velocity.x = direction.x * move_speed
 	velocity.z = direction.z * move_speed
 	if not is_on_floor(): velocity.y -= 22*dt
@@ -242,10 +243,12 @@ func _physics_process(dt):
 	# Step-up is bounded to the same 45 cm curb used by the reference controller.
 	if is_on_floor() and velocity.y<=0 and direction.length_squared() > 0.01:
 		try_step_up(direction * move_speed * dt)
+	var impact_speed=maxf(0,-velocity.y)
 	move_and_slide()
 	boundary.observe()
 	var tool_working=tool_busy and game.building.salvage_tool.working()
-	if input.length() > 0.05 or aiming or pending_shot or combat_hold>0 or tool_working:
+	var hook_working=equipment and equipment.salvage_gesture()
+	if input.length() > 0.05 or aiming or pending_shot or combat_hold>0 or tool_working or hook_working:
 		visual.rotation.y = lerp_angle(visual.rotation.y, yaw+PI, 1-exp(-14*dt))
 	aim_yaw=clampf(wrapf(yaw+PI-visual.rotation.y,-PI,PI),-deg_to_rad(35),deg_to_rad(35)) if aiming or pending_shot or combat_hold>0 else 0.0
 	if not is_on_floor():play("armed_jump")
@@ -253,7 +256,8 @@ func _physics_process(dt):
 		var actual_motion=(position-before_motion)/maxf(dt,.001)
 		actual_motion.y=0
 		# Recovery/relocation cannot be mistaken for a giant footstep.
-		if actual_motion.length()>move_speed*2:actual_motion=Vector3.ZERO
+		if actual_motion.length()>move_speed*2:actual_motion=Vector3.ZERO;impact_speed=0
+		locomotion.land(impact_speed if not was_grounded else 0.0)
 		locomotion.update(dt,actual_motion)
 	if not Input.is_action_pressed("fire"): suppress_fire=false
 	update_camera(dt)
@@ -385,7 +389,7 @@ func die():
 
 func teleport(at: Vector3):
 	position=at;velocity=Vector3.ZERO
-	if locomotion:locomotion.reset_interpolation()
+	if locomotion:locomotion.reset_interpolation();locomotion.reset_weight()
 	reset_physics_interpolation()
 	update_camera(1)
 	pivot.reset_physics_interpolation()

@@ -1,10 +1,11 @@
 {
   "schema": 1,
   "version": "0.3.0-beta.1",
-  "build_id": "0.3.0-beta.1-302c7f1a20a1",
-  "source_hash": "302c7f1a20a165abcae8853c5fcf06571b897d85fbd2dbd68b1130a7fe26703d",
-  "created_utc": "2026-10-03T04:44:27Z",
-  "asset_manifest_sha256": "17bdbf0f2c4eb5f55cff3f988f8f3976c2bd6c64559244d132119da9eb470011",
+  "build_id": "0.3.0-beta.1-6076494f06c0",
+  "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+  "created_utc": "2026-10-05T23:48:33Z",
+  "asset_manifest_sha256": "ec8cf259117442dc7a026e0a8472d4f581b5dea5b74e6aad40151e935c3e3cec",
+  "prior_build_id": "0.3.0-beta.1-dc384f8eeec2",
   "roof_collision_sha256": {
     "glass-orchard.res": "1897fb3f2641ad870508df335e367142298b514d9f4d8fffacdd8db4913c00fd",
     "last-garden-meridian.res": "2f4368f6a49f77f542a9d3c3fb7d7b598ca2a05748f703336ceeb8896dd7a9cd",
@@ -13,10 +14,32 @@
     "rooftop-workshop.res": "7fa9c17a6674f7ccf5b9e0f94256add0a66a6e605a1a749ed796925f2138f6da",
     "wreck-one.res": "6e897ef50a732d6a84a164d272fcf8384f4d222042ea7c17ba507c6c5e27e117"
   },
-  "refinement_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
-  "prior_roof_floor_evidence_sha256": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
-  "grounded_sites_outposts_evidence_sha256": "59363312998ae2a15d9de724fa8f933a14744a1e4dfea451fe8242dad8acc844",
-  "wrist_menu_evidence_sha256": "de6c66e802d6a967ae214b5f71f54ede84d95bb0588c12bdd97741e4bcffc009",
-  "title_screen_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
-  "prior_cinematic_opening_evidence_sha256": "5f00293232932f83bcdf38e8cbb42e4b1ae336d560149fe7ea53b0f3d0187be2"
+  "historical_provenance": {
+    "refinement_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+    "prior_roof_floor_evidence_sha256": "2b46f3a45959f9eeac9764773270e1bb1dfd7728cf3ec369146f9e3398ef1243",
+    "grounded_sites_outposts_evidence_sha256": "59363312998ae2a15d9de724fa8f933a14744a1e4dfea451fe8242dad8acc844",
+    "wrist_menu_evidence_sha256": "de6c66e802d6a967ae214b5f71f54ede84d95bb0588c12bdd97741e4bcffc009",
+    "title_screen_evidence_sha256": "3f36f75e830d7c0d5446ebde62712069edcb3ced49e8757160c699aa38c11d78",
+    "prior_cinematic_opening_evidence_sha256": "5f00293232932f83bcdf38e8cbb42e4b1ae336d560149fe7ea53b0f3d0187be2"
+  },
+  "prior_release_evidence_sha256": "72ce9b6e8a8f625b8e93a16edc09913f10dc180681c1c8397a680de796c23d6b",
+  "historical_campaign_evidence_sha256": "33729d02bc6ab0d6411557f6ce1dfec5f4e171e4ec5e4b80f59285924a5e818c",
+  "playthrough_fixes_performance_evidence_sha256": "2852cc006e70d92e64d83a4d6030c381ca5a884cc02bb6390b29d40b75211dc3",
+  "playthrough_fixes_component_reports": {
+    "docs/godot-port/results/v1-playthrough-fixes-2026-10-05.json": {
+      "sha256": "91e87e474ebf3dc9db78a1fa7b03f20a94c9b306c973a5f70f12cf8a6ecd8cf4",
+      "scope": "Final integrated findings/regression receipt with original per-suite source identities; 1207 checks."
+    },
+    "test-results/v1-playthrough-fixes-20261005/construction/visual/review.json": {
+      "sha256": "da32e7d965ea1e4b82e3f1d5ee970ec064976839aae1d1b74458cb6da2e2a744",
+      "scope": "Six stable gun/catalog views at e6d35 before display-only optional-stop labels changed."
+    },
+    "docs/godot-port/results/v1-construction-hitch-diagnostic-2026-10-05.json": {
+      "sha256": "fd2fabe067219a2f157ba5da1f58c3970f4f6fbd3558d099e260dce7d4c9ec8f",
+      "scope": "Diagnostic reproduction and catalog causal evidence during shared development; not final frozen acceptance."
+    }
+  },
+  "story_voice_manifest_sha256": "fe7965711ebea708af7d2f3f9e38d43c09d4d388444d1da9a2f4a723075fa6a6",
+  "opening_voice_selection_sha256": "2176a86ac6fb7a216cce5606f0cb7753182db976805274f525c68d6c74651d4d",
+  "verification_scope": "All nineteen playthrough findings addressed, including one disproved canopy suspicion. Final focused regression receipt preserves per-component hashes. Five affected workloads and a construction action trace; travel/trace precede only the final display-only optional-stop state labels. Remaining benchmarks and package use final source. The complete earned campaign remains prior dc384 presentation-build evidence; no new full campaign claimed. Physically weaker hardware and uncoached human feedback remain unverified."
 }

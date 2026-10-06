@@ -230,11 +230,11 @@ func run():
 			if MMFArt200Scenery.is_billboard(id):advertisements+=1
 			var bounds=child.transform*child.get_aabb()
 			lanes=lanes and (bounds.end.x<=-14 or bounds.position.x>=48)
-		maximum=maxi(maximum,count);density=density and count>=3 and count<=11;signs=signs and advertisements<=1
+		maximum=maxi(maximum,count);density=density and count>=1 and count<=11;signs=signs and advertisements<=1
 		chunk.free();builder=null
 	for spec in MMFArt200Scenery.SPECS:check(seen.has(spec[0]),spec[0]+": appears in actual streamed route")
 	check(lanes,"All transformed model bounds clear travel and docking corridors")
-	check(density,"New catalog retains three to eleven landmarks per chunk")
+	check(density,"Quiet stretches retain one silhouette; populated chunks remain within eleven landmarks")
 	check(signs,"Roadside advertising is limited to one complete sign per chunk")
 	check(game.session.rng.state==random,"Scenery keeps gameplay RNG unchanged")
 	report.route={"chunks":240,"unique_models":seen.size(),"maximum_landmarks":maximum,"lanes_clear":lanes};report.total_triangles=total

@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "scope": "Fresh uninterrupted rendered scripted main route; not human play or every optional branch. Game runtime unchanged from presentation release.",
+  "build_id": "0.3.0-beta.1-dc384f8eeec2",
+  "source_hash": "dc384f8eeec234285a71a8fe887cb4e9918d8bd190db6394dbe66b4c7df4abea",
+  "asset_manifest_sha256": "ec8cf259117442dc7a026e0a8472d4f581b5dea5b74e6aad40151e935c3e3cec",
+  "inputs_stable": true,
+  "run_id": "v1-presentation-full-20261005-02",
+  "wall_seconds": 1965.055,
+  "runner_wall_seconds": 1970.4689999999828,
+  "completed_sites": [
+    "wreck-one",
+    "relay-foundry",
+    "quiet-array",
+    "glass-orchard",
+    "last-garden-meridian"
+  ],
+  "defenses": 5,
+  "saves": 14,
+  "all_saves_passed": true,
+  "engine_errors": 0,
+  "ground_recoveries": 0,
+  "cargo_receipts": 46,
+  "walked_m": 815.728135619313,
+  "damage_taken": 0.0,
+  "manual_turret_shots": 38,
+  "manual_turret_damaging_hits": 38,
+  "captures": 468,
+  "observations": 19,
+  "findings": "docs/godot-port/v1-full-playthrough-review-2026-10-05.md",
+  "evidence": {
+    "runner-summary.json": {
+      "path": "test-results/campaign-earned-soak/v1-presentation-full-20261005-02/runner-summary.json",
+      "sha256": "88a51275bd02eb42a450b3570725a9914b722b2bb6ba967db56797ec56066521"
+    },
+    "report.json": {
+      "path": "test-results/campaign-earned-soak/v1-presentation-full-20261005-02/report.json",
+      "sha256": "7c3869a3f65808bd962ece973f02dbeb80d55f686d2632a7fcc5d6de77c58702"
+    },
+    "visual-review.json": {
+      "path": "test-results/campaign-earned-soak/v1-presentation-full-20261005-02/visual-review.json",
+      "sha256": "f736495a88c0d273cb2cde77fe0d63b169cc0dfc026c27c84e1c4bd818498ac8"
+    },
+    "recorder.json": {
+      "path": "test-results/campaign-earned-soak/v1-presentation-full-20261005-02/recorder.json",
+      "sha256": "0f82800cff84f5dd6f9680cdf80fef7f6178efede0057cdf4d27ae2d78d22e14"
+    }
+  },
+  "limits": {
+    "aim": "Programmatic yaw/pitch target selection; not measured human aiming",
+    "building": "Reach/support/occupancy/unlock placement_report then paid create_piece and visual add; not UI pointer placement",
+    "combat": "Damage enabled, normal fire input/raycast/rate/reload; no direct enemy health writes",
+    "controls": "Reached local authorities and normal mechanism durations; scripted reading dwell based on record length",
+    "crafting": "Production craft authority at physically reached Workshop",
+    "limits": "Main campaign branch only (Foundry direct, Orchard caretaker, Meridian quiet, relay ending); optional missions/alternate routes need separate coverage. No uncoached comprehension or expected novice skill claim. Scripted read/build decisions underestimate exploratory dwell.",
+    "movement": "Input forward with collision-checked route planning; no position edits",
+    "pacing": "Real engine physics; no fixed-fps, time acceleration or manual ticks",
+    "salvage": "Actual distance-spawned cargo and production hook flight; no direct receive/reward calls"
+  },
+  "rejected_attempt": "test-results/campaign-earned-soak/v1-presentation-full-20261005/"
+}

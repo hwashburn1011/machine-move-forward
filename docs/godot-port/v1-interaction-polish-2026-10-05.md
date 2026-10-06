@@ -1,0 +1,19 @@
+# Site interaction presentation â€” 5 October 2026
+
+The Foundry review showed several simultaneous cyan action sentences competing with the physical equipment. Site cues now follow the actual Use-button selection: at most one nearby object receives a full label, with small muted diamonds for other available instruments. Existing physical consoles, printed signs and wrist objectives continue to supply context. No separate aiming, proximity or visibility rule was introduced to select actions.
+
+The shared presenter covers all five campaign destinations, optional stops (including the rooftop workshop), and the receiving berth. Selected service controls retain the active hold-key binding. Completed pickups and route-hidden actions stay hidden. Menus, cinematic sequences, death, deck-gun use and construction placement suppress the cues. Depth testing and existing short visibility ranges remain in force; labels do not shine through walls. If a character or prop occludes a world label, the existing bottom HUD still names the selected action.
+
+The change is presentation only: no new progression requirement, save field, interaction distance, hold duration, reward or input arbitration. `site_interaction_cues.gd` reads the production selected target; `main.gd` supplies it after arbitration and the UI hides cues during paused readers. Berth point dictionaries now retain their label node locally, as campaign/optional points already did; those scene dictionaries are not serialized.
+
+## Verification
+
+Initial prepared review passed 245 checks in both headless and native rendering across Wake, Foundry, Array, Orchard, Meridian, workshop and berth. It verifies adjacent target selection, agreement with the HUD, unchanged durable state/RNG, menu/build/cinematic suppression and completed pickups. Root inspected Array selection, Foundry overview and workshop selection: fewer competing words, selected prompt retained, other cues restrained. The initial Foundry inspection camera was too far outside the wall; its next capture uses an interior viewpoint. Final source-stamped results will be appended after integration.
+
+Existing controls/interactions passed 66 checks on an isolated profile. A first attempt collided with another agent adding a new global script class before the Godot cache refresh; that failed attempt is retained in `test-results/presentation-controls.log`. It is not passing evidence. Existing story-polish assertions passed, but the headless dummy renderer emitted a texture initialization error; its native rerun passed without diagnostics. Native rendering is the acceptance result for that fixture.
+
+Evidence: `test-results/v1-presentation-2026-10-05/`, with interaction frames/reports in `interactions/`. These are prepared scenes and instrumented tests, not evidence that an uncoached player will find every object. Human discovery feedback remains useful; the wrist journal and physical interface cues have been preserved for that reason.
+
+Final native component review passed **246 checks**, with 14 arrival/selected captures across seven destinations, zero diagnostics and stable start/end runtime `c084dfa83351dfb6449ce9221e70cf2b675e948300ebdd65dc13f9de8fdfe2b8`. Root inspected the corrected Foundry selected view: one full world label and matching Use prompt, with the former wall obstruction removed from the test camera. Existing controls/interactions passed **66 checks** and native story presentation passed **77 checks**. The later intro-only sole-placement correction does not change this presenter; final integrated performance and package checks are recorded separately.
+
+Final evidence: `test-results/v1-presentation-2026-10-05/interactions-final/native.json` and `root-native-final.json`. Earlier fixture attempts remain preserved. This is bounded prepared-scene acceptance, not a fresh campaign playthrough.

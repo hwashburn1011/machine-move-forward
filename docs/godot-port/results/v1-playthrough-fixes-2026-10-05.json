@@ -1,0 +1,182 @@
+{
+  "passed": true,
+  "date": "2026-10-05",
+  "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+  "scope": "All 19 prior-playthrough findings addressed: 18 changes and one canopy collision suspicion not reproduced with ordinary input. Focused regressions and native review; not a new full campaign.",
+  "checks": 1207,
+  "suites": [
+    {
+      "suite": "playthrough_guidance",
+      "exit_code": 0,
+      "checks": 15,
+      "failures": [],
+      "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+      "source_hash_end": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975"
+    },
+    {
+      "suite": "objective_guidance",
+      "exit_code": 0,
+      "checks": 98,
+      "failures": [],
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b",
+      "source_hash_end": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "suite": "campaign_flow",
+      "exit_code": 0,
+      "checks": 49,
+      "failures": [],
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b",
+      "source_hash_end": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "suite": "pacing_contracts",
+      "exit_code": 0,
+      "checks": 25,
+      "failures": [],
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b",
+      "source_hash_end": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "suite": "construction_usability",
+      "exit_code": 0,
+      "checks": 99,
+      "failures": [],
+      "source_hash": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb",
+      "source_hash_end": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb"
+    },
+    {
+      "suite": "controls_interactions",
+      "exit_code": 0,
+      "checks": 66,
+      "failures": [],
+      "source_hash": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb",
+      "source_hash_end": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb"
+    },
+    {
+      "suite": "story_polish",
+      "exit_code": 0,
+      "checks": 76,
+      "failures": [],
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b",
+      "source_hash_end": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "suite": "later_expeditions",
+      "exit_code": 0,
+      "checks": 88,
+      "failures": [],
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b",
+      "source_hash_end": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "suite": "recovery_operations",
+      "exit_code": 0,
+      "checks": 98,
+      "failures": [],
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b",
+      "source_hash_end": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "suite": "integration",
+      "exit_code": 0,
+      "checks": 115,
+      "failures": [],
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b",
+      "source_hash_end": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "suite": "playthrough_ui_fixes",
+      "exit_code": 0,
+      "checks": 124,
+      "failures": [],
+      "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+      "source_hash_end": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975"
+    }
+  ],
+  "additional_evidence": [
+    {
+      "label": "catalog and gun materials",
+      "checks": 140,
+      "failures": [],
+      "receipt": "test-results/v1-playthrough-fixes-20261005/construction/catalog-finish.json",
+      "source_hash": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb"
+    },
+    {
+      "label": "action/camera native",
+      "checks": 23,
+      "failures": [],
+      "receipt": "test-results/v1-playthrough-fixes-20261005/action-clear/action-native.json",
+      "source_hash": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb"
+    },
+    {
+      "label": "letter native",
+      "checks": 23,
+      "failures": [],
+      "receipt": "test-results/v1-playthrough-fixes-20261005/letter-native/review.json",
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "label": "weapon regression",
+      "checks": 68,
+      "failures": [],
+      "receipt": "test-results/v1-playthrough-fixes-20261005/weapon-tests.json",
+      "source_hash": null
+    },
+    {
+      "label": "locomotion regression",
+      "checks": 39,
+      "failures": [],
+      "receipt": "test-results/v1-playthrough-fixes-20261005/locomotion-tests.json",
+      "source_hash": null
+    },
+    {
+      "label": "weight regression",
+      "checks": 16,
+      "failures": [],
+      "receipt": "test-results/v1-playthrough-fixes-20261005/weight-tests.json",
+      "source_hash": "6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b"
+    },
+    {
+      "label": "wrist regression",
+      "checks": 45,
+      "failures": [],
+      "receipt": "test-results/v1-playthrough-fixes-20261005/wrist-terminal.json",
+      "source_hash": null
+    }
+  ],
+  "source_lineage": "Core regression batch and some component visuals ran at 6c7d7eb955f9d42a715e721d8a92a767a36d7f4ff0e8a05905599fcbf03a015b. The only subsequent runtime change was explicit pager-button sizing/no-wrap in terminal_pages.gd. Construction, controls, UI and catalog/material checks were repeated at final e6d35e6c; final native action and catalog review also use e6d35e6c. Unaffected component checks retain their actual recorded identities. Final display-only correction distinguishes approaching/docked/visited/departing optional stops from expired detected offers. Guidance and UI fixtures are repeated at 6076494f; previous measurements retain their precise component identities.",
+  "supplemental_ui_native": {
+    "checks": 280,
+    "receipt": "test-results/v1-playthrough-ui-20261005/native.json",
+    "note": "Component visual evidence; global source changed during run. Settled read-only note reviewed in action-final/relay-note-settled.png."
+  },
+  "dispositions": {
+    "changed": [
+      "FP01",
+      "FP02",
+      "FP03",
+      "FP04",
+      "FP05",
+      "FP06",
+      "FP07",
+      "FP08",
+      "FP09",
+      "FP10",
+      "FP11",
+      "FP12",
+      "FP13",
+      "FP14",
+      "FP16",
+      "FP17",
+      "FP18",
+      "FP19"
+    ],
+    "reviewed_no_change": [
+      "FP15"
+    ]
+  },
+  "performance_receipt": "docs/godot-port/results/v1-playthrough-fixes-performance-2026-10-05.json",
+  "release_receipt": "docs/godot-port/results/v1-playthrough-fixes-release-2026-10-05.json",
+  "personal_saves_used": false
+}

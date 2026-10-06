@@ -27,7 +27,7 @@ static func repair_quote(s,id: String) -> Dictionary:
 	var def=s.data.BUILD_PIECES[p.definitionId]
 	return {"id":id,"name":def.name,"cost":maxi(1,int(ceil(def.cost.get("scrap",0)*(1-p.health/def.maxHealth)*.2))),"needed":p.health<def.maxHealth}
 
-static func diagnose(s) -> Dictionary:
+static func diagnose(s,include_operating_advice: bool=true) -> Dictionary:
 	var faults=[];var assistance=[];var repair_ids=[]
 	var fuel_empty=s.fuel<=0
 	if fuel_empty:
@@ -53,9 +53,10 @@ static func diagnose(s) -> Dictionary:
 			repair_ids.append(id)
 			if not s.can_pay({"scrap":repair_quote(s,id).cost}):assistance.append(id)
 	var budget=MMFPowerBudget.calculate(s,s.structures)
-	if not budget.drive_enabled and output>=minimum:faults.append("Usable generation is stopped. Restart a source below; emergency supplies are unnecessary.")
-	for c in budget.consumers:
-		if c.id in MMFMachineOperations.FIXED and not c.served and not fuel_empty:faults.append(c.id.replace("fixed-","").capitalize()+": "+c.reason+". Review switches and priorities.")
+	if include_operating_advice:
+		if not budget.drive_enabled and output>=minimum:faults.append("Usable generation is stopped. Restart a source below; emergency supplies are unnecessary.")
+		for c in budget.consumers:
+			if c.id in MMFMachineOperations.FIXED and not c.served and not fuel_empty:faults.append(c.id.replace("fixed-","").capitalize()+": "+c.reason+". Review switches and priorities.")
 	return {"faults":faults,"assistance":assistance,"eligible":not assistance.is_empty(),"repairs":repair_ids,"fuel_owned":s.count_resource("fuel")}
 
 static func refill(s,amount: int=100) -> bool:

@@ -1,0 +1,125 @@
+{
+  "created_utc": "2026-10-05T00:56:19.833218+00:00",
+  "model": {
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-Base",
+    "revision": "fd4b254389122332181a7c3db7f27e918eec64e3",
+    "path": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\qwen3-tts\\models\\Qwen3-TTS-12Hz-1.7B-Base"
+  },
+  "networking": "HF_HUB_OFFLINE=1; TRANSFORMERS_OFFLINE=1; local_files_only=True",
+  "gpu": "NVIDIA GeForce RTX 3070",
+  "settings": {
+    "language": "English",
+    "attention": "sdpa",
+    "text": "I kept the civilian line open. Someone is replacing its bearings with obstruction reports. The Foundry's service reader can identify the routing mark.",
+    "generation": {
+      "max_new_tokens": 600,
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "top_k": 40,
+      "repetition_penalty": 1.05
+    },
+    "processing": {
+      "max_audio_seconds": 45,
+      "target_active_rms_dbfs": -23,
+      "peak_ceiling_dbfs": -3,
+      "highpass_hz": 65,
+      "lowpass_hz": 8500,
+      "ring_modulation_hz": 71,
+      "ring_modulation_wet": 0.025,
+      "delays_ms": [
+        7.3,
+        13.1,
+        23.7
+      ],
+      "delay_gains": [
+        0.025,
+        -0.015,
+        0.01
+      ]
+    },
+    "voices": [
+      {
+        "id": "annika",
+        "label": "Annika / preserved dispatch",
+        "seed": 84201,
+        "instruct": "A mature woman around forty-five with a warm low alto voice, lightly weathered dry texture and clear neutral English articulation. She is a civilian communications engineer leaving a private recording under difficult circumstances. Quiet, composed, practical and gently compassionate, with natural breath and brief thoughtful pauses between sentences. Understated resolve and fatigue, not a dramatic narrator. Speak at a steady conversational pace with precise consonants, no whispering, no grand speech, no radio announcer cadence, no exaggerated emotion. Clean dry studio recording with no effects or music."
+      },
+      {
+        "id": "berth",
+        "label": "Receiving berth / local status recording",
+        "seed": 84237,
+        "instruct": "A quiet mature male voice in a low middle baritone, clear neutral English. An old receiving station speaking a simple reassuring status report. Measured and gently deliberate, modest narrow pitch range, a dry slightly papery texture. Understated satisfaction without pretending to be a live human survivor. A patient practical machine, not an ominous robot. Small pauses between sentences, natural intelligibility, no boom, no announcer projection, no theatrical performance. Clean dry studio voice without effects or background sound."
+      }
+    ]
+  },
+  "packages": {
+    "qwen-tts": "0.1.1",
+    "torch": "2.9.1+cu128",
+    "torchaudio": "2.9.1+cu128",
+    "transformers": "4.57.3",
+    "accelerate": "1.12.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "soundfile": "0.14.0"
+  },
+  "auditions": [
+    {
+      "id": "annika",
+      "label": "Annika / preserved dispatch",
+      "seed": 84201,
+      "text": "The advertised civilian corridor leads into the patrol line. S-07 carried passengers before this war. You are one of many we tried to help, not an assignment. There are seeds and family records at the Orchard. Carry them if you choose.",
+      "instruct": "A mature woman around forty-five with a warm low alto voice, lightly weathered dry texture and clear neutral English articulation. She is a civilian communications engineer leaving a private recording under difficult circumstances. Quiet, composed, practical and gently compassionate, with natural breath and brief thoughtful pauses between sentences. Understated resolve and fatigue, not a dramatic narrator. Speak at a steady conversational pace with precise consonants, no whispering, no grand speech, no radio announcer cadence, no exaggerated emotion. Clean dry studio recording with no effects or music.",
+      "mode": "clone",
+      "generation_seconds": 26.82,
+      "gpu_peak_allocated_mb": 4689.4,
+      "edits": {
+        "trim_start_samples": 17089,
+        "trim_end_sample": 332160
+      },
+      "files": {
+        "raw": {
+          "file": "annika-raw.wav",
+          "sha256": "02834bd074fac6a081bfd7bb231a1fbc2b8611ad7f3178165f9e60469926b99f",
+          "seconds": 13.84,
+          "sample_rate": 24000,
+          "peak_dbfs": -6.88,
+          "active_rms_dbfs": -24.0,
+          "clipped_samples": 0
+        },
+        "clean": {
+          "file": "annika-clean.wav",
+          "sha256": "11eca7850b18b3fa6426546b707d560986cc50edc20992f30b70763bce301fb8",
+          "seconds": 13.128,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.88,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "metallic": {
+          "file": "annika-metallic.wav",
+          "sha256": "e6308b2cd5012e7b5e86cdc9a418155919a3c438c2bec582558ea9923283e887",
+          "seconds": 13.208,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.03,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "comparison": {
+          "file": "annika-comparison.wav",
+          "sha256": "46407579285d0ebfdc5f7b07698994a73b56371589de0970cc92c8eaf6f6e283",
+          "seconds": 27.1859,
+          "sample_rate": 24000,
+          "peak_dbfs": -5.03,
+          "active_rms_dbfs": -22.99,
+          "clipped_samples": 0
+        }
+      }
+    }
+  ],
+  "clone_reference": {
+    "path": "assets\\voice-auditions\\story\\2026-10-04\\wake\\annika-clean.wav",
+    "text": "I kept the civilian line open. Someone is replacing its bearings with obstruction reports. The Foundry's service reader can identify the routing mark.",
+    "sha256": "b401def7fb9757560a6d6676832afd9b49489793a8ad12f62897c600ae78c9f8"
+  }
+}

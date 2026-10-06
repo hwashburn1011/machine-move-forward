@@ -9,6 +9,15 @@ var muzzle: Marker3D
 var attachment_id=""
 var refuel_left=0.0
 var salvage_cutter: Node3D
+var salvage_grip=Vector3.INF
+
+func salvage_gesture() -> bool:
+	# Combat still has its existing priority: the visual gesture never blocks
+	# firing, reloading, movement or the authoritative hook trajectory.
+	return player.game.salvage.busy() and player.game.manual_turret=="" and not terminal_presenting() and not player.aiming and not player.pending_shot and player.combat_hold<=0 and player.reload_left<=0 and player.game.cinematic=="" and player.game.session.health>0
+
+func cable_origin() -> Vector3:
+	return salvage_grip if salvage_gesture() and salvage_grip.is_finite() else player.game.salvage.hand_position()
 
 func part(path: String,node_name: String) -> Node3D:
 	var kit=MMFAssets.scene(path);var source=MMFAssets.find_named(kit,node_name)
@@ -55,6 +64,8 @@ func _process(dt: float):
 	var game=player.game
 	if game.session.health<=0 or (not game.menu_open and (Input.is_action_pressed("aim") or Input.is_action_pressed("fire"))): refuel_left=0
 	var terminal_open=terminal_presenting()
+	var working=game.manual_turret!="" or salvage_gesture()
+	if not salvage_gesture():salvage_grip=Vector3.INF
 	if wrist: wrist.visible=game.started and game.cinematic==""
 	refuel_left=maxf(0,refuel_left-dt)
 	if canister:
@@ -69,10 +80,15 @@ func _process(dt: float):
 		salvage_cutter.rotation.x=PI/2
 		player.register_camera_visual(salvage_cutter)
 	if salvage_cutter:salvage_cutter.visible=tool_selected and not terminal_open and refuel_left<=0
-	player.rifle_mesh.visible=not terminal_open and not tool_selected and refuel_left<=0 and game.session.current_weapon=="rifle"
-	player.shotgun_mesh.visible=not terminal_open and not tool_selected and refuel_left<=0 and game.session.current_weapon=="shotgun"
+	player.rifle_mesh.visible=not working and not terminal_open and not tool_selected and refuel_left<=0 and game.session.current_weapon=="rifle"
+	player.shotgun_mesh.visible=not working and not terminal_open and not tool_selected and refuel_left<=0 and game.session.current_weapon=="shotgun"
 	refresh_attachment()
-	if attachment:attachment.visible=not terminal_open and not tool_selected
+	if attachment:attachment.visible=not working and not terminal_open and not tool_selected and refuel_left<=0
+	# Mounted view is the gun's elevated sight. The operator's capsule remains
+	# where they interacted; hide its exterior model instead of stretching it
+	# onto grips or warping it through nearby construction. Normal camera
+	# clearance restores the exterior immediately after dismount.
+	if game.manual_turret!="":player.set_camera_fade(1)
 
 func refresh_attachment():
 	var id=player.game.session.weapons[player.game.session.current_weapon].get("attachment","")

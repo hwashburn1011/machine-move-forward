@@ -1,0 +1,435 @@
+{
+  "run_id": "v1-full-rendered-04",
+  "seed": "mmf-default-seed",
+  "mode": "scripted native normal-clock earned-supply soak",
+  "human_test": false,
+  "uninterrupted_new_game": true,
+  "source_hash": "38aedaeaf106a20a39137140a4f5c4fbda724e9536317573522429de12d7198c",
+  "source_hash_end": "38aedaeaf106a20a39137140a4f5c4fbda724e9536317573522429de12d7198c",
+  "time_scale": 1.0,
+  "simulation_to_active_wall_ratio": 0.998555428950448,
+  "normal_campaign_saves_unchanged": true,
+  "minimum_resources": {
+    "components": 0,
+    "engine": 320.0,
+    "fuel": 20.7860000000516,
+    "health": 100.0,
+    "scrap": 90
+  },
+  "starting_resources": {
+    "scrap": 260
+  },
+  "final": {
+    "active_wall_seconds": 1741.23200000317,
+    "cargo_receipts": 45,
+    "combat_observation": {
+      "candidates": 0,
+      "mounted": true,
+      "ship_health": 0,
+      "shot_ready": false,
+      "target_visible": false,
+      "weapon_health": 0
+    },
+    "damage_taken": 0.0,
+    "defenses": 5,
+    "distance": 7438.55663680628,
+    "engine": 320.0,
+    "fuel": 69.6769999998047,
+    "ground_recoveries": 0,
+    "health": 100.0,
+    "objective": "KEEP WALKING\nYour machine, your course.",
+    "player": {
+      "x": -2.49617838859558,
+      "y": 16.0468349456787,
+      "z": -7.36205577850342
+    },
+    "scanner": {
+      "durationS": 180.0,
+      "elapsedS": 180.0,
+      "format": 1,
+      "pendingDelayS": 0.0,
+      "phase": "consumed"
+    },
+    "simulation_seconds": 1738.71666666541,
+    "speed": 7.04243462010107,
+    "stage": "live_defense",
+    "story": {
+      "arrival": 6659.94187293841,
+      "completed": [
+        "wreck-one",
+        "relay-foundry",
+        "quiet-array",
+        "glass-orchard",
+        "last-garden-meridian"
+      ],
+      "ending": "complete",
+      "endingDistance": 7334.6336314301,
+      "index": 4,
+      "journals": [
+        "wreck-one-journal-cargo",
+        "wreck-one-journal-crew",
+        "wreck-one-journal-route",
+        "relay-foundry-journal-log",
+        "relay-foundry-journal-blueprint",
+        "quiet-array-journal-port",
+        "quiet-array-journal-starboard",
+        "quiet-array-journal-archive",
+        "orchard-caretaker-record",
+        "orchard-memory-record",
+        "meridian-common-record",
+        "meridian-civilian-record"
+      ],
+      "objectives": [
+        "orchard-port-isolator",
+        "orchard-starboard-isolator",
+        "meridian-transmitter-online",
+        "meridian-archive-installed"
+      ],
+      "phase": "complete",
+      "routeId": "meridian-quiet-line",
+      "scripted": "resolved",
+      "uniques": [
+        "course-gyro",
+        "salvage-controller",
+        "tracking-servo",
+        "course-actuator",
+        "annika-archive-shard",
+        "human-seed-bank",
+        "vector-governor",
+        "orchard-memory-core",
+        "meridian-solution"
+      ]
+    },
+    "supplies": {
+      "components": 49,
+      "fuel": 33,
+      "recovered-finish-parts": 3,
+      "repair-kit": 2,
+      "scrap": 1600
+    },
+    "threat": "none",
+    "throws": 45,
+    "walked_m": 815.73191762343,
+    "wall_seconds": 1916.96
+  },
+  "completed_sites": [
+    "wreck-one",
+    "relay-foundry",
+    "quiet-array",
+    "glass-orchard",
+    "last-garden-meridian"
+  ],
+  "actor_contract": {
+    "aim": "Programmatic yaw/pitch target selection; not measured human aiming",
+    "building": "Reach/support/occupancy/unlock placement_report then paid create_piece and visual add; not UI pointer placement",
+    "combat": "Damage enabled, normal fire input/raycast/rate/reload; no direct enemy health writes",
+    "controls": "Reached local authorities and normal mechanism durations; scripted reading dwell based on record length",
+    "crafting": "Production craft authority at physically reached Workshop",
+    "limits": "Main campaign branch only (Foundry direct, Orchard caretaker, Meridian quiet, relay ending); optional missions/alternate routes need separate coverage. No uncoached comprehension or expected novice skill claim. Scripted read/build decisions underestimate exploratory dwell.",
+    "movement": "Input forward with collision-checked route planning; no position edits",
+    "pacing": "Real engine physics; no fixed-fps, time acceleration or manual ticks",
+    "salvage": "Actual distance-spawned cargo and production hook flight; no direct receive/reward calls"
+  },
+  "combat_observations": {
+    "carrier_transitions": [
+      {
+        "player_health": 100.0,
+        "ship_health": 0.0,
+        "simulation_seconds": 0.0,
+        "state": "none",
+        "wall_seconds": 6.037
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 220,
+        "simulation_seconds": 235.85000000008,
+        "state": "approach",
+        "wall_seconds": 359.103
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 146.0,
+        "simulation_seconds": 253.833333333427,
+        "state": "grapple_launch",
+        "wall_seconds": 377.081
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 72.0,
+        "simulation_seconds": 254.933333333428,
+        "state": "grapple",
+        "wall_seconds": 378.18
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 256.516666666762,
+        "state": "destroying",
+        "wall_seconds": 379.765
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 261.033333333425,
+        "state": "none",
+        "wall_seconds": 384.28
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 420,
+        "simulation_seconds": 505.999999999868,
+        "state": "approach",
+        "wall_seconds": 639.082
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 384.0,
+        "simulation_seconds": 529.016666666514,
+        "state": "attack",
+        "wall_seconds": 662.098
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 240.0,
+        "simulation_seconds": 532.016666666511,
+        "state": "retreat",
+        "wall_seconds": 665.098
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 240.0,
+        "simulation_seconds": 538.033333333173,
+        "state": "none",
+        "wall_seconds": 671.115
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 260,
+        "simulation_seconds": 1036.88333333272,
+        "state": "approach",
+        "wall_seconds": 1180.955
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 186.0,
+        "simulation_seconds": 1054.8833333327,
+        "state": "grapple_launch",
+        "wall_seconds": 1198.958
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 112.0,
+        "simulation_seconds": 1055.9833333327,
+        "state": "grapple",
+        "wall_seconds": 1200.058
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 1059.2333333327,
+        "state": "destroying",
+        "wall_seconds": 1203.309
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 1063.74999999936,
+        "state": "none",
+        "wall_seconds": 1207.824
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 260,
+        "simulation_seconds": 1348.2499999991,
+        "state": "approach",
+        "wall_seconds": 1497.867
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 186.0,
+        "simulation_seconds": 1366.24999999909,
+        "state": "grapple_launch",
+        "wall_seconds": 1515.858
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 112.0,
+        "simulation_seconds": 1367.34999999909,
+        "state": "grapple",
+        "wall_seconds": 1516.957
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 1370.59999999908,
+        "state": "destroying",
+        "wall_seconds": 1520.208
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 1375.11666666574,
+        "state": "none",
+        "wall_seconds": 1524.724
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 260,
+        "simulation_seconds": 1533.89999999893,
+        "state": "approach",
+        "wall_seconds": 1699.79
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 186.0,
+        "simulation_seconds": 1551.83333333225,
+        "state": "grapple_launch",
+        "wall_seconds": 1717.705
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 112.0,
+        "simulation_seconds": 1552.93333333225,
+        "state": "grapple",
+        "wall_seconds": 1718.803
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 1556.18333333225,
+        "state": "destroying",
+        "wall_seconds": 1722.054
+      },
+      {
+        "player_health": 100.0,
+        "ship_health": 0,
+        "simulation_seconds": 1560.69999999891,
+        "state": "none",
+        "wall_seconds": 1726.57
+      }
+    ],
+    "manual_turret_damaging_hits": 38,
+    "manual_turret_shots": 38,
+    "recorder_overflow": 0
+  },
+  "wall_seconds_by_phase": {
+    "approach": 506.879694666367,
+    "arrival": 11.9828470000001,
+    "braking": 214.958067999935,
+    "complete": 15.0493980000003,
+    "crossfire": 16.9826540000003,
+    "departing": 29.8321400000009,
+    "docked": 505.463089333035,
+    "ending-journey": 56.7977280000021,
+    "ending-ready": 13.0661440000002,
+    "finale-docked": 100.440333333337,
+    "finale-link": 36.3485500000012,
+    "locked": 133.087322000001,
+    "raids": 40.1817260000014,
+    "route-selection": 39.1930260000013,
+    "signal": 188.009148999957
+  },
+  "passed": true,
+  "evidence_type": "Rendered scripted main-route campaign; not human playtest or exclusive performance benchmark",
+  "asset_manifest_sha256": "856ba9df3c85fdc1628e96d83ef58247d993ac1e94d1acbb7b184ae151eed1ed",
+  "milestone_saves": [
+    {
+      "id": "opening-earned",
+      "wall_seconds": 384.803,
+      "saved": true
+    },
+    {
+      "id": "wake-arrival-earned",
+      "wall_seconds": 504.45,
+      "saved": true
+    },
+    {
+      "id": "wreck-one-earned",
+      "wall_seconds": 584.765,
+      "saved": true
+    },
+    {
+      "id": "relay-foundry-arrival-earned",
+      "wall_seconds": 725.272,
+      "saved": true
+    },
+    {
+      "id": "relay-foundry-earned",
+      "wall_seconds": 798.151,
+      "saved": true
+    },
+    {
+      "id": "quiet-array-arrival-earned",
+      "wall_seconds": 953.5,
+      "saved": true
+    },
+    {
+      "id": "quiet-array-earned",
+      "wall_seconds": 1107.519,
+      "saved": true
+    },
+    {
+      "id": "glass-orchard-arrival-earned",
+      "wall_seconds": 1255.777,
+      "saved": true
+    },
+    {
+      "id": "glass-orchard-earned",
+      "wall_seconds": 1388.934,
+      "saved": true
+    },
+    {
+      "id": "last-garden-meridian-arrival-earned",
+      "wall_seconds": 1586.878,
+      "saved": true
+    },
+    {
+      "id": "last-garden-meridian-earned",
+      "wall_seconds": 1682.919,
+      "saved": true
+    },
+    {
+      "id": "receiving-berth-arrival-earned",
+      "wall_seconds": 1801.334,
+      "saved": true
+    },
+    {
+      "id": "receiving-berth-payoff-earned",
+      "wall_seconds": 1869.768,
+      "saved": true
+    },
+    {
+      "id": "campaign-complete-earned",
+      "wall_seconds": 1916.958,
+      "saved": true
+    }
+  ],
+  "evidence": {
+    "report.json": {
+      "path": "test-results/campaign-earned-soak/v1-full-rendered-04/report.json",
+      "sha256": "0c4b99d88af555c2917a2399cfcd8aef6b11de7fd2ff0ea2475779202b3e0297"
+    },
+    "runner-summary.json": {
+      "path": "test-results/campaign-earned-soak/v1-full-rendered-04/runner-summary.json",
+      "sha256": "787f252b5ec73e60e248769237b496391e1ff1f5dcecb73a87f99a0dc7e7d71b"
+    },
+    "engine.log": {
+      "path": "test-results/campaign-earned-soak/v1-full-rendered-04/engine.log",
+      "sha256": "1ba0706588f3b15a7bbdc29f375e0c7571171c58a3e1c7a43509e05ceeb3b24c"
+    },
+    "actor-source.gd": {
+      "path": "test-results/campaign-earned-soak/v1-full-rendered-04/actor-source.gd",
+      "sha256": "b634569e55e69a80588f59fa67ffe168ece713d189ae7390e95c5ac6d717486e"
+    },
+    "runner-source.py": {
+      "path": "test-results/campaign-earned-soak/v1-full-rendered-04/runner-source.py",
+      "sha256": "cdf39c395d4961c5cac83e1e53ae9d7b9796ab8b01efb48cb77153d707063ab1"
+    }
+  },
+  "limitations": [
+    "Programmatic aiming and known routes; scripted reading dwell.",
+    "Main route only: Foundry direct, Orchard caretaker, Meridian quiet, relay ending.",
+    "Optional missions, alternate branches, novice skill/comprehension and physical weaker hardware are not established.",
+    "Selected still captures cannot establish absence of temporal flicker throughout the game."
+  ]
+}

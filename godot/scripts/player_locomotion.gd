@@ -33,6 +33,42 @@ var previous_weights=Vector3.ZERO
 var sampled_weights=Vector3.ZERO
 var sampled_phase=0.0
 var active=false
+var last_motion=Vector3.ZERO
+var body_lean=Vector2.ZERO
+var lean_velocity=Vector2.ZERO
+var previous_lean=Vector2.ZERO
+var sampled_lean=Vector2.ZERO
+var landing_offset=0.0
+var landing_velocity=0.0
+var previous_landing=0.0
+var sampled_landing=0.0
+
+func reset_weight():
+	last_motion=Vector3.ZERO
+	body_lean=Vector2.ZERO;lean_velocity=Vector2.ZERO;previous_lean=Vector2.ZERO;sampled_lean=Vector2.ZERO
+	landing_offset=0;landing_velocity=0;previous_landing=0;sampled_landing=0
+
+func land(impact_speed: float):
+	if impact_speed>1.5:landing_velocity+=minf(impact_speed,10.0)*.28
+
+func update_weight(dt: float,world_motion: Vector3,landing_speed: float):
+	previous_lean=body_lean;previous_landing=landing_offset
+	var local_delta=player.visual.global_basis.orthonormalized().inverse()*(world_motion-last_motion)
+	last_motion=world_motion
+	# Small critically damped body impulses add weight without delaying input or
+	# changing the capsule. Constant-speed travel settles back to authored gait.
+	lean_velocity+=Vector2(local_delta.z,local_delta.x)*.25
+	lean_velocity=lean_velocity.limit_length(2.0)
+	var decay=exp(-12.0*dt)
+	var step=(lean_velocity+body_lean*12.0)*dt
+	body_lean=(body_lean+step)*decay
+	lean_velocity=(lean_velocity-step*12.0)*decay
+	body_lean=body_lean.limit_length(deg_to_rad(4))
+	land(landing_speed)
+	decay=exp(-18.0*dt)
+	var settle=(landing_velocity+landing_offset*18.0)*dt
+	landing_offset=clampf((landing_offset+settle)*decay,0,.065)
+	landing_velocity=(landing_velocity-settle*18.0)*decay
 
 func setup(owner_player):
 	player=owner_player
@@ -71,6 +107,7 @@ func blend(name: String,a: String,b: String):
 	graph.add_node(name,node);graph.connect_node(name,0,a);graph.connect_node(name,1,b)
 
 func release():
+	reset_weight()
 	if not active:return
 	active=false;tree.active=false;player.animator.active=true
 	move_weight=0;cycles_per_second=0;speed=0
@@ -93,6 +130,7 @@ func direction_parameters(angle: float) -> Vector4:
 
 func update(dt: float,world_motion: Vector3):
 	if not tree:return
+	update_weight(dt,world_motion,0.0)
 	if not active:
 		player.animator.pause();player.animator.active=false;tree.active=true;active=true
 	previous_phase=phase;previous_angle=motion_angle
@@ -122,6 +160,8 @@ func update(dt: float,world_motion: Vector3):
 
 func render(fraction: float,dt: float=0.0):
 	if not active:return
+	sampled_lean=previous_lean.lerp(body_lean,fraction)
+	sampled_landing=lerpf(previous_landing,landing_offset,fraction)
 	# Skeleton bones are sampled at render rate, following the same interpolation
 	# interval as the capsule. Advancing only at 60 Hz visibly steps at 120/144 Hz.
 	var weights=previous_weights.lerp(Vector3(run_weight,crouch_weight,move_weight),fraction)

@@ -96,6 +96,18 @@ func bay() -> Dictionary:
 		if p.entry.kind=="departure":return {"id":def.id,"at":campaign.destination.to_global(p.at)-Vector3.UP*.6}
 	return {}
 
+static func overview_diagnosis(s) -> Array:
+	var budget=MMFPowerBudget.calculate(s,s.structures)
+	var intentional_stop=s.operations.mode=="docked" and MMFMachineOperations.docked(s) and not budget.drive_enabled
+	# Keep hardware/tank faults, but do not tell the player to undo a deliberate
+	# shutdown. Available backup is factual status, not a restart instruction.
+	var lines=MMFMachineService.diagnose(s,not intentional_stop).faults.duplicate()
+	if intentional_stop:
+		for c in budget.consumers:
+			if c.id not in ["fixed-radio","fixed-helm","fixed-fieldwork"]:continue
+			lines.append(c.id.trim_prefix("fixed-").capitalize()+": "+("supplied by battery backup." if c.served else "off while Docked; no battery supply."))
+	return lines
+
 func render(ui):
 	if not authorized():ui.text_line("Approach a chassis switchgear cabinet on the service deck to use engineering.");return
 	var s=game.session;var report=MMFPowerBudget.calculate(s,s.structures)
@@ -106,13 +118,14 @@ func render(ui):
 	for tab in ["overview","modes","devices","service"]:ui.compact_row(tab.capitalize(),"OPEN" if view==tab else "",func():view=tab;pending={};ui.refresh())
 	match view:
 		"overview":
-			for fault in MMFMachineService.diagnose(s).faults:ui.text_line(fault)
-			ui.text_line("Use Docked while exploring. Return to the helm to resume your travel configuration before departure." if not MMFMachineOperations.modes(s).is_empty() else "Start and stop generators here. Operating modes are introduced at the Wake and after the Foundry.")
+			for fault in overview_diagnosis(s):ui.text_line(fault)
+			ui.text_line(MMFMachineOperations.docked_guidance(s))
 			for source in report.sources:
 				var quote=MMFMachineOperations.switch_quote(s,source.id,not source.enabled)
 				ui.compact_row(source_name(source.id)+" · "+source.reason,"%.1f power · %s"%[source.output,"STOP" if source.enabled else "START"],func():operate(quote))
 			ui.button("REPAIRS / EMERGENCY SERVICE",func():view="service";ui.refresh())
 		"modes":
+			ui.text_line(MMFMachineOperations.docked_guidance(s))
 			for mode in MMFMachineOperations.modes(s):
 				ui.button("PREVIEW "+mode.to_upper(),func():pending=MMFMachineOperations.proposal(s,mode);ui.refresh(),mode!="docked" or MMFMachineOperations.docked(s))
 			if MMFMachineOperations.modes(s).is_empty():ui.text_line("Docked and Cruise are introduced at the Wake. Salvage and Defense follow the Foundry.")
@@ -148,9 +161,10 @@ func render_service(ui,site: bool):
 	if not authorized(site):ui.text_line("Approach the local service station.");return
 	var s=game.session
 	ui.section("MACHINE SERVICE","Tank %.1f / 100"%s.fuel)
-	ui.text_line("Owned fuel: %d · pooled scrap: %d"%[s.count_resource("fuel"),s.count_resource("scrap")])
+	ui.text_line("Fuel items in pack / storage: %d · pooled scrap: %d"%[s.count_resource("fuel"),s.count_resource("scrap")])
+	ui.text_line("Transfer your fuel items into the machine's tank; only the amount that fits is used.")
 	for amount in [1,5,100]:
-		ui.button("TRANSFER "+("AVAILABLE FUEL" if amount==100 else str(amount)+" FUEL"),func():
+		ui.button("TRANSFER "+("AVAILABLE FUEL ITEMS" if amount==100 else str(amount)+(" FUEL ITEM" if amount==1 else " FUEL ITEMS"))+" TO TANK",func():
 			if authorized(site):MMFMachineService.refill(s,amount);ui.refresh(),s.count_resource("fuel")>0 and s.fuel<=99)
 	for id in s.subsystems:
 		var quote=MMFMachineService.repair_quote(s,id)
@@ -166,9 +180,9 @@ func render_service(ui,site: bool):
 			ui.button("COLLECT MISSION FUEL RESERVE",func():
 				if authorized(true) and bay().id=="glass-orchard":
 					var before=s.missions.orchard_fuel;s.missions.orchard_fuel=s.add_resource("fuel",int(before));s.transaction.emit("mission_reserve_claimed",{"fuel":before-s.missions.orchard_fuel});ui.refresh())
-		ui.text_line("Service pump: %d fuel left · %d scrap per unit"%[s.recovery.stock[id],MMFMachineService.FUEL_PRICE])
+		ui.text_line("Service pump → machine tank · %d units left · %d scrap per unit"%[s.recovery.stock[id],MMFMachineService.FUEL_PRICE])
 		for count in [1,5,10]:
-			ui.button("BUY %d FUEL · %d SCRAP"%[count,count*MMFMachineService.FUEL_PRICE],func():
+			ui.button("FILL TANK +%d · BUY FOR %d SCRAP"%[count,count*MMFMachineService.FUEL_PRICE],func():
 				if authorized(true) and bay().id==id:MMFMachineService.buy_fuel(s,id,count);ui.refresh(),s.recovery.stock[id]>=count and s.fuel+count<=100 and s.can_pay({"scrap":count*MMFMachineService.FUEL_PRICE}))
 	else:
 		var diagnosis=MMFMachineService.diagnose(s)

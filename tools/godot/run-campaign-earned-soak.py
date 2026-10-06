@@ -46,17 +46,23 @@ def main():
     parser.add_argument('--godot', type=Path, default=ROOT/'test-results/godot-tools/Godot_v4.7.2-stable_win64_console.exe')
     parser.add_argument('--run-id', default='earned-'+dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%SZ'))
     parser.add_argument('--seed', default='mmf-default-seed')
-    parser.add_argument('--stop-after', choices=['cargo', 'opening', 'wake'], default='wake')
+    parser.add_argument('--stop-after', choices=['cargo', 'opening', 'wake', 'campaign'], default='wake')
     parser.add_argument('--max-wall', type=int, default=1200)
     parser.add_argument('--rendered', action='store_true', help='Use a hidden native window rather than headless; not a performance benchmark.')
+    parser.add_argument('--review', action='store_true', help='Observation-only timed native screenshots and contextual long-frame log.')
     parser.add_argument('--diagnostic', action='store_true', help='Explicitly identify a debug run; never promote it as acceptance evidence.')
+    parser.add_argument('--resume-save', type=Path, help='Diagnostic only: resume a verified save earned by an earlier actor run; never uninterrupted acceptance.')
     args = parser.parse_args()
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,72}', args.run_id):
         parser.error('--run-id must be 1–72 letters, digits, underscore or hyphen')
-    if not 20 <= args.max_wall <= 3600:
-        parser.error('--max-wall must be between20 and3600 seconds')
+    if not 20 <= args.max_wall <= 7200:
+        parser.error('--max-wall must be between20 and7200 seconds')
     if not args.godot.is_file():
         parser.error(f'Godot executable not found: {args.godot}')
+    if args.resume_save:
+        args.resume_save = args.resume_save.resolve()
+        if not args.diagnostic or not args.resume_save.is_file() or not args.resume_save.is_relative_to(ROOT/'test-results/campaign-earned-soak'):
+            parser.error('--resume-save requires --diagnostic and an existing earned-run save under test-results/campaign-earned-soak')
     out = ROOT/'test-results/campaign-earned-soak'/args.run_id
     if out.exists():
         parser.error(f'Run directory already exists; preserve its evidence and choose another id: {out}')
@@ -66,6 +72,10 @@ def main():
     command += ['--script', 'res://tests/campaign_earned_soak.gd', '--',
                 f'--run-id={args.run_id}', f'--seed={args.seed}',
                 f'--stop-after={args.stop_after}', f'--max-wall={args.max_wall}']
+    if args.resume_save:
+        command += [f'--resume-save={args.resume_save}']
+    if args.review:
+        command += ['--review']
     initial_hash = source_fingerprint()
     initial_assets = asset_manifest()
     started = time.monotonic()
@@ -78,7 +88,10 @@ def main():
                     actor_sha256=sha(PROJECT/'tests/campaign_earned_soak.gd'),
                     runner_sha256=sha(Path(__file__)),
                     asset_sha256=initial_assets['sha256'],
-                    started_utc=dt.datetime.now(dt.timezone.utc).isoformat())
+                    started_utc=dt.datetime.now(dt.timezone.utc).isoformat(),
+                    uninterrupted_new_game=not bool(args.resume_save),
+                    resumed_save=str(args.resume_save) if args.resume_save else None,
+                    resumed_save_sha256=sha(args.resume_save) if args.resume_save else None)
     (out/'assets-start.json').write_text(json.dumps(initial_assets, indent=2)+'\n', encoding='utf-8')
     (out/'actor-source.gd').write_bytes((PROJECT/'tests/campaign_earned_soak.gd').read_bytes())
     (out/'runner-source.py').write_bytes(Path(__file__).read_bytes())

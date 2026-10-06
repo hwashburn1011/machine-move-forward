@@ -1,0 +1,166 @@
+{
+  "passed": true,
+  "build_id": "0.3.0-beta.1-a17d6c7ec6d6",
+  "source_hash": "a17d6c7ec6d64581c704f1708485f87051065bdec9c50c33f1d4970e91e7ddd3",
+  "asset_manifest_sha256": "856ba9df3c85fdc1628e96d83ef58247d993ac1e94d1acbb7b184ae151eed1ed",
+  "archive": "test-results/windows-v1-20261005/distribution/MachineMoveForward-0.3.0-beta.1-windows-x86_64.zip",
+  "archive_bytes": 951019202,
+  "archive_sha256": "756cae02b3b4a68b9d173257a769d09cc6e0969a6e93dcb5777460ff02fee542",
+  "executable_sha256": "177053f1e6d4a40e118d27e95379903344885e4a58c3a494169f4159596463e8",
+  "pck_sha256": "2329d9989e9e04c8bdd5d97b4dcacb26cd1aa5a4af0456241f8b967452b6125f",
+  "build_identity_sha256": "af0d51785b1dffa5952c04c3096e285d4d652e13faa83c1d1702a5b096217164",
+  "resource_audit": {
+    "checks": 4494,
+    "collision_shapes_loaded": 729,
+    "passed": true,
+    "report": "test-results/windows-v1-20261005/resource-audit/audit.json",
+    "sha256": "4ea3b2a58e400cca3669d7af6bc1e8b9b03a6066586e8eea0704b97dd8274c38"
+  },
+  "standalone_smoke": {
+    "payload_checksums_verified": 9,
+    "runs": [
+      {
+        "phase": "normal-boot",
+        "exit_code": 0,
+        "wall_seconds": 13.266,
+        "diagnostics": [],
+        "passed": true
+      },
+      {
+        "phase": "new",
+        "exit_code": 0,
+        "wall_seconds": 96.578,
+        "diagnostics": [],
+        "checks": 34,
+        "passed": true
+      },
+      {
+        "phase": "resume",
+        "exit_code": 0,
+        "wall_seconds": 11.984,
+        "diagnostics": [],
+        "checks": 25,
+        "passed": true
+      }
+    ],
+    "scope": "Official templates disable external scripts. Only normal-boot uses the release EXE; new/resume use the matching engine and unchanged extracted PCK.",
+    "report": "test-results/windows-v1-20261005/standalone-smoke/summary.json",
+    "sha256": "89efa8edc3e148a7254147f6d762272cd2074b0db28c6cf037161683fd4c2036",
+    "temporary_extraction": "C:\\Users\\hwash\\AppData\\Local\\Temp\\mmf-beta-standalone-kmgutsyi",
+    "user_data": "Dedicated isolated profile; no developer campaigns or preferences overwritten"
+  },
+  "performance": {
+    "report": "docs/godot-port/results/v1-performance-2026-10-05.json",
+    "sha256": "93ad62623d601b18fe165e0446b465fb5cb2d2f915c221136d71142fc1fb7f3f",
+    "workloads": 4,
+    "maximum_workload_frame_p95_ms": 5.85,
+    "maximum_workload_frame_p99_ms": 7.109,
+    "maximum_frame_ms": 13.641,
+    "frames_over33ms": 0,
+    "home": {
+      "furnishings": 50,
+      "painted_pieces": 52,
+      "docks": 3,
+      "recorded_received_items": 506,
+      "received_per_dock": {
+        "bp-6": 0,
+        "bp-7": 196,
+        "bp-8": 338
+      },
+      "music_starts": 2,
+      "video_memory_max_bytes": 2662119648.0,
+      "static_memory_max_bytes": 318729352.0,
+      "coverage_limit": "Three powered docks present; delivery counts per dock retained rather than assuming each delivered."
+    },
+    "scope": "Affected-path validation only: travel, crane, drone and180-second furnished home. Sequential exclusive native rendering, prepared/invulnerable fixtures. No new full campaign or17-workload claim."
+  },
+  "focused_regressions": [
+    {
+      "report": "test-results/v1-docked-guidance-2026-10-05/campaign-flow-diagnosis-fix.json",
+      "sha256": "226f24826e1dd93e134e5fc0b1b9b46154f6533ca9dcc254cc749d9000be1ae8",
+      "checks": 49,
+      "source_hash": "a17d6c7ec6d64581c704f1708485f87051065bdec9c50c33f1d4970e91e7ddd3",
+      "scope": "Prepared/headless or rendered UI fixture, not campaign play"
+    },
+    {
+      "report": "test-results/v1-docked-guidance-2026-10-05/final-integration/beta_salvage.json",
+      "sha256": "a9b6fb6477975dcbb95a010a75177b58e18428ee115fe9cd64eefb90142f2a1b",
+      "checks": 32,
+      "source_hash": null,
+      "scope": "Prepared/headless or rendered UI fixture, not campaign play"
+    },
+    {
+      "report": "test-results/v1-docked-guidance-2026-10-05/final-integration/cargo_capacity.json",
+      "sha256": "e1cbe1c9be36a0f737d1b4d128cf5367ab2fcfd31fd97a6e0006f75e60ea7eff",
+      "checks": 24,
+      "source_hash": null,
+      "scope": "Prepared/headless or rendered UI fixture, not campaign play"
+    },
+    {
+      "report": "test-results/v1-docked-guidance-2026-10-05/final-integration/salvage_feedback.json",
+      "sha256": "15f14abcc46b3ee7f02ed2d0cff6b984b72d073abf771d148835fa5dcfa3b682",
+      "checks": 75,
+      "source_hash": null,
+      "scope": "Prepared/headless or rendered UI fixture, not campaign play"
+    },
+    {
+      "report": "test-results/v1-docked-guidance-2026-10-05/recovery-operations-diagnosis-fix.json",
+      "sha256": "57f3e389111c3e2f42c5b8b66f673c9a91072926b8faffba1cc343c18b962a33",
+      "checks": 98,
+      "source_hash": "a17d6c7ec6d64581c704f1708485f87051065bdec9c50c33f1d4970e91e7ddd3",
+      "scope": "Prepared/headless or rendered UI fixture, not campaign play"
+    },
+    {
+      "report": "test-results/v1-docked-guidance-2026-10-05/visual/review.json",
+      "sha256": "10cc6a2ff43ff71ab6875c033675e27a8d1979068338234b71943a308ed0cc52",
+      "checks": 235,
+      "source_hash": "a17d6c7ec6d64581c704f1708485f87051065bdec9c50c33f1d4970e91e7ddd3",
+      "scope": "Prepared/headless or rendered UI fixture, not campaign play"
+    }
+  ],
+  "regression_attribution": "Campaign/recovery/rendered Docked reports embed final source hash; legacy cargo suite reports are unstamped and attributed by final-integration worker execution before freeze.",
+  "floor_review_receipt": "docs/godot-port/results/v1-floor-review-2026-10-05.json",
+  "floor_review_sha256": "ea4eaddb03eaae17e05c911f7cdf0fd33d3e3fa0c257e83129df7e13f5fa3817",
+  "historical": {
+    "full_campaign_receipt": "docs/godot-port/results/v1-campaign-2026-10-04.json",
+    "full_campaign_source_hash": "38aedaeaf106a20a39137140a4f5c4fbda724e9536317573522429de12d7198c",
+    "broad_performance_receipt": "docs/godot-port/results/v1-performance-2026-10-04.json",
+    "release_receipt": "docs/godot-port/results/v1-release-2026-10-04.json",
+    "scope": "Prior-build evidence preserved unchanged; no new complete campaign or17-workload claim."
+  },
+  "pipeline": [
+    {
+      "phase": "inventory",
+      "exit_code": 0,
+      "wall_seconds": 6.875
+    },
+    {
+      "phase": "export",
+      "exit_code": 0,
+      "wall_seconds": 25.812
+    },
+    {
+      "phase": "audit",
+      "exit_code": 0,
+      "wall_seconds": 15.391
+    },
+    {
+      "phase": "package",
+      "exit_code": 0,
+      "wall_seconds": 46.906
+    },
+    {
+      "phase": "standalone-smoke",
+      "exit_code": 0,
+      "wall_seconds": 128.453
+    }
+  ],
+  "free_disk_gib_after": 43.98,
+  "limits": [
+    "Physical lower-spec hardware and uncoached player feedback remain unverified.",
+    "Actual release EXE normal startup passed; scripted NewGame/Continue used matching engine and unchanged extracted PCK.",
+    "This build has four affected performance workloads; broad17workloads and complete campaign belong to prior build.",
+    "Three powered drone docks present; two delivered in this deterministic pattern.",
+    "No itch.io upload, commit, push or deletion by this release work."
+  ]
+}

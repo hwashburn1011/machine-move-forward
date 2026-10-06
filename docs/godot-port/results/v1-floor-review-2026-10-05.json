@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-05",
+  "kind": "prepared visual fixtures and scripted player walking, not human campaign",
+  "source_hash": "90a327f874205c5f9500a95d080b2e5d75310ce0770214176233d94c008adf8c",
+  "orchard_recapture_source_hash": "a17d6c7ec6d64581c704f1708485f87051065bdec9c50c33f1d4970e91e7ddd3",
+  "machine_floor_glb_sha256": "c51baf243ce81b2ae40aeeb350da2033ddef6e313650124cf11f395f043be130",
+  "clips": 16,
+  "original_frames": 1152,
+  "recapture_frames": 48,
+  "walking": [
+    {
+      "id": "walk-deck1-cap",
+      "frames": 96,
+      "travel_m": 6.077071036149995,
+      "on_floor_after_initial_settle": true
+    },
+    {
+      "id": "walk-deck2-cap",
+      "frames": 96,
+      "travel_m": 5.851982836543545,
+      "on_floor_after_initial_settle": true
+    },
+    {
+      "id": "walk-deck3-cap",
+      "frames": 96,
+      "travel_m": 5.8521451995581,
+      "on_floor_after_initial_settle": true
+    },
+    {
+      "id": "walk-native-edge-extension",
+      "frames": 96,
+      "travel_m": 5.850937917488787,
+      "on_floor_after_initial_settle": true
+    }
+  ],
+  "native_errors": [],
+  "visual_review": "Inspected midpoint coverage and four temporally spaced frames of each sequence, six frames of constructed overlays/Foundry/edge extension, and corrected Orchard views. No broad alternating floor patches reproduced in these inspected views. Full frame sequences and encoded MP4s retained locally; no claim of exhaustive per-frame or every-angle review.",
+  "fixture_limit": "Original low Orchard camera intersected planter; retained rejected view and captured raised view. Fixed worlds; walking uses real player physics on a stationary Nomad. No game art/rendering edits were justified.",
+  "evidence": "test-results/v1-journal-2026-10-05/floors/"
+}

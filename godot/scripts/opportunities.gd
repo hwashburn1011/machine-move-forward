@@ -153,11 +153,27 @@ func update_service_hold(dt: float,active: bool):
 func preview(contact: Dictionary={}) -> Dictionary:
 	var c=game.session.contacts.active if contact.is_empty() else contact
 	if c.is_empty(): return {}
-	var forward=maxf(0,c.atDistanceM-game.session.distance)
+	var signed_forward=float(c.atDistanceM)-game.session.distance
+	var forward=maxf(0,signed_forward)
 	var lateral=c.worldX-game.session.lateral
 	var bearing=rad_to_deg(atan2(lateral,maxf(forward,0.01)))
-	var estimate=MMFMachineOperations.travel(game.session,sqrt(forward*forward+lateral*lateral))
-	return {"bearing":bearing,"remaining":forward,"fuel":ceil(estimate.fuel),"estimate_available":estimate.available,"reachable":forward>0 and absf(bearing)<=game.session.navigation_limit()}
+	var range_m=sqrt(signed_forward*signed_forward+lateral*lateral)
+	var estimate=MMFMachineOperations.travel(game.session,range_m)
+	return {"bearing":bearing,"remaining":forward,"range":range_m,"passed":signed_forward<0,"window_closed":game.session.distance>float(c.get("expiresAtM",INF)),"fuel":ceil(estimate.fuel),"estimate_available":estimate.available,"reachable":forward>0 and absf(bearing)<=game.session.navigation_limit()}
+
+func preview_summary(contact: Dictionary={}) -> String:
+	var p=preview(contact)
+	if p.is_empty():return "No signal selected"
+	var c=game.session.contacts.active if contact.is_empty() else contact
+	# Expiry governs accepting an offer, not a stop already accepted or docked.
+	match c.get("state","detected"):
+		"committed":return "%d m away · APPROACHING"%roundi(p.range)
+		"docked","visited":return "DOCKED AT SIGNAL"
+		"departing":return "CLEARING SITE"
+	if p.passed:return "%d m away · BEHIND THE NOMAD"%roundi(p.range)
+	if p.window_closed:return "%d m away · INTERCEPT WINDOW CLOSED"%roundi(p.range)
+	var fuel="~%d fuel"%p.fuel if p.estimate_available else "fuel estimate unavailable"
+	return "%d m away · %s · %s"%[roundi(p.range),fuel,"IN STEERING RANGE" if p.reachable else "OUTSIDE STEERING RANGE"]
 
 func commit() -> bool:
 	var s=game.session

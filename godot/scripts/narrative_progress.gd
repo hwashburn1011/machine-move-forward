@@ -47,6 +47,7 @@ static func recap(s) -> String:
 	return "\n\n".join(lines)+"\n\nCURRENT LEAD: "+last.lead
 
 func open(item: Dictionary):
+	game.story_voice.stop()
 	entry=item.duplicate(true);comparison=false;game.open_station("Story","story-instrument",item.id)
 
 func authorized() -> bool:
@@ -58,8 +59,12 @@ func render(ui):
 	ui.section(beat.title,beat.speaker)
 	if entry.beat=="array-false-corridor":
 		ui.text_line("FIXED REFERENCE: civilian service lane\nORDER BROADCAST: patrol corridor\n"+("COURIER CHECKSUM: matches fixed reference" if MMFMissionContracts.completed(game.session,"stranded-courier") else "MAINTENANCE NOTE: the fixed port reference was independently calibrated."))
-		ui.button("COMPARE BOTH REFERENCES",func():
+		ui.button("REVIEW COMPARISON" if comparison else "COMPARE BOTH REFERENCES",func():
 			if authorized():comparison=true;ui.refresh())
-		if comparison:ui.text_line("MISMATCH CONFIRMED · The public bearing was changed.\n"+beat.text)
-	else:ui.text_line(beat.text)
+		if comparison:
+			game.story_voice.render(ui,entry.beat)
+			ui.text_line("MISMATCH CONFIRMED · The public bearing was changed.\n"+beat.text)
+	else:
+		game.story_voice.render(ui,entry.beat)
+		ui.text_line(beat.text)
 	ui.text_line("NEXT: "+beat.lead)

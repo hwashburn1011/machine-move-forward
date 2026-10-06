@@ -1,0 +1,41 @@
+{
+  "voice": "B — Warden",
+  "processing": "subtle metallic",
+  "selection": "assets/opening-memory/audio/voice-selection.json",
+  "source_hash": "4d98704ddc6b79c8c0a6c7b87885fcafdcd0898f415be69140c197d067ba8cfe",
+  "native_intro_checks": 52,
+  "intro_passed": true,
+  "additional_checks": {
+    "handoff": 34,
+    "audio-lifecycle": 58
+  },
+  "audio": {
+    "voice": "B — Warden, subtle metallic",
+    "preserved_audio_and_animation_files": [
+      "godot/assets/audio/opening/paper-fire.wav",
+      "godot/assets/audio/opening/memory-and-escape.wav",
+      "godot/assets/audio/opening/memory-score.wav",
+      "godot/assets/animation/opening/revenant-lunge.json",
+      "godot/scripts/pulse_blades.gd",
+      "godot/shaders/pulse_blade.gdshader",
+      "godot/scripts/assets.gd",
+      "tools/art/opening_performance/build.py"
+    ],
+    "runtime_seconds": 2.8390476190476193,
+    "sample_rate": 44100,
+    "peak_dbfs": -14.980741756946369,
+    "active_mono_rms_dbfs": -29.04480014472316,
+    "clipped_samples": 0,
+    "runtime_sha256": "d7e74637c70270d3d61b53aca47430b2189d2b7b0e28aa93d5390feab93bfc1d"
+  },
+  "runtime_transcript": {
+    "transcript": "There on the roof.",
+    "local_cpu_asr": true
+  },
+  "animation_functions_unchanged": [
+    "factory_performance",
+    "arrival_performance",
+    "rooftop_performance"
+  ],
+  "export_rebuilt": false
+}

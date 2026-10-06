@@ -2,11 +2,11 @@
 
 Keep your home alive as it walks through a hostile desert. **Machine Move Forward** is a third-person survival shooter about salvaging supplies, building a mobile base, defending its machinery, and following radio signals into abandoned industrial outposts.
 
-[**Play the prototype**](https://hwashburn1011.github.io/machine-move-forward/) · [**Watch the 46-second trailer**](https://hwashburn1011.github.io/machine-move-forward/trailer/)
+[**Watch the Windows beta gameplay trailer**](https://hwashburn1011.github.io/machine-move-forward/trailer/) · [**Native Windows build**](godot/README.md) · [**Older browser prototype**](https://hwashburn1011.github.io/machine-move-forward/)
 
 [![Watch the Machine Move Forward gameplay trailer](docs/media/trailer-poster.jpg)](https://hwashburn1011.github.io/machine-move-forward/trailer/)
 
-The trailer opens in a browser player with playback controls. [Download the MP4](https://hwashburn1011.github.io/machine-move-forward/trailer/media/machine-move-forward-trailer.mp4). This is an in-development desktop browser game; use a keyboard and mouse.
+The 56-second trailer shows the current **native Godot Windows beta** in motion: salvage, construction, automated recovery, exploration and combat. [Download the 1080p MP4](https://hwashburn1011.github.io/machine-move-forward/trailer/media/machine-move-forward-trailer.mp4). The web player below the trailer remains the older browser prototype; it does not contain the current native campaign and presentation work. Windows packaging and the latest playthrough fixes are documented in [the beta release findings](docs/godot-port/v1-playthrough-fixes-2026-10-05.md). Public itch.io distribution awaits account/project setup.
 
 ## Playable features
 

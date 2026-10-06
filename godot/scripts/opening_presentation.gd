@@ -6,11 +6,19 @@ extends RefCounted
 static func view(at: float,hero: Vector3) -> Dictionary:
 	var establish=smoothstep(1.05,2.85,at)
 	var reveal=smoothstep(5.8,9.4,at)
-	var eye=(hero+Vector3(-5.8,3.4,.2)).lerp(Vector3(6.5,22.4,3.0),establish)
+	# The landing and elevated pursuers share the 2.35:1 picture, not merely
+	# the full viewport behind its bars. Pull back before the jump resolves.
+	var eye=(hero+Vector3(-5.8,3.4,.2)).lerp(Vector3(4.5,23.8,4.0),establish)
 	var target=hero.lerp(Vector3(12.4,18.6,0),establish)
 	eye=eye.lerp(Vector3(3,27,22),reveal)
 	target=target.lerp(Vector3(0,18,0),reveal)
-	return {"eye":eye,"target":target,"fov":lerpf(56,60,reveal)}
+	var vertical=lerpf(lerpf(56,64,establish),60,reveal)
+	# Preserve the authored horizontal composition on taller windows too; the
+	# letterbox otherwise hides the high pursuers even when the landing fits.
+	var viewport=Engine.get_main_loop().root.get_visible_rect().size
+	var aspect=viewport.x/maxf(1,viewport.y)
+	vertical=rad_to_deg(2*atan(tan(deg_to_rad(vertical*.5))*(16.0/9.0)/aspect))
+	return {"eye":eye,"target":target,"fov":vertical}
 
 static func handoff_fade(at: float) -> float:
 	if at<9.98:return smoothstep(9.78,9.94,at)

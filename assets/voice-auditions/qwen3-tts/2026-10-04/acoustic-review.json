@@ -1,0 +1,35 @@
+{
+  "method": "pYIN descriptive pitch estimate; 10 ms RMS silence intervals, not a subjective listening review",
+  "takes": [
+    {
+      "file": "a-tracker-clean.wav",
+      "median_voiced_hz": 87.8,
+      "interior_quiet_intervals_seconds": [
+        [
+          0.53,
+          1.26
+        ]
+      ]
+    },
+    {
+      "file": "b-warden-clean.wav",
+      "median_voiced_hz": 74.1,
+      "interior_quiet_intervals_seconds": [
+        [
+          0.62,
+          1.38
+        ]
+      ]
+    },
+    {
+      "file": "c-analyst-clean.wav",
+      "median_voiced_hz": 89.6,
+      "interior_quiet_intervals_seconds": [
+        [
+          0.56,
+          1.38
+        ]
+      ]
+    }
+  ]
+}

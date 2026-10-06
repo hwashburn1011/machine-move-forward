@@ -1,9 +1,12 @@
-"""Finite cinematic sound edit. Original deterministic foley and local SAPI line.
+"""Finite cinematic sound edit. Original foley and selected local Qwen performance.
 No alarm loop, loudness maximizer, external recording or runtime synthesis.
 """
 from pathlib import Path
 import numpy as np
 import wave,json,hashlib
+import soundfile as sf
+from scipy.signal import resample_poly
+from math import gcd
 ROOT=Path(__file__).resolve().parents[3]
 OUT=ROOT/'godot/assets/audio/opening';OUT.mkdir(parents=True,exist_ok=True)
 RATE=44100;DURATION=36.2;rng=np.random.default_rng(71301)
@@ -46,7 +49,7 @@ for at,pan in [(10.23,-.45)]:
 for at,gain in [(10.39,.060),(10.77,.045),(11.03,.017),(11.29,.006)]:
  place(mix,thud(.25,231),at,gain,-.55)
 # Short retreating footfalls and a soft scuff establish the worker's escape.
-for at,gain in [(9.40,.030),(9.73,.026),(10.06,.019),(10.39,.014),(10.72,.008)]:
+for at,gain in [(10.69,.030),(11.02,.026),(11.35,.019),(11.68,.014),(12.01,.008)]:
  place(mix,thud(.22,108),at,gain,-.60)
 # Nearby pursuer footfalls give way to the larger, slower Nomad cadence.
 for at in [12.7,13.25,14.15,14.8]:place(mix,thud(.55,115),at,.09,.6)
@@ -65,15 +68,18 @@ place(fire,noise(fire_seconds,1400)*fenv,0,.028)
 for at in [.18,.59,1.10,1.61,2.02,2.38,2.84,3.20,3.69,4.22,4.73]:
  tick=noise(.085,2200)*np.exp(-np.arange(round(.085*RATE))/RATE*65)
  place(fire,tick,at,.012,-.4+.8*rng.random())
-# Low, filtered synthetic pursuer line. Keep the original source for provenance.
-with wave.open(str(ROOT/'assets/opening-memory/audio/pursuer-source.wav'),'rb') as w:
- rate=w.getframerate();channels=w.getnchannels();voice=np.frombuffer(w.readframes(w.getnframes()),dtype='<i2').astype(float)/32768;voice=voice.reshape(-1,channels).mean(axis=1)
-voice=np.interp(np.arange(round(len(voice)/rate*RATE/.93))*rate*.93/RATE,np.arange(len(voice)),voice)
-voice=low(voice,3400)-low(voice,160)
-vt=np.arange(len(voice))/RATE;voice*=.97+.03*np.sin(vt*2*np.pi*49)
-voice*=.30/max(np.max(abs(voice)),1e-9)
-dialogue=np.zeros((round(4*RATE),2));place(dialogue,voice,.12,1,.18)
-place(dialogue,voice,.165,.065,-.12)
+# Preserve the selected performance and its existing subtle metallic treatment.
+# Resampling changes neither pitch nor pacing. The old SAPI source stays archived.
+selection=json.loads((ROOT/'assets/opening-memory/audio/voice-selection.json').read_text(encoding='utf-8'))
+source=ROOT/selection['source']
+assert hashlib.sha256(source.read_bytes()).hexdigest()==selection['source_sha256'],'Selected voice has changed'
+voice,rate=sf.read(source,dtype='float64');assert voice.ndim==1 and np.isfinite(voice).all()
+factor=gcd(RATE,rate);voice=resample_poly(voice,RATE//factor,rate//factor)
+seconds=selection['lead_seconds']+len(voice)/RATE+selection['subtitle_hold_seconds']
+dialogue=np.zeros((round(seconds*RATE),2))
+place(dialogue,voice,selection['lead_seconds'],10**(selection['mix_gain_db']/20),selection['pan'])
 reports=[write('paper-fire',fire),write('memory-and-escape',mix),write('memory-score',score[:round(13*RATE)]),write('pursuer-roof',dialogue)]
-(ROOT/'assets/opening-memory/audio/manifest.json').write_text(json.dumps({'sources':'Original harmonic/noise foley; pursuer-source.wav synthesized locally with Microsoft David Desktop via System.Speech, rate -1. Filtered and mixed by this script.','dialogue':'There. On the roof.','dialogue_at_seconds':12.9,'files':reports},indent=2)+'\n')
+cue={'voice_id':selection['voice_id'],'text':selection['text'],'cue_seconds':selection['cue_seconds'],'lead_seconds':selection['lead_seconds'],'source_seconds':len(voice)/RATE,'subtitle_hold_seconds':selection['subtitle_hold_seconds'],'stream_seconds':reports[-1]['seconds'],'sha256':reports[-1]['sha256']}
+(ROOT/'godot/data/opening-voice.json').write_text(json.dumps(cue,indent=2)+'\n')
+(ROOT/'assets/opening-memory/audio/manifest.json').write_text(json.dumps({'sources':'Original harmonic/noise foley; selected original Qwen3-TTS VoiceDesign B performance generated locally. See voice-selection.json for immutable sources and mix settings. Legacy Microsoft David source retained but unused.','dialogue':selection['text'],'dialogue_at_seconds':selection['cue_seconds'],'voice_selection':selection,'files':reports},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(reports))

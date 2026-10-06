@@ -1,0 +1,86 @@
+{
+  "wake-dispatch": {
+    "file": "res://assets/audio/story/wake-dispatch.wav",
+    "seconds": 7.92,
+    "text": "I kept the civilian line open. Someone is replacing its bearings with obstruction reports. The Foundry's service reader can identify the routing mark.",
+    "cues": [
+      {
+        "start": 0.0,
+        "end": 2.12,
+        "text": "I kept the civilian line open."
+      },
+      {
+        "start": 2.12,
+        "end": 5.38,
+        "text": "Someone is replacing its bearings with obstruction reports."
+      },
+      {
+        "start": 5.38,
+        "end": 7.92,
+        "text": "The Foundry's service reader can identify the routing mark."
+      }
+    ],
+    "sha256": "f09b9132a86912b45db7d7037d37b365337f40af6bc736fa48662562cd9f1ac3"
+  },
+  "array-false-corridor": {
+    "file": "res://assets/audio/story/array-false-corridor.wav",
+    "seconds": 13.127958333333334,
+    "text": "The advertised civilian corridor leads into the patrol line. S-07 carried passengers before this war. You are one of many we tried to help, not an assignment. There are seeds and family records at the Orchard. Carry them if you choose.",
+    "cues": [
+      {
+        "start": 0.0,
+        "end": 3.64,
+        "text": "The advertised civilian corridor leads into the patrol line."
+      },
+      {
+        "start": 3.64,
+        "end": 6.64,
+        "text": "S-07 carried passengers before this war."
+      },
+      {
+        "start": 6.64,
+        "end": 9.8,
+        "text": "You are one of many we tried to help, not an assignment."
+      },
+      {
+        "start": 9.8,
+        "end": 12.02,
+        "text": "There are seeds and family records at the Orchard."
+      },
+      {
+        "start": 12.02,
+        "end": 13.127958333333334,
+        "text": "Carry them if you choose."
+      }
+    ],
+    "sha256": "7f3786cba704191c176e96c5a35511827074594ad07a9e042e27d6b64d99d5b0"
+  },
+  "berth-keep-the-channel": {
+    "file": "res://assets/audio/story/berth-keep-the-channel.wav",
+    "seconds": 11.44,
+    "text": "Seed enclosure stable. Archive copy verified. A place is ready for the next traveller. No one has promised who will arrive; the channel can still be kept open.",
+    "cues": [
+      {
+        "start": 0.0,
+        "end": 2.54,
+        "text": "Seed enclosure stable."
+      },
+      {
+        "start": 2.54,
+        "end": 4.72,
+        "text": "Archive copy verified."
+      },
+      {
+        "start": 4.72,
+        "end": 7.32,
+        "text": "A place is ready for the next traveller."
+      },
+      {
+        "start": 7.32,
+        "end": 11.44,
+        "text": "No one has promised who will arrive; the channel can still be kept open."
+      }
+    ],
+    "sha256": "850c38593848b2df1c07f7a3382e7519b0ef0416aed08f00f62b9aed0f4ba632"
+  }
+}

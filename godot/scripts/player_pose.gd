@@ -34,6 +34,18 @@ func _process_modification_with_delta(dt: float):
 	if not skeleton: return
 	var terminal=player.game.ui.terminal if player.game.ui else null
 	terminal_blend=terminal.blend if terminal else 0.0
+	if player.locomotion and player.locomotion.active and player.game.cinematic=="" and terminal_blend<=0:
+		var motion=player.locomotion
+		var weight=.3 if player.aiming or player.pending_shot or player.combat_hold>0 else .65 if player.crouched else 1.0
+		var lean=motion.sampled_lean*weight
+		for name in ["spine_01","spine_02"]:
+			var index=skeleton.find_bone(name)
+			if index>=0:skeleton.set_bone_pose_rotation(index,skeleton.get_bone_pose_rotation(index)*Quaternion.from_euler(Vector3(lean.x*.5,0,-lean.y*.5)))
+		var pelvis=skeleton.find_bone("pelvis")
+		if pelvis>=0:
+			var at=skeleton.get_bone_pose_position(pelvis)
+			at.y-=motion.sampled_landing/maxf(.01,player.visual.scale.x)
+			skeleton.set_bone_pose_position(pelvis,at)
 	if reload_animation and player.reload_left>0:
 		var duration=player.game.weapon_definition().reloadTime
 		var fraction=clampf(1-player.reload_left/duration,0,1)
@@ -55,6 +67,10 @@ func _process_modification_with_delta(dt: float):
 		if player.weapon_pose:
 			player.weapon_pose.last_targets.clear();player.weapon_pose.pose_ready=false
 		apply_cutter(skeleton,dt)
+	elif player.equipment and player.equipment.salvage_gesture():
+		if player.weapon_pose:
+			player.weapon_pose.last_targets.clear();player.weapon_pose.pose_ready=false
+		apply_salvage(skeleton)
 	elif player.weapon_pose:player.weapon_pose.apply()
 	if not player.is_on_floor() or player.game.cinematic!="": return
 	for side in ["l","r"]:
@@ -110,3 +126,20 @@ func apply_cutter(skeleton: Skeleton3D,dt: float):
 	var scale=maxf(player.visual.scale.x,.01)
 	var right=skeleton.get_bone_global_pose(skeleton.find_bone("hand_r"))
 	player.weapon_pose.solve_arm("r",spine.origin+Vector3(-.15,-.13,.31+cycle)/scale,right.basis*Basis(Vector3.RIGHT,cycle*2),1.0)
+
+func apply_salvage(skeleton: Skeleton3D):
+	if not player.weapon_pose or not player.weapon_pose.valid:return
+	var salvage=player.game.salvage
+	var scale=maxf(player.visual.scale.x,.01)
+	var spine=skeleton.get_bone_global_pose(skeleton.find_bone("spine_02"))
+	var flight=salvage.hook_distance/salvage.HOOK_SPEED
+	# The hook launches immediately. A compact release follows its first 0.2 s;
+	# the free hand then pulls the existing tether in alternating short strokes.
+	var release=smoothstep(0,.20,flight) if salvage.hook_phase=="out" else 1.0
+	var pull=(sin((salvage.return_distance-salvage.hook_distance)*.9)*.5+.5) if salvage.hook_phase=="back" else 0.0
+	var targets={"l":Vector3(.16,-.16,.30),"r":Vector3(-.19,.04,.20).lerp(Vector3(-.12,-.13,.49),release)}
+	if salvage.hook_phase=="back":targets.r=Vector3(-.12,-.12,.43).lerp(Vector3(-.22,-.20,.23),pull)
+	for side in ["l","r"]:
+		var hand=skeleton.get_bone_global_pose(skeleton.find_bone("hand_"+side))
+		player.weapon_pose.solve_arm(side,spine.origin+targets[side]/scale,hand.basis,1.0)
+	player.equipment.salvage_grip=skeleton.to_global(skeleton.get_bone_global_pose(skeleton.find_bone("hand_l")).origin)

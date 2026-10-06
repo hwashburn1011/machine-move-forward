@@ -1,0 +1,402 @@
+{
+  "passed": true,
+  "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+  "asset_manifest_sha256": "ec8cf259117442dc7a026e0a8472d4f581b5dea5b74e6aad40151e935c3e3cec",
+  "source_lineage": {
+    "travel_and_construction_trace": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb",
+    "construction_combat_foundry_home": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+    "difference": "Display-only FP18 optional-site committed/docked/departing status correction after the first two workloads. No physics, rendering material or construction changes."
+  },
+  "scope": "Five affected integrated workloads: 90-second travel, 18-second construction/combat/Foundry, 180-second furnished home, plus a separate 36-second ordinary construction trace. Sequential exclusive native rendering with prepared/invulnerable fixtures; no new full campaign or broad17-workload claim.",
+  "hardware": {
+    "cpu": "11th Gen Intel(R) Core(TM) i9-11900KF @ 3.50GHz",
+    "gpu": "NVIDIA GeForce RTX 3070",
+    "ram_gib": 16,
+    "vram_mib": 8192,
+    "driver": "581.80"
+  },
+  "settings": {
+    "resolution": [
+      1920,
+      1080
+    ],
+    "quality": "high Forward+ Vulkan / 4x MSAA",
+    "vsync": false,
+    "frame_cap": 0,
+    "warmup_seconds": 3
+  },
+  "preparation": "Existing New Game title readiness gate completed before checkpoint; title preparation costs retained separately.",
+  "cache_conditions": "Separate short isolated shader profiles for travel90, focused three workloads, and home. OS/driver caches uncontrolled.",
+  "workloads": [
+    {
+      "source_hash": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb",
+      "workload": "deck-audio/travel",
+      "seconds": 90.0,
+      "title_prepare_ms": 2752.397,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 4.265,
+        "p95": 5.377,
+        "p99": 6.85,
+        "max": 10.623,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.092,
+        "p99": 4.297,
+        "max": 4.772
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-playthrough-fixes-release-audit-20261005/travel90/deck-audio-travel.json",
+      "sha256": "728c44c04b4fa1eff25700e991f68da8552e965ee9fc496e1c5f24361ad27db6"
+    },
+    {
+      "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+      "workload": "deck-audio/construction",
+      "seconds": 18.0,
+      "title_prepare_ms": 2770.382,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 4.649,
+        "p95": 7.315,
+        "p99": 8.426,
+        "max": 21.478,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.827,
+        "p99": 5.049,
+        "max": 5.346
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-playthrough-fixes-release-audit-20261005/focused/deck-audio-construction.json",
+      "sha256": "66b59866bdd2b893389fd059acac64f04d9913a25ee73c6c828a9e18e30719a7"
+    },
+    {
+      "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+      "workload": "deck-audio/combat",
+      "seconds": 18.0,
+      "title_prepare_ms": 2095.393,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 4.392,
+        "p95": 8.66,
+        "p99": 9.553,
+        "max": 13.372,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.482,
+        "p99": 4.727,
+        "max": 4.887
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-playthrough-fixes-release-audit-20261005/focused/deck-audio-combat.json",
+      "sha256": "580383999a0e57ce8b1bfbaec97994b074c29e45b1c8b9cacc165b2005a66af2"
+    },
+    {
+      "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+      "workload": "deck-audio/foundry",
+      "seconds": 18.0,
+      "title_prepare_ms": 2107.788,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 5.821,
+        "p95": 7.476,
+        "p99": 8.095,
+        "max": 11.407,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 5.424,
+        "p99": 5.575,
+        "max": 5.788
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-playthrough-fixes-release-audit-20261005/focused/deck-audio-foundry.json",
+      "sha256": "8da81072ba4c517aebb0cec6ff027379f74345854adcc4d4ea1cccfa5b72a83e"
+    },
+    {
+      "source_hash": "6076494f06c0976fb2005eaf4642b9f6d0bb3c236a02579ff98a9f35e986a975",
+      "workload": "painted-home/furnished",
+      "seconds": 180.0,
+      "title_prepare_ms": 2783.857,
+      "title_prepared": true,
+      "frame_ms": {
+        "median": 3.814,
+        "p95": 6.339,
+        "p99": 7.426,
+        "max": 11.946,
+        "over33ms": 0,
+        "over50ms": 0
+      },
+      "gpu_ms": {
+        "p95": 4.214,
+        "p99": 4.514,
+        "max": 5.075
+      },
+      "slow_frames": [],
+      "report": "test-results/v1-playthrough-fixes-release-audit-20261005/focused/painted-home-furnished.json",
+      "sha256": "206ec8990208d8f1fa2c8a9b1216bca2fc99ca7b586514a516a81e4c642612f9"
+    }
+  ],
+  "home": {
+    "furnishings": 50,
+    "painted_pieces": 52,
+    "docks": 3,
+    "recorded_received_items": 506,
+    "received_per_dock": {
+      "bp-6": 0,
+      "bp-7": 196,
+      "bp-8": 338
+    },
+    "music_starts": 2,
+    "video_memory_max_bytes": 2662907024.0,
+    "static_memory_max_bytes": 330644010.0,
+    "coverage_limit": "Three powered docks present; per-dock delivery counts retained rather than assuming each delivered."
+  },
+  "historical_broad_performance": "docs/godot-port/results/v1-performance-2026-10-04.json",
+  "prior_affected_performance": "docs/godot-port/results/v1-presentation-performance-2026-10-05.json",
+  "historical_campaign": "docs/godot-port/results/v1-campaign-presentation-2026-10-05.json",
+  "limits": [
+    "Physical lower-spec hardware untested.",
+    "Uncoached human comprehension untested.",
+    "No immediate unprepared Continue profiling or universal hitch-free claim.",
+    "Stock workload trace timestamps only frames above 50 ms; the dedicated construction trace records frames above 20 ms.",
+    "October4 initial travel stalls remain historical evidence; investigation established title-gate bypass in that fixture."
+  ],
+  "construction_action_trace": {
+    "report": "test-results/v1-playthrough-fixes-20261005/construction/frozen-final/baseline-construction.json",
+    "sha256": "82f12f7f5eb78a3786e9e27656828fdbb1bd281df97981b212b469fabe035cd2",
+    "source_hash": "e6d35e6c27a8f9ed1914d54014add207b6826df4c42c7b29ef60c57d3f8c1acb",
+    "seconds": 36,
+    "frame_ms": {
+      "max": 19.958,
+      "median": 4.262,
+      "over33ms": 0,
+      "over50ms": 0,
+      "p95": 6.398,
+      "p99": 7.368,
+      "samples": 8372
+    },
+    "slow_frames_over20ms": [],
+    "actions": [
+      {
+        "ms": 11.439,
+        "operation": "open_build",
+        "reason": "Aim at a deck",
+        "seconds": 5e-06,
+        "step": 0,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 3.474,
+        "operation": "choose_chart_desk",
+        "reason": "Aim at a deck",
+        "seconds": 2.00307,
+        "step": 1,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 0.026,
+        "operation": "rotate",
+        "reason": "",
+        "seconds": 4.004043,
+        "step": 2,
+        "success": true,
+        "target": {
+          "cell": {
+            "x": -3,
+            "y": 0,
+            "z": -2
+          },
+          "definitionId": "nomad-chart-desk",
+          "rotation": 0
+        }
+      },
+      {
+        "ms": 1.126,
+        "operation": "commit_aimed",
+        "reason": "",
+        "seconds": 6.002085,
+        "step": 3,
+        "success": true,
+        "target": {
+          "cell": {
+            "x": -3,
+            "y": 0,
+            "z": -2
+          },
+          "definitionId": "nomad-chart-desk",
+          "rotation": 1
+        }
+      },
+      {
+        "ms": 0.154,
+        "operation": "cancel_then_choose_chair",
+        "reason": "Aim at a deck",
+        "seconds": 8.002079,
+        "step": 4,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 0.372,
+        "operation": "commit_aimed",
+        "reason": "Something is already there",
+        "seconds": 10.001855,
+        "step": 5,
+        "success": false,
+        "target": {
+          "cell": {
+            "x": -3,
+            "y": 0,
+            "z": -2
+          },
+          "definitionId": "nomad-field-chair",
+          "rotation": 0
+        }
+      },
+      {
+        "ms": 0.127,
+        "operation": "undo",
+        "reason": "Aim at a deck",
+        "seconds": 12.004001,
+        "step": 6,
+        "success": false,
+        "target": {}
+      },
+      {
+        "ms": 10.8,
+        "operation": "reopen_build",
+        "reason": "Aim at a deck",
+        "seconds": 14.000037,
+        "step": 7,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 1.938,
+        "operation": "close_cancel",
+        "reason": "Aim at a deck",
+        "seconds": 16.001661,
+        "step": 8,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 9.929,
+        "operation": "open_build",
+        "reason": "Aim at a deck",
+        "seconds": 18.000432,
+        "step": 9,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 2.238,
+        "operation": "choose_chart_desk",
+        "reason": "Aim at a deck",
+        "seconds": 20.002748,
+        "step": 10,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 0.022,
+        "operation": "rotate",
+        "reason": "Something is already there",
+        "seconds": 22.000535,
+        "step": 11,
+        "success": true,
+        "target": {
+          "cell": {
+            "x": -3,
+            "y": 0,
+            "z": -2
+          },
+          "definitionId": "nomad-chart-desk",
+          "rotation": 0
+        }
+      },
+      {
+        "ms": 0.234,
+        "operation": "commit_aimed",
+        "reason": "Something is already there",
+        "seconds": 24.000871,
+        "step": 12,
+        "success": false,
+        "target": {
+          "cell": {
+            "x": -3,
+            "y": 0,
+            "z": -2
+          },
+          "definitionId": "nomad-chart-desk",
+          "rotation": 1
+        }
+      },
+      {
+        "ms": 0.112,
+        "operation": "cancel_then_choose_chair",
+        "reason": "Aim at a deck",
+        "seconds": 26.001946,
+        "step": 13,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 0.267,
+        "operation": "commit_aimed",
+        "reason": "Something is already there",
+        "seconds": 28.000294,
+        "step": 14,
+        "success": false,
+        "target": {
+          "cell": {
+            "x": -3,
+            "y": 0,
+            "z": -2
+          },
+          "definitionId": "nomad-field-chair",
+          "rotation": 0
+        }
+      },
+      {
+        "ms": 0.135,
+        "operation": "undo",
+        "reason": "Aim at a deck",
+        "seconds": 30.000314,
+        "step": 15,
+        "success": false,
+        "target": {}
+      },
+      {
+        "ms": 11.189,
+        "operation": "reopen_build",
+        "reason": "Aim at a deck",
+        "seconds": 32.001791,
+        "step": 16,
+        "success": true,
+        "target": {}
+      },
+      {
+        "ms": 1.628,
+        "operation": "close_cancel",
+        "reason": "Aim at a deck",
+        "seconds": 34.000538,
+        "step": 17,
+        "success": true,
+        "target": {}
+      }
+    ],
+    "title_prepare_ms": 2801.96,
+    "scope": "Real construction callbacks, aimed placement, refusal and undo attempts; no screenshot or route planner in sample. Fixed prepared checkpoint and test resources. Only one placement is expected to succeed at the same aimed cell."
+  }
+}

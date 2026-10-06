@@ -88,6 +88,15 @@ func run():
 	game=load("res://scenes/main.tscn").instantiate();root.add_child(game);current_scene=game
 	var startup_ms=(Time.get_ticks_usec()-started)/1000.0
 	game.settings.vsync=false;game.settings.quality="high";game.save_settings();game.invulnerable=true
+	# Normal New Game waits for this title gate. A direct checkpoint previously
+	# skipped it, letting one-off model packing and pipeline uploads spill into
+	# the travel sample. Keep preparation visible and report its cost separately.
+	var title_prepare_start=Time.get_ticks_usec()
+	while not game.cinematics.opening_stage.prepared():
+		await process_frame
+		if Time.get_ticks_usec()-title_prepare_start>30000000:
+			push_error("Title preparation did not finish before performance checkpoint");quit(1);return
+	var title_prepare_ms=(Time.get_ticks_usec()-title_prepare_start)/1000.0
 	var checkpoint={"travel":"foundry-route","construction":"scanner","furnished":"scanner","combat":"defense","guardian":"gatekeeper","crane":"port-repair","drone":"salvage-drone","wake":"wake","foundry":"foundry","array":"array","orchard":"orchard-caretaker","meridian":"meridian-quiet","berth":"finale-transfer"}.get(scenario,"scanner")
 	var before=Time.get_ticks_usec()
 	if not game.playtests.launch(checkpoint):push_error("Checkpoint failed: "+checkpoint);quit(1);return
@@ -138,6 +147,8 @@ func run():
 	var measures={}
 	for key in values:measures[key]=stats(values[key],String(key).ends_with("_ms"))
 	var report={"label":label,"scenario":scenario,"checkpoint":checkpoint,"adapter":RenderingServer.get_video_adapter_name(),"cpu":OS.get_processor_name(),"resolution":[1920,1080],"quality":"high Forward+ Vulkan / 4x MSAA","vsync":false,"frame_cap":0,"warmup_seconds":3,"sample_seconds":seconds,"startup_ms":startup_ms,"checkpoint_launch_ms":launch_ms,"metrics":measures,"slow_frames_over50ms":slow,"action_times":action_times,"events":events,"distance_travelled":game.session.distance-first_distance,"max_enemies":max_enemies,"max_shell_markers":max_projectiles,"max_drones":max_drones,"furnishings":placed_count,"chunks":game.world.chunks.size(),"focused_fraction":float(focus_frames)/values.frame_ms.size(),"source_hash":MMFPlaytestRecorder.source_fingerprint(),"scope":"Scripted native workload in a fresh process; real simulation, invulnerable test player; site views use an orbit camera. OS and driver caches uncontrolled. Furnished scenario includes every available Art100/Art200 cosmetic furnishing that passes placement."}
+	report.title_prepare_ms=title_prepare_ms
+	report.title_prepared=game.get_node("EncounterAssets").finished
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(output+label+"-"+scenario+".png")
 	var file=FileAccess.open(output+label+"-"+scenario+".json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()

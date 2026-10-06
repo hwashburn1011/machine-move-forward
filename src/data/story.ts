@@ -227,7 +227,7 @@ export const RELAY_FOUNDRY: ExpeditionDefinition = {
     },
     {
       id: 'relay-foundry-departure',
-      label: 'Return to machine',
+      label: 'Gangway / Nomad',
       kind: 'departure',
       anchor: 'Gangway',
       fallback: { x: -7.5, y: 0.2, z: 0 },
@@ -328,7 +328,7 @@ export const QUIET_ARRAY: ExpeditionDefinition = {
     },
     {
       id: 'quiet-array-departure',
-      label: 'Return to machine',
+      label: 'Gangway / Nomad',
       kind: 'departure',
       anchor: 'Gangway',
       fallback: { x: -9.5, y: 0.2, z: 0 },
@@ -456,7 +456,7 @@ export const GLASS_ORCHARD: ExpeditionDefinition = {
     },
     {
       id: 'orchard-departure',
-      label: 'Return to machine',
+      label: 'Gangway / Nomad',
       kind: 'departure',
       anchor: 'Gangway',
       fallback: { x: -9.5, y: 0.2, z: 0 },
@@ -593,7 +593,7 @@ export const LAST_GARDEN_MERIDIAN: ExpeditionDefinition = {
     })),
     {
       id: 'meridian-departure',
-      label: 'Return to machine',
+      label: 'Gangway / Nomad',
       kind: 'departure',
       anchor: 'Gangway',
       fallback: { x: -9.5, y: 0.2, z: 0 },

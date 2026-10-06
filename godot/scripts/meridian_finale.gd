@@ -8,7 +8,7 @@ var pending_signature=""
 var commit_quote=""
 var gangway_open=false
 const STAGES=["idle","secure","ready","travel","berth","aftermath","departed","legacy"]
-const POLICIES={"open":"OPEN CHANNEL\nPublish a public invitation and safe approach instructions. Isolated unknown travellers may hear it; hostile machines can listen too. Personal archive records and residents' identities remain private.","relay":"RELAY CHAIN\nKeep the berth's exact approach private. Distribute challenge/response instructions through maintained relays. Reach is narrower and unknown travellers may take longer to connect. Autonomous endpoints work even without optional allies."}
+const POLICIES={"open":"OPEN CHANNEL\nPublish a public invitation and safe approach instructions. Isolated unknown travellers may hear it; hostile machines can listen too. Personal archive records and residents' identities remain private.","relay":"RELAY CHAIN\nPass the invitation from one working relay to the next. Each asks for the agreed reply before sharing the safe way in, keeping the berth's approach off the open channel. Fewer strangers will hear it, and some may take longer to find their way. The relays can carry the message on their own; friends along the route can help, but the chain does not depend on them."}
 
 static func defaults() -> Dictionary:
 	return {"version":1,"mode":"new","stage":"idle","encounter":"pending","channel":0,"powered":false,"seeds":false,"archive":false,"policy":"","berth_distance":0.0,"commit":0,"completion":0}
@@ -209,6 +209,8 @@ func render(ui):
 			ui.button("TRANSFER SEEDS" if id=="seeds" else "IMPORT ARCHIVE COPY",func():act("transfer",revision),f.powered and not f[id])
 		"transmitter":
 			if f.policy!="":
+				game.story_voice.render(ui,"berth-keep-the-channel")
+				ui.text_line(MMFNativeNarrativeData.BEATS["berth-keep-the-channel"].text)
 				ui.text_line(POLICIES[f.policy]+"\n\nSeeds stable. Archive preserved. Return aboard whenever ready.")
 				ui.button("CREDITS / KEEP WALKING",func():game.ui.show_record("KEEP WALKING","Original game & art / HWashburn\nDevelopment with Codex\nThree.js · Rapier · Blender / Native port: Godot\n\nThe receiving berth is ready for the next traveller."))
 			elif not f.seeds or not f.archive:ui.text_line("Complete both seed and archive transfers before publishing access information.")

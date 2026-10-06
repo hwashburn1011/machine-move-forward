@@ -10,6 +10,13 @@ var last_task = ""
 static func task(id: String, title: String, action: String, kind: String="", target: String="", pin: Dictionary={}) -> Dictionary:
 	return {"id":id,"title":title,"action":action,"text":title+"\n"+action,"target_kind":kind,"target_id":target,"pin":pin}
 
+static func scrap_shortfall(s, cost: Dictionary, purpose: String, pin: Dictionary) -> Dictionary:
+	var missing=maxi(0,int(cost.get("scrap",0))-s.count_resource("scrap"))
+	if missing==0:return {}
+	# A shopping objective must name something the player can do now. Keep the
+	# intended purchase pinned, but do not point at an unaffordable station.
+	return task("recover-scrap","RECOVER MORE SALVAGE","Need %d more scrap for %s. Aim at passing cargo and throw the hook with [{key:reel}]."%[missing,purpose],"","",pin)
+
 static func describe(s) -> Dictionary:
 	if s.opening_done and s.health>0 and s.attack_recent<=0 and not MMFMachineOperations.docked(s):
 		var diagnosis=MMFMachineService.diagnose(s)
@@ -29,17 +36,28 @@ static func describe(s) -> Dictionary:
 		var missing=maxi(0,int(next_cost.get("components",0))-s.count_resource("components"))
 		if missing>0:
 			if not s.has_station("refinery"):
-				return task("build-refinery","BUILD A REFINERY","Place a refinery to make components. Recovered components also count toward your next repair.","build","refinery",{"kind":"build","id":"refinery"})
+				var gather=scrap_shortfall(s,s.data.BUILD_PIECES.refinery.cost,"a refinery",{"kind":"build","id":"refinery"})
+				if not gather.is_empty():return gather
+				return task("build-refinery","BUILD A REFINERY","Open construction with [{key:build}] and place a refinery on a clear deck. Recovered components also count toward your next repair.","build","refinery",{"kind":"build","id":"refinery"})
+			for recipe in s.data.RECIPES:
+				if recipe.id!="refine-components":continue
+				var gather=scrap_shortfall(s,recipe.inputs,"one refining batch",{"kind":"recipe","id":"refine-components"})
+				if not gather.is_empty():
+					gather.action+=" Recovered components can also cover the shortfall."
+					gather.text=gather.title+"\n"+gather.action
+					return gather
 			return task("refine","RECOVER OR REFINE COMPONENTS","Need %d more components for %s. Recover cargo or use the refinery."%[missing,"the workbench" if needs_bench else "the scanner module"],"piece","refinery",{"kind":"recipe","id":"refine-components"})
+		var gather=scrap_shortfall(s,next_cost,"the workbench" if needs_bench else "the scanner module",{"kind":"build" if needs_bench else "recipe","id":"workbench" if needs_bench else "craft-scanner-replacement-module"})
+		if not gather.is_empty():return gather
 		if needs_bench:
-			return task("build-workbench","BUILD A WORKBENCH","Place the station needed to repair the scanner.","build","workbench",{"kind":"build","id":"workbench"})
+			return task("build-workbench","BUILD A WORKBENCH","Open construction with [{key:build}] and place a workbench on a clear deck to repair the scanner.","build","workbench",{"kind":"build","id":"workbench"})
 		return task("craft-scanner","REPAIR THE SCANNER","Use the workbench to craft a replacement module.","piece","workbench",{"kind":"recipe","id":"craft-scanner-replacement-module"})
 	if s.scanner.phase=="installed":
 		return task("start-scan","START THE SCAN","Interact with the receiver aboard the Nomad.","receiver")
 	if s.scanner.phase=="scanning":
 		var suggestion={"kind":"build","id":"turret-manual"} if not s.has_station("turret-manual") else {}
-		var activity="Prepare a Manual Deck Gun while the receiver scans." if not suggestion.is_empty() else "Try the deck gun, salvage or repair while the receiver scans."
-		return task("scan","SCAN IN PROGRESS  %d%%"%int(s.scan_fraction()*100.0),"Keep the receiver powered. "+activity,"receiver","",suggestion)
+		var activity="Optional: open construction [{key:build}] to prepare a Manual Deck Gun on a clear deck." if not suggestion.is_empty() else "Optional: approach the deck gun and press [{key:use}] to try its sights, or collect passing cargo with [{key:reel}]."
+		return task("scan","SCAN IN PROGRESS  %d%%"%int(s.scan_fraction()*100.0),"The receiver works on its own while you stay aboard with power. "+activity+" Close menus to let the journey continue.","receiver","",suggestion)
 	if s.scanner.phase=="contact-ready":
 		return task("signal-ready","CONTACT ACQUIRED","Transmission stabilizing…","receiver")
 	if s.scanner.phase=="consumed" and (not s.has_station("turret-manual") or not s.facts.get("defenseCrewed",false)) and s.story.phase in ["locked","signal","crossfire","raids"]:

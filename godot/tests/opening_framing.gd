@@ -33,7 +33,8 @@ func run():
 	game.started=true;game.close_menu();game.set_physics_process(false);game.player.set_physics_process(false)
 	var c=game.cinematics;var p=game.player;c.begin_opening();await process_frame
 	var roof=geometry(c.rooftop);var machine=geometry(game.world.machine)
-	var ray_blocks=[];var offscreen=[];var camera_contacts=[];var corridor_hits=[];var previous=c.camera.global_position
+	var ray_blocks=[];var offscreen=[];var letterbox_crops=[];var camera_contacts=[];var corridor_hits=[];var previous=c.camera.global_position
+	var picture_margin=maxf(0,(1.0-float(root.size.x)/root.size.y/2.35)*.5)+.02
 	var surface_checks=0;var view_checks=0
 	for frame in 588:
 		var t=frame/60.0;c.time=t;c.update_opening(0)
@@ -47,6 +48,7 @@ func run():
 				for height in [-.90,0,.90]:
 					var point=actor.point+Vector3.UP*height;var screen=c.camera.unproject_position(point)/Vector2(root.size);view_checks+=1
 					if c.camera.is_position_behind(point) or screen.x<.02 or screen.x>.98 or screen.y<.02 or screen.y>.98:offscreen.append([t,actor.name,MMFAssets.dict_v(point),str(screen)])
+					if screen.y<picture_margin or screen.y>1-picture_margin:letterbox_crops.append([t,actor.name,height,str(screen)])
 					var hit=roof.intersect_segment(c.camera.global_position,point)
 					if hit.is_empty():hit=machine.intersect_segment(c.camera.global_position,point)
 					if not hit.is_empty():ray_blocks.append([t,actor.name,height,MMFAssets.dict_v(hit.position)])
@@ -64,6 +66,7 @@ func run():
 					var hit=roof.intersect_segment(foot,foot+Vector3.UP*1.8)
 					if not hit.is_empty():corridor_hits.append([t,actor.name,MMFAssets.dict_v(hit.position)])
 	check(offscreen.is_empty(),"Hero and living pursuers stay framed throughout chase, jump and both shots")
+	check(letterbox_crops.is_empty(),"Hero landing and living pursuers retain head-to-foot clearance inside the cinematic letterbox")
 	check(ray_blocks.is_empty(),"Roof and machine triangles do not obscure the actors' legs, torsos or heads")
 	check(camera_contacts.is_empty(),"Continuous opening camera and its width clear the actual rooftop and machine")
 	check(corridor_hits.is_empty(),"Authored roof fittings leave the complete sampled chase corridors clear")
@@ -103,7 +106,7 @@ func run():
 	for i in 3:await process_frame
 	check(p.weapon_pose.last_targets.is_empty(),"A stale opening override cannot affect other cinematics")
 	c.clear_scene();game.cinematic=""
-	var report={"checks":checks,"failures":failures,"viewChecks":view_checks,"corridorChecks":surface_checks,"obscured":ray_blocks.slice(0,30),"obscuredCount":ray_blocks.size(),"offscreen":offscreen.slice(0,30),"cameraContacts":camera_contacts.slice(0,30),"corridorHits":corridor_hits.slice(0,30),"aims":aims}
+	var report={"checks":checks,"failures":failures,"viewChecks":view_checks,"corridorChecks":surface_checks,"obscured":ray_blocks.slice(0,30),"obscuredCount":ray_blocks.size(),"offscreen":offscreen.slice(0,30),"letterboxCrops":letterbox_crops.slice(0,30),"cameraContacts":camera_contacts.slice(0,30),"corridorHits":corridor_hits.slice(0,30),"aims":aims}
 	var file=FileAccess.open("res://../test-results/godot-native/opening-framing-tests.json",FileAccess.WRITE);file.store_string(JSON.stringify(report,"\t"));file.close()
 	print("FRAMING_RESULT ",checks," checks, ",failures.size()," failures; ",view_checks," views / ",surface_checks," corridor rays")
 	game.open_menu("Pause");while game.combat.nav.is_baking():await create_timer(.02).timeout

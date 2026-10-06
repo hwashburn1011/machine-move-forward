@@ -6,6 +6,12 @@ A separate native implementation of the Three.js game at commit `5d9f596`. The b
 
 Double-click **Play Godot.cmd** in this directory. It uses the separately downloaded Godot **4.7.2** under `test-results/godot-tools`, leaving the existing Godot 4.1 installation alone. New Campaign plays the rooftop opening. The normal launch has damage enabled and VSync on.
 
+The 4 October source update changes the factory memory to a forward sword lunge: the defender crosses into the attack lane, stops the blade at the front of its torso, and the worker turns and escapes afterward. Both Revenant swords carry animated blue pulses in the memory, rooftop chase, ship scene and gameplay. Original combat timing, collision and character fitting are retained. Launch the source with **Play Godot.cmd** to see this update; previously exported beta executables do not include it.
+
+The pursuer now uses the chosen original **Qwen VoiceDesign B** performance, with subtle metallic processing: “There. On the roof.” It enters at the existing cue, retains its natural pause, and has a subtitle timed to the imported clip. The clean reference, prompts, seeds and local generation workflow are retained in [the voice tools](../tools/audio/qwen_voice/README.md). `assets/opening-memory/audio/voice-selection.json` records the accepted sources and restrained mix gain. Rebuild the edit using `test-results/qwen3-tts/venv/Scripts/python.exe tools/audio/opening/build.py`; the previous Microsoft David source is retained but unused. This source update is not yet in older exported beta executables.
+
+Validation for this update: 233 passing checks across the opening, handoff/framing, pulse attachment, combat and crossfire suites; 51 passing checks in the native rendered review. Local logs and captured frames are under `test-results/pulse-interception/`.
+
 Open `project.godot` in Godot 4.7.2 to edit the project. Alternatively:
 
 ```powershell

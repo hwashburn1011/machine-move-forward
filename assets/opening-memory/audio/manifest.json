@@ -1,7 +1,27 @@
 {
-  "sources": "Original harmonic/noise foley; pursuer-source.wav synthesized locally with Microsoft David Desktop via System.Speech, rate -1. Filtered and mixed by this script.",
+  "sources": "Original harmonic/noise foley; selected original Qwen3-TTS VoiceDesign B performance generated locally. See voice-selection.json for immutable sources and mix settings. Legacy Microsoft David source retained but unused.",
   "dialogue": "There. On the roof.",
   "dialogue_at_seconds": 12.9,
+  "voice_selection": {
+    "voice_id": "b-warden",
+    "label": "B — Warden",
+    "text": "There. On the roof.",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+    "seed": 73129,
+    "instruct": "A mature male voice around sixty, low bass-baritone with an aged papery grain and a restrained neutral English accent. Quiet, cold and analytical, speaking with clipped precise articulation and calm absolute certainty. The voice belongs to a patient hunter, not a presenter. A measured pause after There, then the three words On the roof delivered as a spare factual observation with a downward finish. Slightly resonant chest tone but very little volume, steady breath, dry texture, subtle menace with no aggression. No exaggerated deep voice, booming, dramatic narration, growling or whispering. Natural clean unprocessed studio recording.",
+    "performance": "metallic",
+    "clean_reference": "assets/voice-auditions/qwen3-tts/2026-10-04/b-warden-clean.wav",
+    "clean_sha256": "2e16121063521cff854752ec00c7b218c2a329cd92492a4371587749cc8575e5",
+    "source": "assets/voice-auditions/qwen3-tts/2026-10-04/b-warden-metallic.wav",
+    "source_sha256": "b35e2960a6ba1a6248ee5cd8b932f51bf433b3dbee481c29834f9b9206a90c8f",
+    "cue_seconds": 12.9,
+    "lead_seconds": 0.12,
+    "subtitle_hold_seconds": 0.24,
+    "mix_gain_db": -3.0,
+    "pan": 0.18,
+    "note": "Player selected voice B. Subtle metallic treatment used for robot; clean take retained for future identity conditioning."
+  },
   "files": [
     {
       "path": "godot\\assets\\audio\\opening\\paper-fire.wav",
@@ -13,9 +33,9 @@
     {
       "path": "godot\\assets\\audio\\opening\\memory-and-escape.wav",
       "seconds": 36.2,
-      "peak_dbfs": -13.840828477416123,
-      "rms_dbfs": -39.198462877557986,
-      "sha256": "d234544b98697552d836a051d471178e375546d02504172ab50141e00a8f719d"
+      "peak_dbfs": -13.853284650246948,
+      "rms_dbfs": -39.19503112381,
+      "sha256": "e0923e9313b5e21077f7f2d53ea7777255b59fddf9dbb1de37cbfadfcc90c110"
     },
     {
       "path": "godot\\assets\\audio\\opening\\memory-score.wav",
@@ -26,10 +46,10 @@
     },
     {
       "path": "godot\\assets\\audio\\opening\\pursuer-roof.wav",
-      "seconds": 4.0,
-      "peak_dbfs": -12.570421084453908,
-      "rms_dbfs": -36.777354447501274,
-      "sha256": "428f88cb734003d866431353bfbfb437bba72f4f96ee2ad28e1524e3ada4eaf7"
+      "seconds": 2.8390476190476193,
+      "peak_dbfs": -14.980765332287241,
+      "rms_dbfs": -32.56732788880871,
+      "sha256": "d7e74637c70270d3d61b53aca47430b2189d2b7b0e28aa93d5390feab93bfc1d"
     }
   ]
 }

@@ -122,9 +122,20 @@ func _process(dt: float):
 	elapsed+=dt
 	var reduced=game.settings.get("terminal_reduced_motion",false)
 	if active:
-		blend=1.0 if reduced else move_toward(blend,1,dt/0.34)
+		# Raise and pronate the forearm before approaching its glass. Following
+		# the turning cuff immediately swept the camera through a floor-only
+		# orientation halfway through opening from steep third-person views.
+		blend=1.0 if reduced else move_toward(blend,1,dt/.18)
 		var target=target_transform()
-		camera.global_transform=start_transform.interpolate_with(target,1.0 if reduced else smoothstep(0,.36,elapsed))
+		var travel=1.0 if reduced else smoothstep(.20,.44,elapsed)
+		camera.global_transform=start_transform.interpolate_with(target,travel)
+		if travel>0 and travel<1:
+			# Interpolating orientation alone can point below the cuff while the
+			# camera approaches it. Follow a continuous focus point instead.
+			var center=device.to_global(SCREEN_CENTER)
+			var old_focus=start_transform.origin-start_transform.basis.z*start_transform.origin.distance_to(center)
+			var up=start_transform.basis.y.lerp(target.basis.y,travel).normalized()
+			camera.look_at(old_focus.lerp(center,travel),up)
 		game.player.set_camera_fade(0)
 		selector_angle=lerpf(selector_angle,selector_target,1-exp(-20*dt))
 		if selector:selector.rotation.z=selector_angle

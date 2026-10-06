@@ -1,0 +1,120 @@
+{
+  "created_utc": "2026-10-05T00:57:19.006227+00:00",
+  "model": {
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+    "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+    "path": "C:\\Users\\hwash\\Documents\\MachineMoveForward\\test-results\\qwen3-tts\\models\\Qwen3-TTS-12Hz-1.7B-VoiceDesign"
+  },
+  "networking": "HF_HUB_OFFLINE=1; TRANSFORMERS_OFFLINE=1; local_files_only=True",
+  "gpu": "NVIDIA GeForce RTX 3070",
+  "settings": {
+    "language": "English",
+    "attention": "sdpa",
+    "text": "I kept the civilian line open. Someone is replacing its bearings with obstruction reports. The Foundry's service reader can identify the routing mark.",
+    "generation": {
+      "max_new_tokens": 600,
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "top_k": 40,
+      "repetition_penalty": 1.05
+    },
+    "processing": {
+      "max_audio_seconds": 45,
+      "target_active_rms_dbfs": -23,
+      "peak_ceiling_dbfs": -3,
+      "highpass_hz": 65,
+      "lowpass_hz": 8500,
+      "ring_modulation_hz": 71,
+      "ring_modulation_wet": 0.025,
+      "delays_ms": [
+        7.3,
+        13.1,
+        23.7
+      ],
+      "delay_gains": [
+        0.025,
+        -0.015,
+        0.01
+      ]
+    },
+    "voices": [
+      {
+        "id": "annika",
+        "label": "Annika / preserved dispatch",
+        "seed": 84201,
+        "instruct": "A mature woman around forty-five with a warm low alto voice, lightly weathered dry texture and clear neutral English articulation. She is a civilian communications engineer leaving a private recording under difficult circumstances. Quiet, composed, practical and gently compassionate, with natural breath and brief thoughtful pauses between sentences. Understated resolve and fatigue, not a dramatic narrator. Speak at a steady conversational pace with precise consonants, no whispering, no grand speech, no radio announcer cadence, no exaggerated emotion. Clean dry studio recording with no effects or music."
+      },
+      {
+        "id": "berth",
+        "label": "Receiving berth / local status recording",
+        "seed": 84237,
+        "instruct": "A quiet mature male voice in a low middle baritone, clear neutral English. An old receiving station speaking a simple reassuring status report. Measured and gently deliberate, modest narrow pitch range, a dry slightly papery texture. Understated satisfaction without pretending to be a live human survivor. A patient practical machine, not an ominous robot. Small pauses between sentences, natural intelligibility, no boom, no announcer projection, no theatrical performance. Clean dry studio voice without effects or background sound."
+      }
+    ]
+  },
+  "packages": {
+    "qwen-tts": "0.1.1",
+    "torch": "2.9.1+cu128",
+    "torchaudio": "2.9.1+cu128",
+    "transformers": "4.57.3",
+    "accelerate": "1.12.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "soundfile": "0.14.0"
+  },
+  "auditions": [
+    {
+      "id": "berth",
+      "label": "Receiving berth / local status recording",
+      "seed": 84237,
+      "text": "Seed enclosure stable. Archive copy verified. A place is ready for the next traveller. No one has promised who will arrive; the channel can still be kept open.",
+      "instruct": "A quiet mature male voice in a low middle baritone, clear neutral English. An old receiving station speaking a simple reassuring status report. Measured and gently deliberate, modest narrow pitch range, a dry slightly papery texture. Understated satisfaction without pretending to be a live human survivor. A patient practical machine, not an ominous robot. Small pauses between sentences, natural intelligibility, no boom, no announcer projection, no theatrical performance. Clean dry studio voice without effects or background sound.",
+      "mode": "design",
+      "generation_seconds": 23.91,
+      "gpu_peak_allocated_mb": 4329.5,
+      "edits": {
+        "trim_start_samples": 0,
+        "trim_end_sample": 272640
+      },
+      "files": {
+        "raw": {
+          "file": "berth-raw.wav",
+          "sha256": "dd4107dc7ef6ef0d05865625c12116362b87634af9a7d7a022109d2cf5a211e7",
+          "seconds": 11.36,
+          "sample_rate": 24000,
+          "peak_dbfs": -3.92,
+          "active_rms_dbfs": -18.25,
+          "clipped_samples": 0
+        },
+        "clean": {
+          "file": "berth-clean.wav",
+          "sha256": "a711905736703b8301c552bce4bcb45b06a855b3e80509528da76b6538006c3a",
+          "seconds": 11.36,
+          "sample_rate": 24000,
+          "peak_dbfs": -8.67,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "metallic": {
+          "file": "berth-metallic.wav",
+          "sha256": "508fbaddc575f9ad88ed11e1839ec6918820cba5e8f93d667fc7a337f18bada2",
+          "seconds": 11.44,
+          "sample_rate": 24000,
+          "peak_dbfs": -6.69,
+          "active_rms_dbfs": -23.0,
+          "clipped_samples": 0
+        },
+        "comparison": {
+          "file": "berth-comparison.wav",
+          "sha256": "bcdf1ac50836aedb62e6110258903074e3ff52131b3cec79bc84a1a27dad38ad",
+          "seconds": 23.65,
+          "sample_rate": 24000,
+          "peak_dbfs": -6.69,
+          "active_rms_dbfs": -22.97,
+          "clipped_samples": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "wake-dispatch": {
+    "source": "wake/annika-clean.wav",
+    "transcript": "I kept the civilian line open. Someone is replacing its bearings with obstruction reports. The Foundry Service Reader can identify the routing mark.",
+    "expected": "I kept the civilian line open. Someone is replacing its bearings with obstruction reports. The Foundry's service reader can identify the routing mark.",
+    "token_similarity": 0.9565217391304348,
+    "peak_dbfs": -8.714153289794922,
+    "seconds": 7.92,
+    "clipped_samples": 0
+  },
+  "array-false-corridor": {
+    "source": "array/annika-clean.wav",
+    "transcript": "The advertised civilian corridor leads into the patrol line. S-007 carried passengers before this war. You are one of many we tried to help, not an assignment. There are seeds and family records at the orchard. Carry them if you choose.",
+    "expected": "The advertised civilian corridor leads into the patrol line. S-07 carried passengers before this war. You are one of many we tried to help, not an assignment. There are seeds and family records at the Orchard. Carry them if you choose.",
+    "token_similarity": 0.9647058823529412,
+    "peak_dbfs": -5.879322052001953,
+    "seconds": 13.127958333333334,
+    "clipped_samples": 0
+  },
+  "berth-keep-the-channel": {
+    "source": "berth/berth-metallic.wav",
+    "transcript": "Seed enclosure stable, archive copy verified. A place is ready for the next traveler. No one has promised who will arrive. The channel can still be kept open.",
+    "expected": "Seed enclosure stable. Archive copy verified. A place is ready for the next traveller. No one has promised who will arrive; the channel can still be kept open.",
+    "token_similarity": 0.9642857142857143,
+    "peak_dbfs": -6.688723564147949,
+    "seconds": 11.44,
+    "clipped_samples": 0
+  }
+}
